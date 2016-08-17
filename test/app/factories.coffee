@@ -94,7 +94,7 @@ module.exports = {
       break if not courseAttrs
       course ?= @makeCourse()
       levels ?= new Levels()
-      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'type') for level in levels.models)
+      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type') for level in levels.models)
   
     # populate members
     if not attrs.members
@@ -111,6 +111,7 @@ module.exports = {
         original: level.get('original'),
       creator: creator.id,
     }, attrs)
+    attrs.level.primerLanguage = level.get('primerLanguage') if level.get('primerLanguage')
     return new LevelSession(attrs)
   
   makeCourseInstance: (attrs, sources={}) ->

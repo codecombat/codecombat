@@ -41,107 +41,169 @@ describe 'TeacherClassView', ->
         factories.makeUser({name: 'Ebner'}, {prepaid: expired})
       ])
       @levels = new Levels(_.times(2, -> factories.makeLevel({ concepts: ['basic_syntax', 'arguments', 'functions'] })))
-      @classroom = factories.makeClassroom({}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()] })
-      @courseInstances = new CourseInstances([
-        factories.makeCourseInstance({}, { course: @releasedCourses.first(), @classroom, members: @students })
-        factories.makeCourseInstance({}, { course: @releasedCourses.last(), @classroom, members: @students })
-      ])
+      @levels.push(factories.makeLevel({ concepts: ['basic_syntax', 'arguments', 'functions'], primerLanguage: 'javascript' }))
 
-      sessions = []
-      @finishedStudent = @students.first()
-      @unfinishedStudent = @students.last()
-      for level in @levels.models
+      _.defer done
+
+    describe 'when python classroom', ->
+      beforeEach (done) ->
+        @classroom = factories.makeClassroom({ aceConfig: { language: 'python' }}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()] })
+        @courseInstances = new CourseInstances([
+          factories.makeCourseInstance({}, { course: @releasedCourses.first(), @classroom, members: @students })
+          factories.makeCourseInstance({}, { course: @releasedCourses.last(), @classroom, members: @students })
+        ])
+
+        sessions = []
+        @finishedStudent = @students.first()
+        @unfinishedStudent = @students.last()
+        for level in @levels.models
+          sessions.push(factories.makeLevelSession(
+              {state: {complete: true}, playtime: 60},
+              {level, creator: @finishedStudent})
+          )
         sessions.push(factories.makeLevelSession(
             {state: {complete: true}, playtime: 60},
-            {level, creator: @finishedStudent})
+            {level: @levels.first(), creator: @unfinishedStudent})
         )
-      sessions.push(factories.makeLevelSession(
-          {state: {complete: true}, playtime: 60},
-          {level: @levels.first(), creator: @unfinishedStudent})
-      )
-      @levelSessions = new LevelSessions(sessions)
-      
-      @view = new TeacherClassView({}, @courseInstances.first().id)
-      @view.classroom.fakeRequests[0].respondWith({ status: 200, responseText: @classroom.stringify() })
-      @view.courses.fakeRequests[0].respondWith({ status: 200, responseText: @courses.stringify() })
-      @view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: @courseInstances.stringify() })
-      @view.students.fakeRequests[0].respondWith({ status: 200, responseText: @students.stringify() })
-      @view.classroom.sessions.fakeRequests[0].respondWith({ status: 200, responseText: @levelSessions.stringify() })
-      @view.levels.fakeRequests[0].respondWith({ status: 200, responseText: @levels.stringify() })
-      
-      jasmine.demoEl(@view.$el)
-      _.defer done
-    
-    it 'has contents', ->
-      expect(@view.$el.children().length).toBeGreaterThan(0)
+        @levelSessions = new LevelSessions(sessions)
 
+        @view = new TeacherClassView({}, @courseInstances.first().id)
+        @view.classroom.fakeRequests[0].respondWith({ status: 200, responseText: @classroom.stringify() })
+        @view.courses.fakeRequests[0].respondWith({ status: 200, responseText: @courses.stringify() })
+        @view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: @courseInstances.stringify() })
+        @view.students.fakeRequests[0].respondWith({ status: 200, responseText: @students.stringify() })
+        @view.classroom.sessions.fakeRequests[0].respondWith({ status: 200, responseText: @levelSessions.stringify() })
+        @view.levels.fakeRequests[0].respondWith({ status: 200, responseText: @levels.stringify() })
+
+        jasmine.demoEl(@view.$el)
+        _.defer done
+
+      it 'has contents', ->
+        expect(@view.$el.children().length).toBeGreaterThan(0)
+
+      # it "shows the classroom's name and description"
+      # it "shows the classroom's join code"
       
-    # it "shows the classroom's name and description"
-    # it "shows the classroom's join code"
-    
-    describe 'the Students tab', ->
+      describe 'the Students tab', ->
+        beforeEach (done) ->
+          @view.state.set('activeTab', '#students-tab')
+          _.defer(done)
+
+        # it 'shows all of the students'
+        # it 'sorts correctly by Name'
+        # it 'sorts correctly by Progress'
+        
+        describe 'bulk-assign controls', ->
+          it 'shows alert when assigning course 2 to unenrolled students', (done) ->
+            expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(false)
+            @view.$('.student-row .checkbox-flat').click()
+            @view.$('.assign-to-selected-students').click()
+            _.defer =>
+              expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(true)
+              done()
+            
+          it 'shows alert when assigning but no students are selected', (done) ->
+            expect(@view.$('.no-students-selected').hasClass('visible')).toBe(false)
+            @view.$('.assign-to-selected-students').click()
+            _.defer =>
+              expect(@view.$('.no-students-selected').hasClass('visible')).toBe(true)
+              done()
+      
+      # describe 'the Course Progress tab', ->
+      #   it 'shows the correct Course Overview progress'
+      #
+      #   describe 'when viewing another course'
+      #     it 'still shows the correct Course Overview progress'
+      #
+      
+      describe 'the Enrollment Status tab', ->
+        beforeEach ->
+          @view.state.set('activeTab', '#enrollment-status-tab')
+        
+        describe 'Enroll button', ->
+          it 'calls enrollStudents with that user when clicked', ->
+            spyOn(@view, 'enrollStudents')
+            @view.$('.enroll-student-button:first').click()
+            expect(@view.enrollStudents).toHaveBeenCalled()
+            users = @view.enrollStudents.calls.argsFor(0)[0]
+            expect(users.size()).toBe(1)
+            expect(users.first().id).toBe(@view.students.first().id)
+
+      describe 'Export Student Progress (CSV) button', ->
+        it 'downloads a CSV file', ->
+          spyOn(window, 'open').and.callFake (encodedCSV) =>
+            progressData = decodeURI(encodedCSV)
+            CSVHeader = 'data:text\/csv;charset=utf-8,'
+            expect(progressData).toMatch new RegExp('^' + CSVHeader)
+            lines = progressData.slice(CSVHeader.length).split('\n')
+            expect(lines.length).toBe(@students.length + 1)
+            for line in lines
+              simplerLine = line.replace(/"[^"]+"/g, '""')
+              # Username,Email,Total Playtime, [CS1-? Playtime], Concepts
+              expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
+              if simplerLine.match new RegExp(@finishedStudent.get('email'))
+                expect(simplerLine).toMatch /3 minutes,3 minutes,0/
+              else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
+                expect(simplerLine).toMatch /a minute,a minute,0/
+              else if simplerLine.match /@/
+                expect(simplerLine).toMatch /0,0,0/
+            return true
+          @view.$('.export-student-progress-btn').click()
+          expect(window.open).toHaveBeenCalled()
+
+    describe 'when javascript classroom', ->
       beforeEach (done) ->
-        @view.state.set('activeTab', '#students-tab')
-        _.defer(done)
+        @classroom = factories.makeClassroom({ aceConfig: { language: 'javascript' }}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()]})
+        @courseInstances = new CourseInstances([
+          factories.makeCourseInstance({}, { course: @releasedCourses.first(), @classroom, members: @students })
+          factories.makeCourseInstance({}, { course: @releasedCourses.last(), @classroom, members: @students })
+        ])
 
-      # it 'shows all of the students'
-      # it 'sorts correctly by Name'
-      # it 'sorts correctly by Progress'
-      
-      describe 'bulk-assign controls', ->
-        it 'shows alert when assigning course 2 to unenrolled students', (done) ->
-          expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(false)
-          @view.$('.student-row .checkbox-flat').click()
-          @view.$('.assign-to-selected-students').click()
-          _.defer =>
-            expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(true)
-            done()
-          
-        it 'shows alert when assigning but no students are selected', (done) ->
-          expect(@view.$('.no-students-selected').hasClass('visible')).toBe(false)
-          @view.$('.assign-to-selected-students').click()
-          _.defer =>
-            expect(@view.$('.no-students-selected').hasClass('visible')).toBe(true)
-            done()
-    
-    # describe 'the Course Progress tab', ->
-    #   it 'shows the correct Course Overview progress'
-    #
-    #   describe 'when viewing another course'
-    #     it 'still shows the correct Course Overview progress'
-    #
-    
-    describe 'the Enrollment Status tab', ->
-      beforeEach ->
-        @view.state.set('activeTab', '#enrollment-status-tab')
-      
-      describe 'Enroll button', ->
-        it 'calls enrollStudents with that user when clicked', ->
-          spyOn(@view, 'enrollStudents')
-          @view.$('.enroll-student-button:first').click()
-          expect(@view.enrollStudents).toHaveBeenCalled()
-          users = @view.enrollStudents.calls.argsFor(0)[0]
-          expect(users.size()).toBe(1)
-          expect(users.first().id).toBe(@view.students.first().id)
+        sessions = []
+        @finishedStudent = @students.first()
+        @unfinishedStudent = @students.last()
+        classLanguage = @classroom.get('aceConfig')?.language
+        for level in @levels.models
+          continue if classLanguage and classLanguage is level.get('primerLanguage') 
+          sessions.push(factories.makeLevelSession(
+              {state: {complete: true}, playtime: 60},
+              {level, creator: @finishedStudent})
+          )
+        sessions.push(factories.makeLevelSession(
+            {state: {complete: true}, playtime: 60},
+            {level: @levels.first(), creator: @unfinishedStudent})
+        )
+        @levelSessions = new LevelSessions(sessions)
 
-    describe 'Export Student Progress (CSV) button', ->
-      it 'downloads a CSV file', ->
-        spyOn(window, 'open').and.callFake (encodedCSV) =>
-          progressData = decodeURI(encodedCSV)
-          CSVHeader = 'data:text\/csv;charset=utf-8,'
-          expect(progressData).toMatch new RegExp('^' + CSVHeader)
-          lines = progressData.slice(CSVHeader.length).split('\n')
-          expect(lines.length).toBe(@students.length + 1)
-          for line in lines
-            simplerLine = line.replace(/"[^"]+"/g, '""')
-            # Username,Email,Total Playtime, [CS1-? Playtime], Concepts
-            expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
-            if simplerLine.match new RegExp(@finishedStudent.get('email'))
-              expect(simplerLine).toMatch /2 minutes,2 minutes,0/
-            else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-              expect(simplerLine).toMatch /a minute,a minute,0/
-            else if simplerLine.match /@/
-              expect(simplerLine).toMatch /0,0,0/
-          return true
-        @view.$('.export-student-progress-btn').click()
-        expect(window.open).toHaveBeenCalled()
+        @view = new TeacherClassView({}, @courseInstances.first().id)
+        @view.classroom.fakeRequests[0].respondWith({ status: 200, responseText: @classroom.stringify() })
+        @view.courses.fakeRequests[0].respondWith({ status: 200, responseText: @courses.stringify() })
+        @view.courseInstances.fakeRequests[0].respondWith({ status: 200, responseText: @courseInstances.stringify() })
+        @view.students.fakeRequests[0].respondWith({ status: 200, responseText: @students.stringify() })
+        @view.classroom.sessions.fakeRequests[0].respondWith({ status: 200, responseText: @levelSessions.stringify() })
+        @view.levels.fakeRequests[0].respondWith({ status: 200, responseText: @levels.stringify() })
+
+        jasmine.demoEl(@view.$el)
+        _.defer done
+
+      describe 'Export Student Progress (CSV) button', ->
+        it 'downloads a CSV file', ->
+          spyOn(window, 'open').and.callFake (encodedCSV) =>
+            progressData = decodeURI(encodedCSV)
+            CSVHeader = 'data:text\/csv;charset=utf-8,'
+            expect(progressData).toMatch new RegExp('^' + CSVHeader)
+            lines = progressData.slice(CSVHeader.length).split('\n')
+            expect(lines.length).toBe(@students.length + 1)
+            for line in lines
+              simplerLine = line.replace(/"[^"]+"/g, '""')
+              # Username,Email,Total Playtime, [CS1-? Playtime], Concepts
+              expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
+              if simplerLine.match new RegExp(@finishedStudent.get('email'))
+                expect(simplerLine).toMatch /2 minutes,2 minutes,0/
+              else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
+                expect(simplerLine).toMatch /a minute,a minute,0/
+              else if simplerLine.match /@/
+                expect(simplerLine).toMatch /0,0,0/
+            return true
+          @view.$('.export-student-progress-btn').click()
+          expect(window.open).toHaveBeenCalled()

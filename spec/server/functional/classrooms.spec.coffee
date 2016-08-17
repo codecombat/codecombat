@@ -90,8 +90,15 @@ describe 'POST /db/classroom', ->
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONC})
     expect(res.statusCode).toBe(200)
     @levelC = yield Level.findById(res.body._id)
+    levelJSONJSPrimer1 = { name: 'JS Primer 1', permissions: [{access: 'owner', target: admin.id}], type: 'hero', primerLanguage: 'javascript' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONJSPrimer1})
+    expect(res.statusCode).toBe(200)
+    @levelJSPrimer1 = yield Level.findById(res.body._id)
 
     campaignJSON = { name: 'Campaign', levels: {} }
+    paredLevelJSPrimer1 = _.pick(@levelJSPrimer1.toObject(), 'name', 'original', 'type', 'slug', 'primerLanguage')
+    paredLevelJSPrimer1.campaignIndex = 3
+    campaignJSON.levels[@levelJSPrimer1.get('original').toString()] = paredLevelJSPrimer1
     paredLevelC = _.pick(@levelC.toObject(), 'name', 'original', 'type', 'slug', 'practice')
     paredLevelC.campaignIndex = 2
     campaignJSON.levels[@levelC.get('original').toString()] = paredLevelC
@@ -134,17 +141,42 @@ describe 'POST /db/classroom', ->
     expect(res.statusCode).toBe(403)
     done()
 
-  it 'makes a copy of the list of all levels in all courses', utils.wrap (done) ->
-    teacher = yield utils.initUser({role: 'teacher'})
-    yield utils.loginUser(teacher)
-    data = { name: 'Classroom 2' }
-    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
-    classroom = yield Classroom.findById(res.body._id)
-    expect(classroom.get('courses')[0].levels[0].original.toString()).toBe(@levelA.get('original').toString())
-    expect(classroom.get('courses')[0].levels[0].type).toBe('course')
-    expect(classroom.get('courses')[0].levels[0].slug).toBe('level-a')
-    expect(classroom.get('courses')[0].levels[0].name).toBe('Level A')
-    done()
+  describe 'when javascript classroom', ->
+
+    beforeEach utils.wrap (done) ->
+      teacher = yield utils.initUser({role: 'teacher'})
+      yield utils.loginUser(teacher)
+      data = { name: 'Classroom 2', aceConfig: { language: 'javascript' }   }
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      @classroom = yield Classroom.findById(res.body._id)
+      done()
+
+    it 'makes a copy of the list of all levels in all courses', utils.wrap (done) ->
+      expect(@classroom.get('courses')[0].levels.length).toEqual(3)
+      expect(@classroom.get('courses')[0].levels[0].original.toString()).toBe(@levelA.get('original').toString())
+      expect(@classroom.get('courses')[0].levels[0].type).toBe('course')
+      expect(@classroom.get('courses')[0].levels[0].slug).toBe('level-a')
+      expect(@classroom.get('courses')[0].levels[0].name).toBe('Level A')
+      done()
+
+  describe 'when python classroom', ->
+
+    beforeEach utils.wrap (done) ->
+      teacher = yield utils.initUser({role: 'teacher'})
+      yield utils.loginUser(teacher)
+      data = { name: 'Classroom 2', aceConfig: { language: 'python' }   }
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      @classroom = yield Classroom.findById(res.body._id)
+      done()
+
+    it 'makes a copy all levels in all courses', utils.wrap (done) ->
+      expect(@classroom.get('courses')[0].levels.length).toEqual(4)
+      expect(@classroom.get('courses')[0].levels[0].original.toString()).toBe(@levelA.get('original').toString())
+      expect(@classroom.get('courses')[0].levels[0].type).toBe('course')
+      expect(@classroom.get('courses')[0].levels[0].slug).toBe('level-a')
+      expect(@classroom.get('courses')[0].levels[0].name).toBe('Level A')
+      done()
+
 
   describe 'when there are unreleased courses', ->
     beforeEach utils.wrap (done) ->
@@ -203,40 +235,7 @@ describe 'GET /db/classroom/:handle/levels', ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
-    levelJSON = { name: 'King\'s Peak 3', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
-    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
-    expect(res.statusCode).toBe(200)
-    @level = yield Level.findById(res.body._id)
-    campaignJSON = { name: 'Campaign', levels: {} }
-    paredLevel = _.pick(res.body, 'name', 'original', 'type')
-    campaignJSON.levels[res.body.original] = paredLevel
-    [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSON})
-    @campaign = yield Campaign.findById(res.body._id)
-    @course = Course({name: 'Course', campaignID: @campaign._id, releasePhase: 'released'})
-    yield @course.save()
-    teacher = yield utils.initUser({role: 'teacher'})
-    yield utils.loginUser(teacher)
-    data = { name: 'Classroom 1' }
-    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
-    expect(res.statusCode).toBe(201)
-    @classroom = yield Classroom.findById(res.body._id)
-    done()
-  
-  it 'returns all levels referenced in in the classroom\'s copy of course levels', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/levels"), json: true }
-    expect(res.statusCode).toBe(200)
-    levels = res.body
-    expect(levels.length).toBe(1)
-    expect(levels[0].name).toBe("King's Peak 3")
-    done()
 
-describe 'GET /db/classroom/:handle/levels', ->
-
-  beforeEach utils.wrap (done) ->
-    yield utils.clearModels [User, Classroom, Course, Level, Campaign]
-    admin = yield utils.initAdmin()
-    yield utils.loginUser(admin)
-    
     levelJSON = { name: 'A', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
     expect(res.statusCode).toBe(200)
@@ -248,7 +247,13 @@ describe 'GET /db/classroom/:handle/levels', ->
     expect(res.statusCode).toBe(200)
     @levelB = yield Level.findById(res.body._id)
     paredLevelB = _.pick(res.body, 'name', 'original', 'type')
-    
+
+    levelJSON = { name: 'JS Primer 1', permissions: [{access: 'owner', target: admin.id}], type: 'course', primerLanguage: 'javascript' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    @levelJSPrimer1 = yield Level.findById(res.body._id)
+    paredLevelJSPrimer1 = _.pick(res.body, 'name', 'original', 'type')
+
     campaignJSONA = { name: 'Campaign A', levels: {} }
     campaignJSONA.levels[paredLevelA.original] = paredLevelA
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONA})
@@ -256,6 +261,7 @@ describe 'GET /db/classroom/:handle/levels', ->
 
     campaignJSONB = { name: 'Campaign B', levels: {} }
     campaignJSONB.levels[paredLevelB.original] = paredLevelB
+    campaignJSONB.levels[paredLevelJSPrimer1.original] = paredLevelJSPrimer1
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONB})
     @campaignB = yield Campaign.findById(res.body._id)
     
@@ -265,34 +271,70 @@ describe 'GET /db/classroom/:handle/levels', ->
     @courseB = Course({name: 'Course B', campaignID: @campaignB._id, releasePhase: 'released'})
     yield @courseB.save()
 
-    teacher = yield utils.initUser({role: 'teacher'})
-    yield utils.loginUser(teacher)
-    data = { name: 'Classroom 1' }
-    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
-    expect(res.statusCode).toBe(201)
-    @classroom = yield Classroom.findById(res.body._id)
     done()
 
-  it 'returns all levels referenced in in the classroom\'s copy of course levels', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/levels"), json: true }
-    expect(res.statusCode).toBe(200)
-    levels = res.body
-    expect(levels.length).toBe(2)
+  describe 'when javascript classroom', ->
 
-    [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/courses/#{@courseA.id}/levels"), json: true }
-    expect(res.statusCode).toBe(200)
-    levels = res.body
-    expect(levels.length).toBe(1)
-    expect(levels[0].original).toBe(@levelA.get('original').toString())
+    beforeEach utils.wrap (done) ->
+      teacher = yield utils.initUser({role: 'teacher'})
+      yield utils.loginUser(teacher)
+      data = { name: 'Classroom 1', aceConfig: { language: 'javascript' } }
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      expect(res.statusCode).toBe(201)
+      @classroom = yield Classroom.findById(res.body._id)
+      done()
 
-    [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/courses/#{@courseB.id}/levels"), json: true }
-    expect(res.statusCode).toBe(200)
-    levels = res.body
-    expect(levels.length).toBe(1)
-    expect(levels[0].original).toBe(@levelB.get('original').toString())
-    
-    done()
+    it 'returns all levels referenced in in the classroom\'s copy of course levels', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/levels"), json: true }
+      expect(res.statusCode).toBe(200)
+      levels = res.body
+      expect(levels.length).toBe(2)
 
+      [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/courses/#{@courseA.id}/levels"), json: true }
+      expect(res.statusCode).toBe(200)
+      levels = res.body
+      expect(levels.length).toBe(1)
+      expect(levels[0].original).toBe(@levelA.get('original').toString())
+
+      [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/courses/#{@courseB.id}/levels"), json: true }
+      expect(res.statusCode).toBe(200)
+      levels = res.body
+      expect(levels.length).toBe(1)
+      expect(levels[0].original).toBe(@levelB.get('original').toString())
+
+      done()
+
+  describe 'when python classroom', ->
+
+    beforeEach utils.wrap (done) ->
+      teacher = yield utils.initUser({role: 'teacher'})
+      yield utils.loginUser(teacher)
+      data = { name: 'Classroom 1', aceConfig: { language: 'python' } }
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      expect(res.statusCode).toBe(201)
+      @classroom = yield Classroom.findById(res.body._id)
+      done()
+
+    it 'returns all levels referenced in in the classroom\'s copy of course levels', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/levels"), json: true }
+      expect(res.statusCode).toBe(200)
+      levels = res.body
+      expect(levels.length).toBe(3)
+
+      [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/courses/#{@courseA.id}/levels"), json: true }
+      expect(res.statusCode).toBe(200)
+      levels = res.body
+      expect(levels.length).toBe(1)
+      expect(levels[0].original).toBe(@levelA.get('original').toString())
+
+      [res, body] = yield request.getAsync { uri: getURL("/db/classroom/#{@classroom.id}/courses/#{@courseB.id}/levels"), json: true }
+      expect(res.statusCode).toBe(200)
+      levels = res.body
+      expect(levels.length).toBe(2)
+      expect(levels[0].original).toBe(@levelB.get('original').toString())
+      expect(levels[1].original).toBe(@levelJSPrimer1.get('original').toString())
+
+      done()
 
 describe 'PUT /db/classroom', ->
 

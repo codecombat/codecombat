@@ -120,7 +120,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,practice,shareable,i18n'}})
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,primerLanguage,practice,shareable,i18n'}})
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
@@ -329,8 +329,10 @@ module.exports = class TeacherClassView extends RootView
       courseOrder.push(course.id)
     csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
     levelCourseMap = {}
+    language = @classroom.get('aceConfig')?.language
     for trimCourse in @classroom.get('courses')
       for trimLevel in trimCourse.levels
+        continue if language and trimLevel.primerLanguage is language
         levelCourseMap[trimLevel.original] = @courses.get(trimCourse._id)
     for student in @students.models
       concepts = []
@@ -448,9 +450,11 @@ module.exports = class TeacherClassView extends RootView
     stats.totalPlaytime = if playtime then moment.duration(playtime, "seconds").humanize() else 0
     # TODO: Humanize differently ('1 hour' instead of 'an hour')
 
-    levelPracticeMap = {}
-    levelPracticeMap[level.id] = level.get('practice') ? false for level in @levels.models
-    completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete and not levelPracticeMap[s.get('levelID')]
+    levelIncludeMap = {}
+    language = @classroom.get('aceConfig')?.language
+    for level in @levels.models
+      levelIncludeMap[level.get('original')] = not level.get('practice') and (not language? or level.get('primerLanguage') isnt language)
+    completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete and levelIncludeMap[s.get('level')?.original]
     stats.averageLevelsComplete = if @students.size() then (_.size(completeSessions) / @students.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 

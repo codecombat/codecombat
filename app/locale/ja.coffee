@@ -71,7 +71,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    curriculum: "Total curriculum hours:"
 #    ffa: "Free for all students"
 #    lesson_time: "Lesson time:"
-#    coming_soon: "Coming this fall!"
+#    coming_soon: "More coming soon!"
 #    courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
 #    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
@@ -89,7 +89,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    goto_classes: "Go to My Classes"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    check_out_wiki: "Check out our new Educator Wiki"
 #    want_coco: "Want CodeCombat at your school?"
 #    form_select_role: "Select primary role"
 #    form_select_range: "Select class size"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "パスワードを忘れた場合"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   common:
     back: "戻る" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "次へ" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "ロード中"
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "セーブ中..."
     sending: "送信中..."
     send: "送信"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     submit_patch: "パッチを送信"
     submit_changes: "変更を送信"
     save_changes: "変更を保存"
-    required_field: "記入漏れ"
+    required_field: "記入漏れ" # {change}
 
   general:
     and: "と"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     done: "完了"
     next_level: "次のレベル"
     next_game: "次のゲーム"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_experience_gained: "XP獲得"
     victory_gems_gained: "ジェム獲得"
     victory_new_item: "ニューアイテム"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "あなたはハードレベルのホーリー・スモークを打ち破りました! もしあなたが既にソフトウェア開発者でないなら, ぜひやってみましょう. あなたはちょうどViking Code Scoolで受け入れられるための出世街道にいます,そこでは次のレベルへのスキルを取得でき、14週間でプロのWeb開発者になれます。"
     victory_become_a_viking: "バイキングになる"
     victory_no_progress_for_teachers: "教師用の進捗は保存されません。しかし自分の教室に学生アカウントを加えることができます."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_good_idea: "優れたアイディアを得る最善の方法は、多くのアイディアを得ることだ。 - ライナス・ポーリング"
     tip_programming_not_about_computers: "天文学が望遠鏡に関する学問でないのと同様に、計算機科学はコンピュータに関する学問ではない。 - エドガー・ダイクストラ"
     tip_mulan: "できると信じていれば、できる。 - ムーラン"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     current_value: "現在値"
     default_value: "デフォルト値"
     parameters: "パラメータ"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "リターン"
     granted_by: "スキルを与えてくれるアイテム："
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     elliot_title: "パートナーシップマネージャー"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
     jose_title: "ミュージック"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    evaluate_recommend: "Evaluate/Recommend"
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
-#    organization_label: "Name of School/District"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+#    organization_label: "School"
 #    city: "City"
 #    state: "State"
 #    country: "Country"
@@ -1228,6 +1255,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    joining: "Joining class"
 #    course_complete: "Course Complete"
 #    play_arena: "Play Arena"
+#    view_project: "View Project"
 #    start: "Start"
 #    last_level: "Last Level"
 #    welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
@@ -1296,15 +1324,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    students_assigned: "students assigned"
 #    length: "Length:"
 #    title: "Courses" # Flat style redesign
-#    subtitle: "Review course guidelines, solutions, and levels"
+#    subtitle: "Review course overviews and levels"
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
 #    concepts_covered: "Concepts covered"
 #    print_guide: "Print Guide (PDF)"
-#    view_guide_online: "View Guide Online (PDF)"
-#    last_updated: "Last updated:"
+#    view_guide_online: "Level Overviews and Solutions"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
 #    description: "Description" # ClassroomSettingsModal
@@ -1332,7 +1359,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1380,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1368,8 +1396,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
 #  teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1412,7 +1444,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1461,12 +1493,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1531,18 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "アークメイジ"

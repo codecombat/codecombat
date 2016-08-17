@@ -89,7 +89,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     goto_classes: "Иди на моје разреде" # {change}
     view_profile: "Види мој профил"
     view_progress: "Види напредак"
-    check_out_wiki: "Погледај нашу нову Wiki за едукаторе"
     want_coco: "Желиш CodeCombat у својој школи?"
     form_select_role: "Изабери примарну улогу"
     form_select_range: "Изабери величину разреда"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Поврати налог"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
   common:
     back: "Врати се" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Настави" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Учитавање"
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Чување..."
     sending: "Шаље се..."
     send: "Пошаљи"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     submit_patch: "Потврди закрпу"
     submit_changes: "Потврди измене"
     save_changes: "Сачувај измене"
-    required_field: "Обавезно поље"
+    required_field: "Обавезно поље" # {change}
 
   general:
     and: "и"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     done: "Урађено"
     next_level: "Следећи ниво"
     next_game: "Следећа игра"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Види мени игре"
     home: "Почетна" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     victory_experience_gained: "Добијено искуство"
     victory_gems_gained: "Добијени драгуљи"
     victory_new_item: "Новa ствар"
+#    victory_new_hero: "New Hero"
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Постани Викинг"
     victory_no_progress_for_teachers: "Напредак се не чува за учитеље, али можеш додати ученички профил за себе у свој разред."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
 #    tip_mulan: "Believe you can, then you will. - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Инвентар"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     current_value: "Тренутна вредност"
     default_value: "Подразумевана вредност"
     parameters: "Параметри"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Враћа"
     granted_by: "Додељено од"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     elliot_title: "Руководилац партнерства"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Илустрација"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     evaluate_recommend: "Евалуација/препорука"
     approve_funds: "Одобрење средстава"
     no_purchaser_role: "Без улоге у куповним одлукама"
-    organization_label: "Име школе/округа"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Име школе/округа" # {change}
     city: "Град"
     state: "Савезна држава"
     country: "Држава"
@@ -1167,7 +1194,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     already_enrolled: "већ уписан"
     licenses_remaining: "преостале лиценце:"
     insufficient_enrollments: "недовољно плаћених уписа" # {change}
-    get_enrollments: "Добиј још уписа" # {change}
+    get_enrollments: "Добиј још уписа"
     change_language: "Промени језик курса"
     keep_using: "Настави да користиш"
     switch_to: "Пребаци на"
@@ -1228,6 +1255,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     joining: "Придруживање разреду"
     course_complete: "Курс завршен"
     play_arena: "Играј Арену"
+#    view_project: "View Project"
     start: "Почни"
     last_level: "Последњи ниво"
     welcome_to_hoc: "Авантуристи, добродошли на наш Сат Кодирања!"
@@ -1296,15 +1324,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     students_assigned: "ученика додељено"
     length: "Дужина:"
     title: "Курсеви" # Flat style redesign
-#    subtitle: "Review course guidelines, solutions, and levels"
+#    subtitle: "Review course overviews and levels"
 #    changelog: "View latest changes to course levels."
     select_language: "Изабери језик"
     select_level: "Изабери ниво"
     play_level: "Играј ниво"
 #    concepts_covered: "Concepts covered"
     print_guide: "Одштампај водич (PDF)"
-    view_guide_online: "Види водич онлајн (PDF)"
-#    last_updated: "Last updated:"
+    view_guide_online: "Види водич онлајн (PDF)" # {change}
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
 #    description: "Description" # ClassroomSettingsModal
@@ -1332,7 +1359,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1380,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1368,8 +1396,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
 #  teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1412,7 +1444,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1461,12 +1493,12 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1531,18 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
 #  classes:
 #    archmage_title: "Archmage"

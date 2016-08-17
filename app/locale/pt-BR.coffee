@@ -89,7 +89,6 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     goto_classes: "Ir para Minhas Turmas"
     view_profile: "Visualizar Meu Perfil"
     view_progress: "Visualizar Progresso"
-    check_out_wiki: "Confira nosso novo Wiki Educador"
     want_coco: "Quer CodeCombat na sua escola?"
     form_select_role: "Selecione seu papel principal"
     form_select_range: "Selecione o tamanho da turma"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Recuperar conta"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
   common:
     back: "Voltar" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Carregando..."
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Salvando..."
     sending: "Enviando..."
     send: "Enviar"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     submit_patch: "Enviar arranjo"
     submit_changes: "Enviar mudanças"
     save_changes: "Salvar mudanças"
-#    required_field: "Required field"
+#    required_field: "required"
 
   general:
     and: "e"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     done: "Pronto"
     next_level: "Proximo Nivel"
     next_game: "Próximo jogo"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Mostrar menu do jogo"
     home: "Início" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     victory_experience_gained: "XP ganho"
     victory_gems_gained: "Gemas ganhas"
     victory_new_item: "Novo item"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "Pelas barbas do profeta, esse foi um nível difícil! Se você ainda não é um desenvolvedor de software, você deveria ser. Você acaba de ser priorizado para aceitação na Viking Code School, onde você pode aprender mais e se tornar um desenvolvedor web profissional em 14 semanas."
     victory_become_a_viking: "Torne-se um viking"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
     tip_mulan: "Acredite que você pode, então você será. - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventário"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
     current_value: "Valor Atual"
     default_value: "Valor Padrão"
     parameters: "Parametros"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Retorno"
     granted_by: "Concebido por"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    elliot_title: "Partnership Manager"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
     jose_title: "Músico"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    evaluate_recommend: "Evaluate/Recommend"
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
-    organization_label: "Nome da escola/Distrito"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Nome da escola/Distrito" # {change}
     city: "Cidade"
     state: "Estado"
     country: "País"
@@ -1228,6 +1255,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    joining: "Joining class"
     course_complete: "Curso Completo"
     play_arena: "Jogue Arena"
+#    view_project: "View Project"
     start: "Começar"
     last_level: "Última Fase"
     welcome_to_hoc: "Aventureiros, bem vindo à nossa Hora de Código!"
@@ -1296,15 +1324,14 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    students_assigned: "students assigned"
     length: "Comprimento:"
     title: "Título" # Flat style redesign
-#    subtitle: "Review course guidelines, solutions, and levels"
+#    subtitle: "Review course overviews and levels"
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
     concepts_covered: "Conceitos Abordados"
 #    print_guide: "Print Guide (PDF)"
-#    view_guide_online: "View Guide Online (PDF)"
-#    last_updated: "Last updated:"
+#    view_guide_online: "Level Overviews and Solutions"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     description: "Descrição" # ClassroomSettingsModal
@@ -1332,7 +1359,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1380,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1368,8 +1396,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
 #  teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1412,7 +1444,7 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1461,12 +1493,12 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1531,18 @@ module.exports = nativeDescription: "Português do Brasil", englishDescription: 
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Arquimago"

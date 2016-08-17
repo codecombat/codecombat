@@ -45,6 +45,7 @@ module.exports =
           users = _.map userIDs, (id) ->
             students.get(id)
           return {
+            courseName: course.get('name')
             courseNumber: courseIndex + 1
             levelNumber: levelIndex + 1
             levelName: level.get('name')
@@ -74,6 +75,7 @@ module.exports =
           users = _.map userIDs, (id) ->
             students.get(id)
           return {
+            courseName: course.get('name')
             courseNumber: courseIndex + 1
             levelNumber: levelIndex + 1
             levelName: level.get('name')

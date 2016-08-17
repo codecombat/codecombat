@@ -89,7 +89,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     goto_classes: "Перейти в Мои классы"
     view_profile: "Посмотреть Мой профиль"
     view_progress: "Посмотреть прогресс"
-    check_out_wiki: "Посетите наш новый Wiki для педагогов"
     want_coco: "Хотите CodeCombat в вашей школе?"
     form_select_role: "Выберите основную роль"
     form_select_range: "Выберите размер класса"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     signup_as_individual: "Зарегистрироваться как индивидуальный игрок"
     enter_class_code: "Введите ваш код для класса"
     enter_birthdate: "Введите вашу дату рождения:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
     ask_teacher_1: "Спросите вашего учителя код для класса."
     ask_teacher_2: "Не относишься к учебному классу? Создай "
     ask_teacher_3: "Личную учетную запись"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     write_this_down: "Запишите это:"
     start_playing: "Начать играть!"
     sso_connected: "Успешно подключились с помощью:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Восстановить учетную запись"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   common:
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Загрузка..."
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Сохранение..."
     sending: "Отправка..."
     send: "Отправить"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_patch: "Отослать патч"
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
-    required_field: "Обязательное поле"
+    required_field: "Обязательное поле" # {change}
 
   general:
     and: "и"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     done: "Готово"
     next_level: "Следующий уровень"
     next_game: "Следующая игра"
+#    language: "Language"
+#    languages: "Languages"
     programming_language: "Язык программирования"
     show_menu: "Показать меню игры"
     home: "На главную" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_experience_gained: "Опыта получено"
     victory_gems_gained: "Самоцветов получено"
     victory_new_item: "Новый предмет"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "Ого, это было тяжелый уровень! Если вы еще не разработчик программ, вам стоит им стать. Вы только что ускорири принятие в Школу Викингов, где вы сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Станьте Викингом"
     victory_no_progress_for_teachers: "Прогресс не сохраняется для учителей. Но, вы можете для себя добавить учетную запись ученика в свою классную комнату."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_good_idea: "Лучший способ найти хорошую идею - иметь множество идей. - Линус Полинг"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
     tip_mulan: "Верь, что можешь и получится. - Мулан"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     current_value: "Текущее значение"
     default_value: "Значение по умолчанию"
     parameters: "Параметры"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Возвращает"
     granted_by: "Предоставлено"
 
@@ -775,8 +799,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     story_link: "История"
     press_link: "Прессе"
     mission_title: "Наша задача: сделать доступным программирование для каждого учащегося на земле."
-    mission_description_1: "<strong>Программирование - это магия</strong>.
-    Это способность создавать что-то с помощью воображения. Мы создавали CodeCombat, чтобы дать учащимся чувство силы волшебства на кончиках пальцев, когда они  <strong>пишут код</strong>."
+    mission_description_1: "<strong>Программирование - это магия</strong>. Это способность создавать что-то с помощью воображения. Мы создавали CodeCombat, чтобы дать учащимся чувство силы волшебства на кончиках пальцев, когда они  <strong>пишут код</strong>."
     mission_description_2: "Как оказалось, это позволяет им учится быстрее. СИЛЬНО быстрее. Это как живой рассказ вместо чтения учебника. Мы хотим принести этот метод в каждую школу и <strong>каждому ученику</strong>, потому что все должны иметь шанс научится магии программирования."
     team_title: "Присоединяйтесь к команде CodeCombat"
     team_values: "Мы ценим открытый и вежливый диалог, где побеждают лучшие идеи. Наши решения основаны на иследовании пожеланий клиентов и наш процесс направлен на то, чтобы приносить осязаемые результаты им. У нас все при деле, от CEO до контрибьютеров на GitHub, потому что мы ценим рост и обучение в нашей команде."
@@ -794,7 +817,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     josh_c_title: "Гейм дизайнер"
     josh_c_blurb: "Делает игры"
     robin_title: "UX дизайнер & Исследования"
-    # robin_blurb: "Scaffolding"
+#    robin_blurb: "Scaffolding"
     josh_title: "Гейм дизайнер"
     josh_blurb: "Пол - это лава"
     phoenix_title: "Инженер программист"
@@ -802,6 +825,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     elliot_title: "Менеджер партнерства"
     elliot_blurb: "Читающий мысли"
     lisa_title: "Представитель по развитию рынка"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Иллюстрирование"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музыка"
@@ -885,7 +909,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    evaluate_recommend: "Evaluate/Recommend"
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
-#    organization_label: "Name of School/District"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+#    organization_label: "School"
 #    city: "City"
 #    state: "State"
 #    country: "Country"
@@ -1229,6 +1255,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    joining: "Joining class"
     course_complete: "Курс завершён"
     play_arena: "Играть Арену"
+#    view_project: "View Project"
     start: "Старт"
     last_level: "Последний уровень"
     welcome_to_hoc: "Искатели приключений, добро пожаловать на Час кода!"
@@ -1297,15 +1324,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    students_assigned: "students assigned"
     length: "Длительность:"
     title: "Тема" # Flat style redesign
-#    subtitle: "Review course guidelines, solutions, and levels"
+#    subtitle: "Review course overviews and levels"
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
     concepts_covered: "Концептов покрыто"
 #    print_guide: "Print Guide (PDF)"
-#    view_guide_online: "View Guide Online (PDF)"
-#    last_updated: "Last updated:"
+#    view_guide_online: "Level Overviews and Solutions"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     description: "Описание" # ClassroomSettingsModal
@@ -1333,7 +1359,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1354,6 +1380,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1369,8 +1396,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
 #  teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1413,7 +1444,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1462,12 +1493,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1500,7 +1531,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Архимаг"
