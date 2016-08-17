@@ -123,7 +123,11 @@ module.exports = class CreateAccountModal extends ModalView
     @once 'hidden', ->
       if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
-        document.location.reload()
+        if me.isStudent()
+          application.router.navigate('/courses', {trigger: true})
+        else if me.isTeacher()
+          application.router.navigate('/teachers/classes', {trigger: true})
+        window.location.reload()
   
   onClickLoginLink: ->
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues') }))
