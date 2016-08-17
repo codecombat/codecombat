@@ -1235,7 +1235,7 @@
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "Welcome to your Courses page!"
+    welcome_to_page: "My Student Dashboard" # {change}
     completed_hoc: "Amazing! You've completed the Hour of Code course!"
     ready_for_more_header: "Ready for more? Play the campaign mode!"
     ready_for_more_1: "Use gems to unlock new items!"
@@ -1243,10 +1243,9 @@
     ready_for_more_3: "Learn even more programming!"
     saved_games: "Saved Games"
     hoc: "Hour of Code"
-    my_classes: "My Classes"
+    my_classes: "Current Classes" # {change}
     class_added: "Class successfully added!"
-    view_class: "view class"
-    view_levels: "view levels"
+    view_levels: "view all levels in course" # {change}
     join_class: "Join A Class"
     join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
@@ -1257,7 +1256,7 @@
     play_arena: "Play Arena"
     view_project: "View Project"
     start: "Start"
-    last_level: "Last Level"
+    last_level: "Last level played" # {change}
     welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
     logged_in_as: "Logged in as:"
     not_you: "Not you?"
