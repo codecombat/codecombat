@@ -158,7 +158,7 @@ if view.showAds()
     button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
     button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
     button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-    if me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp
+    if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !me.isOnFreeOnlyServer()
       button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
     if !me.get('anonymous', true)
       button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")

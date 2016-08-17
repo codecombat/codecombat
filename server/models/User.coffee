@@ -302,14 +302,20 @@ UserSchema.methods.isPremium = ->
   return false
 
 UserSchema.methods.isOnPremiumServer = ->
-  @get('country') in ['china', 'brazil']
+  return true if @get('country') in ['brazil']
+  return true if @get('country') in ['china'] and @isPremium()
+  return false
+
+UserSchema.methods.isOnFreeOnlyServer = ->
+  return true if @get('country') in ['china'] and not @isPremium()
+  return false
 
 UserSchema.methods.level = ->
   xp = @get('points') or 0
   a = 5
   b = c = 100
   if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
-    
+
 UserSchema.methods.isEnrolled = ->
   coursePrepaid = @get('coursePrepaid')
   return false unless coursePrepaid
