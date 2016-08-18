@@ -87,6 +87,8 @@ module.exports =
     courseID = courseInstance.get('courseID')
     courseLevels = []
     courseLevels = course.levels for course in classroom.get('courses') or [] when courseID.equals(course._id)
+    classLanguage = classroom.get('aceConfig')?.language
+    _.remove(courseLevels, (level) -> level.primerLanguage is classLanguage) if classLanguage
 
     # Get level completions and playtime
     currentLevelSession = null

@@ -23,20 +23,13 @@ config.mongo =
   analytics_db: process.env.COCO_MONGO_ANALYTICS_DATABASE_NAME or 'analytics'
   analytics_collection: process.env.COCO_MONGO_ANALYTICS_COLLECTION or 'analytics.log.event'
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
-  mongoose_tokyo_replica_string: process.env.COCO_MONGO_MONGOOSE_TOKYO_REPLICA_STRING or ''
-  mongoose_saoPaulo_replica_string : process.env.COCO_MONGO_MONGOOSE_SAOPAULO_REPLICA_STRING or ''
+  readpref: process.env.COCO_MONGO_READPREF or 'primary'
 
 if process.env.COCO_MONGO_LS_REPLICA_STRING?
   config.mongo.level_session_replica_string = process.env.COCO_MONGO_LS_REPLICA_STRING
   
 if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
   config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
-
-
-if config.tokyo or config.saoPaulo
-  config.mongo.readpref = 'nearest'
-else
-  config.mongo.readpref = 'primary'
 
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'

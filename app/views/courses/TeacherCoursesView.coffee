@@ -9,6 +9,7 @@ User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
+HeroSelectModal = require 'views/courses/HeroSelectModal'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -63,7 +64,13 @@ module.exports = class TeacherCoursesView extends RootView
     form = $(e.currentTarget).closest('.play-level-form')
     levelSlug = form.find('.level-select').val()
     courseID = form.data('course-id')
-    language = form.find('.language-select').val()
+    language = form.find('.language-select').val() or 'javascript'
     window.tracker?.trackEvent 'Classes Guides Play Level', category: 'Teachers', courseID: courseID, language: language, levelSlug: levelSlug, ['Mixpanel']
     url = "/play/level/#{levelSlug}?course=#{courseID}&codeLanguage=#{language}"
-    application.router.navigate(url, { trigger: true })
+    firstLevelSlug = @campaigns.get(@courses.at(0).get('campaignID')).getLevels().at(0).get('slug')
+    if levelSlug is firstLevelSlug
+      @listenToOnce @openModalView(new HeroSelectModal()),
+        'hidden': ->
+          application.router.navigate(url, { trigger: true })
+    else
+      application.router.navigate(url, { trigger: true })

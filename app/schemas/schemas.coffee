@@ -9,6 +9,7 @@ combine = (base, ext) ->
   return _.extend(base, ext)
 
 urlPattern = '^(ht|f)tp(s?)\:\/\/[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*(:(0-9)*)*(\/?)([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_=]*)?$'
+pathPattern = '^\/([a-zA-Z0-9\-\.\?\,\'\/\\\+&%\$#_=]*)?$'
 
 # Common schema properties
 me.object = (ext, props) -> combine({type: 'object', additionalProperties: false, properties: props or {}}, ext)
@@ -20,10 +21,11 @@ me.passwordString = {type: 'string', maxLength: 256, minLength: 2, title: 'Passw
 # Dates should usually be strings, ObjectIds should be strings: https://github.com/codecombat/codecombat/issues/1384
 me.date = (ext) -> combine({type: ['object', 'string'], format: 'date-time'}, ext)  # old
 me.stringDate = (ext) -> combine({type: ['string'], format: 'date-time'}, ext)  # new
-me.objectId = (ext) -> schema = combine({type: ['object', 'string']}, ext)  # old
-me.stringID = (ext) -> schema = combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
+me.objectId = (ext) -> combine({type: ['object', 'string']}, ext)  # old
+me.stringID = (ext) -> combine({type: 'string', minLength: 24, maxLength: 24}, ext)  # use for anything new
 
 me.url = (ext) -> combine({type: 'string', format: 'url', pattern: urlPattern}, ext)
+me.path = (ext) -> combine({type: 'string', pattern: pathPattern}, ext)
 me.int = (ext) -> combine {type: 'integer'}, ext
 me.float = (ext) -> combine {type: 'number'}, ext
 
@@ -165,6 +167,7 @@ me.FunctionArgumentSchema = me.object {
   'default':
     name: 'target'
     type: 'object'
+    optional: false
     example: 'this.getNearestEnemy()'
     description: 'The target of this function.'
   required: ['name', 'type', 'example', 'description']
@@ -173,6 +176,7 @@ me.FunctionArgumentSchema = me.object {
   i18n: { type: 'object', format: 'i18n', props: ['description'], description: 'Help translate this argument'}
   # not actual JS types, just whatever they describe...
   type: me.shortString(title: 'Type', description: 'Intended type of the argument.')
+  optional: {title: 'Optional', description: 'Whether an argument may be omitted when calling the function', type: 'boolean'}
   example:
     oneOf: [
       {

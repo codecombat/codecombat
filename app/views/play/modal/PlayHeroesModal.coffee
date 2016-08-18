@@ -236,7 +236,7 @@ module.exports = class PlayHeroesModal extends ModalView
     affordable = @visibleHero.get('gems') <= me.gems()
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button
+      @askToBuyGems button unless me.isOnFreeOnlyServer()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(@visibleHero)

@@ -71,7 +71,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    curriculum: "Total curriculum hours:"
 #    ffa: "Free for all students"
 #    lesson_time: "Lesson time:"
-#    coming_soon: "Coming this fall!"
+#    coming_soon: "More coming soon!"
 #    courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
 #    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
@@ -304,6 +304,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -318,6 +319,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "שחזר סיסמה"
@@ -334,8 +337,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   common:
     back: "חזור" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "המשך" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "...טוען"
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "...שומר"
     sending: "...שולח"
     send: "שלח"
@@ -473,6 +481,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_experience_gained: "שנצבר XP"
     victory_gems_gained: "אבני חן שנצברו"
     victory_new_item: "חפץ חדש"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "אבוקדו קדוש, זה היה שלב קשה שסיימת! אם אתה עדיין לא מפתח תוכנה, אתה צריך להיות אחד. בדיוק עלית על הכביש המהיר בכדי להתקבל ל Viking Code School, שם תוכל לשאת את כישוריך לרמה הבאה ותוכל להפוך למפתח רשת מקצועי תוך 14 שבועות בלבד."
     victory_become_a_viking: "הפוך לוויקינג"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
@@ -569,6 +578,18 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
 #    tip_mulan: "Believe you can, then you will. - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "תיק"
@@ -746,6 +767,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     current_value: "ערך נוכחי"
     default_value: "ערך רגיל"
     parameters: "פרמטרים"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "מחזיר"
     granted_by: "הוענק ע\"י"
 
@@ -802,6 +825,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    elliot_title: "Partnership Manager"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
 #    retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "מוזיקה"
@@ -1231,6 +1255,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    joining: "Joining class"
 #    course_complete: "Course Complete"
 #    play_arena: "Play Arena"
+#    view_project: "View Project"
 #    start: "Start"
 #    last_level: "Last Level"
 #    welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
@@ -1299,15 +1324,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    students_assigned: "students assigned"
 #    length: "Length:"
 #    title: "Courses" # Flat style redesign
-#    subtitle: "Review course guidelines, solutions, and levels"
+#    subtitle: "Review course overviews and levels"
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
 #    concepts_covered: "Concepts covered"
 #    print_guide: "Print Guide (PDF)"
-#    view_guide_online: "View Guide Online (PDF)"
-#    last_updated: "Last updated:"
+#    view_guide_online: "Level Overviews and Solutions"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
 #    description: "Description" # ClassroomSettingsModal
@@ -1372,8 +1396,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
 #  teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1416,7 +1444,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1503,7 +1531,18 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "כשף על"

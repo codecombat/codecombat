@@ -226,6 +226,7 @@ UserSchema.statics.statsMapping =
     'Achievement': 'stats.achievementEdits'
     'campaign': 'stats.campaignEdits'
     'poll': 'stats.pollEdits'
+    'course': 'stats.courseEdits'
   translations:
     article: 'stats.articleTranslationPatches'
     level: 'stats.levelTranslationPatches'
@@ -235,6 +236,7 @@ UserSchema.statics.statsMapping =
     'Achievement': 'stats.achievementTranslationPatches'
     'campaign': 'stats.campaignTranslationPatches'
     'poll': 'stats.pollTranslationPatches'
+    'course': 'stats.courseTranslationPatches'
   misc:
     article: 'stats.articleMiscPatches'
     level: 'stats.levelMiscPatches'
@@ -244,6 +246,7 @@ UserSchema.statics.statsMapping =
     'Achievement': 'stats.achievementMiscPatches'
     'campaign': 'stats.campaignMiscPatches'
     'poll': 'stats.pollMiscPatches'
+    'course': 'stats.courseMiscPatches'
 
 UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
   id = mongoose.Types.ObjectId id if _.isString id
@@ -302,14 +305,20 @@ UserSchema.methods.isPremium = ->
   return false
 
 UserSchema.methods.isOnPremiumServer = ->
-  @get('country') in ['china', 'brazil']
+  return true if @get('country') in ['brazil']
+  return true if @get('country') in ['china'] and @isPremium()
+  return false
+
+UserSchema.methods.isOnFreeOnlyServer = ->
+  return true if @get('country') in ['china'] and not @isPremium()
+  return false
 
 UserSchema.methods.level = ->
   xp = @get('points') or 0
   a = 5
   b = c = 100
   if xp > 0 then Math.floor(a * Math.log((1 / b) * (xp + c))) + 1 else 1
-    
+
 UserSchema.methods.isEnrolled = ->
   coursePrepaid = @get('coursePrepaid')
   return false unless coursePrepaid

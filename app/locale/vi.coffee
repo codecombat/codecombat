@@ -89,7 +89,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     goto_classes: "Tới Lớp học của tôi" # {change}
     view_profile: "Xem hồ sơ của tôi"
     view_progress: "Xem tiến trình"
-    check_out_wiki: "Hãy đọc Wiki dành cho Giáo viên"
     want_coco: "Muốn đưa CodeCombat vào giảng dạy tại trường học của bạn?"
     form_select_role: "Chọn vai trò chính"
     form_select_range: "Chọn quy mô lớp"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Khôi phục tài khoản"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
   common:
     back: "Trở lại" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Tiếp tục" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Đang Tải..."
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Đang Lưu..."
     sending: "Đang Gửi..."
     send: "Gửi"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     submit_patch: "Submit bản patch"
     submit_changes: "Submit thay đổi"
     save_changes: "Lưu thay dổi"
-    required_field: "Thông tin bắt buộc"
+    required_field: "Thông tin bắt buộc" # {change}
 
   general:
     and: "và"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     done: "Xong"
     next_level: "Màn chơi kế tiếp"
     next_game: "Game kế tiếp"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Hiện game menu"
     home: "Home" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     victory_experience_gained: "XP nhận được"
     victory_gems_gained: "Ngọc nhận được"
     victory_new_item: "Vật phẩm mới"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "Thật tuyệt vời, bạn vừa vượt qua một màn chơi khó khủng khiếp! Không lâu nữa bạn sẽ trở thành một lập trình viên thôi. Bạn vừa được nhận thẳng vào trường Viking Code School, nơi bạn có thể nâng tầm kĩ năng của mình và trở thành lập trình viên web chuyên nghiệp trong 14 tuần."
     victory_become_a_viking: "Trở thành Viking"
     victory_no_progress_for_teachers: "Giáo viên không thể lưu tiến trình. Nhưng bạn có thể tự thâm tài khoản sinh viên vào lớp học của bạn."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     tip_good_idea: "Cách tốt nhất để có một ý tưởng tốt là phải có cho mình thật nhiều ý tưởng. - Linus Pauling"
     tip_programming_not_about_computers: "Công nghệ thông tin không còn chỉ liên quan đến máy tính cũng giống như thiên văn học đối với kinh thiên văn vậy. - Edsger Dijkstra"
     tip_mulan: "Cứ tin là bạn có thể, rồi bạn sẽ làm được. - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Hành Trang"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     current_value: "Giá trị hiện tại"
     default_value: "Giá trị mặc định"
 #    parameters: "Parameters"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
 #    returns: "Returns"
 #    granted_by: "Granted by"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     elliot_title: "Giám Đốc Quan Hệ"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Vẽ Minh Họa"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Âm Nhạc"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     evaluate_recommend: "Đánh giá/Kiến nghị"
     approve_funds: "Duyệt quỹ"
     no_purchaser_role: "Không có vai trò thanh toán"
-    organization_label: "Tên Trường/Quận"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Tên Trường/Quận" # {change}
     city: "Thành Phố"
     state: "Tiểu Bang"
     country: "Quốc Gia"
@@ -1228,6 +1255,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     joining: "Đang tham gia lớp"
     course_complete: "Khóa học hoàn thành"
 #    play_arena: "Play Arena"
+#    view_project: "View Project"
     start: "Bắt đầu"
 #    last_level: "Last Level"
 #    welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
@@ -1296,15 +1324,14 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    students_assigned: "students assigned"
 #    length: "Length:"
     title: "Các khóa học" # Flat style redesign
-    subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi"
+    subtitle: "Xem giáo án của các khóa học, lời giải và các màn chơi" # {change}
     changelog: "Xem những thay đổi mới nhất về các khóa học."
     select_language: "Chọn ngôn ngữ"
     select_level: "Chọn màn chơi"
     play_level: "Chơi Màn Chơi"
     concepts_covered: "Bao gồm các khái niệm"
     print_guide: "In Hướng Dẫn (PDF)"
-    view_guide_online: "Xem Hướng Dẫn Online (PDF)"
-    last_updated: "Cập nhật lần cuối:"
+    view_guide_online: "Xem Hướng Dẫn Online (PDF)" # {change}
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     description: "Mô tả" # ClassroomSettingsModal
@@ -1332,7 +1359,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1380,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1368,8 +1396,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
   teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
     teacher_dashboard: "Bảng Điều Khiển Giáo Viên" # Navbar
     my_classes: "Lớp của tôi"
     courses: "Các khóa học" # {change}
@@ -1412,7 +1444,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1461,12 +1493,12 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1531,18 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Pháp Sư"

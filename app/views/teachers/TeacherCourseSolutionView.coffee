@@ -31,7 +31,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   onLoaded: ->
     for level in @levels?.models
-      articles = level.get('documentation').specificArticles
+      articles = level.get('documentation')?.specificArticles
       if articles
         guide = articles.filter((x) => x.name == "Overview").pop()
         level.set 'guide', marked(@hideWrongLanguage(guide.body)) if guide

@@ -71,7 +71,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     curriculum: "Totaal aantal lesuren:"
     ffa: "Gratis voor alle leerlingen"
     lesson_time: "Lesduur:"
-    coming_soon: "Binnenkort beschikbaar!"
+    coming_soon: "Binnenkort beschikbaar!" # {change}
     courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)"
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
     winning: "Een gouden combinatie van spel-elementen en programmeerhuiswerk, dat samen zorgt voor kindvriendelijk en oprecht aangenaam onderwijs."
@@ -89,7 +89,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     goto_classes: "Ga naar mijn klassen"
     view_profile: "Mijn Profiel"
     view_progress: "Bekijk voortgang"
-    check_out_wiki: "Bekijk onze nieuwe leraren Wiki"
     want_coco: "Wil je CodeCombat op jouw school?"
     form_select_role: "Selecteer je rol"
     form_select_range: "Selecteer klasomvang"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     signup_as_individual: "Registreer als een individu (persoonlijk)"
     enter_class_code: "Vul je klassencode in"
     enter_birthdate: "Vul je geboortedatum in:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
     ask_teacher_1: "Vraag je leraar om een klassencode."
     ask_teacher_2: "Maak je geen deel uit een klas? Maak dan een "
     ask_teacher_3: "Individuele account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Herstel Account"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   common:
     back: "Terug" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Bezig met laden..."
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Opslaan..."
     sending: "Verzenden..."
     send: "Verzend"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     submit_patch: "Correctie Opsturen"
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
-    required_field: "Verplicht veld"
+    required_field: "Verplicht veld" # {change}
 
   general:
     and: "en"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     done: "Klaar"
     next_level: "Volgende Level"
     next_game: "Volgende spel"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Geef spelmenu weer"
     home: "Home" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_experience_gained: "XP verdiend"
     victory_gems_gained: "Edelstenen verdiend"
     victory_new_item: "Nieuw Item"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "Wow, jij hebt net een moeilijk level gehaald! Als je nog geen programmeur was, zou je er een moeten worden! Je hebt net versneld toegang gekregen voor de Viking programmeerSchool, waar je je vaardigheden kan opkrikken en binnen 14 weken een professionele webontwikkelaar kunt worden."
     victory_become_a_viking: "Word een Viking"
     victory_no_progress_for_teachers: "Voortgang voor leraren wordt niet bewaard. Maar u kunt een leerling-account voor uzelf aanmaken in uw eigen klas."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_good_idea: "De beste manier om tot een goed idee te komen, is door veel ideeën te hebben. - Linus Pauling"
     tip_programming_not_about_computers: "Informatica draait net zoveel om computers, als astronomie draait om telescopen. - Edsger Dijkstra"
     tip_mulan: "Geloof dat je het kan, dan kan je het . - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Geeft terug"
     granted_by: "Verleend door"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     elliot_title: "Partner-manager"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     evaluate_recommend: "Evalueren/Aanbevelen"
     approve_funds: "Budget toewijzen"
     no_purchaser_role: "Geen rol in besluitvorming"
-    organization_label: "Schoolnaam"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Schoolnaam" # {change}
     city: "Stad"
     state: "Provincie"
     country: "Land"
@@ -1167,7 +1194,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     already_enrolled: "al ingeschreven"
     licenses_remaining: "licenties over:"
     insufficient_enrollments: "onvoldoende betaalde inschrijvingen" # {change}
-    get_enrollments: "krijg meer inschrijvingen" # {change}
+    get_enrollments: "krijg meer inschrijvingen"
     change_language: "Verander cursustaal"
     keep_using: "Blijf Gebruiken"
     switch_to: "Verander naar"
@@ -1228,6 +1255,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     joining: "Doe mee met klas"
     course_complete: "Cursus afgerond"
     play_arena: "Speel Arena"
+#    view_project: "View Project"
     start: "Start"
     last_level: "Laatste Level"
     welcome_to_hoc: "Avonturiers, Welkom bij codeuur!"
@@ -1296,15 +1324,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     students_assigned: "toegewezen leerlingen"
     length: "Lengte:"
     title: "Titel" # Flat style redesign
-    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels"
+    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # {change}
     changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
     play_level: "Speel Level"
     concepts_covered: "Behandelde concepten"
     print_guide: "Print Handleiding (PDF)"
-    view_guide_online: "Bekijk Handleiding Online (PDF)"
-    last_updated: "Laatst ge-update:"
+    view_guide_online: "Bekijk Handleiding Online (PDF)" # {change}
     grants_lifetime_access: "Verschaft levenslange toegang tot alle cursusmodules." # {change}
     enrollment_credits_available: "Beschikbaar inschrijf-krediet:" # {change}
     description: "beschrijving" # ClassroomSettingsModal
@@ -1332,7 +1359,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1380,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1368,8 +1396,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    select_your_hero: "Select Your Hero"
 #    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
   teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
     teacher_dashboard: "Docent Dashboard" # Navbar
     my_classes: "Mijn Klassen"
     courses: "Cursussen" # {change}
@@ -1412,7 +1444,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     edit: "wijzig"
 #    edit_2: "Edit"
     remove: "verwijder"
-    latest_completed: "Laatste Voltooid"
+    latest_completed: "Laatste Voltooid" # {change}
     sort_by: "Sorteer op"
     progress: "Voortgang"
     completed: "Behaald"
@@ -1461,12 +1493,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
-#    credits: "licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
+#    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1531,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Tovenaar"

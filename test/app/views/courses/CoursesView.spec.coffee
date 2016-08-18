@@ -13,6 +13,7 @@ describe 'CoursesView', ->
 
   describe 'Change Hero button', ->
     beforeEach (done) ->
+      me.set(factories.makeUser({ role: 'student' }).attributes)
       view = new CoursesView()
       classrooms = new Classrooms([factories.makeClassroom()])
       courseInstances = new CourseInstances([factories.makeCourseInstance()])

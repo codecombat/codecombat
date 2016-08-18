@@ -71,7 +71,7 @@
     curriculum: "Total curriculum hours:"
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
-    coming_soon: "Coming this fall!"
+    coming_soon: "More coming soon!"
     courses_available_in: "Courses are available in JavaScript, Python, and Java (coming soon!)"
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
@@ -364,7 +364,7 @@
     submit_patch: "Submit Patch"
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
-    required_field: "required" # {change}
+    required_field: "required"
 
   general:
     and: "and"
@@ -767,6 +767,8 @@
     current_value: "Current Value"
     default_value: "Default value"
     parameters: "Parameters"
+    required_parameters: "Required Parameters"
+    optional_parameters: "Optional Parameters"
     returns: "Returns"
     granted_by: "Granted by"
 
@@ -909,7 +911,7 @@
     no_purchaser_role: "No role in purchase decisions"
     district_label: "District"
     district_na: "Enter N/A if not applicable"
-    organization_label: "School" # {change}
+    organization_label: "School"
     city: "City"
     state: "State"
     country: "Country"
@@ -1143,8 +1145,8 @@
     invite_link_p_1: "Give this link to students you would like to have join the course."
     invite_link_p_2: "Or have us email them directly:"
     capacity_used: "Course slots used:"
-    enter_emails: "Enter student emails to invite, one per line"
-    send_invites: "Send Invites"
+    enter_emails: "Separate each email address by a line break or commas" # {change}
+    send_invites: "Invite Students" # {change}
     creating_class: "Creating class..."
     purchasing_course: "Purchasing course..."
     buy_course: "Buy Course"
@@ -1233,7 +1235,7 @@
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "Welcome to your Courses page!"
+    welcome_to_page: "My Student Dashboard" # {change}
     completed_hoc: "Amazing! You've completed the Hour of Code course!"
     ready_for_more_header: "Ready for more? Play the campaign mode!"
     ready_for_more_1: "Use gems to unlock new items!"
@@ -1241,10 +1243,9 @@
     ready_for_more_3: "Learn even more programming!"
     saved_games: "Saved Games"
     hoc: "Hour of Code"
-    my_classes: "My Classes"
+    my_classes: "Current Classes" # {change}
     class_added: "Class successfully added!"
-    view_class: "view class"
-    view_levels: "view levels"
+    view_levels: "view all levels in course" # {change}
     join_class: "Join A Class"
     join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
@@ -1255,19 +1256,15 @@
     play_arena: "Play Arena"
     view_project: "View Project"
     start: "Start"
-    last_level: "Last Level"
+    last_level: "Last level played" # {change}
     welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
     logged_in_as: "Logged in as:"
     not_you: "Not you?"
     welcome_back: "Hi adventurer, welcome back!"
     continue_playing: "Continue Playing"
     more_options: "More options:"
-    option1_header: "Option 1: Invite students via email"
-    option1_body: "Students will automatically be sent an invitation to join this class, and will need to create an account with a username and password."
-    option2_header: "Option 2: Send URL to your students"
-    option2_body: "Students will be asked to enter an email address, username and password to create an account."
-    option3_header: "Option 3: Direct students to codecombat.com/courses"
-    option3_body: "Give students the following passcode to enter along with an email address, username and password when they create an account."
+    option1_header: "Invite Students by Email" # {change}
+    option1_body: "Note: If your students do not have email addresses, they can enter your unique Class Code when creating a Student Account to make email addresses optional." # {change}
     thank_you_pref: "Thank you for your purchase! You can now assign"
     thank_you_suff: "more students to paid courses."
     return_to_class: "Return to classroom"
@@ -1322,14 +1319,14 @@
     students_assigned: "students assigned"
     length: "Length:"
     title: "Courses" # Flat style redesign
-    subtitle: "Review course overviews and levels" # {change}
+    subtitle: "Review course overviews and levels"
     changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
     play_level: "Play Level"
     concepts_covered: "Concepts covered"
     print_guide: "Print Guide (PDF)"
-    view_guide_online: "Level Overviews and Solutions" # {change}
+    view_guide_online: "Level Overviews and Solutions"
     grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Licenses Available:"
     description: "Description" # ClassroomSettingsModal
@@ -1437,13 +1434,12 @@
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
     apply_license: "Apply License"
-    adding_students: "Adding students"
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
     edit_2: "Edit"
     remove: "remove"
-    latest_completed: "Latest Completed"
+    latest_completed: "Latest completed"
     sort_by: "Sort by"
     progress: "Progress"
     completed: "Completed"
@@ -1453,10 +1449,10 @@
     select_course: "Select course to view"
     course_overview: "Course Overview"
     copy_class_code: "Copy Class Code"
-    class_code_blurb: "New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class."
+    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code." # {change}
     copy_class_url: "Copy Class URL"
-    class_join_url_blurb: "New students can visit this URL while logged in to join the class."
-    add_students_manually: "Add Students Manually"
+    class_join_url_blurb: "You can also post this unique class URL to a shared webpage." # {change}
+    add_students_manually: "Invite Students by Email" # {change}
     bulk_assign: "Bulk-assign"
     assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
@@ -1569,6 +1565,7 @@
     article_title: "Article Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
+    course_title: "Course Editor"
     achievement_title: "Achievement Editor"
     poll_title: "Poll Editor"
     back: "Back"

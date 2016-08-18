@@ -6,6 +6,7 @@
 
 // NOTE: uses name as unique identifier, so changing the name will insert a new course
 // NOTE: pricePerSeat in USD cents
+load('bower_components/lodash/dist/lodash.js');
 
 var courses =
 [
@@ -30,6 +31,24 @@ var courses =
     releasePhase: 'released'
   },
   {
+    name: "Game Development 1",
+    slug: "game-dev-1",
+    campaignID: ObjectId("5789236960deed1f00ec2ab8"),
+    description: "Learn to create your own games which you can share with your friends.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'released'
+  },
+  {
+    name: "Web Development 1",
+    slug: "web-dev-1",
+    campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
+    description: "Learn the basics of web development in this introductory HTML & CSS course.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'released'
+  },
+  {
     name: "Computer Science 3",
     slug: "computer-science-3",
     campaignID: ObjectId("56462ac4410c528505e1160a"),
@@ -38,6 +57,24 @@ var courses =
     free: false,
     screenshot: "/images/pages/courses/103_info.png",
     releasePhase: 'released'
+  },
+  {
+    name: "Game Development 2",
+    slug: "game-dev-2",
+    campaignID: ObjectId("57b49c866430272000100c4d"),
+    description: "Learn more advanced game development.",
+    duration: NumberInt(2),
+    free: false,
+    releasePhase: 'beta'
+  },
+  {
+    name: "Web Development 2",
+    slug: "web-dev-2",
+    campaignID: ObjectId("57891570c8871ac2326fa3f8"),
+    description: "Learn more advanced web development, including scripting to make interactive webpages.",
+    duration: NumberInt(2),
+    free: false,
+    releasePhase: 'beta'
   },
   {
     name: "Computer Science 4",
@@ -66,7 +103,7 @@ var courses =
     description: "Learn to create your own games which you can share with your friends.",
     duration: NumberInt(1),
     free: false,
-    releasePhase: 'beta'
+    releasePhase: 'released'
   },
   {
     name: "CS: Web Development 1",
@@ -75,7 +112,7 @@ var courses =
     description: "Learn the basics of web development in this introductory HTML & CSS course.",
     duration: NumberInt(1),
     free: false,
-    releasePhase: 'beta'
+    releasePhase: 'released'
   },
   {
     name: "CS: Web Development 2",
@@ -97,10 +134,10 @@ var courses =
   }
 ];
 
-print("Finding course concepts..");
-for (var i = 0; i < courses.length; i++) {
+_.forEach(courses, function(course) {
+  // Find course concepts
   var concepts = {};
-  var cursor = db.campaigns.find({_id: courses[i].campaignID}, {'levels': 1});
+  var cursor = db.campaigns.find({_id: course.campaignID}, {'levels': 1});
   if (cursor.hasNext()) {
     var doc = cursor.next();
     for (var levelID in doc.levels) {
@@ -109,12 +146,20 @@ for (var i = 0; i < courses.length; i++) {
       }
     }
   }
-  courses[i].concepts = Object.keys(concepts);
-}
+  course.concepts = Object.keys(concepts);
+
+});
+
 
 print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
-  db.courses.update({name: courses[i].name}, courses[i], {upsert: true});
+  db.courses.update({slug: courses[i].slug}, {$set: courses[i]}, {upsert: true});
 }
+
+print("Upserting i18n", db.courses.update(
+  {i18n: {$exists: false}}, 
+  {$set: {i18n: {'-':{'-':'-'}}, i18nCoverage: []}},
+  {multi: true}
+));
 
 print("Done.");
