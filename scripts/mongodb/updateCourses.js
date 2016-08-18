@@ -30,6 +30,24 @@ var courses =
     releasePhase: 'released'
   },
   {
+    name: "Game Development 1",
+    slug: "game-dev-1",
+    campaignID: ObjectId("5789236960deed1f00ec2ab8"),
+    description: "Learn to create your own games which you can share with your friends.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'released'
+  },
+  {
+    name: "Web Development 1",
+    slug: "web-dev-1",
+    campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
+    description: "Learn the basics of web development in this introductory HTML & CSS course.",
+    duration: NumberInt(1),
+    free: false,
+    releasePhase: 'released'
+  },
+  {
     name: "Computer Science 3",
     slug: "computer-science-3",
     campaignID: ObjectId("56462ac4410c528505e1160a"),
@@ -38,6 +56,24 @@ var courses =
     free: false,
     screenshot: "/images/pages/courses/103_info.png",
     releasePhase: 'released'
+  },
+  {
+    name: "Game Development 2",
+    slug: "game-dev-2",
+    campaignID: ObjectId("57b49c866430272000100c4d"),
+    description: "Learn more advanced game development.",
+    duration: NumberInt(2),
+    free: false,
+    releasePhase: 'beta'
+  },
+  {
+    name: "Web Development 2",
+    slug: "web-dev-2",
+    campaignID: ObjectId("57891570c8871ac2326fa3f8"),
+    description: "Learn more advanced web development, including scripting to make interactive webpages.",
+    duration: NumberInt(2),
+    free: false,
+    releasePhase: 'beta'
   },
   {
     name: "Computer Science 4",
@@ -58,33 +94,6 @@ var courses =
     free: false,
     screenshot: "/images/pages/courses/105_info.png",
     releasePhase: 'released'
-  },
-  {
-    name: "CS: Game Development 1",
-    slug: "game-dev-1",
-    campaignID: ObjectId("5789236960deed1f00ec2ab8"),
-    description: "Learn to create your own games which you can share with your friends.",
-    duration: NumberInt(1),
-    free: false,
-    releasePhase: 'released'
-  },
-  {
-    name: "CS: Web Development 1",
-    slug: "web-dev-1",
-    campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
-    description: "Learn the basics of web development in this introductory HTML & CSS course.",
-    duration: NumberInt(1),
-    free: false,
-    releasePhase: 'released'
-  },
-  {
-    name: "CS: Web Development 2",
-    slug: "web-dev-2",
-    campaignID: ObjectId("57891570c8871ac2326fa3f8"),
-    description: "Learn more advanced web development, including scripting to make interactive webpages.",
-    duration: NumberInt(2),
-    free: false,
-    releasePhase: 'beta'
   },
   {
     name: "JS Primer",
@@ -114,7 +123,7 @@ for (var i = 0; i < courses.length; i++) {
 
 print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
-  db.courses.update({name: courses[i].name}, courses[i], {upsert: true});
+  db.courses.update({slug: courses[i].slug}, courses[i], {upsert: true});
 }
 
 print("Done.");
