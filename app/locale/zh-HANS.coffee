@@ -591,18 +591,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     default_student_instructions: "单击控制英雄，并取得胜利！"
     back_to_coding: "回到编程"
 
-#  play_game_dev_level:
-#    created_by: "Created by {{name}}"
-#    how_to_play_title: "How to play:"
-#    how_to_play_1: "Use the mouse to control the hero!"
-#    how_to_play_2: "Click anywhere on the map to move to that location."
-#    how_to_play_3: "Click on the ogres to attack them."
-#    restart: "Restart Level"
-#    play: "Play Level"
-#    play_more_codecombat: "Play More CodeCombat"
-#    default_student_instructions: "Click to control your hero and win your game!"
-#    back_to_coding: "Back to Coding"
-
   game_menu:
     inventory_tab: "道具箱"
     save_load_tab: "保存/打开"
@@ -1157,8 +1145,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     invite_link_p_1: "分享给您想分享的其他人以加入课程。"
     invite_link_p_2: "或让我们代你直接发送电邮："
     capacity_used: "课程插槽已用："
-    enter_emails: "输入学生电邮地​​址来邀请，每行一个"
-    send_invites: "发送邀请"
+    enter_emails: "输入学生电邮地​​址来邀请，每行一个" # {change}
+    send_invites: "发送邀请" # {change}
     creating_class: "班级创建中..."
     purchasing_course: "购买课程中..."
     buy_course: "购买课程"
@@ -1247,7 +1235,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_now_learn_2: "解决麻烦谜题的while循环"
     play_now_learn_3: "自定义动作的字符串和变量"
     play_now_learn_4: "如何打败食人魔（重要生存技巧！）"
-    welcome_to_page: "欢迎来到你的课程页面！"
+    welcome_to_page: "欢迎来到你的课程页面！" # {change}
     completed_hoc: "太棒了！你已经完成了编码之时课程！"
     ready_for_more_header: "准备玩更多东西了？玩竞技场模式！"
     ready_for_more_1: "使用宝石解锁更多物品！"
@@ -1255,10 +1243,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     ready_for_more_3: "学习更多编程！"
     saved_games: "已保存游戏"
     hoc: "编码之时"
-    my_classes: "我的课程"
+    my_classes: "我的课程" # {change}
     class_added: "成功添加课程！"
-    view_class: "浏览课程"
-    view_levels: "浏览关卡"
+    view_levels: "浏览关卡" # {change}
     join_class: "加入课程"
     join_class_2: "加入班级"
     ask_teacher_for_code: "从你的老师领取CodeCombat课程码！领取后请在下方输入："
@@ -1269,19 +1256,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play_arena: "玩竞技场"
     view_project: "查看项目"
     start: "开始"
-    last_level: "上一关卡"
+    last_level: "上一关卡" # {change}
     welcome_to_hoc: "探险者，欢迎来到我们的编码之时！"
     logged_in_as: "登录为："
     not_you: "不是你？"
     welcome_back: "探险者，欢迎回来！"
     continue_playing: "继续玩"
     more_options: "更多选项："
-    option1_header: "选项1：通过电子邮件邀请学生"
-    option1_body: "学生会被自动发送一个加入该课程的邀请，他们需要提供用户名和密码以创建账号。"
-    option2_header: "选项2：发送链接给你的学生"
-    option2_body: "学生会被要求输入一个电子邮箱地址、用户名和密码以创建账号。"
-    option3_header: "选项3：通知学生到codecombat.com/courses"
-    option3_body: "给学生下列密码以便他们在使用电子邮件地址、用户名和密码创建账号时输入。"
+    option1_header: "选项1：通过电子邮件邀请学生" # {change}
+    option1_body: "学生会被自动发送一个加入该课程的邀请，他们需要提供用户名和密码以创建账号。" # {change}
     thank_you_pref: "感谢你的购买！现在你可以分派"
     thank_you_suff: "更多学生到付费课程中。"
     return_to_class: "回到教室"
@@ -1450,7 +1433,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     earliest_incomplete: "最近未完成关卡"
     latest_complete: "最近通关关卡"
     enroll_student: "注册学生"
-    adding_students: "正在添加学生"
     course_progress: "课程进度"
     not_applicable: "N/A"
     edit: "修改"
@@ -1466,10 +1448,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     select_course: "选择查看"
     course_overview: "课程概览"
     copy_class_code: "复制课堂编码"
-    class_code_blurb: "未加入的学生可以在自己的功能页面输入该课堂编码，或者访问网址加入课堂。"
+    class_code_blurb: "未加入的学生可以在自己的功能页面输入该课堂编码，或者访问网址加入课堂。" # {change}
     copy_class_url: "复制课堂链接地址"
-    class_join_url_blurb: "新学生可以在登录之后，访问该网址加入课堂。"
-    add_students_manually: "手工添加学生"
+    class_join_url_blurb: "新学生可以在登录之后，访问该网址加入课堂。" # {change}
+    add_students_manually: "手工添加学生" # {change}
     bulk_assign: "批量添加"
     assign_to_selected_students: "添加课堂到选中的学生"
     assigned: "已添加"
@@ -1582,6 +1564,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     article_title: "指令编辑器"
     thang_title: "物品编辑器"
     level_title: "关卡编辑器"
+#    course_title: "Course Editor"
     achievement_title: "目标编辑器"
     poll_title: "调查编辑器"
     back: "后退"

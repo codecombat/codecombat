@@ -1145,8 +1145,8 @@
     invite_link_p_1: "Give this link to students you would like to have join the course."
     invite_link_p_2: "Or have us email them directly:"
     capacity_used: "Course slots used:"
-    enter_emails: "Separate each email address by a line break or commas" # {change}
-    send_invites: "Invite Students" # {change}
+    enter_emails: "Separate each email address by a line break or commas"
+    send_invites: "Invite Students"
     creating_class: "Creating class..."
     purchasing_course: "Purchasing course..."
     buy_course: "Buy Course"
@@ -1235,7 +1235,7 @@
     play_now_learn_2: "while loops to solve pesky puzzles"
     play_now_learn_3: "strings & variables to customize actions"
     play_now_learn_4: "how to defeat an ogre (important life skills!)"
-    welcome_to_page: "My Student Dashboard" # {change}
+    welcome_to_page: "My Student Dashboard"
     completed_hoc: "Amazing! You've completed the Hour of Code course!"
     ready_for_more_header: "Ready for more? Play the campaign mode!"
     ready_for_more_1: "Use gems to unlock new items!"
@@ -1243,9 +1243,9 @@
     ready_for_more_3: "Learn even more programming!"
     saved_games: "Saved Games"
     hoc: "Hour of Code"
-    my_classes: "Current Classes" # {change}
+    my_classes: "Current Classes"
     class_added: "Class successfully added!"
-    view_levels: "view all levels in course" # {change}
+    view_levels: "view all levels in course"
     join_class: "Join A Class"
     join_class_2: "Join class"
     ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
@@ -1256,15 +1256,15 @@
     play_arena: "Play Arena"
     view_project: "View Project"
     start: "Start"
-    last_level: "Last level played" # {change}
+    last_level: "Last level played"
     welcome_to_hoc: "Adventurers, welcome to our Hour of Code!"
     logged_in_as: "Logged in as:"
     not_you: "Not you?"
     welcome_back: "Hi adventurer, welcome back!"
     continue_playing: "Continue Playing"
     more_options: "More options:"
-    option1_header: "Invite Students by Email" # {change}
-    option1_body: "Note: If your students do not have email addresses, they can enter your unique Class Code when creating a Student Account to make email addresses optional." # {change}
+    option1_header: "Invite Students by Email"
+    option1_body: "Note: If your students do not have email addresses, they can enter your unique Class Code when creating a Student Account to make email addresses optional."
     thank_you_pref: "Thank you for your purchase! You can now assign"
     thank_you_suff: "more students to paid courses."
     return_to_class: "Return to classroom"
@@ -1389,7 +1389,7 @@
     you_can_edit: "You can edit your email address in "
     account_settings: "Account Settings"
     select_your_hero: "Select Your Hero"
-    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\"" # {change}
+    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
     select_this_hero: "Select this Hero"
     current_hero: "Current Hero:"
     change_hero: "Change Hero"
@@ -1448,10 +1448,10 @@
     select_course: "Select course to view"
     course_overview: "Course Overview"
     copy_class_code: "Copy Class Code"
-    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code." # {change}
+    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code."
     copy_class_url: "Copy Class URL"
-    class_join_url_blurb: "You can also post this unique class URL to a shared webpage." # {change}
-    add_students_manually: "Invite Students by Email" # {change}
+    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
+    add_students_manually: "Invite Students by Email"
     bulk_assign: "Bulk-assign"
     assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
