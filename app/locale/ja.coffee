@@ -131,7 +131,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     help_suff: "をくれれば協力します！"
 
   modal:
-#    cancel: "Cancel"
+    cancel: "キャンセル"
     close: "閉じる"
     okay: "OK"
 
@@ -242,7 +242,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   login:
     sign_up: "アカウント登録"
-#    email_or_username: "Email or username"
+    email_or_username: "Eメールまたはユーザー名"
     log_in: "ログイン"
     logging_in: "ログイン中"
     log_out: "ログアウト"
@@ -255,13 +255,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     signup_switch: "アカウントを作成しますか？"
 
   signup:
-#    create_student_header: "Create Student Account"
-#    create_teacher_header: "Create Teacher Account"
-#    create_individual_header: "Create Individual Account"
-#    create_header: "Create Account"
-    email_announcements: "メールでお知らせを受け取る" # {change}
+    create_student_header: "学生用アカウントを作成"
+    create_teacher_header: "先生用アカウントを作成"
+    create_individual_header: "個人用アカウントを作成"
+    create_header: "アカウントを作成"
+    email_announcements: "新しいCodeCombatのレベルと機能についてのお知らせをメールで受け取る"
     creating: "アカウントを作成しています..."
-#    create_account: "Create Account"
+    create_account: "アカウントを作成"
     sign_up: "アカウント登録"
     log_in: "パスワードでログイン"
     required: "ログインする必要があります"
@@ -337,18 +337,18 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   common:
     back: "戻る" # When used as an action verb, like "Navigate backward"
-#    coming_soon: "Coming soon!"
+    coming_soon: "近日公開!"
     continue: "次へ" # When used as an action verb, like "Continue forward"
-#    default_code: "Default Code"
+    default_code: "元のコード"
     loading: "ロード中"
-#    overview: "Overview"
-#    solution: "Solution"
-#    intro: "Intro"
+    overview: "あらすじ"
+    solution: "回答"
+    intro: "はじめに"
     saving: "セーブ中..."
     sending: "送信中..."
     send: "送信"
-#    sent: "Sent"
-#    type: "Type"
+    sent: "送信済"
+    type: "タイプ"
     cancel: "キャンセル"
     save: "セーブ"
     publish: "発行"
@@ -418,7 +418,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     wizard: "ウィザード"
     first_name: "First Name(名)"
     last_name: "Last Name(姓)"
-#    last_initial: "Last Initial"
+    last_initial: "イニシヤル"
     username: "ユーザー名"
 
   units:
@@ -444,9 +444,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     done: "完了"
     next_level: "次のレベル"
     next_game: "次のゲーム"
-#    language: "Language"
-#    languages: "Languages"
-#    programming_language: "Programming language"
+    language: "言語"
+    languages: "言語"
+    programming_language: "プログラミング言語"
     show_menu: "ゲームメニューを見る"
     home: "ホーム" # Not used any more, will be removed soon.
     level: "ゲームレベル" # Like "Level: Dungeons of Kithgard"
@@ -481,7 +481,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     victory_experience_gained: "XP獲得"
     victory_gems_gained: "ジェム獲得"
     victory_new_item: "ニューアイテム"
-#    victory_new_hero: "New Hero"
+    victory_new_hero: "ニューヒーロー"
     victory_viking_code_school: "あなたはハードレベルのホーリー・スモークを打ち破りました! もしあなたが既にソフトウェア開発者でないなら, ぜひやってみましょう. あなたはちょうどViking Code Scoolで受け入れられるための出世街道にいます,そこでは次のレベルへのスキルを取得でき、14週間でプロのWeb開発者になれます。"
     victory_become_a_viking: "バイキングになる"
     victory_no_progress_for_teachers: "教師用の進捗は保存されません。しかし自分の教室に学生アカウントを加えることができます."
@@ -494,8 +494,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tome_available_spells: "利用できる呪文"
     tome_your_skills: "あなたのスキル"
     tome_current_method: "現在のメソッド"
-#    hints: "Hints"
-#    hints_title: "Hint {{number}}"
+    hints: "ヒント"
+    hints_title: "ヒント {{number}}"
     code_saved: "コードがセーブされました"
     skip_tutorial: "スキップ (esc)"
     keyboard_shortcuts: "キーショートカット"
