@@ -4,8 +4,7 @@
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 // eg: mongo localhost:27017/coco scripts/mongodb/updateCourses.js
 
-// NOTE: uses name as unique identifier, so changing the name will insert a new course
-// NOTE: pricePerSeat in USD cents
+// NOTE: uses slug as unique identifier, so changing the slug will insert a new course
 load('bower_components/lodash/dist/lodash.js');
 
 var courses =
@@ -97,33 +96,6 @@ var courses =
     releasePhase: 'released'
   },
   {
-    name: "CS: Game Development 1",
-    slug: "game-dev-1",
-    campaignID: ObjectId("5789236960deed1f00ec2ab8"),
-    description: "Learn to create your own games which you can share with your friends.",
-    duration: NumberInt(1),
-    free: false,
-    releasePhase: 'released'
-  },
-  {
-    name: "CS: Web Development 1",
-    slug: "web-dev-1",
-    campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
-    description: "Learn the basics of web development in this introductory HTML & CSS course.",
-    duration: NumberInt(1),
-    free: false,
-    releasePhase: 'released'
-  },
-  {
-    name: "CS: Web Development 2",
-    slug: "web-dev-2",
-    campaignID: ObjectId("57891570c8871ac2326fa3f8"),
-    description: "Learn more advanced web development, including scripting to make interactive webpages.",
-    duration: NumberInt(2),
-    free: false,
-    releasePhase: 'beta'
-  },
-  {
     name: "JS Primer",
     slug: "js-primer",
     campaignID: ObjectId("579a5f37843ad12000e6d4c7"),
@@ -147,9 +119,7 @@ _.forEach(courses, function(course) {
     }
   }
   course.concepts = Object.keys(concepts);
-
 });
-
 
 print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
