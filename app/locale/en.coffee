@@ -1389,7 +1389,7 @@
     you_can_edit: "You can edit your email address in "
     account_settings: "Account Settings"
     select_your_hero: "Select Your Hero"
-    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\"" # {change}
     select_this_hero: "Select this Hero"
     current_hero: "Current Hero:"
     change_hero: "Change Hero"
