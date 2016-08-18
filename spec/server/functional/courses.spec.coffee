@@ -9,6 +9,7 @@ User = require '../../../server/models/User'
 Classroom = require '../../../server/models/Classroom'
 Campaign = require '../../../server/models/Campaign'
 Level = require '../../../server/models/Level'
+Patch = require '../../../server/models/Patch'
 
 courseFixture = {
   name: 'Unnamed course'
@@ -59,6 +60,42 @@ describe 'GET /db/course/:handle', ->
     [res, body] = yield request.getAsync {uri: getURL("/db/course/dne"), json: true}
     expect(res.statusCode).toBe(404)
     done()
+    
+describe 'PUT /db/course/:handle', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([Course, User])
+    @course = yield new Course({ name: 'Some Name', releasePhase: 'released' }).save()
+    yield utils.becomeAnonymous()
+    @url = getURL("/db/course/#{@course.id}")
+    done()
+
+  it 'allows changes to i18n and i18nCoverage', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    json = { 
+      i18n: { de: { name: 'German translation' } }
+      i18nCoverage: ['de']
+    }
+    [res, body] = yield request.putAsync { @url, json }
+    expect(res.statusCode).toBe(200)
+    expect(body._id).toBe(@course.id)
+    course = yield Course.findById(@course.id)
+    expect(course.get('i18n').de.name).toBe('German translation')
+    expect(course.get('i18nCoverage')).toBeDefined()
+    done()
+    
+  it 'returns 403 to non-admins', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    json = { i18n: { es: { name: 'Spanish translation' } } }
+    [res, body] = yield request.putAsync { @url, json }
+    expect(res.statusCode).toBe(403)
+    course = yield Course.findById(@course.id)
+    expect(course.get('i18n')).toBeUndefined()
+    expect(course.get('i18nCoverage').length).toBe(0)
+    done()
+    
+
 
 describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
 
@@ -191,3 +228,104 @@ describe 'GET /db/course/:handle/level-solutions', ->
       [res, body] = yield request.getAsync { uri: utils.getURL("/db/course/#{@courseA.id}/level-solutions"), json: true }
       expect(res.statusCode).toBe(403)
       done()
+
+
+describe 'POST /db/course/:handle/patch', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels [User, Course]
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    @course = yield utils.makeCourse({
+      name: 'Test Course'
+      description: 'A test course'
+      i18n: {
+        de: { name: 'existing translation' }
+      }
+    })
+    @url = utils.getURL("/db/course/#{@course.id}/patch")
+    @json = {
+      commitMessage: 'Server test commit'
+      target: {
+        collection: 'course'
+        id: @course.id
+      }
+    } 
+    done()
+    
+  it 'saves the changes immediately if just adding new translations to existing langauge', utils.wrap (done) ->
+    originalCourse = _.cloneDeep(@course.toObject())
+    changedCourse = _.cloneDeep(@course.toObject())
+    changedCourse.i18n.de.description = 'German translation!'
+    @json.delta = jsondiffpatch.diff(originalCourse, changedCourse)
+    [res, body] = yield request.postAsync({ @url, @json })
+    expect(res.statusCode).toBe(201)
+    expect(res.body.status).toBe('accepted')
+    course = yield Course.findById(@course.id)
+    expect(course.get('i18n').de.description).toBe('German translation!')
+    expect(course.get('patches')).toBeUndefined()
+    done()
+
+  it 'saves the changes immediately if translations are for a new langauge', utils.wrap (done) ->
+    originalCourse = _.cloneDeep(@course.toObject())
+    changedCourse = _.cloneDeep(@course.toObject())
+    changedCourse.i18n.fr = { description: 'French translation!' }
+    @json.delta = jsondiffpatch.diff(originalCourse, changedCourse)
+    [res, body] = yield request.postAsync({ @url, @json })
+    expect(res.statusCode).toBe(201)
+    expect(res.body.status).toBe('accepted')
+    course = yield Course.findById(@course.id)
+    expect(course.get('i18n').fr.description).toBe('French translation!')
+    expect(course.get('patches')).toBeUndefined()
+    done()
+    
+  it 'saves a patch if it has some replacement translations', utils.wrap (done) ->
+    originalCourse = _.cloneDeep(@course.toObject())
+    changedCourse = _.cloneDeep(@course.toObject())
+    changedCourse.i18n.de.name = 'replacement'
+    @json.delta = jsondiffpatch.diff(originalCourse, changedCourse)
+    [res, body] = yield request.postAsync({ @url, @json })
+    expect(res.statusCode).toBe(201)
+    expect(res.body.status).toBe('pending')
+    course = yield Course.findById(@course.id)
+    expect(course.get('i18n').de.name).toBe('existing translation')
+    expect(course.get('patches').length).toBe(1)
+    patch = yield Patch.findById(course.get('patches')[0])
+    expect(_.isEqual(patch.get('delta'), @json.delta)).toBe(true)
+    expect(patch.get('reasonNotAutoAccepted')).toBe('Adding to existing translations.')
+    [res, body] = yield request.getAsync({ url: utils.getURL("/db/course/#{@course.id}/patches?status=pending"), json: true })
+    expect(res.body[0]._id).toBe(patch.id)
+    done()
+    
+  it 'saves a patch if applying the patch would invalidate the course data', utils.wrap (done) ->
+    originalCourse = _.cloneDeep(@course.toObject())
+    changedCourse = _.cloneDeep(@course.toObject())
+    changedCourse.notAProperty = 'this should not get saved to the course'
+    @json.delta = jsondiffpatch.diff(originalCourse, changedCourse)
+    [res, body] = yield request.postAsync({ @url, @json })
+    expect(res.statusCode).toBe(201)
+    expect(res.body.status).toBe('pending')
+    course = yield Course.findById(@course.id)
+    expect(course.get('notAProperty')).toBeUndefined()
+    expect(course.get('patches').length).toBe(1)
+    patch = yield Patch.findById(course.get('patches')[0])
+    expect(_.isEqual(patch.get('delta'), @json.delta)).toBe(true)
+    expect(patch.get('reasonNotAutoAccepted')).toBe('Did not pass json schema.')
+    done()
+    
+  it 'saves a patch if submission loses race with another translator', utils.wrap (done) ->
+    originalCourse = _.cloneDeep(@course.toObject())
+    changedCourse = _.cloneDeep(@course.toObject())
+    changedCourse.i18n.de.description = 'German translation!'
+    yield @course.update({$set: {'i18n.de.description': 'Race condition'}}) # another change got saved first
+    @json.delta = jsondiffpatch.diff(originalCourse, changedCourse)
+    [res, body] = yield request.postAsync({ @url, @json })
+    expect(res.body.status).toBe('pending')
+    expect(res.statusCode).toBe(201)
+    course = yield Course.findById(@course.id)
+    expect(course.get('i18n').de.description).toBe('Race condition')
+    expect(course.get('patches').length).toBe(1)
+    patch = yield Patch.findById(course.get('patches')[0])
+    expect(_.isEqual(patch.get('delta'), @json.delta)).toBe(true)
+    expect(patch.get('reasonNotAutoAccepted')).toBe('Adding to existing translations.')
+    done()

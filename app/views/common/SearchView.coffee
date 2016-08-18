@@ -30,6 +30,7 @@ module.exports = class SearchView extends RootView
   modelURL: null # '/db/article'
   tableTemplate: null # require 'templates/editor/article/table'
   projected: null # ['name', 'description', 'version'] or null for default
+  canMakeNew: true
 
   events:
     'change input#search': 'runSearch'

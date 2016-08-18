@@ -23,7 +23,7 @@ block content
           strong= view.getOwnerName()
   
     h1
-      | #{view.course.get('name')}
+      | #{i18n(view.course.attributes, 'name')}
       if view.courseComplete
         span.spl -
         span.spl(data-i18n='courses.complete')

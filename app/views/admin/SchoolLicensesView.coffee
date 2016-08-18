@@ -59,9 +59,12 @@ module.exports = class SchoolLicensesView extends RootView
           collapsedPrepaids.push({startDate, endDate, max, used})
 
       for collapsedPrepaid in collapsedPrepaids
-        collapsedPrepaid.startScale = Math.round((new Date(collapsedPrepaid.startDate).getTime() - @startDateRange.getTime()) / rangeMilliseconds * 100)
-        collapsedPrepaid.startScale = 0 if collapsedPrepaid.startScale < 0
-        collapsedPrepaid.rangeScale = Math.round((new Date(collapsedPrepaid.endDate).getTime() - new Date(collapsedPrepaid.startDate).getTime()) / rangeMilliseconds * 100)
+        collapsedPrepaid.startScale = (new Date(collapsedPrepaid.startDate).getTime() - @startDateRange.getTime()) / rangeMilliseconds * 100
+        if collapsedPrepaid.startScale < 0
+          collapsedPrepaid.startScale = 0
+          collapsedPrepaid.rangeScale = (new Date(collapsedPrepaid.endDate).getTime() - @startDateRange.getTime()) / rangeMilliseconds * 100
+        else
+          collapsedPrepaid.rangeScale = (new Date(collapsedPrepaid.endDate).getTime() - new Date(collapsedPrepaid.startDate).getTime()) / rangeMilliseconds * 100
         collapsedPrepaid.rangeScale = 100 - collapsedPrepaid.startScale if collapsedPrepaid.rangeScale + collapsedPrepaid.startScale > 100
       @schools.push {name: school, activity, max: schoolMax, used: schoolUsed, prepaids: collapsedPrepaids, startDate: collapsedPrepaids[0].startDate, endDate: collapsedPrepaids[0].endDate}
 
