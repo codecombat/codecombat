@@ -123,7 +123,11 @@ _.forEach(courses, function(course) {
 
 print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
-  db.courses.update({slug: courses[i].slug}, {$set: courses[i]}, {upsert: true});
+  var result = db.courses.update({slug: courses[i].slug}, {$set: courses[i]});
+  if (result.nMatched !== 1) {
+    print("Failed to update " + courses[i].slug);
+    print(JSON.stringify(result, null, 2));
+  }
 }
 
 print("Upserting i18n", db.courses.update(
