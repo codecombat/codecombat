@@ -14,4 +14,10 @@ CourseHandler = class CourseHandler extends Handler
   hasAccess: (req) ->
     req.method in @allowedMethods or req.user?.isAdmin()
 
+  hasAccessToDocument: (req, document, method=null) ->
+    method = (method or req.method).toLowerCase()
+    return true if method is 'get'
+    return true if req.user?.isAdmin() or req.user?.isArtisan()
+    return
+
 module.exports = new CourseHandler()

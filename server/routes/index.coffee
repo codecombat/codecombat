@@ -81,7 +81,9 @@ module.exports.setup = (app) ->
 
   Course = require '../models/Course'
   app.get('/db/course', mw.courses.get(Course))
-  app.put('/db/course/:handle', mw.auth.checkHasPermission(['admin']), mw.rest.put(Course))
+  app.get('/db/course/names', mw.named.names(Course))
+  app.post('/db/course/names', mw.named.names(Course))
+  app.put('/db/course/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.put(Course))
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   app.get('/db/course/:handle/level-solutions', mw.courses.fetchLevelSolutions)
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
