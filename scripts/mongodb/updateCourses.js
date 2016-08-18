@@ -24,7 +24,7 @@ var courses =
     name: "Computer Science 2",
     slug: "computer-science-2",
     campaignID: ObjectId("562f88e84df18473073c74e2"),
-    description: "Introduce Arguments, Variables, If Statements, and Arithmetic.",
+    description: "Introduces arguments, variables, if statements, and arithmetic.",
     duration: NumberInt(5),
     free: false,
     screenshot: "/images/pages/courses/102_info.png",

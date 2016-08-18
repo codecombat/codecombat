@@ -14,6 +14,7 @@ Patch = require '../models/Patch'
 tv4 = require('tv4').tv4
 slack = require '../slack'
 { isJustFillingTranslations } = require '../commons/deltas'
+{ updateI18NCoverage } = require '../commons/i18n'
 
 module.exports =
 
@@ -115,6 +116,7 @@ module.exports =
       reasonNotAutoAccepted = 'Adding to existing translations.'
     else
       course.set(changedCourse)
+      updateI18NCoverage(course)
       yield course.save()
       
     patch = new Patch(req.body)
