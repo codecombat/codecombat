@@ -94,6 +94,7 @@ module.exports = class Spell
         fallingBack = true
     try
       @originalSource = _.template @originalSource, context
+      @wrapperCode = _.template @wrapperCode, context
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
 
