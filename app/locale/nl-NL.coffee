@@ -71,7 +71,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     curriculum: "Totaal aantal lesuren:"
     ffa: "Gratis voor alle leerlingen"
     lesson_time: "Lesduur:"
-    coming_soon: "Binnenkort beschikbaar!" # {change}
+    coming_soon: "Binnenkort beschikbaar!"
     courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)"
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
     winning: "Een gouden combinatie van spel-elementen en programmeerhuiswerk, dat samen zorgt voor kindvriendelijk en oprecht aangenaam onderwijs."
@@ -1145,8 +1145,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     invite_link_p_1: "Geef deze link aan leerlingen waarvan je wil dat zij de cursus volgen."
     invite_link_p_2: "Of laat ons hun direct een e-mail sturen:"
     capacity_used: "Cursusplekken gebruikt:"
-    enter_emails: "Voer e-mailadressen van leerlingen in om hen uit te nodigen, één per regel"
-    send_invites: "Verstuur uitnodigingen"
+    enter_emails: "Voer e-mailadressen van leerlingen in om hen uit te nodigen, één per regel" # {change}
+    send_invites: "Verstuur uitnodigingen" # {change}
     creating_class: "Aanmaken klas..."
     purchasing_course: "Aanschaffen cursus..."
     buy_course: "Cursus kopen"
@@ -1235,7 +1235,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_now_learn_2: "while loops om lastige puzzels op te lossen"
     play_now_learn_3: "strings & variabelen om acties te aan te passen"
     play_now_learn_4: "hoe versla je een ogre (belangerijke levenslessen!)"
-    welcome_to_page: "Welkom op je cursus-pagina!"
+    welcome_to_page: "Welkom op je cursus-pagina!" # {change}
     completed_hoc: "Geweldig! Je hebt de Codeuur-cursus af!"
     ready_for_more_header: "Wil je meer? Speel de campagne-mode!"
     ready_for_more_1: "Gebruik edelstenen om nieuwe items te openen!"
@@ -1243,10 +1243,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     ready_for_more_3: "Leer zelfs meer programmeren!"
     saved_games: "Opgeslagen spellen"
     hoc: "codeuur"
-    my_classes: "Mijn klassen"
+    my_classes: "Mijn klassen" # {change}
     class_added: "Klas succesvol toegevoegd!"
-    view_class: "Bekijk klas"
-    view_levels: "bekijk levels"
+    view_levels: "bekijk levels" # {change}
     join_class: "doe mee met een klas"
 #    join_class_2: "Join class"
     ask_teacher_for_code: "Vraag je juf/meester of je een CodeCombat klassencode hebt! Als dat zo is, vul die dan hieronder in:"
@@ -1257,19 +1256,15 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_arena: "Speel Arena"
 #    view_project: "View Project"
     start: "Start"
-    last_level: "Laatste Level"
+    last_level: "Laatste Level" # {change}
     welcome_to_hoc: "Avonturiers, Welkom bij codeuur!"
     logged_in_as: "Ingelogd als:"
     not_you: "Ben jij dit niet?"
     welcome_back: "Hallo avonturier, welkom terug!"
     continue_playing: "Doorgaan met spelen"
     more_options: "Meer opties:"
-    option1_header: "Optie 1: Nodig leerlingen uit via e-mail"
-    option1_body: "Leerlingen krijgen automatisch een uitnodiging om met de klas mee te doen, en de leerlingen moeten een account maken met gebruikersnaam en wachtwoord."
-    option2_header: "Optie 2: Stuur leerlingen een link"
-    option2_body: "Leerlingen worden gevraagd een account te maken met hun e-mailadres, gebruikersnaam en een wachtwoord."
-    option3_header: "Optie 3: Stuur leerlingen naar codecombat.com/courses"
-    option3_body: "Geef leerlingen de volgende pincode welke ze samen met een e-mailadres, gebruikersnaam en wachtwoord moeten invullen, bij het aanmaken van een account."
+    option1_header: "Optie 1: Nodig leerlingen uit via e-mail" # {change}
+    option1_body: "Leerlingen krijgen automatisch een uitnodiging om met de klas mee te doen, en de leerlingen moeten een account maken met gebruikersnaam en wachtwoord." # {change}
     thank_you_pref: "Bedankt voor je aankoop! Je kunt nu meer leerlingen"
     thank_you_suff: "aan betaalde cursussen toevoegen."
     return_to_class: "Terug naar het klaslokaal"
@@ -1394,7 +1389,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    you_can_edit: "You can edit your email address in "
 #    account_settings: "Account Settings"
 #    select_your_hero: "Select Your Hero"
-#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
 #    select_this_hero: "Select this Hero"
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
@@ -1438,7 +1433,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     earliest_incomplete: "Vroegste onvoltooide level"
     latest_complete: "Laatste voltooide level"
     enroll_student: "Schrijf leerling in"
-    adding_students: "Voeg leerlingen toe"
     course_progress: "Cursus voortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
@@ -1454,10 +1448,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     select_course: "Selecteer cursus om te bekijken"
     course_overview: "Cursus Overzicht"
     copy_class_code: "Kopieer Klas Code"
-    class_code_blurb: "Nieuwe leerlingen kunnen deze klas code invoeren op hun dashboard of via codecombat.com/courses om zich bij de klas aan te sluiten."
+    class_code_blurb: "Nieuwe leerlingen kunnen deze klas code invoeren op hun dashboard of via codecombat.com/courses om zich bij de klas aan te sluiten." # {change}
     copy_class_url: "Kopieer Klas Link"
-    class_join_url_blurb: "Nieuwe studenten kunnen deze link bezoeken terwijl ze ingelogt zijn om zich bij de klas aan te sluiten."
-    add_students_manually: "Leerlingen Handmatig Toevoegen"
+    class_join_url_blurb: "Nieuwe studenten kunnen deze link bezoeken terwijl ze ingelogt zijn om zich bij de klas aan te sluiten." # {change}
+    add_students_manually: "Leerlingen Handmatig Toevoegen" # {change}
     bulk_assign: "Toewijzen in Bulk"
     assign_to_selected_students: "Toewijzen aan Geselecteerde Leerlingen"
     assigned: "Toegewezen"
@@ -1570,6 +1564,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     article_title: "Artikel Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
+#    course_title: "Course Editor"
     achievement_title: "Prestatie Editor"
     poll_title: "Poll Editor"
     back: "Terug"
