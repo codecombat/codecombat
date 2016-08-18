@@ -267,7 +267,7 @@ mixin courseProgressTab
           each trimCourse in view.classroom.get('courses')
             - var course = view.courses.get(trimCourse._id);
             option(value=course.id selected=(course===state.get('selectedCourse')))
-              = course.get('name')
+              = i18n(course.attributes, 'name')
     if state.get('progressData')
       .render-on-course-sync
         +courseOverview
@@ -313,7 +313,7 @@ mixin courseOverview
   - var levels = view.classroom.getLevels({courseID: course.id}).models
   .course-overview-row
     .course-title.student-name
-      span= course.get('name')
+      span= i18n(course.attributes, 'name')
       span= ': '
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
@@ -391,7 +391,7 @@ mixin bulkAssignControls
       each trimCourse in _.rest(view.classroom.get('courses'))
         - var course = view.courses.get(trimCourse._id)
         option(value=course.id selected=(course===state.get('selectedCourse')))
-          = course.get('name')
+          = i18n(course.attributes, 'name')
     button.btn.btn-primary-alt.assign-to-selected-students
       span(data-i18n='teacher.assign_to_selected_students')
     button.btn.btn-primary-alt.enroll-selected-students
