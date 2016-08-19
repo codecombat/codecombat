@@ -1505,6 +1505,9 @@
     status_enrolled: "Expires on {{date}}"
     select_all: "Select All"
     projects: "Projects"
+    project: "Project"
+    view_student_project: "View Student Project"
+    view_arena_ladder: "View Arena Ladder"
 
   sharing:
     game: "Game"
