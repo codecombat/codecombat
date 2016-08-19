@@ -242,7 +242,7 @@ block content
               h6.course-name= i18n(course.attributes, 'name') + ':'
               p.small
                 - var total = 0;
-                each concept in course.get('concepts')
+                each concept in course.get('concepts') || []
                   - if (conceptsSeen[concept]) continue;
                   - conceptsSeen[concept] = true;
                   if total === 3

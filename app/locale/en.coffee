@@ -1419,7 +1419,7 @@
     archive_class: "archive class"
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
-    no_students_yet: "This class has no students yet."
+    no_students_yet: "View class to add students." # {change}
     try_refreshing: "(You may need to refresh the page)"
     add_students: "Add Students"
     create_new_class: "Create a New Class"

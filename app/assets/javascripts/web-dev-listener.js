@@ -35,6 +35,8 @@ function receiveMessage(event) {
     case 'create':
         create(_.pick(data, 'dom', 'styles', 'scripts'));
         checkGoals(data.goals, source, origin);
+        $('body').first().off('click', checkRememberedGoals);
+        $('body').first().on('click', checkRememberedGoals);
         break;
     case 'update':
         if (virtualDom)
@@ -108,7 +110,13 @@ function update(options) {
     virtualScripts = scripts;
 }
 
+var lastGoalArgs = [];
+function checkRememberedGoals() {
+    checkGoals.apply(this, lastGoalArgs);
+}
+
 function checkGoals(goals, source, origin) {
+    lastGoalArgs = [goals, source, origin]; // Memoize for checkRememberedGoals
     // Check right now and also in one second, since our 1-second CSS transition might be affecting things until it is done.
     doCheckGoals(goals, source, origin);
     _.delay(function() { doCheckGoals(goals, source, origin); }, 1001);
