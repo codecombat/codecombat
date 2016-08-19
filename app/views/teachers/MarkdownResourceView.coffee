@@ -7,7 +7,6 @@ module.exports = class MarkdownResourceView extends RootView
     super(options)
     @content = ''
     $.get '/markdown/' + @name + '.md', (data) =>
-      console.log typeof data, data
       if data.indexOf('<!doctype html>') is -1
         @content = marked(data, sanitize: false)
       else
