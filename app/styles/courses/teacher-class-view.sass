@@ -257,19 +257,26 @@
   .progress-dot
     display: inline-block
     margin-right: 6px
-    width: 34px
+    min-width: 34px
     height: 34px
-    border-radius: 50%
+    border-radius: 16px
+    padding: 0 10px
     // margin-top: 23px
     // margin-bottom: 23px
     background: $gray-light
     position: relative
+    a
+      text-decoration: none
+    
     .dot-label
       padding-top: 2px
       .dot-label-inner
         font-size: 11px
         font-weight: bold
         color: white
+      
+  .progress-dot-lg .dot-label .dot-label-inner
+    font-size: 13px
     
   .progress-dot.forest
     background: $forest
@@ -281,6 +288,14 @@
     
   .progress-dot.gold
     background: $gold
+    .tooltip-inner
+      color: $navy
+      border-color: $navy
+    .tooltip-arrow
+      border-top-color: $navy
+      
+  .progress-dot.navy
+    background: $navy
     .tooltip-inner
       color: $navy
       border-color: $navy
