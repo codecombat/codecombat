@@ -12,7 +12,7 @@ LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
 utils = require 'core/utils'
 CodeLog = require 'models/CodeLog'
-Zatanna = require './editor/zatanna'
+Autocomplete = require './editor/autocomplete'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -45,7 +45,7 @@ module.exports = class SpellView extends CocoView
     'tome:spell-statement-index-updated': 'onStatementIndexUpdated'
     'tome:change-language': 'onChangeLanguage'
     'tome:change-config': 'onChangeEditorConfig'
-    'tome:update-snippets': 'addZatannaSnippets'
+    'tome:update-snippets': 'addAutocompleteSnippets'
     'tome:insert-snippet': 'onInsertSnippet'
     'tome:spell-beautify': 'onSpellBeautify'
     'tome:maximize-toggled': 'onMaximizeToggled'
@@ -459,7 +459,7 @@ module.exports = class SpellView extends CocoView
       if (e.command.name is 'insertstring' and intersects()) or
          (e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()) or
          (e.command.name is 'del' and intersectsRight())
-        @zatanna?.off?()
+        @autocomplete?.off?()
         pulseLockedCode()
         return false
       else if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
@@ -468,41 +468,41 @@ module.exports = class SpellView extends CocoView
           e.editor.navigateLineStart()
           return false
         else if e.command.name in ['Enter', 'Return'] and not e.editor?.completer?.popup?.isOpen
-          @zatanna?.on?()
+          @autocomplete?.on?()
           return e.editor.execCommand 'enter-skip-delimiters'
-      @zatanna?.on?()
+      @autocomplete?.on?()
       e.command.exec e.editor, e.args or {}
 
-  initAutocomplete: (@autocomplete) ->
+  initAutocomplete: (@autocompleteOn) ->
     # TODO: Turn on more autocompletion based on level sophistication
     # TODO: E.g. using the language default snippets yields a bunch of crazy non-beginner suggestions
     # TODO: Options logic shouldn't exist both here and in updateAutocomplete()
     return if @spell.language is 'html'
     popupFontSizePx = @options.level.get('autocompleteFontSizePx') ? 16
-    @zatanna = new Zatanna @ace,
+    @autocomplete = new Autocomplete @ace,
       basic: false
       liveCompletion: false
       snippetsLangDefaults: false
       completers:
         keywords: false
-        snippets: @autocomplete
+        snippets: @autocompleteOn
       autoLineEndings:
         javascript: ';'
       popupFontSizePx: popupFontSizePx
       popupLineHeightPx: 1.5 * popupFontSizePx
       popupWidthPx: 380
 
-  updateAutocomplete: (@autocomplete) ->
-    @zatanna?.set 'snippets', @autocomplete
+  updateAutocomplete: (@autocompleteOn) ->
+    @autocomplete?.set 'snippets', @autocompleteOn
 
-  addZatannaSnippets: (e) ->
+  addAutocompleteSnippets: (e) ->
     # Snippet entry format:
     # content: code inserted into document
     # meta: displayed right-justfied in popup
     # name: displayed left-justified in popup, and what's being matched
     # tabTrigger: fallback for name field
-    return unless @zatanna and @autocomplete
-    @zatanna.addCodeCombatSnippets @options.level, @, e
+    return unless @autocomplete and @autocompleteOn
+    @autocomplete.addCodeCombatSnippets @options.level, @, e
 
   translateFindNearest: ->
     # If they have advanced glasses but are playing a level which assumes earlier glasses, we'll adjust the sample code to use the more advanced APIs instead.
@@ -582,7 +582,7 @@ module.exports = class SpellView extends CocoView
     @createTranslationView() unless @translationView
     @toolbarView?.toggleFlow false
     @updateAether false, false
-    # @addZatannaSnippets()
+    # @addAutocompleteSnippets()
     @highlightCurrentLine()
 
   cast: (preload=false, realTime=false, justBegin=false) ->
@@ -1219,7 +1219,7 @@ module.exports = class SpellView extends CocoView
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
     @aceSession.setMode utils.aceEditModes[e.language]
-    @zatanna?.set 'language', utils.aceEditModes[e.language].substr('ace/mode/')
+    @autocomplete?.set 'language', utils.aceEditModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault
@@ -1287,7 +1287,7 @@ module.exports = class SpellView extends CocoView
     @debugView?.destroy()
     @translationView?.destroy()
     @toolbarView?.destroy()
-    @zatanna?.addSnippets [], @editorLang if @editorLang?
+    @autocomplete?.addSnippets [], @editorLang if @editorLang?
     $(window).off 'resize', @onWindowResize
     window.clearTimeout @saveSpadeTimeout
     @saveSpadeTimeout = null
