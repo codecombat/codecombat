@@ -1,0 +1,49 @@
+extends /templates/base-flat
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+
+  .container
+
+    .content
+        h1 Resource Hub
+
+
+        h4 Getting Started
+        ul
+          li
+            a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf" target="blank") Teacher Getting Started Guide [PDF]
+            p New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course.
+          li
+            a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf" target="blank") Student Quick Start Guide [PDF]
+            p You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms.
+
+        //
+          li
+              a(href="http://example.com") Teacher Debugging Guide (3 types of problems)
+
+        h4 Introduction to Computer Science
+        ul
+
+          li
+            a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf" target="blank") Course 1 Python Syntax Guide [PDF]
+            p Cheatsheet with references to common <strong>Python</strong> syntax that students will learn in Introduction to Computer Science.
+          li
+            a(href="http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf" target="blank") Course 1 JavaScript Syntax Guide [PDF]
+            p Cheatsheet with references to common <strong>JavaScript</strong> syntax that students will learn in Introduction to Computer Science.
+
+          //
+            h4 Computer Science 2
+            ul
+              li
+                a(href="http://example.com") Course 2 Lesson Plans
+              li
+                a(href="http://example.com") Course 2 Python Syntax Guide [PDF]
+              li
+                a(href="http://example.com") Course 2 JavaScript Syntax Guide [PDF]
+
+          h4
+            .comingsoon
+              i Additional guides coming soon!
