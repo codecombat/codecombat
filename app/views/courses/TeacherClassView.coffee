@@ -73,6 +73,7 @@ module.exports = class TeacherClassView extends RootView
     @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
+    @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
 

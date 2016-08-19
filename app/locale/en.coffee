@@ -1419,7 +1419,8 @@
     archive_class: "archive class"
     unarchive_class: "unarchive class"
     unarchive_this_class: "Unarchive this class"
-    no_students_yet: "View class to add students." # {change}
+    no_students_yet: "This class has no students yet."
+    no_students_yet_view_class: "View class to add students."
     try_refreshing: "(You may need to refresh the page)"
     add_students: "Add Students"
     create_new_class: "Create a New Class"
@@ -1504,6 +1505,9 @@
     status_enrolled: "Expires on {{date}}"
     select_all: "Select All"
     projects: "Projects"
+    project: "Project"
+    view_student_project: "View Student Project"
+    view_arena_ladder: "View Arena Ladder"
 
   sharing:
     game: "Game"
