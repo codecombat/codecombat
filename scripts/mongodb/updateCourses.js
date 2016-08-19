@@ -31,7 +31,7 @@ var courses =
   },
   {
     name: "Game Development 1",
-    slug: "game-dev-1",
+    slug: "game-development-1",
     campaignID: ObjectId("5789236960deed1f00ec2ab8"),
     description: "Learn to create your own games which you can share with your friends.",
     duration: NumberInt(1),
@@ -40,7 +40,7 @@ var courses =
   },
   {
     name: "Web Development 1",
-    slug: "web-dev-1",
+    slug: "web-development-1",
     campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
     description: "Learn the basics of web development in this introductory HTML & CSS course.",
     duration: NumberInt(1),
@@ -59,7 +59,7 @@ var courses =
   },
   {
     name: "Game Development 2",
-    slug: "game-dev-2",
+    slug: "game-development-2",
     campaignID: ObjectId("57b49c866430272000100c4d"),
     description: "Learn more advanced game development.",
     duration: NumberInt(2),
@@ -68,7 +68,7 @@ var courses =
   },
   {
     name: "Web Development 2",
-    slug: "web-dev-2",
+    slug: "web-development-2",
     campaignID: ObjectId("57891570c8871ac2326fa3f8"),
     description: "Learn more advanced web development, including scripting to make interactive webpages.",
     duration: NumberInt(2),
