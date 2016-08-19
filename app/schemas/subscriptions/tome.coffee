@@ -103,12 +103,12 @@ module.exports =
 
   'tome:change-config': c.object {title: 'Change Config', description: 'Published when you change your tome settings'}
 
-  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add Zatanna snippets', required: ['propGroups', 'allDocs']},
+  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add autocomplete snippets', required: ['propGroups', 'allDocs']},
     propGroups: {type: 'object'}
     allDocs: {type: 'object'}
     language: {type: 'string'}
 
-  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a Zatanna snippet', required: ['doc', 'language', 'formatted']},
+  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a autocomplete snippet', required: ['doc', 'language', 'formatted']},
     doc: {type: 'object'}
     language: {type: 'string'}
     formatted: {type: 'object'}
