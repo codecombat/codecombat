@@ -132,6 +132,8 @@ mixin course-instance-body(courseInstance, classroom)
     else
       - var firstLevel = stats.levels.first;
       - var levelURL = "/play/level/"+firstLevel.get('slug')+"?course="+courseInstance.get('courseID')+"&course-instance="+courseInstance.id;
+      if firstLevel.get('primerLanguage')
+        - levelURL += "&codeLanguage=" + firstLevel.get('primerLanguage');
       a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=levelURL, data-level-slug=firstLevel.get('slug'), data-event-action="Students Start Course")
         span(data-i18n="courses.start")
 

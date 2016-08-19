@@ -133,6 +133,7 @@ module.exports = class CourseDetailsView extends RootView
       viewArgs = viewArgs.concat ['course', @courseInstance.id]
     else
       route = @getLevelURL levelSlug
+      route += "&codeLanguage=" + level.get('primerLanguage') if level.get('primerLanguage')
       viewClass = 'views/play/level/PlayLevelView'
       viewArgs = [{courseID: @courseID, courseInstanceID: @courseInstanceID, supermodel: @supermodel}, levelSlug]
     Backbone.Mediator.publish 'router:navigate', route: route, viewClass: viewClass, viewArgs: viewArgs
