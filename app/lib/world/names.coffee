@@ -372,6 +372,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Zana'
     'Eika'
+    'Anya'
   ]
   'Assassin': [
     # Male
