@@ -83,6 +83,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom = new Classroom({ _id: classroomID })
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
+    @sortedCourses = []
 
     @students = new Users()
     @listenTo @classroom, 'sync', ->
@@ -164,6 +165,7 @@ module.exports = class TeacherClassView extends RootView
     null
 
   onLoaded: ->
+    @sortedCourses = @classroom.getSortedCourses()
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
