@@ -220,9 +220,9 @@ mixin studentRow(student)
         +longLevelName(student.latestCompleteLevel)
     td
       if state.get('progressData')
-        - var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+        - var courses = view.sortedCourses.map(function(c) { return view.courses.get(c._id); });
         - var courseLabelsArray = view.helper.courseLabelsArray(courses);
-        each trimCourse, index in view.classroom.get('courses')
+        each trimCourse, index in view.sortedCourses
           - var course = view.courses.get(trimCourse._id);
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
           if instance && instance.hasMember(student)
@@ -255,7 +255,7 @@ mixin courseProgressTab
         span(data-i18n='teacher.select_course')
         span.spr :
         select.course-select
-          each trimCourse in view.classroom.get('courses')
+          each trimCourse in view.sortedCourses
             - var course = view.courses.get(trimCourse._id);
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
@@ -423,7 +423,7 @@ mixin bulkAssignControls
       span(data-i18n='teacher.bulk_assign')
       span :
     select.bulk-course-select.form-control
-      each trimCourse in _.rest(view.classroom.get('courses'))
+      each trimCourse in _.rest(view.sortedCourses)
         - var course = view.courses.get(trimCourse._id)
         option(value=course.id selected=(course===state.get('selectedCourse')))
           = i18n(course.attributes, 'name')

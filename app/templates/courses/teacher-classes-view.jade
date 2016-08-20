@@ -77,7 +77,7 @@ mixin classRow(classroom)
         if classroom.get('members').length == 0
           +addStudentsButton(classroom)
         else
-          - var courses = classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+          - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
           - var courseLabelsArray = view.helper.courseLabelsArray(courses);
           each trimCourse, index in classroom.get('courses') || []
             - var course = view.courses.get(trimCourse._id);
