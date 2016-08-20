@@ -64,7 +64,7 @@ var courses =
     description: "Learn more advanced game development.",
     duration: NumberInt(2),
     free: false,
-    releasePhase: 'beta'
+    releasePhase: 'released'
   },
   {
     name: "Web Development 2",
@@ -73,7 +73,7 @@ var courses =
     description: "Learn more advanced web development, including scripting to make interactive webpages.",
     duration: NumberInt(2),
     free: false,
-    releasePhase: 'beta'
+    releasePhase: 'released'
   },
   {
     name: "Computer Science 4",

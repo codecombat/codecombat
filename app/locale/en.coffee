@@ -888,6 +888,7 @@
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
     licenses_needed: "Licenses needed"
 
+
   teachers_quote:
     name: "Demo Form"
     title: "Request a Demo"
@@ -1508,6 +1509,18 @@
     project: "Project"
     view_student_project: "View Student Project"
     view_arena_ladder: "View Arena Ladder"
+    resource_hub: "Resource Hub"
+    getting_started: "Getting Started"
+    teacher_getting_started: "Teacher Getting Started Guide"
+    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
+    student_getting_started: "Student Quick Start Guide"
+    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+    cs1: "Introduction to Computer Science"
+    cs1_syntax_python: "Course 1 Python Syntax Guide"
+    cs1_syntax_python_desc: "Cheatsheet with references to common Python syntax that students will learn in Introduction to Computer Science."
+    cs1_syntax_javascript: "Course 1 JavaScript Syntax Guide"
+    cs1_syntax_javascript_desc: "Cheatsheet with references to common JavaScript syntax that students will learn in Introduction to Computer Science."
+    coming_soon: "Additional guides coming soon!"
 
   sharing:
     game: "Game"
