@@ -4,30 +4,49 @@ CodeLogCollection = require 'collections/CodeLogs'
 CodeLog = require 'models/CodeLog'
 utils = require 'core/utils'
 
+CodePlaybackView = require './CodePlaybackView'
+
 module.exports = class CodeLogsView extends RootView
   template: template
   id: 'codelogs-view'
   tooltip: null
   events:
     'click .playback': 'onClickPlayback'
+    'input #userid-search': 'onUserIDInput'
+    'input #levelslug-search': 'onLevelSlugInput'
 
   initialize: ->
-    @spade = new Spade()
+    #@spade = new Spade()
     @codelogs = new CodeLogCollection()
-    @supermodel.trackRequest(@codelogs.fetch())
+    @supermodel.trackRequest(@codelogs.fetchLatest())
+    @onUserIDInput = _.debounce(@onUserIDInput, 300)
+    @onLevelSlugInput = _.debounce(@onLevelSlugInput, 300)
+    #@supermodel.trackRequest(@codelogs.fetch())
+
+  onUserIDInput: (e) ->
+    userID = $("#userid-search")[0].value
+    unless userID is ""
+      Promise.resolve(@codelogs.fetchByUserID(userID))
+      .then (e) => 
+        @renderSelectors "#codelogtable"
+    else 
+      Promise.resolve(@codelogs.fetch())
+      .then (e) => 
+        @renderSelectors "#codelogtable"
+
+  onLevelSlugInput: (e) ->
+    slug = $("#levelslug-search")[0].value
+    unless slug is ""
+      Promise.resolve(@codelogs.fetchBySlug(slug))
+      .then (e) => 
+        @renderSelectors "#codelogtable"
+    else
+      Promise.resolve(@codelogs.fetch())
+      .then (e) => 
+        @renderSelectors "#codelogtable"
 
   onClickPlayback: (e) ->
-    @deleteTooltip()
-    events = LZString.decompressFromUTF16($(e.target).data('codelog'))
-    events = @spade.expand(JSON.parse(events))
-
-    @tooltip = $(document.createElement('textarea'))
-    @tooltip.attr('id', "codelogs-tooltip")
-    @tooltip.css({left: e.pageX + 20, top: e.pageY}) # Position near the cursor
-    @tooltip.blur @onBlurTooltip
-    @$('#codelogs-view').append @tooltip
-    @tooltip.focus()
-    @spade.play(events, @tooltip.context)
+    @insertSubView @codePlaybackView = new CodePlaybackView rawLog:$(e.target).data('codelog')
 
   deleteTooltip: ->
     if @tooltip?
