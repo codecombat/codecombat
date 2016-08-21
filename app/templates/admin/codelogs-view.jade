@@ -1,17 +1,20 @@
 extends /templates/base
 
 block content
-  #codelogs-view
-    #codelogtable
-      table.table.table-striped
-        tr
-          th date
-          th userID
-          th levelSlug
-          th
-        if view.codelogs
-          for codelog in view.codelogs.models
-            +codeLogRow(codelog)
+  #codeplayback-view
+  input.searchInput#userid-search(placeholder='Filter: userID')
+  br
+  input.searchInput#levelslug-search(placeholder='Filter: levelSlug')
+  #codelogtable
+    table.table.table-striped
+      tr
+        th date
+        th userID
+        th levelSlug
+        th
+      if view.codelogs
+        for codelog in view.codelogs.models
+          +codeLogRow(codelog)
 
 mixin codeLogRow(codelog)
   tr
