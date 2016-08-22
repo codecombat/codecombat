@@ -68,6 +68,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @$el.popover('setContent')
 
   onMouseEnter: (e) ->
+    return if @popoverPinned or @otherPopoverPinned
     @resetPopoverContent()
     @$el.popover 'show'
 
