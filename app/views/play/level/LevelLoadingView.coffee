@@ -184,7 +184,8 @@ module.exports = class LevelLoadingView extends CocoView
         #{problem.category} - #{problem.score} points
       """, sanitize: false
     else
-      html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'))
+      language = @session?.get('codeLanguage')
+      html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
     @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
     @resize()
 
