@@ -196,7 +196,9 @@ module.exports = class CampaignView extends RootView
     context.requiresSubscription = @requiresSubscription
     context.editorMode = @editorMode
     context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
-      return false if ac.showIfUnlocked and (ac.showIfUnlocked not in me.levels()) and not @editorMode
+      if ac.showIfUnlocked and not @editorMode
+        return false if _.isString(ac.showIfUnlocked) and ac.showIfUnlocked not in me.levels()
+        return false if _.isArray(ac.showIfUnlocked) and _.intersection(ac.showIfUnlocked, me.levels()).length < 0
       ac.name = utils.i18n ac, 'name'
       styles = []
       styles.push "color: #{ac.color}" if ac.color
@@ -226,7 +228,10 @@ module.exports = class CampaignView extends RootView
             campaign.locked = true
       for campaign in @campaigns.models
         for acID, ac of campaign.get('adjacentCampaigns') ? {}
-          _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
+          if _.isString(ac.showIfUnlocked)
+            _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
+          else if _.isArray(ac.showIfUnlocked)
+            _.find(@campaigns.models, id: acID)?.locked = false if _.intersection(ac.showIfUnlocked, me.levels()).length
 
     context
 
@@ -437,7 +442,7 @@ module.exports = class CampaignView extends RootView
     return if 0.2 < fraction < 0.8
     direction = if fraction < 0.5 then 1 else -1
     magnitude = 0.2 * bodyWidth * (if direction is -1 then fraction - 0.8 else 0.2 - fraction) / 0.2
-    portalsWidth = 1902  # TODO: if we add campaigns or change margins, this will get out of date...
+    portalsWidth = 2536  # TODO: if we add campaigns or change margins, this will get out of date...
     scrollTo = $portals.offset().left + direction * magnitude
     scrollTo = Math.max bodyWidth - portalsWidth, scrollTo
     scrollTo = Math.min 0, scrollTo
