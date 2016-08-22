@@ -77,7 +77,7 @@ mixin classRow(classroom)
         if classroom.get('members').length == 0
           +addStudentsButton(classroom)
         else
-          - var courses = classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
+          - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
           - var courseLabelsArray = view.helper.courseLabelsArray(courses);
           each trimCourse, index in classroom.get('courses') || []
             - var course = view.courses.get(trimCourse._id);
@@ -91,11 +91,7 @@ mixin classRow(classroom)
 mixin addStudentsButton(classroom)
   .add-students
     .text-center
-      div.small-details(data-i18n='teacher.no_students_yet')
-        | This class has no students yet.
-      a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=classroom.id )
-        span(data-i18n='teacher.add_students')
-          | Add Students
+      div.small-details(data-i18n='teacher.no_students_yet_view_class')
 
 mixin createClassButton
   .create-class

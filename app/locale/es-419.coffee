@@ -71,7 +71,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     curriculum: "Horas totales del plan de estudios:"
     ffa: "Gratis para todos los estudiantes"
     lesson_time: "Duración de la clase:"
-    coming_soon: "¡Proximamente!" # {change}
+    coming_soon: "¡Proximamente!"
     courses_available_in: "Los cursos están disponibles en JavaScript, Python, y Java (¡proximamente!)"
     boast: "Cuenta con acertijos lo suficiente complejos como para fascinar a jugadores y programadores por igual."
     winning: "Una combinación ganadora entre un juego de rol y una tarea sobre programación que consigue hacer de la educación amigable y disfrutable para los niños."
@@ -1145,8 +1145,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     invite_link_p_1: "Proporciones este enalce a los estudiantes que desee que se unan al curso."
     invite_link_p_2: "O envíenoslos directamente mediante el correo electrónico:"
     capacity_used: "Espacios de curso usados:"
-    enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea"
-    send_invites: "¿Mandar Invitaciones?"
+    enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea" # {change}
+    send_invites: "¿Mandar Invitaciones?" # {change}
     creating_class: "Creando clase..."
     purchasing_course: "Adquiriendo curso..."
     buy_course: "Comprar Curso"
@@ -1235,7 +1235,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     play_now_learn_2: "bucles while para resolver rompecabezas molestos"
     play_now_learn_3: "cadenas & variables para personalizar acciones"
     play_now_learn_4: "como vencer a un ogro (habilidades importantes en la vida!)"
-    welcome_to_page: "¡Bienvenido a tu página de cursose!"
+    welcome_to_page: "¡Bienvenido a tu página de cursose!" # {change}
     completed_hoc: "¡Asombroso! ¡Has completado el curso de la hora de código!"
     ready_for_more_header: "Listo para mas? Juega el modo campaña!"
     ready_for_more_1: "Usa las gemas para desbloquear nuevos objetos!"
@@ -1243,10 +1243,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     ready_for_more_3: "¡Aprendé todavía más programando!"
     saved_games: "Juegos Guardados"
     hoc: "Hora del código"
-    my_classes: "Mis Clases"
+    my_classes: "Mis Clases" # {change}
     class_added: "Clase añadida satisfactoriamente!"
-    view_class: "ver clase"
-    view_levels: "ver niveles"
+    view_levels: "ver niveles" # {change}
     join_class: "Unirse a clase"
 #    join_class_2: "Join class"
     ask_teacher_for_code: "Preguntalé a tu profesor si tu tienes un código de CodeCombat! Si lo tiene, ingresalo debajo:"
@@ -1257,19 +1256,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     play_arena: "Jugar Arena"
 #    view_project: "View Project"
     start: "Iniciar"
-    last_level: "Último nivel"
+    last_level: "Último nivel" # {change}
     welcome_to_hoc: "Aventureros, bienvenidos a su Hora del Código!!"
     logged_in_as: "Logeado como:"
     not_you: "No eres tú?"
     welcome_back: "Hola aventurero, bienvenido nuevamente!"
     continue_playing: "Seguir jugando"
     more_options: "Másopciones:"
-    option1_header: "Opción 1: Invitar estudiantes vía email"
-    option1_body: "Se enviará automaticamente una invitación a los estudiantes para unirse a esta clase, y tendrán que crear una cuenta con un nombre de usuario y una contraseña."
-    option2_header: "Opción 2: Enviarles la URL a tus estudiantes"
-    option2_body: "Se pedirá a los estudiantes que ingresen un correo electrónico, un nombre de usuario y una contraseña para crear una cuenta."
-    option3_header: "Opción 3: Dirigir estudiantes a to codecombat.com/courses"
-    option3_body: "Dar a los estudiantes el siguiente código de acceso para ingresar junto con el correo electrónico, el nombre de usuario y la contraseña cuando creen una cuenta."
+    option1_header: "Opción 1: Invitar estudiantes vía email" # {change}
+    option1_body: "Se enviará automaticamente una invitación a los estudiantes para unirse a esta clase, y tendrán que crear una cuenta con un nombre de usuario y una contraseña." # {change}
     thank_you_pref: "Gracias por tu compra! Ahora puedes asignar"
     thank_you_suff: "más estudiantes a cursos pagos."
     return_to_class: "Regresar al aula"
@@ -1394,7 +1389,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    you_can_edit: "You can edit your email address in "
 #    account_settings: "Account Settings"
 #    select_your_hero: "Select Your Hero"
-#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
 #    select_this_hero: "Select this Hero"
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
@@ -1438,7 +1433,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     earliest_incomplete: "Nivel incompleto más Reciente"
     latest_complete: "Último nivel completado"
     enroll_student: "Inscribir estudiante"
-    adding_students: "Agregar estudiantes"
     course_progress: "Progreso del curso"
 #    not_applicable: "N/A"
     edit: "editar"
@@ -1454,10 +1448,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     select_course: "Selecciona el curso a ver"
     course_overview: "Resumen del Curso"
     copy_class_code: "Copiar código de la Clase"
-    class_code_blurb: "Nuevos estudiantes pueden entrar a este código de la clase en su tablero o visitar codecombat.com/courses para unirse a la clase."
+    class_code_blurb: "Nuevos estudiantes pueden entrar a este código de la clase en su tablero o visitar codecombat.com/courses para unirse a la clase." # {change}
     copy_class_url: "Copia la URL de la Clase"
-    class_join_url_blurb: "Nuevos estudiantes pueden visitar esta URL mientras esten logeados para unirse a la clase."
-    add_students_manually: "Agregar Estudiantes Manualmente"
+    class_join_url_blurb: "Nuevos estudiantes pueden visitar esta URL mientras esten logeados para unirse a la clase." # {change}
+    add_students_manually: "Agregar Estudiantes Manualmente" # {change}
     bulk_assign: "Mayor a asignar"
     assign_to_selected_students: "Asignar a los Estudiantes Seleccionados"
     assigned: "Asignado"
@@ -1570,6 +1564,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     article_title: "Editor de Artículo"
     thang_title: "Editor de Tiliches"
     level_title: "Editor de Nivel"
+#    course_title: "Course Editor"
     achievement_title: "Editor de logros"
     poll_title: "Editor de Encuesta"
     back: "Atrás"

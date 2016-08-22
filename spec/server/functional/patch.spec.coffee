@@ -3,6 +3,7 @@ User = require '../../../server/models/User'
 Article = require '../../../server/models/Article'
 Patch = require '../../../server/models/Patch'
 request = require '../request'
+utils = require '../utils'
 
 describe '/db/patch', ->
   async = require 'async'
@@ -160,3 +161,21 @@ describe '/db/patch', ->
         Patch.findOne({}).exec (err, article) ->
           expect(article.get('status')).toBe 'accepted'
           done()
+
+  it 'only allows artisans and admins to set patch status for courses', utils.wrap (done) ->
+    submitter = yield utils.initUser()
+    course = yield utils.makeCourse()
+    patch = new Patch({
+      delta: { name: 'test' }
+      target: { collection: 'course', id: course._id, original: course._id }
+      creator: submitter._id
+      status: 'pending'
+      commitMessage: '...'
+    })
+    yield patch.save()
+    anotherUser = yield utils.initUser()
+    yield utils.loginUser(anotherUser)
+    json = { status: 'rejected' }
+    [res, body] = yield request.putAsync({ url: utils.getURL("/db/patch/#{patch.id}/status"), json})
+    expect(res.statusCode).toBe(403)
+    done()

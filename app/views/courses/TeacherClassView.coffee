@@ -74,6 +74,7 @@ module.exports = class TeacherClassView extends RootView
     @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
+    @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
 
@@ -83,6 +84,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom = new Classroom({ _id: classroomID })
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
+    @sortedCourses = []
 
     @prepaids = new Prepaids()
     @prepaids.comparator = 'endDate' # use prepaids in order of expiration
@@ -168,6 +170,7 @@ module.exports = class TeacherClassView extends RootView
     null
 
   onLoaded: ->
+    @sortedCourses = @classroom.getSortedCourses()
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 

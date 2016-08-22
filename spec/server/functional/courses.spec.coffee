@@ -264,6 +264,7 @@ describe 'POST /db/course/:handle/patch', ->
     course = yield Course.findById(@course.id)
     expect(course.get('i18n').de.description).toBe('German translation!')
     expect(course.get('patches')).toBeUndefined()
+    expect(_.contains(course.get('i18nCoverage'),'de')).toBe(true)
     done()
 
   it 'saves the changes immediately if translations are for a new langauge', utils.wrap (done) ->

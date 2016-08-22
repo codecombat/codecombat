@@ -40,7 +40,7 @@ block content
                     //- TODO: Automate this list @scott
                     //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
                     - var courseSlug = course.get('slug') || '';
-                    if courseSlug === 'web-dev-1'
+                    if courseSlug === 'web-dev-1' || courseSlug === 'web-development-1'
                       option(value="javascript")
                         | HTML
                     else if courseSlug.indexOf('web-dev') >= 0
@@ -97,7 +97,7 @@ mixin course-info(course)
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
       //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
       - var courseSlug = course.get('slug') || '';
-      if courseSlug === 'web-dev-1'
+      if courseSlug === 'web-dev-1' || courseSlug === 'web-development-1' 
         a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; HTML
