@@ -173,7 +173,7 @@ module.exports = class Autocomplete
         editor.completer?.detach() if hasCompleter
 
         # Skip common single letter variable names
-        return if /^x$|^y$/ig.test(prefix)
+        return if /^x$|^y$/i.test(prefix)
 
         # Only autocomplete if there's a prefix that can be matched
         if (prefix)
