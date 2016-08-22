@@ -376,7 +376,7 @@ UserSchema.pre('save', (next) ->
     if not @allowEmailNames # for testing
       filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
       if filter.test(name)
-        return next(new errors.UnprocessableEntity('Name may not be an email'))
+        return next(new errors.UnprocessableEntity('Username may not be an email'))
   
     @set('nameLower', name.toLowerCase())
   else
