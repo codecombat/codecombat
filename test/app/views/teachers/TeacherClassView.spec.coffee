@@ -214,7 +214,7 @@ describe 'TeacherClassView', ->
           expect(window.open).toHaveBeenCalled()
 
   
-    fdescribe '.assignCourse(courseID, members)', ->
+    describe '.assignCourse(courseID, members)', ->
       beforeEach (done) ->
         @classroom = factories.makeClassroom({ aceConfig: { language: 'javascript' }}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()]})
         @courseInstances = new CourseInstances([

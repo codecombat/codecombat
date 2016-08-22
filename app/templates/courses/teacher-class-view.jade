@@ -122,13 +122,6 @@ block content
           li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
             a.course-progress-tab-btn(href='#license-status-tab')
               .small-details.text-center(data-i18n='teacher.license_status')
-          // TODO: Move projects into course progress tab
-          //- var courses = view.classroom.get('courses').map(function(c) { return view.courses.get(c._id); });
-          //if _.find(courses, function(c) { return /dev/.test(c.get('slug')); })
-          //  .tab-spacer
-          //  li(class=(activeTab === "#student-projects-tab" ? 'active' : ''))
-          //    a.course-progress-tab-btn(href='#student-projects-tab')
-          //      .small-details.text-center(data-i18n='teacher.projects')
           .tab-filler
 
         .tab-content
@@ -459,37 +452,3 @@ mixin enrollmentStatusTab
           td.enroll-col
             if status !== 'enrolled'
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
-
-mixin studentProjectsTab
-  #student-projects-tab.m-t-3
-    if state.get('progressData')
-      .render-on-course-sync
-        .student-levels-table
-          +sortButtons
-          each student in state.get('students').models
-            +studentProjectsRow(student)
-
-mixin studentProjectsRow(student)
-  .row.student-levels-row.alternating-background
-    div.student-info.col-sm-3
-      div.student-name= student.broadName()
-      div.student-email.small-details= student.get('email')
-    div.student-levels-progress.col-sm-9
-      each trimCourse in view.classroom.get('courses')
-        - var course = view.courses.get(trimCourse._id);
-        - var levels = view.classroom.getLevels({courseID: course.id, projectLevels: true}).models
-        each level in levels
-          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +studentProjectLink(progress, level, levelNumber, course)
-
-mixin studentProjectLink(progress, level, levelNumber, course)
-  - var colorClass = progress.completed ? 'btn-primary' : (progress.started ? 'btn-warning' : 'btn-primary');
-  - var levelName = i18n(level.attributes, 'name')
-  - var context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
-  - var title = view.singleStudentLevelProgressDotTemplate(context);
-  if context.session
-    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + context.session.id + '?course=' + course.id;
-    a(class="btn btn-lg btn-view-project-level " + colorClass, href=url, data-title=title)= levelName
-  else
-    btn(class="btn btn-lg btn-view-project-level " + colorClass, data-title=title, disabled=true)= levelName
