@@ -652,7 +652,6 @@
     feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
     feature3: "__bonusLevelsCount__+ bonus levels"
     feature4: "<strong>{{gems}} bonus gems</strong> every month!"
-    feature5: "Video tutorials"
     feature6: "Premium email support"
     feature7: "Private <strong>Clans</strong>"
     feature8: "<strong>No ads!</strong>"
