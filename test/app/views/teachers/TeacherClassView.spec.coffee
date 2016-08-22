@@ -300,12 +300,22 @@ describe 'TeacherClassView', ->
           expect(@view.openModalView).toHaveBeenCalled()
 
 
-      it 'adds students to the course instances', (done) ->
-        courseInstance = @view.courseInstances.first()
-        courseInstance.set('members', [])
-        @view.assignCourse(courseInstance.get('courseID'), @students.pluck('_id').slice(2, 4))
-        @view.wait('begin-assign-course').then =>
+      describe 'when there is nothing else to do first', ->
+        beforeEach (done) ->
+          @courseInstance = @view.courseInstances.first()
+          @courseInstance.set('members', [])
+          @view.assignCourse(@courseInstance.get('courseID'), @students.pluck('_id').slice(2, 4))
+          @view.wait('begin-assign-course').then(done)
+
+        it 'adds students to the course instances', ->
           request = jasmine.Ajax.requests.mostRecent()
-          expect(request.url).toBe("/db/course_instance/#{courseInstance.id}/members")
+          expect(request.url).toBe("/db/course_instance/#{@courseInstance.id}/members")
           expect(request.method).toBe('POST')
-          done()
+          
+        it 'shows a noty if POSTing students fails', (done) ->
+          request = jasmine.Ajax.requests.mostRecent()
+          request.respondWith({
+            status: 500,
+            responseText: JSON.stringify({ message: "Internal Server Error" })
+          })
+          spyOn(window, 'noty').and.callFake(done)

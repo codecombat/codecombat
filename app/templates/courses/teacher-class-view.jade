@@ -222,7 +222,6 @@ mixin studentRow(student)
       div
         i
           span(data-i18n='teacher.latest_completed')
-          span :
       div
         +longLevelName(student.latestCompleteLevel)
     td
@@ -268,14 +267,11 @@ mixin courseProgressTab
           each student in state.get('students').models
             if _.contains(state.get('selectedCourse').members, student.id)
               +studentLevelsRow(student)
-    //- TODO: If any students aren't assigned the course
     .unassigned-students.render-on-course-sync
       if state.get('selectedCourse') && state.get('selectedCourse').members.length < state.get('students').length
         h2
-          span(data-i18n='TODO')
-            | Students who have not been assigned
-          | 
-          span= state.get('selectedCourse').get('name')
+          - var courseName = i18n(state.get('selectedCourse').attributes, 'name');
+          span= translate('teacher.students_not_assigned').replace('{{courseName}}', courseName)
         for student in state.get('students').models
           unless _.contains(state.get('selectedCourse').members, student.id)
             .row.unassigned-student-row.alternating-background
@@ -286,19 +282,11 @@ mixin courseProgressTab
               .col-sm-4
                 .latest-completed.truncate.small
                   i.m-r-1
-                    span(data-i18n='TODO')
-                      | Latest completed
-                    | : 
+                    span(data-i18n='teacher.latest_completed')
                   +longLevelName(student.latestCompleteLevel)
               .col-sm-2
-                if student.isEnrolled()
-                  .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
-                    span(data-i18n='TODO')
-                      | Assign Course
-                else
-                  .enroll-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-event-action="Teachers Class Course Enroll Student")
-                    span(data-i18n='TODO')
-                      | Enroll Student
+                .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
+                  span(data-i18n='teacher.assign_course')
 
 mixin courseOverview
   - var course = state.get('selectedCourse')
@@ -418,8 +406,6 @@ mixin bulkAssignControls
   .bulk-assign-controls.form-inline
     .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
-    .cant-assign-to-unenrolled.small-details(class=state.get('errors').assigningToUnenrolled ? 'visible' : '')
-      span(data-i18n='teacher.cant_assign_to_unenrolled')
     span.small
       span(data-i18n='teacher.bulk_assign')
       span :
