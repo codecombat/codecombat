@@ -154,20 +154,24 @@ Spade.prototype = {
 		}
 		return result;
 	},
-	play: function(_stack, _elem) {
+	play: function(_stack, _elem, _t) {
+		_t = _t || 0;
 		if(_stack.length === 0) {
 			console.warn("SPADE: No events to play.")
 			return
 		}
+		console.log();
 		if(_elem.setValue) {
-			_elem.setValue(_stack[0].difContent);
+			_elem.setValue(this.renderTime(_stack, _elem, _t));
 		} else {
-			_elem.value = _stack[0].difContent
+			_elem.value = this.renderTime(_stack, _elem, _t)
 		}
 		_stack = _stack.slice();
 		_stack.shift();
 		var curTime, dTime;
-		var elapsedTime = 0;
+		var tTime = _stack[_stack.length - 1].timestamp;
+		var elapsedTime = _t * tTime;
+		this.elapsedTime = elapsedTime;
 		var prevTime = (new Date()).getTime();
 		this.playback = playbackInterval = setInterval(function() {
 			//console.log(this);

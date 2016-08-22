@@ -12,6 +12,7 @@
     width: 12.5%
   #slider-container
     width: 75%
+    position: relative
   #codearea, #slider
     width: 100%
   #codearea
@@ -22,3 +23,13 @@
     float: right
   #control-container
     min-height: 24px
+  .event
+    position: absolute
+    background-color: rgba(100, 100, 255, 0.125)
+    left: 7px
+    top: 0px
+    width: 1px
+    height: 16px
+    pointer-events: none
+  .clicked
+    background-color: orange
