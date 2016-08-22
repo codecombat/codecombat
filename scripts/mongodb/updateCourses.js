@@ -1,15 +1,19 @@
-// Update course data
+// Update courses
 
 // Usage:
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 // eg: mongo localhost:27017/coco scripts/mongodb/updateCourses.js
 
-// NOTE: uses slug as unique identifier, so changing the slug will insert a new course
+// NOTE: Do not use this to create new courses
+
+// TODO: Replace this script with the course editor
+
 load('bower_components/lodash/dist/lodash.js');
 
 var courses =
 [
   {
+    _id: ObjectId('560f1a9f22961295f9427742'),
     name: "Introduction to Computer Science",
     slug: "introduction-to-computer-science",
     campaignID: ObjectId("55b29efd1cd6abe8ce07db0d"),
@@ -20,6 +24,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('5632661322961295f9428638'),
     name: "Computer Science 2",
     slug: "computer-science-2",
     campaignID: ObjectId("562f88e84df18473073c74e2"),
@@ -30,6 +35,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('5789587aad86a6efb573701e'),
     name: "Game Development 1",
     slug: "game-development-1",
     campaignID: ObjectId("5789236960deed1f00ec2ab8"),
@@ -39,6 +45,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('5789587aad86a6efb573701f'),
     name: "Web Development 1",
     slug: "web-development-1",
     campaignID: ObjectId("578913f2c8871ac2326fa3e4"),
@@ -48,6 +55,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('56462f935afde0c6fd30fc8c'),
     name: "Computer Science 3",
     slug: "computer-science-3",
     campaignID: ObjectId("56462ac4410c528505e1160a"),
@@ -58,6 +66,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('57b621e7ad86a6efb5737e64'),
     name: "Game Development 2",
     slug: "game-development-2",
     campaignID: ObjectId("57b49c866430272000100c4d"),
@@ -67,6 +76,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('5789587aad86a6efb5737020'),
     name: "Web Development 2",
     slug: "web-development-2",
     campaignID: ObjectId("57891570c8871ac2326fa3f8"),
@@ -76,6 +86,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('56462f935afde0c6fd30fc8d'),
     name: "Computer Science 4",
     slug: "computer-science-4",
     campaignID: ObjectId("56462c1133f1478605ebd018"),
@@ -86,6 +97,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('569ed916efa72b0ced971447'),
     name: "Computer Science 5",
     slug: "computer-science-5",
     campaignID: ObjectId("568ad069a6584820004437f2"),
@@ -96,6 +108,7 @@ var courses =
     releasePhase: 'released'
   },
   {
+    _id: ObjectId('57a0dea5ad86a6efb57375c2'),
     name: "JS Primer",
     slug: "js-primer",
     campaignID: ObjectId("579a5f37843ad12000e6d4c7"),
@@ -123,7 +136,7 @@ _.forEach(courses, function(course) {
 
 print("Updating courses..");
 for (var i = 0; i < courses.length; i++) {
-  var result = db.courses.update({slug: courses[i].slug}, {$set: courses[i]});
+  var result = db.courses.update({_id: courses[i]._id}, {$set: courses[i]});
   if (result.nMatched !== 1) {
     print("Failed to update " + courses[i].slug);
     print(JSON.stringify(result, null, 2));
