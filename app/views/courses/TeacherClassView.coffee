@@ -428,7 +428,6 @@ module.exports = class TeacherClassView extends RootView
         error = new Error('Not enough licenses available')
         error.handled = true
         throw error
-      throw Error('should not have gotten here')
         
       numberEnrolled = _.size(unenrolledStudents)
       remainingSpots = totalSpotsAvailable - numberEnrolled
@@ -468,7 +467,9 @@ module.exports = class TeacherClassView extends RootView
       noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
     
     .catch (e) =>
+      # TODO: Use this handling for errors site-wide?
       return if e.handled
+      throw e if e instanceof Error and application.testing
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown') 
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 

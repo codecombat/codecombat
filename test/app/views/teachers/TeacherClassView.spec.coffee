@@ -98,14 +98,6 @@ describe 'TeacherClassView', ->
         # it 'sorts correctly by Progress'
         
         describe 'bulk-assign controls', ->
-          it 'shows alert when assigning course 2 to unenrolled students', (done) ->
-            expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(false)
-            @view.$('.student-row .checkbox-flat').click()
-            @view.$('.assign-to-selected-students').click()
-            _.defer =>
-              expect(@view.$('.cant-assign-to-unenrolled').hasClass('visible')).toBe(true)
-              done()
-            
           it 'shows alert when assigning but no students are selected', (done) ->
             expect(@view.$('.no-students-selected').hasClass('visible')).toBe(false)
             @view.$('.assign-to-selected-students').click()
@@ -120,9 +112,10 @@ describe 'TeacherClassView', ->
       #     it 'still shows the correct Course Overview progress'
       #
       
-      describe 'the Enrollment Status tab', ->
-        beforeEach ->
-          @view.state.set('activeTab', '#enrollment-status-tab')
+      describe 'the License Status tab', ->
+        beforeEach (done) ->
+          @view.state.set('activeTab', '#license-status-tab')
+          _.defer(done)
         
         describe 'Enroll button', ->
           it 'calls enrollStudents with that user when clicked', ->
