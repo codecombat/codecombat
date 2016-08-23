@@ -613,9 +613,9 @@ describe 'GET /db/article/:handle/patches', ->
     expect(patches[0]._id).toBe(patch._id)
     done()
     
-  it 'returns 422 for invalid object ids', utils.wrap (done) ->
-    [res, body] = yield request.getAsync getURL("/db/article/invalid/patches"), { json: true }
-    expect(res.statusCode).toBe(422)
+  it 'returns 404 for handles that do not exist', utils.wrap (done) ->
+    [res, body] = yield request.getAsync getURL("/db/article/dne/patches"), { json: true }
+    expect(res.statusCode).toBe(404)
     done()
   
     
