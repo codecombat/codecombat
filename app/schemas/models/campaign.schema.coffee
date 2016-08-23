@@ -42,7 +42,14 @@ _.extend CampaignSchema.properties, {
       position: c.point2d()
       rotation: { type: 'number', format: 'degrees' }
       color: { type: 'string' }
-      showIfUnlocked: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+      showIfUnlocked:
+        oneOf: [
+          { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          {
+            type: 'array',
+            items: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          }
+        ]
     }
   }}
   levelsUpdated: c.date()
