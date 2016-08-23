@@ -100,9 +100,10 @@ if view.showAds()
   else
     .portal
       .portals
-        for campaignSlug in ['dungeon', 'beta-campaigns', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
-          if campaignSlug === 'beta-campaigns'
-            - var betaSlugs = _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']);
+        //- TODO: you must change CampaignView portalsWidth when adding/removing campaigns here
+        for campaignSlug in ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'mountain', 'glacier', 'volcano']
+          if campaignSlug === 'beta-campaigns-1' || campaignSlug === 'beta-campaigns-2'
+            - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']);
             .beta-container
               each campaignSlug in betaSlugs
                 - var campaign = campaigns[campaignSlug];
@@ -129,8 +130,6 @@ if view.showAds()
                         span= i18n(campaign.attributes, 'description')
           else
             - var campaign = campaigns[campaignSlug];
-            if !campaign
-              - continue;
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
             div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
               .campaign-label
