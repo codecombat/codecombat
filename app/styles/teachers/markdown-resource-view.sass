@@ -6,9 +6,13 @@
   .print, .print p
     text-align: center
     font-size: .75em
-    text-transform: uppercase
+    // text-transform: uppercase
     @media print
       display: none
+
+  .print a
+    color: #fff
+    text-decoration: none
 
   .lesson-plans
         max-width: 900px
@@ -23,6 +27,7 @@
           border: none
           margin: none
           padding: none
+          font-size: 80%
 
         ul
           margin: 0 0 30px 0
@@ -66,6 +71,14 @@
           padding: 20px 0 0 0
           @media print
             page-break-before: always
+
+        h6
+          font-style: italic
+          font-weight: 200
+          text-align: right
+
+        img
+          width: 100%
 
         table, tr, td, th
           border: 2px solid #f8f8f8

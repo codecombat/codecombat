@@ -578,7 +578,7 @@
     tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
     tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
     tip_mulan: "Believe you can, then you will. - Mulan"
-    
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     how_to_play_title: "How to play:"
@@ -1515,11 +1515,21 @@
     student_getting_started: "Student Quick Start Guide"
     student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
     cs1: "Introduction to Computer Science"
+    cs2: "Computer Science 2"
     cs1_syntax_python: "Course 1 Python Syntax Guide"
     cs1_syntax_python_desc: "Cheatsheet with references to common Python syntax that students will learn in Introduction to Computer Science."
     cs1_syntax_javascript: "Course 1 JavaScript Syntax Guide"
     cs1_syntax_javascript_desc: "Cheatsheet with references to common JavaScript syntax that students will learn in Introduction to Computer Science."
     coming_soon: "Additional guides coming soon!"
+    engineering_cycle_worksheet: "Engineering Cycle Worksheet"
+    engineering_cycle_worksheet_desc: "Use this worksheet to teach students the basics of the engineering cycle: Assess, Design, Implement and Debug. Refer to the completed example worksheet as a guide."
+    engineering_cycle_worksheet_link: "View example"
+    progress_journal: "Progress Journal"
+    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
+    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
+    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
+    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 
   sharing:
     game: "Game"

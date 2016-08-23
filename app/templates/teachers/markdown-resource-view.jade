@@ -8,13 +8,14 @@ block content
   .container
     span.backlink
       a(href='/teachers/resources')
-        |< Back to Resource Hub
+        |&lt; Back to Resource Hub
     if view.content == ''
       .comingsoon
         h4(style="text-align:center")
           i This guide doesn't exist!
     else
       .print
+        .btn.btn-md.btn-navy
           a(href='javascript:window.print()')
             span.glyphicon.glyphicon-print &#160;
             |Print this guide
