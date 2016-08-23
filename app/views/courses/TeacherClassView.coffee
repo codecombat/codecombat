@@ -443,7 +443,10 @@ module.exports = class TeacherClassView extends RootView
       return $.when(requests...)
 
     .then =>
-      prepaid.fetch() for prepaid in @prepaids.find() # make sure these are completely up to date, but don't block on them.
+      # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
+      # end up returning the final result of all those requests together.
+      @prepaids.fetchByCreator(me.id) 
+      
       @trigger 'begin-assign-course'
       if members.length
         return courseInstance.addMembers(members)
