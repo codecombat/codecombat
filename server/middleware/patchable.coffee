@@ -8,22 +8,25 @@ database = require '../commons/database'
 parse = require '../commons/parse'
 
 module.exports =
-  patches: (options={}) -> wrap (req, res) ->
+  patches: (Model, options={}) -> wrap (req, res) ->
     dbq = Patch.find()
     dbq.limit(parse.getLimitFromReq(req))
     dbq.skip(parse.getSkipFromReq(req))
     dbq.select(parse.getProjectFromReq(req))
 
-    id = req.params.handle
-    if not database.isID(id)
-      throw new errors.UnprocessableEntity('Invalid ID')
+    doc = yield database.getDocFromHandle(req, Model, {_id: 1})
+    if not doc
+      throw new errors.NotFound('Patchable document not found')
       
     query =
       $or: [
-        {'target.original': id+''}
-        {'target.original': mongoose.Types.ObjectId(id)}
+        {'target.original': doc.id }
+        {'target.original': doc._id }
       ]
-      status: req.query.status or 'pending'
+    if req.query.status
+      query.status = req.query.status
+    if req.user and req.query.creator is req.user.id
+      query.creator = req.user._id
     
     patches = yield dbq.find(query).sort('-created')
     res.status(200).send(patches)

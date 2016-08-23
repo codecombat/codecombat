@@ -169,6 +169,9 @@ module.exports =
       dbq.findOne({ _id: handle })
     else
       dbq.findOne({ slug: handle })
+      
+    if options.select
+      dbq.select(options.select)
 
     dbq.exec(done)
 
