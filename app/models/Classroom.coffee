@@ -186,6 +186,9 @@ module.exports = class Classroom extends CocoModel
     options.type = 'POST'
     @fetch(options)
 
+  getSortedCourses: ->
+    utils.sortCourses(@get('courses') ? [])
+
   updateCourses: (options={}) ->
     options.url = @url() + '/update-courses'
     options.type = 'POST'

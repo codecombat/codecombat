@@ -23,7 +23,7 @@ defaults =
 
 # TODO: Create list of manual test cases
 
-module.exports = class Zatanna
+module.exports = class Autocomplete
   Tokenizer = ''
   BackgroundTokenizer = ''
 
@@ -43,7 +43,7 @@ module.exports = class Zatanna
     #TODO: Renable option validation if we care
     #validationResult = optionsValidator @options
     #unless validationResult.valid
-    #  throw new Error "Invalid Zatanna options: " + JSON.stringify(validationResult.errors, null, 4)
+    #  throw new Error "Invalid Autocomplete options: " + JSON.stringify(validationResult.errors, null, 4)
 
     ace.config.loadModule 'ace/ext/language_tools', () =>
       @snippetManager = ace.require('ace/snippets').snippetManager
@@ -154,7 +154,7 @@ module.exports = class Zatanna
   off: -> @paused = true
 
   doLiveCompletion: (e) =>
-    # console.log 'Zatanna doLiveCompletion', e
+    # console.log 'Autocomplete doLiveCompletion', e
     return unless @options.basic or @options.liveCompletion or @options.completers.snippets
     return if @paused
 
@@ -171,6 +171,9 @@ module.exports = class Zatanna
         prefix = @getCompletionPrefix editor
         # Bake a fresh autocomplete every keystroke
         editor.completer?.detach() if hasCompleter
+
+        # Skip common single letter variable names
+        return if /^x$|^y$/i.test(prefix)
 
         # Only autocomplete if there's a prefix that can be matched
         if (prefix)
@@ -330,7 +333,7 @@ module.exports = class Zatanna
     if haveFindNearest and not haveFindNearestEnemy
       spellView.translateFindNearest()
 
-    # window.zatannaInstance = @zatanna  # For debugging. Make sure to not leave active when committing.
+    # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
     lang = utils.aceEditModes[e.language].substr 'ace/mode/'.length
     @addSnippets snippetEntries, lang
