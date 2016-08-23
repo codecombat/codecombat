@@ -145,6 +145,7 @@ module.exports = class Spell
       @thang?.aether.transpile source
     null
 
+  # NOTE: By default, I think this compares the current source code with the source *last saved to the server* (not the last time it was run)
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
 

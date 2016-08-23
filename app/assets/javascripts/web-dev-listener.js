@@ -1,5 +1,11 @@
 // TODO: don't serve this script from codecombat.com; serve it from a harmless extra domain we don't have yet.
 
+var lastSource = null;
+var lastOrigin = null;
+window.onerror = function(message, url, line, column, error){
+  console.log("User script error on line " + line + ", column " + column + ": ", error);
+  lastSource.postMessage({ type: 'error', message: message, url: url, line: line, column: column }, lastOrigin);
+}
 window.addEventListener('message', receiveMessage, false);
 
 var concreteDom;
@@ -30,8 +36,9 @@ function receiveMessage(event) {
         console.log('Ignoring message from bad origin:', origin);
         return;
     }
+    lastOrigin = origin;
     var data = event.data;
-    var source = event.source;
+    var source = lastSource = event.source;
     switch (data.type) {
     case 'create':
         create(_.pick(data, 'dom', 'styles', 'scripts'));
@@ -79,12 +86,8 @@ function replaceNodes(selector, newNodes){
     $newNodes.attr('for', firstNode.attr('for'));
     
     newFirstNode = $newNodes[0];
-    try {
-      firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
-    } catch (e) {
-      console.log('Failed to update some nodes:', e);
-    }
-    
+    firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
+
     $(newFirstNode).after($newNodes);
 }
 

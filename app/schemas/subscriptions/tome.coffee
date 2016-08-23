@@ -89,7 +89,7 @@ module.exports =
   'tome:problems-updated': c.object {title: 'Problems Updated', description: 'Published when problems have been updated', required: ['spell', 'problems', 'isCast']},
     spell: {type: 'object'}
     problems: {type: 'array'}
-    isCast: {type: 'boolean'}
+    isCast: {type: 'boolean', description: 'Whether the code has been Run yet. Sometimes determines if error displays as just annotation or as full banner.'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}

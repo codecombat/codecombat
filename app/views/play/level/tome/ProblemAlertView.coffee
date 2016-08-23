@@ -20,10 +20,10 @@ module.exports = class ProblemAlertView extends CocoView
     'click': -> Backbone.Mediator.publish 'tome:focus-editor', {}
 
   constructor: (options) ->
+    @supermodel = options.supermodel # Has to go before super so events are hooked up
     super options
     @level = options.level
     @session = options.session
-    @supermodel = options.supermodel
     if options.problem?
       @problem = options.problem
       @onWindowResize()
@@ -38,31 +38,31 @@ module.exports = class ProblemAlertView extends CocoView
   afterRender: ->
     super()
     if @problem?
-      @$el.addClass('alert').addClass("alert-#{@problem.aetherProblem.level}").hide().fadeIn('slow')
-      @$el.addClass('no-hint') unless @problem.aetherProblem.hint
+      @$el.addClass('alert').addClass("alert-#{@problem.level}").hide().fadeIn('slow')
+      @$el.addClass('no-hint') unless @problem.hint
       @playSound 'error_appear'
 
   setProblemMessage: ->
     if @problem?
       format = (s) -> marked(s.replace(/</g, '&lt;').replace(/>/g, '&gt;')) if s?
-      message = @problem.aetherProblem.message
+      message = @problem.message
       # Add time to problem message if hint is for a missing null check
       # NOTE: This may need to be updated with Aether error hint changes
-      if @problem.aetherProblem.hint? and /(?:null|undefined)/.test @problem.aetherProblem.hint
-        age = @problem.aetherProblem.userInfo?.age
+      if @problem.hint? and /(?:null|undefined)/.test @problem.hint
+        age = @problem.userInfo?.age
         if age?
           if /^Line \d+:/.test message
             message = message.replace /^(Line \d+)/, "$1, time #{age.toFixed(1)}"
           else
             message = "Time #{age.toFixed(1)}: #{message}"
       @message = format message
-      @hint = format @problem.aetherProblem.hint
+      @hint = format @problem.hint
 
   onShowProblemAlert: (data) ->
     return unless $('#code-area').is(":visible")
     if @problem?
-      if @$el.hasClass "alert-#{@problem.aetherProblem.level}"
-        @$el.removeClass "alert-#{@problem.aetherProblem.level}"
+      if @$el.hasClass "alert-#{@problem.level}"
+        @$el.removeClass "alert-#{@problem.level}"
       if @$el.hasClass "no-hint"
         @$el.removeClass "no-hint"
     @problem = data.problem
