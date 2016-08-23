@@ -1,3 +1,5 @@
+###### Last updated: 08/23/2016
+
 ##### Lesson Plans
 # Computer Science 2
 
@@ -19,26 +21,26 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 | Module                                                | Levels           |  Transfer Goals  |
 | ----------------------------------------------------- |:-----------------|:-----------------|
-| [5. Conditionals (if)](#conditionals-if-)             | 1-5              |Check expression before executing|
-| [6. Conditionals (else)](#conditionals-else-)         | 6-12             |Execute default code|
-| [7. Nested Conditionals](#nested-conditionals)        | 13-20            |Put one conditional inside another|
-| [8. Functions](#functions)                            | 13-20            |Save code for later|
-| [9. Properties](#properties)                          | 13-20            |Access information about objects|
-| [10. Review and Synthesis](#review-and-synthesis)     | 13-20            |Use appropriate vocabulary|
-| [11. Code Challenge](#code-challenge)                 | 21               |Design and implement algorithms|
+| [5. Conditionals (if)](#conditionals-if-)             | 1-9              |Check expression before executing|
+| [6. Conditionals (else)](#conditionals-else-)         | 10-17            |Execute default code|
+| [7. Nested Conditionals](#nested-conditionals)        | 18-20            |Put one conditional inside another|
+| [8. Functions](#functions)                            | 21-30            |Save code for later|
+| [9. Properties](#properties)                          | 31-33            |Access information about objects|
+| [10. Review and Synthesis](#review-and-synthesis)     | 34-36            |Use appropriate vocabulary|
+| [11. Code Challenge](#code-challenge)                 | 37               |Design and implement algorithms|
 
 ### Core Vocabulary
-**Object** - a character or thing that can perform actions.
+**Object** - a character or thing that can perform actions. Objects are the building blocks of Python. They are things or characters that can perform actions. Your `hero` is an object. It can perform the moving actions. In `hero.moveRight()`, the object is `hero`. In Course 2, students will also be using the `pet` object to perform actions.
 
-**Function** - an action performed by an object.
+**Function** - an action performed by an object. Functions are actions an object can do. `moveRight()` is a function. Function names are always followed by parentheses.
 
-**Argument** - additional information for a function.
+**Argument** - additional information for a function. Arguments are what we put inside the parentheses of a function. They tell the function more information about what it should do. In `hero.attack(enemy)`, `enemy` is the argument.
 
-**Property** - data about or belonging to an object.
+**Property** - data about or belonging to an object. You get to it by specifying the object, then a dot, then the name of the property.
 
-**Loop** - code that repeats.
+**Loop** - code that repeats. A loop is a way of repeating code. One way of writing loops uses the keyword `while`, followed by an expression that can be evaluated as `True` or `False`.
 
-**Variable** - a holder for data.
+**Variable** - a holder for data. A variable holds your data for later. You create a variable by giving it a name, then saying what value it should hold.
 
 **Conditional** - the building block of modern programming, the conditional. It’s named as such because of its ability to check the conditions at the moment and perform different actions depending on the expression. The player is no longer able to assume there will be an enemy to attack, or if there is a gem to grab. Now, they need to check whether it exists, check if their abilities are ready, and check if an enemy is close enough to attack.
 
@@ -132,13 +134,19 @@ Code is called code because we’re encoding our ideas into a language the compu
 
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf.
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
-Goal: _____________________________________
-What I did: _________________________________
-__________________________________________
-__________________________________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
 
 Circulate to assist. Draw students’ attention to the instructions and tips. Students will need to use (x,y) coordinates to specify locations. Exact coordinates can be found by placing the mouse pointer over the target position. Students will also have to use a conditional to check if a condition is met before taking an action.
 
@@ -214,15 +222,21 @@ Label the parts of these conditionals: _keywords_ (`if` and `else`), _expression
 **Do you always need an else?** (no, it depends on the situation)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf.
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
-Goal: _____________________________________
-What I did: _________________________________
-__________________________________________
-__________________________________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
 
-Circulate to assist. Draw students’ attention to the instructions and tips. The crux of these levels is in deciding what should happen and when it should happen. Students have to entertain multiple possibilities to figure out what the best course of action is under every condition.  Level 2.14 is the culmination of all the skills taught in 2.1-2.13 and is a good place to check for understanding before moving on.
+What I learned:
+
+What was challenging:
+
+
+```
+
+Circulate to assist. Draw students’ attention to the instructions and tips. The crux of these levels is in deciding what should happen and when it should happen. Students have to entertain multiple possibilities to figure out what the best course of action is under every condition.  
 
 ### Written Reflection (5 mins)
 **Do you know more code now than in the beginning? What powers do you have now that you couldn’t do before?**
@@ -282,13 +296,19 @@ Invite volunteers to share their finished schedules with the class.
 **What does it mean when an action is indented by 8 spaces?** (It depends on two expressions being True or False)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf.
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
-Goal: _____________________________________
-What I did: _________________________________
-__________________________________________
-__________________________________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
 
 Circulate to assist. Make sure students are reading all the comments in the starter code before they start making changes. The goals are complex, so understanding each sub-goal is important. Encourage collaboration and allow students to help each other.
 
@@ -380,13 +400,19 @@ Then, play Simon Says by calling the functions, e.g.
 **What does the keyword def stand for?** (define, or make)
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf.
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
-Goal: _____________________________________
-What I did: _________________________________
-__________________________________________
-__________________________________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
 
 Circulate to assist. Draw students’ attention to the instructions and tips.
 These levels are all about writing good code. The helper code that is given to you may have the word `pass` in it. This is just so the sample code doesn’t show any errors.   Once the students fill in their code, they should delete `pass`. When you help debug their code, look for `pass` first.
@@ -453,13 +479,19 @@ Note that everyone has an age property, and the same way of accessing it, but th
 
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf.
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
-Goal: _____________________________________
-What I did: _________________________________
-__________________________________________
-__________________________________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
 
 Circulate to assist. Draw students’ attention to the instructions and tips. Flags can be tricky for some students, so allow them to pair up to beat the levels. Each student should write their own code, but it’s ok for another student to place the flags for them.
 
@@ -500,13 +532,20 @@ Review! As a class, try to remember all the new vocabulary words you learned so 
 
 
 ### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf.
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
-Goal: _____________________________________
-What I did: _________________________________
-__________________________________________
-__________________________________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
+
 Circulate to assist. Draw students’ attention to the instructions and tips. Students will need to call on everything they have learned so far. It’s important they understand the instructions in the comments. If they are stuck, have them read the comment out loud and explain what it means in their own words. That way, you can identify which part is giving them trouble.
 
 ### Written Reflection (5 mins)
@@ -529,11 +568,11 @@ This is a boss level! It will take all your ingenuity and collaboration to solve
 - Debug a Python program.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP3** Construct viable arguments and critique the reasoning of others.
-**CCSS.Math.Practice.MP5** Use appropriate tools strategically.
-**CCSS.Math.Practice.MP6** Attend to precision.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
+**CCSS.Math.Practice.MP3** Construct viable arguments and critique the reasoning of others.  
+**CCSS.Math.Practice.MP5** Use appropriate tools strategically.  
+**CCSS.Math.Practice.MP6** Attend to precision.  
 
 ### Instructive Activity: Engineering Cycle (10 mins)
 #### Explain (5 mins)
@@ -570,58 +609,3 @@ Break into small campaign groups to solve the last level.
 
 ### Writing Checkpoint: What is code?
 >Code is when you type instructions to make the computer do things. Sometimes it gives you hints and completes the words for you. You have to spell everything right and indent the right number of spaces. Sometimes the puzzles are easy and sometimes they are hard. You have to make a plan for how to solve it, and then write the code exactly to make it work. The language we used is called Python. It has while True: to make your code repeat and if, else, and elif to make different things happen at different times.
-
-Quest Log	Adventurer__________________  Day____________
-Dear diary, Today I entered the Dungeons of Kithgard. It’s a dangerous mission, but I figured out ______________________________
-______________________________________________
-______________________________________________
-______________________________________________
-______________________________________________
-______________________________________________
-______________________________________________
-______________________________________________
-________________________________
-________________________________
-________________________________
-
-Glossary
-
-Object - a character or thing that can perform actions.
-Objects are the building blocks of Python. They are things or characters that can perform actions. Your hero is an object. It can perform the moving actions.
-hero.moveRight()
-object
-
-Function - an action performed by an object.
-Functions are actions an object can do. moveRight() is a function. Function names are always followed by parentheses.
-hero.moveRight()
-	function
-
-Argument - additional information for a function.
-Arguments are what we put inside the parentheses of a function. They tell the function more information about what it should do.
-hero.attack(enemy)
-	      argument
-
-Loop - code that repeats.
-A loop is a way of repeating code. One way of writing loops uses the keyword while, followed by an expression that can be evaluated as True or False.
-while True:				\ loop
-	hero.moveRight()		/
-
-Variable - a holder for data.
-A variable holds your data for later. You make a variable by giving it a name, then saying what value it should hold.
-enemy1 = “Kratt”
-variable
-
-Conditional - If… Then... Else…
-A conditional evaluates an expression, and then only runs an action if that expression is True. Else can be added to do something if the expression is False. Elif can be added to evaluate a second expression.
-expression
-if hero.isReady(cleave):  <- conditional
-	hero.cleave() <- action
-elif enemy: <- conditional, expression
-	hero.attack(enemy) <- action
-else: <-conditional
-hero.moveXY(5,10)	<- action
-
-Property - data about or belonging to an object.
-A property is something about an object. You get to it by specifying the object, then a dot, then the name of the property.
-enemy.type
-	property

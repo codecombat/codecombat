@@ -1,3 +1,5 @@
+###### Last updated: 08/23/2016
+
 ##### Lesson Plans
 # Introduction to Computer Science
 
@@ -16,9 +18,9 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 | Module                              | Levels           |  Transfer Goals  |
 | ----------------------------------- |:-----------------|:-----------------|
-| [1. Basic Syntax](#basic-syntax)    | 1-5              |Call functions in order|
-| [2. Loops](#loops)                  | 6-12             |Repeat code sequences|
-| [3. Variables](#variables)          | 13-20            |Save and access data|
+| [1. Basic Syntax](#basic-syntax)    | 1-6              |Call functions in order|
+| [2. Loops](#loops)                  | 7-14             |Repeat code sequences|
+| [3. Variables](#variables)          | 15-20            |Save and access data|
 | [4. Review](#review-arena)          | 21               |Master syntax and sequencing|
 
 ### Core Vocabulary
@@ -125,19 +127,23 @@ Invite students to add code to the program one at a time. If there is an error i
 **First time students will need to create accounts**
 For additional information on helping students create account, see our [Teacher Getting Started Guide](http://files.codecombat.com/docs/resources/TeacherGettingStartedGuide.pdf).
 
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf. 
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
 
-Goal: _____________________________________
+What I learned:
 
-What I did: _________________________________
+What was challenging:
 
-__________________________________________
 
-__________________________________________
+```
 
-Circulate to assist. Draw students’ attention to the instructions and tips. There are three parts to solving each puzzle: making a plan (algorithm), coding that plan (programming), then making sure the program works (debugging.) 
+Circulate to assist. Draw students’ attention to the instructions and tips.
+
+If student have trouble breaking the problem down, refer to the [Engineering Cycle Worksheet [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) to reinforce the steps to solving each puzzle.
 
 ### Written reflection (5 mins)
 
@@ -235,19 +241,23 @@ Have students take turns writing, checking, and labelling the code until it beco
 
 ### Coding Time (30-45 mins)
 
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf. 
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
 
-Goal: _____________________________________
+What I learned:
 
-What I did: _________________________________
+What was challenging:
 
-__________________________________________
 
-__________________________________________
+```
 
-Circulate to assist. Draw students’ attention to the instructions and tips. Focus on debugging, employing appropriate strategies for getting yourself unstuck. Use your class/school’s growth mindset guidelines, or this list:
+Circulate to assist. Draw students’ attention to the instructions and tips.
+
+Focus on debugging, employing appropriate strategies for getting yourself unstuck. Use your class/school’s growth mindset guidelines, use the [Engineering Cycle Worksheet [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) as an unblocking tool, or ask them to follow this list:
 
 1. Read the comments line by line
 2. Read your code line by line
@@ -326,19 +336,23 @@ Which aspects of coding variables are like the math kind, and which are like sci
 
 ### Coding Time (30-45 mins)
 
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. Use the following template, or the printable notes page at the end of this pdf. 
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
-Level:________  Level Name:__________________
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
 
-Goal: _____________________________________
+What I learned:
 
-What I did: _________________________________
+What was challenging:
 
-__________________________________________
 
-__________________________________________
+```
 
-Circulate to assist. Draw students’ attention to the instructions and tips. Focus on clearly communicating the goal of the level, and describing the problem they are currently facing. Remind students to read their code from start to end before asking you for help. Most problems can be solved by inserting missing quotation marks or fixing indentation. 
+Circulate to assist. Draw students’ attention to the instructions and tips.
+
+Focus on clearly communicating the goal of the level, and describing the problem they are currently facing. Remind students to read their code from start to end before asking you for help. Most problems can be solved by inserting missing quotation marks or fixing indentation. 
 
 ### Written Reflection (5 mins)
 
