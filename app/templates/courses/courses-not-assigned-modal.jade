@@ -1,0 +1,13 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+  h1(data-i18n="teacher.not_assigned_modal_title")
+
+block modal-body-content
+  p= translate("teacher.not_assigned_modal_body_1").replace('{{selected}}', view.selected)
+  p= translate("teacher.not_assigned_modal_body_2").replace('{{totalSpotsAvailable}}', view.totalSpotsAvailable).replace('{{unenrolledStudents}}', view.unenrolledStudents)
+  p!= translate("teacher.not_assigned_modal_body_3").replace('{{email}}', "<a href='mailto:support@codecombat.com'>support@codecombat.com</a>")
+  
+
+block modal-footer-content
+  button.btn.btn-primary(data-dismiss="modal", data-i18n="modal.okay")

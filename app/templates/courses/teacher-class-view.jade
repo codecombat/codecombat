@@ -119,9 +119,9 @@ block content
             a.course-progress-tab-btn(href='#course-progress-tab')
               .small-details.text-center(data-i18n='teacher.course_progress')
           .tab-spacer
-          li(class=(activeTab === "#enrollment-status-tab" ? 'active' : ''))
-            a.course-progress-tab-btn(href='#enrollment-status-tab')
-              .small-details.text-center(data-i18n='teacher.enrollment_status')
+          li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#license-status-tab')
+              .small-details.text-center(data-i18n='teacher.license_status')
           .tab-filler
 
         .tab-content
@@ -129,7 +129,7 @@ block content
             +studentsTab
           else if activeTab === '#course-progress-tab'
             +courseProgressTab
-          else if activeTab === '#enrollment-status-tab'
+          else if activeTab === '#license-status-tab'
             +enrollmentStatusTab
 
       else
@@ -215,7 +215,6 @@ mixin studentRow(student)
       div
         i
           span(data-i18n='teacher.latest_completed')
-          span :
       div
         +longLevelName(student.latestCompleteLevel)
     td
@@ -231,8 +230,6 @@ mixin studentRow(student)
             //- - var level = ???
             - var label = courseLabelsArray[index];
             +studentCourseProgressDot(progress, levelsTotal, level, label)
-      unless student.isEnrolled()
-        +enrollStudentButton(student)
     //- td
     //-   span.view-class-arrow.glyphicon.glyphicon-chevron-right
     td
@@ -243,10 +240,6 @@ mixin studentRow(student)
         a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
           div.glyphicon.glyphicon-remove
           div(data-i18n='teacher.remove')
-
-mixin enrollStudentButton(student)
-  a.enroll-student-button.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id data-user-id=student.id data-event-action="Teachers Class Students Enroll Student")
-    span(data-i18n='teacher.enroll_student')
 
 mixin courseProgressTab
   #course-progress-tab.m-t-3
@@ -267,14 +260,11 @@ mixin courseProgressTab
           each student in state.get('students').models
             if _.contains(state.get('selectedCourse').members, student.id)
               +studentLevelsRow(student)
-    //- TODO: If any students aren't assigned the course
     .unassigned-students.render-on-course-sync
       if state.get('selectedCourse') && state.get('selectedCourse').members.length < state.get('students').length
         h2
-          span(data-i18n='TODO')
-            | Students who have not been assigned
-          | 
-          span= state.get('selectedCourse').get('name')
+          - var courseName = i18n(state.get('selectedCourse').attributes, 'name');
+          span= translate('teacher.students_not_assigned').replace('{{courseName}}', courseName)
         for student in state.get('students').models
           unless _.contains(state.get('selectedCourse').members, student.id)
             .row.unassigned-student-row.alternating-background
@@ -285,19 +275,11 @@ mixin courseProgressTab
               .col-sm-4
                 .latest-completed.truncate.small
                   i.m-r-1
-                    span(data-i18n='TODO')
-                      | Latest completed
-                    | : 
+                    span(data-i18n='teacher.latest_completed')
                   +longLevelName(student.latestCompleteLevel)
               .col-sm-2
-                if student.isEnrolled()
-                  .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
-                    span(data-i18n='TODO')
-                      | Assign Course
-                else
-                  .enroll-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-event-action="Teachers Class Course Enroll Student")
-                    span(data-i18n='TODO')
-                      | Enroll Student
+                .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
+                  span(data-i18n='teacher.assign_course')
 
 mixin courseOverview
   - var course = state.get('selectedCourse')
@@ -417,8 +399,6 @@ mixin bulkAssignControls
   .bulk-assign-controls.form-inline
     .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
-    .cant-assign-to-unenrolled.small-details(class=state.get('errors').assigningToUnenrolled ? 'visible' : '')
-      span(data-i18n='teacher.cant_assign_to_unenrolled')
     span.small
       span(data-i18n='teacher.bulk_assign')
       span :
@@ -429,8 +409,6 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
     button.btn.btn-primary-alt.assign-to-selected-students
       span(data-i18n='teacher.assign_to_selected_students')
-    button.btn.btn-primary-alt.enroll-selected-students
-      span(data-i18n='teacher.enroll_selected_students')
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs
@@ -441,7 +419,7 @@ mixin enrollmentStatusTab
   //    input#student-search.form-control.m-l-1(type="search")
   //    span.glyphicon.glyphicon-search.form-control-feedback
 
-  table.table#enrollment-status-table.table-condensed.m-t-3
+  table.table#license-status-table.table-condensed.m-t-3
     thead
       // Checkbox code works, but don't need it yet.
       //th.checkbox-col.select-all
@@ -473,4 +451,4 @@ mixin enrollmentStatusTab
             strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
           td.enroll-col
             if status !== 'enrolled'
-              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.enroll_student", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
