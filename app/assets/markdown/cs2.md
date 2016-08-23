@@ -4,8 +4,6 @@
 # Computer Science 2
 
 ### Curriculum Summary
-
-- Target grades: 5-6
 - Recommended Prerequisite: Introduction to Computer Science
 - 7 x 45-60 minute coding sessions
 

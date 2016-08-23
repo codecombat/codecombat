@@ -4,7 +4,6 @@
 # Introduction to Computer Science
 
 ### Curriculum Summary
-- Target grades: 5-6
 - Level: Beginner
 - 4 x 45-60 minute coding sessions
 
