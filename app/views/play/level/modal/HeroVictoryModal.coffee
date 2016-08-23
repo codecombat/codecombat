@@ -421,6 +421,9 @@ module.exports = class HeroVictoryModal extends ModalView
       'tabula-rasa': '',
       'wanted-poster': '',
       'siege-of-stonehold': '',
+      'go-fetch': '',
+      'palimpsest': '',
+      'quizlet': '',
       'clash-of-clones': 'mountain',
       'summits-gate': 'glacier'
     }[@level.get('slug')] ? @level.get 'campaign'
