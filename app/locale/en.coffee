@@ -578,7 +578,7 @@
     tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
     tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
     tip_mulan: "Believe you can, then you will. - Mulan"
-    
+
   play_game_dev_level:
     created_by: "Created by {{name}}"
     how_to_play_title: "How to play:"
@@ -1475,8 +1475,7 @@
     all_students: "All Students"
     apply_licenses: "Apply Licenses"
     not_enough_enrollments: "Not enough licenses available."
-    enrollments_blurb_1: "Students taking Computer Science"
-    enrollments_blurb_2: "require a license to access the courses."
+    enrollments_blurb: "Students are required to have a license to access any content after the first course."
     credits_available: "Licenses Available"
     total_unique_students: "Total Students"
     total_enrolled_students: "Enrolled Students"
