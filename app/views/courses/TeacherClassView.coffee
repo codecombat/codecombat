@@ -7,6 +7,7 @@ InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
+CoursesNotAssignedModal = require './CoursesNotAssignedModal'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -19,6 +20,7 @@ Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
+Prepaids = require 'collections/Prepaids'
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
@@ -38,7 +40,6 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
-    'click .enroll-selected-students': 'onClickBulkEnroll'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
@@ -55,7 +56,6 @@ module.exports = class TeacherClassView extends RootView
       joinURL: ""
       errors:
         assigningToNobody: false
-        assigningToUnenrolled: false
       selectedCourse: undefined
       checkboxStates: {}
       classStats:
@@ -84,6 +84,10 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
     @sortedCourses = []
+
+    @prepaids = new Prepaids()
+    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
     @students = new Users()
     @listenTo @classroom, 'sync', ->
@@ -140,8 +144,6 @@ module.exports = class TeacherClassView extends RootView
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
-    @listenTo @courseInstances, 'add-members', ->
-      noty text: $.i18n.t('teacher.assigned'), layout: 'center', type: 'information', killer: true, timeout: 5000
     @listenTo @students, 'sync change update add remove reset', ->
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
@@ -173,7 +175,7 @@ module.exports = class TeacherClassView extends RootView
     @listenTo @courseInstances, 'sync change update', @debouncedRender
     @listenTo @state, 'sync change', ->
       if _.isEmpty(_.omit(@state.changed, 'searchTerm'))
-        @renderSelectors('#enrollment-status-table')
+        @renderSelectors('#license-status-table')
       else
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
@@ -304,12 +306,6 @@ module.exports = class TeacherClassView extends RootView
     @enrollStudents(selectedUsers)
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
-  onClickBulkEnroll: ->
-    userIDs = @getSelectedStudentIDs()
-    selectedUsers = new Users(@students.get(userID) for userID in userIDs)
-    @enrollStudents(selectedUsers)
-    window.tracker?.trackEvent 'Teachers Class Students Enroll Selected', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-
   enrollStudents: (selectedUsers) ->
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
@@ -390,35 +386,95 @@ module.exports = class TeacherClassView extends RootView
   onClickBulkAssign: ->
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
-    members = selectedIDs.filter (userID) =>
-      user = @students.get(userID)
-      user.isEnrolled()
-    assigningToUnenrolled = _.any selectedIDs, (userID) =>
-      not @students.get(userID).isEnrolled()
     assigningToNobody = selectedIDs.length is 0
-    @state.set errors: { assigningToNobody, assigningToUnenrolled }
+    @state.set errors: { assigningToNobody }
     return if assigningToNobody
-    @assignCourse courseID, members
+    @assignCourse courseID, selectedIDs
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
-  # TODO: Move this to the model. Use promises/callbacks?
   assignCourse: (courseID, members) ->
-    courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
-    if courseInstance
-      courseInstance.addMembers members
-    else
-      courseInstance = new CourseInstance {
-        courseID,
-        classroomID: @classroom.id
-        ownerID: @classroom.get('ownerID')
-        aceConfig: {}
-      }
-      @courseInstances.add(courseInstance)
-      courseInstance.save {}, {
-        success: ->
-          courseInstance.addMembers members
-      }
-    null
+    courseInstance = null
+    numberEnrolled = 0
+    remainingSpots = 0
+    
+    return Promise.resolve()
+    .then =>
+      courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
+      if not courseInstance
+        courseInstance = new CourseInstance {
+          courseID,
+          classroomID: @classroom.id
+          ownerID: @classroom.get('ownerID')
+          aceConfig: {}
+        }
+        courseInstance.notyErrors = false # handling manually
+        @courseInstances.add(courseInstance)
+        return courseInstance.save()
+        
+    .then =>
+      availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available')
+      unenrolledStudents = _(members)
+        .map((userID) => @students.get(userID))
+        .filter((user) => user.prepaidStatus() isnt 'enrolled')
+        .value()
+      totalSpotsAvailable = _.reduce(prepaid.openSpots() for prepaid in availablePrepaids, (val, total) -> val + total) or 0
+      if totalSpotsAvailable < _.size(unenrolledStudents)
+        modal = new CoursesNotAssignedModal({
+          selected: members.length
+          totalSpotsAvailable
+          unenrolledStudents: _.size(unenrolledStudents)
+        })
+        @openModalView(modal)
+        error = new Error('Not enough licenses available')
+        error.handled = true
+        throw error
+        
+      numberEnrolled = _.size(unenrolledStudents)
+      remainingSpots = totalSpotsAvailable - numberEnrolled
+      
+      requests = []
+      for prepaid in availablePrepaids
+        for i in _.range(prepaid.openSpots())
+          break unless _.size(unenrolledStudents) > 0
+          user = unenrolledStudents.shift()
+          requests.push(prepaid.redeem(user))
+      
+      @trigger 'begin-redeem-for-assign-course' 
+      return $.when(requests...)
+
+    .then =>
+      # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
+      # end up returning the final result of all those requests together.
+      @prepaids.fetchByCreator(me.id) 
+      
+      @trigger 'begin-assign-course'
+      if members.length
+        return courseInstance.addMembers(members)
+      
+    .then =>
+      course = @courses.get(courseID)
+      lines = [
+        $.i18n.t('teacher.assigned_msg_1')
+          .replace('{{numberAssigned}}', members.length)
+          .replace('{{courseName}}', course.get('name'))
+      ]
+      if numberEnrolled > 0
+        lines.push(
+          $.i18n.t('teacher.assigned_msg_2')
+            .replace('{{numberEnrolled}}', numberEnrolled)
+        )
+        lines.push(
+          $.i18n.t('teacher.assigned_msg_3')
+          .replace('{{remainingSpots}}', remainingSpots)
+        )
+      noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
+    
+    .catch (e) =>
+      # TODO: Use this handling for errors site-wide?
+      return if e.handled
+      throw e if e instanceof Error and application.testing
+      text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown') 
+      noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   onClickSelectAll: (e) ->
     e.preventDefault()

@@ -12,6 +12,7 @@ var goalStates;
 
 var allowedOrigins = [
     /https:\/\/codecombat\.com/,
+    /https?:\/\/cn\.codecombat\.com/,
     /http:\/\/localhost:3000/,
     /http:\/\/direct\.codecombat\.com/,
     /http:\/\/staging\.codecombat\.com/,
