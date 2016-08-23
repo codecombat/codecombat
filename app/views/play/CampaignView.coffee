@@ -226,7 +226,10 @@ module.exports = class CampaignView extends RootView
             campaign.locked = true
       for campaign in @campaigns.models
         for acID, ac of campaign.get('adjacentCampaigns') ? {}
-          _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
+          if _.isString ac.showIfUnlocked
+            _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
+          else if _.isArray ac.showIfUnlocked
+            _.find(@campaigns.models, id: acID)?.locked = false if _.intersection(ac.showIfUnlocked, me.levels()).length
 
     context
 
