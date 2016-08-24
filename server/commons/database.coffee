@@ -123,10 +123,14 @@ module.exports =
     if _.isEmpty(req.body)
       throw new errors.UnprocessableEntity('No input')
       
-    props = doc.schema.statics.editableProperties.slice()
+    if not doc.schema.statics.editableProperties
+      console.warn 'No editableProperties set for', doc.constructor.modelName
+    props = (doc.schema.statics.editableProperties or []).slice()
 
     if doc.isNew
-      props = props.concat doc.schema.statics.postEditableProperties
+      props = props.concat(doc.schema.statics.postEditableProperties or [])
+      if not doc.schema.statics.postEditableProperties
+        console.warn 'No postEditableProperties set for', doc.constructor.modelName
 
     if doc.schema.uses_coco_permissions and req.user
       isOwner = doc.getAccessForUserObjectId(req.user._id) is 'owner'

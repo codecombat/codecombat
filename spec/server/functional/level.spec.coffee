@@ -52,9 +52,40 @@ describe 'POST /db/level/:handle', ->
     
     url = getURL("/db/level/#{@level.id}")
     [res, body] = yield request.postAsync({url: url, json: levelJSON})
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
+    done()
+    
+  it 'does not break the target level if a name change would conflict with another level', utils.wrap (done) ->
+    yield utils.clearModels([Level, User])
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    yield utils.makeLevel({name: 'Taken Name'})
+    level = yield utils.makeLevel({name: 'Another Level'})
+    json = _.extend({}, level.toObject(), {name: 'Taken Name'})
+    [res, body] = yield request.postAsync({url: utils.getURL("/db/level/#{level.id}"), json})
+    expect(res.statusCode).toBe(409)
+    level = yield Level.findById(level.id)
+    # should be unchanged
+    expect(level.get('slug')).toBe('another-level')
+    expect(level.get('version').isLatestMinor).toBe(true)
+    expect(level.get('version').isLatestMajor).toBe(true)
+    expect(level.get('index')).toBeDefined()
     done()
 
+  it 'enforces permissions', ->
+    yield utils.clearModels([Level, User])
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    level = yield utils.makeLevel({description:'Original desc'})
+    
+    otherUser = yield utils.initUser()
+    yield utils.loginUser(otherUser)
+    json = _.extend({}, level.toObject(), {description: 'Trollin'})
+    [res, body] = yield request.postAsync({url: utils.getURL("/db/level/#{level.id}"), json})
+    expect(res.statusCode).toBe(403)
+    level = yield Level.findById(level.id)
+    expect(level.get('description')).toBe('Original desc')
+    done()
 
 describe 'GET /db/level/:handle/session', ->
 

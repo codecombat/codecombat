@@ -9,62 +9,66 @@ mongoose = require 'mongoose'
 database = require '../commons/database'
 parse = require '../commons/parse'
 
+# More info on database versioning: https://github.com/codecombat/codecombat/wiki/Versioning
+
 module.exports =
   postNewVersion: (Model, options={}) -> wrap (req, res) ->
+    # Find the document which is getting a new version
     parent = yield database.getDocFromHandle(req, Model)
     if not parent
       throw new errors.NotFound('Parent not found.')
       
-    # TODO: Figure out a better way to do this
+    # Check permissions
+    # TODO: Figure out an encapsulated way to do this; it's more permissions than versioning
     if options.hasPermissionsOrTranslations
       permissions = options.hasPermissionsOrTranslations
       permissions = [permissions] if _.isString(permissions)
       permissions = ['admin'] if not _.isArray(permissions)
       hasPermission = _.any(req.user?.hasPermission(permission) for permission in permissions)
+      if Model.schema.uses_coco_permissions and not hasPermission
+        hasPermission = parent.hasPermissionsForMethod(req.user, req.method)
       if not (hasPermission or database.isJustFillingTranslations(req, parent))
         throw new errors.Forbidden()
 
+    # Create the new version, a clone of the parent with POST data applied
     doc = database.initDoc(req, Model)
     ATTRIBUTES_NOT_INHERITED = ['_id', 'version', 'created', 'creator']
     doc.set(_.omit(parent.toObject(), ATTRIBUTES_NOT_INHERITED))
-
     database.assignBody(req, doc, { unsetMissing: true })
 
-    # Get latest version
+    # Get latest (minor or major) version. This may not be the same document (or same major version) as parent.
+    latestSelect = 'version index slug'
     major = req.body.version?.major
     original = parent.get('original')
     if _.isNumber(major)
       q1 = Model.findOne({original: original, 'version.isLatestMinor': true, 'version.major': major})
     else
       q1 = Model.findOne({original: original, 'version.isLatestMajor': true})
-    q1.select 'version'
+    q1.select latestSelect
     latest = yield q1.exec()
 
+    # Handle the case where no version is marked as latest, since making new
+    # versions is not atomic
     if not latest
-      # handle the case where no version is marked as latest, since making new
-      # versions is not atomic
       if _.isNumber(major)
         q2 = Model.findOne({original: original, 'version.major': major})
         q2.sort({'version.minor': -1})
       else
         q2 = Model.findOne()
         q2.sort({'version.major': -1, 'version.minor': -1})
-      q2.select 'version'
+      q2.select(latestSelect)
       latest = yield q2.exec()
       if not latest
         throw new errors.NotFound('Previous version not found.')
 
-    # Transfer latest version
+    # Update the latest version, making it no longer the latest. This includes
     major = req.body.version?.major
     version = _.clone(latest.get('version'))
     wasLatestMajor = version.isLatestMajor
     version.isLatestMajor = false
     if _.isNumber(major)
       version.isLatestMinor = false
-
-    conditions = {_id: latest._id}
-
-    raw = yield Model.update(conditions, {version: version, $unset: {index: 1, slug: 1}})
+    raw = yield latest.update({$set: {version: version}, $unset: {index: 1, slug: 1}})
     if not raw.nModified
       console.error('Conditions', conditions)
       console.error('Doc', doc)
@@ -89,7 +93,12 @@ module.exports =
 
     doc.set('parent', latest._id)
 
-    doc = yield doc.save()
+    try
+      doc = yield doc.save()
+    catch e
+      # Revert changes to latest doc made earlier, should set everything back to normal
+      yield latest.update({$set: _.pick(latest.toObject(), 'version', 'index', 'slug')})
+      throw e
 
     editPath = req.headers['x-current-path']
     docLink = "http://codecombat.com#{editPath}"
