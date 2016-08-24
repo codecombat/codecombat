@@ -284,6 +284,9 @@ _.extend UserSchema.properties,
     pollMiscPatches: c.int()
     campaignTranslationPatches: c.int()
     campaignMiscPatches: c.int()
+    courseTranslationPatches: c.int()
+    courseMiscPatches: c.int()
+    courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
 
   earned: c.RewardSchema 'earned by achievements'

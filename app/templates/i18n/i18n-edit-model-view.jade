@@ -50,23 +50,42 @@ block header
               a(data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact") Email
 
 block outer_content
-  .outer-content
-
+  .outer-content.container-fluid
     select.form-control#language-select
+    .row
 
-    for row in translationList
-      table.table
-        tr
-          th= row.title
-        tr(data-format=row.format || '')
-          td.english-value-row
-            div= row.enValue
-        tr(data-format=row.format || '')
-          td.to-value-row
-            if row.format === 'markdown'
-              div(data-index=row.index.toString())= row.toValue
-            else
-              input.input-sm.form-control.translation-input(data-index=row.index.toString(), value=row.toValue)
-
+      .col-sm-6
+        for row in translationList
+          table.table.translation-table
+            tr
+              th= row.title
+            tr(data-format=row.format || '')
+              td.english-value-row
+                div= row.enValue
+            tr(data-format=row.format || '')
+              td.to-value-row
+                if row.format === 'markdown'
+                  div(data-index=row.index.toString())= row.toValue
+                else
+                  input.input-sm.form-control.translation-input(data-index=row.index.toString(), value=row.toValue)
+          
+      #patches-col.col-sm-6
+        if view.patches
+          .panel.panel-default
+            .panel-heading
+              h3.panel-title Patches Submitted
+            table.table
+              tr
+                th Description
+                th Submitted
+                th Status
+              for patch in view.patches.models
+                tr
+                  td
+                    a.open-patch-link(data-patch-id=patch.id)= patch.get('commitMessage')
+                  td= moment(patch.created()).format('LLLL')
+                  td(class=patch.get('status'))= patch.get('status')
+        
+    
     .clearfix
 block footer

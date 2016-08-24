@@ -76,7 +76,7 @@ module.exports = class LevelLoader extends CocoClass
     else
       @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
-  
+
   reportLoadError: ->
     window.tracker?.trackEvent 'LevelLoadError',
       category: 'Error',
@@ -153,7 +153,8 @@ module.exports = class LevelLoader extends CocoClass
       url += "?course=#{@courseID}" if @courseID
 
     session = new LevelSession().setURL url
-    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode'] if @headless
+    if @headless and not @level.isType('web-dev')
+      session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID

@@ -81,6 +81,7 @@ _.extend AchievementSchema.properties,
     additionalProperties: false
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this achievement'}
   rewards: c.RewardSchema 'awarded by this achievement'
+  hidden: {type: 'boolean', description: 'Hide achievement from user if true'}
 
 
 _.extend AchievementSchema, # Let's have these on the bottom

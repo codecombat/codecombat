@@ -426,7 +426,7 @@ class CocoModel extends Backbone.Model
         # get a list of lang codes where its object has keys for every prop to be translated
         coverage = _.filter(_.keys(i18n), (langCode) ->
           translations = i18n[langCode]
-          _.all((translations[prop] for prop in props))
+          translations and _.all((translations[prop] for prop in props))
         )
         #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
         langCodeArrays.push coverage
