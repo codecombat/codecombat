@@ -50,6 +50,8 @@ block modal-body-content
 
   if level.isType('hero', 'hero-ladder', 'game-dev', 'web-dev')
     for achievement in achievements
+      if achievement.get('hidden')
+        - continue;
       - var animate = achievement.completed && !achievement.completedAWhileAgo
       .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
         - var rewards = achievement.get('rewards') || {};
