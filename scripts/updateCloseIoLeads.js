@@ -14,6 +14,7 @@ if (process.argv.length !== 10) {
 // TODO: Reduce response data via _fields param
 // TODO: Assumes 1:1 contact:email relationship (Close.io supports multiple emails for a single contact)
 // TODO: Cleanup country/status lookup code
+// TODO: parallelize update leads
 
 // Save as custom fields instead of user-specific lead notes (also saving nces_ props)
 const commonTrialProperties = ['organization', 'district', 'city', 'state', 'country'];
@@ -30,7 +31,11 @@ const customFieldsToRemove = [
 const leadsToSkip = ['6 sınıflar', 'fdsafd', 'ashtasht', 'matt+20160404teacher3 school', 'sdfdsf', 'ddddd', 'dsfadsaf', "Nolan's School of Wonders", 'asdfsadf'];
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
-const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
+const demoRequestEmailTemplatesAuto1 = [
+  'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf', // (Auto1) Demo Request Short
+  'tmpl_2hV6OdOXtsObLQK9qlRdpf0C9QKbER06T17ksGYOoUE', // (Auto1) Demo Request With Questions
+  'tmpl_Q0tweZ5H4xs2E489KwdYj3HET9PpzkQ7jgDQb9hOMTR', // (Auto1) Demo Request Without Questions
+];
 const createTeacherInternationalEmailTemplateAuto1 = 'tmpl_8vsXwcr6dWefMnAEfPEcdHaxqSfUKUY8UKq6WfReGqG';
 const demoRequestInternationalEmailTemplateAuto1 = 'tmpl_nnH1p3II7G7NJYiPOIHphuj4XUaDptrZk1mGQb2d9Xa';
 const createTeacherNlEmailTemplatesAuto1 = ['tmpl_yf9tAPasz8KV7L414GhWWIclU8ewclh3Z8lCx2mCoIU', 'tmpl_OgPCV2p59uq0daVuUPF6r1rcQkxJbViyZ1ZMtW45jY8'];
@@ -946,7 +951,7 @@ function updateLeads(leads, done) {
         tasks.push(createFindExistingLeadFn(email.toLowerCase(), name.toLowerCase(), existingLeads));
       }
     }
-    async.series(tasks, (err, results) => {
+    async.parallel(tasks, (err, results) => {
       if (err) return done(err);
       const tasks = [];
       for (const name in leads) {
