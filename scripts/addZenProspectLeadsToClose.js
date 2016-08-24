@@ -232,10 +232,10 @@ function getZPContacts(done) {
         const emailContactMap = {};
         for (const contact of contacts) {
           if (!contact.organization || !contact.name || !contact.email) {
-            console.log(JSON.stringify(contact, null, 2));
-            return done(`DEBUG: missing data for zp contact:`);
+            console.log(`DEBUG: missing data for zp contact ${contact.email}:`);
+            // console.log(JSON.stringify(contact, null, 2));
           }
-          if (!emailContactMap[contact.email]) {
+          else if (!emailContactMap[contact.email]) {
             emailContactMap[contact.email] = contact;
           }
           // else {

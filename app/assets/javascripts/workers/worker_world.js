@@ -507,6 +507,11 @@ self.onWorldError = function onWorldError(error) {
   }
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+    if(self.world.indefiniteLength) {
+      // We don't abort completely, since the player can always click to end the game.
+      // TODO: some better error to the user would be nice, though.
+      return true;
+    }
     self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
     return false;
   }

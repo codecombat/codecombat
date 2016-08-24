@@ -139,7 +139,8 @@ module.exports = class TomeView extends CocoView
   onSpellLoaded: (e) ->
     for spellID, spell of @spells
       return unless spell.loaded
-    @cast()
+    justBegin = @options.level.isType('game-dev')
+    @cast false, false, justBegin
 
   onCastSpell: (e) ->
     # A single spell is cast.
