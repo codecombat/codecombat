@@ -198,7 +198,7 @@ module.exports = class CampaignView extends RootView
     context.adjacentCampaigns = _.filter _.values(_.cloneDeep(@campaign?.get('adjacentCampaigns') or {})), (ac) =>
       if ac.showIfUnlocked and not @editorMode
         return false if _.isString(ac.showIfUnlocked) and ac.showIfUnlocked not in me.levels()
-        return false if _.isArray(ac.showIfUnlocked) and _.intersection(ac.showIfUnlocked, me.levels()).length < 0
+        return false if _.isArray(ac.showIfUnlocked) and _.intersection(ac.showIfUnlocked, me.levels()).length <= 0
       ac.name = utils.i18n ac, 'name'
       styles = []
       styles.push "color: #{ac.color}" if ac.color
@@ -231,7 +231,7 @@ module.exports = class CampaignView extends RootView
           if _.isString(ac.showIfUnlocked)
             _.find(@campaigns.models, id: acID)?.locked = false if ac.showIfUnlocked in me.levels()
           else if _.isArray(ac.showIfUnlocked)
-            _.find(@campaigns.models, id: acID)?.locked = false if _.intersection(ac.showIfUnlocked, me.levels()).length
+            _.find(@campaigns.models, id: acID)?.locked = false if _.intersection(ac.showIfUnlocked, me.levels()).length > 0
 
     context
 
