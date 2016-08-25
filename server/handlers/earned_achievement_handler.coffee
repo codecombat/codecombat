@@ -49,7 +49,7 @@ class EarnedAchievementHandler extends Handler
     achievementID = req.body.achievement
     triggeredBy = req.body.triggeredBy
     collection = req.body.collection
-    if collection isnt 'level.sessions'
+    if collection isnt 'level.sessions' and not testing # TODO: remove this restriction
       return @sendBadInputError(res, 'Only doing level session achievements for now.')
 
     model = mongoose.modelNameByCollection(collection)
@@ -71,9 +71,8 @@ class EarnedAchievementHandler extends Handler
       else if not trigger
         return @sendNotFoundError(res, 'Could not find trigger.')
       else if achievement.get('proportionalTo') and earned
-        EarnedAchievement.createForAchievement(achievement, trigger, null, earned, (earnedAchievementDoc) =>
+        EarnedAchievement.createForAchievement(achievement, trigger, {previouslyEarnedAchievement: earned}).then (earnedAchievementDoc) =>
           @sendCreated(res, (earnedAchievementDoc or earned)?.toObject())
-        )
       else if earned
         achievementEarned = achievement.get('rewards')
         actuallyEarned = earned.get('earnedRewards')
@@ -92,13 +91,12 @@ class EarnedAchievementHandler extends Handler
             return @sendSuccess(res, earned.toObject())
           )
       else
-        EarnedAchievement.createForAchievement(achievement, trigger, null, null, (earnedAchievementDoc) =>
+        EarnedAchievement.createForAchievement(achievement, trigger).then (earnedAchievementDoc) =>
           if earnedAchievementDoc
             @sendCreated(res, earnedAchievementDoc.toObject())
           else
             console.error "Couldn't create achievement", achievement, trigger
             @sendNotFoundError res, "Couldn't create achievement"
-        )
     )
 
   upsertNonNumericRewards: (user, achievement, done) ->

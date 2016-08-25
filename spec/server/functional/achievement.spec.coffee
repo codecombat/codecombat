@@ -164,7 +164,7 @@ describe 'DELETE /db/achievement/:handle', ->
 describe 'POST /db/earned_achievement', ->
   beforeEach addAllAchievements
   
-  it 'can be used to manually create them for level achievements, which do not happen automatically', utils.wrap (done) ->
+  it 'manually creates earned achievements for level achievements, which do not happen automatically', utils.wrap (done) ->
     session = new LevelSession({
       permissions: simplePermissions
       creator: @admin._id
@@ -185,7 +185,20 @@ describe 'POST /db/earned_achievement', ->
     earnedAchievements = yield EarnedAchievement.find()
     expect(earnedAchievements.length).toBe(1)
     done()
-
+    
+  it 'works for proportional achievements', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    yield user.update({simulatedBy: 10})
+    json = {achievement: @repeatable.id, triggeredBy: user.id, collection: 'users'}
+    [res, body] = yield request.postAsync {uri: getURL('/db/earned_achievement'), json: json}
+    expect(res.statusCode).toBe(201)
+    expect(body.earnedPoints).toBe(10)
+    yield user.update({simulatedBy: 30})
+    [res, body] = yield request.postAsync {uri: getURL('/db/earned_achievement'), json: json}
+    expect(res.statusCode).toBe(201)
+    expect(body.earnedPoints).toBe(20) # this is kinda weird, TODO: just return total amounts
+    done()
 
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements
