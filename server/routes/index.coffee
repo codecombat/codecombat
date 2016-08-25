@@ -96,7 +96,10 @@ module.exports.setup = (app) ->
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
-
+  
+  EarnedAchievement = require '../models/EarnedAchievement'
+  app.post('/db/earned_achievement', mw.earnedAchievements.post)
+  
   Level = require '../models/Level'
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)

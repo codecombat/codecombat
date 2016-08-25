@@ -7,6 +7,7 @@ module.exports =
   contact: require './contact'
   courseInstances: require './course-instances'
   courses: require './courses'
+  earnedAchievements: require './earned-achievements'
   files: require './files'
   healthcheck: require './healthcheck'
   levels: require './levels'
