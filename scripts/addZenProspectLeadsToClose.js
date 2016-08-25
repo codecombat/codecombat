@@ -23,6 +23,8 @@ let zpMinActivityDate = new Date();
 zpMinActivityDate.setUTCDate(zpMinActivityDate.getUTCDate() - 30);
 zpMinActivityDate = zpMinActivityDate.toISOString().substring(0, 10);
 
+const closeParallelLimit = 100;
+
 getZPContacts((err, emailContactMap) => {
   if (err) {
     console.log(err);
@@ -33,7 +35,7 @@ getZPContacts((err, emailContactMap) => {
     const contact = emailContactMap[email];
     tasks.push(createUpsertCloseLeadFn(contact));
   }
-  async.parallel(tasks, (err, results) => {
+  async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
     if (err) console.log(err);
     log("Script runtime: " + (new Date() - scriptStartTime));
   });
@@ -127,26 +129,39 @@ function updateCloseLead(zpContact, existingLead, done) {
 }
 
 function createUpsertCloseLeadFn(zpContact) {
+  // New contact lead matching algorithm:
+  // 1. New contact email exists
+  // 2. New contact NCES school id exists
+  // 3. New contact NCES district id and no NCES school id
+  // 4. New contact school name and no NCES data
+  // 5. New contact district name and no NCES data
   return (done) => {
     // console.log(`DEBUG: createUpsertCloseLeadFn ${zpContact.organization} ${zpContact.email}`);
-    const query = `email:${zpContact.email}`;
-    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
+    let query = `email:${zpContact.email}`;
+    let url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
       if (error) return done(error);
       const data = JSON.parse(body);
       if (data.total_results != 0) return done();
-      const query = `name:${zpContact.organization}`;
-      const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
+
+      query = `name:${zpContact.organization}`;
+      if (zpContact.nces_school_id) {
+        query = `custom.demo_nces_id:"${zpContact.nces_school_id}"`;
+      }
+      else if (zpContact.nces_district_id) {
+        query = `custom.demo_nces_district_id:"${zpContact.nces_district_id}" custom.demo_nces_id:""`;
+      }
+      url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
       request.get(url, (error, response, body) => {
         if (error) return done(error);
         const data = JSON.parse(body);
         if (data.total_results === 0) {
-          console.log(`DEBUG: Creating lead for ${zpContact.organization} ${zpContact.email}`);
+          console.log(`DEBUG: Creating lead for ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
           return createCloseLead(zpContact, done);
         }
         else {
           const existingLead = data.data[0];
-          console.log(`DEBUG: Adding ${zpContact.organization} ${zpContact.email} to ${existingLead.id}`);
+          console.log(`DEBUG: Adding to ${existingLead.id} ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
           return updateCloseLead(zpContact, existingLead, done);
         }
       });
