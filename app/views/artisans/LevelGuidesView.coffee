@@ -64,9 +64,9 @@ module.exports = class LevelGuidesView extends RootView
         problems.push 'No Overview'
       else
         if not overview.i18n
-          problems.push 'Overview doesn't have i18n field'
+          problems.push 'Overview doesn\'t have i18n field'
         if not overview.body
-          problems.push 'Overview doesn't have a body'
+          problems.push 'Overview doesn\'t have a body'
         else
           if level.get('campaign')?.indexOf('web') is -1
             jsIndex = overview.body.indexOf('```javascript')
@@ -77,9 +77,9 @@ module.exports = class LevelGuidesView extends RootView
         problems.push 'No Intro'
       else
         if not intro.i18n
-          problems.push 'Intro doesn't have i18n field'
+          problems.push 'Intro doesn\'t have i18n field'
         if not intro.body
-          problems.push 'Intro doesn't have a body'
+          problems.push 'Intro doesn\'t have a body'
         else
           if intro.body.indexOf('file/db') is -1
             problems.push 'Intro is missing image'
