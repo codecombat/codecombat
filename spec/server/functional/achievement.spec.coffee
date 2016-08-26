@@ -240,7 +240,7 @@ describe 'automatically achieving achievements', ->
   it 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
     # load achievements on server
     @achievements = yield Achievement.loadAchievements()
-    expect(@achievements.length).toBe(2)
+    expect(@achievements.users.length).toBe(2)
     loadedAchievements = Achievement.getLoadedAchievements()
     expect(Object.keys(loadedAchievements).length).toBe(1)
     

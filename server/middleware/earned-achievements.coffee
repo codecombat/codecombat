@@ -26,32 +26,5 @@ exports.post = wrap (req, res) ->
   if not trigger
     throw new errors.NotFound('Could not find trigger.')
     
-  if achievement.get('proportionalTo') and earned
-    earnedAchievementDoc = yield EarnedAchievement.createForAchievement(achievement, trigger, {previouslyEarnedAchievement: earned})
-    res.status(201).send((earnedAchievementDoc or earned)?.toObject({req}))
-
-  else if earned
-    achievementEarned = achievement.get('rewards')
-    actuallyEarned = earned.get('earnedRewards')
-    if not _.isEqual(achievementEarned, actuallyEarned)
-      earned.set('earnedRewards', achievementEarned)
-      yield earned.save()
-
-    # make sure user has all the levels and items they should have
-    update = {}
-    for rewardType, rewards of achievement.get('rewards') ? {}
-      continue if rewardType is 'gems'
-      if rewards.length
-        update.$addToSet ?= {}
-        update.$addToSet["earned.#{rewardType}"] = { $each: rewards }
-    yield req.user.update(update)
-  
-    return res.status(200).send(earned.toObject({req}))
-
-  else
-    earnedAchievementDoc = yield EarnedAchievement.createForAchievement(achievement, trigger)
-    if not earnedAchievementDoc
-      console.error "Couldn't create achievement", achievement, trigger
-      throw new errors.NotFound("Couldn't create achievement")
-    res.status(201).send(earnedAchievementDoc.toObject({res}))
-  
+  finalEarned = yield EarnedAchievement.upsertFor(achievement, trigger, earned, req.user)
+  res.status(201).send(finalEarned.toObject({req}))

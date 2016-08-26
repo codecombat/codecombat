@@ -17,6 +17,38 @@ EarnedAchievementSchema.pre 'save', (next) ->
 EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
+
+EarnedAchievementSchema.statics.upsertFor = (achievement, trigger, earned, user) ->
+
+  if achievement.get('proportionalTo') and earned
+    earnedAchievementDoc = yield @createForAchievement(achievement, trigger, {previouslyEarnedAchievement: earned})
+    return earnedAchievementDoc or earned
+
+  else if earned
+    achievementEarned = achievement.get('rewards')
+    actuallyEarned = earned.get('earnedRewards')
+    if not _.isEqual(achievementEarned, actuallyEarned)
+      earned.set('earnedRewards', achievementEarned)
+      yield earned.save()
+
+    # make sure user has all the levels and items they should have
+    update = {}
+    for rewardType, rewards of achievement.get('rewards') ? {}
+      continue if rewardType is 'gems'
+      if rewards.length
+        update.$addToSet ?= {}
+        update.$addToSet["earned.#{rewardType}"] = { $each: rewards }
+    yield user.update(update)
+    return earned
+
+  else
+    earned = yield @createForAchievement(achievement, trigger)
+    if not earned
+      console.error "Couldn't create achievement", achievement, trigger
+      throw new errors.NotFound("Couldn't create achievement")
+    return earned
+    
+    
 EarnedAchievementSchema.statics.createForAchievement = co.wrap (achievement, doc, options={}) ->
   { previouslyEarnedAchievement, originalDocObj } = options
   

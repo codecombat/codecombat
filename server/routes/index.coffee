@@ -98,7 +98,7 @@ module.exports.setup = (app) ->
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
   
   EarnedAchievement = require '../models/EarnedAchievement'
-  app.post('/db/earned_achievement', mw.earnedAchievements.post)
+  app.post('/db/earned_achievement', mw.auth.checkLoggedIn(), mw.earnedAchievements.post)
   
   Level = require '../models/Level'
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
@@ -118,7 +118,8 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
   app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
   app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
-  
+  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
