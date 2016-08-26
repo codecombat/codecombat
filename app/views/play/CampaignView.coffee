@@ -360,7 +360,7 @@ module.exports = class CampaignView extends RootView
         # Should we point this level out?
         if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and
         not nextLevel.replayable and (
-          me.isPremium() or not nextLevel.requiresSubscription or level.adventurer or
+          me.isPremium() or not nextLevel.requiresSubscription or nextLevel.adventurer or
           _.any(subscriptionPrompts, (prompt) => nextLevel.slug is prompt.slug and not @levelStatusMap[prompt.unless])
         )
           nextLevel.next = true
