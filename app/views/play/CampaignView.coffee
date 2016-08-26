@@ -178,7 +178,7 @@ module.exports = class CampaignView extends RootView
       context.levels = _.reject context.levels, slug: reject
     if me.isOnFreeOnlyServer()
       context.levels = _.reject context.levels, 'requiresSubscription'
-    @annotateLevel level for level in context.levels
+    @annotateLevels(context.levels)
     count = @countLevels context.levels
     context.levelsCompleted = count.completed
     context.levelsTotal = count.total
@@ -278,51 +278,55 @@ module.exports = class CampaignView extends RootView
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
 
-  annotateLevel: (level) ->
-    level.position ?= { x: 10, y: 10 }
-    level.locked = not me.ownsLevel level.original
-    level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
-    level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
-    level.locked = false if @editorMode
-    level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
-    level.locked = false if me.isInGodMode()
-    #level.locked = false if level.slug is 'robot-ragnarok'
-    level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
-    level.disabled = false if me.isInGodMode()
-    level.color = 'rgb(255, 80, 60)'
-    if level.requiresSubscription
-      level.color = 'rgb(80, 130, 200)'
-    if level.adventurer
-      level.color = 'rgb(200, 80, 200)'
-    if unlocksHero = _.find(level.rewards, 'hero')?.hero
-      level.unlocksHero = unlocksHero
-    if level.unlocksHero
-      level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+  annotateLevels: (orderedLevels) ->
+    previousIncompletePracticeLevel = false # Lock owned levels if there's a earlier incomplete practice level to play
+    for level in orderedLevels
+      level.position ?= { x: 10, y: 10 }
+      level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
+      level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
+      level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
+      level.locked = false if @editorMode
+      level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
+      level.locked = false if me.isInGodMode()
+      #level.locked = false if level.slug is 'robot-ragnarok'
+      level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
+      level.disabled = false if me.isInGodMode()
+      level.color = 'rgb(255, 80, 60)'
+      level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
+      level.color = 'rgb(200, 80, 200)' if level.adventurer
+      if unlocksHero = _.find(level.rewards, 'hero')?.hero
+        level.unlocksHero = unlocksHero
+      if level.unlocksHero
+        level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
 
-    if window.serverConfig.picoCTF
-      if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
-        level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
-        #level.locked = false  # Testing to see all levels
-        level.description = """
-          ### #{problem.name}
-          #{level.description or problem.description}
+      if window.serverConfig.picoCTF
+        if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
+          level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
+          #level.locked = false  # Testing to see all levels
+          level.description = """
+            ### #{problem.name}
+            #{level.description or problem.description}
 
-          #{problem.category} - #{problem.score} points
-        """
-        level.color = 'rgb(80, 130, 200)' if problem.solved
+            #{problem.category} - #{problem.score} points
+          """
+          level.color = 'rgb(80, 130, 200)' if problem.solved
 
-    level.hidden = level.locked
-    if level.concepts?.length
-      level.displayConcepts = level.concepts
-      maxConcepts = 6
-      if level.displayConcepts.length > maxConcepts
-        level.displayConcepts = level.displayConcepts.slice -maxConcepts
-    level
+      if level.practice and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
+      (not level.requiresSubscription or level.adventurer or not @requiresSubscription)
+        previousIncompletePracticeLevel = true
+
+      level.hidden = level.locked
+      if level.concepts?.length
+        level.displayConcepts = level.concepts
+        maxConcepts = 6
+        if level.displayConcepts.length > maxConcepts
+          level.displayConcepts = level.displayConcepts.slice -maxConcepts
 
   countLevels: (levels) ->
     count = total: 0, completed: 0
     for level, levelIndex in levels
-      @annotateLevel level unless level.locked?  # Annotate if we haven't already.
+      continue if level.practice
+      @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
       unless level.disabled
         unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
         for otherLevel in levels when not unlockedInSameCampaign and otherLevel isnt level
@@ -336,34 +340,42 @@ module.exports = class CampaignView extends RootView
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
-  determineNextLevel: (levels) ->
-    foundNext = false
+  determineNextLevel: (orderedLevels) ->
     dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
     subscriptionPrompts = [{slug: 'boom-and-bust', unless: 'defense-of-plainswood'}]
-    for level in levels
+
+    findNextLevel = (nextLevels, practiceOnly) =>
+      for nextLevelOriginal in nextLevels
+        nextLevel = _.find orderedLevels, original: nextLevelOriginal
+        continue if not nextLevel or nextLevel.locked
+        continue if practiceOnly and not nextLevel.practice
+
+        # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
+        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
+            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
+            dontPointTo = _.without dontPointTo, nextLevel.slug
+            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
+
+        # Should we point this level out?
+        if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and
+        not nextLevel.replayable and (
+          me.isPremium() or not nextLevel.requiresSubscription or nextLevel.adventurer or
+          _.any(subscriptionPrompts, (prompt) => nextLevel.slug is prompt.slug and not @levelStatusMap[prompt.unless])
+        )
+          nextLevel.next = true
+          return true
+      false
+
+    foundNext = false
+    for level in orderedLevels
       # Iterate through all levels in order and look to find the first unlocked one that meets all our criteria for being pointed out as the next level.
       level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
-      unless foundNext
-        for nextLevelOriginal in level.nextLevels
-          nextLevel = _.find levels, original: nextLevelOriginal
+      break if foundNext = findNextLevel(level.nextLevels, true) # Check practice levels first
+      break if foundNext = findNextLevel(level.nextLevels, false)
 
-          # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-          if nextLevel and nextLevel.slug is 'kithgard-mastery' and not nextLevel.locked and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
-            unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
-              # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
-              dontPointTo = _.without dontPointTo, nextLevel.slug
-              storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
-
-          # Should we point this level out?
-          if nextLevel and not nextLevel.locked and not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and not nextLevel.replayable and (
-            me.isPremium() or not nextLevel.requiresSubscription or
-            _.any(subscriptionPrompts, (prompt) => nextLevel.slug is prompt.slug and not @levelStatusMap[prompt.unless])
-          )
-            nextLevel.next = true
-            foundNext = true
-            break
-    if not foundNext and levels[0] and not levels[0].locked and @levelStatusMap[levels[0].slug] isnt 'complete'
-      levels[0].next = true
+    if not foundNext and orderedLevels[0] and not orderedLevels[0].locked and @levelStatusMap[orderedLevels[0].slug] isnt 'complete'
+      orderedLevels[0].next = true
 
   calculateExperienceScore: ->
     adultPoint = me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']  # They have to have answered the poll for this, likely after Shadow Guard.
@@ -411,6 +423,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
+      continue if level.practice
       terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace('intro', 'dungeon')
       particleKey = ['level', terrain]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
