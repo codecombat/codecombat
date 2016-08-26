@@ -267,7 +267,7 @@ module.exports =
 
     if not achievement
       userUpdate = { 'lastAchievementChecked': new mongoose.Types.ObjectId() }
-      user.update(userUpdate)
+      user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
     userUpdate = { 'lastAchievementChecked': achievement._id }
@@ -283,19 +283,19 @@ module.exports =
       })
     else
       userUpdate = { 'lastAchievementChecked': new mongoose.Types.ObjectId() }
-      user.update(userUpdate)
+      user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
       
     trigger = _.find(triggers, (trigger) -> LocalMongo.matchesQuery(trigger.toObject(), query))
     
     if not trigger
-      user.update(userUpdate)
+      user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
     earned = yield EarnedAchievement.findOne({ achievement: achievement.id, user: req.user })
     yield [
       EarnedAchievement.upsertFor(achievement, trigger, earned, req.user)
-      user.update(userUpdate)
+      user.update({$set: userUpdate})
     ]
     user = yield User.findById(user.id).select({points: 1, earned: 1})
     return res.send(_.assign({}, userUpdate, user.toObject()))

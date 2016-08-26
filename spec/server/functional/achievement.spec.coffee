@@ -233,6 +233,31 @@ describe 'POST /db/earned_achievement', ->
     user = yield User.findById(user.id)
     expect(user.get('earned').levels[0]).toBe(lockedLevelID)
     done()
+    
+  it 'updates the user\'s gems if the achievement gems changed', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+
+    # get the User the unlockable achievement, check they got their reward
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: user._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    json = {achievement: @unlockable.id, triggeredBy: session._id, collection: 'level.sessions'}
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').levels[0]).toBe(lockedLevelID)
+
+    # change the achievement
+    yield @unlockable.update({ $set: { 'rewards.gems': 100 } })
+
+    # hit the endpoint again, make sure gems were updated
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').gems).toBe(100)
+    done()
 
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements

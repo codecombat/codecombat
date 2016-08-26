@@ -34,8 +34,9 @@ EarnedAchievementSchema.statics.upsertFor = (achievement, trigger, earned, user)
     # make sure user has all the levels and items they should have
     update = {}
     for rewardType, rewards of achievement.get('rewards') ? {}
-      continue if rewardType is 'gems'
-      if rewards.length
+      if rewardType is 'gems'
+        update.$inc = { 'earned.gems': rewards - (actuallyEarned.gems ? 0) }
+      else if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = { $each: rewards }
     yield user.update(update)
@@ -54,7 +55,7 @@ EarnedAchievementSchema.statics.createForAchievement = co.wrap (achievement, doc
   
   User = require('./User')
   userObjectID = doc.get(achievement.get('userField'))
-  userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use ObjectIds
+  userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # TODO: Migrate to ObjectIds
 
   earnedAttrs = {
     user: userID
