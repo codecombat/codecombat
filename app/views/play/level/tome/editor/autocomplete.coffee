@@ -321,14 +321,12 @@ module.exports = class Autocomplete
         attackEntry.content = attackEntry.content.replace '${1:enemy}', '"${1:Enemy Name}"'
       snippetEntries.push attackEntry
 
-    # Add copied hero. entries for most important ones that start with hero.
-    sortedEntries = _.sortBy snippetEntries, (entry) -> -1 * parseInt(entry.importance ? 0)
-    for entry in sortedEntries
-      if entry.content?.indexOf('hero.') is 0
-        newEntry = _.cloneDeep(entry)
-        entry.name = "hero.#{newEntry.name}"
-        snippetEntries.push(newEntry)
-        break if snippetEntries.length - sortedEntries.length >= 10
+    # Update 'hero.' and 'game.' entries to include their prefixes
+    for entry in snippetEntries
+      if entry.content?.indexOf('hero.') is 0 and entry.name?.indexOf('hero.') < 0
+        entry.name = "hero.#{entry.name}"
+      else if entry.content?.indexOf('game.') is 0 and entry.name?.indexOf('game.') < 0
+        entry.name = "game.#{entry.name}"
 
     if haveFindNearest and not haveFindNearestEnemy
       spellView.translateFindNearest()
