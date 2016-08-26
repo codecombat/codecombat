@@ -325,6 +325,7 @@ module.exports = class CampaignView extends RootView
   countLevels: (levels) ->
     count = total: 0, completed: 0
     for level, levelIndex in levels
+      continue if level.practice
       @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
       unless level.disabled
         unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
