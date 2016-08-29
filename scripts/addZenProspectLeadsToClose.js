@@ -91,9 +91,12 @@ function updateCloseLead(zpContact, existingLead, done) {
   // console.log(`DEBUG: updateCloseLead ${existingLead.id} ${zpContact.email}`);
   const putData = {
     status: 'Contacted',
-    'custom.lastUpdated': new Date(),
-    'custom.Lead Origin': 'outbound campaign'
+    'custom.lastUpdated': new Date()
   };
+  const currentCustom = existingLead.custom || {};
+  if (!currentCustom['Lead Origin']) {
+    putData['custom.Lead Origin'] = 'outbound campaign';
+  }
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/${existingLead.id}/`,
     body: JSON.stringify(putData)
