@@ -28,6 +28,7 @@ CodeLogSchema.statics.editableProperties = [
   'log'
   'created'
 ]
+CodeLogSchema.statics.postEditableProperties = []
 
 CodeLogSchema.statics.jsonSchema = require '../../app/schemas/models/codelog.schema'
 

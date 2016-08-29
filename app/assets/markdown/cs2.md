@@ -68,10 +68,10 @@ Course 2 introduces more advanced programming concepts, so the progress through 
 - Evaluate expressions
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP4** Model with mathematics.
-**CCSS.Math.Practice.MP7** Look for and make use of structure.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
+**CCSS.Math.Practice.MP4** Model with mathematics.  
+**CCSS.Math.Practice.MP7** Look for and make use of structure.  
 
 ### Instructive Activity: Conditionals (10 mins)
 #### Explain (2 mins)
@@ -101,9 +101,9 @@ Identify some school or classroom rules, and write them on the board, e.g.
 - Stop talking when the teacher claps twice.
 
 Reformulate them in English to start with the word “If”, e.g.
-- **If** you have a question, then raise your hand.
-- **If** you’re late, then you get a detention.
-- **If** the teacher claps twice, then stop talking.
+- **If** you have a question, then raise your hand.  
+- **If** you’re late, then you get a detention.  
+- **If** the teacher claps twice, then stop talking.  
 
 Now reformulate again using Python syntax, e.g.
 
@@ -126,8 +126,8 @@ Label each of the parts of the conditionals: *keyword*, *expression*, *action*.
 Code is called code because we’re encoding our ideas into a language the computer can understand.  You can use this three-step process of reformulating your ideas any time you’re writing code. As long as you know the syntax of the programming language, you know what the encoded idea should look like!
 
 #### Reflect (2 mins)
-**Why do we need conditionals?** (Not all actions happen all the time)
-**What is the part that comes between the if and the colon?** (an expression)
+**Why do we need conditionals?** (Not all actions happen all the time)  
+**What is the part that comes between the if and the colon?** (an expression)  
 **What’s important about expressions?** (They have to be True or False)
 
 
@@ -168,10 +168,10 @@ These levels have two things going on at once. Students have to decide under whi
 - Define `else` as the opposite of `if`.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP7** Look for and make use of structure.
-**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
+**CCSS.Math.Practice.MP7** Look for and make use of structure.   
+**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.  
 
 ### Instructive Activity: Conditionals (Else) (10 mins)
 
@@ -215,9 +215,9 @@ if teacher.claps == 2:
 Label the parts of these conditionals: _keywords_ (`if` and `else`), _expression_, _actions_
 
 #### Reflect (2 mins)
-**What does else mean?** (if not)
-**Why doesn’t else come with another expression?** (the expression is implied-- it’s the opposite of the if, or when the if is False)
-**Do you always need an else?** (no, it depends on the situation)
+**What does else mean?** (if not)  
+**Why doesn’t else come with another expression?** (the expression is implied-- it’s the opposite of the if, or when the if is False)  
+**Do you always need an else?** (no, it depends on the situation)  
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -258,10 +258,10 @@ Serious coding starts now. Students will have to remember how to construct condi
 - Attend to indentation
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP6** Attend to precision.
-**CCSS.Math.Practice.MP7** Look for and make use of structure.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
+**CCSS.Math.Practice.MP6** Attend to precision.  
+**CCSS.Math.Practice.MP7** Look for and make use of structure.  
 
 ### Instructive Activity: Nested Conditionals (10 mins)
 
@@ -289,9 +289,9 @@ When they have finished, trade papers with a partner. Read each other’s schedu
 Invite volunteers to share their finished schedules with the class.
 
 #### Reflect (2 mins)
-**Why do we need nested conditionals?** (Because sometimes more than two different actions are possible)
-**Why do we indent the second conditional by 4 spaces?** (To show that it is inside the first conditional.)
-**What does it mean when an action is indented by 8 spaces?** (It depends on two expressions being True or False)
+**Why do we need nested conditionals?** (Because sometimes more than two different actions are possible)  
+**Why do we indent the second conditional by 4 spaces?** (To show that it is inside the first conditional.)  
+**What does it mean when an action is indented by 8 spaces?** (It depends on two expressions being True or False)  
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -334,9 +334,9 @@ These levels give students the chance to take some shortcuts. Just like loops ga
 - Call a function.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP7** Look for and make use of structure.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
+**CCSS.Math.Practice.MP7** Look for and make use of structure.  
 
 ### Instructive Activity: Functions (10 mins)
 #### Explain
@@ -393,9 +393,9 @@ Then, play Simon Says by calling the functions, e.g.
 - Pogo! (Simon didn’t say)
 
 ### Reflect (2 mins)
-**Why do functions make coding easier?** (Because you don’t have to say the complicated steps every time; you can just use the function name.)
-**Why is it important to give your functions good names?** (So you can remember what they’re for later.)
-**What does the keyword def stand for?** (define, or make)
+**Why do functions make coding easier?** (Because you don’t have to say the complicated steps every time; you can just use the function name.)  
+**Why is it important to give your functions good names?** (So you can remember what they’re for later.)  
+**What does the keyword def stand for?** (define, or make)  
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -435,9 +435,9 @@ Flags give the game a real-time element. Players may place flags on the game scr
 - Tell the difference between a property and a function.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP4** Model with mathematics.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
+**CCSS.Math.Practice.MP4** Model with mathematics.  
 
 ### Instructive Activity: Properties (10 mins)
 #### Explain (3 mins)
@@ -470,10 +470,10 @@ When the syntax is correct, the queried student should should out the value of t
 Note that everyone has an age property, and the same way of accessing it, but the values of that property are not the same for everyone!
 
 #### Reflect (2 mins)
-**What’s a property?** (Something about an object)
-**How can you tell the difference between a function and a property?** Functions have parentheses (), properties do not.
-**Can two objects have the same property?** (yes)
-**Do two objects’ properties always have the same value?** (no)
+**What’s a property?** (Something about an object)  
+**How can you tell the difference between a function and a property?** Functions have parentheses (), properties do not.  
+**Can two objects have the same property?** (yes)  
+**Do two objects’ properties always have the same value?** (no)  
 
 
 ### Coding Time (30-45 mins)
@@ -493,7 +493,7 @@ What was challenging:
 
 Circulate to assist. Draw students’ attention to the instructions and tips. Flags can be tricky for some students, so allow them to pair up to beat the levels. Each student should write their own code, but it’s ok for another student to place the flags for them.
 
-###Written Reflection (5 mins)
+### Written Reflection (5 mins)
 **How did you use properties today?**
 >I had to see where the flag was and the flag has a property called pos. Then inside that it has two more properties, x and y. You use a dot to get inside the object, or inside the property.
 
@@ -502,7 +502,7 @@ Circulate to assist. Draw students’ attention to the instructions and tips. Fl
 
 ##### Module 10
 ## Review and Synthesis
-###Summary
+### Summary
 Read the instructions! Remember the hints! Sit and think about how to solve the problem and how you’ll be able to tell it’s solved. All the habits of mind of a good programmer come to bear on these levels: defining the problem, breaking the problem down into parts, making a plan, syntax and debugging, sticking to it, and asking for help.
 
 ### Transfer Goals
@@ -510,23 +510,23 @@ Read the instructions! Remember the hints! Sit and think about how to solve the 
 - Persist in solving a problem
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP6** Attend to precision.
-**CCSS.Math.Practice.MP7** Look for and make use of structure.
-**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
+**CCSS.Math.Practice.MP6** Attend to precision.  
+**CCSS.Math.Practice.MP7** Look for and make use of structure.  
+**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.  
 
 ### Instructive Activity: Review & Synthesis (10 mins)
 
 #### Interact (10 mins)
 Review! As a class, try to remember all the new vocabulary words you learned so far. Decide on a definition and an example. Have students write these on the board and correct each other’s work. Consult the game where there are disputes.
 
-**Object** - a character or thing can can do actions, hero
-**Function** - an action that an object can do, hero.cleave()
-**Argument** - additional information for a function, hero.attack(enemy)
-**Loop** - code that repeats, while True:
-**Variable** - a holder for a value, enemy = ...
-**Conditional** - code that checks if, if hero.isReady():
-**Property** - something about an object, flag.pos
+**Object** - a character or thing can can do actions, hero  
+**Function** - an action that an object can do, hero.cleave()  
+**Argument** - additional information for a function, hero.attack(enemy)  
+**Loop** - code that repeats, while True:  
+**Variable** - a holder for a value, enemy = ...  
+**Conditional** - code that checks if, if hero.isReady():  
+**Property** - something about an object, flag.pos  
 
 
 ### Coding Time (30-45 mins)
@@ -581,8 +581,8 @@ First, we DESIGN a solution to our problem. This includes figuring out what the 
 Then we keep designing, implementing, and testing until it the problem is solved!
 
 #### Reflect (2 mins)
-**What are the steps of the Engineering Cycle?** (Design, implement, test)
-**When does the Engineering Cycle stop?** (When the problem is solved, or you run out of time)
+**What are the steps of the Engineering Cycle?** (Design, implement, test)  
+**When does the Engineering Cycle stop?** (When the problem is solved, or you run out of time)   
 
 #### Interact (5 mins)
 As a class, make a list of all the things your hero can do (functions). Use appropriate vocabulary. Annotate with any tips or code snippets the students deem useful.
@@ -593,9 +593,9 @@ As a class, make a list of all the things your hero can do (functions). Use appr
 ### Coding Time (30-45 mins)
 Break into small campaign groups to solve the last level.
 
-**DESIGN**: In teams, make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.
-**IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!
-**TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!
+**DESIGN**: In teams, make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.  
+**IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!  
+**TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!  
 
 ### Written Reflection (5 mins)
 

@@ -23,6 +23,7 @@ ClassroomSchema.statics.editableProperties = [
   'ageRangeMax'
   'archived'
 ]
+ClassroomSchema.statics.postEditableProperties = []
 
 ClassroomSchema.statics.generateNewCode = (done) ->
   tryCode = ->

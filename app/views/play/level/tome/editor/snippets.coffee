@@ -136,7 +136,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
     beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
 
     unless (fullPrefixParts.length < 3 and /^(hero|self|this|@)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
-      console.log "Bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
+      # console.log "DEBUG: autocomplete bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
       @completions = completions
       return callback null, completions
 
@@ -195,10 +195,10 @@ getFullIdentifier = (doc, pos) ->
 scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captureReturn) ->
   # console.log "Snippets snippet=#{snippet} caption=#{caption} line=#{line} input=#{input} pos.column=#{pos.column} lang=#{lang}"
   fuzzScore = 0.1
+  snippetLineBreaks = (snippet.match(lineBreak) || []).length
   # input will be replaced by snippet
   # trim snippet prefix and suffix if already in the document (line)
   if prefixStart = snippet.toLowerCase().indexOf(input.toLowerCase()) > -1
-    snippetLines = (snippet.match(lineBreak) || []).length
     captionStart = snippet.indexOf caption
 
     # Calculate snippet prefixes and suffixes. E.g. full snippet might be: "self." + "moveLeft" + "()"
@@ -243,14 +243,18 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
       # console.log 'Snippets atLineEnd', pos.column, lineSuffix.length, line.slice(pos.column + lineSuffix.length), line
       toLinePrefix = line.substring 0, linePrefixIndex
       if linePrefixIndex < 0 or linePrefixIndex >= 0 and not /[\(\)]/.test(toLinePrefix) and not /^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix)
-        snippet += autoLineEndings[lang] if snippetLines is 0 and autoLineEndings[lang]
-        snippet += "\n" if snippetLines is 0 and not /\$\{/.test(snippet)
+        snippet += autoLineEndings[lang] if snippetLineBreaks is 0 and autoLineEndings[lang]
+        snippet += "\n" if snippetLineBreaks is 0 and not /\$\{/.test(snippet)
 
         if captureReturn and /^\s*$/.test(toLinePrefix)
           snippet = captureReturn + linePrefix + snippet
 
     # console.log "Snippets snippetPrefix=#{snippetPrefix} linePrefix=#{linePrefix} snippetSuffix=#{snippetSuffix} lineSuffix=#{lineSuffix} snippet=#{snippet} score=#{fuzzScore}"
   else
+    # Append automatic line ending and newline for simple scenario
+    if line.trim() is input
+      snippet += autoLineEndings[lang] if snippetLineBreaks is 0 and autoLineEndings[lang]
+      snippet += "\n" if snippetLineBreaks is 0 and not /\$\{/.test(snippet)
     fuzzScore += score snippet, input
 
   startsWith = (string, searchString, position) ->

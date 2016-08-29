@@ -41,7 +41,7 @@ if view.showAds()
             a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
             if level.slug == 'lost-viking'
               img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
-            else if level.requiresSubscription
+            else if level.requiresSubscription && !level.adventurer
               img.star(src="/images/pages/play/star.png")
             if levelStatusMap[level.slug] === 'complete'
               img.banner(src="/images/pages/play/level-banner-complete.png")

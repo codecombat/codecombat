@@ -93,6 +93,7 @@ AchievementSchema.statics.editableProperties = [
   'i18nCoverage'
   'hidden'
 ]
+AchievementSchema.statics.postEditableProperties = []
 
 AchievementSchema.statics.jsonSchema = require '../../app/schemas/models/achievement'
 

@@ -14,7 +14,7 @@ if (process.argv.length !== 10) {
 // TODO: Reduce response data via _fields param
 // TODO: Assumes 1:1 contact:email relationship (Close.io supports multiple emails for a single contact)
 // TODO: Cleanup country/status lookup code
-// TODO: parallelize update leads
+// TODO: Handle trial requests as individual contacts to be imported, instead of batching them into leads immediately via CocoLead objects
 
 // Save as custom fields instead of user-specific lead notes (also saving nces_ props)
 const commonTrialProperties = ['organization', 'district', 'city', 'state', 'country'];
@@ -58,6 +58,8 @@ const defaultEuLeadStatus = 'Inbound EU Auto Attempt 1';
 const usSchoolStatuses = ['Auto Attempt 1', 'New US Schools Auto Attempt 1', 'New US Schools Auto Attempt 1 Low'];
 
 const emailDelayMinutes = 27;
+
+const closeParallelLimit = 100;
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
@@ -677,7 +679,7 @@ function updateExistingLead(lead, existingLead, userApiKeyMap, done) {
       newContact.lead_id = existingLead.id;
       tasks.push(createAddContactFn(newContact, lead, existingLead, userApiKeyMap));
     }
-    async.parallel(tasks, (err, results) => {
+    async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
       if (err) return done(err);
 
       // Add notes
@@ -690,7 +692,7 @@ function updateExistingLead(lead, existingLead, userApiKeyMap, done) {
         for (const newNote of newNotes) {
           tasks.push(createAddNoteFn(existingLead.id, newNote));
         }
-        async.parallel(tasks, (err, results) => {
+        async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
           return done(err);
         });
       });
@@ -721,7 +723,7 @@ function saveNewLead(lead, done) {
     for (const newNote of newNotes) {
       tasks.push(createAddNoteFn(existingLead.id, newNote));
     }
-    async.parallel(tasks, (err, results) => {
+    async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
       if (err) return done(err);
 
       // Send emails to new contacts
@@ -733,7 +735,7 @@ function saveNewLead(lead, done) {
           tasks.push(createSendEmailFn(email.email, existingLead.id, contact.id, emailTemplate, postData.status));
         }
       }
-      async.parallel(tasks, (err, results) => {
+      async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
         return done(err);
       });
     });
@@ -767,34 +769,61 @@ function createFindExistingLeadFn(email, name, existingLeads) {
 }
 
 function createUpdateLeadFn(lead, existingLeads, userApiKeyMap) {
+  // New contact lead matching algorithm:
+  // 1. New contact email exists
+  // 2. New contact NCES school id exists
+  // 3. New contact NCES district id and no NCES school id
+  // 4. New contact school name and no NCES data
+  // 5. New contact district name and no NCES data
   return (done) => {
     // console.log('DEBUG: updateLead', lead.name);
-    const query = `name:"${lead.name}"`;
+
+    if (existingLeads[lead.name.toLowerCase()]) {
+      if (existingLeads[lead.name.toLowerCase()].length === 1) {
+        // console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
+        return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], userApiKeyMap, done);
+      }
+      console.error(`ERROR: ${existingLeads[lead.name.toLowerCase()].length} email leads found for ${lead.name}`);
+      return done();
+    }
+
+    let nces_district_id;
+    let nces_school_id;
+    for (const trial of lead.trialRequests) {
+      if (!trial.properties) continue;
+      if (trial.properties.nces_district_id) {
+        nces_district_id = trial.properties.nces_district_id;
+        if (trial.properties.nces_id) {
+          nces_district_id = trial.properties.nces_district_id;
+          nces_school_id = trial.properties.nces_id;
+          break;
+        }
+      }
+    }
+    // console.log(`DEBUG: updateLead district ${nces_district_id} school ${nces_school_id}`);
+
+    let query = `name:"${lead.name}"`;
+    if (nces_school_id) {
+      query = `custom.demo_nces_id:"${nces_school_id}"`;
+    }
+    else if (nces_district_id) {
+      query = `custom.demo_nces_district_id:"${nces_district_id}" custom.demo_nces_id:""`;
+    }
     const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
       if (error) return done(error);
       try {
         const data = JSON.parse(body);
-        if (data.total_results === 0) {
-          if (existingLeads[lead.name.toLowerCase()]) {
-            if (existingLeads[lead.name.toLowerCase()].length === 1) {
-              // console.log(`DEBUG: Using lead from email lookup: ${lead.name}`);
-              return updateExistingLead(lead, existingLeads[lead.name.toLowerCase()][0], userApiKeyMap, done);
-            }
-            console.error(`ERROR: ${existingLeads[lead.name.toLowerCase()].length} email leads found for ${lead.name}`);
-            return done();
-          }
-          return saveNewLead(lead, done);
-        }
         if (data.total_results > 1) {
-          console.error(`ERROR: ${data.total_results} leads found for ${lead.name}`);
+          console.error(`ERROR: ${data.total_results} leads found for ${lead.name} nces_district_id=${nces_district_id} nces_school_id=${nces_school_id}`);
           return done();
         }
-        return updateExistingLead(lead, data.data[0], userApiKeyMap, done);
+        if (data.total_results === 1) {
+          return updateExistingLead(lead, data.data[0], userApiKeyMap, done);
+        }
+        return saveNewLead(lead, done);
       } catch (error) {
-        // console.log(url);
         console.log(`ERROR: updateLead ${error}`);
-        // console.log(body);
         return done();
       }
     });
@@ -939,7 +968,7 @@ function updateLeads(leads, done) {
   for (const closeIoMailApiKey of closeIoMailApiKeys) {
     tasks.push(createGetUserFn(closeIoMailApiKey.apiKey));
   }
-  async.parallel(tasks, (err, results) => {
+  async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
     if (err) console.log(err);
     // Lookup existing leads via email to protect against direct lead name querying later
     // Querying via lead name is unreliable
@@ -951,14 +980,14 @@ function updateLeads(leads, done) {
         tasks.push(createFindExistingLeadFn(email.toLowerCase(), name.toLowerCase(), existingLeads));
       }
     }
-    async.parallel(tasks, (err, results) => {
+    async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
       if (err) return done(err);
       const tasks = [];
       for (const name in leads) {
         if (leadsToSkip.indexOf(name) >= 0) continue;
         tasks.push(createUpdateLeadFn(leads[name], existingLeads, userApiKeyMap));
       }
-      async.series(tasks, (err, results) => {
+      async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
         return done(err);
       });
     });
