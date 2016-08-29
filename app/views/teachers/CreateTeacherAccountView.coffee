@@ -136,6 +136,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     if not error and not forms.validateEmail(trialRequestAttrs.email)
       forms.setErrorToProperty(form, 'email', 'invalid email')
       error = true
+    if not error and forms.validateEmail(allAttrs.name)
+      forms.setErrorToProperty(form, 'name', 'username may not be an email')
+      error = true
     if not _.size(trialRequestAttrs.educationLevel)
       forms.setErrorToProperty(form, 'educationLevel', 'include at least one')
       error = true
