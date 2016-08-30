@@ -1074,7 +1074,7 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     [res, body] = yield request.postAsync { uri: achievementURL, json: achievementJSON }
-    achievementID = body._id
+    achievementUpdated = res.body.updated
     expect(res.statusCode).toBe(201)
     
     user = yield User.findById(user.id)
@@ -1085,6 +1085,6 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     expect(body.points).toBe(175)
     earned = yield EarnedAchievement.count()
     expect(earned).toBe(1)
-    expect(body.lastAchievementChecked).toBe(achievementID)
+    expect(body.lastAchievementChecked).toBe(achievementUpdated)
     
     done()

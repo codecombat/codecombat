@@ -82,6 +82,7 @@ _.extend AchievementSchema.properties,
   i18n: {type: 'object', format: 'i18n', props: ['name', 'description'], description: 'Help translate this achievement'}
   rewards: c.RewardSchema 'awarded by this achievement'
   hidden: {type: 'boolean', description: 'Hide achievement from user if true'}
+  updated: c.stringDate({ description: 'When the achievement was changed in such a way that earned achievements should get updated.' })
 
 
 _.extend AchievementSchema, # Let's have these on the bottom
