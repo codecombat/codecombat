@@ -200,10 +200,7 @@ if view.showAds()
     h1#campaign-status.picoctf-hide
       .campaign-status-background
         .campaign-name
-          - var fullName = i18n(campaign.attributes, 'fullName')
-          if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
-            // We have a translation.
-            span= fullName
+          span= i18n(campaign.attributes, 'fullName')
         .levels-completed
           span= levelsCompleted
           | /
