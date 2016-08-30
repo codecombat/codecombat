@@ -257,7 +257,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           for (const activity of results.data) {
             if (activity.id === firstMailActivity.id) continue;
             if (new Date(firstMailActivity.date_created) > new Date(activity.date_created)) continue;
-            if (activity._type === 'Email' && activity.to[0] !== email) continue;
+            if (activity._type === 'Email' && activity.to[0].toLowerCase() !== email) continue;
             recentActivity = activity;
             break;
           }
@@ -269,7 +269,6 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
               return done();
             }
             // console.log(`TODO: ${firstMailActivity.to[0]} ${lead.id} ${firstMailActivity.contact_id} ${template} ${userApiKeyMap[firstMailActivity.user_id]}`);
-            // console.log(`TODO: ${firstMailActivity.to[0]} ${lead.id}`);
             sendMail(firstMailActivity.to[0], lead.id, firstMailActivity.contact_id, template, userApiKeyMap[firstMailActivity.user_id], 0, (err) => {
               if (err) return done(err);
 
@@ -302,7 +301,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           }
           else {
             // console.log(`Found recent activity after auto1 mail for ${lead.id}`);
-            // console.log(firstMailActivity.template_id, recentActivity.template_id);
+            // console.log(firstMailActivity.template_id, recentActivity);
             return done();
           }
         }
@@ -387,7 +386,6 @@ function sendSecondFollowupMails(done) {
 function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
   // Check for activity since second auto mail and status update
   // Add call task
-  // TODO: Very similar function to createSendFollowupMailFn
   const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1", "Inbound Canada Auto Attempt 1", "Inbound AU Auto Attempt 1", "Inbound NZ Auto Attempt 1", "Inbound UK Auto Attempt 1"];
   const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2", "Inbound Canada Auto Attempt 2", "Inbound AU Auto Attempt 2", "Inbound NZ Auto Attempt 2", "Inbound UK Auto Attempt 2"];
   return (done) => {
