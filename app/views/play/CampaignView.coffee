@@ -371,8 +371,8 @@ module.exports = class CampaignView extends RootView
     for level in orderedLevels
       # Iterate through all levels in order and look to find the first unlocked one that meets all our criteria for being pointed out as the next level.
       level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
-      break if foundNext = findNextLevel(level.nextLevels, true) # Check practice levels first
-      break if foundNext = findNextLevel(level.nextLevels, false)
+      foundNext = findNextLevel(level.nextLevels, true) unless foundNext # Check practice levels first
+      foundNext = findNextLevel(level.nextLevels, false) unless foundNext
 
     if not foundNext and orderedLevels[0] and not orderedLevels[0].locked and @levelStatusMap[orderedLevels[0].slug] isnt 'complete'
       orderedLevels[0].next = true
