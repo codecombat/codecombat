@@ -9,8 +9,7 @@
 
 CodeCombat is a multiplayer programming game for learning how to code.
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
-setup guide, extensive documentation, and much more. Every new person that wants
-to start contributing the project coding should start there.**
+setup guide, extensive documentation, and much more to get started hacking!**
 
 It's both a startup and a community project, completely open source under the
 [MIT and Creative Commons licenses](http://codecombat.com/legal). It's the
