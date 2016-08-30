@@ -129,6 +129,7 @@
     faqs: "FAQs"
     help_pref: "Need help? Email"
     help_suff: "and we'll get in touch!"
+    resource_hub: "Resource Hub"
 
   modal:
     cancel: "Cancel"
