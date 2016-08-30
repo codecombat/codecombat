@@ -506,20 +506,11 @@ class CocoLead {
     if (!currentCustom['Lead Origin']) {
       putData['custom.Lead Origin'] = this.getLeadOrigin();
     }
-
     for (const email in this.contacts) {
       const props = this.contacts[email].trial.properties;
       if (props) {
-        let haveNcesData = false;
         for (const prop in props) {
-          if (/nces_/ig.test(prop)) {
-            haveNcesData = true;
-            putData[`custom.demo_${prop}`] = props[prop];
-          }
-        }
-        for (const prop in props) {
-          // Always overwrite common props if we have NCES data, because other fields more likely to be accurate
-          if (commonTrialProperties.indexOf(prop) >= 0 && (haveNcesData || !currentCustom[`demo_${prop}`] || currentCustom[`demo_${prop}`] !== props[prop] && currentCustom[`demo_${prop}`].indexOf(props[prop]) < 0)) {
+          if (!currentCustom[`demo_${prop}`] && (commonTrialProperties.indexOf(prop) >= 0 || /nces_/ig.test(prop))) {
             putData[`custom.demo_${prop}`] = props[prop];
           }
         }
