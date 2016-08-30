@@ -109,6 +109,40 @@ describe 'PUT /db/achievement', ->
     expect(res.body.name).toBe('whatev')
     done()
     
+  it 'touches "updated" if query, proportionalTo, worth, or rewards change', utils.wrap (done) ->
+    lastUpdated = @unlockable.get('updated')
+    expect(lastUpdated).toBeDefined()
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {
+      name: 'whatev'
+      rewards: @unlockable.get('rewards')
+      query: @unlockable.get('query')
+      proportionalTo: @unlockable.get('proportionalTo')
+    }}
+    achievement = yield Achievement.findById(@unlockable.id)
+    expect(achievement.get('updated')).toBeDefined()
+    expect(achievement.get('updated')).toBe(lastUpdated) # unchanged
+
+    newRewards = _.assign({}, @unlockable.get('rewards'), {gems: 1000})
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {rewards: newRewards}}
+    expect(res.body.updated).not.toBe(lastUpdated)
+    lastUpdated = res.body.updated
+    
+    newQuery = _.assign({}, @unlockable.get('query'), {'state.complete': true})
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {query: newQuery}}
+    expect(res.body.updated).not.toBe(lastUpdated)
+    lastUpdated = res.body.updated
+
+    newProportionalTo = 'playtime'
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {proportionalTo: newProportionalTo}}
+    expect(res.body.updated).not.toBe(lastUpdated)
+    lastUpdated = res.body.updated
+
+    newWorth = 1000
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {worth: newWorth}}
+    expect(res.body.updated).not.toBe(lastUpdated)
+    done()
+    
+    
 describe 'GET /db/achievement', ->
   beforeEach addAllAchievements
   
@@ -187,7 +221,7 @@ describe 'POST /db/earned_achievement', ->
     expect(body.achievement).toBe @unlockable.id
     expect(body.user).toBe user.id
     expect(body.notified).toBeFalsy()
-    expect(body.earnedPoints).toBe unlockable.worth
+    expect(body.earnedPoints).toBe @unlockable.get('worth')
     expect(body.achievedAmount).toBeUndefined()
     expect(body.previouslyAchievedAmount).toBeUndefined()
     earnedAchievements = yield EarnedAchievement.find()
@@ -344,7 +378,7 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     expect(earnedAchievements.length).toBe(1)
     
     user = yield User.findById(@admin.id)
-    expect(user.get 'points').toBe unlockable.worth
+    expect(user.get 'points').toBe @unlockable.get('worth')
     done()
 
   it 'can recalculate all achievements', utils.wrap (done) ->
@@ -371,8 +405,8 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     earnedAchievements = yield EarnedAchievement.find({})
     expect(earnedAchievements.length).toBe 3
     user = yield User.findById(@admin.id)
-    expect(user.get 'points').toBe unlockable.worth + 4 * repeatable.worth + (Math.log(.5 * (4 + .5)) + 1) * diminishing.worth
-    expect(user.get('earned').gems).toBe 4 * repeatable.rewards.gems
+    expect(user.get 'points').toBe @unlockable.get('worth') + 4 * @repeatable.get('worth') + (Math.log(.5 * (4 + .5)) + 1) * @diminishing.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
     done()
 
   afterEach utils.wrap (done) ->

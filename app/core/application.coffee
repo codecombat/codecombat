@@ -62,7 +62,24 @@ Application = {
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     CocoModel.pollAchievements()
-#    @checkForNewAchievement() # TODO: Enable once thoroughly tested
+    unless me.get('anonymous')
+      # TODO: Remove logging later, once this system has proved stable
+      me.on 'change:earned', (user, newEarned) ->
+        oldEarned = user.previous('earned')
+        if oldEarned.gems isnt newEarned.gems
+          console.log 'Gems changed', oldEarned.gems, '->', newEarned.gems
+        newLevels = _.difference(newEarned.levels, oldEarned.levels)
+        if newLevels.length
+          console.log 'Levels added', newLevels
+        newItems = _.difference(newEarned.items, oldEarned.items)
+        if newItems.length
+          console.log 'Items added', newItems
+        newHeroes = _.difference(newEarned.heroes, oldEarned.heroes)
+        if newHeroes.length
+          console.log 'Heroes added', newHeroes
+      me.on 'change:points', (user, newPoints) ->
+        console.log 'Points changed', user.previous('points'), '->', newPoints
+      @checkForNewAchievement()
     $.i18n.init {
       lng: me.get('preferredLanguage', true)
       fallbackLng: 'en'
@@ -84,12 +101,14 @@ Application = {
       @idleTracker.start()
       
   checkForNewAchievement: ->
-    id = me.get('lastAchievementChecked') or me.id
-    lastAchievementChecked = new Date(parseInt(id.substring(0, 8), 16) * 1000)
-    daysSince = moment.duration(new Date() - lastAchievementChecked).asDays()
+    if me.get('lastAchievementChecked')
+      startFrom = new Date(me.get('lastAchievementChecked'))
+    else
+      startFrom = me.created()
+    
+    daysSince = moment.duration(new Date() - startFrom).asDays()
     if daysSince > 1
-      me.checkForNewAchievement()
-      setTimeout(_.bind(@checkForNewAchievement, @), moment.duration(1, 'minute').asMilliseconds())
+      me.checkForNewAchievement().then => @checkForNewAchievement()
 }
 
 module.exports = Application

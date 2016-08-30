@@ -9,6 +9,9 @@ describe 'Local Mongo queries', ->
       'worth': 6
       'type': 'unicorn'
       'likes': ['poptarts', 'popsicles', 'popcorn']
+      nested: {
+        str:'ing'
+      }
 
     @fixture2 = this: is: so: 'deep'
 
@@ -24,6 +27,11 @@ describe 'Local Mongo queries', ->
 
   it 'nested match', ->
     expect(LocalMongo.matchesQuery(@fixture2, 'this.is.so': 'deep')).toBeTruthy()
+    expect(LocalMongo.matchesQuery(@fixture2, {this:{is:{so: 'deep'}}})).toBeTruthy()
+    expect(LocalMongo.matchesQuery(@fixture2, {'this.is':{so: 'deep'}})).toBeTruthy()
+    mixedQuery = { nested: {str:'ing'}, worth: {$gt:3} }
+    expect(LocalMongo.matchesQuery(@fixture1, mixedQuery)).toBeTruthy()
+    expect(LocalMongo.matchesQuery(@fixture2, mixedQuery)).toBeFalsy()
 
   it '$gt selector', ->
     expect(LocalMongo.matchesQuery(@fixture1, 'value': '$gt': 8000)).toBeTruthy()

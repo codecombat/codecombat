@@ -19,7 +19,12 @@ module.exports =
     unless hasPermission or database.isJustFillingTranslations(req, achievement)
       throw new errors.Forbidden('Must be an admin, artisan or submitting translations to edit an achievement')
 
+    propsWatching = ['query', 'proportionalTo', 'rewards', 'worth']
+    oldCopy = _.pick(achievement.toObject(), propsWatching)
     database.assignBody(req, achievement)
+    newCopy = _.pick(achievement.toObject(), propsWatching)
+    unless _.isEqual(oldCopy, newCopy)
+      achievement.set('updated', new Date().toISOString())
     database.validateDoc(achievement)
     achievement = yield achievement.save()
     res.status(200).send(achievement.toObject({req: req}))
