@@ -101,6 +101,7 @@ module.exports.setup = (app) ->
   app.post('/db/earned_achievement', mw.auth.checkLoggedIn(), mw.earnedAchievements.post)
   
   Level = require '../models/Level'
+  app.post('/db/level/names', mw.named.names(Level))
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
 
