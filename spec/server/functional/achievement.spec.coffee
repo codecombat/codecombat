@@ -7,11 +7,14 @@ LevelSession = require '../../../server/models/LevelSession'
 User = require '../../../server/models/User'
 request = require '../request'
 EarnedAchievementHandler = require '../../../server/handlers/earned_achievement_handler'
+mongoose = require 'mongoose'
 
 url = getURL('/db/achievement')
 
 
 # Fixtures
+
+lockedLevelID = new mongoose.Types.ObjectId().toString()
 
 unlockable =
   name: 'Dungeon Arena Started'
@@ -22,6 +25,9 @@ unlockable =
   userField: 'creator'
   recalculable: true
   related: 'a'
+  rewards: {
+    levels: [lockedLevelID]
+  }
 
 unlockable2 = _.clone unlockable
 unlockable2.name = 'This one is obsolete'
@@ -163,8 +169,9 @@ describe 'DELETE /db/achievement/:handle', ->
 
 describe 'POST /db/earned_achievement', ->
   beforeEach addAllAchievements
+  eaURL = getURL('/db/earned_achievement')
   
-  it 'can be used to manually create them for level achievements, which do not happen automatically', utils.wrap (done) ->
+  it 'manually creates earned achievements for level achievements, which do not happen automatically', utils.wrap (done) ->
     session = new LevelSession({
       permissions: simplePermissions
       creator: @admin._id
@@ -174,7 +181,7 @@ describe 'POST /db/earned_achievement', ->
     earnedAchievements = yield EarnedAchievement.find()
     expect(earnedAchievements.length).toBe(0)
     json = {achievement: @unlockable.id, triggeredBy: session._id, collection: 'level.sessions'}
-    [res, body] = yield request.postAsync {uri: getURL('/db/earned_achievement'), json: json}
+    [res, body] = yield request.postAsync { url: eaURL, json }
     expect(res.statusCode).toBe(201)
     expect(body.achievement).toBe @unlockable.id
     expect(body.user).toBe @admin.id
@@ -185,7 +192,72 @@ describe 'POST /db/earned_achievement', ->
     earnedAchievements = yield EarnedAchievement.find()
     expect(earnedAchievements.length).toBe(1)
     done()
+    
+  it 'works for proportional achievements', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    yield user.update({simulatedBy: 10})
+    json = {achievement: @repeatable.id, triggeredBy: user.id, collection: 'users'}
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    expect(res.statusCode).toBe(201)
+    expect(body.earnedPoints).toBe(10)
+    yield user.update({simulatedBy: 30})
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    expect(res.statusCode).toBe(201)
+    expect(body.earnedPoints).toBe(20) # this is kinda weird, TODO: just return total amounts
+    done()
+    
+  it 'ensures the user has the rewards they earned', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    
+    # get the User the unlockable achievement, check they got their reward
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: user._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    json = {achievement: @unlockable.id, triggeredBy: session._id, collection: 'level.sessions'}
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').levels[0]).toBe(lockedLevelID)
+    
+    # mess with the user's earned levels, make sure they don't have it anymore
+    yield user.update({$unset: {earned:1}})
+    user = yield User.findById(user.id)
+    expect(user.get('earned')).toBeUndefined()
 
+    # hit the endpoint again, make sure the level was restored
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').levels[0]).toBe(lockedLevelID)
+    done()
+    
+  it 'updates the user\'s gems if the achievement gems changed', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+
+    # get the User the unlockable achievement, check they got their reward
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: user._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    json = {achievement: @unlockable.id, triggeredBy: session._id, collection: 'level.sessions'}
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').levels[0]).toBe(lockedLevelID)
+
+    # change the achievement
+    yield @unlockable.update({ $set: { 'rewards.gems': 100 } })
+
+    # hit the endpoint again, make sure gems were updated
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').gems).toBe(100)
+    done()
 
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements
@@ -193,7 +265,7 @@ describe 'automatically achieving achievements', ->
   it 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
     # load achievements on server
     @achievements = yield Achievement.loadAchievements()
-    expect(@achievements.length).toBe(2)
+    expect(@achievements.users.length).toBe(2)
     loadedAchievements = Achievement.getLoadedAchievements()
     expect(Object.keys(loadedAchievements).length).toBe(1)
     

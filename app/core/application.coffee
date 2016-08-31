@@ -44,42 +44,53 @@ window.console ?=
   debug: ->
 console.debug ?= console.log  # Needed for IE10 and earlier
 
-Application = initialize: ->
-  Router = require('core/Router')
-  @isProduction = -> document.location.href.search('https?://localhost') is -1
-  @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
-  $('body').addClass 'ipad' if @isIPadApp
-  $('body').addClass 'picoctf' if window.serverConfig.picoCTF
-  if $.browser.msie and parseInt($.browser.version) is 10
-    $("html").addClass("ie10")
-  @tracker = new Tracker()
-  @facebookHandler = new FacebookHandler()
-  @gplusHandler = new GPlusHandler()
-  @githubHandler = new GitHubHandler()
-  @moduleLoader = new ModuleLoader()
-  @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
-  $(document).bind 'keydown', preventBackspace
-  preload(COMMON_FILES)
-  CocoModel.pollAchievements()
-  $.i18n.init {
-    lng: me.get('preferredLanguage', true)
-    fallbackLng: 'en'
-    resStore: locale
-    useDataAttrOptions: true
-    #debug: true
-    #sendMissing: true
-    #sendMissingTo: 'current'
-    #resPostPath: '/languages/add/__lng__/__ns__'
-  }, (t) =>
-    @router = new Router()
-    onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
-    @idleTracker = new Idle
-      onAway: onIdleChanged true
-      onAwayBack: onIdleChanged false
-      onHidden: onIdleChanged true
-      onVisible: onIdleChanged false
-      awayTimeout: 5 * 60 * 1000
-    @idleTracker.start()
+Application = {
+  initialize: ->
+    Router = require('core/Router')
+    @isProduction = -> document.location.href.search('https?://localhost') is -1
+    @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
+    $('body').addClass 'ipad' if @isIPadApp
+    $('body').addClass 'picoctf' if window.serverConfig.picoCTF
+    if $.browser.msie and parseInt($.browser.version) is 10
+      $("html").addClass("ie10")
+    @tracker = new Tracker()
+    @facebookHandler = new FacebookHandler()
+    @gplusHandler = new GPlusHandler()
+    @githubHandler = new GitHubHandler()
+    @moduleLoader = new ModuleLoader()
+    @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
+    $(document).bind 'keydown', preventBackspace
+    preload(COMMON_FILES)
+    CocoModel.pollAchievements()
+#    @checkForNewAchievement() # TODO: Enable once thoroughly tested
+    $.i18n.init {
+      lng: me.get('preferredLanguage', true)
+      fallbackLng: 'en'
+      resStore: locale
+      useDataAttrOptions: true
+      #debug: true
+      #sendMissing: true
+      #sendMissingTo: 'current'
+      #resPostPath: '/languages/add/__lng__/__ns__'
+    }, (t) =>
+      @router = new Router()
+      onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
+      @idleTracker = new Idle
+        onAway: onIdleChanged true
+        onAwayBack: onIdleChanged false
+        onHidden: onIdleChanged true
+        onVisible: onIdleChanged false
+        awayTimeout: 5 * 60 * 1000
+      @idleTracker.start()
+      
+  checkForNewAchievement: ->
+    id = me.get('lastAchievementChecked') or me.id
+    lastAchievementChecked = new Date(parseInt(id.substring(0, 8), 16) * 1000)
+    daysSince = moment.duration(new Date() - lastAchievementChecked).asDays()
+    if daysSince > 1
+      me.checkForNewAchievement()
+      setTimeout(_.bind(@checkForNewAchievement, @), moment.duration(1, 'minute').asMilliseconds())
+}
 
 module.exports = Application
 window.application = Application

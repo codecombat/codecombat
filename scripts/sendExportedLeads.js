@@ -128,23 +128,6 @@ function activity2Html(activity) {
     }
     html += "</p>";
   }
-  else if (activity._type === 'Email') {
-    html += `<h3>${activity._type}</h3>`;
-    if (activity.subject) html += `<h4>${activity.subject}</h4>`;
-    if (activity.date_updated) html += `<div>Updated: ${activity.date_updated}</div>`;
-    if (activity.opens_summary) html += `<div>${activity.opens_summary}</div>`;
-    if (activity.status) html += `<div>Status: ${activity.status}</div>`;
-    for (let email of activity.to) {
-      html += `<div>To: ${email}</div>`;
-    }
-    if (activity.sender) html += `<div>From: ${activity.sender}</div>`;
-    const lines = (activity.body_text || '').split('\n');
-    html += "<p>";
-    for (const line of lines) {
-      html += `<div>${line}</div>`;
-    }
-    html += "</p>";
-  }
   return html;
 }
 

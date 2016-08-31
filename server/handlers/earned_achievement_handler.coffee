@@ -15,10 +15,9 @@ class EarnedAchievementHandler extends Handler
 
   editableProperties: ['notified']
 
-  # Don't allow POSTs or anything yet
   hasAccess: (req) ->
     return false unless req.user
-    req.method in ['GET', 'POST', 'PUT'] # or req.user.isAdmin()
+    req.method in ['GET', 'PUT'] # or req.user.isAdmin()
 
   get: (req, res) ->
     return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
@@ -44,73 +43,6 @@ class EarnedAchievementHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
-
-  post: (req, res) ->
-    achievementID = req.body.achievement
-    triggeredBy = req.body.triggeredBy
-    collection = req.body.collection
-    if collection isnt 'level.sessions'
-      return @sendBadInputError(res, 'Only doing level session achievements for now.')
-
-    model = mongoose.modelNameByCollection(collection)
-
-    async.parallel({
-      achievement: (callback) ->
-        Achievement.findById achievementID, (err, achievement) -> callback(err, achievement)
-
-      trigger: (callback) ->
-        model.findById triggeredBy, (err, trigger) -> callback(err, trigger)
-
-      earned: (callback) ->
-        q = { achievement: achievementID, user: req.user._id+'' }
-        EarnedAchievement.findOne q, (err, earned) -> callback(err, earned)
-    }, (err, { achievement, trigger, earned } ) =>
-      return @sendDatabaseError(res, err) if err
-      if not achievement
-        return @sendNotFoundError(res, 'Could not find achievement.')
-      else if not trigger
-        return @sendNotFoundError(res, 'Could not find trigger.')
-      else if achievement.get('proportionalTo') and earned
-        EarnedAchievement.createForAchievement(achievement, trigger, null, earned, (earnedAchievementDoc) =>
-          @sendCreated(res, (earnedAchievementDoc or earned)?.toObject())
-        )
-      else if earned
-        achievementEarned = achievement.get('rewards')
-        actuallyEarned = earned.get('earnedRewards')
-        if not _.isEqual(achievementEarned, actuallyEarned)
-          earned.set('earnedRewards', achievementEarned)
-          earned.save((err) =>
-            return @sendDatabaseError(res, err) if err
-            @upsertNonNumericRewards(req.user, achievement, (err) =>
-              return @sendDatabaseError(res, err) if err
-              return @sendSuccess(res, earned.toObject())
-            )
-          )
-        else
-          @upsertNonNumericRewards(req.user, achievement, (err) =>
-            return @sendDatabaseError(res, err) if err
-            return @sendSuccess(res, earned.toObject())
-          )
-      else
-        EarnedAchievement.createForAchievement(achievement, trigger, null, null, (earnedAchievementDoc) =>
-          if earnedAchievementDoc
-            @sendCreated(res, earnedAchievementDoc.toObject())
-          else
-            console.error "Couldn't create achievement", achievement, trigger
-            @sendNotFoundError res, "Couldn't create achievement"
-        )
-    )
-
-  upsertNonNumericRewards: (user, achievement, done) ->
-    update = {}
-    for rewardType, rewards of achievement.get('rewards') ? {}
-      continue if rewardType is 'gems'
-      if rewards.length
-        update.$addToSet ?= {}
-        update.$addToSet["earned.#{rewardType}"] = $each: rewards
-    User.update {_id: user._id}, update, {}, (err, result) ->
-      log.error err if err?
-      done?(err)
 
   getByAchievementIDs: (req, res) ->
     query = { user: req.user._id+''}

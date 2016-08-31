@@ -6,7 +6,6 @@
   .print, .print p
     text-align: center
     font-size: .75em
-    // text-transform: uppercase
     @media print
       display: none
 
@@ -17,7 +16,7 @@
   .back-to-top
     text-transform: none
     @media print
-      display: none    
+      display: none
 
   .lesson-plans
         max-width: 900px
@@ -44,6 +43,8 @@
           padding: 0
           font-family: Open Sans
           font-weight: 200
+          @media print
+            font-size: 2em
 
         // module header //
         h2
@@ -70,20 +71,24 @@
           margin: 0
 
         // make it so the page breaks before each module
-        h5[id^="module"]
+        h5[id^="module"], h5[id^="step"]
           border-top: 1px solid #666
           margin: 30px 0 0 0
           padding: 20px 0 0 0
           @media print
             page-break-before: always
 
+        h5[id="step-1"]
+          border-top: none !important
+          @media print
+            page-break-before: avoid
+          .back-to-top
+            display: none
+
         h6
           font-style: italic
           font-weight: 200
           text-align: right
-
-        img
-          width: 100%
 
         table, tr, td, th
           border: 2px solid #f8f8f8
@@ -107,3 +112,16 @@
           margin: 0 0 0 0px
           padding: 0 60px 0 50px
           border-left: 5px solid #eee
+
+
+
+        // Styles for Getting Started page.
+  #getting-started
+      img
+        max-width: 400px
+        border: 1px solid #666
+        box-shadow: 2px 2px #ddd
+        margin: 15px auto 15px auto
+        display: block
+        @media print
+          max-width: 400px !important
