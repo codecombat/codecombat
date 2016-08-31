@@ -42,7 +42,8 @@ module.exports = class CoursesView extends RootView
     @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, { cache: false })
-    @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom })
+    @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom})
+    @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
     @supermodel.loadCollection(@classrooms, { data: {memberID: me.id}, cache: false })
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
