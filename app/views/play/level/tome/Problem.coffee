@@ -14,7 +14,7 @@ module.exports = class Problem
       { @lineMarkerRange, @textMarkerRange } = @buildMarkerRangesFromAetherProblem(@aetherProblem) if isCast
 
       { @level, @range, @message, @hint, @userInfo } = @aetherProblem
-      { @row, @column: col } = @aetherProblem.range?[0]
+      { @row, @column: col } = @aetherProblem.range?[0] or {}
       @createdBy = 'aether'
     else
       unless userCodeHasChangedSinceLastCast
