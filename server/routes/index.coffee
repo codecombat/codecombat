@@ -98,7 +98,7 @@ module.exports.setup = (app) ->
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
   
   EarnedAchievement = require '../models/EarnedAchievement'
-  app.post('/db/earned_achievement', mw.auth.checkLoggedIn(), mw.earnedAchievements.post)
+  app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
   
   Level = require '../models/Level'
   app.post('/db/level/names', mw.named.names(Level))
