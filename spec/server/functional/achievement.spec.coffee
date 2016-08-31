@@ -172,9 +172,10 @@ describe 'POST /db/earned_achievement', ->
   eaURL = getURL('/db/earned_achievement')
   
   it 'manually creates earned achievements for level achievements, which do not happen automatically', utils.wrap (done) ->
+    user = yield utils.becomeAnonymous()
     session = new LevelSession({
       permissions: simplePermissions
-      creator: @admin._id
+      creator: user._id
       level: original: 'dungeon-arena'
     })
     yield session.save()
@@ -184,7 +185,7 @@ describe 'POST /db/earned_achievement', ->
     [res, body] = yield request.postAsync { url: eaURL, json }
     expect(res.statusCode).toBe(201)
     expect(body.achievement).toBe @unlockable.id
-    expect(body.user).toBe @admin.id
+    expect(body.user).toBe user.id
     expect(body.notified).toBeFalsy()
     expect(body.earnedPoints).toBe unlockable.worth
     expect(body.achievedAmount).toBeUndefined()

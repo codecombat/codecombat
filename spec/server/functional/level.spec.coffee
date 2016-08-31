@@ -230,3 +230,16 @@ describe 'GET /db/level/:handle/session', ->
         [res, body] = yield request.getAsync { uri: @url, json: true }
         expect(res.statusCode).toBe(200)
         done()
+        
+        
+describe 'POST /db/level/names', ->
+  
+  it 'returns names of levels whose ids have been POSTed', utils.wrap (done) ->
+    levels = yield _.times(5, utils.makeLevel)
+    levelIDs = _.map(levels, (level) -> level.id)
+    [res, body] = yield request.postAsync { url: utils.getURL('/db/level/names'), json: { ids: levelIDs } }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(5)
+    aLevel = levels[2]
+    expect(_.find(body, (l) -> l._id is aLevel.id).name).toBe(aLevel.get('name'))
+    done()
