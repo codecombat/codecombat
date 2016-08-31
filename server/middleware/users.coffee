@@ -262,15 +262,16 @@ module.exports =
   checkForNewAchievement: wrap (req, res) ->
     user = req.user
     
-    lastAchievementChecked = user.get('lastAchievementChecked') or user._id
-    achievement = yield Achievement.findOne({ _id: { $gt: lastAchievementChecked }}).sort({_id:1})
-
+    lastAchievementChecked = user.get('lastAchievementChecked') or user._id.getTimestamp().toISOString()
+    checkTimestamp = new Date().toISOString()
+    achievement = yield Achievement.findOne({ updated: { $gt: lastAchievementChecked }}).sort({updated:1})
+    
     if not achievement
-      userUpdate = { 'lastAchievementChecked': new mongoose.Types.ObjectId() }
+      userUpdate = { 'lastAchievementChecked': checkTimestamp }
       user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
-    userUpdate = { 'lastAchievementChecked': achievement._id }
+    userUpdate = { 'lastAchievementChecked': achievement.get('updated') }
       
     query = achievement.get('query')
     collection = achievement.get('collection')
@@ -282,7 +283,7 @@ module.exports =
         creator: user._id
       })
     else
-      userUpdate = { 'lastAchievementChecked': new mongoose.Types.ObjectId() }
+      userUpdate = { 'lastAchievementChecked': checkTimestamp }
       user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
       

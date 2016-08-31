@@ -88,8 +88,7 @@ Application = {
     lastAchievementChecked = new Date(parseInt(id.substring(0, 8), 16) * 1000)
     daysSince = moment.duration(new Date() - lastAchievementChecked).asDays()
     if daysSince > 1
-      me.checkForNewAchievement()
-      setTimeout(_.bind(@checkForNewAchievement, @), moment.duration(1, 'minute').asMilliseconds())
+      me.checkForNewAchievement().then => @checkForNewAchievement()
 }
 
 module.exports = Application
