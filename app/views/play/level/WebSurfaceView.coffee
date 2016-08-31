@@ -88,8 +88,11 @@ module.exports = class WebSurfaceView extends CocoView
     switch event.data.type
       when 'goals-updated'
         Backbone.Mediator.publish 'god:new-html-goal-states', goalStates: event.data.goalStates, overallStatus: event.data.overallStatus
+      when 'error'
+        # NOTE: The line number in this is relative to the script tag, not the user code. The offset is added in SpellView.
+        Backbone.Mediator.publish 'web-dev:error', _.pick(event.data, ['message', 'line', 'column', 'url'])
       else
-        console.warn 'Unknown message type', event.data.type, 'for message', e, 'from origin', origin
+        console.warn 'Unknown message type', event.data.type, 'for message', event, 'from origin', origin
 
   destroy: ->
     window.removeEventListener 'message', @onIframeMessage

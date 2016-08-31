@@ -206,4 +206,3 @@ module.exports =
       return false if index is -1
       return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
       return true
-
