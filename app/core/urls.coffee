@@ -7,3 +7,7 @@ module.exports =
   courseArenaLadder: ({level, courseInstance}) ->
     "/play/ladder/#{level.get('slug')}/course/#{courseInstance.id}"
 
+  courseLevel: ({level, courseInstance}) ->
+    url = "/play/level/#{level.get('slug')}?course=#{courseInstance.get('courseID')}&course-instance=#{courseInstance.id}"
+    url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
+    url

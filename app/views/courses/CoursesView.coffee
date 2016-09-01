@@ -13,6 +13,7 @@ Course = require 'models/Course'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
+Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
@@ -50,6 +51,8 @@ module.exports = class CoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
+    @originalLevelMap = {}
+    @urls = require('core/urls')
 
     # TODO: Trim this section for only what's necessary
     @hero = new ThangType
@@ -95,7 +98,13 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
-    
+    _.forEach _.unique(_.pluck(@classrooms.models, 'id')), (classroomID) =>
+      levels = new Levels()
+      @listenTo levels, 'sync', =>
+        return if @destroyed
+        @originalLevelMap[level.get('original')] = level for level in levels.models
+        @render()
+      @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: 'original,primerLanguage,slug' }}))
 
   onClickLogInButton: ->
     modal = new AuthModal()
