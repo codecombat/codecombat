@@ -190,6 +190,7 @@ module.exports = class BasicInfoView extends CocoView
       emails.generalNews ?= {}
       emails.generalNews.enabled = @$('#subscribe-input').is(':checked') and not _.isEmpty(@state.get('checkEmailValue'))
       me.set('emails', emails)
+      me.set(_.pick(data, 'firstName', 'lastName'))
       
       unless _.isNaN(@signupState.get('birthday').getTime())
         me.set('birthday', @signupState.get('birthday').toISOString())

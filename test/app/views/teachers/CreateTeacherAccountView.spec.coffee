@@ -236,7 +236,7 @@ describe 'CreateTeacherAccountView', ->
         expect(request.url).toBe('/db/user')
         expect(request.method).toBe('POST')
         attrs = JSON.parse(request.params)
-        for attr in ['password', 'name', 'email', 'role']
+        for attr in ['password', 'name', 'email', 'role', 'firstName', 'lastName']
           expect(attrs[attr]).toBeDefined()
         
       describe 'after saving the new user', ->

@@ -188,7 +188,7 @@ module.exports = class CreateTeacherAccountView extends RootView
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
-    attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role')
+    attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role', 'firstName', 'lastName')
     attrs.role = attrs.role.toLowerCase()
     options = {}
     newUser = new User(attrs)
