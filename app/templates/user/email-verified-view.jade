@@ -15,7 +15,7 @@ block content
       else if view.user.isTeacher()
         a.btn.btn-lg.btn-forest(href="/teachers/classes")
           span(data-i18n="new_home.goto_classes")
-      else if me.justPlaysCourses()
+      else if me.isStudent()
         div.m-b-1
           a.btn.btn-forest.btn-lg(href="/courses", data-i18n="courses.continue_playing")
         div

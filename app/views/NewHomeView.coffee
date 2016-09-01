@@ -45,12 +45,12 @@ module.exports = class NewHomeView extends RootView
       @supermodel.loadCollection(@trialRequests)
 
     isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
-    if isHourOfCodeWeek and (@isNewPlayer() or (me.justPlaysCourses() and me.isAnonymous()))
+    if isHourOfCodeWeek and (@isNewPlayer() or (me.isStudent() and me.isAnonymous()))
       # Go/return straight to playing single-player HoC course on Play click
       @playURL = '/hoc?go=true'
       @alternatePlayURL = '/play'
       @alternatePlayText = 'home.play_campaign_version'
-    else if me.justPlaysCourses()
+    else if me.isStudent()
       # Save players who might be in a classroom from getting into the campaign
       @playURL = '/courses'
     else

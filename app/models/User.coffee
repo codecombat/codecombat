@@ -81,11 +81,6 @@ module.exports = class User extends CocoModel
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
-  justPlaysCourses: ->
-    # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
-    return true if me.get('role') is 'student'
-    return me.get('stats')?.gamesCompleted and not me.get('heroConfig')
-    
   isSessionless: ->
     # TODO: Fix old users who got mis-tagged as teachers
     # TODO: Should this just be isTeacher, eventually?

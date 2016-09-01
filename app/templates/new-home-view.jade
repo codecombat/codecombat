@@ -22,7 +22,7 @@ mixin box
             h6(data-i18n="new_home.want_coco")
             button.btn.btn-primary.btn-lg.request-demo(data-event-action="Homepage Request Demo CTA", data-i18n="new_home.request_demo")
 
-      else if me.justPlaysCourses()
+      else if me.isStudent()
         div
           a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Classroom Continue Playing CTA", data-i18n="courses.continue_playing")
         div

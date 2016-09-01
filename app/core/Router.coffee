@@ -54,8 +54,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/level-concepts': go('artisans/LevelConceptMap')
     'artisans/level-guides': go('artisans/LevelGuidesView')
 
-    'beta': go('HomeView')
-
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
