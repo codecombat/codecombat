@@ -242,7 +242,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   login:
     sign_up: "Stwórz konto"
-    email_or_username: "Email lub nazwa użytkownikae"
+    email_or_username: "Email lub nazwa użytkownika"
     log_in: "Zaloguj się"
     logging_in: "Logowanie..."
     log_out: "Wyloguj się"
@@ -293,7 +293,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    teacher_type_3: "Access Course Guides"
 #    teacher_type_4: "View student progress"
 #    signup_as_teacher: "Sign up as a Teacher"
-    student_type_1: "Nauczy się programować grając we wciągającą grę!"
+    student_type_1: "Naucz się programować grając we wciągającą grę!"
     student_type_2: "Graj ze swoją klasą"
     student_type_3: "Współzawodnicz na arenach"
     student_type_4: "Wybierz swojego bohatera!"
