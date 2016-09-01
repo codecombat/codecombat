@@ -16,7 +16,7 @@ module.exports = class CocoRouter extends Backbone.Router
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       if utils.getQueryVariable 'hour_of_code'
         return @navigate "/play", {trigger: true, replace: true}
-      return @routeDirectly('NewHomeView', [])
+      return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
 
@@ -114,7 +114,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'hoc': ->
       # Matching /?hour_of_code=true behavior
       @navigate "/play", {trigger: true, replace: true}
-    'home': go('NewHomeView')
+    'home': go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
     'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
@@ -143,9 +143,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'privacy': go('PrivacyView')
 
-    'schools': go('NewHomeView')
-    'seen': go('NewHomeView')
-    'SEEN': go('NewHomeView')
+    'schools': go('HomeView')
+    'seen': go('HomeView')
+    'SEEN': go('HomeView')
 
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView', { teachersOnly: true })

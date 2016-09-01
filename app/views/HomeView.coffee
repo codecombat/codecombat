@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/new-home-view'
+template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
@@ -10,8 +10,8 @@ storage = require 'core/storage'
 
 #  TODO: auto margin feature paragraphs
 
-module.exports = class NewHomeView extends RootView
-  id: 'new-home-view'
+module.exports = class HomeView extends RootView
+  id: 'home-view'
   className: 'style-flat'
   template: template
 
