@@ -68,13 +68,9 @@ module.exports = class CoursesView extends RootView
       @onClassLoadError()
 
   onCourseInstancesLoaded: ->
-    map = {}
     for courseInstance in @courseInstances.models
       courseID = courseInstance.get('courseID')
-      if map[courseID]
-        courseInstance.sessions = map[courseID]
-        continue
-      map[courseID] = courseInstance.sessions = new CocoCollection([], {
+      courseInstance.sessions = new CocoCollection([], {
         url: courseInstance.url() + '/my-course-level-sessions',
         model: LevelSession
       })
