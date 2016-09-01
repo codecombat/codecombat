@@ -1,3 +1,4 @@
+utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -16,6 +17,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @supermodel.trackRequest(@course.fetch())
       @levels = new CocoCollection([], { url: "/db/course/#{@courseID}/level-solutions", model: Level})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
+      @levelNumberMap = {}
     super(options)
 
   camelCaseLanguage: (language) ->
@@ -44,4 +46,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
         level.set 'begin',  _.template(programmableMethod.languages[@language] or programmableMethod.source)(programmableMethod.context)
         solution = programmableMethod.solutions?.find (x) => x.language is @language
         level.set 'solution',  _.template(solution?.source)(programmableMethod.context)
+    levels = []
+    for level in @levels?.models when level.get('original')
+      continue if @language? and level.get('primerLanguage') is @language
+      levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+    @levelNumberMap = utils.createLevelNumberMap(levels)
     @render?()
