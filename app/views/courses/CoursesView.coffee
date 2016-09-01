@@ -13,6 +13,7 @@ Course = require 'models/Course'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 LevelSession = require 'models/LevelSession'
+Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
@@ -50,6 +51,7 @@ module.exports = class CoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new CocoCollection([], { url: "/db/course", model: Course})
     @supermodel.loadCollection(@courses)
+    @originalSlugMap = {}
 
     # TODO: Trim this section for only what's necessary
     @hero = new ThangType
@@ -68,8 +70,10 @@ module.exports = class CoursesView extends RootView
       @onClassLoadError()
 
   onCourseInstancesLoaded: ->
+    courseIDs = {}
     for courseInstance in @courseInstances.models
       courseID = courseInstance.get('courseID')
+      courseIDs[courseID] = true
       courseInstance.sessions = new CocoCollection([], {
         url: courseInstance.url() + '/my-course-level-sessions',
         model: LevelSession
@@ -80,6 +84,13 @@ module.exports = class CoursesView extends RootView
     hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
     if hocCourseInstance
       @courseInstances.remove(hocCourseInstance)
+
+    _.forEach Object.keys(courseIDs), (courseID) =>
+      levels = new Levels()
+      @listenTo levels, 'sync', =>
+        @originalSlugMap[level.get('original')] = level.get('slug') for level in levels.models
+        @render?()
+      @supermodel.trackRequest(levels.fetchForCourse(courseID, { data: { project: 'original,slug' }}))
 
   onLoaded: ->
     super()
@@ -95,7 +106,6 @@ module.exports = class CoursesView extends RootView
       @ownerNameMap[ownerID] = NameLoader.getName(ownerID) for ownerID in ownerIDs
       @render?()
     )
-    
 
   onClickLogInButton: ->
     modal = new AuthModal()
