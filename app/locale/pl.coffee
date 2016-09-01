@@ -305,7 +305,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     enter_class_code: "Podaj kod swojej klasy"
     enter_birthdate: "Podaj datę urodzenia:"
 #    parent_use_birthdate: "Parents, use your own birthdate."
-    ask_teacher_1: "Zapytaj nauczyciel o kod Twojej klasy."
+    ask_teacher_1: "Zapytaj nauczyciela o kod Twojej klasy."
     ask_teacher_2: "Nie jesteś członkiem klasy? Stwórz "
     ask_teacher_3: "konto indywidualne."
     ask_teacher_4: ""
