@@ -87,7 +87,6 @@ module.exports.setup = (app) ->
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   app.get('/db/course/:handle/level-solutions', mw.courses.fetchLevelSolutions)
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
-  app.get('/db/course/:handle/levels', mw.courses.fetchRelatedLevels)
   app.post('/db/course/:handle/patch', mw.auth.checkLoggedIn(), mw.courses.postPatch)
   app.get('/db/course/:handle/patches', mw.patchable.patches(Course))
 

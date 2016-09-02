@@ -168,26 +168,6 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
     expect(res.statusCode).toBe(404)
     done()
 
-describe 'GET /db/course/:handle/levels', ->
-  beforeEach utils.wrap (done) ->
-    yield utils.clearModels [Campaign, Level, User]
-    admin = yield utils.initAdmin()
-    yield utils.loginUser(admin)
-    @level1 = yield utils.makeLevel()
-    @level2 = yield utils.makeLevel()
-    @campaign = yield utils.makeCampaign({}, {levels: [@level1, @level2]})
-    @course = yield utils.makeCourse({campaignID: @campaign.id})
-    done()
-
-  it 'fetches the levels in a course', utils.wrap (done) ->
-    url = getURL("/db/course/#{@course._id}/levels")
-    [res, body] = yield request.getAsync {uri: url, json: true}
-    expect(res.statusCode).toBe(200)
-    expect(body.length).toBe(2)
-    expect(_.difference([@level1.get('slug'), @level2.get('slug')], _.pluck(body, 'slug')).length).toBe(0)
-    done()
-
-
 describe 'GET /db/course/:handle/level-solutions', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]

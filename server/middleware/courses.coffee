@@ -78,21 +78,6 @@ module.exports =
     level = level.toObject({req: req})
     res.status(200).send(level)
 
-  fetchRelatedLevels: wrap (req, res) ->
-    course = yield database.getDocFromHandle(req, Course)
-    throw new errors.NotFound('Course not found.') unless course
-    campaign = yield Campaign.findById course.get('campaignID')
-    throw new errors.NotFound('Campaign not found.') unless campaign
-    levels = campaign.get('levels') or []
-    project = parse.getProjectFromReq(req)
-    sort = { 'version.major': -1, 'version.minor': -1 }
-    fetches = []
-    for level in _.values(levels)
-      query = { original: mongoose.Types.ObjectId(level.original) }
-      fetches.push Level.findOne(query).sort(sort).select(project)
-    levels = yield fetches
-    res.status(200).send((level.toObject({req: req}) for level in levels))
-
   get: (Model, options={}) -> wrap (req, res) ->
     query = {}
     if req.query.releasePhase
