@@ -548,7 +548,9 @@ module.exports = Surface = class Surface extends CocoClass
   
   onKeyEvent: (e) =>
     return unless @realTime
-    @realTimeInputEvents.add(_.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey'))
+    event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
+    event.time = @world.dt * @world.frames.length
+    @realTimeInputEvents.add(event)
 
   #- Canvas callbacks
 
