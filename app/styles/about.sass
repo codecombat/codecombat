@@ -40,43 +40,43 @@
             margin-right: 0.6em
             border-bottom: 4px solid white
             border-radius: 0
-    
+
   #jumbotron
     background-color: $navy
     background-image: url("/images/pages/about/codebackground_zoom_compressed.png")
     background-size: cover
     background-repeat: no-repeat
-    
+
     h1
       color: white
       margin-top: 100px
-      
+
     h2
       color: white
       margin-bottom: 100px
-      
+
   .responsive-side-margins, h3, h4, p
     max-width: 460px
     margin-left: auto
     margin-right: auto
     @media (min-width: $screen-sm-min)
       max-width: inherit
-      
+
   h3
     margin-top: 60px
     @media (min-width: $screen-sm-min)
       margin-top: 150px
-  
+
   #about-container
     @media (min-width: $screen-sm-min)
       margin-top: 85px
     background-color: white
-  
+
   #mission-text
     margin-top: 30px
     @media (min-width: $screen-sm-min)
       margin-top: 45px
-  
+
   #mission-graphic, #community-graphic
     padding: 30px 40px
     position: relative
@@ -87,21 +87,21 @@
     h2
       color: white
       width: 50%
-    
+
   #mission-graphic
     margin-top: 30px
     @media (min-width: $screen-sm-min)
       margin-top: 45px
     background: $navy
-    
+
     h2
       float: right
-    
+
     img
       position: absolute
       bottom: 0
       left: 0
-      
+
     #mission-graphic-filler
       background: $navy
       height: 100%
@@ -109,7 +109,7 @@
       position: absolute
       right: 100%
       top: 0
-      
+
   #team
     ul
       text-align: center
@@ -128,12 +128,21 @@
         .img-thumbnail
           border-radius: 50%
           padding: 0
-          // background-color: $burgandy
+          background-color: $burgandy
           // border: 5px solid $gold
+        .avatar
+          display: none
+        .headshot
+          border: 5px solid #fff
+      .profile-pic:hover .headshot
+          display: none
+      .profile-pic:hover .avatar
+          display: inline
+          border: 5px solid $gold
 
   // #community
   //   margin-top: 100px
-    
+
   #community-row-1
     #community-avatars
       width: 90%
@@ -143,7 +152,7 @@
     margin-top: 35px
     @media (min-width: $screen-sm-min)
       margin-top: 70px
-    
+
     #community-graphic
       background: $burgandy
 
@@ -215,7 +224,7 @@
           display: inline-block
           padding-left: auto
           padding-right: auto
-      
+
     #story-graphic-4
       margin-left: auto
       margin-right: auto
@@ -272,7 +281,7 @@
           margin-left: -85px
         p
           margin-top: 15px
-          
+
   #files
     padding: 30px 0
     margin-top: 50px
@@ -287,7 +296,7 @@
         img
           display: inline-block
           margin: 6.5px
-          
+
     #downloads-container
       position: relative
       height: 250px
@@ -309,7 +318,7 @@
             margin-right: 15px
             vertical-align: middle
             font-size: 1.5em
-            
+
   #screenshot-lightbox
     .modal-dialog
       width: auto

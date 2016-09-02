@@ -25,6 +25,11 @@ config.mongo =
   mongoose_replica_string: process.env.COCO_MONGO_MONGOOSE_REPLICA_STRING or ''
   readpref: process.env.COCO_MONGO_READPREF or 'primary'
 
+if process.env.COCO_MONGO_ANALYTICS_REPLICA_STRING?
+  config.mongo.analytics_replica_string = process.env.COCO_MONGO_ANALYTICS_REPLICA_STRING
+else
+  config.mongo.analytics_replica_string = "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}"
+
 if process.env.COCO_MONGO_LS_REPLICA_STRING?
   config.mongo.level_session_replica_string = process.env.COCO_MONGO_LS_REPLICA_STRING
   

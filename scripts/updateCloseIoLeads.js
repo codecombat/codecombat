@@ -59,7 +59,7 @@ const usSchoolStatuses = ['Auto Attempt 1', 'New US Schools Auto Attempt 1', 'Ne
 
 const emailDelayMinutes = 27;
 
-const closeParallelLimit = 100;
+const closeParallelLimit = 10;
 
 const scriptStartTime = new Date();
 const closeIoApiKey = process.argv[2];
@@ -136,7 +136,9 @@ function getCountryCode(country, emails) {
     if (countryCode) return countryCode;
   }
   for (const email of emails) {
-    const tld = parseDomain(email).tld;
+    const domain = parseDomain(email);
+    if (!domain) continue;
+    const tld = domain.tld;
     if (tld) {
       const matches = /^[A-Za-z]*\.?([A-Za-z]{2})$/ig.exec(tld);
       if (matches && matches.length === 2) {
@@ -850,7 +852,7 @@ function createAddContactFn(postData, internalLead, closeIoLead, userApiKeyMap) 
         // Send email to new contact
         const email = postData.emails[0].email;
         const countryCode = getCountryCode(internalLead.contacts[email].trial.properties.country, [email]);
-        const emailTemplate = getEmailTemplate(internalLead.contacts[email].trial.properties.siteOrigin, closeIoLead.status_label);
+        const emailTemplate = getEmailTemplate(internalLead.contacts[email].trial.properties.siteOrigin, closeIoLead.status_label, countryCode);
         sendMail(email, closeIoLead.id, newContact.id, emailTemplate, emailApiKey, emailDelayMinutes, done);
       });
     });

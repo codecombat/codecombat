@@ -1,11 +1,11 @@
-###### Last updated: 08/23/2016
+###### Last updated: 09/01/2016
 
 ##### Lesson Plans
 # Computer Science 2
 
 ### Curriculum Summary
 - Recommended Prerequisite: Introduction to Computer Science
-- 7 x 45-60 minute coding sessions
+- 6 x 45-60 minute coding sessions
 
 #### Overview
 Armed with basic knowledge of the structure and syntax of simple programs, students are ready to tackle more advanced topics. Conditionals, arithmetic, input handling, oh my! Computer Science 2 is where students move past the programming-toy stage into writing code similar to that they would use in the next major software or killer app!
@@ -19,13 +19,12 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 | Module                                                | Levels           |  Transfer Goals  |
 | ----------------------------------------------------- |:-----------------|:-----------------|
-| [5. Conditionals (if)](#conditionals-if-)             | 1-9              |Check expression before executing|
-| [6. Conditionals (else)](#conditionals-else-)         | 10-17            |Execute default code|
-| [7. Nested Conditionals](#nested-conditionals)        | 18-20            |Put one conditional inside another|
-| [8. Functions](#functions)                            | 21-30            |Save code for later|
-| [9. Properties](#properties)                          | 31-33            |Access information about objects|
-| [10. Review and Synthesis](#review-and-synthesis)     | 34-36            |Use appropriate vocabulary|
-| [11. Code Challenge](#code-challenge)                 | 37               |Design and implement algorithms|
+| [5. Conditionals (if)](#conditionals-if-)             | 1-10             |Check expression before executing|
+| [6. Conditionals (else)](#conditionals-else-)         | 11-18            |Execute default code|
+| [7. Nested Conditionals](#nested-conditionals)        | 19-21            |Put one conditional inside another|
+| [8. Functions](#functions)                            | 22-30            |Save code for later|
+| [9. Events](#events)                                  | 31-32            |Listen for events and execute code|
+| [10. Code Challenge](#code-challenge)                 | 33               |Design and implement algorithms|
 
 ### Core Vocabulary
 **Object** - a character or thing that can perform actions. Objects are the building blocks of Python. They are things or characters that can perform actions. Your `hero` is an object. It can perform the moving actions. In `hero.moveRight()`, the object is `hero`. In Course 2, students will also be using the `pet` object to perform actions.
@@ -425,80 +424,9 @@ These levels are all about writing good code. The helper code that is given to y
 
 
 ##### Module 9
-## Properties
-### Summary
-Flags give the game a real-time element. Players may place flags on the game screen, and have their hero respond to them. Either click on the flag color, or use the first letter of the color, then click on the screen to place the flag. Use `hero.pickUpFlag()` to make the hero go to the flag and clear it.
+## Events
 
-### Transfer Goals
-- Access a property using dot notation.
-- Save a property in a variable.
-- Tell the difference between a property and a function.
-
-### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP4** Model with mathematics.  
-
-### Instructive Activity: Properties (10 mins)
-#### Explain (3 mins)
-A property is something about an object. You get to it by specifying the object, then a dot, then the name of the property. To get the position of a flag, type:
-
-`flag.pos`
-
-This is similar to functions, because both functions and properties are things that belong to the object. Functions are like actions or verbs and properties are like aspects (adjectives) or possessions (nouns).
-
-Properties can have properties! Access them by adding another dot and another property.
-
-`flag.pos.x`
-
-Once you can get to a property, you can find out its value. Different flags have the same way of accessing their position properties, but those properties may have different values.
-
-#### Interact (5 mins)
-Property interview: Give each student a turn to ask something about another student by querying one of their properties. Write the object name and property on the board using Python syntax (dot notation), e.g.
-
-  `amy.age`
-  `victor.favoriteMovie`
-  `marcia.height`
-  `francisco.sister.name`
-
-When the syntax is correct, the queried student should should out the value of that property, e.g.
-	`12`
-  `“Die Hard”`
-  `4.5 feet`
-  `“Diana”`
-
-Note that everyone has an age property, and the same way of accessing it, but the values of that property are not the same for everyone!
-
-#### Reflect (2 mins)
-**What’s a property?** (Something about an object)  
-**How can you tell the difference between a function and a property?** Functions have parentheses (), properties do not.  
-**Can two objects have the same property?** (yes)  
-**Do two objects’ properties always have the same value?** (no)  
-
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students’ attention to the instructions and tips. Flags can be tricky for some students, so allow them to pair up to beat the levels. Each student should write their own code, but it’s ok for another student to place the flags for them.
-
-### Written Reflection (5 mins)
-**How did you use properties today?**
->I had to see where the flag was and the flag has a property called pos. Then inside that it has two more properties, x and y. You use a dot to get inside the object, or inside the property.
-
-**Tell me about flags.**
->You use flags to tell the hero what to do when the game is running. You can write code to say if there’s a flag, then go to it. Flags have a pos that has x and y. X is right-left and y is up-down.
+Curriculum revision in progress, coming soon.
 
 ##### Module 10
 ## Review and Synthesis
