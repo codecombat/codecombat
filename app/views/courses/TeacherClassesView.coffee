@@ -34,6 +34,7 @@ module.exports = class TeacherClassesView extends RootView
   initialize: (options) ->
     super(options)
     @classrooms = new Classrooms()
+    @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
     @classrooms.fetchMine()
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
