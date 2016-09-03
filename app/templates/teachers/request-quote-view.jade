@@ -14,7 +14,7 @@ block content
     form#request-form(class=showDone ? 'hide' : '')
       .row
         .col-md-offset-2.col-md-8
-          h3.text-center(data-i18n="teachers_quote.title")
+          h3.text-center(data-i18n="new_home.request_demo")
           h4.text-center(data-i18n="[html]teachers_quote.subtitle")
 
       if !me.isAnonymous()
@@ -215,7 +215,7 @@ block content
           input(type="hidden" name="nces_phone")
 
       #buttons-row.row.m-y-2.text-center
-        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="[value]teachers_quote.title")
+        input#submit-request-btn.btn.btn-lg.btn-primary(type="submit" data-i18n="[value]new_home.request_demo")
 
     #form-submit-success.text-center(class=showDone ? '' : 'hide')
       h3(data-i18n="teachers_quote.thanks_header")

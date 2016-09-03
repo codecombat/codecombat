@@ -246,7 +246,7 @@ module.exports = class BasicInfoView extends CocoView
     @$('input').attr('disabled', true)
     
   displayFormStandingBy: ->
-    @$('#create-account-btn').text($.i18n.t('signup.create_account')).attr('disabled', false)
+    @$('#create-account-btn').text($.i18n.t('login.sign_up')).attr('disabled', false)
     @$('input').attr('disabled', false)
 
   onClickSsoSignupButton: (e) ->

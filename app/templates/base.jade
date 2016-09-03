@@ -9,7 +9,7 @@ block header
         a(href="/")
           span.glyphicon.glyphicon-home
         a(href='/teachers', data-i18n="nav.teachers")
-        a(href='/courses', data-i18n="nav.students")
+        a(href='/courses', data-i18n="courses.students")
         a(href=view.forumLink(), data-i18n="nav.forum")
         a(href='/community', data-i18n="nav.community")
 
@@ -69,7 +69,7 @@ block footer
       a(href='/legal', tabindex=-1, data-i18n="nav.legal")
       a(href='/privacy', tabindex=-1, data-i18n="legal.privacy_title")
       a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
-      a(href='/play/ladder', tabindex=-1, data-i18n="home.multiplayer")
+      a(href='/play/ladder', tabindex=-1, data-i18n="game_menu.multiplayer_tab")
       if me.isAdmin()
         a(href='/admin') Admin
 
