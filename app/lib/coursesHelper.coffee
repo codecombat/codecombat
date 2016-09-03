@@ -4,6 +4,7 @@ module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
   #   the levels in thate course
+  # TODO: simplify, classroom.sessions only includes sessions for assigned courses now
   calculateDots: (classrooms, courses, courseInstances) ->
     for classroom in classrooms.models
       # map [user, level] => session so we don't have to do find TODO
