@@ -226,7 +226,7 @@ mixin studentRow(student)
           - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
           if instance && instance.hasMember(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
-            - var levelsTotal = trimCourse.levels.length
+            - var levelsTotal = _.reject(trimCourse.levels, 'practice').length
             //- - var level = ???
             - var label = courseLabelsArray[index];
             +studentCourseProgressDot(progress, levelsTotal, level, label)
