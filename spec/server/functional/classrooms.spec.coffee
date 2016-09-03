@@ -488,29 +488,36 @@ describe 'POST /db/classroom/:id/invite-members', ->
 describe 'GET /db/classroom/:handle/member-sessions', ->
   
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom, LevelSession, Level])
-    @artisan = yield utils.initUser()
-    @teacher = yield utils.initUser()
-    @student1 = yield utils.initUser()
-    @student2 = yield utils.initUser()
-    @levelA = new Level({name: 'Level A', permissions: [{target: @artisan._id, access: 'owner'}]})
-    @levelA.set('original', @levelA._id)
-    @levelA = yield @levelA.save()
-    @levelB = new Level({name: 'Level B', permissions: [{target: @artisan._id, access: 'owner'}]})
-    @levelB.set('original', @levelB._id)
-    @levelB = yield @levelB.save()
-    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
-    @session1A = yield new LevelSession({creator: @student1.id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
-    @session1B = yield new LevelSession({creator: @student1.id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student1._id, access: 'owner'}]}).save()
-    @session2A = yield new LevelSession({creator: @student2.id, state: { complete: true }, level: {original: @levelA._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
-    @session2B = yield new LevelSession({creator: @student2.id, state: { complete: false }, level: {original: @levelB._id}, permissions: [{target: @student2._id, access: 'owner'}]}).save()
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Campaign, Level, LevelSession])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @levelA = yield utils.makeLevel({type: 'course'})
+    @levelB = yield utils.makeLevel({type: 'course'})
+    @campaignA = yield utils.makeCampaign({}, {levels: [@levelA]})
+    @campaignB = yield utils.makeCampaign({}, {levels: [@levelB]})
+    @courseA = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignA})
+    @courseB = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignB})
+    @student1 = yield utils.initUser({role: 'student'})
+    yield utils.loginUser(@student1)
+    @session1A = yield utils.makeLevelSession({state: { complete: true }, level: {original: @levelA._id.toHexString()}})
+    @session1B = yield utils.makeLevelSession({state: { complete: false }, level: {original: @levelB._id.toHexString()}})
+    @student2 = yield utils.initUser({role: 'student'})
+    yield utils.loginUser(@student2)
+    @session2A = yield utils.makeLevelSession({state: { complete: true }, level: {original: @levelA._id.toHexString()}})
+    @session2B = yield utils.makeLevelSession({state: { complete: false }, level: {original: @levelB._id.toHexString()}})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, { members: [@student1, @student2] })
+    @courseInstanceA = yield utils.makeCourseInstance({courseID: @courseA.id, classroomID: @classroom.id}, { members: [@student1, @student2] })
+    @courseInstanceB = yield utils.makeCourseInstance({courseID: @courseB.id, classroomID: @classroom.id}, { members: [@student1] })
+    yield utils.logout()
     done()
 
-  it 'returns all sessions for all members in the classroom with only properties level, creator and state.complete', utils.wrap (done) ->
+  it 'returns all sessions for all members in the classroom with assigned courses', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(200)
-    expect(body.length).toBe(4)
+    expect(body.length).toBe(3)
     done()
     
   it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
@@ -532,7 +539,7 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     expect(session.creator).toBe(@student1.id) for session in body
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberSkip=1"), { json: true }
     expect(res.statusCode).toBe(200)
-    expect(body.length).toBe(2)
+    expect(body.length).toBe(1)
     expect(session.creator).toBe(@student2.id) for session in body
     done()
     

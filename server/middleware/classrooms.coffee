@@ -106,18 +106,34 @@ module.exports =
     res.status(200).send(levels)
 
   fetchMemberSessions: wrap (req, res, next) ->
+    # Return member sessions for assigned courses
     throw new errors.Unauthorized() unless req.user
-    memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
-    memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     classroom = yield database.getDocFromHandle(req, Classroom)
     throw new errors.NotFound('Classroom not found.') if not classroom
     throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
+    courseLevelsMap = {}
+    for course in classroom.get('courses') ? []
+      # TODO: is LevelSession.level.original really a string in practice, instead of ObjectId set in schema?
+      # https://github.com/codecombat/codecombat/blob/master/server/middleware/levels.coffee#L18
+      courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) -> l.original?.toHexString())
+    courseInstances = yield CourseInstance.find({classroomID: classroom._id}).select('_id courseID members').lean()
+    memberCoursesMap = {}
+    for courseInstance in courseInstances
+      for userID in courseInstance.members ? []
+        memberCoursesMap[userID.toHexString()] ?= []
+        memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
+    memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
+    memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
     select = 'state.complete level creator playtime changed created dateFirstCompleted submitted'
     for member in members
-      dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
+      levelOriginals = []
+      for courseID in memberCoursesMap[member.toHexString()] ? []
+        levelOriginals = levelOriginals.concat(courseLevelsMap[courseID.toHexString()] ? [])
+      query = {creator: member.toHexString(), 'level.original': {$in: levelOriginals}}
+      dbqs.push(LevelSession.find(query).select(select).lean().exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
