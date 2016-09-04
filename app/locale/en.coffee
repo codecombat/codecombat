@@ -1495,6 +1495,9 @@
     cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
     cs1_pairprogramming: "Pair Programming Activity"
     cs1_pairprogramming_desc: "Introduce students to a pair programming exercise that will help them become better listeners and communicators."
+    unlock_resources: "Unlock more resources!"
+    unlock_resources_desc: "Gain access to additional guides by adding student licenses to your account. Request a demo today to get started."
+    request_demo: "Request Demo"
 
   sharing:
     game: "Game"
