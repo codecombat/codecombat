@@ -98,7 +98,7 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
     else if @level.isType('course') or @courseID
-      @homeLink = '/courses'
+      @homeLink = '/students'
       @homeViewClass = 'views/courses/CoursesView'
       if @courseID
         @homeLink += "/#{@courseID}"

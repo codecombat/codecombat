@@ -111,7 +111,7 @@ module.exports = class CourseVictoryModal extends ModalView
     if me.isSessionless()
       link = '/teachers/courses'
     else
-      link = '/courses'
+      link = '/students'
     application.router.navigate(link, {trigger: true})
 
   onLadder: ->

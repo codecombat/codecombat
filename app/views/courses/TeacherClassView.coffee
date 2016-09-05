@@ -137,7 +137,7 @@ module.exports = class TeacherClassView extends RootView
       classCode = @classroom.get('codeCamel') or @classroom.get('code')
       @state.set {
         classCode: classCode
-        joinURL: document.location.origin + "/courses?_cc=" + classCode
+        joinURL: document.location.origin + "/students?_cc=" + classCode
       }
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
