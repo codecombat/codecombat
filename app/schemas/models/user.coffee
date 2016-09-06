@@ -344,7 +344,7 @@ _.extend UserSchema.properties,
   schoolName: {type: 'string'}
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})
-  lastAchievementChecked: c.objectId({ name: 'Last Achievement Checked' })
+  lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
 
 c.extendBasicProperties UserSchema, 'user'
 
