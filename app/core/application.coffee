@@ -65,7 +65,7 @@ Application = {
     unless me.get('anonymous')
       # TODO: Remove logging later, once this system has proved stable
       me.on 'change:earned', (user, newEarned) ->
-        oldEarned = user.previous('earned')
+        oldEarned = user.previous('earned') ? {}
         if oldEarned.gems isnt newEarned.gems
           console.log 'Gems changed', oldEarned.gems, '->', newEarned.gems
         newLevels = _.difference(newEarned.levels, oldEarned.levels)

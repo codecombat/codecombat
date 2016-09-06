@@ -109,7 +109,7 @@ describe 'PUT /db/achievement', ->
     expect(res.body.name).toBe('whatev')
     done()
     
-  it 'touches "updated" if query, proportionalTo, worth, or rewards change', utils.wrap (done) ->
+  it 'touches "updated" if query, proportionalTo, worth, rewards or function change', utils.wrap (done) ->
     lastUpdated = @unlockable.get('updated')
     expect(lastUpdated).toBeDefined()
     [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {
@@ -139,6 +139,11 @@ describe 'PUT /db/achievement', ->
 
     newWorth = 1000
     [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {worth: newWorth}}
+    expect(res.body.updated).not.toBe(lastUpdated)
+    lastUpdated = res.body.updated
+    
+    newFunction = { kind: 'logarithmic', parameters: { a: 1, b: 2, c: 3 } }
+    [res, body] = yield request.putAsync {uri: url + '/'+@unlockable.id, json: {function: newFunction}}
     expect(res.body.updated).not.toBe(lastUpdated)
     done()
     
