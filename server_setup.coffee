@@ -58,23 +58,11 @@ setupDomainFilterMiddleware = (app) ->
       /^\/web-dev-iframe\.html$/
       /^\/javascripts\/web-dev-listener\.js$/
     ]
-    serveFromBoth = [
-      /^\/healthcheck$/ # Allow the load balancer to check if we're up yet
-      /^\/javascripts\/workers\/aether_worker\.js$/
-      /^\/javascripts\/app\/vendor\/aether-html\.js$/
-      /^\/file\/db\/thang.type\/[a-f0-9]+\/.*$/
-      /^\/images\/.*$/
-    ]
     app.use (req, res, next) ->
       domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
       domainPrefix = req.host.match(domainRegex)?[1] or ''
-      if _.any(serveFromBoth, (pathRegex) -> pathRegex.test(req.path))
-        next()
-      else if _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path))
-        if req.host isnt domainPrefix + config.unsafeContentHostname
-          res.redirect('http://' + domainPrefix + config.unsafeContentHostname + req.path)
-        else
-          next()
+      if _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and (req.host isnt domainPrefix + config.unsafeContentHostname)
+        res.redirect('http://' + domainPrefix + config.unsafeContentHostname + req.path)
       else
         next()
 
