@@ -3,6 +3,7 @@ jsonschema = require '../../app/schemas/models/earned_achievement'
 util = require '../../app/core/utils'
 log = require 'winston'
 co = require 'co'
+errors = require '../commons/errors'
 
 EarnedAchievementSchema = new mongoose.Schema({
   notified:
@@ -27,15 +28,19 @@ EarnedAchievementSchema.statics.upsertFor = (achievement, trigger, earned, user)
   else if earned
     achievementEarned = achievement.get('rewards')
     actuallyEarned = earned.get('earnedRewards')
-    if not _.isEqual(achievementEarned, actuallyEarned)
-      earned.set('earnedRewards', achievementEarned)
-      yield earned.save()
+    oldPoints = earned.get('earnedPoints') ? 0
+    newPoints = achievement.get('worth') ? 10
+    if (not _.isEqual(achievementEarned, actuallyEarned)) or (oldPoints isnt newPoints)
+        earned.set('earnedRewards', achievementEarned)
+        earned.set('earnedPoints', newPoints)
+        yield earned.save()
 
-    # make sure user has all the levels and items they should have
-    update = {}
+    # make sure user has all the levels, heroes, gems, items and points they should have
+    update = {$inc: { points: newPoints - oldPoints }}
+
     for rewardType, rewards of achievement.get('rewards') ? {}
       if rewardType is 'gems'
-        update.$inc = { 'earned.gems': rewards - (actuallyEarned.gems ? 0) }
+        update.$inc['earned.gems'] = rewards - (actuallyEarned.gems ? 0)
       else if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = { $each: rewards }

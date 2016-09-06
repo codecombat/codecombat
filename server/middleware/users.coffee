@@ -20,6 +20,7 @@ Achievement = require '../models/Achievement'
 EarnedAchievement = require '../models/EarnedAchievement'
 log = require 'winston'
 LocalMongo = require '../../app/lib/LocalMongo'
+LevelSession = require '../models/LevelSession'
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -261,28 +262,27 @@ module.exports =
     
   checkForNewAchievement: wrap (req, res) ->
     user = req.user
+    lastAchievementChecked = user.get('lastAchievementChecked') or user._id.getTimestamp().toISOString()
+    checkTimestamp = new Date().toISOString()
+    achievement = yield Achievement.findOne({ updated: { $gt: lastAchievementChecked }}).sort({updated:1})
     
-    lastAchievementChecked = user.get('lastAchievementChecked') or user._id
-    achievement = yield Achievement.findOne({ _id: { $gt: lastAchievementChecked }}).sort({_id:1})
-
     if not achievement
-      userUpdate = { 'lastAchievementChecked': new mongoose.Types.ObjectId() }
+      userUpdate = { 'lastAchievementChecked': checkTimestamp }
       user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
-    userUpdate = { 'lastAchievementChecked': achievement._id }
+    userUpdate = { 'lastAchievementChecked': achievement.get('updated') }
       
     query = achievement.get('query')
     collection = achievement.get('collection')
     if collection is 'users'
       triggers = [user]
     else if collection is 'level.sessions' and query['level.original']
-      triggers = yield LevelSessions.find({
+      triggers = yield LevelSession.find({
         'level.original': query['level.original']
-        creator: user._id
+        creator: user.id
       })
     else
-      userUpdate = { 'lastAchievementChecked': new mongoose.Types.ObjectId() }
       user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
       
@@ -292,10 +292,8 @@ module.exports =
       user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
-    earned = yield EarnedAchievement.findOne({ achievement: achievement.id, user: req.user })
-    yield [
-      EarnedAchievement.upsertFor(achievement, trigger, earned, req.user)
-      user.update({$set: userUpdate})
-    ]
+    earned = yield EarnedAchievement.findOne({ achievement: achievement.id, user: req.user.id })
+    yield EarnedAchievement.upsertFor(achievement, trigger, earned, req.user)
+    yield user.update({$set: userUpdate})
     user = yield User.findById(user.id).select({points: 1, earned: 1})
     return res.send(_.assign({}, userUpdate, user.toObject()))

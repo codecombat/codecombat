@@ -13,6 +13,7 @@ module.exports =
         instance.numCompleted = 0
         instance.started = false
         levels = classroom.getLevels({courseID: course.id})
+        levels.remove(levels.filter((level) => level.get('practice')))
         for userID in instance.get('members')
           instance.started ||= _.any levels.models, (level) ->
             session = _.find classroom.sessions.models, (session) ->
@@ -180,7 +181,7 @@ module.exports =
             if _.find(sessions, (s) -> s.completed()) # have finished this level
               courseProgress.completed &&= true #no-op
               courseProgress[userID].completed &&= true #no-op
-              courseProgress[userID].levelsCompleted += 1
+              courseProgress[userID].levelsCompleted += 1 unless level.get('practice')
               courseProgress[levelID].completed &&= true #no-op
               # courseProgress[levelID].numCompleted += 1
               courseProgress[levelID][userID].completed = true
