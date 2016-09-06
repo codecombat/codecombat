@@ -75,12 +75,15 @@ block content
               p(data-i18n="teacher.cs1_pairprogramming_desc")
 
           if !view.paidAccess && !me.isAdmin()
-            h4
-              i(data-i18n="teacher.unlock_resources")
-            p
-              a(href="/teachers/demo", data-i18n="teacher.request_demo")
-            p
-              a(href="/teachers/licenses", data-i18n="teacher.enrollments")
+            .unlock
+              h4
+                i(data-i18n="teacher.unlock_resources")
+              p(data-i18n="teacher.unlock_resources_desc")
+              
+              p
+                button#request-demo-btn.btn-lg.btn.btn-forest(onClick="window.location.href = '/teachers/demo'" data-i18n="teacher.request_demo")
+              //- p
+              //-   a(href="/teachers/licenses", data-i18n="teacher.enrollments")
           else
             h4(data-i18n="teacher.cs2")
             ul
