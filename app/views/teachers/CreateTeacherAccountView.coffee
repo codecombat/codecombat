@@ -73,7 +73,8 @@ module.exports = class CreateTeacherAccountView extends RootView
             "<div class='district'>#{hr.district.value}, " +
               "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
     ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
-      @$('input[name="district"]').val suggestion.district
+      # Tell Algolioa about the change but don't open the suggestion dropdown
+      @$('input[name="district"]').val(suggestion.district).trigger('input').trigger('blur')
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
       @$('input[name="country"]').val 'USA'
@@ -94,7 +95,7 @@ module.exports = class CreateTeacherAccountView extends RootView
           "<div class='district'>#{hr.district.value}, " +
             "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
     ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
-      @$('input[name="organization"]').val '' # TODO: does not persist on tabbing: back to school, back to district
+      @$('input[name="organization"]').val('').trigger('input').trigger('blur')
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
       @$('input[name="country"]').val 'USA'
