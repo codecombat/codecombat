@@ -63,6 +63,8 @@ setupDomainFilterMiddleware = (app) ->
       domainPrefix = req.host.match(domainRegex)?[1] or ''
       if _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and (req.host isnt domainPrefix + config.unsafeContentHostname)
         res.redirect('http://' + domainPrefix + config.unsafeContentHostname + req.path)
+      else if not _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and req.host is domainPrefix + config.unsafeContentHostname
+        res.redirect('http://' + domainPrefix + config.mainHostname + req.path)
       else
         next()
 
