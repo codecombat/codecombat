@@ -13,10 +13,12 @@ mixin box
 
     else
       h6#classroom-edition-header(data-i18n="new_home.logged_in_as")
-      p.small #{me.get("email")}
+      p.small=me.broadName()
       if me.isTeacher()
         div
           button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.goto_classes")
+        div
+          button.resource-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click My Classes CTA", data-i18n="teacher.resource_hub")
         div
           if !view.isTeacherWithDemo
             h6(data-i18n="new_home.want_coco")
@@ -26,7 +28,7 @@ mixin box
         div
           a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Classroom Continue Playing CTA", data-i18n="courses.continue_playing")
         div
-          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage View Progress CTA", data-i18n="new_home.view_progress")
+          a.btn.btn-primary.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage View Progress CTA", data-i18n="new_home.go_to_courses")
       else
         div
           a.btn.btn-forest.btn-lg.btn-block.play-btn(href=view.playURL, data-event-action="Homepage Campaign Continue Playing CTA", data-i18n="courses.continue_playing")
