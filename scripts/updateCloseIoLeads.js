@@ -62,27 +62,28 @@ const emailDelayMinutes = 27;
 const closeParallelLimit = 10;
 
 const scriptStartTime = new Date();
-const closeIoApiKey = process.argv[2];
+const closeIoApiKey = process.argv[2]; // Matt
 // Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
+// Names in comments are for reference, but Source of Truth is updateSalesLeads.sh on the analytics server
 const closeIoMailApiKeys = [
   {
-    apiKey: process.argv[3],
+    apiKey: process.argv[3], // Lisa
     weight: .8
   },
   {
-    apiKey: process.argv[4],
-    weight: .1
+    apiKey: process.argv[4], // Elliot
+    weight: .15
   },
   {
-    apiKey: process.argv[5],
+    apiKey: process.argv[5], // Nolan
     weight: .05
   },
   {
-    apiKey: process.argv[6],
-    weight: .05
+    apiKey: process.argv[6], // Sean
+    weight: 0
   },
 ];
-const closeIoEuMailApiKey = process.argv[7];
+const closeIoEuMailApiKey = process.argv[7]; // Jurian
 const intercomAppIdApiKey = process.argv[8];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
 const intercomApiKey = intercomAppIdApiKey.split(':')[1];
