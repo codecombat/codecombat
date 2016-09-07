@@ -28,7 +28,7 @@ module.exports = class HomeView extends RootView
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickViewProfile'
     'click .setup-class-btn': 'onClickSetupClass'
-    'click .wiki-btn': 'onClickWikiButton'
+    'click .resource-btn': 'onClickResourceButton'
 
   shortcuts:
     'right': 'onRightPressed'
@@ -97,9 +97,9 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     application.router.navigate("/user/#{me.getSlugOrID()}", { trigger: true })
 
-  onClickWikiButton: (e) ->
+  onClickResourceButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    window.location.href = 'https://sites.google.com/a/codecombat.com/teacher-guides/course-guides'
+    application.router.navigate('/teachers/resources', { trigger: true })
 
   afterRender: ->
     @onChangeSchoolLevelDropdown()
