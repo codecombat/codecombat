@@ -24,7 +24,7 @@ module.exports = class HintsView extends CocoView
       hintsUsed: {}
     })
     @updateHint()
-    
+
     debouncedRender = _.debounce(@render)
     @listenTo(@state, 'change', debouncedRender)
     @listenTo(@hintsState, 'change', debouncedRender)
@@ -38,6 +38,7 @@ module.exports = class HintsView extends CocoView
   afterRender: ->
     @$el.toggleClass('hide', @hintsState.get('hidden'))
     super()
+    @playSound 'game-menu-open'
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')
@@ -48,9 +49,9 @@ module.exports = class HintsView extends CocoView
     translated = utils.i18n(hint, 'body')
     filtered = utils.filterMarkdownCodeLanguages(translated, language)
     markedUp = marked(filtered)
-    
+
     return markedUp
-  
+
   updateHint: ->
     index = @state.get('hintIndex')
     hintsTitle = $.i18n.t('play_level.hints_title').replace('{{number}}', index + 1)
@@ -69,7 +70,9 @@ module.exports = class HintsView extends CocoView
     @playSound 'menu-button-click'
     @updateHintTimer()
 
-  hideView: -> @hintsState?.set('hidden', true)
+  hideView: ->
+    @hintsState?.set('hidden', true)
+    @playSound 'game-menu-close'
 
   visibilityChanged: (e) ->
     @updateHintTimer()
@@ -85,10 +88,9 @@ module.exports = class HintsView extends CocoView
     hintsViewTime[hintIndex] ?= 0
     hintsViewTime[hintIndex]++
     hintsUsed = @state.get('hintsUsed')
-    if hintsViewTime[hintIndex] > @hintUsedThresholdSeconds and not hintsUsed[hintIndex] 
+    if hintsViewTime[hintIndex] > @hintUsedThresholdSeconds and not hintsUsed[hintIndex]
       window.tracker?.trackEvent 'Hint Used', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: hintIndex, ['Mixpanel']
       hintsUsed[hintIndex] = true
       @state.set('hintsUsed', hintsUsed)
       clearInterval(@timerIntervalID)
     @state.set('hintsViewTime', hintsViewTime)
-
