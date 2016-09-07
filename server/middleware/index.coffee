@@ -13,6 +13,7 @@ module.exports =
   levels: require './levels'
   named: require './named'
   patchable: require './patchable'
+  patches: require './patches'
   prepaids: require './prepaids'
   rest: require './rest'
   trialRequests: require './trial-requests'

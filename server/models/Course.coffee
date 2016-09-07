@@ -9,6 +9,7 @@ CourseSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:con
 CourseSchema.plugin plugins.NamedPlugin
 CourseSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'description']}
 CourseSchema.plugin(plugins.TranslationCoveragePlugin)
+CourseSchema.plugin(plugins.PatchablePlugin)
 
 CourseSchema.statics.privateProperties = []
 CourseSchema.statics.editableProperties = [
