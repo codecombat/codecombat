@@ -33,6 +33,7 @@ AchievementSchema.index(
 AchievementSchema.index({i18nCoverage: 1}, {name: 'translation coverage index', sparse: true})
 AchievementSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
 AchievementSchema.index({related: 1}, {name: 'related index', sparse: true})
+AchievementSchema.index({updated: 1}, {name: 'updated index'})
 
 AchievementSchema.methods.objectifyQuery = ->
   try
@@ -105,6 +106,8 @@ AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
 
 AchievementSchema.pre 'save', (next) ->
   @stringifyQuery()
+  if not @get('updated')
+    @set('updated', new Date().toISOString())
   next()
 
 # Reload achievements upon save

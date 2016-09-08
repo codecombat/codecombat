@@ -28,6 +28,7 @@ module.exports = class HomeView extends RootView
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickViewProfile'
     'click .setup-class-btn': 'onClickSetupClass'
+    'click .resource-btn': 'onClickResourceButton'
 
   shortcuts:
     'right': 'onRightPressed'
@@ -93,6 +94,10 @@ module.exports = class HomeView extends RootView
   onClickViewProfile: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
     application.router.navigate("/user/#{me.getSlugOrID()}", { trigger: true })
+
+  onClickResourceButton: (e) ->
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
+    application.router.navigate('/teachers/resources', { trigger: true })
 
   afterRender: ->
     @onChangeSchoolLevelDropdown()

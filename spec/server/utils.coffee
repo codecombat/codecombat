@@ -4,6 +4,7 @@ co = require 'co'
 Promise = require 'bluebird'
 User = require '../../server/models/User'
 Level = require '../../server/models/Level'
+LevelSession = require '../../server/models/LevelSession'
 Achievement = require '../../server/models/Achievement'
 Campaign = require '../../server/models/Campaign'
 Course = require '../../server/models/Course'
@@ -98,6 +99,38 @@ module.exports = mw =
     request.post { uri: getURL('/db/level'), json: data }, (err, res) ->
       return done(err) if err
       Level.findById(res.body._id).exec done
+      
+  makeLevelSession: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+    
+    data = _.extend({}, {
+      state:
+        complete: false
+        scripts:
+          currentScript: null
+    }, data)
+
+    if sources?.level and not data.level
+      data.level = {
+        original: sources.level.get('original').toString()
+        majorVersion: sources.level.get('version').major
+      }
+      
+    if sources?.creator and not data.creator
+      data.creator = sources.creator.id
+      
+    if data.creator and not data.permissions
+      data.permissions = [
+        { target: data.creator, access: 'owner' }
+        { target: 'public', access: 'write' }
+      ]
+      
+    if not data.codeLanguage
+      data.codeLanguage = 'javascript'
+      
+    session = new LevelSession(data)
+    session.save(done)
 
   makeAchievement: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
@@ -106,12 +139,13 @@ module.exports = mw =
     data = _.extend({}, {
       name: _.uniqueId('Achievement ')
     }, data)
-    if sources.related and not data.related
+    if sources?.related and not data.related
       related = sources.related
       data.related = (related.get('original') or related._id).valueOf()
 
     request.post { uri: getURL('/db/achievement'), json: data }, (err, res) ->
       return done(err) if err
+      expect(res.statusCode).toBe(201)
       Achievement.findById(res.body._id).exec done
       
   makeCampaign: Promise.promisify (data, sources, done) ->

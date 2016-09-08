@@ -72,6 +72,7 @@ module.exports = class CoursesView extends RootView
 
   onCourseInstancesLoaded: ->
     for courseInstance in @courseInstances.models
+      continue if not courseInstance.get('classroomID')
       courseID = courseInstance.get('courseID')
       courseInstance.sessions = new CocoCollection([], {
         url: courseInstance.url() + '/my-course-level-sessions',

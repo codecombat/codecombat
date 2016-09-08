@@ -1039,6 +1039,22 @@ describe 'POST /db/user/:handle/deteacher', ->
 
     
 describe 'POST /db/user/:handle/check-for-new-achievements', ->
+  achievementURL = getURL('/db/achievement')
+  achievementJSON = {
+    collection: 'users'
+    query: {'points': {$gt: 50}}
+    userField: '_id'
+    recalculable: true
+    worth: 75
+    rewards: {
+      gems: 50
+      levels: [new mongoose.Types.ObjectId().toString()]
+    }
+    name: 'Dungeon Arena Started'
+    description: 'Started playing Dungeon Arena.'
+    related: 'a'
+  }
+  
   
   beforeEach utils.wrap (done) ->
     yield utils.clearModels [Achievement, EarnedAchievement, LevelSession, User]
@@ -1055,36 +1071,132 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     earned = yield EarnedAchievement.count()
     expect(earned).toBe(0)
 
-    achievementURL = getURL('/db/achievement')
-    achievementJSON = {
-      collection: 'users'
-      query: {'points': {$gt: 50}}
-      userField: '_id'
-      recalculable: true
-      worth: 75
-      rewards: {
-        gems: 50
-        levels: [new mongoose.Types.ObjectId().toString()]
-      }
-      name: 'Dungeon Arena Started'
-      description: 'Started playing Dungeon Arena.'
-      related: 'a'
-    }
-
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     [res, body] = yield request.postAsync { uri: achievementURL, json: achievementJSON }
-    achievementID = body._id
+    achievementUpdated = res.body.updated
     expect(res.statusCode).toBe(201)
     
     user = yield User.findById(user.id)
-    expect(user.get('rewards')).toBeUndefined()
+    expect(user.get('earned')).toBeUndefined()
     
     yield utils.loginUser(user)
     [res, body] = yield request.postAsync({ url, json })
     expect(body.points).toBe(175)
     earned = yield EarnedAchievement.count()
     expect(earned).toBe(1)
-    expect(body.lastAchievementChecked).toBe(achievementID)
+    expect(body.lastAchievementChecked).toBe(achievementUpdated)
     
+    done()
+    
+  it 'updates the user if they already earned the achievement but the rewards changed', utils.wrap (done) ->
+    user = yield utils.initUser({points: 100})
+    yield utils.loginUser(user)
+    url = utils.getURL("/db/user/#{user.id}/check-for-new-achievement")
+    json = true
+    [res, body] = yield request.postAsync({ url, json })
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    [res, body] = yield request.postAsync { uri: achievementURL, json: achievementJSON }
+    achievement = yield Achievement.findById(body._id)
+    expect(res.statusCode).toBe(201)
+
+    user = yield User.findById(user.id)
+    expect(user.get('rewards')).toBeUndefined()
+
+    yield utils.loginUser(user)
+    [res, body] = yield request.postAsync({ url, json })
+    expect(res.body.points).toBe(175)
+    expect(res.body.earned.gems).toBe(50)
+
+    achievement.set({
+      updated: new Date().toISOString()
+      rewards: { gems: 100 }
+      worth: 200
+    })
+    yield achievement.save()
+
+    [res, body] = yield request.postAsync({ url, json })
+    expect(res.body.earned.gems).toBe(100)
+    expect(res.body.points).toBe(300)
+    expect(res.statusCode).toBe(200)
+
+    # special case: no worth, should default to 10
+    
+    yield achievement.update({
+      $set: {updated: new Date().toISOString()},
+      $unset: {worth:''}
+    })
+    [res, body] = yield request.postAsync({ url, json })
+    expect(res.body.earned.gems).toBe(100)
+    expect(res.body.points).toBe(110)
+    expect(res.statusCode).toBe(200)
+    done()
+    
+  it 'works for level sessions', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    level = yield utils.makeLevel()
+    achievement = yield utils.makeAchievement({
+      collection: 'level.sessions'
+      userField: 'creator'
+      query: {
+        'level.original': level.get('original').toString()
+        'state': {complete: true}
+      }
+      worth: 100
+      proportionalTo: 'state.difficulty'
+    })
+    levelSession = yield utils.makeLevelSession({state: {complete: true, difficulty:2}}, { creator:admin, level })
+    url = utils.getURL("/db/user/#{admin.id}/check-for-new-achievement")
+    json = true
+    [res, body] = yield request.postAsync({ url, json })
+    expect(body.points).toBe(200)
+    
+    # check idempotency
+    achievement.set('updated', new Date().toISOString())
+    yield achievement.save()
+    [res, body] = yield request.postAsync({ url, json })
+    expect(body.points).toBe(200)
+    admin = yield User.findById(admin.id)
+    done()
+
+  it 'skips achievements which have not been satisfied', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    level = yield utils.makeLevel()
+    achievement = yield utils.makeAchievement({
+      collection: 'level.sessions'
+      userField: 'creator'
+      query: {
+        'level.original': 'does not matter'
+      }
+      worth: 100
+    })
+    expect(admin.get('lastAchievementChecked')).toBeUndefined()
+    url = utils.getURL("/db/user/#{admin.id}/check-for-new-achievement")
+    json = true
+    [res, body] = yield request.postAsync({ url, json })
+    expect(body.points).toBeUndefined()
+    admin = yield User.findById(admin.id)
+    expect(admin.get('lastAchievementChecked')).toBe(achievement.get('updated'))
+    done()
+
+  it 'skips achievements which are not either for the users collection or the level sessions collection with level.original included', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    achievement = yield utils.makeAchievement({
+      collection: 'not.supported'
+      userField: 'creator'
+      query: {}
+      worth: 100
+    })
+    expect(admin.get('lastAchievementChecked')).toBeUndefined()
+    url = utils.getURL("/db/user/#{admin.id}/check-for-new-achievement")
+    json = true
+    [res, body] = yield request.postAsync({ url, json })
+    expect(body.points).toBeUndefined()
+    admin = yield User.findById(admin.id)
+    expect(admin.get('lastAchievementChecked')).toBe(achievement.get('updated'))
     done()
