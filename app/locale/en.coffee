@@ -1,19 +1,4 @@
 ﻿module.exports = nativeDescription: "English", englishDescription: "English", translation:
-  home:
-    slogan: "Learn to Code by Playing a Game"
-    no_ie: "CodeCombat does not run in Internet Explorer 8 or older. Sorry!"  # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat wasn't designed for mobile devices and may not work!"  # Warning that shows up on mobile devices
-    play: "Play"  # The big play button that opens up the campaign view.
-    play_campaign_version: "Play Campaign Version"  # Shows up under big play button if you only play /courses
-    old_browser: "Uh oh, your browser is too old to run CodeCombat. Sorry!"  # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "You can try anyway, but it probably won't work."
-    ipad_browser: "Bad news: CodeCombat doesn't run on iPad in the browser. Good news: our native iPad app is awaiting Apple approval."
-    campaign: "Campaign"
-    for_beginners: "For Beginners"
-    multiplayer: "Multiplayer"  # Not currently shown on home page
-    for_developers: "For Developers"  # Not currently shown on home page.
-    or_ipad: "Or download for iPad"
-
   new_home:
     slogan: "The most engaging game for learning programming."
     classroom_edition: "Classroom Edition:"
@@ -65,7 +50,6 @@
     setup_a_class: "Set Up a Class"
     have_an_account: "Have an account?"
     logged_in_as: "You are currently logged in as"
-    view_my_classes: "View my classes"
     computer_science: "Computer science courses for all ages"
     show_me_lesson_time: "Show me lesson time estimates for:"
     curriculum: "Total curriculum hours:"
@@ -76,43 +60,27 @@
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class:"Everything you need to run a computer science class in your school today, no CS background required."
-    teachers: "Teachers!"
-    teachers_and_educators: "Teachers & Educators"
-    class_in_box: "Learn how our classroom-in-a-box platform fits into your curriculum."
-    get_started: "Get Started"
-    students: "Students:"
-    join_class: "Join Class"
-    role: "Your role:"
-    student_count: "Number of students:"
-    start_playing_for_free: "Start Playing for Free!"
-    students_and_players: "Students & Players"
     goto_classes: "Go to My Classes"
     view_profile: "View My Profile"
     view_progress: "View Progress"
     go_to_courses: "Go to My Courses"
     want_coco: "Want CodeCombat at your school?"
-    form_select_role: "Select primary role"
-    form_select_range: "Select class size"
 
   nav:
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
     courses: "Courses"
-    editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Account"
     my_account: "My Account"
     profile: "Profile"
-    stats: "Stats"
-    code: "Code"
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
-    students: "Students"
     teachers: "Teachers"
     careers: "Careers"
     facebook: "Facebook"
@@ -123,7 +91,6 @@
     toggle_nav: "Toggle navigation"
     jobs: "Jobs"
     schools: "Schools"
-    educator_wiki: "Educator Wiki"
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
     support: "Support"
@@ -133,7 +100,6 @@
     resource_hub: "Resource Hub"
 
   modal:
-    cancel: "Cancel"
     close: "Close"
     okay: "Okay"
 
@@ -164,7 +130,6 @@
     skills_granted: "Skills Granted"  # Property documentation details
     heroes: "Heroes"  # Tooltip on hero shop button from /play
     achievements: "Achievements"  # Tooltip on achievement list button from /play
-    account: "Account"  # Tooltip on account button from /play
     settings: "Settings"  # Tooltip on settings button from /play
     poll: "Poll"  # Tooltip on poll button from /play
     next: "Next"  # Go from choose hero to choose inventory before playing a level
@@ -181,8 +146,6 @@
     adjust_volume: "Adjust volume"
     campaign_multiplayer: "Multiplayer Arenas"
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
-    campaign_old_multiplayer: "(Deprecated) Old Multiplayer Arenas"
-    campaign_old_multiplayer_description: "Relics of a more civilized age. No simulations are run for these older, hero-less multiplayer arenas."
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -260,10 +223,8 @@
     create_student_header: "Create Student Account"
     create_teacher_header: "Create Teacher Account"
     create_individual_header: "Create Individual Account"
-    create_header: "Create Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
     creating: "Creating Account..."
-    create_account: "Create Account"
     sign_up: "Sign Up"
     log_in: "log in with password"
     required: "You need to log in before you can go that way."
@@ -350,7 +311,6 @@
     sending: "Sending..."
     send: "Send"
     sent: "Sent"
-    type: "Type"
     cancel: "Cancel"
     save: "Save"
     publish: "Publish"
@@ -719,7 +679,6 @@
     lua_blurb: "Game scripting language."
     java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Status"
-    hero_type: "Type"
     weapons: "Weapons"
     weapons_warrior: "Swords - Short Range, No Magic"
     weapons_ranger: "Crossbows, Guns - Long Range, No Magic"
@@ -878,7 +837,6 @@
     character_art: "Character Art"
     download_all: "Download All"
     previous: "Previous"
-    next: "Next"
     location_title: "We're located in downtown SF:"
 
   teachers:
@@ -894,7 +852,6 @@
 
   teachers_quote:
     name: "Demo Form"
-    title: "Request a Demo"
     subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
     email_exists: "User exists with this email."
     phone_number: "Phone number"
@@ -943,7 +900,6 @@
     create_account_subtitle: "Get access to teacher-only tools for using CodeCombat in the classroom.  <strong>Set up a class</strong>, add your students, and <strong>monitor their progress</strong>!"
     convert_account_title: "Update to Teacher Account"
     not: "Not"
-    setup_a_class: "Set Up a Class"
 
   versions:
     save_version_title: "Save New Version"
@@ -985,7 +941,6 @@
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
     god_mode: "God Mode"
-    password_tab: "Password"
     emails_tab: "Emails"
     admin: "Admin"
     manage_subscription: "Click here to manage your subscription."
@@ -1070,7 +1025,6 @@
     clan_name: "Clan Name"
     name: "Name"
     chieftain: "Chieftain"
-    type: "Type"
     edit_clan_name: "Edit Clan Name"
     edit_clan_description: "Edit Clan Description"
     edit_name: "edit name"
@@ -1215,7 +1169,6 @@
     teacher: "Teacher"
     complete: "Complete"
     none: "None"
-    save: "Save"
     play_campaign_title: "Play the Campaign"
     play_campaign_description: "You’re ready to take the next step! Explore hundreds of challenging levels, learn advanced programming skills, and compete in multiplayer arenas!"
     create_account_title: "Create an Account"
@@ -1322,8 +1275,7 @@
     students_enrolled: "students enrolled"
     students_assigned: "students assigned"
     length: "Length:"
-    title: "Courses" # Flat style redesign
-    subtitle: "Review course overviews and levels"
+    subtitle: "Review course overviews and levels" # Flat style redesign
     changelog: "View latest changes to course levels."
     select_language: "Select language"
     select_level: "Select level"
@@ -1333,8 +1285,7 @@
     view_guide_online: "Level Overviews and Solutions"
     grants_lifetime_access: "Grants access to all Courses."
     enrollment_credits_available: "Licenses Available:"
-    description: "Description" # ClassroomSettingsModal
-    language_select: "Select a language"
+    language_select: "Select a language" # ClassroomSettingsModal
     language_cannot_change: "Language cannot be changed once students join a class."
     learn_p: "Learn Python"
     learn_j: "Learn JavaScript"
@@ -1631,7 +1582,6 @@
     level_some_options: "Some Options?"
     level_tab_thangs: "Thangs"
     level_tab_scripts: "Scripts"
-    level_tab_settings: "Settings"
     level_tab_components: "Components"
     level_tab_systems: "Systems"
     level_tab_docs: "Documentation"
@@ -1647,7 +1597,6 @@
     duplicate: "Duplicate"
     stop_duplicate: "Stop Duplicate"
     rotate: "Rotate"
-    level_settings_title: "Settings"
     level_component_tab_title: "Current Components"
     level_component_btn_new: "Create New Component"
     level_systems_tab_title: "Current Systems"
@@ -1657,7 +1606,6 @@
     level_components_type: "Type"
     level_component_edit_title: "Edit Component"
     level_component_config_schema: "Config Schema"
-    level_component_settings: "Settings"
     level_system_edit_title: "Edit System"
     create_system_title: "Create New System"
     new_component_title: "Create New Component"
@@ -2049,7 +1997,6 @@
     rights_desc: "All rights are reserved for Levels themselves. This includes"
     rights_scripts: "Scripts"
     rights_unit: "Unit configuration"
-    rights_description: "Description"
     rights_writings: "Writings"
     rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
     rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."

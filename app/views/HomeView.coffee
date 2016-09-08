@@ -48,8 +48,6 @@ module.exports = class HomeView extends RootView
     if isHourOfCodeWeek and (@isNewPlayer() or (me.isStudent() and me.isAnonymous()))
       # Go/return straight to playing single-player HoC course on Play click
       @playURL = '/hoc?go=true'
-      @alternatePlayURL = '/play'
-      @alternatePlayText = 'home.play_campaign_version'
     else if me.isStudent()
       # Save players who might be in a classroom from getting into the campaign
       @playURL = '/courses'
