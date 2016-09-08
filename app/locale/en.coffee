@@ -825,7 +825,7 @@
     nolan_title: "Territory Manager"
     elliot_title: "Partnership Manager"
     elliot_blurb: "Mindreader"
-    lisa_title: "Market Development Rep"
+    lisa_title: "School Specialist" # {change}
     sean_title: "Territory Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
