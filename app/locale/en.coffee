@@ -833,7 +833,9 @@
     jose_blurb: "Taking Off"
     community_title: "...and our open-source community"
     community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
-    community_description_1: "CodeCombat is a community project, with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
+    community_description_3: "CodeCombat is a"
+    community_description_link_2: "community project"
+    community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our" # {change}
     community_description_link: "contribute page"
     community_description_2: "for more info."
     number_contributors: "Over 450 contributors have lent their support and time to this project."
