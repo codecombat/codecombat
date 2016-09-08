@@ -13,6 +13,9 @@ module.exports = class WebSurfaceView extends CocoView
     # Consider https://www.npmjs.com/package/css-select to do this on virtualDom instead of in iframe on concreteDOM
     super(options)
 
+  getRenderData: ->
+    _.merge super(), { fullUnsafeContentHostname: serverConfig.fullUnsafeContentHostname }
+
   afterRender: ->
     super()
     @iframe = @$('iframe')[0]
@@ -81,7 +84,7 @@ module.exports = class WebSurfaceView extends CocoView
 
   onIframeMessage: (event) =>
     origin = event.origin or event.originalEvent.origin
-    unless origin is window.location.origin
+    unless new RegExp("^https?:\/\/#{serverConfig.fullUnsafeContentHostname}$").test origin
       return console.log 'Ignoring message from bad origin:', origin
     unless event.source is @iframe.contentWindow
       return console.log 'Ignoring message from somewhere other than our iframe:', event.source
