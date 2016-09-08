@@ -52,7 +52,7 @@ module.exports = class HomeView extends RootView
       @alternatePlayText = 'home.play_campaign_version'
     else if me.isStudent()
       # Save players who might be in a classroom from getting into the campaign
-      @playURL = '/courses'
+      @playURL = '/students'
     else
       @playURL = '/play'
 
