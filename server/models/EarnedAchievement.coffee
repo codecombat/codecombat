@@ -40,7 +40,7 @@ EarnedAchievementSchema.statics.upsertFor = (achievement, trigger, earned, user)
 
     for rewardType, rewards of achievement.get('rewards') ? {}
       if rewardType is 'gems'
-        update.$inc['earned.gems'] = rewards - (actuallyEarned.gems ? 0)
+        update.$inc['earned.gems'] = rewards - (actuallyEarned?.gems ? 0)
       else if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = { $each: rewards }

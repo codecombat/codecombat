@@ -298,6 +298,34 @@ describe 'POST /db/earned_achievement', ->
     user = yield User.findById(user.id)
     expect(user.get('earned').gems).toBe(100)
     done()
+    
+  it 'handles if the achievement previously did not have any rewards', utils.wrap (done) ->
+    # make unlockable have no rewards
+    yield @unlockable.update({$unset: {rewards: ''}})
+    
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+
+    # get the User the unlockable achievement, check that they got NO reward
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: user._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    json = {achievement: @unlockable.id, triggeredBy: session._id, collection: 'level.sessions'}
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned.gems')).toBe(0)
+
+    # change the achievement
+    yield @unlockable.update({ $set: { 'rewards': {gems:100} } })
+
+    # hit the endpoint again, make sure gems were added
+    [res, body] = yield request.postAsync { url: eaURL, json }
+    user = yield User.findById(user.id)
+    expect(user.get('earned').gems).toBe(100)
+    done()
 
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements

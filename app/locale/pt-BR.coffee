@@ -1,4 +1,4 @@
-module.exports = nativeDescription: "Português do Brasil", englishDescription: "Portuguese (Brazil)", translation:
+module.exports = nativeDescription: "Português (Brasil)", englishDescription: "Portuguese (Brazil)", translation:
   home:
     slogan: "Aprenda a programar enquanto se diverte jogando."
     no_ie: "O CodeCombat não roda em versões mais antigas que o Internet Explorer 10. Desculpe!" # Warning that only shows up in IE8 and older
