@@ -45,7 +45,12 @@ module.exports = class TeacherCourseSolutionView extends RootView
       if programmableMethod
         level.set 'begin',  _.template(programmableMethod.languages[@language] or programmableMethod.source)(programmableMethod.context)
         solution = programmableMethod.solutions?.find (x) => x.language is @language
-        level.set 'solution',  _.template(solution?.source)(programmableMethod.context)
+        try
+          solutionText = _.template(solution?.source)(programmableMethod.context)
+        catch error
+          solutionText = solution?.source
+          console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
+        level.set 'solution',  solutionText
     levels = []
     for level in @levels?.models when level.get('original')
       continue if @language? and level.get('primerLanguage') is @language
