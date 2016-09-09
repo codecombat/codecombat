@@ -62,9 +62,9 @@ setupDomainFilterMiddleware = (app) ->
       domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
       domainPrefix = req.host.match(domainRegex)?[1] or ''
       if _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and (req.host isnt domainPrefix + config.unsafeContentHostname)
-        res.redirect('http://' + domainPrefix + config.unsafeContentHostname + req.path)
+        res.redirect('//' + domainPrefix + config.unsafeContentHostname + req.path)
       else if not _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and req.host is domainPrefix + config.unsafeContentHostname
-        res.redirect('http://' + domainPrefix + config.mainHostname + req.path)
+        res.redirect('//' + domainPrefix + config.mainHostname + req.path)
       else
         next()
 
