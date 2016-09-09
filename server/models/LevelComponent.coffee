@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
-jsonschema = require '../../app/schemas/models/level_component'
+jsonSchema = require '../../app/schemas/models/level_component'
 config = require '../../server_config'
 
 LevelComponentSchema = new mongoose.Schema {
@@ -50,5 +50,7 @@ LevelComponentSchema.pre('save', (next) ->
   @set('searchStrings', strings.join(' '))
   next()
 )
+
+LevelComponentSchema.statics.jsonSchema = jsonSchema
 
 module.exports = LevelComponent = mongoose.model('level.component', LevelComponentSchema)

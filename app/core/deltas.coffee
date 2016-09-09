@@ -89,8 +89,8 @@ expandFlattenedDelta = (delta, left, schema) ->
   delta
 
 module.exports.makeJSONDiffer = ->
-  hasher = (obj) -> if obj? then obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj)) else 'null'
-  jsondiffpatch.create({objectHash: hasher})
+  objectHash = (obj) -> if obj? then (obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj))) else 'null'
+  jsondiffpatch.create({objectHash})
 
 module.exports.getConflicts = (headDeltas, pendingDeltas) ->
   # headDeltas and pendingDeltas should be lists of deltas returned by expandDelta

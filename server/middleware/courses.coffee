@@ -10,11 +10,6 @@ Course = require '../models/Course'
 User = require '../models/User'
 Level = require '../models/Level'
 parse = require '../commons/parse'
-Patch = require '../models/Patch'
-tv4 = require('tv4').tv4
-slack = require '../slack'
-{ isJustFillingTranslations } = require '../commons/deltas'
-{ updateI18NCoverage } = require '../commons/i18n'
 
 module.exports =
 
@@ -87,61 +82,3 @@ module.exports =
     results = yield database.viewSearch(dbq, req)
     results = Course.sortCourses results
     res.send(results)
-
-  postPatch: wrap (req, res) ->
-    # TODO: Generalize this and use for other models, once this has been put through its paces
-    course = yield database.getDocFromHandle(req, Course)
-    if not course
-      throw new errors.NotFound('Course not found.')
-      
-    originalDelta = req.body.delta
-    originalCourse = course.toObject()
-    changedCourse = _.cloneDeep(course.toObject(), (value) -> 
-      return value if value instanceof mongoose.Types.ObjectId
-      return value if value instanceof Date
-      return undefined
-    )
-    jsondiffpatch.patch(changedCourse, originalDelta)
-    
-    # normalize the delta because in tests, changes to patches would sneak in and cause false positives
-    # TODO: Figure out a better system. Perhaps submit a series of paths? I18N Edit Views already use them for their rows.
-    normalizedDelta = jsondiffpatch.diff(originalCourse, changedCourse)
-    normalizedDelta = _.pick(normalizedDelta, _.keys(originalDelta))
-    reasonNotAutoAccepted = undefined
-
-    validation = tv4.validateMultiple(changedCourse, Course.jsonSchema)
-    if not validation.valid
-      reasonNotAutoAccepted = 'Did not pass json schema.'
-    else if not isJustFillingTranslations(normalizedDelta)
-      reasonNotAutoAccepted = 'Adding to existing translations.'
-    else
-      course.set(changedCourse)
-      updateI18NCoverage(course)
-      yield course.save()
-      
-    patch = new Patch(req.body)
-    patch.set({
-      target: {
-        collection: 'course'
-        id: course._id
-        original: course._id
-      }
-      creator: req.user._id
-      status: if reasonNotAutoAccepted then 'pending' else 'accepted'
-      created: new Date().toISOString()
-      reasonNotAutoAccepted: reasonNotAutoAccepted
-    })
-    database.validateDoc(patch)
-
-    if reasonNotAutoAccepted
-      yield course.update({ $addToSet: { patches: patch._id }})
-      patches = course.get('patches') or []
-      patches.push patch._id
-      course.set({patches})
-    yield patch.save()
-
-    res.status(201).send(patch.toObject({req: req}))
-
-    docLink = "https://codecombat.com/editor/course/#{course.id}"
-    message = "#{req.user.get('name')} submitted a patch to #{course.get('name')}: #{patch.get('commitMessage')} #{docLink}"
-    slack.sendSlackMessage message, ['artisans']

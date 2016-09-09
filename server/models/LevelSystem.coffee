@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
-jsonschema = require '../../app/schemas/models/level_system'
+jsonSchema = require '../../app/schemas/models/level_system'
 config = require '../../server_config'
 
 LevelSystemSchema = new mongoose.Schema {
@@ -32,6 +32,8 @@ LevelSystemSchema.index(
     unique: true
   })
 LevelSystemSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
+
+LevelSystemSchema.statics.jsonSchema = jsonSchema
 
 LevelSystemSchema.plugin(plugins.NamedPlugin)
 LevelSystemSchema.plugin(plugins.PermissionsPlugin)

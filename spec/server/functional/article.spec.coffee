@@ -600,13 +600,14 @@ describe 'GET /db/article/:handle/patches', ->
     [res, article] = yield request.postAsync { uri: getURL('/db/article'), json: articleData }
     expect(res.statusCode).toBe(201)
     [res, patch] = yield request.postAsync { uri: getURL('/db/patch'), json: {
-      delta: []
+      delta: {name:['test']}
       commitMessage: 'Test commit'
       target: {
         collection: 'article'
         id: article._id
       }
     }}
+    expect(res.statusCode).toBe(201)
     [res, patches] = yield request.getAsync getURL("/db/article/#{article._id}/patches"), { json: true }
     expect(res.statusCode).toBe(200)
     expect(patches.length).toBe(1)
@@ -679,4 +680,49 @@ describe 'DELETE /db/article/:handle/watchers', ->
     article = yield Article.findById(article._id)
     ids = (id.toString() for id in article.get('watchers'))
     expect(_.contains(ids, user.id)).toBe(false)
+    done()
+
+    
+describe 'POST /db/article/:handle/patch', ->
+  
+  it 'creates a new version if the changes are translation only', utils.wrap (done) ->
+    # create article
+    yield utils.clearModels([Article])
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    article = yield utils.makeArticle()
+    
+    # submit a translation patch
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    
+    originalArticle = article.toObject()
+    changedArticle = _.extend({}, originalArticle, {i18n: {de: {name: 'Name in German'}}})
+    json = {
+      delta: jsondiffpatch.diff(originalArticle, changedArticle)
+      commitMessage: 'Server test commit'
+      target: {
+        collection: 'article'
+        id: article.id
+      }
+    }
+    url = utils.getURL("/db/article/#{article.id}/patch")
+    [res, body] = yield request.postAsync({ url, json })
+    expect(res.statusCode).toBe(201)
+    
+    [firstArticle, secondArticle] = yield Article.find().sort('_id')
+    
+    expectedVersion = { isLatestMinor: false, isLatestMajor: false, minor: 0, major: 0 }
+    expect(_.isEqual(firstArticle.get('version'), expectedVersion)).toBe(true)
+
+    expectedVersion = { isLatestMinor: true, isLatestMajor: true, minor: 1, major: 0 }
+    expect(_.isEqual(secondArticle.get('version'), expectedVersion)).toBe(true)
+    
+    expect(firstArticle.get('i18n.de.name')).toBe(undefined)
+    expect(secondArticle.get('i18n.de.name')).toBe('Name in German')
+    expect(firstArticle.get('creator').equals(admin._id)).toBe(true)
+    expect(secondArticle.get('creator').equals(user._id)).toBe(true)
+    expect(firstArticle.get('commitMessage')).toBeUndefined()
+    expect(secondArticle.get('commitMessage')).toBe('Server test commit')
+    
     done()

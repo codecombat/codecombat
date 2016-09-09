@@ -221,9 +221,13 @@ UserSchema.statics.statsMapping =
     article: 'stats.articleEdits'
     level: 'stats.levelEdits'
     'level.component': 'stats.levelComponentEdits'
+    'level_component': 'stats.levelComponentEdits'
     'level.system': 'stats.levelSystemEdits'
+    'level_system': 'stats.levelSystemEdits'
     'thang.type': 'stats.thangTypeEdits'
+    'thang_type': 'stats.thangTypeEdits'
     'Achievement': 'stats.achievementEdits'
+    'achievement': 'stats.achievementEdits'
     'campaign': 'stats.campaignEdits'
     'poll': 'stats.pollEdits'
     'course': 'stats.courseEdits'
@@ -231,9 +235,13 @@ UserSchema.statics.statsMapping =
     article: 'stats.articleTranslationPatches'
     level: 'stats.levelTranslationPatches'
     'level.component': 'stats.levelComponentTranslationPatches'
+    'level_component': 'stats.levelComponentTranslationPatches'
     'level.system': 'stats.levelSystemTranslationPatches'
+    'level_system': 'stats.levelSystemTranslationPatches'
     'thang.type': 'stats.thangTypeTranslationPatches'
+    'thang_type': 'stats.thangTypeTranslationPatches'
     'Achievement': 'stats.achievementTranslationPatches'
+    'achievement': 'stats.achievementTranslationPatches'
     'campaign': 'stats.campaignTranslationPatches'
     'poll': 'stats.pollTranslationPatches'
     'course': 'stats.courseTranslationPatches'
@@ -241,20 +249,34 @@ UserSchema.statics.statsMapping =
     article: 'stats.articleMiscPatches'
     level: 'stats.levelMiscPatches'
     'level.component': 'stats.levelComponentMiscPatches'
+    'level_component': 'stats.levelComponentMiscPatches'
     'level.system': 'stats.levelSystemMiscPatches'
+    'level_system': 'stats.levelSystemMiscPatches'
     'thang.type': 'stats.thangTypeMiscPatches'
+    'thang_type': 'stats.thangTypeMiscPatches'
     'Achievement': 'stats.achievementMiscPatches'
+    'achievement': 'stats.achievementMiscPatches'
     'campaign': 'stats.campaignMiscPatches'
     'poll': 'stats.pollMiscPatches'
     'course': 'stats.courseMiscPatches'
+    
+# TODO: Migrate from incrementStat to incrementStatAsync
+UserSchema.statics.incrementStatAsync = Promise.promisify (id, statName, options={}, done) ->
+  # A shim over @incrementStat, providing a Promise interface
+  if _.isFunction(options)
+    done = options
+    options = {}
+  @incrementStat(id, statName, done, options.inc or 1)
 
-UserSchema.statics.incrementStat = (id, statName, done, inc=1) ->
-  id = mongoose.Types.ObjectId id if _.isString id
-  @findById id, (err, user) ->
-    log.error err if err?
-    err = new Error "Could't find user with id '#{id}'" unless user or err
-    return done() if err?
-    user.incrementStat statName, done, inc
+UserSchema.statics.incrementStat = (id, statName, done=_.noop, inc=1) ->
+  _id = if _.isString(id) then mongoose.Types.ObjectId(id) else id
+  update = {$inc: {}}
+  update.$inc[statName] = inc
+  @update({_id}, update).exec((err, res) ->
+    if not res.nModified
+      log.warn "Did not update user stat '#{statName}' for '#{id}'"
+    done?()
+  )
 
 UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   if /^concepts\./.test statName

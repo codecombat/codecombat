@@ -31,6 +31,7 @@ module.exports.setup = (app) ->
   app.get('/db/achievement/names', mw.named.names(Achievement))
   app.post('/db/achievement/names', mw.named.names(Achievement))
   app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
+  app.post('/db/achievement/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Achievement, 'achievement'))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
 
@@ -47,6 +48,7 @@ module.exports.setup = (app) ->
   app.get('/db/article/:handle/version/?(:version)?', mw.versions.getLatestVersion(Article))
   app.get('/db/article/:handle/files', mw.files.files(Article, {module: 'article'}))
   app.get('/db/article/:handle/patches', mw.patchable.patches(Article))
+  app.post('/db/article/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Article, 'article'))
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
 
@@ -60,6 +62,7 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/:handle/achievements', mw.campaigns.fetchRelatedAchievements)
   app.get('/db/campaign/:handle/levels', mw.campaigns.fetchRelatedLevels)
   app.get('/db/campaign/:handle/patches', mw.patchable.patches(Campaign))
+  app.post('/db/campaign/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Campaign, 'campaign'))
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
 
   app.post('/db/classroom', mw.classrooms.post)
@@ -87,7 +90,7 @@ module.exports.setup = (app) ->
   app.get('/db/course/:handle', mw.rest.getByHandle(Course))
   app.get('/db/course/:handle/level-solutions', mw.courses.fetchLevelSolutions)
   app.get('/db/course/:handle/levels/:levelOriginal/next', mw.courses.fetchNextLevel)
-  app.post('/db/course/:handle/patch', mw.auth.checkLoggedIn(), mw.courses.postPatch)
+  app.post('/db/course/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Course, 'course'))
   app.get('/db/course/:handle/patches', mw.patchable.patches(Course))
 
   app.get('/db/course_instance/-/non-hoc', mw.auth.checkHasPermission(['admin']), mw.courseInstances.fetchNonHoc)
@@ -104,6 +107,16 @@ module.exports.setup = (app) ->
   app.post('/db/level/names', mw.named.names(Level))
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
+  app.post('/db/level/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Level, 'level'))
+  app.get('/db/level/:handle/patches', mw.patchable.patches(Level))
+  
+  LevelComponent = require '../models/LevelComponent'
+  app.post('/db/level.component/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelComponent, 'level_component'))
+  app.get('/db/level.component/:handle/patches', mw.patchable.patches(LevelComponent))
+
+  LevelSystem = require '../models/LevelSystem'
+  app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
+  app.get('/db/level.system/:handle/patches', mw.patchable.patches(LevelSystem))
 
   app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
@@ -121,12 +134,23 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
   app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
 
+  app.post('/db/patch', mw.patches.post)
+  app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
+  
+  Poll = require '../models/Poll'
+  app.post('/db/poll/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Poll, 'poll'))
+  app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
+  
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
   app.get '/db/products', require('./db/product').get
+
+  ThangType = require '../models/ThangType'
+  app.post('/db/thang.type/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(ThangType, 'thang_type'))
+  app.get('/db/thang.type/:handle/patches', mw.patchable.patches(ThangType))
 
   TrialRequest = require '../models/TrialRequest'
   app.get('/db/trial.request', mw.trialRequests.fetchByApplicant, mw.auth.checkHasPermission(['admin']), mw.rest.get(TrialRequest))

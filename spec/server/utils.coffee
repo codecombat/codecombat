@@ -2,6 +2,11 @@ async = require 'async'
 utils = require '../../server/lib/utils'
 co = require 'co'
 Promise = require 'bluebird'
+Article = require '../../server/models/Article'
+LevelComponent = require '../../server/models/LevelComponent'
+LevelSystem = require '../../server/models/LevelSystem'
+Poll = require '../../server/models/Poll'
+ThangType = require '../../server/models/ThangType'
 User = require '../../server/models/User'
 Level = require '../../server/models/Level'
 LevelSession = require '../../server/models/LevelSession'
@@ -131,6 +136,78 @@ module.exports = mw =
       
     session = new LevelSession(data)
     session.save(done)
+    
+  makeArticle: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Article ')
+    }, data)
+    
+    request.post { uri: getURL('/db/article'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      Article.findById(res.body._id).exec done
+      
+  makeLevelComponent: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('LevelComponent')
+      system: 'ai'
+      code: 'let const = var'
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    request.post { uri: getURL('/db/level.component'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      LevelComponent.findById(res.body._id).exec done
+
+  makeLevelSystem: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('LevelSystem')
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+      code: 'let const = var'
+    }, data)
+
+    request.post { uri: getURL('/db/level.system'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      LevelSystem.findById(res.body._id).exec done
+
+  makePoll: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Poll ')
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    request.post { uri: getURL('/db/poll'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      Poll.findById(res.body._id).exec done
+
+  makeThangType: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Thang Type ')
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    request.post { uri: getURL('/db/thang.type'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      ThangType.findById(res.body._id).exec done
 
   makeAchievement: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)

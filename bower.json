@@ -35,7 +35,7 @@
     "aether": "~0.5.21",
     "underscore.string": "~2.3.3",
     "d3": "~3.4.4",
-    "jsondiffpatch": "0.1.8",
+    "jsondiffpatch": "^0.2.3",
     "nanoscroller": "~0.8.0",
     "treema": "https://github.com/codecombat/treema.git#master",
     "bootstrap": "~3.2.0",
@@ -72,9 +72,9 @@
     },
     "jsondiffpatch": {
       "main": [
-        "build/bundle-full.js",
-        "build/formatters.js",
-        "src/formatters/html.css"
+        "public/build/jsondiffpatch-full.js",
+        "public/build/jsondiffpatch-formatters.js",
+        "public/formatters-styles/html.css"
       ]
     },
     "treema": {

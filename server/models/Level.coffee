@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
-jsonschema = require '../../app/schemas/models/level'
+jsonSchema = require '../../app/schemas/models/level'
 config = require '../../server_config'
 
 LevelSchema = new mongoose.Schema({
@@ -47,6 +47,7 @@ LevelSchema.post 'init', (doc) ->
     doc.set('nextLevel', undefined)
     
 LevelSchema.statics.postEditableProperties = ['name']
+LevelSchema.statics.jsonSchema = jsonSchema
 
 LevelSchema.statics.editableProperties = [
   'description'
