@@ -654,25 +654,64 @@ describe 'GET /db/classroom/:handle/update-courses', ->
     admin = yield utils.initAdmin()
     teacher = yield utils.initUser({role: 'teacher'})
     
+    # make a single course
     yield utils.loginUser(admin)
     yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign()})
     
+    # make a classroom, make sure it has the one course
     yield utils.loginUser(teacher)
     data = { name: 'Classroom 2' }
     [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
     classroom = yield Classroom.findById(res.body._id)
     expect(classroom.get('courses').length).toBe(1)
 
+    # make a second course
     yield utils.loginUser(admin)
     yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign()})
 
+    # make sure classroom still has one course
     classroom = yield Classroom.findById(res.body._id)
     expect(classroom.get('courses').length).toBe(1)
 
+    # update, check update happens
     yield utils.loginUser(teacher)
     [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
     expect(body.courses.length).toBe(2)
-
     classroom = yield Classroom.findById(res.body._id)
     expect(classroom.get('courses').length).toBe(2)
+    
     done()
+    
+  it 'allows admins to also update a classroom, but uses the owner\'s admin status', utils.wrap (done) ->
+    yield utils.clearModels [User, Classroom, Course, Level, Campaign]
+
+    admin = yield utils.initAdmin()
+    teacher = yield utils.initUser({role: 'teacher'})
+
+    # make two courses, one released, one beta
+    yield utils.loginUser(admin)
+    yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign()})
+    yield utils.makeCourse({releasePhase: 'beta'}, {campaign: yield utils.makeCampaign()})
+
+    # make a classroom, make sure it has the one course
+    yield utils.loginUser(teacher)
+    data = { name: 'Classroom 2' }
+    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+    classroom = yield Classroom.findById(res.body._id)
+    expect(classroom.get('courses').length).toBe(1)
+
+    # make another released course
+    yield utils.loginUser(admin)
+    yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign()})
+
+    # make sure classroom still has one course
+    classroom = yield Classroom.findById(res.body._id)
+    expect(classroom.get('courses').length).toBe(1)
+
+    # update, check that classroom has the two released courses
+    [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
+    expect(body.courses.length).toBe(2)
+    classroom = yield Classroom.findById(res.body._id)
+    expect(classroom.get('courses').length).toBe(2)
+
+    done()    

@@ -15,3 +15,8 @@ module.exports = class Classrooms extends CocoCollection
     options.data ?= {}
     options.data.ownerID = me.id
     @fetch(options)
+  
+  fetchByOwner: (ownerID, options={}) ->
+    options.data ?= {}
+    options.data.ownerID = ownerID
+    @fetch(options)

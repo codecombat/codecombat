@@ -82,5 +82,19 @@ block modal-body-content
           for coupon in view.coupons.models
             option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
     button#save-changes.btn.btn-primary Save Changes
+  
+  if view.classrooms.size()
+    h3.m-t-3 Update Classrooms
+    table#classroom-table.table
+      tr
+        th Name
+        th # Levels
+        th
+      for classroom in view.classrooms.models
+        tr
+          td= classroom.get('name')
+          td= classroom.getLevels().size()
+          td
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update
 
 block modal-footer

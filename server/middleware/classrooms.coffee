@@ -166,10 +166,16 @@ module.exports =
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
       throw new errors.NotFound('Classroom not found.')
-    unless req.user._id.equals(classroom.get('ownerID'))
+    unless req.user._id.equals(classroom.get('ownerID')) or req.user.isAdmin()
       throw new errors.Forbidden('Only the owner may update their classroom content')
-
-    coursesData = yield module.exports.generateCoursesData(classroom.get('aceConfig')?.language, req.user?.isAdmin())
+      
+    # make sure updates are based on owner, not logged in user
+    if not req.user._id.equals(classroom.get('ownerID'))
+      owner = yield User.findById(classroom.get('ownerID'))
+    else
+      owner = req.user
+    
+    coursesData = yield module.exports.generateCoursesData(classroom.get('aceConfig')?.language, owner.isAdmin())
     classroom.set('courses', coursesData)
     classroom = yield classroom.save()
     res.status(200).send(classroom.toObject({req: req}))
