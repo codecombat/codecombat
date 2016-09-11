@@ -209,8 +209,12 @@ module.exports = class LevelLoader extends CocoClass
         console.log "Pushing resource: ", heroResource if LOG
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
+    unless @level.isType('hero', 'hero-ladder', 'hero-coop')
+      # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
+      if @checkAllWorldNecessitiesRegisteredAndLoaded()
+        @onWorldNecessitiesLoaded()
       return
-    return unless @level.isType('hero', 'hero-ladder', 'hero-coop')
+    # Load the ThangTypes needed for the session's heroConfig for these types of levels
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
