@@ -1,3 +1,17 @@
+extends /templates/base-flat
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+  .do-not-print.container
+    span.backlink
+      a(href='/teachers/courses')
+        |&lt; Back to Course Guides
+    .print
+      .btn.btn-md.btn-navy
+        a(href='javascript:window.print()')
+          span.glyphicon.glyphicon-print &#160;
+          |Print this guide
+
 block content
 
   if !me.isTeacher() && !me.isAdmin()
