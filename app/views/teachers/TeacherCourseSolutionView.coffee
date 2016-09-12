@@ -44,7 +44,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
         level.set 'begin',  _.template(programmableMethod.languages[@language] or programmableMethod.source)(programmableMethod.context)
-        solution = programmableMethod.solutions?.find (x) => x.language is @language
+        solution = _.find(programmableMethod.solutions, (x) => x.language is @language)
         try
           solutionText = _.template(solution?.source)(programmableMethod.context)
         catch error
