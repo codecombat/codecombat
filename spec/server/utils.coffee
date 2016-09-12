@@ -4,6 +4,7 @@ co = require 'co'
 Promise = require 'bluebird'
 User = require '../../server/models/User'
 Level = require '../../server/models/Level'
+LevelSession = require '../../server/models/LevelSession'
 Achievement = require '../../server/models/Achievement'
 Campaign = require '../../server/models/Campaign'
 Course = require '../../server/models/Course'
@@ -98,6 +99,19 @@ module.exports = mw =
     request.post { uri: getURL('/db/level'), json: data }, (err, res) ->
       return done(err) if err
       Level.findById(res.body._id).exec done
+
+  makeLevelSession: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      creator: mw.lastLogin.id
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    # TODO: using request.post strips the creator field for some reason
+    session = new LevelSession data
+    session.save done
 
   makeAchievement: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)

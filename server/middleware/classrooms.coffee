@@ -132,7 +132,7 @@ module.exports =
       levelOriginals = []
       for courseID in memberCoursesMap[member.toHexString()] ? []
         levelOriginals = levelOriginals.concat(courseLevelsMap[courseID.toHexString()] ? [])
-      query = {$and: [{creator: member.toHexString()}, {'level.original': {$in: levelOriginals}}]}
+      query = {creator: member.toHexString(), 'level.original': {$in: levelOriginals}}
       dbqs.push(LevelSession.find(query).select(select).lean().exec())
     results = yield dbqs
     sessions = _.flatten(results)
