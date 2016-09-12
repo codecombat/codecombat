@@ -151,7 +151,7 @@ formSchema = {
 
 loginNavigate = ->
   if me.isStudent()
-    application.router.navigate('/courses', {trigger: true})
+    application.router.navigate('/students', {trigger: true})
   else if me.isTeacher()
     application.router.navigate('/teachers/classes', {trigger: true})
   window.location.reload()

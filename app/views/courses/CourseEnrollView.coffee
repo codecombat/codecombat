@@ -107,7 +107,7 @@ module.exports = class CourseEnrollView extends RootView
       # TODO: handle fetch errors
       me.fetch(cache: false).always =>
         courseID = @selectedCourse?.id ? @courses.models[0]?.id
-        route = "/courses/#{courseID}"
+        route = "/students/#{courseID}"
         viewArgs = [{}, courseID]
         if data?.length > 0
           courseInstanceID = data[0]._id

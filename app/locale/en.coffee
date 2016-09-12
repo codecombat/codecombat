@@ -82,6 +82,7 @@
     contact: "Contact"
     twitter_follow: "Follow"
     teachers: "Teachers"
+    students: "Students"
     careers: "Careers"
     facebook: "Facebook"
     twitter: "Twitter"

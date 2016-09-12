@@ -168,7 +168,7 @@ module.exports = class CoursesView extends RootView
         @state = null
         @renderSelectors '#join-class-form'
 
-  # Super hacky way to patch users being able to join class while hiding /courses from others
+  # Super hacky way to patch users being able to join class while hiding /students from others
   onClassLoadError: ->
     _.defer ->
       application.router.routeDirectly('courses/RestrictedToStudentsView')
@@ -211,10 +211,10 @@ module.exports = class CoursesView extends RootView
   onClickViewClass: (e) ->
     classroomID = $(e.target).data('classroom-id')
     window.tracker?.trackEvent 'Students View Class', category: 'Students', classroomID: classroomID, ['Mixpanel']
-    application.router.navigate("/courses/#{classroomID}", { trigger: true })
+    application.router.navigate("/students/#{classroomID}", { trigger: true })
 
   onClickViewLevels: (e) ->
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
     window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
-    application.router.navigate("/courses/#{courseID}/#{courseInstanceID}", { trigger: true })
+    application.router.navigate("/students/#{courseID}/#{courseInstanceID}", { trigger: true })

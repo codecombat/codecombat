@@ -1,5 +1,5 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
-redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+redirect = (path) -> -> @navigate(path + document.location.search, { trigger: true, replace: true })
 utils = require './utils'
 
 module.exports = class CocoRouter extends Backbone.Router
@@ -72,15 +72,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': go('courses/CoursesView')
-    'Courses': go('courses/CoursesView')
-    'courses/students': redirect('/courses')
+    'courses': redirect('/students') # Redirected 9/3/16
+    'Courses': redirect('/students') # Redirected 9/3/16
+    'courses/students': redirect('/students') # Redirected 9/3/16
     'courses/teachers': redirect('/teachers/classes')
     'courses/purchase': redirect('/teachers/licenses')
     'courses/enroll(/:courseID)': redirect('/teachers/licenses')
-    'courses/update-account': go('courses/CoursesUpdateAccountView')
-    'courses/:classroomID': go('courses/ClassroomView', { studentsOnly: true })
-    'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { studentsOnly: true })
+    'courses/update-account': redirect('students/update-account') # Redirected 9/3/16
+    'courses/:classroomID': -> @navigate("/students/#{arguments[0]}", {trigger: true, replace: true}) # Redirected 9/3/16
+    'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -146,6 +146,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')
+
+    'students': go('courses/CoursesView')
+    'students/update-account': go('courses/CoursesUpdateAccountView')
+    'students/:classroomID': go('courses/ClassroomView', { studentsOnly: true })
+    'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { studentsOnly: true })
 
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView', { teachersOnly: true })
