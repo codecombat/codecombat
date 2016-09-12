@@ -1,5 +1,5 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
-redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+redirect = (path) -> -> @navigate(path + document.location.search, { trigger: true, replace: true })
 utils = require './utils'
 
 module.exports = class CocoRouter extends Backbone.Router
