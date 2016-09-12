@@ -17,7 +17,7 @@ Level = require '../../../server/models/Level'
 classroomsURL = getURL('/db/classroom')
 
 describe 'GET /db/classroom?ownerID=:id', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @user1 = yield utils.initUser()
@@ -27,19 +27,19 @@ describe 'GET /db/classroom?ownerID=:id', ->
     yield utils.loginUser(@user2)
     @classroom2 = yield new Classroom({name: 'Classroom 2', ownerID: @user2.get('_id') }).save()
     done()
-      
+
   it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user2.id), { json: true }
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe(1)
     expect(body[0].name).toBe('Classroom 2')
     done()
-              
+
   it 'returns 403 when a non-admin tries to get classrooms for another user', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL('/db/classroom?ownerID='+@user1.id), { json: true }
     expect(res.statusCode).toBe(403)
     done()
-  
+
 
 describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
@@ -73,7 +73,7 @@ describe 'GET /db/classroom by classCode', ->
     done()
 
 describe 'POST /db/classroom', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
     admin = yield utils.initAdmin()
@@ -114,7 +114,7 @@ describe 'POST /db/classroom', ->
     @course = Course({name: 'Course', campaignID: @campaign._id, releasePhase: 'released'})
     yield @course.save()
     done()
-  
+
   it 'creates a new classroom for the given user with teacher role', utils.wrap (done) ->
     teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(teacher)
@@ -125,7 +125,7 @@ describe 'POST /db/classroom', ->
     expect(res.body.members.length).toBe(0)
     expect(res.body.ownerID).toBe(teacher.id)
     done()
-        
+
   it 'returns 401 for anonymous users', utils.wrap (done) ->
     yield utils.logout()
     data = { name: 'Classroom 2' }
@@ -264,7 +264,7 @@ describe 'GET /db/classroom/:handle/levels', ->
     campaignJSONB.levels[paredLevelJSPrimer1.original] = paredLevelJSPrimer1
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONB})
     @campaignB = yield Campaign.findById(res.body._id)
-    
+
     @courseA = Course({name: 'Course A', campaignID: @campaignA._id, releasePhase: 'released'})
     yield @courseA.save()
 
@@ -356,7 +356,7 @@ describe 'PUT /db/classroom', ->
             expect(body.name).toBe('Classroom 3')
             expect(body.description).toBe('New Description')
             done()
-          
+
   it 'is not allowed if you are just a member', (done) ->
     loginNewUser (user1) ->
       user1.set('role', 'teacher')
@@ -374,9 +374,9 @@ describe 'PUT /db/classroom', ->
               request.put { uri: url, json: data }, (err, res, body) ->
                 expect(res.statusCode).toBe(403)
                 done()
-            
+
 describe 'POST /db/classroom/-/members', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom, Course, Campaign])
     @campaign = new Campaign({levels: {}})
@@ -393,7 +393,7 @@ describe 'POST /db/classroom/-/members', ->
     @courseInstance = yield CourseInstance.findById(res.body._id)
     @student = yield utils.initUser()
     done()
-    
+
   it 'adds the signed in user to the classroom and any free courses and sets role to student', utils.wrap (done) ->
     yield utils.loginUser(@student)
     url = getURL("/db/classroom/anything-here/members")
@@ -408,7 +408,7 @@ describe 'POST /db/classroom/-/members', ->
     unless student.get('courseInstances')?[0].equals(@courseInstance._id)
       fail('student should be added to the free course instance.')
     done()
-    
+
   it 'joins the class even with spaces in the classcode', utils.wrap (done) ->
     yield utils.loginUser(@student)
     url = getURL("/db/classroom/anything-here/members")
@@ -427,7 +427,7 @@ describe 'POST /db/classroom/-/members', ->
     [res, body] = yield request.postAsync { uri: url, json: { code: @classroom.get('code') } }
     expect(res.statusCode).toBe(403)
     done()
-                  
+
   it 'returns 401 if the user is anonymous', utils.wrap (done) ->
     yield utils.becomeAnonymous()
     [res, body] = yield request.postAsync { uri: getURL("/db/classroom/-/members"), json: { code: @classroom.get('code') } }
@@ -484,9 +484,9 @@ describe 'POST /db/classroom/:id/invite-members', ->
     [res, body] = yield request.postAsync { uri: url, json: data }
     expect(res.statusCode).toBe(200)
 
-          
+
 describe 'GET /db/classroom/:handle/member-sessions', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([CourseInstance, Course, User, Classroom, Campaign, Level, LevelSession])
     @teacher = yield utils.initUser({role: 'teacher'})
@@ -499,13 +499,11 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     @courseA = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignA})
     @courseB = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignB})
     @student1 = yield utils.initUser({role: 'student'})
-    yield utils.loginUser(@student1)
-    @session1A = yield utils.makeLevelSession({state: { complete: true }, level: {original: @levelA._id.toHexString()}})
-    @session1B = yield utils.makeLevelSession({state: { complete: false }, level: {original: @levelB._id.toHexString()}})
     @student2 = yield utils.initUser({role: 'student'})
-    yield utils.loginUser(@student2)
-    @session2A = yield utils.makeLevelSession({state: { complete: true }, level: {original: @levelA._id.toHexString()}})
-    @session2B = yield utils.makeLevelSession({state: { complete: false }, level: {original: @levelB._id.toHexString()}})
+    @session1A = yield utils.makeLevelSession({state: { complete: true }}, {creator: @student1, level: @levelA})
+    @session1B = yield utils.makeLevelSession({state: { complete: false }}, {creator: @student1, level: @levelB})
+    @session2A = yield utils.makeLevelSession({state: { complete: true }}, {creator: @student2, level: @levelA})
+    @session2B = yield utils.makeLevelSession({state: { complete: false }}, {creator: @student2, level: @levelB})
     yield utils.loginUser(@teacher)
     @classroom = yield utils.makeClassroom({}, { members: [@student1, @student2] })
     @courseInstanceA = yield utils.makeCourseInstance({courseID: @courseA.id, classroomID: @classroom.id}, { members: [@student1, @student2] })
@@ -519,18 +517,18 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe(3)
     done()
-    
+
   it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
     yield utils.loginUser(@student1)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(403)
     done()
-    
+
   it 'does not work if you are not logged in', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(401)
     done()
-    
+
   it 'accepts memberSkip and memberLimit GET parameters', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions?memberLimit=1"), { json: true }
@@ -542,9 +540,9 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     expect(body.length).toBe(1)
     expect(session.creator).toBe(@student2.id) for session in body
     done()
-    
+
 describe 'GET /db/classroom/:handle/members', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @teacher = yield utils.initUser()
@@ -553,25 +551,25 @@ describe 'GET /db/classroom/:handle/members', ->
     @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
     @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
     done()
-    
+
   it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
     yield utils.loginUser(@student1)
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(403)
     done()
-    
+
   it 'does not work if you are not logged in', utils.wrap (done) ->
     [res, body] =  yield request.getAsync getURL("/db/classroom/#{@classroom.id}/member-sessions"), { json: true }
     expect(res.statusCode).toBe(401)
     done()
-  
+
   it 'works on an empty classroom', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@emptyClassroom.id}/members?name=true&email=true"), { json: true }
     expect(res.statusCode).toBe(200)
     expect(body).toEqual([])
     done()
-    
+
   it 'returns all members with name and email', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }
@@ -657,14 +655,14 @@ describe 'GET /db/classroom/:handle/update-courses', ->
 
   it 'updates the courses property for that classroom', utils.wrap (done) ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
-    
+
     admin = yield utils.initAdmin()
     teacher = yield utils.initUser({role: 'teacher'})
-    
+
     # make a single course
     yield utils.loginUser(admin)
     yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign()})
-    
+
     # make a classroom, make sure it has the one course
     yield utils.loginUser(teacher)
     data = { name: 'Classroom 2' }
@@ -686,9 +684,9 @@ describe 'GET /db/classroom/:handle/update-courses', ->
     expect(body.courses.length).toBe(2)
     classroom = yield Classroom.findById(res.body._id)
     expect(classroom.get('courses').length).toBe(2)
-    
+
     done()
-    
+
   it 'allows admins to also update a classroom, but uses the owner\'s admin status', utils.wrap (done) ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
 
@@ -721,4 +719,4 @@ describe 'GET /db/classroom/:handle/update-courses', ->
     classroom = yield Classroom.findById(res.body._id)
     expect(classroom.get('courses').length).toBe(2)
 
-    done()    
+    done()
