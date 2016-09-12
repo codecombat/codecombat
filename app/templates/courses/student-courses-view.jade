@@ -30,7 +30,7 @@ block content
         .alert.alert-info
           span.spr(data-i18n="courses.successfully_joined")
           span.spr "#{classroom.get('name')}"!
-          a(href="/courses/#{course.id}/#{justJoinedCourseInstance.id}")
+          a(href="/students/#{course.id}/#{justJoinedCourseInstance.id}")
             strong
               span.spr(data-i18n="courses.click_to_start")
               span "#{course.get('name')}".
@@ -61,7 +61,7 @@ block content
               if course
                 | #{course.get('name')}
             .col-sm-6
-              a.btn.btn-default.btn-sm(href="/courses/#{course.id}/#{courseInstance.id}", data-i18n="courses.enter")
+              a.btn.btn-default.btn-sm(href="/students/#{course.id}/#{courseInstance.id}", data-i18n="courses.enter")
 
   .panel.panel-default
     .panel-heading

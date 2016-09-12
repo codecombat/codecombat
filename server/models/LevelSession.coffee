@@ -102,7 +102,7 @@ LevelSessionSchema.set('toObject', {
       plan = submittedCode[if doc.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1']?.plan ? ''
       plan = LZString.compressToUTF16 plan
       ret.interpret = plan
-      ret.code = submittedCode
+      ret.code = {'hero-placeholder': {plan: ''}, 'hero-placeholder-1': {plan: ''}}
     return ret
 })
 

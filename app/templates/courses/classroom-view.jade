@@ -13,7 +13,7 @@ block content
   if isOwner
     a(href="/teachers/classes", data-i18n="courses.back_classrooms")
   else
-    a(href="/courses", data-i18n="courses.back_courses")
+    a(href="/students", data-i18n="courses.back_courses")
 
   if !me.isAnonymous()
     h1
@@ -90,7 +90,7 @@ block content
           - continue;
         if inCourse
           .row
-            .col-sm-3.text-right= course.get('name')
+            .col-sm-3.text-right= i18n(course.attributes, 'name')
             .col-sm-9
               if inCourse
                 - var levels = view.classroom.getLevels({courseID: course.id});
@@ -119,7 +119,7 @@ block content
           .text-center
             button.enable-btn.btn.btn-info.btn-sm.text-uppercase(data-user-id=user.id, data-course-instance-cid=courseInstance.cid)
               span.spr(data-i18n="courses.assign")
-              span= course.get('name')
+              span= i18n(course.attributes, 'name')
 
 
       if view.teacherMode && !paidFor

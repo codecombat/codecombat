@@ -50,6 +50,7 @@ form.modal-body.segment-check
               - var thisYear = new Date().getFullYear()
               for year in _.range(thisYear, thisYear - 100, -1)
                 option(selected=(year == view.signupState.get('birthdayYear'))) #{year}
+        .parent_birthdate(data-i18n="signup.parent_use_birthdate")
 
       default
         p
@@ -62,7 +63,7 @@ form.modal-body.segment-check
   .history-nav-buttons
     //- disabled=!view.signupState.get('segmentCheckValid')
     button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="about.next")
+      span(data-i18n="play.next")
 
     button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
       span(data-i18n="common.back")

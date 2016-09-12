@@ -12,7 +12,7 @@ module.exports =
   
   connect: () ->
     address = module.exports.generateMongoConnectionString()
-    winston.info "Connecting to Mongo with connection string #{address}"
+    winston.info "Connecting to Mongo with connection string #{address}, readpref: #{config.mongo.readpref}"
   
     mongoose.connect address
     mongoose.connection.once 'open', -> Grid.gfs = Grid(mongoose.connection.db, mongoose.mongo)
@@ -25,11 +25,7 @@ module.exports =
     mongooseCache.install(mongoose, {max: 1000, maxAge: maxAge, debug: false}, Aggregate)
 
   generateMongoConnectionString: ->
-    if not global.testing and config.tokyo
-      address = config.mongo.mongoose_tokyo_replica_string
-    else if not global.testing and config.saoPaulo
-      address = config.mongo.mongoose_saoPaulo_replica_string
-    else if not global.testing and config.mongo.mongoose_replica_string
+    if not global.testing and config.mongo.mongoose_replica_string
       address = config.mongo.mongoose_replica_string
     else
       dbName = config.mongo.db
@@ -127,10 +123,14 @@ module.exports =
     if _.isEmpty(req.body)
       throw new errors.UnprocessableEntity('No input')
       
-    props = doc.schema.statics.editableProperties.slice()
+    if not doc.schema.statics.editableProperties
+      console.warn 'No editableProperties set for', doc.constructor.modelName
+    props = (doc.schema.statics.editableProperties or []).slice()
 
     if doc.isNew
-      props = props.concat doc.schema.statics.postEditableProperties
+      props = props.concat(doc.schema.statics.postEditableProperties or [])
+      if not doc.schema.statics.postEditableProperties
+        console.warn 'No postEditableProperties set for', doc.constructor.modelName
 
     if doc.schema.uses_coco_permissions and req.user
       isOwner = doc.getAccessForUserObjectId(req.user._id) is 'owner'
@@ -173,6 +173,9 @@ module.exports =
       dbq.findOne({ _id: handle })
     else
       dbq.findOne({ slug: handle })
+      
+    if options.select
+      dbq.select(options.select)
 
     dbq.exec(done)
 
@@ -203,4 +206,3 @@ module.exports =
       return false if index is -1
       return false if delta.deltaPath[index+1] in ['en', 'en-US', 'en-GB']  # English speakers are most likely just spamming, so always treat those as patches, not saves.
       return true
-

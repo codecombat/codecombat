@@ -30,7 +30,10 @@ AnalyticsLogEventSchema.statics.logEvent = (user, event, properties={}) ->
 
 unless config.proxy
   analyticsMongoose = mongoose.createConnection()
-  analyticsMongoose.open "mongodb://#{config.mongo.analytics_host}:#{config.mongo.analytics_port}/#{config.mongo.analytics_db}", (error) ->
-    log.error "Couldn't connect to analytics", error if error
+  analyticsMongoose.open config.mongo.analytics_replica_string, (error) ->
+    if error
+      log.error "Couldn't connect to analytics", error
+    else
+      log.info "Connected to analytics mongo at #{config.mongo.analytics_replica_string}"
 
   module.exports = AnalyticsLogEvent = analyticsMongoose.model('analytics.log.event', AnalyticsLogEventSchema, config.mongo.analytics_collection)

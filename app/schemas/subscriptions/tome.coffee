@@ -89,7 +89,7 @@ module.exports =
   'tome:problems-updated': c.object {title: 'Problems Updated', description: 'Published when problems have been updated', required: ['spell', 'problems', 'isCast']},
     spell: {type: 'object'}
     problems: {type: 'array'}
-    isCast: {type: 'boolean'}
+    isCast: {type: 'boolean', description: 'Whether the code has been Run yet. Sometimes determines if error displays as just annotation or as full banner.'}
 
   'tome:change-language': c.object {title: 'Tome Change Language', description: 'Published when the Tome should update its programming language', required: ['language']},
     language: {type: 'string'}
@@ -103,12 +103,12 @@ module.exports =
 
   'tome:change-config': c.object {title: 'Change Config', description: 'Published when you change your tome settings'}
 
-  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add Zatanna snippets', required: ['propGroups', 'allDocs']},
+  'tome:update-snippets': c.object {title: 'Update Snippets', description: 'Published when we need to add autocomplete snippets', required: ['propGroups', 'allDocs']},
     propGroups: {type: 'object'}
     allDocs: {type: 'object'}
     language: {type: 'string'}
 
-  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a Zatanna snippet', required: ['doc', 'language', 'formatted']},
+  'tome:insert-snippet': c.object {title: 'Insert Snippet', description: 'Published when we need to insert a autocomplete snippet', required: ['doc', 'language', 'formatted']},
     doc: {type: 'object'}
     language: {type: 'string'}
     formatted: {type: 'object'}

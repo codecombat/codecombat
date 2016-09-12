@@ -6,6 +6,10 @@ if (process.argv.length !== 4) {
   process.exit();
 }
 
+// NOTE: last_activity_date_range is the contacted at date, UTC
+
+// TODO: Only looking at contacts created in last 30 days.  How do we catch replies for contacts older than 30 days?
+
 const closeIoApiKey = process.argv[2];
 const zpAuthToken = process.argv[3];
 
@@ -15,6 +19,11 @@ const async = require('async');
 const request = require('request');
 
 const zpPageSize = 100;
+let zpMinActivityDate = new Date();
+zpMinActivityDate.setUTCDate(zpMinActivityDate.getUTCDate() - 30);
+zpMinActivityDate = zpMinActivityDate.toISOString().substring(0, 10);
+
+const closeParallelLimit = 100;
 
 getZPContacts((err, emailContactMap) => {
   if (err) {
@@ -26,7 +35,7 @@ getZPContacts((err, emailContactMap) => {
     const contact = emailContactMap[email];
     tasks.push(createUpsertCloseLeadFn(contact));
   }
-  async.parallel(tasks, (err, results) => {
+  async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
     if (err) console.log(err);
     log("Script runtime: " + (new Date() - scriptStartTime));
   });
@@ -39,7 +48,6 @@ function createCloseLead(zpContact, done) {
     contacts: [
       {
         name: zpContact.name,
-        title: zpContact.title,
         emails: [{email: zpContact.email}]
       }
     ],
@@ -50,6 +58,19 @@ function createCloseLead(zpContact, done) {
   };
   if (zpContact.phone) {
     postData.contacts[0].phones = [{phone: zpContact.phone}];
+  }
+  if (zpContact.title) {
+    postData.contacts[0].title = zpContact.title;
+  }
+  if (zpContact.district) {
+    postData.custom['demo_nces_district'] = zpContact.district;
+    postData.custom['demo_nces_name'] = zpContact.organization;
+  }
+  if (zpContact.nces_district_id) {
+    postData.custom['demo_nces_district_id'] = zpContact.nces_district_id;
+  }
+  if (zpContact.nces_school_id) {
+    postData.custom['demo_nces_id'] = zpContact.nces_school_id;
   }
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/`,
@@ -70,9 +91,12 @@ function updateCloseLead(zpContact, existingLead, done) {
   // console.log(`DEBUG: updateCloseLead ${existingLead.id} ${zpContact.email}`);
   const putData = {
     status: 'Contacted',
-    'custom.lastUpdated': new Date(),
-    'custom.Lead Origin': 'outbound campaign'
+    'custom.lastUpdated': new Date()
   };
+  const currentCustom = existingLead.custom || {};
+  if (!currentCustom['Lead Origin']) {
+    putData['custom.Lead Origin'] = 'outbound campaign';
+  }
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/${existingLead.id}/`,
     body: JSON.stringify(putData)
@@ -108,26 +132,39 @@ function updateCloseLead(zpContact, existingLead, done) {
 }
 
 function createUpsertCloseLeadFn(zpContact) {
+  // New contact lead matching algorithm:
+  // 1. New contact email exists
+  // 2. New contact NCES school id exists
+  // 3. New contact NCES district id and no NCES school id
+  // 4. New contact school name and no NCES data
+  // 5. New contact district name and no NCES data
   return (done) => {
     // console.log(`DEBUG: createUpsertCloseLeadFn ${zpContact.organization} ${zpContact.email}`);
-    const query = `email:${zpContact.email}`;
-    const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
+    let query = `email:${zpContact.email}`;
+    let url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
       if (error) return done(error);
       const data = JSON.parse(body);
       if (data.total_results != 0) return done();
-      const query = `name:${zpContact.organization}`;
-      const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
+
+      query = `name:${zpContact.organization}`;
+      if (zpContact.nces_school_id) {
+        query = `custom.demo_nces_id:"${zpContact.nces_school_id}"`;
+      }
+      else if (zpContact.nces_district_id) {
+        query = `custom.demo_nces_district_id:"${zpContact.nces_district_id}" custom.demo_nces_id:""`;
+      }
+      url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
       request.get(url, (error, response, body) => {
         if (error) return done(error);
         const data = JSON.parse(body);
         if (data.total_results === 0) {
-          console.log(`DEBUG: Creating lead for ${zpContact.organization} ${zpContact.email}`);
+          console.log(`DEBUG: Creating lead for ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
           return createCloseLead(zpContact, done);
         }
         else {
           const existingLead = data.data[0];
-          console.log(`DEBUG: Adding ${zpContact.organization} ${zpContact.email} to ${existingLead.id}`);
+          console.log(`DEBUG: Adding to ${existingLead.id} ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
           return updateCloseLead(zpContact, existingLead, done);
         }
       });
@@ -146,16 +183,31 @@ function getZPContactsPage(contacts, searchQuery, done) {
     if (err) return done(err);
     const data = JSON.parse(body);
     for (let contact of data.contacts) {
-      let organization = contact.organization_name;
-      if (contact.custom_fields && contact.custom_fields.school_name) organization = contact.custom_fields.school_name;
-      contacts.push({
-        organization: organization,
+      const newContact = {
+        organization: contact.organization_name,
         name: contact.name,
         title: contact.title,
         email: contact.email,
         phone: contact.phone,
         data: contact
-      });
+      };
+      // Check custom fields, school_name set means organization_name is district name
+      if (contact.custom_fields) {
+        if (contact.custom_fields.school_name) {
+          newContact.district = contact.organization_name;
+          newContact.organization = contact.custom_fields.school_name;
+          // console.log(`DEBUG: found contact with school name ${newContact.email} ${contact.custom_fields.school_name}`);
+        }
+        if (contact.custom_fields.nces_district_id) {
+          newContact.nces_district_id = contact.custom_fields.nces_district_id;
+          // console.log(`DEBUG: found contact with district id ${newContact.email} ${newContact.nces_district_id}`);
+        }
+        if (contact.custom_fields.nces_school_id) {
+          newContact.nces_school_id = contact.custom_fields.nces_school_id;
+          // console.log(`DEBUG: found contact with school id ${newContact.email} ${newContact.nces_school_id}`);
+        }
+      }
+      contacts.push(newContact);
     }
     return done(null, data.pipeline_total);
   });
@@ -164,7 +216,7 @@ function getZPContactsPage(contacts, searchQuery, done) {
 function createGetZPAutoResponderContactsPage(contacts, page) {
   return (done) => {
     // console.log(`DEBUG: Fetching autoresponder page ${page} ${zpPageSize}...`);
-    let searchQuery = `codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&contact_email_autoresponder=true`;
+    let searchQuery = `codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&last_activity_date_range[min]=${zpMinActivityDate}&contact_email_autoresponder=true`;
     getZPContactsPage(contacts, searchQuery, done);
   };
 }
@@ -172,7 +224,7 @@ function createGetZPAutoResponderContactsPage(contacts, page) {
 function createGetZPRepliedContactsPage(contacts, page) {
   return (done) => {
     // console.log(`DEBUG: Fetching email reply page ${page} ${zpPageSize}...`);
-    let searchQuery = `codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&contact_email_replied=true`;
+    let searchQuery = `codecombat_special_auth_token=${zpAuthToken}&page=${page}&per_page=${zpPageSize}&last_activity_date_range[min]=${zpMinActivityDate}&contact_email_replied=true`;
     getZPContactsPage(contacts, searchQuery, done);
   };
 }
@@ -197,11 +249,11 @@ function getZPContacts(done) {
         if (err) return done(err);
         const emailContactMap = {};
         for (const contact of contacts) {
-          if (!contact.organization || !contact.name || !contact.title || !contact.email) {
-            console.log(JSON.stringify(contact, null, 2));
-            return done(`DEBUG: missing data for zp contact:`);
+          if (!contact.organization || !contact.name || !contact.email) {
+            console.log(`DEBUG: missing data for zp contact ${contact.email}:`);
+            // console.log(JSON.stringify(contact, null, 2));
           }
-          if (!emailContactMap[contact.email]) {
+          else if (!emailContactMap[contact.email]) {
             emailContactMap[contact.email] = contact;
           }
           // else {

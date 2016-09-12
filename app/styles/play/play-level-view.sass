@@ -12,6 +12,10 @@ $level-resize-transition-time: 0.5s
 
   &.real-time
     // Hmm, somehow the #page-container is cutting us off by ~17px on the right, looks a bit off.
+    
+    &.real-time.game-dev
+      #canvas-wrapper
+        width: 80%
 
     #canvas-wrapper
       width: 100%
@@ -285,8 +289,11 @@ $level-resize-transition-time: 0.5s
     .game-container, .level-content, #game-area, #canvas-wrapper
       height: 100%
 
+    #canvas-wrapper
+      height: calc(100% - 50px)
+
     #canvas-wrapper canvas
-        display: none
+      display: none
 
     #web-surface-view
       position: absolute
@@ -294,6 +301,13 @@ $level-resize-transition-time: 0.5s
       right: 0
       left: 0
       bottom: 0
+    
+  #how-to-play-game-dev-panel
+    position: absolute
+    right: 0
+    top: 52px
+    width: 20%
+    bottom: 38px
 
 html.fullscreen-editor
   #level-view

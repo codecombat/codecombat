@@ -41,7 +41,7 @@ if view.showAds()
             a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
             if level.slug == 'lost-viking'
               img.star(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
-            else if level.requiresSubscription
+            else if level.requiresSubscription && !level.adventurer
               img.star(src="/images/pages/play/star.png")
             if levelStatusMap[level.slug] === 'complete'
               img.banner(src="/images/pages/play/level-banner-complete.png")
@@ -100,28 +100,56 @@ if view.showAds()
   else
     .portal
       .portals
-        for campaignSlug in ['dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano']
-          - var campaign = campaigns[campaignSlug];
-          - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
-          div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
-            .campaign-label
-              h2.campaign-name
-                if campaign
-                  span= i18n(campaign.attributes, 'fullName')
-                else
-                  span ???
-              if campaign && campaign.levelsTotal
-                h3.levels-completed
-                  span= campaign.levelsCompleted
-                  | /
-                  span= campaign.levelsTotal
-              if campaign && campaign.locked && !godmode
-                h3.campaign-locked(data-i18n="play.locked") Locked
-              else if campaign
-                btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
-              if campaign && campaign.get('description')
-                p.campaign-description
-                  span= i18n(campaign.attributes, 'description')
+        //- TODO: you must change CampaignView portalsWidth when adding/removing campaigns here
+        for campaignSlug in ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'mountain', 'glacier', 'volcano']
+          if campaignSlug === 'beta-campaigns-1' || campaignSlug === 'beta-campaigns-2'
+            - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']);
+            .beta-container
+              each campaignSlug in betaSlugs
+                - var campaign = campaigns[campaignSlug];
+                if !campaign
+                  - continue;
+                div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+                  .background-container(class="#{campaignSlug}")
+                  .campaign-label
+                    h3.campaign-name
+                      if campaign
+                        span= i18n(campaign.attributes, 'fullName')
+                        if campaign.levelsTotal
+                          span.spl= campaign.levelsCompleted
+                          | /
+                          span= campaign.levelsTotal
+                      else
+                        span ???
+                    if campaign && campaign.locked && !godmode
+                      h4.campaign-locked(data-i18n="play.locked") Locked
+                    else if campaign
+                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                    if campaign && campaign.get('description')
+                      p.campaign-description
+                        span= i18n(campaign.attributes, 'description')
+          else
+            - var campaign = campaigns[campaignSlug];
+            - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
+            div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+              .campaign-label
+                h2.campaign-name
+                  if campaign
+                    span= i18n(campaign.attributes, 'fullName')
+                  else
+                    span ???
+                if campaign && campaign.levelsTotal
+                  h3.levels-completed
+                    span= campaign.levelsCompleted
+                    | /
+                    span= campaign.levelsTotal
+                if campaign && campaign.locked && !godmode
+                  h3.campaign-locked(data-i18n="play.locked") Locked
+                else if campaign
+                  btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                if campaign && campaign.get('description')
+                  p.campaign-description
+                    span= i18n(campaign.attributes, 'description')
 
   .game-controls.header-font.picoctf-hide
     button.btn.poll.hidden(data-i18n="[title]play.poll")
@@ -129,10 +157,10 @@ if view.showAds()
     button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
     button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
     button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-    if me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp
+    if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !me.isOnFreeOnlyServer()
       button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
     if !me.get('anonymous', true)
-      button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]play.account")
+      button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]nav.account")
     //if me.isAdmin()
     //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
     if me.get('anonymous', true)
@@ -172,10 +200,7 @@ if view.showAds()
     h1#campaign-status.picoctf-hide
       .campaign-status-background
         .campaign-name
-          - var fullName = i18n(campaign.attributes, 'fullName')
-          if (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'en' || fullName != campaign.get('fullName')
-            // We have a translation.
-            span= fullName
+          span= i18n(campaign.attributes, 'fullName')
         .levels-completed
           span= levelsCompleted
           | /

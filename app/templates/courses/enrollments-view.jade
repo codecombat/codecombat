@@ -29,24 +29,20 @@ block content
           h3 ATTENTION: Please upgrade your account to a Teacher Account.
           p
             | We are transitioning to a new improved classroom management system for instructors.
-            | Please convert your account to ensure you retain access to your classrooms. 
+            | Please convert your account to ensure you retain access to your classrooms.
           a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
-      
+
     .container.m-t-5
       .pull-right
         span.glyphicon.glyphicon-question-sign
         =' '
-        a#how-to-enroll-link(data-i18n="teacher.how_to_enroll")
+        a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
       h3(data-i18n='teacher.enrollments')
-      h4#enrollments-blurb
-        span(data-i18n='teacher.enrollments_blurb_1')
-        span  2&ndash;#{view.state.get('totalCourses')} 
-        span(data-i18n='teacher.enrollments_blurb_2')
-        
+      h4#enrollments-blurb(data-i18n='teacher.enrollments_blurb')  
       - var available = view.state.get('prepaidGroups').available
       - var pending = view.state.get('prepaidGroups').pending
       - var anyPrepaids = available || pending
-      
+
       .row.m-t-3
         if anyPrepaids
           #prepaids-col.col-md-9
@@ -56,25 +52,25 @@ block content
                 for prepaid in available
                   .col-sm-4.col-xs-6
                     +prepaidCard(prepaid)
-              
+
             if _.size(pending) > 0
               h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
               .row
                 for prepaid in pending
                   .col-sm-4.col-xs-6
                     +prepaidCard(prepaid, 'pending-prepaid-card')
-            
+
           #actions-col.col-md-3
             +addCredits
             +enrollmentStats
-        
+
         else
           // no prepaids
           .col-sm-6.col-lg-4.col-lg-offset-2
             +addCredits
           .col-sm-6.col-lg-4
             +enrollmentStats
-      
+
 mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.m-b-2.p-a-2(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
@@ -88,14 +84,14 @@ mixin prepaidCard(prepaid, className)
       .pull-left(data-i18n="teacher.end_date")
       .pull-right= moment(prepaid.get('endDate')).utc().format('l')
       .clearfix
-        
-        
+
+
 mixin addCredits
   .text-center.m-b-3.m-t-3
     h5(data-i18n="courses.get_enrollments")
     if me.get('enrollmentRequestSent')
       #enrollment-request-sent-blurb.small
-        p(data-i18n="teacher.enroll_request_sent_blurb1") 
+        p(data-i18n="teacher.enroll_request_sent_blurb1")
         p(data-i18n="teacher.enroll_request_sent_blurb2")
         p(data-i18n="[html]teacher.enroll_request_sent_blurb3")
       button#request-sent-btn.btn-lg.btn.btn-forest(disabled=true, data-i18n="teacher.request_sent")
@@ -104,7 +100,7 @@ mixin addCredits
       p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
       button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
 
-      
+
 mixin enrollmentStats
   h5.text-center.m-t-3.m-b-2(data-i18n='teacher.enrollment_status')
   table#enrollment-stats-table.table-condensed.table.small-details
@@ -114,7 +110,7 @@ mixin enrollmentStats
         span.spr :
       td= view.state.get('totalEnrolled') + view.state.get('totalNotEnrolled')
     tr
-      td 
+      td
         span(data-i18n='teacher.total_enrolled_students')
         span.spr :
       td= view.state.get('totalEnrolled')
@@ -131,4 +127,4 @@ mixin enrollmentStats
 
   .text-center
     button#enroll-students-btn.btn.btn-lg.btn-navy
-      span(data-i18n='teacher.enroll_students')
+      span(data-i18n='teacher.apply_licenses')

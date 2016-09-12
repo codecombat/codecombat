@@ -53,7 +53,7 @@ module.exports = class SolutionProblemsView extends RootView
   excludedLevelSnippets = [
     'treasure', 'brawl', 'siege'
   ]
-  
+
   unloadedCampaigns: 0
   campaignLevels: {}
   loadedLevels: {}
@@ -125,6 +125,7 @@ module.exports = class SolutionProblemsView extends RootView
           problems = problems.concat(@findSimulationProblems solution)
           problems = problems.concat(@findPass solution)
           problems = problems.concat(@findIdenticalToSource solution, plan)
+          problems = problems.concat(@findTemplateProblems solution, plan)
       @problemCount += problems.length
       @parsedLevels.push
         level: level
@@ -138,7 +139,7 @@ module.exports = class SolutionProblemsView extends RootView
       if _.findWhere(solutions, (elem) -> return elem.language is lang)
       # TODO: Phase the following out:
       else if lang not in excludedLanguages
-        problems.push 
+        problems.push
           type: 'Missing solution language'
           value: lang
     problems
@@ -168,4 +169,17 @@ module.exports = class SolutionProblemsView extends RootView
       problems.push
         type: 'Solution matches sample code'
         value: solution.language
+    problems
+
+  findTemplateProblems: (solution, plan) ->
+    problems = []
+    source = if solution.lang is 'javascript' then plan.source else plan.languages[solution.language]
+    context = plan.context
+    try
+      _.template(source, context)
+    catch error
+      console.log source, context, error
+      problems.push
+        type: 'Solution template syntax error'
+        value: error.message
     problems

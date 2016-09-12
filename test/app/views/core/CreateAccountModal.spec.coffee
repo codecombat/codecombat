@@ -68,24 +68,26 @@ xdescribe 'CreateAccountModal', ->
     segmentCheckView = null
     
     describe 'INDIVIDUAL path', ->
-      beforeEach ->
+      beforeEach (done) ->
         modal = new CreateAccountModal()
         modal.render()
         jasmine.demoModal(modal)
         modal.$('.individual-path-button').click()
         segmentCheckView = modal.subviews.segment_check_view
+        _.defer done
 
       it 'has a birthdate form', ->
         expect(modal.$('.birthday-form-group').length).toBe(1)
     
     describe 'STUDENT path', ->
-      beforeEach ->
+      beforeEach (done) ->
         modal = new CreateAccountModal()
         modal.render()
         jasmine.demoModal(modal)
         modal.$('.student-path-button').click()
         segmentCheckView = modal.subviews.segment_check_view
         spyOn(segmentCheckView, 'checkClassCodeDebounced')
+        _.defer done
         
       it 'has a classCode input', ->
         expect(modal.$('.class-code-input').length).toBe(1)
@@ -105,11 +107,11 @@ xdescribe 'CreateAccountModal', ->
       describe 'checkClassCode()', ->
         it 'shows a success message if the classCode is found', ->
           request = jasmine.Ajax.requests.mostRecent()
-          expect(request).toBeUndefined()
+          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false)
           modal.$('.class-code-input').val('test').trigger('input')
           segmentCheckView.checkClassCode()
           request = jasmine.Ajax.requests.mostRecent()
-          expect(request).toBeDefined()
+          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(true)
           request.respondWith({
             status: 200
             responseText: JSON.stringify({
@@ -124,11 +126,11 @@ xdescribe 'CreateAccountModal', ->
         
         beforeEach ->
           request = jasmine.Ajax.requests.mostRecent()
-          expect(request).toBeUndefined()
+          expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false)
           modal.$('.class-code-input').val('test').trigger('input')
           modal.$('form.segment-check').submit()
           classCodeRequest = jasmine.Ajax.requests.mostRecent()
-          expect(classCodeRequest).toBeDefined()
+          expect(_.string.startsWith(classCodeRequest.url, '/db/classroom')).toBe(true)
 
         describe 'when the classroom IS found', ->
           beforeEach (done) ->
@@ -143,6 +145,9 @@ xdescribe 'CreateAccountModal', ->
 
           it 'navigates to the BasicInfoView', ->
             expect(modal.signupState.get('screen')).toBe('basic-info')
+            
+          describe 'on the BasicInfoView for students', ->
+            
             
         describe 'when the classroom IS NOT found', ->
           beforeEach (done) ->
@@ -180,7 +185,7 @@ xdescribe 'CreateAccountModal', ->
     beforeEach ->
       modal = new CreateAccountModal()
       modal.signupState.set({
-        path: 'individual'
+        path: 'student'
         screen: 'basic-info'
       })
       modal.render()
@@ -256,6 +261,7 @@ xdescribe 'CreateAccountModal', ->
           
     describe 'onSubmitForm()', ->
       it 'shows required errors for empty fields when on INDIVIDUAL path', ->
+        modal.signupState.set('path', 'individual')
         basicInfoView.$('input').val('')
         basicInfoView.$('#basic-info-form').submit()
         expect(basicInfoView.$('.form-group.has-error').length).toBe(3)
@@ -264,7 +270,7 @@ xdescribe 'CreateAccountModal', ->
         modal.signupState.set('path', 'student')
         modal.render()
         basicInfoView.$('#basic-info-form').submit()
-        expect(basicInfoView.$('.form-group.has-error').length).toBe(5) # includes first and last name
+        expect(basicInfoView.$('.form-group.has-error').length).toBe(4) # includes first and last name, not email
 
       describe 'submit with password', ->
         beforeEach ->
@@ -272,6 +278,8 @@ xdescribe 'CreateAccountModal', ->
             email: 'some@email.com'
             password: 'password'
             name: 'A Username'
+            firstName: 'First'
+            lastName: 'Last'
           })
           basicInfoView.$('form').submit()
           
@@ -313,6 +321,10 @@ xdescribe 'CreateAccountModal', ->
           it 'saves the user', ->
             request = jasmine.Ajax.requests.mostRecent()
             expect(_.string.startsWith(request.url, '/db/user')).toBe(true)
+            body = JSON.parse(request.params)
+            expect(body.firstName).toBe('First')
+            expect(body.lastName).toBe('Last')
+            expect(body.emails.generalNews.enabled).toBe(true)
             
           describe 'saving the user FAILS', ->
             beforeEach (done) ->

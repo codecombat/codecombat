@@ -2,6 +2,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/edit'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
+LevelComponent = require 'models/LevelComponent'
 World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
@@ -165,7 +166,7 @@ module.exports = class LevelEditView extends RootView
       if me.get('name') is 'Nick'
         @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=2560,height=1080,left=0,top=-1600,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
       else
-        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1024,height=560,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
+        @childWindow = window.open("/play/level/#{scratchLevelID}", 'child_window', 'width=1280,height=640,left=10,top=10,location=0,menubar=0,scrollbars=0,status=0,titlebar=0,toolbar=0', true)
       @childWindow.onPlayLevelViewLoaded = (e) => sendLevel()  # still a hack
     @childWindow.focus()
 
@@ -217,6 +218,19 @@ module.exports = class LevelEditView extends RootView
 
   onPopulateI18N: ->
     @level.populateI18N()
+    
+    levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
+      .map((c) -> [c.get('original'), c])
+      .object()
+      .value()
+
+    for thang, thangIndex in @level.get('thangs')
+      for thangComponent, thangComponentIndex in thang.components
+        component = levelComponentMap[thangComponent.original]
+        configSchema = component.get('configSchema')
+        path = "/thangs/#{thangIndex}/components/#{thangComponentIndex}/config"
+        @level.populateI18N(thangComponent.config, configSchema, path)
+    
     f = -> document.location.reload()
     setTimeout(f, 2000)
 

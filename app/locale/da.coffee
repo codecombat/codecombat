@@ -89,7 +89,6 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     goto_classes: "Gå til mine Klasser" # {change}
     view_profile: "Vis Min Profil"
 #    view_progress: "View Progress"
-    check_out_wiki: "Tjek vores nye pædagog Wiki"
     want_coco: "Ønsker du CodeCombat på din skole?"
     form_select_role: "Vælg primær rolle"
     form_select_range: "Vælg klassestørrelse"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "genskab konto"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 
   common:
     back: "Gå tilbage" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Fortsæt" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Henter..."
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Gemmer..."
     sending: "Sender..."
     send: "Send"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     submit_patch: "Indsend opdatering"
     submit_changes: "Indsend ændringer"
     save_changes: "Gem ændringer"
-#    required_field: "Required field"
+#    required_field: "required"
 
   general:
     and: "og"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     done: "Færdig"
     next_level: "Næste Bane:"
     next_game: "Næste spil"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Vis spil menu"
     home: "Hjem" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_experience_gained: "XP tjent"
     victory_gems_gained: "Diamanter tjent"
     victory_new_item: "Nyt udstyr"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "For dælen det var en svær bane du lige slog! Hvis ikke du allerede er softwareudvikler, så burde du blive det. Du er lige kommet foran i køen til at blive accepteret hos Viking Code School, du kan tage dine evner til det næste niveau og blive en professionel webudvikler på 14 uger."
     victory_become_a_viking: "Bliv en Viking"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     tip_good_idea: "Den bedste måde at få en god idé på er at få en masse ideer. - Linus Pauling"
     tip_programming_not_about_computers: "Datalogi handler ikke mere om computere end astronomi handler om teleskoper. - Edsger Dijkstra"
     tip_mulan: "Tro du kan, så kan du. - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Dine ting"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     current_value: "Nuværende Værdi"
     default_value: "Standard værdi"
     parameters: "Parametre"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Returnerer"
     granted_by: "Givet af"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    elliot_title: "Partnership Manager"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Retro Spil"
     jose_title: "Musik"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    evaluate_recommend: "Evaluate/Recommend"
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
-    organization_label: "Navn på Skole/Område"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Navn på Skole/Område" # {change}
     city: "By"
     state: "Stat"
     country: "Land"
@@ -1118,8 +1145,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     invite_link_p_1: "Giv dette link til elever, som du gerne vil have deltager i kurset."
     invite_link_p_2: "Eller lad os email'e dem direkte:"
     capacity_used: "Kursuspladser brugt:"
-    enter_emails: "Indtast emails på eleverne, der skal inviteres, én pr linje"
-    send_invites: "Send Invitationer"
+    enter_emails: "Indtast emails på eleverne, der skal inviteres, én pr linje" # {change}
+    send_invites: "Send Invitationer" # {change}
     creating_class: "Opretter klasse..."
     purchasing_course: "Køber kursus..."
     buy_course: "Køb Kursus"
@@ -1167,7 +1194,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     already_enrolled: "allerede tilmeldt"
     licenses_remaining: "resterende licenser:"
     insufficient_enrollments: "utilstrækkelige betalte tilmeldinger" # {change}
-    get_enrollments: "Få flere Tilmeldinger" # {change}
+    get_enrollments: "Få flere Tilmeldinger"
     change_language: "Rediger kursussprog"
     keep_using: "Forsæt Brug Af"
     switch_to: "Skift Til"
@@ -1208,7 +1235,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     play_now_learn_2: "while-løkker til at løse irriterende gåder"
     play_now_learn_3: "strenge og variable at tilpasse handlinger"
     play_now_learn_4: "hvordan man besejrer en kæmpe (vigtige færdigheder i livet!)"
-    welcome_to_page: "Velkommen til din Kursusside!"
+    welcome_to_page: "Velkommen til din Kursusside!" # {change}
     completed_hoc: "Fantastisk! Du har gennemført 'Hour of Code'-kurset!"
     ready_for_more_header: "Klar til mere? Spil kampagner!"
     ready_for_more_1: "Brug ædelstene til at låse op for nye sager!"
@@ -1218,8 +1245,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     hoc: "Hour of Code"
     my_classes: "Mine Klasser"
     class_added: "Klasse tilføjet!"
-    view_class: "vis klasse"
-    view_levels: "vis baner"
+    view_levels: "vis baner" # {change}
     join_class: "Følg En Klasse"
 #    join_class_2: "Join class"
     ask_teacher_for_code: "Spørg din lærer om du har en CodeCombat-klassekode! Hvis det er tilfældet, angiv den nedenfor:"
@@ -1228,20 +1254,17 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     joining: "Følger klasse"
     course_complete: "Kursus Gennemført"
     play_arena: "Spil Arena"
+#    view_project: "View Project"
     start: "Start"
-    last_level: "Sidste Bane"
+    last_level: "Sidste Bane" # {change}
     welcome_to_hoc: "Eventyrere, velkommen til vores 'Hour of Code'!"
     logged_in_as: "Logget ind som:"
     not_you: "Ikke dig?"
     welcome_back: "Hej eventyrer, velkommen tilbage!"
     continue_playing: "Fortsæt Spil"
     more_options: "Flere muligheder:"
-    option1_header: "Mulighed 1: Invitér elever via email"
-    option1_body: "Eleverne vil automatisk få tilsendt en invitation til at deltage i denne klasse, og de bliver nødt til at oprette en konto med et brugernavn og adgangskode."
-    option2_header: "Mulighed 2: Send URL til dine elever"
-    option2_body: "Eleverne vil blive bedt om at indtaste en emailadresse, brugernavn og adgangskode for at oprette en konto."
-    option3_header: "Mulighed 3: Send studerende til codecombat.com/courses"
-    option3_body: "Giv eleverne følgende adgangskode for at komme ind med en emailadresse, brugernavn og adgangskode, når de opretter en konto."
+    option1_header: "Mulighed 1: Invitér elever via email" # {change}
+    option1_body: "Eleverne vil automatisk få tilsendt en invitation til at deltage i denne klasse, og de bliver nødt til at oprette en konto med et brugernavn og adgangskode." # {change}
     thank_you_pref: "Tak for dit køb! Du kan nu tildele"
     thank_you_suff: "flere elever til betalte kurser."
     return_to_class: "Tilbage til klasseværelse"
@@ -1296,15 +1319,14 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     students_assigned: "elever tildelt"
     length: "Varighed:"
     title: "Titel" # Flat style redesign
-#    subtitle: "Review course guidelines, solutions, and levels"
+#    subtitle: "Review course overviews and levels"
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
 #    select_level: "Select level"
 #    play_level: "Play Level"
     concepts_covered: "Begreber Gennemgået"
 #    print_guide: "Print Guide (PDF)"
-#    view_guide_online: "View Guide Online (PDF)"
-#    last_updated: "Last updated:"
+#    view_guide_online: "Level Overviews and Solutions"
 #    grants_lifetime_access: "Grants access to all Courses."
 #    enrollment_credits_available: "Licenses Available:"
     description: "Beskrivelse" # ClassroomSettingsModal
@@ -1332,7 +1354,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1375,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1366,10 +1389,14 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    you_can_edit: "You can edit your email address in "
 #    account_settings: "Account Settings"
 #    select_your_hero: "Select Your Hero"
-#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
 #  teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1406,13 +1433,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    earliest_incomplete: "Earliest incomplete level"
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
-#    adding_students: "Adding students"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
 #    edit_2: "Edit"
 #    remove: "remove"
-#    latest_completed: "Latest Completed"
+#    latest_completed: "Latest completed"
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
@@ -1422,10 +1448,10 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    select_course: "Select course to view"
 #    course_overview: "Course Overview"
 #    copy_class_code: "Copy Class Code"
-#    class_code_blurb: "New students can enter this class code on their dashboard or visit codecombat.com/courses to join the class."
+#    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code."
 #    copy_class_url: "Copy Class URL"
-#    class_join_url_blurb: "New students can visit this URL while logged in to join the class."
-#    add_students_manually: "Add Students Manually"
+#    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
+#    add_students_manually: "Invite Students by Email"
 #    bulk_assign: "Bulk-assign"
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
@@ -1461,12 +1487,12 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1525,18 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Ærkemager"
@@ -1527,6 +1564,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     article_title: "Artikel Editor"
     thang_title: "Thang Editor"
     level_title: "Bane Redigeringsværktøj"
+#    course_title: "Course Editor"
     achievement_title: "Bedrift Editor"
     poll_title: "Afstemning Editor"
     back: "Tilbage"

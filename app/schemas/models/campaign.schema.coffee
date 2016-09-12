@@ -9,7 +9,7 @@ _.extend CampaignSchema.properties, {
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description']}
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' }
   description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' }
-  type: c.shortString(title: 'Type', description: 'What kind of campaign this is.', 'enum': ['hero', 'course'])
+  type: c.shortString(title: 'Type', description: 'What kind of campaign this is.', 'enum': ['hero', 'course','hidden'])
 
   ambientSound: c.object {},
     mp3: { type: 'string', format: 'sound-file' }
@@ -42,7 +42,14 @@ _.extend CampaignSchema.properties, {
       position: c.point2d()
       rotation: { type: 'number', format: 'degrees' }
       color: { type: 'string' }
-      showIfUnlocked: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+      showIfUnlocked:
+        oneOf: [
+          { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          {
+            type: 'array',
+            items: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
+          }
+        ]
     }
   }}
   levelsUpdated: c.date()
@@ -66,7 +73,8 @@ _.extend CampaignSchema.properties, {
       original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
-      practiceThresholdMinutes: {type: 'number'}
+      practiceThresholdMinutes: { type: 'number' }
+      primerLanguage: { type: 'string', enum: ['javascript', 'python'] }
       shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
       adminOnly: { type: 'boolean' }
       disableSpaces: { type: ['boolean','number'] }

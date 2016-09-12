@@ -22,6 +22,11 @@ LOG = false
 #  * Sprite map generation
 #  * Connecting to Firebase
 
+# LevelLoader depends on SuperModel retrying timed out requests, as these occasionally happen during play.
+# If LevelLoader ever moves away from SuperModel, it will have to manage its own retries.
+
+reportedLoadErrorAlready = false
+
 module.exports = class LevelLoader extends CocoClass
 
   constructor: (options) ->
@@ -49,6 +54,7 @@ module.exports = class LevelLoader extends CocoClass
     if @supermodel.finished()
       @onSupermodelLoaded()
     else
+      @loadTimeoutID = setTimeout @reportLoadError.bind(@), 30000
       @listenToOnce @supermodel, 'loaded-all', @onSupermodelLoaded
 
   # Supermodel (Level) Loading
@@ -70,6 +76,12 @@ module.exports = class LevelLoader extends CocoClass
     else
       @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
+
+  reportLoadError: ->
+    window.tracker?.trackEvent 'LevelLoadError',
+      category: 'Error',
+      levelSlug: @work?.level?.slug,
+      unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
 
   onLevelLoaded: ->
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
@@ -141,7 +153,8 @@ module.exports = class LevelLoader extends CocoClass
       url += "?course=#{@courseID}" if @courseID
 
     session = new LevelSession().setURL url
-    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode'] if @headless
+    if @headless and not @level.isType('web-dev')
+      session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
@@ -196,8 +209,12 @@ module.exports = class LevelLoader extends CocoClass
         console.log "Pushing resource: ", heroResource if LOG
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
+    unless @level.isType('hero', 'hero-ladder', 'hero-coop')
+      # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
+      if @checkAllWorldNecessitiesRegisteredAndLoaded()
+        @onWorldNecessitiesLoaded()
       return
-    return unless @level.isType('hero', 'hero-ladder', 'hero-coop')
+    # Load the ThangTypes needed for the session's heroConfig for these types of levels
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
@@ -352,6 +369,7 @@ module.exports = class LevelLoader extends CocoClass
     @onWorldNecessitiesLoaded() if @checkAllWorldNecessitiesRegisteredAndLoaded()
 
   onWorldNecessityLoadFailed: (event) ->
+    @reportLoadError()
     @trigger('world-necessity-load-failed', event)
 
   checkAllWorldNecessitiesRegisteredAndLoaded: ->
@@ -390,6 +408,7 @@ module.exports = class LevelLoader extends CocoClass
     @supermodel.loadModel(model, resourceName)
 
   onSupermodelLoaded: ->
+    clearTimeout @loadTimeoutID
     return if @destroyed
     console.log 'SuperModel for Level loaded in', new Date().getTime() - @t0, 'ms' if LOG
     @loadLevelSounds()

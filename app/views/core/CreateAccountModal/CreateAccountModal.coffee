@@ -6,6 +6,7 @@ CoppaDenyView = require './CoppaDenyView'
 BasicInfoView = require './BasicInfoView'
 SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
 SingleSignOnConfirmView = require './SingleSignOnConfirmView'
+ExtrasView = require './ExtrasView'
 ConfirmationView = require './ConfirmationView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
@@ -63,6 +64,7 @@ module.exports = class CreateAccountModal extends ModalView
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
       authModalInitialValues: {}
+      accountCreated: false
     }
     
     { startOnPath } = options
@@ -92,15 +94,26 @@ module.exports = class CreateAccountModal extends ModalView
       'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
       'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
       'nav-back': -> @signupState.set { screen: 'segment-check' }
-      'signup': -> @signupState.set { screen: 'confirmation' }
+      'signup': ->
+        if @signupState.get('path') is 'student'
+          @signupState.set { screen: 'extras', accountCreated: true }
+        else
+          @signupState.set { screen: 'confirmation', accountCreated: true }
 
     @listenTo @insertSubView(new SingleSignOnAlreadyExistsView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
 
     @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
-      'signup': -> @signupState.set { screen: 'confirmation' }
+      'signup': ->
+        if @signupState.get('path') is 'student'
+          @signupState.set { screen: 'extras', accountCreated: true }
+        else
+          @signupState.set { screen: 'confirmation', accountCreated: true }
         
+    @listenTo @insertSubView(new ExtrasView({ @signupState })),
+      'nav-forward': -> @signupState.set { screen: 'confirmation' }
+
     @insertSubView(new ConfirmationView({ @signupState }))
 
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
@@ -108,9 +121,13 @@ module.exports = class CreateAccountModal extends ModalView
     application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
     
     @once 'hidden', ->
-      if @signupState.get('screen') is 'confirmation' and not application.testing
+      if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
-        document.location.reload()
+        if me.isStudent()
+          application.router.navigate('/students', {trigger: true})
+        else if me.isTeacher()
+          application.router.navigate('/teachers/classes', {trigger: true})
+        window.location.reload()
   
   onClickLoginLink: ->
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues') }))

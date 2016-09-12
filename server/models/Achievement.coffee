@@ -6,6 +6,7 @@ plugins = require('../plugins/plugins')
 AchievablePlugin = require '../plugins/achievements'
 TreemaUtils = require '../../bower_components/treema/treema-utils.js'
 config = require '../../server_config'
+co = require 'co'
 
 # `pre` and `post` are not called for update operations executed directly on the database,
 # including `Model.update`,`.findByIdAndUpdate`,`.findOneAndUpdate`, `.findOneAndRemove`,and `.findByIdAndRemove`.order
@@ -32,6 +33,7 @@ AchievementSchema.index(
 AchievementSchema.index({i18nCoverage: 1}, {name: 'translation coverage index', sparse: true})
 AchievementSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
 AchievementSchema.index({related: 1}, {name: 'related index', sparse: true})
+AchievementSchema.index({updated: 1}, {name: 'updated index'})
 
 AchievementSchema.methods.objectifyQuery = ->
   try
@@ -53,27 +55,29 @@ AchievementSchema.statics.achievementCollections = {}
 
 # Reloads all achievements into memory.
 # TODO might want to tweak this to only load new achievements
-AchievementSchema.statics.loadAchievements = (done) ->
+AchievementSchema.statics.loadAchievements = co.wrap ->
   AchievementSchema.statics.resetAchievements()
+  t0 = new Date()
   Achievement = require('./Achievement')
-  query = Achievement.find({collection: {$ne: 'level.sessions'}})
-  query.exec (err, docs) ->
-    _.each docs, (achievement) ->
-      collection = achievement.get 'collection'
-      AchievementSchema.statics.achievementCollections[collection] ?= []
-      if _.find AchievementSchema.statics.achievementCollections[collection], ((a) -> a.get('_id').toHexString() is achievement.get('_id').toHexString())
-        log.warn "Uh oh, we tried to add another copy of the same achievement #{achievement.get('_id')} #{achievement.get('name')} to the #{collection} achievement list..."
-      else
-        AchievementSchema.statics.achievementCollections[collection].push achievement
-      unless achievement.get('query')
-        log.error "Uh oh, there is an achievement with an empty query: #{achievement}"
-    done?(AchievementSchema.statics.achievementCollections) # TODO: Return with err as first parameter  
+  achievements = yield Achievement.find({collection: {$ne: 'level.sessions'}})
+  return if t0 < @lastReset # if a test has run resetAchievements during the fetch, abort
+  for achievement in achievements
+    collection = achievement.get 'collection'
+    AchievementSchema.statics.achievementCollections[collection] ?= []
+    if _.find AchievementSchema.statics.achievementCollections[collection], ((a) -> a.get('_id').toHexString() is achievement.get('_id').toHexString())
+      log.warn "Uh oh, we tried to add another copy of the same achievement #{achievement.get('_id')} #{achievement.get('name')} to the #{collection} achievement list..."
+    else
+      AchievementSchema.statics.achievementCollections[collection].push achievement
+    unless achievement.get('query')
+      log.error "Uh oh, there is an achievement with an empty query: #{achievement}"
+  return AchievementSchema.statics.achievementCollections
 
 AchievementSchema.statics.getLoadedAchievements = ->
   AchievementSchema.statics.achievementCollections
 
 AchievementSchema.statics.resetAchievements = ->
   delete AchievementSchema.statics.achievementCollections[collection] for collection of AchievementSchema.statics.achievementCollections
+  @lastReset = new Date()
   
 AchievementSchema.statics.editableProperties = [
   'name'
@@ -91,7 +95,9 @@ AchievementSchema.statics.editableProperties = [
   'rewards'
   'i18n'
   'i18nCoverage'
+  'hidden'
 ]
+AchievementSchema.statics.postEditableProperties = []
 
 AchievementSchema.statics.jsonSchema = require '../../app/schemas/models/achievement'
 
@@ -100,6 +106,8 @@ AchievementSchema.post 'init', (doc) -> doc.objectifyQuery()
 
 AchievementSchema.pre 'save', (next) ->
   @stringifyQuery()
+  if not @get('updated')
+    @set('updated', new Date().toISOString())
   next()
 
 # Reload achievements upon save

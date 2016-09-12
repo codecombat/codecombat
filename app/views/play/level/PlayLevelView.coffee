@@ -211,7 +211,12 @@ module.exports = class PlayLevelView extends RootView
       @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
       return
     @world = @levelLoader.world
-    @$el.addClass 'game-dev' if @level.isType('game-dev')
+    if @level.isType('game-dev')
+      @$el.addClass 'game-dev'
+      @howToPlayText = utils.i18n(@level.attributes, 'studentPlayInstructions')
+      @howToPlayText ?= $.i18n.t('play_game_dev_level.default_student_instructions')
+      @howToPlayText = marked(@howToPlayText, { sanitize: true })
+      @renderSelectors('#how-to-play-game-dev-panel')
     @$el.addClass 'hero' if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev')  # TODO: figure out what this does and comment it
     @$el.addClass 'flags' if _.any(@world.thangs, (t) -> (t.programmableProperties and 'findFlags' in t.programmableProperties) or t.inventory?.flag) or @level.get('slug') is 'sky-span'
     # TODO: Update terminology to always be opponentSession or otherSession
@@ -548,9 +553,9 @@ module.exports = class PlayLevelView extends RootView
 
   onDonePressed: -> @showVictory()
 
-  onShowVictory: (e) ->
+  onShowVictory: (e={}) ->
     $('#level-done-button').show() unless @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
-    @showVictory() if e.showModal
+    @showVictory(_.pick(e, 'manual')) if e.showModal
     return if @victorySeen
     @victorySeen = true
     victoryTime = (new Date()) - @loadEndTime
@@ -563,15 +568,16 @@ module.exports = class PlayLevelView extends RootView
         ls: @session?.get('_id')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID
 
-  showVictory: ->
+  showVictory: (options={}) ->
     return if @level.hasLocalChanges()  # Don't award achievements when beating level changed in level editor
+    return if @level.isType('game-dev') and @level.get('shareable') and not options.manual
     @endHighlight()
     options = {level: @level, supermodel: @supermodel, session: @session, hasReceivedMemoryWarning: @hasReceivedMemoryWarning, courseID: @courseID, courseInstanceID: @courseInstanceID, world: @world}
     ModalClass = if @level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev') then HeroVictoryModal else VictoryModal
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')
       ModalClass = CourseVictoryModal
-      options.courseInstanceID = @getQueryVariable 'course-instance' or @getQueryVariable 'league'
+      options.courseInstanceID = @getQueryVariable('course-instance') or @getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)

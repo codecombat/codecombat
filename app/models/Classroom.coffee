@@ -47,9 +47,11 @@ module.exports = class Classroom extends CocoModel
   getLevelNumber: (levelID, defaultNumber) ->
     unless @levelNumberMap
       @levelNumberMap = {}
+      language = @get('aceConfig')?.language
       for course in @get('courses') ? []
         levels = []
         for level in course.levels when level.original
+          continue if language? and level.primerLanguage is language
           levels.push({key: level.original, practice: level.practice ? false})
         _.assign(@levelNumberMap, utils.createLevelNumberMap(levels))
     @levelNumberMap[levelID] ? defaultNumber
@@ -84,6 +86,8 @@ module.exports = class Classroom extends CocoModel
         continue
       levelObjects.push(course.levels)
     levels = new Levels(_.flatten(levelObjects))
+    language = @get('aceConfig')?.language
+    levels.remove(levels.filter((level) => level.get('primerLanguage') is language)) if language
     if options.withoutLadderLevels
       levels.remove(levels.filter((level) -> level.isLadder()))
     if options.projectLevels
@@ -98,10 +102,19 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(course.levels)
     return levels.find (l) -> l.isLadder()
 
+  getProjectLevel: (courseID) ->
+    Levels = require 'collections/Levels'
+    courses = @get('courses')
+    course = _.findWhere(courses, {_id: courseID})
+    return unless course
+    levels = new Levels(course.levels)
+    return levels.find (l) -> l.isProject()
+
   statsForSessions: (sessions, courseID) ->
     return null unless sessions
     sessions = sessions.models or sessions
     arena = @getLadderLevel(courseID)
+    project = @getProjectLevel(courseID)
     courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true})
     levelSessionMap = {}
     levelSessionMap[session.get('level').original] = session for session in sessions
@@ -119,6 +132,7 @@ module.exports = class Classroom extends CocoModel
         complete = session.get('state').complete ? false
         playtime += session.get('playtime') ? 0
         lastPlayed = level
+        lastPlayedNumber = index + 1
         if complete
           currentIndex = index
         else
@@ -148,9 +162,11 @@ module.exports = class Classroom extends CocoModel
         numDone: levelsTotal - levelsLeft
         pctDone: (100 * (levelsTotal - levelsLeft) / levelsTotal).toFixed(1) + '%'
         lastPlayed: lastPlayed
+        lastPlayedNumber: lastPlayedNumber ? 1
         next: nextLevel
         first: courseLevels.first()
         arena: arena
+        project: project
       playtime: playtime
     stats
 
@@ -169,6 +185,9 @@ module.exports = class Classroom extends CocoModel
     options.url = @url() + '/invite-members'
     options.type = 'POST'
     @fetch(options)
+
+  getSortedCourses: ->
+    utils.sortCourses(@get('courses') ? [])
 
   updateCourses: (options={}) ->
     options.url = @url() + '/update-courses'

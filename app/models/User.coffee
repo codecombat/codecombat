@@ -81,11 +81,6 @@ module.exports = class User extends CocoModel
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
-  justPlaysCourses: ->
-    # This heuristic could be better, but currently we don't add to me.get('courseInstances') for single-player anonymous intro courses, so they have to beat a level without choosing a hero.
-    return true if me.get('role') is 'student'
-    return me.get('stats')?.gamesCompleted and not me.get('heroConfig')
-    
   isSessionless: ->
     # TODO: Fix old users who got mis-tagged as teachers
     # TODO: Should this just be isTeacher, eventually?
@@ -196,11 +191,21 @@ module.exports = class User extends CocoModel
     group = me.get('testGroupNumber') % 3
     @hintsGroup = switch group
       when 0 then 'no-hints'
-      when 1 then 'hints'
-      when 2 then 'hintsB'
+      when 1 then 'hints'   # Automatically created code, doled out line-by-line, without full solutions
+      when 2 then 'hintsB'  # Manually created FAQ-style hints, reusable across levels
     @hintsGroup = 'hints' if me.isAdmin()
     application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
     @hintsGroup
+
+  getDefaultLanguageGroup: ->
+    # A/B test default programming language in home version
+    return @defaultLanguageGroup if @defaultLanguageGroup
+    group = me.get('testGroupNumber') % 2
+    @defaultLanguageGroup = switch group
+      when 0 then 'javascript'
+      when 1 then 'python'
+    application.tracker.identify defaultLanguageGroup: @defaultLanguageGroup unless me.isAdmin()
+    @defaultLanguageGroup
 
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
@@ -220,9 +225,15 @@ module.exports = class User extends CocoModel
     return true if me.isAdmin()
     return true if me.hasSubscription()
     return false
-    
+
   isOnPremiumServer: ->
-    me.get('country') in ['china', 'brazil']
+    return true if me.get('country') in ['brazil']
+    return true if me.get('country') in ['china'] and me.isPremium()
+    return false
+
+  isOnFreeOnlyServer: ->
+    return true if me.get('country') in ['china'] and not me.isPremium()
+    return false
 
   sendVerificationCode: (code) ->
     $.ajax({
@@ -360,6 +371,11 @@ module.exports = class User extends CocoModel
 
   deteacher: (options={}) ->
     options.url = _.result(@, 'url') + '/deteacher'
+    options.type = 'POST'
+    @fetch(options)
+    
+  checkForNewAchievement: (options={}) ->
+    options.url = _.result(@, 'url') + '/check-for-new-achievement'
     options.type = 'POST'
     @fetch(options)
 

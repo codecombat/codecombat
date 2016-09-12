@@ -13,6 +13,7 @@ channelSchemas =
   'tome': require 'schemas/subscriptions/tome'
   'god': require 'schemas/subscriptions/god'
   'scripts': require 'schemas/subscriptions/scripts'
+  'web-dev': require 'schemas/subscriptions/web-dev'
   'world': require 'schemas/subscriptions/world'
 
 definitionSchemas =

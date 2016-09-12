@@ -24,7 +24,7 @@ block content
           each rangeKey in view.rangeKeys
             span.range-background(style="left:#{rangeKey.startScale}%;width:#{rangeKey.width}%;background-color:#{rangeKey.color}")
             span.range-dates(style="left:#{rangeKey.startScale}%;width:#{rangeKey.width}%;") #{rangeKey.name}
-        td(colspan=2)
+        td(colspan=3)
       each school in view.schools
         each prepaid in school.prepaids
           tr

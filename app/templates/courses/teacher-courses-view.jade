@@ -15,11 +15,11 @@ block content
         a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
     
   .container
-    h1(data-i18n="courses.title")
+    h1(data-i18n="nav.courses")
     h2(data-i18n="courses.subtitle")
-    p
-      a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
-  
+    //- p
+    //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
+
   .courses.container
     - var courses = view.courses.models;
     - var courseIndex = 0;
@@ -29,7 +29,7 @@ block content
       .course.row
         .col-sm-9
           +course-info(course)
-        if me.isTeacher()
+        if me.isTeacher() || me.isAdmin()
           .col-sm-3
             .play-level-form(data-course-id=course.id)
               .form-group
@@ -37,11 +37,20 @@ block content
                   span(data-i18n="courses.select_language")
                   | :
                   select.language-select.form-control
-                    // TODO: Automate this list @scott
-                    option(value="python")
-                      | Python
-                    option(value="javascript")
-                      | JavaScript
+                    //- TODO: Automate this list @scott
+                    //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
+                    - var courseSlug = course.get('slug') || '';
+                    if courseSlug === 'web-dev-1' || courseSlug === 'web-development-1'
+                      option(value="javascript")
+                        | HTML
+                    else if courseSlug.indexOf('web-dev') >= 0
+                      option(value="javascript")
+                        | HTML / JavaScript
+                    else
+                      option(value="python")
+                        | Python
+                      option(value="javascript")
+                        | JavaScript
                     //- option(value="coffeescript")
                     //-   | CoffeeScript (Experimental)
                     //- option(value="clojure")
@@ -75,8 +84,8 @@ mixin course-info(course)
   - var campaign = view.campaigns.get(course.get('campaignID'));
   .course-info
     .text-h4.semibold
-      = course.get('name')
-    p= course.get('description')
+      = i18n(course.attributes, 'name')
+    p= i18n(course.attributes, 'description')
     p.concepts.semibold
       span(data-i18n="courses.concepts_covered")
       | : 
@@ -85,22 +94,21 @@ mixin course-info(course)
         if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1
           span.spr ,
         
-    if me.isTeacher() || view.ownedClassrooms.size()
-      if view.guideLinks[course.id]
-        //- a.btn.btn-primary(href=view.guideLinks[course.id] class=(me.isTeacher() ? '': 'disabled'))
-        //-   span(data-i18n="courses.print_guide")
-        a.guide-btn.btn.btn-primary(href=view.guideLinks[course.id].python data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() ? '': 'disabled'))
+    if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
+      //- Web dev courses use HTML and JavaScript, except web-dev-1 which doesn't have scripting
+      - var courseSlug = course.get('slug') || '';
+      if courseSlug === 'web-dev-1' || courseSlug === 'web-development-1' 
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
-          |  &mdash; Python
-        a.guide-btn.btn.btn-primary(href=view.guideLinks[course.id].javascript data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() ? '': 'disabled'))
+          |  &mdash; HTML
+      else if courseSlug.indexOf('web-dev') >= 0
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; HTML / JavaScript
+      else
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; JavaScript
-      else
-        i.small
-          | (
-          span(data-i18n='teacher.guides_coming_soon')
-          | )
-    if campaign && campaign.get('levelsUpdated')
-      p.small.m-t-2
-        span.spr(data-i18n="courses.last_updated")
-        span= moment(campaign.get('levelsUpdated')).format('LL')
+        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+          span(data-i18n="courses.view_guide_online")
+          |  &mdash; Python

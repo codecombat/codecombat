@@ -29,6 +29,12 @@ describe 'GET /db/campaign', ->
     expect(body.length).toBe(4)
     done()
     
+  it 'accepts project parameter with [] notation', utils.wrap (done) ->
+    [res, body] =  yield request.getAsync getURL('/db/campaign?project[]=name&project[]=type'), { json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body[0].slug).toBeUndefined()
+    done()
+    
   describe 'with GET query param type', ->
     it 'returns campaigns of that type', utils.wrap (done) ->
       [res, body] =  yield request.getAsync getURL('/db/campaign?type=course'), { json: true }

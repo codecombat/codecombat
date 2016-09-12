@@ -3,7 +3,7 @@ extends /templates/core/modal-base-flat
 block modal-header-content
   .clearfix
   .text-center
-    h1(data-i18n="teacher.enroll_students")
+    h1(data-i18n="teacher.apply_licenses")
     h2(data-i18n="courses.grants_lifetime_access")
 
 block modal-body-content
@@ -26,7 +26,7 @@ block modal-body-content
             option(selected=(!view.classroom), value='' data-i18n='teacher.all_students')
   
   form.form.m-t-3
-    span(data-i18n="teacher.enroll_the_following_students")
+    span(data-i18n="teacher.apply_licenses_to_the_following_students")
     span :
     .well.form-group
       - var enrolledUsers = view.users.filter(function(user){ return user.isEnrolled() })
@@ -39,8 +39,7 @@ block modal-body-content
             span.spr= user.broadName()
       if enrolledUsers.length > 0
         .small-details.m-t-3
-          span(data-i18n='TODO')
-            | The following students are already enrolled:
+          span(data-i18n='teacher.students_have_licenses')
       for user in enrolledUsers
         - var selected = Boolean(paid || state.get('selectedUsers').get(user.id))
         .checkbox
@@ -62,12 +61,11 @@ block modal-body-content
 
       p
         button#activate-licenses-btn.btn.btn-lg.btn-primary(type="submit" class=(tooManySelected || noneSelected ? 'disabled' : ''))
-          span.spr(data-i18n="courses.enroll")
-          | (
+          span(data-i18n="teacher.apply_licenses")
+          |  (
           span#total-selected-span
             = numToEnroll
           | )
-          span.spl(data-i18n="courses.students1")
 
       p
         a#get-more-licenses-btn.btn.btn-lg.btn-primary-alt(href="/teachers/licenses", data-i18n="courses.get_enrollments")

@@ -16,7 +16,11 @@ CourseInstance = require '../models/CourseInstance'
 facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
+Achievement = require '../models/Achievement'
+EarnedAchievement = require '../models/EarnedAchievement'
 log = require 'winston'
+LocalMongo = require '../../app/lib/LocalMongo'
+LevelSession = require '../models/LevelSession'
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -107,7 +111,7 @@ module.exports =
   getStudents: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
     query = $or: [{role: 'student'}, {$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}]
-    users = yield User.find(query).select('lastIP schoolName').lean()
+    users = yield User.find(query).select('lastIP').lean()
     for user in users
       if ip = user.lastIP
         user.geo = geoip.lookup(ip)
@@ -254,3 +258,42 @@ module.exports =
     yield user.update({ $unset: {role: ''}})
     user.set('role', undefined)
     return res.status(200).send(user.toObject({req: req}))
+
+    
+  checkForNewAchievement: wrap (req, res) ->
+    user = req.user
+    lastAchievementChecked = user.get('lastAchievementChecked') or user._id.getTimestamp().toISOString()
+    checkTimestamp = new Date().toISOString()
+    achievement = yield Achievement.findOne({ updated: { $gt: lastAchievementChecked }}).sort({updated:1})
+    
+    if not achievement
+      userUpdate = { 'lastAchievementChecked': checkTimestamp }
+      user.update({$set: userUpdate}).exec()
+      return res.send(userUpdate)
+
+    userUpdate = { 'lastAchievementChecked': achievement.get('updated') }
+      
+    query = achievement.get('query')
+    collection = achievement.get('collection')
+    if collection is 'users'
+      triggers = [user]
+    else if collection is 'level.sessions' and query['level.original']
+      triggers = yield LevelSession.find({
+        'level.original': query['level.original']
+        creator: user.id
+      })
+    else
+      user.update({$set: userUpdate}).exec()
+      return res.send(userUpdate)
+      
+    trigger = _.find(triggers, (trigger) -> LocalMongo.matchesQuery(trigger.toObject(), query))
+    
+    if not trigger
+      user.update({$set: userUpdate}).exec()
+      return res.send(userUpdate)
+
+    earned = yield EarnedAchievement.findOne({ achievement: achievement.id, user: req.user.id })
+    yield EarnedAchievement.upsertFor(achievement, trigger, earned, req.user)
+    yield user.update({$set: userUpdate})
+    user = yield User.findById(user.id).select({points: 1, earned: 1})
+    return res.send(_.assign({}, userUpdate, user.toObject()))

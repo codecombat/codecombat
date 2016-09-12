@@ -2,8 +2,14 @@ async = require 'async'
 utils = require '../../server/lib/utils'
 co = require 'co'
 Promise = require 'bluebird'
+Article = require '../../server/models/Article'
+LevelComponent = require '../../server/models/LevelComponent'
+LevelSystem = require '../../server/models/LevelSystem'
+Poll = require '../../server/models/Poll'
+ThangType = require '../../server/models/ThangType'
 User = require '../../server/models/User'
 Level = require '../../server/models/Level'
+LevelSession = require '../../server/models/LevelSession'
 Achievement = require '../../server/models/Achievement'
 Campaign = require '../../server/models/Campaign'
 Course = require '../../server/models/Course'
@@ -98,6 +104,110 @@ module.exports = mw =
     request.post { uri: getURL('/db/level'), json: data }, (err, res) ->
       return done(err) if err
       Level.findById(res.body._id).exec done
+      
+  makeLevelSession: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+    
+    data = _.extend({}, {
+      state:
+        complete: false
+        scripts:
+          currentScript: null
+    }, data)
+
+    if sources?.level and not data.level
+      data.level = {
+        original: sources.level.get('original').toString()
+        majorVersion: sources.level.get('version').major
+      }
+      
+    if sources?.creator and not data.creator
+      data.creator = sources.creator.id
+      
+    if data.creator and not data.permissions
+      data.permissions = [
+        { target: data.creator, access: 'owner' }
+        { target: 'public', access: 'write' }
+      ]
+      
+    if not data.codeLanguage
+      data.codeLanguage = 'javascript'
+      
+    session = new LevelSession(data)
+    session.save(done)
+    
+  makeArticle: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Article ')
+    }, data)
+    
+    request.post { uri: getURL('/db/article'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      Article.findById(res.body._id).exec done
+      
+  makeLevelComponent: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('LevelComponent')
+      system: 'ai'
+      code: 'let const = var'
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    request.post { uri: getURL('/db/level.component'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      LevelComponent.findById(res.body._id).exec done
+
+  makeLevelSystem: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('LevelSystem')
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+      code: 'let const = var'
+    }, data)
+
+    request.post { uri: getURL('/db/level.system'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      LevelSystem.findById(res.body._id).exec done
+
+  makePoll: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Poll ')
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    request.post { uri: getURL('/db/poll'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      Poll.findById(res.body._id).exec done
+
+  makeThangType: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      name: _.uniqueId('Thang Type ')
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    request.post { uri: getURL('/db/thang.type'), json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(200)
+      ThangType.findById(res.body._id).exec done
 
   makeAchievement: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
@@ -106,12 +216,13 @@ module.exports = mw =
     data = _.extend({}, {
       name: _.uniqueId('Achievement ')
     }, data)
-    if sources.related and not data.related
+    if sources?.related and not data.related
       related = sources.related
       data.related = (related.get('original') or related._id).valueOf()
 
     request.post { uri: getURL('/db/achievement'), json: data }, (err, res) ->
       return done(err) if err
+      expect(res.statusCode).toBe(201)
       Achievement.findById(res.body._id).exec done
       
   makeCampaign: Promise.promisify (data, sources, done) ->
@@ -140,7 +251,12 @@ module.exports = mw =
     if sources.campaign and not data.campaignID
       data.campaignID = sources.campaign._id
     
-    data.releasePhase ||= 'released'
+    data = _.extend({}, {
+      name: _.uniqueId('Course ')
+      releasePhase: 'released'
+      i18nCoverage: []
+      i18n: {'-':{'-':'-'}}
+    }, data)
 
     course = new Course(data)
     return course.save()
@@ -206,3 +322,8 @@ module.exports = mw =
       return done(err) if err
       expect(res.statusCode).toBe(201)
       TrialRequest.findById(res.body._id).exec done
+
+  createDay: (offset) ->
+    day = new Date()
+    day.setUTCDate(day.getUTCDate() + offset)
+    day.toISOString().substring(0, 10)

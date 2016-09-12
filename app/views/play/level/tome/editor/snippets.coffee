@@ -37,8 +37,8 @@ module.exports = (SnippetManager, autoLineEndings) ->
           range = new Range cursor.row, cursor.column - 1 - prevWord.length, cursor.row, cursor.column
           editor.session.remove range
         else
-          # console.log "Zatanna cursor.column=#{cursor.column} snippet='#{snippet}' line='#{line}' prevWord='#{prevWord}'"
-          # console.log "Zatanna prevWordIndex=#{prevWordIndex}"
+          # console.log "Snippets cursor.column=#{cursor.column} snippet='#{snippet}' line='#{line}' prevWord='#{prevWord}'"
+          # console.log "Snippets prevWordIndex=#{prevWordIndex}"
 
           # Lookup original completion
           # TODO: Can we identify correct completer somehow?
@@ -51,10 +51,10 @@ module.exports = (SnippetManager, autoLineEndings) ->
               break if originalCompletion
 
           if originalCompletion?
-            # console.log 'Zatanna original completion', originalCompletion
+            # console.log 'Snippets original completion', originalCompletion
             # Get original snippet prefix (accounting for extra '\n' and possibly autoLineEndings at end)
             lang = editor.session.getMode()?.$id?.substr 'ace/mode/'.length
-            # console.log 'Zatanna lang', lang, autoLineEndings[lang]?.length
+            # console.log 'Snippets lang', lang, autoLineEndings[lang]?.length
             extraEndLength = 1
             extraEndLength += autoLineEndings[lang].length if autoLineEndings[lang]?
             if snippetIndex = originalCompletion.content.indexOf snippet.substr(0, snippet.length - extraEndLength)
@@ -62,21 +62,21 @@ module.exports = (SnippetManager, autoLineEndings) ->
             else
               originalPrefix = ''
             snippetStart = cursor.column - originalPrefix.length
-            # console.log "Zatanna originalPrefix='#{originalPrefix}' snippetStart=#{snippetStart}"
+            # console.log "Snippets originalPrefix='#{originalPrefix}' snippetStart=#{snippetStart}"
 
             if snippetStart > 0 and snippetStart <= line.length
               extraIndex = snippetStart - 1
-              # console.log "Zatanna prev char='#{line[extraIndex]}'"
+              # console.log "Snippets prev char='#{line[extraIndex]}'"
 
               if line[extraIndex] is '.'
                 # Fuzzy string match previous word before '.', and remove if a match to beginning of snippet
                 originalObject = originalCompletion.content.substring(0, originalCompletion.content.indexOf('.'))
                 prevObjectIndex = extraIndex - 1
-                # console.log "Zatanna prevObjectIndex=#{prevObjectIndex}"
+                # console.log "Snippets prevObjectIndex=#{prevObjectIndex}"
                 if prevObjectIndex >= 0 and /\w/.test(line[prevObjectIndex])
                   prevObjectIndex-- while prevObjectIndex >= 0 and /\w/.test(line[prevObjectIndex])
                   prevObjectIndex++ if prevObjectIndex < 0 or not /\w/.test(line[prevObjectIndex])
-                  # console.log "Zatanna prevObjectIndex=#{prevObjectIndex} extraIndex=#{extraIndex}"
+                  # console.log "Snippets prevObjectIndex=#{prevObjectIndex} extraIndex=#{extraIndex}"
                   prevObject = line.substring prevObjectIndex, extraIndex
 
                   #TODO: We use to use fuzziac here, but we forgot why.  Using
@@ -87,7 +87,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
                   if fuzzer
                     finalScore = fuzzer.score prevObject
 
-                  # console.log "Zatanna originalObject='#{originalObject}' prevObject='#{prevObject}'", finalScore
+                  # console.log "Snippets originalObject='#{originalObject}' prevObject='#{prevObject}'", finalScore
                   if finalScore > 0.5
                     range = new Range cursor.row, prevObjectIndex, cursor.row, snippetStart
                     editor.session.remove range
@@ -113,7 +113,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
     baseInsertSnippet.call @, editor, snippet
 
   getCompletions: (editor, session, pos, prefix, callback) ->
-    # console.log "Zatanna getCompletions pos.column=#{pos.column} prefix=#{prefix}"
+    # console.log "Snippets getCompletions pos.column=#{pos.column} prefix=#{prefix}"
     # Completion format:
     # prefix: text that will be replaced by snippet
     # caption: displayed left-justified in popup, and what's being matched
@@ -136,7 +136,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
     beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
 
     unless (fullPrefixParts.length < 3 and /^(hero|self|this|@)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
-      console.log "Bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
+      # console.log "DEBUG: autocomplete bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
       @completions = completions
       return callback null, completions
 
@@ -149,7 +149,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
         continue unless caption
         [snippet, fuzzScore] = scrubSnippet s.content, caption, line, prefix, pos, lang, autoLineEndings, s.captureReturn
         completions.push
-          content: s.content  # Used internally by Zatanna, not by ace autocomplete
+          content: s.content  # Used internally by Snippets, not by ace autocomplete
           caption: caption
           snippet: snippet
           score: fuzzScore * s.importance ? 1.0
@@ -162,7 +162,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
       @completions = _.filter(completions, (x) -> x.caption.indexOf prefix is 0)
       return callback null, @completions
 
-    # console.log 'Zatanna snippet completions', completions
+    # console.log 'Snippets snippet completions', completions
     @completions = completions
     callback null, completions
 
@@ -170,7 +170,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
   # TODO: https://github.com/ajaxorg/ace/commit/7b01a4273e91985c9177f53d238d6b83fe99dc56
   # TODO: But, if it was we could use this and pass a 'completer: @' property for each completion
   # insertMatch: (editor, data) ->
-  #   console.log 'Zatanna snippets insertMatch', editor, data
+  #   console.log 'Snippets snippets insertMatch', editor, data
   #   if data.snippet
   #     SnippetManager.insertSnippet editor, data.snippet
   #   else
@@ -193,12 +193,12 @@ getFullIdentifier = (doc, pos) ->
   text.substring start, end
 
 scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captureReturn) ->
-  # console.log "Zatanna snippet=#{snippet} caption=#{caption} line=#{line} input=#{input} pos.column=#{pos.column} lang=#{lang}"
+  # console.log "Snippets snippet=#{snippet} caption=#{caption} line=#{line} input=#{input} pos.column=#{pos.column} lang=#{lang}"
   fuzzScore = 0.1
+  snippetLineBreaks = (snippet.match(lineBreak) || []).length
   # input will be replaced by snippet
   # trim snippet prefix and suffix if already in the document (line)
   if prefixStart = snippet.toLowerCase().indexOf(input.toLowerCase()) > -1
-    snippetLines = (snippet.match(lineBreak) || []).length
     captionStart = snippet.indexOf caption
 
     # Calculate snippet prefixes and suffixes. E.g. full snippet might be: "self." + "moveLeft" + "()"
@@ -223,7 +223,7 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
     # TODO: This is broken for attack(find in Python, but seems ok in JavaScript.
 
     # Don't eat existing matched parentheses
-    # console.log "Zatanna checking parentheses lineSuffix=#{lineSuffix} pos.column=#{pos.column} input.length=#{input.length}, prevChar=#{line[pos.column - input.length - 1]} line.length=#{line.length} nextChar=#{line[pos.column]}"
+    # console.log "Snippets checking parentheses lineSuffix=#{lineSuffix} pos.column=#{pos.column} input.length=#{input.length}, prevChar=#{line[pos.column - input.length - 1]} line.length=#{line.length} nextChar=#{line[pos.column]}"
     if pos.column - input.length >= 0 and line[pos.column - input.length - 1] is '(' and pos.column < line.length and line[pos.column] is ')' and lineSuffix is ')'
       lineSuffix = ''
 
@@ -238,19 +238,23 @@ scrubSnippet = (snippet, caption, line, input, pos, lang, autoLineEndings, captu
     # If at end of line
     # And, no parentheses are before snippet. E.g. 'if ('
     # And, line doesn't start with whitespace followed by 'if ' or 'elif '
-    # console.log "Zatanna autoLineEndings linePrefixIndex='#{linePrefixIndex}'"
+    # console.log "Snippets autoLineEndings linePrefixIndex='#{linePrefixIndex}'"
     if lineSuffix.length is 0 and /^\s*$/.test line.slice pos.column
-      # console.log 'Zatanna atLineEnd', pos.column, lineSuffix.length, line.slice(pos.column + lineSuffix.length), line
+      # console.log 'Snippets atLineEnd', pos.column, lineSuffix.length, line.slice(pos.column + lineSuffix.length), line
       toLinePrefix = line.substring 0, linePrefixIndex
       if linePrefixIndex < 0 or linePrefixIndex >= 0 and not /[\(\)]/.test(toLinePrefix) and not /^[ \t]*(?:if\b|elif\b)/.test(toLinePrefix)
-        snippet += autoLineEndings[lang] if snippetLines is 0 and autoLineEndings[lang]
-        snippet += "\n" if snippetLines is 0 and not /\$\{/.test(snippet)
+        snippet += autoLineEndings[lang] if snippetLineBreaks is 0 and autoLineEndings[lang]
+        snippet += "\n" if snippetLineBreaks is 0 and not /\$\{/.test(snippet)
 
         if captureReturn and /^\s*$/.test(toLinePrefix)
           snippet = captureReturn + linePrefix + snippet
 
-    # console.log "Zatanna snippetPrefix=#{snippetPrefix} linePrefix=#{linePrefix} snippetSuffix=#{snippetSuffix} lineSuffix=#{lineSuffix} snippet=#{snippet} score=#{fuzzScore}"
+    # console.log "Snippets snippetPrefix=#{snippetPrefix} linePrefix=#{linePrefix} snippetSuffix=#{snippetSuffix} lineSuffix=#{lineSuffix} snippet=#{snippet} score=#{fuzzScore}"
   else
+    # Append automatic line ending and newline for simple scenario
+    if line.trim() is input
+      snippet += autoLineEndings[lang] if snippetLineBreaks is 0 and autoLineEndings[lang]
+      snippet += "\n" if snippetLineBreaks is 0 and not /\$\{/.test(snippet)
     fuzzScore += score snippet, input
 
   startsWith = (string, searchString, position) ->

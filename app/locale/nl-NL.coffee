@@ -89,7 +89,6 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     goto_classes: "Ga naar mijn klassen"
     view_profile: "Mijn Profiel"
     view_progress: "Bekijk voortgang"
-    check_out_wiki: "Bekijk onze nieuwe leraren Wiki"
     want_coco: "Wil je CodeCombat op jouw school?"
     form_select_role: "Selecteer je rol"
     form_select_range: "Selecteer klasomvang"
@@ -132,7 +131,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     help_suff: "en we nemen contact op!"
 
   modal:
-#    cancel: "Cancel"
+    cancel: "Annuleren"
     close: "Sluiten"
     okay: "Oké"
 
@@ -243,7 +242,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   login:
     sign_up: "Account maken"
-#    email_or_username: "Email or username"
+    email_or_username: "E-mail of gebruikersnaam"
     log_in: "Inloggen"
     logging_in: "Bezig met inloggen"
     log_out: "Uitloggen"
@@ -256,13 +255,13 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     signup_switch: "Wil je een account maken?"
 
   signup:
-#    create_student_header: "Create Student Account"
-#    create_teacher_header: "Create Teacher Account"
-#    create_individual_header: "Create Individual Account"
-#    create_header: "Create Account"
+    create_student_header: "Creëer studenten account"
+    create_teacher_header: "Creeër leraren account"
+    create_individual_header: "Creeër persoonlijk account"
+    create_header: "Creëer Account"
     email_announcements: "Ontvang aankondigingen via e-mail" # {change}
     creating: "Account aanmaken..."
-#    create_account: "Create Account"
+    create_account: "Creëer account"
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
     required: "Je moet inloggen om daarheen te gaan."
@@ -270,7 +269,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     school_name: "Schoolnaam en stad"
     optional: "optioneel"
     school_name_placeholder: "Voorbeeld middelbare school, Amsterdam"
-#    connect_with: "Connect with:"
+    connect_with: "Verbind met:"
     connected_gplus_header: "Je bent ingelogd met Google+!"
     connected_gplus_p: "Maak je inschrijving compleet zodat je kan inloggen met je Google+ account."
     gplus_exists: "Jouw Google+ account is al gekoppeld!"
@@ -280,35 +279,36 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     hey_students: "Leerlingen, voer hier de klassencode van je docent in."
     birthday: "Verjaardag"
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
-#    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
-#    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
-#    sign_in: "Sign in"
-#    email_good: "Email looks good!"
-#    name_taken: "Username already taken! Try {{suggestedName}}?"
-#    name_available: "Username available!"
-#    name_is_email: "Username may not be an email"
-#    choose_type: "Choose your account type:"
-#    teacher_type_1: "Teach programming using CodeCombat!"
-#    teacher_type_2: "Set up your class"
+    classroom_not_found: "Er zijn geen klassen met deze klassencode. Controleer je spelling of vraag je leraar om hulp."
+    checking: "Controleren..."
+    account_exists: "Dit emailadres bestaat al:" # {change}
+    sign_in: "Log in"
+    email_good: "Email ziet er goed uit!"
+    name_taken: "Gebruikersnaam bestaat al! Probeer {{suggestedName}}?"
+    name_available: "Gebruikersnaam beschikbaar!"
+    name_is_email: "Gebruikersnaam mag geen email zijn"
+    choose_type: "Kies je account type:"
+    teacher_type_1: "Leer ze programmeren met gebruik van CodeCombat!"
+    teacher_type_2: "Maak je klas"
 #    teacher_type_3: "Access Course Guides"
-#    teacher_type_4: "View student progress"
-#    signup_as_teacher: "Sign up as a Teacher"
-#    student_type_1: "Learn to program while playing an engaging game!"
-#    student_type_2: "Play with your class"
-#    student_type_3: "Compete in arenas"
-#    student_type_4: "Choose your hero!"
-#    student_type_5: "Have your Class Code ready!"
-#    signup_as_student: "Sign up as a Student"
-#    individuals_or_parents: "Individuals & Parents"
-#    individual_type: "For players learning to code outside of a class. Parents should sign up for an account here."
-#    signup_as_individual: "Sign up as an Individual"
-#    enter_class_code: "Enter your Class Code"
-#    enter_birthdate: "Enter your birthdate:"
-#    ask_teacher_1: "Ask your teacher for your Class Code."
-#    ask_teacher_2: "Not part of a class? Create an "
-#    ask_teacher_3: "Individual Account"
-#    ask_teacher_4: " instead."
+    teacher_type_4: "Bekijk voortgang studenten"
+    signup_as_teacher: "Registreer als een docent"
+    student_type_1: "Leer programmeren terwijl je een uitdagend spel speelt!"
+    student_type_2: "Speel met je klas"
+    student_type_3: "Strijd in arena's"
+    student_type_4: "Kies je held!"
+    student_type_5: "Heb je klassencode bij de hand!"
+    signup_as_student: "Registreer als een student"
+    individuals_or_parents: "Individueel & Ouders"
+    individual_type: "Voor spelers die leren coderen buiten school. Ouders moeten zich hier aanmelden."
+    signup_as_individual: "Registreer als een individu (persoonlijk)"
+    enter_class_code: "Vul je klassencode in"
+    enter_birthdate: "Vul je geboortedatum in:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
+    ask_teacher_1: "Vraag je leraar om een klassencode."
+    ask_teacher_2: "Maak je geen deel uit een klas? Maak dan een "
+    ask_teacher_3: "Individuele account"
+    ask_teacher_4: "."
 #    about_to_join: "You're about to join:"
 #    enter_parent_email: "Enter your parent’s email address:"
 #    parent_email_error: "Something went wrong when trying to send the email. Check the email address and try again."
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "Herstel Account"
@@ -335,13 +337,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
   common:
     back: "Terug" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Bezig met laden..."
+    overview: "Overzicht"
+    solution: "Oplossing"
+    intro: "Intro"
     saving: "Opslaan..."
     sending: "Verzenden..."
     send: "Verzend"
-#    sent: "Sent"
-#    type: "Type"
+    sent: "Verstuur"
+    type: "Type"
     cancel: "Annuleren"
     save: "Opslaan"
     publish: "Publiceren"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     submit_patch: "Correctie Opsturen"
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
-    required_field: "Verplicht veld"
+    required_field: "Verplicht veld" # {change}
 
   general:
     and: "en"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     done: "Klaar"
     next_level: "Volgende Level"
     next_game: "Volgende spel"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Geef spelmenu weer"
     home: "Home" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     victory_experience_gained: "XP verdiend"
     victory_gems_gained: "Edelstenen verdiend"
     victory_new_item: "Nieuw Item"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "Wow, jij hebt net een moeilijk level gehaald! Als je nog geen programmeur was, zou je er een moeten worden! Je hebt net versneld toegang gekregen voor de Viking programmeerSchool, waar je je vaardigheden kan opkrikken en binnen 14 weken een professionele webontwikkelaar kunt worden."
     victory_become_a_viking: "Word een Viking"
     victory_no_progress_for_teachers: "Voortgang voor leraren wordt niet bewaard. Maar u kunt een leerling-account voor uzelf aanmaken in uw eigen klas."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     tip_good_idea: "De beste manier om tot een goed idee te komen, is door veel ideeën te hebben. - Linus Pauling"
     tip_programming_not_about_computers: "Informatica draait net zoveel om computers, als astronomie draait om telescopen. - Edsger Dijkstra"
     tip_mulan: "Geloof dat je het kan, dan kan je het . - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     current_value: "Huidige waarde"
     default_value: "Standaard waarde"
     parameters: "Parameters"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Geeft terug"
     granted_by: "Verleend door"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     elliot_title: "Partner-manager"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     evaluate_recommend: "Evalueren/Aanbevelen"
     approve_funds: "Budget toewijzen"
     no_purchaser_role: "Geen rol in besluitvorming"
-    organization_label: "Schoolnaam"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Schoolnaam" # {change}
     city: "Stad"
     state: "Provincie"
     country: "Land"
@@ -1118,8 +1145,8 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     invite_link_p_1: "Geef deze link aan leerlingen waarvan je wil dat zij de cursus volgen."
     invite_link_p_2: "Of laat ons hun direct een e-mail sturen:"
     capacity_used: "Cursusplekken gebruikt:"
-    enter_emails: "Voer e-mailadressen van leerlingen in om hen uit te nodigen, één per regel"
-    send_invites: "Verstuur uitnodigingen"
+    enter_emails: "Voer e-mailadressen van leerlingen in om hen uit te nodigen, één per regel" # {change}
+    send_invites: "Verstuur uitnodigingen" # {change}
     creating_class: "Aanmaken klas..."
     purchasing_course: "Aanschaffen cursus..."
     buy_course: "Cursus kopen"
@@ -1167,7 +1194,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     already_enrolled: "al ingeschreven"
     licenses_remaining: "licenties over:"
     insufficient_enrollments: "onvoldoende betaalde inschrijvingen" # {change}
-    get_enrollments: "krijg meer inschrijvingen" # {change}
+    get_enrollments: "krijg meer inschrijvingen"
     change_language: "Verander cursustaal"
     keep_using: "Blijf Gebruiken"
     switch_to: "Verander naar"
@@ -1208,7 +1235,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     play_now_learn_2: "while loops om lastige puzzels op te lossen"
     play_now_learn_3: "strings & variabelen om acties te aan te passen"
     play_now_learn_4: "hoe versla je een ogre (belangerijke levenslessen!)"
-    welcome_to_page: "Welkom op je cursus-pagina!"
+    welcome_to_page: "Welkom op je cursus-pagina!" # {change}
     completed_hoc: "Geweldig! Je hebt de Codeuur-cursus af!"
     ready_for_more_header: "Wil je meer? Speel de campagne-mode!"
     ready_for_more_1: "Gebruik edelstenen om nieuwe items te openen!"
@@ -1216,10 +1243,9 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     ready_for_more_3: "Leer zelfs meer programmeren!"
     saved_games: "Opgeslagen spellen"
     hoc: "codeuur"
-    my_classes: "Mijn klassen"
+    my_classes: "Mijn klassen" # {change}
     class_added: "Klas succesvol toegevoegd!"
-    view_class: "Bekijk klas"
-    view_levels: "bekijk levels"
+    view_levels: "bekijk levels" # {change}
     join_class: "doe mee met een klas"
 #    join_class_2: "Join class"
     ask_teacher_for_code: "Vraag je juf/meester of je een CodeCombat klassencode hebt! Als dat zo is, vul die dan hieronder in:"
@@ -1228,20 +1254,17 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     joining: "Doe mee met klas"
     course_complete: "Cursus afgerond"
     play_arena: "Speel Arena"
+#    view_project: "View Project"
     start: "Start"
-    last_level: "Laatste Level"
+    last_level: "Laatste Level" # {change}
     welcome_to_hoc: "Avonturiers, Welkom bij codeuur!"
     logged_in_as: "Ingelogd als:"
     not_you: "Ben jij dit niet?"
     welcome_back: "Hallo avonturier, welkom terug!"
     continue_playing: "Doorgaan met spelen"
     more_options: "Meer opties:"
-    option1_header: "Optie 1: Nodig leerlingen uit via e-mail"
-    option1_body: "Leerlingen krijgen automatisch een uitnodiging om met de klas mee te doen, en de leerlingen moeten een account maken met gebruikersnaam en wachtwoord."
-    option2_header: "Optie 2: Stuur leerlingen een link"
-    option2_body: "Leerlingen worden gevraagd een account te maken met hun e-mailadres, gebruikersnaam en een wachtwoord."
-    option3_header: "Optie 3: Stuur leerlingen naar codecombat.com/courses"
-    option3_body: "Geef leerlingen de volgende pincode welke ze samen met een e-mailadres, gebruikersnaam en wachtwoord moeten invullen, bij het aanmaken van een account."
+    option1_header: "Optie 1: Nodig leerlingen uit via e-mail" # {change}
+    option1_body: "Leerlingen krijgen automatisch een uitnodiging om met de klas mee te doen, en de leerlingen moeten een account maken met gebruikersnaam en wachtwoord." # {change}
     thank_you_pref: "Bedankt voor je aankoop! Je kunt nu meer leerlingen"
     thank_you_suff: "aan betaalde cursussen toevoegen."
     return_to_class: "Terug naar het klaslokaal"
@@ -1296,15 +1319,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     students_assigned: "toegewezen leerlingen"
     length: "Lengte:"
     title: "Titel" # Flat style redesign
-    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels"
+    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # {change}
     changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
     play_level: "Speel Level"
     concepts_covered: "Behandelde concepten"
     print_guide: "Print Handleiding (PDF)"
-    view_guide_online: "Bekijk Handleiding Online (PDF)"
-    last_updated: "Laatst ge-update:"
+    view_guide_online: "Bekijk Handleiding Online (PDF)" # {change}
     grants_lifetime_access: "Verschaft levenslange toegang tot alle cursusmodules." # {change}
     enrollment_credits_available: "Beschikbaar inschrijf-krediet:" # {change}
     description: "beschrijving" # ClassroomSettingsModal
@@ -1332,7 +1354,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1375,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1366,10 +1389,14 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    you_can_edit: "You can edit your email address in "
 #    account_settings: "Account Settings"
 #    select_your_hero: "Select Your Hero"
-#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
   teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
     teacher_dashboard: "Docent Dashboard" # Navbar
     my_classes: "Mijn Klassen"
     courses: "Cursussen" # {change}
@@ -1406,13 +1433,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     earliest_incomplete: "Vroegste onvoltooide level"
     latest_complete: "Laatste voltooide level"
     enroll_student: "Schrijf leerling in"
-    adding_students: "Voeg leerlingen toe"
     course_progress: "Cursus voortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
 #    edit_2: "Edit"
     remove: "verwijder"
-    latest_completed: "Laatste Voltooid"
+    latest_completed: "Laatste Voltooid" # {change}
     sort_by: "Sorteer op"
     progress: "Voortgang"
     completed: "Behaald"
@@ -1422,10 +1448,10 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     select_course: "Selecteer cursus om te bekijken"
     course_overview: "Cursus Overzicht"
     copy_class_code: "Kopieer Klas Code"
-    class_code_blurb: "Nieuwe leerlingen kunnen deze klas code invoeren op hun dashboard of via codecombat.com/courses om zich bij de klas aan te sluiten."
+    class_code_blurb: "Nieuwe leerlingen kunnen deze klas code invoeren op hun dashboard of via codecombat.com/courses om zich bij de klas aan te sluiten." # {change}
     copy_class_url: "Kopieer Klas Link"
-    class_join_url_blurb: "Nieuwe studenten kunnen deze link bezoeken terwijl ze ingelogt zijn om zich bij de klas aan te sluiten."
-    add_students_manually: "Leerlingen Handmatig Toevoegen"
+    class_join_url_blurb: "Nieuwe studenten kunnen deze link bezoeken terwijl ze ingelogt zijn om zich bij de klas aan te sluiten." # {change}
+    add_students_manually: "Leerlingen Handmatig Toevoegen" # {change}
     bulk_assign: "Toewijzen in Bulk"
     assign_to_selected_students: "Toewijzen aan Geselecteerde Leerlingen"
     assigned: "Toegewezen"
@@ -1461,12 +1487,12 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
-#    credits: "licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
+#    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1525,18 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Tovenaar"
@@ -1527,6 +1564,7 @@ module.exports = nativeDescription: "Nederlands (Nederland)", englishDescription
     article_title: "Artikel Editor"
     thang_title: "Thang Editor"
     level_title: "Level Editor"
+#    course_title: "Course Editor"
     achievement_title: "Prestatie Editor"
     poll_title: "Poll Editor"
     back: "Terug"

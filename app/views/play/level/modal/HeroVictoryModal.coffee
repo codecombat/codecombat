@@ -324,7 +324,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @playSound 'item-unlocked' if 0.5 < ratio < 0.6
     else if panel.hero
       thangType = @thangTypes[panel.hero]
-      panel.textEl.text(thangType.get('name'))
+      panel.textEl.text utils.i18n(thangType.attributes, 'name')
       @playSelectionSound thangType if 0.5 < ratio < 0.6
     if ratio is 1
       panel.rootEl.removeClass('animating').find('.reward-image-container img').removeClass('pulse')
@@ -413,7 +413,20 @@ module.exports = class HeroVictoryModal extends ModalView
       AudioPlayer.playSound name, 1
 
   getNextLevelCampaign: ->
-    {'kithgard-gates': 'forest', 'kithgard-mastery': 'forest', 'siege-of-stonehold': 'desert', 'clash-of-clones': 'mountain', 'summits-gate': 'glacier'}[@level.get('slug')] or @level.get 'campaign'  # Much easier to just keep this updated than to dynamically figure it out.
+    # Much easier to just keep this updated than to dynamically figure it out.
+    # TODO: only go back to world selector if any beta campaigns are incomplete
+    {
+      'kithgard-gates': '',
+      'kithgard-mastery': '',
+      'tabula-rasa': '',
+      'wanted-poster': '',
+      'siege-of-stonehold': '',
+      'go-fetch': '',
+      'palimpsest': '',
+      'quizlet': '',
+      'clash-of-clones': 'mountain',
+      'summits-gate': 'glacier'
+    }[@level.get('slug')] ? @level.get 'campaign'
 
   getNextLevelLink: (returnToCourse=false) ->
     if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse
@@ -424,7 +437,7 @@ module.exports = class HeroVictoryModal extends ModalView
         link += "?course=#{@courseID}"
         link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
     else if @level.isType('course')
-      link = "/courses"
+      link = "/students"
       if @courseID
         link += "/#{@courseID}"
         link += "/#{@courseInstanceID}" if @courseInstanceID

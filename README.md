@@ -9,8 +9,7 @@
 
 CodeCombat is a multiplayer programming game for learning how to code.
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev
-setup guide, extensive documentation, and much more. Every new person that wants
-to start contributing the project coding should start there.**
+setup guide, extensive documentation, and much more to get started hacking!**
 
 It's both a startup and a community project, completely open source under the
 [MIT and Creative Commons licenses](http://codecombat.com/legal). It's the
@@ -46,11 +45,11 @@ so we can accept your pull requests. It is easy.
 
 ### [Join Us!](http://blog.codecombat.com/why-you-should-open-source-your-startup)
 
-![Nick Winter](http://codecombat.com/images/pages/about/nick_small.png "Nick Winter")
+![Nick Winter](http://codecombat.com/images/pages/about/team-avatars/nick-avatar.png "Nick Winter")
 ![George Saines](http://codecombat.com/images/pages/about/george_small.png "George Saines")
-![Scott Erickson](http://codecombat.com/images/pages/about/scott_small.png "Scott Erickson")
-![Matt Lott](http://codecombat.com/images/pages/about/matt_small.png "Matt Lott")
-![Catherine Weresow](http://codecombat.com/images/pages/about/cat_small.png "Catherine Weresow")
+![Scott Erickson](http://codecombat.com/images/pages/about/team-avatars/scott-avatar.png "Scott Erickson")
+![Matt Lott](http://codecombat.com/images/pages/about/team-avatars/matt-avatar.png "Matt Lott")
+![Catherine Weresow](http://codecombat.com/images/pages/about/team-avatars/cat-avatar.png "Catherine Weresow")
 ![Maka Gradin](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Maka%20Gradin/maka_gradin_100.png "Maka Gradin")
 ![Rob Blanckaert](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Rob%20Blanckaert/rob_blanckaert_100.png "Rob Blanckaert")
 ![Josh Callebaut](https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/avatars/Josh%20Callebaut/josh_callebaut_100.png "Josh Callebaut")

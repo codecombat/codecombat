@@ -1,6 +1,7 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
 config = require '../../server_config'
+jsonSchema = require '../../app/schemas/models/thang_type.coffee'
 
 ThangTypeSchema = new mongoose.Schema({
   body: String,
@@ -31,6 +32,8 @@ ThangTypeSchema.index(
     unique: true
   })
 ThangTypeSchema.index({slug: 1}, {name: 'slug index', sparse: true, unique: true})
+
+ThangTypeSchema.statics.jsonSchema = jsonSchema
 
 ThangTypeSchema.plugin plugins.NamedPlugin
 ThangTypeSchema.plugin plugins.VersionedPlugin

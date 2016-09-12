@@ -18,7 +18,7 @@ mixin modal-header-content
       when 'individual'
         span(data-i18n="signup.create_individual_header")
       default
-        span(data-i18n="signup.create_header")
+        span(data-i18n="login.sign_up")
 
 //-
   This is where the subviews (screens) are hooked up.
@@ -37,12 +37,10 @@ block modal-body
       #single-sign-on-already-exists-view
     when 'sso-confirm'
       #single-sign-on-confirm-view
+    when 'extras'
+      #extras-view
     when 'confirmation'
       #confirmation-view
-    //- This is not yet implemented
-    //- when 'extras'
-    //-   #extras-view
-    
 
 block modal-footer
   //-

@@ -95,7 +95,7 @@ if !selectedMethod
             else if language == 'io'
               span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
 
-if (doc.type != 'function' && doc.type != 'snippet' && doc.owner != 'HTML' && doc.owner != 'CSS') || doc.name == 'now'
+if (doc.type != 'function' && doc.type != 'snippet' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
   p.value
     strong
       span(data-i18n="skill_docs.current_value") Current Value
@@ -103,30 +103,47 @@ if (doc.type != 'function' && doc.type != 'snippet' && doc.owner != 'HTML' && do
     pre
       code.current-value(data-prop=doc.name)= value
 
+mixin argumentEntry(arg)
+  div
+    code= arg.name
+    span.spr :
+    code= arg.type
+    if arg.example
+      |  (
+      span(data-i18n="skill_docs.ex") ex
+      span.spr :
+      code= arg.example
+      | )
+    if arg.description
+      div!= marked(arg.description)
+    if arg.default
+      div
+        em
+          span(data-i18n="skill_docs.default_value") Default value
+          span.spr :
+        code= arg.default
+
 if doc.args && doc.args.length
+  - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })
   p.args
     strong
-      span(data-i18n="skill_docs.parameters") Parameters
+      if hasOptionalArguments
+        span(data-i18n="skill_docs.required_parameters") Required Parameters
+      else
+        span(data-i18n="skill_docs.parameters") Parameters
       span.spr :
     for arg in doc.args
-      div
-        code= arg.name
+      unless arg.optional
+        +argumentEntry(arg)
+  if hasOptionalArguments
+    p.args
+      strong
+        span(data-i18n="skill_docs.optional_parameters") Optional Parameters
         span.spr :
-        code= arg.type
-        if arg.example
-          |  (
-          span(data-i18n="skill_docs.ex") ex
-          span.spr :
-          code= arg.example
-          | )
-        if arg.description
-          div!= marked(arg.description)
-        if arg.default
-          div
-            em
-              span(data-i18n="skill_docs.default_value") Default value
-              span.spr :
-            code= arg.default
+      for arg in doc.args
+        if arg.optional
+          +argumentEntry(arg)
+
 
 if doc.returns
   p.returns

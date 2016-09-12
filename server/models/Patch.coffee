@@ -5,55 +5,7 @@ log = require 'winston'
 config = require '../../server_config'
 
 PatchSchema = new mongoose.Schema({status: String}, {strict: false,read:config.mongo.readpref})
-
-PatchSchema.pre 'save', (next) ->
-  return next() unless @isNew # patch can't be altered after creation, so only need to check data once
-  target = @get('target')
-  targetID = target.id
-  Handler = require '../commons/Handler'
-  if not Handler.isID(targetID)
-    err = new Error('Invalid input.')
-    err.response = {message: 'isn\'t a MongoDB id.', property: 'target.id'}
-    err.code = 422
-    return next(err)
-
-  collection = target.collection
-  try
-    handler = require('../' + handlers[collection])
-  catch err
-    console.error 'Couldn\'t find handler for collection:', target.collection, 'from target', target
-    err = new Error('Server error.')
-    err.response = {message: '', property: 'target.id'}
-    err.code = 500
-    return next(err)
-  handler.getDocumentForIdOrSlug targetID, (err, document) =>
-    if err
-      err = new Error('Server error.')
-      err.response = {message: '', property: 'target.id'}
-      err.code = 500
-      return next(err)
-
-    if not document
-      err = new Error('Target of patch not found.')
-      err.response = {message: 'was not found.', property: 'target.id'}
-      err.code = 404
-      return next(err)
-
-    target.id = document.get('_id')
-    if handler.modelClass.schema.uses_coco_versions
-      target.original = document.get('original')
-      version = document.get('version')
-      target.version = _.pick document.get('version'), 'major', 'minor'
-      @set('target', target)
-    else
-      target.original = targetID
-
-    patches = document.get('patches') or []
-    patches = _.clone patches
-    patches.push @_id
-    document.set 'patches', patches, {strict: false}
-    @targetLoaded = document
-    document.save (err) -> next(err)
+PatchSchema.index({'target.original': 1, 'status': 1}, {name: 'target_status'})
 
 PatchSchema.methods.isTranslationPatch = -> # Don't ever fat arrow bind this one
   expanded = deltas.flattenDelta @get('delta')
@@ -75,12 +27,22 @@ PatchSchema.methods.wasPending = -> @get 'wasPending'
 PatchSchema.pre 'save', (next) ->
   User = require './User'
   userID = @get('creator').toHexString()
+  collection = @get('target.collection')
 
+  # Increment patch submitter stats when the patch is "accepted".
+  # Does not handle if the patch is accepted multiple times, but that's an edge case.
   if @get('status') is 'accepted'
     User.incrementStat userID, 'stats.patchesContributed' # accepted patches
-  else if @get('status') is 'pending'
-    User.incrementStat userID, 'stats.patchesSubmitted'   # submitted patches
+    if @isTranslationPatch()
+      User.incrementStat(userID, 'stats.totalTranslationPatches')
+      User.incrementStat(userID, User.statsMapping.translations[collection])
+    if @isMiscPatch()
+      User.incrementStat(userID, 'stats.totalMiscPatches')
+      User.incrementStat(userID, User.statsMapping.misc[collection])
 
   next()
+
+jsonSchema = require '../../app/schemas/models/patch'
+PatchSchema.statics.jsonSchema = jsonSchema
 
 module.exports = mongoose.model('patch', PatchSchema)

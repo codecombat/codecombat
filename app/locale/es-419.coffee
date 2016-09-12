@@ -89,7 +89,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     goto_classes: "Ir a mis clases" # {change}
     view_profile: "Ver mi perfíl"
     view_progress: "Ver mi progreso"
-    check_out_wiki: "Check out our new educator Wiki"
     want_coco: "¿Quisiera CodeCombat en su escuela?"
 #    form_select_role: "Select primary role"
     form_select_range: "Seleccione el tamaño de la clase"
@@ -97,7 +96,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
-    courses: "Cursos"
+    courses: "Cursos" # {change}
     editor: "Editor"
     blog: "Blog"
     forum: "Foro"
@@ -282,7 +281,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
 #    checking: "Checking..."
-#    account_exists: "This email is already in use:" # {change}
+#    account_exists: "This email is already in use:"
 #    sign_in: "Sign in"
 #    email_good: "Email looks good!"
 #    name_taken: "Username already taken! Try {{suggestedName}}?"
@@ -305,6 +304,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    signup_as_individual: "Sign up as an Individual"
 #    enter_class_code: "Enter your Class Code"
 #    enter_birthdate: "Enter your birthdate:"
+#    parent_use_birthdate: "Parents, use your own birthdate."
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
@@ -319,6 +319,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    write_this_down: "Write this down:"
 #    start_playing: "Start Playing!"
 #    sso_connected: "Successfully connected with:"
+#    select_your_starting_hero: "Select Your Starting Hero:"
+#    you_can_always_change_your_hero_later: "You can always change your hero later."
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -335,8 +337,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   common:
     back: "Volver" # When used as an action verb, like "Navigate backward"
+#    coming_soon: "Coming soon!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
+#    default_code: "Default Code"
     loading: "Cargando..."
+#    overview: "Overview"
+#    solution: "Solution"
+#    intro: "Intro"
     saving: "Guardando..."
     sending: "Enviando..."
     send: "Enviar"
@@ -357,7 +364,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit_patch: "Enviar Parche"
     submit_changes: "Enviar cambios"
     save_changes: "Guardar cambios"
-    required_field: " Requisito necesario"
+    required_field: " Requisito necesario" # {change}
 
   general:
     and: "y"
@@ -437,6 +444,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     done: "Listo"
     next_level: "Siguiente Nivel"
     next_game: "Siguiente juego"
+#    language: "Language"
+#    languages: "Languages"
 #    programming_language: "Programming language"
     show_menu: "Mostrar menú de juego"
     home: "Inicio" # Not used any more, will be removed soon.
@@ -472,6 +481,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     victory_experience_gained: "XP Ganada"
     victory_gems_gained: "Gemas Ganadas"
     victory_new_item: "Objeto Nuevo"
+#    victory_new_hero: "New Hero"
     victory_viking_code_school: "¡Changos macacos!, el nivel que acabas de pasar era dificil! Si todavía no eres un desarrollador de software, deberías serlo. Acabas de conseguir una aceptación por vía rápida con la Escuela Vikinga de Có, donde tú puedes llevar tus habilidades al siguiente nivel y convertirteen un desarrollador web profesional en 14 semanas."
     victory_become_a_viking: "Conviértete en un Vikingo"
     victory_no_progress_for_teachers: "El progreso no es guardado para maestros. Pero puede añadir cuenta de estudiante a su aula, por su mismo."
@@ -568,6 +578,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_good_idea: "La mejor forma de tener una buena idea es tener un montón de ideas. - Linus Pauling"
     tip_programming_not_about_computers: "En las Ciencias de la Computación no es más acerca de computadoras que la astronomía acerca de telescopios. - Edsger Dijkstra"
     tip_mulan: "Si crees que puedes, entonces lo harás. - Mulan"
+
+#  play_game_dev_level:
+#    created_by: "Created by {{name}}"
+#    how_to_play_title: "How to play:"
+#    how_to_play_1: "Use the mouse to control the hero!"
+#    how_to_play_2: "Click anywhere on the map to move to that location."
+#    how_to_play_3: "Click on the ogres to attack them."
+#    restart: "Restart Level"
+#    play: "Play Level"
+#    play_more_codecombat: "Play More CodeCombat"
+#    default_student_instructions: "Click to control your hero and win your game!"
+#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -745,6 +767,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     current_value: "Valor actual"
     default_value: "Valor por defecto"
     parameters: "Parámetros"
+#    required_parameters: "Required Parameters"
+#    optional_parameters: "Optional Parameters"
     returns: "Devoluciones"
     granted_by: "Concedido por"
 
@@ -801,6 +825,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     elliot_title: "Administrador de Asociación"
 #    elliot_blurb: "Mindreader"
 #    lisa_title: "Market Development Rep"
+#    sean_title: "Territory Manager"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
     jose_title: "Música"
@@ -864,7 +889,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    licenses_needed: "Licenses needed"
 
   teachers_quote:
-    name: "Formulario de Presupuesto" # {change}
+    name: "Formulario de Presupuesto"
     title: "Solicitar un Presupuesto" # {change}
     subtitle: "¡Obtén CodeCombat en tu clase, club, escuela o distrito!"
     email_exists: "Existe un usuario con este email."
@@ -884,7 +909,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     evaluate_recommend: "Evaluar/Recomendar"
     approve_funds: "Aprobar Fondos"
 #    no_purchaser_role: "No role in purchase decisions"
-    organization_label: "Escuela / Distrito"
+#    district_label: "District"
+#    district_na: "Enter N/A if not applicable"
+    organization_label: "Escuela / Distrito" # {change}
     city: "Ciudad"
     state: "Estado"
     country: "País"
@@ -1118,8 +1145,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     invite_link_p_1: "Proporciones este enalce a los estudiantes que desee que se unan al curso."
     invite_link_p_2: "O envíenoslos directamente mediante el correo electrónico:"
     capacity_used: "Espacios de curso usados:"
-    enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea"
-    send_invites: "¿Mandar Invitaciones?"
+    enter_emails: "Introducir los emails de los estudiantes a invitar, uno por línea" # {change}
+    send_invites: "¿Mandar Invitaciones?" # {change}
     creating_class: "Creando clase..."
     purchasing_course: "Adquiriendo curso..."
     buy_course: "Comprar Curso"
@@ -1167,7 +1194,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     already_enrolled: "ya matriculados"
     licenses_remaining: "licencias restantes:"
     insufficient_enrollments: "matrículas pagas insuficientes" # {change}
-    get_enrollments: "Obtener Más Matrículas" # {change}
+    get_enrollments: "Obtener Más Matrículas"
     change_language: "Cambiar idioma del curso"
     keep_using: "Seguir Usando"
     switch_to: "Cambiar a"
@@ -1208,7 +1235,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     play_now_learn_2: "bucles while para resolver rompecabezas molestos"
     play_now_learn_3: "cadenas & variables para personalizar acciones"
     play_now_learn_4: "como vencer a un ogro (habilidades importantes en la vida!)"
-    welcome_to_page: "¡Bienvenido a tu página de cursose!"
+    welcome_to_page: "¡Bienvenido a tu página de cursose!" # {change}
     completed_hoc: "¡Asombroso! ¡Has completado el curso de la hora de código!"
     ready_for_more_header: "Listo para mas? Juega el modo campaña!"
     ready_for_more_1: "Usa las gemas para desbloquear nuevos objetos!"
@@ -1216,10 +1243,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     ready_for_more_3: "¡Aprendé todavía más programando!"
     saved_games: "Juegos Guardados"
     hoc: "Hora del código"
-    my_classes: "Mis Clases"
+    my_classes: "Mis Clases" # {change}
     class_added: "Clase añadida satisfactoriamente!"
-    view_class: "ver clase"
-    view_levels: "ver niveles"
+    view_levels: "ver niveles" # {change}
     join_class: "Unirse a clase"
 #    join_class_2: "Join class"
     ask_teacher_for_code: "Preguntalé a tu profesor si tu tienes un código de CodeCombat! Si lo tiene, ingresalo debajo:"
@@ -1228,20 +1254,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     joining: "Uniendose a claseJoining class"
     course_complete: "Curso completo"
     play_arena: "Jugar Arena"
+#    view_project: "View Project"
     start: "Iniciar"
-    last_level: "Último nivel"
+    last_level: "Último nivel" # {change}
     welcome_to_hoc: "Aventureros, bienvenidos a su Hora del Código!!"
     logged_in_as: "Logeado como:"
     not_you: "No eres tú?"
     welcome_back: "Hola aventurero, bienvenido nuevamente!"
     continue_playing: "Seguir jugando"
     more_options: "Másopciones:"
-    option1_header: "Opción 1: Invitar estudiantes vía email"
-    option1_body: "Se enviará automaticamente una invitación a los estudiantes para unirse a esta clase, y tendrán que crear una cuenta con un nombre de usuario y una contraseña."
-    option2_header: "Opción 2: Enviarles la URL a tus estudiantes"
-    option2_body: "Se pedirá a los estudiantes que ingresen un correo electrónico, un nombre de usuario y una contraseña para crear una cuenta."
-    option3_header: "Opción 3: Dirigir estudiantes a to codecombat.com/courses"
-    option3_body: "Dar a los estudiantes el siguiente código de acceso para ingresar junto con el correo electrónico, el nombre de usuario y la contraseña cuando creen una cuenta."
+    option1_header: "Opción 1: Invitar estudiantes vía email" # {change}
+    option1_body: "Se enviará automaticamente una invitación a los estudiantes para unirse a esta clase, y tendrán que crear una cuenta con un nombre de usuario y una contraseña." # {change}
     thank_you_pref: "Gracias por tu compra! Ahora puedes asignar"
     thank_you_suff: "más estudiantes a cursos pagos."
     return_to_class: "Regresar al aula"
@@ -1296,15 +1319,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     students_assigned: "estudiantes asignados"
     length: "Duración:"
     title: "Título" # Flat style redesign
-    subtitle: "Revisar guías del curso, soluciones y niveles."
+    subtitle: "Revisar guías del curso, soluciones y niveles." # {change}
     changelog: "Ver los últimos cambios en los niveles del curso."
     select_language: "Seleccione lenguaje"
     select_level: "Seleccione nivel"
     play_level: "Juga Nivel"
     concepts_covered: "Conceptos Cubiertos"
     print_guide: "Guía Impresa (PDF)"
-    view_guide_online: "Ver Guía En Línea(PDF)"
-    last_updated: "Ultima revisión:"
+    view_guide_online: "Ver Guía En Línea(PDF)" # {change}
     grants_lifetime_access: "Otorgar derecho de acceso a todos los cursos."
     enrollment_credits_available: "Créditos de Inscripción Disponibles :" # {change}
     description: "Descripción" # ClassroomSettingsModal
@@ -1332,7 +1354,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    update_account_title: "Your account needs attention!"
 #    update_account_blurb: "Before you can access your classes, choose how you want to use this account."
 #    update_account_current_type: "Current Account Type:"
-#    update_account_account_email: "Account Email/Username:" # {change}
+#    update_account_account_email: "Account Email/Username:"
 #    update_account_am_teacher: "I am a teacher"
 #    update_account_keep_access: "Keep access to classes I've created"
 #    update_account_teachers_can: "Teacher accounts can:"
@@ -1353,6 +1375,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
+#    need_a_class_code: "You'll need a Class Code for the class you're joining:"
 #    update_account_not_sure: "Not sure which one to choose? Email"
 #    update_account_confirm_update_student: "Are you sure you want to update your account to a Student experience?"
 #    update_account_confirm_update_student2: "You will not be able to manage any classes that you have previously created or create new classes. Your previously created classes will be removed from CodeCombat and cannot be restored."
@@ -1366,10 +1389,14 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    you_can_edit: "You can edit your email address in "
 #    account_settings: "Account Settings"
 #    select_your_hero: "Select Your Hero"
-#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Select Hero\""
+#    select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
 #    select_this_hero: "Select this Hero"
+#    current_hero: "Current Hero:"
+#    change_hero: "Change Hero"
 
   teacher:
+#    course_solution: "Course Solution"
+#    level_overview_solutions: "Level Overview and Solutions"
     teacher_dashboard: "Tablero del maestro" # Navbar
     my_classes: "Mis Clases"
     courses: "Cursos" # {change}
@@ -1406,13 +1433,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     earliest_incomplete: "Nivel incompleto más Reciente"
     latest_complete: "Último nivel completado"
     enroll_student: "Inscribir estudiante"
-    adding_students: "Agregar estudiantes"
     course_progress: "Progreso del curso"
 #    not_applicable: "N/A"
     edit: "editar"
 #    edit_2: "Edit"
     remove: "eliminar"
-    latest_completed: "Último Completado"
+    latest_completed: "Último Completado" # {change}
     sort_by: "Ordenado por"
     progress: "Progreso"
     completed: "Completado"
@@ -1422,10 +1448,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     select_course: "Selecciona el curso a ver"
     course_overview: "Resumen del Curso"
     copy_class_code: "Copiar código de la Clase"
-    class_code_blurb: "Nuevos estudiantes pueden entrar a este código de la clase en su tablero o visitar codecombat.com/courses para unirse a la clase."
+    class_code_blurb: "Nuevos estudiantes pueden entrar a este código de la clase en su tablero o visitar codecombat.com/courses para unirse a la clase." # {change}
     copy_class_url: "Copia la URL de la Clase"
-    class_join_url_blurb: "Nuevos estudiantes pueden visitar esta URL mientras esten logeados para unirse a la clase."
-    add_students_manually: "Agregar Estudiantes Manualmente"
+    class_join_url_blurb: "Nuevos estudiantes pueden visitar esta URL mientras esten logeados para unirse a la clase." # {change}
+    add_students_manually: "Agregar Estudiantes Manualmente" # {change}
     bulk_assign: "Mayor a asignar"
     assign_to_selected_students: "Asignar a los Estudiantes Seleccionados"
     assigned: "Asignado"
@@ -1461,12 +1487,12 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    enter_new_password_below: "Enter new password below:"
 #    change_password: "Change Password"
 #    changed: "Changed"
-#    available_credits: "Available Licenses" # {change}
-#    pending_credits: "Pending Licenses" # {change}
-#    credits: "licenses" # {change}
+#    available_credits: "Available Licenses"
+#    pending_credits: "Pending Licenses"
+#    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:" # {change}
+#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
 #    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
 #    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
@@ -1499,7 +1525,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
-#    image_gallery_description: "Copy these images into your webpage, or find your own image URLs online."
+#    select_an_image: "Select an image you want to use"
+#    scroll_down_for_more_images: "(Scroll down for more images)"
+#    copy_the_url: "Copy the URL below"
+#    copy_the_url_description: "Useful if you want to replace an existing image."
+#    copy_the_img_tag: "Copy the <img> tag"
+#    copy_the_img_tag_description: "Useful if you want to insert a new image."
+#    copy_url: "Copy URL"
+#    copy_img: "Copy <img>"
+#    how_to_copy_paste: "How to Copy/Paste"
+#    copy: "Copy"
+#    paste: "Paste"
+#    back_to_editing: "Back to Editing"
 
   classes:
     archmage_title: "Archimago"
@@ -1527,6 +1564,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     article_title: "Editor de Artículo"
     thang_title: "Editor de Tiliches"
     level_title: "Editor de Nivel"
+#    course_title: "Course Editor"
     achievement_title: "Editor de logros"
     poll_title: "Editor de Encuesta"
     back: "Atrás"

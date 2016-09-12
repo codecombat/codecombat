@@ -1,5 +1,11 @@
 // TODO: don't serve this script from codecombat.com; serve it from a harmless extra domain we don't have yet.
 
+var lastSource = null;
+var lastOrigin = null;
+window.onerror = function(message, url, line, column, error){
+  console.log("User script error on line " + line + ", column " + column + ": ", error);
+  lastSource.postMessage({ type: 'error', message: message, url: url, line: line, column: column }, lastOrigin);
+}
 window.addEventListener('message', receiveMessage, false);
 
 var concreteDom;
@@ -11,12 +17,9 @@ var virtualScripts;
 var goalStates;
 
 var allowedOrigins = [
-    /https:\/\/codecombat\.com/,
-    /http:\/\/localhost:3000/,
-    /http:\/\/direct\.codecombat\.com/,
-    /http:\/\/staging\.codecombat\.com/,
-    /http:\/\/next\.codecombat\.com/,
-    /http:\/\/.*codecombat-staging-codecombat\.runnableapp\.com/,
+    /^https?:\/\/(.*\.)?codecombat\.com$/,
+    /^https?:\/\/localhost:3000$/,
+    /^https?:\/\/.*codecombat-staging-codecombat\.runnableapp\.com$/,
 ];
 
 function receiveMessage(event) {
@@ -29,12 +32,15 @@ function receiveMessage(event) {
         console.log('Ignoring message from bad origin:', origin);
         return;
     }
+    lastOrigin = origin;
     var data = event.data;
-    var source = event.source;
+    var source = lastSource = event.source;
     switch (data.type) {
     case 'create':
         create(_.pick(data, 'dom', 'styles', 'scripts'));
         checkGoals(data.goals, source, origin);
+        $('body').first().off('click', checkRememberedGoals);
+        $('body').first().on('click', checkRememberedGoals);
         break;
     case 'update':
         if (virtualDom)
@@ -76,12 +82,8 @@ function replaceNodes(selector, newNodes){
     $newNodes.attr('for', firstNode.attr('for'));
     
     newFirstNode = $newNodes[0];
-    try {
-      firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
-    } catch (e) {
-      console.log('Failed to update some nodes:', e);
-    }
-    
+    firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
+
     $(newFirstNode).after($newNodes);
 }
 
@@ -108,7 +110,13 @@ function update(options) {
     virtualScripts = scripts;
 }
 
+var lastGoalArgs = [];
+function checkRememberedGoals() {
+    checkGoals.apply(this, lastGoalArgs);
+}
+
 function checkGoals(goals, source, origin) {
+    lastGoalArgs = [goals, source, origin]; // Memoize for checkRememberedGoals
     // Check right now and also in one second, since our 1-second CSS transition might be affecting things until it is done.
     doCheckGoals(goals, source, origin);
     _.delay(function() { doCheckGoals(goals, source, origin); }, 1001);

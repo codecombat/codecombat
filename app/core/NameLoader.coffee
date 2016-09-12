@@ -18,6 +18,9 @@ class NameLoader extends CocoClass
   loadedNames: (newNames) =>
     _.extend namesCache, newNames
 
-  getName: (id) -> namesCache[id]?.name or id
+  getName: (id) ->
+    if namesCache[id]?.firstName and namesCache[id]?.lastName
+      return "#{namesCache[id]?.firstName} #{namesCache[id]?.lastName}"
+    namesCache[id]?.firstName or namesCache[id]?.name or id
 
 module.exports = new NameLoader()

@@ -107,12 +107,21 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'javascript', name: 'JavaScript'}
       ]
     else
-      @codeLanguageList = [
-        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
-        {id: 'javascript', name: 'JavaScript'}
-        {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-        {id: 'lua', name: 'Lua'}
-      ]
+      @codeLanguageList = switch me.getDefaultLanguageGroup()
+        when 'javascript'
+          [
+            {id: 'javascript', name: "JavaScript (#{$.i18n.t('choose_hero.default')})"}
+            {id: 'python', name: "Python"}
+            {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
+            {id: 'lua', name: 'Lua'}
+          ]
+        else
+          [
+            {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
+            {id: 'javascript', name: 'JavaScript'}
+            {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
+            {id: 'lua', name: 'Lua'}
+          ]
 
       if me.isAdmin() or not application.isProduction()
         @codeLanguageList.push {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}
@@ -226,7 +235,7 @@ module.exports = class PlayHeroesModal extends ModalView
   onCodeLanguageChanged: (e) ->
     @codeLanguage = @$el.find('#option-code-language').val()
     @codeLanguageChanged = true
-
+    window.tracker?.trackEvent 'Campaign changed code language', category: 'Campaign Hero Select', codeLanguage: @codeLanguage, levelSlug: @options.level?.get('slug')
 
   #- Purchasing the hero
 
@@ -236,7 +245,7 @@ module.exports = class PlayHeroesModal extends ModalView
     affordable = @visibleHero.get('gems') <= me.gems()
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button
+      @askToBuyGems button unless me.isOnFreeOnlyServer()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(@visibleHero)

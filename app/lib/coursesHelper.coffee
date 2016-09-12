@@ -4,6 +4,7 @@ module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
   #   the levels in thate course
+  # TODO: simplify, classroom.sessions only includes sessions for assigned courses now
   calculateDots: (classrooms, courses, courseInstances) ->
     for classroom in classrooms.models
       # map [user, level] => session so we don't have to do find TODO
@@ -13,6 +14,7 @@ module.exports =
         instance.numCompleted = 0
         instance.started = false
         levels = classroom.getLevels({courseID: course.id})
+        levels.remove(levels.filter((level) => level.get('practice')))
         for userID in instance.get('members')
           instance.started ||= _.any levels.models, (level) ->
             session = _.find classroom.sessions.models, (session) ->
@@ -45,6 +47,7 @@ module.exports =
           users = _.map userIDs, (id) ->
             students.get(id)
           return {
+            courseName: course.get('name')
             courseNumber: courseIndex + 1
             levelNumber: levelIndex + 1
             levelName: level.get('name')
@@ -74,6 +77,7 @@ module.exports =
           users = _.map userIDs, (id) ->
             students.get(id)
           return {
+            courseName: course.get('name')
             courseNumber: courseIndex + 1
             levelNumber: levelIndex + 1
             levelName: level.get('name')
@@ -178,7 +182,7 @@ module.exports =
             if _.find(sessions, (s) -> s.completed()) # have finished this level
               courseProgress.completed &&= true #no-op
               courseProgress[userID].completed &&= true #no-op
-              courseProgress[userID].levelsCompleted += 1
+              courseProgress[userID].levelsCompleted += 1 unless level.get('practice')
               courseProgress[levelID].completed &&= true #no-op
               # courseProgress[levelID].numCompleted += 1
               courseProgress[levelID][userID].completed = true

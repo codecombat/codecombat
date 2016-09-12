@@ -33,7 +33,7 @@ while (cursor.hasNext()) {
     classes.push({
         courseID: doc.courseID,
         courseInstanceID: doc._id,
-        url: 'codecombat.com/courses/' + doc.courseID.valueOf() + '/' + doc._id.valueOf(),
+        url: 'codecombat.com/students/' + doc.courseID.valueOf() + '/' + doc._id.valueOf(),
         ownerID: doc.ownerID,
         createDate: ownerID.getTimestamp(),
         memberCount: doc.members.length,

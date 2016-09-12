@@ -55,13 +55,18 @@ module.exports =
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
       throw new errors.NotFound('Classroom not found.')
-    
+
     levelOriginals = []
     for course in classroom.get('courses') or []
       for level in course.levels
         levelOriginals.push(level.original)
-    
-    levels = yield Level.find({ original: { $in: levelOriginals }, slug: { $exists: true }}).select(parse.getProjectFromReq(req))
+
+    query = {$and: [
+      {original: { $in: levelOriginals }}
+      {$or: [{primerLanguage: {$exists: false}}, {primerLanguage: { $ne: classroom.get('aceConfig')?.language }}]}
+      {slug: { $exists: true }}
+    ]}
+    levels = yield Level.find(query).select(parse.getProjectFromReq(req))
     levels = (level.toObject({ req: req }) for level in levels)
 
     # maintain course order
@@ -76,7 +81,7 @@ module.exports =
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
       throw new errors.NotFound('Classroom not found.')
-    
+
     levelOriginals = []
     for course in classroom.get('courses') or []
       if course._id.toString() isnt req.params.courseID
@@ -84,30 +89,51 @@ module.exports =
       for level in course.levels
         levelOriginals.push(level.original)
 
-    levels = yield Level.find({ original: { $in: levelOriginals }, slug: { $exists: true }}).select(parse.getProjectFromReq(req))
+    query = {$and: [
+      {original: { $in: levelOriginals }}
+      {$or: [{primerLanguage: {$exists: false}}, {primerLanguage: { $ne: classroom.get('aceConfig')?.language }}]}
+      {slug: { $exists: true }}
+    ]}
+    levels = yield Level.find(query).select(parse.getProjectFromReq(req))
     levels = (level.toObject({ req: req }) for level in levels)
-    
+
     # maintain course order
     levelMap = {}
     for level in levels
       levelMap[level.original] = level
-    levels = (levelMap[levelOriginal.toString()] for levelOriginal in levelOriginals)
-    
+    levels = (levelMap[levelOriginal.toString()] for levelOriginal in levelOriginals when levelMap[levelOriginal.toString()])
+
     res.status(200).send(levels)
 
   fetchMemberSessions: wrap (req, res, next) ->
+    # Return member sessions for assigned courses
     throw new errors.Unauthorized() unless req.user
-    memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
-    memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     classroom = yield database.getDocFromHandle(req, Classroom)
     throw new errors.NotFound('Classroom not found.') if not classroom
     throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
+    courseLevelsMap = {}
+    for course in classroom.get('courses') ? []
+      # TODO: is LevelSession.level.original really a string in practice, instead of ObjectId set in schema?
+      # https://github.com/codecombat/codecombat/blob/master/server/middleware/levels.coffee#L18
+      courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) -> l.original?.toHexString())
+    courseInstances = yield CourseInstance.find({classroomID: classroom._id}).select('_id courseID members').lean()
+    memberCoursesMap = {}
+    for courseInstance in courseInstances
+      for userID in courseInstance.members ? []
+        memberCoursesMap[userID.toHexString()] ?= []
+        memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
+    memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
+    memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
     select = 'state.complete level creator playtime changed created dateFirstCompleted submitted'
     for member in members
-      dbqs.push(LevelSession.find({creator: member.toHexString()}).select(select).exec())
+      levelOriginals = []
+      for courseID in memberCoursesMap[member.toHexString()] ? []
+        levelOriginals = levelOriginals.concat(courseLevelsMap[courseID.toHexString()] ? [])
+      query = {creator: member.toHexString(), 'level.original': {$in: levelOriginals}}
+      dbqs.push(LevelSession.find(query).select(select).lean().exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
@@ -143,31 +169,37 @@ module.exports =
     database.assignBody(req, classroom)
 
     # Copy over data from how courses are right now
-    coursesData = yield module.exports.generateCoursesData(req)
+    coursesData = yield module.exports.generateCoursesData(classroom.get('aceConfig')?.language, req.user?.isAdmin())
     classroom.set('courses', coursesData)
     
     # finish
     database.validateDoc(classroom)
     classroom = yield classroom.save()
     res.status(201).send(classroom.toObject({req: req}))
-    
+
   updateCourses: wrap (req, res) ->
     throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
       throw new errors.NotFound('Classroom not found.')
-    unless req.user._id.equals(classroom.get('ownerID'))
+    unless req.user._id.equals(classroom.get('ownerID')) or req.user.isAdmin()
       throw new errors.Forbidden('Only the owner may update their classroom content')
-
-    coursesData = yield module.exports.generateCoursesData(req)
+      
+    # make sure updates are based on owner, not logged in user
+    if not req.user._id.equals(classroom.get('ownerID'))
+      owner = yield User.findById(classroom.get('ownerID'))
+    else
+      owner = req.user
+    
+    coursesData = yield module.exports.generateCoursesData(classroom.get('aceConfig')?.language, owner.isAdmin())
     classroom.set('courses', coursesData)
     classroom = yield classroom.save()
     res.status(200).send(classroom.toObject({req: req}))
-    
-  generateCoursesData: co.wrap (req) ->
+
+  generateCoursesData: co.wrap (classLanguage, isAdmin) ->
     # helper function for generating the latest version of courses
     query = {}
-    query = {releasePhase: 'released'} unless req.user?.isAdmin()
+    query = {releasePhase: 'released'} unless isAdmin
     courses = yield Course.find(query)
     courses = Course.sortCourses courses
     campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
@@ -180,8 +212,9 @@ module.exports =
       levels = _.values(campaign.get('levels'))
       levels = _.sortBy(levels, 'campaignIndex')
       for level in levels
+        continue if classLanguage and level.primerLanguage is classLanguage
         levelData = { original: mongoose.Types.ObjectId(level.original) }
-        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'shareable'))
+        _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'primerLanguage', 'shareable'))
         courseData.levels.push(levelData)
       coursesData.push(courseData)
     return coursesData
@@ -263,7 +296,7 @@ module.exports =
         email_data:
           teacher_name: req.user.broadName()
           class_name: classroom.get('name')
-          join_link: "https://codecombat.com/courses?_cc=" + joinCode
+          join_link: "https://codecombat.com/students?_cc=" + joinCode
           join_code: joinCode
       sendwithus.api.send context, _.noop
     

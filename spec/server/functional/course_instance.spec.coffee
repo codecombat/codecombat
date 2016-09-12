@@ -12,7 +12,6 @@ Level = require '../../../server/models/Level'
 LevelSession = require '../../../server/models/LevelSession'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
-moment = require 'moment'
 
 courseFixture = {
   name: 'Unnamed course'
@@ -247,7 +246,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
-    teacher = yield utils.initUser({role: 'teacher'})
+    @teacher = yield utils.initUser({role: 'teacher'})
 
     levelJSON = { name: 'A', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
@@ -256,7 +255,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     paredLevelA = _.pick(res.body, 'name', 'original', 'type')
 
     @sessionA = new LevelSession
-      creator: teacher.id
+      creator: @teacher.id
       level: original: @levelA.get('original').toString()
       permissions: simplePermissions
       state: complete: true
@@ -269,7 +268,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     paredLevelB = _.pick(res.body, 'name', 'original', 'type')
 
     @sessionB = new LevelSession
-      creator: teacher.id
+      creator: @teacher.id
       level: original: @levelB.get('original').toString()
       permissions: simplePermissions
     yield @sessionB.save()
@@ -280,9 +279,22 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     @levelC = yield Level.findById(res.body._id)
     paredLevelC = _.pick(res.body, 'name', 'original', 'type')
 
+    levelJSON = { name: 'JS Primer 1', permissions: [{access: 'owner', target: admin.id}], type: 'course', primerLanguage: 'javascript' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    @levelJSPrimer1 = yield Level.findById(res.body._id)
+    paredLevelJSPrimer1 = _.pick(res.body, 'name', 'original', 'primerLanguage', 'type')
+
+    @sessionJSPrimer1 = new LevelSession
+      creator: @teacher.id
+      level: original: @levelJSPrimer1.get('original').toString()
+      permissions: simplePermissions
+    yield @sessionJSPrimer1.save()
+
     campaignJSONA = { name: 'Campaign A', levels: {} }
     campaignJSONA.levels[paredLevelA.original] = paredLevelA
     campaignJSONA.levels[paredLevelB.original] = paredLevelB
+    campaignJSONA.levels[paredLevelJSPrimer1.original] = paredLevelJSPrimer1
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONA})
     @campaignA = yield Campaign.findById(res.body._id)
 
@@ -297,44 +309,87 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
     @courseB = Course({name: 'Course B', campaignID: @campaignB._id, releasePhase: 'released'})
     yield @courseB.save()
 
-    yield utils.loginUser(teacher)
-    data = { name: 'Classroom 1' }
-    classroomsURL = getURL('/db/classroom')
-    [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
-    expect(res.statusCode).toBe(201)
-    @classroom = yield Classroom.findById(res.body._id)
-
-    url = getURL('/db/course_instance')
-
-    dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
-    [res, body] = yield request.postAsync {uri: url, json: dataA}
-    expect(res.statusCode).toBe(200)
-    @courseInstanceA = yield CourseInstance.findById(res.body._id)
-
-    dataB = { name: 'Some Other Name', courseID: @courseB.id, classroomID: @classroom.id }
-    [res, body] = yield request.postAsync {uri: url, json: dataB}
-    expect(res.statusCode).toBe(200)
-    @courseInstanceB = yield CourseInstance.findById(res.body._id)
-
     done()
 
-  it 'returns the next level for the course in the linked classroom', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelA.id}/sessions/#{@sessionA.id}/next"), json: true }
-    expect(res.statusCode).toBe(200)
-    expect(res.body.original).toBe(@levelB.original.toString())
-    done()
+  describe 'when javascript classroom', ->
+    beforeEach utils.wrap (done) ->
+      yield utils.loginUser(@teacher)
+      data = { name: 'Classroom 1', aceConfig: { language: 'javascript' } }
+      classroomsURL = getURL('/db/classroom')
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      expect(res.statusCode).toBe(201)
+      @classroom = yield Classroom.findById(res.body._id)
 
-  it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/sessions/#{@sessionB.id}/next"), json: true }
-    expect(res.statusCode).toBe(200)
-    expect(res.body).toEqual({})
-    done()
+      url = getURL('/db/course_instance')
 
-  it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap (done) ->
-    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceB.id}/levels/#{@levelA.id}/sessions/#{@sessionA.id}/next"), json: true }
-    expect(res.statusCode).toBe(404)
-    done()
+      dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
+      [res, body] = yield request.postAsync {uri: url, json: dataA}
+      expect(res.statusCode).toBe(200)
+      @courseInstanceA = yield CourseInstance.findById(res.body._id)
 
+      dataB = { name: 'Some Other Name', courseID: @courseB.id, classroomID: @classroom.id }
+      [res, body] = yield request.postAsync {uri: url, json: dataB}
+      expect(res.statusCode).toBe(200)
+      @courseInstanceB = yield CourseInstance.findById(res.body._id)
+
+      done()
+
+    it 'returns the next level for the course in the linked classroom', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelA.id}/sessions/#{@sessionA.id}/next"), json: true }
+      expect(res.statusCode).toBe(200)
+      expect(res.body.original).toBe(@levelB.original.toString())
+      done()
+
+    it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/sessions/#{@sessionB.id}/next"), json: true }
+      expect(res.statusCode).toBe(200)
+      expect(res.body).toEqual({})
+      done()
+
+    it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceB.id}/levels/#{@levelA.id}/sessions/#{@sessionA.id}/next"), json: true }
+      expect(res.statusCode).toBe(404)
+      done()
+
+    it 'returns 404 if the given level is no applicable primer level', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelJSPrimer1.id}/sessions/#{@sessionJSPrimer1.id}/next"), json: true }
+      expect(res.statusCode).toBe(404)
+      done()
+
+  describe 'when python classroom', ->
+    beforeEach utils.wrap (done) ->
+      yield utils.loginUser(@teacher)
+      data = { name: 'Classroom 1', aceConfig: { language: 'python' } }
+      classroomsURL = getURL('/db/classroom')
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      expect(res.statusCode).toBe(201)
+      @classroom = yield Classroom.findById(res.body._id)
+
+      url = getURL('/db/course_instance')
+
+      dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
+      [res, body] = yield request.postAsync {uri: url, json: dataA}
+      expect(res.statusCode).toBe(200)
+      @courseInstanceA = yield CourseInstance.findById(res.body._id)
+
+      dataB = { name: 'Some Other Name', courseID: @courseB.id, classroomID: @classroom.id }
+      [res, body] = yield request.postAsync {uri: url, json: dataB}
+      expect(res.statusCode).toBe(200)
+      @courseInstanceB = yield CourseInstance.findById(res.body._id)
+
+      done()
+
+    it 'returns the next level for the course in the linked classroom', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelB.id}/sessions/#{@sessionB.id}/next"), json: true }
+      expect(res.statusCode).toBe(200)
+      expect(res.body.original).toBe(@levelJSPrimer1.original.toString())
+      done()
+
+    it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { uri: utils.getURL("/db/course_instance/#{@courseInstanceA.id}/levels/#{@levelJSPrimer1.id}/sessions/#{@sessionJSPrimer1.id}/next"), json: true }
+      expect(res.statusCode).toBe(200)
+      expect(res.body).toEqual({})
+      done()
 
 describe 'GET /db/course_instance/:handle/classroom', ->
 
@@ -424,18 +479,18 @@ describe 'POST /db/course_instance/-/recent', ->
     done()
 
   it 'returns course instances within a specified range', utils.wrap (done) ->
-    startDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
-    endDay = moment().add(1, 'day').format('YYYY-MM-DD')
+    startDay = utils.createDay(-1)
+    endDay = utils.createDay(1)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(1)
 
-    startDay = moment().add(1, 'day').format('YYYY-MM-DD')
-    endDay = moment().add(2, 'day').format('YYYY-MM-DD')
+    startDay = utils.createDay(1)
+    endDay = utils.createDay(2)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(0)
 
-    startDay = moment().subtract(2, 'day').format('YYYY-MM-DD')
-    endDay = moment().subtract(1, 'day').format('YYYY-MM-DD')
+    startDay = utils.createDay(-2)
+    endDay = utils.createDay(-1)
     [res, body] = yield request.postAsync(url, { json: { startDay, endDay } })
     expect(res.body.courseInstances.length).toBe(0)
 

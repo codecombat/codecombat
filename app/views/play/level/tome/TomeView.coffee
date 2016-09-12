@@ -139,7 +139,8 @@ module.exports = class TomeView extends CocoView
   onSpellLoaded: (e) ->
     for spellID, spell of @spells
       return unless spell.loaded
-    @cast()
+    justBegin = @options.level.isType('game-dev')
+    @cast false, false, justBegin
 
   onCastSpell: (e) ->
     # A single spell is cast.
@@ -157,14 +158,14 @@ module.exports = class TomeView extends CocoView
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
     Backbone.Mediator.publish 'tome:cast-spells', {
-      @spells, 
-      preload, 
-      realTime, 
-      justBegin, 
+      @spells,
+      preload,
+      realTime,
+      justBegin,
       difficulty,
       submissionCount: sessionState.submissionCount ? 0,
-      flagHistory: sessionState.flagHistory ? [], 
-      god: @options.god, 
+      flagHistory: sessionState.flagHistory ? [],
+      god: @options.god,
       fixedSeed: @options.fixedSeed
     }
 
@@ -229,11 +230,13 @@ module.exports = class TomeView extends CocoView
     return null unless hero = _.find @options.level.get('thangs'), id: 'Hero Placeholder'
     return null unless programmableConfig = _.find(hero.components, (component) -> component.config?.programmableMethods).config
     usesHTMLConfig = _.find(hero.components, (component) -> component.config?.programmableHTMLProperties).config
+    usesWebJavaScriptConfig = _.find(hero.components, (component) -> component.config?.programmableWebJavaScriptProperties)?.config
+    usesJQueryConfig = _.find(hero.components, (component) -> component.config?.programmableJQueryProperties)?.config
     console.warn "Couldn't find usesHTML config; is it presented and not defaulted on the Hero Placeholder?" unless usesHTMLConfig
     thang =
       id: 'Hero Placeholder'
       isProgrammable: true
-    thang = _.merge thang, programmableConfig, usesHTMLConfig
+    thang = _.merge thang, programmableConfig, usesHTMLConfig, usesWebJavaScriptConfig, usesJQueryConfig
     thang
 
   destroy: ->

@@ -83,6 +83,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   constructor: (@world, @normalCanvas, @webGLCanvas, givenOptions) ->
     super()
+    $(window).on('keydown', @onKeyEvent)
+    $(window).on('keyup', @onKeyEvent)
     @normalLayers = []
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
@@ -540,7 +542,15 @@ module.exports = Surface = class Surface extends CocoClass
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
     @gameUIState.trigger('surface:mouse-scrolled', event)
-
+    
+    
+  #- Keyboard callbacks
+  
+  onKeyEvent: (e) =>
+    return unless @realTime
+    event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
+    event.time = @world.dt * @world.frames.length
+    @realTimeInputEvents.add(event)
 
   #- Canvas callbacks
 
@@ -758,6 +768,8 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLStage.enableMouseOver 0
     @webGLCanvas.off 'mousewheel', @onMouseWheel
     $(window).off 'resize', @onResize
+    $(window).off('keydown', @onKeyEvent)
+    $(window).off('keyup', @onKeyEvent)
     clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
     clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
     super()

@@ -34,49 +34,47 @@ block content
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
           .form-group
-            label.control-label(data-i18n="general.username")
+            span.control-label(data-i18n="general.username")
             input.form-control(name="name")
 
         .col-md-4.col-sm-6
           #email-form-group.form-group
-            label.control-label(data-i18n="general.email")
+            span.control-label(data-i18n="general.email")
             input.form-control(name="email")
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
           .form-group
-            label.control-label(data-i18n="general.first_name")
+            span.control-label(data-i18n="general.first_name")
             input.form-control(name="firstName")
 
         .col-md-4.col-sm-6
           .form-group
-            label.control-label(data-i18n="general.last_name")
+            span.control-label(data-i18n="general.last_name")
             input.form-control(name="lastName")
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
           .form-group
-            label.control-label(data-i18n="general.password")
+            span.control-label(data-i18n="general.password")
             input.form-control(name="password1", type="password")
 
         .col-md-4.col-sm-6
           .form-group
-            label.control-label(data-i18n="general.confirm_password")
+            span.control-label(data-i18n="general.confirm_password")
             input.form-control(name="password2", type="password")
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
           .form-group
-            label.control-label
+            span.control-label
               span(data-i18n="teachers_quote.phone_number")
               span.spl.text-muted(data-i18n="signup.optional")
-            .help-block.small
-              em.text-info(data-i18n="teachers_quote.phone_number_help")
-            input.form-control(name="phoneNumber")
+            input.form-control(name="phoneNumber", data-i18n="[placeholder]teachers_quote.phone_number_help")
 
         .col-md-4.col-sm-6
           .form-group
-            label.control-label(data-i18n="teachers_quote.primary_role_label")
+            span.control-label(data-i18n="teachers_quote.primary_role_label")
             select.form-control(name="role")
               option(data-i18n="teachers_quote.role_default", , value='')
               option(data-i18n="courses.teacher", value="Teacher")
@@ -90,30 +88,40 @@ block content
         .row.m-y-2
           .col-md-offset-2.col-md-4.col-sm-6
             .form-group
-              label.control-label(data-i18n="teachers_quote.organization_label")
+              span.control-label
+                span(data-i18n="teachers_quote.organization_label")
+                span.spl.text-muted(data-i18n="signup.optional")
               input.form-control#organization-control(name="organization")
 
           .col-md-4.col-sm-6
             .form-group
-              label.control-label(data-i18n="teachers_quote.city")
-              input.form-control(name="city")
+              //- TODO: algolia and form errors both change form-control
+              //- TODO: District not red on validation error
+              span.control-label.form-control.nullify-form-control(data-i18n="teachers_quote.district_label")
+              input.form-control#district-control(name="district", data-i18n="[placeholder]teachers_quote.district_na")
 
         .row.m-y-2
           .col-md-offset-2.col-md-4.col-sm-6
             .form-group
-              label.control-label(data-i18n="teachers_quote.state")
-              input.form-control(name="state")
+              span.control-label(data-i18n="teachers_quote.city")
+              input.form-control(name="city")
 
           .col-md-4.col-sm-6
             .form-group
-              label.control-labellabel.control-label(data-i18n="teachers_quote.country")
+              span.control-label(data-i18n="teachers_quote.state")
+              input.form-control(name="state")
+
+        .row.m-y-2
+          .col-md-offset-2.col-md-4.col-sm-6
+            .form-group
+              span.control-label(data-i18n="teachers_quote.country")
               input.form-control(name="country")
 
       #form-students-info
         .row.m-y-2
           .col-md-offset-2.col-md-4
             .form-group
-              label.control-label(data-i18n="courses.number_programming_students")
+              span.control-label(data-i18n="courses.number_programming_students")
               .help-block.small
                 em.text-info(data-i18n="teachers_quote.num_students_help")
               select.form-control(name="numStudents")
@@ -128,7 +136,7 @@ block content
 
           .col-md-4.col-sm-6
             .form-group
-              label.control-label
+              span.control-label
                 span(data-i18n="courses.number_total_students")
                 span.spl.text-muted(data-i18n="signup.optional")
               select.form-control(name="numStudentsTotal")
@@ -140,14 +148,11 @@ block content
                 option 10,000+
 
         .form-group
-
           .row.m-y-2
-            .col-md-offset-2.col-md-10
-                label.control-label(data-i18n="teachers_quote.education_level_label")
-                .help-block.small
-                  em.text-info(data-i18n="teachers_quote.education_level_help")
-
-            .col-md-offset-2.col-md-5
+            .col-md-offset-2.col-md-4
+              span.control-label(data-i18n="teachers_quote.education_level_label")
+              .help-block.small
+                em.text-info(data-i18n="teachers_quote.education_level_help")
               .checkbox
                 label
                   input(type="checkbox" name="educationLevel" value="Elementary")
@@ -173,7 +178,7 @@ block content
 
       #anything-else-row.row.m-y-2
         .col-md-offset-2.col-md-8
-          label.control-label
+          span.control-label
             span(data-i18n="teachers_quote.anything_else")
             span.spl.text-muted(data-i18n="signup.optional")
 
