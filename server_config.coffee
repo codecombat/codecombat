@@ -36,6 +36,8 @@ if process.env.COCO_MONGO_LS_REPLICA_STRING?
 if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
   config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
 
+config.sphinxServer = process.env.COCO_SPHINX_SERVER or ''
+
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
 
