@@ -106,7 +106,7 @@
     "fs-extra": "^0.26.2",
     "http-proxy": "^1.13.2",
     "jade-brunch": "1.7.5",
-    "jasmine": "^2.4.1",
+    "jasmine": "2.4.1",
     "javascript-brunch": "> 1.0 < 1.8",
     "karma": "~0.13",
     "karma-chrome-launcher": "~0.1.2",
