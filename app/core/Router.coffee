@@ -1,5 +1,5 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
-redirect = (path) -> -> @navigate(path, { trigger: true, replace: true })
+redirect = (path) -> -> @navigate(path + document.location.search, { trigger: true, replace: true })
 utils = require './utils'
 
 module.exports = class CocoRouter extends Backbone.Router
@@ -72,15 +72,15 @@ module.exports = class CocoRouter extends Backbone.Router
     'contribute/diplomat': go('contribute/DiplomatView')
     'contribute/scribe': go('contribute/ScribeView')
 
-    'courses': go('courses/CoursesView')
-    'Courses': go('courses/CoursesView')
-    'courses/students': redirect('/courses')
+    'courses': redirect('/students') # Redirected 9/3/16
+    'Courses': redirect('/students') # Redirected 9/3/16
+    'courses/students': redirect('/students') # Redirected 9/3/16
     'courses/teachers': redirect('/teachers/classes')
     'courses/purchase': redirect('/teachers/licenses')
     'courses/enroll(/:courseID)': redirect('/teachers/licenses')
-    'courses/update-account': go('courses/CoursesUpdateAccountView')
-    'courses/:classroomID': go('courses/ClassroomView', { studentsOnly: true })
-    'courses/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { studentsOnly: true })
+    'courses/update-account': redirect('students/update-account') # Redirected 9/3/16
+    'courses/:classroomID': -> @navigate("/students/#{arguments[0]}", {trigger: true, replace: true}) # Redirected 9/3/16
+    'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
     'db/*path': 'routeToServer'
     'demo(/*subpath)': go('DemoView')
@@ -147,23 +147,30 @@ module.exports = class CocoRouter extends Backbone.Router
     'seen': go('HomeView')
     'SEEN': go('HomeView')
 
+    'students': go('courses/CoursesView', { redirectTeachers: true })
+    'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
+    'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
+    'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
+
     'teachers': redirect('/teachers/classes')
-    'teachers/classes': go('courses/TeacherClassesView', { teachersOnly: true })
-    'teachers/classes/:classroomID': go('courses/TeacherClassView', { teachersOnly: true })
-    'teachers/courses': go('courses/TeacherCoursesView')
-    'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView')
-    'teachers/demo': go('teachers/RequestQuoteView')
+    'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
+    'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
+    'teachers/courses': go('courses/TeacherCoursesView', { redirectStudents: true })
+    'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
+    'teachers/demo': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/enrollments': redirect('/teachers/licenses')
-    'teachers/licenses': go('courses/EnrollmentsView', { teachersOnly: true })
-    'teachers/freetrial': go('teachers/RequestQuoteView')
+    'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
+    'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': redirect('/teachers/demo')
-    'teachers/resources': go('teachers/ResourceHubView')
-    'teachers/resources/:name': go('teachers/MarkdownResourceView')
+    'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
+      return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @navigate('/teachers/update-account', {trigger: true, replace: true})
     'teachers/update-account': ->
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
+      return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
 
     'test(/*subpath)': go('TestView')
@@ -181,6 +188,10 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
+    if options.redirectStudents and me.isStudent() and not me.isAdmin()
+      return @navigate('/students', {trigger: true, replace: true})
+    if options.redirectTeachers and me.isTeacher() and not me.isAdmin()
+      return @navigate('/teachers', {trigger: true, replace: true})
     if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and not (me.isStudent() or me.isAdmin())

@@ -1,7 +1,7 @@
 CoursesUpdateAccountView = require 'views/courses/CoursesUpdateAccountView'
 factories = require 'test/app/factories'
 
-describe '/courses/update-account', ->
+describe '/students/update-account', ->
 
   describe 'when logged out', ->
     beforeEach (done) ->

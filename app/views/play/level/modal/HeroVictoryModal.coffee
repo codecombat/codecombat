@@ -437,7 +437,7 @@ module.exports = class HeroVictoryModal extends ModalView
         link += "?course=#{@courseID}"
         link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
     else if @level.isType('course')
-      link = "/courses"
+      link = "/students"
       if @courseID
         link += "/#{@courseID}"
         link += "/#{@courseInstanceID}" if @courseInstanceID

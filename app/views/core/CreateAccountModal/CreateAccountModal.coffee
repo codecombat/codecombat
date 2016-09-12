@@ -124,7 +124,7 @@ module.exports = class CreateAccountModal extends ModalView
       if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
         if me.isStudent()
-          application.router.navigate('/courses', {trigger: true})
+          application.router.navigate('/students', {trigger: true})
         else if me.isTeacher()
           application.router.navigate('/teachers/classes', {trigger: true})
         window.location.reload()
