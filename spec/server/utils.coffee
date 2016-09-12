@@ -222,6 +222,19 @@ module.exports = mw =
     session = new LevelSession data
     session.save done
 
+  makeLevelSession: Promise.promisify (data, sources, done) ->
+    args = Array.from(arguments)
+    [done, [data, sources]] = [args.pop(), args]
+
+    data = _.extend({}, {
+      creator: mw.lastLogin.id
+      permissions: [{target: mw.lastLogin.id, access: 'owner'}]
+    }, data)
+
+    # TODO: using request.post strips the creator field for some reason
+    session = new LevelSession data
+    session.save done
+
   makeAchievement: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
