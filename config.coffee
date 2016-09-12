@@ -73,7 +73,9 @@ exports.config =
         ]
 
         #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
-        'javascripts/whole-app.js': if TRAVIS then regJoin('^app') else []
+        'javascripts/whole-app.js': if TRAVIS then [
+          regJoin('^app')
+        ] else []
 
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
         'javascripts/app/lib.js': regJoin('^app/lib')
@@ -127,6 +129,8 @@ exports.config =
         'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
         'javascripts/app/vendor/jasmine-mock-ajax.js': 'vendor/scripts/jasmine-mock-ajax.js'
         'javascripts/app/vendor/three.js': 'bower_components/three.js/three.min.js'
+        'javascripts/app/vendor/htmlparser2.js': 'vendor/scripts/htmlparser2.js'
+        'javascripts/app/vendor/deku.js': 'vendor/scripts/deku.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')

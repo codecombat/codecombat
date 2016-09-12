@@ -13,6 +13,7 @@ UserCodeProblem = require 'models/UserCodeProblem'
 utils = require 'core/utils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
+TokenIterator = ace.require('ace/token_iterator').TokenIterator
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -113,6 +114,8 @@ module.exports = class SpellView extends CocoView
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @ace.$blockScrolling = Infinity
+    @ace.on 'mousemove', @onAceMouseMove
+    @ace.on 'mouseout', @onAceMouseOut
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -994,6 +997,18 @@ module.exports = class SpellView extends CocoView
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
+
+  onAceMouseOut: (e) ->
+    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+
+  onAceMouseMove: (e) =>
+    return if @destroyed
+    row = e.getDocumentPosition().row
+    return if row is @lastRowHovered # Don't spam repeated messages for the same line
+    @lastRowHovered = row
+    line = @aceSession.getLine(row)
+    Backbone.Mediator.publish("web-dev:hover-line", { row: row, line })
+    null
 
   onSessionWillSave: (e) ->
     return unless @spellHasChanged and me.isAdmin()
