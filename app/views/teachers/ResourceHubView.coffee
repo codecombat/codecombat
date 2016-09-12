@@ -8,8 +8,9 @@ module.exports = class ResourceHubView extends RootView
   getTitle: -> return $.i18n.t('teacher.resource_hub')
 
   initialize: (options) ->
-    @prepaids = new Prepaids()
-    @supermodel.trackRequest(@prepaids.fetchByCreator(me.id))
+    unless me.isAnonymous()
+      @prepaids = new Prepaids()
+      @supermodel.trackRequest(@prepaids.fetchByCreator(me.id))
     super(options)
 
   onLoaded: ->
