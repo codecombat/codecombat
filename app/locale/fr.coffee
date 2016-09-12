@@ -22,7 +22,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student: "Étudiant"
     play_now: "Jouez Maintenant"
     im_a_teacher: "Je suis un enseignant"
-    im_a_student: "Je suis un étudiant"
+    im_a_student: "Je suis un scolaire"
     learn_more: "Pour en savoir plus"
     classroom_in_a_box: "Une classe tout-inclus pour enseigner l'informatique."
     codecombat_is: "CodeCombat est une plateforme <strong>pour les étudiants</strong> afin d'apprendre l'informatique tout en jouant."
