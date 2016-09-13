@@ -1495,7 +1495,7 @@
     cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
     cs2_curriculum: "Computer Science 2 - Curriculum Guide"
     cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
-    cs3_curriculum: "Computer Science 3 - Curriculum Guide - In Progress"
+    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
     cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
     cs1_pairprogramming: "Pair Programming Activity"
     cs1_pairprogramming_desc: "Introduce students to a pair programming exercise that will help them become better listeners and communicators."

@@ -1,4 +1,4 @@
-###### Last updated: 09/12/2016
+###### Last updated: 09/13/2016
 
 ##### Lesson Plans
 # Computer Science 2
@@ -8,9 +8,9 @@
 - 6 x 45-60 minute coding sessions
 
 #### Overview
-Armed with basic knowledge of the structure and syntax of simple programs, students are ready to tackle more advanced topics. Conditionals, arithmetic, input handling, oh my! Computer Science 2 is where students move past the programming-toy stage into writing code similar to that they would use in the next major software or killer app!
+Armed with basic knowledge of the structure and syntax of simple programs, students are ready to tackle more advanced topics. Conditionals, functions, and events, oh my! Computer Science 2 is where students move past the programming-toy stage into writing code similar to that they would use in the next major software or killer app!
 
-In Computer Science 2, students will continue to learn the fundamentals, (basic syntax, arguments, strings, variables, and loops) as well as being introduced to a second level of concepts for them to master. If statements allow the student to perform different actions depending on the state of the battlefield. Arithmetic will help players become more comfortable with using math in programming. All things in CodeCombat are objects, (that's the ‘object’ part of object-oriented programming,) and these things have accessible attributes, such as a Munchkin's position or a coin's value; both  are important to begin visualizing the internal structure of the objects that make up their game world. Near the end of the Course there are some levels dedicated to input handling so the students can get introduced to the basic concept of events, and, well, it's just great fun, too!
+In Computer Science 2, students will continue to learn the fundamentals, (basic syntax, arguments, strings, variables, and loops) as well as being introduced to a second level of concepts for them to master. If statements allow the student to perform different actions depending on the state of the battlefield. Functions let students organize their code into reusable pieces of logic, and once students can write basic functions, they can start writing code to handle events--which is the basis for lots of coding patterns in game development, web development, and app development.
 
 
 _This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript._
@@ -33,16 +33,13 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 **Argument** - additional information for a function. Arguments are what we put inside the parentheses of a function. They tell the function more information about what it should do. In `hero.attack(enemy)`, `enemy` is the argument.
 
-**Property** - data about or belonging to an object. You get to it by specifying the object, then a dot, then the name of the property.
-
 **Loop** - code that repeats. A loop is a way of repeating code. One way of writing loops uses the keyword `while`, followed by an expression that can be evaluated as `True` or `False`.
 
 **Variable** - a holder for data. A variable holds your data for later. You create a variable by giving it a name, then saying what value it should hold.
 
 **Conditional** - the building block of modern programming, the conditional. It’s named as such because of its ability to check the conditions at the moment and perform different actions depending on the expression. The player is no longer able to assume there will be an enemy to attack, or if there is a gem to grab. Now, they need to check whether it exists, check if their abilities are ready, and check if an enemy is close enough to attack.
 
-**Input Handling** - Input handling allows players to finally interact with their hero in real-time. After submitting their code, the player will be able to dynamically add flags to the battlefield to assist their hero in solving tough challenges. It helps teach simple event handling as well as being quite fun!
-
+**Event** - an object representing something that happened. Students can write code to respond to events: when this type of event happens, run this function. This is called event handling, and it's a very useful programming pattern and an alternative to an infinite while-loop.
 
 
 #### Extra activities for students who finish Course 2 early:
@@ -153,7 +150,7 @@ Circulate to assist. Draw students’ attention to the instructions and tips. St
 **If you could design a CodeCombat level, what would it look like?**
 >There would be lots of ogres and you have to attack them, but not the humans. And you would protect the village by building walls and fires.
 
-
+
 ##### Module 6
 ## Conditionals (Else)
 ### Summary
