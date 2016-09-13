@@ -19,9 +19,9 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 | Module                                                      | First Level          | Transfer Goals                                            |
 | -----------------------------------------------------       | :-----------------   | :-----------------                                        |
-| [11. String Concatenation](#string-concatenation)           | Friend and Foe       | Add strings together with +                               |
-| [12. Computer Arithmetic](#computer-arithmetic)             | The Wizard's Door    | Do arithmetic with code (+ - * /)                         |
-| [13. Properties](#properties)                               | Backwoods Bombardier | Access object properties with .                           |
+| [11. String Concatenation](#string-concatenation)           | Friend and Foe       | Add strings together with `+`                             |
+| [12. Computer Arithmetic](#computer-arithmetic)             | The Wizard's Door    | Do arithmetic with code (`+` `-` `*` `/`)                 |
+| [13. Properties](#properties)                               | Backwoods Bombardier | Access object properties with `.`                         |
 | [14. Functions with Returns](#functions-with-returns)       | Burlbole Grove       | Write functions that return answers                       |
 | [15. Not Equals](#not-equals)                               | Useful Competitors   | Test whether two things are not the same                  |
 | [16. Boolean Or](#boolean-or)                               | Salted Earth         | Execute if-statements if one of two things are true       |
@@ -35,19 +35,19 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 ### Core Vocabulary
 **Concatenation** - String concatenation is used to add two strings together with the **string concatenation operator: `+`**
 
-**Arithmetic** - Course 3 begins to ease the player into using math while coding. Levels catering to basic arithmetic address how to use math as needed in order to perform different actions effectively.
+**Arithmetic** - Addition, subtraction, multiplication, and division. Course 3 begins to ease the player into using math while coding. Levels catering to basic arithmetic address how to use math as needed in order to perform different actions effectively.
 
-**Property** - data about or belonging to an object. You get to it by specifying the object, then a dot, then the name of the property, like `item.pos`.
+**Property** - Data about or belonging to an object. You get to it by specifying the object, then a dot, then the name of the property, like `item.pos`.
 
-**Flags** - TODO
+**Flags** - Real-time input devices. Up until now, students' CodeCombat programs haven't been interactive--there hasn't been real-time player input while the level is running. Now with flags, students have a way of sending input to their programs: clicking a mouse plants a flag that the hero can respond to with the `hero.findFlag()` function.
 
-**Return** - TODO
+**Return** - A return statements lets a function compute a result value and return it to the place that called the function. When your functions can return their results, it's easier to break data-producing computations into smaller steps.
 
-**Boolean** - TODO
+**Boolean** - A binary variable with two possible values: `True` and `False`. The `conditionals` you use in if-statements and even while-loops are evaluated to boolean results. Boolean logic is the way that boolean values combine to form a single boolean value.
 
-**Break** - TODO
+**Break** - A way to exit out of a while loop early. Break statements say, "Break out the loop, we're done with it." You might use a break statement to move on to the rest of your program after a loop.
 
-**Continue** - TODO
+**Continue** - A way to skip back to the top of a while loop. Continue statements say, "Let's stop this loop here and continue at the top on the next iteration." If you don't need to finish a loop (because it doesn't need to do anything right now), you can use a continue statement.
 
 
 #### Extra activities for students who finish Course 3 early:
@@ -181,48 +181,99 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 **When would you need to use the string concatenation operator, `+`?**
 >When you have to put a string together with a variable. Since you don't know what the variable is ahead of time, but you need to do something with it in a string, like sing it in a song. So you put the song lyric with a `+` and the variable.
 
-**How do you combine two variables into a string with a space between them?
+**How do you combine two variables into a string with a space between them?**
 >You can't just put the variables together like `x + y`, because they won't have a space. You have to put a string that just has a space in between, like `x + " " + y`.
 
-**Why do you think that the people who designed Python chose the `+` sign to represent concatenating strings together?
+**Why do you think that the people who designed Python chose the `+` sign to represent concatenating strings together?**
 >Because what you really doing is adding one string to the other string, and the symbol for addition is `+`.
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 ##### Module 12
 ## Computer Arithmetic
 ### Summary
-**Computer Arithmetic** is TODO
+**Computer arithmetic** is how you write code to do math. You can add, subtract, multiply, and divide not just numbers, but variables representing numbers and the results of functions that return numbers. Computer arithmetic lets you dynamically calculate all sorts of things.
 
 ### Transfer Goals
-- TODO
-- TODO
-- 
+- Learn how to use the addition, subtraction, multiplication, and division operators: `+`, `-`, `*`, and `/`
+- Perform arithmetic on "numeric literals" (like `2 + 2`)
+- Perform arithmetic on variables (like `x - 5`)
+- Perform arithmetic on properties (like `hero.pos.y + 10`)
 
-### Instructive Activity: Arithmetic Algorithm (12 mins)
+### Instructive Activity: Hailstone Numbers (15 mins)
 #### Explain (2 mins)
-TODO
+Just like you can do arithmetic by hand or with a calculator, you can do it with computer code. It should look very familiar, but instead of `×` for multiplication, we use `*` because it's easier to type. Here are some examples:
 
-#### Interact (8 mins)
-TODO
+```
+5 + 2  # answer: 7
+5 - 2  # answer: 3
+5 * 2  # answer: 10
+5 / 2  # answer: 2.5
+```
 
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
+The exciting part is when you can make the arithmetic automatic, and since computers are very fast, you can calculate the answers almost instantly. Let's look at an example.
 
-### Coding Time (30-45 mins)
+#### Interact (13 mins)
+
+Explain this to the class:
+
+"We are going to pick a number. If it's an even number, we are going to divide it two; else if it's odd, we're going to multiply it by three and add one. We'll keep doing this until we get down to 1. Let's start with 5. 5 is odd, so we multiply by 3 and add 1: 16." Feel free to involve the class, and write down the steps as you go, like this:
+
+```
+5 is odd
+5 * 3 + 1 == 16, which is even
+16 / 2 == 8, which is even
+8 / 2 == 4, which is even
+4 / 2 == 2, which is even
+2 / 2 == 1, so we're done
+-------------------------
+5 total steps
+```
+
+Now, write the following function on the board and tell the class that this will automatically write out the sequence of steps needed.
+
+```
+def hailstone(number):
+    teacher.write("Sequence: " + number)
+    while number != 1:
+        if isEven(number):
+            number = number / 2
+        else:
+            number = number * 3 + 1
+        teacher.write(" " + number)
+```
+
+Ask the students for a number between 2 and 10 to start with and then run through the program with them, writing out the numbers as they go:
+
+```
+hailstone(10)
+Sequence: 10 5 16 8 4 2 1
+```
+
+If time permits, walk the students through adding a counter to the code to keep track of how many steps it took:
+
+```
+def hailstone(number):
+    teacher.write("Sequence: " + number)
+    steps = 0
+    while number != 1:
+        if isEven(number):
+            number = number / 2
+        else:
+            number = number * 3 + 1
+        teacher.write(" " + number)
+        steps = steps + 1
+    teacher.write("Steps: " + steps)
+
+hailstone(3)
+Sequence: 3 10 5 16 8 4 2 1
+Steps: 7
+```
+
+Share that `hailstone(27)` takes 111 steps and gets as high as 9232 before falling back down to 1. Explain that these are called hailstone numbers because like hailstones, they go up and down a number of times before inevitably falling all the way. However, no one has been able to prove that this has to happen every time, even though computers can calculate the number of hailstone steps for numbers with thousands of digits instantly with the code on the board. If you found a number that didn't eventually fall back to 1, you'd be famous.
+
+
+### Coding Time (25 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
 
 ```
@@ -237,19 +288,17 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
+Circulate to assist. Draw students' attention to the instructions and tips, and remind them that they'll have to edit and run their programs multiple times to get all the instructions.
 
 ### Written Reflection (5 mins)
 Select appropriate prompt(s) for the students respond to, referring to their notes.
 
-**TODO?**
->TODO
+**When does it make sense to use a computer to do math?**
+>When you have to do a lot of math really fast, like to calculate a big number. Or when you don't know what the values are ahead of time, so the computer can do the math on a variable.
 
-**TODO?**
->TODO
+**What kind of math do you know how to do yourself but don't know how to use a computer to do, and how do you think you can do it with a computer?**
+>I can square numbers. Maybe there is a square function, like square(number)?
 
-**TODO?**
->TODO
 
 
 ##### Module 13
@@ -325,379 +374,11 @@ Circulate to assist. Draw students’ attention to the instructions and tips. Fl
 
 
 
-##### Module 14
-## Functions with Returns
-### Summary
-**Return statements** are TODO
+---------------------------
 
-### Transfer Goals
-- TODO
-- TODO
-- 
+# Modules 14-20 Coming Soon
 
-### Instructive Activity: Vending Machine (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-##### Module 15
-## Not Equals
-### Summary
-**Not Equals** are TODO
-
-### Transfer Goals
-- TODO
-- TODO
-- 
-
-### Instructive Activity: Picky Eating (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-##### Module 16
-## Boolean Or
-### Summary
-**Boolean Or** is TODO
-
-### Transfer Goals
-- TODO
-- TODO
-- 
-
-### Instructive Activity: Dance Party (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-##### Module 17
-## Boolean And
-### Summary
-**Boolean And** is TODO
-
-### Transfer Goals
-- TODO
-- TODO
-- 
-
-### Instructive Activity: Dance Party - Extended Mix (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-##### Module 18
-## Relative Movement
-### Summary
-**Relative movement** is TODO
-
-### Transfer Goals
-- TODO
-- TODO
-- 
-
-### Instructive Activity: Teacher Patrol (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-##### Module 19
-## Time
-### Summary
-**Time** is TODO
-
-### Transfer Goals
-- TODO
-- TODO
-- 
-
-### Instructive Activity: Breath Stopwatch (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-##### Module 20
-## Break and Continue
-### Summary
-**Break and continue statements** are TODO
-
-### Transfer Goals
-- TODO
-- TODO
-- 
-
-### Instructive Activity: TODO??? (12 mins)
-#### Explain (2 mins)
-TODO
-
-#### Interact (8 mins)
-TODO
-
-#### Reflect (2 mins)
-**TODO?** (TODO)
-**TODO?** (TODO)
-**TODO?** (TODO)
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students' attention to the instructions and tips, and TODO
-
-### Written Reflection (5 mins)
-Select appropriate prompt(s) for the students respond to, referring to their notes.
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-**TODO?**
->TODO
-
-
-
-
-
+---------------------------
 
 
 
