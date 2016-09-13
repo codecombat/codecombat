@@ -64,6 +64,7 @@ _.extend UserSchema.properties,
   facebookID: c.shortString({title: 'Facebook ID'})
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
+  cleverID: c.shortString({title: 'Clever ID'})
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})

@@ -6,6 +6,7 @@ module.exports.setup = (app) ->
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
   app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
+  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectHome)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)

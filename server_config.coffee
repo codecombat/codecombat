@@ -79,6 +79,11 @@ config.hipchat =
 
 config.slackToken = process.env.COCO_SLACK_TOKEN or ''
 
+config.clever =
+    client_id: process.env.COCO_CLEVER_CLIENTID
+    client_secret: process.env.COCO_CLEVER_SECRET
+    redirect_uri: process.env.COCO_CLEVER_REDIRECT_URI
+
 config.queue =
   accessKeyId: process.env.COCO_AWS_ACCESS_KEY_ID or ''
   secretAccessKey: process.env.COCO_AWS_SECRET_ACCESS_KEY or ''
