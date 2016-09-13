@@ -206,10 +206,13 @@ exports.setupMiddleware = (app) ->
 ###Routing function implementations###
 
 setupAjaxCaching = (app) ->
-  # IE is more aggresive about caching than other browsers.  This makes their caching behavior more uniform.
-  # Not caching at a high-level rather than explicitly setting per-call on the client.
+  # IE is more aggresive about caching than other browsers, so we'll override IE caching here.
+  # Assumes our CDN will override these with it's own caching rules.
   app.get '/db/*', (req, res, next) ->
-    if req.xhr
+    return next() unless req.xhr
+    # http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery
+    userAgent = req.header('User-Agent') ? ""
+    if userAgent.indexOf('MSIE') > 0 or !!userAgent.match(/Trident.*rv\:11\./)
       res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
       res.header 'Pragma', 'no-cache'
       res.header 'Expires', 0
