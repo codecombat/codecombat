@@ -199,10 +199,24 @@ exports.setupMiddleware = (app) ->
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
+  setupAjaxCaching app
   setupErrorMiddleware app
   setupJavascript404s app
 
 ###Routing function implementations###
+
+setupAjaxCaching = (app) ->
+  # IE/Edge are more aggresive about caching than other browsers, so we'll override their caching here.
+  # Assumes our CDN will override these with it's own caching rules.
+  app.get '/db/*', (req, res, next) ->
+    return next() unless req.xhr
+    # http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery
+    userAgent = req.header('User-Agent') or ""
+    if userAgent.indexOf('MSIE ') > 0 or !!userAgent.match(/Trident.*rv\:11\.|Edge\/\d+/)
+      res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+      res.header 'Pragma', 'no-cache'
+      res.header 'Expires', 0
+    next()
 
 setupJavascript404s = (app) ->
   app.get '/javascripts/*', (req, res) ->
