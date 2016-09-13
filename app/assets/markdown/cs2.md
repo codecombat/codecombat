@@ -1,4 +1,4 @@
-###### Last updated: 09/01/2016
+###### Last updated: 09/12/2016
 
 ##### Lesson Plans
 # Computer Science 2
@@ -17,14 +17,14 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 ### Scope and Sequence
 
-| Module                                                | Levels           |  Transfer Goals  |
-| ----------------------------------------------------- |:-----------------|:-----------------|
-| [5. Conditionals (if)](#conditionals-if-)             | 1-10             |Check expression before executing|
-| [6. Conditionals (else)](#conditionals-else-)         | 11-18            |Execute default code|
-| [7. Nested Conditionals](#nested-conditionals)        | 19-21            |Put one conditional inside another|
-| [8. Functions](#functions)                            | 22-30            |Save code for later|
-| [9. Events](#events)                                  | 31-32            |Listen for events and execute code|
-| [10. Code Challenge](#code-challenge)                 | 33               |Design and implement algorithms|
+| Module                                                      | First Level           | Transfer Goals                     |
+| ----------------------------------------------------------- | :-------------------- | :--------------------------------- |
+| [5. Conditionals (if)](#conditionals-if-)                   | Defense of Plainswood | Check expression before executing  |
+| [6. Conditionals (else)](#conditionals-else-)               | Back to Back          | Execute default code               |
+| [7. Nested Conditionals](#nested-conditionals)              | Forest Fire Dancing   | Put one conditional inside another |
+| [8. Functions](#functions)                                  | Village Rover         | Save code for later                |
+| [9. Events](#events)                                        | Backwoods Buddy       | Listen for events and execute code |
+| [10. Review - Multiplayer Arena](#review-multiplayer-arena) | Power Peak            | Design and implement algorithms    |
 
 ### Core Vocabulary
 **Object** - a character or thing that can perform actions. Objects are the building blocks of Python. They are things or characters that can perform actions. Your `hero` is an object. It can perform the moving actions. In `hero.moveRight()`, the object is `hero`. In Course 2, students will also be using the `pet` object to perform actions.
@@ -41,14 +41,13 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 **Conditional** - the building block of modern programming, the conditional. It’s named as such because of its ability to check the conditions at the moment and perform different actions depending on the expression. The player is no longer able to assume there will be an enemy to attack, or if there is a gem to grab. Now, they need to check whether it exists, check if their abilities are ready, and check if an enemy is close enough to attack.
 
-**Arithmetic** - Course 2 begins to ease the player into using math while coding. Levels catering to basic arithmetic address how to use math as needed in order to perform different actions effectively.
-
 **Input Handling** - Input handling allows players to finally interact with their hero in real-time. After submitting their code, the player will be able to dynamically add flags to the battlefield to assist their hero in solving tough challenges. It helps teach simple event handling as well as being quite fun!
 
 
 
 #### Extra activities for students who finish Course 2 early:
 - Help someone else
+- Refine a multiplayer arena strategy in Power Peak
 - Write a walkthrough
 - Write a review of the game
 - Write a guide to their favorite level
@@ -321,6 +320,12 @@ Circulate to assist. Make sure students are reading all the comments in the star
 **What is a conditional? How many different ways can you write a conditional? Give an example.**
 >A conditional asks “if.” You can say if something is true, then do something. You can use else if you want to do something if that first thing was not true. Elif is for if you want to do three things, like if it’s raining wear a jacket elif it’s snowing wear a hat else wear a t-shirt. You can put ifs inside other ifs but you have to remember the right number of spaces.
 
+**What is elif? Is it an elf?**
+>Elif means else if. You use it to do three things instead of two with if.  It’s like an elf because it’s tricky.
+
+**Tell me about spaces.**
+>You use four spaces to make code go inside a while True, if, else, or elif. If an if is inside another if, you have to use eight spaces. It’s important to count the spaces and get them exactly right, or else the computer thinks you mean something different. You have to be really careful.
+
 
 ##### Module 8
 ## Functions
@@ -428,65 +433,13 @@ These levels are all about writing good code. The helper code that is given to y
 
 Curriculum revision in progress, coming soon.
 
+
+
 ##### Module 10
-## Review and Synthesis
+## Review - Multiplayer Arena
 ### Summary
-Read the instructions! Remember the hints! Sit and think about how to solve the problem and how you’ll be able to tell it’s solved. All the habits of mind of a good programmer come to bear on these levels: defining the problem, breaking the problem down into parts, making a plan, syntax and debugging, sticking to it, and asking for help.
 
-### Transfer Goals
-- Use appropriate vocabulary
-- Persist in solving a problem
-
-### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP6** Attend to precision.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.  
-**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.  
-
-### Instructive Activity: Review & Synthesis (10 mins)
-
-#### Interact (10 mins)
-Review! As a class, try to remember all the new vocabulary words you learned so far. Decide on a definition and an example. Have students write these on the board and correct each other’s work. Consult the game where there are disputes.
-
-**Object** - a character or thing can can do actions, hero  
-**Function** - an action that an object can do, hero.cleave()  
-**Argument** - additional information for a function, hero.attack(enemy)  
-**Loop** - code that repeats, while True:  
-**Variable** - a holder for a value, enemy = ...  
-**Conditional** - code that checks if, if hero.isReady():  
-**Property** - something about an object, flag.pos  
-
-
-### Coding Time (30-45 mins)
-Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
-
-```
-Level #: _____  Level Name: ____________________________________
-Goal: __________________________________________________________
-What I did:
-
-What I learned:
-
-What was challenging:
-
-
-```
-
-Circulate to assist. Draw students’ attention to the instructions and tips. Students will need to call on everything they have learned so far. It’s important they understand the instructions in the comments. If they are stuck, have them read the comment out loud and explain what it means in their own words. That way, you can identify which part is giving them trouble.
-
-### Written Reflection (5 mins)
-
-**What is elif? Is it an elf?**
->Elif means else if. You use it to do three things instead of two with if.  It’s like an elf because it’s tricky.
-
-**Tell me about spaces.**
->You use four spaces to make code go inside a while True, if, else, or elif. If an if is inside another if, you have to use eight spaces. It’s important to count the spaces and get them exactly right, or else the computer thinks you mean something different. You have to be really careful.
-
-
-##### Module 11
-## Code Challenge
-### Summary
-This is a boss level! It will take all your ingenuity and collaboration to solve it. Have students work in pairs and share their tips with other teams. Make observations about the level on scratch paper, and then use them to make a plan. The goal of the level is to defeat the main boss, but you also have to collect coins, hire mercenaries, and heal your champion. The player area is in the bottom left, and the tents may be obscured by the status bar. Press SUBMIT to see the full screen.
+The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Power Peak arena and attempt multiple solutions until time is called.
 
 ### Transfer Goals
 - Design an algorithm to solve a problem.
@@ -501,7 +454,7 @@ This is a boss level! It will take all your ingenuity and collaboration to solve
 **CCSS.Math.Practice.MP6** Attend to precision.  
 
 ### Instructive Activity: Engineering Cycle (10 mins)
-#### Explain (5 mins)
+#### Explain (3 mins)
 Engineering is all about solving problems, but the first rule of engineering is that no one gets it right the first time. That’s where the Engineering Cycle comes in:
 
 First, we DESIGN a solution to our problem. This includes figuring out what the problem is, and breaking it down into smaller parts. Then we IMPLEMENT this design, which putting our ideas into action with code. Third, we TEST our implementation. Does it work? Does it solve the problem? If our test fails, we have to decide if it was because of the DESIGN or the IMPLEMENTATION.
@@ -519,19 +472,37 @@ As a class, make a list of all the things your hero can do (functions). Use appr
 `attack(something)`
 
 ### Coding Time (30-45 mins)
-Break into small campaign groups to solve the last level.
 
-**DESIGN**: In teams, make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.  
+Have students navigate to the last level, **Power Peak**, and complete it at their own pace.
+
+#### Rankings
+
+Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your CodeCombat class (not strangers).
+
+Note that the class rankings are plainly visible. If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead:
+
+- Write a walkthrough or guide to your favorite level
+- Write a review of the game
+- Design a new level
+
+#### Dividing the Class
+
+Students must choose a team to join: Red or Blue. It is important to divide the class as most students will choose red. It doesn’t matter if the sides are even, but it is important that there ARE players for both sides.
+
+- Divide the class into two randomly by drawing from a deck of cards.
+- Students who turn in their work early join the blue team, and latecomers play red.
+
+#### Refining the Code
+
+Code for Power Peak can be submitted more than once. Encourage your students to submit code, observe how it fares against their classmates, and then make improvements and resubmit. In addition, students who have finished the code for one team can go on to create code for the other team.
+
+Remind students to use the Engineering Cycle when working on their algorithms:
+
+**DESIGN**: Make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.  
 **IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!  
 **TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!  
 
 ### Written Reflection (5 mins)
 
-**Write a chronicle of your epic battle from the point of view of either the hero or the boss.**
->I am Tharin Thunderfist, the great hero of the battle of Cross Bones. Together with my guardian, Okar Stompfoot, I attacked the ogres and freed the valley from their tyranny. I gathered coins to pay archers and fighters to join the battle. Then I cured Okar when he was injured.
-
-**How did you break down the problem? What challenges did you come up against? How did you solve them? How did you work together?**
->First we saw that the code already did collecting coins. So we made it go to the tents when we could afford to hire fighters. Then we had to get the potion, but we messed up the code. The teacher helped us fix it. But we still didn’t win, so we asked another team for help and they showed us how to defeat the enemy. We worked well together. It was fun and hard.
-
-### Writing Checkpoint: What is code?
+**Writing Checkpoint: What is code?**
 >Code is when you type instructions to make the computer do things. Sometimes it gives you hints and completes the words for you. You have to spell everything right and indent the right number of spaces. Sometimes the puzzles are easy and sometimes they are hard. You have to make a plan for how to solve it, and then write the code exactly to make it work. The language we used is called Python. It has while True: to make your code repeat and if, else, and elif to make different things happen at different times.

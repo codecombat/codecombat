@@ -1,29 +1,28 @@
 module.exports = nativeDescription: "français", englishDescription: "French", translation:
   home:
     slogan: "Apprenez à coder tout en jouant"
-    no_ie: "CodeCombat ne fonctionnera pas sous Internet Explorer 8 ou moins. Désolé !" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat n'a pas été créé pour les plateformes mobiles, il est donc possible qu'il ne fonctionne pas correctement !" # Warning that shows up on mobile devices
-    play: "Jouer" # The big play button that opens up the campaign view.
+    no_ie: "Désolée, mais CodeCombat ne fonctionnera pas sous Internet Explorer 8 ou moins. Désolé !" # Warning that only shows up in IE8 and older
+    play: "Jouer!" # The big play button that opens up the campaign view.
     play_campaign_version: "Jouer en mode Campagne" # Shows up under big play button if you only play /courses
     old_browser: "Oh oh, votre navigateur est trop vieux pour exécuter CodeCombat. Désolé !" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Vous pouvez essayer quand même, mais cela ne marchera probablement pas."
-    ipad_browser: "Mauvaise nouvelle : CodeCombat ne fonctionne pas avec le navigateur iPad. Bonne nouvelle : notre application est en cours de validation par Apple !"
+    ipad_browser: "Mauvaise nouvelle : CodeCombat ne fonctionne pas avec le navigateur iPad. Bonne nouvelle : Nous Avons notre propre application Ipad! Visitez le Apple App Store sur votre Ipad pour le télécharger."
     campaign: "Campagne"
-    for_beginners: "Pour débutants"
+    for_beginners: "Pour des nouveaus"
     multiplayer: "Multijoueurs" # Not currently shown on home page
     for_developers: "Pour développeurs" # Not currently shown on home page.
-    or_ipad: "Ou télécharger pour iPad"
+    or_ipad: "Ou télécharger sur iPad"
 
   new_home:
     slogan: "Le jeu le plus engageant pour apprendre la programmation."
-    classroom_edition: "Édition Classe:"
+    classroom_edition: "Édition Salle de Classe:"
     learn_to_code: "Apprend à programmer:"
     teacher: "Enseignant"
-    student: "Étudiant"
-    play_now: "Jouez Maintenant"
+    student: "Scolaire"
+    play_now: "Allons-y !"
     im_a_teacher: "Je suis un enseignant"
-    im_a_student: "Je suis un étudiant"
-    learn_more: "Pour en savoir plus"
+    im_a_student: "Je suis une scolaire"
+    learn_more: "Savez-plus"
     classroom_in_a_box: "Une classe tout-inclus pour enseigner l'informatique."
     codecombat_is: "CodeCombat est une plateforme <strong>pour les étudiants</strong> afin d'apprendre l'informatique tout en jouant."
     our_courses: "Nos cours ont été testés spécifiquement pour <strong>excellé en classe</strong>, même si les enseignants ont peu ou pas d'expérience en programmation."
@@ -133,7 +132,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   modal:
 #    cancel: "Cancel"
     close: "Fermer"
-    okay: "Ok"
+    okay: "D'accord"
 
   not_found:
     page_not_found: "Page non trouvée"
@@ -197,7 +196,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     do: "fait"
     end: "fin"
     function: "fonction"
-    def: "definit"
+    def: "definir"
     var: "variable"
     self: "soi-même"
     hero: "héros"
@@ -246,9 +245,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "Connexion"
     logging_in: "Connecter"
     log_out: "Déconnexion"
-    forgot_password: "Mot de passe oublié ?"
-    authenticate_gplus: "Authentication Google+"
-    load_profile: "Charger profil Google+"
+    forgot_password: "Avez-vous oublié votre mot de passe ?"
+    authenticate_gplus: "Authentication de Google+"
+    load_profile: "Charger votre profil Google+"
     finishing: "Finalisation"
     sign_in_with_facebook: "Connecter avec Facebook"
     sign_in_with_gplus: "Connecter avec Google+"
@@ -267,7 +266,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     required: "Vous devez être connecté pour voir cela"
     login_switch: "Avez-vous déjà un compte ?"
     school_name: "Nom et ville de votre école"
-    optional: "facultatif"
+    optional: "optionnel"
     school_name_placeholder: "Exemple : Lycée Champollion, Figeac"
 #    connect_with: "Connect with:"
     connected_gplus_header: "Vous avez réussi à vous connecter avec votre compte Google+!"
@@ -352,13 +351,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     cancel: "Annuler"
     save: "Sauvegarder"
     publish: "Publier"
-    create: "Creer"
+    create: "Créer"
     fork: "Répliquer"
     play: "Jouer" # When used as an action verb, like "Play next level"
     retry: "Réessayer"
     actions: "Actions"
     info: "Info"
-    help: "Aide"
+    help: "Au-Secours !"
     watch: "Regarder"
     unwatch: "Ne plus regarder"
     submit_patch: "Soumettre un correctif"
@@ -429,7 +428,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     hour: "heure"
     hours: "heures"
     day: "jour"
-    days: "jours"
+    days: "journées"
     week: "semaine"
     weeks: "semaines"
     month: "mois"
@@ -441,9 +440,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     level_complete: "Niveau terminé"
     completed_level: "Niveau terminé:"
     course: "Cours:"
-    done: "Fait"
+    done: "Terminé"
     next_level: "Niveau Suivant"
-    next_game: "Prochain jeu"
+    next_game: "Prochaine jeu"
 #    language: "Language"
 #    languages: "Languages"
 #    programming_language: "Programming language"
