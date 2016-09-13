@@ -718,8 +718,13 @@ UserHandler = class UserHandler extends Handler
       host: config.sphinxServer
       port: 9306
     connection.connect()
-    q = req.body.search;
-    mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE MATCH(?);"
+
+    q = req.body.search
+    if isID q
+      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE mongoid = ? LIMIT 100;"
+    else
+      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE MATCH(?)  LIMIT 100;"
+
     connection.query mysqlq, [q], (err, rows, fields) =>
       return @sendDatabaseError res, err if err
       ids = rows.map (r) -> r.mongoid
