@@ -11,6 +11,7 @@ mongoose = require 'mongoose'
 authentication = require 'passport'
 sendwithus = require '../sendwithus'
 LevelSession = require '../models/LevelSession'
+config = require '../../server_config'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -62,6 +63,11 @@ module.exports =
     yield req.user.update {activity: activity}
     res.status(200).send(req.user.toObject({req: req}))
 
+  redirectHome: wrap (req, res, next) ->
+    activity = req.user.trackActivity 'login', 1
+    yield req.user.update {activity: activity}
+    res.redirect '/'
+
   loginByGPlus: wrap (req, res, next) ->
     gpID = req.body.gplusID
     gpAT = req.body.gplusAccessToken
@@ -73,6 +79,73 @@ module.exports =
     throw new errors.UnprocessableEntity('Invalid G+ Access Token.') unless idsMatch
     user = yield User.findOne({gplusID: gpID})
     throw new errors.NotFound('No user with that G+ ID') unless user
+    req.logInAsync = Promise.promisify(req.logIn)
+    yield req.logInAsync(user)
+    next()
+
+  loginByClever: wrap (req, res, next) ->
+    throw new errors.UnprocessableEntity('Clever integration not configured.') unless config.clever.client_id and config.clever.client_secret
+
+    code = req.query.code
+    scope = req.query.scope
+    throw new errors.UnprocessableEntity('code and scope required.') unless code and scope
+
+
+    [cleverRes, auth] = yield request.postAsync
+      json: true
+      url: "https://clever.com/oauth/tokens"
+      form:
+        code: code
+        grant_type: 'authorization_code'
+        redirect_uri: 'http://localhost:3000/auth/login-clever'
+
+      auth:
+        user: config.clever.client_id
+        password: config.clever.client_secret
+        sendImmediately: true
+
+    
+    throw new errors.UnprocessableEntity('Invalid Clever OAuth Code.') unless auth.access_token
+
+    [re2, userInfo] = yield request.getAsync
+      json : true
+      url: 'https://api.clever.com/me'
+      auth:
+        bearer: auth.access_token
+
+    [lookupRes, lookup] = yield request.getAsync
+        url: "https://api.clever.com/v1.1/#{userInfo.data.type}s/#{userInfo.data.id}"
+        json: true
+        auth:
+          bearer: auth.access_token
+
+    unless lookupRes.statusCode is 200
+      throw new errors.Forbidden("Couldn't look up user.  Is data sharing enabled in clever?")
+
+    
+    user = yield User.findOne({cleverID: userInfo.data.id})
+    unless user
+      user = new User
+        anonymous: false
+        role: if userInfo.data.type is 'student' then 'student' else 'teacher'
+        cleverID: userInfo.data.id
+        emailVerified: true
+        email: lookup.data.email
+
+      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
+
+
+    if lookup.data.name
+      user.set 'firstName', lookup.data.name.first
+      user.set 'lastName', lookup.data.name.last
+
+    yield user.save()
+
+    #console.log JSON.stringify
+    #  userInfo: userInfo
+    #  lookup: lookup
+    #,null,'  '
+
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
     next()
