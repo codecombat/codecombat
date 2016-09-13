@@ -199,10 +199,21 @@ exports.setupMiddleware = (app) ->
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
+  setupAjaxCaching app
   setupErrorMiddleware app
   setupJavascript404s app
 
 ###Routing function implementations###
+
+setupAjaxCaching = (app) ->
+  # IE is more aggresive about caching than other browsers.  This makes their caching behavior more uniform.
+  # Not caching at a high-level rather than explicitly setting per-call on the client.
+  app.get '/db/*', (req, res, next) ->
+    if req.xhr
+      res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+      res.header 'Pragma', 'no-cache'
+      res.header 'Expires', 0
+    next()
 
 setupJavascript404s = (app) ->
   app.get '/javascripts/*', (req, res) ->
