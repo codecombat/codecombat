@@ -97,7 +97,7 @@ module.exports =
       form:
         code: code
         grant_type: 'authorization_code'
-        redirect_uri: 'http://localhost:3000/auth/login-clever'
+        redirect_uri: config.clever.redirect_uri
 
       auth:
         user: config.clever.client_id
