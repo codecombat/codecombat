@@ -712,6 +712,31 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess res, remark
 
   searchForUser: (req, res) ->
+    return mongoSearchForUser(req,res) unless config.sphinxServer
+    mysql = require('mysql');
+    connection = mysql.createConnection
+      host: config.sphinxServer
+      port: 9306
+    connection.connect()
+
+    q = req.body.search
+    if isID q
+      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE mongoid = ? LIMIT 100;"
+    else
+      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE MATCH(?)  LIMIT 100;"
+
+    connection.query mysqlq, [q], (err, rows, fields) =>
+      return @sendDatabaseError res, err if err
+      ids = rows.map (r) -> r.mongoid
+      User.find({_id: {$in: ids}}).select({name: 1, email: 1, dateCreated: 1}).lean().exec (err, users) =>
+        return @sendDatabaseError res, err if err
+        out = _.filter _.map ids, (id) => _.find(users, (u) -> String(u._id) is id)
+        console.log(out)
+        @sendSuccess res, out
+    connection.end()
+
+
+  mongoSearchForUser: (req, res) ->
     # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
     return @sendForbiddenError(res) unless req.user?.isAdmin()
     search = req.body.search
