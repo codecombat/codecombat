@@ -33,24 +33,27 @@ module.exports = class StudentSolutionsView extends RootView
 
   levelSlug: 'eagle-eye'
   limit: 100
+  stats: {}
   sessions: []
   solutions: {}
   count: {}
   errors: 0
 
   initialize: () ->
+    @stats['javascript'] = { total: 0, errors: 0 }
     @getRecentSessions (sessions) =>
       @sessions = sessions
       for session in sessions
         lang = session.codeLanguage
-        continue unless lang is 'javascript'
+        continue unless lang is 'javascript' # TODO: figure out python
+        @stats[lang].total += 1
         src = session.code?['hero-placeholder'].plan
         ast = null
         try
           ast = parser(src)
         catch e
           # console.log "Skipping due to error"
-          @errors += 1
+          @stats[lang].errors += 1
           continue
         # console.log "parsed"
         # console.log src
