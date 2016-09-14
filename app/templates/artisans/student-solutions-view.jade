@@ -1,0 +1,27 @@
+// DNT
+extends /templates/base
+
+block content
+  div
+    a(href='/artisans')
+      span.glyphicon.glyphicon-chevron-left
+      span Artisans Home
+  h1 Common Solutions: #{view.levelSlug}
+  div.row
+    div.col-xs-4.col-xs-offset-4
+      span.center-block Viewing #{view.limit} recent sessions.
+  for num in (view.sortedTallyCounts || [])
+    - var hashes = view.talliedHashes[num]
+    for hash in hashes
+      div.row.solutions-row
+        div.col-xs-2.well
+          p Count: #{num}
+          p.is-breakable Fingerprint: #{hash}
+        div.col-xs-10
+            - var session = view.solutions[hash][0]
+            pre.solution #{session.code['hero-placeholder'].plan}
+
+            //- if session.state.complete
+            
+  
+
