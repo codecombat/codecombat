@@ -579,7 +579,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     tip_programming_not_about_computers: "Ciência da computação não é mais sobre computadores do que astronomia é sobre telescópios. - Edsger Dijkstra"
     tip_mulan: "Acredite que você pode, então você será. - Mulan"
 
-#  play_game_dev_level:
+  play_game_dev_level:
     created_by: "Criado por {{name}}"
     how_to_play_title: "Como jogar:"
     how_to_play_1: "Use o mouse para controlar o herói!"
@@ -744,13 +744,13 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     restricted_to_certain_heroes: "Apenas alguns heróis podem jogar esse nível."
 
   skill_docs:
-  function: "função" # skill types
-  method: "metódo"
-  snippet: "fragmento"
-  number: "número"
-  array: "ordem"
-  object: "objeto"
-  string: "palavra"
+    function: "função" # skill types
+    method: "metódo"
+    snippet: "fragmento"
+    number: "número"
+    array: "ordem"
+    object: "objeto"
+    string: "palavra"
     writable: "gravável" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "apenas leitura"
     action: "Ação"
