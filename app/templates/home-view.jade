@@ -257,6 +257,8 @@ block content
                     span.spr ,
                   - total += 1;
                   span(data-i18n="concepts." + concept)
+                if total === 0
+                  span= course.get('description')
             img.media-object(src="/images/pages/home/" + course.get('slug') + ".png")
             h6.course-duration
               span.spr(data-i18n="new_home.lesson_time")
