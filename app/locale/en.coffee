@@ -1502,6 +1502,7 @@
     unlock_resources: "Unlock more resources!"
     unlock_resources_desc: "Gain access to additional guides by adding student licenses to your account. Request a demo today to get started."
     request_demo: "Request Demo"
+    more_with_teacher_account: "More resources available with a teacher account!"
 
   sharing:
     game: "Game"
