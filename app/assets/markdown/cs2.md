@@ -432,7 +432,7 @@ An **event** is an object representing something that happened. Students can wri
 - Use event handling to control a pet
 - Write concurrent code mixing direct execution and event handling
 
-### Instructive Activity: TODO (12 mins)
+### Instructive Activity: President Teacher (12 mins)
 #### Explain (2 mins)
 Up until now, you have been writing code that executes once, from top to bottom: *first do this, then do this, then do that*. You also learned how to write while loops, where you can say, *then do this forever*. Using event handling, you now have a way to say, * **when** this happens, **then** do that*. It's kind of like an if-statement, except events can happen at any time, not just when you are checking for them.
 
