@@ -975,7 +975,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     picture_tab: "Zdjęcie"
     delete_account_tab: "Usuń swoje konto"
     wrong_email: "Błędny e-mail"
-    wrong_password: "Błędne zdjęcie"
+    wrong_password: "Błędne hasło"
     upload_picture: "Wgraj zdjęcie"
     delete_this_account: "Usuń to konto całkowicie"
     reset_progress_tab: "Zresetuj cały postęp"
