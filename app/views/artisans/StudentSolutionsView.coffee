@@ -29,12 +29,13 @@ blocks = []
 module.exports = class StudentSolutionsView extends RootView
   template: template
   id: 'student-solutions-view'
+
   events:
-    'click #overview-button': 'onOverviewButtonClicked'
-    'click #intro-button': 'onIntroButtonClicked'
+    'click #goButton': 'onClickGoButton'
 
   levelSlug: 'eagle-eye'
-  limit: 500
+  limit: 200
+  languages: "javascript"
   stats: {}
   sessions: []
   solutions: {}
@@ -44,13 +45,18 @@ module.exports = class StudentSolutionsView extends RootView
   initialize: () ->
     @stats['javascript'] = { total: 0, errors: 0 }
     @stats['python'] = { total: 0, errors: 0 }
+    # temporarily auto fetch
+    @fetchSessions()
 
+  fetchSessions: () ->
+    doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
+    console.log "do languages"
+    console.log doLanguages
     @getRecentSessions (sessions) =>
       @sessions = sessions
       for session in sessions
         lang = session.codeLanguage
-        # continue unless lang in ['javascript','python']
-        continue unless lang is 'javascript'
+        continue unless lang in doLanguages
         @stats[lang].total += 1
         src = session.code?['hero-placeholder'].plan
         ast = null
@@ -107,10 +113,18 @@ module.exports = class StudentSolutionsView extends RootView
       console.log "tally"
       console.log @talliedHashes
 
-      # TODO: sort by value not number (20 is under 3)
       @sortedTallyCounts = _.sortBy(_.keys(@talliedHashes), (v) -> parseInt(v)).reverse()
       console.log "sorted"
       console.log @sortedTallyCounts
+      @render()
+
+  onClickGoButton: (event) ->
+    console.log "GO clicked"
+    event.preventDefault()
+    @limit = @$('#sessionNum').val()
+    console.log @limit
+    @fetchSessions()
+
 
   # TODO: refactor this out somewhere from here and CampaignLevelView.coffee
   getRecentSessions: (doneCallback) ->
