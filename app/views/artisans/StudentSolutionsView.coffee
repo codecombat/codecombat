@@ -9,6 +9,8 @@ Level = require 'models/Level'
 unless typeof esper is 'undefined'
   parser = new esper().realm.parser
 
+require 'vendor/aether-python'
+
 HEX_CHARS = '0123456789abcdef'.split('')
 EXTRA = [
   -2147483648
@@ -32,7 +34,7 @@ module.exports = class StudentSolutionsView extends RootView
     'click #intro-button': 'onIntroButtonClicked'
 
   levelSlug: 'eagle-eye'
-  limit: 100
+  limit: 500
   stats: {}
   sessions: []
   solutions: {}
@@ -41,22 +43,34 @@ module.exports = class StudentSolutionsView extends RootView
 
   initialize: () ->
     @stats['javascript'] = { total: 0, errors: 0 }
+    @stats['python'] = { total: 0, errors: 0 }
+
     @getRecentSessions (sessions) =>
       @sessions = sessions
       for session in sessions
         lang = session.codeLanguage
-        continue unless lang is 'javascript' # TODO: figure out python
+        # continue unless lang in ['javascript','python']
+        continue unless lang is 'javascript'
         @stats[lang].total += 1
         src = session.code?['hero-placeholder'].plan
         ast = null
-        try
-          ast = parser(src)
-        catch e
-          # console.log "Skipping due to error"
-          @stats[lang].errors += 1
-          continue
-        # console.log "parsed"
-        # console.log src
+        if lang is 'python'
+          aether = new Aether language: 'python'
+          # console.log "transpile python"
+          # console.log src
+          tsrc = aether.transpile(src)
+          ast = aether.ast
+          # TODO: continue if error
+          # aether.problems?
+        if lang is 'javascript'
+          try
+            ast = parser(src)
+          catch e
+            # console.log "Skipping due to error"
+            @stats[lang].errors += 1
+            continue
+          # console.log "parsed"
+          # console.log src
 
         ast = @processASTNode(ast)
         hash = @sha1(JSON.stringify(ast))
@@ -67,6 +81,8 @@ module.exports = class StudentSolutionsView extends RootView
         @solutions[hash] ?= []
         @solutions[hash].push session
 
+      console.log "stats"
+      console.log @stats
       # console.log "count"
       # console.log @count
       console.log "solutions"
@@ -91,7 +107,8 @@ module.exports = class StudentSolutionsView extends RootView
       console.log "tally"
       console.log @talliedHashes
 
-      @sortedTallyCounts = _.sortBy(_.keys(@talliedHashes)).reverse()
+      # TODO: sort by value not number (20 is under 3)
+      @sortedTallyCounts = _.sortBy(_.keys(@talliedHashes), (v) -> parseInt(v)).reverse()
       console.log "sorted"
       console.log @sortedTallyCounts
 

@@ -1,33 +1,40 @@
 // DNT
-extends /templates/base
+extends /templates/base-flat
 
 block content
-  div
-    a(href='/artisans')
-      span.glyphicon.glyphicon-chevron-left
-      span Artisans Home
-  h1 Common Solutions: #{view.levelSlug}
-  div.row
-    div.col-xs-4.col-xs-offset-4
-      span.center-block Viewing #{view.limit} recent sessions.
-  div.row
-    div.col-xs-12.well
-      div.row
-        div.col-xs-3 Language: javascript
-        div.col-xs-3 Sessions: #{view.stats.javascript.total}
-        div.col-xs-3 Errors: #{view.stats.javascript.errors}
-  for num in (view.sortedTallyCounts || [])
-    - var hashes = view.talliedHashes[num]
-    for hash in hashes
-      div.row.solutions-row
-        div.col-xs-2.well
-          p Count: #{num}
-          p.is-breakable Fingerprint: #{hash}
-        div.col-xs-10
-            - var session = view.solutions[hash][0]
-            pre.solution #{session.code['hero-placeholder'].plan}
+  .container
+    div
+      a(href='/artisans')
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    h1 Common Solutions: #{view.levelSlug}
+    div.row
+      div.col-xs-4.col-xs-offset-4
+        span.center-block Viewing #{view.limit} recent sessions.
+    div.row
+      div.col-xs-12.well
+        div.row
+          div.col-xs-3 Language: javascript
+          div.col-xs-3 Sessions: #{view.stats.javascript.total}
+          div.col-xs-3 Errors: #{view.stats.javascript.errors}
+        div.row
+          div.col-xs-3 Language: python
+          div.col-xs-3 Sessions: #{view.stats.python.total}
+          div.col-xs-3 Errors: #{view.stats.python.errors}
 
-            //- if session.state.complete
+    for num in (view.sortedTallyCounts || [])
+      - var hashes = view.talliedHashes[num]
+      for hash in hashes
+        - var session = view.solutions[hash][0]
+        div.row.solutions-row
+          div.col-xs-2.well.solution-info
+            p <b>Count:</b> #{num}
+            p <b>Succeed:</b> #{session.state.complete}
+            p.is-breakable <b>Fingerprint:</b> #{hash}
+          div.col-xs-10
+              pre.solution #{session.code['hero-placeholder'].plan}
+
+              //- if session.state.complete
             
   
 
