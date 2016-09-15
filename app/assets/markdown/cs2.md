@@ -1,4 +1,4 @@
-###### Last updated: 09/13/2016
+###### Last updated: 09/14/2016
 
 ##### Lesson Plans
 # Computer Science 2
@@ -107,7 +107,7 @@ if student.hasQuestion():
     student.raise(hand)
 ```
 ``` python
-if student.ArrivalTime > class.startTime:
+if student.arrivalTime > class.startTime:
     teacher.giveDetention(student)
 ```
 ``` python
@@ -195,7 +195,7 @@ else:
 ```
 
 ``` python
-if student.ArrivalTime > class.startTime:
+if student.arrivalTime > class.startTime:
     teacher.giveDetention(student)
 else:
     teacher.markPresent(student)
@@ -418,18 +418,110 @@ These levels are all about writing good code. The helper code that is given to y
 
 ### Written Reflection (5 mins)
 
-**Tell me about the cat.**
->I got a pet cat and it’s a cougar or a lioness. There was a function that said meow, and the cat waited until you talked to it and then it said meow. I think the cat should help protect you from enemies. You should be able to make it do other stuff by commands, like pouncing and biting.
-
 **Why are functions useful? When would they not be useful?**
 >They make it so you don’t have to write the same code over and over and they make your code easier to read. I don’t think it’s useful if you’re just going to put one line of code in your function. It would be easier just to write that one line every time.
 
 
 ##### Module 9
 ## Events
+### Summary
+An **event** is an object representing something that happened. Students can write code to respond to events: when this type of event happens, run this function. This is called event handling, and it's a very useful programming pattern and an alternative to an infinite while-loop.
 
-Curriculum revision in progress, coming soon.
+### Transfer Goals
+- Listen for events and execute code
+- Use event handling to control a pet
+- Write concurrent code mixing direct execution and event handling
 
+### Instructive Activity: TODO (12 mins)
+#### Explain (2 mins)
+Up until now, you have been writing code that executes once, from top to bottom: *first do this, then do this, then do that*. You also learned how to write while loops, where you can say, *then do this forever*. Using event handling, you now have a way to say, * **when** this happens, **then** do that*. It's kind of like an if-statement, except events can happen at any time, not just when you are checking for them.
+
+#### Interact (8 mins)
+Explain to the class that you're waiting for an important call from the White House about whether you've been elected the next President. You're going to write a program to answer the phone when it rings using a while loop and an if statement, but with no events yet:
+
+``` python
+while True:
+	if phone.isRinging:
+	    teacher.answer(phone)
+```
+
+But that's boring, since you're not doing anything else. So you're going to grade their homework while you wait:
+
+``` python
+while True:
+    paper = teacher.findNextPaper()
+	teacher.grade(paper)
+	if phone.isRinging:
+	    teacher.answer(phone)
+```
+
+
+Say that each paper takes five minutes to grade. Ask the class what will likely happen if you are running this program and you get a phone call from the White House. (You will probably be in the middle of grading the paper and will only check if the phone is ringing every five minutes, thus you'll probably miss the call and won't get to be President.)
+
+Now rewrite the program to use event handling, explaining how you **listen** for events so that when they happen, you can **handle** them by running a function:
+
+``` python
+def answerPhone():
+    teacher.answer(phone)
+
+phone.on("ring", answerPhone)
+```
+
+Explain that you pronounce this as, "On the `phone`'s `"ring"` event, run the `answerPhone` function." Now say you want to grade papers while you wait, you just add a while loop, and when the event happens, it will interrupt your grading so you can answer the phone and become President:
+
+``` python
+def answerPhone():
+    teacher.answer(phone)
+
+phone.on("ring", answerPhone)
+while True:
+    paper = teacher.findNextPaper()
+	teacher.grade(paper)
+```
+
+Explain that the `phone.on("ring", answerPhone)` makes your code start listening for the `"ring"` event, and note that you **don't use parentheses** on the function you are listening with: `answerPhone`, not `answerPhone()`. This is because you are telling the code the name of the function to run, but you are **not running it yet**. (The parentheses would run the function immediately.)
+
+Ask the class for more examples of events and functions that could respond to them, and write them on the board, something like this:
+
+``` python
+student.on("wake", goBackToSleep)
+dog.on("hear", obeyMaster)
+goal.on("touchBall", increaseScore)
+bigRedButton.on("press", initiateSelfDestruct)
+```
+
+
+#### Reflect (2 mins)
+**What do you use event handling for?** (To run a function when something happens.)  
+**What kind of data is an event name?** (The event name you listen to is a string.)  
+**Why don't you use function parentheses when you start listening to an event?** (The parentheses would make the function run now, and you want to run it later when the event happens.)  
+
+### Coding Time (30-45 mins)
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
+
+Circulate to assist. Draw students’ attention to the instructions and tips. Make sure students are writing their functions above where they use them to start listening to events. It can be trick to keep track of what code is executing when events happen (your default program or the event handler function), so have students look at the white code execution highlights to see what line of code is being run at each time.
+
+
+### Written Reflection (5 mins)
+Select appropriate prompt(s) for the students respond to, referring to their notes.
+
+**Tell me about the cat.**
+>I got a pet cat and it’s a cougar or a lioness. There was a function that said meow, and the cat waited until you talked to it and then it said meow. I think the cat should help protect you from enemies. You should be able to make it do other stuff by commands, like pouncing and biting.
+
+**Events are really useful when developing games. Guess the names of at least three kinds of events you think might happen in code for games you like to play.**p
+>In Minecraft there might be an "explosion" event when a creeper blows up. In chess there might be a "checkmate" event. In Bejeweled there could be a "combo" event.
 
 
 ##### Module 10
