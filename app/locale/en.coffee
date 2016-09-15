@@ -1456,7 +1456,6 @@
     credits: "licenses"
     start_date: "start date:"
     end_date: "end date:"
-    num_enrollments_needed: "Number of licenses needed:"
     get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
     how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
     how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
