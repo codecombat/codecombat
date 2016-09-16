@@ -121,7 +121,7 @@ module.exports = class StudentSolutionsView extends RootView
     console.log "GO clicked"
     event.preventDefault()
     @limit = @$('#sessionNum').val()
-    console.log @limit
+    @languages = @$('#languageSelect').val()
     @fetchSessions()
 
 
