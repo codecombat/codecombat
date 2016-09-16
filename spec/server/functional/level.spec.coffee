@@ -243,3 +243,63 @@ describe 'POST /db/level/names', ->
     aLevel = levels[2]
     expect(_.find(body, (l) -> l._id is aLevel.id).name).toBe(aLevel.get('name'))
     done()
+
+    
+describe 'POST /db/level/:handle/patch', ->
+  
+  fit 'accepts the patch based on the latest version, not the version given', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    level = yield utils.makeLevel()
+    original = level.toObject()
+    changed = _.clone(original)
+    changed.i18n = {'de': {name:'German translation #1'}}
+    delta = jsondiffpatch.diff(original, changed)
+    
+    json = { 
+      delta: delta
+      target: {
+        collection: 'level'
+        id: level.id
+      }
+      commitMessage: 'Server test commit'
+    }
+    url = utils.getURL("/db/level/#{level.id}/patch")
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.body.status).toBe('accepted')
+    
+    changed = _.clone(original)
+    changed.i18n = {'de': {name:'German translation #2'}}
+    delta = jsondiffpatch.diff(original, changed)
+    json.delta = delta
+    
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.body.status).toBe('pending')
+    expect(res.body.target.original).toBe(level.get('original').toString())
+    done()
+    
+  it 'throws an error if there would be no change', utils.wrap (done) ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    level = yield utils.makeLevel()
+    original = level.toObject()
+    changed = _.clone(original)
+    changed.i18n = {'de': {name:'German translation #1'}}
+    delta = jsondiffpatch.diff(original, changed)
+
+    json = {
+      delta: delta
+      target: {
+        collection: 'level'
+        id: level.id
+      }
+      commitMessage: 'Server test commit'
+    }
+    url = utils.getURL("/db/level/#{level.id}/patch")
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.body.status).toBe('accepted')
+
+    # repeat request
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+    done()

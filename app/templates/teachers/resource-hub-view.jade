@@ -29,20 +29,19 @@ block content
 
 
         if !me.isTeacher() && !me.isAdmin()
-          .container
-            .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
-              h4
-                i(data-i18n='teacher.more_with_teacher_account')
-              p.text-center
-                if me.isAnonymous()
-                  .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
-                  a.btn.btn-lg.btn-primary-alt(href="/teachers/signup" data-i18n='teacher.create_teacher_account')
-                else
-                  a.btn.btn-lg.btn-primary(href="/teachers/update-account" data-i18n="teachers_quote.convert_account_title")
-                  button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
-              br
-              h5(data-i18n='teacher.what_is_a_teacher_account')
-              p(data-i18n='teacher.teacher_account_explanation')
+          .teacher-account-blurb.text-center.col-xs-8.col-xs-offset-2.m-y-2
+            h4
+              i(data-i18n='teacher.more_with_teacher_account')
+            p.text-center
+              if me.isAnonymous()
+                .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
+                a.btn.btn-lg.btn-primary-alt(href="/teachers/signup" data-i18n='teacher.create_teacher_account')
+              else
+                a.btn.btn-lg.btn-primary(href="/teachers/update-account" data-i18n="teachers_quote.convert_account_title")
+                button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
+            br
+            h5(data-i18n='teacher.what_is_a_teacher_account')
+            p(data-i18n='teacher.teacher_account_explanation')
 
         else
           h4(data-i18n="teacher.cs1")

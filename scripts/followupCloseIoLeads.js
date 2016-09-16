@@ -189,7 +189,7 @@ function updateLeadStatus(lead, status, done) {
   });
 }
 
-function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
+function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails) {
   // Find first auto mail
   // Find activity since first auto mail
   // Send send auto mail of same template type (create or demo) from same user who sent first email
@@ -232,7 +232,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           // Find first auto mail
           let firstMailActivity;
           for (const activity of results.data) {
-            if (activity._type === 'Email' && activity.to[0] === email) {
+            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase() >= 0)) {
               if (isTemplateAuto1(activity.template_id)) {
                 if (firstMailActivity) {
                   console.log(`ERROR: ${lead.id} sent multiple auto1 emails!?`);
@@ -257,7 +257,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           for (const activity of results.data) {
             if (activity.id === firstMailActivity.id) continue;
             if (new Date(firstMailActivity.date_created) > new Date(activity.date_created)) continue;
-            if (activity._type === 'Email' && activity.to[0].toLowerCase() !== email) continue;
+            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase() < 0)) continue;
             recentActivity = activity;
             break;
           }
@@ -355,11 +355,12 @@ function sendSecondFollowupMails(done) {
           const tasks = [];
           for (const lead of results.data) {
             // console.log(`DEBUG: ${lead.id}\t${lead.status_label}\t${lead.name}`);
-            // if (lead.id !== 'lead_8YZlEVQ4w3lETSlF43RQHK7cJQaBQ4tpbbxUUNA2uGC') continue;
+            // if (lead.id !== 'lead_W9qq3oZHIAhUCHZkfj4MRcjQoBbgckV6r9HurMszye5') continue;
             const existingContacts = lead.contacts || [];
             for (const contact of existingContacts) {
               if (contact.emails && contact.emails.length > 0) {
-                tasks.push(createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contact.emails[0].email.toLowerCase()));
+                const contactEmails = contact.emails.map((e) => {return e.email.toLowerCase();});
+                tasks.push(createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails));
               }
               else {
                 console.log(`ERROR: lead ${lead.id} contact ${contact.id} has no email`);
