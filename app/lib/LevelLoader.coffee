@@ -12,7 +12,7 @@ app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 
-LOG = false
+LOG = me.get('name') is 'Shanakin'  # Debugging a hanging load issue in production
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
@@ -381,6 +381,8 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessitiesLoaded: ->
     console.log "World necessities loaded." if LOG
+    return if @initialized
+    @initialized = true
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
@@ -508,8 +510,6 @@ module.exports = class LevelLoader extends CocoClass
   # World init
 
   initWorld: ->
-    return if @initialized
-    @initialized = true
     return if @level.isType('web-dev')
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]
