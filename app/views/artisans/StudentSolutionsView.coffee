@@ -34,8 +34,8 @@ module.exports = class StudentSolutionsView extends RootView
     'click #goButton': 'onClickGoButton'
 
   levelSlug: 'eagle-eye'
-  limit: 200
-  languages: "javascript"
+  limit: 500
+  languages: "python"
   stats: {}
   sessions: []
   solutions: {}
@@ -50,8 +50,6 @@ module.exports = class StudentSolutionsView extends RootView
 
   fetchSessions: () ->
     doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
-    console.log "do languages"
-    console.log doLanguages
     @getRecentSessions (sessions) =>
       @sessions = sessions
       for session in sessions
@@ -59,6 +57,9 @@ module.exports = class StudentSolutionsView extends RootView
         continue unless lang in doLanguages
         @stats[lang].total += 1
         src = session.code?['hero-placeholder'].plan
+        unless src
+          @stats[lang].errors += 1
+          continue
         ast = null
         if lang is 'python'
           aether = new Aether language: 'python'
@@ -87,8 +88,6 @@ module.exports = class StudentSolutionsView extends RootView
         @solutions[hash] ?= []
         @solutions[hash].push session
 
-      console.log "stats"
-      console.log @stats
       # console.log "count"
       # console.log @count
       console.log "solutions"
