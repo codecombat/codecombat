@@ -8,7 +8,8 @@ module.exports = class Problem
   markerRange: null
   # Construction with AetherProblem will include all but `error`
   # Construction with a standard error will have `error`, `isCast`, `levelID`, `ace`
-  constructor: ({ @aether, @aetherProblem, @ace, isCast=false, @levelID, error, userCodeHasChangedSinceLastCast }) ->
+  constructor: ({ @aether, @aetherProblem, @ace, isCast, @levelID, error, userCodeHasChangedSinceLastCast }) ->
+    isCast ?= false
     if @aetherProblem
       @annotation = @buildAnnotationFromAetherProblem(@aetherProblem)
       { @lineMarkerRange, @textMarkerRange } = @buildMarkerRangesFromAetherProblem(@aetherProblem) if isCast

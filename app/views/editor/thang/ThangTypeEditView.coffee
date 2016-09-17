@@ -5,7 +5,7 @@ Lank = require 'lib/surface/Lank'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
-require 'vendor/treema'
+require 'treema/treema.js'
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'

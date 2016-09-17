@@ -4,7 +4,7 @@ utils = require 'core/utils'
 module.exports = ParticleMan = class ParticleMan extends CocoClass
 
   constructor: ->
-    return @unsupported = true unless Modernizr.webgl
+    return @unsupported = true unless Modernizr?.webgl # TODO: Fix with Webpack
     try
       @renderer = new THREE.WebGLRenderer alpha: true
     catch err

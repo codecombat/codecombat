@@ -204,7 +204,7 @@ module.exports = class CocoRouter extends Backbone.Router
         window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
     path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
-    path = "views/#{path}" if not _.string.startsWith(path, 'views/')
+    # path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
       @listenToOnce application.moduleLoader, 'load-complete', ->
@@ -216,11 +216,13 @@ module.exports = class CocoRouter extends Backbone.Router
     @openView(view)
 
   tryToLoadModule: (path) ->
-    try
-      return require(path)
-    catch error
-      if error.toString().search('Cannot find module "' + path + '" from') is -1
-        throw error
+    # TODO: Put this back? Commented for easier Webpack debugging, not sure what it's for.
+    # try
+    path = path.match(/(views\/)?(.*)/)[2] # Chop out 'view' at beginning if it's there
+    return require('../views/' + path + '.coffee') # This hints Webpack to include things from /app/views/
+    # catch error
+      # if error.toString().search('Cannot find module "' + path + '" from') is -1
+        # throw error
 
   openView: (view) ->
     @closeCurrentView()
@@ -248,7 +250,7 @@ module.exports = class CocoRouter extends Backbone.Router
     return if application.testing or application.demoing
     application.facebookHandler.loadAPI()
     application.gplusHandler.loadAPI()
-    require('core/services/twitter')()
+    require('./services/twitter')()
 
   renderSocialButtons: =>
     # TODO: Refactor remaining services to Handlers, use loadAPI success callback

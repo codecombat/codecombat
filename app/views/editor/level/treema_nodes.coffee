@@ -1,8 +1,8 @@
 WorldSelectModal = require './modals/WorldSelectModal'
-ThangType = require '/models/ThangType'
+ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 CocoCollection = require 'collections/CocoCollection'
-require 'vendor/treema'
+require 'treema/treema.js'
 
 makeButton = -> $('<a class="btn btn-primary btn-xs treema-map-button"><span class="glyphicon glyphicon-screenshot"></span></a>')
 shorten = (f) -> parseFloat(f.toFixed(1))

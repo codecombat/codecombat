@@ -1,6 +1,6 @@
 template = require 'templates/editor/campaign/campaign-analytics-modal'
 utils = require 'core/utils'
-require 'vendor/d3'
+require 'd3'
 ModalView = require 'views/core/ModalView'
 
 # TODO: jquery-ui datepicker doesn't work well in this view
@@ -89,7 +89,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     yRange = d3.scale.linear().range([height, 0]).domain([min, max])
     lines = []
     for i in [0...lineData.length-1]
-      lines.push 
+      lines.push
         x1: xRange(lineData[i].x)
         y1: yRange(lineData[i].y)
         x2: xRange(lineData[i + 1].x)
@@ -116,7 +116,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
     if endDay?
       endDayDashed = endDay
       endDay = endDay.replace(/-/g, '')
-    else 
+    else
       endDay = utils.getUTCDay -1
       endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
     @campaignCompletions.startDay = startDayDashed
@@ -190,7 +190,7 @@ module.exports = class CampaignAnalyticsModal extends ModalView
         item
 
       @campaignCompletions.levels = _.map data, countCompletions, @
-      if @campaignCompletions.levels.length > 0 
+      if @campaignCompletions.levels.length > 0
         maxStarted = (_.max @campaignCompletions.levels, ((a) -> a.started)).started
       else
         maxStarted = 0

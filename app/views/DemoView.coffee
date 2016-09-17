@@ -6,8 +6,8 @@ requireUtils = require 'lib/requireUtils'
 DEMO_REQUIRE_PREFIX = 'test/demo/'
 DEMO_URL_PREFIX = '/demo/'
 
-require 'vendor/jasmine-bundle'
-require 'demo-app'
+# require 'vendor/scripts/jasmine-bundle' # TODO: Fix for Webpack
+# require 'demo-app' # TODO: Fix for Webpack
 
 ###
   What are demo files?

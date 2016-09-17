@@ -510,4 +510,3 @@ module.exports.usStateCodes =
       getStateCodeByStateName: getStateCodeByStateName
     }
   )()
-

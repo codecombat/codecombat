@@ -47,7 +47,7 @@
               span.glyphicon.glyphicon-ok
           tr
             td.feature-description
-              span(data-i18n="subscribe.feature3", data-i18n-options='{"bonusLevelsCount": ' + view.i18nData.bonusLevelsCount + '}'))
+              span(data-i18n="subscribe.feature3", data-i18n-options='{"bonusLevelsCount": ' + view.i18nData.bonusLevelsCount + '}')
             if !me.isOnPremiumServer()
               td.free-cell
             td.center-ok
@@ -88,7 +88,7 @@
         if !me.isOnPremiumServer()
           button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
         if view.yearProduct
-          button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title", data-i18n="subscribe.sale_button")
+          button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title subscribe.sale_button")
         button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
 
       if view.state === 'declined'

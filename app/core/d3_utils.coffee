@@ -1,4 +1,4 @@
-# Caller needs require 'vendor/d3'
+# Caller needs require 'd3'
 
 module.exports.createContiguousDays = (timeframeDays, skipToday=true) ->
   # Return list of last 'timeframeDays' contiguous days in yyyy-mm-dd format

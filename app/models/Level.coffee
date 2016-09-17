@@ -13,7 +13,8 @@ module.exports = class Level extends CocoModel
   editableByArtisans: true
 
   serialize: (options) ->
-    {supermodel, session, otherSession, @headless, @sessionless, cached=false} = options
+    # {supermodel, session, otherSession, @headless, @sessionless, cached=false} = options
+    {supermodel, session, otherSession, @headless, @sessionless, cached} = options
     o = @denormalize supermodel, session, otherSession # hot spot to optimize
 
     # Figure out Components

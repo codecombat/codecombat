@@ -309,7 +309,7 @@ class CocoModel extends Backbone.Model
     sum = 0
     data ?= $.extend true, {}, @attributes
     schema ?= @schema() or {}
-    if schema.oneOf # get populating the Programmable component config to work 
+    if schema.oneOf # get populating the Programmable component config to work
       schema = _.find(schema.oneOf, {type: 'object'})
     addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?

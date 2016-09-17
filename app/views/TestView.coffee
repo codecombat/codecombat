@@ -3,8 +3,8 @@ template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
 
-require 'vendor/jasmine-bundle'
-require 'tests'
+# require 'vendor/scripts/jasmine-bundle' # TODO: Fix for Webpack
+# require 'tests' # TODO: Fix for Webpack
 
 TEST_REQUIRE_PREFIX = 'test/app/'
 TEST_URL_PREFIX = '/test/'

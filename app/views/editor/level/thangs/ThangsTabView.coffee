@@ -10,7 +10,7 @@ Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './LevelThangEditView'
 ComponentsCollection = require 'collections/ComponentsCollection'
-require 'vendor/treema'
+require 'treema/treema.js'
 GameUIState = require 'models/GameUIState'
 
 # Moving the screen while dragging thangs constants

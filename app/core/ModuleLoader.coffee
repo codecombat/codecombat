@@ -1,7 +1,7 @@
 CocoClass = require 'core/CocoClass'
 locale = require 'locale/locale'
 
-LOG = false
+LOG = true
 
 
 module.exports = ModuleLoader = class ModuleLoader extends CocoClass
@@ -49,7 +49,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     })
     return true
 
-  loadLanguage: (langCode='en-US') ->  
+  loadLanguage: (langCode='en-US') ->
     loading = @load("locale/#{langCode}")
     firstBit = langCode[...2]
     return loading if firstBit is langCode
@@ -57,6 +57,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     return @load("locale/#{firstBit}", false) or loading
 
   onFileLoad: (e) =>
+    return # TODO: remove, just trying to get Webpack going
     # load dependencies if it's not a vendor library
     if not _.string.startsWith(e.item.id, 'vendor')
       have = window.require.list()
@@ -98,7 +99,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
   updateProgress: ->
     return if @queue.progress < @lastShownProgress
     $('#module-load-progress .progress-bar').css('width', (100*@queue.progress)+'%')
-    if @queue.progress is 1 
+    if @queue.progress is 1
       $('#module-load-progress').css('opacity', 0)
 
   parseDependencies: (raw) ->
@@ -130,9 +131,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     else
       parts = name.split('/')
     for part in parts
-      if part is '..' 
+      if part is '..'
         results.pop()
       else if (part isnt '.' and part isnt '')
         results.push(part)
     return results.join('/')
-
