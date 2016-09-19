@@ -191,9 +191,9 @@ setupPerfMonMiddleware = (app) ->
 
 exports.setupMiddleware = (app) ->
   setupPerfMonMiddleware app
+  setupDomainFilterMiddleware app
   setupCountryRedirectMiddleware app, "china", "CN", "zh", config.chinaDomain
   setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", config.brazilDomain
-  setupDomainFilterMiddleware app
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
