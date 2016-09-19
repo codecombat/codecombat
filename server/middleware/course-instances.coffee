@@ -155,27 +155,29 @@ module.exports =
     
     
   fetchRecent: wrap (req, res) ->
-    query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+
+    courses = yield Course.find({releasePhase: 'released'}).select({_id: 1}).lean()
+    courseIDs = (course._id for course in courses)
+
+    query = {$and: [{courseID: {$in: courseIDs}}, {name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     query["$and"].push(_id: {$gte: objectIdFromTimestamp(req.body.startDay + "T00:00:00.000Z")}) if req.body.startDay?
     query["$and"].push(_id: {$lt: objectIdFromTimestamp(req.body.endDay + "T00:00:00.000Z")}) if req.body.endDay?
-    courseInstances = yield CourseInstance.find(query, {courseID: 1, members: 1, ownerID: 1})
+    courseInstances = yield CourseInstance.find(query, {courseID: 1, members: 1, ownerID: 1}).lean()
 
     userIDs = []
     for courseInstance in courseInstances
-      if members = courseInstance.get('members')
+      if members = courseInstance.members
         userIDs.push(userID) for userID in members
-    users = yield User.find({_id: {$in: userIDs}}, {coursePrepaid: 1, coursePrepaidID: 1})
+    users = yield User.find({_id: {$in: userIDs}, coursePrepaid: {$exists: true}}, {coursePrepaid: 1}).lean()
 
-    prepaidIDs = []
-    for user in users
-      if prepaidID = user.get('coursePrepaid')
-        prepaidIDs.push(prepaidID._id)
-    prepaids = yield Prepaid.find({_id: {$in: prepaidIDs}}, {properties: 1})
+    prepaidIDs = (user.coursePrepaid._id for user in users when user.coursePrepaid)
+    prepaids = yield Prepaid.find({_id: {$in: prepaidIDs}}, {properties: 1}).lean()
 
     res.send({
-      courseInstances: (courseInstance.toObject({req: req}) for courseInstance in courseInstances)
-      students: (user.toObject({req: req}) for user in users)
-      prepaids: (prepaid.toObject({req: req}) for prepaid in prepaids)
+      courseInstances: courseInstances
+      students: users
+      prepaids: prepaids
     })
 
   fetchNonHoc: wrap (req, res) ->

@@ -477,11 +477,11 @@ UserHandler = class UserHandler extends Handler
         {schoolName: {$exists: true}},
         {schoolName: {$ne: ''}}
         ]}
-    User.find(query, {schoolName: 1}).exec (err, documents) =>
+    User.find(query, {schoolName: 1}).lean().exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       schoolCountMap = {}
       for doc in documents
-        schoolName = doc.get('schoolName')
+        schoolName = doc.schoolName
         schoolCountMap[schoolName] ?= 0;
         schoolCountMap[schoolName]++;
       schoolCounts = []
@@ -489,7 +489,6 @@ UserHandler = class UserHandler extends Handler
         continue unless count >= minCount
         schoolCounts.push schoolName: schoolName, count: count
       @sendSuccess(res, schoolCounts)
-
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user
     doc =
