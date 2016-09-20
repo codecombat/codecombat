@@ -93,7 +93,11 @@ const parseDomain = require('parse-domain');
 const request = require('request');
 
 const earliestDate = new Date();
-earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
+earliestDate.setUTCDate(earliestDate.getUTCDate() - 3);
+
+const apiKeyEmailMap = {};
+const emailApiKeyMap = {};
+const userApiKeyMap = {};
 
 // ** Main program
 
@@ -116,8 +120,13 @@ function upsertLeads(done) {
     addIntercomData(contacts, (err) => {
       if (err) return done(err);
 
-      // log('DEBUG: Updating contacts..');
-      updateCloseLeads(contacts, (err) => {
+      updateCloseApiKeyMaps((err) => {
+
+        // log('DEBUG: Updating contacts..');
+        updateCloseLeads(contacts, (err) => {
+          return done(err);
+        });
+
         return done(err);
       });
     });
@@ -467,6 +476,8 @@ class CocoContact {
         'Lead Origin': this.getLeadOrigin()
       }
     };
+    const emailApiKey = getEmailApiKey(postData.status);
+    if (apiKeyEmailMap[emailApiKey]) postData.custom['auto_sales_email'] = apiKeyEmailMap[emailApiKey];
     const props = this.trialRequest.properties;
     if (props) {
       for (const prop in props) {
@@ -603,7 +614,7 @@ class CocoContact {
 
 // ** Upsert Close.io methods
 
-function updateCloseLead(cocoContact, closeLead, userApiKeyMap, done) {
+function updateCloseLead(cocoContact, closeLead, done) {
   // console.log('DEBUG: updateCloseLead', cocoContact.email, closeLead.id);
 
   const putData = cocoContact.getLeadPutData(closeLead);
@@ -632,7 +643,7 @@ function updateCloseLead(cocoContact, closeLead, userApiKeyMap, done) {
     }
 
     // Add Close contact
-    addContact(cocoContact, closeLead, userApiKeyMap, (err, results) => {
+    addContact(cocoContact, closeLead, (err, results) => {
       if (err) return done(err);
 
       // Add Close note
@@ -646,7 +657,7 @@ function updateCloseLead(cocoContact, closeLead, userApiKeyMap, done) {
   });
 }
 
-function saveNewCloseLead(cocoContact, userApiKeyMap, done) {
+function saveNewCloseLead(cocoContact, done) {
   const postData = cocoContact.getLeadPostData();
   // console.log(`DEBUG: saveNewCloseLead ${cocoContact.email} ${postData.status}`);
   const options = {
@@ -683,7 +694,7 @@ function saveNewCloseLead(cocoContact, userApiKeyMap, done) {
       }
       const countryCode = getCountryCode(cocoContact.trialRequest.properties.country, [cocoContact.email]);
       const emailTemplate = getEmailTemplate(cocoContact.trialRequest.properties.siteOrigin, postData.status, countryCode);
-      sendMail(cocoContact.email, newCloseLead, newContact.id, emailTemplate, userApiKeyMap, emailDelayMinutes, done);
+      sendMail(cocoContact.email, newCloseLead, newContact.id, emailTemplate, emailDelayMinutes, done);
     });
   });
 }
@@ -713,7 +724,7 @@ function createFindExistingLeadFn(email, existingLeads) {
   };
 }
 
-function createUpdateCloseLeadFn(cocoContact, existingLeads, userApiKeyMap) {
+function createUpdateCloseLeadFn(cocoContact, existingLeads) {
   // New contact lead matching algorithm:
   // 1. New contact email exists
   // 2. New contact NCES school id exists
@@ -726,7 +737,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads, userApiKeyMap) {
     if (existingLeads[cocoContact.email]) {
       if (existingLeads[cocoContact.email].length === 1) {
         // console.log(`DEBUG: Using lead from email lookup: ${cocoContact.email}`);
-        return updateCloseLead(cocoContact, existingLeads[cocoContact.email][0], userApiKeyMap, done);
+        return updateCloseLead(cocoContact, existingLeads[cocoContact.email][0], done);
       }
       console.error(`ERROR: ${existingLeads[cocoContact.email].length} email leads found for ${cocoContact.email}`);
       return done();
@@ -758,9 +769,9 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads, userApiKeyMap) {
           return done();
         }
         if (data.total_results === 1) {
-          return updateCloseLead(cocoContact, data.data[0], userApiKeyMap, done);
+          return updateCloseLead(cocoContact, data.data[0], done);
         }
-        return saveNewCloseLead(cocoContact, userApiKeyMap, done);
+        return saveNewCloseLead(cocoContact, done);
       } catch (error) {
         console.log(`ERROR: createUpdateCloseLeadFn ${cocoContact.email}`);
         console.log(error);
@@ -770,7 +781,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads, userApiKeyMap) {
   };
 }
 
-function addContact(cocoContact, closeLead, userApiKeyMap, done) {
+function addContact(cocoContact, closeLead, done) {
   // console.log('DEBUG: addContact', closeLead.id, cocoContact.email);
   const postData = cocoContact.getContactPostData(closeLead);
   const options = {
@@ -787,7 +798,7 @@ function addContact(cocoContact, closeLead, userApiKeyMap, done) {
 
     const countryCode = getCountryCode(cocoContact.trialRequest.properties.country, [cocoContact.email]);
     const emailTemplate = getEmailTemplate(cocoContact.trialRequest.properties.siteOrigin, closeLead.status_label, countryCode);
-    sendMail(cocoContact.email, closeLead, newContact.id, emailTemplate, userApiKeyMap, emailDelayMinutes, done);
+    sendMail(cocoContact.email, closeLead, newContact.id, emailTemplate, emailDelayMinutes, done);
   });
 }
 
@@ -812,10 +823,12 @@ function addNote(cocoContact, closeLead, currentNotes, done) {
   });
 }
 
-function sendMail(toEmail, closeLead, contactId, template, userApiKeyMap, delayMinutes, done) {
-  // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template, emailApiKey, delayMinutes);
+function sendMail(toEmail, closeLead, contactId, template, delayMinutes, done) {
+  // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template, delayMinutes);
 
-  let emailApiKey = getEmailApiKey(closeLead.status_label);
+  // Sales contact email precedence: previous email to contact, previous email to lead, lead custom field, lead status default
+  let emailApiKey = null;
+  let emailDiffContactApiKey = null;
 
   // Check for previously sent email
   const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/activity/email/?lead_id=${closeLead.id}`;
@@ -824,12 +837,29 @@ function sendMail(toEmail, closeLead, contactId, template, userApiKeyMap, delayM
     try {
       const data = JSON.parse(body);
       for (const emailData of data.data) {
-        emailApiKey = userApiKeyMap[emailData.user_id] || emailApiKey;
-        if (!isSameEmailTemplateType(emailData.template_id, template)) continue;
-        for (const email of emailData.to) {
-          if (email.toLowerCase() === toEmail.toLowerCase()) {
-            console.error("ERROR: sending duplicate email:", toEmail, closeLead.id, contactId, template, emailData.contact_id);
-            return done();
+
+        // Check for previous email to this contact
+        if (!emailApiKey && userApiKeyMap[emailData.user_id]) {
+          for (const email of emailData.to) {
+            if (email.toLowerCase() === toEmail.toLowerCase()) {
+              emailApiKey = userApiKeyMap[emailData.user_id];
+              break;
+            }
+          }
+        }
+
+        // Save previous lead email to this lead
+        if (!emailDiffContactApiKey && !emailApiKey && userApiKeyMap[emailData.user_id]) {
+          emailDiffContactApiKey = userApiKeyMap[emailData.user_id];
+        }
+
+        // Never send this email template to this contact again
+        if (isSameEmailTemplateType(emailData.template_id, template)) {
+          for (const email of emailData.to) {
+            if (email.toLowerCase() === toEmail.toLowerCase()) {
+              console.error("ERROR: sending duplicate email:", toEmail, closeLead.id, contactId, template, emailData.contact_id);
+              return done();
+            }
           }
         }
       }
@@ -838,6 +868,16 @@ function sendMail(toEmail, closeLead, contactId, template, userApiKeyMap, delayM
       console.error(`ERROR: parsing previous email sent GET for ${toEmail} ${closeLead.id}`);
       console.log(err);
       return done();
+    }
+
+    if (!emailApiKey && emailDiffContactApiKey) emailApiKey = emailDiffContactApiKey;
+    if (!emailApiKey) {
+      if (closeLead.custom && closeLead.custom['auto_sales_email'] && emailApiKeyMap[closeLead.custom['auto_sales_email']]) {
+        emailApiKey = emailApiKeyMap[closeLead.custom['auto_sales_email']];
+      }
+      else {
+        emailApiKey = getEmailApiKey(closeLead.status_label);
+      }
     }
 
     // Send mail
@@ -869,39 +909,40 @@ function sendMail(toEmail, closeLead, contactId, template, userApiKeyMap, delayM
 }
 
 function updateCloseLeads(cocoContacts, done) {
-  const userApiKeyMap = {};
+  // Lookup existing leads via email to protect against direct lead name querying later
+  // Querying via lead name is unreliable
+  const existingLeads = {};
+  const tasks = [];
+  for (const email in cocoContacts) {
+    tasks.push(createFindExistingLeadFn(email, existingLeads));
+  }
+  async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
+    if (err) return done(err);
+    const tasks = [];
+    for (const email in cocoContacts) {
+      tasks.push(createUpdateCloseLeadFn(cocoContacts[email], existingLeads));
+    }
+    async.series(tasks, done);
+  });
+}
+
+function updateCloseApiKeyMaps(done) {
   let createGetUserFn = (apiKey) => {
     return (done) => {
-      const url = `https://${apiKey}:X@app.close.io/api/v1/me/?_fields=id`;
+      const url = `https://${apiKey}:X@app.close.io/api/v1/me/?_fields=id,email`;
       request.get(url, (error, response, body) => {
         if (error) return done();
         const results = JSON.parse(body);
+        apiKeyEmailMap[apiKey] = results.email;
+        emailApiKeyMap[results.email] = apiKey;
         userApiKeyMap[results.id] = apiKey;
         return done();
       });
     };
   }
-  const tasks = [];
+  const tasks = [createGetUserFn(closeIoEuMailApiKey)];
   for (const closeIoMailApiKey of closeIoMailApiKeys) {
     tasks.push(createGetUserFn(closeIoMailApiKey.apiKey));
   }
-  tasks.push(createGetUserFn(closeIoEuMailApiKey));
-  async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
-    if (err) console.log(err);
-    // Lookup existing leads via email to protect against direct lead name querying later
-    // Querying via lead name is unreliable
-    const existingLeads = {};
-    const tasks = [];
-    for (const email in cocoContacts) {
-      tasks.push(createFindExistingLeadFn(email, existingLeads));
-    }
-    async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
-      if (err) return done(err);
-      const tasks = [];
-      for (const email in cocoContacts) {
-        tasks.push(createUpdateCloseLeadFn(cocoContacts[email], existingLeads, userApiKeyMap));
-      }
-      async.series(tasks, done);
-    });
-  });
+  async.parallelLimit(tasks, closeParallelLimit, done);
 }
