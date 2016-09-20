@@ -52,6 +52,22 @@ developmentLogging = (tokens, req, res) ->
   s += ' (proxied)' if req.proxied
   return s
 
+setupDomainFilterMiddleware = (app) ->
+  if config.isProduction
+    unsafePaths = [
+      /^\/web-dev-iframe\.html$/
+      /^\/javascripts\/web-dev-listener\.js$/
+    ]
+    app.use (req, res, next) ->
+      domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
+      domainPrefix = req.host.match(domainRegex)?[1] or ''
+      if _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and (req.host isnt domainPrefix + config.unsafeContentHostname)
+        res.redirect('//' + domainPrefix + config.unsafeContentHostname + req.path)
+      else if not _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and req.host is domainPrefix + config.unsafeContentHostname
+        res.redirect('//' + domainPrefix + config.mainHostname + req.path)
+      else
+        next()
+
 setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
     if err
@@ -120,8 +136,8 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
     reqHost ?= req.host
 
     unless reqHost.toLowerCase() is host
-      ip = req.headers['x-forwarded-for'] or req.connection.remoteAddress
-      ip = ip?.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
+      ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
+      ip = ip?.split(/,? /)[0] if ip? # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
       #if speaksLanguage or geo?.country is countryCode
       #  log.info("Should we redirect to #{serverID} server? speaksLanguage: #{speaksLanguage}, acceptedLanguages: #{req.acceptedLanguages}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksLanguage}")
@@ -177,15 +193,30 @@ exports.setupMiddleware = (app) ->
   setupPerfMonMiddleware app
   setupCountryRedirectMiddleware app, "china", "CN", "zh", config.chinaDomain
   setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", config.brazilDomain
+  setupDomainFilterMiddleware app
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
+  setupAjaxCaching app
   setupErrorMiddleware app
   setupJavascript404s app
 
 ###Routing function implementations###
+
+setupAjaxCaching = (app) ->
+  # IE/Edge are more aggresive about caching than other browsers, so we'll override their caching here.
+  # Assumes our CDN will override these with it's own caching rules.
+  app.get '/db/*', (req, res, next) ->
+    return next() unless req.xhr
+    # http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery
+    userAgent = req.header('User-Agent') or ""
+    if userAgent.indexOf('MSIE ') > 0 or !!userAgent.match(/Trident.*rv\:11\.|Edge\/\d+/)
+      res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+      res.header 'Pragma', 'no-cache'
+      res.header 'Expires', 0
+    next()
 
 setupJavascript404s = (app) ->
   app.get '/javascripts/*', (req, res) ->
@@ -206,6 +237,9 @@ setupFallbackRouteToIndex = (app) ->
           configData =  _.omit mandate?.toObject() or {}, '_id'
         configData.picoCTF = config.picoCTF
         configData.production = config.isProduction
+        domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
+        domainPrefix = req.host.match(domainRegex)?[1] or ''
+        configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
         data = data.replace '"serverConfigTag"', JSON.stringify configData
         data = data.replace('"userObjectTag"', user)
         data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))

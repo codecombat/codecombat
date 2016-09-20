@@ -11,9 +11,8 @@ AudioPlayer = require 'lib/AudioPlayer'
 app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
-{sendContactMessage} = require 'core/contact'
 
-LOG = false
+LOG = me.get('name') is 'Shanakin'  # Debugging a hanging load issue in production
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
@@ -77,25 +76,12 @@ module.exports = class LevelLoader extends CocoClass
     else
       @level = @supermodel.loadModel(@level, 'level').model
       @listenToOnce @level, 'sync', @onLevelLoaded
-  
+
   reportLoadError: ->
-    return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
-    reportedLoadErrorAlready = true
-    context = email: me.get('email')
-    context.message = """
-      Automatic Report - Unable to Load Level (LevelLoader timeout)
-      URL: #{window?.location?.toString()}
-      These models are marked as having not loaded:
-      #{JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))}
-      Object.keys(supermodel.models):
-      #{JSON.stringify(Object.keys(@supermodel.models))}
-    """
-    if $.browser
-      context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
-    context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
-    context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
-    context.levelSlug = @work?.level?.slug
-    sendContactMessage context
+    window.tracker?.trackEvent 'LevelLoadError',
+      category: 'Error',
+      levelSlug: @work?.level?.slug,
+      unloaded: JSON.stringify(@supermodel.report().map (m) -> _.result(m.model, 'url'))
 
   onLevelLoaded: ->
     if not @sessionless and @level.isType('hero', 'hero-ladder', 'hero-coop', 'course')
@@ -167,7 +153,8 @@ module.exports = class LevelLoader extends CocoClass
       url += "?course=#{@courseID}" if @courseID
 
     session = new LevelSession().setURL url
-    session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode'] if @headless
+    if @headless and not @level.isType('web-dev')
+      session.project = ['creator', 'team', 'heroConfig', 'codeLanguage', 'submittedCodeLanguage', 'state', 'submittedCode', 'submitted']
     @sessionResource = @supermodel.loadModel(session, 'level_session', {cache: false})
     @session = @sessionResource.model
     if @opponentSessionID
@@ -222,8 +209,12 @@ module.exports = class LevelLoader extends CocoClass
         console.log "Pushing resource: ", heroResource if LOG
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
+    unless @level.isType('hero', 'hero-ladder', 'hero-coop')
+      # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
+      if @checkAllWorldNecessitiesRegisteredAndLoaded()
+        @onWorldNecessitiesLoaded()
       return
-    return unless @level.isType('hero', 'hero-ladder', 'hero-coop')
+    # Load the ThangTypes needed for the session's heroConfig for these types of levels
     heroConfig = session.get('heroConfig')
     heroConfig ?= me.get('heroConfig') if session is @session and not @headless
     heroConfig ?= {}
@@ -390,6 +381,8 @@ module.exports = class LevelLoader extends CocoClass
 
   onWorldNecessitiesLoaded: ->
     console.log "World necessities loaded." if LOG
+    return if @initialized
+    @initialized = true
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
@@ -517,8 +510,6 @@ module.exports = class LevelLoader extends CocoClass
   # World init
 
   initWorld: ->
-    return if @initialized
-    @initialized = true
     return if @level.isType('web-dev')
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]

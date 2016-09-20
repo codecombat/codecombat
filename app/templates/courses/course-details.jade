@@ -4,8 +4,7 @@ block content
 
   .container.m-t-3
     p
-      a(href="/courses", data-i18n="courses.back_courses")
-  
+      a(href="/students", data-i18n="courses.back_courses")
     p
       strong
         if view.courseInstance.get('name')
@@ -14,33 +13,33 @@ block content
           span= view.classroom.get('name')
         else
           span(data-i18n='courses.unnamed_class')
-  
+
       if !view.owner.isNew() && view.getOwnerName() && view.courseInstance.get('name') != 'Single Player'
         span.spl -
         span.spl(data-i18n='courses.teacher')
         span.spr :
         span
           strong= view.getOwnerName()
-  
+
     h1
-      | #{view.course.get('name')}
+      | #{i18n(view.course.attributes, 'name')}
       if view.courseComplete
         span.spl -
         span.spl(data-i18n='courses.complete')
         span !
-  
+
     p
       if view.courseInstance.get('description')
         each line in view.courseInstance.get('description').split('\n')
           div= line
-  
+
     .available-courses-title(data-i18n='courses.available_levels')
     table.table.table-striped.table-condensed
       thead
         tr
           th
           th(data-i18n="clans.status")
-          th(data-i18n="common.type")
+          th(data-i18n="editor.level_components_type")
           th(data-i18n="resources.level")
           th(data-i18n="courses.concepts")
       tbody
@@ -56,7 +55,7 @@ block content
           tr
             td
               if previousLevelCompleted || !passedLastCompletedLevel || levelStatus
-                - var i18nTag = level.isType('course-ladder') ? 'play.compete' : 'home.play';
+                - var i18nTag = level.isType('course-ladder') ? 'play.compete' : 'common.play';
                 button.btn.btn-forest.btn-play-level(data-level-slug=level.get('slug'), data-i18n=i18nTag, data-level-id=level.get('original'))
                 if level.get('shareable')
                   - var levelOriginal = level.get('original');

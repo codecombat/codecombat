@@ -1,3 +1,17 @@
+extends /templates/base-flat
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+  .do-not-print.container
+    span.backlink
+      a(href='/teachers/courses')
+        |&lt; Back to Course Guides
+    .print
+      .btn.btn-md.btn-navy
+        a(href='javascript:window.print()')
+          span.glyphicon.glyphicon-print &#160;
+          |Print this guide
+
 block content
 
   if !me.isTeacher() && !me.isAdmin()
@@ -8,17 +22,17 @@ block content
     .text-center
       img(src="http://direct.codecombat.com/images/pages/base/logo.png")
       if view.course.loaded
-        h1 #{view.course.get('name')}
+        h1 #{i18n(view.course.attributes, 'name')}
         h3 #{view.prettyLanguage}
-        i= view.course.get('description')
+        i= i18n(view.course.attributes, 'description')
       br
       br
 
     if view.levels
       each level, index in view.levels.models
-        h2.page-break-before ##{index + 1}. #{level.get('name')}
+        h2.page-break-before ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
-        i #{level.get('description')}
+        i #{i18n(level.attributes, 'description')}
         div
           h4.text-center(data-i18n="common.intro")
           if level.get('intro')

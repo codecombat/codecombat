@@ -421,6 +421,9 @@ module.exports = class HeroVictoryModal extends ModalView
       'tabula-rasa': '',
       'wanted-poster': '',
       'siege-of-stonehold': '',
+      'go-fetch': '',
+      'palimpsest': '',
+      'quizlet': '',
       'clash-of-clones': 'mountain',
       'summits-gate': 'glacier'
     }[@level.get('slug')] ? @level.get 'campaign'
@@ -434,7 +437,7 @@ module.exports = class HeroVictoryModal extends ModalView
         link += "?course=#{@courseID}"
         link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
     else if @level.isType('course')
-      link = "/courses"
+      link = "/students"
       if @courseID
         link += "/#{@courseID}"
         link += "/#{@courseInstanceID}" if @courseInstanceID

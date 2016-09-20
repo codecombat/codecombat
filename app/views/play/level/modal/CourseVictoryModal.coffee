@@ -14,7 +14,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
   initialize: (options) ->
     @courseID = options.courseID
-    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance' or @getQueryVariable 'league'
+    @courseInstanceID = options.courseInstanceID or @getQueryVariable('course-instance') or @getQueryVariable('league')
     @views = []
 
     @session = options.session
@@ -103,6 +103,7 @@ module.exports = class CourseVictoryModal extends ModalView
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
+      link += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
@@ -110,7 +111,7 @@ module.exports = class CourseVictoryModal extends ModalView
     if me.isSessionless()
       link = '/teachers/courses'
     else
-      link = '/courses'
+      link = '/students'
     application.router.navigate(link, {trigger: true})
 
   onLadder: ->

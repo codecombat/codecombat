@@ -234,7 +234,7 @@ module.exports = class Angel extends CocoClass
     @running = false
     @work = null
     @streamingWorld = null
-    @deserializationQueue = null
+    @deserializationQueue = []
     _.remove @shared.busyAngels, @
     @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
     @aborting = true
@@ -254,7 +254,7 @@ module.exports = class Angel extends CocoClass
     @initialized = false
     @work = null
     @streamingWorld = null
-    @deserializationQueue = null
+    @deserializationQueue = []
     @hireWorker() if rehire
 
   hireWorker: ->

@@ -222,6 +222,7 @@ module.exports = class CocoView extends Backbone.View
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
     Backbone.Mediator.publish 'modal:opened', {}
+    modalView
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
@@ -502,6 +503,8 @@ module.exports = class CocoView extends Backbone.View
     catch err
       message = 'Oops, unable to copy'
       noty text: message, layout: 'topCenter', type: 'error', killer: false
+
+  wait: (event) -> new Promise((resolve) => @once(event, resolve))
 
 mobileRELong = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
 

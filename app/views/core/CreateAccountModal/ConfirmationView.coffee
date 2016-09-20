@@ -15,9 +15,9 @@ module.exports = class ConfirmationView extends CocoView
   onClickStartButton: ->
     classroom = @signupState.get('classroom')
     if @signupState.get('path') is 'student'
-      # force clearing of _cc GET param from url if on /courses
+      # force clearing of _cc GET param from url if on /students
       application.router.navigate('/', {replace: true})
-      application.router.navigate('/courses')
+      application.router.navigate('/students')
     else
       application.router.navigate('/play')
     document.location.reload()

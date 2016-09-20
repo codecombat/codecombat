@@ -95,6 +95,7 @@ describe 'POST /db/trial.request', ->
     @user = yield utils.initUser({gender: 'male', lastLevel: 'abcd', preferredLanguage: 'de', testGroupNumber: 1})
     yield utils.loginUser(@user)
     fixture.properties.email = @user.get('email')
+    fixture.type = 'course'
     [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
     expect(delighted.postPeople).toHaveBeenCalled()
     args = delighted.postPeople.calls.argsFor(0)

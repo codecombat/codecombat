@@ -76,7 +76,7 @@ module.exports = class Spell
       # Pull apart the structural wrapper code and the player code, remember the wrapper code, and strip indentation on player code.
       playerCode = @originalSource.match(/<playercode>\n([\s\S]*)\n *<\/playercode>/)[1]
       playerCodeLines = playerCode.split('\n')
-      indentation = playerCodeLines[0].length - playerCodeLines[0].trim().length
+      indentation = _.min(_.filter(playerCodeLines.map (line) -> line.match(/^\s*/)?[0]?.length))
       playerCode = (line.substr(indentation) for line in playerCodeLines).join('\n')
       @wrapperCode = @originalSource.replace /<playercode>[\s\S]*<\/playercode>/, '☃'  # ☃ serves as placeholder for constructHTML
       @originalSource = playerCode
@@ -94,6 +94,7 @@ module.exports = class Spell
         fallingBack = true
     try
       @originalSource = _.template @originalSource, context
+      @wrapperCode = _.template @wrapperCode, context
     catch e
       console.error "Couldn't create example code template of", @originalSource, "\nwith context", context, "\nError:", e
 
@@ -144,6 +145,7 @@ module.exports = class Spell
       @thang?.aether.transpile source
     null
 
+  # NOTE: By default, I think this compares the current source code with the source *last saved to the server* (not the last time it was run)
   hasChanged: (newSource=null, currentSource=null) ->
     (newSource ? @originalSource) isnt (currentSource ? @source)
 

@@ -142,13 +142,13 @@
       overflow: hidden
       text-overflow: ellipsis
       white-space: nowrap
-    
+
   .level-name
     white-space: nowrap
     overflow: ellipsis
     font-weight: bold
-    // line-height: 20px
-  
+    font-size: 14px
+
   .sort-button
     border: none
     background: none
@@ -257,19 +257,26 @@
   .progress-dot
     display: inline-block
     margin-right: 6px
-    width: 34px
+    min-width: 34px
     height: 34px
-    border-radius: 50%
+    border-radius: 16px
+    padding: 0 5px
     // margin-top: 23px
     // margin-bottom: 23px
     background: $gray-light
     position: relative
+    a
+      text-decoration: none
+    
     .dot-label
       padding-top: 2px
       .dot-label-inner
         font-size: 11px
         font-weight: bold
         color: white
+      
+  .progress-dot-lg .dot-label .dot-label-inner
+    font-size: 13px
     
   .progress-dot.forest
     background: $forest
@@ -286,8 +293,19 @@
       border-color: $navy
     .tooltip-arrow
       border-top-color: $navy
+      
+  .progress-dot.navy
+    background: $navy
+    .tooltip-inner
+      color: $navy
+      border-color: $navy
+    .tooltip-arrow
+      border-top-color: $navy
 
   // Code copying buttons
+
+  .class-code-blurb
+    margin-top: 5px
 
   .copy-button-group
     input
@@ -296,7 +314,10 @@
       background: #fafafa
       border: thin solid #979797
       text-align: center
-      
+
+    #join-url-input
+      font-size: 14px
+
     button
       height: 50px
       width: 210px
@@ -317,7 +338,7 @@
       top: 8px
       right: 5px
       
-  #enrollment-status-table
+  #license-status-table
     // These column widths are just to keep the cells from resizing on search
     .checkbox-col
       width: 75px

@@ -289,8 +289,11 @@ $level-resize-transition-time: 0.5s
     .game-container, .level-content, #game-area, #canvas-wrapper
       height: 100%
 
+    #canvas-wrapper
+      height: calc(100% - 50px)
+
     #canvas-wrapper canvas
-        display: none
+      display: none
 
     #web-surface-view
       position: absolute

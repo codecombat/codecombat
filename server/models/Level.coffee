@@ -1,6 +1,6 @@
 mongoose = require 'mongoose'
 plugins = require '../plugins/plugins'
-jsonschema = require '../../app/schemas/models/level'
+jsonSchema = require '../../app/schemas/models/level'
 config = require '../../server_config'
 
 LevelSchema = new mongoose.Schema({
@@ -45,5 +45,66 @@ LevelSchema.plugin(plugins.TranslationCoveragePlugin)
 LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
     doc.set('nextLevel', undefined)
+    
+LevelSchema.statics.postEditableProperties = ['name']
+LevelSchema.statics.jsonSchema = jsonSchema
+
+LevelSchema.statics.editableProperties = [
+  'description'
+  'documentation'
+  'background'
+  'nextLevel'
+  'scripts'
+  'thangs'
+  'systems'
+  'victory'
+  'name'
+  'i18n'
+  'icon'
+  'goals'
+  'type'
+  'showsGuide'
+  'banner'
+  'employerDescription'
+  'terrain'
+  'i18nCoverage'
+  'loadingTip'
+  'requiresSubscription'
+  'adventurer'
+  'practice'
+  'shareable'
+  'adminOnly'
+  'disableSpaces'
+  'hidesSubmitUntilRun'
+  'hidesPlayButton'
+  'hidesRunShortcut'
+  'hidesHUD'
+  'hidesSay'
+  'hidesCodeToolbar'
+  'hidesRealTimePlayback'
+  'backspaceThrottle'
+  'lockDefaultCode'
+  'moveRightLoopSnippet'
+  'realTimeSpeedFactor'
+  'autocompleteFontSizePx'
+  'requiredCode'
+  'suspectCode'
+  'requiredGear'
+  'restrictedGear'
+  'allowedHeroes'
+  'tasks'
+  'helpVideos'
+  'campaign'
+  'campaignIndex'
+  'replayable'
+  'buildTime'
+  'scoreTypes'
+  'concepts'
+  'picoCTFProblem'
+  'practiceThresholdMinutes',
+  'primerLanguage'
+  'studentPlayInstructions'
+]
+
 
 module.exports = Level = mongoose.model('level', LevelSchema)

@@ -12,7 +12,7 @@
 .level-name-area-container
   .level-name-area
     if view.course
-      .level-label= view.course.get('name')
+      .level-label= i18n(view.course.attributes, 'name')
     .level-name(title=difficultyTitle || "")
       span #{view.levelNumber ? view.levelNumber + '. ' : ''}#{worldName.replace('Course: ', '')}
       if levelDifficulty

@@ -13,6 +13,9 @@ module.exports = class WebSurfaceView extends CocoView
     # Consider https://www.npmjs.com/package/css-select to do this on virtualDom instead of in iframe on concreteDOM
     super(options)
 
+  getRenderData: ->
+    _.merge super(), { fullUnsafeContentHostname: serverConfig.fullUnsafeContentHostname }
+
   afterRender: ->
     super()
     @iframe = @$('iframe')[0]
@@ -81,15 +84,18 @@ module.exports = class WebSurfaceView extends CocoView
 
   onIframeMessage: (event) =>
     origin = event.origin or event.originalEvent.origin
-    unless origin is window.location.origin
+    unless new RegExp("^https?:\/\/#{serverConfig.fullUnsafeContentHostname}$").test origin
       return console.log 'Ignoring message from bad origin:', origin
     unless event.source is @iframe.contentWindow
       return console.log 'Ignoring message from somewhere other than our iframe:', event.source
     switch event.data.type
       when 'goals-updated'
         Backbone.Mediator.publish 'god:new-html-goal-states', goalStates: event.data.goalStates, overallStatus: event.data.overallStatus
+      when 'error'
+        # NOTE: The line number in this is relative to the script tag, not the user code. The offset is added in SpellView.
+        Backbone.Mediator.publish 'web-dev:error', _.pick(event.data, ['message', 'line', 'column', 'url'])
       else
-        console.warn 'Unknown message type', event.data.type, 'for message', e, 'from origin', origin
+        console.warn 'Unknown message type', event.data.type, 'for message', event, 'from origin', origin
 
   destroy: ->
     window.removeEventListener 'message', @onIframeMessage

@@ -61,6 +61,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       @scriptManager = new ScriptManager({
         scripts: @world.scripts or [], view: @, @session, levelID: @level.get('slug')})
       @scriptManager.loadFromSession() # Should we? TODO: Figure out how scripts work for game dev levels
+      @howToPlayText = utils.i18n(@level.attributes, 'studentPlayInstructions')
+      @howToPlayText ?= $.i18n.t('play_game_dev_level.default_student_instructions')
+      @howToPlayText = marked(@howToPlayText, { sanitize: true })
       @renderAllButCanvas()
       @supermodel.finishLoading()
 

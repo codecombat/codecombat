@@ -1,6 +1,7 @@
 GLOBAL._ = require 'lodash'
 
 User = require '../../../server/models/User'
+utils = require '../utils'
 
 describe 'User', ->
 
@@ -64,4 +65,14 @@ describe 'User', ->
       expect(code).toMatch(/[0-9]{13}:[0-9a-f]{64}/)
       [timestamp, hash] = code.split(':')
       expect(new Date(parseInt(timestamp))).toEqual(now)
+      done()
+      
+  describe '.incrementStatAsync()', ->
+    it 'records nested stats', utils.wrap (done) ->
+      user = yield utils.initUser()
+      yield User.incrementStatAsync user.id, 'stats.testNumber'
+      yield User.incrementStatAsync user.id, 'stats.concepts.basic', {inc: 10}
+      user = yield User.findById(user.id)
+      expect(user.get('stats.testNumber')).toBe(1)
+      expect(user.get('stats.concepts.basic')).toBe(10)
       done()

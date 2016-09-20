@@ -35,3 +35,16 @@ describe 'HeroSelectModal', ->
       expect(request.method).toBe("PUT")
       expect(JSON.parse(request.params).heroConfig?.thangType).toBe(hero2.get('original'))
       done()
+
+  it 'triggers its events properly', (done) ->
+    spyOn(modal, 'trigger')
+    modal.render()
+    modal.$('.hero-option:nth-child(2)').click()
+    request = jasmine.Ajax.requests.mostRecent()
+    request.respondWith({ status: 200, responseText: me.attributes })
+    expect(modal.trigger).toHaveBeenCalled()
+    expect(modal.trigger.calls.argsFor(0)[0]).toBe('hero-select:success')
+    expect(modal.trigger).not.toHaveBeenCalledWith('hide')
+    modal.$('.select-hero-btn').click()
+    expect(modal.trigger).toHaveBeenCalledWith('hide')
+    done()

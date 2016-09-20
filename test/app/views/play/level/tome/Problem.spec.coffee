@@ -29,7 +29,7 @@ describe 'Problem', ->
 
   # TODO: Problems are no longer saved when creating Problems; instead it's in SpellView. Update tests?
   xit 'save user code problem', ->
-    new Problem aether, aetherProblem, ace, false, true, levelID
+    new Problem {aether, aetherProblem, ace, isCast: false, levelID}
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
     request = jasmine.Ajax.requests.mostRecent()
@@ -49,7 +49,7 @@ describe 'Problem', ->
 
   xit 'save user code problem no range', ->
     aetherProblem.range = null
-    new Problem aether, aetherProblem, ace, false, true, levelID
+    new Problem {aether, aetherProblem, ace, isCast: false, levelID}
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
     request = jasmine.Ajax.requests.mostRecent()
@@ -73,7 +73,7 @@ describe 'Problem', ->
     aether.raw = "this.say('hi');\nthis.sad\n('bye');"
     aetherProblem.range = [ { row: 1 }, { row: 2 } ]
 
-    new Problem aether, aetherProblem, ace, false, true, levelID
+    new Problem {aether, aetherProblem, ace, isCast: false, levelID}
     expect(jasmine.Ajax.requests.count()).toBe(1)
 
     request = jasmine.Ajax.requests.mostRecent()

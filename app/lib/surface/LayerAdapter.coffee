@@ -358,6 +358,9 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     prerenderedSpriteSheet = thangType.getPrerenderedSpriteSheet(colorConfig, 'segmented')
     if prerenderedSpriteSheet and not prerenderedSpriteSheet.loadedImage
       return
+    else if prerenderedSpriteSheet
+      animations = prerenderedSpriteSheet.spriteSheet._animations
+      renderedActions = _.zipObject(animations, _.times(animations.length, -> true))
     containersToRender = thangType.getContainersForActions(actionNames)
     #console.log 'render segmented', thangType.get('name'), actionNames, colorConfig, 'because we do not have prerendered sprite sheet?', prerenderedSpriteSheet
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
@@ -367,7 +370,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
         container = new createjs.Sprite(@spriteSheet)
         container.gotoAndStop(containerKey)
         frame = spriteSheetBuilder.addFrame(container)
-      else if prerenderedSpriteSheet
+      else if prerenderedSpriteSheet and renderedActions[containerGlobalName]
         container = new createjs.Sprite(prerenderedSpriteSheet.spriteSheet)
         container.gotoAndStop(containerGlobalName)
         scale = @resolutionFactor / (prerenderedSpriteSheet.get('resolutionFactor') or 1)

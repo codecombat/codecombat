@@ -73,7 +73,8 @@ module.exports = class CreateTeacherAccountView extends RootView
             "<div class='district'>#{hr.district.value}, " +
               "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
     ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
-      @$('input[name="district"]').val suggestion.district
+      # Tell Algolioa about the change but don't open the suggestion dropdown
+      @$('input[name="district"]').val(suggestion.district).trigger('input').trigger('blur')
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
       @$('input[name="country"]').val 'USA'
@@ -94,7 +95,7 @@ module.exports = class CreateTeacherAccountView extends RootView
           "<div class='district'>#{hr.district.value}, " +
             "<span>#{hr.city?.value}, #{hr.state.value}</span></div>"
     ]).on 'autocomplete:selected', (event, suggestion, dataset) =>
-      @$('input[name="organization"]').val '' # TODO: does not persist on tabbing: back to school, back to district
+      @$('input[name="organization"]').val('').trigger('input').trigger('blur')
       @$('input[name="city"]').val suggestion.city
       @$('input[name="state"]').val suggestion.state
       @$('input[name="country"]').val 'USA'
@@ -135,6 +136,9 @@ module.exports = class CreateTeacherAccountView extends RootView
       error = true
     if not error and not forms.validateEmail(trialRequestAttrs.email)
       forms.setErrorToProperty(form, 'email', 'invalid email')
+      error = true
+    if not error and forms.validateEmail(allAttrs.name)
+      forms.setErrorToProperty(form, 'name', 'username may not be an email')
       error = true
     if not _.size(trialRequestAttrs.educationLevel)
       forms.setErrorToProperty(form, 'educationLevel', 'include at least one')
@@ -185,7 +189,7 @@ module.exports = class CreateTeacherAccountView extends RootView
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
-    attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role')
+    attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role', 'firstName', 'lastName')
     attrs.role = attrs.role.toLowerCase()
     options = {}
     newUser = new User(attrs)

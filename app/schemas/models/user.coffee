@@ -64,6 +64,7 @@ _.extend UserSchema.properties,
   facebookID: c.shortString({title: 'Facebook ID'})
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
+  cleverID: c.shortString({title: 'Clever ID'})
 
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
@@ -284,6 +285,9 @@ _.extend UserSchema.properties,
     pollMiscPatches: c.int()
     campaignTranslationPatches: c.int()
     campaignMiscPatches: c.int()
+    courseTranslationPatches: c.int()
+    courseMiscPatches: c.int()
+    courseEdits: c.int()
     concepts: {type: 'object', additionalProperties: c.int(), description: 'Number of levels completed using each programming concept.'}
 
   earned: c.RewardSchema 'earned by achievements'
@@ -341,6 +345,7 @@ _.extend UserSchema.properties,
   schoolName: {type: 'string'}
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})
+  lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
 
 c.extendBasicProperties UserSchema, 'user'
 

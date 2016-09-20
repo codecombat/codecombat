@@ -42,7 +42,6 @@ AchievablePlugin = (schema, options) ->
           alreadyAchieved = if isNew then false else LocalMongo.matchesQuery unchangedCopy, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)
           return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
-          #log.info "Making an achievement: #{achievement.get('name')} #{achievement.get('_id')} for doc: #{doc.get('name')} #{doc.get('_id')}"
-          EarnedAchievement.createForAchievement(achievement, doc, unchangedCopy)
+          EarnedAchievement.createForAchievement(achievement, doc, {originalDocObj: unchangedCopy})
 
 module.exports = AchievablePlugin

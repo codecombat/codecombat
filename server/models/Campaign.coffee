@@ -56,5 +56,6 @@ CampaignSchema.statics.editableProperties = [
   'adjacentCampaigns'
   'levels'
 ]
+CampaignSchema.statics.postEditableProperties = []
 
 module.exports = mongoose.model('campaign', CampaignSchema)

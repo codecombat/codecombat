@@ -1,3 +1,4 @@
+utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
@@ -16,6 +17,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @supermodel.trackRequest(@course.fetch())
       @levels = new CocoCollection([], { url: "/db/course/#{@courseID}/level-solutions", model: Level})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
+      @levelNumberMap = {}
     super(options)
 
   camelCaseLanguage: (language) ->
@@ -31,7 +33,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
 
   onLoaded: ->
     for level in @levels?.models
-      articles = level.get('documentation').specificArticles
+      articles = level.get('documentation')?.specificArticles
       if articles
         guide = articles.filter((x) => x.name == "Overview").pop()
         level.set 'guide', marked(@hideWrongLanguage(guide.body)) if guide
@@ -42,6 +44,16 @@ module.exports = class TeacherCourseSolutionView extends RootView
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
         level.set 'begin',  _.template(programmableMethod.languages[@language] or programmableMethod.source)(programmableMethod.context)
-        solution = programmableMethod.solutions?.find (x) => x.language is @language
-        level.set 'solution',  _.template(solution?.source)(programmableMethod.context)
+        solution = _.find(programmableMethod.solutions, (x) => x.language is @language)
+        try
+          solutionText = _.template(solution?.source)(programmableMethod.context)
+        catch error
+          solutionText = solution?.source
+          console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
+        level.set 'solution',  solutionText
+    levels = []
+    for level in @levels?.models when level.get('original')
+      continue if @language? and level.get('primerLanguage') is @language
+      levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+    @levelNumberMap = utils.createLevelNumberMap(levels)
     @render?()

@@ -11,15 +11,25 @@ if (process.argv.length !== 7) {
 // TODO: 2nd follow up email activity does not handle paged activity results
 // TODO: sendMail copied from updateCloseIoLeads.js
 // TODO: template values copied from updateCloseIoLeads.js
-// TODO: status change is not related to specific lead contacts
+// TODO: status change is not related to specific lead contacts, e.g. lead_7fQAZKtX7tPYe352JpaUULVaVA99Ppq4HlsHXrRkpA9
 // TODO: update status after adding a call task
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];
-const demoRequestEmailTemplatesAuto1 = ['tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', 'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf'];
+const demoRequestEmailTemplatesAuto1 = [
+  'tmpl_s7BZiydyCHOMMeXAcqRZzqn0fOtk0yOFlXSZ412MSGm', // (Auto1) Demo Request Long
+  'tmpl_cGb6m4ssDvqjvYd8UaG6cacvtSXkZY3vj9b9lSmdQrf', // (Auto1) Demo Request Short
+  'tmpl_2hV6OdOXtsObLQK9qlRdpf0C9QKbER06T17ksGYOoUE', // (Auto1) Demo Request With Questions
+  'tmpl_Q0tweZ5H4xs2E489KwdYj3HET9PpzkQ7jgDQb9hOMTR', // (Auto1) Demo Request Without Questions
+];
 const createTeacherInternationalEmailTemplateAuto1 = 'tmpl_8vsXwcr6dWefMnAEfPEcdHaxqSfUKUY8UKq6WfReGqG';
 const demoRequestInternationalEmailTemplateAuto1 = 'tmpl_nnH1p3II7G7NJYiPOIHphuj4XUaDptrZk1mGQb2d9Xa';
 const createTeacherEmailTemplatesAuto2 = ['tmpl_pGPtKa07ioISupdSc1MAzNC57K40XoA4k0PI1igi8Ec', 'tmpl_AYAcviU8NQGLbMGKSp3EmcBLha0gQw4cHSOR55Fmoha'];
-const demoRequestEmailTemplatesAuto2 = ['tmpl_HJ5zebh1SqC1QydDto05VPUMu4F7i5M35Llq7bzgfTw', 'tmpl_dmnK7IVpkyYfPYAl1rChhm9lClH5lJ9pQAZoPr7cvLt'];
+const demoRequestEmailTemplatesAuto2 = [
+  'tmpl_dmnK7IVpkyYfPYAl1rChhm9lClH5lJ9pQAZoPr7cvLt', // (Auto2) Demo Request Long
+  'tmpl_HJ5zebh1SqC1QydDto05VPUMu4F7i5M35Llq7bzgfTw', // (Auto2) Demo Request Short
+  'tmpl_oMH8Gqsh3dPl17FsBrz8dIF14sfTiySASDkmzyRlpWg', // (Auto2) Demo Request With Questions
+  'tmpl_JuuQsQhWNpDMYmN9rwD5Kk7oBELVZI4fMmJNUQC7A8j', // (Auto2) Demo Request Without Questions
+];
 const createTeacherInternationalEmailTemplatesAuto2 = ['tmpl_a6Syzzy6ri9MErfXQySM5UfaF5iNIv1VCArYowAEICT', 'tmpl_jOqWLgT0G19Eqs7qZaAeNwtiull7UrSX4ZuvkYRM2gC'];
 const demoRequestInternationalEmailTemplatesAuto2 = ['tmpl_wz4SnDZMjNmAhp3MIuZaSMmjJTy5IW75Rcy3MYGb6Ti', 'tmpl_5oJ0YQMZFqNi3DgW7hplD6JS2zHqkB4Gt7Fj1u19Nks'];
 
@@ -179,7 +189,7 @@ function updateLeadStatus(lead, status, done) {
   });
 }
 
-function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
+function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails) {
   // Find first auto mail
   // Find activity since first auto mail
   // Send send auto mail of same template type (create or demo) from same user who sent first email
@@ -222,7 +232,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           // Find first auto mail
           let firstMailActivity;
           for (const activity of results.data) {
-            if (activity._type === 'Email' && activity.to[0] === email) {
+            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase() >= 0)) {
               if (isTemplateAuto1(activity.template_id)) {
                 if (firstMailActivity) {
                   console.log(`ERROR: ${lead.id} sent multiple auto1 emails!?`);
@@ -247,7 +257,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           for (const activity of results.data) {
             if (activity.id === firstMailActivity.id) continue;
             if (new Date(firstMailActivity.date_created) > new Date(activity.date_created)) continue;
-            if (activity._type === 'Email' && activity.to[0] !== email) continue;
+            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase() < 0)) continue;
             recentActivity = activity;
             break;
           }
@@ -259,7 +269,6 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
               return done();
             }
             // console.log(`TODO: ${firstMailActivity.to[0]} ${lead.id} ${firstMailActivity.contact_id} ${template} ${userApiKeyMap[firstMailActivity.user_id]}`);
-            // console.log(`TODO: ${firstMailActivity.to[0]} ${lead.id}`);
             sendMail(firstMailActivity.to[0], lead.id, firstMailActivity.contact_id, template, userApiKeyMap[firstMailActivity.user_id], 0, (err) => {
               if (err) return done(err);
 
@@ -292,7 +301,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, email) {
           }
           else {
             // console.log(`Found recent activity after auto1 mail for ${lead.id}`);
-            // console.log(firstMailActivity.template_id, recentActivity.template_id);
+            // console.log(firstMailActivity.template_id, recentActivity);
             return done();
           }
         }
@@ -346,11 +355,12 @@ function sendSecondFollowupMails(done) {
           const tasks = [];
           for (const lead of results.data) {
             // console.log(`DEBUG: ${lead.id}\t${lead.status_label}\t${lead.name}`);
-            // if (lead.id !== 'lead_8YZlEVQ4w3lETSlF43RQHK7cJQaBQ4tpbbxUUNA2uGC') continue;
+            // if (lead.id !== 'lead_W9qq3oZHIAhUCHZkfj4MRcjQoBbgckV6r9HurMszye5') continue;
             const existingContacts = lead.contacts || [];
             for (const contact of existingContacts) {
               if (contact.emails && contact.emails.length > 0) {
-                tasks.push(createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contact.emails[0].email.toLowerCase()));
+                const contactEmails = contact.emails.map((e) => {return e.email.toLowerCase();});
+                tasks.push(createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails));
               }
               else {
                 console.log(`ERROR: lead ${lead.id} contact ${contact.id} has no email`);
@@ -377,7 +387,6 @@ function sendSecondFollowupMails(done) {
 function createAddCallTaskFn(userApiKeyMap, latestDate, lead, email) {
   // Check for activity since second auto mail and status update
   // Add call task
-  // TODO: Very similar function to createSendFollowupMailFn
   const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1", "Inbound Canada Auto Attempt 1", "Inbound AU Auto Attempt 1", "Inbound NZ Auto Attempt 1", "Inbound UK Auto Attempt 1"];
   const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2", "Inbound Canada Auto Attempt 2", "Inbound AU Auto Attempt 2", "Inbound NZ Auto Attempt 2", "Inbound UK Auto Attempt 2"];
   return (done) => {

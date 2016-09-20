@@ -34,3 +34,5 @@ module.exports = class CocoCollection extends Backbone.Collection
   setProjection: (@project) ->
 
   stringify: -> return JSON.stringify(@toJSON())
+  
+  wait: (event) -> new Promise((resolve) => @once(event, resolve))

@@ -309,6 +309,8 @@ class CocoModel extends Backbone.Model
     sum = 0
     data ?= $.extend true, {}, @attributes
     schema ?= @schema() or {}
+    if schema.oneOf # get populating the Programmable component config to work 
+      schema = _.find(schema.oneOf, {type: 'object'})
     addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
       data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
@@ -318,7 +320,11 @@ class CocoModel extends Backbone.Model
     if _.isPlainObject data
       for key, value of data
         numChanged = 0
-        numChanged = @populateI18N(value, childSchema, path+'/'+key) if childSchema = schema.properties?[key]
+        childSchema = schema.properties?[key]
+        if not childSchema and _.isObject(schema.additionalProperties)
+          childSchema = schema.additionalProperties
+        if childSchema
+          numChanged = @populateI18N(value, childSchema, path+'/'+key)
         if numChanged and not path # should only do this for the root object
           @set key, value
         sum += numChanged
@@ -410,17 +416,13 @@ class CocoModel extends Backbone.Model
         # use it to determine what properties actually need to be translated
         props = workingSchema.props or []
         props = (prop for prop in props when parentData[prop])
-        #unless props.length
-        #  console.log 'props is', props, 'path is', path, 'data is', data, 'parentData is', parentData, 'workingSchema is', workingSchema
-        #  langCodeArrays.push _.without _.keys(locale), 'update'  # Every language has covered a path with no properties to be translated.
-        #  return
-
+        return unless props.length
         return if 'additionalProperties' of i18n  # Workaround for #2630: Programmable is weird
 
         # get a list of lang codes where its object has keys for every prop to be translated
         coverage = _.filter(_.keys(i18n), (langCode) ->
           translations = i18n[langCode]
-          _.all((translations[prop] for prop in props))
+          translations and _.all((translations[prop] for prop in props))
         )
         #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
         langCodeArrays.push coverage
@@ -453,5 +455,7 @@ class CocoModel extends Backbone.Model
     return patches
     
   stringify: -> return JSON.stringify(@toJSON())
+
+  wait: (event) -> new Promise((resolve) => @once(event, resolve))
 
 module.exports = CocoModel
