@@ -872,7 +872,7 @@ function updateCloseLeads(cocoContacts, done) {
   const userApiKeyMap = {};
   let createGetUserFn = (apiKey) => {
     return (done) => {
-      const url = `https://${apiKey}:X@app.close.io/api/v1/me/`;
+      const url = `https://${apiKey}:X@app.close.io/api/v1/me/?_fields=id`;
       request.get(url, (error, response, body) => {
         if (error) return done();
         const results = JSON.parse(body);
@@ -885,6 +885,7 @@ function updateCloseLeads(cocoContacts, done) {
   for (const closeIoMailApiKey of closeIoMailApiKeys) {
     tasks.push(createGetUserFn(closeIoMailApiKey.apiKey));
   }
+  tasks.push(createGetUserFn(closeIoEuMailApiKey));
   async.parallelLimit(tasks, closeParallelLimit, (err, results) => {
     if (err) console.log(err);
     // Lookup existing leads via email to protect against direct lead name querying later
