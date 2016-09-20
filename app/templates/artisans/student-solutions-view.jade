@@ -40,10 +40,24 @@ block content
       - var hashes = view.talliedHashes[num]
       for hash in hashes
         - var session = view.solutions[hash][0]
+        - var lang = session.codeLanguage
+        - var isComplete = session.state.complete
+        - var isDefault = (hash == view.defaultcode[lang].hash)
+        - var isIntended = (hash == view.intended[lang].hash)
         div.row.solutions-row
           div.col-xs-2.well.solution-info
             p <b>Count:</b> #{num}
-            p <b>Succeed:</b> #{session.state.complete}
+            if view.doLanguages.length > 1
+              p <b>Language:</b> #{lang}
+            if isDefault
+              p <b>Status:</b> Default Code
+            else if isIntended
+              p <b>Status:</b> Intended Code
+            else if isComplete
+              p <b>Status:</b> Success
+            else
+              p <b>Status:</b> Failure
+
             p.is-breakable <b>Fingerprint:</b> #{hash}
           div.col-xs-10
             pre.solution #{session.code['hero-placeholder'].plan}

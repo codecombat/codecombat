@@ -35,50 +35,47 @@ module.exports = class StudentSolutionsView extends RootView
 
   levelSlug: 'eagle-eye'
   limit: 500
-  languages: "python"
+  languages: "all"
   stats: {}
   sessions: []
   solutions: {}
+  intended: {}
+  defaultcode: {}
   count: {}
   errors: 0
 
   initialize: () ->
+    @resetInfo()
+    # temporarily auto fetch
+    @startFetchingData()
+
+  resetInfo: () ->
+    @doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
+    @stats = {}
     @stats['javascript'] = { total: 0, errors: 0 }
     @stats['python'] = { total: 0, errors: 0 }
-    # temporarily auto fetch
-    @fetchSessions()
+    @sessions = []
+    @solutions = {}
+    @count = {}
+    @errors = 0
+
+  startFetchingData: () =>
+    @resetInfo()
+    @getLevelInfo()
 
   fetchSessions: () ->
-    doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
     @getRecentSessions (sessions) =>
       @sessions = sessions
       for session in sessions
         lang = session.codeLanguage
-        continue unless lang in doLanguages
+        continue unless lang in @doLanguages
         @stats[lang].total += 1
         src = session.code?['hero-placeholder'].plan
         unless src
           @stats[lang].errors += 1
           continue
-        ast = null
-        if lang is 'python'
-          aether = new Aether language: 'python'
-          # console.log "transpile python"
-          # console.log src
-          tsrc = aether.transpile(src)
-          ast = aether.ast
-          # TODO: continue if error
-          # aether.problems?
-        if lang is 'javascript'
-          try
-            ast = parser(src)
-          catch e
-            # console.log "Skipping due to error"
-            @stats[lang].errors += 1
-            continue
-          # console.log "parsed"
-          # console.log src
-
+        ast = @parseSource src, lang
+        continue unless ast
         ast = @processASTNode(ast)
         hash = @sha1(JSON.stringify(ast))
         # Count how many solutions match this hash
@@ -90,13 +87,8 @@ module.exports = class StudentSolutionsView extends RootView
 
       # console.log "count"
       # console.log @count
-      console.log "solutions"
-      console.log @solutions
-      # for hash, num  of @count
-      #   continue unless num > 1
-      #   console.log "matches"
-      #   console.log script for script in @solutions[hash]
-
+      # console.log "solutions"
+      # console.log @solutions
 
       tallyFn = (result, value, key) =>
         return result if value is 1
@@ -109,20 +101,19 @@ module.exports = class StudentSolutionsView extends RootView
         result
 
       @talliedHashes = _.reduce(@count, tallyFn, {})
-      console.log "tally"
-      console.log @talliedHashes
+      # console.log "tally"
+      # console.log @talliedHashes
 
       @sortedTallyCounts = _.sortBy(_.keys(@talliedHashes), (v) -> parseInt(v)).reverse()
-      console.log "sorted"
-      console.log @sortedTallyCounts
+      # console.log "sorted"
+      # console.log @sortedTallyCounts
       @render()
 
   onClickGoButton: (event) ->
-    console.log "GO clicked"
     event.preventDefault()
     @limit = @$('#sessionNum').val()
     @languages = @$('#languageSelect').val()
-    @fetchSessions()
+    @startFetchingData()
 
 
   # TODO: refactor this out somewhere from here and CampaignLevelView.coffee
@@ -140,6 +131,83 @@ module.exports = class StudentSolutionsView extends RootView
     }, 0
     request.load()
 
+  getLevelInfo: () ->
+    level = @supermodel.getModel(Level, @levelSlug) or new Level _id: @levelSlug
+    if level.loaded
+      @onLevelLoaded level
+    else
+      @listenToOnce @supermodel.loadModel(level).model, 'sync', @onLevelLoaded
+
+  onLevelLoaded: (level) =>
+    @level = level
+    # Intended solution
+    for solution in level.getSolutions()
+      continue unless solution.source and solution.language in @doLanguages
+      ast = @parseSource solution.source, solution.language
+      continue unless ast
+      ast = @processASTNode(ast)
+      hash = @sha1(JSON.stringify(ast))
+      @intended[solution.language] = hash: hash, source: solution.source
+    # Default Code
+    defaults = @getDefaultCode level
+    for language, source of @getDefaultCode level
+      continue unless source and language in @doLanguages
+      ast = @parseSource source, language
+      continue unless ast
+      ast = @processASTNode ast
+      hash = @sha1(JSON.stringify(ast))
+      @defaultcode[language] = hash: hash, source: source
+    # console.log "defaultcode"
+    # console.log @defaultcode
+    # console.log "intended"
+    # console.log @intended 
+    @fetchSessions()
+
+  getDefaultCode: (level) ->
+    # TODO: put this into Level? if so, also use it in TeacherCourseSolutionView
+    heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
+    comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
+    programmableMethod = comp?.config.programmableMethods.plan
+    result = {}
+
+    parseTemplate = (src, context) =>
+      try
+        res = _.template(src)(context)
+        return res
+      catch e
+        console.warn "Template Error"
+        console.log src
+        return src
+
+
+    # javascript
+    if programmableMethod.source
+      src = programmableMethod.source
+      src = parseTemplate(src, programmableMethod.context)
+      result['javascript'] = src
+    # non-javascript
+    for key in _.keys(programmableMethod.languages)
+      continue unless key in ['python']
+      src = programmableMethod.languages[key]
+      src = parseTemplate(src, programmableMethod.context)
+      result[key] = src
+
+    result
+
+  parseSource: (src, lang) =>
+    if lang is 'python'
+      aether = new Aether language: 'python'
+      tsrc = aether.transpile(src)
+      ast = aether.ast
+      # TODO: continue if error
+      # aether.problems?
+    if lang is 'javascript'
+      try
+        ast = parser(src)
+      catch e
+        @stats[lang].errors += 1
+        return null
+    return ast
 
   processASTNode: (node, d=0) =>
     return unless node?
