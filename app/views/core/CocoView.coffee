@@ -21,6 +21,7 @@ module.exports = class CocoView extends Backbone.View
     'click #loading-error .login-btn': 'onClickLoadingErrorLoginButton'
     'click #loading-error #create-account-btn': 'onClickLoadingErrorCreateAccountButton'
     'click #loading-error #logout-btn': 'onClickLoadingErrorLogoutButton'
+    'click .contact-modal': 'onClickContactModal'
 
   subscriptions: {}
   shortcuts: {}
@@ -175,6 +176,16 @@ module.exports = class CocoView extends Backbone.View
   warnConnectionError: ->
     msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+
+  onClickContactModal: (e) ->
+    if me.isTeacher() 
+      if application.isProduction()
+        window.Intercom?('show')
+      else
+        alert('Teachers, Intercom widget only available in production.')
+    else
+      ContactModal = require 'views/core/ContactModal'
+      @openModalView(new ContactModal())
 
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
