@@ -46,8 +46,6 @@ module.exports = class StudentSolutionsView extends RootView
 
   initialize: () ->
     @resetInfo()
-    # temporarily auto fetch
-    @startFetchingData()
 
   resetInfo: () ->
     @doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
@@ -113,6 +111,7 @@ module.exports = class StudentSolutionsView extends RootView
     event.preventDefault()
     @limit = @$('#sessionNum').val()
     @languages = @$('#languageSelect').val()
+    @levelSlug = @$('#levelSlug').val()
     @startFetchingData()
 
 
@@ -133,6 +132,8 @@ module.exports = class StudentSolutionsView extends RootView
 
   getLevelInfo: () ->
     level = @supermodel.getModel(Level, @levelSlug) or new Level _id: @levelSlug
+    level.on 'error', (level, error) =>
+      noty text: "Error loading level: #{error.statusText}", layout: 'center', type: 'error', killer: true
     if level.loaded
       @onLevelLoaded level
     else

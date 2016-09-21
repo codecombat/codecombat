@@ -7,9 +7,12 @@ block content
       a(href='/artisans')
         span.glyphicon.glyphicon-chevron-left
         span Artisans Home
-    h1 Common Solutions: #{view.levelSlug}
+    h1 Common Student Solutions
     div.row.well
       form
+        div.col-xs-2.form-group
+          label(for="levelSlug") Level Slug:
+          input.form-control#levelSlug(type="text" value=view.levelSlug)
         div.col-xs-2.form-group
           label(for="languageSelect") Language:
           p: select#languageSelect
@@ -33,8 +36,12 @@ block content
           div.col-xs-3 Sessions: #{view.stats.python.total}
           div.col-xs-3 Errors: #{view.stats.python.errors}
     div.row
-      div.col-xs-4.col-xs-offset-4
-        span.center-block Viewing #{view.limit} recent sessions.
+      if view.errorMessage
+        div.col-xs-6.col-xs-offset-3
+          span.center-block Error: #{view.errorMessage}
+      if view.sortedTallyCounts && view.sortedTallyCounts.length > 0
+        div.col-xs-6.col-xs-offset-3
+          span.center-block Viewing #{view.limit} recent sessions from #{view.levelSlug}
 
     for num in (view.sortedTallyCounts || [])
       - var hashes = view.talliedHashes[num]
