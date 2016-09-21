@@ -63,7 +63,6 @@ module.exports = class CoursesView extends RootView
     @supermodel.loadModel(@hero, 'hero')
     @listenTo @hero, 'all', ->
       @render()
-    window.tracker?.trackEvent 'Students Loaded', category: 'Students', ['Mixpanel']
 
   afterInsert: ->
     super()

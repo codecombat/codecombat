@@ -48,6 +48,7 @@ module.exports =
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
   'my': { nativeDescription: 'မြန်မာစကား', englishDescription: 'Myanmar language' }
+  'nl': { nativeDescription: 'Nederlands', englishDescription: 'Dutch' }
   'nl-BE': { nativeDescription: 'Nederlands (België)', englishDescription: 'Dutch (Belgium)' }
   'nl-NL': { nativeDescription: 'Nederlands (Nederland)', englishDescription: 'Dutch (Netherlands)' }
   'ja': { nativeDescription: '日本語', englishDescription: 'Japanese' }
