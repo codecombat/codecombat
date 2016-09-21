@@ -93,7 +93,7 @@ const parseDomain = require('parse-domain');
 const request = require('request');
 
 const earliestDate = new Date();
-earliestDate.setUTCDate(earliestDate.getUTCDate() - 3);
+earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
 
 const apiKeyEmailMap = {};
 const emailApiKeyMap = {};
@@ -121,13 +121,12 @@ function upsertLeads(done) {
       if (err) return done(err);
 
       updateCloseApiKeyMaps((err) => {
+        if (err) return done(err);
 
         // log('DEBUG: Updating contacts..');
         updateCloseLeads(contacts, (err) => {
           return done(err);
         });
-
-        return done(err);
       });
     });
   });
