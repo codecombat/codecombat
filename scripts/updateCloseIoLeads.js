@@ -121,13 +121,12 @@ function upsertLeads(done) {
       if (err) return done(err);
 
       updateCloseApiKeyMaps((err) => {
+        if (err) return done(err);
 
         // log('DEBUG: Updating contacts..');
         updateCloseLeads(contacts, (err) => {
           return done(err);
         });
-
-        return done(err);
       });
     });
   });
