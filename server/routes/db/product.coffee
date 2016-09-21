@@ -1,19 +1,19 @@
 Product = require '../../models/Product'
 errors = require '../../commons/errors'
 config = require '../../../server_config'
+wrap = require 'co-express'
 
-module.exports.get = (req, res) ->
+module.exports.get = wrap (req, res) ->
 
-  Product.find().lean().exec (err, products) ->
-    return errors.serverError(res) if err
-    names = (product.name for product in products)
-    unless config.isProduction
-      for product in initProducts
-        if not _.contains(names, product.name)
-          # upsert products in initProducts if they DNE
-          products.push(product)
-          new Product(product).save _.noop
-    res.send(products)
+  products = yield Product.find()
+  names = (product.name for product in products)
+  unless config.isProduction
+    for product in initProducts
+      if not _.contains(names, product.name)
+        # upsert products in initProducts if they DNE
+        products.push(product)
+        new Product(product).save _.noop
+  res.send(products)
 
 ###
 Stub data, used in tests and dev environment.
