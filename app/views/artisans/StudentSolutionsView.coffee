@@ -6,6 +6,8 @@ Campaign = require 'models/Campaign'
 
 Levels = require 'collections/Levels'
 Level = require 'models/Level'
+utils = require 'core/utils'
+
 unless typeof esper is 'undefined'
   parser = new esper().realm.parser
 
@@ -33,9 +35,9 @@ module.exports = class StudentSolutionsView extends RootView
   events:
     'click #goButton': 'onClickGoButton'
 
-  levelSlug: 'eagle-eye'
+  levelSlug: 'dread-door'
   limit: 500
-  languages: "all"
+  languages: "python"
   stats: {}
   sessions: []
   solutions: {}
@@ -47,6 +49,18 @@ module.exports = class StudentSolutionsView extends RootView
   initialize: () ->
     @resetInfo()
 
+  afterRender: ->
+    super()
+    editorElements = @$el.find('.ace')
+    for el in editorElements
+      lang = @$(el).data('language')
+      editor = ace.edit el
+      aceSession = editor.getSession()
+      aceDoc = aceSession.getDocument()
+      aceSession.setMode utils.aceEditModes[lang]
+      editor.setTheme 'ace/theme/textmate'
+      editor.setReadOnly true
+
   resetInfo: () ->
     @doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
     @stats = {}
@@ -55,6 +69,7 @@ module.exports = class StudentSolutionsView extends RootView
     @sessions = []
     @solutions = {}
     @count = {}
+    @asts = {}
     @errors = 0
 
   startFetchingData: () =>
@@ -82,6 +97,8 @@ module.exports = class StudentSolutionsView extends RootView
         # Store sessions by hash key
         @solutions[hash] ?= []
         @solutions[hash].push session
+        @asts[hash] ?= []
+        @asts[hash].push ast
 
       # console.log "count"
       # console.log @count
