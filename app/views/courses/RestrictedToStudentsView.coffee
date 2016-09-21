@@ -5,4 +5,4 @@ module.exports = class RestrictedToStudentsView extends RootView
   template: require 'templates/courses/restricted-to-students-view'
 
   initialize: ->
-    window.tracker?.trackEvent 'Restricted To Students Loaded', category: 'Students', ['Mixpanel']
+    window.tracker?.trackEvent 'Restricted To Students Loaded', category: 'Students', []

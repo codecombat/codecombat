@@ -11,7 +11,7 @@ if (process.argv.length !== 7) {
 // TODO: 2nd follow up email activity does not handle paged activity results
 // TODO: sendMail copied from updateCloseIoLeads.js
 // TODO: template values copied from updateCloseIoLeads.js
-// TODO: status change is not related to specific lead contacts
+// TODO: status change is not related to specific lead contacts, e.g. lead_7fQAZKtX7tPYe352JpaUULVaVA99Ppq4HlsHXrRkpA9
 // TODO: update status after adding a call task
 
 const createTeacherEmailTemplatesAuto1 = ['tmpl_i5bQ2dOlMdZTvZil21bhTx44JYoojPbFkciJ0F560mn', 'tmpl_CEZ9PuE1y4PRvlYiKB5kRbZAQcTIucxDvSeqvtQW57G'];

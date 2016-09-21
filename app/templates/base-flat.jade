@@ -92,11 +92,13 @@ mixin accountLinks
                 li
                   a(href="/about", data-i18n="nav.about")
                 li
-                  a(href="/Careers", data-i18n="nav.jobs")
+                  a(href="/about#jobs", data-i18n="nav.jobs")
                 li
                   a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                 li
                   a(href="/legal", data-i18n="nav.legal")
+                li
+                  a(href="/privacy", data-i18n="nav.privacy")
 
             .col-sm-3
               ul.list-unstyled
@@ -128,9 +130,7 @@ mixin accountLinks
                 li
                   strong(data-i18n="nav.support")
                 li
-                  a(href="https://discourse.codecombat.com/t/faq-check-before-posting/1027", data-i18n="nav.faqs")
-                li
-                  a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="nav.contact")
+                  a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                 li
                   a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
                 li
