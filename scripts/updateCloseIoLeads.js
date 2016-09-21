@@ -93,7 +93,7 @@ const parseDomain = require('parse-domain');
 const request = require('request');
 
 const earliestDate = new Date();
-earliestDate.setUTCDate(earliestDate.getUTCDate() - 3);
+earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
 
 const apiKeyEmailMap = {};
 const emailApiKeyMap = {};
