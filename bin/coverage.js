@@ -35,9 +35,12 @@ console.log(`Converted ${convertedFiles.length} server coffeescript files. Runni
 child_process.execSync('istanbul cover ./node_modules/jasmine/bin/jasmine.js')
 
 // Cleanup
-console.log('Coverage report generated. Deleting converted files...')
-for (file of convertedFiles) {
-  fs.unlinkSync(file)
+if(!process.env.COCO_TRAVIS_TEST) {
+  console.log('Coverage report generated. Deleting converted files...')
+  for (file of convertedFiles) {
+    fs.unlinkSync(file)
+  }
 }
+  
 
 console.log('Done.')
