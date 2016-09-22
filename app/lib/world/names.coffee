@@ -395,6 +395,7 @@ module.exports.thangNames = thangNames =
   'Master Wizard': [
     # Female
     'Lilith'
+    'Kuhafas'
     'Usara'
     'Veigar'
     'Voldemort'
