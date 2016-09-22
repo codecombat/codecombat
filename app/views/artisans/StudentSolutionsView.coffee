@@ -89,7 +89,7 @@ module.exports = class StudentSolutionsView extends RootView
           continue
         ast = @parseSource src, lang
         continue unless ast
-        ast = @processASTNode(ast)
+        ast = @walkASTCorrect ast, @processASTNode
         hash = @sha1(JSON.stringify(ast))
         # Count how many solutions match this hash
         @count[hash] ?= 0
@@ -163,7 +163,7 @@ module.exports = class StudentSolutionsView extends RootView
       continue unless solution.source and solution.language in @doLanguages
       ast = @parseSource solution.source, solution.language
       continue unless ast
-      ast = @processASTNode(ast)
+      ast = @walkASTCorrect ast, @processASTNode
       hash = @sha1(JSON.stringify(ast))
       @intended[solution.language] = hash: hash, source: solution.source
     # Default Code
@@ -172,7 +172,7 @@ module.exports = class StudentSolutionsView extends RootView
       continue unless source and language in @doLanguages
       ast = @parseSource source, language
       continue unless ast
-      ast = @processASTNode ast
+      ast = @walkASTCorrect ast, @processASTNode
       hash = @sha1(JSON.stringify(ast))
       @defaultcode[language] = hash: hash, source: source
     # console.log "defaultcode"
@@ -227,55 +227,22 @@ module.exports = class StudentSolutionsView extends RootView
         return null
     return ast
 
-  processASTNode: (node, d=0) =>
-    return unless node?
-    # console.log "processing", d
-    delete node.range if node.range
-    delete node. loc if node.loc
-    # console.log node
+  # TODO: expose walkASTCorrect from aether instead of recreating it here?
+  walkASTCorrect: (node, fn) ->
+    for key, child of node
+      if _.isArray child
+        for grandchild in child
+          if _.isString grandchild?.type
+            @walkASTCorrect grandchild, fn
+      else if _.isString child?.type
+        @walkASTCorrect child, fn
+    fn node
 
-    switch node.type
-      when "Program", "BlockStatement"
-        @processASTNode(n,d+1) for n in node.body
-      when "FunctionDeclaration"
-        @processASTNode(node.body, d+1)
-      when "ExpressionStatement"
-        @processASTNode(node.expression)
-      when "CallExpression"
-        @processASTNode(node.callee)
-      when "WhileStatement"
-        @processASTNode(node.test, d+1)
-        @processASTNode(node.body, d+1)
-      when "ForStatement"
-        @processASTNode(node.init, d+1)
-        @processASTNode(node.test, d+1)
-        @processASTNode(node.update, d+1)
-        @processASTNode(node.body, d+1)
-      when "IfStatement"
-        @processASTNode(node.test, d+1)
-        @processASTNode(node.consequent, d+1)
-        @processASTNode(node.alternate, d+1)
-      when "BinaryExpression","LogicalExpression"
-        @processASTNode(node.left, d+1)
-        @processASTNode(node.right, d+1)
-      when "AssignmentExpression"
-        @processASTNode(node.right, d+1)
-      when "VariableDeclaration"
-        @processASTNode(n, d+1) for n in node.declarations
-      when "VariableDeclarator"
-        @processASTNode(node.id, d+1)
-        @processASTNode(node.init, d+1)
-      when "Identifier"
-        # TODO: normalize variable names somehow?
-        # console.log "IDENTIFIER", node.name
-        null
-      when "StaticMemberExpression", "MemberExpression"
-        @processASTNode(node.object, d+1)
-        @processASTNode(node.property, d+1)
-      else
-        null
-        # console.log "**END node", d
-        # console.log node
+  processASTNode: (node) =>
+    return unless node?
+    delete node.range if node.range
+    delete node.loc if node.loc
+    delete node.originalRange if node.originalRange
     node
 
 
