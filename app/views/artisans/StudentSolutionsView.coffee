@@ -35,33 +35,20 @@ module.exports = class StudentSolutionsView extends RootView
   events:
     'click #goButton': 'onClickGoButton'
 
-  levelSlug: 'dread-door'
+  levelSlug: "eagle-eye"
   limit: 500
   languages: "python"
-  stats: {}
-  sessions: []
-  solutions: {}
-  intended: {}
-  defaultcode: {}
-  count: {}
-  errors: 0
 
   initialize: () ->
-    @resetInfo()
+    @validLanguages = ['python', 'javascript']
+    @resetLevelInfo()
+    @resetSolutionsInfo()
 
-  afterRender: ->
-    super()
-    editorElements = @$el.find('.ace')
-    for el in editorElements
-      lang = @$(el).data('language')
-      editor = ace.edit el
-      aceSession = editor.getSession()
-      aceDoc = aceSession.getDocument()
-      aceSession.setMode utils.aceEditModes[lang]
-      editor.setTheme 'ace/theme/textmate'
-      editor.setReadOnly true
+  resetLevelInfo: () ->
+    @intended = {}
+    @defaultcode = {}
 
-  resetInfo: () ->
+  resetSolutionsInfo: () ->
     @doLanguages = if @languages is 'all' then ['javascript', 'python'] else [@languages]
     @stats = {}
     @stats['javascript'] = { total: 0, errors: 0 }
@@ -69,14 +56,14 @@ module.exports = class StudentSolutionsView extends RootView
     @sessions = []
     @solutions = {}
     @count = {}
-    @asts = {}
+    # @asts = {}
     @errors = 0
 
   startFetchingData: () =>
-    @resetInfo()
     @getLevelInfo()
 
   fetchSessions: () ->
+    @resetSolutionsInfo()
     @getRecentSessions (sessions) =>
       @sessions = sessions
       for session in sessions
@@ -91,53 +78,39 @@ module.exports = class StudentSolutionsView extends RootView
         continue unless ast
         ast = @walkASTCorrect ast, @processASTNode
         hash = @sha1(JSON.stringify(ast))
-        # Count how many solutions match this hash
         @count[hash] ?= 0
         @count[hash] += 1
-        # Store sessions by hash key
         @solutions[hash] ?= []
         @solutions[hash].push session
-        @asts[hash] ?= []
-        @asts[hash].push ast
-
-      # console.log "count"
-      # console.log @count
-      # console.log "solutions"
-      # console.log @solutions
+        # @asts[hash] ?= []
+        # @asts[hash].push ast
 
       tallyFn = (result, value, key) =>
         return result if value is 1
         result[value] ?= []
         result[value].push key
-        # result[value].hash = key
-        # for session in @solutions[key]
-        #   # result[value].sessions.push session
-        #   result[value].complete += 1 if session.state.complete
         result
 
       @talliedHashes = _.reduce(@count, tallyFn, {})
-      # console.log "tally"
-      # console.log @talliedHashes
-
       @sortedTallyCounts = _.sortBy(_.keys(@talliedHashes), (v) -> parseInt(v)).reverse()
-      # console.log "sorted"
-      # console.log @sortedTallyCounts
       @render()
 
-  onClickGoButton: (event) ->
-    event.preventDefault()
-    @limit = @$('#sessionNum').val()
-    @languages = @$('#languageSelect').val()
-    @levelSlug = @$('#levelSlug').val()
-    @startFetchingData()
+  afterRender: ->
+    super()
+    editorElements = @$el.find('.ace')
+    for el in editorElements
+      lang = @$(el).data('language')
+      editor = ace.edit el
+      aceSession = editor.getSession()
+      aceDoc = aceSession.getDocument()
+      aceSession.setMode utils.aceEditModes[lang]
+      editor.setTheme 'ace/theme/textmate'
+      editor.setReadOnly true
 
-
-  # TODO: refactor this out somewhere from here and CampaignLevelView.coffee
+  # TODO: change LevelSessionHandler.getRecentSessions() to accept language as an option?
   getRecentSessions: (doneCallback) ->
     success = (data) =>
       return doneCallback(data) if @destroyed
-      # console.log 'getRecentSessions', data
-      # @sessions = data
       doneCallback(data)
     request = @supermodel.addRequestResource 'level_sessions_recent', {
       url: "/db/level.session/-/recent"
@@ -156,29 +129,33 @@ module.exports = class StudentSolutionsView extends RootView
     else
       @listenToOnce @supermodel.loadModel(level).model, 'sync', @onLevelLoaded
 
+  onClickGoButton: (event) ->
+    event.preventDefault()
+    @limit = @$('#sessionNum').val()
+    @languages = @$('#languageSelect').val()
+    @levelSlug = @$('#levelSlug').val()
+    @startFetchingData()
+
   onLevelLoaded: (level) =>
     @level = level
-    # Intended solution
+    @resetLevelInfo()
+
     for solution in level.getSolutions()
-      continue unless solution.source and solution.language in @doLanguages
+      continue unless solution.source and solution.language in @validLanguages
       ast = @parseSource solution.source, solution.language
       continue unless ast
       ast = @walkASTCorrect ast, @processASTNode
       hash = @sha1(JSON.stringify(ast))
       @intended[solution.language] = hash: hash, source: solution.source
-    # Default Code
+
     defaults = @getDefaultCode level
     for language, source of @getDefaultCode level
-      continue unless source and language in @doLanguages
+      continue unless source and language in @validLanguages
       ast = @parseSource source, language
       continue unless ast
       ast = @walkASTCorrect ast, @processASTNode
       hash = @sha1(JSON.stringify(ast))
       @defaultcode[language] = hash: hash, source: source
-    # console.log "defaultcode"
-    # console.log @defaultcode
-    # console.log "intended"
-    # console.log @intended 
     @fetchSessions()
 
   getDefaultCode: (level) ->
@@ -196,7 +173,6 @@ module.exports = class StudentSolutionsView extends RootView
         console.warn "Template Error"
         console.log src
         return src
-
 
     # javascript
     if programmableMethod.source
@@ -225,7 +201,7 @@ module.exports = class StudentSolutionsView extends RootView
       catch e
         @stats[lang].errors += 1
         return null
-    return ast
+    ast
 
   # TODO: expose walkASTCorrect from aether instead of recreating it here?
   walkASTCorrect: (node, fn) ->
