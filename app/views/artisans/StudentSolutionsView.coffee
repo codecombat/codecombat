@@ -221,7 +221,7 @@ module.exports = class StudentSolutionsView extends RootView
     delete node.originalRange if node.originalRange
     node
 
-
+  # TODO: replace this with a library if possible
   sha1: (message) ->
     notString = typeof message != 'string'
     if notString and message.constructor == ArrayBuffer
