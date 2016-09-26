@@ -1,3 +1,4 @@
+errors = require '../commons/errors'
 Payment = require './../models/Payment'
 Prepaid = require '../models/Prepaid'
 Product = require '../models/Product'
