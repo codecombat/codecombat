@@ -158,7 +158,7 @@ _.extend LevelSessionSchema.properties,
   playtime:
     type: 'number'
     title: 'Playtime'
-    description: 'The total playtime on this session'
+    description: 'The total playtime on this session in seconds'
 
   teamSpells:
     type: 'object'
