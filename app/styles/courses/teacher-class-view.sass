@@ -16,14 +16,14 @@
     color: #065e73
     a
       color: #065e73
-      
+
   h3
     display: inline-block
-    
+
   h3 ~ .edit-classroom
     color: black
     text-decoration: underline
-    
+
   .classroom-details
     .small-details
       margin-bottom: 4px
@@ -45,14 +45,14 @@
       width: 15px
       height: 48px
       border-bottom: thin solid #979797
-      
+
     .tab-filler
       // Triggers block formatting context
       // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
       overflow: hidden
       height: 48px
       border-bottom: thin solid #979797
-      
+
     li > a
       margin: 0
       border: thin solid #979797
@@ -66,7 +66,7 @@
       border-bottom: thin solid #979797
     li.active
       border-bottom: none
-  
+
   .bulk-assign-controls
     position: relative
     float: right
@@ -86,7 +86,7 @@
       visibility: hidden
       &.visible
         visibility: visible
-      
+
   .students-table
     width: 100%
     .student-info-col
@@ -97,7 +97,7 @@
       width: 320px
     .view-class-col
       width: 20px
-      
+
     th
       font-weight: normal
       white-space: nowrap
@@ -110,21 +110,21 @@
 
       .checkbox-flat
         margin-top: 3px
-      
+
     .enroll-student-button
       margin-left: 33%
       margin-left: calc((100% - 120px - 36px) * 0.6)
 
   .inline-student-list
     padding-left: 0
-    
+
     // TODO: Fix highlighted text value
     &:before
       content: '('
     &:after
       content: ')'
     list-style: none
-    
+
     li
       display: inline
       .inline-student-name
@@ -133,7 +133,7 @@
 
     li:not(:last-child):after
       content: ', '
-      
+
   .student-info
     max-width: 200px
     line-height: 20px
@@ -162,10 +162,10 @@
 
     .glyphicon
       color: $gray-light
-      
+
   .edit-student-link
     color: black
-    
+
   .remove-student-link
     color: $burgandy
 
@@ -174,35 +174,35 @@
     font-weight: bold
     text-decoration: underline
     line-height: 16px
-      
+
   // Course Progress tab
-  
+
   #course-progress-tab, #student-projects-tab
     .course-overview-row
       margin-top: 50px
       border: thin solid gray
       border-radius: 8px
-      
+
     .student-levels-table
       margin-top: 80px
 
       .sort-buttons
         padding-left: 75px
         margin-bottom: 5px
-      
+
     .student-levels-row, .course-overview-row
       padding-left: 75px
       padding-top: 15px
       padding-bottom: 30px
-      
+
     .student-levels-progress, .course-overview-progress
       max-width: 880px
       margin: -5px
       margin-top: 5px
-      
+
     .progress-dot
       margin: 5px
-    
+
     .unassigned-students
       margin-top: 75px
       line-height: 45px
@@ -210,7 +210,7 @@
         white-space: nowrap
         overflow: hidden
         text-overflow: ellipsis
-        
+
       .small-details, .small
         line-height: 45px
       .latest-completed
@@ -235,7 +235,7 @@
 
     .btn-view-project-level
       margin-left: 15px
-      
+
   // Checkboxes
   .checkbox-flat
     margin: 8px auto
@@ -267,17 +267,17 @@
     position: relative
     a
       text-decoration: none
-    
+
     .dot-label
       padding-top: 2px
       .dot-label-inner
         font-size: 11px
         font-weight: bold
         color: white
-      
+
   .progress-dot-lg .dot-label .dot-label-inner
     font-size: 13px
-    
+
   .progress-dot.forest
     background: $forest
     .tooltip-inner
@@ -285,7 +285,7 @@
       border-color: $forest
     .tooltip-arrow
       border-top-color: $forest
-    
+
   .progress-dot.gold
     background: $gold
     .tooltip-inner
@@ -293,7 +293,7 @@
       border-color: $navy
     .tooltip-arrow
       border-top-color: $navy
-      
+
   .progress-dot.navy
     background: $navy
     .tooltip-inner
@@ -337,7 +337,7 @@
       position: absolute
       top: 8px
       right: 5px
-      
+
   #license-status-table
     // These column widths are just to keep the cells from resizing on search
     .checkbox-col
@@ -350,3 +350,31 @@
       width: 140px
     td
       vertical-align: middle
+
+
+  #visualisation
+    .axis path
+      fill: none
+      stroke: #777
+      shape-rendering: crispEdges
+
+    .axis text
+      font-family: Lato
+      font-size: 13px
+
+    .legend
+      font-size: 14px
+      font-weight: bold
+
+    .axis path, .axis line
+    fill: none
+    stroke: #777
+    shape-rendering: crispEdges
+
+    .axis text
+        font-family: 'Arial'
+        font-size: 13px
+    .tick
+        stroke-dasharray: 1, 2
+    .bar
+        fill: FireBrick
