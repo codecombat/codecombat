@@ -1474,6 +1474,8 @@
     view_arena_ladder: "View Arena Ladder"
     resource_hub: "Resource Hub"
     getting_started: "Getting Started"
+    educator_faq: "Educator FAQ"
+    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
     teacher_getting_started: "Teacher Getting Started Guide"
     teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
     student_getting_started: "Student Quick Start Guide"
