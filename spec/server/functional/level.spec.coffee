@@ -247,7 +247,7 @@ describe 'POST /db/level/names', ->
     
 describe 'POST /db/level/:handle/patch', ->
   
-  fit 'accepts the patch based on the latest version, not the version given', utils.wrap (done) ->
+  it 'accepts the patch based on the latest version, not the version given', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
     level = yield utils.makeLevel()

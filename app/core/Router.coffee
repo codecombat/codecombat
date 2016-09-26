@@ -30,6 +30,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'admin': go('admin/MainAdminView')
     'admin/clas': go('admin/CLAsView')
+    'admin/classroom-content': go('admin/AdminClassroomContentView')
     'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
     'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')

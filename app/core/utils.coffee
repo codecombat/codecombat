@@ -29,6 +29,18 @@ module.exports.courseIDs = courseIDs =
   COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
 
+module.exports.orderedCourseIDs = orderedCourseIDs = [
+  courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
+  courseIDs.COMPUTER_SCIENCE_2
+  courseIDs.GAME_DEVELOPMENT_1
+  courseIDs.WEB_DEVELOPMENT_1
+  courseIDs.COMPUTER_SCIENCE_3
+  courseIDs.GAME_DEVELOPMENT_2
+  courseIDs.WEB_DEVELOPMENT_2
+  courseIDs.COMPUTER_SCIENCE_4
+  courseIDs.COMPUTER_SCIENCE_5
+]
+
 module.exports.normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
   # or a function in its own right
@@ -394,20 +406,9 @@ module.exports.needsPractice = (playtime=0, threshold=2) ->
   playtime / 60 > threshold
 
 module.exports.sortCourses = (courses) ->
-  orderedIDs = [
-    courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
-    courseIDs.COMPUTER_SCIENCE_2
-    courseIDs.GAME_DEVELOPMENT_1
-    courseIDs.WEB_DEVELOPMENT_1
-    courseIDs.COMPUTER_SCIENCE_3
-    courseIDs.GAME_DEVELOPMENT_2
-    courseIDs.WEB_DEVELOPMENT_2
-    courseIDs.COMPUTER_SCIENCE_4
-    courseIDs.COMPUTER_SCIENCE_5
-  ]
   _.sortBy courses, (course) ->
     # ._id can be from classroom.courses, otherwise it's probably .id
-    index = orderedIDs.indexOf(course.id ? course._id)
+    index = orderedCourseIDs.indexOf(course.id ? course._id)
     index = 9001 if index is -1
     index
 

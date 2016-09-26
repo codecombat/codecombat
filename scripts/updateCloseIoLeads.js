@@ -69,7 +69,7 @@ const closeIoMailApiKeys = [
   },
   {
     apiKey: process.argv[4], // Elliot
-    weight: .15
+    weight: .1
   },
   {
     apiKey: process.argv[5], // Nolan
@@ -77,7 +77,7 @@ const closeIoMailApiKeys = [
   },
   {
     apiKey: process.argv[6], // Sean
-    weight: 0
+    weight: .05
   },
 ];
 const closeIoEuMailApiKey = process.argv[7]; // Jurian
