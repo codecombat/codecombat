@@ -51,7 +51,7 @@ module.exports = class TeacherStudentView extends RootView
   onLoaded: ->
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
-      @updateLastPlayedString()
+      @updateLastPlayedInfo()
       @updateLevelProgressMap()
       @updateLevelDataMap()
       @calculateStandardDev()
@@ -120,8 +120,8 @@ module.exports = class TeacherStudentView extends RootView
       perf = if perf > 0 then Math.ceil(perf) else Math.floor(perf)
 
       @courseComparisonMap.push {
+        courseModel: course
         courseID: course.get('_id')
-        courseName: utils.i18n(course.attributes, 'name')
         studentCourseTotal: studentCourseTotal
         standardDev: StandardDev
         mean: mean
@@ -208,7 +208,7 @@ module.exports = class TeacherStudentView extends RootView
       labels.append("text")
         .attr("x", WIDTH/2)
         .attr("y", HEIGHT - 10)
-        .text($.i18n.t("teacher.levels_axis") + " " + utils.i18n(course.attributes, 'name'))
+        .text($.i18n.t("teacher.levels_axis") + " " + course.getTranslatedName())
         .style("text-anchor", "middle")
 
 
@@ -228,11 +228,11 @@ module.exports = class TeacherStudentView extends RootView
     # Now we have some level sessions, and enough data to calculate last played string
     # This may be called multiple times due to paged server API calls via fetchForAllClassroomMembers
     return if @destroyed # Don't do anything if page was destroyed after db request
-    @updateLastPlayedString()
+    @updateLastPlayedInfo()
     @updateLevelProgressMap()
     @updateLevelDataMap()
 
-  updateLastPlayedString: ->
+  updateLastPlayedInfo: ->
     # Make sure all our data is loaded, @sessions may not even be intialized yet
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @user?.loaded
 
@@ -254,20 +254,20 @@ module.exports = class TeacherStudentView extends RootView
     # Find level for this level session, for it's name
     level = @levels.findWhere({original: session.get('level').original})
 
-    # Update last played string based on what we found
-    @lastPlayedString = ""
-    @lastPlayedString += utils.i18n(course.attributes, 'name') if course
-    @lastPlayedString += ": " if course and level
-    @lastPlayedString += level.get('name') if level
-    @lastPlayedString += ", on " if course or level
-    @lastPlayedString += moment(session.get('changed')).format("LLLL")
-    # console.log (moment(session.get('changed')).format("LLLL"))
-
     # extra vars for display
     @lastPlayedCourse = course
+    @lastPlayedLevel = level
+    @lastPlayedSession = session
 
-    # Rerun template/jade file to display new last played string
-    @render()
+  lastPlayedString: ->
+    # Update last played string based on what we found
+    lastPlayedString = ""
+    lastPlayedString += @lastPlayedCourse.getTranslatedName() if @lastPlayedCourse
+    lastPlayedString += ": " if @lastPlayedCourse and @lastPlayedLevel
+    lastPlayedString += @lastPlayedLevel.get('name') if @lastPlayedLevel
+    lastPlayedString += ", on " if @lastPlayedCourse or @lastPlayedLevel
+    lastPlayedString += moment(@lastPlayedSession.get('changed')).format("LLLL") if @lastPlayedSession
+    lastPlayedString
 
   updateLevelProgressMap: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @user?.loaded
@@ -319,7 +319,7 @@ module.exports = class TeacherStudentView extends RootView
           levelID: versionedLevel.original
           levelIndex: @classroom.getLevelNumber(versionedLevel.original)
           levelName: versionedLevel.name
-          courseName: utils.i18n(course.attributes, 'name')
+          courseModel: course
           courseID: course.get('_id')
           classAvg: classAvg
           studentTime: if studentTime then studentTime else 0

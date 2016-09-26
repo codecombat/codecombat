@@ -34,7 +34,7 @@ block content
                   .good= view.user.get('name')
                     span.spr
                     span.spr(data-i18n="teacher.student_good")
-                    span= lastCoursePerf.courseName
+                    span= lastCoursePerf.courseModel.getTranslatedName()
                     .status(data-i18n="teacher.student_good_detail")  
               else if (lastCoursePerf.performance) >= 2
                 .glyphicon.glyphicon-star
@@ -42,7 +42,7 @@ block content
                   .great= view.user.get('name')
                     span.spr
                     span.spr(data-i18n="teacher.student_great")
-                    span= lastCoursePerf.courseName
+                    span= lastCoursePerf.courseModel.getTranslatedName()
                     .status(data-i18n="teacher.student_great_detail")
               else if (lastCoursePerf.performance) <= -2 
                 .glyphicon.glyphicon-exclamation-sign
@@ -50,7 +50,7 @@ block content
                   .warn= view.user.get('name')
                     span.spr
                     span.spr(data-i18n="teacher.student_warn")
-                    span= lastCoursePerf.courseName
+                    span= lastCoursePerf.courseModel.getTranslatedName()
                     .status(data-i18n="teacher.student_warn_detail") 
                        
           .additional-progress
@@ -60,11 +60,11 @@ block content
             each course in view.courseComparisonMap || []
               if course.courseID != view.lastPlayedCourse.id
                 if Math.abs(course.performance) <= 1
-                  - good.push(course.courseName)
+                  - good.push(course.courseModel.getTranslatedName())
                 else if course.performance >= 2
-                  - great.push(course.courseName)
+                  - great.push(course.courseModel.getTranslatedName())
                 else if course.performance <= -2 
-                  - warn.push(course.courseName) 
+                  - warn.push(course.courseModel.getTranslatedName())
               
             if warn.length > 0
               .warn
@@ -99,7 +99,7 @@ block content
             .small-details
               span(data-i18n="user.last_played")
               span.spr :
-              span= view.lastPlayedString
+              span= view.lastPlayedString()
               
             .small-details 
               - var status = view.user.prepaidStatus()
@@ -124,7 +124,7 @@ block content
                   - continue;
                 - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
                 - if (instance && instance.hasMember(view.user))
-                  option(value= course.id)= i18n(course.attributes, 'name')
+                  option(value= course.id)= course.getTranslatedName()
 
             div.legend
               svg(width=15, height=15, style="margin: 0 5px 0 0")
@@ -167,7 +167,7 @@ block content
                 - if (instance && instance.hasMember(view.user))
                   if course
                     .course-row.alternating-background
-                      .course-info= i18n(course.attributes, 'name')
+                      .course-info= course.getTranslatedName()
                       - var levels = view.classroom.getLevels({courseID: course.id}).models
                       each level, index in levels
                         - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
@@ -190,7 +190,7 @@ block content
         //-       - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
         //-       - if (!(instance && instance.hasMember(view.user)))
         //-           div.small-details
-        //-             span=course.get('name')
+        //-             span=course.getTranslatedName()
                 
         //- else
         //-   p Apply a license to this student to assign additional courses!
