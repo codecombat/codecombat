@@ -1,10 +1,10 @@
 #code-container
-  textarea#codearea aaaa
+  textarea#codearea
 #thing
-  #starttime.number 0
+  #start-time.number 0
   #slider-container
     input#slider(value="0", type="range", step="0.001")
-  #endtime.number n
+  #end-time.number n
 #control-container
   #play-container
     button#play-button Play
@@ -12,6 +12,7 @@
     button#next-frame-button Next Second
     button#next-frame-button Next Event
   #speed-container
-    button.clicked#1x-button 1x
-    button#2x-button 2x
-    button#4x-button 4x
+    button.speed-button(data-speed="1").clicked 1x
+    button.speed-button(data-speed="2") 2x
+    button.speed-button(data-speed="4") 4x
+    button.speed-button(data-speed="8") 8x

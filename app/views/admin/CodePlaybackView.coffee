@@ -13,9 +13,7 @@ module.exports = class CodePlaybackView extends CocoView
     'click #play-button': 'onPlayClicked'
     'input #slider': 'onSliderInput'
     'click #pause-button': 'onPauseClicked'
-    'click #1x-button': 'on1xClicked'
-    'click #2x-button': 'on2xClicked'
-    'click #4x-button': 'on4xClicked'
+    'click .speed-button': 'onSpeedButtonClicked'
 
   constructor: (options) ->
     super()
@@ -32,8 +30,8 @@ module.exports = class CodePlaybackView extends CocoView
   afterRender: ->
     return unless @options.events?
     @$el.find("#codearea").text(@options.events[0].difContent)
-    @$el.find("#starttime").text("0s")
-    @$el.find("#endtime").text((@maxTime / 1000) + "s")
+    @$el.find("#start-time").text("0s")
+    @$el.find("#end-time").text((@maxTime / 1000) + "s")
     for ev in @options.events
       div = $("<div></div>")
       div.addClass("event")
@@ -42,7 +40,7 @@ module.exports = class CodePlaybackView extends CocoView
 
   updateSlider: =>
     @$el.find("#slider")[0].value = (@spade.elapsedTime / @maxTime) * 100
-    @$el.find("#starttime").text((@spade.elapsedTime / 1000).toFixed(0) + "s")
+    @$el.find("#start-time").text((@spade.elapsedTime / 1000).toFixed(0) + "s")
     if @spade.elapsedTime >= @maxTime
       @clearPlayback()
 
@@ -53,23 +51,16 @@ module.exports = class CodePlaybackView extends CocoView
     @spade.play(@options.events, codearea, @$el.find("#slider")[0].value / 100)
     @interval = setInterval(@updateSlider, 1)
 
-  on1xClicked: (e) ->
-    @spade.speed = 1
-    $(e.currentTarget).siblings().removeClass("clicked")
-    $(e.currentTarget).addClass("clicked")
-  on2xClicked: (e) ->
-    @spade.speed = 2
-    $(e.currentTarget).siblings().removeClass("clicked")
-    $(e.currentTarget).addClass("clicked")
-  on4xClicked: (e) ->
-    @spade.speed = 4
-    $(e.currentTarget).siblings().removeClass("clicked")
-    $(e.currentTarget).addClass("clicked")
+  onSpeedButtonClicked: (e) ->
+    console.log $(e.target).data("speed")
+    @spade.speed = $(e.target).data("speed")
+    $(e.target).siblings().removeClass "clicked"
+    $(e.target).addClass "clicked"
 
   onSliderInput: (e) ->
     @clearPlayback()
     codearea = @$el.find("#codearea")[0]
-    @$el.find("#starttime").text(((@$el.find("#slider")[0].value / 100 * @maxTime) / 1000).toFixed(0) + "s")
+    @$el.find("#start-time").text(((@$el.find("#slider")[0].value / 100 * @maxTime) / 1000).toFixed(0) + "s")
     codearea.value = @spade.renderTime(@options.events, codearea, @$el.find("#slider")[0].value / 100)
 
   clearPlayback: ->

@@ -30,7 +30,7 @@ module.exports = class CodeLogsView extends RootView
       .then (e) => 
         @renderSelectors "#codelogtable"
     else 
-      Promise.resolve(@codelogs.fetch())
+      Promise.resolve(@codelogs.fetchLatest())
       .then (e) => 
         @renderSelectors "#codelogtable"
 
@@ -41,7 +41,7 @@ module.exports = class CodeLogsView extends RootView
       .then (e) => 
         @renderSelectors "#codelogtable"
     else
-      Promise.resolve(@codelogs.fetch())
+      Promise.resolve(@codelogs.fetchLatest())
       .then (e) => 
         @renderSelectors "#codelogtable"
 
