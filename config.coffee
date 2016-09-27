@@ -5,6 +5,7 @@ sysPath = require 'path'
 fs = require('fs')
 commonjsHeader = require('commonjs-require-definition')
 TRAVIS = process.env.COCO_TRAVIS_TEST
+console.log 'Travis Build' if TRAVIS
 
 
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
