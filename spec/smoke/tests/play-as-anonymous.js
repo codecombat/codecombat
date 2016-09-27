@@ -6,6 +6,7 @@ module.exports = {
       .url(constants.DOMAIN + '/play/dungeon')
       .resizeWindow(1250, 900)
       .waitForApplicationLoaded()
+      .setPlayerVolume(0)
   },
 
   'Go to level view for Dungeons of Kithgard': function (browser) {
