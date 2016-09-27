@@ -286,6 +286,8 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {name, email, password})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
@@ -296,6 +298,8 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {name, email, facebookID, facebookAccessToken: application.facebookHandler.token()})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
@@ -307,6 +311,8 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {name, email, gplusID, gplusAccessToken: application.gplusHandler.token()})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'

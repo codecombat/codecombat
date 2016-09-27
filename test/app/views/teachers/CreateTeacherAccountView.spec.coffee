@@ -129,20 +129,30 @@ describe 'CreateTeacherAccountView', ->
           forms.objectToForm(form, successForm)
           form.submit()
 
-        it 'creates a user associated with the Facebook account', ->
+        it 'creates a user associated with the Facebook account', (done) ->
           request = jasmine.Ajax.requests.mostRecent()
           expect(request.url).toBe('/db/trial.request')
           request.respondWith({
             status: 201
             responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
           })
-          request = jasmine.Ajax.requests.mostRecent()
-          expect(request.url).toBe("/db/user?facebookID=abcd&facebookAccessToken=1234")
-          body = JSON.parse(request.params)
-          expect(body.name).toBe('New Name')
-          expect(body.email).toBe('some@email.com')
-          expect(body.firstName).toBe('Mr')
-          expect(body.lastName).toBe('Bean')
+          view.once 'update-settings', =>
+            request = jasmine.Ajax.requests.mostRecent()
+            expect(request.url).toBe("/db/user/1234")
+            body = JSON.parse(request.params)
+            expect(body.firstName).toBe('Mr')
+            expect(body.lastName).toBe('Bean')
+            request.respondWith({
+              status: 200
+              responseText: '{}'
+            })
+            view.once 'signup', =>
+              request = jasmine.Ajax.requests.mostRecent()
+              expect(request.url).toBe("/db/user/1234/signup-with-facebook")
+              expected = {"name":"New Name","email":"some@email.com","facebookID":"abcd","facebookAccessToken":"1234"}
+              actual = JSON.parse(request.params)
+              expect(_.isEqual(expected, actual)).toBe(true)
+              done()
           
   describe 'clicking the G+ button', ->
 
@@ -165,7 +175,7 @@ describe 'CreateTeacherAccountView', ->
         request = jasmine.Ajax.requests.mostRecent()
         expect(request.url).toBe('/auth/login-gplus')
 
-    describe 'when the user connects with F+ and there isn\'t already an associated account', ->
+    describe 'when the user connects with G+ and there isn\'t already an associated account', ->
       beforeEach ->
         request = jasmine.Ajax.requests.mostRecent()
         request.respondWith({ status: 404, responseText: '{}' })
@@ -185,20 +195,30 @@ describe 'CreateTeacherAccountView', ->
           forms.objectToForm(form, successForm)
           form.submit()
 
-        it 'creates a user associated with the GPlus account', ->
+        it 'creates a user associated with the GPlus account', (done) ->
           request = jasmine.Ajax.requests.mostRecent()
           expect(request.url).toBe('/db/trial.request')
           request.respondWith({
             status: 201
             responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
           })
-          request = jasmine.Ajax.requests.mostRecent()
-          expect(request.url).toBe("/db/user?gplusID=abcd&gplusAccessToken=1234")
-          body = JSON.parse(request.params)
-          expect(body.name).toBe('New Name')
-          expect(body.email).toBe('some@email.com')
-          expect(body.firstName).toBe('Mr')
-          expect(body.lastName).toBe('Bean')
+          view.once 'update-settings', =>
+            request = jasmine.Ajax.requests.mostRecent()
+            expect(request.url).toBe("/db/user/1234")
+            body = JSON.parse(request.params)
+            expect(body.firstName).toBe('Mr')
+            expect(body.lastName).toBe('Bean')
+            request.respondWith({
+              status: 200
+              responseText: '{}'
+            })
+            view.once 'signup', =>
+              request = jasmine.Ajax.requests.mostRecent()
+              expect(request.url).toBe("/db/user/1234/signup-with-gplus")
+              expected = {"name":"New Name","email":"some@email.com","gplusID":"abcd","gplusAccessToken":"1234"}
+              actual = JSON.parse(request.params)
+              expect(_.isEqual(expected, actual)).toBe(true)
+              done()
           
   describe 'submitting the form successfully', ->
     
@@ -224,24 +244,33 @@ describe 'CreateTeacherAccountView', ->
       expect(attrs.properties?.district).toEqual('District')
   
     describe 'after saving the new trial request', ->
-      beforeEach ->
+      beforeEach (done) ->
+        view.once 'update-settings', done
         request = jasmine.Ajax.requests.mostRecent()
         request.respondWith({
           status: 201
           responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
         })
 
-      it 'creates a new user', ->
+      it 'updates user and signs up with password', (done) ->
         request = jasmine.Ajax.requests.mostRecent()
-        expect(request.url).toBe('/db/user')
-        expect(request.method).toBe('POST')
+        expect(request.url).toBe('/db/user/1234')
+        expect(request.method).toBe('PUT')
         attrs = JSON.parse(request.params)
-        for attr in ['password', 'name', 'email', 'role', 'firstName', 'lastName']
+        for attr in ['role', 'firstName', 'lastName']
           expect(attrs[attr]).toBeDefined()
+        request.respondWith({ status: 201, responseText: '{}' })
+        view.once 'signup', =>
+          request = jasmine.Ajax.requests.mostRecent()
+          expect(request.url).toBe('/db/user/1234/signup-with-password')
+          body = JSON.parse(request.params)
+          for attr in ['email', 'password', 'name']
+            expect(body[attr]).toBeDefined()
+          done()
         
       describe 'after saving the new user', ->
         
-        beforeEach ->
+        beforeEach (done) ->
           spyOn(application.router, 'navigate')
           spyOn(application.router, 'reload')
           request = jasmine.Ajax.requests.mostRecent()
@@ -249,6 +278,12 @@ describe 'CreateTeacherAccountView', ->
             status: 201
             responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
           })
+          expect(request.url).toBe('/db/user/1234')
+          view.once 'signup', =>
+            request = jasmine.Ajax.requests.mostRecent()
+            expect(request.url).toBe('/db/user/1234/signup-with-password')
+            request.respondWith({ status: 201, responseText: '{}' })
+            _.defer done
         
         it 'redirects to "/teachers/courses"', ->
           expect(application.router.navigate).toHaveBeenCalled()
