@@ -91,6 +91,12 @@ UserHandler = class UserHandler extends Handler
     # Email setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
+      
+      # handle unsetting email
+      if req.body.email is ''
+        user.set('email', req.body.email)
+        return callback(null, req, user)
+        
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
       User.findOne({emailLower: emailLower}).exec (err, otherUser) ->
@@ -111,6 +117,11 @@ UserHandler = class UserHandler extends Handler
     # Name setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.name?
+      
+      if req.body.name is ''
+        user.set('name', req.body.name)
+        return callback(null, req, user)
+      
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
@@ -711,7 +722,7 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess res, remark
 
   searchForUser: (req, res) ->
-    return mongoSearchForUser(req,res) unless config.sphinxServer
+    return module.exports.mongoSearchForUser(req,res) unless config.sphinxServer
     mysql = require('mysql');
     connection = mysql.createConnection
       host: config.sphinxServer

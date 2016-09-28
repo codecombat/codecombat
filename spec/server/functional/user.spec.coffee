@@ -248,6 +248,27 @@ ghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghlfarghlarghl
     expect(body.code).toBe(422)
     expect(body.message).toEqual('User needs a username or email address')
     done()
+    
+  it 'allows unsetting email, even when there\'s a user with email and emailLower set to empty string', utils.wrap (done) ->
+    invalidUser = yield utils.initUser()
+    yield invalidUser.update({$set: {email: '', emailLower: ''}})
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '' }}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.email).toBeUndefined()
+    done()
+
+  it 'allows unsetting name, even when there\'s a user with name and nameLower set to empty string', utils.wrap (done) ->
+    invalidUser = yield utils.initUser()
+    yield invalidUser.update({$set: {name: '', nameLower: ''}})
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { name: '' }}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.name).toBeUndefined()
+    done()
+    
 
 describe 'PUT /db/user/-/become-student', ->
   beforeEach utils.wrap (done) ->
