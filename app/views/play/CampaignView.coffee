@@ -22,8 +22,6 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
 
-trackedHourOfCode = false
-
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession
@@ -70,6 +68,11 @@ module.exports = class CampaignView extends RootView
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
+
+    if utils.getQueryVariable('hour_of_code')
+      me.set('hourOfCode', true)
+      me.patch()
+
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
@@ -157,10 +160,13 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
-      @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
-    else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email') and not me.isPremium()
-      @openModalView new ShareProgressModal()
+    if not me.get('hourOfCode') and @terrain
+      if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+        @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
+      else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and
+      me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
+      not storage.load('sent-parent-email') and not me.isPremium()
+        @openModalView new ShareProgressModal()
 
   setCampaign: (@campaign) ->
     @render()
@@ -284,6 +290,7 @@ module.exports = class CampaignView extends RootView
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
+      level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']

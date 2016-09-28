@@ -15,7 +15,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       if utils.getQueryVariable 'hour_of_code'
-        return @navigate "/play", {trigger: true, replace: true}
+        return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
@@ -112,9 +112,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': ->
-      # Matching /?hour_of_code=true behavior
-      @navigate "/play", {trigger: true, replace: true}
+    'hoc': -> @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
     'home': go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
