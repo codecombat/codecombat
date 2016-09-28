@@ -33,7 +33,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     relationship = args[1]
-    return @createHOCAPI(req, res) if relationship is 'create-for-hoc'
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
     return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
@@ -42,26 +41,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @getMyCourseLevelSessionsAPI(req, res, args[0]) if args[1] is 'my-course-level-sessions'
     return @findByLevel(req, res, args[2]) if args[1] is 'find_by_level'
     super arguments...
-
-  createHOCAPI: (req, res) ->
-    return @sendUnauthorizedError(res) if not req.user?
-    courseID = mongoose.Types.ObjectId('560f1a9f22961295f9427742')
-    CourseInstance.findOne { courseID: courseID, ownerID: req.user.get('_id'), hourOfCode: true }, (err, courseInstance) =>
-      return @sendDatabaseError(res, err) if err
-      if courseInstance
-        console.log 'already made a course instance'
-      return @sendSuccess(res, courseInstance) if courseInstance
-      courseInstance = new CourseInstance({
-        courseID: courseID
-        members: [req.user.get('_id')]
-        name: 'Single Player'
-        ownerID: req.user.get('_id')
-        aceConfig: { language: 'python' }
-        hourOfCode: true
-      })
-      courseInstance.save (err, courseInstance) =>
-        return @sendDatabaseError(res, err) if err
-        @sendCreated(res, courseInstance)
 
   removeMember: (req, res, courseInstanceID) ->
     return @sendUnauthorizedError(res) if not req.user?

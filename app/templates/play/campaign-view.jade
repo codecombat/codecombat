@@ -90,7 +90,9 @@ if view.showAds()
                     br
                     button.btn.btn-primary.btn.btn-lg.btn-illustrated
                       span(data-i18n="play.play_classroom_version") Play Classroom Version
-        else if level.unlocksHero && !level.purchasedHero
+
+        //- Show available hero unlock for hidden levels
+        else if level.unlocksHero && !level.purchasedHero && (!me.get('hourOfCode') || me.isPremium() || !level.requiresSubscription)
           img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png", style="left: #{level.position.x}%; bottom: #{level.position.y}%;")
 
       for adjacentCampaign in adjacentCampaigns
