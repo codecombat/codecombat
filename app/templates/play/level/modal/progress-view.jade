@@ -57,12 +57,15 @@
               span(data-i18n='sharing.victory_course_share_web')
           span= ' '
           span(data-i18n='sharing.victory_course_share_suffix')
-        .row
-          .col-sm-9
-            input.text-h4.semibold.form-control.input-lg#share-level-input(value=view.shareURL)
-          .col-sm-3
-            button#share-level-btn.btn.btn-lg.btn-success.btn-illustrated
-              span(data-i18n='sharing.copy_url')
+        if view.session.isFake()
+          .alert.alert-warning(data-i18n="sharing.unavailable")
+        else
+          .row
+            .col-sm-9
+              input.text-h4.semibold.form-control.input-lg#share-level-input(value=view.shareURL)
+            .col-sm-3
+              button#share-level-btn.btn.btn-lg.btn-success.btn-illustrated
+                span(data-i18n='sharing.copy_url')
         
     .row
       .col-sm-5.col-sm-offset-2
