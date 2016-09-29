@@ -64,7 +64,7 @@ module.exports = class AccountSettingsView extends CocoView
         decline: 'Cancel'
         confirm: 'DELETE Your Account'
       confirmModal = new ConfirmModal renderData
-      confirmModal.on 'confirm', @deleteAccount
+      confirmModal.on 'confirm', @deleteAccount, @
       @openModalView confirmModal
 
   onClickResetProgressButton: ->
@@ -75,7 +75,7 @@ module.exports = class AccountSettingsView extends CocoView
         decline: 'Cancel'
         confirm: 'Erase ALL Progress'
       confirmModal = new ConfirmModal renderData
-      confirmModal.on 'confirm', @resetProgress
+      confirmModal.on 'confirm', @resetProgress, @
       @openModalView confirmModal
 
   onClickResendVerificationEmail: (e) ->
@@ -150,7 +150,7 @@ module.exports = class AccountSettingsView extends CocoView
   resetProgress: ->
     $.ajax
       type: 'POST'
-      success: ->
+      success: =>
         noty
           timeout: 5000
           text: 'Your progress is gone.'
