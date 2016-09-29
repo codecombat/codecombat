@@ -237,7 +237,6 @@ module.exports = class AccountSettingsView extends CocoView
       @trigger 'save-user-error'
     res.success (model, response, options) =>
       me.set(model) # save changes to me
-      console.log 'success', arguments
       @trigger 'save-user-success'
 
     @trigger 'save-user-began'
