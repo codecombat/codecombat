@@ -787,6 +787,7 @@
     elliot_title: "Partnership Manager"
     elliot_blurb: "Mindreader"
     lisa_title: "School Specialist" # {change}
+    lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
