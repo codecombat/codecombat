@@ -159,10 +159,20 @@ module.exports =
     res.status(200).send(memberObjects)
 
   fetchPlaytimes: wrap (req, res, next) ->
+    # For given courseID, returns array of course/level IDs and slugs, and an array of recent level sessions
+    # TODO: returns on this are pretty weird, because the client calls it repeatedly for more data
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    minSessionCount = parseInt(req.query?.minSessionCount ? 50)
+    sessionLimit = parseInt(req.query?.sessionLimit ? 1000)
+    unless startDay = req.query?.startDay
+      startDay = new Date()
+      startDay.setUTCDate(startDay.getUTCDate() - 1)
+      startDay = startDay.toISOString().substring(0, 10)
+    endDay = req.query?.endDay
+    # console.log "DEBUG: fetchPlaytimes courseID=#{req.query?.courseID} startDay=#{startDay} endDay=#{endDay}"
 
-    courses = yield Course.find({releasePhase: 'released'}, {campaignID: 1, slug: 1}).lean()
+    query = {$and: [{releasePhase: 'released'}]}
+    query.$and.push {_id: req.query.courseID} if req.query?.courseID?
+    courses = yield Course.find(query, {campaignID: 1, slug: 1}).lean()
     campaignIDs = []
     campaignCourseMap = {}
     for course in courses
@@ -184,40 +194,25 @@ module.exports =
           levelIndex: level.campaignIndex
           levelSlug: level.slug
           levelOriginal: levelOriginal
-    # console.log "DEBUG: total levels=#{levelOriginals.length}"
+    # console.log "DEBUG: courseID=#{req.query?.courseID} total levels=#{levelOriginals.length}"
 
-    # Fetch proggressily longer date ranges to find minSessionCount sessions per level
-    # TODO: try looking up trial course separately, since it will have many more sessions
-    levelTotalPlaytimeMap = {}
-    updatePlayTimeMap = wrap (dayRange, prune=false) ->
-      startDay = new Date()
-      startDay.setUTCDate(startDay.getUTCDate() - dayRange)
-      startDay = startDay.toISOString().substring(0, 10)
-      query = {heroConfig: {$exists: false}, 'state.complete': true, 'level.original': {$in: levelOriginals}}
-      query._id = {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")}
-      project = {created: 1, levelID: 1, 'level.original': 1, playtime: 1}
-      levelSessions = yield LevelSession.find(query, project).lean()
-
-      for session in levelSessions
-        levelTotalPlaytimeMap[session.level.original] ?= {count: 0, total: 0}
-        levelTotalPlaytimeMap[session.level.original].count++
-        levelTotalPlaytimeMap[session.level.original].total += session.playtime
-
-      if prune
-        for levelOriginal, data of levelTotalPlaytimeMap
-          if data.count < minSessionCount
-            delete levelTotalPlaytimeMap[levelOriginal]
-          else
-            _.remove levelOriginals, (val) -> val is levelOriginal
-        # console.log "DEBUG: #{levelOriginals.length} levels need more sessions after #{dayRange} days"
-    yield updatePlayTimeMap(5, true)
-    yield updatePlayTimeMap(10, true)
-    yield updatePlayTimeMap(40)
-
-    for data in courseLevelPlaytimes
-      data.count = levelTotalPlaytimeMap[data.levelOriginal]?.count ? 0
-      data.playtime = levelTotalPlaytimeMap[data.levelOriginal]?.total ? 0
-    res.status(200).send(courseLevelPlaytimes)
+    query = {$and: [
+      {_id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")}}
+      {'level.original': {$in: levelOriginals}}
+      {heroConfig: {$exists: false}}
+      {'state.complete': true}
+      ]}
+    query.$and.push({_id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")}}) if endDay
+    project = {'level.original': 1, playtime: 1}
+    levelSessions = yield LevelSession.find(query, project).lean()
+    levelCountMap = {}
+    minimalLevelSessions = []
+    for levelSession in levelSessions
+      continue if levelCountMap[levelSession.level.original] >= sessionLimit
+      levelCountMap[levelSession.level.original] ?= 0
+      levelCountMap[levelSession.level.original]++
+      minimalLevelSessions.push(levelSession)
+    res.status(200).send([courseLevelPlaytimes, minimalLevelSessions])
 
   post: wrap (req, res) ->
     throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
