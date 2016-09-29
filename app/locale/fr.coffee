@@ -493,7 +493,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     tome_available_spells: "Sorts diponibles"
     tome_your_skills: "Vos compétences"
     tome_current_method: "Méthode actuelle"
-#    hints: "Hints"
+    Hints: "Aide"
 #    hints_title: "Hint {{number}}"
     code_saved: "Code sauvergardé"
     skip_tutorial: "Passer (esc)"
