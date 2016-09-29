@@ -60,8 +60,8 @@ module.exports = class SpellView extends CocoView
     'mouseout': 'onMouseOut'
 
   constructor: (options) ->
-    super options
     @supermodel = options.supermodel
+    super options
     @worker = options.worker
     @session = options.session
     @spell = options.spell

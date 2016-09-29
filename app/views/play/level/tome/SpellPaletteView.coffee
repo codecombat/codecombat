@@ -24,7 +24,7 @@ module.exports = class SpellPaletteView extends CocoView
     'click #spell-palette-help-button': 'onClickHelp'
 
   initialize: (options) ->
-    {@level, @session, @supermodel, @thang, @useHero} = options
+    {@level, @session, @thang, @useHero} = options
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
