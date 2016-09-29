@@ -1,14 +1,14 @@
 module.exports = nativeDescription: "français", englishDescription: "French", translation:
   home:
     slogan: "Apprenez à coder tout en jouant"
-    no_ie: "Désolée, mais CodeCombat ne fonctionnera pas sous Internet Explorer 8 ou moins. Désolé !" # Warning that only shows up in IE8 and older
-    play: "Jouer!" # The big play button that opens up the campaign view.
+    no_ie: "CodeCombat ne fonctionnera pas sous Internet Explorer 8 ou moins. Désolé !" # Warning that only shows up in IE8 and older
+    play: "Jouer !" # The big play button that opens up the campaign view.
     play_campaign_version: "Jouer en mode Campagne" # Shows up under big play button if you only play /courses
     old_browser: "Oh oh, votre navigateur est trop vieux pour exécuter CodeCombat. Désolé !" # Warning that shows up on really old Firefox/Chrome/Safari
     old_browser_suffix: "Vous pouvez essayer quand même, mais cela ne marchera probablement pas."
-    ipad_browser: "Mauvaise nouvelle : CodeCombat ne fonctionne pas avec le navigateur iPad. Bonne nouvelle : Nous Avons notre propre application Ipad! Visitez le Apple App Store sur votre Ipad pour le télécharger."
+    ipad_browser: "Mauvaise nouvelle : CodeCombat ne fonctionne pas avec le navigateur iPad. Bonne nouvelle : Nous Avons notre propre application Ipad ! Visitez le Apple App Store sur votre Ipad pour le télécharger."
     campaign: "Campagne"
-    for_beginners: "Pour des nouveaus"
+    for_beginners: "Pour des nouveaux"
     multiplayer: "Multijoueurs" # Not currently shown on home page
     for_developers: "Pour développeurs" # Not currently shown on home page.
     or_ipad: "Ou télécharger sur iPad"
@@ -21,12 +21,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     student: "Scolaire"
     play_now: "Allons-y !"
     im_a_teacher: "Je suis un enseignant"
-    im_a_student: "Je suis une scolaire"
-    learn_more: "Savez-plus"
+    im_a_student: "Je suis un étudiant"
+    learn_more: "Apprenez-en plus"
     classroom_in_a_box: "Une classe tout-inclus pour enseigner l'informatique."
     codecombat_is: "CodeCombat est une plateforme <strong>pour les étudiants</strong> afin d'apprendre l'informatique tout en jouant."
-    our_courses: "Nos cours ont été testés spécifiquement pour <strong>excellé en classe</strong>, même si les enseignants ont peu ou pas d'expérience en programmation."
-    top_screenshots_hint: "Les étudiants écrivent du code et voient leurs changements s'appliqués en temps-réel"
+    our_courses: "Nos cours ont été testés spécifiquement pour <strong>exceller en classe</strong>, même si les enseignants ont peu ou pas d'expérience en programmation."
+    top_screenshots_hint: "Les étudiants écrivent du code et voient leurs changements s'appliquer en temps-réel"
     designed_with: "Concu en pensant aux enseignants"
     real_code: "Vrai code entré au clavier"
     from_the_first_level: "à partir du premier niveau"
@@ -117,7 +117,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     twitter: "Twitter"
     create_a_class: "Créer une classe"
     other: "Autre"
-    learn_to_code: "Apprenez à programmer!"
+    learn_to_code: "Apprenez à programmer !"
     toggle_nav: "Basculer la navigation"
     jobs: "Emplois"
     schools: "Écoles"
@@ -130,16 +130,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     help_suff: "et nous entrerons en contact!"
 
   modal:
-#    cancel: "Cancel"
+    cancel: "Annuler"
     close: "Fermer"
     okay: "D'accord"
 
   not_found:
-    page_not_found: "Page non trouvée"
+    page_not_found: "Page introuvable"
 
   diplomat_suggestion:
     title: "Aidez à traduire CodeCombat !" # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "Nous avons besoin de vos compétences en langues."
+    sub_heading: "Nous avons besoin de vos compétences linguistiques."
     pitch_body: "Nous développons CodeCombat en anglais, mais nous avons déjà des joueurs de partout dans le monde. Beaucoup d'entre eux veulent jouer en français mais ne parlent pas anglais, donc si vous parlez aussi bien l'anglais que le français, aidez-nous en devenant traducteur et aidez à traduire aussi bien le site que tous les niveaux en français."
     missing_translations: "Jusqu'à ce que nous ayons tout traduit en français, vous verrez de l'anglais quand le français ne sera pas disponible."
     learn_more: "Apprenez-en plus sur les traducteurs"
@@ -147,7 +147,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play:
     play_as: "Jouer comme " # Ladder page
-    compete: "Participer!" # Course details page
+    compete: "Participer !" # Course details page
     spectate: "Spectateur" # Ladder page
     players: "Joueurs" # Hover over a level on /play
     hours_played: "Heures jouées" # Hover over a level on /play
@@ -241,7 +241,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   login:
     sign_up: "Créer un compte"
-#    email_or_username: "Email or username"
+    email_or_username: "Email ou nom d'utilisateur"
     log_in: "Connexion"
     logging_in: "Connecter"
     log_out: "Déconnexion"
@@ -254,13 +254,13 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     signup_switch: "Voulez-vous créer un compte ?"
 
   signup:
-#    create_student_header: "Create Student Account"
-#    create_teacher_header: "Create Teacher Account"
-#    create_individual_header: "Create Individual Account"
-#    create_header: "Create Account"
+    create_student_header: "Créer un compte étudiant"
+    create_teacher_header: "Créer un compte enseignant"
+    create_individual_header: "Créer un compte individuel"
+    create_header: "Créer un compte"
     email_announcements: "Recevoir les annonces par e-mail" # {change}
     creating: "Création du compte en cours..."
-#    create_account: "Create Account"
+    create_account: "Créer un compte"
     sign_up: "S'abonner"
     log_in: "se connecter avec votre mot de passe"
     required: "Vous devez être connecté pour voir cela"
@@ -268,7 +268,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     school_name: "Nom et ville de votre école"
     optional: "optionnel"
     school_name_placeholder: "Exemple : Lycée Champollion, Figeac"
-#    connect_with: "Connect with:"
+    connect_with: "Se connecter avec :"
     connected_gplus_header: "Vous avez réussi à vous connecter avec votre compte Google+!"
     connected_gplus_p: "Finissez de vous abonnez pour pouvoir vous connecter avec votre compte Google+."
     gplus_exists: "Vous avez déjà un compte associé à Google+!"
@@ -336,18 +336,18 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   common:
     back: "Retour" # When used as an action verb, like "Navigate backward"
-#    coming_soon: "Coming soon!"
+    coming_soon: "Arrive prochainement !"
     continue: "Continuer" # When used as an action verb, like "Continue forward"
-#    default_code: "Default Code"
+    default_code: "Code par défaut"
     loading: "Chargement..."
-#    overview: "Overview"
-#    solution: "Solution"
-#    intro: "Intro"
+    overview: "Vue d'ensemble"
+    solution: "Solution"
+    intro: "Intro"
     saving: "Sauvegarde..."
     sending: "Envoi..."
     send: "Envoyer"
-#    sent: "Sent"
-#    type: "Type"
+    sent: "Envoyé"
+    type: "Taper"
     cancel: "Annuler"
     save: "Sauvegarder"
     publish: "Publier"
@@ -480,7 +480,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     victory_experience_gained: "XP gagnée"
     victory_gems_gained: "Gemmes gagnées"
     victory_new_item: "Nouvel item"
-#    victory_new_hero: "New Hero"
+    victory_new_hero: "Nouveau héros"
     victory_viking_code_school: "Par la barbe d'Odin, c'est un niveau difficile que tu viens de compléter! Si tu n'est pas un développeur de logiciel, tu devrais l'être ! Ceci vient de te propulser dans l'école de Code Vikings où tu pourras amener tes habilités au prochain niveau et devenir un développer web profesionnel en deux semaines."
     victory_become_a_viking: "Devenez un viking"
     victory_no_progress_for_teachers: "La progression n'est pas sauvegardé pour les enseignants. Mais vous pouvez ajouter un compte étudiant à votre salle de cours pour vous."
