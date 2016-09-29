@@ -19,8 +19,7 @@ module.exports.startServer = (done) ->
 createAndConfigureApp = ->
   serverSetup.setupLogging()
   serverSetup.connectToDatabase()
-  serverSetup.setupMailchimp()
-
+  
   app = express()
   serverSetup.setExpressConfigurationOptions app
   serverSetup.setupMiddleware app

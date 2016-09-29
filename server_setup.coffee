@@ -321,11 +321,6 @@ exports.connectToDatabase = ->
   return if config.proxy
   database.connect()
 
-exports.setupMailchimp = ->
-  mcapi = require 'mailchimp-api'
-  mc = new mcapi.Mailchimp(config.mail.mailchimpAPIKey)
-  GLOBAL.mc = mc
-
 exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)
   app.set('views', __dirname + '/app/views')
