@@ -26,12 +26,18 @@
       span(data-i18n='web_dev.image_gallery_title')
 
   if view.options.level.get('shareable')
-    - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
-    - if (view.options.courseID) url += '?course=' + view.options.courseID;
-    a.btn.btn-small.btn-illustrated(href=url)
-      if view.options.level.isType('game-dev')
-        span(data-i18n='sharing.game')
-      else
-        span(data-i18n='sharing.webpage')
+    - i18nName = view.options.level.isType('game-dev') ? 'sharing.game' : 'sharing.webpage'
+    if view.options.session.isFake()
+      button.btn.btn-small.btn-illustrated(
+        data-i18n=i18nName
+        data-toggle="popover"
+        data-placement="bottom"
+        data-content=translate('sharing.your_students_preview')
+        data-trigger="hover"
+      )
+    else
+      - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
+      - if (view.options.courseID) url += '?course=' + view.options.courseID;
+      a.btn.btn-small.btn-illustrated(href=url, data-i18n=i18nName)
 
   .clearfix
