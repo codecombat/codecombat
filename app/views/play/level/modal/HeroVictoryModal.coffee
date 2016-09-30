@@ -202,8 +202,8 @@ module.exports = class HeroVictoryModal extends ModalView
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      lastLevelOriginal = if storage.load('should-return-to-game-dev-hoc') then '57e95b8c99d82f5a00b9f298' else '541c9a30c6362edfb0f34479'
-      lastLevel = @level.get('original') is lastLevelOriginal # hedge-magic or kithgard-gates
+      lastLevelOriginal = if storage.load('should-return-to-game-dev-hoc') then '57ee6f5786cf4e1f00afca2c' else '541c9a30c6362edfb0f34479'
+      lastLevel = @level.get('original') is lastLevelOriginal # hoc2016 or kithgard-gates
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
@@ -430,7 +430,7 @@ module.exports = class HeroVictoryModal extends ModalView
       'summits-gate': 'glacier'
     }[@level.get('slug')] ? @level.get 'campaign'
     # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
-    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'hedge-magic']) and storage.load('should-return-to-game-dev-hoc')
+    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'hoc2016']) and storage.load('should-return-to-game-dev-hoc')
     campaign
 
   getNextLevelLink: (returnToCourse=false) ->
