@@ -72,6 +72,11 @@ module.exports = class CampaignView extends RootView
     if utils.getQueryVariable('hour_of_code')
       me.set('hourOfCode', true)
       me.patch()
+      $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))  # TODO: double-check this when we get our proper pixels, differentiate by game-dev-hoc activity
+
+    # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
+    shouldReturnToGameDevHoc = @terrain is 'game-dev-hoc'
+    storage.save 'should-return-to-game-dev-hoc', shouldReturnToGameDevHoc
 
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
@@ -295,7 +300,7 @@ module.exports = class CampaignView extends RootView
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
-      #level.locked = false if level.slug is 'robot-ragnarok'
+      level.locked = false if @campaign?.get('slug') is 'game-dev-hoc'
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
       level.color = 'rgb(255, 80, 60)'
@@ -350,6 +355,14 @@ module.exports = class CampaignView extends RootView
   determineNextLevel: (orderedLevels) ->
     dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
     subscriptionPrompts = [{slug: 'boom-and-bust', unless: 'defense-of-plainswood'}]
+
+    if @campaign?.get('slug') is 'game-dev-hoc'
+      # HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
+      orderedLevels = _.sortBy orderedLevels, (level) -> level.position.x
+      for level in orderedLevels
+        if @levelStatusMap[level.slug] isnt 'complete'
+          level.next = true
+          return
 
     findNextLevel = (nextLevels, practiceOnly) =>
       for nextLevelOriginal in nextLevels
@@ -431,7 +444,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
       continue if level.practice
-      terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace('intro', 'dungeon')
+      terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
       particleKey = ['level', terrain]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
       particleKey.push 'replayable' if level.replayable
