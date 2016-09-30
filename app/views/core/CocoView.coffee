@@ -58,8 +58,7 @@ module.exports = class CocoView extends Backbone.View
     # Warn about easy-to-create race condition that only shows up in production
     listenedSupermodel = @supermodel
     _.defer =>
-      if listenedSupermodel isnt @supermodel# and not @destroyed
-        console.log listenedSupermodel, @supermodel, @
+      if listenedSupermodel isnt @supermodel and not @destroyed
         throw new Error("#{@constructor?.name ? @}: Supermodel listeners not hooked up! Don't reassign @supermodel; CocoView does that for you.")
 
     super arguments...
