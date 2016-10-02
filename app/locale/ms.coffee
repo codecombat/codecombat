@@ -131,7 +131,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    help_suff: "and we'll get in touch!"
 
   modal:
-#    cancel: "Cancel"
+    cancel: "Batal"
     close: "Tutup"
     okay: "Ok"
 
