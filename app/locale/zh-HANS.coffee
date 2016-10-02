@@ -126,7 +126,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     get_involved: "参与"
     open_source: "开放的源码 (GitHub)"
     support: "支持"
-    faqs: "FAQ"
+    faqs: "常见问题"
     help_pref: "需要帮助？请发邮件至："
     help_suff: " 我们会很快与您联系！"
 
