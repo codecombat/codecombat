@@ -656,7 +656,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    feature6: "Premium email support"
 #    feature7: "Private <strong>Clans</strong>"
 #    feature8: "<strong>No ads!</strong>"
-#    free: "Free"
+    free: "Percuma"
 #    month: "month"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    subscribe_title: "Subscribe"
