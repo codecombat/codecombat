@@ -40,6 +40,7 @@ module.exports = class SpellTopBarView extends CocoView
   afterRender: ->
     super()
     @attachTransitionEventListener()
+    @$('[data-toggle="popover"]').popover()
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true

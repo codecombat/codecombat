@@ -463,7 +463,7 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent'
+  'enrollmentRequestSent', 'israelId', 'school'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']

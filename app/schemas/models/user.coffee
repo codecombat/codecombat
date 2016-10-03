@@ -342,10 +342,25 @@ _.extend UserSchema.properties,
   }
   enrollmentRequestSent: { type: 'boolean' }
 
-  schoolName: {type: 'string'}
+  schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
+  
+  israelId: {type: 'string', description: 'ID string used just for il.codecombat.com'}
+  school: { 
+    type: 'object', 
+    description: 'Generic property for storing school information. Currently
+                  only used by Israel; if/when we use it for other purposes,
+                  think about how to keep the data consistent.',
+    properties: {
+      name: { type: 'string' }
+      city: { type: 'string' }
+      district: { type: 'string' }
+      state: { type: 'string' }
+      country: { type: 'string' }
+    }
+  }
 
 c.extendBasicProperties UserSchema, 'user'
 

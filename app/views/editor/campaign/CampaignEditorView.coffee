@@ -135,8 +135,9 @@ module.exports = class CampaignEditorView extends RootView
             rewards.push rewardObject
       campaignLevel.rewards = rewards
       delete campaignLevel.unlocks
-      # Save campaign to level, unless it's a course campaign, since we reuse hero levels for course levels.
-      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type', true) isnt 'course'
+      # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
+      # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
       # Save campaign index to level if it's a course campaign, since we show linear level order numbers for course levels.
       campaignLevel.campaignIndex = (@levels.models.length - levelIndex - 1) if @campaign.get('type', true) is 'course'
       campaignLevels[levelOriginal] = campaignLevel
@@ -151,7 +152,7 @@ module.exports = class CampaignEditorView extends RootView
       @updateRewardsForLevel model, level.rewards
 
     super()
-    
+
   propagateCampaignIndexes: ->
     campaignLevels = $.extend({}, @campaign.get('levels'))
     index = 0

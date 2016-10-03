@@ -159,6 +159,7 @@ module.exports = class TomeView extends CocoView
     difficulty = sessionState.difficulty ? 0
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
+    Backbone.Mediator.publish 'level:set-playing', {playing: false}  
     Backbone.Mediator.publish 'tome:cast-spells', {
       @spells,
       preload,

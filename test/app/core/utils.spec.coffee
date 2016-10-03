@@ -1,5 +1,25 @@
 describe 'Utility library', ->
   utils = require 'core/utils'
+  
+  describe 'getQueryVariable(param, defaultValue)', ->
+    beforeEach ->
+      spyOn(utils, 'getDocumentSearchString').and.returnValue(
+        '?key=value&bool1=false&bool2=true&email=test%40email.com'
+      )
+    
+    it 'returns the query parameter', ->
+      expect(utils.getQueryVariable('key')).toBe('value')
+      
+    it 'returns Boolean types if the value is "true" or "false"', ->
+      expect(utils.getQueryVariable('bool1')).toBe(false)
+      expect(utils.getQueryVariable('bool2')).toBe(true)
+      
+    it 'decodes encoded strings', ->
+      expect(utils.getQueryVariable('email')).toBe('test@email.com')
+      
+    it 'returns the given default value if the key is not present', ->
+      expect(utils.getQueryVariable('key', 'other-value')).toBe('value')
+      expect(utils.getQueryVariable('NaN', 'other-value')).toBe('other-value')
 
   describe 'i18n', ->
     beforeEach ->

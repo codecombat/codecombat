@@ -19,7 +19,7 @@ module.exports = {
   
       // Sign up
       .waitForModalLoaded()
-      .click('.individual-path-button')
+      .waitForElementVisibleAndClick('.individual-path-button')
       .waitForElementVisibleAndClick('#birthday-month-input')
       .setValue('#birthday-month-input', 'January')
       .setValue('#birthday-day-input', '1')
@@ -88,5 +88,3 @@ module.exports = {
       .end();
   }
 };
-
-

@@ -55,6 +55,12 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
 
+    # Warn about easy-to-create race condition that only shows up in production
+    listenedSupermodel = @supermodel
+    _.defer =>
+      if listenedSupermodel isnt @supermodel and not @destroyed
+        throw new Error("#{@constructor?.name ? @}: Supermodel listeners not hooked up! Don't reassign @supermodel; CocoView does that for you.")
+
     super arguments...
 
   destroy: ->
@@ -178,7 +184,7 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
-    if me.isTeacher() 
+    if me.isTeacher()
       if application.isProduction()
         window.Intercom?('show')
       else

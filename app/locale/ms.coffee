@@ -131,7 +131,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    help_suff: "and we'll get in touch!"
 
   modal:
-#    cancel: "Cancel"
+    cancel: "Batal"
     close: "Tutup"
     okay: "Ok"
 
@@ -646,7 +646,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x{{gems}} / mo"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "__levelsCount__+ basic levels across __worldsCount__ worlds"
 #    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
@@ -656,7 +656,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    feature6: "Premium email support"
 #    feature7: "Private <strong>Clans</strong>"
 #    feature8: "<strong>No ads!</strong>"
-#    free: "Free"
+    free: "Percuma"
 #    month: "month"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
 #    subscribe_title: "Subscribe"
@@ -2039,19 +2039,19 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    license: "license"
 #    oreilly: "ebook of your choice"
 
-#  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+  calendar:
+    year: "Tahun"
+    day: "Hari"
+    month: "Bulan"
+    january: "Januari"
+    february: "Februari"
+    march: "Marc"
+    april: "April"
+    may: "Mei"
+    june: "June"
+    july: "Julai"
+    august: "Ogos"
+    september: "September"
+    october: "Oktober"
+    november: "November"
+    december: "Disember"

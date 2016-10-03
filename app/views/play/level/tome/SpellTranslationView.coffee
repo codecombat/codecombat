@@ -16,7 +16,6 @@ module.exports = class SpellTranslationView extends CocoView
   constructor: (options) ->
     super options
     @ace = options.ace
-    @supermodel = options.supermodel
     
     levelComponents = @supermodel.getModels LevelComponent
     @componentTranslations = levelComponents.reduce((acc, lc) ->

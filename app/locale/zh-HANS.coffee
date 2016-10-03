@@ -126,7 +126,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     get_involved: "参与"
     open_source: "开放的源码 (GitHub)"
     support: "支持"
-    faqs: "FAQ"
+    faqs: "常见问题"
     help_pref: "需要帮助？请发邮件至："
     help_suff: " 我们会很快与您联系！"
 
@@ -1564,7 +1564,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     article_title: "指令编辑器"
     thang_title: "物品编辑器"
     level_title: "关卡编辑器"
-#    course_title: "Course Editor"
+    course_title: "课程编辑器"
     achievement_title: "目标编辑器"
     poll_title: "调查编辑器"
     back: "后退"
