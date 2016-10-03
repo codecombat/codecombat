@@ -356,9 +356,9 @@ UserHandler = class UserHandler extends Handler
       stripe.customers.retrieve customerID, (err, customer) =>
         return @sendDatabaseError(res, err) if err
         info = card: customer.sources?.data?[0]
-        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (subscription) =>
+        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (err, subscription) =>
           info.subscription = subscription
-          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (subscription) =>
+          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (err, subscription) =>
             info.sponsorSubscription = subscription
             @sendSuccess(res, JSON.stringify(info, null, '\t'))
 
@@ -412,7 +412,7 @@ UserHandler = class UserHandler extends Handler
         name: sponsor.get('name')
 
       # Get recipient subscription info
-      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (subscription) =>
+      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (err, subscription) =>
         info.subscription = subscription
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)

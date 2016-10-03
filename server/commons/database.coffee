@@ -121,7 +121,7 @@ module.exports =
 
 
   assignBody: (req, doc, options={}) ->
-    if _.isEmpty(req.body)
+    if not req.body
       throw new errors.UnprocessableEntity('No input')
       
     if not doc.schema.statics.editableProperties

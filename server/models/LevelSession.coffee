@@ -93,7 +93,7 @@ LevelSessionSchema.statics.jsonSchema = jsonschema
 LevelSessionSchema.set('toObject', {
   transform: (doc, ret, options) ->
     req = options.req
-    return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
+    return ret unless req
 
     submittedCode = doc.get('submittedCode')
     unless req.user?.isAdmin() or req.user?.id is doc.get('creator') or ('employer' in (req.user?.get('permissions') ? [])) or not doc.get('submittedCode') # TODO: only allow leaderboard access to non-top-5 solutions
