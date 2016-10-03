@@ -646,7 +646,7 @@ module.exports = nativeDescription: "Bahasa Melayu", englishDescription: "Bahasa
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x{{gems}} / mo"
 
-#  subscribe:
+  subscribe:
 #    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
 #    feature1: "__levelsCount__+ basic levels across __worldsCount__ worlds"
 #    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
