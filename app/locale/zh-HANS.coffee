@@ -1564,7 +1564,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     article_title: "指令编辑器"
     thang_title: "物品编辑器"
     level_title: "关卡编辑器"
-#    course_title: "Course Editor"
+    course_title: "课程编辑器"
     achievement_title: "目标编辑器"
     poll_title: "调查编辑器"
     back: "后退"
