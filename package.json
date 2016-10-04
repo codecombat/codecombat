@@ -71,7 +71,7 @@
     "country-list": "0.0.3",
     "express": "~3.0.6",
     "express-useragent": "~0.0.9",
-    "geoip-lite": "^1.1.6",
+    "@basicer/geoip-lite": "^1.1.6",
     "graceful-fs": "~2.0.1",
     "gridfs-stream": "~1.1.1",
     "jsondiffpatch": "^0.2.3",

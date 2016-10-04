@@ -5,7 +5,7 @@ useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 log = require 'winston'
 compressible = require 'compressible'
-geoip = require 'geoip-lite'
+geoip = require '@basicer/geoip-lite'
 
 database = require './server/commons/database'
 perfmon = require './server/commons/perfmon'
