@@ -8,8 +8,9 @@ SystemNameLoader = require './../core/SystemNameLoader'
 ###
 
 module.exports.expandDelta = (delta, left, schema) ->
-  right = JSON.parse(JSON.stringify(left))
-  jsondiffpatch.patch right, delta
+  if left?
+    right = jsondiffpatch.clone(left)
+    jsondiffpatch.patch right, delta
 
   flattenedDeltas = flattenDelta(delta)
   (expandFlattenedDelta(fd, left, right, schema) for fd in flattenedDeltas)
@@ -56,6 +57,9 @@ expandFlattenedDelta = (delta, left, right, schema) ->
     parentRight = childRight
     parentSchema = childSchema
 
+  if not childLeft and childRight
+    childLeft = jsondiffpatch.patch(childRight, jsondiffpatch.reverse(o))
+
   if _.isArray(o) and o.length is 1
     delta.action = 'added'
     delta.newValue = o[0]
@@ -87,7 +91,7 @@ expandFlattenedDelta = (delta, left, right, schema) ->
 
   delta.humanPath = humanPath.join(' :: ')
   delta.schema = childSchema
-  delta.left = childLeft or jsondiffpatch.patch(childRight, jsondiffpatch.reverse(o))
+  delta.left = childLeft
   delta.right = childRight
 
   delta
