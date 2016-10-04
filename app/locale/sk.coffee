@@ -183,7 +183,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     campaign_old_multiplayer_description: "Pozostatky starej kóvacej civilizácie. Nie je možná simulácia pre staré arény bez hrdinov. "
 
   code:
-    if: "ak # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+    if: "ak" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "inak"
     elif: "inak ak"
     while: "pokiaľ"
