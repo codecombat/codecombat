@@ -135,6 +135,8 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
     reqHost = req.hostname
     reqHost ?= req.host
 
+    return unless reqHost.indexOf(config.unsafeContentHostname) is -1
+
     unless reqHost.toLowerCase() is host
       ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0] if ip? # If there are two IP addresses, say because of CloudFlare, we just take the first.
