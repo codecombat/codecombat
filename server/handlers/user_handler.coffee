@@ -722,6 +722,7 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess res, remark
 
   searchForUser: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
     return module.exports.mongoSearchForUser(req,res) unless config.sphinxServer
     mysql = require('mysql');
     connection = mysql.createConnection
