@@ -232,7 +232,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
           // Find first auto mail
           let firstMailActivity;
           for (const activity of results.data) {
-            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase() >= 0)) {
+            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase()) >= 0) {
               if (isTemplateAuto1(activity.template_id)) {
                 if (firstMailActivity) {
                   console.log(`ERROR: ${lead.id} sent multiple auto1 emails!?`);
@@ -257,7 +257,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
           for (const activity of results.data) {
             if (activity.id === firstMailActivity.id) continue;
             if (new Date(firstMailActivity.date_created) > new Date(activity.date_created)) continue;
-            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase() < 0)) continue;
+            if (activity._type === 'Email' && contactEmails.indexOf(activity.to[0].toLowerCase()) < 0) continue;
             recentActivity = activity;
             break;
           }
