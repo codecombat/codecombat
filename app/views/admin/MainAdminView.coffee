@@ -149,6 +149,11 @@ module.exports = class MainAdminView extends RootView
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
 
+  afterRender: ->
+    super()
+    @$el.find('.search-help-toggle').click () =>
+      @$el.find('.search-help').toggle()
+
   onClickExportProgress: ->
     $('.classroom-progress-csv').prop('disabled', true)
     classCode = $('.classroom-progress-class-code').val()

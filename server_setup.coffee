@@ -5,7 +5,7 @@ useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 log = require 'winston'
 compressible = require 'compressible'
-geoip = require 'geoip-lite'
+geoip = require '@basicer/geoip-lite'
 
 database = require './server/commons/database'
 perfmon = require './server/commons/perfmon'
@@ -134,6 +134,8 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
     #Work around express 3.0
     reqHost = req.hostname
     reqHost ?= req.host
+
+    return unless reqHost.indexOf(config.unsafeContentHostname) is -1
 
     unless reqHost.toLowerCase() is host
       ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
