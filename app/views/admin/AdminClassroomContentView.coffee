@@ -14,13 +14,13 @@ module.exports = class AdminClassroomContentView extends RootView
     # Fetch playtime data for released courses
     # Makes a bunch of small fetches per course and per day to avoid gateway timeouts
     @minSessionCount = 50
-    @maxDays = 10
+    @maxDays = 15
     @loadingMessage = "Loading.."
     courseLevelPlaytimesMap = {}
     courseLevelTotalPlaytimeMap = {}
     getMoreLevelSessions = (courseIDs, startOffset, endOffset) =>
       return if @destroyed
-      @loadingMessage = "Fetching data for #{courseIDs.length} courses for days #{startOffset} to #{endOffset ? 0}.."
+      @loadingMessage = "Fetching data for #{courseIDs.length} courses for #{endOffset ? 0}/#{@maxDays} days ago.."
       @render?()
       startDate = new Date()
       startDate.setUTCDate(startDate.getUTCDate() - startOffset)
@@ -44,8 +44,9 @@ module.exports = class AdminClassroomContentView extends RootView
           courseID = levelPlaytimes[0].courseID
           courseLevelPlaytimesMap[courseID] ?= levelPlaytimes
           courseLevelTotalPlaytimeMap[courseID] ?= {}
+          for levelPlaytime in levelPlaytimes
+            courseLevelTotalPlaytimeMap[courseID][levelPlaytime.levelOriginal] ?= {count: 0, total: 0}
           for session in levelSessions
-            courseLevelTotalPlaytimeMap[courseID][session.level.original] ?= {count: 0, total: 0}
             courseLevelTotalPlaytimeMap[courseID][session.level.original].count++
             courseLevelTotalPlaytimeMap[courseID][session.level.original].total += session.playtime
         # console.log 'courseLevelTotalPlaytimeMap', courseLevelTotalPlaytimeMap
