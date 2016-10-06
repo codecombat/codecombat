@@ -22,12 +22,12 @@ debug(`DEBUG: fetching students..`);
 const studentMap = {};
 var studentIds = [];
 const thangTypeIds = [];
-var query = {$and: [{"role": 'student'}, {heroConfig: {$exists: true}}, {_id: {$gte: startObjectId}}, {_id: {$lte: endObjectId}}]};
-const users = db.users.find(query, {heroConfig: 1}).toArray();
+var query = {$and: [{role: 'student'}, {_id: {$gte: startObjectId}}, {_id: {$lte: endObjectId}}]};
+const users = db.users.find(query, {dateCreated: 1, heroConfig: 1}).toArray();
 for (var user of users) {
   studentMap[user._id.valueOf()] = user;
   studentIds.push(user._id);
-  if (user.heroConfig.thangType) thangTypeIds.push(ObjectId(user.heroConfig.thangType));
+  if (user.heroConfig && user.heroConfig.thangType) thangTypeIds.push(ObjectId(user.heroConfig.thangType));
 
   // if (studentIds.length >= 10000) break;
 }
@@ -66,13 +66,25 @@ const levelSessionData = lsDb.level.sessions.aggregate([
 ]).toArray();
 debug(`DEBUG: ${levelSessionData.length} level sessions`);
 
-print("Student Id, Classroom Id, Day, Hero, Sessions, Playtime");
+debug(`DEBUG: fetching home level sessions..`);
+const playedHomeMap = {};
+query = {$and: [{creator: {$in: studentIds}}, {_id: {$lte: endObjectId}}, {heroConfig: {$exists: true}}]};
+const homeLevelSessions = lsDb.level.sessions.find(query, {creator: 1}).toArray();
+for (var levelSession of homeLevelSessions) {
+  playedHomeMap[levelSession.creator] = true;
+}
+debug(`DEBUG: ${homeLevelSessions.length} home level sessions`);
+
+print("Student created, Student Id, Classroom Id, Day, Hero, Sessions, Playtime, Played Home");
 for (var data of levelSessionData) {
   const studentId = data._id.studentId;
   for (var classroomId of studentClassroomIdsMap[studentId] || []) {
-    const heroThangTypeId = studentMap[studentId].heroConfig.thangType;
-    const heroName = thangTypeMap[heroThangTypeId] ? getHeroShortName(thangTypeMap[heroThangTypeId].name || '') : '';
-    print(`${studentId}, ${classroomId}, ${data._id.day}, ${heroName}, ${data.numSessions}, ${data.playtime}`);
+    var heroName = 'No hero set';
+    if (studentMap[studentId].heroConfig && studentMap[studentId].heroConfig.thangType) {
+      const heroThangTypeId = studentMap[studentId].heroConfig.thangType;
+      heroName = thangTypeMap[heroThangTypeId] ? getHeroShortName(thangTypeMap[heroThangTypeId].name || 'Unknown hero') : 'Unknown hero';
+    }
+    print(`${studentMap[studentId].dateCreated.toISOString()}, ${studentId}, ${classroomId}, ${data._id.day}, ${heroName}, ${data.numSessions}, ${data.playtime}, ${!!playedHomeMap[studentId]}`);
   }
 }
 
