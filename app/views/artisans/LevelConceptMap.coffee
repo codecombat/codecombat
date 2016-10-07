@@ -8,7 +8,8 @@ CocoCollection = require 'collections/CocoCollection'
 Campaigns = require 'collections/Campaigns'
 Levels = require 'collections/Levels'
 unless typeof esper is 'undefined'
-  parser = new esper().realm.parser
+  realm = new esper().realm
+  parser = realm.parser.bind(realm)
 
 module.exports = class LevelConceptMap extends RootView
   template: template
