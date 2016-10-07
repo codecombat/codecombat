@@ -26,6 +26,12 @@ describe 'User', ->
     user.setEmailSubscription('artisanNews', true)
     expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
     done()
+    
+  it 'does not allow anonymous to be set to true if there is a login method', utils.wrap (done) ->
+    user = new User({passwordHash: '1234', anonymous: true})
+    user = yield user.save()
+    expect(user.get('anonymous')).toBe(false)
+    done()
 
   describe '.updateServiceSettings()', ->
     makeMC = (callback) ->

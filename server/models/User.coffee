@@ -348,6 +348,16 @@ UserSchema.methods.isEnrolled = ->
   return true unless coursePrepaid.endDate
   return coursePrepaid.endDate > new Date().toISOString()
 
+UserSchema.methods.hasLogInMethod = ->
+  return true if _.any([
+    @get('facebookID')
+    @get('gplusID')
+    @get('githubID')
+    @get('cleverID')
+    _.size(@get('oAuthIdentities'))
+    @get('passwordHash')
+  ])
+    
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   return done?()
@@ -418,6 +428,10 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
+    
+  if @hasLogInMethod() and @get('anonymous')
+    @set('anonymous', false)
+  
   next()
 )
 
