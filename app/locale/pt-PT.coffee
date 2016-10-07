@@ -56,14 +56,14 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     ffa: "Grátis para todos os estudantes"
     lesson_time: "Tempo de aula:"
     coming_soon: "Mais, brevemente!"
-    courses_available_in: "Os cursos estão disponíveis em JavaScript, Python, e Java (brevemente!)" # {change}
+    courses_available_in: "Os cursos estão disponíveis em JavaScript e Python. Os cursos de Desenvolvimento Web utilizam HTML, CSS, jQuery e Bootstrap."
 #    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class: "Tudo o que precisas para teres uma turma de ciências da computação na tua escola hoje, sem serem necessárias bases de CC."
     goto_classes: "Ir para As Minhas Turmas"
     view_profile: "Ver o Meu Perfil"
     view_progress: "Ver Progresso"
-#    go_to_courses: "Go to My Courses"
+    go_to_courses: "Ir para Os Meus Cursos"
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
@@ -78,7 +78,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     home: "Início"
     contribute: "Contribuir"
     legal: "Legal"
-#    privacy: "Privacy"
+    privacy: "Privacidade"
     about: "Sobre"
     contact: "Contactar"
     twitter_follow: "Seguir"
@@ -99,7 +99,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     faqs: "FAQs"
     help_pref: "Precisas de ajuda? Envia um e-mail para"
     help_suff: "e nós entraremos em contacto!"
-#    resource_hub: "Resource Hub"
+    resource_hub: "Centro de Recursos"
 
   modal:
     close: "Fechar"
@@ -786,8 +786,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     nolan_title: "Gestor de Território"
     elliot_title: "Gestor de Parcerias"
     elliot_blurb: "Leitora de Mentes"
-    lisa_title: "Representante do Desenvolvimento de Mercado" # {change}
-#    lisa_blurb: "A gritty one"
+    lisa_title: "Especialista em Escolas"
+    lisa_blurb: "Uma Corajosa"
     sean_title: "Gestor do Território"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "'RetroStyle Games'"
@@ -1378,7 +1378,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unarchive_class: "desarquivar turma"
     unarchive_this_class: "Desarquivar esta turma"
     no_students_yet: "Esta turma ainda não tem estudantes."
-#    no_students_yet_view_class: "View class to add students."
+    no_students_yet_view_class: "Ver turma para adicionar estudantes."
     try_refreshing: "(Podes precisar de atualizar a página)"
     add_students: "Adicionar Estudantes"
     create_new_class: "Criar uma Turma Nova"
@@ -1473,7 +1473,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    project: "Project"
 #    view_student_project: "View Student Project"
 #    view_arena_ladder: "View Arena Ladder"
-#    resource_hub: "Resource Hub"
+    resource_hub: "Centro de Recursos"
 #    getting_started: "Getting Started"
 #    educator_faq: "Educator FAQ"
 #    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
