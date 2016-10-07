@@ -2,11 +2,19 @@ mw = require '../middleware'
 
 module.exports.setup = (app) ->
   
+  app.all('/api/*', mw.api.clientAuth)
+  app.post('/api/users', mw.api.postUser)
+  app.get('/api/users/:handle', mw.api.getUser)
+  app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
+  app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
+  app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
+  
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
   app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
   app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectHome)
+  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)
@@ -79,6 +87,10 @@ module.exports.setup = (app) ->
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
   app.get('/db/classroom/-/playtimes', mw.auth.checkHasPermission(['admin']), mw.classrooms.fetchPlaytimes)
   app.get('/db/classroom/-/users', mw.auth.checkHasPermission(['admin']), mw.classrooms.getUsers)
+  
+  APIClient = require ('../models/APIClient')
+  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin']), mw.rest.post(APIClient))
+  app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin']), mw.apiClients.newSecret)
 
   CodeLog = require ('../models/CodeLog')
   app.post('/db/codelogs', mw.codelogs.post)
@@ -119,6 +131,8 @@ module.exports.setup = (app) ->
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
   app.get('/db/level.system/:handle/patches', mw.patchable.patches(LevelSystem))
+  
+  app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
   app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)

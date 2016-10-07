@@ -64,6 +64,7 @@ beforeEach(function(done) {
     return done();
   }
   console.log('/spec/helpers/helper.js - Initializing spec environment...');
+  var User = require('../../server/models/User');
 
   var async = require('async');
   async.series([
@@ -74,7 +75,6 @@ beforeEach(function(done) {
     },
     function(cb) {
       // 5. Check actual database
-      var User = require('../../server/models/User');
       User.find({}).count(function(err, count) {
         // For this to serve as a line of defense against testing with the
         // production DB, tests must be run with 
@@ -95,6 +95,11 @@ beforeEach(function(done) {
         if (err) { console.log(err); }
         cb(err);
       });
+    },
+    function(cb) {
+      // Make sure User schemas are created
+      // TODO: Ensure all models are fully indexed before starting tests
+      User.on('index', cb)
     },
     function(cb) {
       // Initialize products
