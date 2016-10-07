@@ -205,6 +205,8 @@ module.exports =
     query.$and.push({_id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")}}) if endDay
     project = {'level.original': 1, playtime: 1}
     levelSessions = yield LevelSession.find(query, project).lean()
+    # console.log "DEBUG: courseID=#{req.query?.courseID} level sessions=#{levelSessions.length}"
+
     levelCountMap = {}
     minimalLevelSessions = []
     for levelSession in levelSessions

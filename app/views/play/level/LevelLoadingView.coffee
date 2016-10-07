@@ -169,7 +169,7 @@ module.exports = class LevelLoadingView extends CocoView
     @playSound 'loading-view-unveil', 0.5
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
-    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level.isType('web-dev')
+    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level?.isType('web-dev')
 
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled

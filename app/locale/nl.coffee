@@ -1,19 +1,4 @@
 module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
-  home:
-    slogan: "Leer programmeren door het spelen van een spel"
-    no_ie: "CodeCombat werkt niet in IE8 of ouder. Sorry!" # Warning that only shows up in IE8 and older
-    no_mobile: "CodeCombat is niet gemaakt voor mobiele apparaten en werkt misschien niet!" # Warning that shows up on mobile devices
-    play: "Speel" # The big play button that opens up the campaign view.
-    play_campaign_version: "Speel de Verhaallijn" # Shows up under big play button if you only play /courses
-    old_browser: "uh-oh, jouw browser is te oud om CodeCombat te kunnen spelen, Sorry!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Je kan het alsnog proberen, maar het zal waarschijnlijk niet werken!"
-    ipad_browser: "Slecht nieuws: CodeCombat draait niet in je browser op de iPad. Goed nieuws: onze iPad-app wordt op het moment beoordeeld door Apple."
-    campaign: "Verhaallijn"
-    for_beginners: "Voor Beginners"
-    multiplayer: "Multiplayer" # Not currently shown on home page
-    for_developers: "Voor ontwikkelaars" # Not currently shown on home page.
-    or_ipad: "Of download voor iPad"
-
   new_home:
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "Klasversie:"
@@ -65,54 +50,40 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     setup_a_class: "Maak een klas aan"
     have_an_account: "Heb je al een account?" # {change}
     logged_in_as: "Je bent ingelogd als"
-    view_my_classes: "Bekijk mijn klassen"
     computer_science: "Informatica lessen voor alle leeftijden"
     show_me_lesson_time: "Geef geschatte lesduur weer:"
     curriculum: "Totaal aantal lesuren:"
     ffa: "Gratis voor alle leerlingen"
     lesson_time: "Lesduur:"
     coming_soon: "Binnenkort beschikbaar!"
-    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)"
+    courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)" # {change}
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
     winning: "Een gouden combinatie van spel-elementen en programmeerhuiswerk, dat samen zorgt voor kindvriendelijk en oprecht aangenaam onderwijs."
     run_class: "Alles wat je nodig hebt om vandaag nog programmeerlessen in jouw klas te geven, geen voorkennis vereist."
-    teachers: "Docenten!"
-    teachers_and_educators: "Docenten & Mentoren"
-    class_in_box: "Lees hoe ons digitale lesplatform in uw curriculum past."
-    get_started: "Start nu"
-    students: "Leerlingen:"
-    join_class: "Inschrijven bij Klas"
-    role: "Uw rol:"
-    student_count: "Aantal leerlingen:"
-    start_playing_for_free: "Begin met gratis spelen!"
-    students_and_players: "Leerlingen & Spelers"
     goto_classes: "Ga naar mijn klassen"
     view_profile: "Mijn Profiel"
     view_progress: "Bekijk voortgang"
+#    go_to_courses: "Go to My Courses"
     want_coco: "Wil je CodeCombat op jouw school?"
-    form_select_role: "Selecteer je rol"
-    form_select_range: "Selecteer klasomvang"
 
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     courses: "Lessen"
-    editor: "Editor"
     blog: "Blog"
     forum: "Forum"
     account: "Lidmaatschap"
     my_account: "Mijn Account"
     profile: "Profiel"
-    stats: "Statistieken"
-    code: "Code"
     home: "Home"
     contribute: "Bijdragen"
     legal: "Rechten"
+#    privacy: "Privacy"
     about: "Over Ons"
     contact: "Contact"
     twitter_follow: "Volgen"
-    students: "Leerlingen"
     teachers: "Docenten"
+    students: "Leerlingen"
     careers: "Banen"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -122,16 +93,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     toggle_nav: "Toggle navigatie"
     jobs: "Banen"
     schools: "Scholen"
-    educator_wiki: "Leraren Wiki"
     get_involved: "Help Mee"
     open_source: "Open source (GitHub)"
     support: "Hulp / ondersteuning"
     faqs: "FAQs"
     help_pref: "Hulp nodig? E-mail ons"
     help_suff: "en we nemen contact op!"
+#    resource_hub: "Resource Hub"
 
   modal:
-    cancel: "Annuleren"
     close: "Sluiten"
     okay: "Oké"
 
@@ -162,7 +132,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     skills_granted: "Verleende vaardigheden" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
     achievements: "Prestaties" # Tooltip on achievement list button from /play
-    account: "Account" # Tooltip on account button from /play
     settings: "Instellingen" # Tooltip on settings button from /play
     poll: "Stemming" # Tooltip on poll button from /play
     next: "Volgende" # Go from choose hero to choose inventory before playing a level
@@ -179,8 +148,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     adjust_volume: "Volume aanpassen"
     campaign_multiplayer: "Multiplayer Arena's"
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
-    campaign_old_multiplayer: "(Verouderde) Oude Multiplayer Arenas"
-    campaign_old_multiplayer_description: "Antieke overblijvselen van een beschaafder tijdperk. Deze oudere held-loze multiplayer arenas worden niet gesimuleert."
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -258,10 +225,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_student_header: "Creëer studenten account"
     create_teacher_header: "Creeër leraren account"
     create_individual_header: "Creeër persoonlijk account"
-    create_header: "Creëer Account"
     email_announcements: "Ontvang aankondigingen via e-mail" # {change}
     creating: "Account aanmaken..."
-    create_account: "Creëer account"
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
     required: "Je moet inloggen om daarheen te gaan."
@@ -348,7 +313,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sending: "Verzenden..."
     send: "Verzend"
     sent: "Verstuur"
-    type: "Type"
     cancel: "Annuleren"
     save: "Opslaan"
     publish: "Publiceren"
@@ -652,7 +616,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     feature2: "__heroesCount__ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
     feature3: "__bonusLevelsCount__ bonuslevels" # {change}
     feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
-    feature5: "Video-instructies"
     feature6: "Hoogwaardige e-mail ondersteuning"
     feature7: "Besloten <strong>Clans</strong>"
     feature8: "<strong>Geen advertenties!</strong>"
@@ -718,7 +681,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     lua_blurb: "Game scripting taal."
     java_blurb: "(Alleen voor abonnees) Android en enterprise."
     status: "Status"
-    hero_type: "Soort"
     weapons: "Wapens"
     weapons_warrior: "Zwaarden - Korte afstand, geen tovenarij"
     weapons_ranger: "kruisbogen, pistolen - Lange afstand, geen tovenarij"
@@ -824,7 +786,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     nolan_title: "Regio-manager"
     elliot_title: "Partner-manager"
     elliot_blurb: "Gedachtenlezer"
-    lisa_title: "Marktontwikkeling vertegenwoordiger"
+    lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
+#    lisa_blurb: "A gritty one"
     sean_title: "Regio Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
@@ -832,7 +795,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jose_blurb: "Opstijgen"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!"
-    community_description_1: "CodeCombat is een gemeenschap project, met honderden spelers die vrijwillig levels maken, bijdrage aan onze code om dingen toe te voegen, bugs te maken, speeltesten, en zelfs helpen het spel te vertalen in 50 talen zover. Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en pooling inspanning, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten, en we zijn open source zodat we wat terug kunnen geven aan de gemeenschap en leveren programmeer geïnteresseerde spelers een vertouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze"
+#    community_description_3: "CodeCombat is a"
+#    community_description_link_2: "community project"
+    community_description_1: "CodeCombat is een gemeenschap project, met honderden spelers die vrijwillig levels maken, bijdrage aan onze code om dingen toe te voegen, bugs te maken, speeltesten, en zelfs helpen het spel te vertalen in 50 talen zover. Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en pooling inspanning, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten, en we zijn open source zodat we wat terug kunnen geven aan de gemeenschap en leveren programmeer geïnteresseerde spelers een vertouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze" # {change}
     community_description_link: "Draag bij pagina"
     community_description_2: "voor meer info."
     number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project."
@@ -875,7 +840,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     character_art: "Character Art"
     download_all: "Download Alles"
     previous: "Vorige"
-    next: "Volgende"
     location_title: "We zijn gevestigd in San Fransico (VS) en Leiden (NL):"
 
   teachers:
@@ -890,7 +854,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   teachers_quote:
     name: "Demo Formulier"
-    title: "Demo aanvragen"
     subtitle: "Gebruik CodeCombat voor jouw klas of programmeerclub!"
     email_exists: "Er bestaat al een gebruiker met dit emailadres."
     phone_number: "Telefoonnummer"
@@ -939,7 +902,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_account_subtitle: "Krijg toegang tot exclusieve hulpmiddelen voor docenten door CodeCombat in de klas te gebruiken. <strong>Maak een klas aan</strong>, voeg leerlingen toe, en <strong>bekijk hun vooruitgang</strong>!"
     convert_account_title: "Verander in een docenten-account"
     not: "niet"
-    setup_a_class: "Maak een klas aan"
 
   versions:
     save_version_title: "Nieuwe versie opslaan"
@@ -981,7 +943,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reset_progress_tab: "Reset Alle Voortgang"
     reset_your_progress: "Verwijder alle voortgang en start opnieuw"
     god_mode: "God Modus"
-    password_tab: "Wachtwoord"
     emails_tab: "E-mails"
     admin: "Beheerder"
     manage_subscription: "Klik hier om je abonnement te beheren."
@@ -1066,7 +1027,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     clan_name: "Clan Naam"
     name: "Naam"
     chieftain: "Stamhoofd"
-    type: "Type"
     edit_clan_name: "Bewerk Clan Naam"
     edit_clan_description: "Bewerk Clan Beschrijving"
     edit_name: "bewerk naam"
@@ -1211,7 +1171,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher: "Leerkracht"
     complete: "voltoooien"
     none: "Geen"
-    save: "Opslaan"
     play_campaign_title: "Speel de campagne"
     play_campaign_description: "Je bent klaar voor de volgende stap! Onderzoek honderden uitdagende levels, leer geavanceerde programmeervaardigheden en neem het op tegen anderen in de arena's!"
     create_account_title: "Maak een account"
@@ -1318,8 +1277,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     students_enrolled: "ingeschreven leerlingen"
     students_assigned: "toegewezen leerlingen"
     length: "Lengte:"
-    title: "Titel" # Flat style redesign
-    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # {change}
+    subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign {change}
     changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
     select_level: "Selecteer level"
@@ -1329,8 +1287,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     view_guide_online: "Bekijk Handleiding Online (PDF)" # {change}
     grants_lifetime_access: "Verschaft levenslange toegang tot alle cursusmodules." # {change}
     enrollment_credits_available: "Beschikbaar inschrijf-krediet:" # {change}
-    description: "beschrijving" # ClassroomSettingsModal
-    language_select: "Selecteer een taal"
+    language_select: "Selecteer een taal" # ClassroomSettingsModal
     language_cannot_change: "Taal kan niet worden veranderd als leerlingen zijn ingeschreven voor de klas."
     learn_p: "Leer Python"
     learn_j: "Leer JavaScript"
@@ -1393,6 +1350,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_this_hero: "Kies deze Held"
     current_hero: "Huidige Held:"
     change_hero: "Verander Held"
+#    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
   teacher:
     course_solution: "Cursus Oplossing"
@@ -1420,6 +1378,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unarchive_class: "dearchiveer klas"
     unarchive_this_class: "Dearchiveer deze klasse"
     no_students_yet: "Deze klas heeft nog geen leerlingen."
+#    no_students_yet_view_class: "View class to add students."
     try_refreshing: "(Het kan nodig zijn om de pagina opnieuw te laden)"
     add_students: "Voeg Leerlingen toe"
     create_new_class: "Maak een Nieuwe Klas aan"
@@ -1433,6 +1392,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     earliest_incomplete: "Vroegste onvoltooide level"
     latest_complete: "Laatste voltooide level"
     enroll_student: "Schrijf leerling in"
+#    apply_license: "Apply License"
     course_progress: "Cursus voortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
@@ -1446,6 +1406,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     click_to_view_progress: "klik om de eigenschappen te bekijken"
     no_progress: "Geen voortgang"
     select_course: "Selecteer cursus om te bekijken"
+#    students_not_assigned: "Students who have not been assigned {{courseName}}"
     course_overview: "Cursus Overzicht"
     copy_class_code: "Kopieer Klas Code"
     class_code_blurb: "Nieuwe leerlingen kunnen deze klas code invoeren op hun dashboard of via codecombat.com/courses om zich bij de klas aan te sluiten." # {change}
@@ -1453,19 +1414,26 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     class_join_url_blurb: "Nieuwe studenten kunnen deze link bezoeken terwijl ze ingelogt zijn om zich bij de klas aan te sluiten." # {change}
     add_students_manually: "Leerlingen Handmatig Toevoegen" # {change}
     bulk_assign: "Toewijzen in Bulk"
+#    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
+#    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
+#    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
+#    assign_course: "Assign Course"
+#    not_assigned_modal_title: "Courses were not assigned"
+#    not_assigned_modal_body_1: "You do not have enough licenses available to assign additional Courses to all {{selected}} selected students."
+#    not_assigned_modal_body_2: "You only have {{totalSpotsAvailable}} licenses available ({{unenrolledStudents}} students did not have an active license)."
+#    not_assigned_modal_body_3: "Please select fewer students, or reach out to {{email}} for assistance."
     assign_to_selected_students: "Toewijzen aan Geselecteerde Leerlingen"
     assigned: "Toegewezen"
     enroll_selected_students: "Schrijf Geselecteerde Leerlingen in"
-    cant_assign_to_unenrolled: "Curses kan niet toegewezen worden aan leerlingen die niet ingeschreven staan."
     no_students_selected: "Er waren geen leerlingen geselecteerd."
     guides_coming_soon: "Handleidingen komen binnenkort!" # Courses
     show_students_from: "Toon leerlingen vanaf" # Enroll students modal
-    enroll_the_following_students: "Schrijf de volgende leerlingen in"
+#    apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+#    students_have_licenses: "The following students already have licenses applied:"
     all_students: "Alle Leerlingen"
-    enroll_students: "Schrijf Leerlingen in"
+#    apply_licenses: "Apply Licenses"
     not_enough_enrollments: "Niet genoeg inschrijvingen beschikbaar." # {change}
-    enrollments_blurb_1: "Leerlingen volgen informatica" # {change}
-    enrollments_blurb_2: "Vereis inschrijving voor toegang tot de cursussen." # {change}
+#    enrollments_blurb: "Students are required to have a license to access any content after the first course."
     credits_available: "Beschikbare Credits" # {change}
     total_unique_students: "Totaal Aantal Unieke Leerlingen" # {change}
     total_enrolled_students: "Totaal Aantal Ingeschreven Leerlingen" # {change}
@@ -1475,9 +1443,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchased: "Aanschaffing Voltooid!"
     purchase_now: "Nu Aanschaffen"
     how_to_enroll: "Hoe Schrijf ik Leerlingen in"
-    how_to_enroll_blurb_1: "Als een leerling nog niet is ingeschreven, staat er een knop genaamd \"Enroll\" bij hun naam."
-    how_to_enroll_blurb_2: "Je kunt meerdere leerlingen tegelijkertijd inschrijven. Vink simpelweg de vakjes aan voor de leerlingen die je wilt inschrijven en klik op de knop \"Enroll Selected Students\"."
-    how_to_enroll_blurb_3: "Zodra een leerling is ingeschreven heeft hij/zij toegang tot alle inhoud."
+#    how_to_apply_licenses: "How to Apply Licenses"
     bulk_pricing_blurb: "Aanschaffen voor meer dan 25 leerlingen? Neem contact met ons op."
     total_unenrolled: "Totaal aantal niet ingeschreven"
     export_student_progress: "Exporteer Voortgang Leerlingen (CSV bestand)"
@@ -1492,22 +1458,78 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     credits: "licenties"
     start_date: "start datum:"
     end_date: "eind datum:"
-    num_enrollments_needed: "Benodigd aantal licenties:"
     get_enrollments_blurb: " We helpen je met een op maat gemaakte oplossing voor jullie klas, school of gemeenschap."
-    enroll_request_sent_blurb1: "Bedankt! Je verzoek is verstuurd."
-    enroll_request_sent_blurb2: "Ons klassensucces team zal binnenkort contact opnemen om te helpen met een op maat gemaakte oplossing voor jullie studenten!"
-    enroll_request_sent_blurb3: "Neem vooral contact op met <a href='mailto:schools@codecombat.com'>schools@codecombat.com</a> als er nog aanvullende vragen zijn."
+#    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
+#    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
+#    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
     request_sent: "Verzoek Verstuurd!"
     enrollment_status: "Status van Inschrijving"
+#    license_status: "License Status"
     status_expired: "Verlopen op {{date}}"
     status_not_enrolled: "Niet Ingeschreven"
     status_enrolled: "Verloopt op {{date}}"
     select_all: "Selecteer Alles"
     projects: "Projecten"
+#    project: "Project"
+#    view_student_project: "View Student Project"
+#    view_arena_ladder: "View Arena Ladder"
+#    resource_hub: "Resource Hub"
+#    getting_started: "Getting Started"
+#    educator_faq: "Educator FAQ"
+#    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
+#    teacher_getting_started: "Teacher Getting Started Guide"
+#    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
+#    student_getting_started: "Student Quick Start Guide"
+#    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    cs1: "Introduction to Computer Science"
+#    cs2: "Computer Science 2"
+#    cs3: "Computer Science 3"
+#    cs1_syntax_python: "Course 1 Python Syntax Guide"
+#    cs1_syntax_python_desc: "Cheatsheet with references to common Python syntax that students will learn in Introduction to Computer Science."
+#    cs1_syntax_javascript: "Course 1 JavaScript Syntax Guide"
+#    cs1_syntax_javascript_desc: "Cheatsheet with references to common JavaScript syntax that students will learn in Introduction to Computer Science."
+#    coming_soon: "Additional guides coming soon!"
+#    engineering_cycle_worksheet: "Engineering Cycle Worksheet"
+#    engineering_cycle_worksheet_desc: "Use this worksheet to teach students the basics of the engineering cycle: Assess, Design, Implement and Debug. Refer to the completed example worksheet as a guide."
+#    engineering_cycle_worksheet_link: "View example"
+#    progress_journal: "Progress Journal"
+#    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
+#    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
+#    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
+#    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+#    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
+#    cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+#    cs1_pairprogramming: "Pair Programming Activity"
+#    cs1_pairprogramming_desc: "Introduce students to a pair programming exercise that will help them become better listeners and communicators."
+#    unlock_resources: "Unlock more resources!"
+#    unlock_resources_desc: "Gain access to additional guides by adding student licenses to your account. Request a demo today to get started."
+#    request_demo: "Request Demo"
+#    student_overview: "Overview"
+#    student_email: "Student Email"
+#    no_email: "Student has no email address set."
+#    student_profile: "Student Profile"
+#    playtime_detail: "Playtime Detail"
+#    student_completed: "Student Completed"
+#    student_in_progress: "Student in Progress"
+#    class_average: "Class Average"
+#    not_assigned: "has not been assigned the following courses"
+#    playtime_axis: "Playtime in Seconds"
+#    levels_axis: "Levels in"
+#    student_state: "How is"
+#    student_state_2: "doing?"
+#    student_good: "is doing well in"
+#    student_good_detail: "This student is keeping pace with the class."
+#    student_warn: "might need some help in"
+#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_great: "is doing great in"
+#    student_great_detail: "This student might be a good candidate to help other students working through this course."
 
   sharing:
     game: "Spel"
     webpage: "Webpagina"
+#    your_students_preview: "Your students will click here to see their finished projects! Unavailable in teacher preview."
+#    unavailable: "Link sharing not available in teacher preview."
     share_game: "Deel Dit Spel"
     share_web: "Deel Deze Webpagina"
     victory_share_prefix: "Deel deze link om je vriend en familie uit te nodigen voor"
@@ -1591,7 +1613,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_some_options: "Enkele opties?"
     level_tab_thangs: "Elementen"
     level_tab_scripts: "Scripts"
-    level_tab_settings: "Instellingen"
     level_tab_components: "Componenten"
     level_tab_systems: "Systemen"
     level_tab_docs: "Documentatie"
@@ -1607,7 +1628,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     duplicate: "Dupliceer"
     stop_duplicate: "Stop Dupliceren"
     rotate: "Roteer"
-    level_settings_title: "Instellingen"
     level_component_tab_title: "Huidige Componenten"
     level_component_btn_new: "Maak een nieuwe component aan"
     level_systems_tab_title: "Huidige Systemen"
@@ -1617,7 +1637,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_components_type: "Type"
     level_component_edit_title: "Wijzig Component"
     level_component_config_schema: "Schema"
-    level_component_settings: "Instellingen"
     level_system_edit_title: "Wijzig Systeem"
     create_system_title: "Maak een nieuw Systeem aan"
     new_component_title: "Maak een nieuwe Component aan"
@@ -2009,7 +2028,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     rights_desc: "Alle rechten zijn voorbehouden voor de Levels zelf. Dit omvat:"
     rights_scripts: "Scripts"
     rights_unit: "Eenheid Configuratie"
-    rights_description: "Beschrijvingen"
     rights_writings: "Literaire werken"
     rights_media: "Media (geluid, muziek) en eender welke creatieve inhoud, specifiek gemaakt voor dat level en niet verkrijgbaar bij het maken van levels."
     rights_clarification: "Om het duidelijk te maken, iets dat beschikbaar is in de Level editor voor het maken van levels, valt onder de CC licentie. Terwijl de inhoud gemaakt met de Level Editor of geüpload in de loop van de creatie van de levels, hier niet onder vallen."

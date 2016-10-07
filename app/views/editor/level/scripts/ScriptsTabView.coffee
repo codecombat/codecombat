@@ -94,7 +94,7 @@ module.exports = class ScriptsTabView extends CocoView
     #@scriptTreema?.destroy() # TODO: get this to work
     @scriptTreema = @$el.find('#script-treema').treema treemaOptions
     @scriptTreema.build()
-    @scriptTreema.childrenTreemas?.noteChain?.open()
+    @scriptTreema.childrenTreemas?.noteChain?.open(5)
     @selectedScriptPath = newPath
 
   getThangIDs: ->

@@ -259,6 +259,7 @@ module.exports = class ThangType extends CocoModel
       "Potion Master": "Omarn"
       "Raider": "Arryn"
       "Samurai": "Hattori"
+      "Ian Elliott": "Hattori"
       "Sorcerer": "Pender"
       "Trapper": "Senick"
     }

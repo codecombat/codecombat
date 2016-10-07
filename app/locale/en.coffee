@@ -56,7 +56,7 @@
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
     coming_soon: "More coming soon!"
-    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, jQuery, and Bootstrap." # {change}
+    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, jQuery, and Bootstrap."
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class:"Everything you need to run a computer science class in your school today, no CS background required."
@@ -786,7 +786,7 @@
     nolan_title: "Territory Manager"
     elliot_title: "Partnership Manager"
     elliot_blurb: "Mindreader"
-    lisa_title: "School Specialist" # {change}
+    lisa_title: "School Specialist"
     lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
     retrostyle_title: "Illustration"
@@ -794,10 +794,10 @@
     jose_title: "Music"
     jose_blurb: "Taking Off"
     community_title: "...and our open-source community"
-    community_subtitle: "Over 450 contributors have helped build CodeCombat, with more joining every week!"
+    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!" # {change}
     community_description_3: "CodeCombat is a"
     community_description_link_2: "community project"
-    community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our" # {change}
+    community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
     community_description_link: "contribute page"
     community_description_2: "for more info."
     number_contributors: "Over 450 contributors have lent their support and time to this project."
@@ -819,7 +819,7 @@
     jobs_benefits: "Employee Benefits"
     jobs_benefit_4: "Unlimited vacation"
     jobs_benefit_5: "Professional development and continuing education support – free books and games!"
-    jobs_benefit_6: "Medical (gold), dental, vision"
+    jobs_benefit_6: "Medical (gold), dental, vision, commuter"
     jobs_benefit_7: "Sit-stand desks for all"
     jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
@@ -1399,7 +1399,7 @@
     edit: "edit"
     edit_2: "Edit"
     remove: "remove"
-    latest_completed: "Latest completed:" # {change}
+    latest_completed: "Latest completed:"
     sort_by: "Sort by"
     progress: "Progress"
     completed: "Completed"
@@ -2033,7 +2033,7 @@
     rights_media: "Media (sounds, music) and any other creative content made specifically for that Level and not made generally available when creating Levels."
     rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "In a Nutshell"
-    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for in the future, if that's what ends up happening."
+    nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for."
     canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
     third_party_title: "Third Party Services"
     third_party_description: "CodeCombat uses the following third party services (among others):"
