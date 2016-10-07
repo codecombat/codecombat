@@ -12,6 +12,7 @@ authentication = require 'passport'
 sendwithus = require '../sendwithus'
 LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
+oauth = require '../lib/oauth'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -164,6 +165,21 @@ module.exports =
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
     next()
+    
+  loginByOAuthProvider: wrap (req, res) ->
+    { provider: providerId, accessToken, code } = req.query
+    identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
+    
+    user = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
+    if not user
+      throw new errors.NotFound('No user with this identity exists')
+    
+    req.loginAsync = Promise.promisify(req.login)
+    yield req.loginAsync user
+    
+    activity = req.user.trackActivity 'login', 1
+    yield req.user.update {activity: activity}
+    res.redirect '/'
     
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user

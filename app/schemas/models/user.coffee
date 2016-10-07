@@ -65,7 +65,20 @@ _.extend UserSchema.properties,
   githubID: {type: 'integer', title: 'GitHub ID'}
   gplusID: c.shortString({title: 'G+ ID'})
   cleverID: c.shortString({title: 'Clever ID'})
-
+  oAuthIdentities: {
+    description: 'List of OAuth identities this user has.'
+    type: 'array'
+    items: {
+      description: 'A single OAuth identity'
+      type: 'object'
+      properties: {
+        provider: c.objectId()
+        id: { type: 'string', description: 'The service provider\'s id for the user' }
+      }
+    }
+  }
+  clientCreator: c.objectId({description: 'Client which created this user'})
+  
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
