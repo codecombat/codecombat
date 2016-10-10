@@ -49,7 +49,7 @@ module.exports = class VerifierView extends RootView
   filterCampaigns: ->
     @levelsByCampaign = {}
     for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero'] and campaign.get('slug') isnt 'picoctf'
-      @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: true}
+      @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: campaign.get('slug') in ['intro']}
       campaignInfo = @levelsByCampaign[campaign.get('slug')]
       for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'game-dev', 'web-dev']  # Would use isType, but it's not a Level model
         campaignInfo.levels.push level.slug

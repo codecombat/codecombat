@@ -501,7 +501,7 @@ module.exports = class AnalyticsView extends RootView
       points = @createLineChartPoints(days, campaignData)
       chartLines.push
         points: points
-        description: 'Campaign Monthly Active Users (in thousands)'
+        description: 'Home Monthly Active Users (in thousands)'
         lineColor: 'purple'
         strokeWidth: 1
         min: 0
@@ -584,7 +584,9 @@ module.exports = class AnalyticsView extends RootView
           min: 0
           showYScale: showYScale
         showYScale = false
-      line.max = lineMax for line in lines
+      for line in lines
+        line.description = line.description.replace 'campaign', 'home'
+        line.max = lineMax
 
     createActiveUsersChartLines(@campaignDailyActiveUsersChartLines90, 90, 'DAU campaign')
     createActiveUsersChartLines(@campaignMonthlyActiveUsersChartLines90, 90, 'MAU campaign')
@@ -637,6 +639,7 @@ module.exports = class AnalyticsView extends RootView
 
     for line in @campaignVsClassroomMonthlyActiveUsersRecentChartLines
       line.max = max
+      line.description = line.description.replace 'campaign', 'home'
 
     days = d3Utils.createContiguousDays(365)
     colorIndex = 0
@@ -665,6 +668,7 @@ module.exports = class AnalyticsView extends RootView
 
     for line in @campaignVsClassroomMonthlyActiveUsersChartLines
       line.max = max
+      line.description = line.description.replace 'campaign', 'home'
 
   updateEnrollmentsChartData: ->
     @enrollmentsChartLines = []
