@@ -546,8 +546,8 @@ describe 'GET /db/classroom/:handle/members', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @teacher = yield utils.initUser()
-    @student1 = yield utils.initUser({ name: "Firstname Lastname" })
-    @student2 = yield utils.initUser({ name: "Student Nameynamington" })
+    @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L" })
+    @student2 = yield utils.initUser({ name: "Student Nameynamington", firstName: "Student", lastName: "N" })
     @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
     @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
     done()
@@ -570,7 +570,7 @@ describe 'GET /db/classroom/:handle/members', ->
     expect(body).toEqual([])
     done()
 
-  it 'returns all members with name and email', utils.wrap (done) ->
+  it 'returns all members with name, email, firstName and lastName', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }
     expect(res.statusCode).toBe(200)
@@ -578,6 +578,8 @@ describe 'GET /db/classroom/:handle/members', ->
     for user in body
       expect(user.name).toBeDefined()
       expect(user.email).toBeDefined()
+      expect(user.firstName).toBeDefined()
+      expect(user.lastName).toBeDefined()
       expect(user.passwordHash).toBeUndefined()
     done()
 
