@@ -3,6 +3,7 @@ mw = require '../middleware'
 module.exports.setup = (app) ->
   
   app.all('/api/*', mw.api.clientAuth)
+  app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
   app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)

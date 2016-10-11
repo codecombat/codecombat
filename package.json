@@ -56,6 +56,7 @@
     "multiplayer"
   ],
   "dependencies": {
+    "@basicer/geoip-lite": "^1.1.6",
     "JQDeferred": "~2.1.0",
     "ace-builds": "https://github.com/ajaxorg/ace-builds/archive/3fb55e8e374ab02ce47c1ae55ffb60a1835f3055.tar.gz",
     "aether": "~0.5.21",
@@ -72,7 +73,6 @@
     "country-list": "0.0.3",
     "express": "~3.0.6",
     "express-useragent": "~0.0.9",
-    "@basicer/geoip-lite": "^1.1.6",
     "graceful-fs": "~2.0.1",
     "gridfs-stream": "~1.1.1",
     "jsondiffpatch": "^0.2.3",
@@ -94,9 +94,11 @@
     "sendwithus": "2.1.x",
     "stream-buffers": "0.2.x",
     "stripe": "~2.9.0",
+    "swagger-ui-express": "^1.0.0",
     "tv4": "~1.0.16",
     "underscore.string": "2.3.x",
-    "winston": "0.6.x"
+    "winston": "0.6.x",
+    "yamljs": "^0.2.8"
   },
   "devDependencies": {
     "after-brunch": "0.0.5",
