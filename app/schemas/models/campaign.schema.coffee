@@ -115,7 +115,7 @@ _.extend CampaignSchema.properties, {
       }}
 
       #- denormalized from Achievements
-      rewards: { type: 'array', items: {
+      rewards: { format: 'rewards', type: 'array', items: {
         type: 'object'
         additionalProperties: false
         properties:
