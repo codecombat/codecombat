@@ -7,12 +7,12 @@ Campaign = require 'models/Campaign'
 Levels = require 'collections/Levels'
 Level = require 'models/Level'
 utils = require 'core/utils'
+require 'vendor/aether-python'
 
 unless typeof esper is 'undefined'
   parser = new esper().realm.parser
 
-require 'vendor/aether-python'
-
+# Magic numbers for sha1
 HEX_CHARS = '0123456789abcdef'.split('')
 EXTRA = [
   -2147483648
@@ -33,7 +33,7 @@ module.exports = class StudentSolutionsView extends RootView
   id: 'student-solutions-view'
 
   events:
-    'click #goButton': 'onClickGoButton'
+    'click #go-button': 'onClickGoButton'
 
   levelSlug: "eagle-eye"
   limit: 500
@@ -56,10 +56,9 @@ module.exports = class StudentSolutionsView extends RootView
     @sessions = []
     @solutions = {}
     @count = {}
-    # @asts = {}
     @errors = 0
 
-  startFetchingData: () =>
+  startFetchingData: ->
     @getLevelInfo()
 
   fetchSessions: () ->
@@ -82,8 +81,6 @@ module.exports = class StudentSolutionsView extends RootView
         @count[hash] += 1
         @solutions[hash] ?= []
         @solutions[hash].push session
-        # @asts[hash] ?= []
-        # @asts[hash].push ast
 
       tallyFn = (result, value, key) =>
         return result if value is 1
@@ -136,7 +133,7 @@ module.exports = class StudentSolutionsView extends RootView
     @levelSlug = @$('#levelSlug').val()
     @startFetchingData()
 
-  onLevelLoaded: (level) =>
+  onLevelLoaded: (level) ->
     @level = level
     @resetLevelInfo()
 
@@ -159,11 +156,6 @@ module.exports = class StudentSolutionsView extends RootView
     @fetchSessions()
 
   getDefaultCode: (level) ->
-    # TODO: put this into Level? if so, also use it in TeacherCourseSolutionView
-    heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
-    comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
-    programmableMethod = comp?.config.programmableMethods.plan
-    result = {}
 
     parseTemplate = (src, context) =>
       try
@@ -173,6 +165,12 @@ module.exports = class StudentSolutionsView extends RootView
         console.warn "Template Error"
         console.log src
         return src
+
+    # TODO: put this into Level? if so, also use it in TeacherCourseSolutionView
+    heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
+    comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
+    programmableMethod = comp?.config.programmableMethods.plan
+    result = {}
 
     # javascript
     if programmableMethod.source
