@@ -128,6 +128,7 @@ setupPassportMiddleware = (app) ->
   auth.setup()
 
 setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", host="cn.codecombat.com") ->
+  hosts = host.split /;/g
   shouldRedirectToCountryServer = (req) ->
     speaksLanguage = _.any req.acceptedLanguages, (language) -> language.indexOf languageCode isnt -1
 
@@ -137,7 +138,7 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
 
     return unless reqHost.indexOf(config.unsafeContentHostname) is -1
 
-    unless reqHost.toLowerCase() is host
+    if hosts.indexOf(reqHost.toLowerCase()) is -1
       ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0] if ip? # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
@@ -151,7 +152,7 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
 
   app.use (req, res, next) ->
     if shouldRedirectToCountryServer req
-      res.writeHead 302, "Location": 'http://' + host + req.url
+      res.writeHead 302, "Location": 'http://' + hosts[0] + req.url
       res.end()
     else
       next()
