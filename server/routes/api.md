@@ -89,9 +89,9 @@ Grants a user premium access up to a certain time.
 #### Example
 
 ```javascript
-url = `https://codecombat.com/api/users/${userID}/prepaids`
-json = { json: new Date('2017-01-01').toISOString() }
-request.post({ url, json, auth }, (err, res) => {
+url = `https://codecombat.com/api/users/${userID}/subscription`
+json = { ends: new Date('2017-01-01').toISOString() }
+request.put({ url, json, auth }, (err, res) => {
   console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
 })
 ```

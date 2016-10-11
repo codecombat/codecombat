@@ -13,7 +13,7 @@ INCLUDED_USER_PRIVATE_PROPS = ['email', 'oAuthIdentities']
 DATETIME_REGEX = /^\d{4}-\d{2}-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}Z$/ # JavaScript Date's toISOString() output
 
 clientAuth = wrap (req, res, next) ->
-  if config.isProduction and not req.secure  
+  if config.isProduction and not req.isSecure()
     throw new errors.Unauthorized('API calls must be over HTTPS.')
 
   creds = basicAuth(req)

@@ -11,6 +11,7 @@ module.exports =
   courses: require './courses'
   earnedAchievements: require './earned-achievements'
   files: require './files'
+  headers: require './headers'
   healthcheck: require './healthcheck'
   levels: require './levels'
   logging: require './logging'

@@ -188,10 +188,21 @@ setupRedirectMiddleware = (app) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
 
+setupSecureMiddleware = (app) ->
+  # Cannot use express request `secure` property in production, due to
+  # cluster setup.
+  isSecure = ->
+    return @secure or @headers['x-forwarded-proto'] is 'https'
+
+  app.use (req, res, next) ->
+    req.isSecure = isSecure
+    next()
+    
 setupPerfMonMiddleware = (app) ->
   app.use perfmon.middleware
 
 exports.setupMiddleware = (app) ->
+  setupSecureMiddleware app
   setupPerfMonMiddleware app
   setupDomainFilterMiddleware app
   setupCountryRedirectMiddleware app, "china", "CN", "zh", config.chinaDomain
