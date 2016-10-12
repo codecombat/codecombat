@@ -162,6 +162,10 @@ function createUpsertCloseLeadFn(zpContact) {
           console.log(`DEBUG: Creating lead for ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
           return createCloseLead(zpContact, done);
         }
+        else if (data.total_results > 1) {
+          console.log(`ERROR: Multiple results found for this search. Fix this script so it finds the right one! (${query})`);
+          return done()
+        }
         else {
           const existingLead = data.data[0];
           console.log(`DEBUG: Adding to ${existingLead.id} ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
