@@ -147,7 +147,7 @@ function createUpsertCloseLeadFn(zpContact) {
       const data = JSON.parse(body);
       if (data.total_results != 0) return done();
 
-      query = `name:${zpContact.organization}`;
+      query = `name:"${zpContact.organization}"`;
       if (zpContact.nces_school_id) {
         query = `custom.demo_nces_id:"${zpContact.nces_school_id}"`;
       }
