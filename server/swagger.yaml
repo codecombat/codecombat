@@ -178,7 +178,7 @@ paths:
       tags:
         - users
       description: |
-        Grants a user premium access up to a certain time.
+        Grants a user premium access to the "Home" version up to a certain time.
         
         #### Example
         
@@ -189,8 +189,6 @@ paths:
           console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
         })
         ```
-
-
       parameters:
         - $ref: '#/parameters/handlePathParameter'
         - name: subscription
@@ -209,6 +207,42 @@ paths:
           schema:
             $ref: '#/definitions/UserResponse'
 
+  /users/{handle}/license:
+    put:
+      tags:
+        - users
+      description: |
+        Grants a user access to the "Classroom" version up to a certain time.
+        Sets their role to "student".
+        
+        #### Example
+        
+        ```javascript
+        url = `https://codecombat.com/api/users/${userID}/license`
+        json = { ends: new Date('2017-01-01').toISOString() }
+        request.put({ url, json, auth }, (err, res) => {
+          console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
+        })
+        ```
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: license
+          in: body
+          required: true
+          schema:
+            type: 'object'
+            required:
+              - ends
+            properties:
+              ends:
+                $ref: '#/definitions/datetimeString'
+      responses:
+        "200":
+          description: 'The affected user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+
+
 parameters:
   handlePathParameter:
     name: handle
@@ -218,13 +252,12 @@ parameters:
     description: The document's `_id` or `slug`.
     
 tags:
-  - name: "auth"
   - name: "users"
 
 securityDefinitions:
   basicAuth:
     type: basic
-    description: HTTP Basic Authentication. Works over `HTTP` and `HTTPS`
+    description: HTTP Basic Authentication. We will need to provide you with your client ID and secret.
     
 security:
   - basicAuth: []
@@ -253,8 +286,8 @@ definitions:
           gamesCompleted:
             type: number
           concepts:
-            type: array
-            items:
+            type: object
+            additionalProperties:
               type: number
       oAuthIdentities:
         type: array
@@ -272,4 +305,13 @@ definitions:
             $ref: '#/definitions/datetimeString'
           active:
             type: 'boolean'
-              
+      license:
+        type: object
+        properties:
+          ends:
+            $ref: '#/definitions/datetimeString'
+          active:
+            type: 'boolean'
+      role:
+        type: string
+        description: Set to "student" if the user has a license.

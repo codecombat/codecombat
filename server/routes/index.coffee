@@ -9,6 +9,7 @@ module.exports.setup = (app) ->
   app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
   app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
   app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
+  app.put('/api/users/:handle/license', mw.api.putUserLicense)
   
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)

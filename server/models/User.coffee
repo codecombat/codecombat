@@ -530,6 +530,14 @@ UserSchema.virtual('subscription').get ->
 
   return subscription
 
+UserSchema.virtual('license').get ->
+  license = {
+    active: @isEnrolled()
+  }
+  { endDate } = @get('coursePrepaid') ? {}
+  license.ends = endDate if endDate
+  return license
+
 module.exports = User = mongoose.model('User', UserSchema)
 User.idCounter = 0
 

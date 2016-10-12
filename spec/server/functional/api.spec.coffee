@@ -237,3 +237,86 @@ describe 'PUT /api/users/:handle/subscription', ->
       expect(prepaid.get('startDate')).toBeGreaterThan(t0)
       expect(prepaid.get('startDate')).toBeLessThan(t1)
       done()
+
+
+describe 'PUT /api/users/:handle/license', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, APIClient])
+    @client = new APIClient()
+    @secret = @client.setNewSecret()
+    yield @client.save()
+    @auth = { user: @client.id, pass: @secret }
+    url = utils.getURL('/api/users')
+    json = { name: 'name', email: 'e@mail.com' }
+    [res, body] = yield request.postAsync({url, json, @auth})
+    @user = yield User.findById(res.body._id)
+    @url = utils.getURL("/api/users/#{@user.id}/license")
+    @ends = moment().add(12, 'months').toISOString()
+    @json = { @ends }
+    done()
+
+  it 'provides the user with premium access until the given end date, and creates a prepaid', utils.wrap (done) ->
+    expect(@user.isEnrolled()).toBe(false)
+    t0 = new Date().toISOString()
+    [res, body] = yield request.putAsync({ @url, @json, @auth })
+    t1 = new Date().toISOString()
+    expect(res.body.license.ends).toBe(@ends)
+    expect(res.statusCode).toBe(200)
+    prepaid = yield Prepaid.findOne({'redeemers.userID': @user._id})
+    expect(prepaid).toBeDefined()
+    expect(prepaid.get('clientCreator').equals(@client._id)).toBe(true)
+    expect(prepaid.get('redeemers')[0].userID.equals(@user._id)).toBe(true)
+    expect(prepaid.get('startDate')).toBeGreaterThan(t0)
+    expect(prepaid.get('startDate')).toBeLessThan(t1)
+    expect(prepaid.get('type')).toBe('course')
+    expect(prepaid.get('endDate')).toBe(@ends)
+    user = yield User.findById(@user.id)
+    expect(user.isEnrolled()).toBe(true)
+    expect(user.get('role')).toBe('student')
+    done()
+
+  it 'returns 404 if the user is not found', utils.wrap (done) ->
+    url = utils.getURL('/api/users/dne/license')
+    [res, body] = yield request.putAsync({ url, @json, @auth })
+    expect(res.statusCode).toBe(404)
+    done()
+
+  it 'returns 403 if the user was not created by the client', utils.wrap (done) ->
+    yield @user.update({$unset: {clientCreator:1}})
+    [res, body] = yield request.putAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(403)
+    done()
+
+  it 'returns 422 if ends is not provided or incorrectly formatted or in the past', utils.wrap (done) ->
+    json = {}
+    [res, body] = yield request.putAsync({ @url, json, @auth })
+    expect(res.statusCode).toBe(422)
+
+    json = { ends: '2014-01-01T00:00:00.00Z'}
+    [res, body] = yield request.putAsync({ @url, json, @auth })
+    expect(res.statusCode).toBe(422)
+
+    json = { ends: moment().subtract(1, 'day').toISOString() }
+    [res, body] = yield request.putAsync({ @url, json, @auth })
+    expect(res.statusCode).toBe(422)
+
+    done()
+    
+  it 'returns 422 if the user is already enrolled', utils.wrap (done) ->
+    yield @user.update({$set: {coursePrepaid:{
+      _id: new mongoose.Types.ObjectId()
+      endDate: moment().add(1, 'month').toISOString()
+      startDate: moment().subtract(1, 'month').toISOString()
+    }}})
+    [res, body] = yield request.putAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(422)
+
+    yield @user.update({$set: {coursePrepaid:{
+      _id: new mongoose.Types.ObjectId()
+      endDate: moment().subtract(1, 'month').toISOString()
+      startDate: moment().subtract(2, 'months').toISOString()
+    }}})
+    [res, body] = yield request.putAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(200)
+    done()

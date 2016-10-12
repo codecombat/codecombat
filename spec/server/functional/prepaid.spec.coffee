@@ -101,7 +101,7 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.postAsync({uri: url, json: { userID: @student.id } })
     expect(res.statusCode).toBe(403)
-    expect(res.body.message).toBe('This prepaid is exhausted')
+    expect(res.body.message).toBe('Too many redeemers')
     done()
 
   it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
