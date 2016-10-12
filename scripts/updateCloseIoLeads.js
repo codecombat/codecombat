@@ -756,7 +756,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
       query = `custom.demo_nces_id:"${nces_school_id}"`;
     }
     else if (nces_district_id) {
-      query = `custom.demo_nces_district_id:"${nces_district_id}" custom.demo_nces_id:""`;
+      query = `custom.demo_nces_district_id:"${nces_district_id}" custom.demo_nces_id:"" custom.demo_nces_name:""`;
     }
     const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
