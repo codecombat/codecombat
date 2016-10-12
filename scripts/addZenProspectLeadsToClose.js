@@ -152,7 +152,7 @@ function createUpsertCloseLeadFn(zpContact) {
         query = `custom.demo_nces_id:"${zpContact.nces_school_id}"`;
       }
       else if (zpContact.nces_district_id) {
-        query = `custom.demo_nces_district_id:"${zpContact.nces_district_id}" custom.demo_nces_id:""`;
+        query = `custom.demo_nces_district_id:"${zpContact.nces_district_id}" custom.demo_nces_id:"" custom.demo_nces_name:""`;
       }
       url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
       request.get(url, (error, response, body) => {
