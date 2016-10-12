@@ -764,7 +764,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
       try {
         const data = JSON.parse(body);
         if (data.total_results > 1) {
-          console.error(`ERROR: ${data.total_results} leads found for ${cocoContact.email} nces_district_id=${nces_district_id} nces_school_id=${nces_school_id}`);
+          console.error(`ERROR: ${data.total_results} leads found for email=${cocoContact.email}, leadName=${cocoContact.leadName}, nces_district_id=${nces_district_id}, nces_school_id=${nces_school_id}. Final query: ${query}`);
           return done();
         }
         if (data.total_results === 1) {
