@@ -336,12 +336,29 @@ describe 'GET /auth/login-o-auth', ->
     @qs = { provider: @provider.id, accessToken: '1234' }
     done()
 
-  it 'logs the user in', utils.wrap (done) ->
+  it 'logs the user in, and redirects to "/play" if they are a "Home" version user', utils.wrap (done) ->
     @providerLookupRequest.reply(200, {id: 'abcd'})
     [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
     expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/play')
     [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
     expect(res.body._id).toBe(@user.id)
+    done()
+    
+  it 'redirects the user to "/students" if their role is "student"', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    yield @user.update({$set: {role:'student'}})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    done()
+
+  it 'redirects the user to "/teachers/classes" if their role is anything but "student"', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    yield @user.update({$set: {role:'teacher'}})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/teachers/classes')
     done()
     
   it 'can take a code and do a token lookup', utils.wrap (done) ->

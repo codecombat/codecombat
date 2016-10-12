@@ -179,7 +179,13 @@ module.exports =
     
     activity = req.user.trackActivity 'login', 1
     yield req.user.update {activity: activity}
-    res.redirect '/'
+    
+    if req.user.get('role') is 'student'
+      res.redirect '/students'
+    else if req.user.get('role')
+      res.redirect '/teachers/classes'
+    else
+      res.redirect '/play'
     
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user
