@@ -163,7 +163,7 @@ function createUpsertCloseLeadFn(zpContact) {
           return createCloseLead(zpContact, done);
         }
         else if (data.total_results > 1) {
-          console.log(`ERROR: Multiple results found for this search. Fix this script so it finds the right one! (${query})`);
+          console.error(`ERROR: ${data.total_results} leads found with info from Zen Prospect: email=${zpContact.email}, organization=${zpContact.organization}, nces_district_id=${nces_district_id}, nces_school_id=${zpConctact.nces_school_id}, nces_district_id=${zpConctact.nces_district_id}. Final query: ${query}`);
           return done()
         }
         else {
