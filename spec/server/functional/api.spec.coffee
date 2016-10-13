@@ -141,6 +141,7 @@ describe 'PUT /api/users/:handle/subscription', ->
 
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, APIClient])
+    yield utils.populateProducts()
     @client = new APIClient()
     @secret = @client.setNewSecret()
     yield @client.save()

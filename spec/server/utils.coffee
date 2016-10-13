@@ -12,6 +12,8 @@ Level = require '../../server/models/Level'
 LevelSession = require '../../server/models/LevelSession'
 Achievement = require '../../server/models/Achievement'
 Campaign = require '../../server/models/Campaign'
+Product = require '../../server/models/Product'
+{ productStubs } = require '../../server/routes/db/product'
 Course = require '../../server/models/Course'
 Prepaid = require '../../server/models/Prepaid'
 Classroom = require '../../server/models/Classroom'
@@ -327,3 +329,9 @@ module.exports = mw =
     day = new Date()
     day.setUTCDate(day.getUTCDate() + offset)
     day.toISOString().substring(0, 10)
+    
+  populateProducts: _.once co.wrap ->
+    promises = []
+    for stub in productStubs
+      promises.push Product(stub).save()
+    yield promises
