@@ -54,6 +54,16 @@ PrepaidSchema.post 'init', (doc) ->
       @set('endDate', Prepaid.DEFAULT_END_DATE)
       
 PrepaidSchema.methods.redeem = co.wrap (user) ->
+  if @get('endDate') and new Date(@get('endDate')) < new Date()
+    throw new errors.Forbidden('This prepaid is expired')
+  
+  if @get('type') is 'course'
+    cutoffDate = new Date(2015,11,11)
+    if @_id.getTimestamp().getTime() < cutoffDate.getTime()
+      throw new errors.Forbidden('Cannot redeem from prepaids older than November 11, 2015')
+    if user.isTeacher()
+      throw new errors.Forbidden('Teachers may not be enrolled')
+
   oldRedeemers = @get('redeemers') ? []
   if oldRedeemers.length >= @get('maxRedeemers')
     throw new errors.Forbidden('Too many redeemers')
@@ -72,49 +82,66 @@ PrepaidSchema.methods.redeem = co.wrap (user) ->
     { 
       _id: @_id,
       'redeemers.userID': { $ne: user._id },
-      '$where': 'this.redeemers.length < this.maxRedeemers'
+      '$where': "this.maxRedeemers > 0 && (!this.redeemers || this.redeemers.length < #{@get('maxRedeemers')})"
     }, newRedeemerPush)
   
   if result.nModified isnt 1
     throw new errors.Forbidden('Can\'t add user to prepaid redeemers')
     
-  { customerID, subscriptionID } = user.get('stripe') ? {}
-  subscription = yield findStripeSubscriptionAsync(customerID, {subscriptionID})
-
-  if subscription
-    stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
-    yield cancelSubscriptionImmediatelyAsync(user, subscription)
-
-  Product = require './Product'
-  product = yield Product.findOne({name: 'basic_subscription'})
-  if not product
-    throw new errors.NotFound('basic_subscription product not found') 
-
-  # Add terminal subscription to User, extending existing subscriptions
-  # TODO: refactor this into some form useable by both this and purchaseYearSale
-  stripeInfo = _.cloneDeep(user.get('stripe') ? {})
-  moment = require 'moment'
-  if givenEndDate
-    if _.isString(stripeInfo.free) and givenEndDate < stripeInfo.free
-      throw new errors.UnprocessableEntity('Prepaid expiration is earlier than the user\'s existing expiration')
-    endDate = moment(givenEndDate)
+  if @get('type') is 'course'
+    update = {
+      $set: {
+        coursePrepaid: {
+          _id: @_id
+          startDate: @get('startDate')
+          endDate: @get('endDate')
+        }
+      }
+    }
+    if not user.get('role')
+      update.$set.role = 'student'
+    yield user.update(update)
+    user.set(update['$set']) # for return
+  
   else
-    endDate = new moment()
-    if stripeSubscriptionPeriodEndDate
-      endDate = new moment(stripeSubscriptionPeriodEndDate)
-    else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
-      endDate = new moment(stripeInfo.free)
-    endDate = endDate.add(months, 'months')
-  stripeInfo.free = endDate.toISOString()
-  user.set('stripe', stripeInfo)
-
-  # Add gems to User
-  purchased = _.clone(user.get('purchased'))
-  purchased ?= {}
-  purchased.gems ?= 0
-  purchased.gems += product.get('gems') * months if product.get('gems') and months
-  user.set('purchased', purchased)
-  yield user.save()
+    { customerID, subscriptionID } = user.get('stripe') ? {}
+    subscription = yield findStripeSubscriptionAsync(customerID, {subscriptionID})
+  
+    if subscription
+      stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
+      yield cancelSubscriptionImmediatelyAsync(user, subscription)
+  
+    # get the subscription product
+    Product = require './Product'
+    product = yield Product.findOne({name: 'basic_subscription'})
+    if not product
+      throw new errors.NotFound('basic_subscription product not found') 
+  
+    # Add terminal subscription to User, extending existing subscriptions
+    # TODO: refactor this into some form useable by both this and purchaseYearSale
+    stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+    moment = require 'moment'
+    if givenEndDate
+      if _.isString(stripeInfo.free) and givenEndDate < stripeInfo.free
+        throw new errors.UnprocessableEntity('Prepaid expiration is earlier than the user\'s existing expiration')
+      endDate = moment(givenEndDate)
+    else
+      endDate = new moment()
+      if stripeSubscriptionPeriodEndDate
+        endDate = new moment(stripeSubscriptionPeriodEndDate)
+      else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
+        endDate = new moment(stripeInfo.free)
+      endDate = endDate.add(months, 'months')
+    stripeInfo.free = endDate.toISOString()
+    user.set('stripe', stripeInfo)
+  
+    # Add gems to User
+    purchased = _.clone(user.get('purchased'))
+    purchased ?= {}
+    purchased.gems ?= 0
+    purchased.gems += product.get('gems') * months if product.get('gems') and months
+    user.set('purchased', purchased)
+    yield user.save()
 
 
 PrepaidSchema.statics.postEditableProperties = [

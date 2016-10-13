@@ -74,7 +74,6 @@ module.exports = class CampaignEditorView extends RootView
     for level in _.values(@campaign.get('levels'))
       originals = originals.concat(_.values(level.requiredGear)) if level.requiredGear
       originals = originals.concat(_.values(level.restrictedGear)) if level.restrictedGear
-      originals = originals.concat(level.allowedHeroes) if level.allowedHeroes
     originals = _.uniq _.flatten originals
     for original in originals
       thangType = new ThangType()

@@ -201,8 +201,17 @@ setupSecureMiddleware = (app) ->
     
 setupPerfMonMiddleware = (app) ->
   app.use perfmon.middleware
+  
+setupAPIDocs = (app) ->
+  # TODO: Move this into routes, so they're consolidated
+  YAML = require 'yamljs'
+  swaggerDoc = YAML.load('./server/swagger.yaml')
+  swaggerUi = require 'swagger-ui-express'
+  app.use('/', swaggerUi.serve)
+  app.use('/api-docs', swaggerUi.setup(swaggerDoc))
 
 exports.setupMiddleware = (app) ->
+  setupAPIDocs app
   setupSecureMiddleware app
   setupPerfMonMiddleware app
   setupDomainFilterMiddleware app

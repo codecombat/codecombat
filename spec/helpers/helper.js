@@ -102,7 +102,8 @@ beforeEach(function(done) {
       User.on('index', cb)
     },
     function(cb) {
-      // Initialize products
+      // Initially added to init products... but don't need that anymore. Shouldn't need this, either,
+      // but all the tests break if I remove it. TODO: Remove this without breaking tests.
       var utils = require('../server/utils');
       request = require('../server/request');
       utils.initUser()
@@ -112,15 +113,6 @@ beforeEach(function(done) {
         .then(function () {
           cb()
         });
-    },    
-    function(cb) {
-      // Initialize products
-      request = require('../server/request');
-      request.get(getURL('/db/products'), function(err, res, body) {
-        expect(err).toBe(null);
-        expect(res.statusCode).toBe(200);
-        cb(err);
-      });
     }
   ],
   function(err) {

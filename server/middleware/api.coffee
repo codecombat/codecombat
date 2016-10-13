@@ -113,11 +113,46 @@ putUserSubscription = wrap (req, res) ->
   yield prepaid.redeem(user)
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
 
+  
+putUserLicense = wrap (req, res) ->
+  user = yield database.getDocFromHandle(req, User)
+  if not user
+    throw new errors.NotFound('User not found.')
 
+  unless req.client._id.equals(user.get('clientCreator'))
+    throw new errors.Forbidden('Must have created the user to perform this action.')
+
+  { ends } = req.body
+  unless ends and DATETIME_REGEX.test(ends)
+    throw new errors.UnprocessableEntity('ends is not a properly formatted.')
+
+  now = new Date().toISOString()
+  if ends < now
+    throw new errors.UnprocessableEntity('ends must be in the future.')
+
+  # if the user is already subscribed, this prepaid starts when it would have ended, otherwise it starts now 
+  { endDate } = user.get('coursePrepaid') ? {}
+  if endDate and endDate >= now
+    throw new errors.UnprocessableEntity("User is already enrolled, and may not be enrolled again until their current enrollment is finished")
+
+  prepaid = new Prepaid({
+    clientCreator: req.client._id
+    redeemers: []
+    maxRedeemers: 1
+    type: 'course'
+    startDate: now
+    endDate: ends
+  })
+  yield prepaid.save()
+  yield prepaid.redeem(user)
+  res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
+
+  
 module.exports = {
   clientAuth
   getUser
   postUser
   postUserOAuthIdentity
   putUserSubscription
+  putUserLicense
 }

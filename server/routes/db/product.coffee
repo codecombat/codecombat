@@ -3,16 +3,10 @@ errors = require '../../commons/errors'
 config = require '../../../server_config'
 wrap = require 'co-express'
 
-module.exports.get = wrap (req, res) ->
-
+get = wrap (req, res) ->
   products = yield Product.find()
-  names = (product.name for product in products)
-  unless config.isProduction
-    for product in initProducts
-      if not _.contains(names, product.name)
-        # upsert products in initProducts if they DNE
-        products.push(product)
-        new Product(product).save _.noop
+  unless _.size(products) or config.isProduction
+    res.send(productStubs)
   res.send(products)
 
 ###
@@ -23,7 +17,7 @@ If you are testing products and need to change them, you'll need to edit the db 
 ###
 
 
-initProducts = [
+productStubs = [
   {
     name: 'gems_5'
     amount: 100
@@ -84,3 +78,8 @@ initProducts = [
     planID: 'basic'
   }
 ]
+
+module.exports = {
+  get
+  productStubs
+}

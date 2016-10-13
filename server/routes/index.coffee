@@ -3,18 +3,20 @@ mw = require '../middleware'
 module.exports.setup = (app) ->
   
   app.all('/api/*', mw.api.clientAuth)
+  app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
   app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
   app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
   app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
+  app.put('/api/users/:handle/license', mw.api.putUserLicense)
   
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
   app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
-  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectHome)
-  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider)
+  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
+  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectAfterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)

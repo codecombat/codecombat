@@ -9,6 +9,7 @@ sendwithus = require '../../../server/sendwithus'
 mongoose = require 'mongoose'
 LevelSession = require '../../../server/models/LevelSession'
 OAuthProvider = require '../../../server/models/OAuthProvider'
+config = require '../../../server_config'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -318,6 +319,67 @@ describe 'POST /auth/login-gplus', ->
     [res, body] = yield request.postAsync url, { json: { gplusID: '1234', gplusAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(404)
     done()
+    
+    
+describe 'GET /auth/login-clever', ->
+  originalCleverConfig = null 
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    originalCleverConfig = config.clever
+    config.clever = { client_id: 'x', client_secret: 'y' }
+    @tokenRequest = nock('https://clever.com').post('/oauth/tokens')
+    @tokenSuccessResponse = { access_token: 'abc' }
+    @meRequest = nock('https://api.clever.com').get('/me')
+    @meSuccessResponse = { data: { type: 'student', id: 'xyz' } }
+    @lookupRequest = nock("https://api.clever.com").get("/v1.1/#{@meSuccessResponse.data.type}s/#{@meSuccessResponse.data.id}")
+    @lookupSuccessResponse = { data: { name: { first: 'first', last: 'last' }, email: 'clever@email.com' }}
+    @url = utils.getURL("/auth/login-clever")
+    @qs = { code: 'code', scope: 'all' }
+    done()
+    
+  afterEach ->
+    config.clever = originalCleverConfig
+
+  it 'creates and logs the user in, and redirects to "/students" if they are a student', utils.wrap (done) ->
+    @tokenRequest.reply(200, @tokenSuccessResponse)
+    @meRequest.reply(200, @meSuccessResponse)
+    @lookupRequest.reply(200, @lookupSuccessResponse)
+    [res, body] = yield request.getAsync({ @url, @qs, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
+    expect(body.lastName).toBe('last')
+    expect(body.firstName).toBe('first')
+    expect(body.role).toBe('student')
+    expect(body.cleverID).toBe('xyz')
+    expect(body.email).toBe('clever@email.com')
+    
+    userID = body._id
+    userCount = yield User.count()
+    
+    # make sure another user is not created
+    yield utils.logout()
+    @tokenRequest.reply(200, @tokenSuccessResponse)
+    @meRequest.reply(200, @meSuccessResponse)
+    @lookupRequest.reply(200, @lookupSuccessResponse)
+    [res, body] = yield request.getAsync({ @url, @qs, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
+    expect(body._id).toBe(userID)
+    expect(yield User.count()).toBe(userCount)
+    done()
+    
+  it 'redirects to the teacher dashboard if they are a teacher', utils.wrap (done) ->
+    @tokenRequest.reply(200, @tokenSuccessResponse)
+    @meRequest.reply(200, { data: { type: 'teacher', id: 'xyz' } })
+    @lookupRequest = nock("https://api.clever.com").get("/v1.1/teachers/xyz")
+    @lookupRequest.reply(200, @lookupSuccessResponse)
+    [res, body] = yield request.getAsync({ @url, @qs, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/teachers/classes')
+    done()
 
 
 describe 'GET /auth/login-o-auth', ->
@@ -336,12 +398,29 @@ describe 'GET /auth/login-o-auth', ->
     @qs = { provider: @provider.id, accessToken: '1234' }
     done()
 
-  it 'logs the user in', utils.wrap (done) ->
+  it 'logs the user in, and redirects to "/play" if they are a "Home" version user', utils.wrap (done) ->
     @providerLookupRequest.reply(200, {id: 'abcd'})
     [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
     expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/play')
     [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
     expect(res.body._id).toBe(@user.id)
+    done()
+    
+  it 'redirects the user to "/students" if their role is "student"', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    yield @user.update({$set: {role:'student'}})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    done()
+
+  it 'redirects the user to "/teachers/classes" if their role is anything but "student"', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    yield @user.update({$set: {role:'teacher'}})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/teachers/classes')
     done()
     
   it 'can take a code and do a token lookup', utils.wrap (done) ->

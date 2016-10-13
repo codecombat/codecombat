@@ -22,6 +22,8 @@ getIdentityFromOAuth = co.wrap ({providerId, accessToken, code}) ->
   userData = yield provider.lookupAccessToken(accessToken)
   if not userData
     throw new errors.UnprocessableEntity('User lookup failed')
+  if not _.isString(userData?.id)
+    throw new errors.UnprocessableEntity('"id" not found in token lookup response: ' + JSON.stringify(userData))
 
   identity = {
     provider: provider._id
