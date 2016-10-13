@@ -128,6 +128,12 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
     [res, body] = yield request.postAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(422)
     done()
+    
+  it 'returns 422 if the token lookup does not return an object with an id', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: null})
+    [res, body] = yield request.postAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(422)
+    done()
 
   it 'returns 409 if a user already exists with the given id/provider', utils.wrap (done) ->
     yield utils.initUser({oAuthIdentities: [{ provider: @provider._id, id: 'abcd'}]})
