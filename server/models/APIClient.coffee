@@ -21,6 +21,8 @@ APIClientSchema.statics.hash = (secret) ->
 APIClientSchema.statics.postEditableProperties = []
 APIClientSchema.statics.editableProperties = []
 
+APIClientSchema.plugin(plugins.NamedPlugin)
+
 APIClientSchema.set('toObject', {
   transform: (doc, ret, options) ->
     delete ret.secret

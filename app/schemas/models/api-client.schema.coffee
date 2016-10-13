@@ -12,5 +12,6 @@ APIClientSchema = {
 }
 
 c.extendBasicProperties APIClientSchema, 'Client'
+c.extendNamedProperties APIClientSchema
 
 module.exports = APIClientSchema

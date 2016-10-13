@@ -6,7 +6,7 @@ Promise = require 'bluebird'
 
 describe 'POST /db/api-clients', ->
   url = utils.getURL('/db/api-clients')
-  json = {}
+  json = { name: '3rd party' }
 
   it 'allows admins to create new clients', utils.wrap (done) ->
     admin = yield utils.initAdmin()
@@ -16,6 +16,8 @@ describe 'POST /db/api-clients', ->
     [res, body] = yield request.postAsync({ url, json }) # make sure there are no conflict errors
     expect(res.statusCode).toBe(201)
     expect(res.body.secret).toBeUndefined()
+    expect(res.body.name).toBe('3rd party')
+    expect(res.body.slug).toBe('3rd-party')
     done()
     
   it 'returns 403 for non-admins', utils.wrap (done) ->
