@@ -13,11 +13,13 @@ describe 'POST /db/api-clients', ->
     yield utils.loginUser(admin)
     [res, body] = yield request.postAsync({ url, json })
     expect(res.statusCode).toBe(201)
-    [res, body] = yield request.postAsync({ url, json }) # make sure there are no conflict errors
-    expect(res.statusCode).toBe(201)
-    expect(res.body.secret).toBeUndefined()
     expect(res.body.name).toBe('3rd party')
     expect(res.body.slug).toBe('3rd-party')
+    expect(res.body.secret).toBeUndefined()
+    [res, body] = yield request.postAsync({ url, json })
+    expect(res.statusCode).toBe(409)
+    [res, body] = yield request.postAsync({ url, json: {name: 'other name'} })
+    expect(res.statusCode).toBe(201)
     done()
     
   it 'returns 403 for non-admins', utils.wrap (done) ->
