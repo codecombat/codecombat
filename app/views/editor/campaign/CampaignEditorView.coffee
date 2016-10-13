@@ -111,6 +111,7 @@ module.exports = class CampaignEditorView extends RootView
       $.extend campaignLevel, _.omit(level.attributes, '_id')
       campaignLevel.rewards = @formatRewards level
       delete campaignLevel.unlocks
+      delete campaignLevel[key] for key in ['tasks', 'requiredCode', 'suspectCode', 'allowedHeroes', 'scoreTypes']  # Migrate these out of the campaigns 2016-10-12
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
       campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
@@ -362,8 +363,6 @@ class LevelNode extends TreemaObjectNode
       status += " (adventurer)"
 
     completion = ''
-    if data.tasks
-      completion = "#{(t for t in data.tasks when t.complete).length} / #{data.tasks.length}"
 
     valEl.append $("<a href='/editor/level/#{_.string.slugify(data.name)}' class='spr'>(e)</a>")
     valEl.append $("<#{el}></#{el}>").addClass('treema-shortened').text name

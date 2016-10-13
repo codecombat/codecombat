@@ -67,15 +67,15 @@ _.extend CampaignSchema.properties, {
       description: { type: 'string', format: 'hidden' }
       i18n: { type: 'object', format: 'hidden' }
       requiresSubscription: { type: 'boolean' }
-      replayable: { type: 'boolean' }
+      replayable: { type: 'boolean', format: 'hidden' }
       type: {'enum': ['ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev']}
       slug: { type: 'string', format: 'hidden' }
       original: { type: 'string', format: 'hidden' }
       adventurer: { type: 'boolean' }
       practice: { type: 'boolean' }
       practiceThresholdMinutes: { type: 'number' }
-      primerLanguage: { type: 'string', enum: ['javascript', 'python'] }
-      shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.' }
+      primerLanguage: { type: 'string', enum: ['javascript', 'python'], format: 'hidden' }
+      shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.', format: 'hidden' }
       adminOnly: { type: 'boolean' }
       disableSpaces: { type: ['boolean','number'] }
       hidesSubmitUntilRun: { type: 'boolean' }
@@ -91,17 +91,6 @@ _.extend CampaignSchema.properties, {
       realTimeSpeedFactor: { type: 'number' }
       autocompleteFontSizePx: { type: 'number' }
 
-      requiredCode: c.array {}, {
-        type: 'string'
-      }
-      suspectCode: c.array {}, {
-        type: 'object'
-        properties: {
-          name: { type: 'string' }
-          pattern: { type: 'string' }
-        }
-      }
-
       requiredGear: { type: 'object', additionalProperties: {
         type: 'array'
         items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
@@ -114,6 +103,13 @@ _.extend CampaignSchema.properties, {
         type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
       }}
 
+      concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', format: 'hidden'}, c.concept
+      picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
+
+      #- denormalized into Level and automatically set by campaign editor
+      campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'
+      campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'
+
       #- denormalized from Achievements
       rewards: { format: 'rewards', type: 'array', items: {
         type: 'object'
@@ -125,16 +121,6 @@ _.extend CampaignSchema.properties, {
           level: { type: 'string', links: [{rel: 'db', href: '/db/level/{($)}/version'}], format: 'latest-version-original-reference' }
           type: { enum: ['heroes', 'items', 'levels'] }
       }}
-
-      campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
-      campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
-
-      scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for.', uniqueItems: true},
-        c.shortString(title: 'Score Type', 'enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])  # TODO: good version of LoC; total gear value.
-
-      tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
-      concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.'}, c.concept
-      picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
 
       #- normal properties
       position: c.point2d()
