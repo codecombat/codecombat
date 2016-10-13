@@ -110,7 +110,7 @@ module.exports = class CampaignEditorView extends RootView
       continue if not campaignLevel
       $.extend campaignLevel, _.omit(level.attributes, '_id')
       campaignLevel.rewards = @formatRewards level
-      delete campaignLevel.unlocks
+      delete campaignLevel[key] for key in ['tasks', 'requiredCode', 'suspectCode', 'allowedHeroes', 'scoreTypes']  # Migrate these out of the campaigns 2016-10-12
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
       campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
@@ -125,7 +125,6 @@ module.exports = class CampaignEditorView extends RootView
       model = @levels.findWhere {original: level.original}
       model.set key, level[key] for key in Campaign.denormalizedLevelProperties
       @toSave.add model if model.hasLocalChanges()
-      @updateRewardsForLevel model, level.rewards
 
   formatRewards: (level) ->
     achievements = @achievements.where related: level.get('original')
@@ -236,9 +235,6 @@ module.exports = class CampaignEditorView extends RootView
           original = parts[2]
           level = @supermodel.getModelByOriginal Level, original
           campaignLevel = @treema.get "/levels/#{original}"
-
-          @updateRewardsForLevel level, campaignLevel.rewards
-
           level.set key, campaignLevel[key] for key in Campaign.denormalizedLevelProperties
           @toSave.add level if level.hasLocalChanges()
 
@@ -294,29 +290,6 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce campaignLevelView, 'hidden', => @$el.find('#campaign-view').show()
     @$el.find('#campaign-view').hide()
 
-  updateRewardsForLevel: (level, rewards) ->
-    return  # Don't risk destruction of level unlock links
-    achievements = @supermodel.getModels(Achievement)
-    achievements = (a for a in achievements when a.get('related') is level.get('original'))
-    for achievement in achievements
-      rewardSubset = (r for r in rewards when r.achievement is achievement.id)
-      oldRewards = achievement.get 'rewards'
-      newRewards = {}
-
-      heroes = _.compact((r.hero for r in rewardSubset))
-      newRewards.heroes = heroes if heroes.length
-
-      items = _.compact((r.item for r in rewardSubset))
-      newRewards.items = items if items.length
-
-      levels = _.compact((r.level for r in rewardSubset))
-      newRewards.levels = levels if levels.length
-
-      newRewards.gems = oldRewards.gems if oldRewards.gems
-      achievement.set 'rewards', newRewards
-      if achievement.hasLocalChanges()
-        @toSave.add achievement
-
   onClickLoginButton: ->
     # Do Nothing
     # This is a override method to RootView, so that only CampaignView is listenting to login button click
@@ -362,8 +335,6 @@ class LevelNode extends TreemaObjectNode
       status += " (adventurer)"
 
     completion = ''
-    if data.tasks
-      completion = "#{(t for t in data.tasks when t.complete).length} / #{data.tasks.length}"
 
     valEl.append $("<a href='/editor/level/#{_.string.slugify(data.name)}' class='spr'>(e)</a>")
     valEl.append $("<#{el}></#{el}>").addClass('treema-shortened').text name
