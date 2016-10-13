@@ -34,7 +34,7 @@ if view.showAds()
       .map-background(alt="", draggable="false")
 
       each level in levels
-        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? ' (Coming Soon to Adventurers)' : ''))
+        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : ''))
           if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatusMap[level.slug] === 'complete')
             img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
@@ -50,9 +50,9 @@ if view.showAds()
             else if level.unlocksHero && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unlock.png")
               img.hero-portrait.hero-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
-            else if level.slug === 'lost-viking' && levelStatusMap[level.slug] !== 'complete'
+            else if level.unlocksItem && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unlock.png")
-              img.hero-portrait.hero-portrait-on-banner(src="/file/db/thang.type/5441c3144e9aeb727cc97111/portrait.png")
+              img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
             else if levelStatusMap[level.slug] === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")
             else if levelStatusMap[level.slug] !== 'complete'
@@ -68,7 +68,7 @@ if view.showAds()
 
           div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status
-            h3= i18n(level, 'name') + (level.disabled ? " (Coming soon!)" : (level.locked ? " (Locked)" : ""))
+            h3= i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : ""))
             - var description = i18n(level, 'description') || level.description || ""
             .level-description!= marked(description, {sanitize: !picoCTF})
             if level.disabled

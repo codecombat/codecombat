@@ -307,10 +307,10 @@ module.exports = class CampaignView extends RootView
       level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
       level.color = 'rgb(200, 80, 200)' if level.adventurer
       level.color = 'rgb(193, 193, 193)' if level.locked
-      if unlocksHero = _.find(level.rewards, 'hero')?.hero
-        level.unlocksHero = unlocksHero
+      level.unlocksHero = _.find(level.rewards, 'hero')?.hero
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+      level.unlocksItem = _.find(level.rewards, 'item')?.item
 
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)

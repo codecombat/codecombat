@@ -92,9 +92,6 @@ $gameControlMargin: 30px
         margin-left: -0.5 * 0.67 * $levelDotWidth
         margin-bottom: -$levelDotHeight / 3 * 0.67 + $levelDotZ / 2
 
-        a
-          cursor: default
-
       &.started, &.next
         border: 3px solid lightgreen
         @include box-shadow(0px 0px 35px skyblue)
@@ -133,7 +130,7 @@ $gameControlMargin: 30px
         position: absolute
         pointer-events: none
 
-      img.hero-portrait
+      img.hero-portrait, img.item-portrait
         width: 120%
         height: auto
         bottom: 75%
@@ -141,7 +138,7 @@ $gameControlMargin: 30px
         margin-left: 0
         margin-bottom: 0
 
-    img.hero-portrait
+    img.hero-portrait, img.item-portrait
       position: absolute
       border: 1px solid black
       border-radius: 50%
@@ -151,10 +148,15 @@ $gameControlMargin: 30px
       margin-left: -0.5 * $levelDotWidth * 1.5
       margin-bottom: -$levelDotHeight / 3 * 1.5 / 1.75
 
-      &.hero-portrait-on-banner
+      &.hero-portrait-on-banner, &.item-portrait-on-banner
         bottom: 170%
         left: 0%
         width: 100%
+
+      &.item-portrait-on-banner
+        background: transparent
+        border: 0
+        border-radius: 0
 
     .level-shadow
       z-index: 1
