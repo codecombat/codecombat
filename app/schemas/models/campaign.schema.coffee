@@ -99,9 +99,6 @@ _.extend CampaignSchema.properties, {
         type: 'array'
         items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
       }}
-      allowedHeroes: { type: 'array', items: {
-        type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
-      }}
 
       concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', format: 'hidden'}, c.concept
       picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
