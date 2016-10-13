@@ -543,7 +543,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_programming_not_about_computers: "電腦科學之於電腦不外乎於望遠鏡之於天文學。 - Edsger Dijkstra"
     tip_mulan: "相信你可以做到，然後你就會做到。 - Mulan"
 
-#  play_game_dev_level:
+  play_game_dev_level:
     created_by: "由{{name}}創建"
     how_to_play_title: "遊戲方法："
     how_to_play_1: "用滑鼠控制英雄！"
