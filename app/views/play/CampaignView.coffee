@@ -306,6 +306,7 @@ module.exports = class CampaignView extends RootView
       level.color = 'rgb(255, 80, 60)'
       level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
       level.color = 'rgb(200, 80, 200)' if level.adventurer
+      level.color = 'rgb(193, 193, 193)' if level.locked
       if unlocksHero = _.find(level.rewards, 'hero')?.hero
         level.unlocksHero = unlocksHero
       if level.unlocksHero

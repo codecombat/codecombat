@@ -82,11 +82,15 @@ $gameControlMargin: 30px
       @include transition(margin-bottom 0.5s ease)
 
       &.disabled, &.locked
-        background-image: url(/images/pages/game-menu/lock.png)
-        background-size: 75%
-        background-repeat: no-repeat
-        background-position: 50% 50%
+        //background-image: url(/images/pages/game-menu/lock.png)
+        //background-size: 75%
+        //background-repeat: no-repeat
+        //background-position: 50% 50%
         opacity: 0.7
+        width: $levelDotWidth * 0.67
+        height: $levelDotHeight * 0.67
+        margin-left: -0.5 * 0.67 * $levelDotWidth
+        margin-bottom: -$levelDotHeight / 3 * 0.67 + $levelDotZ / 2
 
         a
           cursor: default
@@ -107,7 +111,7 @@ $gameControlMargin: 30px
 
       .level-difficulty-banner-text
         position: absolute
-        bottom: 80%
+        bottom: 160%
         pointer-events: none
         color: rgb(246, 208, 2)
         text-shadow: 0px 1px 0px black
@@ -119,23 +123,15 @@ $gameControlMargin: 30px
       img.banner
         position: absolute
         bottom: 38%
-        width: 100%
+        width: 170%
+        left: -35%
         pointer-events: none
 
       img.star
         width: 100%
-        bottom: 7%
+        bottom: 4%
         position: absolute
         pointer-events: none
-
-      .glyphicon-star
-        position: absolute
-        color: lightblue
-        font-size: 21px
-        left: 1.5px
-
-      &.started .glyphicon-star
-        left: 0.5px
 
       img.hero-portrait
         width: 120%
@@ -155,6 +151,11 @@ $gameControlMargin: 30px
       margin-left: -0.5 * $levelDotWidth * 1.5
       margin-bottom: -$levelDotHeight / 3 * 1.5 / 1.75
 
+      &.hero-portrait-on-banner
+        bottom: 170%
+        left: 0%
+        width: 100%
+
     .level-shadow
       z-index: 1
       width: $levelDotShadowWidth
@@ -164,6 +165,13 @@ $gameControlMargin: 30px
       background-color: black
       @include box-shadow(0px 0px 10px black)
       @include opacity(0.75)
+
+      &.locked
+        @include opacity(0.5)
+        width: $levelDotShadowWidth * 0.67
+        height: $levelDotShadowHeight * 0.67
+        margin-left: -0.5 * 0.67 * $levelDotShadowWidth
+        margin-bottom: -$levelDotShadowHeight / 3 * 0.67
 
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
