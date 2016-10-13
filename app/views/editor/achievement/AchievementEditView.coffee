@@ -81,8 +81,12 @@ module.exports = class AchievementEditView extends RootView
       console.error response
 
     res.success =>
-      url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
-      document.location.href = url
+      if window.achievementSavedCallback
+        # CampaignEditor is using this as a child, so let it know that we have changed something (and don't reload)
+        window.achievementSavedCallback achievement: @achievement
+      else
+        url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
+        document.location.href = url
 
   confirmRecalculation: (e, all=false) ->
     renderData =

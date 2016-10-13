@@ -76,6 +76,19 @@ pathToUrl = (path) ->
   base = location.protocol + '//' + location.hostname + (location.port && ":" + location.port)
   base + path
 
+extractPlayerCodeTag = (code) ->
+  unwrappedDefaultCode = code.match(/<playercode>\n([\s\S]*)\n *<\/playercode>/)?[1]
+  if unwrappedDefaultCode
+    return stripIndentation(unwrappedDefaultCode)
+  else
+    return undefined
+
+stripIndentation = (code) ->
+  codeLines = code.split('\n')
+  indentation = _.min(_.filter(codeLines.map (line) -> line.match(/^\s*/)?[0]?.length))
+  strippedCode = (line.substr(indentation) for line in codeLines).join('\n')
+  return strippedCode
+
 i18n = (say, target, language=me.get('preferredLanguage', true), fallback='en') ->
   generalResult = null
   fallBackResult = null
@@ -530,6 +543,7 @@ module.exports = {
   combineAncestralObject
   courseIDs
   createLevelNumberMap
+  extractPlayerCodeTag
   filterMarkdownCodeLanguages
   findNextLevel
   functionCreators
@@ -559,6 +573,7 @@ module.exports = {
   replaceText
   round
   sortCourses
+  stripIndentation
   usStateCodes
   userAgent
 }

@@ -756,7 +756,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
       query = `custom.demo_nces_id:"${nces_school_id}"`;
     }
     else if (nces_district_id) {
-      query = `custom.demo_nces_district_id:"${nces_district_id}" custom.demo_nces_id:""`;
+      query = `custom.demo_nces_district_id:"${nces_district_id}" custom.demo_nces_id:"" custom.demo_nces_name:""`;
     }
     const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
@@ -764,7 +764,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
       try {
         const data = JSON.parse(body);
         if (data.total_results > 1) {
-          console.error(`ERROR: ${data.total_results} leads found for ${cocoContact.email} nces_district_id=${nces_district_id} nces_school_id=${nces_school_id}`);
+          console.error(`ERROR: ${data.total_results} leads found with info from demo request: email=${cocoContact.email}, leadName=${cocoContact.leadName}, nces_district_id=${nces_district_id}, nces_school_id=${nces_school_id}. Final query: ${query}`);
           return done();
         }
         if (data.total_results === 1) {

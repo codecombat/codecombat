@@ -42,4 +42,9 @@ module.exports = class HeroSelectView extends CocoView
 
     hero = @heroes.findWhere({ original: heroOriginal })
     me.save().then =>
+      event = 'Hero selected'
+      event += if me.isStudent() then ' student' else ' teacher'
+      event += ' create account' if @options.createAccount
+      category = if me.isStudent() then 'Students' else 'Teachers'
+      window.tracker?.trackEvent event, {category, heroOriginal}, []
       @trigger 'hero-select:success', hero

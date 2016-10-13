@@ -147,12 +147,12 @@ function createUpsertCloseLeadFn(zpContact) {
       const data = JSON.parse(body);
       if (data.total_results != 0) return done();
 
-      query = `name:${zpContact.organization}`;
+      query = `name:"${zpContact.organization}"`;
       if (zpContact.nces_school_id) {
         query = `custom.demo_nces_id:"${zpContact.nces_school_id}"`;
       }
       else if (zpContact.nces_district_id) {
-        query = `custom.demo_nces_district_id:"${zpContact.nces_district_id}" custom.demo_nces_id:""`;
+        query = `custom.demo_nces_district_id:"${zpContact.nces_district_id}" custom.demo_nces_id:"" custom.demo_nces_name:""`;
       }
       url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
       request.get(url, (error, response, body) => {
@@ -161,6 +161,10 @@ function createUpsertCloseLeadFn(zpContact) {
         if (data.total_results === 0) {
           console.log(`DEBUG: Creating lead for ${zpContact.organization} ${zpContact.email} nces_district_id=${zpContact.nces_district_id} nces_school_id=${zpContact.nces_school_id}`);
           return createCloseLead(zpContact, done);
+        }
+        else if (data.total_results > 1) {
+          console.error(`ERROR: ${data.total_results} leads found with info from Zen Prospect: email=${zpContact.email}, organization=${zpContact.organization}, nces_district_id=${nces_district_id}, nces_school_id=${zpConctact.nces_school_id}, nces_district_id=${zpConctact.nces_district_id}. Final query: ${query}`);
+          return done()
         }
         else {
           const existingLead = data.data[0];

@@ -65,13 +65,6 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       @readyToContinue = true
     @playSound 'victory'
-    if @level.isType('course', 'game-dev', 'web-dev')
-      if nextLevel = @level.get('nextLevel')
-        @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
-        @nextLevel = @supermodel.loadModel(@nextLevel).model
-      if @courseID
-        @course = new Course().setURL "/db/course/#{@courseID}"
-        @course = @supermodel.loadModel(@course).model
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
@@ -434,14 +427,7 @@ module.exports = class HeroVictoryModal extends ModalView
     campaign
 
   getNextLevelLink: (returnToCourse=false) ->
-    if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse
-      # need to do something more complicated to load its slug
-      console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
-      link = "/play/level/#{@nextLevel.get('slug')}"
-      if @courseID
-        link += "?course=#{@courseID}"
-        link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
-    else if @level.isType('course')
+    if @level.isType('course')
       link = "/students"
       if @courseID
         link += "/#{@courseID}"

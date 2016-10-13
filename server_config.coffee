@@ -3,7 +3,7 @@ config = {}
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
 
-config.chinaDomain = "cn.codecombat.com"
+config.chinaDomain = "cn.codecombat.com;ccombat.cn"
 config.brazilDomain = "br.codecombat.com"
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT  or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
