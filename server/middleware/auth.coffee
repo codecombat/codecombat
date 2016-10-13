@@ -64,10 +64,15 @@ module.exports =
     yield req.user.update {activity: activity}
     res.status(200).send(req.user.toObject({req: req}))
 
-  redirectHome: wrap (req, res, next) ->
+  redirectAfterLogin: wrap (req, res) ->
     activity = req.user.trackActivity 'login', 1
     yield req.user.update {activity: activity}
-    res.redirect '/'
+    if req.user.get('role') is 'student'
+      res.redirect '/students'
+    else if req.user.get('role')
+      res.redirect '/teachers/classes'
+    else
+      res.redirect '/play'
 
   loginByGPlus: wrap (req, res, next) ->
     gpID = req.body.gplusID
@@ -166,7 +171,7 @@ module.exports =
     yield req.logInAsync(user)
     next()
     
-  loginByOAuthProvider: wrap (req, res) ->
+  loginByOAuthProvider: wrap (req, res, next) ->
     { provider: providerId, accessToken, code } = req.query
     identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
     
@@ -176,16 +181,7 @@ module.exports =
     
     req.loginAsync = Promise.promisify(req.login)
     yield req.loginAsync user
-    
-    activity = req.user.trackActivity 'login', 1
-    yield req.user.update {activity: activity}
-    
-    if req.user.get('role') is 'student'
-      res.redirect '/students'
-    else if req.user.get('role')
-      res.redirect '/teachers/classes'
-    else
-      res.redirect '/play'
+    next()
     
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user
