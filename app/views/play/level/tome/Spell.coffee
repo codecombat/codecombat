@@ -74,10 +74,7 @@ module.exports = class Spell
 
     if @level.isType('web-dev')
       # Pull apart the structural wrapper code and the player code, remember the wrapper code, and strip indentation on player code.
-      playerCode = @originalSource.match(/<playercode>\n([\s\S]*)\n *<\/playercode>/)[1]
-      playerCodeLines = playerCode.split('\n')
-      indentation = _.min(_.filter(playerCodeLines.map (line) -> line.match(/^\s*/)?[0]?.length))
-      playerCode = (line.substr(indentation) for line in playerCodeLines).join('\n')
+      playerCode = utils.extractPlayerCodeTag(@originalSource)
       @wrapperCode = @originalSource.replace /<playercode>[\s\S]*<\/playercode>/, '☃'  # ☃ serves as placeholder for constructHTML
       @originalSource = playerCode
 
