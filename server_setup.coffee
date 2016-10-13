@@ -211,7 +211,6 @@ setupAPIDocs = (app) ->
   app.use('/api-docs', swaggerUi.setup(swaggerDoc))
 
 exports.setupMiddleware = (app) ->
-  setupAPIDocs app
   setupSecureMiddleware app
   setupPerfMonMiddleware app
   setupDomainFilterMiddleware app
@@ -219,6 +218,7 @@ exports.setupMiddleware = (app) ->
   setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", config.brazilDomain
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
+  setupAPIDocs app # should happen after serving static files, so we serve the right favicon
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
