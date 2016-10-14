@@ -20,7 +20,7 @@ mixin accountLinks
     nav#main-nav.navbar.navbar-default
       .container-fluid.container
         .row
-          .col-lg-12
+          .col-md-12
             .navbar-header
               button.navbar-toggle.collapsed(data-toggle='collapse', data-target='#navbar-collapse' aria-expanded='false')
                 span.sr-only(data-i18n="nav.toggle_nav")
@@ -53,7 +53,7 @@ mixin accountLinks
                   li
                     a#login-link.login-button(data-i18n="login.log_in")
               else
-                ul.nav.navbar-nav.hidden-lg
+                ul.nav.navbar-nav.hidden-md.hidden-lg
                   li.disabled
                     a
                       img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
@@ -61,7 +61,7 @@ mixin accountLinks
                   +accountLinks
 
                 ul.nav.navbar-nav
-                  li.dropdown.hidden-xs.hidden-sm.hidden-md
+                  li.dropdown.hidden-xs.hidden-sm
                     a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
                       img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
                       span(data-i18n="nav.my_account")
