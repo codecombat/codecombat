@@ -88,7 +88,7 @@ function findOwner(ownerId, userApiKeyMap, opp, done) {
     if (err) return done(err);
     const results = JSON.parse(body);
     if (results.has_more) {
-      console.log(`ERROR: ${lead.id} has more activities than ${results.data.length} returned!`);
+      console.log(`ERROR: ${opp.lead_id} has more activities than ${results.data.length} returned!`);
     }
     for (const activity of results.data) {
       if (activity._type === 'Email' && userApiKeyMap[activity.user_id] && activity.user_id !== ownerId) {
