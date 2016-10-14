@@ -122,7 +122,7 @@ module.exports = class LevelLoader extends CocoClass
         majorVersion: @level.get('version').major
       creator: me.id
       state:
-        completegg: false
+        complete: false
         scripts: {}
       permissions: [
         {target: me.id, access: 'owner'}
