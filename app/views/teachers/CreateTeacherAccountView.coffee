@@ -128,6 +128,13 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestAttrs.educationLevel.push(val) if val
 
     forms.clearFormAlerts(form)
+    tv4.addFormat({
+      'phoneNumber': (phoneNumber) ->
+        if forms.validatePhoneNumber(phoneNumber)
+          return null
+        else
+          return {code: tv4.errorCodes.FORMAT_CUSTOM, message: 'Please enter a valid phone number, including area code.'}
+    })
 
     result = tv4.validateMultiple(trialRequestAttrs, formSchema)
     error = false
@@ -325,7 +332,7 @@ module.exports = class CreateTeacherAccountView extends RootView
 
 formSchema = {
   type: 'object'
-  required: ['firstName', 'lastName', 'email', 'role', 'numStudents', 'city', 'state', 'country']
+  required: ['firstName', 'lastName', 'email', 'role', 'numStudents', 'city', 'state', 'country', 'phoneNumber']
   properties:
     password1: { type: 'string' }
     password2: { type: 'string' }
@@ -333,7 +340,7 @@ formSchema = {
     lastName: { type: 'string' }
     name: { type: 'string', minLength: 1 }
     email: { type: 'string', format: 'email' }
-    phoneNumber: { type: 'string' }
+    phoneNumber: { type: 'string', format: 'phoneNumber' }
     role: { type: 'string' }
     organization: { type: 'string' }
     district: { type: 'string' }
