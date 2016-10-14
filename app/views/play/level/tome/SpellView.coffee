@@ -652,7 +652,7 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   saveSpade: =>
-    return if @destroyed
+    return if @destroyed or not @spade
     spadeEvents = @spade.compile()
     # Uncomment the below line for a debug panel to display inside the level
     #@spade.debugPlay(spadeEvents)
