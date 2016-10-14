@@ -457,5 +457,9 @@ class CocoModel extends Backbone.Model
   stringify: -> return JSON.stringify(@toJSON())
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
+  
+  fetchLatestVersion: (original, options={}) ->
+    options.url = _.result(@, 'urlRoot') + '/' + original + '/version'
+    @fetch(options)
 
 module.exports = CocoModel
