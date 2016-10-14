@@ -567,7 +567,8 @@ class PrerenderedSpriteSheet extends CocoModel
   @className: 'PrerenderedSpriteSheet'
 
   loadImage: ->
-    return false if @loadingImage or @loadedImage
+    return true if @loadingImage
+    return false if @loadedImage
     return false unless imageURL = @get('image')
     @image = $("<img src='/file/#{imageURL}' />")
     @loadingImage = true
