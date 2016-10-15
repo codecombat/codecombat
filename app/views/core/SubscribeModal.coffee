@@ -35,7 +35,8 @@ module.exports = class SubscribeModal extends ModalView
 
   onLoaded: ->
     @basicProduct = @products.findWhere { name: 'basic_subscription' }
-    @yearProduct = @products.findWhere { name: 'year_subscription' }
+    @yearProduct = @products.findWhere { name: me.getYearSubscriptionGroup() }
+    @yearProduct ?= @products.findWhere { name: 'year_subscription' }
     if countrySpecificProduct = @products.findWhere { name: "#{me.get('country')}_basic_subscription" }
       @basicProduct = countrySpecificProduct
       @yearProduct = @products.findWhere { name: "#{me.get('country')}_year_subscription" }  # probably null

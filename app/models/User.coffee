@@ -1,7 +1,6 @@
 GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
-util = require 'core/utils'
 ThangType = require './ThangType'
 Level = require './Level'
 utils = require 'core/utils'
@@ -212,6 +211,12 @@ module.exports = class User extends CocoModel
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
+
+  getYearSubscriptionGroup: ->
+    return @yearSubscriptionGroup if @yearSubscriptionGroup
+    @yearSubscriptionGroup = utils.getYearSubscriptionGroup(me.get('testGroupNumber'))
+    application.tracker.identify yearSubscriptionGroup: @yearSubscriptionGroup unless me.isAdmin()
+    @yearSubscriptionGroup
 
   hasSubscription: ->
     return false unless stripe = @get('stripe')

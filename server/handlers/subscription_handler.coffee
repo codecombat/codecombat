@@ -125,8 +125,11 @@ class SubscriptionHandler extends Handler
             @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
 
-          Product.findOne({name: 'year_subscription'}).exec (err, product) =>
+          Product.find().exec (err, products) =>
             return @sendDatabaseError(res, err) if err
+
+            product = _.find(products, (p) -> p.get('name') is req.user.getYearSubscriptionGroup())
+            product ?= _.find(products, (p) -> p.get('name') is 'year_subscription')
             return @sendNotFoundError(res, 'year_subscription product not found') if not product
 
             metadata =
@@ -347,7 +350,7 @@ class SubscriptionHandler extends Handler
     Product.findOne({name: productName}).exec (err, product) =>
       return done({res: 'Database error.', code: 500}) if err
       return done({res: 'basic_subscription product not found.', code: 404}) if not product
-      
+
       if increment
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
