@@ -6,8 +6,24 @@ wrap = require 'co-express'
 get = wrap (req, res) ->
   products = yield Product.find()
   unless _.size(products) or config.isProduction
-    res.send(productStubs)
-  res.send(products)
+    products = productStubs.map (product) -> new Product(product)
+  productGroups = {}
+  for product in products
+    productGroups[product.get('name')] ?= []
+    productGroups[product.get('name')].push(product)
+  finalProducts = []
+  for name, productGroup of productGroups
+    if productGroup.length > 1
+      # TODO: Use real seeded randomness
+      numTestGroups = productGroup.length
+      testGroupNumber = parseInt(req.user.id.slice(10), 16) % numTestGroups
+      selectedProduct = productGroup.find (product) ->
+        product.get('test_group').toString() is testGroupNumber.toString()
+    else
+      selectedProduct = productGroup[0]
+    # TODO: Strip the 'test_group' attribute from the product? Eh, we probably don't care.
+    finalProducts.push(selectedProduct)
+  res.send(finalProducts)
 
 ###
 Stub data, used in tests and dev environment.
@@ -58,6 +74,19 @@ productStubs = [
     name: 'year_subscription'
     amount: 1000
     gems: 42000
+    test_group: '0'
+  }
+  {
+    name: 'year_subscription'
+    amount: 1200
+    gems: 50400
+    test_group: '1'
+  }
+  {
+    name: 'year_subscription'
+    amount: 800
+    gems: 33600
+    test_group: '2'
   }
 
   {
