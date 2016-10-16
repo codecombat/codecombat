@@ -363,6 +363,9 @@ _.extend LevelSchema.properties,
     type: 'array'
     items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
   }}
+  requiredProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must have equipped to play.' }
+  restrictedProperties: { type: 'array', items: {type: 'string'}, description: 'Names of properties a hero must not have equipped to play.' }
+  recommendedHealth: { type: 'integer', minimum: 0, exclusiveMinimum: true, 'If set, will show the recommended health to be able to beat this level with the intended main solution to the player when choosing equipment.' }
   allowedHeroes: { type: 'array', items: {
     type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference'
   }}
