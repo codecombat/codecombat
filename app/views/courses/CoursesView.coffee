@@ -81,7 +81,7 @@ module.exports = class CoursesView extends RootView
         model: LevelSession
       })
       courseInstance.sessions.comparator = 'changed'
-      @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete level.original playtime changed' }})
+      @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
 
   onLoaded: ->
     super()
