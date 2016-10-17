@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
+Level = require 'models/Level'
 AchievementPopup = require 'views/core/AchievementPopup'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
@@ -22,7 +23,15 @@ module.exports = class AchievementEditView extends RootView
     super options
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
-    @supermodel.loadModel @achievement
+    @supermodel.trackRequest @achievement.fetch()
+    
+    # load level names so they're available to treema nodes
+    @listenToOnce @achievement, 'sync', ->
+      for levelOriginal in @achievement.get('rewards')?.levels ? []
+        level = new Level()
+        @supermodel.trackRequest level.fetchLatestVersion(levelOriginal, {data: {project:'name,version,original'}})
+        level.once 'sync', (level) => @supermodel.registerModel(level)
+        
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->

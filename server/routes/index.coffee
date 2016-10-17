@@ -125,6 +125,7 @@ module.exports.setup = (app) ->
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
   app.post('/db/level/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Level, 'level'))
   app.get('/db/level/:handle/patches', mw.patchable.patches(Level))
+  app.get('/db/level/:handle/version/?(:version)?', mw.versions.getLatestVersion(Level))
   
   LevelComponent = require '../models/LevelComponent'
   app.post('/db/level.component/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelComponent, 'level_component'))

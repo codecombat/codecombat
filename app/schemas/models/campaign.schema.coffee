@@ -1,4 +1,5 @@
 c = require './../schemas'
+LevelSchema = require './level'
 
 CampaignSchema = c.object
   default:
@@ -62,51 +63,6 @@ _.extend CampaignSchema.properties, {
 
     # key is the original property
     properties: {
-      #- denormalized from Level
-      name: { type: 'string', format: 'hidden' }
-      description: { type: 'string', format: 'hidden' }
-      i18n: { type: 'object', format: 'hidden' }
-      requiresSubscription: { type: 'boolean' }
-      replayable: { type: 'boolean', format: 'hidden' }
-      type: {'enum': ['ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev']}
-      slug: { type: 'string', format: 'hidden' }
-      original: { type: 'string', format: 'hidden' }
-      adventurer: { type: 'boolean' }
-      practice: { type: 'boolean' }
-      practiceThresholdMinutes: { type: 'number' }
-      primerLanguage: { type: 'string', enum: ['javascript', 'python'], format: 'hidden' }
-      shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable, shareable, or a sharing-encouraged project level.', format: 'hidden' }
-      adminOnly: { type: 'boolean' }
-      disableSpaces: { type: ['boolean','number'] }
-      hidesSubmitUntilRun: { type: 'boolean' }
-      hidesPlayButton: { type: 'boolean' }
-      hidesRunShortcut: { type: 'boolean' }
-      hidesHUD: { type: 'boolean' }
-      hidesSay: { type: 'boolean' }
-      hidesCodeToolbar: { type: 'boolean' }
-      hidesRealTimePlayback: { type: 'boolean' }
-      backspaceThrottle: { type: 'boolean' }
-      lockDefaultCode: { type: ['boolean','number'] }
-      moveRightLoopSnippet: { type: 'boolean' }
-      realTimeSpeedFactor: { type: 'number' }
-      autocompleteFontSizePx: { type: 'number' }
-
-      requiredGear: { type: 'object', additionalProperties: {
-        type: 'array'
-        items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
-      }}
-      restrictedGear: { type: 'object', additionalProperties: {
-        type: 'array'
-        items: { type: 'string', links: [{rel: 'db', href: '/db/thang.type/{($)}/version'}], format: 'latest-version-original-reference' }
-      }}
-
-      concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', format: 'hidden'}, c.concept
-      picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
-
-      #- denormalized into Level and automatically set by campaign editor
-      campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'
-      campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'
-
       #- denormalized from Achievements
       rewards: { format: 'rewards', type: 'array', items: {
         type: 'object'
@@ -121,11 +77,56 @@ _.extend CampaignSchema.properties, {
 
       #- normal properties
       position: c.point2d()
+
+      #- denormalized properties from Levels are cloned below
     }
 
   }}
 }
 
+denormalizedLevelProperties = [
+  'name'
+  'description'
+  'i18n'
+  'requiresSubscription'
+  'replayable'
+  'type'
+  'slug'
+  'original'
+  'adventurer'
+  'practice'
+  'practiceThresholdMinutes'
+  'primerLanguage'
+  'shareable'
+  'adminOnly'
+  'disableSpaces'
+  'hidesSubmitUntilRun'
+  'hidesPlayButton'
+  'hidesRunShortcut'
+  'hidesHUD'
+  'hidesSay'
+  'hidesCodeToolbar'
+  'hidesRealTimePlayback'
+  'backspaceThrottle'
+  'lockDefaultCode'
+  'moveRightLoopSnippet'
+  'realTimeSpeedFactor'
+  'autocompleteFontSizePx'
+  'requiredGear'
+  'restrictedGear'
+  'requiredProperties'
+  'restrictedProperties'
+  'recommendedHealth'
+  'concepts'
+  'picoCTFProblem'
+  'campaign'
+  'campaignIndex'
+]
+hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts']
+for prop in denormalizedLevelProperties
+  CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
+for hiddenProp in hiddenLevelProperties
+  CampaignSchema.properties.levels.additionalProperties.properties[hiddenProp].format = 'hidden'
 
 c.extendBasicProperties CampaignSchema, 'campaign'
 c.extendTranslationCoverageProperties CampaignSchema

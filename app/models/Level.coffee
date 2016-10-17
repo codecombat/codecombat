@@ -147,7 +147,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless
+    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 

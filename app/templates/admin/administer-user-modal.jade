@@ -88,11 +88,16 @@ block modal-body-content
     table#classroom-table.table
       tr
         th Name
+        th Lang
         th # Levels
         th
       for classroom in view.classrooms.models
         tr
-          td= classroom.get('name')
+          td
+            = classroom.get('name')
+              if classroom.get('archived')
+              i.spl.text-muted (archived)
+          td= classroom.capitalLanguage
           td= classroom.getLevels().size()
           td
             button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update

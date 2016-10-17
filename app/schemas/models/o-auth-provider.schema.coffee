@@ -16,6 +16,6 @@ OAuthProviderSchema = {
 }
 
 c.extendBasicProperties OAuthProviderSchema, 'OAuthProvider'
-c.extendNamedProperties OAuthProviderSchema, 'OAuthProvider'
+c.extendNamedProperties OAuthProviderSchema
 
 module.exports = OAuthProviderSchema

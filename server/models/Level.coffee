@@ -45,7 +45,7 @@ LevelSchema.plugin(plugins.TranslationCoveragePlugin)
 LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
     doc.set('nextLevel', undefined)
-    
+
 LevelSchema.statics.postEditableProperties = ['name']
 LevelSchema.statics.jsonSchema = jsonSchema
 
@@ -91,6 +91,9 @@ LevelSchema.statics.editableProperties = [
   'suspectCode'
   'requiredGear'
   'restrictedGear'
+  'requiredProperties'
+  'restrictedProperties'
+  'recommendedHealth'
   'allowedHeroes'
   'tasks'
   'helpVideos'

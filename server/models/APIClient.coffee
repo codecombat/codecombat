@@ -19,7 +19,9 @@ APIClientSchema.statics.hash = (secret) ->
   return shasum.digest('hex')
 
 APIClientSchema.statics.postEditableProperties = []
-APIClientSchema.statics.editableProperties = []
+APIClientSchema.statics.editableProperties = ['name']
+
+APIClientSchema.plugin(plugins.NamedPlugin)
 
 APIClientSchema.set('toObject', {
   transform: (doc, ret, options) ->
