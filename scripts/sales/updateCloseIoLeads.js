@@ -668,6 +668,7 @@ function saveNewCloseLead(cocoContact, done) {
     const newCloseLead = JSON.parse(body);
     if (newCloseLead.errors || newCloseLead['field-errors']) {
       console.error(`New lead POST error for ${cocoContact.email}`);
+      console.error(`New lead postData: `, JSON.stringify(postData));
       console.error(newCloseLead.errors || newCloseLead['field-errors']);
       return done();
     }
