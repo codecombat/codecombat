@@ -1,3 +1,6 @@
+# TODO: use nock for making sure network requests are sent, blackbox whole script
+# TODO: improve coverage of various cases; current coverage is poor and incomplete
+
 request = require 'request'
 moment = require 'moment'
 followupCloseIoLeads = require '../../../scripts/sales/followupCloseIoLeads'
@@ -64,7 +67,7 @@ describe '/scripts/sales/followupCloseIoLeads', ->
 
     describe 'updateLeadStatus', ->
 
-    describe 'shouldSendNextAutoEmail', ->
+    describe 'theyHaveNotResponded', ->
       beforeEach ->
         @lead = {id: 'lead_1'}
         @contact = factories.makeContact({ withEmails: 2 })
@@ -74,7 +77,7 @@ describe '/scripts/sales/followupCloseIoLeads', ->
           spyOn(followupCloseIoLeads, 'getActivityForLead').and.returnValue(Promise.resolve(factories.makeActivityResult()))
 
         it 'TODO', (done) ->
-          followupCloseIoLeads.shouldSendNextAutoEmail(@lead, @contact).then (result) =>
+          followupCloseIoLeads.theyHaveNotResponded(@lead, @contact).then (result) =>
             expect(result).toBe(false)
             done()
 
@@ -83,7 +86,7 @@ describe '/scripts/sales/followupCloseIoLeads', ->
           spyOn(followupCloseIoLeads, 'getActivityForLead').and.returnValue(Promise.resolve(factories.makeActivityResult({ auto1: {to: [@contact.emails[0].email]}, they_replied: false })))
 
         it 'TODO', (done) ->
-          followupCloseIoLeads.shouldSendNextAutoEmail(@lead, @contact).then (result) =>
+          followupCloseIoLeads.theyHaveNotResponded(@lead, @contact).then (result) =>
             expect(result).toBe(true)
             done()
 
@@ -91,7 +94,7 @@ describe '/scripts/sales/followupCloseIoLeads', ->
         beforeEach ->
           spyOn(followupCloseIoLeads, 'getActivityForLead').and.returnValue(Promise.resolve(factories.makeActivityResult({ auto1: {to: [@contact.emails[0].email]}, they_replied: {to: ['sales_1@codecombat.com'], sender: "Some User <#{@contact.emails[0].email}>"} })))
         it 'TODO', (done) ->
-          followupCloseIoLeads.shouldSendNextAutoEmail(@lead, @contact).then (result) =>
+          followupCloseIoLeads.theyHaveNotResponded(@lead, @contact).then (result) =>
             expect(result).toBe(false)
             done()
 
@@ -144,7 +147,7 @@ describe '/scripts/sales/followupCloseIoLeads', ->
         }
         spyOn(followupCloseIoLeads, 'getUserIdByApiKey').and.callFake((key) -> Promise.resolve(apiKeyMap[key]))
         spyOn(followupCloseIoLeads, 'getSomeLeads').and.returnValue(Promise.resolve(factories.makeLeadsResult()))
-        spyOn(followupCloseIoLeads, 'shouldSendNextAutoEmail').and.returnValue(Promise.resolve(true))
+        spyOn(followupCloseIoLeads, 'theyHaveNotResponded').and.returnValue(Promise.resolve(true))
         spyOn(followupCloseIoLeads, 'createSendFollowupMailFn').and.returnValue((done)->done())
         spyOn(followupCloseIoLeads, 'closeIoMailApiKeys').and.returnValue(['close_io_mail_key_1', 'close_io_mail_key_2'])
 

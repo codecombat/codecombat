@@ -58,8 +58,11 @@ earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
 
 if (runAsScript){
   console.log("Running as a script!");
+  process.on('unhandledRejection', (reason, promise)=>{
+    console.trace()
+    log(`WARNING: Promise rejection went unhandled: ${reason}`)
+  })
   setTimeout(()=>{
-    console.log(closeIoApiKey);
     async.series([
       sendSecondFollowupMails,
       addCallTasks
@@ -213,21 +216,22 @@ const getActivityForLead = wrap(function* (lead) {
   }
 })
 
-function postEmailActivity(postData, emailApiKey) {
+const postEmailActivity = wrap(function* (postData, emailApiKey) {
+  console.log(`POSTing email activity: ${JSON.stringify(postData)}`);
   const options = {
     uri: `https://${emailApiKey}:X@app.close.io/api/v1/activity/email/`,
     json: postData
   };
-  return postJsonUrl(options);
-}
+  return yield postJsonUrl(options);
+})
 
-function postTask(postData) {
+const postTask = wrap(function* (postData) {
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/task/`,
     json: postData
   };
-  return postJsonUrl(options);
-}
+  return yield postJsonUrl(options);
+})
 
 // ** Close.io logic
 
@@ -259,13 +263,14 @@ const sendMail = wrap(function* (toEmail, leadId, contactId, template, emailApiK
     date_scheduled: dateScheduled
   };
   try {
+    log(`Sent email to ${toEmail} ${leadId} ${contactId}`);
     return yield postEmailActivity(postData, emailApiKey);
   } catch (error) {
     throw(`Send email POST error for ${toEmail} ${leadId} ${contactId}: `, error);
   }
 })
 
-function updateLeadStatus(lead, status) {
+const updateLeadStatus = wrap(function* (lead, status) {
   // log(`DEBUG: updateLeadStatus ${lead.id} ${status}`);
   const putData = {status: status};
   const options = {
@@ -274,13 +279,13 @@ function updateLeadStatus(lead, status) {
   };
   try {
     log('Updating lead status: ' + JSON.stringify({ lead: lead.id, status }));
-    return putJsonUrl(options);
+    return yield putJsonUrl(options);
   } catch (error) {
     throw(`Update existing lead status PUT error for ${lead.id}: ${error}`);
   }
-}
+})
 
-const shouldSendNextAutoEmail = wrap(function* (lead, contact) {
+const theyHaveNotResponded = wrap(function* (lead, contact) {
   const activities = yield module.exports.getActivityForLead(lead);
   if(!activities || !activities.data || !(activities.data.length > 0)) {
     log(`No activities found for lead ${lead.id} — shouldn't send them any more autos-emails`);
@@ -291,7 +296,7 @@ const shouldSendNextAutoEmail = wrap(function* (lead, contact) {
   const emailAddresses = module.exports.lowercaseEmailsForContact(contact);
   const they_have_replied = emails.some((emailData) => {
     return emailAddresses.some((emailAddress) => {
-      return emailData.sender.match(new RegExp(emailAddress, 'i'));
+      return emailData.sender && emailData.sender.match(new RegExp(emailAddress, 'i'));
     });
   });
   // TODO: Stop auto-emails if we send them an email or call them.
@@ -299,7 +304,7 @@ const shouldSendNextAutoEmail = wrap(function* (lead, contact) {
   if (they_have_replied) {
     log(`Email response found from ${emailAddresses} — shouldn't send them any more autos-emails.`);
   }
-  return !they_have_replied // && !we_have_sent_manually
+  return !they_have_replied
 })
 
 function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails) {
@@ -308,7 +313,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
   // Send send auto mail of same template type (create or demo) from same user who sent first email
   // Update status to Auto Attempt 2 or New US Schools Auto Attempt 2
   return wrap(function* (done) {
-    // log("DEBUG: sendFollowupMail", lead.id);
+    log(`DEBUG: sendFollowupMail ${lead.id}, to one of ${contactEmails}`);
 
     // Skip leads with tasks
     const tasks = yield module.exports.getTasksForLead(lead);
@@ -333,7 +338,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
       return done();
     }
     if (new Date(firstMailActivity.date_created) > latestDate) {
-      // log(`First auto mail too recent ${firstMailActivity.date_created} ${lead.id}`);
+      log(`DEBUG: First auto mail too recent ${firstMailActivity.date_created} ${lead.id}`);
       return done();
     }
 
@@ -345,6 +350,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
              && new Date(activity.date_created) >= new Date(firstMailActivity.date_created)
     })
 
+    // TODO: Prefilter for this outside of this function
     if (!recentActivity) {
       let template = module.exports.getRandomEmailTemplateAuto2(firstMailActivity.template_id);
       if (!template) {
@@ -352,7 +358,11 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
         return done();
       }
       // log(`TODO: ${firstMailActivity.to[0]} ${lead.id} ${firstMailActivity.contact_id} ${template} ${userApiKeyMap[firstMailActivity.user_id]}`);
-      module.exports.sendMail(firstMailActivity.to[0], lead.id, firstMailActivity.contact_id, template, userApiKeyMap[firstMailActivity.user_id], 0).catch(done);
+      try {
+        yield module.exports.sendMail(firstMailActivity.to[0], lead.id, firstMailActivity.contact_id, template, userApiKeyMap[firstMailActivity.user_id], 0);
+      } catch (error) {
+        return done(error);
+      }
 
       // TODO: some sort of callback problem that stops the series here
 
@@ -375,7 +385,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
       }
     }
     else {
-      // log(`Found recent activity after auto1 mail for ${lead.id}`);
+      log(`DEBUG: Not sending mail; Found recent activity after auto1 mail for ${lead.id}`);
       // log(firstMailActivity.template_id, recentActivity);
       return done();
     }
@@ -398,6 +408,8 @@ function sendSecondFollowupMails (done) {
       module.exports.getUserIdByApiKey(apiKey).then((userId) => {
         userApiKeyMap[userId] = apiKey;
         done();
+      }).catch((error)=>{
+        log(`ERROR: Error looking up user by API key ${apiKey}: ${error}`);
       });
     }
   }
@@ -424,8 +436,8 @@ function sendSecondFollowupMails (done) {
         // log(`DEBUG: ${lead.id}\t${lead.status_label}\t${lead.name}`);
         // if (lead.id !== 'lead_W9qq3oZHIAhUCHZkfj4MRcjQoBbgckV6r9HurMszye5') continue;
         for (const contact of (lead.contacts || [])) {
-          if (contactHasEmailAddress(contact)) {
-            if (yield module.exports.shouldSendNextAutoEmail(lead, contact)) {
+          if (module.exports.contactHasEmailAddress(contact)) {
+            if (yield module.exports.theyHaveNotResponded(lead, contact)) {
               const contactEmails = lowercaseEmailsForContact(contact);
               tasks.push(module.exports.createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails));
             }
@@ -443,6 +455,7 @@ function sendSecondFollowupMails (done) {
         if (has_more) {
           return nextPage(skip + limit);
         }
+        log('Finished sending followup emails!');
         return done(err);
       });
     });
@@ -458,15 +471,21 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact) {
   const auto1Statuses = ["Auto Attempt 1", "New US Schools Auto Attempt 1", "Inbound Canada Auto Attempt 1", "Inbound AU Auto Attempt 1", "Inbound NZ Auto Attempt 1", "Inbound UK Auto Attempt 1"];
   const auto2Statuses = ["Auto Attempt 2", "New US Schools Auto Attempt 2", "Inbound Canada Auto Attempt 2", "Inbound AU Auto Attempt 2", "Inbound NZ Auto Attempt 2", "Inbound UK Auto Attempt 2"];
   return wrap(function* (done) {
-    // log("DEBUG: addCallTask", lead.id);
+    log(`DEBUG: addCallTask ${lead.id}`);
 
     // Skip leads with tasks
     const tasks = yield module.exports.getTasksForLead(lead);
-    if (!tasks || tasks.total_results > 0) { return done(); }
+    if (!tasks || tasks.total_results > 0) {
+      console.log(`ERROR: Found too many tasks (${tasks && tasks.total_results}) (or tasks request broke)`);
+      return done();
+    }
 
     // Find all lead activities
     const results = yield module.exports.getActivityForLead(lead);
-    if (!results) { return done() };
+    if (!results) {
+      console.log(`ERROR: Activity request broke`);
+      return done();
+    };
     // Find second auto mail and status change
     let secondMailActivity;
     let statusUpdateActivity;
@@ -487,7 +506,7 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact) {
     }
 
     if (!secondMailActivity) {
-      // log(`DEBUG: No auto2 mail sent for ${lead.id} ${contactPrimaryEmail}`);
+      log(`DEBUG: No auto2 mail sent for ${lead.id} ${contactPrimaryEmail}`);
       return done();
     }
     if (!statusUpdateActivity) {
@@ -495,7 +514,7 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact) {
       return done();
     }
     if (new Date(secondMailActivity.date_created) > latestDate) {
-      // log(`DEBUG: Second auto mail too recent ${secondMailActivity.date_created} ${lead.id}`);
+      log(`DEBUG: Second auto mail too recent ${secondMailActivity.date_created} ${lead.id}`);
       return done();
     }
 
@@ -518,6 +537,7 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact) {
       break;
     }
 
+    // TODO: Prefilter for this outside of this function
     // Create call task
     if (!recentActivity) {
       log(`DEBUG: adding call task for ${lead.id} ${contactPrimaryEmail}`);
@@ -532,11 +552,11 @@ function createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact) {
       try {
         return done(null, yield module.exports.postTask(postData));
       } catch (error) {
-        throw(`Create call task POST error for ${contactPrimaryEmail} ${lead.id}`);
+        return done(`Create call task POST error for ${contactPrimaryEmail} ${lead.id}`);
       }
     }
     else {
-      // log(`DEBUG: Found recent activity after auto2 mail for ${lead.id} ${contactPrimaryEmail}`);
+      log(`DEBUG: Found recent activity after auto2 mail for ${lead.id} ${contactPrimaryEmail}`);
       // log(recentActivity);
       return done();
     }
@@ -582,6 +602,8 @@ function addCallTasks(done) {
           if (module.exports.contactHasEmailAddress(contact)) {
             if (module.exports.contactHasPhoneNumbers(contact)) {
               tasks.push(module.exports.createAddCallTaskFn(userApiKeyMap, latestDate, lead, contact));
+            } else {
+              log(`ERROR: lead ${lead.id} contact ${contact.id} has no phone number`)
             }
           }
           else {
@@ -594,8 +616,10 @@ function addCallTasks(done) {
         if (err) return done(err);
         if (has_more) {
           return nextPage(skip + limit);
+        } else {
+          log('Finished adding call tasks!');
+          return done(err);
         }
-        return done(err);
       });
     });
     nextPage(0);
@@ -624,7 +648,7 @@ module.exports = {
   postTask: postTask,
   sendMail: sendMail,
   updateLeadStatus: updateLeadStatus,
-  shouldSendNextAutoEmail: shouldSendNextAutoEmail,
+  theyHaveNotResponded: theyHaveNotResponded,
   createSendFollowupMailFn: createSendFollowupMailFn,
   sendSecondFollowupMails: sendSecondFollowupMails,
   createAddCallTaskFn: createAddCallTaskFn,
