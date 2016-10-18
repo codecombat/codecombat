@@ -254,7 +254,7 @@ function getZPContacts(done) {
         const emailContactMap = {};
         for (const contact of contacts) {
           if (!contact.organization || !contact.name || !contact.email) {
-            console.log(`DEBUG: missing data for zp contact ${contact.email}:`);
+            console.log(`DEBUG: missing data for zp contact ${contact.email}: {organization: ${contact.organization}, name: ${contact.name}, email: ${contact.email}}`);
             // console.log(JSON.stringify(contact, null, 2));
           }
           else if (!emailContactMap[contact.email]) {
