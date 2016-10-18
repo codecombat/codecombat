@@ -87,7 +87,7 @@ setupErrorMiddleware = (app) ->
         return
 
       res.status(err.status ? 500).send(error: "Something went wrong!")
-      message = "Express error: #{req.method} #{req.path}: #{err.message}"
+      message = "Express error: #{req.method} #{req.path}: #{err.message} \n #{err.stack}"
       log.error "#{message}, stack: #{err.stack}"
       if global.testing
         console.log "#{message}, stack: #{err.stack}"
