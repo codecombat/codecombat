@@ -490,13 +490,13 @@ module.exports = class InventoryModal extends ModalView
       @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
       $itemEl = @$el.find(availableSlotSelector).addClass 'should-equip'
       @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
-      itemOffsetTop = $itemEl[0].offsetTop
-      itemOffsetBottom = itemOffsetTop + $itemEl.outerHeight(true)
-      parentHeight = $itemEl.parent().height()
-      if itemOffsetBottom > $itemEl.parent().scrollTop() + parentHeight
-        $itemEl.parent().scrollTop itemOffsetBottom - parentHeight
-      else if itemOffsetTop < $itemEl.parent().scrollTop()
-        $itemEl.parent().scrollTop itemOffsetTop
+      if itemOffsetTop = $itemEl[0]?.offsetTop
+        itemOffsetBottom = itemOffsetTop + $itemEl.outerHeight(true)
+        parentHeight = $itemEl.parent().height()
+        if itemOffsetBottom > $itemEl.parent().scrollTop() + parentHeight
+          $itemEl.parent().scrollTop itemOffsetBottom - parentHeight
+        else if itemOffsetTop < $itemEl.parent().scrollTop()
+          $itemEl.parent().scrollTop itemOffsetTop
       @remainingRequiredEquipment.push slot: slot, item: item
     null
 
