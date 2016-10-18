@@ -1957,19 +1957,19 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     strings: "Cadenas"
     variables: "Variables"
     vectors: "Vectores"
-    while_loops: "Ciclos" # {change}
+    while_loops: "Bucles While" # {change}
     recursion: "Recursividad"
-#    basic_html: "Basic HTML" # TODO: these web-dev concepts will change, don't need to translate
-#    basic_css: "Basic CSS"
-#    basic_web_scripting: "Basic Web Scripting"
-#    intermediate_html: "Intermediate HTML"
-#    intermediate_css: "Intermediate CSS"
-#    intermediate_web_scripting: "Intermediate Web Scripting"
-#    advanced_html: "Advanced HTML"
-#    advanced_css: "Advanced CSS"
-#    advanced_web_scripting: "Advanced Web Scripting"
-#    jquery: "jQuery"
-#    bootstrap: "Bootstrap"
+    basic_html: "HTML Básico" # TODO: these web-dev concepts will change, don't need to translate
+    basic_css: "CSS Básico"
+    basic_web_scripting: "Programación web básica"
+    intermediate_html: "HTML intermedio"
+    intermediate_css: "CSS intermedio"
+    intermediate_web_scripting: "Programación web intermedia"
+    advanced_html: "HTML avanzado"
+    advanced_css: "CSS avanzado"
+    advanced_web_scripting: "Programación web avanzada"
+    jquery: "jQuery"
+    bootstrap: "Bootstrap"
 
   delta:
     added: "Añadido"

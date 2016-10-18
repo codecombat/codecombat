@@ -111,7 +111,11 @@ module.exports.updateSelects = (el) ->
 module.exports.validateEmail = (email) ->
   filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
   return filter.test(email)
-  
+
+module.exports.validatePhoneNumber = (phoneNumber) ->
+  filter = /^\D*(\d\D*){10,}$/i  # Just make sure there's at least 10 digits
+  return filter.test(phoneNumber)
+
 module.exports.disableSubmit = (el, message='...') ->
   $el = $(el)
   $el.data('original-text', $el.text())

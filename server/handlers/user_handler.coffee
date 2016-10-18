@@ -26,6 +26,7 @@ sendwithus = require '../sendwithus'
 Prepaid = require '../models/Prepaid'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
+facebook = require '../lib/facebook'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -61,18 +62,15 @@ UserHandler = class UserHandler extends Handler
   waterfallFunctions: [
     # FB access token checking
     # Check the email is the same as FB reports
+    # TODO: Remove deprecated signups on RequestQuoteView, then these waterfall functions
     (req, user, callback) ->
       fbID = req.query.facebookID
       fbAT = req.query.facebookAccessToken
       return callback(null, req, user) unless fbID and fbAT
-      url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-      request(url, (err, response, body) ->
-        log.warn "Error grabbing FB token: #{err}" if err
-        body = JSON.parse(body)
+      facebook.fetchMe(fbAT).catch(callback).then (body) ->
         emailsMatch = req.body.email is body.email
         return callback(res: 'Invalid Facebook Access Token.', code: 422) unless emailsMatch
         callback(null, req, user)
-      )
 
     # GPlus access token checking
     (req, user, callback) ->

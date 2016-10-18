@@ -113,6 +113,7 @@
     "compressible": "~1.0.1",
     "country-data": "0.0.24",
     "css-brunch": "^1.7.0",
+    "faker": "^3.1.0",
     "fs-extra": "^0.26.2",
     "http-proxy": "^1.13.2",
     "istanbul": "^0.4.5",

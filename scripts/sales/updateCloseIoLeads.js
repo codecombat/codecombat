@@ -668,6 +668,7 @@ function saveNewCloseLead(cocoContact, done) {
     const newCloseLead = JSON.parse(body);
     if (newCloseLead.errors || newCloseLead['field-errors']) {
       console.error(`New lead POST error for ${cocoContact.email}`);
+      console.error(`New lead postData: `, JSON.stringify(postData));
       console.error(newCloseLead.errors || newCloseLead['field-errors']);
       return done();
     }
@@ -792,6 +793,7 @@ function addContact(cocoContact, closeLead, done) {
     const newContact = JSON.parse(body);
     if (newContact.errors || newContact['field-errors']) {
       console.error(`New Contact POST error for ${postData.lead_id}`);
+      console.error(`Contact post data: `, JSON.stringify(postData));
       return done();
     }
 
@@ -817,6 +819,8 @@ function addNote(cocoContact, closeLead, currentNotes, done) {
     const result = JSON.parse(body);
     if (result.errors || result['field-errors']) {
       console.error(`New note POST error for ${closeLead.id}`);
+      console.error('Note contents: ', JSON.stringify(notePostData));
+      console.error(result.errors || result['field-errors']);
     }
     return done();
   });
