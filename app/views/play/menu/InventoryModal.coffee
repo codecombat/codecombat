@@ -427,6 +427,7 @@ module.exports = class InventoryModal extends ModalView
     restrictedProperties = @options.level.get('restrictedProperties') ? []
     for item in @items.models when _.intersection(item.programmableProperties, requiredProperties).length and not _.intersection(item.programmableProperties, restrictedProperties).length
       for slot in item.getAllowedSlots()
+        requiredGear[slot] ?= []
         requiredGear[slot].push(item.get('original')) unless item.get('original') in requiredGear[slot]
     @requiredGearPerSlot = requiredGear
     @requiredGearPerSlot
@@ -437,6 +438,7 @@ module.exports = class InventoryModal extends ModalView
     restrictedProperties = @options.level.get('restrictedProperties') ? []
     for item in @items.models when _.intersection(item.programmableProperties, restrictedProperties).length
       for slot in item.getAllowedSlots()
+        restrictedGear[slot] ?= []
         restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
     @restrictedGearPerSlot = restrictedGear
     @restrictedGearPerSlot
