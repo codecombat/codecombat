@@ -13,6 +13,7 @@ sendwithus = require '../sendwithus'
 LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 oauth = require '../lib/oauth'
+facebook = require '../lib/facebook'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -160,10 +161,8 @@ module.exports =
     fbID = req.body.facebookID
     fbAT = req.body.facebookAccessToken
     throw new errors.UnprocessableEntity('facebookID and facebookAccessToken required.') unless fbID and fbAT
-
-    url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-    [facebookRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = fbID is body.id
+    facebookPerson = yield facebook.fetchMe(fbAT)
+    idsMatch = fbID is facebookPerson.id
     throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user

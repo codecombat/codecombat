@@ -254,6 +254,8 @@ describe 'GET /auth/name', ->
 describe 'POST /auth/login-facebook', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
+    fields = ['email', 'first_name', 'last_name', 'gender'].join(',')
+    @facebookRequest = nock('https://graph.facebook.com').get('/v2.8/me').query({access_token: 'abcd', fields})
     done()
     
   afterEach -> 
@@ -261,7 +263,7 @@ describe 'POST /auth/login-facebook', ->
   
   url = getURL('/auth/login-facebook')
   it 'takes facebookID and facebookAccessToken and logs the user in', utils.wrap (done) ->
-    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    @facebookRequest.reply(200, { id: '1234' })
     yield new User({name: 'someone', facebookID: '1234'}).save()
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(200)
@@ -273,14 +275,14 @@ describe 'POST /auth/login-facebook', ->
     done()
   
   it 'returns 422 if the token is invalid', utils.wrap (done) ->
-    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(400, {})
+    @facebookRequest.reply(400, {})
     yield new User({name: 'someone', facebookID: '1234'}).save()
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(422)
     done()
   
   it 'returns 404 if the user does not already exist', utils.wrap (done) ->
-    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    @facebookRequest.reply(200, { id: '1234' })
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(404)
     done()
