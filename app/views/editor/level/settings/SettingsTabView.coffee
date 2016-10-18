@@ -60,7 +60,6 @@ module.exports = class SettingsTabView extends CocoView
   onSettingsChanged: (e) =>
     $('.level-title').text @settingsTreema.data.name
     for key in @editableSettings
-      continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
     if (terrain = @settingsTreema.data.terrain) isnt @lastTerrain
       @lastTerrain = terrain
