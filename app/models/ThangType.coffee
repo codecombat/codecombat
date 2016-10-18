@@ -590,7 +590,7 @@ module.exports = class ThangType extends CocoModel
       if movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
         stats.speed = movesConfig.maxSpeed ? 3.6
       if attackableConfig = _.find(components, original: LevelComponent.AttackableID)?.config
-        stats.health = attackableConfig.maxHealth ? 11
+        stats.baseHealth = attackableConfig.maxHealth ? 11
       ThangType.heroConfigStats[@get('original')] = stats
     null
 
@@ -616,8 +616,8 @@ module.exports = class ThangType extends CocoModel
   @formatStatsForHeroConfig: (heroConfigStats, callback) ->
     heroConfigStatValues = _.values heroConfigStats
     return if 'loading' in heroConfigStatValues
-    totals = {health: 0, speed: 0, gems: 0}
     heroStats = _.find heroConfigStatValues, kind: 'hero'
+    totals = {health: heroStats.baseHealth ? 11, speed: 0, gems: 0}
     for stats in heroConfigStatValues
       totals.gems += stats.gems if stats.gems
       totals.health += stats.health * (heroStats.healthMultiplier or 1) if stats.health
