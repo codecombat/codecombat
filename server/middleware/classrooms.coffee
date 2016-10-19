@@ -242,6 +242,7 @@ module.exports =
       throw new errors.NotFound('Classroom not found.')
     unless req.user._id.equals(classroom.get('ownerID')) or req.user.isAdmin()
       throw new errors.Forbidden('Only the owner may update their classroom content')
+    { addNewCoursesOnly } = req.body
 
     # make sure updates are based on owner, not logged in user
     if not req.user._id.equals(classroom.get('ownerID'))
@@ -250,6 +251,14 @@ module.exports =
       owner = req.user
 
     coursesData = yield module.exports.generateCoursesData(classroom.get('aceConfig')?.language, owner.isAdmin())
+    if addNewCoursesOnly
+      newestCoursesData = coursesData
+      existingCourses = classroom.get('courses') or []
+      existingCourseIds = _(existingCourses).pluck('_id').map((id) -> id + '').value()
+      existingCourseMap = _.zipObject(existingCourseIds, existingCourses)
+      coursesData = _.map(newestCoursesData, (newCourseData) -> existingCourseMap[newCourseData._id+''] or newCourseData)
+    allLevels = _.flatten((course.levels for course in coursesData)).length
+      
     classroom.set('courses', coursesData)
     classroom = yield classroom.save()
     res.status(200).send(classroom.toObject({req: req}))

@@ -89,7 +89,7 @@ block modal-body-content
       tr
         th Name
         th Lang
-        th # Levels
+        th # Levels / Courses
         th
       for classroom in view.classrooms.models
         tr
@@ -98,8 +98,9 @@ block modal-body-content
             if classroom.get('archived')
               i.spl.text-muted (archived)
           td= classroom.capitalLanguage
-          td= classroom.getLevels().size()
+          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
           td
-            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
 
 block modal-footer

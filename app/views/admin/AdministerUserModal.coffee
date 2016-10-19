@@ -17,6 +17,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click .update-classroom-btn': 'onClickUpdateClassroomButton'
+    'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -112,6 +113,16 @@ module.exports = class AdministerUserModal extends ModalView
     classroom = @classrooms.get($(e.currentTarget).data('classroom-id'))
     if confirm("Really update #{classroom.get('name')}?")
       Promise.resolve(classroom.updateCourses())
+      .then =>
+        noty({text: 'Updated classroom courses.'})
+        @renderSelectors('#classroom-table')
+      .catch ->
+        noty({text: 'Failed to update classroom courses.', type: 'error'})
+
+  onClickAddNewCoursesButton: (e) ->
+    classroom = @classrooms.get($(e.currentTarget).data('classroom-id'))
+    if confirm("Really update #{classroom.get('name')}?")
+      Promise.resolve(classroom.updateCourses({data: {addNewCoursesOnly: true}}))
       .then =>
         noty({text: 'Updated classroom courses.'})
         @renderSelectors('#classroom-table')
