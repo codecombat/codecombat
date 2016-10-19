@@ -95,7 +95,7 @@ block modal-body-content
         tr
           td
             = classroom.get('name')
-              if classroom.get('archived')
+            if classroom.get('archived')
               i.spl.text-muted (archived)
           td= classroom.capitalLanguage
           td= classroom.getLevels().size()
