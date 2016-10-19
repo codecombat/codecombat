@@ -498,6 +498,9 @@ class CocoContact {
     const putData = resetStatus ? {
       status: this.getInitialLeadStatus() // So new contacts get auto2 emails
     } : {};
+    if (resetStatus) {
+      log(`Resetting status of ${closeLead.id} to "${putData.status}"`)
+    }
     const currentCustom = closeLead.custom || {};
     if (!currentCustom['Lead Origin']) {
       putData['custom.Lead Origin'] = this.getLeadOrigin();
