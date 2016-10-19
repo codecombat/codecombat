@@ -43,7 +43,7 @@ class Rand
   shuffle: (arr) =>
     return arr unless arr.length > 2
     for i in [arr.length-1 .. 1]
-      j = Math.floor @randf() * (i - 1)
+      j = Math.floor @randf() * (i + 1)
       t = arr[j]
       arr[j] = arr[i]
       arr[i] = t
