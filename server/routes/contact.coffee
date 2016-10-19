@@ -23,11 +23,11 @@ module.exports.setup = (app) ->
               Product.findOne({name: 'course'}).exec (err, product) =>
                 return log.error(err) if err
                 return log.error('course product not found') if not product
-                amount = product.get('amount')
+                amount = product.getPriceForUserID(req.user.id)
                 closeIO.processLicenseRequest fromAddress, userID, leadID, licensesNeeded, amount, (err) ->
                   return log.error("Error processing license request via Close.io: #{err.message or err}") if err
                   req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop)
-      else 
+      else
         createSendWithUsContext req, fromAddress, subject, content, (context) ->
           sendwithus.api.send context, (err, result) ->
             log.error "Error sending contact form email via sendwithus: #{err.message or err}" if err
