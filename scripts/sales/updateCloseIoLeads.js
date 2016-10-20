@@ -493,9 +493,14 @@ class CocoContact {
     }
     return postData;
   }
-  getLeadPutData(closeLead) {
-    // console.log('DEBUG: getLeadPutData', closeLead.id);
-    const putData = {};
+  getLeadPutData(closeLead, resetStatus) {
+    // console.log('DEBUG: getLeadPutData', closeLead.id, 'resetStatus: ', !!resetStatus);
+    const putData = resetStatus ? {
+      status: this.getInitialLeadStatus() // So new contacts get auto2 emails
+    } : {};
+    if (resetStatus) {
+      log(`Resetting status of ${closeLead.id} to "${putData.status}"`)
+    }
     const currentCustom = closeLead.custom || {};
     if (!currentCustom['Lead Origin']) {
       putData['custom.Lead Origin'] = this.getLeadOrigin();
@@ -616,11 +621,25 @@ class CocoContact {
 function updateCloseLead(cocoContact, closeLead, done) {
   // console.log('DEBUG: updateCloseLead', cocoContact.email, closeLead.id);
 
-  const putData = cocoContact.getLeadPutData(closeLead);
+  // Check for existing contact
+  let contactIsNew = true;
+  const existingContacts = closeLead.contacts || [];
+  for (const contact of existingContacts) {
+    const emails = contact.emails || [];
+    for (const email of emails) {
+      if (email.email.toLowerCase() === cocoContact.email) {
+        console.log(`DEBUG: contact ${cocoContact.email} already exists on ${closeLead.id}`);
+        contactIsNew = false;
+      }
+    }
+  }
+
+  const putData = cocoContact.getLeadPutData(closeLead, contactIsNew);
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/${closeLead.id}/`,
     body: JSON.stringify(putData)
   };
+
   request.put(options, (error, response, body) => {
     if (error) return done(error);
     const result = JSON.parse(body);
@@ -629,16 +648,8 @@ function updateCloseLead(cocoContact, closeLead, done) {
       return done();
     }
 
-    // Check for existing contact
-    const existingContacts = closeLead.contacts || [];
-    for (const contact of existingContacts) {
-      const emails = contact.emails || [];
-      for (const email of emails) {
-        if (email.email.toLowerCase() === cocoContact.email) {
-          // console.log(`DEBUG: contact ${cocoContact.email} already exists on ${closeLead.id}`);
-          return done();
-        }
-      }
+    if (!contactIsNew) {
+      return done();
     }
 
     // Add Close contact

@@ -350,6 +350,11 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
              && new Date(activity.date_created) >= new Date(firstMailActivity.date_created)
     })
 
+    if (activities.data.find((activity) => { return module.exports.isTemplateAuto2(activity.template_id) })){
+      log(`ERROR: ${lead.id} Already sent an auto2 email`);
+      return done();
+    }
+
     // TODO: Prefilter for this outside of this function
     if (!recentActivity) {
       let template = module.exports.getRandomEmailTemplateAuto2(firstMailActivity.template_id);
@@ -373,7 +378,7 @@ function createSendFollowupMailFn(userApiKeyMap, latestDate, lead, contactEmails
         "Inbound AU Auto Attempt 1": "Inbound AU Auto Attempt 2",
         "Inbound Canada Auto Attempt 1": "Inbound Canada Auto Attempt 2",
         "Inbound NZ Auto Attempt 1": "Inbound NZ Auto Attempt 2",
-        "Inbound UK Auto Attempt 1": "Inbound UK Auto Attempt 1 2",
+        "Inbound UK Auto Attempt 1": "Inbound UK Auto Attempt 2",
       }
       const newStatus = statusMap[lead.status_label]
       if (newStatus) {

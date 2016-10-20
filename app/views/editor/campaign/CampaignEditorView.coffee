@@ -316,7 +316,16 @@ class LevelsNode extends TreemaObjectNode
         LevelsNode.levels[level.get('original')] = level
         @settings.supermodel.registerModel level
       mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
-      res(mapped)
+      
+      # Sort the results. Prioritize names that start with the search term, then contain the search term.
+      lowerPriority = _.clone(mapped)
+      lowerTerm = req.term.toLowerCase()
+      startsWithTerm = _.filter(lowerPriority, (item) -> _.string.startsWith(item.label.toLowerCase(), lowerTerm))
+      _.pull(lowerPriority, startsWithTerm...)
+      hasTerm = _.filter(lowerPriority, (item) -> _.string.contains(item.label.toLowerCase(), lowerTerm))
+      _.pull(lowerPriority, hasTerm...)
+      sorted = _.flatten([startsWithTerm, hasTerm, lowerPriority])
+      res(sorted)
 
 class LevelNode extends TreemaObjectNode
   valueClass: 'treema-level'

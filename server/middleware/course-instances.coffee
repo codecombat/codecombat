@@ -93,7 +93,11 @@ module.exports =
     # Get level completions and playtime
     currentLevelSession = null
     levelIDs = (level.original.toString() for level in courseLevels)
-    query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
+    query = {$and: [
+      {creator: req.user.id},
+      {'level.original': {$in: levelIDs}}
+      {codeLanguage: classroom.get('aceConfig.language')}
+    ]}
     levelSessions = yield LevelSession.find(query, {level: 1, playtime: 1, state: 1})
     levelCompleteMap = {}
     for levelSession in levelSessions
@@ -185,3 +189,31 @@ module.exports =
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).lean()
     res.status(200).send(courseInstances)
+    
+  fetchMyCourseLevelSessions: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+
+    classroom = yield Classroom.findById(courseInstance.get('classroomID'))
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+
+    # Construct a query for finding all sessions appropriate for the given course instance and related
+    # classroom. For the most part, that means sessions that match the language of the classroom, but for
+    # primer levels, need to use the level primerLanguage setting. Each $or entry is for one level session.
+    $or = []
+    for course in classroom.get('courses') when course._id.equals(courseInstance.get('courseID'))
+      for level in course.levels when not _.contains(level.type, 'ladder')
+        $or.push({
+          'level.original': level.original + "",
+          codeLanguage: level.primerLanguage or classroom.get('aceConfig.language')
+        })
+    query = {$and: [
+      {creator: req.user.id},
+      { $or }
+    ]}
+    levelSessions = yield LevelSession.find(query).select(parse.getProjectFromReq(req))
+    res.send(session.toObject({req}) for session in levelSessions)
+
+

@@ -1,4 +1,5 @@
 // Copy sales leads from HelpScout to Close.io based on HelpScout tags
+// NOTE: I don't think this one is used at all?
 
 // TODO: handle leads with multiple email addresses
 // TODO: some feedback email threads get broken up in Close.io

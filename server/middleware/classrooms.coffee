@@ -112,10 +112,11 @@ module.exports =
     throw new errors.NotFound('Classroom not found.') if not classroom
     throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
     courseLevelsMap = {}
+    codeLanguage = classroom.get('aceConfig.language')
     for course in classroom.get('courses') ? []
-      # TODO: is LevelSession.level.original really a string in practice, instead of ObjectId set in schema?
-      # https://github.com/codecombat/codecombat/blob/master/server/middleware/levels.coffee#L18
-      courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) -> l.original?.toHexString())
+      courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) ->
+        {'level.original':l.original?.toHexString(), codeLanguage: l.primerLanguage or codeLanguage}
+      )
     courseInstances = yield CourseInstance.find({classroomID: classroom._id}).select('_id courseID members').lean()
     memberCoursesMap = {}
     for courseInstance in courseInstances
@@ -129,10 +130,11 @@ module.exports =
     dbqs = []
     select = 'state.complete level creator playtime changed created dateFirstCompleted submitted'
     for member in members
-      levelOriginals = []
+      $or = []
       for courseID in memberCoursesMap[member.toHexString()] ? []
-        levelOriginals = levelOriginals.concat(courseLevelsMap[courseID.toHexString()] ? [])
-      query = {creator: member.toHexString(), 'level.original': {$in: levelOriginals}}
+        for subQuery in courseLevelsMap[courseID.toHexString()] ? []
+          $or.push(_.assign({creator: member.toHexString()}, subQuery))
+      query = { $or }
       dbqs.push(LevelSession.find(query).select(select).lean().exec())
     results = yield dbqs
     sessions = _.flatten(results)
@@ -242,6 +244,7 @@ module.exports =
       throw new errors.NotFound('Classroom not found.')
     unless req.user._id.equals(classroom.get('ownerID')) or req.user.isAdmin()
       throw new errors.Forbidden('Only the owner may update their classroom content')
+    { addNewCoursesOnly } = req.body
 
     # make sure updates are based on owner, not logged in user
     if not req.user._id.equals(classroom.get('ownerID'))
@@ -250,6 +253,14 @@ module.exports =
       owner = req.user
 
     coursesData = yield module.exports.generateCoursesData(classroom.get('aceConfig')?.language, owner.isAdmin())
+    if addNewCoursesOnly
+      newestCoursesData = coursesData
+      existingCourses = classroom.get('courses') or []
+      existingCourseIds = _(existingCourses).pluck('_id').map((id) -> id + '').value()
+      existingCourseMap = _.zipObject(existingCourseIds, existingCourses)
+      coursesData = _.map(newestCoursesData, (newCourseData) -> existingCourseMap[newCourseData._id+''] or newCourseData)
+    allLevels = _.flatten((course.levels for course in coursesData)).length
+      
     classroom.set('courses', coursesData)
     classroom = yield classroom.save()
     res.status(200).send(classroom.toObject({req: req}))

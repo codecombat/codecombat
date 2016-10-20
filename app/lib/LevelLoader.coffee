@@ -44,6 +44,7 @@ module.exports = class LevelLoader extends CocoClass
     @spectateMode = options.spectateMode ? false
     @observing = options.observing
     @courseID = options.courseID
+    @courseInstanceID = options.courseInstanceID
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -78,6 +79,7 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   reportLoadError: ->
+    return if @destroyed
     window.tracker?.trackEvent 'LevelLoadError',
       category: 'Error',
       levelSlug: @work?.level?.slug,
@@ -149,8 +151,12 @@ module.exports = class LevelLoader extends CocoClass
       url += "?interpret=true" if @spectateMode
     else
       url = "/db/level/#{@levelID}/session"
-      url += "?team=#{@team}" if @team
-      url += "?course=#{@courseID}" if @courseID
+      if @team
+        url += "?team=#{@team}"
+      else if @courseID
+        url += "?course=#{@courseID}"
+        if @courseInstanceID
+          url += "&courseInstance=#{@courseInstanceID}"
 
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')
