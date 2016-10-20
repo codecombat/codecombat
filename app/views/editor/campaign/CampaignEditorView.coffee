@@ -109,7 +109,6 @@ module.exports = class CampaignEditorView extends RootView
       continue if not campaignLevel
       $.extend campaignLevel, _.omit(level.attributes, '_id')
       campaignLevel.rewards = @formatRewards level
-      delete campaignLevel[key] for key in ['tasks', 'requiredCode', 'suspectCode', 'allowedHeroes', 'scoreTypes']  # Migrate these out of the campaigns 2016-10-12
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
       campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
@@ -316,7 +315,7 @@ class LevelsNode extends TreemaObjectNode
         LevelsNode.levels[level.get('original')] = level
         @settings.supermodel.registerModel level
       mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
-      
+
       # Sort the results. Prioritize names that start with the search term, then contain the search term.
       lowerPriority = _.clone(mapped)
       lowerTerm = req.term.toLowerCase()
