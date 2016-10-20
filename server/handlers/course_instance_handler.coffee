@@ -38,7 +38,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
     return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
-    return @getMyCourseLevelSessionsAPI(req, res, args[0]) if args[1] is 'my-course-level-sessions'
     return @findByLevel(req, res, args[2]) if args[1] is 'find_by_level'
     super arguments...
 
@@ -115,26 +114,6 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
             return @sendDatabaseError(res, err) if err?
             cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
             @sendSuccess(res, cleandocs)
-
-  getMyCourseLevelSessionsAPI: (req, res, courseInstanceID) ->
-    return @sendUnauthorizedError(res) if not req.user?
-    CourseInstance.findById courseInstanceID, (err, courseInstance) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless courseInstance
-      Classroom.findById courseInstance.get('classroomID'), (err, classroom) =>
-        return @sendDatabaseError(res, err) if err
-        return @sendNotFoundError(res) unless classroom
-        levelIDs = []
-        for course in classroom.get('courses') when course._id.equals(courseInstance.get('courseID'))
-          for level in course.levels when not _.contains(level.type, 'ladder')
-            levelIDs.push(level.original + "")
-        query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
-        cursor = LevelSession.find(query)
-        cursor = cursor.select(req.query.project) if req.query.project
-        cursor.exec (err, documents) =>
-          return @sendDatabaseError(res, err) if err?
-          cleandocs = (LevelSessionHandler.formatEntity(req, doc) for doc in documents)
-          @sendSuccess(res, cleandocs)
 
   getMembersAPI: (req, res, courseInstanceID) ->
     return @sendUnauthorizedError(res) if not req.user?

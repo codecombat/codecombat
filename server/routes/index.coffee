@@ -115,6 +115,7 @@ module.exports.setup = (app) ->
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
+  app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
   
   EarnedAchievement = require '../models/EarnedAchievement'
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)

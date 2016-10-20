@@ -134,7 +134,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
