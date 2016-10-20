@@ -121,8 +121,9 @@ denormalizedLevelProperties = [
   'picoCTFProblem'
   'campaign'
   'campaignIndex'
+  'scoreTypes'
 ]
-hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts']
+hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
 for prop in denormalizedLevelProperties
   CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
 for hiddenProp in hiddenLevelProperties
