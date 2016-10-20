@@ -134,8 +134,9 @@ module.exports =
       for courseID in memberCoursesMap[member.toHexString()] ? []
         for subQuery in courseLevelsMap[courseID.toHexString()] ? []
           $or.push(_.assign({creator: member.toHexString()}, subQuery))
-      query = { $or }
-      dbqs.push(LevelSession.find(query).select(select).lean().exec())
+      if $or.length
+        query = { $or }
+        dbqs.push(LevelSession.find(query).select(select).lean().exec())
     results = yield dbqs
     sessions = _.flatten(results)
     res.status(200).send(sessions)
@@ -260,7 +261,7 @@ module.exports =
       existingCourseMap = _.zipObject(existingCourseIds, existingCourses)
       coursesData = _.map(newestCoursesData, (newCourseData) -> existingCourseMap[newCourseData._id+''] or newCourseData)
     allLevels = _.flatten((course.levels for course in coursesData)).length
-      
+
     classroom.set('courses', coursesData)
     classroom = yield classroom.save()
     res.status(200).send(classroom.toObject({req: req}))
