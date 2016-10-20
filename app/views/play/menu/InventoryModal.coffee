@@ -96,9 +96,9 @@ module.exports = class InventoryModal extends ModalView
     # sort into one of the four groups
     locked = not (item.get('original') in me.items())
 
-    allRestrictedGear = _.flatten(_.values(@options.level.get('restrictedGear') ? {}))
+    restrictedGear = @calculateRestrictedGearPerSlot()
+    allRestrictedGear = _.flatten(_.values(restrictedGear))
     restricted = item.get('original') in allRestrictedGear
-    restricted ||= _.intersection(item.programmableProperties, @options.level.get('restrictedProperties')).length
 
     # TODO: make this re-use result of computation of updateLevelRequiredItems, which we can only do after heroClass is ready...
     requiredToPurchase = false
@@ -425,21 +425,32 @@ module.exports = class InventoryModal extends ModalView
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
     restrictedProperties = @options.level.get('restrictedProperties') ? []
-    for item in @items.models when _.intersection(item.programmableProperties, requiredProperties).length and not _.intersection(item.programmableProperties, restrictedProperties).length
+    requiredPropertiesPerSlot = {}
+    for item in @items.models
+      requiredPropertiesOnThisItem = _.intersection(item.programmableProperties, requiredProperties)
+      restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
+      continue unless requiredPropertiesOnThisItem.length and not restrictedPropertiesOnThisItem.length
       for slot in item.getAllowedSlots()
         requiredGear[slot] ?= []
         requiredGear[slot].push(item.get('original')) unless item.get('original') in requiredGear[slot]
+        requiredPropertiesPerSlot[slot] ?= []
+        requiredPropertiesPerSlot[slot].push(prop) for prop in requiredPropertiesOnThisItem when prop not in requiredPropertiesPerSlot[slot]
+    @requiredPropertiesPerSlot = requiredPropertiesPerSlot
     @requiredGearPerSlot = requiredGear
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
     return @restrictedGearPerSlot if @restrictedGearPerSlot
+    @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
     restrictedProperties = @options.level.get('restrictedProperties') ? []
-    for item in @items.models when _.intersection(item.programmableProperties, restrictedProperties).length
+    for item in @items.models
+      restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
       for slot in item.getAllowedSlots()
-        restrictedGear[slot] ?= []
-        restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
+        requiredPropertiesNotOnThisItem = _.without(@requiredPropertiesPerSlot[slot], item.programmableProperties...)
+        if restrictedPropertiesOnThisItem.length or requiredPropertiesNotOnThisItem.length
+          restrictedGear[slot] ?= []
+          restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
     @restrictedGearPerSlot = restrictedGear
     @restrictedGearPerSlot
 
