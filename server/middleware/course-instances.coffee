@@ -103,7 +103,7 @@ module.exports =
     for levelSession in levelSessions
       currentLevelSession = levelSession if levelSession.id is sessionID
       levelCompleteMap[levelSession.get('level')?.original] = levelSession.get('state')?.complete
-    unless currentLevelSession then throw new errors.NotFound('Level session not found.') 
+    unless currentLevelSession then throw new errors.NotFound('Level session not found.')
     needsPractice = utils.needsPractice(currentLevelSession.get('playtime'), currentLevel.get('practiceThresholdMinutes'))
 
     # Find next level
@@ -156,8 +156,8 @@ module.exports =
       throw new errors.NotFound('Course not found.')
 
     res.status(200).send(course.toObject({req: req}))
-    
-    
+
+
   fetchRecent: wrap (req, res) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
 
@@ -189,7 +189,7 @@ module.exports =
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).lean()
     res.status(200).send(courseInstances)
-    
+
   fetchMyCourseLevelSessions: wrap (req, res) ->
     courseInstance = yield database.getDocFromHandle(req, CourseInstance)
     if not courseInstance
@@ -209,11 +209,12 @@ module.exports =
           'level.original': level.original + "",
           codeLanguage: level.primerLanguage or classroom.get('aceConfig.language')
         })
-    query = {$and: [
-      {creator: req.user.id},
-      { $or }
-    ]}
-    levelSessions = yield LevelSession.find(query).select(parse.getProjectFromReq(req))
-    res.send(session.toObject({req}) for session in levelSessions)
-
-
+    if $or.length
+      query = {$and: [
+        {creator: req.user.id},
+        { $or }
+      ]}
+      levelSessions = yield LevelSession.find(query).select(parse.getProjectFromReq(req))
+      res.send(session.toObject({req}) for session in levelSessions)
+    else
+      res.send []
