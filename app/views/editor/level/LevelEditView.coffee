@@ -218,7 +218,7 @@ module.exports = class LevelEditView extends RootView
 
   onPopulateI18N: ->
     @level.populateI18N()
-    
+
     levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
       .map((c) -> [c.get('original'), c])
       .object()
@@ -230,7 +230,7 @@ module.exports = class LevelEditView extends RootView
         configSchema = component.get('configSchema')
         path = "/thangs/#{thangIndex}/components/#{thangComponentIndex}/config"
         @level.populateI18N(thangComponent.config, configSchema, path)
-    
+
     f = -> document.location.reload()
     setTimeout(f, 2000)
 

@@ -12,6 +12,8 @@
 
 try {
   var logDB = new Mongo("localhost").getDB("analytics")
+  var auth = JSON.parse(cat('./analyticsAuth.json'))
+  logDB.auth(auth);
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 

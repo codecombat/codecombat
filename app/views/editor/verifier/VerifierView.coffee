@@ -23,6 +23,10 @@ module.exports = class VerifierView extends RootView
     @problem = 0
     @testCount = 0
 
+    if utils.getQueryVariable('dev')
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+
     defaultCores = 2
     @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
     @careAboutFrames = true
@@ -124,7 +128,7 @@ module.exports = class VerifierView extends RootView
             @update(e)
             if e.state in ['complete', 'error', 'no-solution']
               if e.state is 'complete'
-                if test.isSuccessful()
+                if test.isSuccessful(@careAboutFrames)
                   ++@passed
                 else
                   ++@failed
@@ -134,7 +138,7 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language, {dontCareAboutFrames: not @careAboutFrames}
+          , chunkSupermodel, task.language, {}
           @tests.unshift test
           @render()
         , => @render()

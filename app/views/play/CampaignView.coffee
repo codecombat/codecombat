@@ -63,6 +63,7 @@ module.exports = class CampaignView extends RootView
     super options
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
+    @requiresSubscription = not me.isPremium()
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
@@ -117,7 +118,6 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
-    @requiresSubscription = not me.isPremium()
 
   destroy: ->
     @setupManager?.destroy()
@@ -291,7 +291,7 @@ module.exports = class CampaignView extends RootView
 
   annotateLevels: (orderedLevels) ->
     previousIncompletePracticeLevel = false # Lock owned levels if there's a earlier incomplete practice level to play
-    for level in orderedLevels
+    for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
@@ -335,18 +335,20 @@ module.exports = class CampaignView extends RootView
         if level.displayConcepts.length > maxConcepts
           level.displayConcepts = level.displayConcepts.slice -maxConcepts
 
+      level.unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
+      for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
+        for reward in (otherLevel.rewards ? []) when reward.level
+          level.unlockedInSameCampaign ||= reward.level is level.original
+
   countLevels: (levels) ->
     count = total: 0, completed: 0
     for level, levelIndex in levels
-      continue if level.practice
       @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
-      unless level.disabled
-        unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
-        for otherLevel in levels when not unlockedInSameCampaign and otherLevel isnt level
-          for reward in (otherLevel.rewards ? []) when reward.level
-            unlockedInSameCampaign ||= reward.level is level.original
-        ++count.total if unlockedInSameCampaign or not level.locked
-        ++count.completed if @levelStatusMap[level.slug] is 'complete'
+      continue if level.disabled
+      completed = @levelStatusMap[level.slug] is 'complete'
+      started = @levelStatusMap[level.slug] is 'started'
+      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not level.practice)
+      ++count.completed if completed
     count
 
   showLeaderboard: (levelSlug) ->
@@ -444,7 +446,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      continue if level.practice
+      continue if level.hidden and (level.practice or not level.unlockedInSameCampaign)
       terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
       particleKey = ['level', terrain]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model

@@ -65,6 +65,15 @@ block modal-body-content
             input(id=id + "-version-is-major", name="version-is-major", type="checkbox")
             span(data-i18n="versions.new_major_version") New Major Version
 
+  if me.isAdmin()
+    #verifier-stub
+      h3 Verifying...
+      #verifier-tests
+        for state in ['waiting', 'running', 'problems', 'failed', 'passedExceptFrames', 'passed']
+          span(style=view[state] ? "font-weight: bold" : "")  #{_.string.humanize(state)}: #{view[state]} |
+        span= ' '
+        a(href="/editor/verifier/#{level.get('slug')}?dev=true", target="_blank") Details
+
   #errors-wrapper.alert.alert-danger.hide
     strong Validation Error! Save failed.
     p.errors
