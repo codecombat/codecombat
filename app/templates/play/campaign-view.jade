@@ -42,6 +42,9 @@ if view.showAds()
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           if levelStatusMap[level.slug] === 'complete'
             img.star(src="/images/pages/play/star.png")
+          if editorMode
+            - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
+            .level-acronym= acronym
           if !level.hidden
             if level.replayable
               img.banner(src="/images/pages/play/level-banner-replayable.png")
