@@ -6,6 +6,7 @@ Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 {me} = require 'core/auth'
 require 'vendor/treema'
+concepts = require 'schemas/concepts'
 
 module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'
@@ -51,6 +52,7 @@ module.exports = class SettingsTabView extends CocoView
         thang: nodes.ThangNode
         'solution-gear': SolutionGearNode
         'solution-stats': SolutionStatsNode
+        concept: ConceptNode
       solutions: @level.getSolutions()
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
@@ -129,3 +131,14 @@ class SolutionStatsNode extends TreemaNode.nodeMap.number
           @open()
           @select()
       @$el.find('.treema-description').html(description).append(button)
+
+class ConceptNode extends TreemaNode.nodeMap.string
+    buildValueForDisplay: (valEl, data) ->
+      super valEl, data
+      return console.error "Couldn't find concept #{@data}" unless concept = _.find concepts, concept: @data
+      description = "#{concept.name} -- #{concept.description}"
+      description = description + " (Deprecated)" if concept.deprecated
+      description = "AUTO | " + description if concept.automatic
+      @$el.find('.treema-row').css('float', 'left')
+      @$el.find('.treema-description').remove()
+      @$el.append($("<span class='treema-description'>#{description}</span>").show())
