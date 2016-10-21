@@ -23,6 +23,10 @@ module.exports = class VerifierView extends RootView
     @problem = 0
     @testCount = 0
 
+    if utils.getQueryVariable('dev')
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+
     defaultCores = 2
     @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
     @careAboutFrames = true
