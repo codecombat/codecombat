@@ -119,8 +119,7 @@ else
 LevelSession = levelSessionMongo.model('level.session', LevelSessionSchema, 'level.sessions')
 
 if config.mongo.level_session_aux_replica_string?
-  auxLevelSessionMongo = mongoose.createConnection()
-  auxLevelSessionMongo.open config.mongo.level_session_aux_replica_string, (error) ->
+  auxLevelSessionMongo = mongoose.createConnection config.mongo.level_session_aux_replica_string, (error) ->
     if error
       log.error "Couldn't connect to AUX session mongo!", error
     else
