@@ -128,7 +128,7 @@ module.exports = class VerifierView extends RootView
             @update(e)
             if e.state in ['complete', 'error', 'no-solution']
               if e.state is 'complete'
-                if test.isSuccessful()
+                if test.isSuccessful(@careAboutFrames)
                   ++@passed
                 else
                   ++@failed
@@ -138,7 +138,7 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language, {dontCareAboutFrames: not @careAboutFrames}
+          , chunkSupermodel, task.language, {}
           @tests.unshift test
           @render()
         , => @render()

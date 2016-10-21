@@ -107,6 +107,9 @@ block header
                 a.play-classroom-level(data-classroom=true, data-code-language="javascript") Play Classroom JavaScript
               li(class=anonymous ? "disabled": "")
                 a.play-classroom-level(data-classroom=true, data-code-language="python") Play Classroom Python
+            if me.isAdmin()
+              li
+                a(href="/editor/verifier/#{level.get('slug')}?dev=true") Verifier
             li.divider
             li.dropdown-header(data-i18n="common.info") Info
             li#level-history-button
