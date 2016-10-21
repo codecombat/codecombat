@@ -25,6 +25,8 @@ module.exports = class ControlBarView extends CocoView
     'click .levels-link-area': 'onClickHome'
     'click .home a': 'onClickHome'
     'click #control-bar-sign-up-button': 'onClickSignupButton'
+    'click #version-switch-button': 'onClickVersionSwitchButton'
+    'click #version-switch-button .code-language-selector': 'onClickVersionSwitchButton'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -138,6 +140,14 @@ module.exports = class ControlBarView extends CocoView
 
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Control Bar', level: @levelID
+
+  onClickVersionSwitchButton: (e) ->
+    return if @destroyed
+    otherVersionLink = "/play/level/#{@level.get('slug')}?dev=true"
+    otherVersionLink += '&course=560f1a9f22961295f9427742' if not @course
+    otherVersionLink += "&codeLanguage=#{codeLanguage}" if codeLanguage = $(e.target).data('code-language')
+    #Backbone.Mediator.publish 'router:navigate', route: otherVersionLink, viewClass: 'views/play/level/PlayLevelView', viewArgs: [{supermodel: @supermodel}, @level.get('slug')]  # TODO: why doesn't this work?
+    document.location.href = otherVersionLink  # Loses all loaded resources :(
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
