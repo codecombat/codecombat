@@ -253,6 +253,10 @@ class CodeTreema extends TreemaNode.nodeMap.ace
     @workingSchema.aceMode = mode if mode = utils.aceEditModes[@keyForParent]
     @workingSchema.aceMode = mode if mode = utils.aceEditModes[@parent?.data?.language]
 
+  initEditor: (args...) ->
+    super args...
+    @editor.setPrintMarginColumn 60
+
 class CoffeeTreema extends CodeTreema
   constructor: ->
     super(arguments...)
