@@ -1,55 +1,6 @@
 c = require './../schemas'
 ThangComponentSchema = require './thang_component'
 
-defaultTasks = [
-  'Name the level.'
-  'Create a Referee stub, if needed.'
-  'Do basic set decoration.'
-  'Publish.'
-
-  'Build the level.'
-  'Set up goals.'
-  'Write the sample code.'
-  'Make sure the level ends promptly on success and failure.'
-
-  'Choose the Existence System lifespan and frame rate.'
-  'Choose the UI System paths and coordinate hover if needed.'
-  'Choose the AI System pathfinding and Vision System line of sight.'
-
-  'Adjust script camera bounds.'
-  'Choose music file in Introduction script.'
-  'Choose autoplay in Introduction script.'
-
-  'Add Lua/CoffeeScript/Java.'
-
-  'Write the description.'
-  'Write the guide.'
-
-  'Write a loading tip, if needed.'
-  'Add programming concepts covered.'
-  'Mark whether it requires a subscription.'
-  'Choose leaderboard score types.'
-
-  'Do thorough set decoration.'
-  'Playtest with a slow/tough hero.'
-  'Playtest with a fast/weak hero.'
-  'Playtest with a couple random seeds.'
-  'Remove/simplify unnecessary doodad collision.'
-
-  'Add to a campaign.'
-  'Choose level options like required/restricted gear.'
-  'Create achievements, including unlocking next level.'
-
-  'Click the Populate i18n button.'
-  'Add i18n field for the sample code comments.'
-  'Release to adventurers via MailChimp.'
-
-  'Release to everyone via MailChimp.'
-
-  'Check completion/engagement/problem analytics.'
-  'Add a walkthrough video.'
-]
-
 SpecificArticleSchema = c.object()
 c.extendNamedProperties SpecificArticleSchema  # name first
 SpecificArticleSchema.properties.body = {type: 'string', title: 'Content', description: 'The body content of the article, in Markdown.', format: 'markdown'}
@@ -262,7 +213,6 @@ LevelSchema = c.object {
   'default':
     name: 'Ineffable Wizardry'
     description: 'This level is indescribably flarmy.'
-    tasks: (name: t, complete: false for t in defaultTasks)
     documentation: {}
     scripts: []
     thangs: []
@@ -317,7 +267,7 @@ _.extend LevelSchema.properties,
   type: c.shortString(title: 'Type', description: 'What kind of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev'])
   terrain: c.terrainString
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
-  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.', default: (name: t for t in defaultTasks)}, c.task
+  tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
   helpVideos: c.array {title: 'Help Videos'}, c.object {default: {style: 'eccentric', url: '', free: false}},
     style: c.shortString title: 'Style', description: 'Like: original, eccentric, scripted, edited, etc.'
     free: {type: 'boolean', title: 'Free', description: 'Whether this video is freely available to all players without a subscription.'}
