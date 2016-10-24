@@ -11,8 +11,8 @@
 
 // TODO: Investigate abrupt trial drop off at 4/1/16.  Showed up when fixing coursePrepaid.
 
-var analyticsDB = new Mongo("localhost").getDB("analytics")
-var auth = JSON.parse(cat('./analyticsAuth.json'))
+var analyticsDB = new Mongo("rs3/localhost").getDB("analytics");
+var auth = JSON.parse(cat('./analyticsAuth.json'));
 analyticsDB.auth(auth);
 
 var scriptStartTime = new Date();

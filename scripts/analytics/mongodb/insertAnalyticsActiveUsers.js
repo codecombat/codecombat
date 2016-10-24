@@ -11,8 +11,8 @@
 // TODO: classroom paid active users before 4/13/16 not correct
 
 try {
-  var logDB = new Mongo("localhost").getDB("analytics")
-  var auth = JSON.parse(cat('./analyticsAuth.json'))
+  var logDB = new Mongo("rs3/localhost").getDB("analytics");
+  var auth = JSON.parse(cat('./analyticsAuth.json'));
   logDB.auth(auth);
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
