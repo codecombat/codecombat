@@ -1,4 +1,4 @@
-###### Last updated: 10/11/2106
+###### Last updated: 10/24/2106
 
 ##### Lesson Plans
 # Computer Science 4
@@ -21,7 +21,8 @@ _This guide is written with Python-language classrooms in mind. With the excepti
 | [23. Nested While Loops ](#nested-while-loops)              |                      | Construct a nested `while` loop                           |
 | [24. Optimization](#optimization)                           |                      | Use optimization in problem solving                       |
 | [25. Objects](#objects)                                     |                      | Use an object literal as an argument                      |
-| [26. For Loops (Python)](#for-loops-python-)                                 |                      | Use a for loop to loop through the elements in an array   |
+| [26a. For Loops (Python)](#for-loops-python-)               |                      | PYTHON: Use a for loop to loop through the elements in an array   |
+| [26b. For Loops (JavaScript)](#for-loops-javascript-)       |                      | JAVASCRIPT: Use a for loop to loop through the elements in an array   |
 
 
 
@@ -175,9 +176,9 @@ Circulate to assist. Draw students’ attention to the instructions and tips, pa
 
 ### Summary
 
-**Arrays** are ordered lists of items. In fact, in Python, the name used for an array is `list`. Arrays can contain any type of item -- strings, integers, etc., even other arrays -- and they can be any size. You can access an element in an array by its index, or its position in the list.
+**Arrays** are ordered lists of items. In fact, in Python, the name used for an array is `list`. Arrays can contain any type of item -- strings, integers, even other arrays -- and they can be any size. An element in an array can be accessed by its **index**, or its position in the list.
 
-The array is a fundamental data structure, which means it shows up quite often in programming. It also shows up frequently in CodeCombat, in a variety of ways. Sometimes, you'll want to find the data stored at a certain position in an array, or use a loop to access all of the items in a list. Other times, a method (like `findEnemies()`) might return an array as its output, and you'll be able to use that array along with loops and conditionals to take out enemies more effectively.
+The array is a fundamental data structure, and it shows up quite often in programming. It also shows up frequently in CodeCombat, in a variety of ways. Sometimes, students will find the data stored at a certain position in an array, or use a loop to access all of the items in a list. Other times, a method (like `findEnemies()`) will return an array that can be used along with loops and conditionals to execute actions more effectively.
 
 ### Transfer Goals
 
@@ -187,158 +188,130 @@ The array is a fundamental data structure, which means it shows up quite often i
 - Iterate over an array with a loop
 
 
-### Instructive Activity: Hero Inventory (10 mins)
+### Instructive Activity: Arrays (15 mins)
 
-#### Explain (3 mins)
+#### Explain (6 mins)
 
-Remember how **variables** let us hold onto data for later? How would you say that my hero's name is Ida? (`hero = "Ida"`)
+Currently, the students know how to store data with the use of **variables**. For example the following code can be used to declare a hero named Ida:
 
-What if we have more than one thing to store, like a list of heroes on our team, or all that stuff we're carrying around? That's where **arrays** come in. Arrays are ordered lists that contain data. You can recognize an array because it's surrounded by square brackets `[ ]` and the items in it are separated by commas.
+`hero = "Ida"`
 
-Let's take a look at an array of our hero's items:
-`myItems = ['boots', 'sword', 'shield']`
+Variables are extremely useful, but allow for only one element to be stored at a time. **Arrays**, or lists, however, allow for multiple elements to be stored at a time.
 
-The array called `myItems` has a name (just like the variables we worked with before), and inside the square brackets we have our inventory items. `boots` are first, then `sword`, then `shield`.
+The syntax used to create an array is square brackets (`[]`) around the entire list and commas (`,`) between each list item.
 
-Arrays store items in order, which means we can retrieve one of those items by asking for it by its position, or **index**. We use square brackets after the name of the array to indicate the index of the item we'd like to see:
+For example, the following code declares an array of the hero's items:
+`heroItems = ['boots', 'sword', 'shield']`
 
-`myItems[1] # this gives us 'sword'`
+Notice that the array above has a name, `heroItems`. Once the array is declared, it can be used by referencing its name, just like other variables used througout the game. Inside the square brackets are the items in the array, which in this example are the hero's inventory items. Boots is the first item, sword is the second, and shield is the third.
 
-Wait a minute! Why isn't `myItems[1]` 'boots'?
+Arrays store items in order. Thus, each item in the array can be retrieved using its **index**, or position in the array. Indexes in arrays start at 0 rather than 1, so the index of the first item is 0, the index of the second item is 1, and so on.
 
-Array indexes start at 0, so the first item in the list can be found with `myItems[0]` and `myItems[1]` gives us the *second* item in the array.
-
-We can make our own arrays (we're about to!), and sometimes a method will return an array that we can use (in the game, we'll see this with the `findEnemies()` method).
-
-#### Interact (3 mins)
-
-
-**Hero Inventory Part 1:** (recognize the array/`list` structure and find elements by indices)
-
-We're going shopping for items for our hero. Before we know what to buy, it's a good idea to make a list of our inventory, and check out what's in the shop.
-
-*Write the following code on the board:*
+The syntax to retrieve an element from an array is as follows:
 
 ```
-myItems = ['boots', 'sword', 'shield']
-shopItems = ['cape', 'helmet', 'nunchucks', 'wand']
+# returns the item at index 0, which is 'boots'
+heroItems[0]
+
+# returns the item at index 1, which is 'sword'
+heroItems[1]
 ```
-We've got boots, a sword, and a shield for our hero. The shop has a few other items that we don't have yet.
+Notice that the name of the array is followed by square brackets, then the index of the item to be retrieved.
 
-Have students identify the positions of items in the array, and vice versa. Pointing to each item as it's mentioned is a good way to visually reinforce the item position, or students can come up to the board and write/point to items.
-
-**How would we find the third item in your inventory?** `myItems[2]`
-
-**Where is the helmet in the shop items array?** position 1, or second
-
-**If I have the following statements, what is the result?**
+Oftentimes, it is helpful to know the number of items that are in an array. This can be done by using the `len()` function, as shown below:
 
 ```
-myItems[1]
-shopItems[0]
-myItems[0]
-shopItems[2]
-```
-Results in:
-`sword, cape, boots, nunchucks`
-
-#### Explain (2 mins)
-
-We can see that our array of inventory items `myItems` has three things in it, but sometimes we'll need to communicate that in our code. We can get an array's size using the `len()` method (think "**len**gth").
-
-`len(myItems)` will give us **3**. How many items will `len(shopItems)` return? (4)
-
-#### Interact (6-10 mins)
-
-**Hero Inventory Part 2:** (use a `while` loop with the item arrays from Part 1)
-, and say the names of all of the items in your inventory and the shop inventory.
-
-Let's go back to the list of items we made. How many items are in `myItems`? How about `shopItems`? (3 and 4)
-
-Remember when we worked with `while` conditionals loops, and used an integer to move the loop forward?
-
-Let's announce how many items we're carrying, like this:
-
-*Write the following refresher code on the board:*
-
-```
-i = 0
-while i < 3:
-	hero.say("I have " + i + "items.")
-	i += 1
+# this returns 3 since there are 3 items in the array
+len(heroItems)  
 ```
 
-Where might we be able to use an array length in this loop? What does `len(myItems)` give us?
-
-We can swap out `3` for `len(myItems)`
-
-*Edit the code on the board so it looks like this:*
+The `len()` function is particularly useful for looping through an array in order to perform an action on each item in it. For example, view the following code segment:
 
 ```
-i = 0
-while i < len(myItems):
-	hero.say("I have " + i + "items.")
-	i += 1
+itemsIndex = 0
+while itemsIndex < len(heroItems):
+	hero.say("I have " + heroItems[itemsIndex])
+	itemsIndex += 1
 ```
-
-What does that do? (The same thing.)
-
-But we can do even more -- that array of items has item names in it.
-
-What happens to `i` after the hero says how many items she has? (It increments by 1)
-
-What might we be able to use an integer like `i` for with arrays? (The index)
-
-Let's change this up and replace `i` with `itemIndex` so that variable name lets us know how we're going to use it.
-
-*Edit the code on the board so it looks like this:*
+This could be translated into pseudocode as so:
 
 ```
-itemIndex = 0
-
-while itemIndex < len(myItems):
-	hero.say("I have " + itemIndex + "items.")
-	itemIndex += 1
+declare a variable itemsIndex and initialize it to 0
+while the value of itemsIndex is less than the amount of items in the heroItems array:
+	the hero says "I have " + the current item in the array
+	increment itemsIndex by 1
+	(loop again from while the value...)
 ```
 
-Let's see what's going on here.
+The result of this code is that the hero says the following statements:
 
-- We're starting with an `itemIndex` of 0. Why? (Because 0 is the first index value in an array).
-- Then, in our `while` loop, we're checking if `itemIndex` is less than the length of `myItems` (so we don't run out of items in the array).
+```
+I have boots.
+I have sword.
+I have shield.
+```
 
-What's next? Let's use that `itemIndex` to retrieve the names of our items and change our hero's message.
+By using the variable `itemsIndex` and incrementing it with each iteration of the loop as long as it is less than the length of the array, the elements `heroItems[0]`, `heroItems[1]`, and `heroItems[2]` are all called upon. This causes the array to be looped through fully and results in the hero saying each of the items aloud.
 
-*Edit the code on the board so it looks like this:*
+Throughout the game, in addition to creating their own arrays for use, students will also use arrays that are returned from methods. For example, the method `findEnemies()` returns an array that students can call or access the elements of as described above.
+
+
+#### Interact (7 mins)
+
+For this activity, gather a few cardboard boxes and an item to be placed in each box. Set up the boxes in a row facing the students and place an item in each box. This set of boxes will act as the physical implementation of an array. Paper bags may be substituted for the boxes, if desired. This activity could be made to be especially fun and engaging by choosing funny or unexpected items to be placed inside of the boxes.
+
+Choose a name for the array, such as `ourItems`. Record this name on the board and tell the students that the `ourItems` array consists of the boxes in front of them.
+
+Have students verify the indexes of the array by beginning at the first box (the one to the students' far left), pointing to it, and asking what the index is. Ensure that the students remember that the index of this item is 0.
+
+Move down the line, repeatedly asking the index of the box. Then move randomly pointing to different boxes, asking for the index of each box until the students seem to have a good grasp on the concept of counting from 0.
+
+Then ask the students to help you retrieve the first item in the array. Remind them, if necessary, that the syntax is as follows:
+
+`ourItems[0]`
+
+If desired, you may have a student come up to the board to write the code. Once the code is written correctly, the item in the first box can be taken out and placed in front of the box for the class to see. Once again, a student can help with this if desired.
+
+Once the item is visible to the class, extend the line of code above to include the assignment to the actual item, as shown below:
+
+`ourItems[0] = 'teddy bear'`
+
+Repeat the process of asking students to help you retrieve a specific item, write the corresponding code on the board, show the item to the class, then complete the line of code as described above. Instead of going in a linear fashion, it may be best to choose random items each time to ensure the students remember the correct index to use for each position (i.e., ask for the first item, then the fourth, then the second).
+
+You may also wish to ask the students to help you retrieve an item that is not in the array (i.e. if the array has four items you ask for the fifth) to ensure that they understand it would return an error.
+
+Once all items are visible to the class, have the students help write the line of code that would create this array. Ensure that the items are added in the correct order, and that commas are placed between each item.
+
+For example, if your items are a teddy bear, a pencil, and a juice box, your code should be written as so:
+
+`ourItems = ['teddy bear', 'pencil', 'juice box']`
+
+Now ask the students how to find the number of items in the array. Remind them, if necessary, about the `len()` method. With their help, write the following code segment on the board:
+
+`len(ourItems)`
+
+Ask the students what value would be returned from this line of code and ensure it matches up with the number of items you have in your array. For the example shown above, `len(ourItems)` would return 3. Append to the line you just wrote on the board by adding = and the value, as so:
+
+`len(ourItems) = 3`
+
+Finally, with all items still visible, write the following code segment on the board:
 
 ```
 itemIndex = 0
-
-while itemIndex < len(myItems):
-	hero.say("I have " + myItems[itemIndex] + " in my inventory.")
+while itemIndex < len(ourItems):
+	students.say("We have " + ourItems[itemIndex])
 	itemIndex += 1
 ```
 
-What's happening now? We changed up the sentence that our hero is saying, and now it includes the names of all of our items. Once we run out of items, the `while` is no longer true, so it exits and our hero is done with the list.
-
-For repetition, have the students construct a `while` loop from scratch that has the hero list all of the `shopItems` from the second array and announce that they would like to buy them.
-
-*This is a sample of what the student code should look like:*
-
-```
-itemIndex = 0
-
-while itemIndex < len(shopItems):
-	hero.say("I would like to buy a " + shopItems[itemIndex])
-	itemIndex += 1
-```
+Have the students walk through the code with you and say the correct item as you point to each line of code. It may be helpful to record the value of itemIndex on the board as you move through the `while` loop.
 
 #### Reflect (2 mins)
 
-**What are arrays used for? Why do we care about index values?** To store a list of items in order. We care about the index value because it lets us know which item is at which position in the array.
+**What are arrays used for? How do they differ from variables** Arrays are used to store a list of items in order. They differ from variables because variables can only store one item, and arrays can store many.
 
-**If I have an array called 'ogres', how can I find the first ogre in the array?** The first index value is 0, so I can find that with `ogres[0]`.
+**What are array indexes used for?** Indexes are used to find a specific element in an array, based on its position.
 
-**In Python, if I have an list called 'heroes', how can I find out how many items are in it?** `len(heroes)`
+**For the array `heroes`, how can you find out how many items are in the array? How do you get the first item from the array?** `len(heroes)` gives you the number of items in the array. `heroes[0]` gives you the first item.
 
 
 ### Coding Time (30-45 mins)
@@ -357,21 +330,17 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students’ attention to the instructions and tips.
-
-Students should remember the `len()` method for arrays (they might be told that `findEnemies()` returns a list of enemies, but it's up to them to know that the `while` loop they're meant to write needs `len(enemies)` as the upper limit for the index).
-
-Indentation is going to be important (just like with `while` loops), so be on the lookout for this.
+Circulate to assist. Draw students’ attention to the instructions and tips. Use leading questions to remind students about the `len()` function to be used in their while loops for later levels. Remind them of the way in which a `while` loop was used in conjunction with an array while doing the interactive activity with boxes. Encourage students to write out their answers in English and to work together to solve some of the tougher levels.
 
 ### Written Reflection (5 mins)
 
 
-**We've used i += 1 to move a loop forward before, and today we used index += 1. What can you do with a while loop and an array that you can't do with a while loop and an integer?**
-> I have more choices with the array. With the integer I have to do the same thing every time until I hit the end, but the index lets me look up what's in the array and maybe do something different, like fighting a different enemy or saying a different name. I also don't need to know how big the array is before I call len(myArray), so the number of times the loop runs can be flexible.
+**What did you use arrays to do in these levels?**
+> In these levels, I was able to use arrays to fight different enemies and say different names based on the array element I was looking at.
 
+**What did you find simple about using arrays? What did you find difficult?**
+>I found that using the array returned by the `findEnemies()` function made it simpler to beat enemies faster. I found that using while loops with arrays was difficult though because I had to remember to use the `len()` function and to increment the variable for the index.
 
-**Think about some of the levels you have already completed. What's new today that helped you out in the game? If you had to go back and redo them with arrays in your toolbox, what might you have done differently?**
->I really liked the findEnemies() method, and I could beat enemies much faster. I could probably do other repeated things faster, like if there were a similar method to find all the gems and get them. I could also put my movements into an array and iterate over that to get that done without typing a lot of repeated things.
 
 
 ##### Module 23
@@ -778,29 +747,28 @@ Circulate to assist. Draw students’ attention to the instructions and tips. Re
 
 
 
-##### Module 26
+##### Module 26a
 ## For Loops (Python)
-
-**Warning: Python and JavaScript `for` loops are a bit different in structure. Please refer to the JavaScript For Loops guide _(coming soon)_ if you are teaching your class in JavaScript.**
+_Make sure you are using the Module appropriate to your classroom language_
 
 ### Summary
 
-`for` loops are similar to `while` loops, but with different syntax and setup. In these levels, students will learn how to use `for` loops to loop through arrays and to perform an action a certain number of times. Although the initial learning curve may be steep for some students, the fact that the loop itself handles the incrementing should make it easier for students to avoid common pitfalls, such as infinite loops.
+`for` loops are similar to `while` loops, but with different syntax and setup. In these levels, students will learn how to use `for` loops to loop through arrays and to perform an action a certain number of times. Although the inital learning curve may be steep for some students, the fact that the loop itself handles the incrementing should make it easier for students to avoid common pitfalls, such as infinite loops.
 
 ### Transfer Goals
 
-* Construct a `for` loop  
-* Use a `for` loop to loop through the elements in an array  
-* Use a `for` loop to execute an action a certain number of times  
+* Construct a `for` loop
+* Use a `for` loop to loop through the elements in an array
+* Use a `for` loop to execute an action a certain number of times
 
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP6** Attend to precision.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.  
-
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.<br>
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.<br>
+**CCSS.Math.Practice.MP6** Attend to precision.
+**CCSS.Math.Practice.MP7** Look for and make use of structure.
 ### Instructive Activity: For Loops (10 mins)
+
 
 #### Explain (3 mins)
 `for` loops are similar to `while` loops and can be used to accomplish the same things. `for` loops can be used to loop through the elements in an array and to execute an action a certain number of times. Like `while` loops, they can be nested as well. The difference between the loops lies in the syntax and setup.
@@ -822,7 +790,7 @@ for each friend in the friends array:
 		assign the variable enemy to the friend's nearest enemy
 ```
 
-Compare this to the code for a while loop does the same thing:
+Compare this to the code for a while loop that does the same thing:
 
 ```
 friendIndex = 0
@@ -857,7 +825,7 @@ The argument for `range()` must be an integer, and it specifies how many times t
 Note that `range()` creates an array of integers that starts at 0 and has the number of elements specified in parentheses. So `range(4)` creates an array with the integers 0, 1, 2, and 3. Although the counting does not start at 1, it still ensures that the loop is run 4 times.
 
 #### Interact (5 mins)
-To show the similarities and differences between `while` and `for` loops, the same activity as was used for nested `while` loops will be used to demonstrate `for` loops. If you wish to modify it slightly, you could choose to have the students perform a different action than jump, such as laugh or clap.
+To show the similarities and differences between `while` and `for` loops, the same activity as was used for nested `while` loops wil be used to demonstrate `for` loops. If you wish to modify it, you could choose to have the students perform a different action than jump, such as laugh, clap, or say a silly word or phrase.
 
 Have the students line up facing the board. Write the following code on the board:
 
@@ -870,16 +838,16 @@ Tell the students that each of them is an element in the students array that is 
 
 Have the students walk through the code with you as you point to each line. Point to the first line and ask the students what they think it does. Be sure that they understand everything that happens in that one line of code:
 
-* An array of students is created using the function `findStudents()`  
-* The variable `student` is given to each item in the array as it is executed on  
-* The entire array is looped through one item at a time  
+* An array of students is created using the function `findStudents()`
+* The variable `student` is given to each item in the array as it is executed on
+* The entire array is looped through one item at a time
 
 Point to the second line of code and ask the students what it does. Ensure that they are aware of everything that happens in this line of code:
 
-* An array of integers is created using the `range()` function. The array starts at 0 and has 3 integers in it, 0, 1, and 2.  
-* The variable `i` is given to each item in the array as it is executed on  
-* `i` is incremented with each execution of the loop   
-* The entire array is looped through one item at a time  
+* An array of integers is created using the `range()` function. The array starts at 0 and has 3 integers in it, 0, 1, and 2.
+* The variable `i` is given to each item in the array as it is executed on
+* `i` is incremented with each execution of the loop
+* The entire array is looped through one item at a time
 
 Go through the line of students one at a time getting each student to jump three times. It is very important to move slowly through this and to point at the corresponding line of code with each jump and each change of student.
 
@@ -889,7 +857,7 @@ Ensure the students understand that, as with nested `while` loops, the inner `fo
 
 #### Reflect (2 mins)
 
-**How is a `for` loop similar to a `while` loop?** (Both a for loop and a while loop can be used to loop through an array and to execute an action a certain number of times.)  
+**How is a `for` loop similar to a `while` loop?** (Both a for loop and a while loop can be used to loop through an array and to execute an action a certain number of times.)
 
 **How is a `for` loop different from a `while` loop?** (You do not need to create and increment a variable for the index because Python does that automatically for you.)
 
@@ -915,8 +883,183 @@ Circulate to assist. Draw students’ attention to the instructions and tips. Re
 ### Written Reflection (5 mins)
 **How did you use `for` loops in these levels?**
 
-(I used them to loop through allies and to create a certain number of soldiers)  
+(I used them to loop through allies and to create a certain number of soldiers)
 
 **Which do you think are easier to use, `for` loops or `while` loops? Why?**
 
-(I think for loops are easier because even though there is more set up, there is less to remember for extra variables and it is not easy to end up in an infinite loop.)  
+(I think for loops are easier because even though there is more set up, there is less to remember for extra variables and it is not easy to end up in an infinite loop.)
+
+
+##### Module 26b
+## For Loops (JavaScript)
+_Make sure you are using the Module appropriate to your classroom language_
+
+### Summary
+
+`for` loops are similar to `while` loops, but with different syntax and setup. In these levels, students will learn how to use `for` loops to loop through arrays and to perform an action a certain number of times. The inital learning curve may be steep for some students until they know how to correctly set up the `for` loop. Once they have mastered the setup, students should find that using `for` loops makes it easier to avoid common pitfalls, such as infinite loops.
+
+### Transfer Goals
+
+* Construct a `for` loop
+* Use a `for` loop to loop through the elements in an array
+* Use a `for` loop to execute an action a certain number of times
+
+
+### Standards
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.<br>
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.<br>
+**CCSS.Math.Practice.MP6** Attend to precision.
+**CCSS.Math.Practice.MP7** Look for and make use of structure.
+### Instructive Activity: For Loops (10 mins)
+
+
+#### Explain (3 mins)
+`for` loops are similar to `while` loops and can be used to accomplish the same things. `for` loops can be used to loop through the elements in an array and to execute an action a certain number of times. Like `while` loops, they can be nested as well. The difference between the loops lies in the syntax and setup.
+
+The general syntax for a `for` loop is `for (initialization; condition; expression)`. `initialization` runs only once at the start of the first loop iteration. It initializes a variable to be used in the loop.
+
+`condition` defines the condition for the loop to run.  It is often used to evaluate the variable that is created in the `initialization` segment to see if it meets a certain condition. The loop will continue to run as long as the condition is `true`. After each time the loop completes, it checks to see if the condition is `true` then runs if it is. If the condition is `false`, the loop body is skipped and the code below the closing brace of the `for` loop is executed.
+
+`expression` is an expression that acts on the variable initialized in `initialization`. It is usually used to increment or decrement the variable. `expression` runs at the end of each loop iteration, after the body of the loop has been executed.
+
+The flow of control for `for` loops is as follows:
+
+1. `intialization` executes to initialize a variable.
+2. The `condition` is evaluated. If it is `true` move to the next step. If it is `false` then move to the code after the loop.
+3. The code in the loop body is executed.
+4. `expression` is executed.
+5. Repeat beginning from step 2.
+
+Notice that `initialization` occurs only once, right at the start of the loop execution. Additionally, although the `expression` is written before the loop body, it is executed after the loop body is.
+
+The following code shows a `for` loop looping through an array:
+
+```
+for(var friendIndex = 0; friendIndex < friends.length; friendIndex++) {
+    var friend = friends[friendIndex];
+    if(friend.type == "soldier") {
+        var enemy = friend.findNearestEnemy();
+    }
+}
+```
+This block of code could be translated into pseudocode as so:
+
+```
+create a variable friendIndex and initialize it to be 0
+
+if friendIndex is less than the number of friends in the array {
+	initialize a variable friend to be the current element in the array
+	if the friend is a soldier:
+		assign the variable enemy to the friend's nearest enemy
+	increment friendIndex by 1
+	repeat the loop (from if friendIndex...)
+```
+
+Compare this to the code for a while loop that does the same thing:
+
+```
+var friendIndex = 0;
+while (friendIndex < len(friends) {
+    var friend = friends[friendIndex];
+    if (friend.type == "soldier") {
+        enemy = friend.findNearestEnemy();
+    friendIndex += 1;
+```
+
+This second block of code could be translated into pseudocode as so:
+
+```
+create a variable friendIndex and assign it the value 0
+while friendIndex is less than the amount of friends in the array:
+	assign the variable friend to the current element in the array
+	if the friend is a soldier:
+		assign the variable enemy to the friend's nearest enemy
+	add one to friendIndex (and run the while loop again)
+```
+
+When comparing the code and pseudocode for both loops, notice that in the `for` loop code, the variable `friendIndex` is initialized and incremented within the first line of the `for` loop. Thus, there are no separate lines for these actions, as there are in the `while` loop.
+
+`for` loops can also be used to execute a statement or block of code a certain number of times as shown below:
+
+```
+for (var i = 0; i < 4; i++) {
+	hero.summon("soldier");
+```
+In the example shown above, the variable `i` is initialized to be 0. It is then incremented by 1 each time the loop runs, for as long as `i` is less than 4.  The loop will run 4 times, one time each when `i` equals 0, 1, 2, and 3. Thus, 4 soldiers will be summoned.
+
+
+#### Interact (5 mins)
+To show the similarities and differences between `while` and `for` loops, the same activity as was used for nested `while` loops wil be used to demonstrate `for` loops. If you wish to modify it, you could choose to have the students perform a different action than jump, such as laugh, clap, or say a silly word or phrase.
+
+Have the students line up facing the board. Write the following code on the board:
+
+```
+var students = class.findStudents();
+
+for(var studentIndex = 0; studentIndex < students.length; studentIndex++) {
+    var student = students[studentIndex];
+    for (var i = 0; i < 3; i++) {
+        student.jump();
+    }
+}
+```
+Tell the students that each of them is an element in the `students` array that is generated from the `findStudents()` function. As you loop through each element in the array, you will move down the line of students. When you reach a student, it will be his or her turn to jump for as long as the value of `i` is less than 3.
+
+Have the students walk through the code with you as you point to each line. Point to the first line and ask the students what they think it does. Ensure they understand that this creates an array of students, similar to the `findEnemies()` function in the game.
+
+Point to the second line of code and ask the students what it does. Ensure that they are aware of everything that happens in this line of code:
+
+* The variable `studentIndex` is declared and initialized to be 0
+* A condition is set for the loop to run only as long as `studentIndex` is less than the length of the `students` array
+* `i` is incremented after each execution of the loop
+
+Then point to the third line of code to ask the students what it does. They should be aware that it creates a variable called `student` and sets it to the current element of the `students` array.
+
+Point to the next line, and again ask the students what it does. They should see that this second `for` loop initialization does the following:
+
+* Declares and initializes a variable `i` to be set to 0
+* Sets a condition for the loop to run only as long as `i` is less than 3
+* Increments `i` by 1 after each execution of the loop
+
+
+Go through the line of students one at a time getting each student to jump three times. It is very important to move slowly through this and to point to the corresponding line of code with each jump and each change of student.
+
+Be sure to point to each segment of the `for` loop (initialization, condition, body, and expression) as it is executed to help the students visually see the flow of control.
+
+It may be helpful to record the values of `studentIndex`, `student`, `i`, and `jumps` on the board as you move through the loops. Note that with each new student, `i` will start again at 0 then be incremented each time the inner `for` loop executes.
+
+Ensure the students understand that, as with nested `while` loops, the inner `for` loop will run for as long as it can, then the code in the outer loop will be run again.
+
+#### Reflect (2 mins)
+
+**How is a `for` loop similar to a `while` loop?** (Both a for loop and a while loop can be used to loop through an array and to execute an action a certain number of times.)
+
+**How is a `for` loop different from a `while` loop?** (In a for loop, you initialize the variable, set the condition, and increment the variable all on the same line. In a while loop, these happen in different lines of code.)
+
+
+### Coding Time (30-45 mins)
+
+Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+
+```
+Level #: _____  Level Name: ____________________________________
+Goal: __________________________________________________________
+What I did:
+
+What I learned:
+
+What was challenging:
+
+
+```
+
+Circulate to assist. Draw students’ attention to the instructions and tips. Remind them that once they set up the `for` loop there is no need to increment variables. Encourage students to work together and write out the answers in English if they are stuck.
+
+### Written Reflection (5 mins)
+**How did you use `for` loops in these levels?**
+
+(I used them to loop through allies and to create a certain number of soldiers)
+
+**Which do you think are easier to use, `for` loops or `while` loops? Why?**
+
+(I think for loops are easier because even though there is more set up, there is less to remember for extra variables and it is not easy to end up in an infinite loop.)
