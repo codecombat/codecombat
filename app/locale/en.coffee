@@ -1883,9 +1883,11 @@
 
   account_prepaid:
     purchase_code: "Purchase a Subscription Code"
-    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more CodeCombat accounts."
+    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #{change}
     purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
     purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
+    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
+    purchase_code5: "For more information on Student Licenses, reach out to"
     users: "Users"
     months: "Months"
     purchase_total: "Total"
