@@ -152,7 +152,7 @@ module.exports = class LevelEditView extends RootView
     team = $(e.target).data('team')
     opponentSessionID = $(e.target).data('opponent')
     if $(e.target).data('classroom') is 'home'
-     newClassMode = @lastNewClassMode = undefined
+      newClassMode = @lastNewClassMode = undefined
     else if $(e.target).data('classroom')
       newClassMode = @lastNewClassMode = true
     else
