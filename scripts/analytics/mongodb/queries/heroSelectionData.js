@@ -35,11 +35,42 @@ debug(`DEBUG: ${studentIds.length} students ${thangTypeIds.length} thang types f
 
 debug(`DEBUG: fetching classrooms..`);
 const studentClassroomIdsMap = {};
-const classrooms = db.classrooms.find({members: {$in: studentIds}}, {members: 1}).toArray();
+const studentAgeRangeMap = {};
+const studentTeacherMap = {};
+const teacherIds = [];
+const classrooms = db.classrooms.find({members: {$in: studentIds}}, {ageRangeMin: 1, ageRangeMax: 1, members: 1, ownerID: 1}).toArray();
 for (var classroom of classrooms) {
+  const ageRange = classroom.ageRangeMin || classroom.ageRangeMax ? `${classroom.ageRangeMin || '?'} - ${classroom.ageRangeMin || '?'}` : null;
   for (var studentId of classroom.members || []) {
     if (!studentClassroomIdsMap[studentId.valueOf()]) studentClassroomIdsMap[studentId.valueOf()] = [];
     studentClassroomIdsMap[studentId.valueOf()].push(classroom._id.valueOf());
+    if (ageRange) {
+      studentAgeRangeMap[studentId.valueOf()] = ageRange;
+    }
+    studentTeacherMap[studentId.valueOf()] = classroom.ownerID.valueOf();
+  }
+  teacherIds.push(classroom.ownerID);
+}
+
+debug(`DEBUG: fetching teacher trial requests..`);
+const teacherEducationLevelMap = {};
+const teacherStateMap = {};
+const teacherSchoolNameMap = {};
+const trialRequests = db.trial.requests.find({applicant: {$in: teacherIds}}, {applicant: 1, properties: 1}).toArray();
+for (var trialRequest of trialRequests) {
+  if (trialRequest.properties) {
+    if (trialRequest.properties.nces_name) {
+      teacherSchoolNameMap[trialRequest.applicant.valueOf()] = trialRequest.properties.nces_name.replace(/,/g, ' ');
+    }
+    else if (trialRequest.properties.organization) {
+      teacherSchoolNameMap[trialRequest.applicant.valueOf()] = trialRequest.properties.organization.replace(/,/g, ' ');
+    }
+    if (trialRequest.properties.state) {
+      teacherStateMap[trialRequest.applicant.valueOf()] = trialRequest.properties.state.replace(/,/g, ' ');
+    }
+    if (trialRequest.properties.educationLevel) {
+      teacherEducationLevelMap[trialRequest.applicant.valueOf()] = trialRequest.properties.educationLevel.toString().replace(/,/g, ' ');
+    }
   }
 }
 
@@ -75,7 +106,7 @@ for (var levelSession of homeLevelSessions) {
 }
 debug(`DEBUG: ${homeLevelSessions.length} home level sessions`);
 
-print("Student created, Student Id, Classroom Id, Day, Hero, Sessions, Playtime, Played Home");
+print("Student created, Student Id, Classroom Id, School, State, Age, Day, Hero, Sessions, Playtime, Played Home");
 for (var data of levelSessionData) {
   const studentId = data._id.studentId;
   for (var classroomId of studentClassroomIdsMap[studentId] || []) {
@@ -84,7 +115,7 @@ for (var data of levelSessionData) {
       const heroThangTypeId = studentMap[studentId].heroConfig.thangType;
       heroName = thangTypeMap[heroThangTypeId] ? getHeroShortName(thangTypeMap[heroThangTypeId].name || 'Unknown hero') : 'Unknown hero';
     }
-    print(`${studentMap[studentId].dateCreated.toISOString()}, ${studentId}, ${classroomId}, ${data._id.day}, ${heroName}, ${data.numSessions}, ${data.playtime}, ${!!playedHomeMap[studentId]}`);
+    print(`${studentMap[studentId].dateCreated.toISOString()}, ${studentId}, ${classroomId}, ${teacherSchoolNameMap[studentTeacherMap[studentId]] || '?'}, ${teacherStateMap[studentTeacherMap[studentId]] || '?'}, ${studentAgeRangeMap[studentId] || teacherEducationLevelMap[studentTeacherMap[studentId]] || '?'}, ${data._id.day}, ${heroName}, ${data.numSessions}, ${data.playtime}, ${!!playedHomeMap[studentId]}`);
   }
 }
 
