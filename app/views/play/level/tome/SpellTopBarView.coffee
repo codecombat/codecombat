@@ -54,7 +54,10 @@ module.exports = class SpellTopBarView extends CocoView
     window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, []
 
   onCodeReload: (e) ->
-    @openModalView new ReloadLevelModal()
+    if key.shift
+      Backbone.Mediator.publish 'level:restart', {}
+    else
+      @openModalView new ReloadLevelModal()
 
   onBeautifyClick: (e) ->
     return unless @controlsEnabled

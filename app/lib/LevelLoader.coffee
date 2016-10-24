@@ -96,12 +96,15 @@ module.exports = class LevelLoader extends CocoClass
         originalGet = @level.get
         @level.get = ->
           return 'hero' if arguments[0] is 'type'
+          return 'web-dev' if arguments[0] is 'realType'
           originalGet.apply @, arguments
     if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
+      realType = @level.get('type')
       @level.get = ->
         return 'course' if arguments[0] is 'type'
+        return realType if arguments[0] is 'realType'
         originalGet.apply @, arguments
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>

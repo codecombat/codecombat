@@ -24,6 +24,7 @@ template = require 'templates/play/level/tome/tome'
 Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
+utils = require 'core/utils'
 
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
@@ -159,7 +160,7 @@ module.exports = class TomeView extends CocoView
     difficulty = sessionState.difficulty ? 0
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
-    Backbone.Mediator.publish 'level:set-playing', {playing: false}  
+    Backbone.Mediator.publish 'level:set-playing', {playing: false}
     Backbone.Mediator.publish 'tome:cast-spells', {
       @spells,
       preload,
@@ -209,6 +210,9 @@ module.exports = class TomeView extends CocoView
     spell
 
   reloadAllCode: ->
+    if utils.getQueryVariable 'dev'
+      @spellPaletteView.destroy()
+      @updateSpellPalette @spellView.thang, @spellView.spell
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false
 

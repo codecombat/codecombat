@@ -274,6 +274,11 @@ module.exports = class PlayLevelView extends RootView
     @goalManager = new GoalManager(@world, @level.get('goals'), @team)
     @god?.setGoalManager @goalManager
 
+  updateGoals: (goals) ->
+    @level.set 'goals', goals
+    @goalManager.destroy()
+    @initGoalManager()
+
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level })
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
@@ -528,6 +533,7 @@ module.exports = class PlayLevelView extends RootView
     @setLevel e.level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
+      @updateGoals e.level.get('goals')
       Backbone.Mediator.publish 'tome:cast-spell', {}  # a bit hacky
 
   onLevelReloadThangType: (e) ->

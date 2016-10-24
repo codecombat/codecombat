@@ -104,9 +104,11 @@ block header
               a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
             if view.courseID
               li(class=anonymous ? "disabled": "")
-                a.play-classroom-level(data-classroom=true, data-code-language="javascript") Play Classroom JavaScript
+                a.play-classroom-level(data-classroom='classroom', data-code-language="javascript") Play Classroom JavaScript
               li(class=anonymous ? "disabled": "")
-                a.play-classroom-level(data-classroom=true, data-code-language="python") Play Classroom Python
+                a.play-classroom-level(data-classroom='classroom', data-code-language="python") Play Classroom Python
+              li(class=anonymous ? "disabled": "")
+                a.play-classroom-level(data-classroom='home', data-code-language="") Play Home
             if me.isAdmin()
               li
                 a(href="/editor/verifier/#{level.get('slug')}?dev=true") Verifier

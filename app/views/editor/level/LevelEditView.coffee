@@ -122,6 +122,7 @@ module.exports = class LevelEditView extends RootView
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
+    @listenTo @level, 'change:tasks', => @renderSelectors '#tasks-tab'
     @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
@@ -132,7 +133,6 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new ComponentsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
-
 
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
@@ -149,8 +149,13 @@ module.exports = class LevelEditView extends RootView
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
     opponentSessionID = $(e.target).data('opponent')
-    newClassMode = $(e.target).data('classroom')
-    newClassLanguage = $(e.target).data('code-language')
+    if $(e.target).data('classroom') is 'home'
+     newClassMode = @lastNewClassMode = undefined
+    else if $(e.target).data('classroom')
+      newClassMode = @lastNewClassMode = true
+    else
+      newClassMode = @lastNewClassMode
+    newClassLanguage = @lastNewClassLanguage = ($(e.target).data('code-language') ? @lastNewClassLanguage) or undefined
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed and @playClassMode is newClassMode and @playClassLanguage is newClassLanguage
