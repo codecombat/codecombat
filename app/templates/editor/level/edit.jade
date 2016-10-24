@@ -43,7 +43,9 @@ block header
           a(href="#level-feedback-view", data-toggle="tab")
             .glyphicon.glyphicon-star
       .navbar-header
-        span.navbar-brand #{level.attributes.name}
+        span.navbar-brand
+          | #{level.attributes.name}
+          span#completion-rate.spl
 
       ul.nav.navbar-nav.navbar-right
         li#undo-button

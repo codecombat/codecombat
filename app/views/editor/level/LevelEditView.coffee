@@ -32,6 +32,7 @@ ComponentsDocumentationView = require 'views/editor/docs/ComponentsDocumentation
 SystemsDocumentationView = require 'views/editor/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
+utils = require 'core/utils'
 
 require 'vendor/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'vendor/treema'
@@ -108,6 +109,7 @@ module.exports = class LevelEditView extends RootView
     if not @courseID and me.isAdmin()
       # Give it a fake course ID so we can test it in course mode before it's in a course.
       @courseID = '560f1a9f22961295f9427742'
+    @getLevelCompletionRate()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -269,3 +271,27 @@ module.exports = class LevelEditView extends RootView
       return '0/0'
     else
       return _.filter(@level.get('tasks'), (_elem) -> return _elem.complete).length + '/' + @level.get('tasks').length
+
+  getLevelCompletionRate: ->
+    return unless me.isAdmin()
+    startDay = utils.getUTCDay -14
+    startDayDashed = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
+    endDay = utils.getUTCDay -1
+    endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
+    success = (data) =>
+      return if @destroyed
+      started = 0
+      finished = 0
+      for day in data
+        started += day.started ? 0
+        finished += day.finished ? 0
+      rate = finished / started
+      rateDisplay = (rate * 100).toFixed(1) + '%'
+      @$('#completion-rate').text rateDisplay
+    request = @supermodel.addRequestResource 'level_completions', {
+      url: '/db/analytics_perday/-/level_completions'
+      data: {startDay: startDay, endDay: endDay, slug: @level.get('slug')}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()
