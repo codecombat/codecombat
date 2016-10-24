@@ -48,13 +48,15 @@ module.exports = class TeacherCourseSolutionView extends RootView
         playerCodeTag = utils.extractPlayerCodeTag(translatedDefaultCode)
         finalDefaultCode = if playerCodeTag then playerCodeTag else translatedDefaultCode
         level.set 'begin', finalDefaultCode
-        solution = _.find(programmableMethod.solutions, (x) => x.language is @language)
+        solution = _.find(programmableMethod.solutions, (x) => x.language is (level.get('primerLanguage') or @language))
         try
           solutionText = _.template(solution?.source)(programmableMethod.context)
         catch error
           solutionText = solution?.source
           console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
-        level.set 'solution',  solutionText
+        solutionPlayerCodeTag = utils.extractPlayerCodeTag(solutionText)
+        finalSolutionCode = if solutionPlayerCodeTag then solutionPlayerCodeTag else solutionText
+        level.set 'solution',  finalSolutionCode
     levels = []
     for level in @levels?.models when level.get('original')
       continue if @language? and level.get('primerLanguage') is @language
