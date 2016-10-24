@@ -694,6 +694,7 @@ module.exports = class SpellView extends CocoView
     _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
 
   reloadCode: (cast=true) ->
+    @spell.reloadCode() if cast
     @updateACEText @spell.originalSource
     @lockDefaultCode true
     @recompile cast
