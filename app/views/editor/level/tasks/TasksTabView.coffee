@@ -55,7 +55,6 @@ module.exports = class TasksTabView extends CocoView
 
   onLevelLoaded: (e) ->
     @level = e.level
-    console.log 'level load', e.level, e.level.get('tasks')
     @defaultTasks = tasksForLevel @level
     @level.set 'tasks', _.clone @defaultTasks
     Task = Backbone.Model.extend({
