@@ -149,8 +149,13 @@ module.exports = class LevelEditView extends RootView
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
     opponentSessionID = $(e.target).data('opponent')
-    newClassMode = $(e.target).data('classroom')
-    newClassLanguage = $(e.target).data('code-language')
+    if $(e.target).data('classroom') is 'home'
+     newClassMode = @lastNewClassMode = undefined
+    else if $(e.target).data('classroom')
+      newClassMode = @lastNewClassMode = true
+    else
+      newClassMode = @lastNewClassMode
+    newClassLanguage = @lastNewClassLanguage = ($(e.target).data('code-language') ? @lastNewClassLanguage) or undefined
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed and @playClassMode is newClassMode and @playClassLanguage is newClassLanguage
