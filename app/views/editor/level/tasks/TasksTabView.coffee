@@ -219,7 +219,7 @@ tasksForLevel = (level) ->
       inappropriateTasks[task.name] = task
     else
       tasks.push task
-  oldTasks = level.get('tasks').slice()
+  oldTasks = (level.get('tasks') ? []).slice()
   newTasks = []
   for task in tasks
     oldName = renamedTaskNames[task.name] or task.name
