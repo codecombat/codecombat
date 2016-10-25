@@ -116,6 +116,7 @@
     "faker": "^3.1.0",
     "fs-extra": "^0.26.2",
     "http-proxy": "^1.13.2",
+    "intercom-client": "^2.8.5",
     "istanbul": "^0.4.5",
     "jade-brunch": "1.7.5",
     "jasmine": "2.4.1",
