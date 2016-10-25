@@ -46,7 +46,7 @@ client.users.scroll.each({}, function (response) {
     }
     console.log(`${new Date().toISOString()} DEBUG: deleting ${deleteItems.length} users`);
     console.log(`${new Date().toISOString()} DEBUG: scrolling ${scrollIntervalMilliseconds / 1000} seconds..`);
-    return client.users.bulk(deleteItems);
+    return deleteItems.length > 0 ? client.users.bulk(deleteItems) : new Promise((resolve) => {return resolve()});
   }, errorHandler)
   .then(wait(scrollIntervalMilliseconds), errorHandler);
 });
