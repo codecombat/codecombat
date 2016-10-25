@@ -70,7 +70,7 @@ mixin accountLinks
                         span.user-level= me.level()
                         a(href="/user/#{me.getSlugOrID()}")
                           img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                        h5=me.displayName()
+                        h5=me.broadName()
                       +accountLinks
 
               ul.nav.navbar-nav

@@ -68,8 +68,12 @@ module.exports = class SchoolCountsView extends RootView
       continue if teacherMap[student.id]
       studentMap[student.id] = {geo: student.get('geo')}
 
-    orphanStudentMap = _.cloneDeep(studentMap)
-    orphanTeacherMap = _.cloneDeep(teacherMap)
+    console.log(new Date().toISOString(), "Cloning #{Object.keys(studentMap).length} studentMap...")
+    orphanStudentMap = {}
+    orphanStudentMap[studentID] = true for studentID of studentMap
+    console.log(new Date().toISOString(), "Cloning #{Object.keys(teacherMap).length} teacherMap...")
+    orphanTeacherMap = {}
+    orphanTeacherMap[teacherID] = true for teacherID of teacherMap
 
     console.log(new Date().toISOString(), "Processing #{@trialRequests.models.length} trial requests...")
     countryStateDistrictSchoolCountsMap = {}
@@ -157,7 +161,7 @@ module.exports = class SchoolCountsView extends RootView
       delete orphanTeacherMap[teacherID]
 
     console.log(new Date().toISOString(), "Processing #{Object.keys(orphanStudentMap).length} orphaned students with geo IPs...")
-    for studentID, val of orphanStudentMap
+    for studentID of orphanStudentMap
       continue unless studentMap[studentID].geo?.country
       country = studentMap[studentID].geo.countryName or studentMap[studentID].geo.country
       country = 'UK' if country is 'GB' or country is 'United Kingdom'

@@ -58,7 +58,7 @@ block content
             span= level.get('name')
             span.spl(data-i18n="common.solution")
           if level.get('solution')
-            pre!= level.get('solution')
+            pre= level.get('solution')
           else
             .text-center
               i(data-i18n="common.coming_soon")

@@ -52,7 +52,6 @@ LevelSchema.statics.jsonSchema = jsonSchema
 LevelSchema.statics.editableProperties = [
   'description'
   'documentation'
-  'background'
   'nextLevel'
   'scripts'
   'thangs'
@@ -60,12 +59,10 @@ LevelSchema.statics.editableProperties = [
   'victory'
   'name'
   'i18n'
-  'icon'
   'goals'
   'type'
-  'showsGuide'
+  'kind'
   'banner'
-  'employerDescription'
   'terrain'
   'i18nCoverage'
   'loadingTip'
@@ -104,7 +101,7 @@ LevelSchema.statics.editableProperties = [
   'scoreTypes'
   'concepts'
   'picoCTFProblem'
-  'practiceThresholdMinutes',
+  'practiceThresholdMinutes'
   'primerLanguage'
   'studentPlayInstructions'
 ]

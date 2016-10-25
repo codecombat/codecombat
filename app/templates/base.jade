@@ -33,7 +33,7 @@ block header
                 span.user-level= me.level()
                 a(href="/user/#{me.getSlugOrID()}")
                   div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
-                h3=me.displayName()
+                h3=me.broadName()
               li
                 a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
               li

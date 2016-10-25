@@ -91,6 +91,7 @@ denormalizedLevelProperties = [
   'requiresSubscription'
   'replayable'
   'type'
+  'kind'
   'slug'
   'original'
   'adventurer'
