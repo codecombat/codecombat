@@ -21,45 +21,40 @@ const latestUpdate = new Date();
 latestUpdate.setUTCDate(latestUpdate.getUTCDate() - 30);
 
 client.users.scroll.each({}, function (response) {
-  console.log(`${new Date().toISOString()} DEBUG: scrolling ${scrollIntervalMilliseconds / 1000} seconds..`);
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      // Find old users
-      // console.log(`${new Date().toISOString()} DEBUG: finding old users..`);
-      const oldUsers = [];
-      for (const user of response.body.users || []) {
-        const updatedDate = new Date(user.updated_at * 1000);
-        if (updatedDate < latestUpdate) {
-          oldUsers.push(user);
-        }
-      }
+  // Find old users
+  const oldUsers = [];
+  for (const user of response.body.users || []) {
+    const updatedDate = new Date(user.updated_at * 1000);
+    if (updatedDate < latestUpdate) {
+      oldUsers.push(user);
+    }
+  }
 
-      // Get conversations for each old user
-      const convoPromises = [];
-      for (const user of oldUsers) {
-        convoPromises.push(client.conversations.list({ type: 'user', intercom_user_id: user.id }));
-      }
-      Promise.all(convoPromises)
-      .then((responses) => {
+  // Check old users for conversations
+  return Promise.map(oldUsers, (user) => {
+    return client.conversations.list({ type: 'user', intercom_user_id: user.id })
+  })
+  .then((responses) => {
 
-        // Bulk delete old users without conversations
-        const deleteItems = [];
-        for (let i = 0; i < responses.length; i++) {
-          if (responses[i].body.conversations.length === 0) {
-            deleteItems.push({ delete: { user_id: oldUsers[i].user_id }});
-            // console.log(`DEBUG: deleting user ${oldUsers[i].id}`);
-          }
-        }
-        console.log(`DEBUG: deleting ${deleteItems.length} users`);
-        client.users.bulk(deleteItems)
-        .then((response) => {
-          return resolve();
-        })
-      }, errorHandler);
-   }, scrollIntervalMilliseconds)
- }, errorHandler)
+    // Bulk delete old users without conversations
+    const deleteItems = [];
+    for (let i = 0; i < responses.length; i++) {
+      if (responses[i].body.conversations.length === 0) {
+        deleteItems.push({ delete: { user_id: oldUsers[i].user_id }});
+        // console.log(`${new Date().toISOString()} DEBUG: deleting user ${oldUsers[i].id}`);
+      }
+    }
+    console.log(`${new Date().toISOString()} DEBUG: deleting ${deleteItems.length} users`);
+    console.log(`${new Date().toISOString()} DEBUG: scrolling ${scrollIntervalMilliseconds / 1000} seconds..`);
+    return client.users.bulk(deleteItems);
+  }, errorHandler)
+  .then(wait(scrollIntervalMilliseconds), errorHandler);
 });
 
 function errorHandler(error) {
   console.log(error);
+}
+
+function wait(timeout) {
+  return (value) => new Promise((resolve) => setTimeout(() => resolve(value), timeout));
 }
