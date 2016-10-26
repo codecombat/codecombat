@@ -151,6 +151,7 @@ module.exports.setup = (app) ->
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
+  app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
@@ -172,6 +173,7 @@ module.exports.setup = (app) ->
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
+  app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
   app.get '/db/products', require('./db/product').get
@@ -189,4 +191,4 @@ module.exports.setup = (app) ->
 
   app.all('/headers', mw.headers)
   
-  app.get('/healthcheck', mw.healthcheck)  
+  app.get('/healthcheck', mw.healthcheck)

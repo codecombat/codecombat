@@ -121,3 +121,32 @@ describe 'User', ->
       user3 = new User({stripe: {free: true}})
       expect(user3.get('subscription').active).toBe(true)
       expect(user3.get('subscription').ends).toBeUndefined()
+    
+  describe '.prepaidIncludesCourse(courseID)', ->
+    describe 'when the prepaid is a legacy full license', ->
+      it 'returns true', ->
+        user = new User({ coursePrepaidID: 'prepaid_1' })
+        expect(user.prepaidIncludesCourse('course_1')).toBe(true)
+
+    describe 'when the prepaid is a full license', ->
+      it 'returns true', ->
+        user = new User({ coursePrepaid: { _id: 'prepaid_1' } })
+        expect(user.prepaidIncludesCourse('course_1')).toBe(true)
+    
+    describe 'when the prepaid is a starter license', ->
+      beforeEach ->
+        @user = new User({ coursePrepaid: { _id: 'prepaid_1', includedCourseIDs: ['course_1'] } })
+
+      describe 'that does include the course', ->
+        it 'returns true', ->
+          expect(@user.prepaidIncludesCourse('course_1')).toBe(true)
+          
+      describe "that doesn't include the course", ->
+        it 'returns false', ->
+          expect(@user.prepaidIncludesCourse('course_2')).toBe(false)
+    
+    describe 'when the user has no prepaid', ->
+      it 'returns false', ->
+        @user = new User({ coursePrepaid: undefined })
+        expect(@user.prepaidIncludesCourse('course_2')).toBe(false)
+        

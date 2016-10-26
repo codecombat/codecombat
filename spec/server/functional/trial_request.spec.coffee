@@ -165,7 +165,7 @@ describe 'PUT /db/trial.request/:handle', ->
     putURL = getURL('/db/trial.request/'+@trialRequest.id)
     done()
 
-  it 'returns 403 to non-admins', ->
+  it 'returns 403 to non-admins', utils.wrap (done) ->
     [res, body] = yield request.putAsync(getURL("/db/trial.request/#{@trialRequest.id}"))
     expect(res.statusCode).toEqual(403)
     done()
@@ -208,4 +208,3 @@ describe 'PUT /db/trial.request/:handle', ->
       expect(trialRequest.get('reviewer').equals(@admin._id))
       expect(new Date(trialRequest.get('reviewDate'))).toBeLessThan(new Date())
       done()
-
