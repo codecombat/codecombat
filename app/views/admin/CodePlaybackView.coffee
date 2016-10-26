@@ -25,11 +25,11 @@ module.exports = class CodePlaybackView extends CocoView
     @maxTime = @options.events[@options.events.length - 1].timestamp
     #@spade.play(@options.events, $("#codearea").context)
 
-    console.log @options
-
   afterRender: ->
     return unless @options.events?
-    @$el.find("#codearea").text(@options.events[0].difContent)
+    @ace = ace.edit('acearea')
+    @ace.$blockScrolling = Infinity
+    @ace.setValue(@options.events[0].difContent)
     @$el.find("#start-time").text("0s")
     @$el.find("#end-time").text((@maxTime / 1000) + "s")
     for ev in @options.events
@@ -46,22 +46,23 @@ module.exports = class CodePlaybackView extends CocoView
 
   onPlayClicked: (e) ->
     @clearPlayback()
-    codearea = @$el.find("#codearea")[0]
-    codearea.focus()
-    @spade.play(@options.events, codearea, @$el.find("#slider")[0].value / 100)
+    @spade.play(@options.events, @ace, @$el.find("#slider")[0].value / 100)
     @interval = setInterval(@updateSlider, 1)
 
   onSpeedButtonClicked: (e) ->
-    console.log $(e.target).data("speed")
     @spade.speed = $(e.target).data("speed")
     $(e.target).siblings().removeClass "clicked"
     $(e.target).addClass "clicked"
 
   onSliderInput: (e) ->
     @clearPlayback()
-    codearea = @$el.find("#codearea")[0]
     @$el.find("#start-time").text(((@$el.find("#slider")[0].value / 100 * @maxTime) / 1000).toFixed(0) + "s")
-    codearea.value = @spade.renderTime(@options.events, codearea, @$el.find("#slider")[0].value / 100)
+    render = @spade.renderTime(@options.events, @ace, @$el.find("#slider")[0].value / 100)
+    @ace.setValue(render.result)
+    if render.selFIndex? and render.selEIndex?
+      @ace.selection.moveCursorToPosition(render.selFIndex)
+      @ace.selection.setSelectionAnchor(render.selEIndex.row, render.selEIndex.column)
+
 
   clearPlayback: ->
     clearInterval(@interval) if @interval?
@@ -73,5 +74,5 @@ module.exports = class CodePlaybackView extends CocoView
     @clearPlayback()
 
   destroy: ->
+    @clearPlayback()
     super()
-    console.log "I'm being destroyed!"

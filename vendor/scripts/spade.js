@@ -139,20 +139,23 @@ Spade.prototype = {
 		var tTime = _stack[_stack.length - 1].timestamp;
 		//var destinedIndex = Math.floor(_stack.length * _t);
 		var result = _stack[0].difContent;
-
-
-
 		for(var i = 1; i < _stack.length; i++) {
-			var tEvent = _stack[i];
-			if(_t * tTime < tEvent.timestamp) {
+			if(_t * tTime < _stack[i].timestamp) {
 				break;
 			}
+			var tEvent = _stack[i];
 			var oVal = result;
 			if(tEvent.difFIndex !== null && tEvent.difEIndex !== null) {
 				result = oVal.substring(0, tEvent.difFIndex) + tEvent.difContent + oVal.substring(oVal.length - tEvent.difEIndex, oVal.length);
 			}
 		}
-		return result;
+		var returnObject = {
+			result: result
+		};
+		if(tEvent) {
+			returnObject["selFIndex"] = tEvent.selFIndex;
+			returnObject["selEIndex"] = tEvent.selEIndex;		}
+		return returnObject
 	},
 	play: function(_stack, _elem, _t) {
 		_t = _t || 0;
@@ -160,11 +163,10 @@ Spade.prototype = {
 			console.warn("SPADE: No events to play.")
 			return
 		}
-		console.log();
 		if(_elem.setValue) {
-			_elem.setValue(this.renderTime(_stack, _elem, _t));
+			_elem.setValue(this.renderTime(_stack, _elem, _t).result);
 		} else {
-			_elem.value = this.renderTime(_stack, _elem, _t)
+			_elem.value = this.renderTime(_stack, _elem, _t).result
 		}
 		_stack = _stack.slice();
 		_stack.shift();
@@ -198,11 +200,10 @@ Spade.prototype = {
 						_elem.value = oVal.substring(0, tEvent.difFIndex) + tEvent.difContent + oVal.substring(oVal.length - tEvent.difEIndex, oVal.length)
 					}
 				}
+
 				if(_elem.selection && _elem.selection.moveCursorToPosition) {
-					//Maybe this will work someday
 					_elem.selection.moveCursorToPosition(tEvent.selFIndex);
 					_elem.selection.setSelectionAnchor(tEvent.selEIndex.row, tEvent.selEIndex.column);
-					_elem.selection.selectTo(tEvent.selFIndex.row, tEvent.selFIndex.column);
 				} else {
 					//Likewise
 					_elem.focus();
