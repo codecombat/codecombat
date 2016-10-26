@@ -14,8 +14,7 @@ const Intercom = require('intercom-client');
 const client = new Intercom.Client({ appId: intercomAppId, appApiKey: intercomApiKey });
 
 // NOTE: max 500 requests/minute, scroll closes after 1 minute and returns 100 user batches
-// So, scroll every 20s
-const scrollIntervalMilliseconds = 20 * 1000;
+const scrollIntervalMilliseconds = 30 * 1000;
 
 const latestUpdate = new Date();
 latestUpdate.setUTCDate(latestUpdate.getUTCDate() - 30);
@@ -31,6 +30,7 @@ client.users.scroll.each({}, function (response) {
   }
 
   // Check old users for conversations
+  // console.log(`${new Date().toISOString()} DEBUG: fetching conversations for ${oldUsers.length} old users..`);
   return Promise.map(oldUsers, (user) => {
     return client.conversations.list({ type: 'user', intercom_user_id: user.id })
   })
@@ -47,13 +47,9 @@ client.users.scroll.each({}, function (response) {
     console.log(`${new Date().toISOString()} DEBUG: deleting ${deleteItems.length} users`);
     console.log(`${new Date().toISOString()} DEBUG: scrolling ${scrollIntervalMilliseconds / 1000} seconds..`);
     return deleteItems.length > 0 ? client.users.bulk(deleteItems) : new Promise((resolve) => {return resolve()});
-  }, errorHandler)
-  .then(wait(scrollIntervalMilliseconds), errorHandler);
+  })
+  .then(wait(scrollIntervalMilliseconds));
 });
-
-function errorHandler(error) {
-  console.log(error);
-}
 
 function wait(timeout) {
   return (value) => new Promise((resolve) => setTimeout(() => resolve(value), timeout));
