@@ -24,26 +24,26 @@ module.exports = class CodeLogsView extends RootView
     #@supermodel.trackRequest(@codelogs.fetch())
 
   onUserIDInput: (e) ->
-    userID = $("#userid-search")[0].value
-    unless userID is ""
+    userID = $('#userid-search')[0].value
+    unless userID is ''
       Promise.resolve(@codelogs.fetchByUserID(userID))
       .then (e) => 
-        @renderSelectors "#codelogtable"
+        @renderSelectors '#codelogtable'
     else 
       Promise.resolve(@codelogs.fetchLatest())
       .then (e) => 
-        @renderSelectors "#codelogtable"
+        @renderSelectors '#codelogtable'
 
   onLevelSlugInput: (e) ->
-    slug = $("#levelslug-search")[0].value
-    unless slug is ""
+    slug = $('#levelslug-search')[0].value
+    unless slug is ''
       Promise.resolve(@codelogs.fetchBySlug(slug))
       .then (e) => 
-        @renderSelectors "#codelogtable"
+        @renderSelectors '#codelogtable'
     else
       Promise.resolve(@codelogs.fetchLatest())
       .then (e) => 
-        @renderSelectors "#codelogtable"
+        @renderSelectors '#codelogtable'
 
   onClickPlayback: (e) ->
     @insertSubView @codePlaybackView = new CodePlaybackView rawLog:$(e.target).data('codelog')
