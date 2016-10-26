@@ -73,7 +73,7 @@ describe 'POST /db/level/:handle', ->
     expect(level.get('index')).toBeDefined()
     done()
 
-  it 'enforces permissions', ->
+  it 'enforces permissions', utils.wrap (done) ->
     yield utils.clearModels([Level, User])
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -322,7 +322,7 @@ describe 'POST /db/level/:handle/patch', ->
     changed.i18n = {'de': {name:'German translation #1'}}
     delta = jsondiffpatch.diff(original, changed)
     
-    json = { 
+    json = {
       delta: delta
       target: {
         collection: 'level'

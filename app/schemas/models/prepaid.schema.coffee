@@ -14,6 +14,7 @@ PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
   exhausted: { type: 'boolean' }
   startDate: c.stringDate()
   endDate: c.stringDate()
+  includedCourseIDs: c.array({ description: 'courseIDs that this prepaid includes access to' }, c.objectId())
 })
 
 c.extendBasicProperties(PrepaidSchema, 'prepaid')

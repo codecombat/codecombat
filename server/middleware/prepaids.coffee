@@ -1,20 +1,29 @@
 wrap = require 'co-express'
+co = require 'co'
 errors = require '../commons/errors'
 database = require '../commons/database'
 mongoose = require 'mongoose'
 LevelSession = require '../models/LevelSession'
 Prepaid = require '../models/Prepaid'
+Product = require '../models/Product'
+Promise = require 'bluebird'
 TrialRequest = require '../models/TrialRequest'
 User = require '../models/User'
+StripeUtils = require '../lib/stripe_utils'
+Promise.promisifyAll(StripeUtils)
+moment = require 'moment'
+slack = require '../slack'
+{ STARTER_LICENSE_COURSE_IDS } = require '../../app/core/constants'
 
 cutoffDate = new Date(2015,11,11)
 cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate/1000).toString(16)+'0000000000000000')
 
 module.exports =
+  # Create a prepaid manually (as an admin)
   post: wrap (req, res) ->
     validTypes = ['course']
     unless req.body.type in validTypes
-      throw new errors.UnprocessableEntity("type must be on of: #{validTypes}.")
+      throw new errors.UnprocessableEntity("Prepaid type must be one of: #{validTypes}.")
       # TODO: deprecate or refactor other prepaid types
 
     if req.body.creator
@@ -46,8 +55,8 @@ module.exports =
 
     unless prepaid.get('creator').equals(req.user._id)
       throw new errors.Forbidden('You may not redeem licenses from this prepaid')
-    unless prepaid.get('type') is 'course'
-      throw new errors.Forbidden('This prepaid is not of type "course"')
+    unless prepaid.get('type') in ['course', 'starter_license']
+      throw new errors.Forbidden('This prepaid is not of type "course" or "starter_license"')
     if user.isEnrolled()
       return res.status(200).send(prepaid.toObject({req: req}))
 
@@ -71,7 +80,7 @@ module.exports =
     q = {
       _id: { $gt: cutoffID }
       creator: mongoose.Types.ObjectId(creator)
-      type: 'course'
+      type: { $in: ['course', 'starter_license'] }
     }
 
     prepaids = yield Prepaid.find(q)
@@ -116,3 +125,87 @@ module.exports =
           schoolPrepaidsMap[school].push prepaid
 
     res.send({prepaidActivityMap, schoolPrepaidsMap})
+  
+  # Separate endpoint from legacy prepaid purchase handler
+  purchaseStarterLicenses: wrap (req, res) ->
+    if req.body.type not in ['starter_license']
+      throw new errors.Forbidden("License type invalid: #{req.body.type}")
+
+    creator = req.user
+    maxRedeemers = parseInt(req.body.maxRedeemers)
+    months = parseInt(req.body.months)
+    token = req.body.stripe?.token
+    timestamp = req.body.stripe?.timestamp
+
+    if isNaN(maxRedeemers) or maxRedeemers < 1
+      throw new errors.UnprocessableEntity("Invalid number of licenses to buy: #{maxRedeemers}")
+
+    alreadyOwnedStarterLicenses = yield Prepaid.find({
+      creator: creator._id
+      type: 'starter_license'
+    }).exec()
+    alreadyOwnedStarterLicenseCount = alreadyOwnedStarterLicenses.map((prepaid) -> prepaid.get('maxRedeemers')).reduce(((a,b) -> a+b), 0)
+
+    if maxRedeemers + alreadyOwnedStarterLicenseCount > Prepaid.MAX_STARTER_LICENSES
+      throw new errors.Forbidden('You cannot own more than 75 starter licenses.')
+    
+    if not (token or creator.isAdmin())
+      throw new errors.UnprocessableEntity('Missing required Stripe token')
+
+    if creator.isAdmin()
+      yield createStarterLicense({ creator: creator.id, maxRedeemers })
+      res.status(200).send(prepaid)
+
+    else
+      product = yield Product.findOne({ name: 'starter_license' })
+
+      try
+        customer = yield StripeUtils.getCustomerAsync(creator, token)
+      catch e
+        logError(creator, "Stripe getCustomer error: #{JSON.stringify(err)}")
+      metadata =
+        type: 'starter_license'
+        userID: creator.id
+        timestamp: parseInt(timestamp)
+        maxRedeemers: maxRedeemers
+        productID: "prepaid starter_license"
+
+      totalAmount = maxRedeemers * product.get('amount')
+      try
+        charge = yield StripeUtils.createChargeAsync(creator, totalAmount, metadata)
+        prepaid = yield createStarterLicense({ creator: creator.id, maxRedeemers })
+        payment = yield StripeUtils.createPaymentAsync(creator, charge, {prepaidID: prepaid._id})
+        msg = "#{creator.get('email')} paid #{payment.get('amount')} for starter_license prepaid redeemers=#{maxRedeemers}"
+        slack.sendSlackMessage msg, ['tower']
+        res.status(200).send(prepaid)
+      catch err
+        logError(creator, "getCustomer error: #{JSON.stringify(err)}")
+        throw(err)
+
+createStarterLicense = co.wrap ({ creator, maxRedeemers }) ->
+  yield createPrepaid({
+    creator: creator
+    type: 'starter_license'
+    maxRedeemers, properties: {}
+    startDate: moment().toISOString()
+    endDate: moment().add(6, 'months').toISOString()
+    includedCourseIDs: STARTER_LICENSE_COURSE_IDS
+  })
+
+createPrepaid = co.wrap ({ creator, type, maxRedeemers, properties, startDate, endDate, includedCourseIDs }) ->
+  options =
+    creator: creator
+    type: type
+    code: yield Prepaid.generateNewCodeAsync()
+    maxRedeemers: parseInt(maxRedeemers)
+    properties: properties
+    redeemers: []
+    startDate: startDate
+    endDate: endDate
+    includedCourseIDs: includedCourseIDs
+  prepaid = new Prepaid(options)
+  yield prepaid.save()
+  return prepaid
+
+logError = (user, msg) ->
+  console.warn("Prepaid Error: [#{user.get('slug')} (#{user.id})] '#{msg}'")

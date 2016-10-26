@@ -3,6 +3,14 @@ var _ = require('lodash');
 require('coffee-script');
 require('coffee-script/register');
 
+var oldIt = global.it;
+global.it = function(description, testFn) {
+  if(testFn.constructor.name === 'GeneratorFunction'){
+    throw(Error("You didn't wrap a generator function! Do it like this: it 'does a thing', utils.wrap (done) ->"))
+  }
+  oldIt.apply(jasmine.getEnv(), arguments)
+}
+
 // Various assurances that in running tests, we don't accidentally run them
 // on the production DB.
 
@@ -77,7 +85,7 @@ beforeEach(function(done) {
       // 5. Check actual database
       User.find({}).count(function(err, count) {
         // For this to serve as a line of defense against testing with the
-        // production DB, tests must be run with 
+        // production DB, tests must be run with
         expect(err).toBeNull();
         expect(count).toBeLessThan(100);
         if(err || count >= 100) {

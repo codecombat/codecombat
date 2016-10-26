@@ -161,7 +161,7 @@ describe 'TeacherClassView', ->
         @unfinishedStudent = @students.last()
         classLanguage = @classroom.get('aceConfig')?.language
         for level in @levels.models
-          continue if classLanguage and classLanguage is level.get('primerLanguage') 
+          continue if classLanguage and classLanguage is level.get('primerLanguage')
           sessions.push(factories.makeLevelSession(
               {state: {complete: true}, playtime: 60},
               {level, creator: @finishedStudent})

@@ -2,6 +2,7 @@ wrap = require 'co-express'
 errors = require '../commons/errors'
 Level = require '../models/Level'
 LevelSession = require '../models/LevelSession'
+Prepaid = require '../models/Prepaid'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
 Course = require '../models/Course'
@@ -94,7 +95,12 @@ module.exports =
             break
         break if classroomWithLevel
       
-      unless classroomWithLevel
+      if course?.id
+        prepaidIncludesCourse = req.user.prepaidIncludesCourse(course?.id)
+      else
+        prepaidIncludesCourse = true
+      
+      unless classroomWithLevel and prepaidIncludesCourse
         throw new errors.PaymentRequired('You must be in a course which includes this level to play it')
       
       course = yield Course.findById(courseID).select('free')

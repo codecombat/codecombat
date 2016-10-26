@@ -45,15 +45,15 @@ module.exports =
     unless ownsClassroom or addingSelf
       throw new errors.Forbidden('You must own the classroom to add members')
 
-    # Only the enrolled users
-    users = yield User.find({ _id: { $in: userIDs }}).select('coursePrepaid coursePrepaidID') # TODO: remove coursePrepaidID once migrated
-    usersAreEnrolled = _.all((user.isEnrolled() for user in users))
-
     course = yield Course.findById courseInstance.get('courseID')
     throw new errors.NotFound('Course referenced by course instance not found') unless course
-
-    if not (course.get('free') or usersAreEnrolled)
-      throw new errors.PaymentRequired('Cannot add users to a course instance until they are added to a prepaid')
+  
+    # Only the enrolled users
+    users = yield User.find({ _id: { $in: userIDs }}).select('coursePrepaid coursePrepaidID') # TODO: remove coursePrepaidID once migrated
+    userPrepaidsIncludeCourse = _.all((user.prepaidIncludesCourse(course) for user in users))
+    
+    if not (course.get('free') or userPrepaidsIncludeCourse)
+      throw new errors.PaymentRequired('Cannot add users to a course instance until they are added to a prepaid that includes this course')
 
     userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
 
