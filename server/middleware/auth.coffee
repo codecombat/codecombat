@@ -132,12 +132,29 @@ module.exports =
     
     user = yield User.findOne({cleverID: userInfo.data.id})
     unless user
+      email = lookup.data.email
+      existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+
+      if existingUserWithEmail
+        email = "#{userInfo.data.id}@clever.user"
+        existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+      if existingUserWithEmail
+        email = undefined
+
+      name = "Clever"
+      if lookup.data.name
+        name = "#{lookup.data.name?.first}#{lookup.data.name.last?.substr(0,1)}"
+
+      User.unconflictNameAsync = Promise.promisify(User.unconflictName)
+      name = yield User.unconflictNameAsync name
+
       user = new User
         anonymous: false
         role: if userInfo.data.type is 'student' then 'student' else 'teacher'
         cleverID: userInfo.data.id
         emailVerified: true
-        email: lookup.data.email
+        email: email
+        name: name
 
       user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
 
