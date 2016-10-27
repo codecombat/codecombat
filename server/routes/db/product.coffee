@@ -5,10 +5,8 @@ wrap = require 'co-express'
 
 get = wrap (req, res) ->
   products = yield Product.find()
-  unless _.size(products) or config.isProduction
-    products = productStubs.map (product) -> new Product(product)
-  finalProducts = products.map (product) -> product.toObject({ req })
-  res.send(finalProducts)
+  return res.send(productStubs) unless _.size(products) or config.isProduction
+  res.send(products)
 
 ###
 Stub data, used in tests and dev environment.
@@ -57,22 +55,16 @@ productStubs = [
 
   {
     name: 'year_subscription'
+    amount: 1000
     gems: 42000
-    amount: {
-      test_groups: [
-        {
-          amount: 1000
-        }
-        {
-          amount: 1200
-        }
-        {
-          amount: 800
-        }
-      ]
-    }
-    test_group: '0'
   }
+
+  {
+    name: 'year_subscription_b'
+    amount: 1001
+    gems: 42000
+  }
+
 
   {
     name: 'prepaid_subscription'

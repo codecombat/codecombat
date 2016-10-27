@@ -125,8 +125,11 @@ class SubscriptionHandler extends Handler
             @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
 
-          Product.findOne({name: 'year_subscription'}).exec (err, product) =>
+          Product.find().exec (err, products) =>
             return @sendDatabaseError(res, err) if err
+
+            product = _.find(products, (p) -> p.get('name') is req.user.getYearSubscriptionGroup())
+            product ?= _.find(products, (p) -> p.get('name') is 'year_subscription')
             return @sendNotFoundError(res, 'year_subscription product not found') if not product
 
             metadata =
@@ -136,7 +139,7 @@ class SubscriptionHandler extends Handler
               timestamp: parseInt(req.body.stripe?.timestamp)
               description: req.body.description
 
-            StripeUtils.createCharge req.user, product.getPriceForUserID(req.user.id), metadata, (err, charge) =>
+            StripeUtils.createCharge req.user, product.get('amount'), metadata, (err, charge) =>
               if err
                 @logSubscriptionError(req.user, "Purchase year sale create charge: #{JSON.stringify(err)}")
                 return @sendDatabaseError(res, err)
@@ -347,7 +350,7 @@ class SubscriptionHandler extends Handler
     Product.findOne({name: productName}).exec (err, product) =>
       return done({res: 'Database error.', code: 500}) if err
       return done({res: 'basic_subscription product not found.', code: 404}) if not product
-      
+
       if increment
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
@@ -481,7 +484,7 @@ class SubscriptionHandler extends Handler
   updateStripeSponsorSubscription: (req, user, customer, product, done) ->
     stripeInfo = user.get('stripe') ? {}
     numSponsored = stripeInfo.recipients.length
-    quantity = getSponsoredSubsAmount(product.getPriceForUser(req.user.id), numSponsored, stripeInfo.subscriptionID?)
+    quantity = getSponsoredSubsAmount(product.get('amount'), numSponsored, stripeInfo.subscriptionID?)
 
     findStripeSubscription customer.id, subscriptionID: stripeInfo.sponsorSubscriptionID, (err, subscription) =>
       if stripeInfo.sponsorSubscriptionID? and not subscription?
@@ -612,7 +615,7 @@ class SubscriptionHandler extends Handler
 
               # Update sponsored subscription quantity
               options =
-                quantity: getSponsoredSubsAmount(product.getPriceForUser(req.user.id), stripeInfo.recipients.length, stripeInfo.subscriptionID?)
+                quantity: getSponsoredSubsAmount(product.get('amount'), stripeInfo.recipients.length, stripeInfo.subscriptionID?)
               stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
                 if err
                   @logSubscriptionError(user, 'Sponsored subscription quantity update error. ' + JSON.stringify(err))

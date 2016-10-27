@@ -160,7 +160,7 @@ PaymentHandler = class PaymentHandler extends Handler
         Product.findOne({name: transaction.product_id}).exec (err, product) =>
           return @sendDatabaseError(res, err) if err
           return @sendNotFoundError(res) if not product
-          payment.set 'amount', product.getPriceForUserID(req.user.id)
+          payment.set 'amount', product.get('amount')
           payment.set 'gems', product.get('gems')
           payment.set 'ios', {
             transactionID: transactionID
@@ -280,8 +280,7 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
   chargeStripe: (req, res, product) ->
-    amount = parseInt(product.getPriceForUser(req.user.id) ? req.body.amount)
-    console.log "Paying #{amount} for year subscription"
+    amount = parseInt(product.get('amount') ? req.body.amount)
     return @sendError(res, 400, "Invalid amount.") if isNaN(amount)
 
     stripe.charges.create({

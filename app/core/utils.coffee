@@ -193,6 +193,11 @@ getUTCDay = (offset=0) ->
   partDay = "0" + partDay if partDay < 10
   "#{partYear}#{partMonth}#{partDay}"
 
+getYearSubscriptionGroup = (testGroupNumber) ->
+  switch testGroupNumber % 4
+    when 0, 2 then 'year_subscription'
+    when 1, 3 then 'year_subscription_b'
+
 # Fast, basic way to replace text in an element when you don't need much.
 # http://stackoverflow.com/a/4962398/540620
 if document?.createElement
@@ -556,6 +561,7 @@ module.exports = {
   getQueryVariables
   getSponsoredSubsAmount
   getUTCDay
+  getYearSubscriptionGroup
   grayscale
   hexToHSL
   hslToHex

@@ -138,7 +138,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
   purchasePrepaidCourse: (user, maxRedeemers, timestamp, token, product, done) ->
     type = 'course'
 
-    amount = maxRedeemers * product.getPriceForUserID(user.id)
+    amount = maxRedeemers * product.get('amount')
     if amount > 0 and not (token or user.isAdmin())
       @logError(user, "Purchase prepaid courses missing required Stripe token #{amount}")
       return done('Missing required Stripe token')
@@ -194,7 +194,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
         months: months
         productID: "prepaid #{type}"
 
-      amount = utils.getPrepaidCodeAmount(product.getPriceForUserID(req.user.id), maxRedeemers, months)
+      amount = utils.getPrepaidCodeAmount(product.get('amount'), maxRedeemers, months)
 
       StripeUtils.createCharge user, amount, metadata, (err, charge) =>
         if err
