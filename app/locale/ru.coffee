@@ -247,7 +247,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_not_found: "Нет класса с таким кодом. Проверьте написание или попросите учителя помочь."
     checking: "Проверяем..."
     account_exists: "Этот email-адрес уже используется:" # {change}
-    sign_in: "Зарегистрироваться"
+    sign_in: "Войти"
     email_good: "С email-адресом все в порядке!"
     name_taken: "Имя пользователя уже используется! Может {{suggestedName}}?"
     name_available: "Имя пользователя доступно!"
