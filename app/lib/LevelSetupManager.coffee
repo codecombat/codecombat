@@ -69,6 +69,24 @@ module.exports = class LevelSetupManager extends CocoClass
       @session.set 'heroConfig', {"thangType":goliath,"inventory":{"eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"}}
       @onInventoryModalPlayClicked()
       return
+    if @level.get('slug') is 'the-battle-of-sky-span'
+      wizard = '52fc1460b2b91c0d5a7b6af3'
+      @session.set 'heroConfig', {
+        "thangType": wizard
+        "inventory":{
+          "eyes": "546941fda2b1f53ce794441d",
+          "feet": "546d4d8e9df4a17d0d449acd",
+          "torso": "546d4a549df4a17d0d449a97",
+          "head": "546d4ca19df4a17d0d449abf",
+          "minion": "54eb5d1649fa2d5c905ddf52",
+          "neck": "54693240a2b1f53ce79443c5",
+          "wrists": "54693830a2b1f53ce79443f1",
+          "programming-book": "557871261ff17fef5abee3ee",
+          "left-ring": "54692d2aa2b1f53ce794438f"
+        }
+      }
+      @onInventoryModalPlayClicked()
+      return
     if @level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       @session.set 'heroConfig', {"thangType":raider,"inventory":{}}
