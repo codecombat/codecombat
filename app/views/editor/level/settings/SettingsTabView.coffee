@@ -103,7 +103,7 @@ class SolutionGearNode extends TreemaArrayNode
     propertiesUsed = []
     for match in (solution.source ? '').match /hero\.([a-z][A-Za-z0-9]*)/g
       prop = match.split('.')[1]
-      propertiesUsed.push prop
+      propertiesUsed.push prop unless prop in propertiesUsed
     return unless propertiesUsed.length
     if _.isEqual @data, propertiesUsed
       @$el.find('.treema-description').html('Solution uses exactly these required properties.')

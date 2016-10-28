@@ -10,7 +10,7 @@
 #### Overview
 <!-- [MISSING] -->
 
-_This guide is written with Python-language classrooms in mind. With the exception of the For Loops module, all modules can easily be adapted for JavaScript. A JavaScript-specific For Loop module is coming soon._
+_This guide is written with Python-language classrooms in mind. With the exception of the For Loops module, all modules can easily be adapted for JavaScript. There is a JavaScript-specific For Loops module available._
 
 ### Scope and Sequence
 

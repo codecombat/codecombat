@@ -1,15 +1,14 @@
-Promise = require 'bluebird'
 mongoose = require 'mongoose'
 config = require '../../server_config'
-PrepaidSchema = new mongoose.Schema {
-  creator: mongoose.Schema.Types.ObjectId
-}, {strict: false, minimize: false,read:config.mongo.readpref}
 co = require 'co'
 jsonSchema = require '../../app/schemas/models/prepaid.schema'
 errors = require '../commons/errors'
 { findStripeSubscriptionAsync } = require '../lib/utils'
 { cancelSubscriptionImmediatelyAsync } = require '../lib/stripe_utils'
 
+PrepaidSchema = new mongoose.Schema {
+  creator: mongoose.Schema.Types.ObjectId
+}, {strict: false, minimize: false,read:config.mongo.readpref}
 PrepaidSchema.index({code: 1}, { unique: true })
 PrepaidSchema.index({'redeemers.userID': 1})
 PrepaidSchema.index({owner: 1, endDate: 1}, { sparse: true })

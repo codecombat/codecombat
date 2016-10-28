@@ -108,6 +108,9 @@ module.exports = class CampaignEditorView extends RootView
       campaignLevel = campaignLevels[levelOriginal]
       continue if not campaignLevel
       $.extend campaignLevel, _.omit(level.attributes, '_id')
+      # TODO: better way for it to remember when we intend to not specifically require/restrict gear any more
+      delete campaignLevel.requiredGear if not level.attributes.requiredGear
+      delete campaignLevel.restrictedGear if not level.attributes.restrictedGear
       campaignLevel.rewards = @formatRewards level
       # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
       # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)

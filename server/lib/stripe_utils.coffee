@@ -1,6 +1,5 @@
 log = require 'winston'
 Payment = require '../models/Payment'
-PaymentHandler = require '../handlers/payment_handler'
 Promise = require 'bluebird'
 
 module.exports =
@@ -23,6 +22,7 @@ module.exports =
       done(err, charge)
 
   createPayment: (user, stripeCharge, extraProps, done) ->
+    PaymentHandler = require '../handlers/payment_handler' # require JIT so server models can initialize properly first
     payment = new Payment
       purchaser: user._id
       recipient: user._id

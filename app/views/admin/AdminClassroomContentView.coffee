@@ -92,4 +92,3 @@ module.exports = class AdminClassroomContentView extends RootView
             utils.orderedCourseIDs.indexOf(courseIDMap[a.courseSlug]) - utils.orderedCourseIDs.indexOf(courseIDMap[b.courseSlug])
           @render?()
     getMoreLevelSessions((courseID for key, courseID of utils.courseIDs), 1)
-

@@ -16,6 +16,7 @@ Product = require '../../server/models/Product'
 { productStubs } = require '../../server/routes/db/product'
 Course = require '../../server/models/Course'
 Prepaid = require '../../server/models/Prepaid'
+Payment = require '../../server/models/Payment'
 Classroom = require '../../server/models/Classroom'
 CourseInstance = require '../../server/models/CourseInstance'
 moment = require 'moment'
@@ -278,7 +279,15 @@ module.exports = mw =
       return done(err) if err
       expect(res.statusCode).toBe(201)
       Prepaid.findById(res.body._id).exec done
-      
+
+  makePayment: (data={}) ->
+    data = _.extend({}, {
+      created: new Date()
+    }, data)
+
+    payment = new Payment(data)
+    payment.save()
+
   makeClassroom: (data={}, sources={}) -> co ->
     data = _.extend({}, {
       name: _.uniqueId('Classroom ')

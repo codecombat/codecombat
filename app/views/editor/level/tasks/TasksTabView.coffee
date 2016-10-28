@@ -163,6 +163,7 @@ defaultTasks = [
   {name: 'Write intro guide.'}
   {name: 'Write a loading tip, if needed.', complete: (level) -> level.get('loadingTip')}
   {name: 'Add programming concepts covered.'}
+  {name: 'Set level kind.', complete: (level) -> level.get('kind')}
   {name: 'Mark whether it requires a subscription.', complete: (level) -> level.get('requiresSubscription')?}
   {name: 'Choose leaderboard score types.', types: ['hero', 'course'], complete: (level) -> level.get('scoreTypes')?}
   {name: 'Do thorough set decoration.', types: notWebDev}
@@ -185,12 +186,12 @@ defaultTasks = [
   {name: 'Release to adventurers.'}
   {name: 'Release to everyone.'}
   {name: 'Create two sample projects.', types: ['game-dev', 'web-dev']}
-  {name: 'Write Lua sample code.', types: notWebDev, complete: (level) -> level.getSampleCode().lua}
-  {name: 'Write Java sample code.', types: notWebDev, complete: (level) -> level.getSampleCode().java}
-  {name: 'Write CoffeeScript sample code.', types: notWebDev, complete: (level) -> level.getSampleCode().coffeescript}
-  {name: 'Write Lua solution.', types: notWebDev, complete: (level) -> _.find(level.getSolutions(), language: 'lua')}
-  {name: 'Write Java solution.', types: notWebDev, complete: (level) -> _.find(level.getSolutions(), language: 'java')}
-  {name: 'Write CoffeeScript solution.', types: notWebDev, complete: (level) -> _.find(level.getSolutions(), language: 'coffeescript')}
+  {name: 'Write Lua sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().lua}
+  {name: 'Write Java sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().java}
+  {name: 'Write CoffeeScript sample code.', types: notWebDev, optional: true, complete: (level) -> level.getSampleCode().coffeescript}
+  {name: 'Write Lua solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'lua')}
+  {name: 'Write Java solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'java')}
+  {name: 'Write CoffeeScript solution.', types: notWebDev, optional: true, complete: (level) -> _.find(level.getSolutions(), language: 'coffeescript')}
 ]
 
 deprecatedTaskNames = [
@@ -228,6 +229,7 @@ tasksForLevel = (level) ->
       _.remove oldTasks, name: oldTask.name
     else
       complete = Boolean task.complete?(level)
+      continue if not complete and task.optional
     newTasks.push name: task.name, complete: complete
   for oldTask in oldTasks
     unless oldTask.name in deprecatedTaskNames or inappropriateTasks[oldTask.name]

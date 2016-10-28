@@ -82,7 +82,7 @@
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
-    my_classrooms: "My Classrooms"
+    my_classrooms: "My Classes" # {change}
     my_courses: "My Courses"
     careers: "Careers"
     facebook: "Facebook"

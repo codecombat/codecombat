@@ -130,7 +130,7 @@ $gameControlMargin: 30px
         position: absolute
         pointer-events: none
 
-      .level-acronym
+      .level-acronym, .level-kind
         position: absolute
         pointer-events: none
         left: 0
@@ -141,6 +141,25 @@ $gameControlMargin: 30px
         text-align: center
         font-size: 0.8vw
         text-shadow: 0px 1px 0px white
+
+      .level-kind
+        bottom: auto
+        top: 100%
+        color: white
+        text-shadow: 0px 1px 0px black, 0px -1px 0px black, -1px 0px 0px black, 1px 0px 0px black
+
+        &.demo
+          color: rgb(128, 255, 128)
+        &.usage
+          color: rgb(128, 128, 255)
+        &.mastery
+          color: rgb(255, 128, 128)
+        &.practice
+          color: rgb(128, 128, 255)
+        &.advanced
+          color: rgb(128, 255, 255)
+        &.challenge
+          color: rgb(255, 255, 128)
 
       img.hero-portrait, img.item-portrait
         width: 120%
