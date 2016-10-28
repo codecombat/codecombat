@@ -90,6 +90,8 @@ module.exports = class ThangsTabView extends CocoView
     @listenToOnce(@componentCollection, 'sync', ->
       for component in @componentCollection.models
         component.url = "/db/level.component/#{component.get('original')}/version/#{component.get('version').major}"
+        component.saveBackups = true
+        component.loadFromBackup()
         @supermodel.registerModel(component)
     )
     @level = options.level
