@@ -79,7 +79,18 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
     @god.createWorld @session.generateSpellsObject()
-    @updateCallback? test: @, state: 'running'
+    @state = 'running'
+    @reportResults()
+
+  extractTestLogs: ->
+    @testLogs = []
+    for log in @god?.angelsShare?.busyAngels?[0]?.allLogs ? []
+      continue if log.indexOf('[TEST]') is -1
+      @testLogs.push log.replace /\|.*?\| \[TEST\] /, ''
+    @testLogs
+
+  reportResults: ->
+    @updateCallback? test: @, state: @state, testLogs: @extractTestLogs()
 
   processSingleGameResults: (e) ->
     @goals = e.goalStates
@@ -87,7 +98,7 @@ module.exports = class VerifierTest extends CocoClass
     @lastFrameHash = e.lastFrameHash
     @simulationFrameRate = e.simulationFrameRate
     @state = 'complete'
-    @updateCallback? test: @, state: @state
+    @reportResults()
     @scheduleCleanup()
 
   isSuccessful: (careAboutFrames=true) ->
@@ -103,19 +114,19 @@ module.exports = class VerifierTest extends CocoClass
   onUserCodeProblem: (e) ->
     console.warn "Found user code problem:", e
     @userCodeProblems.push e.problem
-    @updateCallback? test: @, state: @state
+    @reportResults()
 
   onNonUserCodeProblem: (e) ->
     console.error "Found non-user-code problem:", e
     @error = "Failed due to non-user-code problem: #{JSON.stringify(e)}"
     @state = 'error'
-    @updateCallback? test: @, state: @state
+    @reportResults()
     @scheduleCleanup()
 
   fail: (e) ->
     @error = 'Failed due to infinite loop.'
     @state = 'error'
-    @updateCallback? test: @, state: @state
+    @reportResults()
     @scheduleCleanup()
 
   scheduleCleanup: ->
