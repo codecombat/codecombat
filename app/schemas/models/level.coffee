@@ -265,7 +265,7 @@ _.extend LevelSchema.properties,
   banner: {type: 'string', format: 'image-file', title: 'Banner'}
   goals: c.array {title: 'Goals', description: 'An array of goals which are visible to the player and can trigger scripts.'}, GoalSchema
   type: c.shortString(title: 'Type', description: 'What type of level this is.', 'enum': ['campaign', 'ladder', 'ladder-tutorial', 'hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev'])
-  kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.')  # demo, usage, mastery, advanced, practice, challenge
+  kind: c.shortString(title: 'Kind', description: 'Similar to type, but just for our organization.', enum: ['demo', 'usage', 'mastery', 'advanced', 'practice', 'challenge'])
   terrain: c.terrainString
   requiresSubscription: {title: 'Requires Subscription', description: 'Whether this level is available to subscribers only.', type: 'boolean'}
   tasks: c.array {title: 'Tasks', description: 'Tasks to be completed for this level.'}, c.task
