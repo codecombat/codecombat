@@ -13,6 +13,7 @@
 * [Can my students create an account if they have no email address?](#can-my-students-create-an-account-if-they-have-no-email-address-)
 * [Can I track my student’s progress?](#can-i-track-my-student-s-progress-)
 * [Does CodeCombat work on an iPad?](#does-codecombat-work-on-an-ipad-)
+* [Does CodeCombat support Clever Instant Logins?](#does-codecombat-support-clever-instant-logins-)
 * [Is there a recommended browser and operating system?](#is-there-a-recommended-browser-and-operating-system-)
 * [Students’ computer science backgrounds vary differently in my class, how does CodeCombat help me with that challenge?](#students-computer-science-backgrounds-vary-differently-in-my-class-how-does-codecombat-help-me-with-that-challenge-)
 * [What if I need licenses that only last a semester instead of a full year?](#what-if-i-need-licenses-that-only-last-a-semester-instead-of-a-full-year-)
@@ -67,6 +68,9 @@ Yes - the Teacher Dashboard provides detailed student progress, completion time 
 
 ### Does CodeCombat work on an iPad?
 We do not currently support iPads or Android Tablets at this time.
+
+### Does CodeCombat support Clever Instant Logins?
+Yes! Check our our [Clever Integration FAQ](/teachers/resources/clever-faq) for more details on how to get started. 
 
 ### Is there a recommended browser and operating system?
 CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later courses.  
