@@ -284,8 +284,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     write_this_down: "Запишите это:"
     start_playing: "Начать играть!"
     sso_connected: "Успешно подключились с помощью:"
-#    select_your_starting_hero: "Select Your Starting Hero:"
-#    you_can_always_change_your_hero_later: "You can always change your hero later."
+    select_your_starting_hero: "Выберите своего стартового персонажа"
+    you_can_always_change_your_hero_later: "Вы всегда можете поменять Вашего стартового персонажа"
 
   recover:
     recover_account_title: "Восстановить учетную запись"
@@ -302,7 +302,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   common:
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
-#    coming_soon: "Coming soon!"
+    coming_soon: "Скоро!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
 #    default_code: "Default Code"
     loading: "Загрузка..."
@@ -408,8 +408,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     done: "Готово"
     next_level: "Следующий уровень"
     next_game: "Следующая игра"
-#    language: "Language"
-#    languages: "Languages"
+    language: "Язык"
+    languages: "Языки"
     programming_language: "Язык программирования"
     show_menu: "Показать меню игры"
     home: "На главную" # Not used any more, will be removed soon.
@@ -445,7 +445,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_experience_gained: "Опыта получено"
     victory_gems_gained: "Самоцветов получено"
     victory_new_item: "Новый предмет"
-#    victory_new_hero: "New Hero"
+    victory_new_hero: "Новый персонаж"
     victory_viking_code_school: "Ого, это было тяжелый уровень! Если вы еще не разработчик программ, вам стоит им стать. Вы только что ускорири принятие в Школу Викингов, где вы сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Станьте Викингом"
     victory_no_progress_for_teachers: "Прогресс не сохраняется для учителей. Но, вы можете для себя добавить учетную запись ученика в свою классную комнату."
