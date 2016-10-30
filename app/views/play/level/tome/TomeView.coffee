@@ -44,6 +44,11 @@ module.exports = class TomeView extends CocoView
   events:
     'click': 'onClick'
 
+  constructor: (options) ->
+    super options
+    unless options.god
+      console.error "TomeView created with no God!"
+
   afterRender: ->
     super()
     @worker = @createWorker()

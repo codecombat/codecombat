@@ -17,7 +17,7 @@ module.exports = class PatchModal extends ModalView
     'click #accept-button': 'acceptPatch'
 
   shortcuts:
-    'a': 'acceptPatch'
+    'a, shift+a': 'acceptPatch'
     'r': 'rejectPatch'
 
   constructor: (@patch, @targetModel, options) ->

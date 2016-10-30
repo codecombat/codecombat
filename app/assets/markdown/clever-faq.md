@@ -45,15 +45,17 @@ https://clever.com/schools
 If you’d like to just use CodeCombat in your school district without Clever, you can get started by [requesting a demo](/teachers/demo). 
 
 ### Do you offer a free CodeCombat trial for Clever users? 
-The first course, **Introduction to Computer Science**, is free for an unlimited number of students. At the moment, you will still need to go through the approval process outlined above to access the trial if you’d like to use Clever. 
+Yes! Our **Introduction to Computer Science** is free to try with your students. You will still need to go through the approval process outlined above to access the trial if you’d like to use Clever. 
 
 
 ### Some of our schools already use CodeCombat - how do I migrate their data into Clever? 
-We don’t currently have a way for schools with existing CodeCombat classes to link their Clever accounts. Please email [team@codecombat.com](mailto:team@codecombat.com) if you would like to see this feature supported.
-
-
+We don’t currently have a way for schools with existing CodeCombat classes to link their Clever accounts. 
+ 
+Please email [team@codecombat.com](mailto:team@codecombat.com) if you would like to see this feature supported.
 
 
 ### What if a student already has a CodeCombat account using their email address? 
-We don’t currently have a way for students or teachers with existing CodeCombat accounts to link their accounts together. If they already have an account on CodeCombat with the same email address as their Clever account, a new account will be created when they log in via the Clever portal. They can continue to use the two separate accounts as if they were distinct. Please email [team@codecombat.com](mailto:team@codecombat.com) if you would like to see this feature supported.
+We don’t currently have a way for students or teachers with existing CodeCombat accounts to link their accounts together. If they already have an account on CodeCombat with the same email address as their Clever account, a new account will be created when they log in via the Clever portal. They can continue to use the two separate accounts as if they were distinct. 
+ 
+Please email [team@codecombat.com](mailto:team@codecombat.com) if you would like to see this feature supported.
  
