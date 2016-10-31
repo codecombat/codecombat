@@ -84,7 +84,7 @@ _.extend CampaignSchema.properties, {
   }}
 }
 
-denormalizedLevelProperties = [
+CampaignSchema.denormalizedLevelProperties = [
   'name'
   'description'
   'i18n'
@@ -125,7 +125,7 @@ denormalizedLevelProperties = [
   'scoreTypes'
 ]
 hiddenLevelProperties = ['name', 'description', 'i18n', 'replayable', 'slug', 'original', 'primerLanguage', 'shareable', 'concepts', 'scoreTypes']
-for prop in denormalizedLevelProperties
+for prop in CampaignSchema.denormalizedLevelProperties
   CampaignSchema.properties.levels.additionalProperties.properties[prop] = _.cloneDeep(LevelSchema.properties[prop])
 for hiddenProp in hiddenLevelProperties
   CampaignSchema.properties.levels.additionalProperties.properties[hiddenProp].format = 'hidden'
