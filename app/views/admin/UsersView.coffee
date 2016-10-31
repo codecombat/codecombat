@@ -19,20 +19,9 @@ module.exports = class UsersView extends RootView
     # The first arg is the function name
     # The rest are the args for the function
 
-    conditions = [
-      ['limit', 20]
-      ['sort', '-dateCreated']
-      ['where', 'anonymous']
-      ['equals', false]
-      #['where', 'email']
-      #['equals', 'sderickson@gmail.com']
-      #['where', 'dateCreated']
-      #['lt', (new Date()).toString()]
-    ]
-    conditions = $.param({conditions:JSON.stringify(conditions)})
     UserCollection = Backbone.Collection.extend({
       model: User
-      url: '/db/user?' + conditions
+      url: '/db/user?conditions[limit]=20&conditions[sort]="-dateCreated"&filter[anonymous]=false'
     })
     @users = new UserCollection()
     @users.fetch()
