@@ -87,6 +87,31 @@ describe 'POST /db/level/:handle', ->
     level = yield Level.findById(level.id)
     expect(level.get('description')).toBe('Original desc')
     done()
+    
+  it 'updates campaigns that contain that level', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    
+    level = yield utils.makeLevel({name: 'First name'})
+    campaign = yield utils.makeCampaign({}, {levels: [level]})
+
+    otherLevel = yield utils.makeLevel()
+    unrelatedCampaign = yield utils.makeCampaign({}, {levels: [otherLevel]})
+
+    url = getURL("/db/level/#{level.id}")
+    levelJSON = level.toObject()
+    levelJSON.name = 'New name'
+    spyOn(Campaign, 'update').and.callThrough()
+    [res, body] = yield request.postAsync({url: url, json: levelJSON})
+    expect(Campaign.update.calls.count()).toBe(1)
+    yield Campaign.update.calls.mostRecent().returnValue # wait until update is finished
+    campaign = yield Campaign.findById(campaign.id)
+    expect(_.size(campaign.get('levels'))).toBe(1)
+    expect(campaign.get('levels')[level.get('original')].name).toBe('New name')
+    unrelatedCampaign = yield Campaign.findById(unrelatedCampaign.id)
+    expect(_.size(unrelatedCampaign.get('levels'))).toBe(1)
+    expect(unrelatedCampaign.get('levels')[level.get('original')]).not.toBe('New name')
+    done()
 
 describe 'GET /db/level/:handle/session', ->
 

@@ -85,13 +85,11 @@ module.exports = class ThangsTabView extends CocoView
     # should load depended-on Components, too
     @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
-    @componentCollection = new ComponentsCollection()
+    @componentCollection = new ComponentsCollection([], {saveBackups: true})
     @supermodel.trackRequest(@componentCollection.fetch())
     @listenToOnce(@componentCollection, 'sync', ->
       for component in @componentCollection.models
         component.url = "/db/level.component/#{component.get('original')}/version/#{component.get('version').major}"
-        component.saveBackups = true
-        component.loadFromBackup()
         @supermodel.registerModel(component)
     )
     @level = options.level

@@ -17,7 +17,7 @@ block content
           
         else if fatalError === 'missing-input'
           h3 Not enough information was provided
-          p Need at least "israelId" and "email" included in GET parameters.
+          p Need at least "israelId" included in GET parameters.
           
         else if fatalError === 'email-exists'
           h3 Your email is already in use
@@ -34,9 +34,10 @@ block content
             tr
               th Israel Id
               td= queryParams.israelId
-            tr
-              th Email
-              td= queryParams.email
+            if queryParams.email
+              tr
+                th Email
+                td= queryParams.email
             if queryParams.firstName
               tr
                 th First Name

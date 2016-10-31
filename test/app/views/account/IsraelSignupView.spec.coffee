@@ -17,17 +17,9 @@ describe 'IsraelSignupView', ->
       queryVariables = {}
       expect(new IsraelSignupView().state.get('fatalError')).toBe('missing-input')
       
-      # id but no email
-      queryVariables = { israelId: '...' }
-      expect(new IsraelSignupView().state.get('fatalError')).toBe('missing-input')
-
-      # email but no id
-      queryVariables = { email: 'test@email.com' }
-      expect(new IsraelSignupView().state.get('fatalError')).toBe('missing-input')
-      
       # id and email but email is not valid
       queryVariables = { email: 'notanemail', israelId: '...' }
-      expect(new IsraelSignupView().state.get('fatalError')).toBe('missing-input')
+      expect(new IsraelSignupView().state.get('fatalError')).toBe('invalid-email')
 
       # valid inputs
       queryVariables = { email: 'test@email.com', israelId: '...' }
