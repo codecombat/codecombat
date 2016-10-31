@@ -55,8 +55,14 @@ module.exports = class IsraelSignupView extends RootView
     if not me.isAnonymous()
       @state.set({fatalError: 'signed-in', loading: false})
     
-    else if not (israelId and email) or not forms.validateEmail(email)
+    else if not israelId
       @state.set({fatalError: 'missing-input', loading: false})
+    
+    else if email and not forms.validateEmail(email)
+      @state.set({fatalError: 'invalid-email', loading: false})
+      
+    else if not email
+      @state.set({loading: false})
       
     else
       User.checkEmailExists(email)
@@ -123,7 +129,7 @@ module.exports = class IsraelSignupView extends RootView
       # sign up
       return me.signupWithPassword(
         @state.get('name'),
-        queryParams.email,
+        queryParams.email or '',
         @state.get('password')
       )
       
