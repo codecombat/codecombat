@@ -263,3 +263,9 @@ for file in jadeFiles
     numBundles += 1
 
 console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files (bundled #{numBundles} of them together)."
+
+if process.env.GIT_SHA
+  info =
+    sha: process.env.GIT_SHA 
+  fs.writeFile '.build_info.json', JSON.stringify info, null, '  '
+  console.log( "Wrote build information file");

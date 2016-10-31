@@ -1,3 +1,5 @@
+fs = require 'fs'
+path = require 'path'
 config = {}
 
 config.unittest = global.testing
@@ -121,5 +123,10 @@ if process.env.COCO_STATSD_HOST
     host: process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
+
+config.buildInfo = {}
+
+if fs.existsSync path.join(__dirname, '.build_info.json')
+  config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
 
 module.exports = config
