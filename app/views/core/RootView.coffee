@@ -31,6 +31,7 @@ module.exports = class RootView extends CocoView
     'click button': 'toggleModal'
     'click li': 'toggleModal'
     'treema-error': 'onTreemaError'
+    'click *[data-i18n]': 'onClickTranslatedElement'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -113,7 +114,7 @@ module.exports = class RootView extends CocoView
     $('body').removeClass('is-playing')
 
     if title = @getTitle() then title += ' | CodeCombat'
-    else title = 'CodeCombat - Learn how to code by playing a game' 
+    else title = 'CodeCombat - Learn how to code by playing a game'
 
     $('title').text(title)
 
@@ -189,3 +190,24 @@ module.exports = class RootView extends CocoView
 
   onTreemaError: (e) ->
     noty text: e.message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true
+
+  onClickTranslatedElement: (e) ->
+    return unless (key.ctrl or key.command) and key.alt
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    i18nKey = $(e.target).data('i18n')
+    base = $.i18n.t(i18nKey, {lng: 'en'})
+    translated = $.i18n.t(i18nKey)
+    en = require('locale/en')
+    [clickedSection, clickedKey] = i18nKey.split('.')
+    lineNumber = 2
+    found = false
+    for enSection, enEntries of en.translation
+      for enKey, enValue of enEntries
+        ++lineNumber
+        if clickedSection is enSection and clickedKey is enKey
+          found = true
+          break
+      break if found
+      lineNumber += 2
+    window.open "https://github.com/codecombat/codecombat/blob/master/app/locale/#{me.get('preferredLanguage') or 'en'}.coffee#L#{lineNumber}", target: '_blank'
