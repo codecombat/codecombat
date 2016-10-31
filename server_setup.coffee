@@ -263,6 +263,7 @@ setupFallbackRouteToIndex = (app) ->
         domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
         domainPrefix = req.host.match(domainRegex)?[1] or ''
         configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
+        data = data.replace '"environmentTag"', if config.isProduction then '"production"' else '"development"'
         data = data.replace '"serverConfigTag"', JSON.stringify configData
         data = data.replace('"userObjectTag"', user)
         data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))
