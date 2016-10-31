@@ -95,7 +95,9 @@ setupConsoleLogging = ->
 
 watchForErrors = ->
   currentErrors = 0
+  oldOnError = window.onerror
   window.onerror = (msg, url, line, col, error) ->
+    oldOnError.apply window, arguments if oldOnError
     return if currentErrors >= 3
     return unless me.isAdmin() or document.location.href.search(/codecombat.com/) is -1 or document.location.href.search(/\/editor\//) isnt -1
     ++currentErrors
