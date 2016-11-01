@@ -51,6 +51,7 @@ module.exports = class Label extends CocoClass
     return unless @text and @sprite.sprite
     offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
     offset ?= x: 0, y: 0  # temp (if not Lank)
+    offset.y += 10 if @style is 'var'
     rotation = @sprite.getRotation()
     offset.x *= -1 if rotation >= 135 or rotation <= -135
     @label.x = @background.x = @sprite.sprite.x + offset.x
