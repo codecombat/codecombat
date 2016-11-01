@@ -58,7 +58,7 @@ block content
             - var great = []
             - var good = []
             each course in view.courseComparisonMap || []
-              if course.courseID != view.lastPlayedCourse.id
+              if !view.lastPlayedCourse || course.courseID != view.lastPlayedCourse
                 if Math.abs(course.performance) <= 1
                   - good.push(course.courseModel.getTranslatedName())
                 else if course.performance >= 2
