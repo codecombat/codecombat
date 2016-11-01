@@ -432,7 +432,7 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
     index++ while index < levels.length and (levels[index].practice or levels[index].complete)
   index
 
-needsPractice = (playtime=0, threshold=2) ->
+needsPractice = (playtime=0, threshold=5) ->
   playtime / 60 > threshold
 
 sortCourses = (courses) ->
