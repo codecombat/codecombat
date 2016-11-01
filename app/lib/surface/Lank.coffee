@@ -698,6 +698,11 @@ module.exports = Lank = class Lank extends CocoClass
     @addLabel 'say', labelStyle if blurb
     if @labels.say?.setText blurb
       @notifySpeechUpdated blurb: blurb
+
+    if @thang?.variableNames?
+      ls = @addLabel 'variableNames', Label.STYLE_NAME
+      ls.setText @thang?.variableNames
+
     label.update() for name, label of @labels
 
   updateGold: ->

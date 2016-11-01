@@ -28,7 +28,7 @@ module.exports = class Thang
   constructor: (@world, @spriteName, @id) ->
     @spriteName ?= @constructor.className
     @id ?= @constructor.nextID @spriteName, @world
-    @addTrackedProperties ['exists', 'boolean']  # TODO: move into Systems/Components, too?
+    @addTrackedProperties ['exists', 'boolean'], ['variableNames', 'string']  # TODO: move into Systems/Components, too?
     #console.log "Generated #{@toString()}."
 
   destroy: ->
