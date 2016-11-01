@@ -696,7 +696,7 @@ UserHandler = class UserHandler extends Handler
     emailHash = @buildEmailHash user
     fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
     fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
-    "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
+    "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar
