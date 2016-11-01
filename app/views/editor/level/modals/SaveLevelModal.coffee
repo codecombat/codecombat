@@ -1,5 +1,5 @@
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-template = require 'templates/editor/level/save'
+template = require 'templates/editor/level/save-level-modal'
 forms = require 'core/forms'
 LevelComponent = require 'models/LevelComponent'
 LevelSystem = require 'models/LevelSystem'
