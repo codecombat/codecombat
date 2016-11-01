@@ -28,6 +28,7 @@ courseIDs =
   WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
   COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
+  COMPUTER_SCIENCE_6: '56a683b9506a6936008ba424'
 
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
@@ -39,6 +40,7 @@ orderedCourseIDs = [
   courseIDs.WEB_DEVELOPMENT_2
   courseIDs.COMPUTER_SCIENCE_4
   courseIDs.COMPUTER_SCIENCE_5
+  courseIDs.COMPUTER_SCIENCE_6
 ]
 
 normalizeFunc = (func_thing, object) ->
@@ -309,7 +311,7 @@ getPrepaidCodeAmount = (price=0, users=0, months=0) ->
   total
 
 startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
-  
+
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'

@@ -41,6 +41,7 @@ module.exports = class AdminClassroomContentView extends RootView
 
         for data, index in results
           [levelPlaytimes, levelSessions] = data
+          continue unless levelPlaytimes[0]
           courseID = levelPlaytimes[0].courseID
           courseLevelPlaytimesMap[courseID] ?= levelPlaytimes
           courseLevelTotalPlaytimeMap[courseID] ?= {}
