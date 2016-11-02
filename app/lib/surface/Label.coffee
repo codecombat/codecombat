@@ -83,7 +83,7 @@ module.exports = class Label extends CocoClass
     o.fontColor = {D: '#000', S: '#FFF', N: '#6c6', V:'#6c6'}[st]
     if @style in ['name','var'] and @sprite?.thang?.team is 'humans'
       o.fontColor = '#c66'
-    else if @style is ['name','var'] and @sprite?.thang?.team is 'ogres'
+    else if @style in ['name','var'] and @sprite?.thang?.team is 'ogres'
       o.fontColor = '#66c'
     o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)', V: 'rgba(0,0,0,0.7)'}[st]
     o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)', V: 'rgba(0,0,0,0)'}[st]
