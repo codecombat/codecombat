@@ -3,41 +3,58 @@
 @import "app/styles/style-flat-variables"
 
 #teacher-classes-view
-  
+
   #site-content-area
     margin-bottom: 65px
-  
+
   .access-restricted
     margin-top: 100px
-    
+
   .teacher-account-blurb
     margin-top: 100px
     margin-bottom: 700px
-    
+
   h1
     margin-top: 50px
-  
+
+  #survey
+    background-color: #cff2fc
+    border-radius: 10px
+    // font-size: .8em
+    padding: 20px 60px
+    margin: 0 0 30px 0
+    text-align: center
+
+    p.survey-button
+      text-align: center
+
+    p.small
+
+    h3
+      text-align: center
+      font-size: 1.5em
+
   .language
     display: inline-block
     width: 140px
-  
+
   .student-count
     display: inline-block
-    
+
   .class-links
     a
       font-weight: bold
       color: black
       margin-right: 1rem
       text-decoration: underline
-    
+
   .classes
     margin-top: 20px
-    
+
     .class
       padding: 20px
       display: flex
-      
+
       .flex-right
         display: flex
         flex-grow: 1
@@ -55,7 +72,7 @@
 
   .class:nth-child(2n)
     background-color: $gray-lighter
-    
+
   .view-class-arrow
     color: $gray-darker
     font-size: 35px
@@ -66,7 +83,7 @@
       color: $gray-light
       &:hover
         text-decoration: none
-      
+
   .progress-dot
     display: inline-block
     margin: 10px
@@ -79,7 +96,7 @@
     align-items: center
     .dot-label
       color: white
-    
+
   .progress-dot.forest
     background: $forest
     .tooltip-inner
@@ -87,7 +104,7 @@
       border: 1px solid $forest
     .tooltip-arrow
       border-top-color: $forest
-    
+
   .progress-dot.gold
     background: $gold
     .tooltip-inner
@@ -95,7 +112,7 @@
       border: 1px solid $navy
     .tooltip-arrow
       border-top-color: $navy
-  
+
   .add-students
     margin-left: auto
     margin-right: auto
