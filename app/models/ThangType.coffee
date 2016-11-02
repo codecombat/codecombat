@@ -29,8 +29,9 @@ module.exports = class ThangType extends CocoModel
     'master-wizard': ''
     duelist: '57588f09046caf2e0012ed41'
     champion: '575848b522179b2800efbfbf'
+    'code-ninja': '58192d484954d56144a7062f'
   @heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   @items:
@@ -263,6 +264,7 @@ module.exports = class ThangType extends CocoModel
       "Ian Elliott": "Hattori"
       "Sorcerer": "Pender"
       "Trapper": "Senick"
+      "Code Ninja": "Code Ninja"
     }
     map[@get('name')]
 

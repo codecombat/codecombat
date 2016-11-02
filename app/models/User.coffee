@@ -34,7 +34,7 @@ module.exports = class User extends CocoModel
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
-    
+
   getRequestVerificationEmailURL: ->
     @url() + "/request-verify-email"
 
@@ -50,14 +50,14 @@ module.exports = class User extends CocoModel
     $.ajax "/auth/name/#{encodeURIComponent(name)}",
       cache: false
       success: (data) -> done(data.suggestedName)
-        
+
   @checkNameConflicts: (name) ->
     new Promise (resolve, reject) ->
       $.ajax "/auth/name/#{encodeURIComponent(name)}",
         cache: false
         success: resolve
         error: (jqxhr) -> reject(jqxhr.responseJSON)
-        
+
   @checkEmailExists: (email) ->
     new Promise (resolve, reject) ->
       $.ajax "/auth/email/#{encodeURIComponent(email)}",
@@ -76,7 +76,7 @@ module.exports = class User extends CocoModel
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
   isStudent: -> @get('role') is 'student'
-    
+
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
@@ -132,6 +132,7 @@ module.exports = class User extends CocoModel
 
   heroes: ->
     heroes = (me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight, ThangType.heroes.champion, ThangType.heroes.duelist])
+    heroes.push ThangType.heroes['code-ninja'] if window.serverConfig.codeNinjas
     #heroes = _.values ThangType.heroes if me.isAdmin()
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
@@ -252,7 +253,7 @@ module.exports = class User extends CocoModel
     })
 
   isEnrolled: -> @prepaidStatus() is 'enrolled'
-      
+
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
     coursePrepaid = @get('coursePrepaid')
     return 'not-enrolled' unless coursePrepaid
@@ -260,7 +261,7 @@ module.exports = class User extends CocoModel
     return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
 
   # Function meant for "me"
-    
+
   spy: (user, options={}) ->
     user = user.id or user # User instance, user ID, email or username
     options.url = '/auth/spy'
@@ -268,7 +269,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     options.data.user = user
     @fetch(options)
-    
+
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
@@ -285,7 +286,7 @@ module.exports = class User extends CocoModel
       else
         window.location.reload()
     @fetch(options)
-    
+
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
     options.type = 'POST'
@@ -297,7 +298,7 @@ module.exports = class User extends CocoModel
     jqxhr.then ->
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
     return jqxhr
-    
+
   signupWithFacebook: (name, email, facebookID, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-facebook'
     options.type = 'POST'
@@ -329,7 +330,7 @@ module.exports = class User extends CocoModel
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
     @fetch(options)
-    
+
   loginGPlusUser: (gplusID, options={}) ->
     options.url = '/auth/login-gplus'
     options.type = 'POST'
@@ -351,14 +352,14 @@ module.exports = class User extends CocoModel
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
-    
+
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
     options.url = '/auth/login'
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, { username: usernameOrEmail, password })
     @fetch(options)
-    
+
   makeCoursePrepaid: ->
     coursePrepaid = @get('coursePrepaid')
     return null unless coursePrepaid
@@ -374,7 +375,7 @@ module.exports = class User extends CocoModel
     options.url = '/db/user/-/remain-teacher'
     options.type = 'PUT'
     @fetch(options)
-    
+
   destudent: (options={}) ->
     options.url = _.result(@, 'url') + '/destudent'
     options.type = 'POST'
@@ -384,7 +385,7 @@ module.exports = class User extends CocoModel
     options.url = _.result(@, 'url') + '/deteacher'
     options.type = 'POST'
     @fetch(options)
-    
+
   checkForNewAchievement: (options={}) ->
     options.url = _.result(@, 'url') + '/check-for-new-achievement'
     options.type = 'POST'
