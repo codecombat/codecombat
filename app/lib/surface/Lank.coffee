@@ -700,8 +700,11 @@ module.exports = Lank = class Lank extends CocoClass
       @notifySpeechUpdated blurb: blurb
 
     if @thang?.variableNames?
-      ls = @addLabel 'variableNames', Label.STYLE_NAME
+      ls = @addLabel 'variableNames', Label.STYLE_VAR
       ls.setText @thang?.variableNames
+    else if @labels.variableNames
+      @labels.variableNames.destroy()
+      delete @labels.variableNames
 
     label.update() for name, label of @labels
 
