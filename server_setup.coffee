@@ -106,7 +106,7 @@ setupExpressMiddleware = (app) ->
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
   app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
-  
+
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
   app.use(express.favicon())
@@ -198,10 +198,10 @@ setupSecureMiddleware = (app) ->
   app.use (req, res, next) ->
     req.isSecure = isSecure
     next()
-    
+
 setupPerfMonMiddleware = (app) ->
   app.use perfmon.middleware
-  
+
 setupAPIDocs = (app) ->
   # TODO: Move this into routes, so they're consolidated
   YAML = require 'yamljs'
@@ -260,6 +260,7 @@ setupFallbackRouteToIndex = (app) ->
           configData =  _.omit mandate?.toObject() or {}, '_id'
         configData.picoCTF = config.picoCTF
         configData.production = config.isProduction
+        configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
         domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
         domainPrefix = req.host.match(domainRegex)?[1] or ''
         configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
