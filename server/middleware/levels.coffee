@@ -109,7 +109,8 @@ module.exports =
       canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
-        
+    
+    attrs.isForClassroom = course?
     session = new LevelSession(attrs)
     yield session.save()
     res.status(201).send(session.toObject({req: req}))
