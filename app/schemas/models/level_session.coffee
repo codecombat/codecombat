@@ -300,6 +300,11 @@ _.extend LevelSessionSchema.properties,
         stats: c.object {description: 'Multiplayer match statistics corresponding to this entry in the league.'}
         lastOpponentSubmitDate: c.date {description: 'The submitDate of the last league session we selected to play against (for playing through league opponents in order).'}
 
+  isForClassroom:
+    type: 'boolean'
+    title: 'Is For Classroom'
+    description: 'The level session was created for a user inside a course'
+
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'
