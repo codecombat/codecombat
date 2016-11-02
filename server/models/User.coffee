@@ -11,6 +11,7 @@ languages = require '../routes/languages'
 _ = require 'lodash'
 errors = require '../commons/errors'
 Promise = require 'bluebird'
+core_utils = require '../../app/core/utils'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -89,7 +90,10 @@ UserSchema.methods.isStudent = ->
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
-  
+
+UserSchema.methods.getYearSubscriptionGroup = ->
+  core_utils.getYearSubscriptionGroup(@get('testGroupNumber'))
+
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(

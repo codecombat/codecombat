@@ -28,6 +28,7 @@ courseIDs =
   WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
   COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
+  COMPUTER_SCIENCE_6: '56a683b9506a6936008ba424'
 
 orderedCourseIDs = [
   courseIDs.INTRODUCTION_TO_COMPUTER_SCIENCE
@@ -39,6 +40,7 @@ orderedCourseIDs = [
   courseIDs.WEB_DEVELOPMENT_2
   courseIDs.COMPUTER_SCIENCE_4
   courseIDs.COMPUTER_SCIENCE_5
+  courseIDs.COMPUTER_SCIENCE_6
 ]
 
 normalizeFunc = (func_thing, object) ->
@@ -193,6 +195,11 @@ getUTCDay = (offset=0) ->
   partDay = "0" + partDay if partDay < 10
   "#{partYear}#{partMonth}#{partDay}"
 
+getYearSubscriptionGroup = (testGroupNumber) ->
+  switch testGroupNumber % 4
+    when 0, 2 then 'year_subscription'
+    when 1, 3 then 'year_subscription_b'
+
 # Fast, basic way to replace text in an element when you don't need much.
 # http://stackoverflow.com/a/4962398/540620
 if document?.createElement
@@ -309,7 +316,7 @@ getPrepaidCodeAmount = (price=0, users=0, months=0) ->
   total
 
 startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
-  
+
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
@@ -425,7 +432,7 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
     index++ while index < levels.length and (levels[index].practice or levels[index].complete)
   index
 
-needsPractice = (playtime=0, threshold=2) ->
+needsPractice = (playtime=0, threshold=5) ->
   playtime / 60 > threshold
 
 sortCourses = (courses) ->
@@ -556,6 +563,7 @@ module.exports = {
   getQueryVariables
   getSponsoredSubsAmount
   getUTCDay
+  getYearSubscriptionGroup
   grayscale
   hexToHSL
   hslToHex

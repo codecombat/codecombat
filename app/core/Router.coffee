@@ -39,7 +39,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/school-counts': go('admin/SchoolCountsView')
     'admin/school-licenses': go('admin/SchoolLicensesView')
-    'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
     'admin/demo-requests': go('admin/DemoRequestsView')
     'admin/trial-requests': go('admin/TrialRequestsView')
@@ -55,6 +54,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/level-concepts': go('artisans/LevelConceptMap')
     'artisans/level-guides': go('artisans/LevelGuidesView')
     'artisans/student-solutions': go('artisans/StudentSolutionsView')
+    'artisans/tag-test': go('artisans/TagTestView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'

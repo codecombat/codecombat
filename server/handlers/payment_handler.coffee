@@ -280,7 +280,7 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
   chargeStripe: (req, res, product) ->
-    amount = parseInt product.get('amount') ? req.body.amount
+    amount = parseInt(product.get('amount') ? req.body.amount)
     return @sendError(res, 400, "Invalid amount.") if isNaN(amount)
 
     stripe.charges.create({

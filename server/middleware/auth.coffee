@@ -133,9 +133,10 @@ module.exports =
     user = yield User.findOne({cleverID: userInfo.data.id})
     unless user
       email = lookup.data.email
-      existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+      if email?
+        existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
 
-      if existingUserWithEmail
+      if existingUserWithEmail or not email?
         email = "#{userInfo.data.id}@clever.user"
         existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
       if existingUserWithEmail
