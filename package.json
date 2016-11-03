@@ -115,6 +115,7 @@
     "css-brunch": "^1.7.0",
     "faker": "^3.1.0",
     "fs-extra": "^0.26.2",
+    "genstats": "0.0.1",
     "http-proxy": "^1.13.2",
     "intercom-client": "^2.8.5",
     "istanbul": "^0.4.5",
