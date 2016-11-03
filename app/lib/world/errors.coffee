@@ -9,13 +9,13 @@ module.exports.ArgumentError = class ArgumentError extends Error
       Error.captureStackTrace @, @constructor
 
   toString: ->
-    s = "#{@functionName}"
+    s = "`#{@functionName}`"
     if @argumentName is 'return'
       s += "'s return value"
     else if @argumentName is '_excess'
       s += " takes only #{@numArguments} argument#{if @numArguments > 1 then 's' else ''}."
     else if @argumentName
-      s += "'s argument #{@argumentName}"
+      s += "'s argument `#{@argumentName}`"
     else
       s += ' takes no arguments.'
 
@@ -39,7 +39,7 @@ module.exports.ArgumentError = class ArgumentError extends Error
       else if @actualValue instanceof Vector
         v = @actualValue.toString()
       showValue = showValue or @actualValue instanceof Vector
-      s += " should have type #{@intendedType}, but got #{actualType}#{if v then ': ' + v else ''}."
+      s += " should have type `#{@intendedType}`, but got `#{actualType}`#{if v then ": `#{v}`" else ''}."
     else if @argumentName and @argumentName isnt '_excess'
       s += ' has a problem.'
     s += '\n' + @message if @message
