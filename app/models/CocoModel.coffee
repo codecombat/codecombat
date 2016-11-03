@@ -333,7 +333,7 @@ class CocoModel extends Backbone.Model
       sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
 
     @set('i18n', data.i18n) if addedI18N and not path # need special case for root i18n
-    @updateI18NCoverage()
+    @updateI18NCoverage() if not path  # only need to do this at the highest level
     sum
 
   @getReferencedModel: (data, schema) ->
