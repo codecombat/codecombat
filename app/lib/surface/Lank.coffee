@@ -5,6 +5,7 @@ Mark = require './Mark'
 Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'core/auth'
+ThangType = require 'models/ThangType'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =
@@ -57,7 +58,7 @@ module.exports = Lank = class Lank extends CocoClass
     'level:set-letterbox': 'onSetLetterbox'
     'surface:ticked': 'onSurfaceTicked'
     'sprite:move': 'onMove'
-    
+
   constructor: (@thangType, options={}) ->
     super()
     spriteName = @thangType.get('name')
@@ -66,9 +67,8 @@ module.exports = Lank = class Lank extends CocoClass
     @gameUIState = @options.gameUIState
     @handleEvents = @options.handleEvents
     @setThang @options.thang
-    if @thang?
-      options = @thang?.getLankOptions?()
-      @options.colorConfig = options.colorConfig if options and options.colorConfig
+    @setColorConfig()
+
     console.error @toString(), 'has no ThangType!' unless @thangType
 
     # this is a stub, use @setSprite to swap it out for something else later
@@ -84,6 +84,18 @@ module.exports = Lank = class Lank extends CocoClass
     if @thangType.isFullyLoaded() then @onThangTypeLoaded() else @listenToOnce(@thangType, 'sync', @onThangTypeLoaded)
 
   toString: -> "<Lank: #{@thang?.id}>"
+
+  setColorConfig: ->
+    return unless colorConfig = @thang?.getLankOptions?().colorConfig
+    if @thangType.get('original') is ThangType.heroes['code-ninja']
+      unlockedLevels = me.levels()
+      if '5522b98685fca53105544b53' in unlockedLevels  # vital-powers, start of course 5
+        colorConfig.belt = {hue: 0.4, saturation: 0.75, lightness: 0.25}
+      else if '56fc56ac7cd2381f00d758b4' in unlockedLevels  # friend-and-foe, start of course 3
+        colorConfig.belt = {hue: 0.067, saturation: 0.75, lightness: 0.5}
+      else
+        colorConfig.belt = {hue: 0.167, saturation: 0.75, lightness: 0.4}
+    @options.colorConfig = colorConfig
 
   onThangTypeLoaded: ->
     @stillLoading = false
@@ -648,7 +660,7 @@ module.exports = Lank = class Lank extends CocoClass
   addMark: (name, layer, thangType=null) ->
     @marks[name] ?= new Mark name: name, lank: @, camera: @options.camera, layer: layer ? @options.groundLayer, thangType: thangType
     @marks[name]
-    
+
   removeMark: (name) ->
     @marks[name].destroy()
     delete @marks[name]
