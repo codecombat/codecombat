@@ -82,8 +82,9 @@ module.exports = class CampaignView extends RootView
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
-      @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
-      @listenToOnce @sessions, 'sync', @onSessionsLoaded
+      unless @editorMode
+        @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
+        @listenToOnce @sessions, 'sync', @onSessionsLoaded
       unless @terrain
         @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
         @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
@@ -194,7 +195,7 @@ module.exports = class CampaignView extends RootView
     context.levelsCompleted = count.completed
     context.levelsTotal = count.total
 
-    @determineNextLevel context.levels if @sessions?.loaded
+    @determineNextLevel context.levels if @sessions?.loaded or @editorMode
     # put lower levels in last, so in the world map they layer over one another properly.
     context.levels = (_.sortBy context.levels, (l) -> l.position.y).reverse()
     @campaign.renderedLevels = context.levels if @campaign
@@ -226,7 +227,7 @@ module.exports = class CampaignView extends RootView
       context.campaigns = {}
       for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
         context.campaigns[campaign.get('slug')] = campaign
-        if @sessions.loaded
+        if @sessions?.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
           count = @countLevels levels
           campaign.levelsTotal = count.total
@@ -265,11 +266,7 @@ module.exports = class CampaignView extends RootView
     @updateHero()
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
-      if @editorMode
-        for level in @campaign?.renderedLevels ? []
-          for nextLevelOriginal in level.nextLevels ? []
-            if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
-              @createLine level.position, nextLevel.position
+      @createLines() if @editorMode
       @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true  # Testing
     @applyCampaignStyles()
     @testParticles()
@@ -408,6 +405,12 @@ module.exports = class CampaignView extends RootView
         ++speedPoints
     experienceScore = adultPoint + speedPoints  # 0-6 score of how likely we think they are to be experienced and ready for Kithgard Mastery
     return experienceScore
+
+  createLines: ->
+    for level in @campaign?.renderedLevels ? []
+      for nextLevelOriginal in level.nextLevels ? []
+        if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
+          @createLine level.position, nextLevel.position
 
   createLine: (o1, o2) ->
     mapHeight = parseFloat($(".map").css("height"))
