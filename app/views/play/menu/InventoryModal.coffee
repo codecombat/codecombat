@@ -70,7 +70,8 @@ module.exports = class InventoryModal extends ModalView
   onItemsLoaded: ->
     for item in @items.models
       item.notInLevel = true
-      item.programmableProperties = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config?.programmableProperties or []
+      programmableConfig = _.find(item.get('components'), (c) -> c.config?)?.config
+      item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
     @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
