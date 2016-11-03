@@ -46,6 +46,10 @@ module.exports = class SchoolCountsView extends RootView
       studentNonHocMap[courseInstance.get('ownerID')] = true
       studentNonHocMap[studentID] = true for studentID in courseInstance.get('members') ? []
 
+    console.log(new Date().toISOString(), "Processing #{@teachers.models.length} teachers...")
+    for teacher in @teachers.models
+      teacherMap[teacher.id] = teacher.get('geo') ? {}
+
     console.log(new Date().toISOString(), "Processing #{@classrooms.models.length} classrooms...")
     for classroom in @classrooms.models
       teacherID = classroom.get('ownerID')
@@ -57,23 +61,20 @@ module.exports = class SchoolCountsView extends RootView
         studentMap[studentID] = {}
         teacherStudentMap[teacherID][studentID] = true
 
-    console.log(new Date().toISOString(), "Processing #{@teachers.models.length} teachers...")
-    for teacher in @teachers.models
-      teacherMap[teacher.id] = teacher.get('geo') ? {}
-      delete studentMap[teacher.id]
-
     console.log(new Date().toISOString(), "Processing #{@students.models.length} students...")
     for student in @students.models
       continue unless studentNonHocMap[student.id]
       continue if teacherMap[student.id]
       studentMap[student.id] = {geo: student.get('geo')}
 
-    console.log(new Date().toISOString(), "Cloning #{Object.keys(studentMap).length} studentMap...")
-    orphanStudentMap = {}
-    orphanStudentMap[studentID] = true for studentID of studentMap
+    delete studentNonHocMap[studentId] for studentId in studentNonHocMap # Don't need these anymore
+
     console.log(new Date().toISOString(), "Cloning #{Object.keys(teacherMap).length} teacherMap...")
     orphanTeacherMap = {}
     orphanTeacherMap[teacherID] = true for teacherID of teacherMap
+    console.log(new Date().toISOString(), "Cloning #{Object.keys(studentMap).length} studentMap...")
+    orphanStudentMap = {}
+    orphanStudentMap[studentID] = true for studentID of studentMap
 
     console.log(new Date().toISOString(), "Processing #{@trialRequests.models.length} trial requests...")
     countryStateDistrictSchoolCountsMap = {}
