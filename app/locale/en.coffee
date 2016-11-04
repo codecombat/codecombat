@@ -82,7 +82,7 @@
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
-    my_classrooms: "My Classes" # {change}
+    my_classrooms: "My Classes"
     my_courses: "My Courses"
     careers: "Careers"
     facebook: "Facebook"
@@ -794,7 +794,7 @@
     jose_title: "Music"
     jose_blurb: "Taking Off"
     community_title: "...and our open-source community"
-    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!" # {change}
+    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
     community_description_3: "CodeCombat is a"
     community_description_link_2: "community project"
     community_description_1: "with hundreds of players volunteering to create levels, contribute to our code to add features, fix bugs, playtest, and even translate the game into 50 languages so far. Employees, contributors and the site gain by sharing ideas and pooling effort, as does the open source community in general. The site is built on numerous open source projects, and we are open sourced to give back to the community and provide code-curious players a familiar project to explore and experiment with. Anyone can join the CodeCombat community! Check out our"
@@ -1883,7 +1883,7 @@
 
   account_prepaid:
     purchase_code: "Purchase a Subscription Code"
-    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #{change}
+    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #
     purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
     purchase_code3: "Subscription Code months will be added to the end of any existing subscription on the account."
     purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
