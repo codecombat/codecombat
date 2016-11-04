@@ -70,7 +70,8 @@ module.exports = class InventoryModal extends ModalView
   onItemsLoaded: ->
     for item in @items.models
       item.notInLevel = true
-      item.programmableProperties = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config?.programmableProperties or []
+      programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
+      item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
     @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
@@ -327,7 +328,7 @@ module.exports = class InventoryModal extends ModalView
     slotEl = @getSelectedSlot()
     @clearSelection()
     itemEl = @unequipItemFromSlot(slotEl)
-    return unless itemEl
+    return unless itemEl?.length
     itemEl.addClass('active')
     slotEl.effect('transfer', to: itemEl, duration: 500, easing: 'easeOutCubic')
     selectedSlotItemID = itemEl.data('item-id')
@@ -398,7 +399,7 @@ module.exports = class InventoryModal extends ModalView
 
   requireLevelEquipment: ->
     # This is called frequently to make sure the player isn't using any restricted items and knows she must equip any required items.
-    return unless @inserted
+    return unless @inserted and @items.loaded
     equipment = if @supermodel.finished() then @getCurrentEquipmentConfig() else @equipment  # Make sure we're using latest equipment.
     hadRequired = @remainingRequiredEquipment?.length
     @remainingRequiredEquipment = []
@@ -431,6 +432,7 @@ module.exports = class InventoryModal extends ModalView
       restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
       continue unless requiredPropertiesOnThisItem.length and not restrictedPropertiesOnThisItem.length
       for slot in item.getAllowedSlots()
+        continue if slot isnt 'right-hand' and _.isEqual requiredPropertiesOnThisItem, ['buildXY']  # Don't require things like caltrops belt
         requiredGear[slot] ?= []
         requiredGear[slot].push(item.get('original')) unless item.get('original') in requiredGear[slot]
         requiredPropertiesPerSlot[slot] ?= []

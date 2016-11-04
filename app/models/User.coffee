@@ -190,9 +190,9 @@ module.exports = class User extends CocoModel
     return @hintsGroup if @hintsGroup
     group = me.get('testGroupNumber') % 3
     @hintsGroup = switch group
-      when 0 then 'no-hints'
-      when 1 then 'hints'   # Automatically created code, doled out line-by-line, without full solutions
-      when 2 then 'hintsB'  # Manually created FAQ-style hints, reusable across levels
+      when 0 then 'no-hints'  # Only show intro and overview in hints dialog
+      when 1 then 'hints'     # Automatically created code, doled out line-by-line, without full solutions
+      when 2 then 'hintsB'    # Manually created FAQ-style hints, reusable across levels
     @hintsGroup = 'hints' if me.isAdmin()
     application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
     @hintsGroup

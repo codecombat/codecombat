@@ -227,7 +227,7 @@ module.exports = class LevelEditView extends RootView
     button.find('> span').toggleClass('secret')
 
   onPopulateI18N: ->
-    @level.populateI18N()
+    totalChanges = @level.populateI18N()
 
     levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
       .map((c) -> [c.get('original'), c])
@@ -239,10 +239,13 @@ module.exports = class LevelEditView extends RootView
         component = levelComponentMap[thangComponent.original]
         configSchema = component.get('configSchema')
         path = "/thangs/#{thangIndex}/components/#{thangComponentIndex}/config"
-        @level.populateI18N(thangComponent.config, configSchema, path)
+        totalChanges += @level.populateI18N(thangComponent.config, configSchema, path)
 
-    f = -> document.location.reload()
-    setTimeout(f, 2000)
+    if totalChanges
+      f = -> document.location.reload()
+      setTimeout(f, 500)
+    else
+      noty timeout: 2000, text: 'No changes.', type: 'information', layout: 'topRight'
 
   toggleTab: (e) ->
     @renderScrollbar()
