@@ -184,7 +184,7 @@ module.exports = class InventoryModal extends ModalView
     @canvasWidth = @$el.find('canvas').innerWidth()
     @canvasHeight = @$el.find('canvas').innerHeight()
     @inserted = true
-    @requireLevelEquipment()
+    @requireLevelEquipment() if @items.loaded
 
   #- Draggable logic
 
