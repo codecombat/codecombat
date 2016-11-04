@@ -72,6 +72,7 @@ module.exports = class InventoryModal extends ModalView
       item.notInLevel = true
       programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
       item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
+    @itemsProgrammablePropertiesConfigured = true
     @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
@@ -399,7 +400,7 @@ module.exports = class InventoryModal extends ModalView
 
   requireLevelEquipment: ->
     # This is called frequently to make sure the player isn't using any restricted items and knows she must equip any required items.
-    return unless @inserted and @items.loaded
+    return unless @inserted and @itemsProgrammablePropertiesConfigured
     equipment = if @supermodel.finished() then @getCurrentEquipmentConfig() else @equipment  # Make sure we're using latest equipment.
     hadRequired = @remainingRequiredEquipment?.length
     @remainingRequiredEquipment = []
