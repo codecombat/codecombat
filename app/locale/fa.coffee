@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "فارسی", englishDescription: "Persian", translation:
-#  new_home:
+  new_home:
     slogan: "بهترین بازی برای یاد گرفتن برنامه نویسی"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
