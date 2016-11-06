@@ -852,7 +852,6 @@
     more_info_3: "is a good place to connect with fellow educators who are using CodeCombat."
     licenses_needed: "Licenses needed"
 
-
   teachers_quote:
     name: "Demo Form"
     subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."

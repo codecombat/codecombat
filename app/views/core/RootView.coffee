@@ -31,6 +31,7 @@ module.exports = class RootView extends CocoView
     'click button': 'toggleModal'
     'click li': 'toggleModal'
     'treema-error': 'onTreemaError'
+    'click [data-i18n]': 'onClickTranslatedElement'
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
@@ -113,7 +114,7 @@ module.exports = class RootView extends CocoView
     $('body').removeClass('is-playing')
 
     if title = @getTitle() then title += ' | CodeCombat'
-    else title = 'CodeCombat - Learn how to code by playing a game' 
+    else title = 'CodeCombat - Learn how to code by playing a game'
 
     $('title').text(title)
 
