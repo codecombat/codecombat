@@ -98,6 +98,12 @@ block header
 
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
+            if me.isAdmin()
+              // DNT
+              li
+                a#save-branch Save/Stash Branch
+              li
+                a#load-branch Load/Unstash Branch
             li(class=anonymous ? "disabled": "")
               a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=anonymous)#revert-button Revert
             li(class=anonymous ? "disabled": "")
