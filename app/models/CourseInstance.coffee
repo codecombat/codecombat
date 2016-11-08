@@ -52,4 +52,4 @@ module.exports = class CourseInstance extends CocoModel
   
   hasMember: (userID, opts) ->
     userID = userID.id or userID
-    userID in @get('members')
+    userID in (@get('members') or [])

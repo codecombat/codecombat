@@ -151,10 +151,10 @@ describe 'PUT /db/achievement', ->
 describe 'GET /db/achievement', ->
   beforeEach addAllAchievements
   
-  it 'returns all achievements', ->
+  it 'returns all achievements', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
-    [res, body] = request.getAsync {uri: url}
+    [res, body] = yield request.getAsync {uri: url, json: true}
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe 3
     done()
@@ -172,10 +172,10 @@ describe 'GET /db/achievement?related=:id', ->
 describe 'GET /db/achievement/:handle', ->
   beforeEach addAllAchievements
 
-  it 'returns the achievement', ->
+  it 'returns the achievement', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
-    [res, body] = request.getAsync {uri: url+'/'+@unlockable.id}
+    [res, body] = yield request.getAsync { uri: url+'/'+@unlockable.id, json: true }
     expect(res.statusCode).toBe(200)
     expect(body._id).toBe(@unlockable.id)
     done()

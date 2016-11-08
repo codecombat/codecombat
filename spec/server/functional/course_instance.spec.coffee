@@ -118,8 +118,6 @@ describe 'POST /db/course_instance/:id/members', ->
     done()
 
   it 'adds an array of members to the given CourseInstance', utils.wrap (done) ->
-    @classroom.set('members', [@student._id])
-    yield @classroom.save()
     url = getURL("/db/course_instance/#{@courseInstance.id}/members")
     [res, body] = yield request.postAsync {uri: url, json: {userIDs: [@student.id]}}
     expect(res.statusCode).toBe(200)
@@ -128,6 +126,9 @@ describe 'POST /db/course_instance/:id/members', ->
     done()
 
   it 'adds a member to the given CourseInstance', utils.wrap (done) ->
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.getAsync {uri: url, json: true}
+    expect(res.body.length).toBe(0)
     url = getURL("/db/course_instance/#{@courseInstance.id}/members")
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(200)
@@ -168,17 +169,17 @@ describe 'POST /db/course_instance/:id/members', ->
     expect(res.statusCode).toBe(402)
     done()
 
-  it 'works if the course is not free and the user is enrolled', utils.wrap (done) ->
+  it 'works if the course is not free and the user has a full license', utils.wrap (done) ->
     @course.set('free', false)
     yield @course.save()
-    @student.set('coursePrepaid', _.pick(@prepaid.toObject(), '_id', 'startDate', 'endDate'))
+    @student.set('coursePrepaid', _.pick(@prepaid.toObject(), '_id', 'startDate', 'endDate', 'type'))
     yield @student.save()
     url = getURL("/db/course_instance/#{@courseInstance.id}/members")
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(200)
     done()
 
-  it 'works if the course is not free and the user is enrolled but is not migrated', utils.wrap (done) ->
+  it 'works if the course is not free and the user has a full license but is not migrated', utils.wrap (done) ->
     @course.set('free', false)
     yield @course.save()
     @student.set('coursePrepaidID', @prepaid._id)
@@ -187,6 +188,58 @@ describe 'POST /db/course_instance/:id/members', ->
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(200)
     done()
+    
+  describe 'when the prepaid is a starter license', ->
+    beforeEach utils.wrap (done) ->
+      @course.set('free', false)
+      yield @course.save()
+      @prepaid.set({
+        type: 'starter_license'
+        members: [@student.id]
+      })
+      yield @prepaid.save()
+      done()
+  
+    describe 'and the course is included in the license', ->
+      beforeEach utils.wrap (done) ->
+        @prepaid.set({
+          includedCourseIDs: [@course.id]
+        })
+        yield @prepaid.save()
+        @student.set({
+          coursePrepaid: _.pick(@prepaid.toObject(), '_id', 'startDate', 'endDate', 'type', 'includedCourseIDs')
+        })
+        yield @student.save()
+        done()
+      
+      it 'adds a member to the courseInstance', utils.wrap (done) ->
+        url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+        [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+        expect(res.statusCode).toBe(200)
+        expect(res.body.members.length).toBe(1)
+        expect(res.body.members[0]).toBe(@student.id)
+        done()
+  
+    describe 'and the course is NOT included in the license', ->
+      beforeEach utils.wrap (done) ->
+        @prepaid.set({
+          includedCourseIDs: []
+        })
+        yield @prepaid.save()
+        @student.set({
+          coursePrepaid: _.pick(@prepaid.toObject(), '_id', 'startDate', 'endDate', 'type', 'includedCourseIDs')
+        })
+        yield @student.save()
+        done()
+
+      it "doesn't add a member to the courseInstance", utils.wrap (done) ->
+        url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+        [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+        expect(res.statusCode).toBe(402)
+        url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+        [res, body] = yield request.getAsync {uri: url, json: true}
+        expect(res.body).toEqual([])
+        done()
 
 describe 'DELETE /db/course_instance/:id/members', ->
 
