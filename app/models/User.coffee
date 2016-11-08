@@ -138,8 +138,8 @@ module.exports = class User extends CocoModel
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(Level.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
-  ownsItem: (itemOriginal) -> itemOriginal in @items()
-  ownsLevel: (levelOriginal) -> levelOriginal in @levels()
+  #ownsItem: (itemOriginal) -> itemOriginal in @items()  # See redefinition while getDungeonLevelsGroup test is active
+  #ownsLevel: (levelOriginal) -> levelOriginal in @levels()  # See redefinition while getDungeonLevelsGroup test is active
 
   getHeroClasses: ->
     idsToSlugs = _.invert ThangType.heroes
@@ -218,6 +218,81 @@ module.exports = class User extends CocoModel
     @yearSubscriptionGroup = utils.getYearSubscriptionGroup(me.get('testGroupNumber'))
     application.tracker.identify yearSubscriptionGroup: @yearSubscriptionGroup unless me.isAdmin()
     @yearSubscriptionGroup
+
+  getDungeonLevelsGroup: ->
+    return @dungeonLevelsGroup if @dungeonLevelsGroup
+    group = me.get('testGroupNumber') % 7
+    [@dungeonLevelsGroup, @dungeonLevelsHidden] = switch group
+      when 0 then ['control', []]
+      when 1 then ['conservative', ['haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 2 then ['cell-commentary', ['kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 3 then ['kithgard-librarian', ['cell-commentary', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 4 then ['loop-da-loop', ['cell-commentary', 'kithgard-librarian', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
+      when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+    skipTest = me.isAdmin() or me.isPremium() or me.isOnFreeOnlyServer() or me.isOnPremiumServer()
+    if skipTest
+      [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
+    else
+      application.tracker.identify dungeonLevelsGroup: @dungeonLevelsGroup
+      console.log 'dungeonLevelsGroup:', @dungeonLevelsGroup
+    @dungeonLevelsGroup
+
+  getDungeonLevelsHidden: ->
+    @getDungeonLevelsGroup()
+    @dungeonLevelsHidden
+
+  dungeonLevelSlugsToOriginals:
+    'cell-commentary': '57aa1bd5e5636725008854c0'
+    'kithgard-librarian': '5604169b60537b8705386a59'
+    'loop-da-loop': '565ce2291b940587057366dd'
+    'haunted-kithmaze': '545a5914d820eb0000f6dc0a'
+    'dread-door': '5418d40f4c16460000ab9ac2'
+    'closing-the-distance': '541b288e1ccc8eaae19f3c25'
+    'fire-dancing': '55ca293b9bc1892c835b0136'
+    'the-second-kithmaze': '5418cf256bae62f707c7e1c3'
+    'descending-further': '5452a84d57e83800009730e4'
+    'known-enemy': '5452adea57e83800009730ee'
+    'cupboards-of-kithgard': '54e0cdefe308cb510555a7f5'
+    'a-mayhem-of-munchkins': '55ca29439bc1892c835b0137'
+    'tactical-strike': '5452cfa706a59e000067e4f5'
+
+  dungeonItemSlugsToOriginals:
+    'programmaticon-i': '53e4108204c00d4607a89f78'
+    'wooden-shield': '53e22aa153457600003e3ef5'
+
+  dungeonLevelUnlocksToRewrite: [
+    {levels: ['kithgard-librarian'], unlockedInsteadOf: 'cell-commentary', groups: ['kithgard-librarian']}
+    {levels: ['fire-dancing'], item: 'programmaticon-i', unlockedInsteadOf: 'cell-commentary', groups: ['loop-da-loop', 'haunted-kithmaze', 'none']}
+    {levels: ['fire-dancing'], item: 'programmaticon-i', unlockedInsteadOf: 'kithgard-librarian', groups: ['cell-commentary']}
+    {levels: ['haunted-kithmaze'], unlockedInsteadOf: 'loop-da-loop', groups: ['haunted-kithmaze']}
+    {levels: ['the-second-kithmaze', 'descending-further'], unlockedInsteadOf: 'haunted-kithmaze', groups: ['conservative', 'loop-da-loop']}
+    {levels: ['the-second-kithmaze', 'descending-further'], unlockedInsteadOf: 'loop-da-loop', groups: ['cell-commentary', 'kithgard-librarian', 'none']}
+    {levels: ['known-enemy', 'cupboards-of-kithgard'], unlockedInsteadOf: 'dread-door', groups: ['conservative', 'cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'none']}
+    {levels: ['a-mayhem-of-munchkins', 'tactical-strike'], item: 'wooden-shield', unlockedInsteadOf: 'closing-the-distance', groups: ['conservative', 'cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'none']}
+  ]
+
+  ownsLevel: (levelOriginal) ->
+    # Temporary hack; revert to simpler ownsLevel above when test is concluded
+    return true if levelOriginal in @levels()
+    @dungeonLevelOriginalsToSlugs ?= _.invert @dungeonLevelSlugsToOriginals
+    levelSlug = @dungeonLevelOriginalsToSlugs[levelOriginal]
+    return false unless levelSlug
+    for levelUnlockRewrite in @dungeonLevelUnlocksToRewrite when @getDungeonLevelsGroup() in levelUnlockRewrite.groups
+      if levelSlug in levelUnlockRewrite.levels
+        return @ownsLevel @dungeonLevelSlugsToOriginals[levelUnlockRewrite.unlockedInsteadOf]
+    false
+
+  ownsItem: (itemOriginal) ->
+    # Temporary hack; revert to simpler ownsItem above when test is concluded
+    return true if itemOriginal in @items()
+    @dungeonItemOriginalsToSlugs ?= _.invert @dungeonItemSlugsToOriginals
+    itemSlug = @dungeonItemOriginalsToSlugs[itemOriginal]
+    return false unless itemSlug
+    for levelUnlockRewrite in @dungeonLevelUnlocksToRewrite when @getDungeonLevelsGroup() in levelUnlockRewrite.groups
+      if itemSlug is levelUnlockRewrite.item
+        return @ownsLevel @dungeonLevelSlugsToOriginals[levelUnlockRewrite.unlockedInsteadOf]
+    false
 
   hasSubscription: ->
     return false unless stripe = @get('stripe')

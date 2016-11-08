@@ -96,7 +96,7 @@ module.exports = class InventoryModal extends ModalView
     item.classes.push 'equipped' if item.get('original') in equipped
 
     # sort into one of the four groups
-    locked = not (item.get('original') in me.items())
+    locked = not me.ownsItem item.get('original')
 
     restrictedGear = @calculateRestrictedGearPerSlot()
     allRestrictedGear = _.flatten(_.values(restrictedGear))
