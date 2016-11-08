@@ -293,6 +293,7 @@ module.exports = class CampaignView extends RootView
       level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
+      level.locked = true if level.slug in me.getDungeonLevelsHidden()
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
@@ -336,6 +337,7 @@ module.exports = class CampaignView extends RootView
       for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
         for reward in (otherLevel.rewards ? []) when reward.level
           level.unlockedInSameCampaign ||= reward.level is level.original
+      level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
 
   countLevels: (levels) ->
     count = total: 0, completed: 0
