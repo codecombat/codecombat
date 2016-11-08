@@ -6,6 +6,7 @@ Payment = require '../models/Payment'
 errors = require '../commons/errors'
 mongoose = require 'mongoose'
 utils = require '../../app/core/utils'
+Product = require '../models/Product'
 
 module.exports.setup = (app) ->
   # Cache customer -> user ID map (increases test perf considerably)
@@ -86,11 +87,9 @@ module.exports.setup = (app) ->
                 subscriptionID: subscriptionID
               }
             })
-            # TODO: load gems from correct Product
-            productGems = 3500
-            if recipient.get('country') is 'brazil'
-              productGems = 1500
-            payment.set 'gems', productGems if invoice.lines.data[0].plan?.id is 'basic'
+            if invoice.lines.data[0].plan?.id is 'basic'
+              basicProduct = yield Product.findBasicSubscriptionForUser recipient
+              payment.set 'gems', basicProduct.get('gems')
 
             payment.save (err) =>
               if err
@@ -115,7 +114,7 @@ module.exports.setup = (app) ->
   handleSubscriptionDeleted = (req, res) ->
     # Three variants:
     # normal - Personal subscription deleted
-    # recipeint - Subscription sponsored by another user is being deleted.
+    # recipient - Subscription sponsored by another user is being deleted.
     # sponsor - Aggregate subscription used to pay for multiple recipient subscriptions.  Ugh.
 
     subscription = req.body.data.object

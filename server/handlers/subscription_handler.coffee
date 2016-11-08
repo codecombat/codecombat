@@ -281,8 +281,10 @@ class SubscriptionHandler extends Handler
 
     else
       couponID = user.get('stripe')?.couponID
-      if user.get('country') is 'brazil'
-        couponID ?= 'brazil'
+      if not couponID and user.get 'country'
+        basicProduct = yield Product.findBasicSubscriptionForUser user
+        if basicProduct.name isnt 'basic_subscription'  # We have a customized product for this country
+          couponID = user.get 'country'
       # SALE LOGIC
       # overwrite couponID with another for everyone-sales
       #couponID = 'hoc_399' if not couponID
@@ -343,26 +345,21 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    productName = 'basic_subscription'
-    if user.get('country') in ['brazil']
-      productName = "#{user.get('country')}_basic_subscription"
+    product = yield Product.findBasicSubscriptionForUser user
+    return done({res: 'basic_subscription product not found.', code: 404}) if not product
 
-    Product.findOne({name: productName}).exec (err, product) =>
-      return done({res: 'Database error.', code: 500}) if err
-      return done({res: 'basic_subscription product not found.', code: 404}) if not product
+    if increment
+      purchased = _.clone(user.get('purchased'))
+      purchased ?= {}
+      purchased.gems ?= 0
+      purchased.gems += product.get('gems') if product.get('gems')
+      user.set('purchased', purchased)
 
-      if increment
-        purchased = _.clone(user.get('purchased'))
-        purchased ?= {}
-        purchased.gems ?= 0
-        purchased.gems += product.get('gems') if product.get('gems')
-        user.set('purchased', purchased)
-
-      user.save (err) =>
-        if err
-          @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
-          return done({res: 'Database error.', code: 500})
-        done()
+    user.save (err) =>
+      if err
+        @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
+        return done({res: 'Database error.', code: 500})
+      done()
 
   updateStripeRecipientSubscriptions: (req, user, customer, done) ->
     return done({res: 'Database error.', code: 500}) unless req.body.stripe?.subscribeEmails?

@@ -63,7 +63,7 @@ UserSchema.methods.isInGodMode = ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
-  
+
 UserSchema.methods.hasPermission = (neededPermissions) ->
   permissions = @get('permissions') or []
   if _.contains(permissions, 'admin')
@@ -115,7 +115,7 @@ UserSchema.methods.trackActivity = (activityName, increment) ->
   activity[activityName].last = now
   @set 'activity', activity
   activity
-  
+
 UserSchema.statics.search = (term, done) ->
   utils = require '../lib/utils'
   if utils.isID(term)
@@ -124,7 +124,7 @@ UserSchema.statics.search = (term, done) ->
     term = term.toLowerCase()
     query = $or: [{nameLower: term}, {emailLower: term}]
   return User.findOne(query).exec(done)
-  
+
 UserSchema.statics.findByEmail = (email, done=_.noop) ->
   emailLower = email.toLowerCase()
   User.findOne({emailLower: emailLower}).exec(done)
@@ -265,7 +265,7 @@ UserSchema.statics.statsMapping =
     'campaign': 'stats.campaignMiscPatches'
     'poll': 'stats.pollMiscPatches'
     'course': 'stats.courseMiscPatches'
-    
+
 # TODO: Migrate from incrementStat to incrementStatAsync
 UserSchema.statics.incrementStatAsync = Promise.promisify (id, statName, options={}, done) ->
   # A shim over @incrementStat, providing a Promise interface
@@ -362,7 +362,7 @@ UserSchema.methods.hasLogInMethod = ->
     _.size(@get('oAuthIdentities'))
     @get('passwordHash')
   ])
-    
+
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   return done?()
@@ -415,12 +415,12 @@ UserSchema.pre('save', (next) ->
       filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
       if filter.test(name)
         return next(new errors.UnprocessableEntity('Username may not be an email'))
-  
+
     @set('nameLower', name.toLowerCase())
   else
     @set('name', undefined)
     @set('nameLower', undefined)
-  
+
   if _.isEmpty(@get('firstName'))
     @set('firstName', undefined)
   if _.isEmpty(@get('lastName'))
@@ -433,10 +433,10 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
-    
+
   if @hasLogInMethod() and @get('anonymous')
     @set('anonymous', false)
-  
+
   next()
 )
 
@@ -444,7 +444,7 @@ UserSchema.post 'save', (doc) ->
   doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
   UserSchema.statics.updateServiceSettings(doc)
 
-  
+
 UserSchema.post 'init', (doc) ->
   doc.wasTeacher = doc.isTeacher()
   doc.startingEmails = _.cloneDeep(doc.get('emails'))
@@ -472,7 +472,7 @@ UserSchema.methods.verificationCode = (timestamp) ->
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
-  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country',
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'country',
   'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities'
 ]
 UserSchema.statics.jsonSchema = jsonschema
@@ -513,6 +513,7 @@ UserSchema.statics.makeNew = (req) ->
     user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  console.log 'set lang', lang, 'from', req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
@@ -526,8 +527,8 @@ UserSchema.plugin plugins.NamedPlugin
 UserSchema.virtual('subscription').get ->
   subscription = {
     active: @hasSubscription()
-  } 
-  
+  }
+
   { free } = @get('stripe') ? {}
   if _.isString(free)
     subscription.ends = new Date(free).toISOString()
