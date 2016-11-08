@@ -230,7 +230,8 @@ module.exports = class User extends CocoModel
       when 4 then ['loop-da-loop', ['cell-commentary', 'kithgard-librarian', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
       when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
       when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-    skipTest = me.isAdmin() or me.isPremium() or me.isOnFreeOnlyServer() or me.isOnPremiumServer()
+      else ['control', []]
+    skipTest = me.isAdmin() or me.isPremium() or me.isOnFreeOnlyServer() or me.isOnPremiumServer() or not me.get('testGroupNumber')?
     if skipTest
       [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
     else
