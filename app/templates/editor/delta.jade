@@ -34,7 +34,7 @@ mixin deltaPanel(delta, conflict)
             div.text-diff
         if delta.action === 'moved-index'
           .col-md-12
-            span Moved array value #{JSON.stringify(delta.left)} to index #{delta.destinationIndex}
+            span Moved array value #{delta.hash}: #{delta.originalIndex} ➜ #{delta.destinationIndex}
   
     if delta.conflict && !conflict
       .panel-body
@@ -46,4 +46,12 @@ mixin deltaPanel(delta, conflict)
     +deltaPanel(delta)
   if !view.expandedDeltas.length
     alert.alert-warning(data-i18n="delta.no_changes") No changes
-    
+  else
+    .delta.panel.panel-default
+      .panel-heading
+        a(data-toggle="collapse" data-parent="#delta-accordion-expert" href="#collapse-expert-"+(counter))
+          span Expert View
+
+      .panel-collapse.collapse(id="collapse-expert-"+(counter))
+        .panel-body.row
+          .expert-view

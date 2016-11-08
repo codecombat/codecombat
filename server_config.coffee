@@ -1,9 +1,11 @@
+fs = require 'fs'
+path = require 'path'
 config = {}
 
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
 
-config.chinaDomain = "cn.codecombat.com"
+config.chinaDomain = "cn.codecombat.com;ccombat.cn"
 config.brazilDomain = "br.codecombat.com"
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT  or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
@@ -35,6 +37,8 @@ if process.env.COCO_MONGO_LS_REPLICA_STRING?
   
 if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
   config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
+
+config.sphinxServer = process.env.COCO_SPHINX_SERVER or ''
 
 config.apple =
   verifyURL: process.env.COCO_APPLE_VERIFY_URL or 'https://sandbox.itunes.apple.com/verifyReceipt'
@@ -77,6 +81,11 @@ config.hipchat =
 
 config.slackToken = process.env.COCO_SLACK_TOKEN or ''
 
+config.clever =
+    client_id: process.env.COCO_CLEVER_CLIENTID
+    client_secret: process.env.COCO_CLEVER_SECRET
+    redirect_uri: process.env.COCO_CLEVER_REDIRECT_URI
+
 config.queue =
   accessKeyId: process.env.COCO_AWS_ACCESS_KEY_ID or ''
   secretAccessKey: process.env.COCO_AWS_SECRET_ACCESS_KEY or ''
@@ -114,5 +123,10 @@ if process.env.COCO_STATSD_HOST
     host: process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
+
+config.buildInfo = {}
+
+if fs.existsSync path.join(__dirname, '.build_info.json')
+  config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
 
 module.exports = config

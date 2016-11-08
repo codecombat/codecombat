@@ -1,7 +1,6 @@
 GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
-util = require 'core/utils'
 ThangType = require './ThangType'
 Level = require './Level'
 utils = require 'core/utils'
@@ -35,7 +34,7 @@ module.exports = class User extends CocoModel
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
-    
+
   getRequestVerificationEmailURL: ->
     @url() + "/request-verify-email"
 
@@ -51,14 +50,14 @@ module.exports = class User extends CocoModel
     $.ajax "/auth/name/#{encodeURIComponent(name)}",
       cache: false
       success: (data) -> done(data.suggestedName)
-        
+
   @checkNameConflicts: (name) ->
     new Promise (resolve, reject) ->
       $.ajax "/auth/name/#{encodeURIComponent(name)}",
         cache: false
         success: resolve
         error: (jqxhr) -> reject(jqxhr.responseJSON)
-        
+
   @checkEmailExists: (email) ->
     new Promise (resolve, reject) ->
       $.ajax "/auth/email/#{encodeURIComponent(email)}",
@@ -77,7 +76,7 @@ module.exports = class User extends CocoModel
   isEmailSubscriptionEnabled: (name) -> (@get('emails') or {})[name]?.enabled
 
   isStudent: -> @get('role') is 'student'
-    
+
   isTeacher: ->
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
@@ -133,13 +132,14 @@ module.exports = class User extends CocoModel
 
   heroes: ->
     heroes = (me.get('purchased')?.heroes ? []).concat([ThangType.heroes.captain, ThangType.heroes.knight, ThangType.heroes.champion, ThangType.heroes.duelist])
+    heroes.push ThangType.heroes['code-ninja'] if window.serverConfig.codeNinjas
     #heroes = _.values ThangType.heroes if me.isAdmin()
     heroes
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(Level.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
-  ownsItem: (itemOriginal) -> itemOriginal in @items()
-  ownsLevel: (levelOriginal) -> levelOriginal in @levels()
+  #ownsItem: (itemOriginal) -> itemOriginal in @items()  # See redefinition while getDungeonLevelsGroup test is active
+  #ownsLevel: (levelOriginal) -> levelOriginal in @levels()  # See redefinition while getDungeonLevelsGroup test is active
 
   getHeroClasses: ->
     idsToSlugs = _.invert ThangType.heroes
@@ -190,9 +190,9 @@ module.exports = class User extends CocoModel
     return @hintsGroup if @hintsGroup
     group = me.get('testGroupNumber') % 3
     @hintsGroup = switch group
-      when 0 then 'no-hints'
-      when 1 then 'hints'   # Automatically created code, doled out line-by-line, without full solutions
-      when 2 then 'hintsB'  # Manually created FAQ-style hints, reusable across levels
+      when 0 then 'no-hints'  # Only show intro and overview in hints dialog
+      when 1 then 'hints'     # Automatically created code, doled out line-by-line, without full solutions
+      when 2 then 'hintsB'    # Manually created FAQ-style hints, reusable across levels
     @hintsGroup = 'hints' if me.isAdmin()
     application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
     @hintsGroup
@@ -213,6 +213,88 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
+  getYearSubscriptionGroup: ->
+    return @yearSubscriptionGroup if @yearSubscriptionGroup
+    @yearSubscriptionGroup = utils.getYearSubscriptionGroup(me.get('testGroupNumber'))
+    application.tracker.identify yearSubscriptionGroup: @yearSubscriptionGroup unless me.isAdmin()
+    @yearSubscriptionGroup
+
+  getDungeonLevelsGroup: ->
+    return @dungeonLevelsGroup if @dungeonLevelsGroup
+    group = me.get('testGroupNumber') % 7
+    [@dungeonLevelsGroup, @dungeonLevelsHidden] = switch group
+      when 0 then ['control', []]
+      when 1 then ['conservative', ['haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 2 then ['cell-commentary', ['kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 3 then ['kithgard-librarian', ['cell-commentary', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 4 then ['loop-da-loop', ['cell-commentary', 'kithgard-librarian', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
+      when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
+      else ['control', []]
+    skipTest = me.isAdmin() or me.isPremium() or me.isOnFreeOnlyServer() or me.isOnPremiumServer() or not me.get('testGroupNumber')?
+    if skipTest
+      [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
+    else
+      application.tracker.identify dungeonLevelsGroup: @dungeonLevelsGroup
+      console.log 'dungeonLevelsGroup:', @dungeonLevelsGroup
+    @dungeonLevelsGroup
+
+  getDungeonLevelsHidden: ->
+    @getDungeonLevelsGroup()
+    @dungeonLevelsHidden
+
+  dungeonLevelSlugsToOriginals:
+    'cell-commentary': '57aa1bd5e5636725008854c0'
+    'kithgard-librarian': '5604169b60537b8705386a59'
+    'loop-da-loop': '565ce2291b940587057366dd'
+    'haunted-kithmaze': '545a5914d820eb0000f6dc0a'
+    'dread-door': '5418d40f4c16460000ab9ac2'
+    'closing-the-distance': '541b288e1ccc8eaae19f3c25'
+    'fire-dancing': '55ca293b9bc1892c835b0136'
+    'the-second-kithmaze': '5418cf256bae62f707c7e1c3'
+    'descending-further': '5452a84d57e83800009730e4'
+    'known-enemy': '5452adea57e83800009730ee'
+    'cupboards-of-kithgard': '54e0cdefe308cb510555a7f5'
+    'a-mayhem-of-munchkins': '55ca29439bc1892c835b0137'
+    'tactical-strike': '5452cfa706a59e000067e4f5'
+
+  dungeonItemSlugsToOriginals:
+    'programmaticon-i': '53e4108204c00d4607a89f78'
+    'wooden-shield': '53e22aa153457600003e3ef5'
+
+  dungeonLevelUnlocksToRewrite: [
+    {levels: ['kithgard-librarian'], unlockedInsteadOf: 'cell-commentary', groups: ['kithgard-librarian']}
+    {levels: ['fire-dancing'], item: 'programmaticon-i', unlockedInsteadOf: 'cell-commentary', groups: ['loop-da-loop', 'haunted-kithmaze', 'none']}
+    {levels: ['fire-dancing'], item: 'programmaticon-i', unlockedInsteadOf: 'kithgard-librarian', groups: ['cell-commentary']}
+    {levels: ['haunted-kithmaze'], unlockedInsteadOf: 'loop-da-loop', groups: ['haunted-kithmaze']}
+    {levels: ['the-second-kithmaze', 'descending-further'], unlockedInsteadOf: 'haunted-kithmaze', groups: ['conservative', 'loop-da-loop']}
+    {levels: ['the-second-kithmaze', 'descending-further'], unlockedInsteadOf: 'loop-da-loop', groups: ['cell-commentary', 'kithgard-librarian', 'none']}
+    {levels: ['known-enemy', 'cupboards-of-kithgard'], unlockedInsteadOf: 'dread-door', groups: ['conservative', 'cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'none']}
+    {levels: ['a-mayhem-of-munchkins', 'tactical-strike'], item: 'wooden-shield', unlockedInsteadOf: 'closing-the-distance', groups: ['conservative', 'cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'none']}
+  ]
+
+  ownsLevel: (levelOriginal) ->
+    # Temporary hack; revert to simpler ownsLevel above when test is concluded
+    return true if levelOriginal in @levels()
+    @dungeonLevelOriginalsToSlugs ?= _.invert @dungeonLevelSlugsToOriginals
+    levelSlug = @dungeonLevelOriginalsToSlugs[levelOriginal]
+    return false unless levelSlug
+    for levelUnlockRewrite in @dungeonLevelUnlocksToRewrite when @getDungeonLevelsGroup() in levelUnlockRewrite.groups
+      if levelSlug in levelUnlockRewrite.levels
+        return @ownsLevel @dungeonLevelSlugsToOriginals[levelUnlockRewrite.unlockedInsteadOf]
+    false
+
+  ownsItem: (itemOriginal) ->
+    # Temporary hack; revert to simpler ownsItem above when test is concluded
+    return true if itemOriginal in @items()
+    @dungeonItemOriginalsToSlugs ?= _.invert @dungeonItemSlugsToOriginals
+    itemSlug = @dungeonItemOriginalsToSlugs[itemOriginal]
+    return false unless itemSlug
+    for levelUnlockRewrite in @dungeonLevelUnlocksToRewrite when @getDungeonLevelsGroup() in levelUnlockRewrite.groups
+      if itemSlug is levelUnlockRewrite.item
+        return @ownsLevel @dungeonLevelSlugsToOriginals[levelUnlockRewrite.unlockedInsteadOf]
+    false
+
   hasSubscription: ->
     return false unless stripe = @get('stripe')
     return true if stripe.sponsorID
@@ -228,11 +310,11 @@ module.exports = class User extends CocoModel
 
   isOnPremiumServer: ->
     return true if me.get('country') in ['brazil']
-    return true if me.get('country') in ['china'] and me.isPremium()
+    return true if me.get('country') in ['china'] and (me.isPremium() or me.get('stripe'))
     return false
 
   isOnFreeOnlyServer: ->
-    return true if me.get('country') in ['china'] and not me.isPremium()
+    return true if me.get('country') in ['china'] and not (me.isPremium() or me.get('stripe'))
     return false
 
   sendVerificationCode: (code) ->
@@ -247,7 +329,7 @@ module.exports = class User extends CocoModel
     })
 
   isEnrolled: -> @prepaidStatus() is 'enrolled'
-      
+
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
     coursePrepaid = @get('coursePrepaid')
     return 'not-enrolled' unless coursePrepaid
@@ -255,7 +337,7 @@ module.exports = class User extends CocoModel
     return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
 
   # Function meant for "me"
-    
+
   spy: (user, options={}) ->
     user = user.id or user # User instance, user ID, email or username
     options.url = '/auth/spy'
@@ -263,7 +345,7 @@ module.exports = class User extends CocoModel
     options.data ?= {}
     options.data.user = user
     @fetch(options)
-    
+
   stopSpying: (options={}) ->
     options.url = '/auth/stop-spying'
     options.type = 'POST'
@@ -280,22 +362,26 @@ module.exports = class User extends CocoModel
       else
         window.location.reload()
     @fetch(options)
-    
+
   signupWithPassword: (name, email, password, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-password'
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {name, email, password})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'CodeCombat'
     return jqxhr
-    
+
   signupWithFacebook: (name, email, facebookID, options={}) ->
     options.url = _.result(@, 'url') + '/signup-with-facebook'
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {name, email, facebookID, facebookAccessToken: application.facebookHandler.token()})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Facebook Login', category: "Signup", label: 'Facebook'
@@ -307,6 +393,8 @@ module.exports = class User extends CocoModel
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, {name, email, gplusID, gplusAccessToken: application.gplusHandler.token()})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
     jqxhr = @fetch(options)
     jqxhr.then ->
       window.tracker?.trackEvent 'Google Login', category: "Signup", label: 'GPlus'
@@ -318,7 +406,7 @@ module.exports = class User extends CocoModel
     options.data.gplusID = gplusID
     options.data.gplusAccessToken = application.gplusHandler.token()
     @fetch(options)
-    
+
   loginGPlusUser: (gplusID, options={}) ->
     options.url = '/auth/login-gplus'
     options.type = 'POST'
@@ -340,14 +428,14 @@ module.exports = class User extends CocoModel
     options.data.facebookID = facebookID
     options.data.facebookAccessToken = application.facebookHandler.token()
     @fetch(options)
-    
+
   loginPasswordUser: (usernameOrEmail, password, options={}) ->
     options.url = '/auth/login'
     options.type = 'POST'
     options.data ?= {}
     _.extend(options.data, { username: usernameOrEmail, password })
     @fetch(options)
-    
+
   makeCoursePrepaid: ->
     coursePrepaid = @get('coursePrepaid')
     return null unless coursePrepaid
@@ -363,7 +451,7 @@ module.exports = class User extends CocoModel
     options.url = '/db/user/-/remain-teacher'
     options.type = 'PUT'
     @fetch(options)
-    
+
   destudent: (options={}) ->
     options.url = _.result(@, 'url') + '/destudent'
     options.type = 'POST'
@@ -373,11 +461,18 @@ module.exports = class User extends CocoModel
     options.url = _.result(@, 'url') + '/deteacher'
     options.type = 'POST'
     @fetch(options)
-    
+
   checkForNewAchievement: (options={}) ->
     options.url = _.result(@, 'url') + '/check-for-new-achievement'
     options.type = 'POST'
-    @fetch(options)
+    jqxhr = @fetch(options)
+
+    # Setting @loading to false because otherwise, if the user tries to edit their settings while checking
+    # for new achievements, the changes won't be saved. This is because AccountSettingsView relies on
+    # hasLocalChanges, and that is only true if, when set is called, the model isn't "loading".
+    @loading = false
+
+    return jqxhr
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15

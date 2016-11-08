@@ -4,7 +4,9 @@
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
 try {
-  logDB = new Mongo("localhost").getDB("analytics")
+  var logDB = new Mongo("rs3/localhost").getDB("analytics");
+  var auth = JSON.parse(cat('./analyticsAuth.json'));
+  logDB.auth(auth);
   var scriptStartTime = new Date();
   var analyticsStringCache = {};
 

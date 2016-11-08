@@ -61,7 +61,6 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
   onLeaveMessage: ->
-    @propagateCampaignIndexes()
     for model in @toSave.models
       diff = model.getDelta()
       if _.size(diff)
@@ -74,7 +73,6 @@ module.exports = class CampaignEditorView extends RootView
     for level in _.values(@campaign.get('levels'))
       originals = originals.concat(_.values(level.requiredGear)) if level.requiredGear
       originals = originals.concat(_.values(level.restrictedGear)) if level.restrictedGear
-      originals = originals.concat(level.allowedHeroes) if level.allowedHeroes
     originals = _.uniq _.flatten originals
     for original in originals
       thangType = new ThangType()
@@ -85,58 +83,52 @@ module.exports = class CampaignEditorView extends RootView
   onFundamentalLoaded: ->
     # Load any levels which haven't been denormalized into our campaign.
     return unless @campaign.loaded and @levels.loaded and @achievements.loaded
+    @loadMissingLevelsAndRelatedModels()
+    
+  loadMissingLevelsAndRelatedModels: ->
+    promises = []
     for level in _.values(@campaign.get('levels'))
       continue if model = @levels.findWhere(original: level.original)
       model = new Level({})
       model.setProjection Campaign.denormalizedLevelProperties
       model.setURL("/db/level/#{level.original}/version")
-      @levels.add @supermodel.loadModel(model).model
+      levelResource = @supermodel.loadModel(model)
+      @levels.add levelResource.model
+      # Handle SuperModel's caching, and make sure loaded levels save and notice changes properly
+      if levelResource.jqxhr
+        levelResource.model.once('sync', ->
+          @setURL("/db/level/#{@id}")
+          @markToRevert()
+        )
+        promises.push(levelResource.jqxhr)
       achievements = new RelatedAchievementsCollection level.original
       achievements.setProjection achievementProject
-      @supermodel.loadCollection achievements, 'achievements'
-      @listenToOnce achievements, 'sync', ->
-        @achievements.add(achievements.models)
+      achievementsResource = @supermodel.loadCollection(achievements)
+      promises.push(achievementsResource.jqxhr)
+      @listenToOnce achievements, 'sync', (achievementsLoaded) ->
+        @achievements.add(achievementsLoaded.models)
+    return Promise.resolve($.when(promises...))
 
   onLoaded: ->
+    @updateCampaignLevels()
+    @campaignView.render()
+    super()
+
+  updateCampaignLevels: ->
     @toSave.add @campaign if @campaign.hasLocalChanges()
     campaignLevels = $.extend({}, @campaign.get('levels'))
     for level, levelIndex in @levels.models
       levelOriginal = level.get('original')
       campaignLevel = campaignLevels[levelOriginal]
       continue if not campaignLevel
-
-      $.extend campaignLevel, _.omit(level.attributes, '_id')
-      achievements = @achievements.where {'related': levelOriginal}
-      rewards = []
-      for achievement in achievements
-        for rewardType, rewardArray of achievement.get('rewards')
-          for reward in rewardArray
-            rewardObject = { achievement: achievement.id }
-
-            if rewardType is 'heroes'
-              rewardObject.hero = reward
-              thangType = new ThangType({}, {project: thangTypeProject})
-              thangType.setURL("/db/thang.type/#{reward}/version")
-              @supermodel.loadModel(thangType)
-
-            if rewardType is 'levels'
-              rewardObject.level = reward
-              if not @levels.findWhere({original: reward})
-                level = new Level({}, {project: Campaign.denormalizedLevelProperties})
-                level.setURL("/db/level/#{reward}/version")
-                @supermodel.loadModel(level)
-
-            if rewardType is 'items'
-              rewardObject.item = reward
-              thangType = new ThangType({}, {project: thangTypeProject})
-              thangType.setURL("/db/thang.type/#{reward}/version")
-              @supermodel.loadModel(thangType)
-
-            rewards.push rewardObject
-      campaignLevel.rewards = rewards
-      delete campaignLevel.unlocks
-      # Save campaign to level, unless it's a course campaign, since we reuse hero levels for course levels.
-      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type', true) isnt 'course'
+      $.extend campaignLevel, _.pick(level.attributes, Campaign.denormalizedLevelProperties)
+      # TODO: better way for it to remember when we intend to not specifically require/restrict gear any more
+      delete campaignLevel.requiredGear if not level.attributes.requiredGear
+      delete campaignLevel.restrictedGear if not level.attributes.restrictedGear
+      campaignLevel.rewards = @formatRewards level
+      # Save campaign to level if it's a main 'hero' campaign so HeroVictoryModal knows where to return.
+      # (Not if it's a defaulted, typeless campaign like game-dev-hoc or auditions.)
+      campaignLevel.campaign = @campaign.get 'slug' if @campaign.get('type') is 'hero'
       # Save campaign index to level if it's a course campaign, since we show linear level order numbers for course levels.
       campaignLevel.campaignIndex = (@levels.models.length - levelIndex - 1) if @campaign.get('type', true) is 'course'
       campaignLevels[levelOriginal] = campaignLevel
@@ -146,12 +138,44 @@ module.exports = class CampaignEditorView extends RootView
     for level in _.values campaignLevels
       continue if /test/.test @campaign.get('slug')  # Don't overwrite level stuff for testing Campaigns
       model = @levels.findWhere {original: level.original}
-      model.set key, level[key] for key in Campaign.denormalizedLevelProperties
+      # do not propagate campaignIndex for non-course campaigns
+      propsToPropagate = Campaign.denormalizedLevelProperties
+      if @campaign.get('type') isnt 'course'
+        propsToPropagate = _.without(propsToPropagate, 'campaignIndex')
+      for key in propsToPropagate
+        model.set key, level[key] if model.get(key) isnt level[key]
       @toSave.add model if model.hasLocalChanges()
-      @updateRewardsForLevel model, level.rewards
 
-    super()
-    
+  formatRewards: (level) ->
+    achievements = @achievements.where related: level.get('original')
+    rewards = []
+    for achievement in achievements
+      for rewardType, rewardArray of achievement.get('rewards')
+        for reward in rewardArray
+          rewardObject = { achievement: achievement.id }
+
+          if rewardType is 'heroes'
+            rewardObject.hero = reward
+            thangType = new ThangType({}, {project: thangTypeProject})
+            thangType.setURL("/db/thang.type/#{reward}/version")
+            @supermodel.loadModel(thangType)
+
+          if rewardType is 'levels'
+            rewardObject.level = reward
+            if not @levels.findWhere({original: reward})
+              level = new Level({}, {project: Campaign.denormalizedLevelProperties})
+              level.setURL("/db/level/#{reward}/version")
+              @supermodel.loadModel(level)
+
+          if rewardType is 'items'
+            rewardObject.item = reward
+            thangType = new ThangType({}, {project: thangTypeProject})
+            thangType.setURL("/db/thang.type/#{reward}/version")
+            @supermodel.loadModel(thangType)
+
+          rewards.push rewardObject
+    rewards
+
   propagateCampaignIndexes: ->
     campaignLevels = $.extend({}, @campaign.get('levels'))
     index = 0
@@ -179,10 +203,16 @@ module.exports = class CampaignEditorView extends RootView
           @openCampaignLevelView @supermodel.getModelByOriginal Level, original
           break
 
-  onClickSaveButton: ->
-    @propagateCampaignIndexes()
-    @toSave.set @toSave.filter (m) -> m.hasLocalChanges()
-    @openModalView new SaveCampaignModal({}, @toSave)
+  onClickSaveButton: (e) ->
+    return if @openingModal
+    @openingModal = true
+    @loadMissingLevelsAndRelatedModels().then(=>
+      @openingModal = false
+      @propagateCampaignIndexes()
+      @updateCampaignLevels()
+      @toSave.set @toSave.filter (m) -> m.hasLocalChanges()
+      @openModalView new SaveCampaignModal({}, @toSave)
+    )
 
   afterRender: ->
     super()
@@ -194,12 +224,14 @@ module.exports = class CampaignEditorView extends RootView
         change: @onTreemaChanged
         select: @onTreemaSelectionChanged
         dblclick: @onTreemaDoubleClicked
+        achievementUpdated: @onAchievementUpdated
       nodeClasses:
         levels: LevelsNode
         level: LevelNode
         campaigns: CampaignsNode
         campaign: CampaignNode
         achievement: AchievementNode
+        rewards: RewardsNode
       supermodel: @supermodel
 
     @treema = @$el.find('#campaign-treema').treema treemaOptions
@@ -229,9 +261,6 @@ module.exports = class CampaignEditorView extends RootView
           original = parts[2]
           level = @supermodel.getModelByOriginal Level, original
           campaignLevel = @treema.get "/levels/#{original}"
-
-          @updateRewardsForLevel level, campaignLevel.rewards
-
           level.set key, campaignLevel[key] for key in Campaign.denormalizedLevelProperties
           @toSave.add level if level.hasLocalChanges()
 
@@ -252,6 +281,16 @@ module.exports = class CampaignEditorView extends RootView
     return unless _.string.startsWith path, '/levels/'
     original = path.split('/')[2]
     @openCampaignLevelView @supermodel.getModelByOriginal Level, original
+
+  onAchievementUpdated: (e, node) =>
+    @supermodel.registerModel e.achievement
+    @achievements.findWhere({_id: e.achievement.id}).set('rewards', e.achievement.get('rewards'))
+    @updateCampaignLevels()  # TODO: only change the rewards for the one we had, don't wipe anything else
+    levelOriginal = node.getPath().split('/')[2]
+    level = @levels.findWhere original: levelOriginal
+    rewardsPath = "/levels/#{levelOriginal}/rewards"
+    @treema.set rewardsPath, @formatRewards level
+    @campaignView.setCampaign @campaign
 
   onCampaignLevelMoved: (e) ->
     path = "levels/#{e.levelOriginal}/position"
@@ -276,29 +315,6 @@ module.exports = class CampaignEditorView extends RootView
     @insertSubView campaignLevelView = new CampaignLevelView({}, level)
     @listenToOnce campaignLevelView, 'hidden', => @$el.find('#campaign-view').show()
     @$el.find('#campaign-view').hide()
-
-  updateRewardsForLevel: (level, rewards) ->
-    return  # Don't risk destruction of level unlock links
-    achievements = @supermodel.getModels(Achievement)
-    achievements = (a for a in achievements when a.get('related') is level.get('original'))
-    for achievement in achievements
-      rewardSubset = (r for r in rewards when r.achievement is achievement.id)
-      oldRewards = achievement.get 'rewards'
-      newRewards = {}
-
-      heroes = _.compact((r.hero for r in rewardSubset))
-      newRewards.heroes = heroes if heroes.length
-
-      items = _.compact((r.item for r in rewardSubset))
-      newRewards.items = items if items.length
-
-      levels = _.compact((r.level for r in rewardSubset))
-      newRewards.levels = levels if levels.length
-
-      newRewards.gems = oldRewards.gems if oldRewards.gems
-      achievement.set 'rewards', newRewards
-      if achievement.hasLocalChanges()
-        @toSave.add achievement
 
   onClickLoginButton: ->
     # Do Nothing
@@ -327,8 +343,16 @@ class LevelsNode extends TreemaObjectNode
         LevelsNode.levels[level.get('original')] = level
         @settings.supermodel.registerModel level
       mapped = ({label: r.get('name'), value: r.get('original')} for r in collection.models)
-      res(mapped)
 
+      # Sort the results. Prioritize names that start with the search term, then contain the search term.
+      lowerPriority = _.clone(mapped)
+      lowerTerm = req.term.toLowerCase()
+      startsWithTerm = _.filter(lowerPriority, (item) -> _.string.startsWith(item.label.toLowerCase(), lowerTerm))
+      _.pull(lowerPriority, startsWithTerm...)
+      hasTerm = _.filter(lowerPriority, (item) -> _.string.contains(item.label.toLowerCase(), lowerTerm))
+      _.pull(lowerPriority, hasTerm...)
+      sorted = _.flatten([startsWithTerm, hasTerm, lowerPriority])
+      res(sorted)
 
 class LevelNode extends TreemaObjectNode
   valueClass: 'treema-level'
@@ -346,8 +370,6 @@ class LevelNode extends TreemaObjectNode
       status += " (adventurer)"
 
     completion = ''
-    if data.tasks
-      completion = "#{(t for t in data.tasks when t.complete).length} / #{data.tasks.length}"
 
     valEl.append $("<a href='/editor/level/#{_.string.slugify(data.name)}' class='spr'>(e)</a>")
     valEl.append $("<#{el}></#{el}>").addClass('treema-shortened').text name
@@ -359,7 +381,6 @@ class LevelNode extends TreemaObjectNode
   populateData: ->
     return if @data.name?
     data = _.pick LevelsNode.levels[@keyForParent].attributes, Campaign.denormalizedLevelProperties
-    console.log 'got the data', data
     _.extend @data, data
 
 class CampaignsNode extends TreemaObjectNode
@@ -394,3 +415,26 @@ class CampaignNode extends TreemaObjectNode
 
 class AchievementNode extends treemaExt.IDReferenceNode
   buildSearchURL: (term) -> "#{@url}?term=#{term}&project=#{achievementProject.join(',')}"
+
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    addAchievementEditorLink @, valEl, data
+
+class RewardsNode extends TreemaArrayNode
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    achievements = window.currentView.achievements.where related: @parent.data.original
+    achievements = _.sortBy achievements, (a) -> a.get('rewards')?.levels?.length ? 0
+    mainAchievement = achievements[0]
+    return unless mainAchievement
+    addAchievementEditorLink @, valEl, mainAchievement.id
+
+addAchievementEditorLink = (node, valEl, achievementId) ->
+  anchor = $('<a class="spl">(e)</a>')
+  anchor.on 'click', (event) ->
+    childWindow = window.open("/editor/achievement/#{achievementId}", achievementId, 'width=1040,height=900,left=1600,top=0,location=1,menubar=1,scrollbars=1,status=0,titlebar=1,toolbar=1', true)
+    childWindow.achievementSavedCallback = (event) ->
+      node.callbacks.achievementUpdated {achievement: event.achievement}, node
+    childWindow.focus()
+    event.stopPropagation()
+  valEl.find('.treema-shortened').append anchor

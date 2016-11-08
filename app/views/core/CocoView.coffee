@@ -21,6 +21,7 @@ module.exports = class CocoView extends Backbone.View
     'click #loading-error .login-btn': 'onClickLoadingErrorLoginButton'
     'click #loading-error #create-account-btn': 'onClickLoadingErrorCreateAccountButton'
     'click #loading-error #logout-btn': 'onClickLoadingErrorLogoutButton'
+    'click .contact-modal': 'onClickContactModal'
 
   subscriptions: {}
   shortcuts: {}
@@ -53,6 +54,12 @@ module.exports = class CocoView extends Backbone.View
     @listenTo(@supermodel, 'update-progress', @updateProgress)
     @listenTo(@supermodel, 'failed', @onResourceLoadFailed)
     @warnConnectionError = _.throttle(@warnConnectionError, 3000)
+
+    # Warn about easy-to-create race condition that only shows up in production
+    listenedSupermodel = @supermodel
+    _.defer =>
+      if listenedSupermodel isnt @supermodel and not @destroyed
+        throw new Error("#{@constructor?.name ? @}: Supermodel listeners not hooked up! Don't reassign @supermodel; CocoView does that for you.")
 
     super arguments...
 
@@ -176,16 +183,26 @@ module.exports = class CocoView extends Backbone.View
     msg = $.i18n.t 'loading_error.connection_failure', defaultValue: 'Connection failed.'
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
+  onClickContactModal: (e) ->
+    if me.isTeacher()
+      if application.isProduction()
+        window.Intercom?('show')
+      else
+        alert('Teachers, Intercom widget only available in production.')
+    else
+      ContactModal = require 'views/core/ContactModal'
+      @openModalView(new ContactModal())
+
   onClickLoadingErrorLoginButton: (e) ->
     e.stopPropagation() # Backbone subviews and superviews will handle this call repeatedly otherwise
     AuthModal = require 'views/core/AuthModal'
     @openModalView(new AuthModal())
-  
+
   onClickLoadingErrorCreateAccountButton: (e) ->
     e.stopPropagation()
     CreateAccountModal = require 'views/core/CreateAccountModal'
     @openModalView(new CreateAccountModal({mode: 'signup'}))
-  
+
   onClickLoadingErrorLogoutButton: (e) ->
     e.stopPropagation()
     auth.logoutUser()
@@ -251,7 +268,7 @@ module.exports = class CocoView extends Backbone.View
     @_lastLoading.find('.loading-screen').remove()
     @_lastLoading.find('>').removeClass('hidden')
     @_lastLoading = null
-    
+
   showError: (jqxhr) ->
     return unless @_lastLoading?
     context = {
@@ -459,11 +476,11 @@ module.exports = class CocoView extends Backbone.View
     slider.on('slide', changeCallback)
     slider.on('slidechange', changeCallback)
     slider
-    
+
   scrollToLink: (link, speed=300) ->
     scrollTo = $(link).offset().top
     $('html, body').animate({ scrollTop: scrollTo }, speed)
-    
+
   scrollToTop: (speed=300) ->
     $('html, body').animate({ scrollTop: 0 }, speed)
 
@@ -505,6 +522,32 @@ module.exports = class CocoView extends Backbone.View
       noty text: message, layout: 'topCenter', type: 'error', killer: false
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
+
+  onClickTranslatedElement: (e) ->
+    return unless (key.ctrl or key.command) and key.alt
+    e.preventDefault()
+    e.stopImmediatePropagation()
+    i18nKey = _.last($(e.currentTarget).data('i18n').split(';')).replace(/\[.*?\]/, '')
+    base = $.i18n.t(i18nKey, {lng: 'en'})
+    translated = $.i18n.t(i18nKey)
+    en = require('locale/en')
+    [clickedSection, clickedKey] = i18nKey.split('.')
+    lineNumber = 2
+    found = false
+    for enSection, enEntries of en.translation
+      for enKey, enValue of enEntries
+        ++lineNumber
+        if clickedSection is enSection and clickedKey is enKey
+          found = true
+          break
+      break if found
+      lineNumber += 2
+    unless found
+      return console.log "Couldn't find #{i18nKey} in app/locale/en.coffee."
+    targetLanguage = me.get('preferredLanguage') or 'en'
+    targetLanguage = 'en' if targetLanguage.split('-')[0] is 'en'
+    githubUrl = "https://github.com/codecombat/codecombat/blob/master/app/locale/#{targetLanguage}.coffee#L#{lineNumber}"
+    window.open githubUrl, target: '_blank'
 
 mobileRELong = /(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
 

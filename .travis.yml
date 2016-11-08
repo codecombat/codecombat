@@ -31,11 +31,16 @@ before_script:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - "node index.js --unittest &"
-  - "sleep 15" # to give node a chance to start
+  - n=0
+  - until [ $n -ge 60 ]; do curl http://localhost:3000 && break; n=$[$n+1]; sleep 1; done
 
 script:
   - "./node_modules/karma/bin/karma start --browsers Firefox --single-run --reporters dots"
   - "npm run jasmine"
+  - "npm run coverage"
+
+after_script:
+  - "npm install coveralls && cat ./coverage/lcov.info | coveralls"
 
 notifications:
   slack:

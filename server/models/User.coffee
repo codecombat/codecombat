@@ -11,6 +11,7 @@ languages = require '../routes/languages'
 _ = require 'lodash'
 errors = require '../commons/errors'
 Promise = require 'bluebird'
+core_utils = require '../../app/core/utils'
 
 config = require '../../server_config'
 stripe = require('stripe')(config.stripe.secretKey)
@@ -27,6 +28,7 @@ UserSchema.index({'dateCreated': 1})
 UserSchema.index({'emailLower': 1}, {unique: true, sparse: true, name: 'emailLower_1'})
 UserSchema.index({'facebookID': 1}, {sparse: true})
 UserSchema.index({'gplusID': 1}, {sparse: true})
+UserSchema.index({'cleverID': 1}, {sparse: true})
 UserSchema.index({'iosIdentifierForVendor': 1}, {name: 'iOS identifier for vendor', sparse: true, unique: true})
 UserSchema.index({'mailChimp.leid': 1}, {sparse: true})
 UserSchema.index({'nameLower': 1}, {sparse: true, name: 'nameLower_1'})
@@ -38,6 +40,7 @@ UserSchema.index({'schoolName': 1}, {name: 'schoolName index', sparse: true})
 UserSchema.index({'country': 1}, {name: 'country index', sparse: true})
 UserSchema.index({'role': 1}, {name: 'role index', sparse: true})
 UserSchema.index({'coursePrepaid._id': 1}, {name: 'course prepaid id index', sparse: true})
+UserSchema.index({'oAuthIdentities.provider': 1, 'oAuthIdentities.id': 1}, {name: 'oauth identities index', unique: true, sparse: true})
 
 UserSchema.post('init', ->
   @set('anonymous', false) if @get('email')
@@ -87,7 +90,10 @@ UserSchema.methods.isStudent = ->
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
-  
+
+UserSchema.methods.getYearSubscriptionGroup = ->
+  core_utils.getYearSubscriptionGroup(@get('testGroupNumber'))
+
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(
@@ -328,11 +334,11 @@ UserSchema.methods.isPremium = ->
 
 UserSchema.methods.isOnPremiumServer = ->
   return true if @get('country') in ['brazil']
-  return true if @get('country') in ['china'] and @isPremium()
+  return true if @get('country') in ['china'] and (@isPremium() or @get('stripe'))
   return false
 
 UserSchema.methods.isOnFreeOnlyServer = ->
-  return true if @get('country') in ['china'] and not @isPremium()
+  return true if @get('country') in ['china'] and not (@isPremium() or @get('stripe'))
   return false
 
 UserSchema.methods.level = ->
@@ -347,6 +353,16 @@ UserSchema.methods.isEnrolled = ->
   return true unless coursePrepaid.endDate
   return coursePrepaid.endDate > new Date().toISOString()
 
+UserSchema.methods.hasLogInMethod = ->
+  return true if _.any([
+    @get('facebookID')
+    @get('gplusID')
+    @get('githubID')
+    @get('cleverID')
+    _.size(@get('oAuthIdentities'))
+    @get('passwordHash')
+  ])
+    
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   return done?()
@@ -417,6 +433,10 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
+    
+  if @hasLogInMethod() and @get('anonymous')
+    @set('anonymous', false)
+  
   next()
 )
 
@@ -453,7 +473,7 @@ UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country',
-  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent'
+  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
@@ -462,7 +482,7 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent'
+  'enrollmentRequestSent', 'israelId', 'school'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
@@ -471,7 +491,7 @@ UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', '
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->
     req = options.req
-    return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
+    return ret unless req
     publicOnly = options.publicOnly
     delete ret[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(doc._id) or req.session.amActually is doc.id))
@@ -502,6 +522,25 @@ UserSchema.statics.makeNew = (req) ->
 
 
 UserSchema.plugin plugins.NamedPlugin
+
+UserSchema.virtual('subscription').get ->
+  subscription = {
+    active: @hasSubscription()
+  } 
+  
+  { free } = @get('stripe') ? {}
+  if _.isString(free)
+    subscription.ends = new Date(free).toISOString()
+
+  return subscription
+
+UserSchema.virtual('license').get ->
+  license = {
+    active: @isEnrolled()
+  }
+  { endDate } = @get('coursePrepaid') ? {}
+  license.ends = endDate if endDate
+  return license
 
 module.exports = User = mongoose.model('User', UserSchema)
 User.idCounter = 0

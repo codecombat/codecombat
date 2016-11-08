@@ -22,8 +22,6 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
 
-trackedHourOfCode = false
-
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession
@@ -65,16 +63,28 @@ module.exports = class CampaignView extends RootView
     super options
     @terrain = 'picoctf' if window.serverConfig.picoCTF
     @editorMode = options?.editorMode
+    @requiresSubscription = not me.isPremium()
     if @editorMode
       @terrain ?= 'dungeon'
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
+
+    if utils.getQueryVariable('hour_of_code')
+      me.set('hourOfCode', true)
+      me.patch()
+      $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))  # TODO: double-check this when we get our proper pixels, differentiate by game-dev-hoc activity
+
+    # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
+    shouldReturnToGameDevHoc = @terrain is 'game-dev-hoc'
+    storage.save 'should-return-to-game-dev-hoc', shouldReturnToGameDevHoc
+
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (@picoCTFProblems) =>).load()
     else
-      @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
-      @listenToOnce @sessions, 'sync', @onSessionsLoaded
+      unless @editorMode
+        @sessions = @supermodel.loadCollection(new LevelSessionsCollection(), 'your_sessions', {cache: false}, 0).model
+        @listenToOnce @sessions, 'sync', @onSessionsLoaded
       unless @terrain
         @campaigns = @supermodel.loadCollection(new CampaignsCollection(), 'campaigns', null, 1).model
         @listenToOnce @campaigns, 'sync', @onCampaignsLoaded
@@ -109,7 +119,6 @@ module.exports = class CampaignView extends RootView
     @listenTo me, 'change:earned', -> @renderSelectors('#gems-count')
     @listenTo me, 'change:heroConfig', -> @updateHero()
     window.tracker?.trackEvent 'Loaded World Map', category: 'World Map', label: @terrain
-    @requiresSubscription = not me.isPremium()
 
   destroy: ->
     @setupManager?.destroy()
@@ -157,10 +166,13 @@ module.exports = class CampaignView extends RootView
     @render()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
-    if @terrain and me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
-      @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
-    else if @terrain and me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and not storage.load('sent-parent-email') and not me.isPremium()
-      @openModalView new ShareProgressModal()
+    if not me.get('hourOfCode') and @terrain
+      if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+        @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
+      else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and
+      me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
+      not storage.load('sent-parent-email') and not me.isPremium()
+        @openModalView new ShareProgressModal()
 
   setCampaign: (@campaign) ->
     @render()
@@ -183,7 +195,7 @@ module.exports = class CampaignView extends RootView
     context.levelsCompleted = count.completed
     context.levelsTotal = count.total
 
-    @determineNextLevel context.levels if @sessions?.loaded
+    @determineNextLevel context.levels if @sessions?.loaded or @editorMode
     # put lower levels in last, so in the world map they layer over one another properly.
     context.levels = (_.sortBy context.levels, (l) -> l.position.y).reverse()
     @campaign.renderedLevels = context.levels if @campaign
@@ -215,7 +227,7 @@ module.exports = class CampaignView extends RootView
       context.campaigns = {}
       for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
         context.campaigns[campaign.get('slug')] = campaign
-        if @sessions.loaded
+        if @sessions?.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
           count = @countLevels levels
           campaign.levelsTotal = count.total
@@ -254,11 +266,7 @@ module.exports = class CampaignView extends RootView
     @updateHero()
     unless window.currentModal or not @fullyRendered
       @highlightElement '.level.next', delay: 500, duration: 60000, rotation: 0, sides: ['top']
-      if @editorMode
-        for level in @campaign?.renderedLevels ? []
-          for nextLevelOriginal in level.nextLevels ? []
-            if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
-              @createLine level.position, nextLevel.position
+      @createLines() if @editorMode
       @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true  # Testing
     @applyCampaignStyles()
     @testParticles()
@@ -280,24 +288,27 @@ module.exports = class CampaignView extends RootView
 
   annotateLevels: (orderedLevels) ->
     previousIncompletePracticeLevel = false # Lock owned levels if there's a earlier incomplete practice level to play
-    for level in orderedLevels
+    for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
+      level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
+      level.locked = true if level.slug in me.getDungeonLevelsHidden()
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
-      #level.locked = false if level.slug is 'robot-ragnarok'
+      level.locked = false if @campaign?.get('slug') is 'game-dev-hoc'
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
       level.color = 'rgb(255, 80, 60)'
       level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
       level.color = 'rgb(200, 80, 200)' if level.adventurer
-      if unlocksHero = _.find(level.rewards, 'hero')?.hero
-        level.unlocksHero = unlocksHero
+      level.color = 'rgb(193, 193, 193)' if level.locked
+      level.unlocksHero = _.find(level.rewards, 'hero')?.hero
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+      level.unlocksItem = _.find(level.rewards, 'item')?.item
 
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
@@ -311,7 +322,7 @@ module.exports = class CampaignView extends RootView
           """
           level.color = 'rgb(80, 130, 200)' if problem.solved
 
-      if level.practice and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
+      if @campaign.levelIsPractice(level) and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
       (not level.requiresSubscription or level.adventurer or not @requiresSubscription)
         previousIncompletePracticeLevel = true
 
@@ -322,18 +333,21 @@ module.exports = class CampaignView extends RootView
         if level.displayConcepts.length > maxConcepts
           level.displayConcepts = level.displayConcepts.slice -maxConcepts
 
+      level.unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
+      for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
+        for reward in (otherLevel.rewards ? []) when reward.level
+          level.unlockedInSameCampaign ||= reward.level is level.original
+      level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
+
   countLevels: (levels) ->
     count = total: 0, completed: 0
     for level, levelIndex in levels
-      continue if level.practice
       @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
-      unless level.disabled
-        unlockedInSameCampaign = levelIndex < 5  # First few are always counted (probably unlocked in previous campaign)
-        for otherLevel in levels when not unlockedInSameCampaign and otherLevel isnt level
-          for reward in (otherLevel.rewards ? []) when reward.level
-            unlockedInSameCampaign ||= reward.level is level.original
-        ++count.total if unlockedInSameCampaign or not level.locked
-        ++count.completed if @levelStatusMap[level.slug] is 'complete'
+      continue if level.disabled
+      completed = @levelStatusMap[level.slug] is 'complete'
+      started = @levelStatusMap[level.slug] is 'started'
+      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not @campaign.levelIsPractice(level))
+      ++count.completed if completed
     count
 
   showLeaderboard: (levelSlug) ->
@@ -344,11 +358,19 @@ module.exports = class CampaignView extends RootView
     dontPointTo = ['lost-viking', 'kithgard-mastery']  # Challenge levels we don't want most players bashing heads against
     subscriptionPrompts = [{slug: 'boom-and-bust', unless: 'defense-of-plainswood'}]
 
+    if @campaign?.get('slug') is 'game-dev-hoc'
+      # HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
+      orderedLevels = _.sortBy orderedLevels, (level) -> level.position.x
+      for level in orderedLevels
+        if @levelStatusMap[level.slug] isnt 'complete'
+          level.next = true
+          return
+
     findNextLevel = (nextLevels, practiceOnly) =>
       for nextLevelOriginal in nextLevels
         nextLevel = _.find orderedLevels, original: nextLevelOriginal
         continue if not nextLevel or nextLevel.locked
-        continue if practiceOnly and not nextLevel.practice
+        continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
         if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
@@ -385,6 +407,12 @@ module.exports = class CampaignView extends RootView
         ++speedPoints
     experienceScore = adultPoint + speedPoints  # 0-6 score of how likely we think they are to be experienced and ready for Kithgard Mastery
     return experienceScore
+
+  createLines: ->
+    for level in @campaign?.renderedLevels ? []
+      for nextLevelOriginal in level.nextLevels ? []
+        if nextLevel = _.find(@campaign.renderedLevels, original: nextLevelOriginal)
+          @createLine level.position, nextLevel.position
 
   createLine: (o1, o2) ->
     mapHeight = parseFloat($(".map").css("height"))
@@ -423,8 +451,8 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      continue if level.practice
-      terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace('intro', 'dungeon')
+      continue if level.hidden and (@campaign.levelIsPractice(level) or not level.unlockedInSameCampaign)
+      terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
       particleKey = ['level', terrain]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
       particleKey.push 'replayable' if level.replayable

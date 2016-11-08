@@ -21,7 +21,7 @@ module.exports = class LevelTasksView extends RootView
 
   initialize: () ->
     @processLevels = _.debounce(@processLevels, 250)
-    
+
     @campaigns = new Campaigns()
     @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
     @supermodel.trackRequest(@campaigns.fetch(
@@ -44,7 +44,7 @@ module.exports = class LevelTasksView extends RootView
     @processedLevels = {}
     for key, level of @levels
       continue unless ///#{$('#name-search')[0].value}///i.test level.name
-      filteredTasks = level.tasks.filter (elem) ->  
+      filteredTasks = (level.tasks ? []).filter (elem) ->
         # Similar case-insensitive search of input vs description (name).
         return ///#{$('#desc-search')[0].value}///i.test elem.name
       @processedLevels[key] = {

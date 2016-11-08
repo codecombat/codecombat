@@ -47,8 +47,10 @@ module.exports = class DeltaView extends CocoView
   buildDeltas: ->
     if @comparisonModel
       @expandedDeltas = @model.getExpandedDeltaWith(@comparisonModel)
+      @deltas = @model.getDeltaWith(@comparisonModel)
     else
       @expandedDeltas = @model.getExpandedDelta()
+      @deltas = @model.getDelta()
     [@expandedDeltas, @skippedDeltas] = @filterDeltas(@expandedDeltas)
 
     if @headModel
@@ -72,6 +74,10 @@ module.exports = class DeltaView extends CocoView
     [newDeltas, skippedDeltas]
 
   afterRender: ->
+    expertView = @$el.find('.expert-view')
+    if expertView
+      expertView.html jsondiffpatch.formatters.html.format(@deltas)
+
     DeltaView.deltaCounter += @expandedDeltas.length
     deltas = @$el.find('.details')
     for delta, i in deltas

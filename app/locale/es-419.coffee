@@ -1,19 +1,4 @@
 module.exports = nativeDescription: "Español (América Latina)", englishDescription: "Spanish (Latin America)", translation:
-  home:
-    slogan: "Aprende a programar jugando"
-    no_ie: "¡Lo sentimos! CodeCombat no funciona en Internet Explorer 8 o versiones anteriores." # Warning that only shows up in IE8 and older
-    no_mobile: "¡CodeCombat no fue diseñado para dispositivos móviles y quizás no funcione!" # Warning that shows up on mobile devices
-    play: "Jugar" # The big play button that opens up the campaign view.
-    play_campaign_version: "Jugar Versión Campaña" # Shows up under big play button if you only play /courses
-    old_browser: "¡Oh! ¡Oh! Tu navegador es muy antiguo para correr CodeCombat. ¡Lo sentimos!" # Warning that shows up on really old Firefox/Chrome/Safari
-    old_browser_suffix: "Puedes probar de todas formas, pero probablemente no funcione."
-    ipad_browser: "Malas noticias: CodeCombat no funciona en el navegador de iPad. Buenas noticias: nuestra propia aplicación de iPad esta en espera para ser aprobada por Apple."
-    campaign: "Campaña"
-    for_beginners: "Para Principiantes"
-    multiplayer: "Multijugador" # Not currently shown on home page
-    for_developers: "Para Desarrolladores" # Not currently shown on home page.
-    or_ipad: "O descargar para iPad"
-
   new_home:
     slogan: "El juego más interesante para aprender programación."
     classroom_edition: "Versión para el Aula:"
@@ -65,54 +50,40 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     setup_a_class: "Configurar una Clase"
     have_an_account: "¿Ya tienes una cuenta?" # {change}
     logged_in_as: "Estás actualmente conectado como"
-    view_my_classes: "Ver mis clases"
     computer_science: "Cursos de informática para todas las edades"
     show_me_lesson_time: "Muéstrame la duración estimada de las clases para:"
     curriculum: "Horas totales del plan de estudios:"
     ffa: "Gratis para todos los estudiantes"
     lesson_time: "Duración de la clase:"
     coming_soon: "¡Proximamente!"
-    courses_available_in: "Los cursos están disponibles en JavaScript, Python, y Java (¡proximamente!)"
+    courses_available_in: "Los cursos están disponibles en JavaScript, Python, y Java (¡proximamente!)" # {change}
     boast: "Cuenta con acertijos lo suficiente complejos como para fascinar a jugadores y programadores por igual."
     winning: "Una combinación ganadora entre un juego de rol y una tarea sobre programación que consigue hacer de la educación amigable y disfrutable para los niños."
     run_class: "Todo lo que necesitas para organizar una clase de informática en tu escuela hoy mismo, sin necesidad de ningún conocimiento previo de informática."
-    teachers: "Maestros!"
-    teachers_and_educators: "Maestros y Educadores"
-    class_in_box: "Descubre como nuestra plataforma de clases se adapta a tu curriculum."
-    get_started: "Iniciarse"
-    students: "Estudiantes:"
-    join_class: "Unirse a una clase"
-    role: "Su rol:"
-    student_count: "Número de estudiantes:"
-    start_playing_for_free: "Empieza a jugar gratis!"
-    students_and_players: "Estudiantes y Jugadores"
     goto_classes: "Ir a mis clases" # {change}
     view_profile: "Ver mi perfíl"
     view_progress: "Ver mi progreso"
+#    go_to_courses: "Go to My Courses"
     want_coco: "¿Quisiera CodeCombat en su escuela?"
-#    form_select_role: "Select primary role"
-    form_select_range: "Seleccione el tamaño de la clase"
 
   nav:
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
     courses: "Cursos" # {change}
-    editor: "Editor"
     blog: "Blog"
     forum: "Foro"
     account: "Cuenta"
     my_account: "Mi Cuenta"
     profile: "Perfil"
-    stats: "Estadísticas"
-    code: "Código"
     home: "Inicio"
     contribute: "Contribuir"
     legal: "Legal"
+#    privacy: "Privacy"
     about: "Acerca"
     contact: "Contacto"
     twitter_follow: "Seguir"
-    students: "Estudiantes"
-    teachers: "Maestros"
+#    my_classrooms: "My Classes" # {change}
+#    my_courses: "My Courses"
     careers: "Carreras"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -122,16 +93,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    toggle_nav: "Toggle navigation"
     jobs: "Trabajos"
     schools: "Escuelas"
-#    educator_wiki: "Educator Wiki"
     get_involved: "Participa"
     open_source: "Código Libre (GitHub)"
     support: "Soporte"
     faqs: "FAQs"
     help_pref: "¿Necesitas ayuda? Envianos un correó electronico!"
     help_suff: "y te contactaremos pronto"
+#    resource_hub: "Resource Hub"
 
   modal:
-#    cancel: "Cancel"
     close: "Cerrar"
     okay: "OK"
 
@@ -162,7 +132,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     skills_granted: "Habilidades concedidas" # Property documentation details
     heroes: "Héroes" # Tooltip on hero shop button from /play
     achievements: "Logros" # Tooltip on achievement list button from /play
-    account: "Cuenta" # Tooltip on account button from /play
     settings: "Configuración" # Tooltip on settings button from /play
     poll: "Encuestas" # Tooltip on poll button from /play
     next: "Próximo" # Go from choose hero to choose inventory before playing a level
@@ -179,8 +148,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     adjust_volume: "Ajustar el volumen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que programas cara a cara contra otros jugadores."
-    campaign_old_multiplayer: "(Obsoleto) Antiguas Arenas Multijugador"
-    campaign_old_multiplayer_description: "Reliquias de una era más civilizada. Ninguna simulación es ejecutada para estas arenas multijugador antiguas y sin héroes."
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -258,10 +225,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    create_student_header: "Create Student Account"
 #    create_teacher_header: "Create Teacher Account"
 #    create_individual_header: "Create Individual Account"
-#    create_header: "Create Account"
     email_announcements: "Recibe noticias por email" # {change}
     creating: "Creando Cuenta..."
-#    create_account: "Create Account"
     sign_up: "Registrarse"
     log_in: "Inicia sesión con tu contraseña"
     required: "Necesitas entrar a tu cuenta antes de continuar."
@@ -348,7 +313,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sending: "Enviando..."
     send: "Enviar"
 #    sent: "Sent"
-#    type: "Type"
     cancel: "Cancelar"
     save: "Guardar"
     publish: "Publicar"
@@ -652,7 +616,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     feature2: "__heroesCount__ poderosos <strong>nuevos heroés</strong> con habilidades unicas!" # {change}
     feature3: "Más de __bonusLevelsCount__ niveles extras" # {change}
     feature4: "<strong>{{gems}} gemas de bono</strong> cada mes!"
-    feature5: "Video tutoriales"
     feature6: "Soporte Premium vía email"
     feature7: "<strong>Clan</strong> Privado"
     feature8: "<strong>¡Sin publicidad!</strong>"
@@ -718,7 +681,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     lua_blurb: "Lenguaje para Juegos."
 #    java_blurb: "(Subscriber Only) Android and enterprise."
     status: "Estado"
-    hero_type: "Tipo"
     weapons: "Armas"
     weapons_warrior: "Espada - Corto Alcance, Sin Magia"
     weapons_ranger: "Ballestas, Armas - Largo Alcance, Sin Magia"
@@ -824,15 +786,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     nolan_title: "Administrador de territorio"
     elliot_title: "Administrador de Asociación"
 #    elliot_blurb: "Mindreader"
-#    lisa_title: "Market Development Rep"
+#    lisa_title: "School Specialist"
+#    lisa_blurb: "A gritty one"
 #    sean_title: "Territory Manager"
     retrostyle_title: "Ilustración"
     retrostyle_blurb: "Juegos con estilo Retro"
     jose_title: "Música"
     jose_blurb: "Despegar"
     community_title: "...y nuestra comunidad open-source"
-    community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!"
-    community_description_1: "CodeCombat es un proyecto comunitario, con cientos de jugadores haciendo trabajo voluntario al crear niveles, contribuir a nuestro código para añadir características, arreglar bugs, testear, e incluso traducir el juego a 50 idiomas hasta ahora. Empleados, contribuidores y la página ganan al compartir las ideas Echa un vistazo a nuestra"
+    community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
+#    community_description_3: "CodeCombat is a"
+#    community_description_link_2: "community project"
+    community_description_1: "CodeCombat es un proyecto comunitario, con cientos de jugadores haciendo trabajo voluntario al crear niveles, contribuir a nuestro código para añadir características, arreglar bugs, testear, e incluso traducir el juego a 50 idiomas hasta ahora. Empleados, contribuidores y la página ganan al compartir las ideas Echa un vistazo a nuestra" # {change}
     community_description_link: "página de contribución"
     community_description_2: "para más información."
     number_contributors: "Más de 450 contribuidores dieron su apoyo y tiempo a este proyecto."
@@ -875,7 +840,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     character_art: "Arte de Personajes"
     download_all: "Descargar Todo"
     previous: "Anterior"
-    next: "Siguiente"
     location_title: "Nos encontramos en el centro de SF:"
 
   teachers:
@@ -890,7 +854,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   teachers_quote:
     name: "Formulario de Presupuesto"
-    title: "Solicitar un Presupuesto" # {change}
     subtitle: "¡Obtén CodeCombat en tu clase, club, escuela o distrito!"
     email_exists: "Existe un usuario con este email."
     phone_number: "Teléfono"
@@ -939,7 +902,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     create_account_subtitle: "Obtenga acceso a herramientas exclusivas para profesores de CodeCombat. <strong>Configurar una clase</strong>, agregar estudiantes, y <strong>monitorear su progreso</strong>!"
     convert_account_title: "Actualizar mi perfil a Cuenta de Profesor"
     not: "No"
-    setup_a_class: "Crear una clase"
 
   versions:
     save_version_title: "Guardar nueva versión"
@@ -981,7 +943,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     reset_progress_tab: "Reiniciar Todo Progreso"
     reset_your_progress: "Limpiar todo tu progreso y comenzar de nuevo"
     god_mode: "Modo Dios"
-    password_tab: "Contraseña"
     emails_tab: "Correos"
     admin: "Admin"
     manage_subscription: "Click aquí para administrar tu subscripción"
@@ -1066,7 +1027,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     clan_name: "Nombre del clan"
     name: "Nombre"
     chieftain: "Líder del Clan"
-    type: "Tipo"
     edit_clan_name: "Editar el nombre del Clan"
     edit_clan_description: "Editar descripción del clan"
     edit_name: "editar nombre"
@@ -1211,7 +1171,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teacher: "Maestro"
     complete: "Completado"
     none: "Ninguno"
-    save: "Guardar"
     play_campaign_title: "Jugar Campaña"
     play_campaign_description: "Estas listo para dar el siguiente paso! Explora cientos de desafiantes niveles, aprende habilidades avanzadas de programación, y compite en arenas multijugador!"
     create_account_title: "Crea una Cuenta"
@@ -1274,7 +1233,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     how_many_enrollments: "¿Cuántas matriculas pagas adicionales necesitas?" # {change}
     each_student_access: "Cada estudiante en una clase obtendrá acceso a los Cursos 2-4 una vez que esten matriculados en los cursos pagos. Puedes asignar cada curso a cada estudiante de forma individual."
     purchase_now: "Comprar Ahora"
-    enrollments: "matrículas" # {change}
+    enrollments: "matrículas"
     remove_student1: "Quitar alumno"
     are_you_sure: "¿Estás seguro que quieres quitar este alumno de tu clase?"
     remove_description1: "El estudiante perderá acceso a esta aula y a sus clases asignadas. El progreso y la experiencia del juego NO se pierde, y el estudiante puede ser agregado de vuelta al aula en cualquier momento."
@@ -1318,8 +1277,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     students_enrolled: "estudiantes matriculados"
     students_assigned: "estudiantes asignados"
     length: "Duración:"
-    title: "Título" # Flat style redesign
-    subtitle: "Revisar guías del curso, soluciones y niveles." # {change}
+    subtitle: "Revisar guías del curso, soluciones y niveles." # Flat style redesign {change}
     changelog: "Ver los últimos cambios en los niveles del curso."
     select_language: "Seleccione lenguaje"
     select_level: "Seleccione nivel"
@@ -1329,8 +1287,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     view_guide_online: "Ver Guía En Línea(PDF)" # {change}
     grants_lifetime_access: "Otorgar derecho de acceso a todos los cursos."
     enrollment_credits_available: "Créditos de Inscripción Disponibles :" # {change}
-    description: "Descripción" # ClassroomSettingsModal
-    language_select: "Seleccionar Lenguaje"
+    language_select: "Seleccionar Lenguaje" # ClassroomSettingsModal
     language_cannot_change: "El lenguaje no puede ser cambiado una vez que el estudiante ingreso a la clase."
     learn_p: "Aprender Python"
     learn_j: "Aprender JavaScript"
@@ -1393,14 +1350,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    select_this_hero: "Select this Hero"
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
+#    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
   teacher:
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
     teacher_dashboard: "Tablero del maestro" # Navbar
-    my_classes: "Mis Clases"
+    my_classes: "Mis Clases" # {change}
     courses: "Cursos" # {change}
-    enrollments: "Recursos" # {change}
+    enrollments: "Recursos"
     resources: "Resources"
     help: "Ayuda"
     students: "Estudiantes" # Shared
@@ -1420,6 +1378,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     unarchive_class: "desarchivar clase"
     unarchive_this_class: "desarchivar esta clase"
     no_students_yet: "Esta clase no tienes estudiantes todavía."
+#    no_students_yet_view_class: "View class to add students."
 #    try_refreshing: "(You may need to refresh the page)"
     add_students: "Agregar Estudiantes"
     create_new_class: "Crear una Nueva Clase"
@@ -1433,6 +1392,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     earliest_incomplete: "Nivel incompleto más Reciente"
     latest_complete: "Último nivel completado"
     enroll_student: "Inscribir estudiante"
+#    apply_license: "Apply License"
     course_progress: "Progreso del curso"
 #    not_applicable: "N/A"
     edit: "editar"
@@ -1446,6 +1406,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     click_to_view_progress: "click para ver el progreso"
     no_progress: "Sin progreso"
     select_course: "Selecciona el curso a ver"
+#    students_not_assigned: "Students who have not been assigned {{courseName}}"
     course_overview: "Resumen del Curso"
     copy_class_code: "Copiar código de la Clase"
     class_code_blurb: "Nuevos estudiantes pueden entrar a este código de la clase en su tablero o visitar codecombat.com/courses para unirse a la clase." # {change}
@@ -1453,19 +1414,26 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     class_join_url_blurb: "Nuevos estudiantes pueden visitar esta URL mientras esten logeados para unirse a la clase." # {change}
     add_students_manually: "Agregar Estudiantes Manualmente" # {change}
     bulk_assign: "Mayor a asignar"
+#    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
+#    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
+#    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
+#    assign_course: "Assign Course"
+#    not_assigned_modal_title: "Courses were not assigned"
+#    not_assigned_modal_body_1: "You do not have enough licenses available to assign additional Courses to all {{selected}} selected students."
+#    not_assigned_modal_body_2: "You only have {{totalSpotsAvailable}} licenses available ({{unenrolledStudents}} students did not have an active license)."
+#    not_assigned_modal_body_3: "Please select fewer students, or reach out to {{email}} for assistance."
     assign_to_selected_students: "Asignar a los Estudiantes Seleccionados"
     assigned: "Asignado"
     enroll_selected_students: "Inscribir Estudiantes Seleccionados"
-    cant_assign_to_unenrolled: "El curso no puede ser asignado a estudiantes que no están inscritos."
     no_students_selected: "No fueron seleccionados estudiantes."
     guides_coming_soon: "¡Guías próximamente!" # Courses
     show_students_from: "Muestra estudiantes de" # Enroll students modal
-    enroll_the_following_students: "Inscribir los siguientes estudianes"
+#    apply_licenses_to_the_following_students: "Apply Licenses to the Following Students"
+#    students_have_licenses: "The following students already have licenses applied:"
     all_students: "Todos los estudiantes"
-    enroll_students: "Inscribir Estudiantes"
+#    apply_licenses: "Apply Licenses"
     not_enough_enrollments: "No tienes suficientes Inscripciones disponibles." # {change}
-    enrollments_blurb_1: "Estudiantes tomando Ciencias de la Computación" # {change}
-    enrollments_blurb_2: "se requieren inscritos para acceder al curso." # {change}
+#    enrollments_blurb: "Students are required to have a license to access any content after the first course."
     credits_available: "Cŕeditos Disponibles" # {change}
     total_unique_students: "Total de Estudiantes Únicos" # {change}
     total_enrolled_students: "Total de Estudiantes Inscritos" # {change}
@@ -1475,9 +1443,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     purchased: "Adquirido!"
     purchase_now: "Adquirir Ahora"
     how_to_enroll: "¿Cómo inscribir estudiantes?"
-    how_to_enroll_blurb_1: "Si un estudiante no está inscrito aún, encontrará un botón \"Inscribirse\" al lado del progreso de curso en su clase."
-    how_to_enroll_blurb_2: "Para inscribir en bloque a estudiantes, seleccionelos utilizando la casilla de verificación al lado izquierdo de la página de la clase, luego de clic al botón \"Inscribir Estudiantes Seleccionados\" ."
-    how_to_enroll_blurb_3: "Una vez que el estudiante se ha inscrito, podrá acceder a todo el contenido del curso."
+#    how_to_apply_licenses: "How to Apply Licenses"
     bulk_pricing_blurb: "Quieres comprar más de 25 cuentas de estudiante? Contáctanos para hablar del siguiente paso."
     total_unenrolled: "Total de Estudiantes no Inscritos"
     export_student_progress: "Exportar el Progreso del Estudiante(CSV)"
@@ -1492,22 +1458,81 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    credits: "licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
-#    num_enrollments_needed: "Number of licenses needed:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
-#    enroll_request_sent_blurb1: "Thanks! Your request has been sent."
-#    enroll_request_sent_blurb2: "Our classroom success team will be in touch shortly to help you find the best solution for your students' needs!"
-#    enroll_request_sent_blurb3: "Please reach out to <a href='mailto:schools@codecombat.com'>schools@codecombat.com</a> if you have additional questions at this time."
+#    how_to_apply_licenses_blurb_1: "When a teacher assigns a course to a student for the first time, we’ll automatically apply a license. Use the bulk-assign dropdown in your classroom to assign a course to selected students:"
+#    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
+#    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
 #    request_sent: "Request Sent!"
 #    enrollment_status: "Enrollment Status"
+#    license_status: "License Status"
 #    status_expired: "Expired on {{date}}"
 #    status_not_enrolled: "Not Enrolled"
 #    status_enrolled: "Expires on {{date}}"
 #    select_all: "Select All"
 #    projects: "Projects"
+#    project: "Project"
+#    view_student_project: "View Student Project"
+#    view_arena_ladder: "View Arena Ladder"
+#    resource_hub: "Resource Hub"
+#    getting_started: "Getting Started"
+#    educator_faq: "Educator FAQ"
+#    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
+#    teacher_getting_started: "Teacher Getting Started Guide"
+#    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
+#    student_getting_started: "Student Quick Start Guide"
+#    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    cs1: "Introduction to Computer Science"
+#    cs2: "Computer Science 2"
+#    cs3: "Computer Science 3"
+#    cs4: "Computer Science 4"
+#    cs1_syntax_python: "Course 1 Python Syntax Guide"
+#    cs1_syntax_python_desc: "Cheatsheet with references to common Python syntax that students will learn in Introduction to Computer Science."
+#    cs1_syntax_javascript: "Course 1 JavaScript Syntax Guide"
+#    cs1_syntax_javascript_desc: "Cheatsheet with references to common JavaScript syntax that students will learn in Introduction to Computer Science."
+#    coming_soon: "Additional guides coming soon!"
+#    engineering_cycle_worksheet: "Engineering Cycle Worksheet"
+#    engineering_cycle_worksheet_desc: "Use this worksheet to teach students the basics of the engineering cycle: Assess, Design, Implement and Debug. Refer to the completed example worksheet as a guide."
+#    engineering_cycle_worksheet_link: "View example"
+#    progress_journal: "Progress Journal"
+#    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
+#    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
+#    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
+#    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
+#    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
+#    cs3_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 3."
+#    cs4_curriculum: "Computer Science 4 - Curriculum Guide"
+#    cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
+#    cs1_pairprogramming: "Pair Programming Activity"
+#    cs1_pairprogramming_desc: "Introduce students to a pair programming exercise that will help them become better listeners and communicators."
+#    unlock_resources: "Unlock more resources!"
+#    unlock_resources_desc: "Gain access to additional guides by adding student licenses to your account. Request a demo today to get started."
+#    request_demo: "Request Demo"
+#    student_overview: "Overview"
+#    student_email: "Student Email"
+#    no_email: "Student has no email address set."
+#    student_profile: "Student Profile"
+#    playtime_detail: "Playtime Detail"
+#    student_completed: "Student Completed"
+#    student_in_progress: "Student in Progress"
+#    class_average: "Class Average"
+#    not_assigned: "has not been assigned the following courses"
+#    playtime_axis: "Playtime in Seconds"
+#    levels_axis: "Levels in"
+#    student_state: "How is"
+#    student_state_2: "doing?"
+#    student_good: "is doing well in"
+#    student_good_detail: "This student is keeping pace with the class."
+#    student_warn: "might need some help in"
+#    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
+#    student_great: "is doing great in"
+#    student_great_detail: "This student might be a good candidate to help other students working through this course."
 
 #  sharing:
 #    game: "Game"
 #    webpage: "Webpage"
+#    your_students_preview: "Your students will click here to see their finished projects! Unavailable in teacher preview."
+#    unavailable: "Link sharing not available in teacher preview."
 #    share_game: "Share This Game"
 #    share_web: "Share This Webpage"
 #    victory_share_prefix: "Share this link to invite your friends & family to"
@@ -1591,7 +1616,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     level_some_options: "¿Algunas opciones?"
     level_tab_thangs: "Tiliches"
     level_tab_scripts: "Scripts"
-    level_tab_settings: "Opciones"
     level_tab_components: "Componentes"
     level_tab_systems: "Sistemas"
     level_tab_docs: "Documentación"
@@ -1607,7 +1631,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     duplicate: "Duplicar"
     stop_duplicate: "Parar de Duplicar"
     rotate: "Rotar"
-    level_settings_title: "Opciones"
     level_component_tab_title: "Componentes Actuales"
     level_component_btn_new: "Crear Nuevo Componente"
     level_systems_tab_title: "Sistemas Actuales"
@@ -1617,7 +1640,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     level_components_type: "Tipo"
     level_component_edit_title: "Editar Componente"
     level_component_config_schema: "Config Schema"
-    level_component_settings: "Opciones"
     level_system_edit_title: "Editar Sistema"
     create_system_title: "Crear Nuevo Sistema"
     new_component_title: "Crear Nuevo Componente"
@@ -1860,9 +1882,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   account_prepaid:
     purchase_code: "Adquirir un Código de Suscripción"
-    purchase_code1: "Los códigos de suscripción pueden ser canjeados para agregar tiempo de suscripción premium para una o más cuentas CodeCombat."
+    purchase_code1: "Los códigos de suscripción pueden ser canjeados para agregar tiempo de suscripción premium para una o más cuentas CodeCombat." #{change}
     purchase_code2: "Cada cuenta CodeCombat puede canjear una sola vez un Código de Suscripción en particular."
     purchase_code3: "Los meses del Código de Suscripción serán agregados al final de la suscripción existente de la cuenta."
+#    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
+#    purchase_code5: "For more information on Student Licenses, reach out to"
     users: "Usuarios"
     months: "Meses"
     purchase_total: "Total"
@@ -1917,30 +1941,99 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     campaigns: "Campañas"
 
   concepts:
-    advanced_strings: "Cadenas - Avanzado"
-    algorithms: "Algoritmos"
+#    advanced_css_rules: "Advanced CSS Rules"
+#    advanced_css_selectors: "Advanced CSS Selectors"
+#    advanced_html_attributes: "Advanced HTML Attributes"
+#    advanced_html_tags: "Advanced HTML Tags"
+#    algorithm_average: "Algorithm Average"
+#    algorithm_find_minmax: "Algorithm Find Min/Max"
+#    algorithm_search_binary: "Algorithm Search Binary"
+#    algorithm_search_graph: "Algorithm Search Graph"
+#    algorithm_sort: "Algorithm Sort"
+#    algorithm_sum: "Algorithm Sum"
     arguments: "Argumentos"
     arithmetic: "Aritmética"
+#    array_2d: "2D Array"
+#    array_index: "Array Indexing"
+#    array_iterating: "Iterating Over Arrays"
+#    array_literals: "Array Literals"
+#    array_searching: "Array Searching"
+#    array_sorting: "Array Sorting"
     arrays: "Arreglos"
+#    basic_css_rules: "Basic CSS rules"
+#    basic_css_selectors: "Basic CSS selectors"
+#    basic_html_attributes: "Basic HTML Attributes"
+#    basic_html_tags: "Basic HTML Tags"
     basic_syntax: "Sintaxis Básica"
-    boolean_logic: "Lógica Booleana"
+#    binary: "Binary"
+#    boolean_and: "Boolean And"
+#    boolean_equality: "Boolean Equality"
+#    boolean_greater_less: "Boolean Greater/Less"
+#    boolean_logic_shortcircuit: "Boolean Logic Shortcircuiting"
+#    boolean_not: "Boolean Not"
+#    boolean_operator_precedence: "Boolean Operator Precedence"
+#    boolean_or: "Boolean Or"
+#    bootstrap: "Bootstrap"
     break_statements: "Sentencias Break"
     classes: "Clases"
     continue_statements: "Sentencias Continue"
+#    dom_events: "DOM Events"
+#    dynamic_styling: "Dynamic Styling"
+#    event_concurrency: "Event Concurrency"
+#    event_data: "Event Data"
+#    event_handlers: "Event Handlers"
     for_loops: "Bucle For"
+#    for_loops_nested: "Nested For Loops"
+#    for_loops_range: "For Loops Range"
     functions: "Funciones"
+#    game_ai: "Game AI"
+#    game_goals: "Game Goals"
+#    game_spawn: "Game Spawn"
     graphics: "Gráficos"
+#    graphs: "Graphs"
+#    heaps: "Heaps"
+#    if_else_statements: "If/Else Statements"
     if_statements: "Sentencias If"
-    input_handling: "Manejo de Entradas"
+#    if_statements_nested: "Nested If Statemnts"
+#    indexing: "Array Indexes"
+#    input_handling_flags: "Input Handling - Flags"
+#    input_handling_keyboard: "Input Handling - Keyboard"
+#    input_handling_mouse: "Input Handling - Mouse"
+#    intermediate_css_rules: "Intermediate CSS Rules"
+#    intermediate_css_selectors: "Intermediate CSS Selectors"
+#    intermediate_html_attributes: "Intermediate HTML Attributes"
+#    intermediate_html_tags: "Intermediate HTML Tags"
+#    jquery: "jQuery"
+#    jquery_animations: "jQuery Animations"
+#    jquery_filtering: "jQuery Element Filtering"
+#    jquery_selectors: "jQuery Selectors"
+#    length: "Array Length"
+#    math_geometry: "Geometry"
     math_operations: "Operaciones Matemáticas"
+#    math_trigonometry: "Trigonometry"
     object_literals: "Objetos Literales"
     parameters: "Parámetros"
+#    property_access: "Accessing Properties"
+#    property_assignment: "Assigning Properties"
+#    queues: "Data Structures - Queues"
+#    reading_docs: "Reading the Docs"
+    recursion: "Recursividad"
+#    return_statements: "Return Statements"
+#    stacks: "Data Structures - Stacks"
     strings: "Cadenas"
+#    strings_concatenation: "String Concatenation"
+#    strings_substrings: "Substring"
+#    trees: "Data Structures - Trees"
     variables: "Variables"
     vectors: "Vectores"
-    while_loops: "Bucles" # {change}
-    recursion: "Recursividad"
-#    basic_html: "Basic HTML" # TODO: these web-dev concepts will change, don't need to translate
+#    while_condition_loops: "While Loops with Conditionals"
+#    while_loops_simple: "While Loops"
+#    while_loops_nested: "Nested While Loops"
+#    xy_coordinates: "Cartesian Coordinates"
+    advanced_strings: "Cadenas - Avanzado" # Rest of concepts are deprecated
+    algorithms: "Algoritmos"
+    boolean_logic: "Lógica Booleana"
+#    basic_html: "Basic HTML"
 #    basic_css: "Basic CSS"
 #    basic_web_scripting: "Basic Web Scripting"
 #    intermediate_html: "Intermediate HTML"
@@ -1949,8 +2042,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    advanced_html: "Advanced HTML"
 #    advanced_css: "Advanced CSS"
 #    advanced_web_scripting: "Advanced Web Scripting"
-#    jquery: "jQuery"
-#    bootstrap: "Bootstrap"
+    input_handling: "Manejo de Entradas"
+    while_loops: "Bucles" # {change}
 
   delta:
     added: "Agregado"
@@ -2009,7 +2102,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     rights_desc: "Todos los derechos estan reservados para los niveles mismos. Esto incluye."
     rights_scripts: "Scripts"
     rights_unit: "Configuración de la unidad"
-    rights_description: "Descripción"
     rights_writings: "Escritos"
     rights_media: "Media (sonidos, música) y cualquier otro contenido creativo hecho específicamente para un nivel y que no haya sido hecho disponible al público cuando se crearon los niveles."
     rights_clarification: "Aclarando, todo contenido puesto a disposición en el Editor de Niveles con el propósito de hacer más niveles se encuentra bajo licencia CC, mientras todo contenido creado con el Editor de Niveles o cargado durante la creación de Niveles no lo está."

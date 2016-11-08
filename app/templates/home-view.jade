@@ -13,7 +13,7 @@ mixin box
 
     else
       h6#classroom-edition-header(data-i18n="new_home.logged_in_as")
-      p.small=me.broadName()
+      p.small.userName=me.broadName()
       if me.isTeacher()
         div
           button.teacher-btn.btn.btn-forest.btn-lg.btn-block(data-event-action="Homepage Click My Classes CTA", data-i18n="new_home.goto_classes")
@@ -257,6 +257,8 @@ block content
                     span.spr ,
                   - total += 1;
                   span(data-i18n="concepts." + concept)
+                if total === 0
+                  span= course.get('description')
             img.media-object(src="/images/pages/home/" + course.get('slug') + ".png")
             h6.course-duration
               span.spr(data-i18n="new_home.lesson_time")

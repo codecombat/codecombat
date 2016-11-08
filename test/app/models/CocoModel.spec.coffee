@@ -41,7 +41,6 @@ describe 'CocoModel', ->
       expect(b.getURL()).toBe unprojectedURL + '&project=object,number'
 
   describe 'save', ->
-
     it 'saves to db/<urlRoot>', ->
       b = new BlandClass({})
       res = b.save()
@@ -195,5 +194,3 @@ describe 'CocoModel', ->
       })
       m.updateI18NCoverage()
       expect(_.isEqual(m.get('i18nCoverage'), ['es'])).toBe(true)
-      
-      

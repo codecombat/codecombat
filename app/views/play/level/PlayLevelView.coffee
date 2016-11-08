@@ -134,7 +134,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
@@ -274,6 +274,11 @@ module.exports = class PlayLevelView extends RootView
     @goalManager = new GoalManager(@world, @level.get('goals'), @team)
     @god?.setGoalManager @goalManager
 
+  updateGoals: (goals) ->
+    @level.set 'goals', goals
+    @goalManager.destroy()
+    @initGoalManager()
+
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level })
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
@@ -321,6 +326,9 @@ module.exports = class PlayLevelView extends RootView
     else if e.level.get('slug') in ['ace-of-coders', 'elemental-wars']
       goliath = '55e1a6e876cb0948c96af9f8'
       e.session.set 'heroConfig', {"thangType":goliath,"inventory":{"eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"}}
+    else if e.level.get('slug') is 'the-battle-of-sky-span'
+      wizard = '52fc1460b2b91c0d5a7b6af3'
+      e.session.set 'heroConfig', {"thangType":wizard,"inventory":{}}
     else if e.level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
@@ -522,9 +530,13 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
+    if isReload
+      # Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent relodaed
+      e.supermodel.registerModel model for url, model of @supermodel.models when not e.supermodel.models[url]
     @setLevel e.level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
+      @updateGoals e.level.get('goals')
       Backbone.Mediator.publish 'tome:cast-spell', {}  # a bit hacky
 
   onLevelReloadThangType: (e) ->

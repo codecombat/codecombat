@@ -41,9 +41,6 @@ module.exports =
     variableChain: c.array {}, {type: 'string'}
     frame: {type: 'integer', minimum: 0}
 
-  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
-    spell: {type: 'object'}
-
   'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
     thangID: {type: 'string'}
 

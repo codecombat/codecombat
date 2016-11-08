@@ -47,7 +47,8 @@ block content
         each level, levelIndex in levels
           - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
           tr
-            td= levelNumber
+            td
+              a(href='/play/level/' + level.get('slug'))= levelNumber
             td= level.get('slug')
             td= level.get('type')
             td= level.get('practice')

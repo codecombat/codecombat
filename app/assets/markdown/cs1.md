@@ -15,28 +15,28 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 ### Scope and Sequence
 
-| Module                              | Levels           |  Transfer Goals  |
-| ----------------------------------- |:-----------------|:-----------------|
-| [1. Basic Syntax](#basic-syntax)    | 1-6              |Call functions in order|
-| [2. Loops](#loops)                  | 7-14             |Repeat code sequences|
-| [3. Variables](#variables)          | 15-20            |Save and access data|
-| [4. Review](#review-arena)          | 21               |Master syntax and sequencing|
+| Module                                                     |             Levels | Transfer Goals               |
+| ---------------------------------------------------------- | :----------------- | :--------------------------- |
+| [1. Basic Syntax](#basic-syntax)                           |                1-6 | Call functions in order      |
+| [2. Loops](#loops)                                         |               7-14 | Repeat code sequences        |
+| [3. Variables](#variables)                                 |              15-20 | Save and access data         |
+| [4. Review - Multiplayer Arena](#review-multiplayer-arena) |                 21 | Master syntax and sequencing |
 
 ### Core Vocabulary
 
-**Basic Syntax** - the basic spelling and grammar of a language, and must be carefully paid attention to in order for code to properly execute. For example, while Python and Javascript are used to do similar things in Course 1, the syntax for them is noticeably different, because they are different programming languages.
+**Basic Syntax** - the basic spelling and grammar of a language, and must be carefully paid attention to in order for code to properly execute. For example, while Python and JavaScript are used to do similar things in Course 1, the syntax for them is noticeably different, because they are different programming languages.
 
 **Object** - a character or thing that can perform actions.
 
-**String** - a type of programming data that represents text. In both Python and Javascript, strings are represented by text inside quotes. In Course 1, strings are used to identify objects for the hero to attack.
+**String** - a type of programming data that represents text. In both Python and JavaScript, strings are represented by text inside quotes. In Course 1, strings are used to identify objects for the hero to attack.
 
 **Function** - an action performed by an object.
 
-**Argument** - extra information passed into a method in order to modify what the method does. In both Python and Javascript, arguments are represented by code that is inside the parentheses after a method. In Course 1, arguments must be used to define enemies before the hero can attack them, and can also be used to move multiple times without writing new lines of code.
+**Argument** - extra information passed into a method in order to modify what the method does. In both Python and JavaScript, arguments are represented by code that is inside the parentheses after a method. In Course 1, arguments must be used to define enemies before the hero can attack them, and can also be used to move multiple times without writing new lines of code.
 
 **Property** - data about or belonging to an object.
 
-**While Loop** - used to repeat actions without the player needing to write the same lines of code over and over. In Python, the code that is looped must be indented underneath the while true statement. In Javascript, the code that is looped must be enclosed by curly brackets {}. In Course 1, while loops repeat forever, and are used to navigate mazes made up of identical paths, as well as attack objects that take a lot of hits to defeat (strong Doors, for example).
+**While Loop** - used to repeat actions without the player needing to write the same lines of code over and over. In Python, the code that is looped must be indented underneath the while true statement. In JavaScript, the code that is looped must be enclosed by curly brackets {}. In Course 1, while loops repeat forever, and are used to navigate mazes made up of identical paths, as well as attack objects that take a lot of hits to defeat (strong Doors, for example).
 
 **Variable** - a symbol that represents data, and the value of the variable can change as you store new data in it. In Course 1, variables are used to first define an enemy, and then passed along as an argument to the attack method so that the hero can attack the right enemy.
 
@@ -364,7 +364,7 @@ Focus on clearly communicating the goal of the level, and describing the problem
 
 
 ##### Module 4
-## Review: Arena
+## Review - Multiplayer Arena
 ### Summary 
 
 The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Wakka Maul arena and attempt multiple solutions until time is called. 

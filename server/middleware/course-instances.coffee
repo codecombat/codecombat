@@ -93,13 +93,17 @@ module.exports =
     # Get level completions and playtime
     currentLevelSession = null
     levelIDs = (level.original.toString() for level in courseLevels)
-    query = {$and: [{creator: req.user.id}, {'level.original': {$in: levelIDs}}]}
+    query = {$and: [
+      {creator: req.user.id},
+      {'level.original': {$in: levelIDs}}
+      {codeLanguage: classroom.get('aceConfig.language')}
+    ]}
     levelSessions = yield LevelSession.find(query, {level: 1, playtime: 1, state: 1})
     levelCompleteMap = {}
     for levelSession in levelSessions
       currentLevelSession = levelSession if levelSession.id is sessionID
       levelCompleteMap[levelSession.get('level')?.original] = levelSession.get('state')?.complete
-    unless currentLevelSession then throw new errors.NotFound('Level session not found.') 
+    unless currentLevelSession then throw new errors.NotFound('Level session not found.')
     needsPractice = utils.needsPractice(currentLevelSession.get('playtime'), currentLevel.get('practiceThresholdMinutes'))
 
     # Find next level
@@ -152,30 +156,32 @@ module.exports =
       throw new errors.NotFound('Course not found.')
 
     res.status(200).send(course.toObject({req: req}))
-    
-    
+
+
   fetchRecent: wrap (req, res) ->
-    query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+
+    courses = yield Course.find({releasePhase: 'released'}).select({_id: 1}).lean()
+    courseIDs = (course._id for course in courses)
+
+    query = {$and: [{courseID: {$in: courseIDs}}, {name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     query["$and"].push(_id: {$gte: objectIdFromTimestamp(req.body.startDay + "T00:00:00.000Z")}) if req.body.startDay?
     query["$and"].push(_id: {$lt: objectIdFromTimestamp(req.body.endDay + "T00:00:00.000Z")}) if req.body.endDay?
-    courseInstances = yield CourseInstance.find(query, {courseID: 1, members: 1, ownerID: 1})
+    courseInstances = yield CourseInstance.find(query, {courseID: 1, members: 1, ownerID: 1}).lean()
 
     userIDs = []
     for courseInstance in courseInstances
-      if members = courseInstance.get('members')
+      if members = courseInstance.members
         userIDs.push(userID) for userID in members
-    users = yield User.find({_id: {$in: userIDs}}, {coursePrepaid: 1, coursePrepaidID: 1})
+    users = yield User.find({_id: {$in: userIDs}, coursePrepaid: {$exists: true}}, {coursePrepaid: 1}).lean()
 
-    prepaidIDs = []
-    for user in users
-      if prepaidID = user.get('coursePrepaid')
-        prepaidIDs.push(prepaidID._id)
-    prepaids = yield Prepaid.find({_id: {$in: prepaidIDs}}, {properties: 1})
+    prepaidIDs = (user.coursePrepaid._id for user in users when user.coursePrepaid)
+    prepaids = yield Prepaid.find({_id: {$in: prepaidIDs}}, {properties: 1}).lean()
 
     res.send({
-      courseInstances: (courseInstance.toObject({req: req}) for courseInstance in courseInstances)
-      students: (user.toObject({req: req}) for user in users)
-      prepaids: (prepaid.toObject({req: req}) for prepaid in prepaids)
+      courseInstances: courseInstances
+      students: users
+      prepaids: prepaids
     })
 
   fetchNonHoc: wrap (req, res) ->
@@ -183,3 +189,32 @@ module.exports =
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
     courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).lean()
     res.status(200).send(courseInstances)
+
+  fetchMyCourseLevelSessions: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+
+    classroom = yield Classroom.findById(courseInstance.get('classroomID'))
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+
+    # Construct a query for finding all sessions appropriate for the given course instance and related
+    # classroom. For the most part, that means sessions that match the language of the classroom, but for
+    # primer levels, need to use the level primerLanguage setting. Each $or entry is for one level session.
+    $or = []
+    for course in classroom.get('courses') when course._id.equals(courseInstance.get('courseID'))
+      for level in course.levels when not _.contains(level.type, 'ladder')
+        $or.push({
+          'level.original': level.original + "",
+          codeLanguage: level.primerLanguage or classroom.get('aceConfig.language')
+        })
+    if $or.length
+      query = {$and: [
+        {creator: req.user.id},
+        { $or }
+      ]}
+      levelSessions = yield LevelSession.find(query).select(parse.getProjectFromReq(req))
+      res.send(session.toObject({req}) for session in levelSessions)
+    else
+      res.send []

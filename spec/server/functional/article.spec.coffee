@@ -147,13 +147,7 @@ describe 'POST /db/article', ->
     body = @res.body
     expect(body.original).toBe(body._id)
     
-  
-  it 'returns 422 when no input is provided', utils.wrap (done) ->
-    [res, body] = yield request.postAsync { uri: getURL('/db/article') }
-    expect(res.statusCode).toBe(422)
-    done()
-
-      
+    
   it 'allows you to set Article\'s editableProperties', ->
     expect(@body.name).toBe('Article')
     

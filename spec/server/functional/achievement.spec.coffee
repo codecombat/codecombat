@@ -342,7 +342,7 @@ describe 'automatically achieving achievements', ->
     expect(user.get('simulatedBy')).toBeFalsy()
     user.set('simulatedBy', 2)
     yield user.save()
-    yield new Promise((resolve) -> setTimeout(resolve, 100)) # give server time to apply achievement
+    yield user.achievementsEarning
     
     # check 'repeatable' achievement
     user = yield User.findById(user._id)

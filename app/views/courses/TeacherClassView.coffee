@@ -90,11 +90,11 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
     @students = new Users()
+    @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
       jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
       @supermodel.trackRequests jqxhrs
 
-      @classroom.sessions = new LevelSessions()
       requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
       @supermodel.trackRequests(requests)
 
@@ -439,13 +439,13 @@ module.exports = class TeacherClassView extends RootView
           user = unenrolledStudents.shift()
           requests.push(prepaid.redeem(user))
       
-      @trigger 'begin-redeem-for-assign-course' 
+      @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
 
     .then =>
       # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
       # end up returning the final result of all those requests together.
-      @prepaids.fetchByCreator(me.id) 
+      @prepaids.fetchByCreator(me.id)
       
       @trigger 'begin-assign-course'
       if members.length
@@ -473,7 +473,7 @@ module.exports = class TeacherClassView extends RootView
       # TODO: Use this handling for errors site-wide?
       return if e.handled
       throw e if e instanceof Error and application.testing
-      text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown') 
+      text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   onClickSelectAll: (e) ->

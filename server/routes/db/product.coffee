@@ -1,19 +1,12 @@
 Product = require '../../models/Product'
 errors = require '../../commons/errors'
 config = require '../../../server_config'
+wrap = require 'co-express'
 
-module.exports.get = (req, res) ->
-
-  Product.find().lean().exec (err, products) ->
-    return errors.serverError(res) if err
-    names = (product.name for product in products)
-    unless config.isProduction
-      for product in initProducts
-        if not _.contains(names, product.name)
-          # upsert products in initProducts if they DNE
-          products.push(product)
-          new Product(product).save _.noop
-    res.send(products)
+get = wrap (req, res) ->
+  products = yield Product.find()
+  return res.send(productStubs) unless _.size(products) or config.isProduction
+  res.send(products)
 
 ###
 Stub data, used in tests and dev environment.
@@ -23,7 +16,7 @@ If you are testing products and need to change them, you'll need to edit the db 
 ###
 
 
-initProducts = [
+productStubs = [
   {
     name: 'gems_5'
     amount: 100
@@ -67,6 +60,13 @@ initProducts = [
   }
 
   {
+    name: 'year_subscription_b'
+    amount: 1001
+    gems: 42000
+  }
+
+
+  {
     name: 'prepaid_subscription'
     amount: 100
     gems: 3500
@@ -84,3 +84,8 @@ initProducts = [
     planID: 'basic'
   }
 ]
+
+module.exports = {
+  get
+  productStubs
+}

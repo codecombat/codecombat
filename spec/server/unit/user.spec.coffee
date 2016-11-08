@@ -2,6 +2,7 @@ GLOBAL._ = require 'lodash'
 
 User = require '../../../server/models/User'
 utils = require '../utils'
+mongoose = require 'mongoose'
 
 describe 'User', ->
 
@@ -25,6 +26,33 @@ describe 'User', ->
     user.set 'emailSubscriptions', ['tester']
     user.setEmailSubscription('artisanNews', true)
     expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
+    done()
+    
+  it 'does not allow anonymous to be set to true if there is a login method', utils.wrap (done) ->
+    user = new User({passwordHash: '1234', anonymous: true})
+    user = yield user.save()
+    expect(user.get('anonymous')).toBe(false)
+    done()
+
+  it 'prevents duplicate oAuthIdentities', utils.wrap (done) ->
+    provider1 = new mongoose.Types.ObjectId()
+    provider2 = new mongoose.Types.ObjectId()
+    identity1 = { provider: provider1, id: 'abcd' }
+    identity2 = { provider: provider2, id: 'abcd' }
+    identity3 = { provider: provider1, id: '1234' }
+
+    # These three should live in harmony
+    users = []
+    users.push yield utils.initUser({ oAuthIdentities: [identity1] })
+    users.push yield utils.initUser({ oAuthIdentities: [identity2] })
+    users.push yield utils.initUser({ oAuthIdentities: [identity3] })
+
+    e = null
+    try
+      users.push yield utils.initUser({ oAuthIdentities: [identity1] })
+    catch e
+
+    expect(e).not.toBe(null)
     done()
 
   describe '.updateServiceSettings()', ->
@@ -76,3 +104,20 @@ describe 'User', ->
       expect(user.get('stats.testNumber')).toBe(1)
       expect(user.get('stats.concepts.basic')).toBe(10)
       done()
+      
+  describe 'subscription virtual', ->
+    it 'has active and ends properties', ->
+      moment = require 'moment'
+      stripeEnd = moment().add(12, 'months').toISOString().substring(0,10)
+      user1 = new User({stripe: {free:stripeEnd}})
+      expectedEnd = "#{stripeEnd}T00:00:00.000Z"
+      expect(user1.get('subscription').active).toBe(true)
+      expect(user1.get('subscription').ends).toBe(expectedEnd)
+      expect(user1.toObject({virtuals: true}).subscription.ends).toBe(expectedEnd)
+      
+      user2 = new User()
+      expect(user2.get('subscription').active).toBe(false)
+      
+      user3 = new User({stripe: {free: true}})
+      expect(user3.get('subscription').active).toBe(true)
+      expect(user3.get('subscription').ends).toBeUndefined()

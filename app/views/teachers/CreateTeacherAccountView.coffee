@@ -17,8 +17,8 @@ module.exports = class CreateTeacherAccountView extends RootView
 
   events:
     'click .login-link': 'onClickLoginLink'
-    'change form': 'onChangeForm'
-    'submit form': 'onSubmitForm'
+    'change form#signup-form': 'onChangeForm'
+    'submit form#signup-form': 'onSubmitForm'
     'click #gplus-signup-btn': 'onClickGPlusSignupButton'
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
     'change input[name="city"]': 'invalidateNCES'
@@ -128,6 +128,13 @@ module.exports = class CreateTeacherAccountView extends RootView
       trialRequestAttrs.educationLevel.push(val) if val
 
     forms.clearFormAlerts(form)
+    tv4.addFormat({
+      'phoneNumber': (phoneNumber) ->
+        if forms.validatePhoneNumber(phoneNumber)
+          return null
+        else
+          return {code: tv4.errorCodes.FORMAT_CUSTOM, message: 'Please enter a valid phone number, including area code.'}
+    })
 
     result = tv4.validateMultiple(trialRequestAttrs, formSchema)
     error = false
@@ -189,27 +196,54 @@ module.exports = class CreateTeacherAccountView extends RootView
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
     @formChanged = false
-    attrs = _.pick(forms.formToObject(@$('form')), 'name', 'email', 'role', 'firstName', 'lastName')
-    attrs.role = attrs.role.toLowerCase()
-    options = {}
-    newUser = new User(attrs)
-    if @gplusAttrs
-      newUser.set('_id', me.id)
-      options.url = "/db/user?gplusID=#{@gplusAttrs.gplusID}&gplusAccessToken=#{application.gplusHandler.accessToken.access_token}"
-      options.type = 'PUT'
-      newUser.set(@gplusAttrs)
-    else if @facebookAttrs
-      newUser.set('_id', me.id)
-      options.url = "/db/user?facebookID=#{@facebookAttrs.facebookID}&facebookAccessToken=#{application.facebookHandler.authResponse.accessToken}"
-      options.type = 'PUT'
-      newUser.set(@facebookAttrs)
-    else
-      newUser.set('password', @$('input[name="password1"]').val())
-    newUser.save(null, options)
-    newUser.once 'sync', ->
+    
+    Promise.resolve()
+    .then =>
+      attrs = _.pick(forms.formToObject(@$('form')), 'role', 'firstName', 'lastName')
+      attrs.role = attrs.role.toLowerCase()
+      me.set(attrs)
+      me.set(_.omit(@gplusAttrs, 'gplusID', 'email')) if @gplusAttrs
+      me.set(_.omit(@facebookAttrs, 'facebookID', 'email')) if @facebookAttrs
+      jqxhr = me.save()
+      if not jqxhr
+        throw new Error('Could not save user')
+      @trigger 'update-settings'
+      return jqxhr
+      
+    .then =>
+      { name, email } = forms.formToObject(@$('form'))
+      if @gplusAttrs
+        { email, gplusID } = @gplusAttrs
+        { name } = forms.formToObject(@$el)
+        jqxhr = me.signupWithGPlus(name, email, @gplusAttrs.gplusID)
+      else if @facebookAttrs
+        { email, facebookID } = @facebookAttrs
+        { name } = forms.formToObject(@$el)
+        jqxhr = me.signupWithFacebook(name, email, facebookID)
+      else
+        { name, email, password1 } = forms.formToObject(@$el)
+        jqxhr = me.signupWithPassword(name, email, password1)
+      @trigger 'signup'
+      return jqxhr
+      
+    .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })
       application.router.reload()
-    newUser.once 'error', errors.showNotyNetworkError
+
+    .catch (e) =>
+      if e instanceof Error
+        noty {
+          text: e.message
+          layout: 'topCenter'
+          type: 'error'
+          timeout: 5000
+          killer: false,
+          dismissQueue: true
+        }
+      else
+        errors.showNotyNetworkError(arguments...)
+      @$('#create-account-btn').text('Submit').attr('disabled', false)
+    
 
   # GPlus signup
 
@@ -298,7 +332,7 @@ module.exports = class CreateTeacherAccountView extends RootView
 
 formSchema = {
   type: 'object'
-  required: ['firstName', 'lastName', 'email', 'role', 'numStudents', 'city', 'state', 'country']
+  required: ['firstName', 'lastName', 'email', 'role', 'numStudents', 'city', 'state', 'country', 'phoneNumber']
   properties:
     password1: { type: 'string' }
     password2: { type: 'string' }
@@ -306,7 +340,7 @@ formSchema = {
     lastName: { type: 'string' }
     name: { type: 'string', minLength: 1 }
     email: { type: 'string', format: 'email' }
-    phoneNumber: { type: 'string' }
+    phoneNumber: { type: 'string', format: 'phoneNumber' }
     role: { type: 'string' }
     organization: { type: 'string' }
     district: { type: 'string' }

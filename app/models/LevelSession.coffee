@@ -106,3 +106,5 @@ module.exports = class LevelSession extends CocoModel
       console.log "Couldn't transpile!\n#{source}\n", e
       spellThang.aether.transpile ''
     spells
+
+  isFake: -> @id is 'A Fake Session ID'

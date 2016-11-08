@@ -13,6 +13,7 @@ UserCodeProblem = require 'models/UserCodeProblem'
 utils = require 'core/utils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
+TokenIterator = ace.require('ace/token_iterator').TokenIterator
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -37,7 +38,6 @@ module.exports = class SpellView extends CocoView
     'god:user-code-problem': 'onUserCodeProblem'
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
-    'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
@@ -60,8 +60,8 @@ module.exports = class SpellView extends CocoView
     'mouseout': 'onMouseOut'
 
   constructor: (options) ->
-    super options
     @supermodel = options.supermodel
+    super options
     @worker = options.worker
     @session = options.session
     @spell = options.spell
@@ -113,6 +113,8 @@ module.exports = class SpellView extends CocoView
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @ace.$blockScrolling = Infinity
+    @ace.on 'mousemove', @onAceMouseMove
+    @ace.on 'mouseout', @onAceMouseOut
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -649,7 +651,7 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   saveSpade: =>
-    return if @destroyed
+    return if @destroyed or not @spade
     spadeEvents = @spade.compile()
     # Uncomment the below line for a debug panel to display inside the level
     #@spade.debugPlay(spadeEvents)
@@ -684,13 +686,9 @@ module.exports = class SpellView extends CocoView
       @ace.setStyle 'spell-cast'
       @updateHTML create: true
 
-  onCodeReload: (e) ->
-    return unless e.spell is @spell or not e.spell
-    @reloadCode true
-    @ace.clearSelection()
-    _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
-
   reloadCode: (cast=true) ->
+    @spell.reloadCode() if cast
+    @thang = @spell.thang.thang
     @updateACEText @spell.originalSource
     @lockDefaultCode true
     @recompile cast
@@ -994,6 +992,18 @@ module.exports = class SpellView extends CocoView
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
+
+  onAceMouseOut: (e) ->
+    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+
+  onAceMouseMove: (e) =>
+    return if @destroyed
+    row = e.getDocumentPosition().row
+    return if row is @lastRowHovered # Don't spam repeated messages for the same line
+    @lastRowHovered = row
+    line = @aceSession.getLine(row)
+    Backbone.Mediator.publish("web-dev:hover-line", { row: row, line })
+    null
 
   onSessionWillSave: (e) ->
     return unless @spellHasChanged and me.isAdmin()

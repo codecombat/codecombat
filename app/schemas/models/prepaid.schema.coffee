@@ -1,7 +1,8 @@
 c = require './../schemas'
 
-PrepaidSchema = c.object({title: 'Prepaid', required: ['creator', 'type']}, {
+PrepaidSchema = c.object({title: 'Prepaid', required: ['type']}, {
   creator: c.objectId(links: [ {rel: 'extra', href: '/db/user/{($)}'} ])
+  clientCreator: c.objectId(links: [ {rel: 'extra', href: '/db/api-clients/{($)}'} ])
   redeemers: c.array {title: 'Users who have redeemed this code'},
     c.object {required: ['date', 'userID']},
       date: c.date {title: 'Redeemed date'}

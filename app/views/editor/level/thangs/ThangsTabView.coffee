@@ -9,7 +9,7 @@ CocoCollection = require 'collections/CocoCollection'
 Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './LevelThangEditView'
-ComponentsCollection = require 'collections/ComponentsCollection'
+LevelComponents = require 'collections/LevelComponents'
 require 'vendor/treema'
 GameUIState = require 'models/GameUIState'
 
@@ -85,7 +85,13 @@ module.exports = class ThangsTabView extends CocoView
     # should load depended-on Components, too
     @thangTypes = @supermodel.loadCollection(new ThangTypeSearchCollection(), 'thangs').model
     # just loading all Components for now: https://github.com/codecombat/codecombat/issues/405
-    @componentCollection = @supermodel.loadCollection(new ComponentsCollection(), 'components').load()
+    @componentCollection = new LevelComponents([], {saveBackups: true})
+    @supermodel.trackRequest(@componentCollection.fetch())
+    @listenToOnce(@componentCollection, 'sync', ->
+      for component in @componentCollection.models
+        component.url = "/db/level.component/#{component.get('original')}/version/#{component.get('version').major}"
+        @supermodel.registerModel(component)
+    )
     @level = options.level
     @onThangsChanged = _.debounce(@onThangsChanged)
 
@@ -529,6 +535,7 @@ module.exports = class ThangsTabView extends CocoView
       @thangsTreema.delete(@pathForThang(thang))
       @deleteEmptyTreema(thang)
       Thang.resetThangIDs()  # TODO: find some way to do this when we delete from treema, too
+    @gameUIState.set('selected', [])
 
   deleteEmptyTreema: (thang)->
     thangType = @supermodel.getModelByOriginal ThangType, thang.thangType

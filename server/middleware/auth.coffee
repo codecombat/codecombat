@@ -11,6 +11,9 @@ mongoose = require 'mongoose'
 authentication = require 'passport'
 sendwithus = require '../sendwithus'
 LevelSession = require '../models/LevelSession'
+config = require '../../server_config'
+oauth = require '../lib/oauth'
+facebook = require '../lib/facebook'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -62,6 +65,16 @@ module.exports =
     yield req.user.update {activity: activity}
     res.status(200).send(req.user.toObject({req: req}))
 
+  redirectAfterLogin: wrap (req, res) ->
+    activity = req.user.trackActivity 'login', 1
+    yield req.user.update {activity: activity}
+    if req.user.get('role') is 'student'
+      res.redirect '/students'
+    else if req.user.get('role')
+      res.redirect '/teachers/classes'
+    else
+      res.redirect '/play'
+
   loginByGPlus: wrap (req, res, next) ->
     gpID = req.body.gplusID
     gpAT = req.body.gplusAccessToken
@@ -77,19 +90,114 @@ module.exports =
     yield req.logInAsync(user)
     next()
 
+  loginByClever: wrap (req, res, next) ->
+    throw new errors.UnprocessableEntity('Clever integration not configured.') unless config.clever.client_id and config.clever.client_secret
+
+    code = req.query.code
+    scope = req.query.scope
+    throw new errors.UnprocessableEntity('code and scope required.') unless code and scope
+
+
+    [cleverRes, auth] = yield request.postAsync
+      json: true
+      url: "https://clever.com/oauth/tokens"
+      form:
+        code: code
+        grant_type: 'authorization_code'
+        redirect_uri: config.clever.redirect_uri
+
+      auth:
+        user: config.clever.client_id
+        password: config.clever.client_secret
+        sendImmediately: true
+
+    
+    throw new errors.UnprocessableEntity('Invalid Clever OAuth Code.') unless auth.access_token
+
+    [re2, userInfo] = yield request.getAsync
+      json : true
+      url: 'https://api.clever.com/me'
+      auth:
+        bearer: auth.access_token
+
+    [lookupRes, lookup] = yield request.getAsync
+        url: "https://api.clever.com/v1.1/#{userInfo.data.type}s/#{userInfo.data.id}"
+        json: true
+        auth:
+          bearer: auth.access_token
+
+    unless lookupRes.statusCode is 200
+      throw new errors.Forbidden("Couldn't look up user.  Is data sharing enabled in clever?")
+
+    
+    user = yield User.findOne({cleverID: userInfo.data.id})
+    unless user
+      email = lookup.data.email
+      if email?
+        existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+
+      if existingUserWithEmail or not email?
+        email = "#{userInfo.data.id}@clever.user"
+        existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+      if existingUserWithEmail
+        email = undefined
+
+      name = "Clever"
+      if lookup.data.name
+        name = "#{lookup.data.name?.first}#{lookup.data.name.last?.substr(0,1)}"
+
+      User.unconflictNameAsync = Promise.promisify(User.unconflictName)
+      name = yield User.unconflictNameAsync name
+
+      user = new User
+        anonymous: false
+        role: if userInfo.data.type is 'student' then 'student' else 'teacher'
+        cleverID: userInfo.data.id
+        emailVerified: true
+        email: email
+        name: name
+
+      user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
+
+
+    if lookup.data.name
+      user.set 'firstName', lookup.data.name.first
+      user.set 'lastName', lookup.data.name.last
+
+    yield user.save()
+
+    #console.log JSON.stringify
+    #  userInfo: userInfo
+    #  lookup: lookup
+    #,null,'  '
+
+    req.logInAsync = Promise.promisify(req.logIn)
+    yield req.logInAsync(user)
+    next()
+
   loginByFacebook: wrap (req, res, next) ->
     fbID = req.body.facebookID
     fbAT = req.body.facebookAccessToken
     throw new errors.UnprocessableEntity('facebookID and facebookAccessToken required.') unless fbID and fbAT
-
-    url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-    [facebookRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = fbID is body.id
+    facebookPerson = yield facebook.fetchMe(fbAT)
+    idsMatch = fbID is facebookPerson.id
     throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
+    next()
+    
+  loginByOAuthProvider: wrap (req, res, next) ->
+    { provider: providerId, accessToken, code } = req.query
+    identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
+    
+    user = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
+    if not user
+      throw new errors.NotFound('No user with this identity exists')
+    
+    req.loginAsync = Promise.promisify(req.login)
+    yield req.loginAsync user
     next()
     
   spy: wrap (req, res) ->

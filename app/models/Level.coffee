@@ -147,7 +147,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless
+    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
@@ -278,11 +278,23 @@ module.exports = class Level extends CocoModel
 
   getSolutions: ->
     return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
-    return [] unless config = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config
-    solutions = _.cloneDeep config.programmableMethods.plan.solutions ? []
+    return [] unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+    solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
       try
-        solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
+        solution.source = _.template(solution.source)(plan.context)
       catch e
         console.error "Problem with template and solution comments for", @get('slug'), e
     solutions
+
+  getSampleCode: ->
+    return {} unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
+    return {} unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+    sampleCode = _.cloneDeep plan.languages ? {}
+    sampleCode.javascript = plan.source
+    for language, code of sampleCode
+      try
+        sampleCode[language] = _.template(code)(plan.context)
+      catch e
+        console.error "Problem with template and solution comments for", @get('slug'), e
+    sampleCode

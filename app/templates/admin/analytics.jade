@@ -24,13 +24,13 @@ block content
                 - classroomBigMAU += count;
             div.count= classroomBigMAU
         .col-md-5.big-stat.campaign-active-users
-          div.description Campaign Monthly Active Users
+          div.description Home Monthly Active Users
           if view.activeUsers.length > 0
-            - var campaignBigMAU = 0;
+            - var homeBigMAU = 0;
             each count, event in view.activeUsers[0].events
               if event.indexOf('MAU campaign') >= 0
-                - campaignBigMAU += count;
-            div.count= campaignBigMAU
+                - homeBigMAU += count;
+            div.count= homeBigMAU
 
     ul.nav.nav-tabs
       li.active
@@ -42,9 +42,9 @@ block content
       li
         a(data-target="#tab_classroom", data-toggle="tab") Classroom
       li
-        a(data-target="#tab_campaign", data-toggle="tab") Campaign
+        a(data-target="#tab_campaign", data-toggle="tab") Home
       li
-        a(data-target="#tab_campaign_vs_classroom", data-toggle="tab") Campaign vs Classroom
+        a(data-target="#tab_campaign_vs_classroom", data-toggle="tab") Home vs Classroom
 
     .tab-content
       .tab-pane.active#tab_kpis
@@ -157,6 +157,7 @@ block content
           .small Restricted to courses instances from last #{view.furthestCourseDayRangeRecent} days
           .small Teacher: owner of a course instance
           .small Student: member of a course instance (assigned to course)
+          .small Only course.releasePhase == 'released'
           .small For course instances != Single Player, hourOfCode != true
           .small Counts are not summed.  I.e. a student or teacher only contributes to the count of one course
           .small Paid student: user.coursePrepaid set and prepaid.properties.trialRequestID NOT set
@@ -190,7 +191,8 @@ block content
                   td= row.totals['Free Students'] || 0
                   td= row.totals['Total Students'] || 0
           else
-            div Loading ...
+            br
+            p Loading ...
 
           h3 Furthest Course in last #{view.furthestCourseDayRange} days
           if view.courseDistributions
@@ -217,7 +219,8 @@ block content
                   td= row.totals['Free Students'] || 0
                   td= row.totals['Total Students'] || 0
           else
-            div Loading ...
+            br
+            p Loading ...
 
         .school-sales
           h3 School Sales
@@ -245,7 +248,7 @@ block content
                     td
                     td
           else
-            div Loading ...
+            p Loading ...
 
         #school-counts
           h3 School Counts
@@ -262,7 +265,7 @@ block content
                   td= val.schoolName
                   td= val.count
           else
-            div Loading ...
+            p Loading ...
 
         h1 Active Users
         if view.activeUsers.length > 0
@@ -305,18 +308,18 @@ block content
                 td 0
 
       .tab-pane#tab_campaign
-        h3 Campaign Daily Active Users 90 days
+        h3 Home Daily Active Users 90 days
         .small Paid user: had monthly or yearly sub on given day
         .small Free user: not paid
         .campaign-daily-active-users-chart-90.line-chart-container
 
-        h3 Campaign Monthly Active Users 90 days
+        h3 Home Monthly Active Users 90 days
         .campaign-monthly-active-users-chart-90.line-chart-container
 
-        h3 Campaign Daily Active Users 365 days
+        h3 Home Daily Active Users 365 days
         .campaign-daily-active-users-chart-365.line-chart-container
 
-        h3 Campaign Monthly Active Users 365 days
+        h3 Home Monthly Active Users 365 days
         .campaign-monthly-active-users-chart-365.line-chart-container
 
         h1 Active Users
@@ -330,7 +333,7 @@ block content
             tr
               th(style='min-width:85px;') Day
               each eventName in eventNames
-                th= eventName
+                th= eventName.replace('campaign', 'home')
             each activeUser in view.activeUsers
               tr
                 td= activeUser.day
@@ -338,10 +341,10 @@ block content
                   td= activeUser.events[eventName] || 0
 
       .tab-pane#tab_campaign_vs_classroom
-        h3 Campaign vs Classroom Paid Monthly Active Users 90 days
+        h3 Home vs Classroom Paid Monthly Active Users 90 days
         .campaign-vs-classroom-monthly-active-users-recent-chart.line-chart-container
 
-        h3 Campaign vs Classroom Paid Monthly Active Users 365 days
+        h3 Home vs Classroom Paid Monthly Active Users 365 days
         .campaign-vs-classroom-monthly-active-users-chart.line-chart-container
 
         h1 Active Users
@@ -350,7 +353,7 @@ block content
             tr
               th(style='min-width:85px;') Day
               each eventName in view.activeUserEventNames
-                th= eventName
+                th= eventName.replace('campaign', 'home')
             each activeUser in view.activeUsers
               tr
                 td= activeUser.day

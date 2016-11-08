@@ -9,15 +9,15 @@ module.exports = class Campaign extends CocoModel
   @className: 'Campaign'
   @schema: schema
   urlRoot: '/db/campaign'
-  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['unlocks', 'position', 'rewards']))
+  @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
-  
+
   getLevels: ->
     levels = new Levels(_.values(@get('levels')))
     levels.comparator = 'campaignIndex'
     levels.sort()
     return levels
-    
+
   getNonLadderLevels: ->
     levels = new Levels(_.values(@get('levels')))
     levels.reset(levels.reject (level) -> level.isLadder())
@@ -29,6 +29,15 @@ module.exports = class Campaign extends CocoModel
     unless @levelNumberMap
       levels = []
       for level in @getLevels().models when level.get('original')
-        levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+        practice = @levelIsPractice level
+        levels.push({key: level.get('original'), practice: practice})
       @levelNumberMap = utils.createLevelNumberMap(levels)
     @levelNumberMap[levelID] ? defaultNumber
+
+  levelIsPractice: (level) ->
+    # Migration: in home version, only treat levels explicitly labeled as "Level Name A", "Level Name B", etc. as practice levels
+    level = level.attributes if level.attributes
+    if @get('type') is 'course'
+      return level.practice
+    else
+      return level.practice and / [ABCD]$/.test level.name

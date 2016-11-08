@@ -20,7 +20,6 @@ LevelHandler = class LevelHandler extends Handler
   postEditableProperties: Level.postEditableProperties
 
   getByRelationship: (req, res, args...) ->
-    return @getSession(req, res, args[0]) if args[1] is 'session'
     return @getLeaderboard(req, res, args[0]) if args[1] is 'leaderboard'
     return @getMyLeaderboardRank(req, res, args[0]) if args[1] is 'leaderboard_rank'
     return @getMySessions(req, res, args[0]) if args[1] is 'my_sessions'
@@ -35,91 +34,6 @@ LevelHandler = class LevelHandler extends Handler
     return @getLevelPlaytimesBySlugs(req, res) if args[1] is 'playtime_averages'
     return @getTopScores(req, res, args[0], args[2], args[3]) if args[1] is 'top_scores'
     super(arguments...)
-
-  fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
-    # TODO: this could probably be faster with projections, right?
-    @getDocumentForIdOrSlug id, (err, level) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless level?
-      return @sendForbiddenError(res) unless @hasAccessToDocument(req, level, 'get')
-      callback err, level
-
-  getSession: (req, res, id) ->
-    return @sendNotFoundError(res) unless req.user
-    @fetchLevelByIDAndHandleErrors id, req, res, (err, level) =>
-      sessionQuery =
-        level:
-          original: level.original.toString()
-          majorVersion: level.version.major
-        creator: req.user.id
-
-      if req.query.team?
-        sessionQuery.team = req.query.team
-
-      Session.findOne(sessionQuery).exec (err, doc) =>
-        return @sendDatabaseError(res, err) if err
-        return @sendSuccess(res, doc) if doc?
-        if level.get('type') in ['course', 'course-ladder'] or req.query.course?
-          return @makeOrRejectCourseLevelSession(req, res, level, sessionQuery)
-        requiresSubscription = level.get('requiresSubscription') or (req.user.isOnPremiumServer() and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-        canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
-        return @sendPaymentRequiredError(res, err) if requiresSubscription and not canPlayAnyway
-        @createAndSaveNewSession sessionQuery, req, res
-
-  makeOrRejectCourseLevelSession: (req, res, level, sessionQuery) ->
-    CourseInstance.find {members: req.user.get('_id')}, (err, courseInstances) =>
-      courseIDs = (ci.get('courseID') for ci in courseInstances)
-      Course.find { _id: { $in: courseIDs }}, (err, courses) =>
-        campaignIDs = (c.get('campaignID') for c in courses)
-        Campaign.find { _id: { $in: campaignIDs }}, (err, campaigns) =>
-          levelOriginals = (_.keys(c.get('levels')) for c in campaigns)
-          levelOriginals = _.flatten(levelOriginals)
-          originalString = level.get('original').toString()
-          if originalString in levelOriginals
-            campaignStrings = (campaign.id.toString() for campaign in campaigns when campaign.get('levels')[originalString])
-            courses = _.filter(courses, (course) -> course.get('campaignID').toString() in campaignStrings)
-            courseStrings = (course.id.toString() for course in courses)
-            courseInstances = _.filter(courseInstances, (courseInstance) -> courseInstance.get('courseID').toString() in courseStrings)
-            classroomIDs = (courseInstance.get('classroomID') for courseInstance in courseInstances)
-            classroomIDs = _.filter _.uniq classroomIDs, false, (objectID='') -> objectID.toString()
-            if classroomIDs.length
-              Classroom.find({ _id: { $in: classroomIDs }}).exec (err, classrooms) =>
-                aceConfigs = (c.get('aceConfig') for c in classrooms)
-                aceConfig = _.filter(aceConfigs)[0] or {}
-                req.codeLanguage = aceConfig.language
-                @createAndSaveNewSession(sessionQuery, req, res)
-            else
-              @createAndSaveNewSession(sessionQuery, req, res)
-          else
-            return @sendPaymentRequiredError(res, 'You must be in a course which includes this level to play it')
-
-  createAndSaveNewSession: (sessionQuery, req, res) =>
-    initVals = sessionQuery
-
-    initVals.state =
-      complete: false
-      scripts:
-        currentScript: null # will not save empty objects
-
-    initVals.permissions = [
-      {
-        target: req.user.id
-        access: 'owner'
-      }
-      {
-        target: 'public'
-        access: 'write'
-      }
-    ]
-    initVals.codeLanguage = req.codeLanguage ? req.user.get('aceConfig')?.language ? 'python'
-    session = new Session(initVals)
-
-    session.save (err) =>
-      return @sendDatabaseError(res, err) if err
-      @sendSuccess(res, @formatEntity(req, session))
-      # TODO: tying things like @formatEntity and saveChangesToDocument don't make sense
-      # associated with the handler, because the handler might return a different type
-      # of model, like in this case. Refactor to move that logic to the model instead.
 
   getMySessions: (req, res, slugOrID) ->
     return @sendForbiddenError(res) if not req.user
@@ -352,6 +266,14 @@ LevelHandler = class LevelHandler extends Handler
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless result?
         @sendSuccess(res, result)
+
+  fetchLevelByIDAndHandleErrors: (id, req, res, callback) ->
+    # TODO: this could probably be faster with projections, right?
+    @getDocumentForIdOrSlug id, (err, level) =>
+      return @sendDatabaseError(res, err) if err
+      return @sendNotFoundError(res) unless level?
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, level, 'get')
+      callback err, level
 
   getPlayCountsBySlugs: (req, res) ->
     # This is hella slow (4s on my box), so relying on some dumb caching for it.

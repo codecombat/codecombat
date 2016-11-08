@@ -50,7 +50,9 @@ module.exports =
     project = parse.getProjectFromReq(req)
     fetches = []
     for level in _.values(levels)
-      fetches.push Achievement.find({ related: level.original }).select(project)
+      # Sometimes, level.original is some sort of object, but not an object id. Add '' to get this to work.
+      # This strange behavior shows itself when making changes in the CampaignEditorView.
+      fetches.push Achievement.find({ related: level.original + '' }).select(project)
     achievementses = yield fetches
     achievements = _.flatten(achievementses)
     res.status(200).send((achievement.toObject({req: req}) for achievement in achievements))

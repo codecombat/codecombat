@@ -43,12 +43,15 @@ class LevelSessionHandler extends Handler
 
     levelSlug = req.query.slug or req.body.slug
     limit = parseInt req.query.limit or req.body.limit or 7
+    codeLanguage = req.query.codeLanguage or req.body.codeLanguage
 
     return @sendSuccess res, [] unless levelSlug?
 
     today = new Date()
     today.setUTCMinutes(today.getUTCMinutes() - 10)
-    queryParams = {$and: [{"changed": {"$lt": today}}, {"levelID": levelSlug}]}
+    queryParams = {changed: {$lt: today}, levelID: levelSlug}
+    if codeLanguage
+      queryParams.codeLanguage = codeLanguage
     query = @modelClass.find(queryParams).sort({changed: -1}).limit(limit)
     query.exec (err, documents) =>
       return @sendDatabaseError(res, err) if err

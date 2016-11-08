@@ -2,10 +2,21 @@ mw = require '../middleware'
 
 module.exports.setup = (app) ->
   
+  app.all('/api/*', mw.api.clientAuth)
+  app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
+  app.post('/api/users', mw.api.postUser)
+  app.get('/api/users/:handle', mw.api.getUser)
+  app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
+  app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
+  app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
+  app.put('/api/users/:handle/license', mw.api.putUserLicense)
+  
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
   app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
+  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
+  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectAfterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)
@@ -51,6 +62,13 @@ module.exports.setup = (app) ->
   app.post('/db/article/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Article, 'article'))
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
+  
+  Branch = require '../models/Branch'
+  app.all('/db/branches*', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']))
+  app.post('/db/branches', mw.branches.post)
+  app.get('/db/branches', mw.rest.get(Branch))
+  app.put('/db/branches/:handle', mw.branches.put)
+  app.delete('/db/branches/:handle', mw.rest.delete(Branch))
 
   Campaign = require '../models/Campaign'
   app.post('/db/campaign', mw.auth.checkHasPermission(['admin']), mw.rest.post(Campaign))
@@ -76,7 +94,12 @@ module.exports.setup = (app) ->
   app.post('/db/classroom/:anything/members', mw.auth.checkLoggedIn(), mw.classrooms.join)
   app.post('/db/classroom/:handle/update-courses', mw.classrooms.updateCourses)
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
+  app.get('/db/classroom/-/playtimes', mw.auth.checkHasPermission(['admin']), mw.classrooms.fetchPlaytimes)
   app.get('/db/classroom/-/users', mw.auth.checkHasPermission(['admin']), mw.classrooms.getUsers)
+  
+  APIClient = require ('../models/APIClient')
+  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin']), mw.rest.post(APIClient))
+  app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin']), mw.apiClients.newSecret)
 
   CodeLog = require ('../models/CodeLog')
   app.post('/db/codelogs', mw.codelogs.post)
@@ -99,6 +122,7 @@ module.exports.setup = (app) ->
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
+  app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
   
   EarnedAchievement = require '../models/EarnedAchievement'
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
@@ -109,6 +133,8 @@ module.exports.setup = (app) ->
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
   app.post('/db/level/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Level, 'level'))
   app.get('/db/level/:handle/patches', mw.patchable.patches(Level))
+  app.get('/db/level/:handle/versions', mw.versions.versions(Level))
+  app.get('/db/level/:handle/version/?(:version)?', mw.versions.getLatestVersion(Level))
   
   LevelComponent = require '../models/LevelComponent'
   app.post('/db/level.component/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelComponent, 'level_component'))
@@ -117,6 +143,8 @@ module.exports.setup = (app) ->
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
   app.get('/db/level.system/:handle/patches', mw.patchable.patches(LevelSystem))
+  
+  app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
   app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
@@ -159,4 +187,6 @@ module.exports.setup = (app) ->
   app.put('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.trialRequests.put)
   app.get('/db/trial.request/-/users', mw.auth.checkHasPermission(['admin']), mw.trialRequests.getUsers)
 
+  app.all('/headers', mw.headers)
+  
   app.get('/healthcheck', mw.healthcheck)  

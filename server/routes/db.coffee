@@ -72,7 +72,7 @@ module.exports.setup = (app) ->
 
 getSchema = (req, res, moduleName) ->
   try
-    name = moduleName.replace '.', '_'
+    name = moduleName.replace /[^a-z_-]/gi, '_'
     schema = require('../../app/schemas/models/' + name)
 
     res.send(JSON.stringify(schema, null, '\t'))

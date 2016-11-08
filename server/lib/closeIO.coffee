@@ -3,7 +3,7 @@ log = require 'winston'
 request = require 'request'
 
 apiKey = config.closeIO?.apiKey
-defaultSalesContactUser = 'user_Fh0uLUkRIKMk2to61ISq8PneyQonuD2i7hes6RhZgDX'
+defaultSalesContactUserID = 'user_Fh0uLUkRIKMk2to61ISq8PneyQonuD2i7hes6RhZgDX'
 
 module.exports =
   logError: (msg) ->
@@ -50,27 +50,57 @@ module.exports =
         return done('ERROR: multiple leads returned for ' + email + ' ' + leads.data.length)
       return done()
 
-  getSalesContactEmail: (email, done) ->
+  getSalesContactEmail: (userEmail, done) ->
+    # Sales contact email precedence: previous email to contact, previous email to lead, lead custom field, lead status default
     try
       # NOTE: does not work on + email addresses due to Close.io API bug
-      uri = "https://#{apiKey}:X@app.close.io/api/v1/lead/?query=email_address:#{email}"
+      uri = "https://#{apiKey}:X@app.close.io/api/v1/lead/?query=email_address:#{userEmail}"
       request.get uri, (error, response, body) =>
         return done(error) if error
         leads = JSON.parse(body)
-        return done("Unexpected leads format: " + body) unless leads.data?
-        return done("No existing Close.IO lead found for #{email}") unless leads.data?.length > 0
+        return done("Unexpected Close leads format: " + body) unless leads.data?
+        return done("No existing Close.IO lead found for #{userEmail}") unless leads.data?.length > 0
         lead = leads.data[0]
         uri = "https://#{apiKey}:X@app.close.io/api/v1/activity/?lead_id=#{lead.id}"
         request.get uri, (error, response, body) =>
           return done(error) if error
           activities = JSON.parse(body)
           return done("Unexpected activities format: " + body) unless activities.data?
-          for activity in activities.data when activity._type is 'Email'
-            if /@codecombat\.(?:com)|(?:nl)/ig.test(activity.sender) and not (activity.sender?.indexOf(config.mail.username) >= 0) and not (activity.sender?.indexOf('brian@codecombat.com') >= 0)
-              return done(null, activity.sender, activity.user_id, lead.id)
-          return done(null, config.mail.supportSchools, defaultSalesContactUser, lead.id)
+          activityForThisContact = null
+          activityForThisLead = null
+          for activity in activities.data when activity?._type is 'Email'
+            continue unless /@codecombat\.(?:com)|(?:nl)/ig.test(activity.sender)
+            continue if activity.sender.indexOf('brian@codecombat.com') >= 0
+            continue if activity.sender.indexOf(config.mail.username) >= 0
+            activityForThisLead ?= activity
+            for email in activity.to or [] when email?.toLowerCase() is userEmail?.toLowerCase()
+              activityForThisContact ?= activity
+
+          if activityForThisContact
+            return done(null, activityForThisContact.sender, activityForThisContact.user_id, lead.id)
+          else if activityForThisLead
+            return done(null, activityForThisLead.sender, activityForThisLead.user_id, lead.id)
+
+          if email = lead.custom?['auto_sales_email']
+            # Have to lookup Close user Id if email from lead custom field
+            uri = "https://#{apiKey}:X@app.close.io/api/v1/user/?_fields=id,email"
+            request.get uri, (error, response, body) =>
+              return done(error) if error
+              users = JSON.parse(body)
+              return done("Unexpected Close users format: " + body) unless users.data?
+              userID = null
+              for user in users.data or [] when user.email?.toLowerCase() is email.toLowerCase()
+                userID = user.id
+                break
+              if userID
+                return done(null, email, userID, lead.id)
+              else
+                @logError("No user found for leadID=#{lead.id} user=#{userEmail} auto_sales_email=#{lead.custom?['auto_sales_email']}")
+                return done(null, config.mail.supportSchools, defaultSalesContactUserID, lead.id)
+          else
+             return done(null, config.mail.supportSchools, defaultSalesContactUserID, lead.id)
     catch error
-      log.error("closeIO.getSalesContactEmail Error for #{email}: #{JSON.stringify(error)}")
+      log.error("closeIO.getSalesContactEmail Error for #{userEmail}: #{JSON.stringify(error)}")
       return done(error)
 
   sendMail: (fromAddress, subject, content, salesContactEmail, leadID, done) ->
@@ -106,7 +136,7 @@ module.exports =
       uri: "https://#{apiKey}:X@app.close.io/api/v1/lead/#{leadID}/"
       body: JSON.stringify(putData)
     request.put options, (error, response, body) =>
-      return done(error) if error 
+      return done(error) if error
       result = JSON.parse(body)
       if result.errors or result['field-errors']
         errorMessage = "Update Close.io lead PUT error for #{teacherEmail} #{leadID}"
@@ -123,7 +153,7 @@ module.exports =
         uri: "https://#{apiKey}:X@app.close.io/api/v1/task/"
         body: JSON.stringify(postData)
       request.post options, (error, response, body) =>
-        return done(error) if error 
+        return done(error) if error
         result = JSON.parse(body)
         if result.errors or result['field-errors']
           errorMessage = "Create Close.io call task POST error for #{teacherEmail} #{leadID}"
@@ -144,7 +174,7 @@ module.exports =
           uri: "https://#{apiKey}:X@app.close.io/api/v1/opportunity/"
           body: JSON.stringify(postData)
         request.post options, (error, response, body) =>
-          return done(error) if error 
+          return done(error) if error
           result = JSON.parse(body)
           if result.errors or result['field-errors']
             errorMessage = "Create Close.io opportunity POST error for #{teacherEmail} #{leadID}"

@@ -1,0 +1,18 @@
+#code-container
+  #acearea
+div
+  #start-time.number 0
+  #slider-container
+    input#slider(value='0', type='range', step='0.001')
+  #end-time.number n
+#control-container
+  #play-container
+    button#play-button Play
+    button#pause-button Pause
+    button#next-frame-button Next Second
+    button#next-frame-button Next Event
+  #speed-container
+    button.speed-button(data-speed='1').clicked 1x
+    button.speed-button(data-speed='2') 2x
+    button.speed-button(data-speed='4') 4x
+    button.speed-button(data-speed='8') 8x

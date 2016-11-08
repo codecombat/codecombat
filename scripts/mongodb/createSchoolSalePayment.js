@@ -4,14 +4,13 @@
 // Modify/review hard coded data below.
 // mongo <address>:<port>/<database> <script file> -u <username> -p <password>
 
-// NOTE: Must use a valid Coco user id or email for purchaserID or recipientEmail, could be admin user id if necessary
-
 // ** Start MODIFY/REVIEW values
 var recipientEmail = 'pam@fred.com';
 var purchaserID;  // Leave blank to use ID of user of valid Coco email address
 var created = '2016-05-01T00:00:00.000Z';
 var amount = 11111;  // Value in cents
-var description = 'TODO: set this string to relevant school sale info'
+var description = 'TODO: set this string to relevant school sale info';
+var createWithoutUser = false;  // Set this if you want to create a payment with an email and no user.
 // ** End MODIFY/REVIEW values
 
 var service = 'external';
@@ -22,7 +21,7 @@ var user = db.users.findOne({emailLower: recipientEmail});
 if (!purchaserID && user) {
     purchaserID = user._id + '';
 }
-if (!purchaserID) {
+if (!purchaserID && !createWithoutUser) {
   print(`No valid purchaserID found for ${recipientEmail} or ${purchaserID}`);
   quit();
 }
@@ -35,17 +34,20 @@ print("amount\t\t", amount);
 print("service\t\t", service);
 
 var criteria = {
-  purchaser: ObjectId(purchaserID),
   created: created,
   amount: NumberInt(amount),
   description: description,
   service: service
-}
+};
 if (user) {
-  criteria.recipient = user._id
+  criteria.purchaser = ObjectId(purchaserID),
+  criteria.recipient = user._id;
 }
 else if (purchaserID) {
-  criteria.recipient = ObjectId(purchaserID);
+  criteria.purchaser = criteria.recipient = ObjectId(purchaserID);
+}
+else if (createWithoutUser) {
+  criteria.purchaserEmailLower = recipientEmail;
 }
 else {
   print("ERROR: no valid user or purchaserID!");

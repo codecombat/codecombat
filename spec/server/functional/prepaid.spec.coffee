@@ -101,7 +101,7 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.postAsync({uri: url, json: { userID: @student.id } })
     expect(res.statusCode).toBe(403)
-    expect(res.body.message).toBe('This prepaid is exhausted')
+    expect(res.body.message).toBe('Too many redeemers')
     done()
 
   it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
@@ -579,7 +579,7 @@ describe '/db/prepaid', ->
           stripe.customers.retrieve joeData.stripe.customerID, (err, customer) =>
             expect(err).toBeNull()
   
-            findStripeSubscription customer.id, subscriptionID: joeData.stripe?.subscriptionID, (subscription) =>
+            findStripeSubscription customer.id, subscriptionID: joeData.stripe?.subscriptionID, (err, subscription) =>
               if subscription
                 stripeSubscriptionPeriodEndDate = new moment(subscription.current_period_end * 1000)
               else
@@ -590,9 +590,9 @@ describe '/db/prepaid', ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toEqual(200)
                 endDate = stripeSubscriptionPeriodEndDate.add(3, 'months').toISOString().substring(0, 10)
-                expect(result?.stripe?.free).toEqual(endDate)
+                expect(result?.stripe?.free.substring(0,10)).toEqual(endDate)
                 expect(result?.purchased?.gems).toEqual(14000)
-                findStripeSubscription customer.id, subscriptionID: joeData.stripe?.subscriptionID, (subscription) =>
+                findStripeSubscription customer.id, subscriptionID: joeData.stripe?.subscriptionID, (err, subscription) =>
                   expect(subscription).toBeNull()
                   nockDone()
                   done()
@@ -603,7 +603,7 @@ describe '/db/prepaid', ->
           expect(err).toBeNull()
           expect(res.statusCode).toEqual(200)
           endDate = new moment().add(3, 'months').toISOString().substring(0, 10)
-          expect(result?.stripe?.free).toEqual(endDate)
+          expect(result?.stripe?.free.substring(0,10)).toEqual(endDate)
           expect(result?.purchased?.gems).toEqual(10500)
           done()
 
@@ -629,7 +629,7 @@ describe '/db/prepaid', ->
           expect(err).toBeNull()
           expect(res.statusCode).toEqual(200)
           endDate = new moment().add(3, 'months').toISOString().substring(0, 10)
-          expect(result?.stripe?.free).toEqual(endDate)
+          expect(result?.stripe?.free.substring(0,10)).toEqual(endDate)
           expect(result?.purchased?.gems).toEqual(10500)
           done()
 
@@ -658,13 +658,15 @@ describe '/db/prepaid', ->
                 nockDone()
                 done()
 
-    it 'Test for injection', (done) ->
-      loginNewUser (user) ->
-        code = { $exists: true }
-        subscribeWithPrepaid code, (err, res, result) ->
-          expect(err).toBeNull()
-          expect(res.statusCode).not.toEqual(200)
-          done()
+    it 'thwarts query injections', utils.wrap (done) ->
+      user = yield utils.initUser()
+      yield utils.loginUser(user)
+      code = { $exists: true }
+      subscribeWithPrepaidAsync = Promise.promisify(subscribeWithPrepaid)
+      res = yield subscribeWithPrepaidAsync(code)
+      expect(res.statusCode).toBe(422)
+      expect(res.body.message).toBe('You must provide a valid prepaid code.')
+      done()
 
     it 'enforces the maximum number of redeemers in a race condition', utils.wrap (done) ->
       nockDone = yield nockUtils.setupNockAsync 'db-sub-redeem-test-3.json'

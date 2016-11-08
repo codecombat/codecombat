@@ -6,6 +6,7 @@ mongooseCache = require 'mongoose-cache'
 errors = require '../commons/errors'
 Promise = require 'bluebird'
 _ = require 'lodash'
+co = require 'co'
 
 module.exports =
   isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
@@ -120,7 +121,7 @@ module.exports =
 
 
   assignBody: (req, doc, options={}) ->
-    if _.isEmpty(req.body)
+    if not req.body
       throw new errors.UnprocessableEntity('No input')
       
     if not doc.schema.statics.editableProperties
@@ -160,11 +161,7 @@ module.exports =
       throw new errors.UnprocessableEntity('JSON-schema validation failed', { validationErrors: result.errors })
 
 
-  getDocFromHandle: Promise.promisify (req, Model, options, done) ->
-    if _.isFunction(options)
-      done = options
-      options = {}
-
+  getDocFromHandle: co.wrap (req, Model, options={}) ->
     dbq = Model.find()
     handle = req.params.handle
     if not handle
@@ -177,7 +174,11 @@ module.exports =
     if options.select
       dbq.select(options.select)
 
-    dbq.exec(done)
+    doc = yield dbq.exec()
+    if options.getLatest and Model.schema.uses_coco_versions and doc and not doc.get('version.isLatestMajor')
+      original = doc.get('original')
+      doc = yield Model.findOne({original}).sort({ 'version.major': -1, 'version.minor': -1 })
+    return doc
 
 
   hasAccessToDocument: (req, doc, method) ->

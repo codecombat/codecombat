@@ -259,6 +259,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
       level: original: @levelA.get('original').toString()
       permissions: simplePermissions
       state: complete: true
+      codeLanguage: 'javascript'
     yield @sessionA.save()
 
     levelJSON = { name: 'B', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
@@ -271,6 +272,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
       creator: @teacher.id
       level: original: @levelB.get('original').toString()
       permissions: simplePermissions
+      codeLanguage: 'javascript'
     yield @sessionB.save()
 
     levelJSON = { name: 'C', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
@@ -289,6 +291,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
       creator: @teacher.id
       level: original: @levelJSPrimer1.get('original').toString()
       permissions: simplePermissions
+      codeLanguage: 'python'
     yield @sessionJSPrimer1.save()
 
     campaignJSONA = { name: 'Campaign A', levels: {} }
@@ -364,6 +367,9 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
       [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
       expect(res.statusCode).toBe(201)
       @classroom = yield Classroom.findById(res.body._id)
+      
+      yield @sessionA.update({$set: {codeLanguage: 'python'}})
+      yield @sessionB.update({$set: {codeLanguage: 'python'}})
 
       url = getURL('/db/course_instance')
 
@@ -501,3 +507,46 @@ describe 'POST /db/course_instance/-/recent', ->
     [res, body] = yield request.postAsync(url, { json: true })
     expect(res.statusCode).toBe(403)
     done()
+
+describe 'GET /db/course_instance/:handle/my-course-level-sessions', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Campaign, Level])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @level = yield utils.makeLevel({type: 'course'})
+    @primerLevel = yield utils.makeLevel({primerLanguage: 'python', type: 'course'})
+    @campaign = yield utils.makeCampaign({}, {levels: [@level, @primerLevel]})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
+    @student = yield utils.initUser({role: 'student'})
+    @prepaid = yield utils.makePrepaid({creator: @teacher.id})
+    members = [@student]
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom })
+    @session = yield utils.makeLevelSession({codeLanguage: 'javascript'}, {@level, creator: @student})
+    @primerSession = yield utils.makeLevelSession({codeLanguage: 'python'}, {level:@primerLevel, creator: @student})
+    otherLevel = yield utils.makeLevel({type: 'course'})
+    
+    # sessions that should NOT be returned by this endpoint
+    otherSessions = yield [
+      utils.makeLevelSession({}, {@level, creator: @teacher})
+      utils.makeLevelSession({}, {@level, creator: admin})
+      utils.makeLevelSession({}, {level: otherLevel, creator: @student})
+      utils.makeLevelSession({codeLanguage: 'python'}, {@level, creator: @student})
+    ]
+    done()
+    
+  it 'returns all sessions for levels in that course for that classroom', utils.wrap (done) ->
+    url = utils.getURL("/db/course_instance/#{@courseInstance.id}/my-course-level-sessions")
+    yield utils.loginUser(@student)
+    [res, body] = yield request.getAsync({url, json: true})
+    expect(res.body.length).toBe(2)
+    ids = (session._id for session in res.body)
+    expect(_.contains(ids, @session.id)).toBe(true)
+    
+    # make sure this returns primer sessions, even though their codeLanguage doesn't match the classroom setting
+    expect(_.contains(ids, @primerSession.id)).toBe(true)
+    done()
+    

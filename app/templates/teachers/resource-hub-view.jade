@@ -4,93 +4,80 @@ block page_nav
   include ../courses/teacher-dashboard-nav.jade
 
 block content
-  if !me.isTeacher() && !me.isAdmin()
-    .access-restricted.container.text-center.m-y-3
-      h5(data-i18n='teacher.access_restricted')
-      p(data-i18n='teacher.teacher_account_required')
-      if me.isAnonymous()
-        .login-button.btn.btn-lg.btn-primary(data-i18n='login.log_in')
-        a.btn.btn-lg.btn-primary-alt(href="/teachers/signup" data-i18n='teacher.create_teacher_account')
-      else
-        a.btn.btn-lg.btn-primary(href="/teachers/update-account" data-i18n="teachers_quote.convert_account_title")
-        button#logout-button.btn.btn-lg.btn-primary-alt(data-i18n="login.log_out")
-    .container
-      .teacher-account-blurb.text-center.col-xs-6.col-xs-offset-3.m-y-3
-        h5(data-i18n='teacher.what_is_a_teacher_account')
-        p(data-i18n='teacher.teacher_account_explanation')
+  .container
 
-  else
-    .container
+    .content
+        h1(data-i18n="teacher.resource_hub")
 
-      .content
-          h1(data-i18n="teacher.resource_hub")
+        h4(data-i18n="teacher.getting_started")
+        ul
+          li
+            a(href="/teachers/resources/faq")
+              span(data-i18n="teacher.educator_faq")
+            p(data-i18n="teacher.educator_faq_desc")
+          li
+            a(href="/teachers/resources/getting-started")
+              span(data-i18n="teacher.teacher_getting_started")
+            p(data-i18n="teacher.teacher_getting_started_desc")
+          li
+            a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf" target="blank")
+              span(data-i18n="teacher.student_getting_started")
+              span.spl [PDF]
+            p(data-i18n="teacher.student_getting_started_desc")
+          li
+            a(href="http://files.codecombat.com/docs/resources/ProgressJournal.pdf" target="blank")
+              span(data-i18n="teacher.progress_journal")
+              span.spl [PDF]
+            p(data-i18n="teacher.progress_journal_desc")
 
+        h4(data-i18n="teacher.cs1")
+        ul
+          li
+            a(href="/teachers/resources/cs1" target="blank")
+              span(data-i18n="teacher.cs1_curriculum")
+            p(data-i18n="teacher.cs1_curriculum_desc")
+          li
+            a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf" target="blank")
+              span(data-i18n="teacher.cs1_syntax_python")
+              span.spl [PDF]
+            p(data-i18n="teacher.cs1_syntax_python_desc")
+          li
+            a(href="http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf" target="blank")
+              span(data-i18n="teacher.cs1_syntax_javascript")
+              span.spl [PDF]
+            p(data-i18n="teacher.cs1_syntax_javascript_desc")
+          li
+            a(href="http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf" target="blank")
+              span(data-i18n="teacher.engineering_cycle_worksheet")
+              span.spl [PDF]
+            a(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf" target="blank")
+              i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
+            p(data-i18n="teacher.engineering_cycle_worksheet_desc")
+          li
+            a(href="/teachers/resources/pair-programming")
+              span(data-i18n="teacher.cs1_pairprogramming")
+            p(data-i18n="teacher.cs1_pairprogramming_desc")
 
-          h4(data-i18n="teacher.getting_started")
-          ul
-            li
-              a(href="/teachers/resources/getting-started")
-                span(data-i18n="teacher.teacher_getting_started")
-              p(data-i18n="teacher.teacher_getting_started_desc")
-            li
-              a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf" target="blank")
-                span(data-i18n="teacher.student_getting_started")
-                span.spl [PDF]
-              p(data-i18n="teacher.student_getting_started_desc")
-            li
-              a(href="http://files.codecombat.com/docs/resources/ProgressJournal.pdf" target="blank")
-                span(data-i18n="teacher.progress_journal")
-                span.spl [PDF]
-              p(data-i18n="teacher.progress_journal_desc")
+        h4(data-i18n="teacher.cs2")
+        ul
+          li
+            a(href="/teachers/resources/cs2" target="blank")
+              span(data-i18n="teacher.cs2_curriculum")
+            p(data-i18n="teacher.cs2_curriculum_desc")
 
-
-          h4(data-i18n="teacher.cs1")
-          ul
-
-            li
-              a(href="/teachers/resources/cs1" target="blank")
-                span(data-i18n="teacher.cs1_curriculum")
-              p(data-i18n="teacher.cs1_curriculum_desc")
-            li
-              a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf" target="blank")
-                span(data-i18n="teacher.cs1_syntax_python")
-                span.spl [PDF]
-              p(data-i18n="teacher.cs1_syntax_python_desc")
-            li
-              a(href="http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf" target="blank")
-                span(data-i18n="teacher.cs1_syntax_javascript")
-                span.spl [PDF]
-              p(data-i18n="teacher.cs1_syntax_javascript_desc")
-            li
-              a(href="http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf" target="blank")
-                span(data-i18n="teacher.engineering_cycle_worksheet")
-                span.spl [PDF]
-              a(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf" target="blank")
-                i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
-              p(data-i18n="teacher.engineering_cycle_worksheet_desc")
-            li
-              a(href="/teachers/resources/pair-programming")
-                span(data-i18n="teacher.cs1_pairprogramming")
-              p(data-i18n="teacher.cs1_pairprogramming_desc")
-
-          if !view.paidAccess && !me.isAdmin()
-            .unlock
-              h4
-                i(data-i18n="teacher.unlock_resources")
-              p(data-i18n="teacher.unlock_resources_desc")
-              
-              p
-                button#request-demo-btn.btn-lg.btn.btn-forest(onClick="window.location.href = '/teachers/demo'" data-i18n="teacher.request_demo")
-              //- p
-              //-   a(href="/teachers/licenses", data-i18n="teacher.enrollments")
-          else
-            h4(data-i18n="teacher.cs2")
-            ul
-              li
-                a(href="/teachers/resources/cs2" target="blank")
-                  span(data-i18n="teacher.cs2_curriculum")
-                p(data-i18n="teacher.cs2_curriculum_desc")
-
-            .comingsoon
-                h4
-                  i(data-i18n="teacher.coming_soon")
+        h4(data-i18n="teacher.cs3")
+        ul
+          li
+            a(href="/teachers/resources/cs3" target="blank")
+              span(data-i18n="teacher.cs3_curriculum")
+            p(data-i18n="teacher.cs3_curriculum_desc")
+            
+        h4(data-i18n="teacher.cs4")
+        ul
+          li
+            a(href="/teachers/resources/cs4" target="blank")
+              span(data-i18n="teacher.cs4_curriculum")
+            p(data-i18n="teacher.cs4_curriculum_desc")
+        
+        h4.coming-soon
+          i(data-i18n="teacher.coming_soon")

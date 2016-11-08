@@ -13,6 +13,7 @@ module.exports = class ModalView extends CocoView
     'click a': 'toggleModal'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
+    'click [data-i18n]': 'onClickTranslatedElement'
 
   shortcuts:
     'esc': 'hide'

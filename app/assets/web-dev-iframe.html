@@ -21,9 +21,14 @@
       /* Import that font for demoing web-dev levels until @import ordering bug is fixed */
 
       * {
-      transition: 1s ease-in-out;
+      transition: all 1s ease-in-out, box-shadow 1ms;
       }
     </style>
+    <script>
+      $.fn.isTransparent = function(attr){
+        return this.css(attr) === 'rgba(0, 0, 0, 0)' || this.css(attr) === 'transparent' || this.css(attr) === '';
+      }
+    </script>
 
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
@@ -45,6 +50,9 @@
     </script>
   </head>
   <body>
-    <h1>Loading...</h1>
+    <h1>
+      <span class="loading-message">Loading...</span>
+      <span class="loading-error hidden">Error displaying your code.</span>
+    </h1>
   </body>
 </html>

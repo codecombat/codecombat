@@ -1,4 +1,4 @@
-###### Last updated: 09/01/2016
+###### Last updated: 09/14/2016
 
 ##### Lesson Plans
 # Computer Science 2
@@ -8,23 +8,23 @@
 - 6 x 45-60 minute coding sessions
 
 #### Overview
-Armed with basic knowledge of the structure and syntax of simple programs, students are ready to tackle more advanced topics. Conditionals, arithmetic, input handling, oh my! Computer Science 2 is where students move past the programming-toy stage into writing code similar to that they would use in the next major software or killer app!
+Armed with basic knowledge of the structure and syntax of simple programs, students are ready to tackle more advanced topics. Conditionals, functions, and events, oh my! Computer Science 2 is where students move past the programming-toy stage into writing code similar to that they would use in the next major software or killer app!
 
-In Computer Science 2, students will continue to learn the fundamentals, (basic syntax, arguments, strings, variables, and loops) as well as being introduced to a second level of concepts for them to master. If statements allow the student to perform different actions depending on the state of the battlefield. Arithmetic will help players become more comfortable with using math in programming. All things in CodeCombat are objects, (that's the ‘object’ part of object-oriented programming,) and these things have accessible attributes, such as a Munchkin's position or a coin's value; both  are important to begin visualizing the internal structure of the objects that make up their game world. Near the end of the Course there are some levels dedicated to input handling so the students can get introduced to the basic concept of events, and, well, it's just great fun, too!
+In Computer Science 2, students will continue to learn the fundamentals, (basic syntax, arguments, strings, variables, and loops) as well as being introduced to a second level of concepts for them to master. If statements allow the student to perform different actions depending on the state of the battlefield. Functions let students organize their code into reusable pieces of logic, and once students can write basic functions, they can start writing code to handle events--which is the basis for lots of coding patterns in game development, web development, and app development.
 
 
 _This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript._
 
 ### Scope and Sequence
 
-| Module                                                | Levels           |  Transfer Goals  |
-| ----------------------------------------------------- |:-----------------|:-----------------|
-| [5. Conditionals (if)](#conditionals-if-)             | 1-10             |Check expression before executing|
-| [6. Conditionals (else)](#conditionals-else-)         | 11-18            |Execute default code|
-| [7. Nested Conditionals](#nested-conditionals)        | 19-21            |Put one conditional inside another|
-| [8. Functions](#functions)                            | 22-30            |Save code for later|
-| [9. Events](#events)                                  | 31-32            |Listen for events and execute code|
-| [10. Code Challenge](#code-challenge)                 | 33               |Design and implement algorithms|
+| Module                                                      | First Level           | Transfer Goals                     |
+| ----------------------------------------------------------- | :-------------------- | :--------------------------------- |
+| [5. Conditionals (if)](#conditionals-if-)                   | Defense of Plainswood | Check expression before executing  |
+| [6. Conditionals (else)](#conditionals-else-)               | Back to Back          | Execute default code               |
+| [7. Nested Conditionals](#nested-conditionals)              | Forest Fire Dancing   | Put one conditional inside another |
+| [8. Functions](#functions)                                  | Village Rover         | Save code for later                |
+| [9. Events](#events)                                        | Backwoods Buddy       | Listen for events and execute code |
+| [10. Review - Multiplayer Arena](#review-multiplayer-arena) | Power Peak            | Design and implement algorithms    |
 
 ### Core Vocabulary
 **Object** - a character or thing that can perform actions. Objects are the building blocks of Python. They are things or characters that can perform actions. Your `hero` is an object. It can perform the moving actions. In `hero.moveRight()`, the object is `hero`. In Course 2, students will also be using the `pet` object to perform actions.
@@ -33,22 +33,18 @@ _This guide is written with Python-language classrooms in mind, but can easily b
 
 **Argument** - additional information for a function. Arguments are what we put inside the parentheses of a function. They tell the function more information about what it should do. In `hero.attack(enemy)`, `enemy` is the argument.
 
-**Property** - data about or belonging to an object. You get to it by specifying the object, then a dot, then the name of the property.
-
 **Loop** - code that repeats. A loop is a way of repeating code. One way of writing loops uses the keyword `while`, followed by an expression that can be evaluated as `True` or `False`.
 
 **Variable** - a holder for data. A variable holds your data for later. You create a variable by giving it a name, then saying what value it should hold.
 
 **Conditional** - the building block of modern programming, the conditional. It’s named as such because of its ability to check the conditions at the moment and perform different actions depending on the expression. The player is no longer able to assume there will be an enemy to attack, or if there is a gem to grab. Now, they need to check whether it exists, check if their abilities are ready, and check if an enemy is close enough to attack.
 
-**Arithmetic** - Course 2 begins to ease the player into using math while coding. Levels catering to basic arithmetic address how to use math as needed in order to perform different actions effectively.
-
-**Input Handling** - Input handling allows players to finally interact with their hero in real-time. After submitting their code, the player will be able to dynamically add flags to the battlefield to assist their hero in solving tough challenges. It helps teach simple event handling as well as being quite fun!
-
+**Event** - an object representing something that happened. Students can write code to respond to events: when this type of event happens, run this function. This is called event handling, and it's a very useful programming pattern and an alternative to an infinite while-loop.
 
 
 #### Extra activities for students who finish Course 2 early:
 - Help someone else
+- Refine a multiplayer arena strategy in Power Peak
 - Write a walkthrough
 - Write a review of the game
 - Write a guide to their favorite level
@@ -111,7 +107,7 @@ if student.hasQuestion():
     student.raise(hand)
 ```
 ``` python
-if student.ArrivalTime > class.startTime:
+if student.arrivalTime > class.startTime:
     teacher.giveDetention(student)
 ```
 ``` python
@@ -154,7 +150,7 @@ Circulate to assist. Draw students’ attention to the instructions and tips. St
 **If you could design a CodeCombat level, what would it look like?**
 >There would be lots of ogres and you have to attack them, but not the humans. And you would protect the village by building walls and fires.
 
-
+
 ##### Module 6
 ## Conditionals (Else)
 ### Summary
@@ -199,7 +195,7 @@ else:
 ```
 
 ``` python
-if student.ArrivalTime > class.startTime:
+if student.arrivalTime > class.startTime:
     teacher.giveDetention(student)
 else:
     teacher.markPresent(student)
@@ -321,6 +317,12 @@ Circulate to assist. Make sure students are reading all the comments in the star
 **What is a conditional? How many different ways can you write a conditional? Give an example.**
 >A conditional asks “if.” You can say if something is true, then do something. You can use else if you want to do something if that first thing was not true. Elif is for if you want to do three things, like if it’s raining wear a jacket elif it’s snowing wear a hat else wear a t-shirt. You can put ifs inside other ifs but you have to remember the right number of spaces.
 
+**What is elif? Is it an elf?**
+>Elif means else if. You use it to do three things instead of two with if.  It’s like an elf because it’s tricky.
+
+**Tell me about spaces.**
+>You use four spaces to make code go inside a while True, if, else, or elif. If an if is inside another if, you have to use eight spaces. It’s important to count the spaces and get them exactly right, or else the computer thinks you mean something different. You have to be really careful.
+
 
 ##### Module 8
 ## Functions
@@ -416,46 +418,83 @@ These levels are all about writing good code. The helper code that is given to y
 
 ### Written Reflection (5 mins)
 
-**Tell me about the cat.**
->I got a pet cat and it’s a cougar or a lioness. There was a function that said meow, and the cat waited until you talked to it and then it said meow. I think the cat should help protect you from enemies. You should be able to make it do other stuff by commands, like pouncing and biting.
-
 **Why are functions useful? When would they not be useful?**
 >They make it so you don’t have to write the same code over and over and they make your code easier to read. I don’t think it’s useful if you’re just going to put one line of code in your function. It would be easier just to write that one line every time.
 
 
 ##### Module 9
 ## Events
-
-Curriculum revision in progress, coming soon.
-
-##### Module 10
-## Review and Synthesis
 ### Summary
-Read the instructions! Remember the hints! Sit and think about how to solve the problem and how you’ll be able to tell it’s solved. All the habits of mind of a good programmer come to bear on these levels: defining the problem, breaking the problem down into parts, making a plan, syntax and debugging, sticking to it, and asking for help.
+An **event** is an object representing something that happened. Students can write code to respond to events: when this type of event happens, run this function. This is called event handling, and it's a very useful programming pattern and an alternative to an infinite while-loop.
 
 ### Transfer Goals
-- Use appropriate vocabulary
-- Persist in solving a problem
+- Listen for events and execute code
+- Use event handling to control a pet
+- Write concurrent code mixing direct execution and event handling
 
-### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP6** Attend to precision.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.  
-**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.  
+### Instructive Activity: President Teacher (12 mins)
+#### Explain (2 mins)
+Up until now, you have been writing code that executes once, from top to bottom: *first do this, then do this, then do that*. You also learned how to write while loops, where you can say, *then do this forever*. Using event handling, you now have a way to say, * **when** this happens, **then** do that*. It's kind of like an if-statement, except events can happen at any time, not just when you are checking for them.
 
-### Instructive Activity: Review & Synthesis (10 mins)
+#### Interact (8 mins)
+Explain to the class that you're waiting for an important call from the White House about whether you've been elected the next President. You're going to write a program to answer the phone when it rings using a while loop and an if statement, but with no events yet:
 
-#### Interact (10 mins)
-Review! As a class, try to remember all the new vocabulary words you learned so far. Decide on a definition and an example. Have students write these on the board and correct each other’s work. Consult the game where there are disputes.
+``` python
+while True:
+	if phone.isRinging:
+	    teacher.answer(phone)
+```
 
-**Object** - a character or thing can can do actions, hero  
-**Function** - an action that an object can do, hero.cleave()  
-**Argument** - additional information for a function, hero.attack(enemy)  
-**Loop** - code that repeats, while True:  
-**Variable** - a holder for a value, enemy = ...  
-**Conditional** - code that checks if, if hero.isReady():  
-**Property** - something about an object, flag.pos  
+But that's boring, since you're not doing anything else. So you're going to grade their homework while you wait:
 
+``` python
+while True:
+    paper = teacher.findNextPaper()
+	teacher.grade(paper)
+	if phone.isRinging:
+	    teacher.answer(phone)
+```
+
+
+Say that each paper takes five minutes to grade. Ask the class what will likely happen if you are running this program and you get a phone call from the White House. (You will probably be in the middle of grading the paper and will only check if the phone is ringing every five minutes, thus you'll probably miss the call and won't get to be President.)
+
+Now rewrite the program to use event handling, explaining how you **listen** for events so that when they happen, you can **handle** them by running a function:
+
+``` python
+def answerPhone():
+    teacher.answer(phone)
+
+phone.on("ring", answerPhone)
+```
+
+Explain that you pronounce this as, "On the `phone`'s `"ring"` event, run the `answerPhone` function." Now say you want to grade papers while you wait, you just add a while loop, and when the event happens, it will interrupt your grading so you can answer the phone and become President:
+
+``` python
+def answerPhone():
+    teacher.answer(phone)
+
+phone.on("ring", answerPhone)
+while True:
+    paper = teacher.findNextPaper()
+	teacher.grade(paper)
+```
+
+Explain that the `phone.on("ring", answerPhone)` makes your code start listening for the `"ring"` event, and note that you **don't use parentheses** on the function you are listening with: `answerPhone`, not `answerPhone()`. This is because you are telling the code the name of the function to run, but you are **not running it yet**. (The parentheses would run the function immediately.)
+
+Ask the class for more examples of events and functions that could respond to them, and write them on the board, something like this:
+
+``` python
+student.on("wake", goBackToSleep)
+dog.on("hear", obeyMaster)
+goal.on("touchBall", increaseScore)
+bigRedButton.on("press", initiateSelfDestruct)
+```
+
+
+#### Reflect (2 mins)
+**What do you use event handling for?** (To run a function when something happens.)  
+**What kind of data is an event name?** (The event name you listen to is a string.)  
+**Why don't you use function parentheses when you start listening to an event?** (The parentheses would make the function run now, and you want to run it later when the event happens.)  
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -472,21 +511,24 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students’ attention to the instructions and tips. Students will need to call on everything they have learned so far. It’s important they understand the instructions in the comments. If they are stuck, have them read the comment out loud and explain what it means in their own words. That way, you can identify which part is giving them trouble.
+Circulate to assist. Draw students’ attention to the instructions and tips. Make sure students are writing their functions above where they use them to start listening to events. It can be trick to keep track of what code is executing when events happen (your default program or the event handler function), so have students look at the white code execution highlights to see what line of code is being run at each time.
+
 
 ### Written Reflection (5 mins)
+Select appropriate prompt(s) for the students respond to, referring to their notes.
 
-**What is elif? Is it an elf?**
->Elif means else if. You use it to do three things instead of two with if.  It’s like an elf because it’s tricky.
+**Tell me about the cat.**
+>I got a pet cat and it’s a cougar or a lioness. There was a function that said meow, and the cat waited until you talked to it and then it said meow. I think the cat should help protect you from enemies. You should be able to make it do other stuff by commands, like pouncing and biting.
 
-**Tell me about spaces.**
->You use four spaces to make code go inside a while True, if, else, or elif. If an if is inside another if, you have to use eight spaces. It’s important to count the spaces and get them exactly right, or else the computer thinks you mean something different. You have to be really careful.
+**Events are really useful when developing games. Guess the names of at least three kinds of events you think might happen in code for games you like to play.**p
+>In Minecraft there might be an "explosion" event when a creeper blows up. In chess there might be a "checkmate" event. In Bejeweled there could be a "combo" event.
 
 
-##### Module 11
-## Code Challenge
+##### Module 10
+## Review - Multiplayer Arena
 ### Summary
-This is a boss level! It will take all your ingenuity and collaboration to solve it. Have students work in pairs and share their tips with other teams. Make observations about the level on scratch paper, and then use them to make a plan. The goal of the level is to defeat the main boss, but you also have to collect coins, hire mercenaries, and heal your champion. The player area is in the bottom left, and the tents may be obscured by the status bar. Press SUBMIT to see the full screen.
+
+The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Power Peak arena and attempt multiple solutions until time is called.
 
 ### Transfer Goals
 - Design an algorithm to solve a problem.
@@ -501,7 +543,7 @@ This is a boss level! It will take all your ingenuity and collaboration to solve
 **CCSS.Math.Practice.MP6** Attend to precision.  
 
 ### Instructive Activity: Engineering Cycle (10 mins)
-#### Explain (5 mins)
+#### Explain (3 mins)
 Engineering is all about solving problems, but the first rule of engineering is that no one gets it right the first time. That’s where the Engineering Cycle comes in:
 
 First, we DESIGN a solution to our problem. This includes figuring out what the problem is, and breaking it down into smaller parts. Then we IMPLEMENT this design, which putting our ideas into action with code. Third, we TEST our implementation. Does it work? Does it solve the problem? If our test fails, we have to decide if it was because of the DESIGN or the IMPLEMENTATION.
@@ -519,19 +561,37 @@ As a class, make a list of all the things your hero can do (functions). Use appr
 `attack(something)`
 
 ### Coding Time (30-45 mins)
-Break into small campaign groups to solve the last level.
 
-**DESIGN**: In teams, make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.  
+Have students navigate to the last level, **Power Peak**, and complete it at their own pace.
+
+#### Rankings
+
+Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your CodeCombat class (not strangers).
+
+Note that the class rankings are plainly visible. If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead:
+
+- Write a walkthrough or guide to your favorite level
+- Write a review of the game
+- Design a new level
+
+#### Dividing the Class
+
+Students must choose a team to join: Red or Blue. It is important to divide the class as most students will choose red. It doesn’t matter if the sides are even, but it is important that there ARE players for both sides.
+
+- Divide the class into two randomly by drawing from a deck of cards.
+- Students who turn in their work early join the blue team, and latecomers play red.
+
+#### Refining the Code
+
+Code for Power Peak can be submitted more than once. Encourage your students to submit code, observe how it fares against their classmates, and then make improvements and resubmit. In addition, students who have finished the code for one team can go on to create code for the other team.
+
+Remind students to use the Engineering Cycle when working on their algorithms:
+
+**DESIGN**: Make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.  
 **IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!  
 **TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!  
 
 ### Written Reflection (5 mins)
 
-**Write a chronicle of your epic battle from the point of view of either the hero or the boss.**
->I am Tharin Thunderfist, the great hero of the battle of Cross Bones. Together with my guardian, Okar Stompfoot, I attacked the ogres and freed the valley from their tyranny. I gathered coins to pay archers and fighters to join the battle. Then I cured Okar when he was injured.
-
-**How did you break down the problem? What challenges did you come up against? How did you solve them? How did you work together?**
->First we saw that the code already did collecting coins. So we made it go to the tents when we could afford to hire fighters. Then we had to get the potion, but we messed up the code. The teacher helped us fix it. But we still didn’t win, so we asked another team for help and they showed us how to defeat the enemy. We worked well together. It was fun and hard.
-
-### Writing Checkpoint: What is code?
+**Writing Checkpoint: What is code?**
 >Code is when you type instructions to make the computer do things. Sometimes it gives you hints and completes the words for you. You have to spell everything right and indent the right number of spaces. Sometimes the puzzles are easy and sometimes they are hard. You have to make a plan for how to solve it, and then write the code exactly to make it work. The language we used is called Python. It has while True: to make your code repeat and if, else, and elif to make different things happen at different times.

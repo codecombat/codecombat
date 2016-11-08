@@ -46,13 +46,33 @@ LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
     doc.set('nextLevel', undefined)
     
+LevelSchema.post 'save', (doc) ->
+  return unless doc.get('version').isLatestMajor
+  Campaign = require('./Campaign')
+  # Leave setting campaign and campaignIndex to CampaignEditorView. In particular, for non-course levels
+  # we want campaignIndex on the campaign level object, but not on the level document.
+  denormalizedLevelProperties = _.without(Campaign.jsonSchema.denormalizedLevelProperties, 'campaignIndex', 'campaign')
+  update = { $set: {}, $unset: {} }
+  for property in denormalizedLevelProperties
+    path = "levels.#{doc.get('original')}.#{property}"
+    value = doc.get(property)
+    if value?
+      update.$set[path] = value
+    else
+      update.$unset[path] = ''
+  delete update.$unset if _.isEmpty(update.$unset)
+  delete update.$set if _.isEmpty(update.$set)
+  return if _.isEmpty(update)
+  query = {}
+  query["levels.#{doc.get('original')}"] = {$exists: true}
+  Campaign.update(query, update, {multi:true}).exec()
+
 LevelSchema.statics.postEditableProperties = ['name']
 LevelSchema.statics.jsonSchema = jsonSchema
 
 LevelSchema.statics.editableProperties = [
   'description'
   'documentation'
-  'background'
   'nextLevel'
   'scripts'
   'thangs'
@@ -60,12 +80,10 @@ LevelSchema.statics.editableProperties = [
   'victory'
   'name'
   'i18n'
-  'icon'
   'goals'
   'type'
-  'showsGuide'
+  'kind'
   'banner'
-  'employerDescription'
   'terrain'
   'i18nCoverage'
   'loadingTip'
@@ -91,6 +109,9 @@ LevelSchema.statics.editableProperties = [
   'suspectCode'
   'requiredGear'
   'restrictedGear'
+  'requiredProperties'
+  'restrictedProperties'
+  'recommendedHealth'
   'allowedHeroes'
   'tasks'
   'helpVideos'
@@ -101,7 +122,7 @@ LevelSchema.statics.editableProperties = [
   'scoreTypes'
   'concepts'
   'picoCTFProblem'
-  'practiceThresholdMinutes',
+  'practiceThresholdMinutes'
   'primerLanguage'
   'studentPlayInstructions'
 ]

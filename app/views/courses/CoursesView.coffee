@@ -63,7 +63,6 @@ module.exports = class CoursesView extends RootView
     @supermodel.loadModel(@hero, 'hero')
     @listenTo @hero, 'all', ->
       @render()
-    window.tracker?.trackEvent 'Students Loaded', category: 'Students', ['Mixpanel']
 
   afterInsert: ->
     super()
@@ -71,6 +70,9 @@ module.exports = class CoursesView extends RootView
       @onClassLoadError()
 
   onCourseInstancesLoaded: ->
+    # HoC 2015 used special single player course instances
+    @courseInstances.remove(@courseInstances.where({hourOfCode: true}))
+
     for courseInstance in @courseInstances.models
       continue if not courseInstance.get('classroomID')
       courseID = courseInstance.get('courseID')
@@ -79,11 +81,7 @@ module.exports = class CoursesView extends RootView
         model: LevelSession
       })
       courseInstance.sessions.comparator = 'changed'
-      @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete level.original playtime changed' }})
-
-    hocCourseInstance = @courseInstances.findWhere({hourOfCode: true})
-    if hocCourseInstance
-      @courseInstances.remove(hocCourseInstance)
+      @supermodel.loadCollection(courseInstance.sessions, { data: { project: 'state.complete,level.original,playtime,changed' }})
 
   onLoaded: ->
     super()

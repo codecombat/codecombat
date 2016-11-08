@@ -88,13 +88,19 @@ block modal-body-content
     table#classroom-table.table
       tr
         th Name
-        th # Levels
+        th Lang
+        th # Levels / Courses
         th
       for classroom in view.classrooms.models
         tr
-          td= classroom.get('name')
-          td= classroom.getLevels().size()
           td
-            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update
+            = classroom.get('name')
+            if classroom.get('archived')
+              i.spl.text-muted (archived)
+          td= classroom.capitalLanguage
+          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+          td
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
 
 block modal-footer

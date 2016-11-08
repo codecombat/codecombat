@@ -64,6 +64,7 @@ beforeEach(function(done) {
     return done();
   }
   console.log('/spec/helpers/helper.js - Initializing spec environment...');
+  var User = require('../../server/models/User');
 
   var async = require('async');
   async.series([
@@ -74,7 +75,6 @@ beforeEach(function(done) {
     },
     function(cb) {
       // 5. Check actual database
-      var User = require('../../server/models/User');
       User.find({}).count(function(err, count) {
         // For this to serve as a line of defense against testing with the
         // production DB, tests must be run with 
@@ -97,7 +97,13 @@ beforeEach(function(done) {
       });
     },
     function(cb) {
-      // Initialize products
+      // Make sure User schemas are created
+      // TODO: Ensure all models are fully indexed before starting tests
+      User.on('index', cb)
+    },
+    function(cb) {
+      // Initially added to init products... but don't need that anymore. Shouldn't need this, either,
+      // but all the tests break if I remove it. TODO: Remove this without breaking tests.
       var utils = require('../server/utils');
       request = require('../server/request');
       utils.initUser()
@@ -107,15 +113,6 @@ beforeEach(function(done) {
         .then(function () {
           cb()
         });
-    },    
-    function(cb) {
-      // Initialize products
-      request = require('../server/request');
-      request.get(getURL('/db/products'), function(err, res, body) {
-        expect(err).toBe(null);
-        expect(res.statusCode).toBe(200);
-        cb(err);
-      });
     }
   ],
   function(err) {

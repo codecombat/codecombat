@@ -7,8 +7,12 @@ Campaign = require 'models/Campaign'
 CocoCollection = require 'collections/CocoCollection'
 Campaigns = require 'collections/Campaigns'
 Levels = require 'collections/Levels'
+tagger = require 'lib/SolutionConceptTagger'
+conceptList =require 'schemas/concepts'
+
 unless typeof esper is 'undefined'
-  parser = new esper().realm.parser
+  realm = new esper().realm
+  parser = realm.parser.bind(realm)
 
 module.exports = class LevelConceptMap extends RootView
   template: template
@@ -113,6 +117,7 @@ module.exports = class LevelConceptMap extends RootView
     return [] if not src?.source?
     try
       ast = parser(src.source)
+      moreTags = tagger(src)
     catch e
       return ['parse error: ' + e.message]
 
@@ -170,5 +175,7 @@ module.exports = class LevelConceptMap extends RootView
 
 
     process ast
-    Object.keys(tags)
+    
 
+    Object.keys(tags).concat(moreTags)
+    _.map moreTags, (t) -> _.find(conceptList, (e) => e.concept is t)?.name

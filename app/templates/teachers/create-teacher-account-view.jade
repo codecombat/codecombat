@@ -2,7 +2,7 @@ extends /templates/base-flat
 
 block content
   .container
-    form
+    form#signup-form
       .row.text-center
         .col-md-offset-2.col-md-8
           h3.m-t-3(data-i18n="teachers_quote.create_account")
@@ -69,7 +69,6 @@ block content
           .form-group
             span.control-label
               span(data-i18n="teachers_quote.phone_number")
-              span.spl.text-muted(data-i18n="signup.optional")
             input.form-control(name="phoneNumber", data-i18n="[placeholder]teachers_quote.phone_number_help")
 
         .col-md-4.col-sm-6

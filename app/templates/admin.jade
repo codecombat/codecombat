@@ -20,9 +20,23 @@ block content
       label.control-label.col-sm-2(for="user-search") User Search
       .col-sm-4
         input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
+        a.search-help-toggle(href="#") (search help)
+        .search-help
+          strong Note: 
+          | Search information is updated every 10-15min.
+          h4 Search Syntax
+          ul
+            li By default parts of the search are matched exactly.
+            li <code>*</code> can be used as a wildcard character (ex. '<code>rob*@gmail.com</code>')
+            li Avoid special charaters and puncuation.  Consider replacing them with <code>*</code> in searches.
+            li
+              a(href='http://sphinxsearch.com/docs/latest/extended-syntax.html') Complete Syntax Guide
       .col-sm-1
         button.btn.btn-primary.btn-large#user-search-button  Search
   #user-search-result
+
+
+
 
 
   h3 Admin Views
@@ -34,12 +48,12 @@ block content
       a(href="/admin/trial-requests") Trial Requests
     li
       a(href="/admin/user-code-problems") User Code Problems List
-    li
-      a(href="/admin/users") Users
 
   if me.isAdmin()
     h4 Analytics
     ul
+      li
+        a(href="/admin/classroom-content") Classroom Content
       li
         a(href="/admin/classroom-levels") Classroom Levels
       li

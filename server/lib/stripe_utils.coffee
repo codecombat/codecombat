@@ -1,6 +1,6 @@
 log = require 'winston'
 Payment = require '../models/Payment'
-PaymentHandler = require '../handlers/payment_handler'
+Promise = require 'bluebird'
 
 module.exports =
   logError: (user, msg) ->
@@ -22,6 +22,7 @@ module.exports =
       done(err, charge)
 
   createPayment: (user, stripeCharge, extraProps, done) ->
+    PaymentHandler = require '../handlers/payment_handler' # require JIT so server models can initialize properly first
     payment = new Payment
       purchaser: user._id
       recipient: user._id
@@ -80,3 +81,16 @@ module.exports =
             @logError(user, 'Stripe customer id save db error. '+err)
             return done(err)
           done(err, customer)
+
+  cancelSubscriptionImmediately: (user, subscription, done) ->
+    return done() unless user and subscription
+    stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) ->
+      return done(err) if err
+      stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+      delete stripeInfo.planID
+      delete stripeInfo.prepaidCode
+      delete stripeInfo.subscriptionID
+      user.set('stripe', stripeInfo)
+      user.save(done)
+
+module.exports.cancelSubscriptionImmediatelyAsync = Promise.promisify(module.exports.cancelSubscriptionImmediately)

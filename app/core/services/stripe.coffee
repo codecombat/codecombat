@@ -1,6 +1,11 @@
 publishableKey = if application.isProduction() then 'pk_live_27jQZozjDGN1HSUTnSuM578g' else 'pk_test_zG5UwVu6Ww8YhtE9ZYh0JO6a'
 
-if StripeCheckout?
+if me.isAnonymous()
+  module.exports = {}
+else if not StripeCheckout?
+  module.exports = {}
+  console.error "Failure loading StripeCheckout API, returning empty object."
+else
   module.exports = handler = StripeCheckout.configure({
     key: publishableKey
     name: 'CodeCombat'
@@ -11,7 +16,4 @@ if StripeCheckout?
       Backbone.Mediator.publish 'stripe:received-token', { token: token }
     locale: 'auto'
   })
-else
-  module.exports = {}
-  console.error "Failure loading StripeCheckout API, returning empty object."
-_.extend(handler, Backbone.Events)
+  _.extend(handler, Backbone.Events)

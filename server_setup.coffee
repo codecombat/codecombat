@@ -5,7 +5,7 @@ useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 log = require 'winston'
 compressible = require 'compressible'
-geoip = require 'geoip-lite'
+geoip = require '@basicer/geoip-lite'
 
 database = require './server/commons/database'
 perfmon = require './server/commons/perfmon'
@@ -87,7 +87,7 @@ setupErrorMiddleware = (app) ->
         return
 
       res.status(err.status ? 500).send(error: "Something went wrong!")
-      message = "Express error: #{req.method} #{req.path}: #{err.message}"
+      message = "Express error: #{req.method} #{req.path}: #{err.message} \n #{err.stack}"
       log.error "#{message}, stack: #{err.stack}"
       if global.testing
         console.log "#{message}, stack: #{err.stack}"
@@ -106,7 +106,7 @@ setupExpressMiddleware = (app) ->
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
   app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
-  
+
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
   app.use(express.favicon())
@@ -128,6 +128,7 @@ setupPassportMiddleware = (app) ->
   auth.setup()
 
 setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", host="cn.codecombat.com") ->
+  hosts = host.split /;/g
   shouldRedirectToCountryServer = (req) ->
     speaksLanguage = _.any req.acceptedLanguages, (language) -> language.indexOf languageCode isnt -1
 
@@ -135,7 +136,9 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
     reqHost = req.hostname
     reqHost ?= req.host
 
-    unless reqHost.toLowerCase() is host
+    return unless reqHost.indexOf(config.unsafeContentHostname) is -1
+
+    if hosts.indexOf(reqHost.toLowerCase()) is -1
       ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
       ip = ip?.split(/,? /)[0] if ip? # If there are two IP addresses, say because of CloudFlare, we just take the first.
       geo = geoip.lookup(ip)
@@ -149,7 +152,7 @@ setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", langua
 
   app.use (req, res, next) ->
     if shouldRedirectToCountryServer req
-      res.writeHead 302, "Location": 'http://' + host + req.url
+      res.writeHead 302, "Location": 'http://' + hosts[0] + req.url
       res.end()
     else
       next()
@@ -186,23 +189,57 @@ setupRedirectMiddleware = (app) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
 
+setupSecureMiddleware = (app) ->
+  # Cannot use express request `secure` property in production, due to
+  # cluster setup.
+  isSecure = ->
+    return @secure or @headers['x-forwarded-proto'] is 'https'
+
+  app.use (req, res, next) ->
+    req.isSecure = isSecure
+    next()
+
 setupPerfMonMiddleware = (app) ->
   app.use perfmon.middleware
 
+setupAPIDocs = (app) ->
+  # TODO: Move this into routes, so they're consolidated
+  YAML = require 'yamljs'
+  swaggerDoc = YAML.load('./server/swagger.yaml')
+  swaggerUi = require 'swagger-ui-express'
+  app.use('/', swaggerUi.serve)
+  app.use('/api-docs', swaggerUi.setup(swaggerDoc))
+
 exports.setupMiddleware = (app) ->
+  setupSecureMiddleware app
   setupPerfMonMiddleware app
+  setupDomainFilterMiddleware app
   setupCountryRedirectMiddleware app, "china", "CN", "zh", config.chinaDomain
   setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", config.brazilDomain
-  setupDomainFilterMiddleware app
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
+  setupAPIDocs app # should happen after serving static files, so we serve the right favicon
   setupPassportMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
+  setupAjaxCaching app
   setupErrorMiddleware app
   setupJavascript404s app
 
 ###Routing function implementations###
+
+setupAjaxCaching = (app) ->
+  # IE/Edge are more aggresive about caching than other browsers, so we'll override their caching here.
+  # Assumes our CDN will override these with it's own caching rules.
+  app.get '/db/*', (req, res, next) ->
+    return next() unless req.xhr
+    # http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery
+    userAgent = req.header('User-Agent') or ""
+    if userAgent.indexOf('MSIE ') > 0 or !!userAgent.match(/Trident.*rv\:11\.|Edge\/\d+/)
+      res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+      res.header 'Pragma', 'no-cache'
+      res.header 'Expires', 0
+    next()
 
 setupJavascript404s = (app) ->
   app.get '/javascripts/*', (req, res) ->
@@ -223,9 +260,12 @@ setupFallbackRouteToIndex = (app) ->
           configData =  _.omit mandate?.toObject() or {}, '_id'
         configData.picoCTF = config.picoCTF
         configData.production = config.isProduction
+        configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
         domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
         domainPrefix = req.host.match(domainRegex)?[1] or ''
         configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
+        data = data.replace '"environmentTag"', if config.isProduction then '"production"' else '"development"'
+        data = data.replace '"shaTag"', if config.buildInfo?.sha then "\"#{config.buildInfo.sha}\"" else '"unknown"'
         data = data.replace '"serverConfigTag"', JSON.stringify configData
         data = data.replace('"userObjectTag"', user)
         data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))

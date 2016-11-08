@@ -1,0 +1,6 @@
+if view.error
+  div.alert.alert-danger
+    pre #{view.error}
+div
+  for tag in (view.tags || [])
+    span.label.label-primary(style="margin: 5px; float: left; line-height: 1.2em") #{tag}

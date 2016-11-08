@@ -23,6 +23,7 @@ require("locale/pt-PT")
 require("locale/pl")
 require("locale/it")
 require("locale/tr")
+require("locale/nl")
 require("locale/nl-BE")
 require("locale/nl-NL")
 require("locale/fa")
@@ -110,6 +111,7 @@ module.exports = class DiplomatView extends ContributeClassView
     pl: ['Anon', 'Kacper Ciepielewski', 'TigroTigro', 'kvasnyk']             # język polski, Polish
     it: ['AlessioPaternoster', 'flauta', 'Atomk']              # italiano, Italian
     tr: ['Nazım Gediz Aydındoğmuş', 'cobaimelan', 'gediz', 'ilisyus', 'wakeup']             # Türkçe, Turkish
+    nl: []        # Nederlands, Dutch
     'nl-BE': ['Glen De Cauwsemaecker', 'Ruben Vereecken']        # Nederlands (België), Dutch (Belgium)
     'nl-NL': ['Guido Zuidhof', "Jasper D\'haene"]        # Nederlands (Nederland), Dutch (Netherlands)
     fa: ['Reza Habibi (Rehb)']             # فارسی, Persian
@@ -119,7 +121,7 @@ module.exports = class DiplomatView extends ContributeClassView
     el: ['Stergios', 'micman', 'zsdregas']             # ελληνικά, Greek
     ro: []             # limba română, Romanian
     vi: ['An Nguyen Hoang Thien']             # Tiếng Việt, Vietnamese
-    hu: ['Anon', 'atlantisguru', 'bbeasmile', 'csuvsaregal', 'divaDseidnA', 'ferpeter', 'kinez']             # magyar, Hungarian
+    hu: ['Anon', 'atlantisguru', 'bbeasmile', 'csuvsaregal', 'divaDseidnA', 'ferpeter', 'kinez', 'adamcsillag', 'LogMeIn', 'espell.com']             # magyar, Hungarian
     th: ['Kamolchanok Jittrepit']             # ไทย, Thai
     da: ['Anon', 'Einar Rasmussen', 'Rahazan', 'Randi Hillerøe', 'Silwing', 'marc-portier', 'sorsjen', 'Zleep-Dogg']             # dansk, Danish
     ko: ['Melondonut']             # 한국어, Korean

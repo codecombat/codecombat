@@ -15,7 +15,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       if utils.getQueryVariable 'hour_of_code'
-        return @navigate "/play", {trigger: true, replace: true}
+        return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
@@ -30,6 +30,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'admin': go('admin/MainAdminView')
     'admin/clas': go('admin/CLAsView')
+    'admin/classroom-content': go('admin/AdminClassroomContentView')
     'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
     'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
@@ -38,7 +39,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/school-counts': go('admin/SchoolCountsView')
     'admin/school-licenses': go('admin/SchoolLicensesView')
-    'admin/users': go('admin/UsersView')
     'admin/base': go('admin/BaseView')
     'admin/demo-requests': go('admin/DemoRequestsView')
     'admin/trial-requests': go('admin/TrialRequestsView')
@@ -53,6 +53,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/thang-tasks': go('artisans/ThangTasksView')
     'artisans/level-concepts': go('artisans/LevelConceptMap')
     'artisans/level-guides': go('artisans/LevelGuidesView')
+    'artisans/student-solutions': go('artisans/StudentSolutionsView')
+    'artisans/tag-test': go('artisans/TagTestView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
@@ -111,9 +113,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'github/*path': 'routeToServer'
 
-    'hoc': ->
-      # Matching /?hour_of_code=true behavior
-      @navigate "/play", {trigger: true, replace: true}
+    'hoc': -> @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
     'home': go('HomeView')
 
     'i18n': go('i18n/I18NHomeView')
@@ -126,10 +126,11 @@ module.exports = class CocoRouter extends Backbone.Router
     'i18n/course/:handle': go('i18n/I18NEditCourseView')
 
     'identify': go('user/IdentifyView')
+    'il-signup': go('account/IsraelSignupView')
 
     'legal': go('LegalView')
 
-    'play(/)': go('play/CampaignView') # extra slash is to get Facebook app to work
+    'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
@@ -151,9 +152,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
-
     'teachers': redirect('/teachers/classes')
     'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
+    'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
     'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
     'teachers/courses': go('courses/TeacherCoursesView', { redirectStudents: true })
     'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })

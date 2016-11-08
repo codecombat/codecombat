@@ -1,6 +1,5 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/account/account-settings-view'
-{me} = require 'core/auth'
 forms = require 'core/forms'
 User = require 'models/User'
 ConfirmModal = require 'views/editor/modal/ConfirmModal'
@@ -20,15 +19,15 @@ module.exports = class AccountSettingsView extends CocoView
     'click #reset-progress-btn': 'onClickResetProgressButton'
     'click .resend-verification-email': 'onClickResendVerificationEmail'
 
-  constructor: (options) ->
-    super options
+  initialize: ->
     require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     @uploadFilePath = "db/user/#{me.id}"
+    @user = new User({_id: me.id})
+    @supermodel.trackRequest(@user.fetch()) # use separate, fresh User object instead of `me`
 
   getEmailSubsDict: ->
     subs = {}
-    return subs unless me
-    subs[sub] = 1 for sub in me.getEnabledEmails()
+    subs[sub] = 1 for sub in @user.getEnabledEmails()
     return subs
 
   #- Form input callbacks
@@ -44,7 +43,7 @@ module.exports = class AccountSettingsView extends CocoView
 
   onChangeNameInput: ->
     name = $('#name-input', @$el).val()
-    return if name is me.get 'name'
+    return if name is @user.get 'name'
     User.getUnconflictedName name, (newName) =>
       forms.clearFormAlerts(@$el)
       if name is newName
@@ -55,7 +54,7 @@ module.exports = class AccountSettingsView extends CocoView
 
   onPictureChanged: (e) =>
     @trigger 'inputChanged', e
-    @$el.find('.gravatar-fallback').toggle not me.get 'photoURL'
+    @$el.find('.gravatar-fallback').toggle not @user.get 'photoURL'
 
   onClickDeleteAccountButton: (e) ->
     @validateCredentialsForDestruction @$el.find('#delete-account-form'), =>
@@ -65,7 +64,7 @@ module.exports = class AccountSettingsView extends CocoView
         decline: 'Cancel'
         confirm: 'DELETE Your Account'
       confirmModal = new ConfirmModal renderData
-      confirmModal.on 'confirm', @deleteAccount
+      confirmModal.on 'confirm', @deleteAccount, @
       @openModalView confirmModal
 
   onClickResetProgressButton: ->
@@ -76,11 +75,11 @@ module.exports = class AccountSettingsView extends CocoView
         decline: 'Cancel'
         confirm: 'Erase ALL Progress'
       confirmModal = new ConfirmModal renderData
-      confirmModal.on 'confirm', @resetProgress
+      confirmModal.on 'confirm', @resetProgress, @
       @openModalView confirmModal
 
   onClickResendVerificationEmail: (e) ->
-    $.post me.getRequestVerificationEmailURL(), ->
+    $.post @user.getRequestVerificationEmailURL(), ->
       link = $(e.currentTarget)
       link.find('.resend-text').addClass('hide')
       link.find('.sent-text').removeClass('hide')
@@ -89,7 +88,7 @@ module.exports = class AccountSettingsView extends CocoView
     forms.clearFormAlerts($form)
     enteredEmailOrUsername = $form.find('input[name="emailOrUsername"]').val()
     enteredPassword = $form.find('input[name="password"]').val()
-    if enteredEmailOrUsername and enteredEmailOrUsername in [me.get('email'), me.get('name')]
+    if enteredEmailOrUsername and enteredEmailOrUsername in [@user.get('email'), @user.get('name')]
       isPasswordCorrect = false
       toBeDelayed = true
       $.ajax
@@ -146,19 +145,19 @@ module.exports = class AccountSettingsView extends CocoView
           text: "Deleting account failed with error code #{jqXHR.status}"
           type: 'error'
           layout: 'topCenter'
-      url: "/db/user/#{me.id}"
+      url: "/db/user/#{@user.id}"
 
   resetProgress: ->
     $.ajax
       type: 'POST'
-      success: ->
+      success: =>
         noty
           timeout: 5000
           text: 'Your progress is gone.'
           type: 'success'
           layout: 'topCenter'
         localStorage.clear()
-        me.fetch cache: false
+        @user.fetch cache: false
         _.delay (-> window.location.reload()), 1000
       error: (jqXHR, status, error) ->
         console.error jqXHR
@@ -167,7 +166,7 @@ module.exports = class AccountSettingsView extends CocoView
           text: "Resetting progress failed with error code #{jqXHR.status}"
           type: 'error'
           layout: 'topCenter'
-      url: "/db/user/#{me.id}/reset_progress"
+      url: "/db/user/#{@user.id}/reset_progress"
 
   onClickProfilePhotoPanelBody: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
@@ -177,8 +176,8 @@ module.exports = class AccountSettingsView extends CocoView
     onSaved = (uploadingPath) =>
       @$el.find('#photoURL').val(uploadingPath)
       @$el.find('#photoURL').trigger('change') # cause for some reason editing the value doesn't trigger the jquery event
-      me.set('photoURL', uploadingPath)
-      photoContainer.removeClass('saving').attr('src', me.getPhotoURL(photoContainer.width()))
+      @user.set('photoURL', uploadingPath)
+      photoContainer.removeClass('saving').attr('src', @user.getPhotoURL(photoContainer.width()))
     filepicker.pick {mimetypes: 'image/*'}, @onImageChosen(onSaving, onSaved)
 
   formatImagePostData: (inkBlob) ->
@@ -212,16 +211,16 @@ module.exports = class AccountSettingsView extends CocoView
     $('#settings-tabs input').removeClass 'changed'
     forms.clearFormAlerts(@$el)
     @grabData()
-    res = me.validate()
+    res = @user.validate()
     if res?
       console.error 'Couldn\'t save because of validation errors:', res
       forms.applyErrorsToForm(@$el, res)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       return
 
-    return unless me.hasLocalChanges()
+    return unless @user.hasLocalChanges()
 
-    res = me.patch()
+    res = @user.patch()
     return unless res
 
     res.error =>
@@ -237,6 +236,7 @@ module.exports = class AccountSettingsView extends CocoView
           timeout: 5000
       @trigger 'save-user-error'
     res.success (model, response, options) =>
+      me.set(model) # save changes to me
       @trigger 'save-user-success'
 
     @trigger 'save-user-began'
@@ -256,7 +256,7 @@ module.exports = class AccountSettingsView extends CocoView
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       return
     if bothThere
-      me.set('password', password1)
+      @user.set('password', password1)
     else if password1
       message = $.i18n.t('account_settings.password_repeat', defaultValue: 'Please repeat your password.')
       err = [message: message, property: 'password2', formatted: true]
@@ -265,14 +265,14 @@ module.exports = class AccountSettingsView extends CocoView
 
   grabOtherData: ->
     @$el.find('#name-input').val @suggestedName if @suggestedName
-    me.set 'name', @$el.find('#name-input').val()
-    me.set 'firstName', @$el.find('#first-name-input').val()
-    me.set 'lastName', @$el.find('#last-name-input').val()
-    me.set 'email', @$el.find('#email').val()
+    @user.set 'name', @$el.find('#name-input').val()
+    @user.set 'firstName', @$el.find('#first-name-input').val()
+    @user.set 'lastName', @$el.find('#last-name-input').val()
+    @user.set 'email', @$el.find('#email').val()
     for emailName, enabled of @getSubscriptions()
-      me.setEmailSubscription emailName, enabled
+      @user.setEmailSubscription emailName, enabled
 
-    me.set('photoURL', @$el.find('#photoURL').val())
+    @user.set('photoURL', @$el.find('#photoURL').val())
 
     permissions = []
 
@@ -283,4 +283,4 @@ module.exports = class AccountSettingsView extends CocoView
       godmodeCheckbox = @$el.find('#godmode')
       if godmodeCheckbox.length
         permissions.push 'godmode' if godmodeCheckbox.prop('checked')
-      me.set('permissions', permissions)
+      @user.set('permissions', permissions)

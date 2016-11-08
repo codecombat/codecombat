@@ -2,7 +2,7 @@ _ = require 'lodash'
 co = require 'co'
 countryList = require('country-list')()
 errors = require '../commons/errors'
-geoip = require 'geoip-lite'
+geoip = require '@basicer/geoip-lite'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
@@ -144,7 +144,7 @@ module.exports =
     if not _.isEmpty(email) and yield User.findByEmail(email)
       throw new errors.Conflict('Email already taken')
     if not _.isEmpty(name) and yield User.findByName(name)
-      throw new errors.Conflict('Name already taken')
+      throw new errors.Conflict('Username already taken')
 
     req.user.set({ name, email, password, anonymous: false })
     yield module.exports.finishSignup(req, res)
@@ -158,7 +158,7 @@ module.exports =
       throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, email, and name')
 
     if not _.isEmpty(name) and yield User.findByName(name)
-      throw new errors.Conflict('Name already taken')
+      throw new errors.Conflict('Username already taken')
 
     facebookResponse = yield facebook.fetchMe(facebookAccessToken)
     emailsMatch = email is facebookResponse.email
@@ -178,7 +178,7 @@ module.exports =
       throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, email, and name')
 
     if not _.isEmpty(name) and yield User.findByName(name)
-      throw new errors.Conflict('Name already taken')
+      throw new errors.Conflict('Username already taken')
 
     gplusResponse = yield gplus.fetchMe(gplusAccessToken)
     emailsMatch = email is gplusResponse.email

@@ -5,6 +5,7 @@ sysPath = require 'path'
 fs = require('fs')
 commonjsHeader = require('commonjs-require-definition')
 TRAVIS = process.env.COCO_TRAVIS_TEST
+console.log 'Travis Build' if TRAVIS
 
 
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
@@ -72,7 +73,9 @@ exports.config =
         ]
 
         #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
-        'javascripts/whole-app.js': if TRAVIS then regJoin('^app') else []
+        'javascripts/whole-app.js': if TRAVIS then [
+          regJoin('^app')
+        ] else []
 
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
         'javascripts/app/lib.js': regJoin('^app/lib')
@@ -126,6 +129,8 @@ exports.config =
         'javascripts/app/vendor/jasmine-bundle.js': regJoin('^vendor/scripts/jasmine')
         'javascripts/app/vendor/jasmine-mock-ajax.js': 'vendor/scripts/jasmine-mock-ajax.js'
         'javascripts/app/vendor/three.js': 'bower_components/three.js/three.min.js'
+        'javascripts/app/vendor/htmlparser2.js': 'vendor/scripts/htmlparser2.js'
+        'javascripts/app/vendor/deku.js': 'vendor/scripts/deku.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
@@ -206,7 +211,7 @@ exports.config =
     assetsmanager:
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
-        'fonts': ['bower_components/openSansCondensed/*', 'bower_components/openSans/*']
+        'fonts': ['bower_components/openSansCondensed/!(*bower.json)', 'bower_components/openSans/!(*bower.json)']
         'javascripts': ['bower_components/esper.js/esper.modern.js']
     autoReload:
       delay: 1000
@@ -258,3 +263,9 @@ for file in jadeFiles
     numBundles += 1
 
 console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade files (bundled #{numBundles} of them together)."
+
+if process.env.GIT_SHA
+  info =
+    sha: process.env.GIT_SHA 
+  fs.writeFile '.build_info.json', JSON.stringify info, null, '  '
+  console.log( "Wrote build information file");

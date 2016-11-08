@@ -1,5 +1,25 @@
 describe 'Utility library', ->
   utils = require 'core/utils'
+  
+  describe 'getQueryVariable(param, defaultValue)', ->
+    beforeEach ->
+      spyOn(utils, 'getDocumentSearchString').and.returnValue(
+        '?key=value&bool1=false&bool2=true&email=test%40email.com'
+      )
+    
+    it 'returns the query parameter', ->
+      expect(utils.getQueryVariable('key')).toBe('value')
+      
+    it 'returns Boolean types if the value is "true" or "false"', ->
+      expect(utils.getQueryVariable('bool1')).toBe(false)
+      expect(utils.getQueryVariable('bool2')).toBe(true)
+      
+    it 'decodes encoded strings', ->
+      expect(utils.getQueryVariable('email')).toBe('test@email.com')
+      
+    it 'returns the given default value if the key is not present', ->
+      expect(utils.getQueryVariable('key', 'other-value')).toBe('value')
+      expect(utils.getQueryVariable('NaN', 'other-value')).toBe('other-value')
 
   describe 'i18n', ->
     beforeEach ->
@@ -46,6 +66,7 @@ describe 'Utility library', ->
       expect(utils.i18n(this.fixture1, 'text', 'pt')).toEqual(this.fixture1.i18n['pt-BR'].text)
 
   describe 'createLevelNumberMap', ->
+    # r=required p=practice
     it 'returns correct map for r', ->
       levels = [
         {key: 1, practice: false}
@@ -100,6 +121,8 @@ describe 'Utility library', ->
       expect((val.toString() for key, val of levelNumberMap)).toEqual(['1', '1a', '1b', '1c', '2', '2a', '2b', '3', '4', '4a', '5'])
 
   describe 'findNextlevel', ->
+    # r=required p=practice c=complete *=current
+    # utils.findNextLevel returns next level 0-based index
     describe 'when no practice needed', ->
       needsPractice = false
       it 'returns next level when rc* p', (done) ->
@@ -238,4 +261,15 @@ describe 'Utility library', ->
           {practice: false, complete: true}
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
+        done()
+      it 'returns next level when rc pc p rc* r p', (done) ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: true, complete: true}
+          {practice: true, complete: false}
+          {practice: false, complete: true}
+          {practice: false, complete: false}
+          {practice: true, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(2)
         done()

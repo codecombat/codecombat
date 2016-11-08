@@ -29,7 +29,6 @@ class SubscriptionHandler extends Handler
     return @getStripeSubscriptions(req, res) if args[1] is 'stripe_subscriptions'
     return @getSubscribers(req, res) if args[1] is 'subscribers'
     return @purchaseYearSale(req, res) if args[1] is 'year_sale'
-    return @subscribeWithPrepaidCode(req, res) if args[1] is 'subscribe_prepaid'
     super(arguments...)
 
   getStripeEvents: (req, res) ->
@@ -109,20 +108,6 @@ class SubscriptionHandler extends Handler
         log.debug 'Analytics error:\n' + err
         @sendSuccess(res, userMap)
 
-  cancelSubscriptionImmediately: (user, subscription, done) =>
-    return done() unless user and subscription
-    stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) =>
-      return done(err) if err
-      stripeInfo = _.cloneDeep(user.get('stripe') ? {})
-      delete stripeInfo.planID
-      delete stripeInfo.prepaidCode
-      delete stripeInfo.subscriptionID
-      user.set('stripe', stripeInfo)
-      user.save (err) =>
-        return done(err) if err
-        done()
-
-
   purchaseYearSale: (req, res) ->
     return @sendForbiddenError(res) unless req.user?
     return @sendForbiddenError(res) if req.user?.get('stripe')?.sponsorID
@@ -132,16 +117,19 @@ class SubscriptionHandler extends Handler
         @logSubscriptionError(req.user, "Purchase year sale get customer: #{JSON.stringify(err)}")
         return @sendDatabaseError(res, err)
 
-      findStripeSubscription customer.id, subscriptionID: req.user.get('stripe')?.subscriptionID, (subscription) =>
+      findStripeSubscription customer.id, subscriptionID: req.user.get('stripe')?.subscriptionID, (err, subscription) =>
         stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
 
-        @cancelSubscriptionImmediately req.user, subscription, (err) =>
+        StripeUtils.cancelSubscriptionImmediately req.user, subscription, (err) =>
           if err
             @logSubscriptionError(user, "Purchase year sale Stripe cancel subscription error: #{JSON.stringify(err)}")
             return @sendDatabaseError(res, err)
 
-          Product.findOne({name: 'year_subscription'}).exec (err, product) =>
+          Product.find().exec (err, products) =>
             return @sendDatabaseError(res, err) if err
+
+            product = _.find(products, (p) -> p.get('name') is req.user.getYearSubscriptionGroup())
+            product ?= _.find(products, (p) -> p.get('name') is 'year_subscription')
             return @sendNotFoundError(res, 'year_subscription product not found') if not product
 
             metadata =
@@ -189,82 +177,6 @@ class SubscriptionHandler extends Handler
                   catch error
                     @logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")
                   @sendSuccess(res, user)
-
-  subscribeWithPrepaidCode: (req, res) ->
-    return @sendUnauthorizedError(res) unless req.user?
-    return @sendBadInputError(res,"You must provide a valid prepaid code") unless req.body?.ppc
-
-    # Check if code exists and has room for more redeemers
-    Prepaid.findOne({ code: req.body.ppc?.toString() }).exec (err, prepaid) =>
-      if err
-        @logSubscriptionError(req.user, "Redeem Prepaid Code find: #{JSON.stringify(err)}")
-        return @sendDatabaseError(res, err)
-      unless prepaid
-        @logSubscriptionError(req.user, "Could not find prepaid code #{req.body.ppc?.toString()}")
-        return @sendNotFoundError(res, "Prepaid not found")
-
-      oldRedeemers = prepaid.get('redeemers') ? []
-      return @sendError(res, 403, "Too many redeemers") if oldRedeemers.length >= prepaid.get('maxRedeemers')
-      months = parseInt(prepaid.get('properties')?.months)
-      return @sendBadInputError(res, "Bad months") if isNaN(months) or months < 1
-      for redeemer in oldRedeemers
-        return @sendError(res, 403, "User already redeemed") if redeemer.userID.equals(req.user._id)
-
-      @redeemPrepaidCode(req, res, months)
-
-  redeemPrepaidCode: (req, res, months) =>
-    return @sendUnauthorizedError(res) unless req.user?
-    return @sendForbiddenError(res) unless req.body?.ppc
-    return @sendForbiddenError(res) if isNaN(months) or months < 1
-
-    newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: req.user._id } }}
-
-    Prepaid.update { 'code': req.body.ppc, 'redeemers.userID': { $ne: req.user._id }, '$where': 'this.redeemers.length < this.maxRedeemers'}, newRedeemerPush, (err, result) =>
-      if err
-        @logSubscriptionError(req.user, "Subscribe with Prepaid Code update: #{JSON.stringify(err)}")
-        return @sendDatabaseError(res, err)
-
-      return @sendError(res, 403, "Can't add user to prepaid redeemers") if result.nModified isnt 1
-
-      customerID = req.user.get('stripe')?.customerID
-      subscriptionID = req.user.get('stripe')?.subscriptionID
-      findStripeSubscription customerID, subscriptionID: subscriptionID, (subscription) =>
-        stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
-
-        @cancelSubscriptionImmediately req.user, subscription, (err) =>
-          if err
-            @logSubscriptionError(user, "Redeem Prepaid Code Stripe cancel subscription error: #{JSON.stringify(err)}")
-            return @sendDatabaseError(res, err)
-
-          Product.findOne({name: 'basic_subscription'}).exec (err, product) =>
-            return @sendDatabaseError(res, err) if err
-            return @sendNotFoundError(res, 'basic_subscription product not found') if not product
-
-            # Add terminal subscription to User, extending existing subscriptions
-            # TODO: refactor this into some form useable by both this and purchaseYearSale
-            stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
-            endDate = new moment()
-            if stripeSubscriptionPeriodEndDate
-              endDate = new moment(stripeSubscriptionPeriodEndDate)
-            else if _.isString(stripeInfo.free) and new moment().isBefore(new moment(stripeInfo.free))
-              endDate = new moment(stripeInfo.free)
-
-            endDate = endDate.add(months, 'months')
-            stripeInfo.free = endDate.toISOString().substring(0, 10)
-            req.user.set('stripe', stripeInfo)
-
-            # Add gems to User
-            purchased = _.clone(req.user.get('purchased'))
-            purchased ?= {}
-            purchased.gems ?= 0
-            purchased.gems += product.get('gems') * months if product.get('gems')
-            req.user.set('purchased', purchased)
-
-            req.user.save (err, user) =>
-              if err
-                @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
-                return @sendDatabaseError(res, err)
-              @sendSuccess(res, user)
 
   subscribeUser: (req, user, done) ->
     if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
@@ -377,7 +289,7 @@ class SubscriptionHandler extends Handler
       @checkForExistingSubscription(req, user, customer, couponID, done)
 
   checkForExistingSubscription: (req, user, customer, couponID, done) ->
-    findStripeSubscription customer.id, subscriptionID: user.get('stripe')?.subscriptionID, (subscription) =>
+    findStripeSubscription customer.id, subscriptionID: user.get('stripe')?.subscriptionID, (err, subscription) =>
 
       if subscription
 
@@ -438,7 +350,7 @@ class SubscriptionHandler extends Handler
     Product.findOne({name: productName}).exec (err, product) =>
       return done({res: 'Database error.', code: 500}) if err
       return done({res: 'basic_subscription product not found.', code: 404}) if not product
-      
+
       if increment
         purchased = _.clone(user.get('purchased'))
         purchased ?= {}
@@ -466,7 +378,7 @@ class SubscriptionHandler extends Handler
       createUpdateFn = (recipient) =>
         (done) =>
           # Find existing recipient subscription
-          findStripeSubscription customer.id, userID: recipient.id, (subscription) =>
+          findStripeSubscription customer.id, userID: recipient.id, (err, subscription) =>
 
             if subscription
               if subscription.cancel_at_period_end
@@ -574,7 +486,7 @@ class SubscriptionHandler extends Handler
     numSponsored = stripeInfo.recipients.length
     quantity = getSponsoredSubsAmount(product.get('amount'), numSponsored, stripeInfo.subscriptionID?)
 
-    findStripeSubscription customer.id, subscriptionID: stripeInfo.sponsorSubscriptionID, (subscription) =>
+    findStripeSubscription customer.id, subscriptionID: stripeInfo.sponsorSubscriptionID, (err, subscription) =>
       if stripeInfo.sponsorSubscriptionID? and not subscription?
         @logSubscriptionError(user, "Internal sponsor subscription #{stripeInfo.sponsorSubscriptionID} not found on Stripe customer #{customer.id}")
         return done({res: 'Database error.', code: 500})

@@ -15,6 +15,7 @@ var virtualDom;
 var virtualStyles;
 var virtualScripts;
 var goalStates;
+var createFailed;
 
 var allowedOrigins = [
     /^https?:\/\/(.*\.)?codecombat\.com$/,
@@ -43,11 +44,15 @@ function receiveMessage(event) {
         $('body').first().on('click', checkRememberedGoals);
         break;
     case 'update':
-        if (virtualDom)
+        if (virtualDom && !createFailed)
             update(_.pick(data, 'dom', 'styles', 'scripts'));
         else
             create(_.pick(data, 'dom', 'styles', 'scripts'));
         checkGoals(data.goals, source, origin);
+        break;
+    case 'highlight-css-selector':
+        $('*').css('box-shadow', '');
+        $(data.selector).css('box-shadow', 'inset 0 0 2px 2px rgba(255, 255, 0, 1.0), 0 0 2px 2px rgba(255, 255, 0, 1.0)');
         break;
     case 'log':
         console.log(data.text);
@@ -58,16 +63,24 @@ function receiveMessage(event) {
 }
 
 function create(options) {
-    virtualDom = options.dom;
-    virtualStyles = options.styles;
-    virtualScripts = options.scripts;
-    concreteDom = deku.dom.create(virtualDom);
-    concreteStyles = deku.dom.create(virtualStyles);
-    concreteScripts = deku.dom.create(virtualScripts);
-    // TODO: :after elements don't seem to work? (:before do)
-    $('body').first().empty().append(concreteDom);
-    replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
-    replaceNodes('[for="player-scripts"]', unwrapConcreteNodes(concreteScripts));
+    try {
+        virtualDom = options.dom;
+        virtualStyles = options.styles;
+        virtualScripts = options.scripts;
+        concreteDom = deku.dom.create(virtualDom);
+        concreteStyles = deku.dom.create(virtualStyles);
+        concreteScripts = deku.dom.create(virtualScripts);
+        // TODO: :after elements don't seem to work? (:before do)
+        $('body').first().empty().append(concreteDom);
+        replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
+        replaceNodes('[for="player-scripts"]', unwrapConcreteNodes(concreteScripts));
+        createFailed = false;
+    } catch(e) {
+        createFailed = true;
+        $('.loading-message').addClass('hidden')
+        $('.loading-error').removeClass('hidden')
+        throw(e);
+    }
 }
 
 function unwrapConcreteNodes(wrappedNodes) {

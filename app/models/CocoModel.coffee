@@ -49,7 +49,11 @@ class CocoModel extends Backbone.Model
   clone: (withChanges=true) ->
     # Backbone does not support nested documents
     clone = super()
-    clone.set($.extend(true, {}, if withChanges then @attributes else @_revertAttributes))
+    clone.set($.extend(true, {}, if withChanges or not @_revertAttributes then @attributes else @_revertAttributes))
+    if @_revertAttributes and not withChanges
+      # remove any keys that are in the current attributes not in the snapshot
+      for key in _.difference(_.keys(clone.attributes), _.keys(@_revertAttributes))
+        clone.unset(key)
     clone
 
   onError: (level, jqxhr) ->
@@ -281,7 +285,8 @@ class CocoModel extends Backbone.Model
     try
       jsondiffpatch.patch newAttributes, delta
     catch error
-      console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
+      unless application.testing
+        console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
       return false
     for key, value of newAttributes
       delete newAttributes[key] if _.isEqual value, @attributes[key]
@@ -309,8 +314,8 @@ class CocoModel extends Backbone.Model
     sum = 0
     data ?= $.extend true, {}, @attributes
     schema ?= @schema() or {}
-    if schema.oneOf # get populating the Programmable component config to work 
-      schema = _.find(schema.oneOf, {type: 'object'})
+    if schema.oneOf # get populating the Programmable component config to work
+      schema = _.find(schema.oneOf, {type: 'object'}) or schema
     addedI18N = false
     if schema.properties?.i18n and _.isPlainObject(data) and not data.i18n?
       data.i18n = {'-':{'-':'-'}} # mongoose doesn't work with empty objects
@@ -333,7 +338,7 @@ class CocoModel extends Backbone.Model
       sum += @populateI18N(value, schema.items, path+'/'+index) for value, index in data
 
     @set('i18n', data.i18n) if addedI18N and not path # need special case for root i18n
-    @updateI18NCoverage()
+    @updateI18NCoverage() if not path  # only need to do this at the highest level
     sum
 
   @getReferencedModel: (data, schema) ->
@@ -372,6 +377,22 @@ class CocoModel extends Backbone.Model
 
   getURL: ->
     return if _.isString @url then @url else @url()
+    
+  makePatch: ->
+    Patch = require 'models/Patch'
+    target = {
+      'collection': _.string.underscored @constructor.className
+      'id': @id
+    }
+    # if this document is versioned (has original property) then include version info
+    if @get('original')
+      target.original = @get('original')
+      target.version = @get('version')
+      
+    return new Patch({
+      delta: @getDelta()
+      target 
+    })
 
   @pollAchievements: ->
     return if application.testing
@@ -457,5 +478,9 @@ class CocoModel extends Backbone.Model
   stringify: -> return JSON.stringify(@toJSON())
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
+  
+  fetchLatestVersion: (original, options={}) ->
+    options.url = _.result(@, 'urlRoot') + '/' + original + '/version'
+    @fetch(options)
 
 module.exports = CocoModel

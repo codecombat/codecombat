@@ -58,14 +58,14 @@ module.exports = class HintsView extends CocoView
     @state.set({ hintsTitle, hint: @hintsState.getHint(index) })
 
   onClickNextButton: ->
-    window.tracker?.trackEvent 'Hints Next Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), ['Mixpanel']
+    window.tracker?.trackEvent 'Hints Next Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), []
     max = @hintsState.get('total') - 1
     @state.set('hintIndex', Math.min(@state.get('hintIndex') + 1, max))
     @playSound 'menu-button-click'
     @updateHintTimer()
 
   onClickPreviousButton: ->
-    window.tracker?.trackEvent 'Hints Previous Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), ['Mixpanel']
+    window.tracker?.trackEvent 'Hints Previous Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), []
     @state.set('hintIndex', Math.max(@state.get('hintIndex') - 1, 0))
     @playSound 'menu-button-click'
     @updateHintTimer()
@@ -89,7 +89,7 @@ module.exports = class HintsView extends CocoView
     hintsViewTime[hintIndex]++
     hintsUsed = @state.get('hintsUsed')
     if hintsViewTime[hintIndex] > @hintUsedThresholdSeconds and not hintsUsed[hintIndex]
-      window.tracker?.trackEvent 'Hint Used', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: hintIndex, ['Mixpanel']
+      window.tracker?.trackEvent 'Hint Used', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: hintIndex, []
       hintsUsed[hintIndex] = true
       @state.set('hintsUsed', hintsUsed)
       clearInterval(@timerIntervalID)

@@ -43,14 +43,20 @@ module.exports = class TeacherCourseSolutionView extends RootView
       comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
-        level.set 'begin',  _.template(programmableMethod.languages[@language] or programmableMethod.source)(programmableMethod.context)
-        solution = programmableMethod.solutions?.find (x) => x.language is @language
+        translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(programmableMethod.context)
+        # See if it has <playercode> tags, extract them
+        playerCodeTag = utils.extractPlayerCodeTag(translatedDefaultCode)
+        finalDefaultCode = if playerCodeTag then playerCodeTag else translatedDefaultCode
+        level.set 'begin', finalDefaultCode
+        solution = _.find(programmableMethod.solutions, (x) => x.language is (level.get('primerLanguage') or @language))
         try
           solutionText = _.template(solution?.source)(programmableMethod.context)
         catch error
           solutionText = solution?.source
           console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
-        level.set 'solution',  solutionText
+        solutionPlayerCodeTag = utils.extractPlayerCodeTag(solutionText)
+        finalSolutionCode = if solutionPlayerCodeTag then solutionPlayerCodeTag else solutionText
+        level.set 'solution',  finalSolutionCode
     levels = []
     for level in @levels?.models when level.get('original')
       continue if @language? and level.get('primerLanguage') is @language

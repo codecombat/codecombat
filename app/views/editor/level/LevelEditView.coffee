@@ -1,8 +1,10 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/editor/level/edit'
+template = require 'templates/editor/level/level-edit-view'
 Level = require 'models/Level'
 LevelSystem = require 'models/LevelSystem'
 LevelComponent = require 'models/LevelComponent'
+LevelSystems = require 'collections/LevelSystems'
+LevelComponents = require 'collections/LevelComponents'
 World = require 'lib/world/world'
 DocumentFiles = require 'collections/DocumentFiles'
 LevelLoader = require 'lib/LevelLoader'
@@ -25,6 +27,8 @@ SaveLevelModal = require './modals/SaveLevelModal'
 ArtisanGuideModal = require './modals/ArtisanGuideModal'
 ForkModal = require 'views/editor/ForkModal'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
+SaveBranchModal = require 'views/editor/level/modals/SaveBranchModal'
+LoadBranchModal = require 'views/editor/level/modals/LoadBranchModal'
 PatchesView = require 'views/editor/PatchesView'
 RelatedAchievementsView = require 'views/editor/level/RelatedAchievementsView'
 VersionHistoryView = require './modals/LevelVersionsModal'
@@ -32,6 +36,7 @@ ComponentsDocumentationView = require 'views/editor/docs/ComponentsDocumentation
 SystemsDocumentationView = require 'views/editor/docs/SystemsDocumentationView'
 LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
+utils = require 'core/utils'
 
 require 'vendor/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'vendor/treema'
@@ -69,6 +74,8 @@ module.exports = class LevelEditView extends RootView
     'click #level-watch-button': 'toggleWatchLevel'
     'click li:not(.disabled) > #pop-level-i18n-button': 'onPopulateI18N'
     'click a[href="#editor-level-documentation"]': 'onClickDocumentationTab'
+    'click #save-branch': 'onClickSaveBranch'
+    'click #load-branch': 'onClickLoadBranch'
     'mouseup .nav-tabs > li a': 'toggleTab'
 
   constructor: (options, @levelID) ->
@@ -105,6 +112,10 @@ module.exports = class LevelEditView extends RootView
       for levelID, level of campaign.get('levels') when levelID is @level.get('original')
         @courseID = campaignCourseMap[campaign.id]
       break if @courseID
+    if not @courseID and me.isAdmin()
+      # Give it a fake course ID so we can test it in course mode before it's in a course.
+      @courseID = '560f1a9f22961295f9427742'
+    @getLevelCompletionRate()
 
   getRenderData: (context={}) ->
     context = super(context)
@@ -119,6 +130,7 @@ module.exports = class LevelEditView extends RootView
     return unless @supermodel.finished()
     @$el.find('a[data-toggle="tab"]').on 'shown.bs.tab', (e) =>
       Backbone.Mediator.publish 'editor:view-switched', {targetURL: $(e.target).attr('href')}
+    @listenTo @level, 'change:tasks', => @renderSelectors '#tasks-tab'
     @insertSubView new ThangsTabView world: @world, supermodel: @supermodel, level: @level
     @insertSubView new SettingsTabView supermodel: @supermodel
     @insertSubView new ScriptsTabView world: @world, supermodel: @supermodel, files: @files
@@ -130,11 +142,10 @@ module.exports = class LevelEditView extends RootView
     @insertSubView new SystemsDocumentationView lazy: true  # Don't give it the supermodel, it'll pollute it!
     @insertSubView new LevelFeedbackView level: @level
 
-
     Backbone.Mediator.publish 'editor:level-loaded', level: @level
     @showReadOnly() if me.get('anonymous')
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
-    @listenTo @patchesView, 'accepted-patch', -> location.reload()
+    @listenTo @patchesView, 'accepted-patch', -> location.reload() unless key.shift  # Reload to make sure changes propagate, unless secret shift shortcut
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
 
   onPlayLevelTeamSelect: (e) ->
@@ -146,8 +157,13 @@ module.exports = class LevelEditView extends RootView
   onPlayLevel: (e) ->
     team = $(e.target).data('team')
     opponentSessionID = $(e.target).data('opponent')
-    newClassMode = $(e.target).data('classroom')
-    newClassLanguage = $(e.target).data('code-language')
+    if $(e.target).data('classroom') is 'home'
+      newClassMode = @lastNewClassMode = undefined
+    else if $(e.target).data('classroom')
+      newClassMode = @lastNewClassMode = true
+    else
+      newClassMode = @lastNewClassMode
+    newClassLanguage = @lastNewClassLanguage = ($(e.target).data('code-language') ? @lastNewClassLanguage) or undefined
     sendLevel = =>
       @childWindow.Backbone.Mediator.publish 'level:reload-from-data', level: @level, supermodel: @supermodel
     if @childWindow and not @childWindow.closed and @playClassMode is newClassMode and @playClassLanguage is newClassLanguage
@@ -217,8 +233,8 @@ module.exports = class LevelEditView extends RootView
     button.find('> span').toggleClass('secret')
 
   onPopulateI18N: ->
-    @level.populateI18N()
-    
+    totalChanges = @level.populateI18N()
+
     levelComponentMap = _(currentView.supermodel.getModels(LevelComponent))
       .map((c) -> [c.get('original'), c])
       .object()
@@ -229,10 +245,25 @@ module.exports = class LevelEditView extends RootView
         component = levelComponentMap[thangComponent.original]
         configSchema = component.get('configSchema')
         path = "/thangs/#{thangIndex}/components/#{thangComponentIndex}/config"
-        @level.populateI18N(thangComponent.config, configSchema, path)
-    
-    f = -> document.location.reload()
-    setTimeout(f, 2000)
+        totalChanges += @level.populateI18N(thangComponent.config, configSchema, path)
+
+    if totalChanges
+      f = -> document.location.reload()
+      setTimeout(f, 500)
+    else
+      noty timeout: 2000, text: 'No changes.', type: 'information', layout: 'topRight'
+
+  onClickSaveBranch: ->
+    components = new LevelComponents(@supermodel.getModels(LevelComponent))
+    systems = new LevelSystems(@supermodel.getModels(LevelSystem))
+    @openModalView new SaveBranchModal({components, systems})
+    Backbone.Mediator.publish 'editor:view-switched', {}
+
+  onClickLoadBranch: ->
+    components = new LevelComponents(@supermodel.getModels(LevelComponent))
+    systems = new LevelSystems(@supermodel.getModels(LevelSystem))
+    @openModalView new LoadBranchModal({components, systems})
+    Backbone.Mediator.publish 'editor:view-switched', {}
 
   toggleTab: (e) ->
     @renderScrollbar()
@@ -261,3 +292,27 @@ module.exports = class LevelEditView extends RootView
       return '0/0'
     else
       return _.filter(@level.get('tasks'), (_elem) -> return _elem.complete).length + '/' + @level.get('tasks').length
+
+  getLevelCompletionRate: ->
+    return unless me.isAdmin()
+    startDay = utils.getUTCDay -14
+    startDayDashed = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
+    endDay = utils.getUTCDay -1
+    endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
+    success = (data) =>
+      return if @destroyed
+      started = 0
+      finished = 0
+      for day in data
+        started += day.started ? 0
+        finished += day.finished ? 0
+      rate = finished / started
+      rateDisplay = (rate * 100).toFixed(1) + '%'
+      @$('#completion-rate').text rateDisplay
+    request = @supermodel.addRequestResource 'level_completions', {
+      url: '/db/analytics_perday/-/level_completions'
+      data: {startDay: startDay, endDay: endDay, slug: @level.get('slug')}
+      method: 'POST'
+      success: success
+    }, 0
+    request.load()

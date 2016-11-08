@@ -493,19 +493,19 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     @levelA = yield utils.makeLevel({type: 'course'})
-    @levelB = yield utils.makeLevel({type: 'course'})
+    @levelB = yield utils.makeLevel({type: 'course', primerLanguage: 'python'})
     @campaignA = yield utils.makeCampaign({}, {levels: [@levelA]})
     @campaignB = yield utils.makeCampaign({}, {levels: [@levelB]})
     @courseA = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignA})
     @courseB = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignB})
     @student1 = yield utils.initUser({role: 'student'})
     @student2 = yield utils.initUser({role: 'student'})
-    @session1A = yield utils.makeLevelSession({state: { complete: true }}, {creator: @student1, level: @levelA})
-    @session1B = yield utils.makeLevelSession({state: { complete: false }}, {creator: @student1, level: @levelB})
-    @session2A = yield utils.makeLevelSession({state: { complete: true }}, {creator: @student2, level: @levelA})
-    @session2B = yield utils.makeLevelSession({state: { complete: false }}, {creator: @student2, level: @levelB})
+    @session1A = yield utils.makeLevelSession({codeLanguage: 'javascript', state: { complete: true }}, {creator: @student1, level: @levelA})
+    @session1B = yield utils.makeLevelSession({codeLanguage: 'python', state: { complete: false }}, {creator: @student1, level: @levelB})
+    @session2A = yield utils.makeLevelSession({codeLanguage: 'javascript', state: { complete: true }}, {creator: @student2, level: @levelA})
+    @session2B = yield utils.makeLevelSession({codeLanguage: 'python', state: { complete: false }}, {creator: @student2, level: @levelB})
     yield utils.loginUser(@teacher)
-    @classroom = yield utils.makeClassroom({}, { members: [@student1, @student2] })
+    @classroom = yield utils.makeClassroom({aceConfig: {language: 'javascript'}}, { members: [@student1, @student2] })
     @courseInstanceA = yield utils.makeCourseInstance({courseID: @courseA.id, classroomID: @classroom.id}, { members: [@student1, @student2] })
     @courseInstanceB = yield utils.makeCourseInstance({courseID: @courseB.id, classroomID: @classroom.id}, { members: [@student1] })
     yield utils.logout()
@@ -546,8 +546,8 @@ describe 'GET /db/classroom/:handle/members', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @teacher = yield utils.initUser()
-    @student1 = yield utils.initUser({ name: "Firstname Lastname" })
-    @student2 = yield utils.initUser({ name: "Student Nameynamington" })
+    @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L" })
+    @student2 = yield utils.initUser({ name: "Student Nameynamington", firstName: "Student", lastName: "N" })
     @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
     @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
     done()
@@ -570,7 +570,7 @@ describe 'GET /db/classroom/:handle/members', ->
     expect(body).toEqual([])
     done()
 
-  it 'returns all members with name and email', utils.wrap (done) ->
+  it 'returns all members with name, email, firstName and lastName', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }
     expect(res.statusCode).toBe(200)
@@ -578,6 +578,8 @@ describe 'GET /db/classroom/:handle/members', ->
     for user in body
       expect(user.name).toBeDefined()
       expect(user.email).toBeDefined()
+      expect(user.firstName).toBeDefined()
+      expect(user.lastName).toBeDefined()
       expect(user.passwordHash).toBeUndefined()
     done()
 
@@ -720,3 +722,56 @@ describe 'GET /db/classroom/:handle/update-courses', ->
     expect(classroom.get('courses').length).toBe(2)
 
     done()
+
+  describe 'addNewCoursesOnly', ->
+    it 'only adds new courses, but leaves existing courses intact', utils.wrap (done) ->
+      yield utils.clearModels [User, Classroom, Course, Level, Campaign]
+
+      admin = yield utils.initAdmin()
+      teacher = yield utils.initUser({role: 'teacher'})
+  
+      # make a single course
+      yield utils.loginUser(admin)
+      levels = yield _.times(3, -> utils.makeLevel())
+      firstCampaign = yield utils.makeCampaign({}, {levels: [levels[0]]})
+      yield utils.makeCourse({releasePhase: 'released'}, {campaign: firstCampaign})
+  
+      # make a classroom, make sure it has the one course
+      yield utils.loginUser(teacher)
+      data = { name: 'Classroom 2' }
+      [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
+      classroom = yield Classroom.findById(res.body._id)
+      expect(classroom.get('courses').length).toBe(1)
+      expect(classroom.get('courses')[0].levels.length).toBe(1)
+      
+      # make a second course
+      yield utils.loginUser(admin)
+      yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign({}, {levels: [levels[1]]})})
+      
+      # add level to first course
+      campaignSchema = require '../../../app/schemas/models/campaign.schema'
+      campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
+      levelAdding = levels[2]
+      campaignLevels = _.clone(firstCampaign.get('levels'))
+      campaignLevels[levelAdding.get('original').valueOf()] = _.pick levelAdding.toObject(), campaignLevelProperties
+      yield firstCampaign.update({$set: {levels: campaignLevels}})
+  
+      # make sure classroom still has one course
+      classroom = yield Classroom.findById(res.body._id)
+      expect(classroom.get('courses').length).toBe(1)
+  
+      # update with addNewCoursesOnly, make sure second course is added but first keeps the same # of levels
+      yield utils.loginUser(teacher)
+      [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: { addNewCoursesOnly:true } }
+      expect(body.courses.length).toBe(2)
+      classroom = yield Classroom.findById(res.body._id)
+      expect(classroom.get('courses').length).toBe(2)
+      expect(classroom.get('courses')[0].levels.length).toBe(1)
+
+      # update without addNewCoursesOnly, make sure first course still updates
+      [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
+      expect(body.courses.length).toBe(2)
+      classroom = yield Classroom.findById(res.body._id)
+      expect(classroom.get('courses').length).toBe(2)
+      expect(classroom.get('courses')[0].levels.length).toBe(2)
+      done()

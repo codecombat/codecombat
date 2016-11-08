@@ -1,5 +1,6 @@
 ThangType = require './../models/ThangType'
 Handler = require '../commons/Handler'
+mongoose = require 'mongoose'
 
 ThangTypeHandler = class ThangTypeHandler extends Handler
   modelClass: ThangType
@@ -75,7 +76,11 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
 
       q.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err
-        documents = (@formatEntity(req, doc) for doc in documents)
+        unless (req.hostname ? req.host) is 'coco.code.ninja'
+          # Don't allow playing as the Code Ninja hero elsewhere
+          codeNinjaOriginal = '58192d484954d56144a7062f'
+          documents = (doc for doc in documents when doc.get('original') + '' isnt codeNinjaOriginal)
+        documents = (@formatEntity(req, doc) for doc in documents when doc.get('original') + '' isnt codeNinjaOriginal)
         @sendSuccess(res, documents)
     else
       super(arguments...)

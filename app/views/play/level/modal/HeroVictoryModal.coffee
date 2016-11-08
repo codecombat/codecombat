@@ -14,6 +14,7 @@ utils = require 'core/utils'
 Course = require 'models/Course'
 Level = require 'models/Level'
 LevelFeedback = require 'models/LevelFeedback'
+storage = require 'core/storage'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -64,13 +65,6 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       @readyToContinue = true
     @playSound 'victory'
-    if @level.isType('course', 'game-dev', 'web-dev')
-      if nextLevel = @level.get('nextLevel')
-        @nextLevel = new Level().setURL "/db/level/#{nextLevel.original}/version/#{nextLevel.majorVersion}"
-        @nextLevel = @supermodel.loadModel(@nextLevel).model
-      if @courseID
-        @course = new Course().setURL "/db/course/#{@courseID}"
-        @course = @supermodel.loadModel(@course).model
     if @level.isType('course', 'course-ladder')
       @saveReviewEventually = _.debounce(@saveReviewEventually, 2000)
       @loadExistingFeedback()
@@ -201,13 +195,14 @@ module.exports = class HeroVictoryModal extends ModalView
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      lastLevel = @level.get('slug') is 'course-kithgard-gates'
+      lastLevelOriginal = if storage.load('should-return-to-game-dev-hoc') then '57ee6f5786cf4e1f00afca2c' else '541c9a30c6362edfb0f34479'
+      lastLevel = @level.get('original') is lastLevelOriginal # hoc2016 or kithgard-gates
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
-        $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))
-        me.set 'hourOfCodeComplete', true  # Note that this will track even for players who don't have hourOfCode set.
+        $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))  # TODO: double-check this when we get our proper pixels, differentiate by game-dev-hoc activity
+        me.set 'hourOfCodeComplete', true
         me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
@@ -415,7 +410,7 @@ module.exports = class HeroVictoryModal extends ModalView
   getNextLevelCampaign: ->
     # Much easier to just keep this updated than to dynamically figure it out.
     # TODO: only go back to world selector if any beta campaigns are incomplete
-    {
+    campaign = {
       'kithgard-gates': '',
       'kithgard-mastery': '',
       'tabula-rasa': '',
@@ -427,16 +422,12 @@ module.exports = class HeroVictoryModal extends ModalView
       'clash-of-clones': 'mountain',
       'summits-gate': 'glacier'
     }[@level.get('slug')] ? @level.get 'campaign'
+    # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
+    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'hoc2016']) and storage.load('should-return-to-game-dev-hoc')
+    campaign
 
   getNextLevelLink: (returnToCourse=false) ->
-    if @level.isType('course', 'game-dev', 'web-dev') and nextLevel = @level.get('nextLevel') and not returnToCourse
-      # need to do something more complicated to load its slug
-      console.log 'have @nextLevel', @nextLevel, 'from nextLevel', nextLevel
-      link = "/play/level/#{@nextLevel.get('slug')}"
-      if @courseID
-        link += "?course=#{@courseID}"
-        link += "&course-instance=#{@courseInstanceID}" if @courseInstanceID
-    else if @level.isType('course')
+    if @level.isType('course')
       link = "/students"
       if @courseID
         link += "/#{@courseID}"

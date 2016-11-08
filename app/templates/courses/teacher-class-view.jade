@@ -161,8 +161,6 @@ mixin inlineUserList(users)
     ul.inline-student-list.small
       each student in users
         li
-          //- a(href='TODO')
-          //-   = student.broadName()
           span.inline-student-name
             = student.broadName()
 
@@ -205,7 +203,10 @@ mixin studentRow(student)
       .student-info
         if student.get('deleted')
           em (deleted)
-        div.student-name= student.broadName()
+        - var url = '/teachers/classes/' + view.classroom.id + '/' + student.id;
+        a(href=url)
+            div.student-name= student.broadName()
+        //- div.student-name= student.broadName()
         div.student-email.small-details= student.get('email')
     td.hidden
       a.edit-student-button(data-student-id=student.id)

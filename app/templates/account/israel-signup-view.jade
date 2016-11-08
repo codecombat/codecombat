@@ -1,0 +1,73 @@
+extends /templates/base-flat
+
+block content
+  
+  .container
+    h1.m-t-3.m-b-2.text-center Create Account
+    
+    if loading
+      h5.text-center Loading
+    
+    else if fatalError
+      .alert.alert-danger.text-center
+  
+        if fatalError === 'signed-in'
+          h3 You already have an account
+          a(href="/play") Play CodeCombat!
+          
+        else if fatalError === 'missing-input'
+          h3 Not enough information was provided
+          p Need at least "israelId" included in GET parameters.
+          
+        else if fatalError === 'email-exists'
+          h3 Your email is already in use
+          a.login-button(data-i18n="login.log_in")
+  
+        else
+          h3 Error
+          p= fatalError
+          
+    else
+      .row
+        .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
+          table.table.table-condensed
+            tr
+              th Israel Id
+              td= queryParams.israelId
+            if queryParams.email
+              tr
+                th Email
+                td= queryParams.email
+            if queryParams.firstName
+              tr
+                th First Name
+                td= queryParams.firstName
+            if queryParams.lastName
+              tr
+                th Last Name
+                td= queryParams.lastName
+            if queryParams.school
+              tr
+                th School
+                td= queryParams.school
+            if queryParams.city
+              tr
+                th City
+                td= queryParams.city
+            if queryParams.district
+              tr
+                th District
+                td= queryParams.district
+          form
+            .form-group
+              label.control-label(for="username-input" data-i18n="general.username")
+              input.form-control.input-lg(name="name" value=name)
+            
+            .form-group
+              label.control-label(for="password-input" data-i18n="general.password")
+              input.form-control.input-lg(name="password" type="password" value=password)
+              
+            if formError
+              .alert.alert-danger.text-center= formError
+
+            button#create-account-btn.btn.btn-lg.btn-block.btn-navy(type="submit" data-i18n="login.sign_up")

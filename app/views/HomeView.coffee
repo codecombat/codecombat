@@ -44,15 +44,13 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
-    isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
-    if isHourOfCodeWeek and (@isNewPlayer() or (me.isStudent() and me.isAnonymous()))
-      # Go/return straight to playing single-player HoC course on Play click
-      @playURL = '/hoc?go=true'
-    else if me.isStudent()
-      # Save players who might be in a classroom from getting into the campaign
-      @playURL = '/students'
+    isHourOfCodeWeek = false  # Temporary: default to hourOfCode flow during the main event week
+    @playURL = if me.isStudent()
+      '/students'
+    else if isHourOfCodeWeek
+      '/play?hour_of_code=true'
     else
-      @playURL = '/play'
+      '/play'
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
@@ -175,9 +173,6 @@ module.exports = class HomeView extends RootView
       $(@).find('.course-duration .course-hours').text duration
       $(@).find('.course-duration .unit').text($.i18n.t(if duration is '1' then 'units.hour' else 'units.hours'))
     @$el.find('#semester-duration').text levels[level].total
-
-  isNewPlayer: ->
-    not me.get('stats')?.gamesCompleted and not me.get('heroConfig')
 
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice

@@ -1,0 +1,247 @@
+extends /templates/base-flat
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+
+  if !view.user
+    div Loading
+  else
+    .container
+      +breadcrumbs
+      if !me.isAnonymous() && me.isTeacher()
+      - var isOwner = view.classroom ? view.classroom.get('ownerID') === me.id : false;
+          
+      if isOwner
+        h3.m-t-2
+          span(data-i18n="teacher.student_profile")
+          span.spr :
+          span= view.user.get('name')
+                
+        .performance.col-md-7
+          h4.student-details
+            span.spr(data-i18n="teacher.student_state")
+            span.spr= view.user.get('name')
+            span(data-i18n="teacher.student_state_2")
+            // TODO: if no other students, this area is blank. Display something better. 
+          .recommendation(style="width:100%")
+            if view.courseComparisonMap && view.lastPlayedCourse
+              - var lastCoursePerf = _.find(view.courseComparisonMap, { courseID: view.lastPlayedCourse.id })
+              if (Math.abs(lastCoursePerf.performance)) <= 1
+                .glyphicon.glyphicon-thumbs-up
+                .small-details
+                  .good= view.user.get('name')
+                    span.spr
+                    span.spr(data-i18n="teacher.student_good")
+                    span= lastCoursePerf.courseModel.getTranslatedName()
+                    .status(data-i18n="teacher.student_good_detail")  
+              else if (lastCoursePerf.performance) >= 2
+                .glyphicon.glyphicon-star
+                .small-details
+                  .great= view.user.get('name')
+                    span.spr
+                    span.spr(data-i18n="teacher.student_great")
+                    span= lastCoursePerf.courseModel.getTranslatedName()
+                    .status(data-i18n="teacher.student_great_detail")
+              else if (lastCoursePerf.performance) <= -2 
+                .glyphicon.glyphicon-exclamation-sign
+                .small-details
+                  .warn= view.user.get('name')
+                    span.spr
+                    span.spr(data-i18n="teacher.student_warn")
+                    span= lastCoursePerf.courseModel.getTranslatedName()
+                    .status(data-i18n="teacher.student_warn_detail") 
+                       
+          .additional-progress
+            - var warn = []
+            - var great = []
+            - var good = []
+            each course in view.courseComparisonMap || []
+              if !view.lastPlayedCourse || course.courseID != view.lastPlayedCourse
+                if Math.abs(course.performance) <= 1
+                  - good.push(course.courseModel.getTranslatedName())
+                else if course.performance >= 2
+                  - great.push(course.courseModel.getTranslatedName())
+                else if course.performance <= -2 
+                  - warn.push(course.courseModel.getTranslatedName())
+              
+            if warn.length > 0
+              .warn
+                span.glyphicon.glyphicon-exclamation-sign
+                span.spr
+                span.small-details= warn.join(', ')
+                
+            if great.length > 0
+              .great
+                span.glyphicon.glyphicon-star
+                span.spr
+                span.small-details= great.join(', ')
+                
+            if good.length > 0
+              .good
+                span.glyphicon.glyphicon-thumbs-up
+                span.spr
+                span.small-details= good.join(', ')
+                    
+
+        .classroom-info-row.container-fluid.row
+          .overview.col-md-5
+            h4.student-details(data-i18n="teacher.student_overview")
+            if (view.user.get('email'))
+              .small-details
+                span(data-i18n="teacher.student_email")
+                span.spr :
+                span= view.user.get('email')
+            else
+              .small-details
+                i(data-i18n="teacher.no_email")
+            .small-details
+              span(data-i18n="user.last_played")
+              span.spr :
+              span= view.lastPlayedString()
+              
+            .small-details 
+              - var status = view.user.prepaidStatus()
+              span(data-i18n='view.user.status')
+              span.spr
+              span(data-i18n="teacher.license_status")
+              span.spr : 
+              strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString()
+                                      
+        .playtime-charts
+          h4(data-i18n="teacher.playtime_detail")
+        
+          .graphsSelector
+            span(data-i18n="teacher.select_course")
+            span :
+            span.spr
+            select#course-dropdown.text-navy
+              each versionedCourse in (view.classroom.get('courses') || [])
+                - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+                if !course
+                  // TODO: make sure this doesn't happen when data is loaded. 
+                  - continue;
+                - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+                - if (instance && instance.hasMember(view.user))
+                  option(value= course.id)= course.getTranslatedName()
+
+            div.legend
+              svg(width=15, height=15, style="margin: 0 5px 0 0")
+                rect(width=15, height=15, fill="rgb(32, 87, 43)")
+              span(data-i18n="teacher.student_completed") 
+              
+              svg(width=15, height=15, style="margin: 0 5px 0 15px")
+                rect(width=15, height=15, fill="rgb(242, 190, 25)")
+              span(data-i18n="teacher.student_in_progress") 
+              
+              svg(width=15, height=15, style="margin: 0 5px 0 15px")
+                rect(width=15, height=15, fill="rgb(92, 180, 208)")
+              span(data-i18n="teacher.class_average") 
+          
+          .graphs
+            each versionedCourse in (view.classroom.get('courses') || [])
+              - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+              if !course
+                - continue;
+              - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+              - if ((instance && instance.hasMember(view.user)))
+                svg(id="visualisation-"+versionedCourse._id, width="1142", height="600", class="visualisation")
+
+  
+        //- TODO Hookup student management actions
+          // Assign courses from dropdown
+          // Export CSV
+          // Apply License
+          // Edit password
+          // Remove Student
+
+        .student-levels 
+          h4(data-i18n="teacher.course_progress")
+          .student-levels-progress
+            each versionedCourse in (view.classroom.get('courses') || [])
+                - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+                if !course
+                  - continue;
+                - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+                - if (instance && instance.hasMember(view.user))
+                  if course
+                    .course-row.alternating-background
+                      .course-info= course.getTranslatedName()
+                      - var levels = view.classroom.getLevels({courseID: course.id}).models
+                      each level, index in levels
+                        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+                        - var levelProgress = view.levelProgressMap[level.get('original')]
+                        +studentLevelProgressDot(levelProgress, level, levelNumber, course)
+
+      
+                      
+        //- if status == 'enrolled'
+        //-   div
+        //-     h4
+        //-       span= view.user.get('name')
+        //-       span.spr
+        //-       span(data-i18n="teacher.not_assigned")
+        //-       span :
+        //-     each versionedCourse in view.classroom.get('courses') || []
+        //-       - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
+        //-       if !course
+        //-         - continue;
+        //-       - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id })
+        //-       - if (!(instance && instance.hasMember(view.user)))
+        //-           div.small-details
+        //-             span=course.getTranslatedName()
+                
+        //- else
+        //-   p Apply a license to this student to assign additional courses!
+        //-   button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=view.user.id, data-event-action="Teachers Class Enrollment Enroll Student")
+        //-   // this button doesn't work yet
+        
+
+mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
+  //- TODO: Refactor with TeacherClassesView jade
+  - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
+  - levelName = level.get('name')
+  - var context = { levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'}; 
+  if view.levelSessionMap && view.levelSessionMap[level.get('original')]
+    - context.session = view.levelSessionMap[level.get('original')];
+  - link = null;
+  - labelText = levelNumber;
+  if level.isLadder()
+    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    if courseInstance
+      - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
+      - labelText = translate('courses.arena');
+    else
+      - labelText = translate('courses.arena');
+    - dotClass += ' progress-dot-lg';
+  else if level.isProject()
+    if levelProgress == 'started' || levelProgress == 'complete'
+      if view.levelSessionMap && view.levelSessionMap[level.get('original')]
+        - link = view.urls.playDevLevel({level: level, session: view.levelSessionMap[level.get('original')], course: course});
+      - labelText = translate('teacher.view_student_project');
+      - dotClass = 'navy';
+    else
+      - labelText = translate('teacher.project');
+    - dotClass += ' progress-dot-lg';
+  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
+    if link
+      a(href=link)
+        +progressDotLabel(labelText)
+    else
+      +progressDotLabel(labelText)
+        
+mixin progressDotLabel(label)
+  .dot-label.text-center
+    .dot-label-inner
+      = label
+      
+mixin breadcrumbs
+  .breadcrumbs
+    a(data-i18n='teacher.my_classes' href='/teachers/classes')
+    span.spl.spr >
+    //- TODO: Use .glyphicon-menu-right when we update bootstrap
+    a(href='/teachers/classes/'+view.classroom.id)
+      span= view.classroom.get('name')
+    span.spl.spr >
+    span= view.user.get('name')

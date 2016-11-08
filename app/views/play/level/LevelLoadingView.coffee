@@ -24,11 +24,12 @@ module.exports = class LevelLoadingView extends CocoView
 
   afterRender: ->
     super()
-    @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
-    tips = @$el.find('.tip').addClass('to-remove')
-    tip = _.sample(tips)
-    $(tip).removeClass('to-remove').addClass('secret')
-    @$el.find('.to-remove').remove()
+    unless @level?.get('loadingTip')
+      @$el.find('.tip.rare').remove() if _.random(1, 10) < 9
+      tips = @$el.find('.tip').addClass('to-remove')
+      tip = _.sample(tips)
+      $(tip).removeClass('to-remove').addClass('secret')
+      @$el.find('.to-remove').remove()
     @onLevelLoaded level: @options.level if @options.level?.get('goals')  # If Level was already loaded.
 
   afterInsert: ->
@@ -72,7 +73,8 @@ module.exports = class LevelLoadingView extends CocoView
     tip = @$el.find('.tip')
     if @level.get('loadingTip')
       loadingTip = utils.i18n @level.attributes, 'loadingTip'
-      tip.text(loadingTip)
+      loadingTip = marked(loadingTip)
+      tip.html(loadingTip).removeAttr('data-i18n')
     tip.removeClass('secret')
 
   prepareIntro: ->
@@ -169,7 +171,7 @@ module.exports = class LevelLoadingView extends CocoView
     @playSound 'loading-view-unveil', 0.5
     @$el.find('.left-wing').css left: '-100%', backgroundPosition: 'right -400px top 0'
     @$el.find('.right-wing').css right: '-100%', backgroundPosition: 'left -400px top 0'
-    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level.isType('web-dev')
+    $('#level-footer-background').detach().appendTo('#page-container').slideDown(duration) unless @level?.isType('web-dev')
 
   unveilIntro: =>
     return if @destroyed or not @intro or @unveiled

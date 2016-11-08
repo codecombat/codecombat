@@ -189,7 +189,7 @@ module.exports = class PlayHeroesModal extends ModalView
         layer.container.scaleX = layer.container.scaleY = m
         layer.container.children[0].x = 160/m
         layer.container.children[0].y = 250/m
-        if fullHero.get('slug') in ['forest-archer', 'librarian', 'sorcerer', 'potion-master', 'necromancer']
+        if fullHero.get('slug') in ['forest-archer', 'librarian', 'sorcerer', 'potion-master', 'necromancer', 'code-ninja']
           layer.container.children[0].y -= 3
         if fullHero.get('slug') in ['librarian', 'sorcerer', 'potion-master', 'necromancer', 'goliath']
           layer.container.children[0].x -= 3

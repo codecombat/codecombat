@@ -26,6 +26,7 @@ sendwithus = require '../sendwithus'
 Prepaid = require '../models/Prepaid'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
+facebook = require '../lib/facebook'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -61,18 +62,15 @@ UserHandler = class UserHandler extends Handler
   waterfallFunctions: [
     # FB access token checking
     # Check the email is the same as FB reports
+    # TODO: Remove deprecated signups on RequestQuoteView, then these waterfall functions
     (req, user, callback) ->
       fbID = req.query.facebookID
       fbAT = req.query.facebookAccessToken
       return callback(null, req, user) unless fbID and fbAT
-      url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-      request(url, (err, response, body) ->
-        log.warn "Error grabbing FB token: #{err}" if err
-        body = JSON.parse(body)
+      facebook.fetchMe(fbAT).catch(callback).then (body) ->
         emailsMatch = req.body.email is body.email
         return callback(res: 'Invalid Facebook Access Token.', code: 422) unless emailsMatch
         callback(null, req, user)
-      )
 
     # GPlus access token checking
     (req, user, callback) ->
@@ -91,6 +89,12 @@ UserHandler = class UserHandler extends Handler
     # Email setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
+      
+      # handle unsetting email
+      if req.body.email is ''
+        user.set('email', req.body.email)
+        return callback(null, req, user)
+        
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
       User.findOne({emailLower: emailLower}).exec (err, otherUser) ->
@@ -111,6 +115,11 @@ UserHandler = class UserHandler extends Handler
     # Name setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.name?
+      
+      if req.body.name is ''
+        user.set('name', req.body.name)
+        return callback(null, req, user)
+      
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
@@ -345,9 +354,9 @@ UserHandler = class UserHandler extends Handler
       stripe.customers.retrieve customerID, (err, customer) =>
         return @sendDatabaseError(res, err) if err
         info = card: customer.sources?.data?[0]
-        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (subscription) =>
+        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (err, subscription) =>
           info.subscription = subscription
-          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (subscription) =>
+          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (err, subscription) =>
             info.sponsorSubscription = subscription
             @sendSuccess(res, JSON.stringify(info, null, '\t'))
 
@@ -401,7 +410,7 @@ UserHandler = class UserHandler extends Handler
         name: sponsor.get('name')
 
       # Get recipient subscription info
-      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (subscription) =>
+      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (err, subscription) =>
         info.subscription = subscription
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)
@@ -477,11 +486,11 @@ UserHandler = class UserHandler extends Handler
         {schoolName: {$exists: true}},
         {schoolName: {$ne: ''}}
         ]}
-    User.find(query, {schoolName: 1}).exec (err, documents) =>
+    User.find(query, {schoolName: 1}).lean().exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       schoolCountMap = {}
       for doc in documents
-        schoolName = doc.get('schoolName')
+        schoolName = doc.schoolName
         schoolCountMap[schoolName] ?= 0;
         schoolCountMap[schoolName]++;
       schoolCounts = []
@@ -489,7 +498,6 @@ UserHandler = class UserHandler extends Handler
         continue unless count >= minCount
         schoolCounts.push schoolName: schoolName, count: count
       @sendSuccess(res, schoolCounts)
-
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user
     doc =
@@ -688,7 +696,7 @@ UserHandler = class UserHandler extends Handler
     emailHash = @buildEmailHash user
     fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
     fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
-    "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
+    "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar
@@ -712,6 +720,32 @@ UserHandler = class UserHandler extends Handler
       @sendSuccess res, remark
 
   searchForUser: (req, res) ->
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+    return module.exports.mongoSearchForUser(req,res) unless config.sphinxServer
+    mysql = require('mysql');
+    connection = mysql.createConnection
+      host: config.sphinxServer
+      port: 9306
+    connection.connect()
+
+    q = req.body.search
+    if isID q
+      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE mongoid = ? LIMIT 100;"
+    else
+      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE MATCH(?)  LIMIT 100;"
+
+    connection.query mysqlq, [q], (err, rows, fields) =>
+      return @sendDatabaseError res, err if err
+      ids = rows.map (r) -> r.mongoid
+      User.find({_id: {$in: ids}}).select({name: 1, email: 1, dateCreated: 1}).lean().exec (err, users) =>
+        return @sendDatabaseError res, err if err
+        out = _.filter _.map ids, (id) => _.find(users, (u) -> String(u._id) is id)
+        console.log(out)
+        @sendSuccess res, out
+    connection.end()
+
+
+  mongoSearchForUser: (req, res) ->
     # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
     return @sendForbiddenError(res) unless req.user?.isAdmin()
     search = req.body.search

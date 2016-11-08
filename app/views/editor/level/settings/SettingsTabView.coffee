@@ -1,10 +1,12 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/settings_tab'
 Level = require 'models/Level'
+ThangType = require 'models/ThangType'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 {me} = require 'core/auth'
 require 'vendor/treema'
+concepts = require 'schemas/concepts'
 
 module.exports = class SettingsTabView extends CocoView
   id: 'editor-level-settings-tab-view'
@@ -13,10 +15,11 @@ module.exports = class SettingsTabView extends CocoView
 
   # not thangs or scripts or the backend stuff
   editableSettings: [
-    'name', 'description', 'documentation', 'nextLevel', 'background', 'victory', 'i18n', 'icon', 'goals',
-    'type', 'terrain', 'showsGuide', 'banner', 'employerDescription', 'loadingTip', 'requiresSubscription',
+    'name', 'description', 'documentation', 'nextLevel', 'victory', 'i18n', 'goals',
+    'type', 'kind', 'terrain', 'banner', 'loadingTip', 'requiresSubscription', 'adventurer', 'adminOnly',
     'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'picoCTFProblem', 'practice', 'practiceThresholdMinutes'
-    'primerLanguage', 'shareable', 'studentPlayInstructions'
+    'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
+    'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes'
   ]
 
   subscriptions:
@@ -47,6 +50,10 @@ module.exports = class SettingsTabView extends CocoView
       nodeClasses:
         object: SettingsNode
         thang: nodes.ThangNode
+        'solution-gear': SolutionGearNode
+        'solution-stats': SolutionStatsNode
+        concept: ConceptNode
+      solutions: @level.getSolutions()
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
     @settingsTreema.build()
@@ -59,7 +66,6 @@ module.exports = class SettingsTabView extends CocoView
   onSettingsChanged: (e) =>
     $('.level-title').text @settingsTreema.data.name
     for key in @editableSettings
-      continue if @settingsTreema.data[key] is undefined
       @level.set key, @settingsTreema.data[key]
     if (terrain = @settingsTreema.data.terrain) isnt @lastTerrain
       @lastTerrain = terrain
@@ -77,6 +83,7 @@ module.exports = class SettingsTabView extends CocoView
   onThangsEdited: (e) ->
     # Update in-place so existing Treema nodes refer to the same array.
     @thangIDs?.splice(0, @thangIDs.length, @getThangIDs()...)
+    @settingsTreema.solutions = @level.getSolutions()  # Remove if slow
 
   onRandomTerrainGenerated: (e) ->
     @settingsTreema.set '/terrain', e.terrain
@@ -88,3 +95,50 @@ module.exports = class SettingsTabView extends CocoView
 
 class SettingsNode extends TreemaObjectNode
   nodeDescription: 'Settings'
+
+class SolutionGearNode extends TreemaArrayNode
+  select: ->
+    super()
+    return unless solution = _.find @getRoot().solutions, succeeds: true, language: 'javascript'
+    propertiesUsed = []
+    for match in (solution.source ? '').match /hero\.([a-z][A-Za-z0-9]*)/g
+      prop = match.split('.')[1]
+      propertiesUsed.push prop unless prop in propertiesUsed
+    return unless propertiesUsed.length
+    if _.isEqual @data, propertiesUsed
+      @$el.find('.treema-description').html('Solution uses exactly these required properties.')
+      return
+    description = 'Solution used properties: ' + ["<code>#{prop}</code>" for prop in propertiesUsed].join(' ')
+    button = $('<button class="btn btn-sm">Use</button>')
+    $(button).on 'click', =>
+      @set '', propertiesUsed
+      _.defer =>
+        @open()
+        @select()
+    @$el.find('.treema-description').html(description).append(button)
+
+class SolutionStatsNode extends TreemaNode.nodeMap.number
+  select: ->
+    super()
+    return unless solution = _.find @getRoot().solutions, succeeds: true, language: 'javascript'
+    ThangType.calculateStatsForHeroConfig solution.heroConfig, (stats) =>
+      stats[key] = val.toFixed(2) for key, val of stats when parseInt(val) isnt val
+      description = "Solution had stats: <code>#{JSON.stringify(stats)}</code>"
+      button = $('<button class="btn btn-sm">Use health</button>')
+      $(button).on 'click', =>
+        @set '', stats.health
+        _.defer =>
+          @open()
+          @select()
+      @$el.find('.treema-description').html(description).append(button)
+
+class ConceptNode extends TreemaNode.nodeMap.string
+  buildValueForDisplay: (valEl, data) ->
+    super valEl, data
+    return console.error "Couldn't find concept #{@data}" unless concept = _.find concepts, concept: @data
+    description = "#{concept.name} -- #{concept.description}"
+    description = description + " (Deprecated)" if concept.deprecated
+    description = "AUTO | " + description if concept.automatic
+    @$el.find('.treema-row').css('float', 'left')
+    @$el.find('.treema-description').remove()
+    @$el.append($("<span class='treema-description'>#{description}</span>").show())

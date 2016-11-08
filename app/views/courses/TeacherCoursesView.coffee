@@ -36,8 +36,9 @@ module.exports = class TeacherCoursesView extends RootView
 
   getTitle: -> return $.i18n.t('teacher.courses')
 
-  constructor: (options) ->
+  initialize: (options) ->
     super(options)
+    @utils = require 'core/utils'
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
@@ -48,11 +49,7 @@ module.exports = class TeacherCoursesView extends RootView
       @supermodel.trackRequest @courses.fetchReleased()
     @campaigns = new Campaigns()
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
-    @
-
-  initialize: (options) ->
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
-    super(options)
 
   onClickGuideButton: (e) ->
     courseID = $(e.currentTarget).data('course-id')

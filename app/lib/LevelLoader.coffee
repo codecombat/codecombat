@@ -12,7 +12,7 @@ app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 
-LOG = false
+LOG = me.get('name') is 'Shanakin'  # Debugging a hanging load issue in production
 
 # This is an initial stab at unifying loading and setup into a single place which can
 # monitor everything and keep a LoadingScreen visible overall progress.
@@ -44,6 +44,7 @@ module.exports = class LevelLoader extends CocoClass
     @spectateMode = options.spectateMode ? false
     @observing = options.observing
     @courseID = options.courseID
+    @courseInstanceID = options.courseInstanceID
 
     @worldNecessities = []
     @listenTo @supermodel, 'resource-loaded', @onWorldNecessityLoaded
@@ -78,6 +79,7 @@ module.exports = class LevelLoader extends CocoClass
       @listenToOnce @level, 'sync', @onLevelLoaded
 
   reportLoadError: ->
+    return if @destroyed
     window.tracker?.trackEvent 'LevelLoadError',
       category: 'Error',
       levelSlug: @work?.level?.slug,
@@ -94,12 +96,15 @@ module.exports = class LevelLoader extends CocoClass
         originalGet = @level.get
         @level.get = ->
           return 'hero' if arguments[0] is 'type'
+          return 'web-dev' if arguments[0] is 'realType'
           originalGet.apply @, arguments
     if (@courseID and not @level.isType('course', 'course-ladder', 'game-dev', 'web-dev')) or window.serverConfig.picoCTF
       # Because we now use original hero levels for both hero and course levels, we fake being a course level in this context.
       originalGet = @level.get
+      realType = @level.get('type')
       @level.get = ->
         return 'course' if arguments[0] is 'type'
+        return realType if arguments[0] is 'realType'
         originalGet.apply @, arguments
     if window.serverConfig.picoCTF
       @supermodel.addRequestResource(url: '/picoctf/problems', success: (picoCTFProblems) =>
@@ -149,8 +154,12 @@ module.exports = class LevelLoader extends CocoClass
       url += "?interpret=true" if @spectateMode
     else
       url = "/db/level/#{@levelID}/session"
-      url += "?team=#{@team}" if @team
-      url += "?course=#{@courseID}" if @courseID
+      if @team
+        url += "?team=#{@team}"
+      else if @courseID
+        url += "?course=#{@courseID}"
+        if @courseInstanceID
+          url += "&courseInstance=#{@courseInstanceID}"
 
     session = new LevelSession().setURL url
     if @headless and not @level.isType('web-dev')
@@ -377,10 +386,13 @@ module.exports = class LevelLoader extends CocoClass
     return false unless @thangNamesLoaded
     return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
     return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
+    return false unless @session?.loaded or @sessionless
     true
 
   onWorldNecessitiesLoaded: ->
     console.log "World necessities loaded." if LOG
+    return if @initialized
+    @initialized = true
     @initWorld()
     @supermodel.clearMaxProgress()
     @trigger 'world-necessities-loaded'
@@ -508,8 +520,6 @@ module.exports = class LevelLoader extends CocoClass
   # World init
 
   initWorld: ->
-    return if @initialized
-    @initialized = true
     return if @level.isType('web-dev')
     @world = new World()
     @world.levelSessionIDs = if @opponentSessionID then [@sessionID, @opponentSessionID] else [@sessionID]

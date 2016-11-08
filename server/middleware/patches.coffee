@@ -33,7 +33,7 @@ module.exports.post = wrap (req, res) ->
     throw new errors.UnprocessableEntity("#{collection} is not patchable")
     
   # pass to logic shared with "POST /db/:collection/:handle/patch"
-  yield postPatch(Model, collection, req, res)
+  yield postPatch(Model, collection)(req, res)
 
 
 # Allow patch submitters to withdraw their patches, or admins/artisans to accept/reject others' patches
