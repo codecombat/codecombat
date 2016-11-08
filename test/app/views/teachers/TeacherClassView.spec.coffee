@@ -44,6 +44,7 @@ describe 'TeacherClassView', ->
         factories.makeUser({name: 'Ebner'}, {prepaid: expired})
       ])
       @levels = new Levels(_.times(2, -> factories.makeLevel({ concepts: ['basic_syntax', 'arguments', 'functions'] })))
+      @levels.push(factories.makeLevel({ name: "Practice Level", concepts: ['basic_syntax', 'arguments', 'functions'], practice: true }))
       @levels.push(factories.makeLevel({ concepts: ['basic_syntax', 'arguments', 'functions'], primerLanguage: 'javascript' }))
 
       _.defer done
@@ -57,9 +58,15 @@ describe 'TeacherClassView', ->
         ])
 
         sessions = []
-        @finishedStudent = @students.first()
+        @finishedStudent = @students.models[0]
+        @finishedStudentWithPractice = @students.models[1]
         @unfinishedStudent = @students.last()
         for level in @levels.models
+          sessions.push(factories.makeLevelSession(
+              {state: {complete: true}, playtime: 60},
+              {level, creator: @finishedStudentWithPractice})
+          )
+          continue if level.get('practice') 
           sessions.push(factories.makeLevelSession(
               {state: {complete: true}, playtime: 60},
               {level, creator: @finishedStudent})
@@ -140,6 +147,8 @@ describe 'TeacherClassView', ->
               expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
               if simplerLine.match new RegExp(@finishedStudent.get('email'))
                 expect(simplerLine).toMatch /3 minutes,3 minutes,0/
+              else if simplerLine.match new RegExp(@finishedStudentWithPractice.get('email'))
+                expect(simplerLine).toMatch /4 minutes,4 minutes,0/
               else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
                 expect(simplerLine).toMatch /a minute,a minute,0/
               else if simplerLine.match /@/
@@ -162,6 +171,7 @@ describe 'TeacherClassView', ->
         classLanguage = @classroom.get('aceConfig')?.language
         for level in @levels.models
           continue if classLanguage and classLanguage is level.get('primerLanguage')
+          continue if level.get('practice')
           sessions.push(factories.makeLevelSession(
               {state: {complete: true}, playtime: 60},
               {level, creator: @finishedStudent})
