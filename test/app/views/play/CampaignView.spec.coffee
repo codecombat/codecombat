@@ -16,9 +16,20 @@ describe 'CampaignView', ->
       earned.levels.push(level.original) for level in @levels
       me.set('earned', earned)
 
+    describe 'and 3rd one is practice in classroom only', ->
+      beforeEach ->
+        # Not named "Level Name [ABCD]", so not actually a practice level in home version.
+        @levels[2].practice = true
+        @campaignView.annotateLevels(@levels)
+      it 'does not hide the not-really-practice level', ->
+        expect(@levels[2].hidden).toEqual(false)
+        expect(@levels[3].hidden).toEqual(false)
+
     describe 'and 3rd one is practice', ->
       beforeEach ->
         @levels[2].practice = true
+        @levels[2].name += ' A'
+        @levels[2].slug += '-a'
         @campaignView.annotateLevels(@levels)
       it 'hides next levels if there are practice levels to do', ->
         expect(@levels[2].hidden).toEqual(false)
@@ -30,6 +41,8 @@ describe 'CampaignView', ->
         @campaignView.levelStatusMap[@levels[1].slug] = 'complete'
         @levels[1].rewards = [{level: @levels[2].original}, {level: @levels[3].original}]
         @levels[2].practice = true
+        @levels[2].name += ' A'
+        @levels[2].slug += '-a'
         @campaignView.annotateLevels(@levels)
         @campaignView.determineNextLevel(@levels)
       it 'points at practice level first', ->
