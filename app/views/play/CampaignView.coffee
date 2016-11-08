@@ -322,7 +322,7 @@ module.exports = class CampaignView extends RootView
           """
           level.color = 'rgb(80, 130, 200)' if problem.solved
 
-      if @campaign.levelIsPractice(level) and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
+      if @campaign?.levelIsPractice(level) and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
       (not level.requiresSubscription or level.adventurer or not @requiresSubscription)
         previousIncompletePracticeLevel = true
 
@@ -346,7 +346,7 @@ module.exports = class CampaignView extends RootView
       continue if level.disabled
       completed = @levelStatusMap[level.slug] is 'complete'
       started = @levelStatusMap[level.slug] is 'started'
-      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not @campaign.levelIsPractice(level))
+      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not @campaign?.levelIsPractice(level))
       ++count.completed if completed
     count
 
