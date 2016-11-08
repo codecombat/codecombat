@@ -62,6 +62,13 @@ module.exports.setup = (app) ->
   app.post('/db/article/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Article, 'article'))
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
+  
+  Branch = require '../models/Branch'
+  app.all('/db/branches*', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']))
+  app.post('/db/branches', mw.branches.post)
+  app.get('/db/branches', mw.rest.get(Branch))
+  app.put('/db/branches/:handle', mw.branches.put)
+  app.delete('/db/branches/:handle', mw.rest.delete(Branch))
 
   Campaign = require '../models/Campaign'
   app.post('/db/campaign', mw.auth.checkHasPermission(['admin']), mw.rest.post(Campaign))

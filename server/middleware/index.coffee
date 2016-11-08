@@ -2,6 +2,7 @@ module.exports =
   achievements: require './achievements'
   api: require './api'
   auth: require './auth'
+  branches: require './branches'
   classrooms: require './classrooms'
   apiClients: require './api-clients'
   campaigns: require './campaigns'

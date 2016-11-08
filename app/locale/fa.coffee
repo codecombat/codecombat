@@ -1,14 +1,14 @@
 module.exports = nativeDescription: "فارسی", englishDescription: "Persian", translation:
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
+  new_home:
+    slogan: "بهترین بازی برای یاد گرفتن برنامه نویسی"
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
-#    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
-#    learn_more: "Learn more"
+    teacher: "معلم"
+    student: "دانش آموز"
+    play_now: "بازی کنید"
+    im_a_teacher: "من یک معلم هستم"
+    im_a_student: "من یک دانش آموز هستم"
+    learn_more: "بیشتر بدانید"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
 #    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even by teachers with little to no prior programming experience."
@@ -67,7 +67,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
-    play: "سطوح" # The top nav bar entry where players choose which levels to play
+    play: "بازی کنید" # The top nav bar entry where players choose which levels to play
 #    community: "Community"
 #    courses: "Courses"
     blog: "بلاگ"

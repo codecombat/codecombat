@@ -321,7 +321,7 @@ module.exports = class CampaignView extends RootView
           """
           level.color = 'rgb(80, 130, 200)' if problem.solved
 
-      if level.practice and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
+      if @campaign.levelIsPractice(level) and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
       (not level.requiresSubscription or level.adventurer or not @requiresSubscription)
         previousIncompletePracticeLevel = true
 
@@ -344,7 +344,7 @@ module.exports = class CampaignView extends RootView
       continue if level.disabled
       completed = @levelStatusMap[level.slug] is 'complete'
       started = @levelStatusMap[level.slug] is 'started'
-      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not level.practice)
+      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not @campaign.levelIsPractice(level))
       ++count.completed if completed
     count
 
@@ -368,7 +368,7 @@ module.exports = class CampaignView extends RootView
       for nextLevelOriginal in nextLevels
         nextLevel = _.find orderedLevels, original: nextLevelOriginal
         continue if not nextLevel or nextLevel.locked
-        continue if practiceOnly and not nextLevel.practice
+        continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
         if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
@@ -449,7 +449,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      continue if level.hidden and (level.practice or not level.unlockedInSameCampaign)
+      continue if level.hidden and (@campaign.levelIsPractice(level) or not level.unlockedInSameCampaign)
       terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
       particleKey = ['level', terrain]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model

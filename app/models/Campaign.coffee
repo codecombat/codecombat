@@ -29,6 +29,15 @@ module.exports = class Campaign extends CocoModel
     unless @levelNumberMap
       levels = []
       for level in @getLevels().models when level.get('original')
-        levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+        practice = @levelIsPractice level
+        levels.push({key: level.get('original'), practice: practice})
       @levelNumberMap = utils.createLevelNumberMap(levels)
     @levelNumberMap[levelID] ? defaultNumber
+
+  levelIsPractice: (level) ->
+    # Migration: in home version, only treat levels explicitly labeled as "Level Name A", "Level Name B", etc. as practice levels
+    level = level.attributes if level.attributes
+    if @get('type') is 'course'
+      return level.practice
+    else
+      return level.practice and / [ABCD]$/.test level.name
