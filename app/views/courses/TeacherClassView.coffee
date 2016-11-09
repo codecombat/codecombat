@@ -534,7 +534,7 @@ module.exports = class TeacherClassView extends RootView
     language = @classroom.get('aceConfig')?.language
     for level in @levels.models
       levelIncludeMap[level.get('original')] = not level.get('practice') and (not language? or level.get('primerLanguage') isnt language)
-      completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete and levelIncludeMap[s.get('level')?.original]
+    completeSessions = @classroom.sessions.filter (s) -> s.get('state')?.complete and levelIncludeMap[s.get('level')?.original]
     stats.averageLevelsComplete = if @students.size() then (_.size(completeSessions) / @students.size()).toFixed(1) else 'N/A'  # '
     stats.totalLevelsComplete = _.size(completeSessions)
 
