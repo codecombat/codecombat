@@ -4,7 +4,7 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
-  if !me.isTeacher() && view.ownedClassrooms.size()
+  if !me.isTeacher() && view.ownedClassrooms.size() && !me.isAdmin()
     .alert.alert-danger.text-center
       .container
         // DNT: Temporary
