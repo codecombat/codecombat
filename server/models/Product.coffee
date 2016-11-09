@@ -11,6 +11,7 @@ ProductSchema.statics.findBasicSubscriptionForUser = co.wrap (user) ->
     countrySpecificProductName = "#{country}_basic_subscription"
     if countrySpecificProduct = yield @findOne {name: countrySpecificProductName}
       return countrySpecificProduct
-  return yield @findOne {name: basicProductName}
+  product = yield @findOne {name: basicProductName}
+  return product
 
 module.exports = mongoose.model('product', ProductSchema)

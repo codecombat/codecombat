@@ -364,8 +364,15 @@ module.exports = class Handler
       return @sendNotFoundError(res) unless document?
       return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
       @doWaterfallChecks req, document, (err, document) =>
-        return if err is true
-        return @sendError(res, err.code, err.res) if err
+        if err is true
+          # Unknown why this was done; let's log it to see when this happens.
+          console.error "Ignoring some true waterfall error"
+          return
+        if err
+          if err.code? or err?.res
+            return @sendError(res, err.code, err.res) if err
+          console.error "Ill-formatted error in waterfall checks: #{err.stack}"
+          return @sendError(res, 500, 'Internal server error (waterfall)') if err
         @saveChangesToDocument req, document, (err) =>
           return @sendBadInputError(res, err.errors) if err?.valid is false
           return @sendDatabaseError(res, err) if err

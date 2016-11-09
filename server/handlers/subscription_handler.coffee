@@ -280,15 +280,16 @@ class SubscriptionHandler extends Handler
           @checkForExistingSubscription(req, user, customer, couponID, done)
 
     else
-      couponID = user.get('stripe')?.couponID
-      if not couponID and user.get 'country'
-        basicProduct = yield Product.findBasicSubscriptionForUser user
-        if basicProduct.name isnt 'basic_subscription'  # We have a customized product for this country
+      Promise.resolve().then =>
+        couponID = user.get('stripe')?.couponID
+        return couponID if couponID or not user.get 'country'
+        return Product.findBasicSubscriptionForUser(user).catch(done).then (product) ->
+          return couponID if product.name is 'basic_subscription'
+          # We have a customized product for this country
           couponID = user.get 'country'
-      # SALE LOGIC
-      # overwrite couponID with another for everyone-sales
-      #couponID = 'hoc_399' if not couponID
-      @checkForExistingSubscription(req, user, customer, couponID, done)
+          return couponID
+      .catch(done).then (couponID) =>
+        @checkForExistingSubscription(req, user, customer, couponID, done)
 
   checkForExistingSubscription: (req, user, customer, couponID, done) ->
     findStripeSubscription customer.id, subscriptionID: user.get('stripe')?.subscriptionID, (err, subscription) =>
@@ -345,21 +346,21 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    product = yield Product.findBasicSubscriptionForUser user
-    return done({res: 'basic_subscription product not found.', code: 404}) if not product
+    Product.findBasicSubscriptionForUser(user).catch(done).then (product) =>
+      return done({res: 'basic_subscription product not found.', code: 404}) unless product
 
-    if increment
-      purchased = _.clone(user.get('purchased'))
-      purchased ?= {}
-      purchased.gems ?= 0
-      purchased.gems += product.get('gems') if product.get('gems')
-      user.set('purchased', purchased)
+      if increment
+        purchased = _.clone(user.get('purchased'))
+        purchased ?= {}
+        purchased.gems ?= 0
+        purchased.gems += product.get('gems') if product.get('gems')
+        user.set('purchased', purchased)
 
-    user.save (err) =>
-      if err
-        @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
-        return done({res: 'Database error.', code: 500})
-      done()
+      user.save (err) =>
+        if err
+          @logSubscriptionError(user, 'Stripe user plan saving error. ' + err)
+          return done({res: 'Database error.', code: 500})
+        done()
 
   updateStripeRecipientSubscriptions: (req, user, customer, done) ->
     return done({res: 'Database error.', code: 500}) unless req.body.stripe?.subscribeEmails?
