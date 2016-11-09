@@ -134,19 +134,13 @@ module.exports =
     trialRequest = yield TrialRequest.findOne(applicant: mongoose.Types.ObjectId(req.user.id))
     if trialRequest
       nces_district_students = trialRequest.get('properties').nces_district_students
-      numStudentsTotal = trialRequest.get('properties').numStudentsTotal
-      # nces_district_students takes priority over self-reported number
-      if nces_district_students > 5000
+      numStudents = trialRequest.get('properties').numStudents
+      if numStudents in ['101-200', '201-500', '501-1000', '1000+']
         return res.status(200).send({ priority: 'high' })
-      else if nces_district_students > 1000
+      else if numStudents in ['11-50', '51-100']
         return res.status(200).send({ priority: 'medium' })
-      else if nces_district_students > 0
-        return res.status(200).send({ priority: 'low' })
-      else if numStudentsTotal in ['5,000-10,000', '10,000+']
-        return res.status(200).send({ priority: 'high' })
-      else if numStudentsTotal in ['1,000-5,000']
-        return res.status(200).send({ priority: 'medium' })
-      else if numStudentsTotal in ['1-500', '500-1,000']
+      else if numStudents in ['1-10']
+        # this is the only outcome specifically used; determines if we try to sell them starter licenses
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
