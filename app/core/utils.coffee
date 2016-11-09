@@ -25,66 +25,66 @@ countries = [
 
   # Loosely ordered by decreasing traffic as measured 2016-09-01 - 2016-11-07
   {country: 'united-kingdom', countryCode: 'GB'}
-  {country: 'russia', countryCode: 'RU'}  # 4.07
+  {country: 'russia', countryCode: 'RU'}
   {country: 'australia', countryCode: 'AU'}
   {country: 'canada', countryCode: 'CA'}
   {country: 'france', countryCode: 'FR'}
-  {country: 'taiwan', countryCode: 'TW'}  # 4.27
-  {country: 'ukraine', countryCode: 'UA'}  # 3.12
-  {country: 'poland', countryCode: 'PL'}  # 4.80
+  {country: 'taiwan', countryCode: 'TW'}
+  {country: 'ukraine', countryCode: 'UA'}
+  {country: 'poland', countryCode: 'PL'}
   {country: 'spain', countryCode: 'ES'}
   {country: 'germany', countryCode: 'DE'}
   {country: 'netherlands', countryCode: 'NL'}
   {country: 'hungary', countryCode: 'HU'}
   {country: 'japan', countryCode: 'JP'}
-  {country: 'turkey', countryCode: 'TR'}  # 7.01
+  {country: 'turkey', countryCode: 'TR'}
   {country: 'south-africa', countryCode: 'ZA'}
-  {country: 'indonesia', countryCode: 'ID'}  # 4.69
+  {country: 'indonesia', countryCode: 'ID'}
   {country: 'new-zealand', countryCode: 'NZ'}
   {country: 'finland', countryCode: 'FI'}
   {country: 'south-korea', countryCode: 'KR'}
-  {country: 'mexico', countryCode: 'MX'}  # 4.71
-  {country: 'vietnam', countryCode: 'VN'}  # 5.34
+  {country: 'mexico', countryCode: 'MX'}
+  {country: 'vietnam', countryCode: 'VN'}
   {country: 'singapore', countryCode: 'SG'}
-  {country: 'colombia', countryCode: 'CO'}  # 6.03
-  {country: 'india', countryCode: 'IN'}  # 4.78
-  {country: 'thailand', countryCode: 'TH'}  # 6.75
+  {country: 'colombia', countryCode: 'CO'}
+  {country: 'india', countryCode: 'IN'}
+  {country: 'thailand', countryCode: 'TH'}
   {country: 'belgium', countryCode: 'BE'}
   {country: 'sweden', countryCode: 'SE'}
   {country: 'denmark', countryCode: 'DK'}
-  {country: 'czech-republic', countryCode: 'CZ'}  # 6.06
-  {country: 'hong-kong', countryCode: 'HK'}  # 4.91
+  {country: 'czech-republic', countryCode: 'CZ'}
+  {country: 'hong-kong', countryCode: 'HK'}
   {country: 'italy', countryCode: 'IT'}
-  {country: 'romania', countryCode: 'RO'}  # 5?
-  {country: 'belarus', countryCode: 'BY'}  # 5?
+  {country: 'romania', countryCode: 'RO'}
+  {country: 'belarus', countryCode: 'BY'}
   {country: 'norway', countryCode: 'NO'}
-  {country: 'philippines', countryCode: 'PH'}  # 5.60
-  {country: 'lithuania', countryCode: 'LT'}  # 5.62
-  {country: 'argentina', countryCode: 'AR'}  # 6.64
-  {country: 'malaysia', countryCode: 'MY'}  # 3.94
-  {country: 'pakistan', countryCode: 'PK'}  # 7.10
-  {country: 'serbia', countryCode: 'RS'}  # 4?
+  {country: 'philippines', countryCode: 'PH'}
+  {country: 'lithuania', countryCode: 'LT'}
+  {country: 'argentina', countryCode: 'AR'}
+  {country: 'malaysia', countryCode: 'MY'}
+  {country: 'pakistan', countryCode: 'PK'}
+  {country: 'serbia', countryCode: 'RS'}
   {country: 'greece', countryCode: 'GR'}
   {country: 'israel', countryCode: 'IL'}
-  {country: 'portugal', countryCode: 'PT'}  # 6.66
+  {country: 'portugal', countryCode: 'PT'}
   {country: 'slovakia', countryCode: 'SK'}
   {country: 'ireland', countryCode: 'IE'}
   {country: 'switzerland', countryCode: 'CH'}
-  {country: 'peru', countryCode: 'PE'}  # 6.00
-  {country: 'bulgaria', countryCode: 'BG'}  # 5?
-  {country: 'venezuela', countryCode: 'VE'}  # 6.71
+  {country: 'peru', countryCode: 'PE'}
+  {country: 'bulgaria', countryCode: 'BG'}
+  {country: 'venezuela', countryCode: 'VE'}
   {country: 'austria', countryCode: 'AT'}
-  {country: 'croatia', countryCode: 'HR'}  # 5?
+  {country: 'croatia', countryCode: 'HR'}
   {country: 'saudia-arabia', countryCode: 'SA'}
-  {country: 'chile', countryCode: 'CL'}  # 6.64
+  {country: 'chile', countryCode: 'CL'}
   {country: 'united-arab-emirates', countryCode: 'AE'}
-  {country: 'kazakhstan', countryCode: 'KZ'}  # 6?
-  {country: 'estonia', countryCode: 'EE'}  # 6.777
-  {country: 'iran', countryCode: 'IR'}  # 4?
-  {country: 'egypt', countryCode: 'EG'}  # 5.14
-  {country: 'ecuador', countryCode: 'EC'}  # 4?
+  {country: 'kazakhstan', countryCode: 'KZ'}
+  {country: 'estonia', countryCode: 'EE'}
+  {country: 'iran', countryCode: 'IR'}
+  {country: 'egypt', countryCode: 'EG'}
+  {country: 'ecuador', countryCode: 'EC'}
   {country: 'slovenia', countryCode: 'SI'}
-  {country: 'macedonia', countryCode: 'MK'}  # 4?
+  {country: 'macedonia', countryCode: 'MK'}
 ]
 
 courseIDs =

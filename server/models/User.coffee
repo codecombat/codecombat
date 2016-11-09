@@ -513,7 +513,6 @@ UserSchema.statics.makeNew = (req) ->
     user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
-  console.log 'set lang', lang, 'from', req.acceptedLanguages
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
