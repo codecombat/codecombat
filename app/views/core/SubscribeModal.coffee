@@ -49,6 +49,8 @@ module.exports = class SubscribeModal extends ModalView
     @setupPaymentMethodsInfoPopover()
     if @basicProduct
       @$el.find('.gem-amount').html $.i18n.t('subscribe.feature4').replace('{{gems}}', @basicProduct.get('gems'))
+      if @basicProduct.get('gems') < 3500
+        @$el.find('[data-i18n="subscribe.feature6"]').parents('tr').hide()
     @playSound 'game-menu-open'
 
   setupParentButtonPopover: ->
