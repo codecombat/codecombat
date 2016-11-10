@@ -542,10 +542,10 @@ module.exports = Surface = class Surface extends CocoClass
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
     @gameUIState.trigger('surface:mouse-scrolled', event)
-    
-    
+
+
   #- Keyboard callbacks
-  
+
   onKeyEvent: (e) =>
     return unless @realTime
     event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
@@ -567,7 +567,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     else if @realTime or @options.spectateGame
-      pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
     else if $('#thangs-tab-view')
