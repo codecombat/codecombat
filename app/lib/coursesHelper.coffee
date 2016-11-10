@@ -202,8 +202,8 @@ module.exports =
               courseProgress[levelID].dateFirstCompleted = null
               courseProgress[levelID][userID].dateFirstCompleted = null
               
-            if isPractice and not courseProgress[levelID].started
-              courseProgress[levelID].completed = false # edge for practice levels, not considered complete if never started either
+          if isPractice and courseProgress and not courseProgress[levelID].started
+            courseProgress[levelID].completed = false # edge for practice levels, not considered complete if never started either
 
     _.assign(progressData, progressMixin)
     return progressData
