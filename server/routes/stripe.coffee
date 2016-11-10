@@ -6,6 +6,7 @@ Payment = require '../models/Payment'
 errors = require '../commons/errors'
 mongoose = require 'mongoose'
 utils = require '../../app/core/utils'
+Product = require '../models/Product'
 
 module.exports.setup = (app) ->
   # Cache customer -> user ID map (increases test perf considerably)
@@ -36,16 +37,16 @@ module.exports.setup = (app) ->
   handlePaymentSucceeded = (req, res) ->
     # if they actually paid, give em some gems
 
-    getUserID = (customerID, done) =>
+    getUserID = (customerID, done) ->
       # Asumming Stripe customer never has a different userID
       return done(null, customerUserMap[customerID]) if customerID of customerUserMap
-      stripe.customers.retrieve customerID, (err, customer) =>
+      stripe.customers.retrieve customerID, (err, customer) ->
         return done(err) if err
         customerUserMap[customerID] = customer.metadata.id
         return done(null, customerUserMap[customerID])
 
     invoiceID = req.body.data.object.id
-    stripe.invoices.retrieve invoiceID, (err, invoice) =>
+    stripe.invoices.retrieve invoiceID, (err, invoice) ->
       if err
         logStripeWebhookError("Retrieve invoice error: #{JSON.stringify(err)}")
         return res.send(500, '')
@@ -55,7 +56,7 @@ module.exports.setup = (app) ->
         return res.send(200, '')
       return res.send(200, '') unless invoice.lines?.data?.length > 0
 
-      getUserID invoice.customer, (err, userID) =>
+      getUserID invoice.customer, (err, userID) ->
         if err
           logStripeWebhookError("Get user ID error: #{JSON.stringify(err)}")
           return res.send(500, '')
@@ -66,13 +67,13 @@ module.exports.setup = (app) ->
         # Subscription id location depends on invoice line_item type
         subscriptionID = invoice.lines.data[0].subscription or invoice.lines.data[0].id
 
-        User.findById recipientID, (err, recipient) =>
+        User.findById recipientID, (err, recipient) ->
           if err
             logStripeWebhookError("Find recipient user error: #{JSON.stringify(err)}")
             return res.send(500, '')
           return res.send(200) unless recipient # just for the sake of testing...
 
-          Payment.findOne {'stripe.invoiceID': invoiceID}, (err, payment) =>
+          Payment.findOne {'stripe.invoiceID': invoiceID}, (err, payment) ->
             return res.send(200, '') if payment
             payment = new Payment({
               'purchaser': mongoose.Types.ObjectId(userID)
@@ -86,49 +87,54 @@ module.exports.setup = (app) ->
                 subscriptionID: subscriptionID
               }
             })
-            # TODO: load gems from correct Product
-            productGems = 3500
-            if recipient.get('country') is 'brazil'
-              productGems = 1500
-            payment.set 'gems', productGems if invoice.lines.data[0].plan?.id is 'basic'
-
-            payment.save (err) =>
+            Promise.resolve().then ->
+              return null unless invoice.lines.data[0].plan?.id is 'basic'
+              return Product.findBasicSubscriptionForUser(recipient).catch((err) -> err).then (product) ->
+                throw new Error('No subscription product found') unless product
+                payment.set 'gems', product.get('gems')
+                null
+            .catch (err) ->
               if err
-                logStripeWebhookError("Save payment error: #{JSON.stringify(err)}")
+                logStripeWebhookError("Fetch product error: #{JSON.stringify(err)}")
                 return res.send(500, '')
-              return res.send(201, '') if invoice.lines.data[0].plan?.id isnt 'basic'
+            .then ->
+              payment.save (err) ->
+                if err
+                  logStripeWebhookError("Save payment error: #{JSON.stringify(err)}")
+                  return res.send(500, '')
+                return res.send(201, '') if invoice.lines.data[0].plan?.id isnt 'basic'
 
-              # Update purchased gems
-              # TODO: is this correct for a resub?
-              Payment.find({recipient: recipient._id, gems: {$exists: true}}).select('gems').exec (err, payments) ->
-                gems = _.reduce payments, ((sum, p) -> sum + (p.get('gems') or 0)), 0
-                purchased = _.clone(recipient.get('purchased'))
-                purchased ?= {}
-                purchased.gems = gems
-                recipient.set('purchased', purchased)
-                recipient.save (err) ->
-                  if err
-                    logStripeWebhookError("Save recipient user error: #{JSON.stringify(err)}")
-                    return res.send(500, '')
-                  return res.send(201, '')
+                # Update purchased gems
+                # TODO: is this correct for a resub?
+                Payment.find({recipient: recipient._id, gems: {$exists: true}}).select('gems').exec (err, payments) ->
+                  gems = _.reduce payments, ((sum, p) -> sum + (p.get('gems') or 0)), 0
+                  purchased = _.clone(recipient.get('purchased'))
+                  purchased ?= {}
+                  purchased.gems = gems
+                  recipient.set('purchased', purchased)
+                  recipient.save (err) ->
+                    if err
+                      logStripeWebhookError("Save recipient user error: #{JSON.stringify(err)}")
+                      return res.send(500, '')
+                    return res.send(201, '')
 
   handleSubscriptionDeleted = (req, res) ->
     # Three variants:
     # normal - Personal subscription deleted
-    # recipeint - Subscription sponsored by another user is being deleted.
+    # recipient - Subscription sponsored by another user is being deleted.
     # sponsor - Aggregate subscription used to pay for multiple recipient subscriptions.  Ugh.
 
     subscription = req.body.data.object
 
     checkUserExists = (done) ->
-      stripe.customers.retrieve subscription.customer, (err, customer) =>
+      stripe.customers.retrieve subscription.customer, (err, customer) ->
         if err
           logStripeWebhookError("Failed to retrieve #{subscription.customer}")
           return res.send(500, '')
         unless customer?.metadata?.id
           logStripeWebhookError("Customer with no metadata.id #{subscription.customer}")
           return res.send(500, '')
-        User.findById customer.metadata.id, (err, user) =>
+        User.findById customer.metadata.id, (err, user) ->
           if err
             logStripeWebhookError(err)
             return res.send(500, '')
@@ -147,7 +153,7 @@ module.exports.setup = (app) ->
         delete stripeInfo.prepaidCode
         delete stripeInfo.subscriptionID
         user.set('stripe', stripeInfo)
-        user.save (err) =>
+        user.save (err) ->
           if err
             logStripeWebhookError(err)
             return res.send(500, '')
@@ -165,7 +171,7 @@ module.exports.setup = (app) ->
         else
           user.set 'stripe', stripeInfo
 
-      User.findById subscription.metadata.id, (err, recipient) =>
+      User.findById subscription.metadata.id, (err, recipient) ->
         if err
           logStripeWebhookError(err)
           return res.send(500, '')
@@ -176,7 +182,7 @@ module.exports.setup = (app) ->
         # Recipient cancellations are immediate, no work to perform if recipient's sponsorID is already gone
         return res.send(200, '') unless recipient.get('stripe')?.sponsorID?
 
-        User.findById recipient.get('stripe').sponsorID, (err, sponsor) =>
+        User.findById recipient.get('stripe').sponsorID, (err, sponsor) ->
           if err
             logStripeWebhookError(err)
             return res.send(500, '')
@@ -192,21 +198,21 @@ module.exports.setup = (app) ->
             _.remove(stripeInfo.recipients, (s) -> s.userID is recipient.id)
             options =
               quantity: utils.getSponsoredSubsAmount(subscription.plan.amount, stripeInfo.recipients.length, stripeInfo.subscriptionID?)
-            stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) =>
+            stripe.customers.updateSubscription stripeInfo.customerID, stripeInfo.sponsorSubscriptionID, options, (err, subscription) ->
               if err
                 logStripeWebhookError(err)
                 return res.send(500, '')
 
               # Update sponsor user
               sponsor.set 'stripe', stripeInfo
-              sponsor.save (err) =>
+              sponsor.save (err) ->
                 if err
                   logStripeWebhookError(err)
                   return res.send(500, '')
 
                 # Update recipient user
                 deleteUserStripeProp recipient, 'sponsorID'
-                recipient.save (err) =>
+                recipient.save (err) ->
                   if err
                     logStripeWebhookError(err)
                     return res.send(500, '')
@@ -218,23 +224,23 @@ module.exports.setup = (app) ->
             # Update recipients
             createUpdateFn = (recipientID) ->
               (callback) ->
-                User.findById recipientID, (err, recipient) =>
+                User.findById recipientID, (err, recipient) ->
                   if err
                     logStripeWebhookError(err)
                     return callback(err)
 
                   deleteUserStripeProp recipient, 'sponsorID'
-                  recipient.save (err) =>
+                  recipient.save (err) ->
                     logStripeWebhookError(err) if err
                     callback(err)
-            async.parallel (createUpdateFn(recipient.userID) for recipient in stripeInfo.recipients), (err, results) =>
+            async.parallel (createUpdateFn(recipient.userID) for recipient in stripeInfo.recipients), (err, results) ->
               if err
                 logStripeWebhookError(err)
                 return res.send(500, '')
 
               # Update sponsor
               deleteUserStripeProp sponsor, 'recipients'
-              sponsor.save (err) =>
+              sponsor.save (err) ->
                 if err
                   logStripeWebhookError(err)
                   return res.send(500, '')
@@ -251,12 +257,12 @@ module.exports.setup = (app) ->
           stripe.customers.cancelSubscription customerID, sub.subscriptionID, { at_period_end: true }, (err) ->
             callback err
 
-      User.findById subscription.metadata.id, (err, sponsor) =>
+      User.findById subscription.metadata.id, (err, sponsor) ->
         return res.send(500, '') if err
         stripeInfo = _.cloneDeep(sponsor.get('stripe') ? {})
 
         # Cancel all recipient subscriptions
-        async.parallel (createUpdateFn(sub) for sub in stripeInfo.recipients), (err, results) =>
+        async.parallel (createUpdateFn(sub) for sub in stripeInfo.recipients), (err, results) ->
           if err
             logStripeWebhookError(err)
             return res.send(500, '')
@@ -268,7 +274,7 @@ module.exports.setup = (app) ->
             sponsor.set 'stripe', undefined
           else
             sponsor.set 'stripe', stripeInfo
-          sponsor.save (err) =>
+          sponsor.save (err) ->
             if err
               logStripeWebhookError(err)
               return res.send(500, '')

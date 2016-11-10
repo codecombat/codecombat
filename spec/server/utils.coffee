@@ -28,7 +28,7 @@ campaignAdjacentCampaignProperties = _.keys(campaignSchema.properties.adjacentCa
 
 module.exports = mw =
   getURL: (path) -> 'http://localhost:3001' + path
-      
+
   clearModels: Promise.promisify (models, done) ->
     funcs = []
     for model in models
@@ -38,7 +38,7 @@ module.exports = mw =
             callback(err, true)
       funcs.push(wrapped(model))
     async.parallel funcs, done
-      
+
   initUser: (options, done) ->
     if _.isFunction(options)
       done = options
@@ -81,12 +81,12 @@ module.exports = mw =
       options = {}
     options = _.extend({permissions: ['artisan']}, options)
     return @initUser(options)
-    
+
   becomeAnonymous: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), ->
       request.get mw.getURL('/auth/whoami'), {json: true}, (err, res) ->
         User.findById(res.body._id).exec(done)
-    
+
   logout: Promise.promisify (done) ->
     request.post mw.getURL('/auth/logout'), done
 
@@ -94,7 +94,7 @@ module.exports = mw =
     fn = co.wrap(gen)
     return (done) ->
       fn.apply(@, [done]).catch (err) -> done.fail(err)
-      
+
   makeLevel: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
@@ -107,11 +107,11 @@ module.exports = mw =
     request.post { uri: getURL('/db/level'), json: data }, (err, res) ->
       return done(err) if err
       Level.findById(res.body._id).exec done
-      
+
   makeLevelSession: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
-    
+
     data = _.extend({}, {
       state:
         complete: false
@@ -124,22 +124,22 @@ module.exports = mw =
         original: sources.level.get('original').toString()
         majorVersion: sources.level.get('version').major
       }
-      
+
     if sources?.creator and not data.creator
       data.creator = sources.creator.id
-      
+
     if data.creator and not data.permissions
       data.permissions = [
         { target: data.creator, access: 'owner' }
         { target: 'public', access: 'write' }
       ]
-      
+
     if not data.codeLanguage
       data.codeLanguage = 'javascript'
-      
+
     session = new LevelSession(data)
     session.save(done)
-    
+
   makeArticle: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
@@ -147,12 +147,12 @@ module.exports = mw =
     data = _.extend({}, {
       name: _.uniqueId('Article ')
     }, data)
-    
+
     request.post { uri: getURL('/db/article'), json: data }, (err, res) ->
       return done(err) if err
       expect(res.statusCode).toBe(201)
       Article.findById(res.body._id).exec done
-      
+
   makeLevelComponent: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
@@ -227,11 +227,11 @@ module.exports = mw =
       return done(err) if err
       expect(res.statusCode).toBe(201)
       Achievement.findById(res.body._id).exec done
-      
+
   makeCampaign: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
-    
+
     data = _.extend({}, {
       name: _.uniqueId('Campaign ')
     }, data)
@@ -239,7 +239,7 @@ module.exports = mw =
       data.levels = {}
       for level in sources?.levels or []
         data.levels[level.get('original').valueOf()] = _.pick level.toObject(), campaignLevelProperties
-        
+
     if not data.adjacentCampaigns
       data.adjacentCampaigns = {}
       for campaign in sources?.adjacentCampaigns or []
@@ -248,12 +248,12 @@ module.exports = mw =
     request.post { uri: getURL('/db/campaign'), json: data }, (err, res) ->
       return done(err) if err
       Campaign.findById(res.body._id).exec done
-      
+
   makeCourse: (data={}, sources={}) ->
-    
+
     if sources.campaign and not data.campaignID
       data.campaignID = sources.campaign._id
-    
+
     data = _.extend({}, {
       name: _.uniqueId('Course ')
       releasePhase: 'released'
@@ -267,7 +267,7 @@ module.exports = mw =
   makePrepaid: Promise.promisify (data, sources, done) ->
     args = Array.from(arguments)
     [done, [data, sources]] = [args.pop(), args]
-    
+
     data = _.extend({}, {
       type: 'course'
       maxRedeemers: 9001
@@ -292,7 +292,7 @@ module.exports = mw =
     data = _.extend({}, {
       name: _.uniqueId('Classroom ')
     }, data)
-    
+
     [res, body] = yield request.postAsync { uri: getURL('/db/classroom'), json: data }
     expect(res.statusCode).toBe(201)
     classroom = yield Classroom.findById(res.body._id)
@@ -338,7 +338,7 @@ module.exports = mw =
     day = new Date()
     day.setUTCDate(day.getUTCDate() + offset)
     day.toISOString().substring(0, 10)
-    
+
   populateProducts: _.once co.wrap ->
     promises = []
     for stub in productStubs
