@@ -5,7 +5,7 @@ block page_nav
 
 block content
   - var classroom = view.classroom
-  if !me.isTeacher()
+  if !me.isTeacher() && !me.isAdmin()
     .alert.alert-danger.text-center
       .container
         // DNT: Temporary
