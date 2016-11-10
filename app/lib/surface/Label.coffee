@@ -6,6 +6,7 @@ module.exports = class Label extends CocoClass
   @STYLE_NAME = 'name'  # A name like Scott set up for the Wizard
   # We might want to combine 'say' and 'name'; they're very similar
   # Nick designed 'say' based off of Scott's 'name' back when they were using two systems
+  @STYLE_VAR = 'variable' 
 
   subscriptions: {}
 
@@ -50,6 +51,7 @@ module.exports = class Label extends CocoClass
     return unless @text and @sprite.sprite
     offset = @sprite.getOffset? (if @style in ['dialogue', 'say'] then 'mouth' else 'aboveHead')
     offset ?= x: 0, y: 0  # temp (if not Lank)
+    offset.y += 10 if @style is 'variable'
     rotation = @sprite.getRotation()
     offset.x *= -1 if rotation >= 135 or rotation <= -135
     @label.x = @background.x = @sprite.sprite.x + offset.x
@@ -69,28 +71,31 @@ module.exports = class Label extends CocoClass
 
   buildLabelOptions: ->
     o = {}
-    st = {dialogue: 'D', say: 'S', name: 'N'}[@style]
-    o.marginX = {D: 5, S: 6, N: 3}[st]
-    o.marginY = {D: 6, S: 4, N: 3}[st]
-    o.fontWeight = {D: 'bold', S: 'bold', N: 'bold'}[st]
-    o.shadow = {D: false, S: true, N: true}[st]
-    o.shadowColor = {D: '#FFF', S: '#000', N: '#000'}[st]
-    o.fontSize = {D: 25, S: 12, N: 24}[st]
-    fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial'}[st]
+    st = {dialogue: 'D', say: 'S', name: 'N', variable: 'V'}[@style]
+    o.marginX = {D: 5, S: 6, N: 3, V: 0}[st]
+    o.marginY = {D: 6, S: 4, N: 3, V: 0}[st]
+    o.fontWeight = {D: 'bold', S: 'bold', N: 'bold', V: 'bold'}[st]
+    o.shadow = {D: false, S: true, N: true, V: true}[st]
+    o.shadowColor = {D: '#FFF', S: '#000', N: '#000', V: "#000"}[st]
+    o.fontSize = {D: 25, S: 12, N: 24, V:18}[st]
+    fontFamily = {D: 'Arial', S: 'Arial', N: 'Arial', B: 'Arial', V: 'Arial'}[st]
     o.fontDescriptor = "#{o.fontWeight} #{o.fontSize}px #{fontFamily}"
-    o.fontColor = {D: '#000', S: '#FFF', N: '#6c6'}[st]
+    o.fontColor = {D: '#000', S: '#FFF', N: '#6c6', V:'#6c6'}[st]
     if @style is 'name' and @sprite?.thang?.team is 'humans'
       o.fontColor = '#c66'
     else if @style is 'name' and @sprite?.thang?.team is 'ogres'
       o.fontColor = '#66c'
-    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)'}[st]
-    o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)'}[st]
-    o.backgroundStrokeStyle = {D: 2, S: 1, N: 1}[st]
-    o.backgroundBorderRadius = {D: 10, S: 3, N: 3}[st]
-    o.layerPriority = {D: 10, S: 5, N: 5}[st]
-    maxWidth = {D: 300, S: 300, N: 180}[st]
+    else if @style is 'variable'
+      o.fontColor = '#fff'
+
+    o.backgroundFillColor = {D: 'white', S: 'rgba(0,0,0,0.4)', N: 'rgba(0,0,0,0.7)', V: 'rgba(0,0,0,0.7)'}[st]
+    o.backgroundStrokeColor = {D: 'black', S: 'rgba(0,0,0,0.6)', N: 'rgba(0,0,0,0)', V: 'rgba(0,0,0,0)'}[st]
+    o.backgroundStrokeStyle = {D: 2, S: 1, N: 1, V: 1}[st]
+    o.backgroundBorderRadius = {D: 10, S: 3, N: 3, V: 3}[st]
+    o.layerPriority = {D: 10, S: 5, N: 5, V: 5}[st]
+    maxWidth = {D: 300, S: 300, N: 180, V: 100}[st]
     maxWidth = Math.max @camera.canvasWidth / 2 - 100, maxWidth  # Does this do anything?
-    maxLength = {D: 100, S: 100, N: 30}[st]
+    maxLength = {D: 100, S: 100, N: 30, V:30}[st]
     multiline = @addNewLinesToText _.string.prune(@text, maxLength), o.fontDescriptor, maxWidth
     o.text = multiline.text
     o.textWidth = multiline.textWidth
