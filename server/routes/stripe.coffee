@@ -90,17 +90,14 @@ module.exports.setup = (app) ->
             Promise.resolve().then ->
               return null unless invoice.lines.data[0].plan?.id is 'basic'
               return Product.findBasicSubscriptionForUser(recipient).catch((err) -> err).then (product) ->
-                return {res: 'No subscription product found', code: 500} unless product
+                throw new Error('No subscription product found') unless product
                 payment.set 'gems', product.get('gems')
                 null
             .catch (err) ->
               if err
                 logStripeWebhookError("Fetch product error: #{JSON.stringify(err)}")
                 return res.send(500, '')
-            .then (err) ->
-              if err
-                logStripeWebhookError("Fetch product error: #{JSON.stringify(err)}")
-                return res.send(500, '')
+            .then ->
               payment.save (err) ->
                 if err
                   logStripeWebhookError("Save payment error: #{JSON.stringify(err)}")

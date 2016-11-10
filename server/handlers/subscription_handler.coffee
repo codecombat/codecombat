@@ -283,7 +283,7 @@ class SubscriptionHandler extends Handler
       Promise.resolve().then =>
         couponID = user.get('stripe')?.couponID
         return couponID if couponID or not user.get 'country'
-        return Product.findBasicSubscriptionForUser(user).catch(done).then (product) ->
+        return Product.findBasicSubscriptionForUser(user).then (product) ->
           return couponID if product.name is 'basic_subscription'
           # We have a customized product for this country
           couponID = user.get 'country'
