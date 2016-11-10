@@ -5,7 +5,7 @@ block page_nav
 
 block content
   - var classroom = view.classroom
-  if !me.isTeacher()
+  if !me.isTeacher() && !me.isAdmin()
     .alert.alert-danger.text-center
       .container
         // DNT: Temporary
@@ -253,6 +253,30 @@ mixin courseProgressTab
             - var course = view.courses.get(trimCourse._id);
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
+      
+    h4.m-b-2(data-i18n="teacher.progress_color_key")
+    #progress-color-key-row.row
+      .col.col-md-2.col-xs-4
+        .progress-dot.forest
+        .key-text
+          span.small(data-i18n="play_level.level_complete")
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot.gold
+        .key-text
+          span.small(data-i18n="teacher.level_in_progress")
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot.navy
+        .key-text
+          span.small(data-i18n="teacher.project_or_arena")
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot
+        .key-text
+          span.small(data-i18n="teacher.level_not_started")
+        .clearfix
+      
     if state.get('progressData')
       .render-on-course-sync
         +courseOverview
@@ -321,7 +345,7 @@ mixin studentCourseProgressDot(progress, levelsTotal, level, label)
 mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
   - link = null;
   - labelText = levelNumber;
   if level.isLadder()
@@ -336,6 +360,10 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   else if level.isProject()
     - labelText = translate('teacher.project')
     - dotClass += ' progress-dot-lg';
+  else if level.get('practice')
+    if !(progress.completed || progress.started)
+      - labelText = ''
+      - dotClass += ' practice'
 
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
     if link
@@ -349,7 +377,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice') })
   - link = null;
   - labelText = levelNumber;
   if level.isLadder()
@@ -369,6 +397,10 @@ mixin studentLevelProgressDot(progress, level, levelNumber)
     else
       - labelText = translate('teacher.project');
     - dotClass += ' progress-dot-lg';
+  else if level.get('practice')
+    if !(progress.completed || progress.started)
+      - labelText = ''
+      - dotClass += ' practice'
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     if link
       a(href=link)
@@ -453,3 +485,9 @@ mixin enrollmentStatusTab
           td.enroll-col
             if status !== 'enrolled'
               button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+            else
+              if student.prepaidType() === 'course'
+                span(data-i18n="teacher.full_license")
+              else if student.prepaidType() === 'starter_license'
+                span(data-i18n="teacher.starter_license")
+                

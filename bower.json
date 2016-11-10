@@ -49,7 +49,8 @@
     "algoliasearch": "^3.13.1",
     "algolia-autocomplete.js": "^0.17.0",
     "algolia-autocomplete-no-conflict": "1.0.0",
-    "promise-polyfill": "^5.2.1"
+    "promise-polyfill": "^5.2.1",
+    "font-awesome": "fontawesome#^4.7.0"
   },
   "overrides": {
     "algolia-autocomplete.js": {

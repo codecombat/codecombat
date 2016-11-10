@@ -353,6 +353,14 @@ UserSchema.methods.isEnrolled = ->
   return true unless coursePrepaid.endDate
   return coursePrepaid.endDate > new Date().toISOString()
 
+UserSchema.methods.prepaidIncludesCourse = (course) ->
+  # TODO: Migrate legacy prepaids that just use coursePrepaidID
+  return false if not (@get('coursePrepaid') or @get('coursePrepaidID'))
+  includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
+  return true if !includedCourseIDs # NOTE: Full licenses implicitly include all courses
+  courseID = course.id or course
+  return courseID.toString() in includedCourseIDs.map((id)->id.toString())
+
 UserSchema.methods.hasLogInMethod = ->
   return true if _.any([
     @get('facebookID')

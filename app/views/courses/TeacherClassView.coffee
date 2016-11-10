@@ -22,6 +22,8 @@ CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
 
+{ STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
+
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   template: template
@@ -70,9 +72,12 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
-    @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
-    @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
-    @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
+    # wrap templates so they translate when called
+    translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
+    @singleStudentCourseProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
+    @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+    @allStudentsLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-all-students-single-level'), translateTemplateText)
+
     @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
@@ -86,7 +91,6 @@ module.exports = class TeacherClassView extends RootView
     @sortedCourses = []
 
     @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
     @students = new Users()
@@ -234,10 +238,12 @@ module.exports = class TeacherClassView extends RootView
     @tryCopy()
 
   onClickUnarchive: ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     classroom = @classroom
     modal = new ClassroomSettingsModal({ classroom: classroom })
@@ -245,12 +251,14 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -265,6 +273,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
@@ -272,6 +281,7 @@ module.exports = class TeacherClassView extends RootView
 
   removeDeletedStudents: () ->
     return unless @classroom.loaded and @students.loaded
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
@@ -300,6 +310,7 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
 
   onClickEnrollStudentButton: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
@@ -307,6 +318,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', (enrolledUsers) =>
@@ -376,6 +388,7 @@ module.exports = class TeacherClassView extends RootView
     window.open(encodedUri)
 
   onClickAssignStudentButton: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -384,6 +397,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     assigningToNobody = selectedIDs.length is 0
@@ -393,11 +407,13 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
     
     return Promise.resolve()
+    # Find or make the necessary course instances
     .then =>
       courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
       if not courseInstance
@@ -411,18 +427,31 @@ module.exports = class TeacherClassView extends RootView
         @courseInstances.add(courseInstance)
         return courseInstance.save()
         
+    # Automatically apply licenses to students if necessary
     .then =>
-      availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available')
+      availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.includesCourse(courseID))
       unenrolledStudents = _(members)
         .map((userID) => @students.get(userID))
         .filter((user) => user.prepaidStatus() isnt 'enrolled')
         .value()
       totalSpotsAvailable = _.reduce(prepaid.openSpots() for prepaid in availablePrepaids, (val, total) -> val + total) or 0
-      if totalSpotsAvailable < _.size(unenrolledStudents)
+      
+      availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
+      numStudentsWithoutFullLicenses = _(members)
+        .map((userID) => @students.get(userID))
+        .filter((user) => user.prepaidType() isnt 'course' or user.prepaidStatus() isnt 'enrolled')
+        .size()
+      numFullLicensesAvailable = _.reduce(prepaid.openSpots() for prepaid in availableFullLicenses, (val, total) -> val + total) or 0
+      if courseID not in STARTER_LICENSE_COURSE_IDS
+        canAssignCourses = numFullLicensesAvailable >= numStudentsWithoutFullLicenses
+      else
+        canAssignCourses = totalSpotsAvailable >= _.size(unenrolledStudents)
+      if not canAssignCourses
         modal = new CoursesNotAssignedModal({
           selected: members.length
-          totalSpotsAvailable
-          unenrolledStudents: _.size(unenrolledStudents)
+          numStudentsWithoutFullLicenses
+          numFullLicensesAvailable
+          courseID
         })
         @openModalView(modal)
         error = new Error('Not enough licenses available')
@@ -442,15 +471,18 @@ module.exports = class TeacherClassView extends RootView
       @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
 
+    # Add the students to the course instances
     .then =>
       # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
       # end up returning the final result of all those requests together.
       @prepaids.fetchByCreator(me.id)
+      @students.fetchForClassroom(@classroom, removeDeleted: true)
       
       @trigger 'begin-assign-course'
       if members.length
         return courseInstance.addMembers(members)
       
+    # Show a success/errror notification
     .then =>
       course = @courses.get(courseID)
       lines = [
@@ -472,7 +504,7 @@ module.exports = class TeacherClassView extends RootView
     .catch (e) =>
       # TODO: Use this handling for errors site-wide?
       return if e.handled
-      throw e if e instanceof Error and application.testing
+      throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 

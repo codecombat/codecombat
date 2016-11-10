@@ -178,6 +178,22 @@
   // Course Progress tab
 
   #course-progress-tab, #student-projects-tab
+
+    #progress-color-key-row
+      .col
+        min-height: 40px
+        .progress-dot
+          position: absolute
+          top: 0
+          padding-top: 5px
+          &.practice
+            margin-left: 26px
+            margin-top: 14px
+        .key-text
+          line-height: 18px
+          margin-top: 9px
+          margin-left: 50px
+    
     .course-overview-row
       margin-top: 50px
       border: thin solid gray
@@ -301,6 +317,18 @@
       border-color: $navy
     .tooltip-arrow
       border-top-color: $navy
+      
+  .progress-dot.practice
+    background: $gray-light
+    height: 12px
+    position: relative
+    top: 6px
+    min-width: 12px
+    border-radius: 6px
+    
+    .dot-label
+      .dot-label-inner
+        color: $gray-light
 
   // Code copying buttons
 

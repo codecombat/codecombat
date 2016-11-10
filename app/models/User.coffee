@@ -335,6 +335,19 @@ module.exports = class User extends CocoModel
     return 'not-enrolled' unless coursePrepaid
     return 'enrolled' unless coursePrepaid.endDate
     return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
+  
+  prepaidType: ->
+    # TODO: remove once legacy prepaidIDs are migrated to objects
+    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
+    # NOTE: Default type is 'course' if no type is marked on the user's copy
+    return @get('coursePrepaid')?.type or 'course'
+
+  prepaidIncludesCourse: (course) ->
+    return false unless @get('coursePrepaid') or @get('coursePrepaidID')
+    includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
+    courseID = course.id or course
+    # NOTE: Full licenses implicitly include all courses
+    return !includedCourseIDs or courseID in includedCourseIDs
 
   # Function meant for "me"
 
@@ -441,6 +454,13 @@ module.exports = class User extends CocoModel
     return null unless coursePrepaid
     Prepaid = require 'models/Prepaid'
     return new Prepaid(coursePrepaid)
+  
+  # TODO: Probably better to denormalize this into the user
+  getLeadPriority: ->
+    request = $.get('/db/user/-/lead-priority')
+    request.then ({ priority }) ->
+      application.tracker.identify({ priority })
+    request
 
   becomeStudent: (options={}) ->
     options.url = '/db/user/-/become-student'
