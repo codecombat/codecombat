@@ -78,7 +78,7 @@ _.extend UserSchema.properties,
     }
   }
   clientCreator: c.objectId({description: 'Client which created this user'})
-  
+
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
@@ -333,8 +333,7 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  chinaVersion: { type: 'boolean' }  # Old, can be removed after we make sure it's deleted from all users
-  country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
+  country: { type: 'string' }  # Set on new users for certain countries on the server
 
   clans: c.array {}, c.objectId()
   courseInstances: c.array {}, c.objectId()
@@ -361,7 +360,7 @@ _.extend UserSchema.properties,
   role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
-  
+
   israelId: {type: 'string', description: 'ID string used just for il.codecombat.com'}
   school: {
     type: 'object',

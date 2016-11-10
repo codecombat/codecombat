@@ -75,7 +75,7 @@ module.exports = class SubscribeModal extends ModalView
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb1a') + "</p>"
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb2') + "</p>"
     price = (@basicProduct.get('amount') / 100).toFixed(2)
-    # TODO: Update i18next and use its own interpolation system instead
+    # TODO: Use i18next's interpolation system instead
     popoverContent = popoverContent.replace('{{price}}', price)
     popoverContent += "<p>" + $.i18n.t('subscribe.parents_blurb3') + "</p>"
     @$el.find('#parents-info').popover(

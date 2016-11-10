@@ -280,13 +280,16 @@ class SubscriptionHandler extends Handler
           @checkForExistingSubscription(req, user, customer, couponID, done)
 
     else
-      couponID = user.get('stripe')?.couponID
-      if user.get('country') is 'brazil'
-        couponID ?= 'brazil'
-      # SALE LOGIC
-      # overwrite couponID with another for everyone-sales
-      #couponID = 'hoc_399' if not couponID
-      @checkForExistingSubscription(req, user, customer, couponID, done)
+      Promise.resolve().then =>
+        couponID = user.get('stripe')?.couponID
+        return couponID if couponID or not user.get 'country'
+        return Product.findBasicSubscriptionForUser(user).then (product) ->
+          return couponID if product.name is 'basic_subscription'
+          # We have a customized product for this country
+          couponID = user.get 'country'
+          return couponID
+      .catch(done).then (couponID) =>
+        @checkForExistingSubscription(req, user, customer, couponID, done)
 
   checkForExistingSubscription: (req, user, customer, couponID, done) ->
     findStripeSubscription customer.id, subscriptionID: user.get('stripe')?.subscriptionID, (err, subscription) =>
@@ -343,13 +346,8 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    productName = 'basic_subscription'
-    if user.get('country') in ['brazil']
-      productName = "#{user.get('country')}_basic_subscription"
-
-    Product.findOne({name: productName}).exec (err, product) =>
-      return done({res: 'Database error.', code: 500}) if err
-      return done({res: 'basic_subscription product not found.', code: 404}) if not product
+    Product.findBasicSubscriptionForUser(user).catch(done).then (product) =>
+      return done({res: 'basic_subscription product not found.', code: 404}) unless product
 
       if increment
         purchased = _.clone(user.get('purchased'))

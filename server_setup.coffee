@@ -26,6 +26,7 @@ request = require 'request'
 Promise = require 'bluebird'
 Promise.promisifyAll(request, {multiArgs: true})
 
+{countries} = require './app/core/utils'
 
 productionLogging = (tokens, req, res) ->
   status = res.statusCode
@@ -127,31 +128,24 @@ setupPassportMiddleware = (app) ->
     app.use(authentication.session())
   auth.setup()
 
-setupCountryRedirectMiddleware = (app, country="china", countryCode="CN", languageCode="zh", host="cn.codecombat.com") ->
+setupCountryTaggingMiddleware = (app) ->
+  app.use (req, res, next) ->
+    return next() if req.country or req.user?.get('country')
+    return next() unless ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
+    ip = ip.split(/,? /)[0]  # If there are two IP addresses, say because of CloudFlare, we just take the first.
+    geo = geoip.lookup(ip)
+    if countryInfo = _.find(countries, countryCode: geo?.country)
+      req.country = countryInfo.country
+    next()
+
+setupCountryRedirectMiddleware = (app, country='china', host='cn.codecombat.com') ->
   hosts = host.split /;/g
   shouldRedirectToCountryServer = (req) ->
-    speaksLanguage = _.any req.acceptedLanguages, (language) -> language.indexOf languageCode isnt -1
-
-    #Work around express 3.0
-    reqHost = req.hostname
-    reqHost ?= req.host
-
-    return unless reqHost.indexOf(config.unsafeContentHostname) is -1
-
-    if hosts.indexOf(reqHost.toLowerCase()) is -1
-      ip = req.headers['x-forwarded-for'] or req.ip or req.connection.remoteAddress
-      ip = ip?.split(/,? /)[0] if ip? # If there are two IP addresses, say because of CloudFlare, we just take the first.
-      geo = geoip.lookup(ip)
-      #if speaksLanguage or geo?.country is countryCode
-      #  log.info("Should we redirect to #{serverID} server? speaksLanguage: #{speaksLanguage}, acceptedLanguages: #{req.acceptedLanguages}, ip: #{ip}, geo: #{geo} -- so redirecting? #{geo?.country is 'CN' and speaksLanguage}")
-      return geo?.country is countryCode and speaksLanguage
-    else
-      #log.info("We are on #{serverID} server. speaksLanguage: #{speaksLanguage}, acceptedLanguages: #{req.acceptedLanguages[0]}")
-      req.country = country if speaksLanguage
-      return false  # If the user is already redirected, don't redirect them!
+    reqHost = (req.hostname ? req.host).toLowerCase()  # Work around express 3.0
+    return req.country is country and reqHost not in hosts and reqHost.indexOf(config.unsafeContentHostname) is -1
 
   app.use (req, res, next) ->
-    if shouldRedirectToCountryServer req
+    if shouldRedirectToCountryServer(req) and hosts.length
       res.writeHead 302, "Location": 'http://' + hosts[0] + req.url
       res.end()
     else
@@ -214,8 +208,9 @@ exports.setupMiddleware = (app) ->
   setupSecureMiddleware app
   setupPerfMonMiddleware app
   setupDomainFilterMiddleware app
-  setupCountryRedirectMiddleware app, "china", "CN", "zh", config.chinaDomain
-  setupCountryRedirectMiddleware app, "brazil", "BR", "pt-BR", config.brazilDomain
+  setupCountryTaggingMiddleware app
+  setupCountryRedirectMiddleware app, 'china', config.chinaDomain
+  setupCountryRedirectMiddleware app, 'brazil', config.brazilDomain
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupAPIDocs app # should happen after serving static files, so we serve the right favicon
@@ -229,8 +224,8 @@ exports.setupMiddleware = (app) ->
 ###Routing function implementations###
 
 setupAjaxCaching = (app) ->
-  # IE/Edge are more aggresive about caching than other browsers, so we'll override their caching here.
-  # Assumes our CDN will override these with it's own caching rules.
+  # IE/Edge are more aggressive about caching than other browsers, so we'll override their caching here.
+  # Assumes our CDN will override these with its own caching rules.
   app.get '/db/*', (req, res, next) ->
     return next() unless req.xhr
     # http://stackoverflow.com/questions/19999388/check-if-user-is-using-ie-with-jquery
