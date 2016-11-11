@@ -39,6 +39,7 @@ module.exports = class HintsView extends CocoView
     @$el.toggleClass('hide', @hintsState.get('hidden'))
     super()
     @playSound 'game-menu-open'
+    @$('a').attr 'target', '_blank'
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')
