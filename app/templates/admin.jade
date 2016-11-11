@@ -2,23 +2,27 @@ extends /templates/base
 
 block content
 
-  if !me.isAdmin()
-    div.text-center You must be logged in as an admin to view this page.
-  else
-    .form-horizontal
-      form#espionage-form.form-group
+  .form-horizontal
+    form#espionage-form.form-group
+      if !me.isAdmin()
+        .col-sm-2
+        .col-sm-4
+        .col-sm-1
+      else
         label.control-label.col-sm-2(for="espionage-name-or-email") Espionage
         .col-sm-4
           input.form-control#espionage-name-or-email(placeholder="Email, username or id", type="text")
         .col-sm-1
           button.btn.btn-primary.btn-large#enter-espionage-mode 007
-        label.control-label.col-sm-5(for="espionage-name-or-email")
-          em you are currently #{me.get('name') || '(no username)'} at #{me.get('email') || '(no email)'}
-          if view.amActually
-            br
-            em but you are actually #{view.amActually.get('name') || '(no username)'} at #{view.amActually.get('email') || '(no email)'}
-            br
-            button#stop-spying-btn.btn.btn-xs Stop Spying
+      label.control-label.col-sm-5(for="espionage-name-or-email")
+        em you are currently #{me.get('name') || '(no username)'} at #{me.get('email') || '(no email)'}
+        if view.amActually
+          br
+          em but you are actually #{view.amActually.get('name') || '(no username)'} at #{view.amActually.get('email') || '(no email)'}
+          br
+          button#stop-spying-btn.btn.btn-xs Stop Spying
+  if me.isAdmin()
+    .form-horizontal
       form#user-search-form.form-group
         label.control-label.col-sm-2(for="user-search") User Search
         .col-sm-4
@@ -38,6 +42,9 @@ block content
           button.btn.btn-primary.btn-large#user-search-button  Search
     #user-search-result
 
+  if !me.isAdmin()
+    div.text-center You must be logged in as an admin to view this page.
+  else
     h4 Entities
     ul
       li
