@@ -1,0 +1,80 @@
+#admin-classrooms-progress-view
+
+  h1
+    margin-left: 10px
+  .small
+    margin-left: 10px
+    font-size: 12px
+
+  table
+    td, th
+      padding: 0px
+
+  .range-container
+    position: relative
+    width: 80%
+    .course-cell
+      border-right: solid 1px black
+      position: absolute
+      height: 100%
+      top: 0px
+      line-height: 20px
+      .course-cell-text
+        font-size: 8px
+        text-align: center
+    .missing-course-cell
+      border-right: solid 1px black
+      position: absolute
+      height: 100%
+      top: 0px
+      line-height: 20px
+      .course-cell-text
+        font-size: 8px
+        text-align: center
+    .student-cell
+      position: absolute
+      height: 100%
+      top: 0px
+      width: 1px
+      background-color: red
+      opacity: 0.3
+    .level-cell
+      border-right: solid 1px black
+      position: absolute
+      height: 25%
+      top: 0px
+    .missing-level-cell
+      position: absolute
+      height: 100%
+      top: 0px
+      width: 1px
+      background-color: blue
+      opacity: 0.3
+    .completed-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: red
+      opacity: 0.2
+    .remaining-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: green
+      opacity: 0.1
+    .available-background
+      position: absolute
+      height: 100%
+      left: 0px
+      top: 0px
+      background-color: blue
+      opacity: 0.1
+    .range-dates
+      position: absolute
+      height: 100%
+      width: 100%
+      left: 0px
+      top: 0px
+
