@@ -28,7 +28,7 @@
         for hero in heroes
           div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))
             canvas.hero-canvas
-            .hero-feature-image
+            .hero-pose-image
               img(draggable="false")
             .hero-stats
               h2= hero.name

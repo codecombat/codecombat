@@ -77,6 +77,7 @@ defaultTasks =
     'Set the hero class.'
     'Add Extended Hero Name.'
     'Upload Hero Doll Images.'
+    'Upload Pose Image.'
     'Start a new name category in names.coffee.'
     'Set up hero stats in Equips, Attackable, Moves.'
     'Set Collects collectRange to 2, Sees visualRange to 60.'
