@@ -329,11 +329,18 @@ class SubscriptionHandler extends Handler
         options = { plan: 'basic', metadata: {id: user.id}}
         options.coupon = couponID if couponID
         stripe.customers.createSubscription customer.id, options, (err, subscription) =>
-          if err
-            @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+          if not err
+            return @updateUser(req, user, customer, subscription, true, done)
+          @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+          if err.message.indexOf('No such coupon') is -1
             return done({res: 'Database error.', code: 500})
-
-          @updateUser(req, user, customer, subscription, true, done)
+          # Try again without the coupon
+          delete options.coupon
+          stripe.customers.createSubscription customer.id, options, (err, subscription) =>
+            if err
+              @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+              return done({res: 'Database error.', code: 500})
+            @updateUser(req, user, customer, subscription, true, done)
 
   updateUser: (req, user, customer, subscription, increment, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})

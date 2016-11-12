@@ -156,6 +156,11 @@ module.exports = class PlayHeroesModal extends ModalView
   loadHero: (hero, heroIndex, preloading=false) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
     createjs.Ticker.setFPS 30  # In case we paused it from being inactive somewhere else
+    if poseImage = hero.get 'poseImage'
+      $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
+      $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-pose-image").show().find('img').prop('src', '/file/' + poseImage)
+      @playSelectionSound hero unless preloading
+      return hero
     if stage = @stages[heroIndex]
       unless preloading
         _.defer -> createjs.Ticker.addEventListener 'tick', stage  # Deferred, otherwise it won't start updating for some reason.
