@@ -6,6 +6,7 @@ LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
+utils = require 'core/utils'
 
 N_ROWS = 4
 
@@ -19,12 +20,17 @@ module.exports = class SpellPaletteView extends CocoView
     'level:enable-controls': 'onEnableControls'
     'surface:frame-changed': 'onFrameChanged'
     'tome:change-language': 'onTomeChangedLanguage'
+    'tome:palette-clicked': 'onPalleteClick'
+    'surface:stage-mouse-down': 'hide'
+    'level:set-playing': 'hide'
 
   events:
     'click #spell-palette-help-button': 'onClickHelp'
+    'click .closeBtn': 'onClickClose'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
+    @aceEditors = []
     docs = @options.level.get('documentation') ? {}
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
@@ -60,7 +66,7 @@ module.exports = class SpellPaletteView extends CocoView
       for group, entries of @entryGroups
         @entryGroupElements[group] = itemGroup = $('<div class="property-entry-item-group"></div>').appendTo @$el.find('.properties-this')
         if entries[0].options.item?.getPortraitURL
-          itemImage = $('<img class="item-image" draggable=false></img>').attr('src', entries[0].options.item.getPortraitURL()).css('top', Math.max(0, 19 * (entries.length - 2) / 2) + 2)
+          itemImage = $('<img class="item-image" draggable=false></img>').attr('src', entries[0].options.item.getPortraitURL())
           itemGroup.append itemImage
           firstEntry = entries[0]
           do (firstEntry) ->
@@ -121,7 +127,7 @@ module.exports = class SpellPaletteView extends CocoView
       for item in column.items
         item.detach().appendTo @$el.find('.properties-this')
     desiredHeight = 19 * (nRows + 1)
-    @$el.find('.properties').css('height', desiredHeight)
+    #@$el.find('.properties').css('height', desiredHeight)
 
   onResize: (e) =>
     @updateMaxHeight()
@@ -331,6 +337,26 @@ module.exports = class SpellPaletteView extends CocoView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @level.get('slug'), parent: @, session: @session, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID})
       @setupManager.open()
+
+  onClickClose: (e) ->
+    @$el.removeClass('open')
+
+  hide: () =>
+    @$el.removeClass('open')
+
+  onPalleteClick: (e) ->
+    @$el.addClass('open')
+    content = @$el.find(".rightContentTarget")
+    content.html(e.entry.docFormatter.formatPopover())
+    codeLanguage = e.entry.options.language
+    oldEditor.destroy() for oldEditor in @aceEditors
+    @aceEditors = []
+    aceEditors = @aceEditors
+    # Initialize Ace for each popover code snippet that still needs it
+    content.find('.docs-ace').each ->
+      console.log "SETUP!"
+      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditors.push aceEditor
 
   destroy: ->
     entry.destroy() for entry in @entries

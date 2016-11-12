@@ -19,6 +19,8 @@ if view.showAds()
       #code-area-gradient.gradient
       #tome-view
 
+    #spell-palette-view
+
     #game-area
 
       #canvas-wrapper
@@ -67,7 +69,7 @@ if view.showAds()
   #level-footer-shadow
   #level-footer-background
 
-  if !me.get('anonymous')
+  if !me.get('anonymous') && false
     #play-footer(class=me.isPremium() ? "premium" : "")
       p(class='footer-link-text').picoctf-hide
         a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")

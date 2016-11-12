@@ -34,15 +34,6 @@ module.exports = class LevelLoadingView extends CocoView
 
   afterInsert: ->
     super()
-    _.defer =>
-      return if @destroyed
-      # Make sure that we are as tall now as we will be when the canvas wrapper is resized to the right height.
-      currentCanvasHeight = 589
-      canvasAspectRatio = 924 / 589
-      eventualCanvasWidth = $('#canvas-wrapper').outerWidth()
-      eventualCanvasHeight = eventualCanvasWidth / canvasAspectRatio
-      newHeight = Math.max 769, @$el.outerHeight() + eventualCanvasHeight - currentCanvasHeight + 2
-      @$el.addClass('manually-sized').css('height', newHeight)
 
   onLevelLoaded: (e) ->
     return if @level
@@ -160,6 +151,7 @@ module.exports = class LevelLoadingView extends CocoView
   resize: ->
     maxHeight = $('#page-container').outerHeight(true)
     minHeight = $('#code-area').outerHeight(true)
+    minHeight -= 20
     @$el.css height: maxHeight
     @$loadingDetails.css minHeight: minHeight, maxHeight: maxHeight
     if @intro

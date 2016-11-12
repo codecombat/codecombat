@@ -1,73 +1,151 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #spell-palette-view
   position: absolute
-  left: 10px
-  right: 10px
-  padding: 0 4px 10px 3%
-  background-color: transparent
-  background-size: 100% 100%
-  z-index: 2
-  @include transition(top 0.25s ease-in-out, height 0.25s ease-in-out)
+  right: 45%
+  width: $api-bar-width
+  bottom: 0px
+  top: 0px
+  padding: 0 4px 0px 10px
+  background: transparent url(/images/level/wood_texture.png)
+  background-size: auto 100%
+  z-index: 7
+  @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
   box-shadow: 10px 4px 4px black
-  overflow-y: hidden
+  overflow: hidden
+  &.open
+    width: $api-bar-width + 360px
+  .container
+    width: $api-bar-width + 360px
+    height: 100%
+    position: relative
+    .left
+      position: absolute
+      left: 0
+      top: 80px
+      bottom: 0px
+      height: auto
+      width: $api-bar-width - 13
+      .nano-slider
+        background-color: rgba(243, 169, 49, 0.5)
+    .right
+      position: absolute
+      right: 20px
+      min-width: 200px
+      left: $api-bar-width - 10px
+      top: 80px
+      bottom: 0px
+      //width: calc(100% - #{$api-bar-width + 50px})
+      @include box-shadow(0 0 0 #000)
+      .scrollArea
+        max-height: calc(100% - 20px)
+        width: 100%
+        border-style: solid
+        border-image: url(/images/level/popover_border_background.png) 16 12 fill round
+        border-width: 16px 12px
+        margin-top: 20px
+        margin-bottom: 20px
+        position: relative
+        overflow-y: auto
 
-  .code-palette-background
-    width: 100%
-    height: 592px
-    position: absolute
-    left: 0px
-    z-index: -1
-    background: transparent url(/images/level/code_palette_wood_background.png)
-    background-size: 100% 592px
-    overflow: visible
+      .closeBtn
+        position: absolute;
+        right: -10px;
+        top: -5px;
+        width: 40px;
+        height: 40px;
+        cursor: pointer;
+        font-size: 20px
+        z-index: 2;
 
-  &.controls-disabled
-    .code-palette-background
-      @include filter(brightness(75%))
+      h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
+          font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+          font-variant: normal
+          color: purple
+          text-transform: auto
 
-    > :not(.code-palette-background)
-      @include opacity(0.50)
+      .popover-title
+        background-color: transparent
+        margin: 0 14px
+        padding: 8px 0
+        border-bottom-color: #ccc
 
-  h4
-    color: white
-    font-size: 16px
-    line-height: 16px
-    margin: 25px 0 5px 2px
-    font-weight: normal
-    text-transform: uppercase
+      .popover-content
+        max-height: 100%
+        overflow-y: auto
+        margin-right: 10px
+        img
+          float: right
 
-  .nav > li > a
-    padding: 2px 20px 0px 20px
-    margin-bottom: 3px
+      &.top .arrow
+        bottom: -2%
+      &.bottom .arrow
+        top: -2%
+      &.left .arrow
+        right: 0%
+      &.right .arrow
+        left: -3%
 
-  ul.nav.nav-pills
-    margin-top: 3%
+      .docs-ace-container
+        padding: 2px 4px
+        border-radius: 4px
 
-    h4
-      margin-top: 2px
-    li.active a
-      background-color: transparent
-    &.multiple-tabs li.active a
-      background-color: darken(rgb(230, 212, 146), 30%)
-    &.multiple-tabs li:not(.active) a
-      cursor: pointer
+        &, .docs-ace
+          background-color: #f9f2f4
+          font-size: 12px
+          font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
-  &:not(.hero)
-    .tab-content
-      height: 80px
-      .nano-pane
-        width: 7px
-        right: 5px
+        .docs-ace
+          .ace_cursor, .ace_bracket
+            display: none
 
-  //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
-  //  background-color: lighten(rgb(230, 212, 146), 10%)
+      code
+        color: black
+        font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+        font-size: 12px
 
-  .property-entry-column
-    display: inline-block
-    margin-right: 3px
-    vertical-align: top
+
+
+    h4.tab
+      color: white
+      font-size: 16px
+      line-height: 16px
+      margin: 25px 0 5px 2px
+      font-weight: normal
+      text-transform: uppercase
+
+    .nav > li > a
+      padding: 2px 20px 0px 20px
+      margin-bottom: 3px
+
+    ul.nav.nav-pills
+      margin-top: 3%
+
+      h4
+        margin-top: 2px
+      li.active a
+        background-color: transparent
+      &.multiple-tabs li.active a
+        background-color: darken(rgb(230, 212, 146), 30%)
+      &.multiple-tabs li:not(.active) a
+        cursor: pointer
+
+    &:not(.hero)
+      .tab-content
+        height: 80px
+        .nano-pane
+          width: 7px
+          right: 5px
+
+    //.nav-pills > li.active > a, .nav-pills > li.active > a:hover, .nav-pills > li.active > a:focus
+    //  background-color: lighten(rgb(230, 212, 146), 10%)
+
+    .property-entry-column
+      display: inline-block
+      margin-right: 3px
+      vertical-align: top
     
   #spell-palette-help-button
     margin: 3% 0px 4px
@@ -93,6 +171,7 @@
         width: 38px
         height: 38px
         position: absolute
+        top: 0px
 
       &:not(:hover) img.item-image
         -webkit-filter: contrast(50%) sepia(100%) saturate(500%) hue-rotate(7deg)
@@ -103,6 +182,8 @@
         width: 174px
         width: -webkit-calc(100% - 38px)
         width: calc(100% - 38px)
+        span:hover
+          color: #f3cd90
 
   &.shortenize.hero .properties
     .property-entry-item-group
