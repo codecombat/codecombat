@@ -132,6 +132,7 @@ _.extend ThangTypeSchema.properties,
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
   containerIcon: { type: 'string' }
+  poseImage: { type: 'string', format: 'image-file', title: 'Pose Image' }
   featureImages: c.object { title: 'Hero Doll Images' },
     body: { type: 'string', format: 'image-file', title: 'Body' }
     head: { type: 'string', format: 'image-file', title: 'Head' }
