@@ -285,8 +285,11 @@ function getRandomEmailTemplate(templates) {
   return templates[Math.floor(Math.random() * templates.length)];
 }
 
-function getEmailTemplate(siteOrigin, leadStatus, countryCode) {
-  // console.log(`DEBUG: getEmailTemplate ${siteOrigin} ${leadStatus} ${countryCode}`);
+function getEmailTemplate(trialRequest, countryCode, country) {
+  // console.log(`DEBUG: getEmailTemplate ${countryCode}, ${country}`, trialRequest);
+  const siteOrigin = trialRequest.properties.siteOrigin;
+  const leadStatus = getInitialLeadStatusViaCountry(country, [trialRequest])
+  
   if (isUSSchoolStatus(leadStatus)) {
     if (['create teacher', 'convert teacher'].indexOf(siteOrigin) >= 0) {
       return getRandomEmailTemplate(createTeacherEmailTemplatesAuto1);
@@ -704,7 +707,7 @@ function saveNewCloseLead(cocoContact, done) {
         return done();
       }
       const countryCode = getCountryCode(cocoContact.trialRequest.properties.country, [cocoContact.email]);
-      const emailTemplate = getEmailTemplate(cocoContact.trialRequest.properties.siteOrigin, postData.status, countryCode);
+      const emailTemplate = getEmailTemplate(cocoContact.trialRequest, countryCode, cocoContact.trialRequest.properties.country);
       sendMail(cocoContact.email, newCloseLead, newContact.id, emailTemplate, emailDelayMinutes, done);
     });
   });
@@ -809,7 +812,7 @@ function addContact(cocoContact, closeLead, done) {
     }
 
     const countryCode = getCountryCode(cocoContact.trialRequest.properties.country, [cocoContact.email]);
-    const emailTemplate = getEmailTemplate(cocoContact.trialRequest.properties.siteOrigin, closeLead.status_label, countryCode);
+    const emailTemplate = getEmailTemplate(cocoContact.trialRequest, countryCode, cocoContact.trialRequest.properties.country);
     sendMail(cocoContact.email, closeLead, newContact.id, emailTemplate, emailDelayMinutes, done);
   });
 }
