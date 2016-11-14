@@ -320,3 +320,33 @@ describe 'PUT /api/users/:handle/license', ->
     [res, body] = yield request.putAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(200)
     done()
+
+
+describe 'GET /api/user-lookup/israel-id/:israelId', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, APIClient])
+    @client = new APIClient()
+    @secret = @client.setNewSecret()
+    @auth = { user: @client.id, pass: @secret }
+    yield @client.save()
+    json = { name: 'name', email: 'e@mail.com' }
+    url = utils.getURL('/api/users')
+    [res, body] = yield request.postAsync({url, json, @auth})
+    @user = yield User.findById(res.body._id)
+    @israelId = '12345'
+    yield @user.update({ $set: { @israelId }})
+    done()
+
+  it 'redirects to the user with the given israelId', utils.wrap (done) ->
+    url = utils.getURL("/api/user-lookup/israel-id/#{@israelId}")
+    [res, body] = yield request.getAsync({url, json: true, @auth, followRedirect: false })
+    expect(res.statusCode).toBe(301)
+    expect(res.headers.location).toBe("/api/users/#{@user.id}")
+    done()
+    
+  it 'returns 404 if the user is not found', utils.wrap (done) ->
+    url = utils.getURL("/api/user-lookup/israel-id/54321")
+    [res, body] = yield request.getAsync({url, json: true, @auth, followRedirect: false })
+    expect(res.statusCode).toBe(404)
+    done()

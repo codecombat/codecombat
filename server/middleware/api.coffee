@@ -51,6 +51,15 @@ getUser = wrap (req, res) ->
     throw new errors.Forbidden('Must have created the user.')
 
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
+
+
+getUserLookupByIsraelId = wrap (req, res) ->
+  { israelId } = req.params
+  user = yield User.findOne({ israelId })
+  if not user
+    throw new errors.NotFound('User not found.')
+    
+  res.redirect(301, "/api/users/#{user.id}")
   
   
 postUserOAuthIdentity = wrap (req, res) ->
@@ -151,6 +160,7 @@ putUserLicense = wrap (req, res) ->
 module.exports = {
   clientAuth
   getUser
+  getUserLookupByIsraelId
   postUser
   postUserOAuthIdentity
   putUserSubscription
