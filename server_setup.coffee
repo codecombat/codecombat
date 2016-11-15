@@ -106,7 +106,8 @@ setupExpressMiddleware = (app) ->
   else if not global.testing
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
-  app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
+  app.use('/'+config.buildInfo.sha, express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
+  app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
@@ -239,6 +240,10 @@ setupAjaxCaching = (app) ->
 setupJavascript404s = (app) ->
   app.get '/javascripts/*', (req, res) ->
     res.status(404).send('Not found')
+  app.get(/^\/?[a-f0-9]{40}/, (req, res) ->
+    res.status(404).send('Wrong hash')
+  )
+
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', (req, res) ->
@@ -259,11 +264,12 @@ setupFallbackRouteToIndex = (app) ->
         domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
         domainPrefix = req.host.match(domainRegex)?[1] or ''
         configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
+        configData.buildInfo = config.buildInfo
         data = data.replace '"environmentTag"', if config.isProduction then '"production"' else '"development"'
-        data = data.replace '"shaTag"', if config.buildInfo?.sha then "\"#{config.buildInfo.sha}\"" else '"unknown"'
+        data = data.replace /shaTag/g, config.buildInfo.sha
         data = data.replace '"serverConfigTag"', JSON.stringify configData
         data = data.replace('"userObjectTag"', user)
-        data = data.replace('"amActuallyTag"', JSON.stringify(req.session.amActually))
+        data = data.replace('"amActuallyTag"', JSON.stringify(req.session?.amActually))
         res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
