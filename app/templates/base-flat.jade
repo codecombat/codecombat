@@ -28,7 +28,11 @@ mixin accountLinks
                 span.icon-bar
                 span.icon-bar
               a.navbar-brand(href="/")
-                img#logo-img(src="/images/pages/base/logo.png")
+                if serverConfig.codeNinjas
+                  img#logo-img.code-ninjas-powered-by(src="/images/pages/base/logo.png")
+                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                else
+                  img#logo-img(src="/images/pages/base/logo.png")
                 span.glyphicon.glyphicon-home
 
             #navbar-collapse.collapse.navbar-collapse

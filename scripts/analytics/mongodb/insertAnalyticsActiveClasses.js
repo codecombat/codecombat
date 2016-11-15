@@ -93,25 +93,28 @@ function getActiveClassCounts(startDay) {
   var userEventEndDateMap = {};
   var prepaidUsersMap = {};
   var prepaidIDs = [];
-  cursor = db.users.find({_id: {$in: classroomUserObjectIds}}, {coursePrepaid: 1, coursePrepaidID: 1});
-  while (cursor.hasNext()) {
-    doc = cursor.next();
-    userEventEndDateMap[doc._id.valueOf()] = {};
-    userEventEndDateMap[doc._id.valueOf()][eventNameFree] = new Date();
-    if (doc.coursePrepaid) {
-      if (!doc.coursePrepaid.endDate) throw new Error("No endDate for new prepaid " + doc._id.valuOf());
-      userEventEndDateMap[doc._id.valueOf()][eventNamePaid] = new Date(doc.coursePrepaid.endDate);
-      if (!prepaidUsersMap[doc.coursePrepaid._id.valueOf()]) prepaidUsersMap[doc.coursePrepaid._id.valueOf()] = [];
-      prepaidUsersMap[doc.coursePrepaid._id.valueOf()].push(doc._id.valueOf()); 
-      prepaidIDs.push(doc.coursePrepaid._id);
-    }
-    if (doc.coursePrepaidID) {
-      if (!userEventEndDateMap[doc._id.valueOf()][eventNamePaid]) {
-        userEventEndDateMap[doc._id.valueOf()][eventNamePaid] = new Date();
+  var batchSize = 100000;
+  for (var j = 0; j < classroomUserObjectIds.length / batchSize + 1; j++) {
+    cursor = db.users.find({_id: {$in: classroomUserObjectIds.slice(j * batchSize, j * batchSize + batchSize)}}, {coursePrepaid: 1, coursePrepaidID: 1});
+    while (cursor.hasNext()) {
+      doc = cursor.next();
+      userEventEndDateMap[doc._id.valueOf()] = {};
+      userEventEndDateMap[doc._id.valueOf()][eventNameFree] = new Date();
+      if (doc.coursePrepaid) {
+        if (!doc.coursePrepaid.endDate) throw new Error("No endDate for new prepaid " + doc._id.valuOf());
+        userEventEndDateMap[doc._id.valueOf()][eventNamePaid] = new Date(doc.coursePrepaid.endDate);
+        if (!prepaidUsersMap[doc.coursePrepaid._id.valueOf()]) prepaidUsersMap[doc.coursePrepaid._id.valueOf()] = [];
+        prepaidUsersMap[doc.coursePrepaid._id.valueOf()].push(doc._id.valueOf()); 
+        prepaidIDs.push(doc.coursePrepaid._id);
       }
-      if (!prepaidUsersMap[doc.coursePrepaidID.valueOf()]) prepaidUsersMap[doc.coursePrepaidID.valueOf()] = [];
-      prepaidUsersMap[doc.coursePrepaidID.valueOf()].push(doc._id.valueOf()); 
-      prepaidIDs.push(doc.coursePrepaidID);
+      if (doc.coursePrepaidID) {
+        if (!userEventEndDateMap[doc._id.valueOf()][eventNamePaid]) {
+          userEventEndDateMap[doc._id.valueOf()][eventNamePaid] = new Date();
+        }
+        if (!prepaidUsersMap[doc.coursePrepaidID.valueOf()]) prepaidUsersMap[doc.coursePrepaidID.valueOf()] = [];
+        prepaidUsersMap[doc.coursePrepaidID.valueOf()].push(doc._id.valueOf()); 
+        prepaidIDs.push(doc.coursePrepaidID);
+      }
     }
   }
   cursor = db.prepaids.find({_id: {$in: prepaidIDs}}, {endDate: 1, properties: 1});
