@@ -108,3 +108,5 @@ gitSpy/*
 
 # nightwatch reports
 spec/smoke/reports/
+
+scripts/analytics/mongodb/.analyticsAuth.json
