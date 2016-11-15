@@ -12,9 +12,8 @@ block content
           if view.activeClasses.length > 0
             div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
         .col-md-5.big-stat.recurring-revenue
-          div.description Monthly Recurring Revenue
-          if view.revenue.length > 0
-            div.count $#{Math.round((view.revenue[0].groups[view.revenue[0].groups.length - 1]) / 100)}
+          div.description Home Monthly Recurring Revenue
+          div.count $#{Math.round((view.yearMonthMrrMap[new Date().toISOString().substring(0, 7)] || 0) / 100)}
         .col-md-5.big-stat.classroom-active-users
           div.description Classroom Monthly Active Users
           if view.activeUsers.length > 0
@@ -81,16 +80,16 @@ block content
 
 
       .tab-pane#tab_revenue
-        h3 Daily Recurring Revenue 90 days
+        h3 Home Daily Revenue 90 days
         .recurring-daily-revenue-chart-90.line-chart-container
 
-        h3 Monthly Recurring Revenue 90 days
+        h3 Home Monthly Revenue 90 days
         .recurring-monthly-revenue-chart-90.line-chart-container
 
-        h3 Daily Recurring Revenue 365 days
+        h3 Home Daily Revenue 365 days
         .recurring-daily-revenue-chart-365.line-chart-container
 
-        h3 Monthly Recurring Revenue 365 days
+        h3 Home Monthly Revenue 365 days
         .recurring-monthly-revenue-chart-365.line-chart-container
 
         .school-sales
@@ -121,7 +120,7 @@ block content
           else
             div Loading ...
 
-        h1 Recurring Revenue
+        h1 Home Revenue
         table.table.table-striped.table-condensed
           tr
             th(style='min-width:85px;') Day
