@@ -241,6 +241,27 @@ paths:
           description: 'The affected user'
           schema:
             $ref: '#/definitions/UserResponse'
+            
+  /user-lookup/{property}/{value}:
+    get:
+      tags:
+        - users
+      description: Redirects to `/users/{handle}` given a unique, identifying property
+      parameters:
+        - name: property
+          in: path
+          type: string
+          required: true
+          description: The property to lookup by. Currently only `"israel-id"` is available.
+        - name: value
+          in: path
+          type: string
+          required: true
+          description: The value to be looked up.
+      responses:
+        "301":
+          description: "Redirect to `User` resource at `/users/{handle}`"
+           
 
 
 parameters:
