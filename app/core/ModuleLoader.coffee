@@ -44,7 +44,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     console.debug 'Loading js file:', "/javascripts/app/#{path}.js" if LOG
     @queue.loadFile({
       id: path
-      src: "#{window.serverConfig.buildInfo.sha}/javascripts/app/#{path}.js"
+      src: "/#{window.serverConfig.buildInfo.sha}/javascripts/app/#{path}.js"
       type: createjs.LoadQueue.JAVASCRIPT
     })
     return true
