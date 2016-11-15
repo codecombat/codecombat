@@ -28,11 +28,8 @@ exports.config =
   conventions:
     ignored: (path) -> _.str.startsWith(sysPath.basename(path), '_')
 
-  sourceMaps: 'absoluteUrl'
-
   overrides:
     production:
-      sourceMaps: 'absoluteUrl'
       plugins:
         coffeelint:
           pattern: /\A\Z/
