@@ -33,6 +33,13 @@
   <script>
     var DEXECURE_URL = "/dexecure-c167a5675c.js";
     "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
+
+    window.serverConfig = "serverConfigTag";
+    window.userObject = "userObjectTag";
+    window.amActually = "amActuallyTag";
+    window.me = {
+        get: function(attribute) { return window.userObject[attribute]; }
+    }
   </script>
 
   <!-- Google Analytics -->
@@ -96,13 +103,6 @@ var _rollbarConfig = {
     // running client tests on Travis.
     
     // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
-    window.serverConfig = "serverConfigTag";
-    window.userObject = "userObjectTag";
-    window.amActually = "amActuallyTag";
-    window.me = {
-      get: function(attribute) { return window.userObject[attribute]; }
-    }
-
     onLoad = function() {
       try {
         // IE10 warning
