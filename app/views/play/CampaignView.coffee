@@ -73,7 +73,8 @@ module.exports = class CampaignView extends RootView
     if utils.getQueryVariable('hour_of_code')
       me.set('hourOfCode', true)
       me.patch()
-      $('body').append($('<img src="http://code.org/api/hour/begin_codecombat.png" style="visibility: hidden;">'))  # TODO: double-check this when we get our proper pixels, differentiate by game-dev-hoc activity
+      pixelCode = if @terrain is 'game-dev-hoc' then 'code_combat_gamedev' else 'code_combat'
+      $('body').append($("<img src='http://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
 
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     shouldReturnToGameDevHoc = @terrain is 'game-dev-hoc'

@@ -195,13 +195,15 @@ module.exports = class HeroVictoryModal extends ModalView
     elapsed = (new Date() - new Date(me.get('dateCreated')))
     if me.get 'hourOfCode'
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
-      lastLevelOriginal = if storage.load('should-return-to-game-dev-hoc') then '57ee6f5786cf4e1f00afca2c' else '541c9a30c6362edfb0f34479'
+      gameDevHoc = storage.load('should-return-to-game-dev-hoc')
+      lastLevelOriginal = if gameDevHoc then '57ee6f5786cf4e1f00afca2c' else '541c9a30c6362edfb0f34479'
       lastLevel = @level.get('original') is lastLevelOriginal # hoc2016 or kithgard-gates
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
-        $('body').append($('<img src="http://code.org/api/hour/finish_codecombat.png" style="visibility: hidden;">'))  # TODO: double-check this when we get our proper pixels, differentiate by game-dev-hoc activity
+        pixelCode = if gameDevHoc then 'code_combat_gamedev' else 'code_combat'
+        $('body').append($("<img src='http://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
         me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish'
