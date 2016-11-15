@@ -12,19 +12,25 @@ block content
       .alert.alert-danger.text-center
   
         if fatalError === 'signed-in'
-          h3 You already have an account
-          a(href="/play") Play CodeCombat!
+          // You already have an account
+          h3 יש לך כבר חשבון
+          // Play CodeCombat!
+          a(href="/play") שחק CodeCombat!
           
         else if fatalError === 'missing-input'
-          h3 Not enough information was provided
-          p Need at least "israelId" included in GET parameters.
+          // Not enough information was provided
+          h3 חסר מידע
+          // Need at least "israelId" included in GET parameters.
+          p לפחות קוד זיהוי ישראלי -  israelId חייב להיכלל בפרמטרים של בקשת ה GET
           
         else if fatalError === 'email-exists'
-          h3 Your email is already in use
+          // Your email is already in use
+          h3 דוא"ל זה כבר נמצא בשימוש  "
           a.login-button(data-i18n="login.log_in")
   
         else
-          h3 Error
+          // Error
+          h3 שגיאה
           p= fatalError
           
     else
@@ -32,31 +38,38 @@ block content
         .col-md-6.col-md-offset-3.col-sm-8.col-sm-offset-2
           table.table.table-condensed
             tr
-              th Israel Id
+              // Israel Id
+              th קוד זיהוי ישראלי
               td= queryParams.israelId
             if queryParams.email
               tr
-                th Email
+                // Email
+                th אמייל
                 td= queryParams.email
             if queryParams.firstName
               tr
-                th First Name
+                // First Name
+                th שם פרטי
                 td= queryParams.firstName
             if queryParams.lastName
               tr
-                th Last Name
+                // Last Name
+                th שם משפחה
                 td= queryParams.lastName
             if queryParams.school
               tr
-                th School
+                // School
+                th בית ספר
                 td= queryParams.school
             if queryParams.city
               tr
-                th City
+                // City
+                th עיר
                 td= queryParams.city
             if queryParams.district
               tr
-                th District
+                // District
+                th מחוז
                 td= queryParams.district
           form
             .form-group
