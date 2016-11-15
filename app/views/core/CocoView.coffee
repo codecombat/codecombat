@@ -153,6 +153,7 @@ module.exports = class CocoView extends Backbone.View
     context.document = document
     context.i18n = utils.i18n
     context.state = @state
+    context.serverConfig = window.serverConfig
     context
 
   afterRender: ->
