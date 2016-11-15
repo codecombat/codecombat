@@ -185,18 +185,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
     @fourthLevelGroup
 
-  getHintsGroup: ->
-    # A/B testing two styles of hints
-    return @hintsGroup if @hintsGroup
-    group = me.get('testGroupNumber') % 3
-    @hintsGroup = switch group
-      when 0 then 'no-hints'  # Only show intro and overview in hints dialog
-      when 1 then 'hints'     # Automatically created code, doled out line-by-line, without full solutions
-      when 2 then 'hintsB'    # Manually created FAQ-style hints, reusable across levels
-    @hintsGroup = 'hints' if me.isAdmin()
-    application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
-    @hintsGroup
-
   getDefaultLanguageGroup: ->
     # A/B test default programming language in home version
     return @defaultLanguageGroup if @defaultLanguageGroup
@@ -335,7 +323,7 @@ module.exports = class User extends CocoModel
     return 'not-enrolled' unless coursePrepaid
     return 'enrolled' unless coursePrepaid.endDate
     return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
-  
+
   prepaidType: ->
     # TODO: remove once legacy prepaidIDs are migrated to objects
     return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
@@ -454,7 +442,7 @@ module.exports = class User extends CocoModel
     return null unless coursePrepaid
     Prepaid = require 'models/Prepaid'
     return new Prepaid(coursePrepaid)
-  
+
   # TODO: Probably better to denormalize this into the user
   getLeadPriority: ->
     request = $.get('/db/user/-/lead-priority')

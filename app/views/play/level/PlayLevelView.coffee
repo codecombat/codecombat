@@ -280,7 +280,7 @@ module.exports = class PlayLevelView extends RootView
     @initGoalManager()
 
   insertSubviews: ->
-    @hintsState = new HintsState({ hidden: true }, { @session, @level })
+    @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level}
