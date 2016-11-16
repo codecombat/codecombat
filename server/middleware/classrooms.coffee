@@ -197,6 +197,7 @@ module.exports =
           levelIndex: level.campaignIndex
           levelSlug: level.slug
           levelOriginal: levelOriginal
+          practice: level.practice ? false
     # console.log "DEBUG: courseID=#{req.query?.courseID} total levels=#{levelOriginals.length}"
 
     query = {$and: [
