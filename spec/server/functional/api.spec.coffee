@@ -32,14 +32,20 @@ describe 'POST /api/users', ->
     
 describe 'GET /api/users/:handle', ->
 
-  url = utils.getURL('/api/users')
-
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, APIClient])
+    
     @client = new APIClient()
     @secret = @client.setNewSecret()
     @auth = { user: @client.id, pass: @secret }
     yield @client.save()
+
+    @otherClient = new APIClient()
+    secret = @otherClient.setNewSecret()
+    @otherClientAuth = { user: @otherClient.id, pass: secret }
+    yield @otherClient.save()
+
+    url = utils.getURL('/api/users')
     json = { name: 'name', email: 'e@mail.com' }
     [res, body] = yield request.postAsync({url, json, @auth})
     @user = yield User.findById(res.body._id)
@@ -55,7 +61,35 @@ describe 'GET /api/users/:handle', ->
     expect(body.email).toBe(@user.get('email'))
     expect(body.stats.gamesCompleted).toBe(1)
     done()
+    
+  it 'returns 403 if the user was not created by the client', utils.wrap (done) ->
+    url = utils.getURL("/api/users/#{@user.id}")
+    [res, body] = yield request.getAsync({url, json: true, auth: @otherClientAuth})
+    expect(res.statusCode).toBe(403)
+    done()
+    
+  it 'returns 200 if the client is Israel and the user has an israelId', utils.wrap (done) ->
+    israelClient = new APIClient({_id: new mongoose.Types.ObjectId('582a134eb9bce324006210e7')})
+    secret = israelClient.setNewSecret()
+    israelAuth = { user: israelClient.id, pass: secret }
+    yield israelClient.save()
 
+    url = utils.getURL("/api/users/#{@user.id}")
+    
+    # when user does not have an israel id
+    [res, body] = yield request.getAsync({url, json: true, auth: israelAuth})
+    expect(res.statusCode).toBe(403)
+
+    # when the client is not israel
+    yield @user.update({$set: {israelId: '12345'}})
+    [res, body] = yield request.getAsync({url, json: true, auth: @otherClientAuth})
+    expect(res.statusCode).toBe(403)
+
+    # when both conditions are met
+    [res, body] = yield request.getAsync({url, json: true, auth: israelAuth})
+    expect(res.statusCode).toBe(200)
+    done()
+    
   
 describe 'POST /api/users/:handle/o-auth-identities', ->
 

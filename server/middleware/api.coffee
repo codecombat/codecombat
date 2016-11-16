@@ -47,7 +47,8 @@ getUser = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client._id.equals(user.get('clientCreator'))
+  exception = req.client.id is '582a134eb9bce324006210e7' and user.get('israelId')
+  unless exception or req.client._id.equals(user.get('clientCreator'))
     throw new errors.Forbidden('Must have created the user.')
 
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
