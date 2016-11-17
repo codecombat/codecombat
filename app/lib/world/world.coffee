@@ -12,9 +12,6 @@ Component = require 'lib/world/component'
 System = require 'lib/world/system'
 PROGRESS_UPDATE_INTERVAL = 100
 DESERIALIZATION_INTERVAL = 10
-REAL_TIME_BUFFER_MIN = 2 * PROGRESS_UPDATE_INTERVAL
-REAL_TIME_BUFFER_MAX = 3 * PROGRESS_UPDATE_INTERVAL
-REAL_TIME_BUFFERED_WAIT_INTERVAL = 0.5 * PROGRESS_UPDATE_INTERVAL
 REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
@@ -30,7 +27,6 @@ module.exports = class World
   framesSerializedSoFar: 0
   framesClearedSoFar: 0
   apiProperties: ['age', 'dt']
-  realTimeBufferMax: REAL_TIME_BUFFER_MAX / 1000
   constructor: (@userCodeMap, classMap) ->
     # classMap is needed for deserializing Worlds, Thangs, and other classes
     @classMap = classMap ? {Vector: Vector, Rectangle: Rectangle, Thang: Thang, Ellipse: Ellipse, LineSegment: LineSegment}
@@ -158,7 +154,7 @@ module.exports = class World
     timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     timeLoaded = @frames.length * @dt * 1000
     timeBuffered = timeLoaded - timeSinceStart
-    timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
+    timeBuffered > 0
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
@@ -166,7 +162,7 @@ module.exports = class World
     timeLoaded = @frames.length * @dt * 1000
     timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
-    remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
+    remainingBuffer <= 0
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
@@ -203,7 +199,7 @@ module.exports = class World
     if skipDeferredLoading
       continueLaterFn()
     else
-      delay = if shouldDelayRealTimeSimulation then REAL_TIME_BUFFERED_WAIT_INTERVAL else 0
+      delay = if shouldDelayRealTimeSimulation then 1000 / 30 else 0
       setTimeout continueLaterFn, delay
     false
 
