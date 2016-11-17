@@ -10,8 +10,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     im_a_student: "Ich bin ein Schüler"
     learn_more: "Mehr lernen"
     classroom_in_a_box: "Ein Klassenraum in-einer-Box um Informatik zu lehren."
-    codecombat_is: "CodeCombat ist eine Plattform für Schüler um Informatik zu lernen während sie ein echtes Spiel spielen." # {change}
-    our_courses: "Unsere Kurse wurden genau getestet um im Klassenraum zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung." # {change}
+    codecombat_is: "CodeCombat ist eine Plattform für Schüler, um Informatik zu lernen, während sie ein echtes Spiel spielen." # {change}
+    our_courses: "Unsere Kurse wurden genau getestet, um im Klassenraum zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung." # {change}
     top_screenshots_hint: "Schüler schreiben Code und ihre Veränderungen werden in Echtzeit sichtbar"
     designed_with: "Designed um Lehrkräften zu helfen"
     real_code: "Real, getipper Code"
@@ -22,30 +22,30 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teaching_computer_science: "Informatik zu unterrichten benötigt keinen teuren Abschluss, weil wir Tools bereitstellen, die Lehrkräften im Hintergrund helfen."
     accessible_to: "Zugänglich für "
     everyone: "jeden"
-    democratizing: "Den Prozess programmieren zu erlernen zu demokratisierien steht im Mittelpunkt unserer Philosophie. Jeder sollte die Möglichkeit haben programmieren zu erlernen."
+    democratizing: "Den Prozess des Programmieren Lernens zu demokratisieren steht im Mittelpunkt unserer Philosophie. Jeder sollte die Möglichkeit haben programmieren zu erlernen."
     forgot_learning: "Ich glaube sie vergessen sogar, dass sie gerade etwas lernen."
-    wanted_to_do: " Programmieren ist etwas was ich immer wollte und ich hätte nie gedacht, dass ich es in der Schule lernen könnte."
+    wanted_to_do: " Programmieren ist etwas, was ich immer wollte und ich hätte nie gedacht, dass ich es in der Schule lernen könnte."
     why_games: "Warum ist lernen durch Spiele wichtig?"
     games_reward: "Spiele belohnen die produktive Anstrengung."
     encourage: "Spiele sind ein Medium, das Interaktionen, Entdeckungen und Versuch-und-Irrtum fördert. Ein gutes Spiel fordert den Spieler dazu auf Fähigkeiten über die Zeit hinweg zu erwerben, was der selbe entscheidende Prozess ist, durch den Schüler gehen, während sie etwas lernen."
-    excel: "Spiele glänzen im belohnen von"
+    excel: "Spiele glänzen im Belohnen von"
     struggle: "produktiven Anstrengungen"
     kind_of_struggle: ", also den Anstrengungen die in einem Lernen resultieren, dass gewinnbringend und"
     motivating: "motivierend ist"
     not_tedious: "und nicht langweilig."
-    gaming_is_good: "Studien legen nahe, dass spielen gut für das kindliche Gehirn ist. (Es ist wahr!)"
+    gaming_is_good: "Studien legen nahe, dass Spielen gut für das kindliche Gehirn ist. (Es ist wahr!)"
     game_based: "Wenn spielbasierte Lernsysteme "
     compared: "verglichen"
-    conventional: "werden mit konventionellen Lehrmethoden, ist der Unterschied klar: Spiele sind besser darin den Schülern zu helfen Wissen zu erwerben, sich zu konzentrieren und darin eine"
+    conventional: "werden mit konventionellen Lehrmethoden, ist der Unterschied klar: Spiele sind besser darin, den Schülern zu helfen Wissen zu erwerben, sich zu konzentrieren und darin eine"
     perform_at_higher_level: "höhere Ebene der Leistung zu erreichen."
-    feedback: "Spiele bieten außerdem ein Echtzeit Feedback, das den Schülern erlaubt ihre Lösungswege anzupassen und Konzepte ganzheitlich zu verstehen, anstelle nur limitiert zu sein auf  “Korrekt“ oder  “Inkorrekt“ Antworten."
-    real_game: "Ein echtes Spiel, gespielt mit echtem programmieren."
+    feedback: "Spiele bieten außerdem ein Echtzeit-Feedback, das den Schülern erlaubt, ihre Lösungswege anzupassen und Konzepte ganzheitlich zu verstehen, anstelle nur limitiert zu sein auf  “Korrekt“ oder  “Inkorrekt“ Antworten."
+    real_game: "Ein echtes Spiel, gespielt mit echtem Programmieren."
     great_game: "In einem guten Spiel geht es um mehr als nur Abzeichen und Erfolge - es geht um die Reise eines Spielers, gut-designte Rätsel, und die Fähigkeit Herausforderungen mit Kraft und Selbsvertrauen anzupacken."
-    agency: "CodeCombat ist ein Spiel, das Spielern die Kraft und das Selbstbewusstsein gibt durch unsere robuste Programmiereingabe-Engine, die sowohl Anfänger als auch fortgeschrittenen Schülern dabei hilft richtigen, validen Code zu schreiben."
+    agency: "CodeCombat ist ein Spiel, das Spielern die Kraft und das Selbstbewusstsein gibt durch unsere robuste Programmiereingabe-Engine, die sowohl Anfänger als auch fortgeschrittenen Schülern dabei hilft, richtigen, validen Code zu schreiben."
     request_demo_title: "Fangen Sie noch heute mit ihren Schülern an!"
     request_demo_subtitle: "Fragen Sie nach einer Demo und lassen Sie ihre Schüler in weniger als einer Stunde anfangen."
     get_started_title: "Erstellen Sie noch heute ihre Klasse"
-    get_started_subtitle: "Erstellen Sie eine Klasse, fügen Sie Schüler hinzu und verfolgen Sie ihren Fortschritt während sie Informatik lernen."
+    get_started_subtitle: "Erstellen Sie eine Klasse, fügen Sie Schüler hinzu und verfolgen Sie ihren Fortschritt, während sie Informatik lernen."
     request_demo: "Demo anfragen"
     setup_a_class: "Eine Klasse erstellen"
     have_an_account: "Haben Sie bereits einen Account?" # {change}
@@ -57,9 +57,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     lesson_time: "Lektionszeit:"
     coming_soon: "Coming soon!"
     courses_available_in: "Kurse sind verfügbar in JavaScript, Python, und Java (coming soon!)" # {change}
-    boast: "Bietet Rätsel die komplex genug sind um Spieler und Programmiere zu faszinieren."
-    winning: "Eine gewinnbringende Kombination aus RPG-Gameplay und Programmierhausaufgaben die aufgeht und kindgerechte Bildung berechtigterweise unterhaltsam macht."
-    run_class: "Alles was man braucht um einen Informatikkurs in der Schule zu geben, ohne dass man Hintergrundwissen braucht."
+    boast: "Bietet Rätsel, die komplex genug sind, um Spieler und Programmierer zu faszinieren."
+    winning: "Eine gewinnbringende Kombination aus RPG-Gameplay und Programmierhausaufgaben, die aufgeht und kindgerechte Bildung berechtigterweise unterhaltsam macht."
+    run_class: "Alles was man braucht, um einen Informatikkurs in der Schule zu geben, ohne dass man Hintergrundwissen braucht."
     goto_classes: "Gehe zu meinen Klassen"
     view_profile: "Zeige mein Profil"
     view_progress: "Fortschritt ansehen"
@@ -129,7 +129,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     locked: "Gesperrt"
     purchasable: "Zu kaufen" # For a hero you unlocked but haven't purchased
     available: "Verfügbar"
-    skills_granted: "Erhaltene" # Property documentation details
+    skills_granted: "Erhaltene Ausrüstung" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
     achievements: "Errungenschaften" # Tooltip on achievement list button from /play
     settings: "Einstellungen" # Tooltip on settings button from /play
@@ -200,7 +200,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     None: "Nicht"
 
   share_progress_modal:
-    blurb: "Du machst dich gut! Sag deinen Eltern wie viel du mit CodeCombat gelernt hast." # {change}
+    blurb: "Du machst dich gut! Sag deinen Eltern, wie viel du mit CodeCombat gelernt hast." # {change}
     email_invalid: "Diese Email-Adresse ist leider ungültig."
     form_blurb: "Schreibe hier ihre Emailadresse rein und wir werden es ihnen zeigen."
     form_label: "Email-Adresse"
