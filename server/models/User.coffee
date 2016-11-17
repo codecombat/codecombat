@@ -338,10 +338,6 @@ UserSchema.methods.isOnPremiumServer = ->
   return true if @get('country') in ['china'] and (@isPremium() or @get('stripe'))
   return false
 
-UserSchema.methods.isOnFreeOnlyServer = ->
-  return true if @get('country') in ['china'] and not (@isPremium() or @get('stripe'))
-  return false
-
 UserSchema.methods.level = ->
   xp = @get('points') or 0
   a = 5

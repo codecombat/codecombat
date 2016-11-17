@@ -2,6 +2,9 @@ mw = require '../middleware'
 
 module.exports.setup = (app) ->
   
+  app.put('/admin/feature-mode/:featureMode', mw.admin.putFeatureMode)
+  app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
+  
   app.all('/api/*', mw.api.clientAuth)
   app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
   app.post('/api/users', mw.api.postUser)

@@ -219,7 +219,7 @@ module.exports = class User extends CocoModel
       when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
       when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
       else ['control', []]
-    skipTest = me.isAdmin() or me.isPremium() or me.isOnFreeOnlyServer() or me.isOnPremiumServer() or not me.get('testGroupNumber')?
+    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer() or not me.get('testGroupNumber')?
     if skipTest
       [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
     else
@@ -299,10 +299,6 @@ module.exports = class User extends CocoModel
   isOnPremiumServer: ->
     return true if me.get('country') in ['brazil']
     return true if me.get('country') in ['china'] and (me.isPremium() or me.get('stripe'))
-    return false
-
-  isOnFreeOnlyServer: ->
-    return true if me.get('country') in ['china'] and not (me.isPremium() or me.get('stripe'))
     return false
 
   sendVerificationCode: (code) ->
