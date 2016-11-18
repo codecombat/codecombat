@@ -475,13 +475,13 @@ module.exports = Surface = class Surface extends CocoClass
       @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
       lag = (@world.frames.length - 1) * @world.dt - @world.age
-      intendedLag = @world.dt
+      intendedLag = @world.realTimeBufferMax + @world.dt
       if lag > intendedLag * 1.2
-        @fastForwardingToFrame = @world.frames.length
+        @fastForwardingToFrame = @world.frames.length - @world.realTimeBufferMax * @world.frameRate
         @fastForwardingSpeed = lag / intendedLag
       else
         @fastForwardingToFrame = @fastForwardingSpeed = null
-    #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
+#    console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
     if event.finished
       @updatePaths()
     else
