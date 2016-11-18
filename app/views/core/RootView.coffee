@@ -185,7 +185,7 @@ module.exports = class RootView extends CocoView
   logoutRedirectURL: '/'
 
   navigateToAdmin: ->
-    if window.amActually or me.isAdmin()
+    if window.serverSession.amActually or me.isAdmin()
       application.router.navigate('/admin', {trigger: true})
 
   onTreemaError: (e) ->

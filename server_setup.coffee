@@ -289,7 +289,7 @@ setupFallbackRouteToIndex = (app) ->
         data = data.replace /shaTag/g, config.buildInfo.sha
         data = data.replace '"serverConfigTag"', JSON.stringify configData
         data = data.replace('"userObjectTag"', user)
-        data = data.replace('"amActuallyTag"', JSON.stringify(req.session?.amActually))
+        data = data.replace('"serverSessionTag"', JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode')))
         data = data.replace('"featuresTag"', JSON.stringify(req.features))
         res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
         res.header 'Pragma', 'no-cache'
