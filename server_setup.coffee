@@ -183,6 +183,29 @@ setupRedirectMiddleware = (app) ->
   app.all '/account/profile/*', (req, res, next) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
+    
+setupFeaturesMiddleware = (app) ->
+  app.use (req, res, next) ->
+    # TODO: Share these defaults with run-tests.js
+    req.features = features = {
+      freeOnly: false
+    }
+    
+    if config.picoCTF or req.session.featureMode is 'pico-ctf'
+      features.playOnly = true
+
+    if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
+      features.freeOnly = true
+      features.campaignSlugs = ['dungeon', 'forest', 'desert']
+      features.playViewsOnly = true
+      features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+
+    if req.user
+      { user } = req
+      if user.get('country') in ['china'] and not (user.isPremium() or user.get('stripe'))
+        features.freeOnly = true
+        
+    next()
 
 setupSecureMiddleware = (app) ->
   # Cannot use express request `secure` property in production, due to
@@ -216,6 +239,7 @@ exports.setupMiddleware = (app) ->
   setupExpressMiddleware app
   setupAPIDocs app # should happen after serving static files, so we serve the right favicon
   setupPassportMiddleware app
+  setupFeaturesMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
   setupAjaxCaching app
@@ -269,7 +293,8 @@ setupFallbackRouteToIndex = (app) ->
         data = data.replace /shaTag/g, config.buildInfo.sha
         data = data.replace '"serverConfigTag"', JSON.stringify configData
         data = data.replace('"userObjectTag"', user)
-        data = data.replace('"amActuallyTag"', JSON.stringify(req.session?.amActually))
+        data = data.replace('"serverSessionTag"', JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode')))
+        data = data.replace('"featuresTag"', JSON.stringify(req.features))
         res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0

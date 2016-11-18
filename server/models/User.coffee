@@ -338,10 +338,6 @@ UserSchema.methods.isOnPremiumServer = ->
   return true if @get('country') in ['china'] and (@isPremium() or @get('stripe'))
   return false
 
-UserSchema.methods.isOnFreeOnlyServer = ->
-  return true if @get('country') in ['china'] and not (@isPremium() or @get('stripe'))
-  return false
-
 UserSchema.methods.level = ->
   xp = @get('points') or 0
   a = 5
@@ -522,6 +518,9 @@ UserSchema.statics.makeNew = (req) ->
     user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
   lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  { preferredLanguage } = req.query
+  if preferredLanguage and _.contains(languages.languageCodes, preferredLanguage)
+    user.set({ preferredLanguage })
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))

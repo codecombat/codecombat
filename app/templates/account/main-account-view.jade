@@ -18,12 +18,12 @@ block content
       div.col-md-4
         #account-links
           a.btn.btn-lg.btn-primary(href="/account/settings", data-i18n="play.settings")
-      if !me.isOnFreeOnlyServer()
+      if !features.freeOnly
         div.col-md-4
           #account-links
             a.btn.btn-lg.btn-primary(href="/account/payments", data-i18n="account.payments")
     div.row.row-bot-buffer
-      if !me.isOnFreeOnlyServer()
+      if !features.freeOnly
         div.col-md-4
           #account-links
             a.btn.btn-lg.btn-primary(href="/account/subscription", data-i18n="account.subscription")

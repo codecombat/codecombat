@@ -29,14 +29,16 @@ module.exports = class MainAdminView extends RootView
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
     'click .classroom-progress-csv': 'onClickExportProgress'
+    'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
   initialize: ->
-    if window.amActually
-      @amActually = new User({_id: window.amActually})
+    if window.serverSession.amActually
+      @amActually = new User({_id: window.serverSession.amActually})
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
+    @featureMode = window.serverSession.featureMode
     super()
 
   onClickStopSpyingButton: ->
@@ -48,6 +50,10 @@ module.exports = class MainAdminView extends RootView
         forms.enableSubmit(button)
         errors.showNotyNetworkError(arguments...)
     })
+
+  onClickClearFeatureModeButton: (e) ->
+    e.preventDefault()
+    application.featureMode.clear()
 
   onSubmitEspionageForm: (e) ->
     e.preventDefault()

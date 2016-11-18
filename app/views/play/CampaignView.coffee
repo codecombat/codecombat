@@ -189,7 +189,7 @@ module.exports = class CampaignView extends RootView
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
       reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
       context.levels = _.reject context.levels, slug: reject
-    if me.isOnFreeOnlyServer()
+    if features.freeOnly
       context.levels = _.reject context.levels, 'requiresSubscription'
     @annotateLevels(context.levels)
     count = @countLevels context.levels
