@@ -15,6 +15,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
     'tome:palette-hovered': 'onPaletteHovered'
+    'tome:palette-clicked': 'onPaletteClicked'
     'tome:palette-pin-toggled': 'onPalettePinToggled'
     'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
@@ -93,6 +94,13 @@ module.exports = class SpellPaletteEntryView extends CocoView
       x.on 'click', @onClick
       @playSound 'spell-palette-entry-pin'
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
+
+  onPaletteClicked: (e) =>
+    console.log(e)
+    if e.prop is @doc.name
+      @$el.addClass('selected')
+    else
+      @$el.removeClass('selected') 
 
   onClick: (e) =>
     if false and @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder')

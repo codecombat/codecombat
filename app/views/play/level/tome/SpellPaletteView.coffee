@@ -339,9 +339,10 @@ module.exports = class SpellPaletteView extends CocoView
       @setupManager.open()
 
   onClickClose: (e) ->
-    @$el.removeClass('open')
+    @hide()
 
   hide: () =>
+    @$el.find('.left .selected').removeClass 'selected'
     @$el.removeClass('open')
 
   onPalleteClick: (e) ->
@@ -354,7 +355,6 @@ module.exports = class SpellPaletteView extends CocoView
     aceEditors = @aceEditors
     # Initialize Ace for each popover code snippet that still needs it
     content.find('.docs-ace').each ->
-      console.log "SETUP!"
       aceEditor = utils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
 
