@@ -21,6 +21,11 @@ block content
           em but you are actually #{view.amActually.get('name') || '(no username)'} at #{view.amActually.get('email') || '(no email)'}
           br
           button#stop-spying-btn.btn.btn-xs Stop Spying
+        if view.featureMode
+          br
+          em and you are viewing feature mode "#{view.featureMode}"
+          =" "
+          button#clear-feature-mode-btn.btn.btn-sm Clear Feature Mode
   if me.isAdmin()
     .form-horizontal
       form#user-search-form.form-group
