@@ -7,7 +7,7 @@ const request = require('request');
 const Promise = require('bluebird');
 Promise.promisifyAll(request);
 
-const runAsScript = (process.argv.length === 7);
+const runAsScript = (process.argv.length === 8);
 if (!runAsScript) {
   log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3>");
 }
@@ -49,7 +49,7 @@ if(runAsScript){
 // TODO: Generalize this for other keys?
 // TODO:
 function closeIoMailApiKeys() {
-  return [process.argv[3], process.argv[4], process.argv[5], process.argv[6]]; // Automatic mails sent as API owners
+  return [process.argv[3], process.argv[4], process.argv[5], process.argv[6], process.argv[7]]; // Automatic mails sent as API owners
 }
 const earliestDate = new Date();
 earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);

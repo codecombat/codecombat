@@ -1,8 +1,8 @@
 // Upsert new lead data into Close.io
 
 'use strict';
-if (process.argv.length !== 10) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
+if (process.argv.length !== 11) {
+  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io mail API key5> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
   process.exit();
 }
 
@@ -65,7 +65,7 @@ const closeIoApiKey = process.argv[2]; // Matt
 const closeIoMailApiKeys = [
   {
     apiKey: process.argv[3], // Lisa
-    weight: .8
+    weight: .75
   },
   {
     apiKey: process.argv[4], // Elliot
@@ -79,12 +79,16 @@ const closeIoMailApiKeys = [
     apiKey: process.argv[6], // Sean
     weight: .05
   },
+  {
+    apiKey: process.argv[7], // Liz
+    weight: .05
+  },
 ];
-const closeIoEuMailApiKey = process.argv[7]; // Jurian
-const intercomAppIdApiKey = process.argv[8];
+const closeIoEuMailApiKey = process.argv[8]; // Jurian
+const intercomAppIdApiKey = process.argv[9];
 const intercomAppId = intercomAppIdApiKey.split(':')[0];
 const intercomApiKey = intercomAppIdApiKey.split(':')[1];
-const mongoConnUrl = process.argv[9];
+const mongoConnUrl = process.argv[10];
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const countryData = require('country-data');
