@@ -1,5 +1,6 @@
 Backbone.Mediator.setValidationEnabled false
 app = null
+utils = require './utils'
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -23,7 +24,9 @@ definitionSchemas =
 init = ->
   return if app
   if not window.userObject._id
-    $.ajax '/auth/whoami', cache: false, success: (res) ->
+    options = { cache: false }
+    options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
+    $.ajax('/auth/whoami', options).then (res) ->
       window.userObject = res
       init()
     return
