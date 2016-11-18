@@ -158,7 +158,10 @@ module.exports = class World
     timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     timeLoaded = @frames.length * @dt * 1000
     timeBuffered = timeLoaded - timeSinceStart
-    timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
+    if @indefiniteLength
+      return timeBuffered > 0
+    else
+      return timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
@@ -166,7 +169,10 @@ module.exports = class World
     timeLoaded = @frames.length * @dt * 1000
     timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
-    remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
+    if @indefiniteLength
+      return remainingBuffer <= 0
+    else
+      return remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
@@ -203,7 +209,12 @@ module.exports = class World
     if skipDeferredLoading
       continueLaterFn()
     else
-      delay = if shouldDelayRealTimeSimulation then REAL_TIME_BUFFERED_WAIT_INTERVAL else 0
+      delay = 0
+      if shouldDelayRealTimeSimulation
+        if @indefiniteLength
+          delay = 1000 / 30
+        else
+          delay = REAL_TIME_BUFFERED_WAIT_INTERVAL
       setTimeout continueLaterFn, delay
     false
 
