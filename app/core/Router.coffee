@@ -207,7 +207,7 @@ module.exports = class CocoRouter extends Backbone.Router
         window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
     # TODO: Combine these two?
-    if features.codePlay and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
+    if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
       return @navigate('/play', { trigger: true, replace: true })
     path = 'play/CampaignView' if features.playOnly and not /^(views)?\/?play/.test(path)
     

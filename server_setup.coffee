@@ -190,10 +190,14 @@ setupFeaturesMiddleware = (app) ->
     req.features = features = {
       freeOnly: false
     }
+    
+    if config.picoCTF or req.session.featureMode is 'pico-ctf'
+      features.playOnly = true
 
     if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
       features.freeOnly = true
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
+      features.playViewsOnly = true
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
 
     if req.user

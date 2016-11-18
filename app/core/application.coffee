@@ -114,6 +114,9 @@ Application = {
   featureMode: {
     useCodePlay: ->
       $.ajax({method: 'put', url: '/admin/feature-mode/code-play'}).then(-> document.location.reload())
+      
+    usePicoCtf: ->
+      $.ajax({method: 'put', url: '/admin/feature-mode/pico-ctf'}).then(-> document.location.reload())
 
     clear: ->
       $.ajax({method: 'delete', url: '/admin/feature-mode'}).then(-> document.location.reload())
