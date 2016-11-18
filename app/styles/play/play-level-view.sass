@@ -77,6 +77,7 @@ $level-resize-transition-time: 0.5s
 
   .level-content
     position: relative
+    min-height: 555px
     //background-color: black
 
   #canvas-wrapper
@@ -371,10 +372,10 @@ body.ipad #level-view
 #level-footer-background
   display: none
   position: absolute
-  background: transparent url(/images/level/footer_background.jpg) no-repeat
+  background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url(/images/level/footer_background.jpg) no-repeat
   bottom: 0
   width: 100%
   background-size: 100% 400px
   height: 400px
   z-index: -9001
-  @include opacity(0.25)
+

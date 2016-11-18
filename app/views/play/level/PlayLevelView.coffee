@@ -176,6 +176,10 @@ module.exports = class PlayLevelView extends RootView
     c.world = @world
     c
 
+  toggleSpellPalette: ->
+    @$el.toggleClass 'no-api'
+    $(window).trigger 'resize'
+
   afterRender: ->
     super()
     window.onPlayLevelViewLoaded? @  # still a hack
