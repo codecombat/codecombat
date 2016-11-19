@@ -96,11 +96,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onPaletteClicked: (e) =>
-    console.log(e)
-    if e.prop is @doc.name
-      @$el.addClass('selected')
-    else
-      @$el.removeClass('selected') 
+    @$el.toggleClass('selected', e.prop is @doc.name)
 
   onClick: (e) =>
     if false and @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder')
