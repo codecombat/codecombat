@@ -143,14 +143,14 @@ describe 'TeacherClassView', ->
             expect(lines.length).toBe(@students.length + 1)
             for line in lines
               simplerLine = line.replace(/"[^"]+"/g, '""')
-              # Username,Email,Total Playtime, [CS1-? Playtime], Concepts
-              expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
+              # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
+              expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
               if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                expect(simplerLine).toMatch /3 minutes,3 minutes,0/
+                expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
               else if simplerLine.match new RegExp(@finishedStudentWithPractice.get('email'))
-                expect(simplerLine).toMatch /4 minutes,4 minutes,0/
+                expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
               else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                expect(simplerLine).toMatch /a minute,a minute,0/
+                expect(simplerLine).toMatch /1,a minute,1,a minute,0/
               else if simplerLine.match /@/
                 expect(simplerLine).toMatch /0,0,0/
             return true
@@ -204,12 +204,12 @@ describe 'TeacherClassView', ->
             expect(lines.length).toBe(@students.length + 1)
             for line in lines
               simplerLine = line.replace(/"[^"]+"/g, '""')
-              # Username,Email,Total Playtime, [CS1-? Playtime], Concepts
-              expect(simplerLine.match(/[^,]+/g).length).toBe(3 + @releasedCourses.length + 1)
+              # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
+              expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
               if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                expect(simplerLine).toMatch /2 minutes,2 minutes,0/
+                expect(simplerLine).toMatch /2,2 minutes,2,2 minutes,0/
               else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                expect(simplerLine).toMatch /a minute,a minute,0/
+                expect(simplerLine).toMatch /1,a minute,1,a minute,0/
               else if simplerLine.match /@/
                 expect(simplerLine).toMatch /0,0,0/
             return true
