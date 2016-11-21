@@ -7,6 +7,7 @@ StripeUtils = require '../lib/stripe_utils'
 utils = require '../../app/core/utils'
 mongoose = require 'mongoose'
 Product = require '../models/Product'
+{formatDollarValue} = require '../../app/core/utils'
 
 # TODO: Should this happen on a save() call instead of a prepaid/-/create post?
 # TODO: Probably a better way to create a unique 8 charactor string property using db voodoo
@@ -174,7 +175,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
               if err
                 @logError(user, "createPayment error: #{JSON.stringify(err)}")
                 return done(err)
-              msg = "#{user.get('email')} paid #{payment.get('amount')} for #{type} prepaid redeemers=#{maxRedeemers}"
+              msg = "#{user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for #{type} prepaid redeemers=#{maxRedeemers}"
               slack.sendSlackMessage msg, ['tower']
               done(null, prepaid)
 
@@ -211,7 +212,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             if err
               @logError(user, "createPayment error: #{JSON.stringify(err)}")
               return done(err)
-            msg = "#{user.get('email')} paid #{payment.get('amount')} for #{type} prepaid redeemers=#{maxRedeemers} months=#{months}"
+            msg = "#{user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for #{type} prepaid redeemers=#{maxRedeemers} months=#{months}"
             slack.sendSlackMessage msg, ['tower']
             done(null, prepaid)
 
