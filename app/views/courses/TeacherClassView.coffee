@@ -144,6 +144,7 @@ module.exports = class TeacherClassView extends RootView
         classCode: classCode
         joinURL: document.location.origin + "/students?_cc=" + classCode
       }
+      @sortedCourses = @classroom.getSortedCourses()
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
