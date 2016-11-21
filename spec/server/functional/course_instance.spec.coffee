@@ -104,8 +104,8 @@ describe 'POST /db/course_instance/:id/members', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid, Campaign, Level])
     @teacher = yield utils.initUser({role: 'teacher'})
-    admin = yield utils.initAdmin()
-    yield utils.loginUser(admin)
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
     @level = yield utils.makeLevel({type: 'course'})
     @campaign = yield utils.makeCampaign({}, {levels: [@level]})
     @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
@@ -188,7 +188,7 @@ describe 'POST /db/course_instance/:id/members', ->
     [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
     expect(res.statusCode).toBe(200)
     done()
-    
+
   describe 'when the prepaid is a starter license', ->
     beforeEach utils.wrap (done) ->
       @course.set('free', false)
@@ -199,7 +199,7 @@ describe 'POST /db/course_instance/:id/members', ->
       })
       yield @prepaid.save()
       done()
-  
+
     describe 'and the course is included in the license', ->
       beforeEach utils.wrap (done) ->
         @prepaid.set({
@@ -211,7 +211,7 @@ describe 'POST /db/course_instance/:id/members', ->
         })
         yield @student.save()
         done()
-      
+
       it 'adds a member to the courseInstance', utils.wrap (done) ->
         url = getURL("/db/course_instance/#{@courseInstance.id}/members")
         [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
@@ -219,7 +219,7 @@ describe 'POST /db/course_instance/:id/members', ->
         expect(res.body.members.length).toBe(1)
         expect(res.body.members[0]).toBe(@student.id)
         done()
-  
+
     describe 'and the course is NOT included in the license', ->
       beforeEach utils.wrap (done) ->
         @prepaid.set({
@@ -241,21 +241,83 @@ describe 'POST /db/course_instance/:id/members', ->
         expect(res.body).toEqual([])
         done()
 
+  describe 'when the course is outdated', ->
+    beforeEach utils.wrap (done) ->
+      # Add another level to the campaign
+      @level2 = yield utils.makeLevel({type: 'course'})
+      campaignSchema = require '../../../app/schemas/models/campaign.schema'
+      campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
+      campaignLevels = _.clone(@campaign.get('levels'))
+      campaignLevels[@level2.get('original').valueOf()] = _.pick @level2.toObject(), campaignLevelProperties
+      yield @campaign.update({$set: {levels: campaignLevels}})
+      done()
+
+    describe 'when it is the first member', ->
+      it 'the classroom versioned course is updated', utils.wrap (done) ->
+        expect(@classroom.get('courses')[0].levels.length).toEqual(1)
+        url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+        [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+        expect(res.statusCode).toBe(200)
+        classroom = yield Classroom.findById(@classroom.id)
+        expect(classroom.get('courses')[0].levels.length).toEqual(2)
+        done()
+
+    describe 'when it is NOT the first member', ->
+      beforeEach utils.wrap (done) ->
+        @courseInstance.set('members', [@student.id])
+        yield @courseInstance.save()
+        @student2 = yield utils.initUser({role: 'student'})
+        @classroom.set('members', [@student.id, @student2.id])
+        yield @classroom.save()
+        done()
+      it 'the classroom versioned course is NOT updated', utils.wrap (done) ->
+        url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+        [res, body] = yield request.postAsync {uri: url, json: {userID: @student2.id}}
+        expect(res.statusCode).toBe(200)
+        classroom = yield Classroom.findById(@classroom.id)
+        expect(classroom.get('courses')[0].levels.length).toEqual(1)
+        done()
+
+  describe 'when the course is not in classroom', ->
+    beforeEach utils.wrap (done) ->
+      # Add another course
+      yield utils.loginUser(@admin)
+      @level3 = yield utils.makeLevel({type: 'course'})
+      @campaign2 = yield utils.makeCampaign({}, {levels: [@level3]})
+      @course2 = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign2})
+      yield utils.loginUser(@teacher)
+      @courseInstances = yield utils.makeCourseInstance({}, { course: @course2, @classroom })
+      done()
+
+    it 'the classroom versioned courses are updated', utils.wrap (done) ->
+      url = getURL("/db/course_instance/#{@courseInstances.id}/members")
+      [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+      expect(res.statusCode).toBe(200)
+      classroom = yield Classroom.findById(@classroom.id)
+      expect(classroom.get('courses').length).toEqual(2)
+      expect(classroom.get('courses')[1].levels.length).toEqual(1)
+      expect(classroom.get('courses')[1]._id.toString()).toEqual(@course2.id)
+      expect(classroom.get('courses')[1].levels[0].original).toEqual(@level3.get('original'))
+      done()
+
 describe 'DELETE /db/course_instance/:id/members', ->
 
   beforeEach utils.wrap (done) ->
-    utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
 
-    # create, login user
+    # create teacher, student, course, classroom and course instance
     @teacher = yield utils.initUser({role: 'teacher'})
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @level = yield utils.makeLevel({type: 'course'})
+    @campaign = yield utils.makeCampaign({}, {levels: [@level]})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
+    @student = yield utils.initUser({role: 'student'})
+    @prepaid = yield utils.makePrepaid({creator: @teacher.id})
+    members = [@student]
     yield utils.loginUser(@teacher)
-
-    # create student, course, classroom and course instance
-    @student = yield utils.initUser()
-    courseData = _.extend({free: true}, courseFixture)
-    @course = yield new Course(courseData).save()
-    classroomData = _.extend({}, classroomFixture, {ownerID: @teacher._id, members: [@student._id]})
-    @classroom = yield new Classroom(classroomData).save()
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom })
     url = getURL('/db/course_instance')
     data = {
       name: 'Some Name'
