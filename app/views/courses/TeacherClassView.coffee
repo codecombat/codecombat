@@ -2,6 +2,7 @@ RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
+utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
@@ -143,6 +144,7 @@ module.exports = class TeacherClassView extends RootView
         classCode: classCode
         joinURL: document.location.origin + "/students?_cc=" + classCode
       }
+      @sortedCourses = @classroom.getSortedCourses()
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
@@ -332,19 +334,21 @@ module.exports = class TeacherClassView extends RootView
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
     window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     courseLabels = ""
-    courseOrder = []
-    courses = (@courses.get(c._id) for c in @classroom.get('courses'))
-    courseLabelsArray = helper.courseLabelsArray courses
+    courses = (@courses.get(c._id) for c in @sortedCourses)
+    courseLabelsArray = helper.courseLabelsArray(courses)
     for course, index in courses
-      courseLabels += "#{courseLabelsArray[index]} Playtime,"
-      courseOrder.push(course.id)
-    csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
-    levelCourseMap = {}
+      courseLabels += "#{courseLabelsArray[index]} Levels,#{courseLabelsArray[index]} Playtime,"
+    csvContent = "data:text/csv;charset=utf-8,Name,Username,Email,Total Levels, Total Playtime,#{courseLabels}Concepts\n"
+    levelCourseIdMap = {}
+    levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
     for trimCourse in @classroom.get('courses')
       for trimLevel in trimCourse.levels
         continue if language and trimLevel.primerLanguage is language
-        levelCourseMap[trimLevel.original] = @courses.get(trimCourse._id)
+        if trimLevel.practice
+          levelPracticeMap[trimLevel.original] = true
+          continue
+        levelCourseIdMap[trimLevel.original] = trimCourse._id
     for student in @students.models
       concepts = []
       for trimCourse in @classroom.get('courses')
@@ -357,32 +361,37 @@ module.exports = class TeacherClassView extends RootView
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
       conceptsString = _.map(concepts, (c) -> $.i18n.t("concepts." + c)).join(', ')
-      coursePlaytimeMap = {}
+      courseCountsMap = {}
+      levels = 0
       playtime = 0
-      for session in @classroom.sessions.models when session.get('creator') is student.id
+      for session in @classroom.sessions.models
+        continue unless session.get('creator') is student.id
+        continue unless session.get('state')?.complete
+        continue if levelPracticeMap[session.get('level')?.original]
+        levels++
         playtime += session.get('playtime') or 0
-        if courseID = levelCourseMap[session.get('level')?.original]?.id
-          coursePlaytimeMap[courseID] ?= 0
-          coursePlaytimeMap[courseID] += session.get('playtime') or 0
+        if courseID = levelCourseIdMap[session.get('level')?.original]
+          courseCountsMap[courseID] ?= {levels: 0, playtime: 0}
+          courseCountsMap[courseID].levels++
+          courseCountsMap[courseID].playtime += session.get('playtime') or 0
       playtimeString = if playtime is 0 then "0" else moment.duration(playtime, 'seconds').humanize()
-      for course in courses
-        coursePlaytimeMap[course.id] ?= 0
-      coursePlaytimes = []
-      for courseID, playtime of coursePlaytimeMap
-        coursePlaytimes.push
-          courseID: courseID
-          playtime: playtime
-      coursePlaytimes.sort (a, b) ->
-        return -1 if courseOrder.indexOf(a.courseID) < courseOrder.indexOf(b.courseID)
-        return 0 if courseOrder.indexOf(a.courseID) is courseOrder.indexOf(b.courseID)
-        return 1
-      coursePlaytimesString = ""
-      for coursePlaytime, index in coursePlaytimes
-        if coursePlaytime.playtime is 0
-          coursePlaytimesString += "0,"
+      for course in @sortedCourses
+        courseCountsMap[course._id] ?= {levels: 0, playtime: 0}
+      courseCounts = []
+      for courseID, data of courseCountsMap
+        courseCounts.push
+          id: courseID
+          levels: data.levels
+          playtime: data.playtime
+      utils.sortCourses(courseCounts)
+      courseCountsString = ""
+      for counts, index in courseCounts
+        courseCountsString += "#{counts.levels},"
+        if counts.playtime is 0
+          courseCountsString += "0,"
         else
-          coursePlaytimesString += "#{moment.duration(coursePlaytime.playtime, 'seconds').humanize()},"
-      csvContent += "#{student.get('name')},#{student.get('email') or ''},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
+          courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},"
+      csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     encodedUri = encodeURI(csvContent)
     window.open(encodedUri)
