@@ -363,7 +363,7 @@ module.exports = class TeacherClassView extends RootView
       courseCountsMap = {}
       levels = 0
       playtime = 0
-      for session in @classroom.sessions.models 
+      for session in @classroom.sessions.models
         continue unless session.get('creator') is student.id
         continue unless session.get('state')?.complete
         continue if levelPracticeMap[session.get('level')?.original]
