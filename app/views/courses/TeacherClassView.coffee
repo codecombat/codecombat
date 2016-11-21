@@ -2,6 +2,7 @@ RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
+utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
@@ -28,6 +29,7 @@ module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   template: template
   helper: helper
+  $: $
 
   events:
     'click .nav-tabs a': 'onClickNavTabLink'
@@ -143,6 +145,10 @@ module.exports = class TeacherClassView extends RootView
         classCode: classCode
         joinURL: document.location.origin + "/students?_cc=" + classCode
       }
+      @sortedCourses = @classroom.getSortedCourses()
+      @availableCourseMap = {}
+      @availableCourseMap[course._id] = true for course in @sortedCourses
+      @debouncedRender()
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
@@ -171,7 +177,8 @@ module.exports = class TeacherClassView extends RootView
     null
 
   onLoaded: ->
-    @sortedCourses = @classroom.getSortedCourses()
+    @latestCourses = @courses.where({releasePhase: 'released'})
+    utils.sortCourses(@latestCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -411,7 +418,7 @@ module.exports = class TeacherClassView extends RootView
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
-    
+
     return Promise.resolve()
     # Find or make the necessary course instances
     .then =>
@@ -426,7 +433,7 @@ module.exports = class TeacherClassView extends RootView
         courseInstance.notyErrors = false # handling manually
         @courseInstances.add(courseInstance)
         return courseInstance.save()
-        
+
     # Automatically apply licenses to students if necessary
     .then =>
       availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.includesCourse(courseID))
@@ -435,7 +442,7 @@ module.exports = class TeacherClassView extends RootView
         .filter((user) => user.prepaidStatus() isnt 'enrolled')
         .value()
       totalSpotsAvailable = _.reduce(prepaid.openSpots() for prepaid in availablePrepaids, (val, total) -> val + total) or 0
-      
+
       availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
       numStudentsWithoutFullLicenses = _(members)
         .map((userID) => @students.get(userID))
@@ -457,17 +464,17 @@ module.exports = class TeacherClassView extends RootView
         error = new Error('Not enough licenses available')
         error.handled = true
         throw error
-        
+
       numberEnrolled = _.size(unenrolledStudents)
       remainingSpots = totalSpotsAvailable - numberEnrolled
-      
+
       requests = []
       for prepaid in availablePrepaids
         for i in _.range(prepaid.openSpots())
           break unless _.size(unenrolledStudents) > 0
           user = unenrolledStudents.shift()
           requests.push(prepaid.redeem(user))
-      
+
       @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
 
@@ -477,11 +484,12 @@ module.exports = class TeacherClassView extends RootView
       # end up returning the final result of all those requests together.
       @prepaids.fetchByCreator(me.id)
       @students.fetchForClassroom(@classroom, removeDeleted: true)
-      
+
       @trigger 'begin-assign-course'
       if members.length
+        noty text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true
         return courseInstance.addMembers(members)
-      
+
     # Show a success/errror notification
     .then =>
       course = @courses.get(courseID)
@@ -500,7 +508,11 @@ module.exports = class TeacherClassView extends RootView
           .replace('{{remainingSpots}}', remainingSpots)
         )
       noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
-    
+
+      # TODO: does not reflect existing student progress from outside of this classroom
+      @calculateProgressAndLevels()
+      @classroom.fetch()
+
     .catch (e) =>
       # TODO: Use this handling for errors site-wide?
       return if e.handled

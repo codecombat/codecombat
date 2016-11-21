@@ -1397,8 +1397,11 @@
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
   teacher:
+    assigning_course: "Assigning course"
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
+    no_student_progress: "No student progress yet."
+    paren_new: "(new)"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"
