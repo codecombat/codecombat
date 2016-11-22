@@ -108,7 +108,7 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
       lookupUrlTemplate: 'https://oauth.provider/user?t=<%= accessToken %>'
       tokenUrl: 'https://oauth.provider/oauth2/token'
     })
-    @provider.save()
+    yield @provider.save()
     @json = { provider: @provider.id, accessToken: '1234' }
     @providerNock = nock('https://oauth.provider')
     @providerLookupRequest = @providerNock.get('/user?t=1234')
@@ -125,6 +125,22 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
 
   it 'can take a code and do a token lookup', utils.wrap (done) ->
     @providerNock.get('/oauth2/token').reply(200, {access_token: '1234'})
+    @providerLookupRequest.reply(200, ->
+      expect(@req.headers.authorization).toBeUndefined() # should only be provided if tokenAuth is set
+      return {id: 'abcd'}
+    )
+    json = { provider: @provider.id, code: 'xyzzy' }
+    [res, body] = yield request.postAsync({ @url, json, @auth })
+    expect(res.statusCode).toBe(200)
+    expect(res.body.oAuthIdentities.length).toBe(1)
+    done()
+    
+  it 'can send basic http auth if specified in OAuthProvider tokenAuth property', utils.wrap (done) ->
+    yield @provider.update({$set: {tokenAuth: { user: 'abcd', pass: '1234' }}})
+    @providerNock.get('/oauth2/token').reply(200, ->
+      expect(@req.headers.authorization).toBeDefined()
+      return {access_token: '1234'}
+    )
     @providerLookupRequest.reply(200, {id: 'abcd'})
     json = { provider: @provider.id, code: 'xyzzy' }
     [res, body] = yield request.postAsync({ @url, json, @auth })

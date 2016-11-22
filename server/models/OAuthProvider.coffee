@@ -32,7 +32,12 @@ OAuthProviderSchema.methods.getTokenWithCode = co.wrap (code) ->
     code
     client_id: @get('clientID')
   }
-  [res, body] = yield request.getAsync({url, json})
+
+  options = {url, json}
+  tokenAuth = @get('tokenAuth')
+  options.auth = tokenAuth if tokenAuth
+    
+  [res, body] = yield request.getAsync(options)
   if res.statusCode >= 400
     return null
   return body
