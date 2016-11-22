@@ -19,6 +19,7 @@ OAuthProviderSchema = {
         sendImmediately: { type: 'boolean' }
       }
     }
+    tokenMethod: { enum: ['get', 'post']}
     authorizeUrl: { type: 'string' }
     clientID: { type: 'string' }
   }
