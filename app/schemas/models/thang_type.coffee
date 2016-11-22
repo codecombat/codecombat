@@ -206,7 +206,7 @@ _.extend ThangTypeSchema.properties,
         type: 'number'
       }
       spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
-
+  restricted: {type: 'string', title: 'Restricted', description: 'If set, this ThangType will only be accessible by admins and whoever it is restricted to.'}
 
 ThangTypeSchema.required = []
 

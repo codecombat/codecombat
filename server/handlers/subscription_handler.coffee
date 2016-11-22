@@ -16,6 +16,7 @@ User = require '../models/User'
 StripeUtils = require '../lib/stripe_utils'
 moment = require 'moment'
 Product = require '../models/Product'
+{formatDollarValue} = require '../../app/core/utils'
 
 recipientCouponID = 'free'
 
@@ -172,7 +173,7 @@ class SubscriptionHandler extends Handler
                     @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
                     return @sendDatabaseError(res, err)
                   try
-                    msg = "#{req.user.get('email')} paid #{payment.get('amount')} for year campaign subscription"
+                    msg = "#{req.user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for year campaign subscription"
                     slack.sendSlackMessage msg, ['tower']
                   catch error
                     @logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")

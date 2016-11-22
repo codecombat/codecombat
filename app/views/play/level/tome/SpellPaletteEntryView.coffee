@@ -15,6 +15,7 @@ module.exports = class SpellPaletteEntryView extends CocoView
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
     'tome:palette-hovered': 'onPaletteHovered'
+    'tome:palette-clicked': 'onPaletteClicked'
     'tome:palette-pin-toggled': 'onPalettePinToggled'
     'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
@@ -35,19 +36,20 @@ module.exports = class SpellPaletteEntryView extends CocoView
     super()
     @$el.addClass _.string.slugify @doc.type
     placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
-    @$el.popover(
-      animation: false
-      html: true
-      placement: placement
-      trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
-      content: @docFormatter.formatPopover()
-      container: 'body'
-      template: @overridePopoverTemplate
-    ).on 'shown.bs.popover', =>
-      Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
-      soundIndex = Math.floor(Math.random() * 4)
-      @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
-      @afterRenderPopover()
+    if false
+      @$el.popover(
+        animation: false
+        html: true
+        placement: placement
+        trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
+        content: @docFormatter.formatPopover()
+        container: 'body'
+        template: @overridePopoverTemplate
+      ).on 'shown.bs.popover', =>
+        Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
+        soundIndex = Math.floor(Math.random() * 4)
+        @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
+        @afterRenderPopover()
 
   # NOTE: This can't be run twice without resetting the popover content HTML
   #       in between. If you do, Ace will break.
@@ -64,16 +66,16 @@ module.exports = class SpellPaletteEntryView extends CocoView
       aceEditors.push aceEditor
 
   resetPopoverContent: ->
-    @$el.data('bs.popover').options.content = @docFormatter.formatPopover()
-    @$el.popover('setContent')
+    #@$el.data('bs.popover').options.content = @docFormatter.formatPopover()
+    #@$el.popover('setContent')
 
   onMouseEnter: (e) ->
     return if @popoverPinned or @otherPopoverPinned
-    @resetPopoverContent()
-    @$el.popover 'show'
+    #@resetPopoverContent()
+    #@$el.popover 'show'
 
   onMouseLeave: (e) ->
-    @$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
+    #@$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
 
   togglePinned: ->
     if @popoverPinned
@@ -93,8 +95,11 @@ module.exports = class SpellPaletteEntryView extends CocoView
       @playSound 'spell-palette-entry-pin'
     Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
+  onPaletteClicked: (e) =>
+    @$el.toggleClass('selected', e.prop is @doc.name)
+
   onClick: (e) =>
-    if @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder')
+    if false and @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder')
       # Jiggle instead of pin for hero/course levels
       jigglyPopover = $('.spell-palette-popover.popover')
       jigglyPopover.addClass 'jiggling'
@@ -102,10 +107,11 @@ module.exports = class SpellPaletteEntryView extends CocoView
         jigglyPopover.removeClass 'jiggling'
       _.delay pauseJiggle, 1000
       return
+
     if key.shift
       Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return
-    @togglePinned()
+    #@togglePinned()
     Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 
   onFrameChanged: (e) ->

@@ -1,5 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 body.is-playing
   background-color: black
@@ -8,6 +9,12 @@ $level-resize-transition-time: 0.5s
 
 #level-view
   margin: 0 auto
+  position: absolute
+  overflow: hidden
+  left: 0
+  right: 0
+  bottom: 10px
+  top: 0
   @include user-select(none)
 
   &.real-time
@@ -70,13 +77,15 @@ $level-resize-transition-time: 0.5s
 
   .level-content
     position: relative
-    background-color: black
+    min-height: 555px
+    //background-color: black
 
   #canvas-wrapper
     top: 50px
-    width: 55%
+    width: calc(55% -  #{$api-bar-width})
     position: relative
     overflow: hidden
+    background-color: black
     @include transition(all $level-resize-transition-time ease-out, z-index 1.2s linear)
     z-index: 0
 
@@ -128,7 +137,6 @@ $level-resize-transition-time: 0.5s
     line-height: 15px
 
   min-width: 1024px
-  position: relative
 
   #code-area
     @include box-sizing(border-box)
@@ -276,6 +284,16 @@ $level-resize-transition-time: 0.5s
     right: 45%
     z-index: 1000000
 
+  .game-container, .level-content
+    height: 100%
+
+
+  &.no-api
+    #spell-palette-view
+      display: none
+    #canvas-wrapper
+      width: 60%
+
   &.web-dev
     position: absolute
     top: 0
@@ -355,10 +373,10 @@ body.ipad #level-view
 #level-footer-background
   display: none
   position: absolute
-  background: transparent url(/images/level/footer_background.jpg) no-repeat
+  background: linear-gradient( rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75) ), url(/images/level/footer_background.jpg) no-repeat
   bottom: 0
   width: 100%
   background-size: 100% 400px
   height: 400px
   z-index: -9001
-  @include opacity(0.25)
+

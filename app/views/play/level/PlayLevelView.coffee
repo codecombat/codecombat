@@ -45,6 +45,7 @@ ContactModal = require 'views/core/ContactModal'
 HintsView = require './HintsView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
+SpellPaletteView = require './tome/SpellPaletteView'
 
 PROFILE_ME = false
 
@@ -107,6 +108,7 @@ module.exports = class PlayLevelView extends RootView
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
 
+    $('flying-focus').remove() #Causes problems, so yank it out for play view.
     $(window).on 'resize', @onWindowResize
 
     application.tracker?.enableInspectletJS(@levelID)
@@ -173,6 +175,10 @@ module.exports = class PlayLevelView extends RootView
     c = super()
     c.world = @world
     c
+
+  toggleSpellPalette: ->
+    @$el.toggleClass 'no-api'
+    $(window).trigger 'resize'
 
   afterRender: ->
     super()
@@ -279,9 +285,16 @@ module.exports = class PlayLevelView extends RootView
     @goalManager.destroy()
     @initGoalManager()
 
+  updateSpellPalette: (thang, spell) ->
+    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
+    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
+    #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
+
+
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'

@@ -1,5 +1,6 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #level-dialogue-view
   +keyframes(speakingPulse)
@@ -20,8 +21,7 @@
   position: absolute
   bottom: -296px + 40px
   left: 300px
-  left: -webkit-calc(55% - 417px)
-  left: calc(55% - 417px)
+  left: calc(55% - 417px - #{$api-bar-width})
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
   z-index: 2
