@@ -157,6 +157,16 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
     expect(res.statusCode).toBe(200)
     expect(res.body.oAuthIdentities.length).toBe(1)
     done()
+    
+  it 'uses the property specified by lookupIdProperty to get the user id from the response', utils.wrap (done) ->
+    yield @provider.update({$set: {lookupIdProperty: 'custom_user_ID'}})
+    @providerLookupRequest.reply(200, {custom_user_ID: 'abcd'})
+    [res, body] = yield request.postAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(200)
+    expect(res.body.oAuthIdentities.length).toBe(1)
+    expect(res.body.oAuthIdentities[0].id).toBe('abcd')
+    expect(res.body.oAuthIdentities[0].provider).toBe(@provider.id)
+    done()
 
   it 'returns 404 if the user is not found', utils.wrap (done) ->
     url = utils.getURL("/api/users/dne/o-auth-identities")
