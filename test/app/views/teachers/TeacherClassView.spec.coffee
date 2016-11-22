@@ -95,8 +95,7 @@ describe 'TeacherClassView', ->
       # it "shows the classroom's name and description"
       # it "shows the classroom's join code"
 
-      # TODO: manually passes, need to investigate this test
-      xdescribe 'the Students tab', ->
+      describe 'the Students tab', ->
         beforeEach (done) ->
           @view.state.set('activeTab', '#students-tab')
           _.defer(done)
@@ -107,10 +106,9 @@ describe 'TeacherClassView', ->
 
         describe 'bulk-assign controls', ->
           it 'shows alert when assigning but no students are selected', (done) ->
-            expect(@view.$('.no-students-selected').hasClass('visible')).toBe(false)
-            @view.$('.assign-to-selected-students').click()
+            @view.$el.find('.assign-to-selected-students').click()
             _.defer =>
-              expect(@view.$('.no-students-selected').hasClass('visible')).toBe(true)
+              expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(true)
               done()
 
       # describe 'the Course Progress tab', ->
@@ -120,7 +118,7 @@ describe 'TeacherClassView', ->
       #     it 'still shows the correct Course Overview progress'
       #
 
-      xdescribe 'the License Status tab', ->
+      describe 'the License Status tab', ->
         beforeEach (done) ->
           @view.state.set('activeTab', '#license-status-tab')
           _.defer(done)
@@ -128,13 +126,13 @@ describe 'TeacherClassView', ->
         describe 'Enroll button', ->
           it 'calls enrollStudents with that user when clicked', ->
             spyOn(@view, 'enrollStudents')
-            @view.$('.enroll-student-button:first').click()
+            @view.$el.find('.enroll-student-button:first').click()
             expect(@view.enrollStudents).toHaveBeenCalled()
             users = @view.enrollStudents.calls.argsFor(0)[0]
             expect(users.size()).toBe(1)
             expect(users.first().id).toBe(@view.students.first().id)
 
-      xdescribe 'Export Student Progress (CSV) button', ->
+      describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', ->
           spyOn(window, 'open').and.callFake (encodedCSV) =>
             progressData = decodeURI(encodedCSV)
@@ -155,10 +153,10 @@ describe 'TeacherClassView', ->
               else if simplerLine.match /@/
                 expect(simplerLine).toMatch /0,0,0/
             return true
-          @view.$('.export-student-progress-btn').click()
+          @view.$el.find('.export-student-progress-btn').click()
           expect(window.open).toHaveBeenCalled()
 
-    xdescribe 'when javascript classroom', ->
+    describe 'when javascript classroom', ->
       beforeEach (done) ->
         @classroom = factories.makeClassroom({ aceConfig: { language: 'javascript' }}, { courses: @releasedCourses, members: @students, levels: [@levels, new Levels()]})
         @courseInstances = new CourseInstances([
@@ -214,7 +212,7 @@ describe 'TeacherClassView', ->
               else if simplerLine.match /@/
                 expect(simplerLine).toMatch /0,0,0/
             return true
-          @view.$('.export-student-progress-btn').click()
+          @view.$el.find('.export-student-progress-btn').click()
           expect(window.open).toHaveBeenCalled()
 
 
