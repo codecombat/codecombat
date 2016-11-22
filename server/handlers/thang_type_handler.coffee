@@ -46,7 +46,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     method = (method or req.method).toLowerCase()
-    return false if document.get('restricted') and not req.user?.isAdmin() and not (document.get('restricted') is 'code-play' and (req.hostname ? req.host) is 'cp.codecombat.com')
+    return false if document.get('restricted') and not req.user?.isAdmin() and not (document.get('restricted') is 'code-play' and req.features.codePlay)
     return true if method is 'get'
     return true if req.user?.isAdmin() or req.user?.isArtisan()
     return true if method is 'post' and @isJustFillingTranslations(req, document)
@@ -84,7 +84,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
         host = req.hostname ? req.host
         for doc in documents
           continue if doc.get('original') + '' is codeNinjaOriginal and host isnt 'coco.code.ninja'
-          continue if doc.get('restricted') and not req.user?.isAdmin() and not (doc.get('restricted') is 'code-play' and host is 'cp.codecombat.com')
+          continue if doc.get('restricted') and not req.user?.isAdmin() and not (doc.get('restricted') is 'code-play' and req.features.codePlay)
           formattedDocuments.push @formatEntity(req, doc)
         @sendSuccess(res, formattedDocuments)
     else
