@@ -95,12 +95,18 @@ ClassroomSchema.methods.setUpdatedCourse = co.wrap ({courseId}) ->
   latestCourse = yield @generateCourseData({courseId})
   updatedCourses = _.clone(@get('courses') or [])
   existingIndex = _.findIndex(updatedCourses, (c) -> c._id.equals(courseId))
+  oldCourseCount = updatedCourses.length
+  oldLevelCount = 0
+  newLevelCount = latestCourse.levels?.length ? 0
   if existingIndex >= 0
+    oldLevelCount = updatedCourses[existingIndex].levels?.length ? 0
     updatedCourses.splice(existingIndex, 1, latestCourse)
   else
     # TODO: does this need to be inserted in order?
     updatedCourses.push(latestCourse)
+  newCourseCount = updatedCourses.length
   @set('courses', updatedCourses)
+  {oldCourseCount, newCourseCount, oldLevelCount, newLevelCount}
 
 ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly}) ->
   # Add missing courses, and update existing courses if addNewCoursesOnly=false

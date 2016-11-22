@@ -104,8 +104,8 @@ describe 'POST /db/course_instance/:id/members', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid, Campaign, Level])
     @teacher = yield utils.initUser({role: 'teacher'})
-    admin = yield utils.initAdmin()
-    yield utils.loginUser(admin)
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
     @level = yield utils.makeLevel({type: 'course'})
     @campaign = yield utils.makeCampaign({}, {levels: [@level]})
     @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
@@ -254,6 +254,7 @@ describe 'POST /db/course_instance/:id/members', ->
 
     describe 'when it is the first member', ->
       it 'the classroom versioned course is updated', utils.wrap (done) ->
+        expect(@classroom.get('courses')[0].levels.length).toEqual(1)
         url = getURL("/db/course_instance/#{@courseInstance.id}/members")
         [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
         expect(res.statusCode).toBe(200)
@@ -277,6 +278,27 @@ describe 'POST /db/course_instance/:id/members', ->
         expect(classroom.get('courses')[0].levels.length).toEqual(1)
         done()
 
+  describe 'when the course is not in classroom', ->
+    beforeEach utils.wrap (done) ->
+      # Add another course
+      yield utils.loginUser(@admin)
+      @level3 = yield utils.makeLevel({type: 'course'})
+      @campaign2 = yield utils.makeCampaign({}, {levels: [@level3]})
+      @course2 = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign2})
+      yield utils.loginUser(@teacher)
+      @courseInstances = yield utils.makeCourseInstance({}, { course: @course2, @classroom })
+      done()
+
+    it 'the classroom versioned courses are updated', utils.wrap (done) ->
+      url = getURL("/db/course_instance/#{@courseInstances.id}/members")
+      [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+      expect(res.statusCode).toBe(200)
+      classroom = yield Classroom.findById(@classroom.id)
+      expect(classroom.get('courses').length).toEqual(2)
+      expect(classroom.get('courses')[1].levels.length).toEqual(1)
+      expect(classroom.get('courses')[1]._id.toString()).toEqual(@course2.id)
+      expect(classroom.get('courses')[1].levels[0].original).toEqual(@level3.get('original'))
+      done()
 
 describe 'DELETE /db/course_instance/:id/members', ->
 
