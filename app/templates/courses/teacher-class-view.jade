@@ -273,9 +273,9 @@ mixin courseProgressTab
         .key-text
           span.small(data-i18n="teacher.level_not_started")
         .clearfix
-    - var progressData = state.get('progressData') || {};
     - var course = state.get('selectedCourse');
-    if course && view.availableCourseMap[course.id] && progressData[view.classroom.id] && progressData[view.classroom.id][course.id].started
+    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
         +courseOverview(course)
         .student-levels-table
@@ -286,7 +286,7 @@ mixin courseProgressTab
     else
       br
       h2.text-center
-        i(data-i18n='teacher.no_student_progress')
+        i(data-i18n='teacher.no_student_assigned')
     .unassigned-students.render-on-course-sync
       if state.get('selectedCourse') && state.get('selectedCourse').members.length < state.get('students').length
         h2

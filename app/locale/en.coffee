@@ -1400,7 +1400,7 @@
     assigning_course: "Assigning course"
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
-    no_student_progress: "No student progress yet."
+    no_student_assigned: "No students have been assigned this course."
     paren_new: "(new)"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
