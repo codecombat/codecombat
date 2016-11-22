@@ -249,7 +249,7 @@ mixin courseProgressTab
             option(value=course.id selected=(course===state.get('selectedCourse')))
               = i18n(course.attributes, 'name')
               if !view.availableCourseMap[course.id]
-                = " " + view.$.i18n.t('teacher.paren_new')
+                = " " + translate('teacher.paren_new')
 
     h4.m-b-2(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row
@@ -441,7 +441,7 @@ mixin bulkAssignControls
         option(value=course.id selected=(course===state.get('selectedCourse')))
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
-            = " " + view.$.i18n.t('teacher.paren_new')
+            = " " + translate('teacher.paren_new')
     button.btn.btn-primary-alt.assign-to-selected-students
       span(data-i18n='teacher.assign_to_selected_students')
 

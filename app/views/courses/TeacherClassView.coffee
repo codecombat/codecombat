@@ -29,7 +29,6 @@ module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
   template: template
   helper: helper
-  $: $
 
   events:
     'click .nav-tabs a': 'onClickNavTabLink'
