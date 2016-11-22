@@ -545,7 +545,7 @@ module.exports = class ThangType extends CocoModel
     next = action.goesTo if action.goesTo
     next = false if action.loops is false
     return next
-    
+
   noRawData: -> not @get('raw')
 
   initPrerenderedSpriteSheets: ->
@@ -555,6 +555,8 @@ module.exports = class ThangType extends CocoModel
 
   getPrerenderedSpriteSheet: (colorConfig, defaultSpriteType) ->
     return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
     spriteType = @get('spriteType') or defaultSpriteType
     @prerenderedSpriteSheets.find (pss) ->
       return false if pss.get('spriteType') isnt spriteType
