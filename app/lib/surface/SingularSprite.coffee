@@ -34,7 +34,8 @@ module.exports = class SingularSprite extends createjs.Sprite
       if @currentFrame is 0 or @usePlaceholders
         @_gotoAndStop(0)
         @notifyActionNeedsRender(action)
-        bounds = @thangType.get('raw').animations[action.animation].bounds
+        bounds = @thangType.get('raw')?.animations?[action.animation]?.bounds # checking for just-prerendered-spritesheet thangs
+        bounds ?= [0, 0, 1, 1]
         actionScale = (action.scale ? @thangType.get('scale') ? 1)
         @scaleX = actionScale * bounds[2] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
         @scaleY = actionScale * bounds[3] / (SPRITE_PLACEHOLDER_WIDTH * @resolutionFactor)
