@@ -177,8 +177,9 @@ module.exports = class TeacherClassView extends RootView
     null
 
   onLoaded: ->
-    @latestCourses = @courses.where({releasePhase: 'released'})
-    utils.sortCourses(@latestCourses)
+    # Get latest courses for student assignment dropdowns
+    @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
+    @latestReleasedCourses = utils.sortCourses(@latestReleasedCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -509,7 +510,7 @@ module.exports = class TeacherClassView extends RootView
         )
       noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
 
-      # TODO: does not reflect existing student progress from outside of this classroom
+      # TODO: refresh existing student progress. student may have progress from outside current classroom, and the course may have been updated upon assignment
       @calculateProgressAndLevels()
       @classroom.fetch()
 

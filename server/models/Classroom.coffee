@@ -51,22 +51,23 @@ ClassroomSchema.methods.isOwner = (userID) ->
 ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
 
-ClassroomSchema.methods.generateCoursesData = co.wrap (isAdmin=false) ->
+ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin}) ->
   # Helper function for generating the latest version of courses
+  isAdmin ?= false
   query = {}
   query = {releasePhase: 'released'} unless isAdmin
   courses = yield Course.find(query)
   courses = Course.sortCourses courses
   campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
   campaignMap = {}
-  campaignMap[campaign.id] = campaign for campaign in campaigns
+  for campaign in campaigns
+    campaignMap[campaign.id] = campaign
   classLanguage = @get('aceConfig')?.language
   coursesData = []
   for course in courses
     courseData = { _id: course._id, levels: [] }
     campaign = campaignMap[course.get('campaignID').toString()]
-    levels = _.values(campaign.get('levels'))
-    levels = _.sortBy(levels, 'campaignIndex')
+    levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
     for level in levels
       continue if classLanguage and level.primerLanguage is classLanguage
       levelData = { original: mongoose.Types.ObjectId(level.original) }
@@ -75,14 +76,13 @@ ClassroomSchema.methods.generateCoursesData = co.wrap (isAdmin=false) ->
     coursesData.push(courseData)
   coursesData
 
-ClassroomSchema.methods.generateCourseData = co.wrap (courseId) ->
+ClassroomSchema.methods.generateCourseData = co.wrap ({courseId}) ->
   # Helper function for generating the latest version of a course
   course = yield Course.findById(courseId)
   campaign = yield Campaign.findById({_id: course.get('campaignID')})
   classLanguage = @get('aceConfig')?.language
   courseData = { _id: course._id, levels: [] }
-  levels = _.values(campaign.get('levels'))
-  levels = _.sortBy(levels, 'campaignIndex')
+  levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
   for level in levels
     continue if classLanguage and level.primerLanguage is classLanguage
     levelData = { original: mongoose.Types.ObjectId(level.original) }
@@ -90,9 +90,9 @@ ClassroomSchema.methods.generateCourseData = co.wrap (courseId) ->
     courseData.levels.push(levelData)
   courseData
 
-ClassroomSchema.methods.setUpdatedCourse = co.wrap (courseId) ->
+ClassroomSchema.methods.setUpdatedCourse = co.wrap ({courseId}) ->
   # Update existing or add missing course
-  latestCourse = yield @generateCourseData(courseId)
+  latestCourse = yield @generateCourseData({courseId})
   updatedCourses = _.clone(@get('courses') or [])
   existingIndex = _.findIndex(updatedCourses, (c) -> c._id.equals(courseId))
   if existingIndex >= 0
@@ -102,9 +102,11 @@ ClassroomSchema.methods.setUpdatedCourse = co.wrap (courseId) ->
     updatedCourses.push(latestCourse)
   @set('courses', updatedCourses)
 
-ClassroomSchema.methods.setUpdatedCourses = co.wrap (isAdmin=false, addNewCoursesOnly=true) ->
+ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly}) ->
   # Add missing courses, and update existing courses if addNewCoursesOnly=false
-  coursesData = yield @generateCoursesData(isAdmin)
+  isAdmin ?= false
+  addNewCoursesOnly ?= true
+  coursesData = yield @generateCoursesData({isAdmin})
   if addNewCoursesOnly
     newestCoursesData = coursesData
     coursesData = @get('courses') or []

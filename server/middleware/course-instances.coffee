@@ -56,7 +56,7 @@ module.exports =
       throw new errors.PaymentRequired('Cannot add users to a course instance until they are added to a prepaid that includes this course')
 
     unless courseInstance.get('members')?.length
-      yield classroom.setUpdatedCourse(courseInstance.get('courseID'))
+      yield classroom.setUpdatedCourse({courseId: courseInstance.get('courseID')})
       database.validateDoc(classroom)
       yield classroom.save()
 
