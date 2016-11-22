@@ -545,6 +545,8 @@ module.exports = class ThangType extends CocoModel
     next = action.goesTo if action.goesTo
     next = false if action.loops is false
     return next
+    
+  noRawData: -> not @get('raw')
 
   initPrerenderedSpriteSheets: ->
     return if @prerenderedSpriteSheets or not data = @get('prerenderedSpriteSheetData')
@@ -563,6 +565,8 @@ module.exports = class ThangType extends CocoModel
 
   getPrerenderedSpriteSheetToLoad: ->
     return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
     @prerenderedSpriteSheets.find (pss) -> pss.needToLoad and not pss.loadedImage
 
   onLoaded: ->
