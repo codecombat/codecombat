@@ -3,6 +3,7 @@ wrap = require 'co-express'
 Promise = require 'bluebird'
 database = require '../commons/database'
 mongoose = require 'mongoose'
+AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
 TrialRequest = require '../models/TrialRequest'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
@@ -31,6 +32,7 @@ module.exports =
     courseInstance = yield database.getDocFromHandle(req, CourseInstance)
     if not courseInstance
       throw new errors.NotFound('Course Instance not found.')
+    courseId = courseInstance.get('courseID')
 
     classroom = yield Classroom.findById courseInstance.get('classroomID')
     if not classroom
@@ -45,15 +47,26 @@ module.exports =
     unless ownsClassroom or addingSelf
       throw new errors.Forbidden('You must own the classroom to add members')
 
-    course = yield Course.findById courseInstance.get('courseID')
+    course = yield Course.findById courseId
     throw new errors.NotFound('Course referenced by course instance not found') unless course
-  
+
     # Only the enrolled users
     users = yield User.find({ _id: { $in: userIDs }}).select('coursePrepaid coursePrepaidID') # TODO: remove coursePrepaidID once migrated
     userPrepaidsIncludeCourse = _.all((user.prepaidIncludesCourse(course) for user in users))
-    
+
     if not (course.get('free') or userPrepaidsIncludeCourse)
       throw new errors.PaymentRequired('Cannot add users to a course instance until they are added to a prepaid that includes this course')
+
+    unless courseInstance.get('members')?.length
+      {oldCourseCount, newCourseCount, oldLevelCount, newLevelCount} = yield classroom.setUpdatedCourse({courseId})
+      database.validateDoc(classroom)
+      yield classroom.save()
+      if newCourseCount > oldCourseCount or newLevelCount > oldLevelCount
+        # TODO: capture level updates that do not increase the level count
+        AnalyticsLogEvent.logEvent(req.user._id, 'Classroom Autoupdate Course', {
+          classroomId: classroom.get('_id')
+          courseId, oldCourseCount, newCourseCount, oldLevelCount, newLevelCount
+        })
 
     userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
 

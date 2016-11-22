@@ -1223,3 +1223,22 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     admin = yield User.findById(admin.id)
     expect(admin.get('lastAchievementChecked')).toBe(achievement.get('updated'))
     done()
+
+    
+describe 'POST /db/user/:userID/request-verify-email', ->
+  mailChimp = require '../../../server/lib/mail-chimp'
+  
+  beforeEach utils.wrap (done) ->
+    spyOn(mailChimp.api, 'put').and.returnValue(Promise.resolve())
+    @user = yield utils.initUser()
+    verificationCode = @user.verificationCode(new Date().getTime())
+    @url = utils.getURL("/db/user/#{@user.id}/verify/#{verificationCode}")
+    done()
+  
+  it 'sets emailVerified to true and updates MailChimp', utils.wrap (done) ->
+    [res, body] = yield request.postAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    expect(mailChimp.api.put).toHaveBeenCalled()
+    user = yield User.findById(@user.id)
+    expect(user.get('emailVerified')).toBe(true)
+    done()

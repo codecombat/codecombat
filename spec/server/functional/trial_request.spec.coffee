@@ -99,8 +99,8 @@ describe 'POST /db/trial.request', ->
     [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
     expect(delighted.postPeople).toHaveBeenCalled()
     args = delighted.postPeople.calls.argsFor(0)
-    expect(args[0].email).toBe(@user.get('email'))
-    expect(args[0].name).toBe('First Last')
+    expect(args[0]?.email).toBe(@user.get('email'))
+    expect(args[0]?.name).toBe('First Last')
     done()
 
 describe 'GET /db/trial.request', ->

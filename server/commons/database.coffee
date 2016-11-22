@@ -101,6 +101,7 @@ module.exports =
         for r in results.results ? results
           obj = r.obj ? r
           continue if obj in matchedObjects  # TODO: probably need a better equality check
+          continue if obj.get('restricted') and not req.user?.isAdmin() and not (obj.get('restricted') is 'code-play' and req.features.codePlay)
           matchedObjects.push obj
         filters.pop()  # doesn't matter which one
         unless filters.length

@@ -110,6 +110,7 @@ UserHandler = class UserHandler extends Handler
         r = {message: 'is already used by another account', property: 'email', code: 409}
         return callback({res: r, code: 409}) if otherUser
         user.set('email', req.body.email)
+        user.set('emailVerified', false)
         callback(null, req, user)
 
     # Name setting

@@ -92,7 +92,6 @@ beforeEach(function(done) {
           // the only way to be sure we don't keep going with the tests
           process.exit(1);
         }
-        GLOBAL.mc.lists.subscribe = _.noop;
         cb()
       });
     },

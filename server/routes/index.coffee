@@ -150,7 +150,6 @@ module.exports.setup = (app) ->
   
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
-  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)

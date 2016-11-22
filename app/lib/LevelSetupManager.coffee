@@ -151,9 +151,10 @@ module.exports = class LevelSetupManager extends CocoClass
     PlayLevelView = 'views/play/level/PlayLevelView'
     LadderView = 'views/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
+    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
+    route += "?codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     Backbone.Mediator.publish 'router:navigate', {
-      route: "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
-      viewClass: viewClass
+      route, viewClass
       viewArgs: [{supermodel: @supermodel}, @options.levelID]
     }
 
