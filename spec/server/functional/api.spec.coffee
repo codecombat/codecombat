@@ -147,6 +147,16 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
     expect(res.statusCode).toBe(200)
     expect(res.body.oAuthIdentities.length).toBe(1)
     done()
+    
+  it 'sends the token request POST if tokenMethod is set to "post" on provider', utils.wrap (done) ->
+    yield @provider.update({$set: {tokenMethod: 'post'}})
+    @providerNock.post('/oauth2/token').reply(200, {access_token: '1234'})
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    json = { provider: @provider.id, code: 'xyzzy' }
+    [res, body] = yield request.postAsync({ @url, json, @auth })
+    expect(res.statusCode).toBe(200)
+    expect(res.body.oAuthIdentities.length).toBe(1)
+    done()
 
   it 'returns 404 if the user is not found', utils.wrap (done) ->
     url = utils.getURL("/api/users/dne/o-auth-identities")
