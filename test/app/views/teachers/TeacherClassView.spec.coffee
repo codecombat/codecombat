@@ -106,6 +106,7 @@ describe 'TeacherClassView', ->
 
         describe 'bulk-assign controls', ->
           it 'shows alert when assigning but no students are selected', (done) ->
+            expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(false)
             @view.$el.find('.assign-to-selected-students').click()
             _.defer =>
               expect(@view.$el.find('.no-students-selected').hasClass('visible')).toBe(true)
