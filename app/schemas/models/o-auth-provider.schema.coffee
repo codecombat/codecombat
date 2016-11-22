@@ -9,6 +9,10 @@ OAuthProviderSchema = {
       description: '
         A template of the URL for the user resource. Should include "<%= accessToken %>" for string interpolation.'
     }
+    lookupIdProperty: { 
+      type: 'string', 
+      description: 'What property in the response from lookupUrlTemplate to use as the user id. Defaults to "id".' 
+    }
     tokenUrl: { type: 'string' }
     tokenAuth: {
       type: 'object'
