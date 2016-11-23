@@ -781,8 +781,8 @@
     rob_blurb: "Codes things and stuff"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Designs games"
-    robin_title: "UX Design & Research"
-    robin_blurb: "Scaffolding"
+    robin_title: "Product Manager" # {change}
+    robin_blurb: "Ships things" # {change}
     josh_title: "Game Designer"
     josh_blurb: "Floor Is Lava"
     phoenix_title: "Software Engineer"
@@ -792,6 +792,9 @@
     lisa_title: "School Specialist"
     lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
+    sean_blurb: ""
+    liz_title: "Territory Manager"
+    liz_blurb: ""
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
