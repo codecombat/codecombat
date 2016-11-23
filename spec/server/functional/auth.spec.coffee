@@ -446,8 +446,9 @@ describe 'GET /auth/login-o-auth', ->
     done()
 
   it 'returns 422 if the token lookup fails', utils.wrap (done) ->
-    @providerLookupRequest.reply(400, {})
-    [res, body] = yield request.getAsync({ @url, @qs })
+    @providerNock.get('/oauth2/token').reply(400, {access_token: '1234'})
+    qs =  { provider: @provider.id, code: 'xyzzy' }
+    [res, body] = yield request.getAsync({ @url, qs, json:true, followRedirect:false })
     expect(res.statusCode).toBe(422)
     done()
 
