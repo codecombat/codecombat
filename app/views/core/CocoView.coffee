@@ -186,6 +186,9 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
+    if me.isStudent()
+      console.error("Student clicked contact modal.")
+      return
     if me.isTeacher()
       if application.isProduction()
         window.Intercom?('show')
