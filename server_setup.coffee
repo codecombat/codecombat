@@ -174,8 +174,9 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return true if b is 'IE' and v < 11
     false
 
-  app.use('/play/', useragent.express())
+  app.use '/play/', useragent.express()
   app.use '/play/', (req, res, next) ->
+    return next() if req.path?.indexOf('web-dev-level') >= 0
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
     res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
 
