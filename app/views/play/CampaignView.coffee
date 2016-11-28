@@ -299,7 +299,6 @@ module.exports = class CampaignView extends RootView
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
-      level.locked = false if @campaign?.get('slug') is 'game-dev-hoc'
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
       level.color = 'rgb(255, 80, 60)'
@@ -365,6 +364,12 @@ module.exports = class CampaignView extends RootView
       for level in orderedLevels
         if @levelStatusMap[level.slug] isnt 'complete'
           level.next = true
+          # Unlock and re-annotate this level
+          # May not be unlocked/awarded due to different game-dev-hoc progression using mostly shared levels
+          level.locked = false
+          level.hidden = level.locked
+          level.disabled = false
+          level.color = 'rgb(255, 80, 60)'
           return
 
     findNextLevel = (nextLevels, practiceOnly) =>
