@@ -103,21 +103,21 @@ describe 'GET /db/thang.type?view=heroes', ->
     expect(res.body.length).toBe(2)
     done()
     
-#  it 'does not return restricted ThangTypes unless user is an admin or on cp.codecombat.com', utils.wrap (done) ->
-#    yield utils.makeThangType({ kind: 'Hero', restricted: 'code-play' })
-#    url = utils.getURL('/db/thang.type?view=heroes')
-#    [res, body] = yield request.getAsync({url, json: true})
-#    expect(res.statusCode).toBe(200)
-#    expect(res.body.length).toBe(1)
-#
-#    user = yield utils.initUser()
-#    yield utils.loginUser(user)
-#    [res, body] = yield request.getAsync({url, json: true})
-#    expect(res.body.length).toBe(0)
-#
-#    headers = { host: 'cp.codecombat.com' }
-#    [res, body] = yield request.getAsync({url, json: true, headers})
-#    expect(res.statusCode).toBe(200)
-#    expect(res.body.length).toBe(1)
-#    
-#    done()
+  it 'does not return restricted ThangTypes unless user is an admin or on cp.codecombat.com', utils.wrap (done) ->
+    yield utils.makeThangType({ kind: 'Hero', restricted: 'code-play' })
+    url = utils.getURL('/db/thang.type?view=heroes')
+    [res, body] = yield request.getAsync({url, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res, body] = yield request.getAsync({url, json: true})
+    expect(res.body.length).toBe(0)
+
+    headers = { host: 'cp.codecombat.com' }
+    [res, body] = yield request.getAsync({url, json: true, headers})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    
+    done()

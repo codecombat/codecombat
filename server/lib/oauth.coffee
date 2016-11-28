@@ -15,7 +15,7 @@ getIdentityFromOAuth = co.wrap ({providerId, accessToken, code}) ->
     throw new errors.NotFound('Provider not found.')
 
   if code and not accessToken
-    { access_token: accessToken } = yield provider.getTokenWithCode(code)
+    { access_token: accessToken } = (yield provider.getTokenWithCode(code)) or {}
     if not accessToken
       throw new errors.UnprocessableEntity('Code lookup failed')
 

@@ -120,7 +120,9 @@ var _rollbarConfig = {
         var htmlElement = document.querySelector("html");
         if (htmlElement) {
           if ($.browser.msie && $.browser.versionNumber < 11) {
-            alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+            if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
+              alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+            }
           }
         }
 

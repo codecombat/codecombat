@@ -627,6 +627,9 @@ module.exports = class PlayLevelView extends RootView
   onFocusDom: (e) -> $(e.selector).focus()
 
   onContactClicked: (e) ->
+    if me.isStudent()
+      console.error("Student clicked contact modal.")
+      return
     Backbone.Mediator.publish 'level:contact-button-pressed', {}
     @openModalView contactModal = new ContactModal levelID: @level.get('slug') or @level.id, courseID: @courseID, courseInstanceID: @courseInstanceID
     screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)

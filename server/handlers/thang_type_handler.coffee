@@ -75,7 +75,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
       if limit? and limit < 1000
         q.limit(limit)
 
-      q.cache(10 * 60 * 1000)
+      q.cache(10 * 60 * 1000) unless global.testing # TODO: Get tests to somehow clear mongoose cache between tests
 
       q.exec (err, documents) =>
         return @sendDatabaseError(res, err) if err

@@ -26,6 +26,7 @@ OAuthProviderSchema = {
     tokenMethod: { enum: ['get', 'post']}
     authorizeUrl: { type: 'string' }
     clientID: { type: 'string' }
+    strictSSL: { type: 'boolean' }
   }
 }
 
