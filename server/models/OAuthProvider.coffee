@@ -44,8 +44,9 @@ OAuthProviderSchema.methods.getTokenWithCode = co.wrap (code) ->
   tokenAuth = @get('tokenAuth')
   options.auth = tokenAuth if tokenAuth
   options.method = if @get('tokenMethod') is 'post' then 'POST' else 'GET'
-  options.json.client_id = options.auth.user
-  options.json.client_secret = options.auth.pass
+  if tokenAuth
+    options.json.client_id = tokenAuth.user
+    options.json.client_secret = tokenAuth.pass
   options.json.state = 'code'
   if @get('strictSSL')?
     options.strictSSL = @get('strictSSL')
