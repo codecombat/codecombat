@@ -6,7 +6,7 @@ h4
     // In case there's no translation in en.coffee because we missed one
     = skillType
   // Redundant in case some tag docs are missing an owner
-  if !_.contains(['function', 'basic tag'], doc.type) && doc.owner != 'HTML'
+  if !_.contains(['function', 'basic tag', 'thang'], doc.type) && doc.owner != 'HTML'
     |  (
     if writable
       span(data-i18n="skill_docs.writable") writable
@@ -20,6 +20,7 @@ if doc.translatedShortName
 
 .description
   p!= marked(doc.description || 'Still undocumented, sorry.')
+  div.clear(style="clear: both")
   if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
     p
       span
@@ -96,7 +97,7 @@ if !selectedMethod
             else if language == 'io'
               span= (doc.ownerName == 'this' ? '' : doc.ownerName + ' ') + docName + '(' + argumentExamples.join(', ') + ')'
 
-if (doc.type != 'function' && doc.type != 'snippet' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
+if (doc.type != 'function' && doc.type != 'snippet' && doc.type != 'thang' && !_.contains(['HTML', 'CSS', 'WebJavaScript', 'jQuery'], doc.owner)) || doc.name == 'now'
   p.value
     strong
       span(data-i18n="skill_docs.current_value") Current Value

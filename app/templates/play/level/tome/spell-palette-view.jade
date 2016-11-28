@@ -1,38 +1,21 @@
+mixin header(label, name)
+  a.section-header.btn.btn-small.btn-illustrated.btn-warning(role="button", id="#palette-header-" + _.string.slugify(label), href="#palette-tab-" + _.string.slugify(label)) #{name}
+    div.glyphicon.glyphicon-chevron-right(style="float: right")
+
 div.container
   div.left.nano
-    div.nano-content
-      if view.entryGroupSlugs
-        // Non-hero; group by entry groups, or maybe nothing.
-        ul(class="nav nav-pills" + (tabbed ? ' multiple-tabs' : ''))
-          each slug, group in view.entryGroupSlugs
-            li(class=group == "this" || slug == "available-spells" ? "active" : "")
-              a(data-toggle="pill", data-target='#palette-tab-' + slug)
-                h4= view.entryGroupNames[group]
-        .tab-content
-          each slug, group in view.entryGroupSlugs
-            div(id="palette-tab-" + slug, class="tab-pane nano" + (group == "this" || slug == view.defaultGroupSlug ? " active" : ""))
-              div(class="properties properties-" + slug + " nano-content")
-
-      else if view.tabs
-        // Hero; group by items, but also include tabs
-        ul(class="nav nav-pills multiple-tabs")
-          li.active
-            a(data-toggle="pill", data-target="#palette-tab-this")
-              h4= view.thisName || 'Hero'
-          each entries, tab in view.tabs
-            li
-              a(data-toggle="pill", data-target='#palette-tab-' + _.string.slugify(tab))
-                h4= tab
-        .tab-content
-          div#palette-tab-this.tab-pane.active
-            .properties.properties-this
-          each entries, tab in tabs
-            div(id="palette-tab-" + _.string.slugify(tab), class="tab-pane")
-              div(class="properties properties-" + _.string.slugify(tab))
-
-      else
-        // Hero; group by items, no tabs.
+    div.nano-content.panel-group#spell-palette-api-bar
+      +header('api-area', 'APIs')
+      div.apis.panel-collapse.collapse.in#palette-tab-api-area
         .properties.properties-this
+      if tabs
+        each entries, tab in tabs
+          +header(tab, tab)
+          div.panel-collapse.collapse(id="palette-tab-" + _.string.slugify(tab))
+            div(class="properties properties-" + _.string.slugify(tab))
+      +header('stuff-area', 'Spawnable')
+      div.apis.panel-collapse.collapse.in#palette-tab-stuff-area
+
   div.right
     .closeBtn.btn.btn-illustrated.btn-danger
       span.glyphicon.glyphicon-remove

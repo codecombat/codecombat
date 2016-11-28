@@ -1,23 +1,20 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/tome/spell_palette_entry'
+template = require 'templates/play/level/tome/spell-palette-thang-entry'
+popoverTemplate = require 'templates/play/level/tome/spell_palette_entry_popover'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
-ace = require 'ace'
 utils = require 'core/utils'
 
-module.exports = class SpellPaletteEntryView extends CocoView
+module.exports = class SpellPaletteThangEntryView extends CocoView
   tagName: 'div'  # Could also try <code> instead of <div>, but would need to adjust colors
-  className: 'spell-palette-entry-view'
+  className: 'spell-palette-thang-entry-view'
   template: template
-  popoverPinned: false
-  overridePopoverTemplate: '<div class="popover spell-palette-popover" role="tooltip"><div class="arrow"></div><h3 class="popover-title"></h3><div class="popover-content"></div></div>'
-
+ 
   subscriptions:
     'surface:frame-changed': 'onFrameChanged'
     'tome:palette-hovered': 'onPaletteHovered'
     'tome:palette-clicked': 'onPaletteClicked'
-    'tome:palette-pin-toggled': 'onPalettePinToggled'
     'tome:spell-debug-property-hovered': 'onSpellDebugPropertyHovered'
 
   events:
@@ -28,14 +25,20 @@ module.exports = class SpellPaletteEntryView extends CocoView
   constructor: (options) ->
     super options
     @thang = options.thang
-    @docFormatter = new DocFormatter options
-    @doc = @docFormatter.doc
-    @doc.initialHTML = @docFormatter.formatPopover()
-    @aceEditors = []
+    @doc =
+      name: options.buildableName
+      initialHTML: popoverTemplate _: _, marked: marked, doc:
+        shortName: @thang.get('name')
+        type: "thang"
+        description: "![#{@thang.get('name')}](#{@thang.getPortraitURL()}) #{options.doc.description}"
+        example: options.doc.example[options.language]
+
+    @doc.example ?= "\# usage code \ngame.spawnXY(\"#{@thang.get('name')}\", 21, 20)"
+    #@aceEditors = []
 
   afterRender: ->
     super()
-    @$el.addClass _.string.slugify @doc.type
+    #@$el.addClass _.string.slugify @doc.type
 
   resetPopoverContent: ->
     #@$el.data('bs.popover').options.content = @docFormatter.formatPopover()
@@ -49,23 +52,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
   onMouseLeave: (e) ->
     #@$el.popover 'hide' unless @popoverPinned or @otherPopoverPinned
 
-  togglePinned: ->
-    if @popoverPinned
-      @popoverPinned = false
-      @$el.add('.spell-palette-popover.popover').removeClass 'pinned'
-      $('.spell-palette-popover.popover .close').remove()
-      @$el.popover 'hide'
-      @playSound 'spell-palette-entry-unpin'
-    else
-      @popoverPinned = true
-      @resetPopoverContent()
-      @$el.add('.spell-palette-popover.popover').addClass 'pinned'
-      @$el.popover 'show'
-      x = $('<button type="button" data-dismiss="modal" aria-hidden="true" class="close">×</button>')
-      $('.spell-palette-popover.popover').append x
-      x.on 'click', @onClick
-      @playSound 'spell-palette-entry-pin'
-    Backbone.Mediator.publish 'tome:palette-pin-toggled', entry: @, pinned: @popoverPinned
 
   onPaletteClicked: (e) =>
     @$el.toggleClass('selected', e.prop is @doc.name)
@@ -74,20 +60,14 @@ module.exports = class SpellPaletteEntryView extends CocoView
     if key.shift
       Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return
-    #@togglePinned()
     Backbone.Mediator.publish 'tome:palette-clicked', thang: @thang, prop: @doc.name, entry: @
 
   onFrameChanged: (e) ->
-    return unless e.selectedThang?.id is @thang.id
-    @options.thang = @thang = @docFormatter.options.thang = e.selectedThang  # Update our thang to the current version
+    #return unless e.selectedThang?.id is @thang.id
+    #@options.thang = @thang = @docFormatter.options.thang = e.selectedThang  # Update our thang to the current version
 
   onPaletteHovered: (e) ->
     return if e.entry is @
-    @togglePinned() if @popoverPinned
-
-  onPalettePinToggled: (e) ->
-    return if e.entry is @
-    @otherPopoverPinned = e.pinned
 
   onSpellDebugPropertyHovered: (e) ->
     matched = e.property is @doc.name and e.owner is @doc.owner
@@ -100,9 +80,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
     null
 
   destroy: ->
-    $('.popover.pinned').remove() if @popoverPinned  # @$el.popover('destroy') doesn't work
-    @togglePinned() if @popoverPinned
-    @$el.popover 'destroy'
     @$el.off()
     oldEditor.destroy() for oldEditor in @aceEditors
     super()

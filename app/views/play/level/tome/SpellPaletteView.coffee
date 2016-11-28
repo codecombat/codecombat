@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 SpellPaletteEntryView = require './SpellPaletteEntryView'
+SpellPaletteThangEntryView = require './SpellPaletteThangEntryView'
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
@@ -24,10 +25,12 @@ module.exports = class SpellPaletteView extends CocoView
     'tome:palette-clicked': 'onPalleteClick'
     'surface:stage-mouse-down': 'hide'
     'level:set-playing': 'hide'
+    
 
   events:
     'click #spell-palette-help-button': 'onClickHelp'
     'click .closeBtn': 'onClickClose'
+    'click .section-header': 'onSectionHeaderClick'
 
   initialize: (options) ->
     {@level, @session, @thang, @useHero} = options
@@ -36,6 +39,7 @@ module.exports = class SpellPaletteView extends CocoView
     @showsHelp = docs.specificArticles?.length or docs.generalArticles?.length
     @createPalette()
     $(window).on 'resize', @onResize
+    console.log "My thang is", @thang
 
   getRenderData: ->
     c = super()
@@ -95,7 +99,20 @@ module.exports = class SpellPaletteView extends CocoView
       @$el.addClass 'hero'
       @$el.toggleClass 'shortenize', Boolean @shortenize
       @$el.toggleClass 'web-dev', @options.level.isType('web-dev')
-      @updateMaxHeight() unless application.isIPadApp
+
+    tts = @supermodel.getModels ThangType
+    console.log @deferredDocs
+
+    for dn of @deferredDocs
+      doc = @deferredDocs[dn]
+      continue unless doc.type is "spawnable"
+      info = @thang.buildables[doc.name]
+      tt = _.find tts, (t) -> t.get('original') is info.thangType
+      console.log "Y", {tt, info}
+      return unless tt?
+      t = new SpellPaletteThangEntryView doc: doc, thang: tt, buildable: info, buildableName: dn, shortenize: true, isSnippet: true, language: @options.language, level: @options.level, useHero: @useHero
+      @$el.find("#palette-tab-stuff-area").append t.el
+      t.render()
 
   afterInsert: ->
     super()
@@ -104,38 +121,13 @@ module.exports = class SpellPaletteView extends CocoView
   updateCodeLanguage: (language) ->
     @options.language = language
 
-  updateMaxHeight: ->
-    return unless @isHero
-    # We figure out how many columns we can fit, width-wise, and then guess how many rows will be needed.
-    # We can then assign a height based on the number of rows, and the flex layout will do the rest.
-    columnWidth = 212
-    columnWidth = 175 if @shortenize
-    columnWidth = 100 if @options.level.isType('web-dev')
-    nColumns = Math.floor @$el.find('.properties-this').innerWidth() / columnWidth   # will always have 2 columns, since at 1024px screen we have 424px .properties
-    columns = ({items: [], nEntries: 0} for i in [0 ... nColumns])
-    orderedColumns = []
-    nRows = 0
-    entryGroupsByLength = _.sortBy _.keys(@entryGroups), (group) => @entryGroups[group].length
-    entryGroupsByLength.reverse()
-    for group in entryGroupsByLength
-      entries = @entryGroups[group]
-      continue unless shortestColumn = _.sortBy(columns, (column) -> column.nEntries)[0]
-      shortestColumn.nEntries += Math.max 2, entries.length  # Item portrait is two rows tall
-      shortestColumn.items.push @entryGroupElements[group]
-      orderedColumns.push shortestColumn unless shortestColumn in orderedColumns
-      nRows = Math.max nRows, shortestColumn.nEntries
-    for column in orderedColumns
-      for item in column.items
-        item.detach().appendTo @$el.find('.properties-this')
-    desiredHeight = 19 * (nRows + 1)
-    #@$el.find('.properties').css('height', desiredHeight)
-
   onResize: (e) =>
-    @updateMaxHeight()
+    @updateMaxHeight?()
 
   createPalette: ->
     Backbone.Mediator.publish 'tome:palette-cleared', {thangID: @thang.id}
     lcs = @supermodel.getModels LevelComponent
+
     allDocs = {}
     excludedDocs = {}
     for lc in lcs
@@ -236,6 +228,7 @@ module.exports = class SpellPaletteView extends CocoView
     propsByItem = {}
     propCount = 0
     itemsByProp = {}
+    @deferredDocs = {}
     # Make sure that we get the spellbook first, then the primary hand, then anything else.
     slots = _.sortBy _.keys(@thang.inventoryThangTypeNames ? {}), (slot) ->
       if slot is 'left-hand' then 0 else if slot is 'right-hand' then 1 else 2
@@ -295,7 +288,10 @@ module.exports = class SpellPaletteView extends CocoView
           console.log 'could not find doc for', prop, 'from', allDocs['__' + prop], 'for', owner, 'of', propsByItem, 'with item', item
           doc ?= prop
         if doc
-          @entries.push @addEntry(doc, @shortenize, owner is 'snippets', item, propIndex > 0)
+          if doc.type in ['spawnable', 'event']
+            @deferredDocs[doc.name] = doc
+          else
+            @entries.push @addEntry(doc, @shortenize, owner is 'snippets', item, propIndex > 0)
     if @options.level.isType('web-dev')
       @entryGroups = _.groupBy @entries, (entry) -> entry.doc.type
     else
@@ -330,6 +326,16 @@ module.exports = class SpellPaletteView extends CocoView
     @createPalette()
     @render()
 
+  onSectionHeaderClick: (e) ->
+    
+    @$('.in').collapse('hide')
+    @$('.glyphicon-chevron-down').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
+    $(e.target).find('.glyphicon').addClass('glyphicon-chevron-down')
+    target = $(e.target).attr('href')
+    @$(target).collapse('show')
+    console.log "Hi Pooja", target, @$(target)
+    e.preventDefault()
+
   onClickHelp: (e) ->
     application.tracker?.trackEvent 'Spell palette help clicked', levelID: @level.get('slug')
     gameMenuModal = new GameMenuModal showTab: 'guide', level: @level, session: @session, supermodel: @supermodel
@@ -349,7 +355,7 @@ module.exports = class SpellPaletteView extends CocoView
   onPalleteClick: (e) ->
     @$el.addClass('open')
     content = @$el.find(".rightContentTarget")
-    content.html(e.entry.docFormatter.formatPopover())
+    content.html(e.entry.doc.initialHTML)
     codeLanguage = e.entry.options.language
     oldEditor.destroy() for oldEditor in @aceEditors
     @aceEditors = []

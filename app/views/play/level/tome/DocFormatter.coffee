@@ -80,10 +80,10 @@ module.exports = class DocFormatter
         @doc.shorterName = @doc.shorterName.replace argString, (if not /cast[A-Z]/.test(@doc.name) and argNames.length > 6 then '...' else argNames)
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
-        if @doc.owner is 'this' or @options.tabbify
+        if @doc.owner is 'this' or @options.tabbify or ownerName is 'game'
           @doc.shorterName = @doc.shorterName.replace /^(this|hero)\./, ''
-      else if (@options.language in ['python', 'lua']) and (@doc.owner is 'this' or @options.tabbify)
-        @doc.shorterName = @doc.shortName.replace /^(self|hero)[:.]/, ''
+      else if (@options.language in ['python', 'lua']) and (@doc.owner is 'this' or @options.tabbify or ownerName is 'game')
+        @doc.shorterName = @doc.shortName.replace /^(self|hero|game)[:.]/, ''
       @doc.title = if @options.shortenize then @doc.shorterName else @doc.shortName
       translatedName = utils.i18n(@doc, 'name')
       if translatedName isnt @doc.name

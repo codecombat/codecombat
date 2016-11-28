@@ -31,6 +31,22 @@
       bottom: 0px
       height: auto
       width: $api-bar-width - 13
+      .section-header
+        display: block
+
+      .spell-palette-thang-entry-view
+        display: inline-block
+        border: 5px solid black
+        border-image: url(/images/level/thang_avatar_frame.png) 20 20 20 20 fill round
+        margin: 1px
+
+        img
+          background-color: black
+          width: 72px
+          height: 72px
+          border: 1px solid transparent
+        &.selected img
+          border: 1px solid orange
       .nano-slider
         background-color: rgba(243, 169, 49, 0.5)
     .right
@@ -55,6 +71,9 @@
 
       .always-scroll-y
         overflow-y: scroll
+        .description
+          img
+            float: left
 
       .closeBtn
         position: absolute;
