@@ -408,7 +408,16 @@ describe 'GET /auth/login-o-auth', ->
     [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
     expect(res.body._id).toBe(@user.id)
     done()
-    
+
+  it 'logs the user in, and redirects to an arbitrary url if the provider specifies', utils.wrap (done) ->
+    redirectAfterLogin = 'https://somewhere-else.com/'
+    yield @provider.update({$set: {redirectAfterLogin}})
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe(redirectAfterLogin)
+    done()
+
   it 'redirects the user to "/students" if their role is "student"', utils.wrap (done) ->
     @providerLookupRequest.reply(200, {id: 'abcd'})
     yield @user.update({$set: {role:'student'}})

@@ -1,3 +1,5 @@
+storage = require 'core/storage'
+
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/control-bar-view'
 {me} = require 'core/auth'
@@ -86,7 +88,12 @@ module.exports = class ControlBarView extends CocoView
     c.spectateGame = @spectateGame
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
-    if me.isSessionless()
+    gameDevHoc = storage.load('should-return-to-game-dev-hoc')
+    if gameDevHoc
+      @homeLink = "/play/game-dev-hoc"
+      @homeViewClass = 'views/play/CampaignView'
+      @homeViewArgs.push 'game-dev-hoc'
+    else if me.isSessionless()
       @homeLink = "/teachers/courses"
       @homeViewClass = "views/courses/TeacherCoursesView"
     else if @level.isType('ladder', 'ladder-tutorial', 'hero-ladder', 'course-ladder')

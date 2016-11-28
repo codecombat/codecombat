@@ -27,6 +27,7 @@ OAuthProviderSchema = {
     authorizeUrl: { type: 'string' }
     clientID: { type: 'string' }
     strictSSL: { type: 'boolean' }
+    redirectAfterLogin: { type: 'string' }
   }
 }
 
