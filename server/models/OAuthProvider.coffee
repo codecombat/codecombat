@@ -21,7 +21,11 @@ OAuthProviderSchema.plugin(plugins.NamedPlugin)
 
 OAuthProviderSchema.methods.lookupAccessToken = co.wrap (accessToken) ->
   url = _.template(@get('lookupUrlTemplate'))({accessToken})
-  [res, body] = yield request.getAsync({url, json: true})
+  options = {url, json: true}
+  if @get('strictSSL')?
+    options.strictSSL = @get('strictSSL')
+  [res, body] = yield request.getAsync(options)
+  console.log 'User Lookup Res:', res.statusCode, JSON.stringify(res.body, null, '\t')
   if res.statusCode >= 400
     return null
   return body
@@ -40,8 +44,13 @@ OAuthProviderSchema.methods.getTokenWithCode = co.wrap (code) ->
   tokenAuth = @get('tokenAuth')
   options.auth = tokenAuth if tokenAuth
   options.method = if @get('tokenMethod') is 'post' then 'POST' else 'GET'
-  
+  options.json.client_id = options.auth.user
+  options.json.client_secret = options.auth.pass
+  options.json.state = 'code'
+  if @get('strictSSL')?
+    options.strictSSL = @get('strictSSL')
   res = yield requestAsync(options)
+  console.log 'OAuth Token Res:', res.statusCode, JSON.stringify(res.body, null, '\t')
   if res.statusCode >= 400
     return null
   return res.body
