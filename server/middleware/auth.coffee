@@ -14,6 +14,7 @@ LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 oauth = require '../lib/oauth'
 facebook = require '../lib/facebook'
+OAuthProvider = require '../models/OAuthProvider'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -68,7 +69,9 @@ module.exports =
   redirectAfterLogin: wrap (req, res) ->
     activity = req.user.trackActivity 'login', 1
     yield req.user.update {activity: activity}
-    if req.user.get('role') is 'student'
+    if req.shouldRedirect
+      res.redirect req.shouldRedirect
+    else if req.user.get('role') is 'student'
       res.redirect '/students'
     else if req.user.get('role')
       res.redirect '/teachers/classes'
@@ -198,6 +201,10 @@ module.exports =
     
     req.loginAsync = Promise.promisify(req.login)
     yield req.loginAsync user
+    
+    provider = yield OAuthProvider.findById(providerId)
+    req.shouldRedirect = provider.get('redirectAfterLogin')
+    
     next()
     
   spy: wrap (req, res) ->
