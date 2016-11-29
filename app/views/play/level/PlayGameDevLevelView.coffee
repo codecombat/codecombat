@@ -120,7 +120,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     route = "/play/level/#{@level.get('slug')}"
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
-      viewArgs: [{supermodel: @supermodel}, @levelID]
+      viewArgs: [{}, @levelID]
     }
 
   onClickPlayButton: ->
