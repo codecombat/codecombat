@@ -426,7 +426,7 @@ module.exports = class HeroVictoryModal extends ModalView
       'summits-gate': 'glacier'
     }[@level.get('slug')] ? @level.get 'campaign'
     # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
-    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'hoc2016']) and storage.load('should-return-to-game-dev-hoc')
+    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'game-grove']) and storage.load('should-return-to-game-dev-hoc')
     campaign
 
   getNextLevelLink: (returnToCourse=false) ->
