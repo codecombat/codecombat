@@ -24,7 +24,9 @@
               .progress-bar(style="width: #{view.state.get('progress')}")
 
           if ready
-            h3(data-i18n="play_game_dev_level.how_to_play_title")
+            h3
+              span(data-i18n="play_level.directions")
+              | :
             p!= view.howToPlayText
             hr
 
@@ -35,6 +37,11 @@
               button#play-btn.btn.btn-lg.btn-burgandy.btn-block(data-i18n="play_game_dev_level.restart")
             else
               button#play-btn.btn.btn-lg.btn-forest.btn-block(data-i18n="play_game_dev_level.play")
+            if view.state.get('isOwner')
+              br
+              button#edit-level-btn.btn.btn-lg.btn-warning.btn-block(data-i18n="play_level.edit_level")
+
+
 
   #share-row.m-t-3
     if ready
@@ -46,6 +53,6 @@
           div#copy-url-div
             button#copy-url-btn.btn.btn-lg.btn-navy-alt
               span(data-i18n='sharing.copy_url')
-
-        .panel-body
-          a#play-more-codecombat-btn.btn.btn-lg.btn-navy-alt.pull-right(href="/", data-i18n="play_game_dev_level.play_more_codecombat")
+        if !view.state.get('isOwner')
+          .panel-body
+            a#play-more-codecombat-btn.btn.btn-lg.btn-navy-alt.pull-right(href="/", data-i18n="play_game_dev_level.play_more_codecombat")

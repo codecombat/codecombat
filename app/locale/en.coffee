@@ -405,6 +405,8 @@
     years: "years"
 
   play_level:
+    directions: "Directions"
+    edit_level: "Edit Level"
     explore_codecombat: "Explore CodeCombat"
     level_complete: "Level Complete"
     completed_level: "Completed Level:"
@@ -433,6 +435,7 @@
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
+    test_level: "Test Level"
     victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Complete"
@@ -549,7 +552,6 @@
 
   play_game_dev_level:
     created_by: "Created by {{name}}"
-    how_to_play_title: "How to play:"
     how_to_play_1: "Use the mouse to control the hero!"
     how_to_play_2: "Click anywhere on the map to move to that location."
     how_to_play_3: "Click on the ogres to attack them."
@@ -557,7 +559,6 @@
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
     default_student_instructions: "Click to control your hero and win your game!"
-    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventory"
