@@ -338,7 +338,7 @@ module.exports = class PlayLevelView extends RootView
       e.session.set 'heroConfig', {"thangType":sorcerer,"inventory":{"misc-0":"53e2396a53457600003e3f0f","programming-book":"546e266e9df4a17d0d449be5","minion":"54eb5dbc49fa2d5c905ddf56","feet":"53e214f153457600003e3eab","right-hand":"54eab7f52b7506e891ca7202","left-hand":"5463758f3839c6e02811d30f","wrists":"54693797a2b1f53ce79443e9","gloves":"5469425ca2b1f53ce7944421","torso":"546d4a549df4a17d0d449a97","neck":"54693274a2b1f53ce79443c9","eyes":"546941fda2b1f53ce794441d","head":"546d4ca19df4a17d0d449abf"}}
     # TODO: Remove post-KR
     else if e.level.get('slug') is 'the-gauntlet-kr'
-      lightseeker = '58339f3f354095ab11af6f44'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
       e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
         "feet":"53e237bf53457600003e3f05",
         "head":"546d38269df4a17d0d4499ff",
@@ -348,7 +348,7 @@ module.exports = class PlayLevelView extends RootView
         "programming-book":"53e4108204c00d4607a89f78"
       }}
     else if e.level.get('slug') is 'woodland-cleaver-kr'
-      lightseeker = '58339f3f354095ab11af6f44'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
       e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
         "eyes": "53e238df53457600003e3f0b",
         "head": "546d38269df4a17d0d4499ff",
@@ -359,7 +359,7 @@ module.exports = class PlayLevelView extends RootView
         "left-hand": "544c310ae0017993fce214bf"
       }}
     else if e.level.get('slug') is 'crossroads-kr'
-      lightseeker = '58339f3f354095ab11af6f44'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
       e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
         "wrists": "53e2396a53457600003e3f0f",
         "eyes": "53e2167653457600003e3eb3",
