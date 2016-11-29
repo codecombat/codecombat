@@ -1,9 +1,9 @@
 // Upsert new lead data into Close.io
 
 'use strict';
-if (process.argv.length !== 11) {
-  log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io mail API key5> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
-  process.exit();
+const runAsScript = (process.argv.length === 12);
+if (!runAsScript) {
+  log("Usage: node <script> <ZenProspect Auth Token> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io mail API key5> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
 }
 
 // TODO: Test multiple contacts
@@ -58,43 +58,56 @@ const emailDelayMinutes = 27;
 const closeParallelLimit = 10;
 const intercomParallelLimit = 100;
 
-const scriptStartTime = new Date();
-const closeIoApiKey = process.argv[2]; // Matt
-// Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
-// Names in comments are for reference, but Source of Truth is updateSalesLeads.sh on the analytics server
-const closeIoMailApiKeys = [
-  {
-    apiKey: process.argv[3], // Lisa
-    weight: .75
-  },
-  {
-    apiKey: process.argv[4], // Elliot
-    weight: .1
-  },
-  {
-    apiKey: process.argv[5], // Nolan
-    weight: .05
-  },
-  {
-    apiKey: process.argv[6], // Sean
-    weight: .05
-  },
-  {
-    apiKey: process.argv[7], // Liz
-    weight: .05
-  },
-];
-const closeIoEuMailApiKey = process.argv[8]; // Jurian
-const intercomAppIdApiKey = process.argv[9];
-const intercomAppId = intercomAppIdApiKey.split(':')[0];
-const intercomApiKey = intercomAppIdApiKey.split(':')[1];
-const mongoConnUrl = process.argv[10];
+if (runAsScript) {
+  var scriptStartTime = new Date();
+  var zpAuthToken = process.argv[2];
+  var closeIoApiKey = process.argv[3]; // Matt
+  // Automatic mails sent as API owners, first key assumed to be primary and gets 50% of the leads
+  // Names in comments are for reference, but Source of Truth is updateSalesLeads.sh on the analytics server
+  var closeIoMailApiKeys = [
+    {
+      apiKey: process.argv[4], // Lisa
+      weight: .75
+    },
+    {
+      apiKey: process.argv[5], // Elliot
+      weight: .1
+    },
+    {
+      apiKey: process.argv[6], // Nolan
+      weight: .05
+    },
+    {
+      apiKey: process.argv[7], // Sean
+      weight: .05
+    },
+    {
+      apiKey: process.argv[8], // Liz
+      weight: .05
+    },
+  ];
+  var closeIoEuMailApiKey = process.argv[9]; // Jurian
+  var intercomAppIdApiKey = process.argv[10];
+  var intercomAppId = intercomAppIdApiKey.split(':')[0];
+  var intercomApiKey = intercomAppIdApiKey.split(':')[1];
+  var mongoConnUrl = process.argv[11];
+} else {
+  var mongoConnUrl = process.argv[11];
+}
+
 const MongoClient = require('mongodb').MongoClient;
 const async = require('async');
 const countryData = require('country-data');
 const countryList = require('country-list')();
 const parseDomain = require('parse-domain');
 const request = require('request');
+const co = require('co');
+
+require('coffee-script/register');
+const ZenProspect = require('./lib/ZenProspect');
+if(runAsScript){
+ZenProspect.configure({ authToken: zpAuthToken })
+}
 
 const earliestDate = new Date();
 earliestDate.setUTCDate(earliestDate.getUTCDate() - 10);
@@ -105,14 +118,17 @@ const userApiKeyMap = {};
 
 // ** Main program
 
-async.series([
-  upsertLeads
-],
-(err, results) => {
-  if (err) console.error(err);
-  log("Script runtime: " + (new Date() - scriptStartTime));
+if(runAsScript){
+  async.series([
+    upsertLeads
+  ],
+  (err, results) => {
+    if (err) console.error(err);
+    log("Script runtime: " + (new Date() - scriptStartTime));
+    process.exit()
+  }
+  );
 }
-);
 
 function upsertLeads(done) {
   // log('DEBUG: Finding leads..');
@@ -139,7 +155,7 @@ function upsertLeads(done) {
 // ** Utilities
 
 function getCountryCode(country, emails) {
-  // console.log(`DEBUG: getCountryCode ${country} ${emails.length}`);
+  // log(`DEBUG: getCountryCode ${country} ${emails.length}`);
   if (country) {
     if (country.indexOf('Nederland') >= 0) return 'NL';
     let countryCode = countryList.getCode(country);
@@ -159,7 +175,7 @@ function getCountryCode(country, emails) {
 }
 
 function getInitialLeadStatusViaCountry(country, trialRequests) {
-  // console.log(`DEBUG: getInitialLeadStatusViaCountry ${country} ${trialRequests.length}`);
+  // log(`DEBUG: getInitialLeadStatusViaCountry ${country} ${trialRequests.length}`);
   if (/^u\.s\.?(\.a)?\.?$|^us$|usa|america|united states/ig.test(country)) {
     const status = 'New US Schools Auto Attempt 1'
     return isLowValueUsLead(status, trialRequests) ? `${status} Low` : status;
@@ -194,7 +210,7 @@ function getInitialLeadStatusViaCountry(country, trialRequests) {
 }
 
 function getInitialLeadStatusViaEmails(emails, trialRequests) {
-  // console.log(`DEBUG: getInitialLeadStatusViaEmails ${emails.length} ${trialRequests.length}`);
+  // log(`DEBUG: getInitialLeadStatusViaEmails ${emails.length} ${trialRequests.length}`);
   let currentStatus = null;
   let currentRank = closeIoInitialLeadStatuses.length;
   for (const email of emails) {
@@ -290,7 +306,7 @@ function getRandomEmailTemplate(templates) {
 }
 
 function getEmailTemplate(trialRequest, countryCode, country) {
-  // console.log(`DEBUG: getEmailTemplate ${countryCode}, ${country}`, trialRequest);
+  // log(`DEBUG: getEmailTemplate ${countryCode}, ${country}`, trialRequest);
   const siteOrigin = trialRequest.properties.siteOrigin;
   const leadStatus = getInitialLeadStatusViaCountry(country, [trialRequest])
   
@@ -326,7 +342,9 @@ function isSameEmailTemplateType(template1, template2) {
 }
 
 function log(str) {
-  console.log(new Date().toISOString() + " " + str);
+  if(runAsScript){
+    console.log(new Date().toISOString() + " " + str);
+  }
 }
 
 // ** Coco data collection methods and class
@@ -338,57 +356,83 @@ function findCocoContacts(done) {
     // Recent trial requests
     const query = {$and: [{created: {$gte: earliestDate}}, {type: 'course'}]};
     db.collection('trial.requests').find(query).toArray((err, trialRequests) => {
-      if (err) {
-        db.close();
-        return done(err);
-      }
-      const contacts = {};
-      for (const trialRequest of trialRequests) {
-        if (!trialRequest.properties || !trialRequest.properties.email) continue;
-        const email = trialRequest.properties.email.toLowerCase();
-        if (contacts[email]) {
-          console.log(`ERROR: found additional course trial requests for email ${email}, skipping.`);
-          continue;
-        }
-        contacts[email] = new CocoContact(email, trialRequest);
-      }
-
-      // Users for trial requests
-      const query = {$and: [
-        {emailLower: {$in: Object.keys(contacts)}},
-        {anonymous: false}
-      ]};
-      db.collection('users').find(query).toArray((err, users) => {
+      co(function*(){
+        "use strict";
         if (err) {
           db.close();
           return done(err);
         }
-        const userIDs = [];
-        const userContactMap = {};
-        const userEmailMap = {};
-        for (const user of users) {
-          const email = user.emailLower;
-          contacts[email].addUser(user);
-          userIDs.push(user._id);
-          userContactMap[user._id.valueOf()] = contacts[email];
-          userEmailMap[user._id.valueOf()] = email;
+        const contacts = {};
+        for (const trialRequest of trialRequests) {
+          if (!trialRequest.properties || !trialRequest.properties.email) continue;
+          const email = trialRequest.properties.email.toLowerCase();
+          if (contacts[email]) {
+            log(`ERROR: found additional course trial requests for email ${email}, skipping.`);
+            continue;
+          }
+          contacts[email] = new CocoContact(email, trialRequest);
+
+          // TODO: Put this somewhere else; this makes findCocoContacts dangerous
+          try {
+            const zpContacts = yield ZenProspect.Contacts.searchAsync(email)
+            if(zpContacts.length === 0) {
+              const zpContact = new ZenProspect.Contact({
+                first_name: trialRequest.properties.firstName,
+                last_name: trialRequest.properties.lastName,
+                email: trialRequest.properties.email,
+                source: 'ui_form',
+                contact_stage_id: ZenProspect.stageIds['Do Not Contact'],
+              })
+              yield zpContact.save()
+              log(`Saved a new ZP contact: ${zpContact.get('email')} (${zpContact.get('id')})`)
+            } else {
+              yield zpContacts.map(co.wrap(function* (zpContact) {
+                yield zpContact.update({ contact_stage_id: ZenProspect.stageIds['Do Not Contact'] })
+                log(`Marked ZP contact as 'Do Not Contact': ${zpContact.get('email')} (${zpContact.get('id')})`)
+              }))
+            }
+          } catch (err) {
+            log(err);
+          }
         }
 
-        // Classrooms for users
-        const query = {ownerID: {$in: userIDs}};
-        db.collection('classrooms').find(query).toArray((err, classrooms) => {
+        // Users for trial requests
+        const query = {$and: [
+          {emailLower: {$in: Object.keys(contacts)}},
+          {anonymous: false}
+        ]};
+        db.collection('users').find(query).toArray((err, users) => {
           if (err) {
             db.close();
             return done(err);
           }
-
-          for (const classroom of classrooms) {
-            userContactMap[classroom.ownerID.valueOf()].addClassroom(classroom);
+          const userIDs = [];
+          const userContactMap = {};
+          const userEmailMap = {};
+          for (const user of users) {
+            const email = user.emailLower;
+            contacts[email].addUser(user);
+            userIDs.push(user._id);
+            userContactMap[user._id.valueOf()] = contacts[email];
+            userEmailMap[user._id.valueOf()] = email;
           }
-          db.close();
-          return done(null, contacts);
+
+          // Classrooms for users
+          const query = {ownerID: {$in: userIDs}};
+          db.collection('classrooms').find(query).toArray((err, classrooms) => {
+            if (err) {
+              db.close();
+              return done(err);
+            }
+
+            for (const classroom of classrooms) {
+              userContactMap[classroom.ownerID.valueOf()].addClassroom(classroom);
+            }
+            db.close();
+            return done(null, contacts);
+          });
         });
-      });
+      }).catch(done);
     });
   });
 }
@@ -412,8 +456,8 @@ function createAddIntercomDataFn(contact) {
         contact.addIntercomUser(user);
       }
       catch (err) {
-        console.log(err);
-        console.log(body);
+        log(err);
+        log(body);
       }
       return done();
     });
@@ -501,7 +545,7 @@ class CocoContact {
     return postData;
   }
   getLeadPutData(closeLead, resetStatus) {
-    // console.log('DEBUG: getLeadPutData', closeLead.id, 'resetStatus: ', !!resetStatus);
+    // log('DEBUG: getLeadPutData', closeLead.id, 'resetStatus: ', !!resetStatus);
     const putData = resetStatus ? {
       status: this.getInitialLeadStatus() // So new contacts get auto2 emails
     } : {};
@@ -626,7 +670,7 @@ class CocoContact {
 // ** Upsert Close.io methods
 
 function updateCloseLead(cocoContact, closeLead, done) {
-  // console.log('DEBUG: updateCloseLead', cocoContact.email, closeLead.id);
+  // log('DEBUG: updateCloseLead', cocoContact.email, closeLead.id);
 
   // Check for existing contact
   let contactIsNew = true;
@@ -635,7 +679,7 @@ function updateCloseLead(cocoContact, closeLead, done) {
     const emails = contact.emails || [];
     for (const email of emails) {
       if (email.email.toLowerCase() === cocoContact.email) {
-        console.log(`DEBUG: contact ${cocoContact.email} already exists on ${closeLead.id}`);
+        log(`DEBUG: contact ${cocoContact.email} already exists on ${closeLead.id}`);
         contactIsNew = false;
       }
     }
@@ -676,7 +720,7 @@ function updateCloseLead(cocoContact, closeLead, done) {
 
 function saveNewCloseLead(cocoContact, done) {
   const postData = cocoContact.getLeadPostData();
-  // console.log(`DEBUG: saveNewCloseLead ${cocoContact.email} ${postData.status}`);
+  // log(`DEBUG: saveNewCloseLead ${cocoContact.email} ${postData.status}`);
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/`,
     body: JSON.stringify(postData)
@@ -719,7 +763,7 @@ function saveNewCloseLead(cocoContact, done) {
 
 function createFindExistingLeadFn(email, existingLeads) {
   return (done) => {
-    // console.log('DEBUG: findEmailLead', email);
+    // log('DEBUG: findEmailLead', email);
     const query = `email_address:"${email}"`;
     const url = `https://${closeIoApiKey}:X@app.close.io/api/v1/lead/?query=${encodeURIComponent(query)}`;
     request.get(url, (error, response, body) => {
@@ -734,8 +778,8 @@ function createFindExistingLeadFn(email, existingLeads) {
         }
         return done();
       } catch (error) {
-        console.log(`ERROR: failed to parse email lead search for ${email}`);
-        console.log(error);
+        log(`ERROR: failed to parse email lead search for ${email}`);
+        log(error);
         return done(error);
       }
     });
@@ -750,11 +794,11 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
   // 4. New contact school name and no NCES data
   // 5. New contact district name and no NCES data
   return (done) => {
-    // console.log('DEBUG: createUpdateCloseLeadFn', cocoContact.email);
+    // log('DEBUG: createUpdateCloseLeadFn', cocoContact.email);
 
     if (existingLeads[cocoContact.email]) {
       if (existingLeads[cocoContact.email].length === 1) {
-        // console.log(`DEBUG: Using lead from email lookup: ${cocoContact.email}`);
+        // log(`DEBUG: Using lead from email lookup: ${cocoContact.email}`);
         return updateCloseLead(cocoContact, existingLeads[cocoContact.email][0], done);
       }
       console.error(`ERROR: ${existingLeads[cocoContact.email].length} email leads found for ${cocoContact.email}`);
@@ -768,7 +812,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
     if (cocoContact.trialRequest.properties.nces_id) {
       nces_school_id = cocoContact.trialRequest.properties.nces_id;
     }
-    // console.log(`DEBUG: updateCloseLead district ${nces_district_id} school ${nces_school_id}`);
+    // log(`DEBUG: updateCloseLead district ${nces_district_id} school ${nces_school_id}`);
 
     let query = `name:"${cocoContact.leadName}"`;
     if (nces_school_id) {
@@ -791,8 +835,8 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
         }
         return saveNewCloseLead(cocoContact, done);
       } catch (error) {
-        console.log(`ERROR: createUpdateCloseLeadFn ${cocoContact.email}`);
-        console.log(error);
+        log(`ERROR: createUpdateCloseLeadFn ${cocoContact.email}`);
+        log(error);
         return done();
       }
     });
@@ -800,7 +844,7 @@ function createUpdateCloseLeadFn(cocoContact, existingLeads) {
 }
 
 function addContact(cocoContact, closeLead, done) {
-  // console.log('DEBUG: addContact', closeLead.id, cocoContact.email);
+  // log('DEBUG: addContact', closeLead.id, cocoContact.email);
   const postData = cocoContact.getContactPostData(closeLead);
   const options = {
     uri: `https://${closeIoApiKey}:X@app.close.io/api/v1/contact/`,
@@ -822,7 +866,7 @@ function addContact(cocoContact, closeLead, done) {
 }
 
 function addNote(cocoContact, closeLead, currentNotes, done) {
-  // console.log('DEBUG: addNote', cocoContact.email, closeLead.id);
+  // log('DEBUG: addNote', cocoContact.email, closeLead.id);
   const newNote = cocoContact.getNotePostData(currentNotes);
   const notePostData = {
     note: newNote,
@@ -845,7 +889,7 @@ function addNote(cocoContact, closeLead, currentNotes, done) {
 }
 
 function sendMail(toEmail, closeLead, contactId, template, delayMinutes, done) {
-  // console.log('DEBUG: sendMail', toEmail, leadId, contactId, template, delayMinutes);
+  // log('DEBUG: sendMail', toEmail, leadId, contactId, template, delayMinutes);
 
   // Sales contact email precedence: previous email to contact, previous email to lead, lead custom field, lead status default
   let emailApiKey = null;
@@ -887,7 +931,7 @@ function sendMail(toEmail, closeLead, contactId, template, delayMinutes, done) {
     }
     catch (err) {
       console.error(`ERROR: parsing previous email sent GET for ${toEmail} ${closeLead.id}`);
-      console.log(err);
+      log(err);
       return done();
     }
 
@@ -966,4 +1010,8 @@ function updateCloseApiKeyMaps(done) {
     tasks.push(createGetUserFn(closeIoMailApiKey.apiKey));
   }
   async.parallelLimit(tasks, closeParallelLimit, done);
+}
+
+module.exports = {
+  findCocoContacts
 }
