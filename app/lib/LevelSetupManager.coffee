@@ -66,7 +66,7 @@ module.exports = class LevelSetupManager extends CocoClass
       return
     # TODO: Remove post-KR
     if @level.get('slug') is 'the-gauntlet-kr'
-      lightseeker = '58339f3f354095ab11af6f44'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
       @session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
         "feet":"53e237bf53457600003e3f05",
         "head":"546d38269df4a17d0d4499ff",
@@ -78,7 +78,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @onInventoryModalPlayClicked()
       return
     if @level.get('slug') is 'woodland-cleaver-kr'
-      lightseeker = '58339f3f354095ab11af6f44'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
       @session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
         "eyes": "53e238df53457600003e3f0b",
         "head": "546d38269df4a17d0d4499ff",
@@ -92,7 +92,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @onInventoryModalPlayClicked()
       return
     if @level.get('slug') is 'crossroads-kr'
-      lightseeker = '58339f3f354095ab11af6f44'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
       @session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
         "wrists": "53e2396a53457600003e3f0f",
         "eyes": "53e2167653457600003e3eb3",
