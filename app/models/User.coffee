@@ -208,23 +208,13 @@ module.exports = class User extends CocoModel
     @yearSubscriptionGroup
 
   getDungeonLevelsGroup: ->
+    # Fully dismantle this after Hour of Code week is done
     return @dungeonLevelsGroup if @dungeonLevelsGroup
-    group = me.get('testGroupNumber') % 7
-    [@dungeonLevelsGroup, @dungeonLevelsHidden] = switch group
-      when 0 then ['control', []]
-      when 1 then ['conservative', ['haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 2 then ['cell-commentary', ['kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 3 then ['kithgard-librarian', ['cell-commentary', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 4 then ['loop-da-loop', ['cell-commentary', 'kithgard-librarian', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
-      when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      else ['control', []]
-    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer() or not me.get('testGroupNumber')?
+    @dungeonLevelsGroup = 'none'
+    @dungeonLevelsHidden = ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']
+    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer()
     if skipTest
       [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
-    else
-      application.tracker.identify dungeonLevelsGroup: @dungeonLevelsGroup
-      console.log 'dungeonLevelsGroup:', @dungeonLevelsGroup
     @dungeonLevelsGroup
 
   getDungeonLevelsHidden: ->
