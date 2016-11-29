@@ -1,4 +1,4 @@
-if view.showAds() 
+if view.showAds()
   // TODO: loading this multiple times yields script error:
   // Uncaught TagError: adsbygoogle.push() error: All ins elements in the DOM with class=adsbygoogle already have ads in them.
   .ad-container
@@ -51,17 +51,18 @@ if view.showAds()
 
       #level-dialogue-view
 
-    
+
     button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
-        span(data-i18n="play_game_dev_level.back_to_coding")
-      else 
+        span(data-i18n="play_level.edit_level")
+      else
         span(data-i18n="play_level.skip")
-    
+
     #how-to-play-game-dev-panel.panel.panel-default.hide.style-flat
       .panel-heading
-        h3.panel-title(data-i18n="play_game_dev_level.how_to_play_title")
-        
+        h3.panel-title
+          span(data-i18n="play_level.directions")
+          | :
       .panel-body!= view.howToPlayText
 
     .hints-view.hide

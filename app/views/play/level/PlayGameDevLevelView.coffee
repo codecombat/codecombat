@@ -25,6 +25,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     'god:new-world-created': 'onNewWorld'
 
   events:
+    'click #edit-level-btn': 'onEditLevelButton'
     'click #play-btn': 'onClickPlayButton'
     'click #copy-url-btn': 'onClickCopyURLButton'
     'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
@@ -34,6 +35,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       loading: true
       progress: 0
       creatorString: ''
+      isOwner: false
     })
 
     @supermodel.on 'update-progress', (progress) =>
@@ -97,6 +99,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         goalNames
         shareURL
         creatorString: $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
+        isOwner: me.id is @session.get('creator')
       })
       @eventProperties = {
         category: 'Play GameDev Level'
@@ -111,6 +114,14 @@ module.exports = class PlayGameDevLevelView extends RootView
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
+
+  onEditLevelButton: ->
+    viewClass = 'views/play/level/PlayLevelView'
+    route = "/play/level/#{@level.get('slug')}"
+    Backbone.Mediator.publish 'router:navigate', {
+      route, viewClass
+      viewArgs: [{}, @levelID]
+    }
 
   onClickPlayButton: ->
     @god.createWorld(@spells, false, true)
