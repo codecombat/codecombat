@@ -405,6 +405,7 @@
     years: "years"
 
   play_level:
+    explore_codecombat: "Explore CodeCombat"
     level_complete: "Level Complete"
     completed_level: "Completed Level:"
     course: "Course:"
