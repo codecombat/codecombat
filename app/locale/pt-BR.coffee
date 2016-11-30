@@ -1352,7 +1352,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
-#  teacher:
+  teacher:
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
