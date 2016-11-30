@@ -10,8 +10,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Ubuntu 14.04 compatible with both VirtualBox and VMWare Fusion
   # see https://github.com/phusion/open-vagrant-boxes#readme
-  config.vm.box = "ubuntu-14.04-amd64"
-  config.vm.box_url = "https://oss-binaries.phusionpassenger.com/vagrant/boxes/latest/ubuntu-14.04-amd64-vbox.box"
+  config.vm.box = "phusion/ubuntu-14.04-amd64"
 
   config.vm.hostname = "coco-dev"
 
