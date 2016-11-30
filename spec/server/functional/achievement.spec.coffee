@@ -330,7 +330,7 @@ describe 'POST /db/earned_achievement', ->
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements
 
-  it 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
+  xit 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
     # load achievements on server
     @achievements = yield Achievement.loadAchievements()
     expect(@achievements.users.length).toBe(2)
