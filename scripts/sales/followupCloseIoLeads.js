@@ -9,7 +9,7 @@ Promise.promisifyAll(request);
 
 const runAsScript = (process.argv.length === 8);
 if (!runAsScript) {
-  console.log(`Incorrect number of arguments supplied (gave ${process.argv.length}, needs 12)`);
+  console.log(`Incorrect number of arguments supplied (gave ${process.argv.length}, needs 8)`);
   console.log("Usage: node <script> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3>");
 }
 

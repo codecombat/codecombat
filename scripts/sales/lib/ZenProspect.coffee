@@ -48,7 +48,6 @@ ZenProspect.Contact = class Contact extends Backbone.Model
     request.putAsync _.merge @requestOptions(), { body: attrs }
     
   save: ->
-    console.log @url()
     req = request.postAsync _.merge @requestOptions(), { body: @attributes }
     req.then (response) =>
       _.assign @attributes, response.body.contact
