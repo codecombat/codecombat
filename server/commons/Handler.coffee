@@ -519,12 +519,14 @@ module.exports = class Handler
     idOrSlug = idOrSlug+''
     if Handler.isID(idOrSlug)
       query = @modelClass.findById(idOrSlug)
-    else
+    else if @modelClass.schema.uses_coco_names
       if not idOrSlug or idOrSlug is 'undefined'
         console.error "Bad request trying to fetching the slug: #{idOrSlug} for #{@modelClass.collection?.name}"
         console.trace()
         return done null, null
       query = @modelClass.findOne {slug: idOrSlug}
+    else
+      return done(null, null)
     query.select projection if projection
     query.exec (err, document) ->
       done(err, document)
