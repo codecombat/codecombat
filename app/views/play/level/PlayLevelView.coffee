@@ -432,6 +432,9 @@ module.exports = class PlayLevelView extends RootView
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
+    @listenTo @surface, 'resize', ({ height }) ->
+      @$('#stop-real-time-playback-button').css({ top: height - 30 })
+      @$('#how-to-play-game-dev-panel').css({ height })
 
   findPlayerNames: ->
     return {} unless @level.isType('ladder', 'hero-ladder', 'course-ladder')

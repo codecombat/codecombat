@@ -330,7 +330,7 @@ describe 'POST /db/earned_achievement', ->
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements
 
-  it 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
+  xit 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
     # load achievements on server
     @achievements = yield Achievement.loadAchievements()
     expect(@achievements.users.length).toBe(2)
@@ -383,7 +383,7 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     expect(res.statusCode).toBe 403
     done()
 
-  it 'recalculates for a single achievement idempotently', utils.wrap (done) ->
+  xit 'recalculates for a single achievement idempotently', utils.wrap (done) ->
     session = new LevelSession({
       permissions: simplePermissions
       creator: @admin._id

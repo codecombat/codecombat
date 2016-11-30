@@ -72,6 +72,8 @@ module.exports = Surface = class Surface extends CocoClass
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
+    'tome:manual-cast': 'onManualCast'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -640,7 +642,18 @@ module.exports = Surface = class Surface extends CocoClass
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)
     e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
 
+  # Force sizing based on width for game-dev levels, so that the instructions panel doesn't obscure the game
+  onManualCast: ->
+    if @options.levelType is 'game-dev'
+      console.log "Force resize strategy"
+      @options.originalResizeStrategy = @options.resizeStrategy
+      @options.resizeStrategy = 'wrapper-size'
 
+  # Revert back to normal sizing when done playing a game-dev level
+  onStopRealTimePlayback: ->
+    if @options.levelType is 'game-dev'
+      console.log "Reset resize strategy"
+      @options.resizeStrategy = @options.originalResizeStrategy
 
   updatePaths: ->
     return unless @options.paths and @heroLank

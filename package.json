@@ -62,6 +62,7 @@
     "aether": "~0.5.21",
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
+    "backbone": "^1.3.3",
     "basic-auth": "^1.0.4",
     "bayesian-battle": "0.0.7",
     "bluebird": "^3.2.1",
