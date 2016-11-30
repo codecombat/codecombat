@@ -989,16 +989,16 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
 
     done()
 
-  # TODO: Fix this test, res.statusCode is occasionally 200
-#  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
-#    yield utils.initUser({name: 'someusername', email: gplusEmail})
-#    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-#    user = yield utils.becomeAnonymous()
-#    url = getURL("/db/user/#{user.id}/signup-with-gplus")
-#    json = { name: 'differentusername', email: gplusEmail, gplusID, gplusAccessToken: '...' }
-#    [res, body] = yield request.postAsync({url, json})
-#    expect(res.statusCode).toBe(409)
-#    done()
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    conflictingUser = yield utils.initUser({name: 'someusername', email: gplusEmail})
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { name: 'differentusername', email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    updatedUser = yield User.findById(user.id)
+    done()
     
 describe 'POST /db/user/:handle/destudent', ->
   beforeEach utils.wrap (done) ->
