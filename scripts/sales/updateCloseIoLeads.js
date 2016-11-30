@@ -4,7 +4,7 @@
 const runAsScript = (process.argv.length === 12);
 if (!runAsScript) {
   console.log(`Incorrect number of arguments supplied (gave ${process.argv.length}, needs 12)`);
-  log("Usage: node <script> <ZenProspect Auth Token> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io mail API key5> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
+  console.log("Usage: node <script> <ZenProspect Auth Token> <Close.io general API key> <Close.io mail API key1> <Close.io mail API key2> <Close.io mail API key3> <Close.io mail API key4> <Close.io mail API key5> <Close.io EU mail API key> <Intercom 'App ID:API key'> <mongo connection Url>");
 }
 
 // TODO: Test multiple contacts
