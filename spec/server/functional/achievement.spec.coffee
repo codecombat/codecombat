@@ -383,7 +383,7 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     expect(res.statusCode).toBe 403
     done()
 
-  it 'recalculates for a single achievement idempotently', utils.wrap (done) ->
+  xit 'recalculates for a single achievement idempotently', utils.wrap (done) ->
     session = new LevelSession({
       permissions: simplePermissions
       creator: @admin._id
