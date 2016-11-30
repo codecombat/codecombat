@@ -15,15 +15,19 @@ if view.showAds()
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
 .gameplay-container
-  a(href="/").picoctf-hide
-    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-
-  .picoctf-show
-    a(href="http://staging.picoctf.com").picoctf-logo
-      img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
-    a(href="http://codecombat.com").picoctf-powered-by
-      em.spr powered by
-      img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
+  if features.codePlay
+    img.small-nav-logo.codeplay-logo(src="/images/common/codeplay/CampaignLogo.png")
+    
+  else
+    a(href="/").picoctf-hide
+      img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+  
+    .picoctf-show
+      a(href="http://staging.picoctf.com").picoctf-logo
+        img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
+      a(href="http://codecombat.com").picoctf-powered-by
+        em.spr powered by
+        img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")

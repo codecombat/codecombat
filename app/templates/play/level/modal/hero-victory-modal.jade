@@ -155,12 +155,8 @@ block modal-footer-content
 
   if showHourOfCodeDoneButton
     .hour-of-code-done
-      a.image-link(href="http://code.org/api/hour/finish")
-        img(src="/images/level/csedweek-logo-final-small.jpg", alt="CS Ed Week Hour of Code", title="I'm finished with my Hour of Code", width=80)
-      strong(data-i18n="play_level.victory_hour_of_code_done") Are You Done?
-      a.text-link(href="http://code.org/api/hour/finish")
-        span(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I am finished with my Hour of Code!
-      .clearfix
+      .hoc-label(data-i18n="play_level.get_certificate")
+      a.btn.btn-md.btn-illustrated(href="http://code.org/api/hour/finish", data-i18n="play_level.finished_hoc")
 
   if view.level.get('slug') == 'lost-viking'
     .offer.lost-viking
