@@ -48,7 +48,7 @@ getUser = wrap (req, res) ->
     throw new errors.NotFound('User not found.')
 
   exception = req.client.id is '582a134eb9bce324006210e7' and user.get('israelId')
-  unless exception or req.client._id.equals(user.get('clientCreator'))
+  unless exception or req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user.')
 
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
@@ -68,7 +68,7 @@ postUserOAuthIdentity = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
     
-  unless req.client._id.equals(user.get('clientCreator'))
+  unless req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user to perform this action.')
     
   { provider: providerId, accessToken, code } = req.body or {}
@@ -90,7 +90,7 @@ putUserSubscription = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client._id.equals(user.get('clientCreator'))
+  unless req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user to perform this action.')
     
   # TODO: Remove 'endDate' parameter
@@ -129,7 +129,7 @@ putUserLicense = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client._id.equals(user.get('clientCreator'))
+  unless req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user to perform this action.')
 
   { ends } = req.body

@@ -549,6 +549,7 @@ UserSchema.statics.makeNew = (req) ->
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
   user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
   user.set 'country', req.country if req.country
+  user.set 'createdOnHost', req.headers.host
   user
 
 
