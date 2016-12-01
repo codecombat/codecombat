@@ -18,7 +18,7 @@ describe 'GET /auth/whoami', ->
   it 'returns 200', utils.wrap (done) ->
     yield utils.logout()
     [res, body] = yield request.getAsync(getURL('/auth/whoami'), {json: true})
-    expect(res.body.createdOnHost).toBe(true)
+    expect(res.body.createdOnHost).toBeTruthy()
     expect(res.statusCode).toBe(200)
     done()
 
