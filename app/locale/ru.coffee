@@ -284,8 +284,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     write_this_down: "Запишите это:"
     start_playing: "Начать играть!"
     sso_connected: "Успешно подключились с помощью:"
-    select_your_starting_hero: "Выберите своего стартового Hero:"
-    you_can_always_change_your_hero_later: "Вы всегда можете поменять вашего стартового Hero позже."
+    select_your_starting_hero: "Выберите своего первого героя:"
+    you_can_always_change_your_hero_later: "Вы всегда можете поменять вашего героя позже."
 
   recover:
     recover_account_title: "Восстановить учетную запись"
@@ -445,7 +445,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_experience_gained: "Опыта получено"
     victory_gems_gained: "Самоцветов получено"
     victory_new_item: "Новый предмет"
-    victory_new_hero: "Новый Hero"
+    victory_new_hero: "Новый герой"
     victory_viking_code_school: "Ого, это было тяжелый уровень! Если вы еще не разработчик программ, вам стоит им стать. Вы только что ускорири принятие в Школу Викингов, где вы сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Станьте Викингом"
     victory_no_progress_for_teachers: "Прогресс не сохраняется для учителей. Но, вы можете для себя добавить учетную запись ученика в свою классную комнату."
