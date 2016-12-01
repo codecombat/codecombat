@@ -1,6 +1,0 @@
-echo
-echo "coco-dev-server is deprecated." Instead, use:
-echo
-echo "\"npm run nodemon\" to run just node, or"
-echo "\"npm run dev\" to run brunch and node in one terminal." 
-echo
