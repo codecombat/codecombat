@@ -118,6 +118,7 @@ _.extend UserSchema.properties,
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
   lastIP: {type: 'string'}
+  createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
   nameLower: c.shortString()

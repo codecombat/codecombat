@@ -108,6 +108,15 @@ setupExpressMiddleware = (app) ->
     app.use(express.logger('dev'))
   app.use('/'+config.buildInfo.sha, express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
   app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))
+  
+  if config.proxy
+    # Don't proxy static files with sha prefixes, redirect them
+    regex = /\/[0-9a-f]{40}\/.*/
+    app.use (req, res, next) ->
+      if regex.test(req.path)
+        newPath = req.path.slice(41)
+        return res.redirect(newPath)
+      next()
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 

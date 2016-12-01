@@ -16,7 +16,9 @@ urlReset = getURL('/auth/reset')
 
 describe 'GET /auth/whoami', ->
   it 'returns 200', utils.wrap (done) ->
-    [res, body] = yield request.getAsync(getURL('/auth/whoami'))
+    yield utils.logout()
+    [res, body] = yield request.getAsync(getURL('/auth/whoami'), {json: true})
+    expect(res.body.createdOnHost).toBeTruthy()
     expect(res.statusCode).toBe(200)
     done()
 
@@ -407,6 +409,14 @@ describe 'GET /auth/login-o-auth', ->
     expect(res.headers.location).toBe('/play')
     [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
     expect(res.body._id).toBe(@user.id)
+    done()
+
+  it 'redirects to the given "redirect" GET query argument', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    @qs.redirect = '/some/arbitrary/url?test=ing'
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe(@qs.redirect)
     done()
 
   it 'logs the user in, and redirects to an arbitrary url if the provider specifies', utils.wrap (done) ->

@@ -192,7 +192,7 @@ module.exports =
     next()
     
   loginByOAuthProvider: wrap (req, res, next) ->
-    { provider: providerId, accessToken, code } = req.query
+    { provider: providerId, accessToken, code, redirect } = req.query
     identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
     
     user = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
@@ -202,8 +202,11 @@ module.exports =
     req.loginAsync = Promise.promisify(req.login)
     yield req.loginAsync user
     
-    provider = yield OAuthProvider.findById(providerId)
-    req.shouldRedirect = provider.get('redirectAfterLogin')
+    if redirect
+      req.shouldRedirect = redirect
+    else
+      provider = yield OAuthProvider.findById(providerId)
+      req.shouldRedirect = provider.get('redirectAfterLogin')
     
     next()
     
