@@ -105,14 +105,25 @@ module.exports = class SpellPaletteView extends CocoView
 
     for dn of @deferredDocs
       doc = @deferredDocs[dn]
-      continue unless doc.type is "spawnable"
-      info = @thang.buildables[doc.name]
-      tt = _.find tts, (t) -> t.get('original') is info.thangType
-      console.log "Y", {tt, info}
-      return unless tt?
-      t = new SpellPaletteThangEntryView doc: doc, thang: tt, buildable: info, buildableName: dn, shortenize: true, isSnippet: true, language: @options.language, level: @options.level, useHero: @useHero
-      @$el.find("#palette-tab-stuff-area").append t.el
-      t.render()
+      if doc.type is "spawnable"
+        thangName = doc.name
+        if @thang.spawnAliases[thangName]
+          thangName = @thang.spawnAliases[thangName][0]
+
+        info = @thang.buildables[thangName]
+        tt = _.find tts, (t) -> t.get('original') is info?.thangType
+        continue unless tt?
+        t = new SpellPaletteThangEntryView doc: doc, thang: tt, buildable: info, buildableName: doc.name, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
+        @$el.find("#palette-tab-stuff-area").append t.el
+        t.render()
+
+      if doc.type is "event"
+        t = new SpellPaletteEntryView doc: doc, thang: @thang, shortenize: true, language: @options.language, level: @options.level, useHero: @useHero
+        @$el.find("#palette-tab-events").append t.el
+        t.render()
+
+
+    @$(".section-header:has(+.collapse:empty)").hide()
 
   afterInsert: ->
     super()
@@ -327,13 +338,13 @@ module.exports = class SpellPaletteView extends CocoView
     @render()
 
   onSectionHeaderClick: (e) ->
-    
-    @$('.in').collapse('hide')
+
+    target = @$(@$(e.target).attr('data-panel'))
+    @$('.panel-collapse').each (idx) -> 
+      $(this).collapse(if @ is target[0] then 'show' else 'hide')
+
     @$('.glyphicon-chevron-down').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
     $(e.target).find('.glyphicon').addClass('glyphicon-chevron-down')
-    target = $(e.target).attr('href')
-    @$(target).collapse('show')
-    console.log "Hi Pooja", target, @$(target)
     e.preventDefault()
 
   onClickHelp: (e) ->

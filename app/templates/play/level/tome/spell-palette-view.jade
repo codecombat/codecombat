@@ -1,5 +1,5 @@
 mixin header(label, name)
-  a.section-header.btn.btn-small.btn-illustrated.btn-warning(role="button", id="#palette-header-" + _.string.slugify(label), href="#palette-tab-" + _.string.slugify(label)) #{name}
+  a.section-header.btn.btn-small.btn-illustrated.btn-warning(role="button", id="#palette-header-" + _.string.slugify(label), data-panel="#palette-tab-" + _.string.slugify(label)) #{name}
     div.glyphicon.glyphicon-chevron-right(style="float: right")
 
 div.container
@@ -13,6 +13,10 @@ div.container
           +header(tab, tab)
           div.panel-collapse.collapse(id="palette-tab-" + _.string.slugify(tab))
             div(class="properties properties-" + _.string.slugify(tab))
+
+      +header('events', 'Events')
+      div.apis.panel-collapse.collapse.in#palette-tab-events
+
       +header('stuff-area', 'Spawnable')
       div.apis.panel-collapse.collapse.in#palette-tab-stuff-area
 
