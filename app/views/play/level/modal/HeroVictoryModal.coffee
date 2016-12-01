@@ -203,7 +203,7 @@ module.exports = class HeroVictoryModal extends ModalView
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
         pixelCode = if gameDevHoc then 'code_combat_gamedev' else 'code_combat'
-        $('body').append($("<img src='http://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
+        $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
         me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish'
