@@ -25,6 +25,7 @@ errors = require './server/commons/errors'
 request = require 'request'
 Promise = require 'bluebird'
 Promise.promisifyAll(request, {multiArgs: true})
+wrap = require 'co-express'
 
 {countries} = require './app/core/utils'
 
@@ -271,35 +272,36 @@ setupJavascript404s = (app) ->
 
 
 setupFallbackRouteToIndex = (app) ->
-  app.all '*', (req, res) ->
-    fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
-      log.error "Error modifying main.html: #{err}" if err
-      # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
-      user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
+  app.all '*', wrap (req, res) ->
+    data = yield new Promise (res, rej) ->
+      fs.readFile path.join(__dirname, 'public', 'main.html'), 'utf8', (err, data) ->
+        return rej(err) if err
+        res(data)
+    # insert the user object directly into the html so the application can have it immediately. Sanitize </script>
+    user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
 
-      Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, mandate) ->
-        if err
-          log.error "Error getting mandate config: #{err}"
-          configData = {}
-        else
-          configData =  _.omit mandate?.toObject() or {}, '_id'
-        configData.picoCTF = config.picoCTF
-        configData.production = config.isProduction
-        configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
-        domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
-        domainPrefix = req.host.match(domainRegex)?[1] or ''
-        configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
-        configData.buildInfo = config.buildInfo
-        data = data.replace '"environmentTag"', if config.isProduction then '"production"' else '"development"'
-        data = data.replace /shaTag/g, config.buildInfo.sha
-        data = data.replace '"serverConfigTag"', JSON.stringify configData
-        data = data.replace('"userObjectTag"', user)
-        data = data.replace('"serverSessionTag"', JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode')))
-        data = data.replace('"featuresTag"', JSON.stringify(req.features))
-        res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
-        res.header 'Pragma', 'no-cache'
-        res.header 'Expires', 0
-        res.send 200, data
+    configData = {}
+    unless config.proxy
+      mandate = yield Mandate.findOne({}).cache(5 * 60 * 1000).exec()
+      configData =  _.omit mandate?.toObject() or {}, '_id'
+
+    configData.picoCTF = config.picoCTF
+    configData.production = config.isProduction
+    configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
+    domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
+    domainPrefix = req.host.match(domainRegex)?[1] or ''
+    configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
+    configData.buildInfo = config.buildInfo
+    data = data.replace '"environmentTag"', if config.isProduction then '"production"' else '"development"'
+    data = data.replace /shaTag/g, config.buildInfo.sha
+    data = data.replace '"serverConfigTag"', JSON.stringify configData
+    data = data.replace('"userObjectTag"', user)
+    data = data.replace('"serverSessionTag"', JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode')))
+    data = data.replace('"featuresTag"', JSON.stringify(req.features))
+    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+    res.header 'Pragma', 'no-cache'
+    res.header 'Expires', 0
+    res.send 200, data
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
@@ -340,6 +342,7 @@ setupProxyMiddleware = (app) ->
   })
   log.info 'Using dev proxy server'
   app.use (req, res, next) ->
+    return next() if /^\/?($|play)/.test(req.path)
     req.proxied = true
     proxy.web req, res, (e) ->
       console.warn("Failed to proxy: ", e)
