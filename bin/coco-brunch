@@ -1,6 +1,0 @@
-echo
-echo "coco-brunch is deprecated." Instead, use:
-echo
-echo "\"npm run brunch watch\" to run just brunch, or"
-echo "\"npm run dev\" to run brunch and node in one terminal." 
-echo
