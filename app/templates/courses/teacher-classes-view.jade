@@ -4,7 +4,7 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
-  if !me.isTeacher() && !view.classrooms.size()
+  if (!me.isTeacher() && !view.classrooms.size()) || me.isAnonymous()
     .access-restricted.container.text-center.m-y-3
       h5(data-i18n='teacher.access_restricted')
       p(data-i18n='teacher.teacher_account_required')
@@ -99,7 +99,6 @@ mixin createClassButton
   .create-class
     .text-center
       a.create-classroom-btn.btn.btn-lg.btn-primary(data-i18n='teacher.create_new_class')
-        | Create a New Class
 
 mixin progressDot(classroom, course, label)
   //- TODO: inefficient. Cache this in the view?

@@ -42,7 +42,7 @@ mixin accountLinks
                 if me.isStudent()
                   li
                     a(href="/students", data-i18n="nav.my_courses")
-                if me.isTeacher()
+                if !me.isAnonymous() && me.isTeacher()
                   li
                     a(href="/teachers/classes", data-i18n="nav.my_classrooms")
                 if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
