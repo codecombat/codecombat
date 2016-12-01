@@ -268,7 +268,7 @@ $level-resize-transition-time: 0.5s
   #stop-real-time-playback-button
     display: none
     position: absolute
-    bottom: 70px
+    // bottom: 70px // Set via javascript because of gamedev level sizing
     right: 15px
     font-size: 30px
 
@@ -326,6 +326,12 @@ $level-resize-transition-time: 0.5s
     top: 52px
     width: 20%
     bottom: 38px
+    
+  #codeplay-product-banner
+    width: calc(58.5% - 200px)
+    position: relative
+    top: -15px
+    left: -1.8%
 
 html.fullscreen-editor
   #level-view
@@ -379,4 +385,3 @@ body.ipad #level-view
   background-size: 100% 400px
   height: 400px
   z-index: -9001
-

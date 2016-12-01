@@ -171,6 +171,10 @@ module.exports =
     unless emailsMatch and idsMatch
       throw new errors.UnprocessableEntity('Invalid facebookAccessToken')
 
+    user = yield User.findByEmail(email)
+    if user
+      throw new errors.Conflict('Email already taken')
+
     req.user.set({ facebookID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
 
@@ -192,6 +196,10 @@ module.exports =
     unless emailsMatch and idsMatch
       throw new errors.UnprocessableEntity('Invalid gplusAccessToken')
 
+    user = yield User.findByEmail(email)
+    if user
+      throw new errors.Conflict('Email already taken')
+      
     req.user.set({ gplusID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
     

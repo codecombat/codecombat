@@ -405,6 +405,11 @@
     years: "years"
 
   play_level:
+    directions: "Directions"
+    edit_level: "Edit Level"
+    explore_codecombat: "Explore CodeCombat"
+    finished_hoc: "I'm finished with my Hour of Code"
+    get_certificate: "Get your certificate!"
     level_complete: "Level Complete"
     completed_level: "Completed Level:"
     course: "Course:"
@@ -432,6 +437,7 @@
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
+    test_level: "Test Level"
     victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Complete"
@@ -548,7 +554,6 @@
 
   play_game_dev_level:
     created_by: "Created by {{name}}"
-    how_to_play_title: "How to play:"
     how_to_play_1: "Use the mouse to control the hero!"
     how_to_play_2: "Click anywhere on the map to move to that location."
     how_to_play_3: "Click on the ogres to attack them."
@@ -556,7 +561,6 @@
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
     default_student_instructions: "Click to control your hero and win your game!"
-    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -1587,6 +1591,25 @@
     full_license: "Full License"
     starter_license: "Starter License"
     trial: "Trial"
+    hoc_welcome: "Happy Computer Science Education Week"
+    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
+    hoc_self_led: "Self-Led Gameplay"
+    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+    hoc_game_dev: "Game Development"
+    hoc_and: "and"
+    hoc_programming: "JavaScript/Python Programming"
+    hoc_teacher_led: "Teacher-Led Lessons"
+    hoc_teacher_led_desc1: "Download our"
+    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
+    hoc_group: "Group Gameplay"
+    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
+    hoc_group_link: "Getting Started Guide"
+    hoc_group_desc_2: "for more details"
+    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
+    hoc_additional_desc2: "Questions"
+    hoc_additional_contact: "Get in touch"
+
 
   sharing:
     game: "Game"

@@ -209,6 +209,7 @@ module.exports = class HeroVictoryModal extends ModalView
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
+      @showHoc2016ExploreButton = gameDevHoc and lastLevel
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
 
@@ -425,7 +426,7 @@ module.exports = class HeroVictoryModal extends ModalView
       'summits-gate': 'glacier'
     }[@level.get('slug')] ? @level.get 'campaign'
     # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
-    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'hoc2016']) and storage.load('should-return-to-game-dev-hoc')
+    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'game-grove']) and storage.load('should-return-to-game-dev-hoc')
     campaign
 
   getNextLevelLink: (returnToCourse=false) ->
@@ -448,7 +449,12 @@ module.exports = class HeroVictoryModal extends ModalView
       justBeatLevel: @level
       supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel
     _.merge options, extraOptions if extraOptions
-    if @level.isType('course') and @nextLevel and not options.returnToCourse
+    if @showHoc2016ExploreButton
+      # Send players to /play after completing final game-dev activity project level
+      nextLevelLink = '/play'
+      viewClass = require 'views/play/CampaignView'
+      viewArgs = [options]
+    else if @level.isType('course') and @nextLevel and not options.returnToCourse
       viewClass = require 'views/play/level/PlayLevelView'
       options.courseID = @courseID
       options.courseInstanceID = @courseInstanceID

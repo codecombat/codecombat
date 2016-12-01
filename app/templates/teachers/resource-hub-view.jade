@@ -7,77 +7,124 @@ block content
   .container
 
     .content
-        h1(data-i18n="teacher.resource_hub")
+      if me.attributes.hourOfCode && me.isAnonymous()
+        #hour-of-code
+          h3
+            span(data-i18n="teacher.hoc_welcome")
+            | !
+          p
+            span(data-i18n="teacher.hoc_intro")
+            | :
+          ol.small
+            li
+              strong.spr(data-i18n="teacher.hoc_self_led") 
+              | - 
+              span.spl.spr(data-i18n="teacher.hoc_self_led_desc") 
+              | - 
+              a(href="/play/game-dev-hoc?hour_of_code=true")
+                span(data-i18n="teacher.hoc_game_dev")
+              span.spl.spr(data-i18n="teacher.hoc_and")
+              a(href="/play?hour_of_code=true") 
+                span(data-i18n="teacher.hoc_programming")
+              | .
+            li
+              strong.spr(data-i18n="teacher.hoc_teacher_led")
+              | - 
+              span.spr(data-i18n="teacher.hoc_teacher_led_desc1")
+              a(href="/teachers/resources/cs1")
+                span(data-i18n="teacher.hoc_teacher_led_link")
+              span.spl(data-i18n="teacher.hoc_teacher_led_desc2")
+              | .
+            li
+              strong.spr(data-i18n="teacher.hoc_group")
+              | - 
+              span.spr(data-i18n="teacher.hoc_group_desc_1") 
+              a(href="/teachers/resources/getting-started")
+                span(data-i18n="teacher.hoc_group_link")
+              span.spl(data-i18n="teacher.hoc_group_desc_2")
+              | .
+          p.small
+            span.spr(data-i18n="teacher.hoc_additional_desc1")
+            a(href="/teachers/resources/")
+              span(data-i18n="teacher.resource_hub")
+            span . 
+            span(data-i18n="teacher.hoc_additional_desc2")
+            span.spr ?
+            a(href="mailto:schools@codecombat.com")
+              span(data-i18n="teacher.hoc_additional_contact")
+            | .  
 
-        h4(data-i18n="teacher.getting_started")
-        ul
-          li
-            a(href="/teachers/resources/faq")
-              span(data-i18n="teacher.educator_faq")
-            p(data-i18n="teacher.educator_faq_desc")
-          li
-            a(href="/teachers/resources/getting-started")
-              span(data-i18n="teacher.teacher_getting_started")
-            p(data-i18n="teacher.teacher_getting_started_desc")
-          li
-            a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf" target="blank")
-              span(data-i18n="teacher.student_getting_started")
-              span.spl [PDF]
-            p(data-i18n="teacher.student_getting_started_desc")
-          li
-            a(href="http://files.codecombat.com/docs/resources/ProgressJournal.pdf" target="blank")
-              span(data-i18n="teacher.progress_journal")
-              span.spl [PDF]
-            p(data-i18n="teacher.progress_journal_desc")
+      h1(data-i18n="teacher.resource_hub")
 
-        h4(data-i18n="teacher.cs1")
-        ul
-          li
-            a(href="/teachers/resources/cs1" target="blank")
-              span(data-i18n="teacher.cs1_curriculum")
-            p(data-i18n="teacher.cs1_curriculum_desc")
-          li
-            a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf" target="blank")
-              span(data-i18n="teacher.cs1_syntax_python")
-              span.spl [PDF]
-            p(data-i18n="teacher.cs1_syntax_python_desc")
-          li
-            a(href="http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf" target="blank")
-              span(data-i18n="teacher.cs1_syntax_javascript")
-              span.spl [PDF]
-            p(data-i18n="teacher.cs1_syntax_javascript_desc")
-          li
-            a(href="http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf" target="blank")
-              span(data-i18n="teacher.engineering_cycle_worksheet")
-              span.spl [PDF]
-            a(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf" target="blank")
-              i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
-            p(data-i18n="teacher.engineering_cycle_worksheet_desc")
-          li
-            a(href="/teachers/resources/pair-programming")
-              span(data-i18n="teacher.cs1_pairprogramming")
-            p(data-i18n="teacher.cs1_pairprogramming_desc")
+      h4(data-i18n="teacher.getting_started")
+      ul
+        li
+          a(href="/teachers/resources/faq")
+            span(data-i18n="teacher.educator_faq")
+          p(data-i18n="teacher.educator_faq_desc")
+        li
+          a(href="/teachers/resources/getting-started")
+            span(data-i18n="teacher.teacher_getting_started")
+          p(data-i18n="teacher.teacher_getting_started_desc")
+        li
+          a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf" target="blank")
+            span(data-i18n="teacher.student_getting_started")
+            span.spl [PDF]
+          p(data-i18n="teacher.student_getting_started_desc")
+        li
+          a(href="http://files.codecombat.com/docs/resources/ProgressJournal.pdf" target="blank")
+            span(data-i18n="teacher.progress_journal")
+            span.spl [PDF]
+          p(data-i18n="teacher.progress_journal_desc")
 
-        h4(data-i18n="teacher.cs2")
-        ul
-          li
-            a(href="/teachers/resources/cs2" target="blank")
-              span(data-i18n="teacher.cs2_curriculum")
-            p(data-i18n="teacher.cs2_curriculum_desc")
+      h4(data-i18n="teacher.cs1")
+      ul
+        li
+          a(href="/teachers/resources/cs1" target="blank")
+            span(data-i18n="teacher.cs1_curriculum")
+          p(data-i18n="teacher.cs1_curriculum_desc")
+        li
+          a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf" target="blank")
+            span(data-i18n="teacher.cs1_syntax_python")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_python_desc")
+        li
+          a(href="http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf" target="blank")
+            span(data-i18n="teacher.cs1_syntax_javascript")
+            span.spl [PDF]
+          p(data-i18n="teacher.cs1_syntax_javascript_desc")
+        li
+          a(href="http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf" target="blank")
+            span(data-i18n="teacher.engineering_cycle_worksheet")
+            span.spl [PDF]
+          a(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf" target="blank")
+            i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
+          p(data-i18n="teacher.engineering_cycle_worksheet_desc")
+        li
+          a(href="/teachers/resources/pair-programming")
+            span(data-i18n="teacher.cs1_pairprogramming")
+          p(data-i18n="teacher.cs1_pairprogramming_desc")
 
-        h4(data-i18n="teacher.cs3")
-        ul
-          li
-            a(href="/teachers/resources/cs3" target="blank")
-              span(data-i18n="teacher.cs3_curriculum")
-            p(data-i18n="teacher.cs3_curriculum_desc")
-            
-        h4(data-i18n="teacher.cs4")
-        ul
-          li
-            a(href="/teachers/resources/cs4" target="blank")
-              span(data-i18n="teacher.cs4_curriculum")
-            p(data-i18n="teacher.cs4_curriculum_desc")
-        
-        h4.coming-soon
-          i(data-i18n="teacher.coming_soon")
+      h4(data-i18n="teacher.cs2")
+      ul
+        li
+          a(href="/teachers/resources/cs2" target="blank")
+            span(data-i18n="teacher.cs2_curriculum")
+          p(data-i18n="teacher.cs2_curriculum_desc")
+
+      h4(data-i18n="teacher.cs3")
+      ul
+        li
+          a(href="/teachers/resources/cs3" target="blank")
+            span(data-i18n="teacher.cs3_curriculum")
+          p(data-i18n="teacher.cs3_curriculum_desc")
+          
+      h4(data-i18n="teacher.cs4")
+      ul
+        li
+          a(href="/teachers/resources/cs4" target="blank")
+            span(data-i18n="teacher.cs4_curriculum")
+          p(data-i18n="teacher.cs4_curriculum_desc")
+      
+      h4.coming-soon
+        i(data-i18n="teacher.coming_soon")
