@@ -60,11 +60,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     boast: "Komplexita úloh je dostatočná na fascináciu hráčov aj programátorov."
     winning: "Strhujúca kombinácia RPG a programovania pre výuku detí."
     run_class: "Všetko, čo potrebuješ, aby si mohol viesť výuku programovania na tvojej škole bez predchádzajúcich skúseností v tejto oblasti."
-#    goto_classes: "Go to My Classes"
-#    view_profile: "View My Profile"
-#    view_progress: "View Progress"
-#    go_to_courses: "Go to My Courses"
-#    want_coco: "Want CodeCombat at your school?"
+    goto_classes: "Choď ku mojím triedam"
+    view_profile: "Ukáž môj profil"
+    view_progress: "Ukáž postup"
+    go_to_courses: "Cho ku mojím kurzom"
+    want_coco: "Chceš CodeCombat na svojej škole?"
 
   nav:
     play: "Hraj" # The top nav bar entry where players choose which levels to play
@@ -78,12 +78,12 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     home: "Domov"
     contribute: "Prispej"
     legal: "Pre právnikov"
-#    privacy: "Privacy"
+    privacy: "Súkromie"
     about: "O projekte"
     contact: "Kontakt"
     twitter_follow: "Sleduj na twitteri"
-#    my_classrooms: "My Classes" # {change}
-#    my_courses: "My Courses"
+    my_classrooms: "Moje triedy" # {change}
+    my_courses: "Moje kurzy"
     careers: "Práca"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -99,7 +99,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     faqs: "FAQs"
     help_pref: "Potrebuješ pomoc? Email"
     help_suff: "a ozveme sa."
-#    resource_hub: "Resource Hub"
+    resource_hub: "Zdroje"
 
   modal:
     close: "Zatvor"
@@ -219,7 +219,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     finishing: "Finišujem"
     sign_in_with_facebook: "Prihlás sa s Facebookom"
     sign_in_with_gplus: "Prihlás sa s G+"
-    signup_switch: "Chceš vytvoriť účet?"
+    signup_switch: "Chceš si vytvoriť účet?"
 
   signup:
     create_student_header: "Vytvor si študentský účet"
@@ -234,7 +234,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     school_name: "Meno školy a jej sídlo"
     optional: "voliteľné"
     school_name_placeholder: "ZŠ Sv. Gorazda, Žilina"
-#    connect_with: "Connect with:"
+    connect_with: "Pripojený cez:"
     connected_gplus_header: "Úspešne pripojený cez Google+!"
     connected_gplus_p: "Ukonči registráciu cez účet Google+!"
     gplus_exists: "Už si sa registroval cez Google+!"
@@ -448,7 +448,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     victory_new_hero: "Nový hrdina"
     victory_viking_code_school: "No teda, podarilo sa ti prejsť veľmi ťažkú úroveň! Ak nie si vývojar softvéru, tak je najvyšší čas. Si prijatý do  Vikingskej školy programovania,kde môžeš ďalej rozvinúť svoje programovacie schopnosti a stať sa profesionálnym webovým vývojarom za 14 týždňov."
     victory_become_a_viking: "Staň sa vikingom!"
-#    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
+    victory_no_progress_for_teachers: "Pre učiteľov sa postup neukladá. Môžeš si však do svojej triedy pridať študentský účet na svoje meno."
     guide_title: "Návod"
     tome_cast_button_run: "Spustiť"
     tome_cast_button_running: "Prebieha"
@@ -543,17 +543,17 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_programming_not_about_computers: "Veda o počítačoch je o počítačoch v tej miere ako je astronómia o teleskopoch. - Edsger Dijkstra"
     tip_mulan: "Ver, že môžeš a potom budeš aj chcieť. - Mulan"
 
-#  play_game_dev_level:
-#    created_by: "Created by {{name}}"
-#    how_to_play_title: "How to play:"
-#    how_to_play_1: "Use the mouse to control the hero!"
-#    how_to_play_2: "Click anywhere on the map to move to that location."
-#    how_to_play_3: "Click on the ogres to attack them."
-#    restart: "Restart Level"
-#    play: "Play Level"
-#    play_more_codecombat: "Play More CodeCombat"
-#    default_student_instructions: "Click to control your hero and win your game!"
-#    back_to_coding: "Back to Coding"
+  play_game_dev_level:
+    created_by: "Vytvoril{{name}}"
+    how_to_play_title: "Ako hrať:"
+    how_to_play_1: "Použi myš na ovládanie svojho hrdinu!"
+    how_to_play_2: "Klikni na miesto na mape a tvoj hrdina sa tam vydá."
+    how_to_play_3: "Zaútoč na ogra tak, že na neho klikneš."
+    restart: "Začni znovu"
+    play: "Hraj level"
+    play_more_codecombat: "Hraj ďalej CodeCombat"
+    default_student_instructions: "Klikni, aby si ovládal svojho hrdinu a vyhraj!"
+    back_to_coding: "Späť ku kódovaniu"
 
   game_menu:
     inventory_tab: "Inventár"
@@ -937,11 +937,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     picture_tab: "Obrázok"
     delete_account_tab: "Zruš svoj účet"
     wrong_email: "Nesprávny email"
-#    wrong_password: "Wrong Password"
+    wrong_password: "Chybné heslo"
     upload_picture: "Nahraj obrázok"
     delete_this_account: "Vymaž natrvalo tento účet"
-#    reset_progress_tab: "Reset All Progress"
-#    reset_your_progress: "Clear all your progress and start over"
+    reset_progress_tab: "Vymaž všetok postup"
+    reset_your_progress: "Vymaž všetok postup a začni znovu"
     god_mode: "Božský mód"
     emails_tab: "E-maily"
     admin: "Spravovať"
@@ -1545,8 +1545,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    victory_course_share_suffix: "you just created."
 #    copy_url: "Copy URL"
 
-#  game_dev:
-#    creator: "Creator"
+  game_dev:
+    creator: "Tvorca"
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
@@ -1983,16 +1983,16 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    event_data: "Event Data"
 #    event_handlers: "Event Handlers"
     for_loops: "Cyklus for"
-#    for_loops_nested: "Nested For Loops"
+    for_loops_nested: "Vnorené cykly For"
 #    for_loops_range: "For Loops Range"
     functions: "Funkcie"
 #    game_ai: "Game AI"
-#    game_goals: "Game Goals"
-#    game_spawn: "Game Spawn"
+    game_goals: "Cieľ hry"
+    game_spawn: "Vytvorenie"
     graphics: "Grafika"
 #    graphs: "Graphs"
 #    heaps: "Heaps"
-#    if_else_statements: "If/Else Statements"
+    if_else_statements: "príkaz If/Else"
     if_statements: "If"
 #    if_statements_nested: "Nested If Statemnts"
 #    indexing: "Array Indexes"
