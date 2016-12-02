@@ -54,6 +54,7 @@ module.exports = class CampaignView extends RootView
     'click #clear-storage-button': 'onClickClearStorage'
     'click .portal .campaign': 'onClickPortalCampaign'
     'click .portal .beta-campaign': 'onClickPortalCampaign'
+    'click a .campaign-switch': 'onClickCampaignSwitch'
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
@@ -274,12 +275,29 @@ module.exports = class CampaignView extends RootView
 
   afterInsert: ->
     super()
-    return unless @getQueryVariable 'signup'
-    return if me.get('email')
+    if @getQueryVariable('signup') and not me.get('email')
+      return @promptForSignup()
+    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.freeOnly))
+      if not me.get('email')
+        return @promptForSignup()
+      campaignSlug = window.location.pathname.split('/')[2]
+      return @promptForSubscription campaignSlug, 'premium campaign visited'
+
+  promptForSignup: ->
     @endHighlight()
     authModal = new CreateAccountModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
+
+  promptForSubscription: (slug, label) ->
+    @endHighlight()
+    @openModalView new SubscribeModal()
+    # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: label, level: slug, levelID: slug
+
+  isPremiumCampaign: (slug) ->
+    slug ||= window.location.pathname.split('/')[2]
+    /campaign-(game|web)-dev-\d/.test slug
 
   showAds: ->
     return false # No ads for now.
@@ -573,9 +591,7 @@ module.exports = class CampaignView extends RootView
     requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
     canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
-      @openModalView new SubscribeModal()
-      # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug, levelID: levelSlug
+      @promptForSubscription levelSlug, 'map level clicked'
     else
       @startLevel levelElement
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
@@ -737,10 +753,20 @@ module.exports = class CampaignView extends RootView
     campaign = $(e.target).closest('.campaign, .beta-campaign')
     return if campaign.is('.locked') or campaign.is('.silhouette')
     campaignSlug = campaign.data('campaign-slug')
+    if @isPremiumCampaign(campaignSlug) and not me.isPremium()
+      return @promptForSubscription campaignSlug, 'premium campaign clicked'
     Backbone.Mediator.publish 'router:navigate',
       route: "/play/#{campaignSlug}"
       viewClass: CampaignView
       viewArgs: [{supermodel: @supermodel}, campaignSlug]
+
+  onClickCampaignSwitch: (e) ->
+    campaignSlug = $(e.target).data('campaign-slug')
+    console.log campaignSlug, @isPremiumCampaign campaignSlug
+    if @isPremiumCampaign(campaignSlug) and not me.isPremium()
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      return @promptForSubscription campaignSlug, 'premium campaign switch clicked'
 
   loadUserPollsRecord: ->
     url = "/db/user.polls.record/-/user/#{me.id}"
