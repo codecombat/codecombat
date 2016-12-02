@@ -339,10 +339,18 @@ module.exports = class CampaignView extends RootView
           level.unlockedInSameCampaign ||= reward.level is level.original
       level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
 
-  countLevels: (levels) ->
+  countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
-    for level, levelIndex in levels
-      @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
+
+    if @campaign?.get('slug') is 'game-dev-hoc'
+      # HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
+      orderedLevels = _.sortBy orderedLevels, (level) -> level.position.x
+      count.completed++ for level in orderedLevels when @levelStatusMap[level.slug] is 'complete'
+      count.total = orderedLevels.length
+      return count
+
+    for level, levelIndex in orderedLevels
+      @annotateLevels(orderedLevels) unless level.locked?  # Annotate if we haven't already.
       continue if level.disabled
       completed = @levelStatusMap[level.slug] is 'complete'
       started = @levelStatusMap[level.slug] is 'started'
