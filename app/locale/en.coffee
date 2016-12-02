@@ -618,18 +618,24 @@
     price: "x{{gems}} / mo"
 
   subscribe:
-    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "__levelsCount__+ basic levels across __worldsCount__ worlds"
-    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "__bonusLevelsCount__+ bonus levels"
-    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
+    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Sharpen your skills with a <strong>CodeCombat Premium</strong> subscription!" # {change}
+    premium_pricing_prefix: "Get Premium for just"
+    premium_pricing_suffix: "and become a master coder."
+    premium: "Premium"  # Make sure the following feature translations don't go onto two lines
+    feature1: "__levelsCount__+ basic levels to learn Python, JavaScript, Lua, or CoffeeScript" # {change}
+    feature2: "Unlock <strong>__heroesCount__ powerful new heroes</strong>, including wizards and rangers" # {change}
+    feature3: "<strong>__bonusLevelsCount__+ premium levels</strong> to play, with new levels every month" # {change}
+    feature4: "<strong>{{gems}} bonus gems</strong> per month to upgrade your hero's items and pets" # {change}
     feature6: "Premium email support"
     feature7: "Private <strong>Clans</strong>"
     feature8: "<strong>No ads!</strong>"
+    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
+    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Free"
     month: "month"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
-    subscribe_title: "Subscribe"
+    subscribe_title: "Subscribe"  # Actually used in subscribe buttons, too
     unsubscribe: "Unsubscribe"
     confirm_unsubscribe: "Confirm Unsubscribe"
     never_mind: "Never Mind, I Still Love You"
