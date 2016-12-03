@@ -16,6 +16,6 @@ module.exports = class MarkdownResourceView extends RootView
             '<a class="pull-right btn btn-md btn-navy back-to-top" href="#logo-img">Back to top</a></h5'
 
       if @name is 'cs1'
-        $('body').append($("<img src='http://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
+        $('body').append($("<img src='https://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
 
       @render()

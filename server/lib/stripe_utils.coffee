@@ -1,8 +1,11 @@
 log = require 'winston'
 Payment = require '../models/Payment'
 Promise = require 'bluebird'
+config = require '../../server_config'
 
 module.exports =
+  api: require('stripe')(config.stripe.secretKey)
+  
   logError: (user, msg) ->
     log.error "Stripe Utils Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 

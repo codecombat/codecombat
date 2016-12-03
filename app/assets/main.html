@@ -31,18 +31,8 @@
   <link href='//fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
 
   <script>
-      // Remove dexecure for now
-      try {
-          navigator.serviceWorker.getRegistrations().then(function(registrations) {
-              registrations.forEach(function(registration) {
-                  console.log('removing registration', registration)
-                  registration.unregister()
-              })
-          })
-      }
-      catch (e) {
-          console.log('failed to unregister all service workers', e)
-      }
+    var DEXECURE_URL = "/dexecure-c167a5675c.js";
+    "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
 
     // IMPORTANT: If you edit here, make sure app/assets/javascripts/run-tests.js puts in placeholders for
     // running client tests on Travis.
@@ -120,7 +110,9 @@ var _rollbarConfig = {
         var htmlElement = document.querySelector("html");
         if (htmlElement) {
           if ($.browser.msie && $.browser.versionNumber < 11) {
-            alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+            if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
+              alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+            }
           }
         }
 

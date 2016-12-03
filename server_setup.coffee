@@ -108,6 +108,15 @@ setupExpressMiddleware = (app) ->
     app.use(express.logger('dev'))
   app.use('/'+config.buildInfo.sha, express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
   app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))
+  
+  if config.proxy
+    # Don't proxy static files with sha prefixes, redirect them
+    regex = /\/[0-9a-f]{40}\/.*/
+    app.use (req, res, next) ->
+      if regex.test(req.path)
+        newPath = req.path.slice(41)
+        return res.redirect(newPath)
+      next()
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
@@ -174,8 +183,9 @@ setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly = (app) ->
     return true if b is 'IE' and v < 11
     false
 
-  app.use('/play/', useragent.express())
+  app.use '/play/', useragent.express()
   app.use '/play/', (req, res, next) ->
+    return next() if req.path?.indexOf('web-dev-level') >= 0
     return next() if req.query['try-old-browser-anyway'] or not isOldBrowser req
     res.sendfile(path.join(__dirname, 'public', 'index_old_browser.html'))
 
@@ -320,11 +330,6 @@ exports.setupLogging = ->
 exports.connectToDatabase = ->
   return if config.proxy
   database.connect()
-
-exports.setupMailchimp = ->
-  mcapi = require 'mailchimp-api'
-  mc = new mcapi.Mailchimp(config.mail.mailchimpAPIKey)
-  GLOBAL.mc = mc
 
 exports.setExpressConfigurationOptions = (app) ->
   app.set('port', config.port)

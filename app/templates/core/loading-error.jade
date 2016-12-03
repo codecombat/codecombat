@@ -59,8 +59,9 @@
           a(href="/", data-i18n="nav.home")
         li
           a(href=view.forumLink(), data-i18n="nav.forum")
-        li
-          a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+        if !me.isStudent()
+          li
+            a.contact-modal(tabindex=-1, data-i18n="nav.contact")
         li
           a(href='/community', data-i18n="nav.community")
       

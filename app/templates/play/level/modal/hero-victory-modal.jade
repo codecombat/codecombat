@@ -139,7 +139,9 @@ block modal-footer-content
   button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
 
   .next-level-buttons
-    if readyToRank
+    if view.showHoc2016ExploreButton
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
+    else if readyToRank
       .ladder-submission-view
     else if level.isType('hero-ladder')
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
@@ -153,12 +155,8 @@ block modal-footer-content
 
   if showHourOfCodeDoneButton
     .hour-of-code-done
-      a.image-link(href="http://code.org/api/hour/finish")
-        img(src="/images/level/csedweek-logo-final-small.jpg", alt="CS Ed Week Hour of Code", title="I'm finished with my Hour of Code", width=80)
-      strong(data-i18n="play_level.victory_hour_of_code_done") Are You Done?
-      a.text-link(href="http://code.org/api/hour/finish")
-        span(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I am finished with my Hour of Code!
-      .clearfix
+      .hoc-label(data-i18n="play_level.get_certificate")
+      a.btn.btn-md.btn-illustrated(href="https://code.org/api/hour/finish", data-i18n="play_level.finished_hoc")
 
   if view.level.get('slug') == 'lost-viking'
     .offer.lost-viking

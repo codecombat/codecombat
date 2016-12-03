@@ -12,7 +12,7 @@ div.container
           each slug, group in view.entryGroupSlugs
             div(id="palette-tab-" + slug, class="tab-pane nano" + (group == "this" || slug == view.defaultGroupSlug ? " active" : ""))
               div(class="properties properties-" + slug + " nano-content")
-      
+
       else if view.tabs
         // Hero; group by items, but also include tabs
         ul(class="nav nav-pills multiple-tabs")
@@ -29,13 +29,18 @@ div.container
           each entries, tab in tabs
             div(id="palette-tab-" + _.string.slugify(tab), class="tab-pane")
               div(class="properties properties-" + _.string.slugify(tab))
-      
+
       else
         // Hero; group by items, no tabs.
         .properties.properties-this
   div.right
     .closeBtn.btn.btn-illustrated.btn-danger
       span.glyphicon.glyphicon-remove
-    .scrollArea
-      .scrollableArea
-        .rightContentTarget.content
+    if isIE
+      .scrollArea.always-scroll-y
+        .scrollableArea
+          .rightContentTarget.content
+    else
+      .scrollArea
+        .scrollableArea
+          .rightContentTarget.content

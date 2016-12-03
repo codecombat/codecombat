@@ -3,7 +3,7 @@
 module.exports = class SpriteBuilder
   constructor: (@thangType, @options) ->
     @options ?= {}
-    raw = @thangType.get('raw')
+    raw = @thangType.get('raw') or {}
     @shapeStore = raw.shapes
     @containerStore = raw.containers
     @animationStore = raw.animations

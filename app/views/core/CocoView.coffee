@@ -186,6 +186,9 @@ module.exports = class CocoView extends Backbone.View
     noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
 
   onClickContactModal: (e) ->
+    if me.isStudent()
+      console.error("Student clicked contact modal.")
+      return
     if me.isTeacher()
       if application.isProduction()
         window.Intercom?('show')
@@ -233,6 +236,14 @@ module.exports = class CocoView extends Backbone.View
       return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
       return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     modalView.render()
+    
+    # Redirect to the woo when trying to log in or signup
+    if features.codePlay
+      if modalView.id is 'create-account-modal'
+        return document.location.href = '//gs-dev.thewoo.com/register/?cocoId='+me.id
+      if modalView.id is 'auth-modal'
+        return document.location.href = '//gs-dev.thewoo.com/login/?cocoId='+me.id
+        
     $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView

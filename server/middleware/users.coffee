@@ -77,18 +77,10 @@ module.exports =
       throw new errors.UnprocessableEntity('User not found')
     unless req.params.verificationCode is user.verificationCode(timestamp)
       throw new errors.UnprocessableEntity('Verification code does not match')
-    yield User.update({ _id: user.id }, { emailVerified: true })
+    yield user.update({ emailVerified: true })
+    user.set({ emailVerified: true })
+    yield user.updateMailChimp()
     res.status(200).send({ role: user.get('role') })
-
-  resetEmailVerifiedFlag: wrap (req, res, next) ->
-    newEmail = req.body.email
-    _id = mongoose.Types.ObjectId(req.body._id)
-    if newEmail
-      user = yield User.findOne({ _id })
-      oldEmail = user.get('email')
-      if newEmail isnt oldEmail
-        yield User.update({ _id }, { $set: { emailVerified: false } })
-    next()
 
   sendVerificationEmail: wrap (req, res, next) ->
     user = yield User.findById(req.params.userID)
@@ -179,6 +171,10 @@ module.exports =
     unless emailsMatch and idsMatch
       throw new errors.UnprocessableEntity('Invalid facebookAccessToken')
 
+    user = yield User.findByEmail(email)
+    if user
+      throw new errors.Conflict('Email already taken')
+
     req.user.set({ facebookID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
 
@@ -200,6 +196,10 @@ module.exports =
     unless emailsMatch and idsMatch
       throw new errors.UnprocessableEntity('Invalid gplusAccessToken')
 
+    user = yield User.findByEmail(email)
+    if user
+      throw new errors.Conflict('Email already taken')
+      
     req.user.set({ gplusID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
     

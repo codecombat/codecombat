@@ -2,6 +2,7 @@ RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
+utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
@@ -143,6 +144,10 @@ module.exports = class TeacherClassView extends RootView
         classCode: classCode
         joinURL: document.location.origin + "/students?_cc=" + classCode
       }
+      @sortedCourses = @classroom.getSortedCourses()
+      @availableCourseMap = {}
+      @availableCourseMap[course._id] = true for course in @sortedCourses
+      @debouncedRender()
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
@@ -171,7 +176,9 @@ module.exports = class TeacherClassView extends RootView
     null
 
   onLoaded: ->
-    @sortedCourses = @classroom.getSortedCourses()
+    # Get latest courses for student assignment dropdowns
+    @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
+    @latestReleasedCourses = utils.sortCourses(@latestReleasedCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -332,19 +339,21 @@ module.exports = class TeacherClassView extends RootView
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
     window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     courseLabels = ""
-    courseOrder = []
-    courses = (@courses.get(c._id) for c in @classroom.get('courses'))
-    courseLabelsArray = helper.courseLabelsArray courses
+    courses = (@courses.get(c._id) for c in @sortedCourses)
+    courseLabelsArray = helper.courseLabelsArray(courses)
     for course, index in courses
-      courseLabels += "#{courseLabelsArray[index]} Playtime,"
-      courseOrder.push(course.id)
-    csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
-    levelCourseMap = {}
+      courseLabels += "#{courseLabelsArray[index]} Levels,#{courseLabelsArray[index]} Playtime,"
+    csvContent = "data:text/csv;charset=utf-8,Name,Username,Email,Total Levels, Total Playtime,#{courseLabels}Concepts\n"
+    levelCourseIdMap = {}
+    levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
     for trimCourse in @classroom.get('courses')
       for trimLevel in trimCourse.levels
         continue if language and trimLevel.primerLanguage is language
-        levelCourseMap[trimLevel.original] = @courses.get(trimCourse._id)
+        if trimLevel.practice
+          levelPracticeMap[trimLevel.original] = true
+          continue
+        levelCourseIdMap[trimLevel.original] = trimCourse._id
     for student in @students.models
       concepts = []
       for trimCourse in @classroom.get('courses')
@@ -357,32 +366,37 @@ module.exports = class TeacherClassView extends RootView
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
       conceptsString = _.map(concepts, (c) -> $.i18n.t("concepts." + c)).join(', ')
-      coursePlaytimeMap = {}
+      courseCountsMap = {}
+      levels = 0
       playtime = 0
-      for session in @classroom.sessions.models when session.get('creator') is student.id
+      for session in @classroom.sessions.models
+        continue unless session.get('creator') is student.id
+        continue unless session.get('state')?.complete
+        continue if levelPracticeMap[session.get('level')?.original]
+        levels++
         playtime += session.get('playtime') or 0
-        if courseID = levelCourseMap[session.get('level')?.original]?.id
-          coursePlaytimeMap[courseID] ?= 0
-          coursePlaytimeMap[courseID] += session.get('playtime') or 0
+        if courseID = levelCourseIdMap[session.get('level')?.original]
+          courseCountsMap[courseID] ?= {levels: 0, playtime: 0}
+          courseCountsMap[courseID].levels++
+          courseCountsMap[courseID].playtime += session.get('playtime') or 0
       playtimeString = if playtime is 0 then "0" else moment.duration(playtime, 'seconds').humanize()
-      for course in courses
-        coursePlaytimeMap[course.id] ?= 0
-      coursePlaytimes = []
-      for courseID, playtime of coursePlaytimeMap
-        coursePlaytimes.push
-          courseID: courseID
-          playtime: playtime
-      coursePlaytimes.sort (a, b) ->
-        return -1 if courseOrder.indexOf(a.courseID) < courseOrder.indexOf(b.courseID)
-        return 0 if courseOrder.indexOf(a.courseID) is courseOrder.indexOf(b.courseID)
-        return 1
-      coursePlaytimesString = ""
-      for coursePlaytime, index in coursePlaytimes
-        if coursePlaytime.playtime is 0
-          coursePlaytimesString += "0,"
+      for course in @sortedCourses
+        courseCountsMap[course._id] ?= {levels: 0, playtime: 0}
+      courseCounts = []
+      for courseID, data of courseCountsMap
+        courseCounts.push
+          id: courseID
+          levels: data.levels
+          playtime: data.playtime
+      utils.sortCourses(courseCounts)
+      courseCountsString = ""
+      for counts, index in courseCounts
+        courseCountsString += "#{counts.levels},"
+        if counts.playtime is 0
+          courseCountsString += "0,"
         else
-          coursePlaytimesString += "#{moment.duration(coursePlaytime.playtime, 'seconds').humanize()},"
-      csvContent += "#{student.get('name')},#{student.get('email') or ''},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
+          courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},"
+      csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     encodedUri = encodeURI(csvContent)
     window.open(encodedUri)
@@ -411,7 +425,7 @@ module.exports = class TeacherClassView extends RootView
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
-    
+
     return Promise.resolve()
     # Find or make the necessary course instances
     .then =>
@@ -426,7 +440,7 @@ module.exports = class TeacherClassView extends RootView
         courseInstance.notyErrors = false # handling manually
         @courseInstances.add(courseInstance)
         return courseInstance.save()
-        
+
     # Automatically apply licenses to students if necessary
     .then =>
       availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.includesCourse(courseID))
@@ -435,7 +449,7 @@ module.exports = class TeacherClassView extends RootView
         .filter((user) => user.prepaidStatus() isnt 'enrolled')
         .value()
       totalSpotsAvailable = _.reduce(prepaid.openSpots() for prepaid in availablePrepaids, (val, total) -> val + total) or 0
-      
+
       availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
       numStudentsWithoutFullLicenses = _(members)
         .map((userID) => @students.get(userID))
@@ -457,17 +471,17 @@ module.exports = class TeacherClassView extends RootView
         error = new Error('Not enough licenses available')
         error.handled = true
         throw error
-        
+
       numberEnrolled = _.size(unenrolledStudents)
       remainingSpots = totalSpotsAvailable - numberEnrolled
-      
+
       requests = []
       for prepaid in availablePrepaids
         for i in _.range(prepaid.openSpots())
           break unless _.size(unenrolledStudents) > 0
           user = unenrolledStudents.shift()
           requests.push(prepaid.redeem(user))
-      
+
       @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
 
@@ -477,11 +491,12 @@ module.exports = class TeacherClassView extends RootView
       # end up returning the final result of all those requests together.
       @prepaids.fetchByCreator(me.id)
       @students.fetchForClassroom(@classroom, removeDeleted: true)
-      
+
       @trigger 'begin-assign-course'
       if members.length
+        noty text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true
         return courseInstance.addMembers(members)
-      
+
     # Show a success/errror notification
     .then =>
       course = @courses.get(courseID)
@@ -500,7 +515,11 @@ module.exports = class TeacherClassView extends RootView
           .replace('{{remainingSpots}}', remainingSpots)
         )
       noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
-    
+
+      # TODO: refresh existing student progress. student may have progress from outside current classroom, and the course may have been updated upon assignment
+      @calculateProgressAndLevels()
+      @classroom.fetch()
+
     .catch (e) =>
       # TODO: Use this handling for errors site-wide?
       return if e.handled

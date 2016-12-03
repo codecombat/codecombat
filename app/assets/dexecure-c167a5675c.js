@@ -11,7 +11,7 @@ var dexecure = {
 	],
 	"optimisationsEnabled": true,
 	"debugMode": false,
-	"imageMatchRegex": "\\.jpe?g|\\.png|\\.js(\\?.*)?(#.*)?$|\\.css",
+	"imageMatchRegex": "\\.jpe?g|\\.png",
 	"pagesEnabled": [
 		""
 	]

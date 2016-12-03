@@ -155,12 +155,14 @@ module.exports = class Handler
         else
           projection = {}
           projection[field] = 1 for field in req.query.project.split(',')
+      projection?.restricted = 1
       for filter in filters
         callback = (err, results) =>
           return @sendDatabaseError(res, err) if err
           for r in results.results ? results
             obj = r.obj ? r
             continue if obj in matchedObjects  # TODO: probably need a better equality check
+            continue if obj.get('restricted') and not req.user?.isAdmin() and not (obj.get('restricted') is 'code-play' and req.features.codePlay)
             matchedObjects.push obj
           filters.pop()  # doesn't matter which one
           unless filters.length
@@ -517,12 +519,14 @@ module.exports = class Handler
     idOrSlug = idOrSlug+''
     if Handler.isID(idOrSlug)
       query = @modelClass.findById(idOrSlug)
-    else
+    else if @modelClass.schema.uses_coco_names
       if not idOrSlug or idOrSlug is 'undefined'
         console.error "Bad request trying to fetching the slug: #{idOrSlug} for #{@modelClass.collection?.name}"
         console.trace()
         return done null, null
       query = @modelClass.findOne {slug: idOrSlug}
+    else
+      return done(null, null)
     query.select projection if projection
     query.exec (err, document) ->
       done(err, document)

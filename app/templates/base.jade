@@ -70,13 +70,15 @@ block footer
 
     #footer-links(class=features.playViewsOnly ? 'hide' : '')
       a(href="/about", data-i18n="nav.about")
-      a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+      if !me.isStudent()
+        a.contact-modal(tabindex=-1, data-i18n="nav.contact")
       a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
       a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers")
       a(href='/legal', tabindex=-1, data-i18n="nav.legal")
       a(href='/privacy', tabindex=-1, data-i18n="legal.privacy_title")
       a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
-      a(href='/play/ladder', tabindex=-1, data-i18n="game_menu.multiplayer_tab")
+      if !me.isStudent()
+        a(href='/play/ladder', tabindex=-1, data-i18n="game_menu.multiplayer_tab")
       if me.isAdmin()
         a(href='/admin') Admin
 

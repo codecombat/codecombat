@@ -2,7 +2,6 @@ mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
 {salt, isProduction} = require '../../server_config'
-mail = require '../commons/mail'
 log = require 'winston'
 plugins = require '../plugins/plugins'
 AnalyticsUsersActive = require './AnalyticsUsersActive'
@@ -11,10 +10,12 @@ languages = require '../routes/languages'
 _ = require 'lodash'
 errors = require '../commons/errors'
 Promise = require 'bluebird'
+co = require 'co'
 core_utils = require '../../app/core/utils'
+mailChimp = require '../lib/mail-chimp'
 
 config = require '../../server_config'
-stripe = require('stripe')(config.stripe.secretKey)
+stripe = require('../lib/stripe_utils').api
 
 sendwithus = require '../sendwithus'
 
@@ -30,7 +31,8 @@ UserSchema.index({'facebookID': 1}, {sparse: true})
 UserSchema.index({'gplusID': 1}, {sparse: true})
 UserSchema.index({'cleverID': 1}, {sparse: true})
 UserSchema.index({'iosIdentifierForVendor': 1}, {name: 'iOS identifier for vendor', sparse: true, unique: true})
-UserSchema.index({'mailChimp.leid': 1}, {sparse: true})
+UserSchema.index({'mailChimp.leid': 1}, {sparse: true}) # deprecated
+UserSchema.index({'mailChimp.email': 1}, {sparse: true})
 UserSchema.index({'nameLower': 1}, {sparse: true, name: 'nameLower_1'})
 UserSchema.index({'simulatedBy': 1})
 UserSchema.index({'slug': 1}, {name: 'slug index', sparse: true, unique: true})
@@ -42,10 +44,6 @@ UserSchema.index({'country': 1}, {name: 'country index', sparse: true})
 UserSchema.index({'role': 1}, {name: 'role index', sparse: true})
 UserSchema.index({'coursePrepaid._id': 1}, {name: 'course prepaid id index', sparse: true})
 UserSchema.index({'oAuthIdentities.provider': 1, 'oAuthIdentities.id': 1}, {name: 'oauth identities index', unique: true, sparse: true})
-
-UserSchema.post('init', ->
-  @set('anonymous', false) if @get('email')
-)
 
 UserSchema.methods.broadName = ->
   return '(deleted)' if @get('deleted')
@@ -156,7 +154,6 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   newSubs[newName] ?= {}
   newSubs[newName].enabled = enabled
   @set('emails', newSubs)
-  @newsSubsChanged = true if newName in mail.NEWS_GROUPS
 
 UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
@@ -175,53 +172,75 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
   return emails[newName]?.enabled
 
-UserSchema.statics.updateServiceSettings = (doc, callback) ->
-  return callback?() unless isProduction or GLOBAL.testing
-  return callback?() if doc.updatedMailChimp
-  return callback?() unless doc.get('email')
-  return callback?() unless doc.get('dateCreated')
-  accountAgeMinutes = (new Date().getTime() - doc.get('dateCreated').getTime?() ? 0) / 1000 / 60
-  return callback?() unless accountAgeMinutes > 30 or GLOBAL.testing
-  existingProps = doc.get('mailChimp')
-  emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
-
-  if emailChanged and customerID = doc.get('stripe')?.customerID
+UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower') 
+  
+UserSchema.methods.updateServiceSettings = co.wrap ->
+  return unless isProduction or GLOBAL.testing
+  return if @updatedMailChimp
+  if @emailChanged() and customerID = @get('stripe')?.customerID
     unless stripe?.customers
       console.error('Oh my god, Stripe is not imported correctly-how could we have done this (again)?')
-    stripe?.customers?.update customerID, {email:doc.get('email')}, (err, customer) ->
+    stripe?.customers?.update customerID, {email:@get('email')}, (err, customer) ->
       console.error('Error updating stripe customer...', err) if err
 
-  return callback?() unless emailChanged or doc.newsSubsChanged
+  newsSubsChanged = not _.isEqual(@get('emails'), @startingEmails)
+  if @emailChanged() or newsSubsChanged
+    yield @updateMailChimp()
+    
 
-  newGroups = []
-  for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
-    newGroups.push(mailchimpEmailGroup) if doc.isEmailSubscriptionEnabled(emailGroup)
+UserSchema.methods.updateMailChimp = co.wrap ->
+  
+  # construct interests object for MailChimp
+  interests = {}
+  for interest in mailChimp.interests
+    interests[interest.mailChimpId] = @isEmailSubscriptionEnabled(interest.property)
+  anyInterests = _.any(_.values(interests))
+  
+  # grab the email this user has registered on MailChimp
+  { email: mailChimpEmail } = @get('mailChimp') or {}
+  mailChimpEmail = mailChimpEmail.toLowerCase() if mailChimpEmail
 
-  if (not existingProps) and newGroups.length is 0
-    return callback?() # don't add totally unsubscribed people to the list
+  # don't do anything for people who are unsubscribed and never were subscribed
+  return unless mailChimpEmail or anyInterests
 
-  params = {}
-  params.id = mail.MAILCHIMP_LIST_ID
-  params.email = if existingProps then {leid: existingProps.leid} else {email: doc.get('email')}
-  params.merge_vars = {
-    groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]
-    'new-email': doc.get('email')
+  # if user's email does not match their mailChimp email, unsubscribe the old email
+  if mailChimpEmail and mailChimpEmail isnt @get('emailLower')
+    body = {
+      email_address: mailChimpEmail
+      status: 'unsubscribed'
+    }
+    yield mailChimp.api.put(mailChimp.makeSubscriberUrl(mailChimpEmail), body)
+    yield @update({$unset: {'mailChimp':''}})
+    mailChimpEmail = null # from here on, have logic treat this as a new subscriber addition
+
+  # need an email to subscribe!
+  email = @get('emailLower')
+  return unless email
+
+  # check if email is verified here or there 
+  emailVerified = @get('emailVerified')
+  if mailChimpEmail and not emailVerified
+    try
+      subscriber = yield mailChimp.api.get(mailChimp.makeSubscriberUrl(mailChimpEmail))
+      if subscriber.status is 'subscribed'
+        emailVerified = true
+    catch e
+      console.log 'failed to get mailchimp status', e
+
+  # don't add new users unless their email is verified
+  return unless emailVerified or mailChimpEmail
+
+  body = {
+    interests
+    email_address: email
+    status: if anyInterests and emailVerified then 'subscribed' else 'unsubscribed'
+    merge_fields:
+      FNAME: @get('firstName')
+      LNAME: @get('lastName')
   }
-  params.update_existing = true
-
-  onSuccess = (data) ->
-    data.email = doc.get('email')  # Make sure that we don't spam opt-in emails even if MailChimp doesn't update the email it gets in this object until they have confirmed.
-    doc.set('mailChimp', data)
-    doc.updatedMailChimp = true
-    doc.save()
-    callback?()
-
-  onFailure = (error) ->
-    log.error 'failed to subscribe', error, callback?
-    doc.updatedMailChimp = true
-    callback?()
-
-  mc?.lists.subscribe params, onSuccess, onFailure
+  yield mailChimp.api.put(mailChimp.makeSubscriberUrl(email), body)
+  yield @update({$set: {mailChimp: {email}}})
+  
 
 UserSchema.statics.statsMapping =
   edits:
@@ -445,14 +464,18 @@ UserSchema.pre('save', (next) ->
   next()
 )
 
-UserSchema.post 'save', (doc) ->
-  doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
-  UserSchema.statics.updateServiceSettings(doc)
+UserSchema.post 'save', co.wrap ->
+  try
+    yield @updateServiceSettings()
+  catch e
+    console.error 'User Post Save Error:', e.stack
 
-
-UserSchema.post 'init', (doc) ->
-  doc.wasTeacher = doc.isTeacher()
-  doc.startingEmails = _.cloneDeep(doc.get('emails'))
+  
+UserSchema.post 'init', ->
+  @set('anonymous', false) if @get('email') # TODO: Remove once User handler waterfall-signup system is removed, and we make sure all signup methods set anonymous to false
+  @originalEmail = @get('emailLower')
+  @wasTeacher = @isTeacher()
+  @startingEmails = _.cloneDeep(@get('emails'))
   if @get('coursePrepaidID') and not @get('coursePrepaid')
     Prepaid = require './Prepaid'
     @set('coursePrepaid', {
@@ -526,6 +549,7 @@ UserSchema.statics.makeNew = (req) ->
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
   user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
   user.set 'country', req.country if req.country
+  user.set 'createdOnHost', req.headers.host
   user
 
 

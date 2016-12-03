@@ -54,6 +54,7 @@ module.exports = class CampaignView extends RootView
     'click #clear-storage-button': 'onClickClearStorage'
     'click .portal .campaign': 'onClickPortalCampaign'
     'click .portal .beta-campaign': 'onClickPortalCampaign'
+    'click a .campaign-switch': 'onClickCampaignSwitch'
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
@@ -74,7 +75,7 @@ module.exports = class CampaignView extends RootView
       me.set('hourOfCode', true)
       me.patch()
       pixelCode = if @terrain is 'game-dev-hoc' then 'code_combat_gamedev' else 'code_combat'
-      $('body').append($("<img src='http://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
+      $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
 
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     shouldReturnToGameDevHoc = @terrain is 'game-dev-hoc'
@@ -274,12 +275,29 @@ module.exports = class CampaignView extends RootView
 
   afterInsert: ->
     super()
-    return unless @getQueryVariable 'signup'
-    return if me.get('email')
+    if @getQueryVariable('signup') and not me.get('email')
+      return @promptForSignup()
+    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.freeOnly))
+      if not me.get('email')
+        return @promptForSignup()
+      campaignSlug = window.location.pathname.split('/')[2]
+      return @promptForSubscription campaignSlug, 'premium campaign visited'
+
+  promptForSignup: ->
     @endHighlight()
     authModal = new CreateAccountModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
+
+  promptForSubscription: (slug, label) ->
+    @endHighlight()
+    @openModalView new SubscribeModal()
+    # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: label, level: slug, levelID: slug
+
+  isPremiumCampaign: (slug) ->
+    slug ||= window.location.pathname.split('/')[2]
+    /campaign-(game|web)-dev-\d/.test slug
 
   showAds: ->
     return false # No ads for now.
@@ -299,7 +317,6 @@ module.exports = class CampaignView extends RootView
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
       level.locked = false if me.isInGodMode()
-      level.locked = false if @campaign?.get('slug') is 'game-dev-hoc'
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
       level.color = 'rgb(255, 80, 60)'
@@ -340,10 +357,18 @@ module.exports = class CampaignView extends RootView
           level.unlockedInSameCampaign ||= reward.level is level.original
       level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
 
-  countLevels: (levels) ->
+  countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
-    for level, levelIndex in levels
-      @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
+
+    if @campaign?.get('slug') is 'game-dev-hoc'
+      # HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
+      orderedLevels = _.sortBy orderedLevels, (level) -> level.position.x
+      count.completed++ for level in orderedLevels when @levelStatusMap[level.slug] is 'complete'
+      count.total = orderedLevels.length
+      return count
+
+    for level, levelIndex in orderedLevels
+      @annotateLevels(orderedLevels) unless level.locked?  # Annotate if we haven't already.
       continue if level.disabled
       completed = @levelStatusMap[level.slug] is 'complete'
       started = @levelStatusMap[level.slug] is 'started'
@@ -365,6 +390,12 @@ module.exports = class CampaignView extends RootView
       for level in orderedLevels
         if @levelStatusMap[level.slug] isnt 'complete'
           level.next = true
+          # Unlock and re-annotate this level
+          # May not be unlocked/awarded due to different game-dev-hoc progression using mostly shared levels
+          level.locked = false
+          level.hidden = level.locked
+          level.disabled = false
+          level.color = 'rgb(255, 80, 60)'
           return
 
     findNextLevel = (nextLevels, practiceOnly) =>
@@ -374,11 +405,12 @@ module.exports = class CampaignView extends RootView
         continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
-          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
-            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
-            dontPointTo = _.without dontPointTo, nextLevel.slug
-            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
+        # TODO: Re-enable after HoC
+#        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+#          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
+#            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
+#            dontPointTo = _.without dontPointTo, nextLevel.slug
+#            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
 
         # Should we point this level out?
         if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and
@@ -559,9 +591,7 @@ module.exports = class CampaignView extends RootView
     requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
     canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
-      @openModalView new SubscribeModal()
-      # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug, levelID: levelSlug
+      @promptForSubscription levelSlug, 'map level clicked'
     else
       @startLevel levelElement
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
@@ -723,10 +753,20 @@ module.exports = class CampaignView extends RootView
     campaign = $(e.target).closest('.campaign, .beta-campaign')
     return if campaign.is('.locked') or campaign.is('.silhouette')
     campaignSlug = campaign.data('campaign-slug')
+    if @isPremiumCampaign(campaignSlug) and not me.isPremium()
+      return @promptForSubscription campaignSlug, 'premium campaign clicked'
     Backbone.Mediator.publish 'router:navigate',
       route: "/play/#{campaignSlug}"
       viewClass: CampaignView
       viewArgs: [{supermodel: @supermodel}, campaignSlug]
+
+  onClickCampaignSwitch: (e) ->
+    campaignSlug = $(e.target).data('campaign-slug')
+    console.log campaignSlug, @isPremiumCampaign campaignSlug
+    if @isPremiumCampaign(campaignSlug) and not me.isPremium()
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      return @promptForSubscription campaignSlug, 'premium campaign switch clicked'
 
   loadUserPollsRecord: ->
     url = "/db/user.polls.record/-/user/#{me.id}"

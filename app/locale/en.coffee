@@ -405,6 +405,11 @@
     years: "years"
 
   play_level:
+    directions: "Directions"
+    edit_level: "Edit Level"
+    explore_codecombat: "Explore CodeCombat"
+    finished_hoc: "I'm finished with my Hour of Code"
+    get_certificate: "Get your certificate!"
     level_complete: "Level Complete"
     completed_level: "Completed Level:"
     course: "Course:"
@@ -432,6 +437,7 @@
     reload_title: "Reload All Code?"
     reload_really: "Are you sure you want to reload this level back to the beginning?"
     reload_confirm: "Reload All"
+    test_level: "Test Level"
     victory: "Victory"
     victory_title_prefix: ""
     victory_title_suffix: " Complete"
@@ -548,7 +554,6 @@
 
   play_game_dev_level:
     created_by: "Created by {{name}}"
-    how_to_play_title: "How to play:"
     how_to_play_1: "Use the mouse to control the hero!"
     how_to_play_2: "Click anywhere on the map to move to that location."
     how_to_play_3: "Click on the ogres to attack them."
@@ -556,7 +561,6 @@
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
     default_student_instructions: "Click to control your hero and win your game!"
-    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventory"
@@ -614,18 +618,24 @@
     price: "x{{gems}} / mo"
 
   subscribe:
-    comparison_blurb: "Sharpen your skills with a CodeCombat subscription!"
-    feature1: "__levelsCount__+ basic levels across __worldsCount__ worlds"
-    feature2: "__heroesCount__ powerful <strong>new heroes</strong> with unique skills!"
-    feature3: "__bonusLevelsCount__+ bonus levels"
-    feature4: "<strong>{{gems}} bonus gems</strong> every month!"
+    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Sharpen your skills with a <strong>CodeCombat Premium</strong> subscription!" # {change}
+    premium_pricing_prefix: "Get Premium for just"
+    premium_pricing_suffix: "and become a master coder."
+    premium: "Premium"  # Make sure the following feature translations don't go onto two lines
+    feature1: "__levelsCount__+ basic levels to learn Python, JavaScript, Lua, or CoffeeScript" # {change}
+    feature2: "Unlock <strong>__heroesCount__ powerful new heroes</strong>, including wizards and rangers" # {change}
+    feature3: "<strong>__bonusLevelsCount__+ premium levels</strong> to play, with new levels every month" # {change}
+    feature4: "<strong>{{gems}} bonus gems</strong> per month to upgrade your hero's items and pets" # {change}
     feature6: "Premium email support"
     feature7: "Private <strong>Clans</strong>"
     feature8: "<strong>No ads!</strong>"
+    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
+    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Free"
     month: "month"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
-    subscribe_title: "Subscribe"
+    subscribe_title: "Subscribe"  # Actually used in subscribe buttons, too
     unsubscribe: "Unsubscribe"
     confirm_unsubscribe: "Confirm Unsubscribe"
     never_mind: "Never Mind, I Still Love You"
@@ -781,8 +791,8 @@
     rob_blurb: "Codes things and stuff"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Designs games"
-    robin_title: "UX Design & Research"
-    robin_blurb: "Scaffolding"
+    robin_title: "Product Manager" # {change}
+    robin_blurb: "Ships things" # {change}
     josh_title: "Game Designer"
     josh_blurb: "Floor Is Lava"
     phoenix_title: "Software Engineer"
@@ -792,6 +802,7 @@
     lisa_title: "School Specialist"
     lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
+    liz_title: "Territory Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
@@ -1397,8 +1408,11 @@
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
   teacher:
+    assigning_course: "Assigning course"
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
+    no_student_assigned: "No students have been assigned this course."
+    paren_new: "(new)"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"
@@ -1583,6 +1597,25 @@
     full_license: "Full License"
     starter_license: "Starter License"
     trial: "Trial"
+    hoc_welcome: "Happy Computer Science Education Week"
+    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
+    hoc_self_led: "Self-Led Gameplay"
+    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+    hoc_game_dev: "Game Development"
+    hoc_and: "and"
+    hoc_programming: "JavaScript/Python Programming"
+    hoc_teacher_led: "Teacher-Led Lessons"
+    hoc_teacher_led_desc1: "Download our"
+    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
+    hoc_group: "Group Gameplay"
+    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
+    hoc_group_link: "Getting Started Guide"
+    hoc_group_desc_2: "for more details"
+    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
+    hoc_additional_desc2: "Questions"
+    hoc_additional_contact: "Get in touch"
+
 
   sharing:
     game: "Game"
