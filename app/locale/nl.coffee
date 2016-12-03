@@ -384,6 +384,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     last_name: "Achternaam"
     last_initial: "Eerste letter van je achternaam"
     username: "Gebruikersnaam"
+#    contact_us: "Contact Us"
+#    close_window: "Close Window"
+#    learn_more: "Learn More"
 
   units:
     second: "seconde"
@@ -402,6 +405,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     years: "jaren"
 
   play_level:
+#    directions: "Directions"
+#    edit_level: "Edit Level"
+#    explore_codecombat: "Explore CodeCombat"
+#    finished_hoc: "I'm finished with my Hour of Code"
+#    get_certificate: "Get your certificate!"
     level_complete: "Level Voltooid"
     completed_level: "Voltooid Level:"
     course: "Les:"
@@ -429,6 +437,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     reload_title: "Alle Code Herladen?"
     reload_really: "Weet je zeker dat je dit level tot het begin wilt herladen?"
     reload_confirm: "Herlaad Alles"
+#    test_level: "Test Level"
     victory: "Gewonnen"
     victory_title_prefix: ""
     victory_title_suffix: " Compleet"
@@ -545,7 +554,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   play_game_dev_level:
     created_by: "Gemaakt door {{name}}"
-    how_to_play_title: "Hoe je speelt:"
     how_to_play_1: "Gebruik de muis om de held te bewegen!"
     how_to_play_2: "Klik ergens op de kaart om daarheen te lopen."
     how_to_play_3: "Klik op de orks om ze aan te vallen."
@@ -553,7 +561,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     play: "Speel Level"
     play_more_codecombat: "Speel Meer CodeCombat"
     default_student_instructions: "Klik om je held te besturen en het spel te winnen!"
-    back_to_coding: "Terug naar Programmeren"
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -611,18 +618,24 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     price: "x{{gems}} / maand"
 
   subscribe:
-    comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!"
+#    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!" # {change}
+#    premium_pricing_prefix: "Get Premium for just"
+#    premium_pricing_suffix: "and become a master coder."
+#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
     feature1: "meer dan __levelsCount__ basislevels over __worldsCount__ werelden" # {change}
     feature2: "__heroesCount__ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
     feature3: "__bonusLevelsCount__ bonuslevels" # {change}
-    feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!"
+    feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!" # {change}
     feature6: "Hoogwaardige e-mail ondersteuning"
     feature7: "Besloten <strong>Clans</strong>"
     feature8: "<strong>Geen advertenties!</strong>"
+#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
+#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Gratis"
     month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
-    subscribe_title: "premium account"
+    subscribe_title: "premium account" # Actually used in subscribe buttons, too
     unsubscribe: "Abonnement opzeggen"
     confirm_unsubscribe: "Opzegging bevestigen"
     never_mind: "Laat maar, ik hou nog steeds van je"
@@ -778,8 +791,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     rob_blurb: "Programmeert dingen en spullen"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Ontwikkelt games"
-    robin_title: "UX Design & Onderzoek"
-    robin_blurb: "Steigers"
+    robin_title: "UX Design & Onderzoek" # {change}
+    robin_blurb: "Steigers" # {change}
     josh_title: "Game Designer"
     josh_blurb: "Vloer Is Lava"
     phoenix_title: "Software Engineer"
@@ -789,6 +802,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
     lisa_blurb: "Warmbloedig"
     sean_title: "Regio Manager"
+#    liz_title: "Territory Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
@@ -851,6 +865,47 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     more_info_2: "lerarenforum"
     more_info_3: "Het is een goede plek om contact te leggen met andere leerkrachten, die CodeCombat gebruiken."
     licenses_needed: "Licentie benodigd"
+
+#  special_offer:
+#    special_offer: "Special Offer"
+#    project_based_title: "Project-Based Courses"
+#    project_based_description: "Web and Game Development courses feature shareable final projects."
+#    great_for_clubs_title: "Great for clubs and electives"
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    low_price_title: "Just __starterLicensePrice__ per student"
+#    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
+#    three_great_courses: "Three great courses included in the Starter License:"
+#    license_limit_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses. You have already purchased __quantityAlreadyPurchased__. If you need more, contact __supportEmail__. Starter Licenses are valid for __starterLicenseLengthMonths__ months."
+#    student_starter_license: "Student Starter License"
+#    purchase_starter_licenses: "Purchase Starter Licenses"
+#    purchase_starter_licenses_to_grant: "Purchase Starter Licenses to grant access to __starterLicenseCourseList__"
+#    starter_licenses_can_be_used: "Starter Licenses can be used to assign additional courses immediately after purchase."
+#    pay_now: "Pay Now"
+#    we_accept_all_major_credit_cards: "We accept all major credit cards."
+#    cs2_description: "builds on the foundation from Introduction to Computer Science, diving into if-statements, functions, events and more."
+#    wd1_description: "introduces the basics of HTML and CSS while teaching skills needed for students to build their first webpage."
+#    gd1_description: "uses syntax students are already familiar with to show them how to build and share their own playable game levels."
+#    see_an_example_project: "see an example project"
+#    get_started_today: "Get started today!"
+#    want_all_the_courses: "Want all the courses? Request information on our Full Licenses."
+#    compare_license_types: "Compare License Types:"
+#    cs: "Computer Science"
+#    wd: "Web Development"
+#    wd1: "Web Development 1"
+#    gd: "Game Development"
+#    gd1: "Game Development 1"
+#    maximum_students: "Maximum # of Students"
+#    unlimited: "Unlimited"
+#    priority_support: "Priority support"
+#    yes: "Yes"
+#    price_per_student: "__price__ per student"
+#    pricing: "Pricing"
+#    free: "Free"
+#    purchase: "Purchase"
+#    courses_prefix: "Courses"
+#    courses_suffix: ""
+#    course_prefix: "Course"
+#    course_suffix: ""
 
   teachers_quote:
     name: "Demo Formulier"
@@ -1353,8 +1408,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
 
   teacher:
+#    assigning_course: "Assigning course"
     course_solution: "Cursus Oplossing"
     level_overview_solutions: "Level overzicht en Oplossingen"
+#    no_student_assigned: "No students have been assigned this course."
+#    paren_new: "(new)"
     teacher_dashboard: "Docent Dashboard" # Navbar
     my_classes: "Mijn Klassen"
     courses: "Cursussen" # {change}
@@ -1402,10 +1460,16 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sort_by: "Sorteer op"
     progress: "Voortgang"
     completed: "Behaald"
+#    practice: "Practice"
     started: "Gestart"
     click_to_view_progress: "klik om de eigenschappen te bekijken"
     no_progress: "Geen voortgang"
+#    not_required: "Not required"
     select_course: "Selecteer cursus om te bekijken"
+#    progress_color_key: "Progress color key:"
+#    level_in_progress: "Level in Progress"
+#    level_not_started: "Level Not Started"
+#    project_or_arena: "Project or Arena"
     students_not_assigned: "Studenten die niet zitten bij {{courseName}}"
     course_overview: "Cursus Overzicht"
     copy_class_code: "Kopieer Klas Code"
@@ -1419,9 +1483,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     assigned_msg_3: "Je hebt nog {{remainingSpots}} beschikbare licenties."
     assign_course: "Cursus toewijzen"
     not_assigned_modal_title: "Cursussen zijn niet toegewezen"
-    not_assigned_modal_body_1: "Je hebt niet genoeg beschikbare licenties om toe te wijzen aan {{selected}} geselecteerde leerlingen."
-    not_assigned_modal_body_2: "Je hebt maar {{totalSpotsAvailable}} beschikbare licenties, ({{unenrolledStudents}} leerlingen hebben geen actieve licentie)."
-    not_assigned_modal_body_3: "Selecteer minder leerlingen, of mail naar {{email}} voor assistentie."
+#    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
+#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
+#    not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
     assign_to_selected_students: "Toewijzen aan Geselecteerde Leerlingen"
     assigned: "Toegewezen"
     enroll_selected_students: "Schrijf Geselecteerde Leerlingen in"
@@ -1456,6 +1522,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     available_credits: "Beschikbare licenties"
     pending_credits: "Aangevraagde licenties"
     credits: "licenties"
+#    starter_licenses: "starter licenses"
     start_date: "start datum:"
     end_date: "eind datum:"
     get_enrollments_blurb: " We helpen je met een op maat gemaakte oplossing voor jullie klas, school of gemeenschap."
@@ -1527,6 +1594,27 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     student_warn_detail: "Deze leerling heeft misschien hulp nodig met nieuwe concepten die in deze cursus aan bod zijn gekomen."
     student_great: "doet het heel goed in"
     student_great_detail: "Deze leerling kan misschien andere leerlingen helpen met het doorlopen van deze cursus."
+#    full_license: "Full License"
+#    starter_license: "Starter License"
+#    trial: "Trial"
+#    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
+#    hoc_self_led: "Self-Led Gameplay"
+#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_game_dev: "Game Development"
+#    hoc_and: "and"
+#    hoc_programming: "JavaScript/Python Programming"
+#    hoc_teacher_led: "Teacher-Led Lessons"
+#    hoc_teacher_led_desc1: "Download our"
+#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
+#    hoc_group: "Group Gameplay"
+#    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
+#    hoc_group_link: "Getting Started Guide"
+#    hoc_group_desc_2: "for more details"
+#    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
+#    hoc_additional_desc2: "Questions"
+#    hoc_additional_contact: "Get in touch"
 
   sharing:
     game: "Spel"
@@ -1882,7 +1970,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   account_prepaid:
     purchase_code: "koop een prepaidcode"
-    purchase_code1: "Codes kunnen worden ingewisseld om toegang te krijgen tot de premium content, dit kan ook op meerdere CodeCombat accounts." #{change}
+    purchase_code1: "Codes kunnen worden ingewisseld om toegang te krijgen tot de premium content, dit kan ook op meerdere CodeCombat accounts." # {change}
     purchase_code2: "Op iedere CodeCombat account kan een bepaalde Code maar één keer worden ingewisseld."
     purchase_code3: "Als je een gewoon abonnement op CodeCombat hebt, worden de Codes toegevoegd aan het einde van je huidige abonnement aan je account toegevoegd."
     purchase_code4: "Abonnement codes zijn voor de Thuis versie van CodeCombat, ze kunnen niet gebruikt worden als Leerling licenties in Klassen."

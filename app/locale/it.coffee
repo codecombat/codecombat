@@ -82,7 +82,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     about: "Informazioni"
     contact: "Contatti"
     twitter_follow: "Segui"
-#    my_classrooms: "My Classes" # {change}
+#    my_classrooms: "My Classes"
 #    my_courses: "My Courses"
     careers: "Lavora con noi"
 #    facebook: "Facebook"
@@ -384,6 +384,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    last_name: "Last Name"
 #    last_initial: "Last Initial"
 #    username: "Username"
+#    contact_us: "Contact Us"
+#    close_window: "Close Window"
+#    learn_more: "Learn More"
 
   units:
     second: "secondo"
@@ -402,6 +405,11 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     years: "anni"
 
   play_level:
+#    directions: "Directions"
+#    edit_level: "Edit Level"
+#    explore_codecombat: "Explore CodeCombat"
+#    finished_hoc: "I'm finished with my Hour of Code"
+#    get_certificate: "Get your certificate!"
 #    level_complete: "Level Complete"
     completed_level: "Livello completato:"
     course: "Corso:"
@@ -429,6 +437,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     reload_title: "Ricaricare tutto il codice?"
     reload_really: "Sei sicuro di voler ricominciare il livello?"
     reload_confirm: "Ricarica tutto"
+#    test_level: "Test Level"
     victory: "Vittoria"
     victory_title_prefix: ""
     victory_title_suffix: " Completato"
@@ -545,7 +554,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
 #  play_game_dev_level:
 #    created_by: "Created by {{name}}"
-#    how_to_play_title: "How to play:"
 #    how_to_play_1: "Use the mouse to control the hero!"
 #    how_to_play_2: "Click anywhere on the map to move to that location."
 #    how_to_play_3: "Click on the ogres to attack them."
@@ -553,7 +561,6 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    play: "Play Level"
 #    play_more_codecombat: "Play More CodeCombat"
 #    default_student_instructions: "Click to control your hero and win your game!"
-#    back_to_coding: "Back to Coding"
 
   game_menu:
     inventory_tab: "Inventario"
@@ -611,18 +618,24 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     price: "x{{gems}} / mese"
 
   subscribe:
-    comparison_blurb: "Aumenta le tue competenze con un abbonamento a CodeCombat!"
+#    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Aumenta le tue competenze con un abbonamento a CodeCombat!" # {change}
+#    premium_pricing_prefix: "Get Premium for just"
+#    premium_pricing_suffix: "and become a master coder."
+#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
     feature1: "__levelsCount__+ livelli base in __worldsCount__ mondi" # {change}
     feature2: "__heroesCount__ potenti <strong>nuovi eroi</strong> con capacità uniche!" # {change}
     feature3: "__bonusLevelsCount__+ livelli bonus" # {change}
-    feature4: "<strong>{{gems}} gemme bonus</strong> ogni mese!"
+    feature4: "<strong>{{gems}} gemme bonus</strong> ogni mese!" # {change}
     feature6: "Supporto via email premium"
     feature7: "Clan <strong>privati</strong>"
 #    feature8: "<strong>No ads!</strong>"
+#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
+#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Gratis"
     month: "mese"
     must_be_logged: "Devi aver prima effettuato il login. Crea un account o effettua il login dal menu superiore."
-    subscribe_title: "Abbonati"
+    subscribe_title: "Abbonati" # Actually used in subscribe buttons, too
     unsubscribe: "Disabbonati"
     confirm_unsubscribe: "Conferma disabbonamento"
     never_mind: "Non importa, noi ancora ti amiamo"
@@ -778,8 +791,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     rob_blurb: "Programmi, fatti e cose"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Progettista giochi"
-#    robin_title: "UX Design & Research"
-#    robin_blurb: "Scaffolding"
+#    robin_title: "Product Manager"
+#    robin_blurb: "Ships things"
     josh_title: "Game Designer"
     josh_blurb: "Il pavimento è lava"
 #    phoenix_title: "Software Engineer"
@@ -789,6 +802,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    lisa_title: "School Specialist"
 #    lisa_blurb: "A gritty one"
 #    sean_title: "Territory Manager"
+#    liz_title: "Territory Manager"
     retrostyle_title: "Illustratore"
     retrostyle_blurb: "Giochi retrò"
     jose_title: "Musicista"
@@ -851,6 +865,47 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     more_info_2: "forum insegnanti"
     more_info_3: "è un buon luogo in cui conoscere con altri doventi che stanno usando CodeCombat."
 #    licenses_needed: "Licenses needed"
+
+#  special_offer:
+#    special_offer: "Special Offer"
+#    project_based_title: "Project-Based Courses"
+#    project_based_description: "Web and Game Development courses feature shareable final projects."
+#    great_for_clubs_title: "Great for clubs and electives"
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    low_price_title: "Just __starterLicensePrice__ per student"
+#    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
+#    three_great_courses: "Three great courses included in the Starter License:"
+#    license_limit_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses. You have already purchased __quantityAlreadyPurchased__. If you need more, contact __supportEmail__. Starter Licenses are valid for __starterLicenseLengthMonths__ months."
+#    student_starter_license: "Student Starter License"
+#    purchase_starter_licenses: "Purchase Starter Licenses"
+#    purchase_starter_licenses_to_grant: "Purchase Starter Licenses to grant access to __starterLicenseCourseList__"
+#    starter_licenses_can_be_used: "Starter Licenses can be used to assign additional courses immediately after purchase."
+#    pay_now: "Pay Now"
+#    we_accept_all_major_credit_cards: "We accept all major credit cards."
+#    cs2_description: "builds on the foundation from Introduction to Computer Science, diving into if-statements, functions, events and more."
+#    wd1_description: "introduces the basics of HTML and CSS while teaching skills needed for students to build their first webpage."
+#    gd1_description: "uses syntax students are already familiar with to show them how to build and share their own playable game levels."
+#    see_an_example_project: "see an example project"
+#    get_started_today: "Get started today!"
+#    want_all_the_courses: "Want all the courses? Request information on our Full Licenses."
+#    compare_license_types: "Compare License Types:"
+#    cs: "Computer Science"
+#    wd: "Web Development"
+#    wd1: "Web Development 1"
+#    gd: "Game Development"
+#    gd1: "Game Development 1"
+#    maximum_students: "Maximum # of Students"
+#    unlimited: "Unlimited"
+#    priority_support: "Priority support"
+#    yes: "Yes"
+#    price_per_student: "__price__ per student"
+#    pricing: "Pricing"
+#    free: "Free"
+#    purchase: "Purchase"
+#    courses_prefix: "Courses"
+#    courses_suffix: ""
+#    course_prefix: "Course"
+#    course_suffix: ""
 
 #  teachers_quote:
 #    name: "Demo Form"
@@ -1353,8 +1408,11 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
 #  teacher:
+#    assigning_course: "Assigning course"
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
+#    no_student_assigned: "No students have been assigned this course."
+#    paren_new: "(new)"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1402,10 +1460,16 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    sort_by: "Sort by"
 #    progress: "Progress"
 #    completed: "Completed"
+#    practice: "Practice"
 #    started: "Started"
 #    click_to_view_progress: "click to view progress"
 #    no_progress: "No progress"
+#    not_required: "Not required"
 #    select_course: "Select course to view"
+#    progress_color_key: "Progress color key:"
+#    level_in_progress: "Level in Progress"
+#    level_not_started: "Level Not Started"
+#    project_or_arena: "Project or Arena"
 #    students_not_assigned: "Students who have not been assigned {{courseName}}"
 #    course_overview: "Course Overview"
 #    copy_class_code: "Copy Class Code"
@@ -1419,9 +1483,11 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
 #    assign_course: "Assign Course"
 #    not_assigned_modal_title: "Courses were not assigned"
-#    not_assigned_modal_body_1: "You do not have enough licenses available to assign additional Courses to all {{selected}} selected students."
-#    not_assigned_modal_body_2: "You only have {{totalSpotsAvailable}} licenses available ({{unenrolledStudents}} students did not have an active license)."
-#    not_assigned_modal_body_3: "Please select fewer students, or reach out to {{email}} for assistance."
+#    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
+#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
+#    not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
 #    assign_to_selected_students: "Assign to Selected Students"
 #    assigned: "Assigned"
 #    enroll_selected_students: "Enroll Selected Students"
@@ -1456,6 +1522,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    available_credits: "Available Licenses"
 #    pending_credits: "Pending Licenses"
 #    credits: "licenses"
+#    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
 #    get_enrollments_blurb: " We'll help you build a solution that meets the needs of your class, school or district."
@@ -1527,6 +1594,27 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    full_license: "Full License"
+#    starter_license: "Starter License"
+#    trial: "Trial"
+#    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
+#    hoc_self_led: "Self-Led Gameplay"
+#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_game_dev: "Game Development"
+#    hoc_and: "and"
+#    hoc_programming: "JavaScript/Python Programming"
+#    hoc_teacher_led: "Teacher-Led Lessons"
+#    hoc_teacher_led_desc1: "Download our"
+#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
+#    hoc_group: "Group Gameplay"
+#    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
+#    hoc_group_link: "Getting Started Guide"
+#    hoc_group_desc_2: "for more details"
+#    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
+#    hoc_additional_desc2: "Questions"
+#    hoc_additional_contact: "Get in touch"
 
 #  sharing:
 #    game: "Game"
@@ -1882,7 +1970,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 
   account_prepaid:
     purchase_code: "Compra un codice abbonamento"
-    purchase_code1: "I codici abbonamento possono essere riscossi per aggiungere del tempo da un account CodeCombat con abbonamento premium." #{change}
+    purchase_code1: "I codici abbonamento possono essere riscossi per aggiungere del tempo da un account CodeCombat con abbonamento premium." # {change}
     purchase_code2: "Ogni account CodeCombat può risquotere solo un codice abbonamento."
     purchase_code3: "I mesi dati dai codici abbonamento saranno aggiunti alla fine dell'abbonamento esistente su questo account."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
@@ -2043,7 +2131,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
 #    advanced_css: "Advanced CSS"
 #    advanced_web_scripting: "Advanced Web Scripting"
     input_handling: "Gestione dell'Input"
-    while_loops: "Cicli" # {change}
+    while_loops: "Cicli"
 
   delta:
     added: "Aggiunto"

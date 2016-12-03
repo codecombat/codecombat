@@ -619,14 +619,14 @@
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Sharpen your skills with a <strong>CodeCombat Premium</strong> subscription!" # {change}
+    comparison_blurb: "Sharpen your skills with a <strong>CodeCombat Premium</strong> subscription!"
     premium_pricing_prefix: "Get Premium for just"
     premium_pricing_suffix: "and become a master coder."
     premium: "Premium"  # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ basic levels to learn Python, JavaScript, Lua, or CoffeeScript" # {change}
-    feature2: "Unlock <strong>__heroesCount__ powerful new heroes</strong>, including wizards and rangers" # {change}
-    feature3: "<strong>__bonusLevelsCount__+ premium levels</strong> to play, with new levels every month" # {change}
-    feature4: "<strong>{{gems}} bonus gems</strong> per month to upgrade your hero's items and pets" # {change}
+    feature1: "__levelsCount__+ basic levels to learn Python, JavaScript, Lua, or CoffeeScript"
+    feature2: "Unlock <strong>__heroesCount__ powerful new heroes</strong>, including wizards and rangers"
+    feature3: "<strong>__bonusLevelsCount__+ premium levels</strong> to play, with new levels every month"
+    feature4: "<strong>{{gems}} bonus gems</strong> per month to upgrade your hero's items and pets"
     feature6: "Premium email support"
     feature7: "Private <strong>Clans</strong>"
     feature8: "<strong>No ads!</strong>"
@@ -791,8 +791,8 @@
     rob_blurb: "Codes things and stuff"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Designs games"
-    robin_title: "Product Manager" # {change}
-    robin_blurb: "Ships things" # {change}
+    robin_title: "Product Manager"
+    robin_blurb: "Ships things"
     josh_title: "Game Designer"
     josh_blurb: "Floor Is Lava"
     phoenix_title: "Software Engineer"

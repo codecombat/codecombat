@@ -82,7 +82,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     about: "Rólunk"
     contact: "Kapcsolat"
     twitter_follow: "Követés"
-#    my_classrooms: "My Classes" # {change}
+#    my_classrooms: "My Classes"
 #    my_courses: "My Courses"
     careers: "Karrier"
     facebook: "Facebook"
@@ -384,6 +384,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     last_name: "Családnév"
     last_initial: "Családnév kezdőbetűje"
     username: "Felhasználónév"
+#    contact_us: "Contact Us"
+#    close_window: "Close Window"
+#    learn_more: "Learn More"
 
   units:
     second: "másodperc"
@@ -402,6 +405,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     years: "évek"
 
   play_level:
+#    directions: "Directions"
+#    edit_level: "Edit Level"
+#    explore_codecombat: "Explore CodeCombat"
+#    finished_hoc: "I'm finished with my Hour of Code"
+#    get_certificate: "Get your certificate!"
     level_complete: "Szint teljesítve"
     completed_level: "Teljesített pálya:"
     course: "Kurzus:"
@@ -429,6 +437,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     reload_title: "Újra kezded mindet?"
     reload_really: "Biztos vagy benne, hogy előlről szeretnéd kezdeni az egész pályát?"
     reload_confirm: "Előlről az egészet"
+#    test_level: "Test Level"
     victory: "Győzelem"
     victory_title_prefix: ""
     victory_title_suffix: "Kész"
@@ -545,7 +554,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   play_game_dev_level:
     created_by: "Készítette: {{name}}"
-    how_to_play_title: "Játékszabályok:"
     how_to_play_1: "Hősödet az egér segítségével irányíthatod."
     how_to_play_2: "Kattints a térkép egy pontjára ahhoz, hogy a hősöd odamenjen."
     how_to_play_3: "Kattints az orgékra a támadáshoz."
@@ -553,7 +561,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play: "Pálya indítása"
     play_more_codecombat: "További játék a CodeCombattel"
     default_student_instructions: "Hősödet kattintásokkal irányíthatod – vezesd hát végig a győzelem felé vezető úton!"
-    back_to_coding: "Vissza a programozáshoz"
 
   game_menu:
     inventory_tab: "Raktár"
@@ -611,18 +618,24 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     price: "x {{gems}} / hó"
 
   subscribe:
-    comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!"
+#    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!" # {change}
+#    premium_pricing_prefix: "Get Premium for just"
+#    premium_pricing_suffix: "and become a master coder."
+#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
     feature1: "__levelsCount__+ alap pálya, __worldsCount__ világon át" # {change}
     feature2: "__heroesCount__ erőteljes <strong>új hős</strong> egyedi képességekkel!" # {change}
     feature3: "__bonusLevelsCount__+ bónusz pálya" # {change}
-    feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!"
+    feature4: "<strong>{{gems}} bónusz drágakő</strong> minden hónapban!" # {change}
     feature6: "Prémium e-mail támogatás"
     feature7: "Privát <strong>Klánok</strong>"
     feature8: "<strong>Reklámmentes övezet!</strong>"
+#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
+#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Ingyenes"
     month: "hónap"
     must_be_logged: "Ehhez be kell jelentkezned. Kérlek regisztrálj, vagy lépj be a fenti menüben!"
-    subscribe_title: "Feliratkozás"
+    subscribe_title: "Feliratkozás" # Actually used in subscribe buttons, too
     unsubscribe: "Leiratkozás"
     confirm_unsubscribe: "Leiratkozás megerősítése"
     never_mind: "Nembaj, akkor is Szeretlek"
@@ -778,8 +791,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     rob_blurb: "Kódolgatok ezt-azt"
     josh_c_title: "Játéktervező"
     josh_c_blurb: "Játékokat tervezek"
-    robin_title: "UX-tervező és -fejlesztő"
-    robin_blurb: "Barkácsolok"
+    robin_title: "UX-tervező és -fejlesztő" # {change}
+    robin_blurb: "Barkácsolok" # {change}
     josh_title: "Játéktervező"
     josh_blurb: "Ég a talpunk alatt a föld"
     phoenix_title: "Programozó"
@@ -789,6 +802,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     lisa_title: "Üzletfejlesztési képviselő" # {change}
 #    lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
+#    liz_title: "Territory Manager"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Zene"
@@ -851,6 +865,47 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     more_info_2: "oktatói fórumunk"
     more_info_3: "remek lehetőséget kínál a tanároknak, hogy megosszák tapasztalataikat a CodeCombatról."
     licenses_needed: "Licensz szükséges"
+
+#  special_offer:
+#    special_offer: "Special Offer"
+#    project_based_title: "Project-Based Courses"
+#    project_based_description: "Web and Game Development courses feature shareable final projects."
+#    great_for_clubs_title: "Great for clubs and electives"
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    low_price_title: "Just __starterLicensePrice__ per student"
+#    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
+#    three_great_courses: "Three great courses included in the Starter License:"
+#    license_limit_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses. You have already purchased __quantityAlreadyPurchased__. If you need more, contact __supportEmail__. Starter Licenses are valid for __starterLicenseLengthMonths__ months."
+#    student_starter_license: "Student Starter License"
+#    purchase_starter_licenses: "Purchase Starter Licenses"
+#    purchase_starter_licenses_to_grant: "Purchase Starter Licenses to grant access to __starterLicenseCourseList__"
+#    starter_licenses_can_be_used: "Starter Licenses can be used to assign additional courses immediately after purchase."
+#    pay_now: "Pay Now"
+#    we_accept_all_major_credit_cards: "We accept all major credit cards."
+#    cs2_description: "builds on the foundation from Introduction to Computer Science, diving into if-statements, functions, events and more."
+#    wd1_description: "introduces the basics of HTML and CSS while teaching skills needed for students to build their first webpage."
+#    gd1_description: "uses syntax students are already familiar with to show them how to build and share their own playable game levels."
+#    see_an_example_project: "see an example project"
+#    get_started_today: "Get started today!"
+#    want_all_the_courses: "Want all the courses? Request information on our Full Licenses."
+#    compare_license_types: "Compare License Types:"
+#    cs: "Computer Science"
+#    wd: "Web Development"
+#    wd1: "Web Development 1"
+#    gd: "Game Development"
+#    gd1: "Game Development 1"
+#    maximum_students: "Maximum # of Students"
+#    unlimited: "Unlimited"
+#    priority_support: "Priority support"
+#    yes: "Yes"
+#    price_per_student: "__price__ per student"
+#    pricing: "Pricing"
+#    free: "Free"
+#    purchase: "Purchase"
+#    courses_prefix: "Courses"
+#    courses_suffix: ""
+#    course_prefix: "Course"
+#    course_suffix: ""
 
   teachers_quote:
     name: "Bemutatókérési űrlap"
@@ -1353,8 +1408,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
   teacher:
+#    assigning_course: "Assigning course"
     course_solution: "Kurzusmegoldókulcs"
     level_overview_solutions: "Pályaleírások és megoldókulcs"
+#    no_student_assigned: "No students have been assigned this course."
+#    paren_new: "(new)"
     teacher_dashboard: "Tanári irányítópult" # Navbar
     my_classes: "Saját osztályok"
     courses: "Kurzus útmutatók"
@@ -1402,10 +1460,16 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sort_by: "Rendezés"
     progress: "Fejlődés"
     completed: "Teljesítve"
+#    practice: "Practice"
     started: "Elkezdve"
     click_to_view_progress: "Kattints a fejlődés megtekintéséhez"
     no_progress: "Nincs fejlődés"
+#    not_required: "Not required"
     select_course: "Megnézendő kurzus kiválasztása"
+#    progress_color_key: "Progress color key:"
+#    level_in_progress: "Level in Progress"
+#    level_not_started: "Level Not Started"
+#    project_or_arena: "Project or Arena"
 #    students_not_assigned: "Students who have not been assigned {{courseName}}"
     course_overview: "Kurzus áttekintése"
     copy_class_code: "Osztálykód másolása"
@@ -1419,9 +1483,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
 #    assign_course: "Assign Course"
 #    not_assigned_modal_title: "Courses were not assigned"
-#    not_assigned_modal_body_1: "You do not have enough licenses available to assign additional Courses to all {{selected}} selected students."
-#    not_assigned_modal_body_2: "You only have {{totalSpotsAvailable}} licenses available ({{unenrolledStudents}} students did not have an active license)."
-#    not_assigned_modal_body_3: "Please select fewer students, or reach out to {{email}} for assistance."
+#    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
+#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
+#    not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
     assign_to_selected_students: "Hozzárendelés a kiválasztott tanulókhoz"
     assigned: "Hozzárendelve"
     enroll_selected_students: "Kiválasztott tanulók beíratása"
@@ -1456,6 +1522,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     available_credits: "Rendelkezésre álló licencek"
     pending_credits: "Függő licencek"
     credits: "licencek"
+#    starter_licenses: "starter licenses"
     start_date: "Kezdő dátum:"
     end_date: "Befejező dátum:"
     get_enrollments_blurb: " Segítünk osztályod, iskolád vagy lakóterületed igényeire szabott megoldást találni!"
@@ -1527,6 +1594,27 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    student_warn_detail: "This student might need some help with new concepts that have been introduced in this course."
 #    student_great: "is doing great in"
 #    student_great_detail: "This student might be a good candidate to help other students working through this course."
+#    full_license: "Full License"
+#    starter_license: "Starter License"
+#    trial: "Trial"
+#    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
+#    hoc_self_led: "Self-Led Gameplay"
+#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_game_dev: "Game Development"
+#    hoc_and: "and"
+#    hoc_programming: "JavaScript/Python Programming"
+#    hoc_teacher_led: "Teacher-Led Lessons"
+#    hoc_teacher_led_desc1: "Download our"
+#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
+#    hoc_group: "Group Gameplay"
+#    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
+#    hoc_group_link: "Getting Started Guide"
+#    hoc_group_desc_2: "for more details"
+#    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
+#    hoc_additional_desc2: "Questions"
+#    hoc_additional_contact: "Get in touch"
 
   sharing:
     game: "Játék"
@@ -1882,7 +1970,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   account_prepaid:
     purchase_code: "Előfizetéses kód vásárlása"
-    purchase_code1: "Az előfizetéses kódok beválthatók további prémium előfizetői időre egy vagy több fiókhoz is." #{change}
+    purchase_code1: "Az előfizetéses kódok beválthatók további prémium előfizetői időre egy vagy több fiókhoz is." # {change}
     purchase_code2: "Egy adott előfizetéses kód csak egy adott CodeCombat fiókhoz váltható be."
     purchase_code3: "A fiókban a meglévő előfizetéshez hozzáadódnak a hónapok annak lejártával."
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."
