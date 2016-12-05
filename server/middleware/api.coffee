@@ -97,7 +97,7 @@ putUserSubscription = wrap (req, res) ->
   { endDate, ends } = req.body
   ends ?= endDate
   unless ends and DATETIME_REGEX.test(ends)
-    throw new errors.UnprocessableEntity('ends is not a properly formatted.')
+    throw new errors.UnprocessableEntity('ends is not properly formatted.')
     
   { free } = user.get('stripe') ? {}
   if free is true
@@ -134,7 +134,7 @@ putUserLicense = wrap (req, res) ->
 
   { ends } = req.body
   unless ends and DATETIME_REGEX.test(ends)
-    throw new errors.UnprocessableEntity('ends is not a properly formatted.')
+    throw new errors.UnprocessableEntity('ends is not properly formatted.')
 
   now = new Date().toISOString()
   if ends < now
