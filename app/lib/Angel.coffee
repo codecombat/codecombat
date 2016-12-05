@@ -6,6 +6,7 @@ World = require 'lib/world/world'
 CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
+errors = require 'core/errors'
 
 reportedLoadErrorAlready = false
 
@@ -266,6 +267,7 @@ module.exports = class Angel extends CocoClass
     return if @worker
     @say 'Hiring worker.'
     @worker = new Worker @shared.workerCode
+    @worker.addEventListener 'error', errors.onWorkerError
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
 
