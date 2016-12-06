@@ -798,6 +798,21 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     json = { name, password: '12345' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
+    expect(res.body.message).toBe('Username already taken')
+    done()
+  
+  it 'returns 409 if there is already a user with the same slug', utils.wrap (done) ->
+    name = 'some username'
+    name2 = 'Some.    User.Namé'
+    initialUser = yield utils.initUser({name})
+    expect(initialUser.get('nameLower')).toBeDefined()
+    expect(initialUser.get('slug')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { name: name2, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    expect(res.body.message).toBe('Username already taken')
     done()
     
   it 'disassociates the user from their trial request if the trial request email and signup email do not match', utils.wrap (done) ->

@@ -143,12 +143,12 @@ module.exports =
     { name, email, password } = req.body
     unless password
       throw new errors.UnprocessableEntity('Requires password')
-    unless name or email
+    if _.isEmpty(name) and _.isEmpty(email)
       throw new errors.UnprocessableEntity('Requires username or email')
 
-    if not _.isEmpty(email) and yield User.findByEmail(email)
+    if yield User.findByEmail(email)
       throw new errors.Conflict('Email already taken')
-    if not _.isEmpty(name) and yield User.findByName(name)
+    if yield User.findByName(name)
       throw new errors.Conflict('Username already taken')
 
     req.user.set({ name, email, password, anonymous: false })
@@ -159,10 +159,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { facebookID, facebookAccessToken, email, name } = req.body
-    unless _.all([facebookID, facebookAccessToken, email, name])
+    unless _.all([facebookID, facebookAccessToken, not _.isEmpty(email), not _.isEmpty(name)])
       throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, email, and name')
 
-    if not _.isEmpty(name) and yield User.findByName(name)
+    if yield User.findByName(name)
       throw new errors.Conflict('Username already taken')
 
     facebookResponse = yield facebook.fetchMe(facebookAccessToken)
@@ -183,10 +183,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { gplusID, gplusAccessToken, email, name } = req.body
-    unless _.all([gplusID, gplusAccessToken, email, name])
+    unless _.all([gplusID, gplusAccessToken, not _.isEmpty(email), not _.isEmpty(name)])
       throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, email, and name')
 
-    if not _.isEmpty(name) and yield User.findByName(name)
+    if yield User.findByName(name)
       throw new errors.Conflict('Username already taken')
 
     gplusResponse = yield gplus.fetchMe(gplusAccessToken)
