@@ -78,6 +78,9 @@ module.exports = class DocFormatter
       if @doc.type is 'function' and argString
         @doc.shortName = @doc.shorterName.replace argString, argNames
         @doc.shorterName = @doc.shorterName.replace argString, (if not /cast[A-Z]/.test(@doc.name) and argNames.length > 6 then '...' else argNames)
+      if @doc.type is 'event'
+        @doc.shortName = @doc.name
+        @doc.shorterName = @doc.name
       if @options.language is 'javascript'
         @doc.shorterName = @doc.shortName.replace ';', ''
         if @doc.owner is 'this' or @options.tabbify or ownerName is 'game'

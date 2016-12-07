@@ -32,8 +32,9 @@ module.exports = class SpellPaletteThangEntryView extends CocoView
     @doc =
       name: options.buildableName
       initialHTML: popoverTemplate _: _, marked: marked, doc:
-        shortName: @thang.get('name')
-        type: "thang"
+        #shortName: @thang.get('name')
+        shortName: options.doc.name
+        type: "spawnable"
         description: "![#{@thang.get('name')}](#{@thang.getPortraitURL()}) #{options.doc.description}"
         example: example
       example: example
