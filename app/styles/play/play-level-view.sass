@@ -224,11 +224,14 @@ $level-resize-transition-time: 0.5s
     width: 2%
 
   #play-footer
+    position: absolute
+    bottom: 0px
+    width: calc(55% - $api-bar-width)
     text-align: center
     font-family: $headings-font-family
     font-variant: small-caps
     font-size: 25px
-    padding: 10px 0
+    padding: 0 0
     @include transition(opacity .10s linear)
     @include opacity(0.6)
 
@@ -328,7 +331,7 @@ $level-resize-transition-time: 0.5s
     bottom: 38px
     
   #codeplay-product-banner
-    width: calc(58.5% - 200px)
+    width: calc(58.5% - $api-bar-width)
     position: relative
     top: -15px
     left: -1.8%
