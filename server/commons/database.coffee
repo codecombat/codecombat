@@ -164,7 +164,8 @@ module.exports =
 
   getDocFromHandle: co.wrap (req, Model, options={}) ->
     dbq = Model.find()
-    handle = req.params.handle
+    handleName = options.handleName or 'handle'
+    handle = req.params[handleName]
     if not handle
       return done(new errors.UnprocessableEntity('No handle provided.'))
     if @isID(handle)

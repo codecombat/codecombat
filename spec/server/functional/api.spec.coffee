@@ -7,6 +7,9 @@ request = require '../request'
 mongoose = require 'mongoose'
 moment = require 'moment'
 Prepaid = require '../../../server/models/Prepaid'
+Classroom = require '../../../server/models/Classroom'
+Course = require '../../../server/models/Course'
+CourseInstance = require '../../../server/models/CourseInstance'
 
 describe 'POST /api/users', ->
 
@@ -21,14 +24,46 @@ describe 'POST /api/users', ->
     done()
 
   it 'creates a user that is marked as having been created by the API client', utils.wrap (done) ->
-    json = { name: 'name', email: 'e@mail.com' }
+    json = { name: 'name', email: 'e@mail.com', role: 'teacher' }
     [res, body] = yield request.postAsync({url, json, @auth})
     expect(res.statusCode).toBe(201)
     expect(body.clientCreator).toBe(@client.id)
     expect(body.name).toBe(json.name)
     expect(body.email).toBe(json.email)
+    expect(body.role).toBe('teacher')
     done()
     
+    
+describe 'PUT /api/users/:handle/hero-config', ->
+
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, APIClient])
+
+    @client = yield utils.makeAPIClient()
+    @user = yield utils.initUser({clientCreator: @client._id})
+    @url = utils.getURL("/api/users/#{@user.id}/hero-config")
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @hero = yield utils.makeThangType({kind: 'Hero'})
+    @unit = yield utils.makeThangType({kind: 'Unit'})
+    yield utils.logout()
+ 
+  it 'edits the user\'s heroConfig thangType', utils.wrap ->
+    json = { thangType: @hero.get('original') }
+    [res, body] = yield request.putAsync({@url, json, auth: @client.auth})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.heroConfig.thangType).toBe(@hero.get('original').toString())
+    
+  it 'returns 404 if the thangType is not found', utils.wrap ->
+    json = { thangType: mongoose.Types.ObjectId() }
+    [res, body] = yield request.putAsync({@url, json, auth: @client.auth})
+    expect(res.statusCode).toBe(404)
+    
+  it 'returns 403 if the thangType is NOT a hero', utils.wrap ->
+    json = { thangType: @unit.get('original') }
+    [res, body] = yield request.putAsync({@url, json, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
     
 describe 'GET /api/users/:handle', ->
 
@@ -90,6 +125,61 @@ describe 'GET /api/users/:handle', ->
     expect(res.statusCode).toBe(200)
     done()
     
+    
+describe 'GET /api/users/:handle/classrooms', ->
+  
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, APIClient, Course, CourseInstance])
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @course = yield utils.makeCourse({free: true})
+
+    @client = yield utils.makeAPIClient()
+    @teacher = yield utils.initUser({role: 'teacher', clientCreator: @client._id})
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser({role: 'student', clientCreator: @client._id})
+    @classroom = yield utils.makeClassroom({}, {members: [@student]})
+    yield utils.makeCourseInstance({}, {@course, @classroom, members: [@student]})
+    @otherTeacher = yield utils.initUser({role: 'teacher', clientCreator: @client._id})
+    yield utils.loginUser(@otherTeacher)
+    @classroom2 = yield utils.makeClassroom({}, {members: [@student]})
+    @classroom3 = yield utils.makeClassroom()
+    yield utils.logout()
+  
+  it 'returns a list of classrooms a student is in', utils.wrap ->
+    url = utils.getURL("/api/users/#{@student.id}/classrooms")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(200)
+    expect(res.body[0]._id).toBe(@classroom.id)
+    expect(res.body[1]._id).toBe(@classroom2.id)
+    expect(res.body[0].courses[0].enrolled.length).toBe(1)
+    expect(res.body.length).toBe(2)
+
+  it 'returns a list of classrooms a teacher owns', utils.wrap ->
+    url = utils.getURL("/api/users/#{@teacher.id}/classrooms")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(200)
+    expect(res.body[0]._id).toBe(@classroom.id)
+    expect(res.body[0].courses[0].enrolled.length).toBe(1)
+    expect(res.body.length).toBe(1)
+
+    url = utils.getURL("/api/users/#{@otherTeacher.id}/classrooms")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(200)
+    difference = _.difference((classroom._id for classroom in res.body), [@classroom2.id, @classroom3.id])
+    expect(difference.length).toBe(0)
+    
+  it 'returns 403 if the teacher or student is not created by the client', utils.wrap ->
+    yield @student.update({$unset: {clientCreator:''}})
+    url = utils.getURL("/api/users/#{@student.id}/classrooms")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
+
+    yield @teacher.update({$unset: {clientCreator:''}})
+    url = utils.getURL("/api/users/#{@teacher.id}/classrooms")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
   
 describe 'POST /api/users/:handle/o-auth-identities', ->
 
@@ -420,3 +510,78 @@ describe 'GET /api/user-lookup/israel-id/:israelId', ->
     [res, body] = yield request.getAsync({url, json: true, @auth, followRedirect: false })
     expect(res.statusCode).toBe(404)
     done()
+
+    
+describe 'PUT /api/classrooms/:handle/members', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, APIClient])
+    @client = yield utils.makeAPIClient()
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom()
+    @student = yield utils.initUser({clientCreator: @client._id})
+    yield utils.logout()
+    done()
+    
+  it 'upserts a user into the classroom members list', utils.wrap (done) ->
+    url = utils.getURL("/api/classrooms/#{@classroom.id}/members")
+    json = { code: @classroom.get('code'), userId: @student.id }
+    [res, body] = yield request.putAsync { url, auth: @client.auth, json }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.members.length).toBe(1)
+    expect(res.body.code).toBeUndefined()
+    expect(res.body.codeCamel).toBeUndefined()
+    done()
+    
+    
+describe 'PUT /api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', ->
+  
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, APIClient, Course, CourseInstance])
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @freeCourse = yield utils.makeCourse({free: true})
+    @paidCourse = yield utils.makeCourse({free: false})
+    
+    @client = yield utils.makeAPIClient()
+    @teacher = yield utils.initUser({role: 'teacher', clientCreator: @client._id})
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser({clientCreator: @client._id})
+    @classroom = yield utils.makeClassroom({}, {members: [@student]})
+    @freeCourse.url = utils.getURL("/api/classrooms/#{@classroom.id}/courses/#{@freeCourse.id}/enrolled")
+    @paidCourse.url = utils.getURL("/api/classrooms/#{@classroom.id}/courses/#{@paidCourse.id}/enrolled")
+    @json = { userId: @student.id }
+    
+  it 'upserts the user to the course instance, creating one if necessary', utils.wrap (done) ->
+    courseInstanceQuery = {courseID: @freeCourse._id, classroomID: @classroom._id}
+    courseInstance = yield CourseInstance.findOne(courseInstanceQuery)
+    expect(courseInstance).toBe(null)
+    
+    [res, body] = yield request.putAsync({url: @freeCourse.url, @json, auth: @client.auth})
+    expect(body.courses[0].enrolled.length).toBe(1)
+    courseInstance = yield CourseInstance.findOne(courseInstanceQuery)
+    expect(courseInstance.get('members').length).toBe(1)
+    expect(courseInstance.get('members')[0].equals(@student._id)).toBe(true)
+    courseInstanceCount = yield CourseInstance.count()
+    expect(courseInstanceCount).toBe(1)
+
+    # check idempotence
+    [res, body] = yield request.putAsync({url: @freeCourse.url, @json, auth: @client.auth})
+    courseInstance = yield CourseInstance.findOne(courseInstanceQuery)
+    expect(courseInstance.get('members').length).toBe(1)
+    courseInstanceCount = yield CourseInstance.count()
+    expect(courseInstanceCount).toBe(1)
+    done()
+    
+  it 'returns 403 if the client did not create the student', utils.wrap ->
+    yield @student.update({$unset: {clientCreator: ''}})
+    [res, body] = yield request.putAsync({url: @freeCourse.url, @json, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
+
+  it 'returns 403 if the client did not create the classroom owner', utils.wrap ->
+    yield @teacher.update({$unset: {clientCreator: ''}})
+    [res, body] = yield request.putAsync({url: @freeCourse.url, @json, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
+
+  

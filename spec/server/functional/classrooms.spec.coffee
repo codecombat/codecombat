@@ -43,7 +43,7 @@ describe 'GET /db/classroom?ownerID=:id', ->
 
 describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
+    clearModels [User, Classroom, Course, Campaign], (err) ->
       throw err if err
       done()
 
@@ -336,44 +336,35 @@ describe 'GET /db/classroom/:handle/levels', ->
 
       done()
 
-describe 'PUT /db/classroom', ->
+describe 'PUT /db/classroom/:handle', ->
 
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
-      throw err if err
-      done()
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(teacher)
+    @classroom = yield utils.makeClassroom()
+    @url = utils.getURL("/db/classroom/#{@classroom.id}")
+    done()
 
-  it 'edits name and description', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 2' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(201)
-          data = { name: 'Classroom 3', description: 'New Description' }
-          url = classroomsURL + '/' + body._id
-          request.put { uri: url, json: data }, (err, res, body) ->
-            expect(body.name).toBe('Classroom 3')
-            expect(body.description).toBe('New Description')
-            done()
+  it 'edits name and description', utils.wrap (done) ->
+    json = { name: 'New Name!', description: 'New Description' }
+    [res, body] = yield request.putAsync { @url, json }
+    expect(body.name).toBe('New Name!')
+    expect(body.description).toBe('New Description')
+    done()
+    
+  it 'is not allowed if you are just a member', utils.wrap (done) ->
+    student = yield utils.initUser()
+    yield utils.loginUser(student)
+    joinUrl = getURL("/db/classroom/~/members")
+    joinJson = { code: @classroom.get('code') }
+    [res, body] = yield request.postAsync { url: joinUrl, json: joinJson }
+    expect(res.statusCode).toBe(200)
 
-  it 'is not allowed if you are just a member', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 4' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(201)
-          classroomCode = body.code
-          loginNewUser (user2) ->
-            url = getURL("/db/classroom/~/members")
-            data = { code: classroomCode }
-            request.post { uri: url, json: data }, (err, res, body) ->
-              expect(res.statusCode).toBe(200)
-              url = classroomsURL + '/' + body._id
-              request.put { uri: url, json: data }, (err, res, body) ->
-                expect(res.statusCode).toBe(403)
-                done()
+    json = { name: 'New Name!', description: 'New Description' }
+    [res, body] = yield request.putAsync { @url, json }
+    expect(res.statusCode).toBe(403)
+    done()
 
 describe 'POST /db/classroom/-/members', ->
 
@@ -437,34 +428,23 @@ describe 'POST /db/classroom/-/members', ->
 
 describe 'DELETE /db/classroom/:id/members', ->
 
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom], (err) ->
-      throw err if err
-      done()
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser()
+    @classroom = yield utils.makeClassroom({}, {members:[@student]})
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members")
+    done()
 
-  it 'removes the given user from the list of members in the classroom', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 6' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          classroomCode = body.code
-          classroomID = body._id
-          expect(res.statusCode).toBe(201)
-          loginNewUser (user2) ->
-            url = getURL("/db/classroom/~/members")
-            data = { code: classroomCode }
-            request.post { uri: url, json: data }, (err, res, body) ->
-              expect(res.statusCode).toBe(200)
-              Classroom.findById classroomID, (err, classroom) ->
-                expect(classroom.get('members').length).toBe(1)
-                url = getURL("/db/classroom/#{classroom.id}/members")
-                data = { userID: user2.id }
-                request.del { uri: url, json: data }, (err, res, body) ->
-                  expect(res.statusCode).toBe(200)
-                  Classroom.findById classroomID, (err, classroom) ->
-                    expect(classroom.get('members').length).toBe(0)
-                    done()
+  it 'removes the given user from the list of members in the classroom', utils.wrap (done) ->
+    expect(@classroom.get('members').length).toBe(1)
+    json = { userID: @student.id }
+    [res, body] = yield request.delAsync { @url, json }
+    expect(res.statusCode).toBe(200)
+    classroom = yield Classroom.findById(@classroom.id)
+    expect(classroom.get('members').length).toBe(0)
+    done()
 
 
 describe 'POST /db/classroom/:id/invite-members', ->
