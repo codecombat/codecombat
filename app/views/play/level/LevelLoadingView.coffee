@@ -31,6 +31,16 @@ module.exports = class LevelLoadingView extends CocoView
       $(tip).removeClass('to-remove').addClass('secret')
       @$el.find('.to-remove').remove()
     @onLevelLoaded level: @options.level if @options.level?.get('goals')  # If Level was already loaded.
+    @configureACEEditors()
+
+  configureACEEditors: ->
+    codeLanguage = @session?.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+    oldEditor.destroy() for oldEditor in @aceEditors ? []
+    @aceEditors = []
+    aceEditors = @aceEditors
+    @$el.find('pre:has(code[class*="lang-"])').each ->
+      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditors.push aceEditor
 
   afterInsert: ->
     super()
@@ -182,6 +192,7 @@ module.exports = class LevelLoadingView extends CocoView
       html = marked utils.filterMarkdownCodeLanguages(utils.i18n(@intro, 'body'), language)
     @$el.find('.intro-doc').removeClass('hidden').find('.intro-doc-content').html html
     @resize()
+    @configureACEEditors()
 
   onUnveilEnded: =>
     return if @destroyed
