@@ -203,7 +203,7 @@ module.exports = class HeroVictoryModal extends ModalView
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
         pixelCode = if gameDevHoc then 'code_combat_gamedev' else 'code_combat'
-        $('body').append($("<img src='http://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
+        $('body').append($("<img src='https://code.org/api/hour/finish_#{pixelCode}.png' style='visibility: hidden;'>"))
         me.set 'hourOfCodeComplete', true
         me.patch()
         window.tracker?.trackEvent 'Hour of Code Finish'
@@ -411,22 +411,12 @@ module.exports = class HeroVictoryModal extends ModalView
       AudioPlayer.playSound name, 1
 
   getNextLevelCampaign: ->
-    # Much easier to just keep this updated than to dynamically figure it out.
-    # TODO: only go back to world selector if any beta campaigns are incomplete
-    campaign = {
-      'kithgard-gates': '',
-      'kithgard-mastery': '',
-      'tabula-rasa': '',
-      'wanted-poster': '',
-      'siege-of-stonehold': '',
-      'go-fetch': '',
-      'palimpsest': '',
-      'quizlet': '',
-      'clash-of-clones': 'mountain',
-      'summits-gate': 'glacier'
-    }[@level.get('slug')] ? @level.get 'campaign'
-    # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
-    campaign = 'game-dev-hoc' if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'game-grove']) and storage.load('should-return-to-game-dev-hoc')
+    campaign = @level.get 'campaign'
+    if @level.get('slug') in campaignEndLevels
+      campaign = ''  # Return to campaign selector
+    if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'game-grove']) and storage.load('should-return-to-game-dev-hoc')
+      # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
+      campaign = 'game-dev-hoc'
     campaign
 
   getNextLevelLink: (returnToCourse=false) ->
@@ -475,6 +465,8 @@ module.exports = class HeroVictoryModal extends ModalView
       viewArgs = [options, @level.get('slug')]
       viewArgs = viewArgs.concat ['course', leagueID] if leagueID
     else
+      if @level.get('slug') in campaignEndLevels
+        options.worldComplete = @level.get('campaign') or true
       viewClass = require 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]
     navigationEvent = route: nextLevelLink, viewClass: viewClass, viewArgs: viewArgs
@@ -538,3 +530,18 @@ module.exports = class HeroVictoryModal extends ModalView
   saveReview: ->
     @feedback.set('review', @$el.find('.review textarea').val())
     @feedback.save()
+
+
+# Much easier to just keep this updated than to dynamically figure it out.
+campaignEndLevels = [
+  'kithgard-gates'
+  'kithgard-mastery'
+  'tabula-rasa'
+  'wanted-poster'
+  'siege-of-stonehold'
+  'go-fetch'
+  'palimpsest'
+  'quizlet'
+  'clash-of-clones'
+  'summits-gate'
+]

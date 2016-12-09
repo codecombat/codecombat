@@ -384,6 +384,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     last_name: "名"
     last_initial: "（姓）首大写字母"
     username: "用户名"
+#    contact_us: "Contact Us"
+#    close_window: "Close Window"
+#    learn_more: "Learn More"
 
   units:
     second: "秒"
@@ -402,6 +405,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
+#    directions: "Directions"
+#    edit_level: "Edit Level"
+#    explore_codecombat: "Explore CodeCombat"
+#    finished_hoc: "I'm finished with my Hour of Code"
+#    get_certificate: "Get your certificate!"
     level_complete: "关卡已完成"
     completed_level: "完成关卡:"
     course: "课程:"
@@ -429,6 +437,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reload_title: "重载所有代码？"
     reload_really: "确定重载这一关，返回开始处吗？"
     reload_confirm: "重载所有"
+#    test_level: "Test Level"
     victory: "胜利"
     victory_title_prefix: ""
     victory_title_suffix: " 完成"
@@ -545,7 +554,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_game_dev_level:
     created_by: "由 {{name}} 创建"
-    how_to_play_title: "游戏规则："
     how_to_play_1: "使用鼠标控制英雄！"
     how_to_play_2: "点击地图任意一处让英雄移动。"
     how_to_play_3: "点击食人魔开始攻击。"
@@ -553,7 +561,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     play: "开始关卡"
     play_more_codecombat: "玩更多 CodeCombat 关卡"
     default_student_instructions: "单击控制英雄，并取得胜利！"
-    back_to_coding: "回到编程"
 
   game_menu:
     inventory_tab: "道具箱"
@@ -611,18 +618,24 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     price: "x{{gems}} / 月"
 
   subscribe:
-    comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！"
-    feature1: "__levelsCount__+ 基本关卡（__worldsCount__个世界）"
-    feature2: "__heroesCount__ 个强大 <strong>英雄</strong>以及各式非凡技能!"
-    feature3: "__bonusLevelsCount__+ 奖励关卡"
-    feature4: "每月享有{{gems}}额外宝石"
+#    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
+#    premium_pricing_prefix: "Get Premium for just"
+#    premium_pricing_suffix: "and become a master coder."
+#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
+    feature1: "__levelsCount__+ 基本关卡（__worldsCount__个世界）" # {change}
+    feature2: "__heroesCount__ 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
+    feature3: "__bonusLevelsCount__+ 奖励关卡" # {change}
+    feature4: "每月享有{{gems}}额外宝石" # {change}
     feature6: "专业邮件支援"
     feature7: "私人 <strong>部落</strong>"
     feature8: "<strong>无广告！</strong>"
+#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
+#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "免费"
     month: "月"
     must_be_logged: "您需要先登入。请先注册或者在上方的目录中点击登入。"
-    subscribe_title: "订阅"
+    subscribe_title: "订阅" # Actually used in subscribe buttons, too
     unsubscribe: "取消订阅"
     confirm_unsubscribe: "确认取消订阅"
     never_mind: "没关系，我们依然喜欢您"
@@ -778,8 +791,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     rob_blurb: "编代码之类的"
     josh_c_title: "游戏设计师"
     josh_c_blurb: "设计游戏"
-    robin_title: "用户体验设计和研究"
-    robin_blurb: "基架"
+    robin_title: "用户体验设计和研究" # {change}
+    robin_blurb: "基架" # {change}
     josh_title: "游戏设计师"
     josh_blurb: "地面是熔岩"
     phoenix_title: "软件工程师"
@@ -789,6 +802,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     lisa_title: "市场开发代表" # {change}
     lisa_blurb: "坚韧不拔的人"
     sean_title: "领土经理"
+#    liz_title: "Territory Manager"
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
@@ -851,6 +865,47 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     more_info_2: "教师论坛"
     more_info_3: "是个与其他使用CodeCombat的教育工作者联系的良好平台。"
     licenses_needed: "需要许可"
+
+#  special_offer:
+#    special_offer: "Special Offer"
+#    project_based_title: "Project-Based Courses"
+#    project_based_description: "Web and Game Development courses feature shareable final projects."
+#    great_for_clubs_title: "Great for clubs and electives"
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    low_price_title: "Just __starterLicensePrice__ per student"
+#    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
+#    three_great_courses: "Three great courses included in the Starter License:"
+#    license_limit_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses. You have already purchased __quantityAlreadyPurchased__. If you need more, contact __supportEmail__. Starter Licenses are valid for __starterLicenseLengthMonths__ months."
+#    student_starter_license: "Student Starter License"
+#    purchase_starter_licenses: "Purchase Starter Licenses"
+#    purchase_starter_licenses_to_grant: "Purchase Starter Licenses to grant access to __starterLicenseCourseList__"
+#    starter_licenses_can_be_used: "Starter Licenses can be used to assign additional courses immediately after purchase."
+#    pay_now: "Pay Now"
+#    we_accept_all_major_credit_cards: "We accept all major credit cards."
+#    cs2_description: "builds on the foundation from Introduction to Computer Science, diving into if-statements, functions, events and more."
+#    wd1_description: "introduces the basics of HTML and CSS while teaching skills needed for students to build their first webpage."
+#    gd1_description: "uses syntax students are already familiar with to show them how to build and share their own playable game levels."
+#    see_an_example_project: "see an example project"
+#    get_started_today: "Get started today!"
+#    want_all_the_courses: "Want all the courses? Request information on our Full Licenses."
+#    compare_license_types: "Compare License Types:"
+#    cs: "Computer Science"
+#    wd: "Web Development"
+#    wd1: "Web Development 1"
+#    gd: "Game Development"
+#    gd1: "Game Development 1"
+#    maximum_students: "Maximum # of Students"
+#    unlimited: "Unlimited"
+#    priority_support: "Priority support"
+#    yes: "Yes"
+#    price_per_student: "__price__ per student"
+#    pricing: "Pricing"
+#    free: "Free"
+#    purchase: "Purchase"
+#    courses_prefix: "Courses"
+#    courses_suffix: ""
+#    course_prefix: "Course"
+#    course_suffix: ""
 
   teachers_quote:
     name: "试用申请表"
@@ -1353,8 +1408,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     web_dev_language_transition: "课程所有的编程将在HTML / JavaScript中进行。 已经使用Python的类将从额外的JavaScript介绍级开始，以缓解过渡。 已经使用JavaScript的类将跳过介绍级别。"
 
   teacher:
+#    assigning_course: "Assigning course"
     course_solution: "关卡解法"
     level_overview_solutions: "关卡概览和解法"
+#    no_student_assigned: "No students have been assigned this course."
+#    paren_new: "(new)"
     teacher_dashboard: "教师面板" # Navbar
     my_classes: "我的教室"
     courses: "课程指导"
@@ -1402,10 +1460,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sort_by: "排列依据"
     progress: "进度"
     completed: "已完成"
+#    practice: "Practice"
     started: "已开始"
     click_to_view_progress: "点击查看进度"
     no_progress: "无进度"
+#    not_required: "Not required"
     select_course: "选择查看"
+#    progress_color_key: "Progress color key:"
+#    level_in_progress: "Level in Progress"
+#    level_not_started: "Level Not Started"
+#    project_or_arena: "Project or Arena"
     students_not_assigned: "未分配 {{courseName}} 的学生"
     course_overview: "课程概览"
     copy_class_code: "复制课堂编码"
@@ -1419,9 +1483,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     assigned_msg_3: "你现在还有 {{remainingSpots}} 个可用的许可."
     assign_course: "分配课程"
     not_assigned_modal_title: "课程未分配"
-    not_assigned_modal_body_1: "您没有足够的许可，无法为 {{selected}} 名学生分配所选课堂."
-    not_assigned_modal_body_2: "您只有 {{totalSpotsAvailable}} 个可用的许可 ({{unenrolledStudents}} 个学生没有有效的许可)."
-    not_assigned_modal_body_3: "请减少学生人数, 或与 {{email}} 联系以寻求帮助."
+#    not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
+#    not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
+#    not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
+#    not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
     assign_to_selected_students: "添加课堂到选中的学生"
     assigned: "已添加"
     enroll_selected_students: "注册选中的学生"
@@ -1456,6 +1522,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     available_credits: "可用许可"
     pending_credits: "评估许可"
     credits: "许可"
+#    starter_licenses: "starter licenses"
     start_date: "起始日期："
     end_date: "结束日期："
     get_enrollments_blurb: " 我们会帮您解决您的班级、学校或地区的需求。"
@@ -1527,6 +1594,27 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     student_warn_detail: "这个学生可能需要一些帮助，在本课程中介绍的新概念."
     student_great: "做得太好了，关卡"
     student_great_detail: "这个学生可能是一个很好的候选人，帮助其他学生通过这门课程."
+#    full_license: "Full License"
+#    starter_license: "Starter License"
+#    trial: "Trial"
+#    hoc_welcome: "Happy Computer Science Education Week"
+#    hoc_intro: "There are three ways for your class to participate in Hour of Code with CodeCombat"
+#    hoc_self_led: "Self-Led Gameplay"
+#    hoc_self_led_desc: "Students can play through two Hour of Code CodeCombat tutorials on their own"
+#    hoc_game_dev: "Game Development"
+#    hoc_and: "and"
+#    hoc_programming: "JavaScript/Python Programming"
+#    hoc_teacher_led: "Teacher-Led Lessons"
+#    hoc_teacher_led_desc1: "Download our"
+#    hoc_teacher_led_link: "Introduction to Computer Science lesson plans"
+#    hoc_teacher_led_desc2: "to introduce your students to programming concepts using offline activities"
+#    hoc_group: "Group Gameplay"
+#    hoc_group_desc_1: "Teachers can use the lessons in conjunction with our Introduction to Computer Science course to track student progress. See our"
+#    hoc_group_link: "Getting Started Guide"
+#    hoc_group_desc_2: "for more details"
+#    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
+#    hoc_additional_desc2: "Questions"
+#    hoc_additional_contact: "Get in touch"
 
   sharing:
     game: "游戏"
@@ -1882,7 +1970,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   account_prepaid:
     purchase_code: "购买订阅码"
-    purchase_code1: "订阅码可以为一个或多个CodeCombat账号兑换额外的订阅时间。" #{change}
+    purchase_code1: "订阅码可以为一个或多个CodeCombat账号兑换额外的订阅时间。" # {change}
     purchase_code2: "每个CodeCombat账号每次只能兑换一个订阅码。"
     purchase_code3: "订阅码时间会在账号现有的订阅时间基础上延长。"
 #    purchase_code4: "Subscription Codes are for accounts playing the Home version of CodeCombat, they cannot be used in place of Student Licenses for the Classroom version."

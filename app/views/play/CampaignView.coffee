@@ -54,6 +54,7 @@ module.exports = class CampaignView extends RootView
     'click #clear-storage-button': 'onClickClearStorage'
     'click .portal .campaign': 'onClickPortalCampaign'
     'click .portal .beta-campaign': 'onClickPortalCampaign'
+    'click a .campaign-switch': 'onClickCampaignSwitch'
     'mouseenter .portals': 'onMouseEnterPortals'
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
@@ -74,7 +75,7 @@ module.exports = class CampaignView extends RootView
       me.set('hourOfCode', true)
       me.patch()
       pixelCode = if @terrain is 'game-dev-hoc' then 'code_combat_gamedev' else 'code_combat'
-      $('body').append($("<img src='http://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
+      $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
 
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     shouldReturnToGameDevHoc = @terrain is 'game-dev-hoc'
@@ -274,12 +275,29 @@ module.exports = class CampaignView extends RootView
 
   afterInsert: ->
     super()
-    return unless @getQueryVariable 'signup'
-    return if me.get('email')
+    if @getQueryVariable('signup') and not me.get('email')
+      return @promptForSignup()
+    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.freeOnly))
+      if not me.get('email')
+        return @promptForSignup()
+      campaignSlug = window.location.pathname.split('/')[2]
+      return @promptForSubscription campaignSlug, 'premium campaign visited'
+
+  promptForSignup: ->
     @endHighlight()
     authModal = new CreateAccountModal supermodel: @supermodel
     authModal.mode = 'signup'
     @openModalView authModal
+
+  promptForSubscription: (slug, label) ->
+    @endHighlight()
+    @openModalView new SubscribeModal()
+    # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: label, level: slug, levelID: slug
+
+  isPremiumCampaign: (slug) ->
+    slug ||= window.location.pathname.split('/')[2]
+    /campaign-(game|web)-dev-\d/.test slug
 
   showAds: ->
     return false # No ads for now.
@@ -339,10 +357,18 @@ module.exports = class CampaignView extends RootView
           level.unlockedInSameCampaign ||= reward.level is level.original
       level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
 
-  countLevels: (levels) ->
+  countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
-    for level, levelIndex in levels
-      @annotateLevels(levels) unless level.locked?  # Annotate if we haven't already.
+
+    if @campaign?.get('slug') is 'game-dev-hoc'
+      # HoC: Just order left-to-right instead of looking at unlocks, which we don't use for this copycat campaign
+      orderedLevels = _.sortBy orderedLevels, (level) -> level.position.x
+      count.completed++ for level in orderedLevels when @levelStatusMap[level.slug] is 'complete'
+      count.total = orderedLevels.length
+      return count
+
+    for level, levelIndex in orderedLevels
+      @annotateLevels(orderedLevels) unless level.locked?  # Annotate if we haven't already.
       continue if level.disabled
       completed = @levelStatusMap[level.slug] is 'complete'
       started = @levelStatusMap[level.slug] is 'started'
@@ -565,9 +591,7 @@ module.exports = class CampaignView extends RootView
     requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
     canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
     if requiresSubscription and not canPlayAnyway
-      @openModalView new SubscribeModal()
-      # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
-      window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'map level clicked', level: levelSlug, levelID: levelSlug
+      @promptForSubscription levelSlug, 'map level clicked'
     else
       @startLevel levelElement
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
@@ -729,10 +753,20 @@ module.exports = class CampaignView extends RootView
     campaign = $(e.target).closest('.campaign, .beta-campaign')
     return if campaign.is('.locked') or campaign.is('.silhouette')
     campaignSlug = campaign.data('campaign-slug')
+    if @isPremiumCampaign(campaignSlug) and not me.isPremium()
+      return @promptForSubscription campaignSlug, 'premium campaign clicked'
     Backbone.Mediator.publish 'router:navigate',
       route: "/play/#{campaignSlug}"
       viewClass: CampaignView
       viewArgs: [{supermodel: @supermodel}, campaignSlug]
+
+  onClickCampaignSwitch: (e) ->
+    campaignSlug = $(e.target).data('campaign-slug')
+    console.log campaignSlug, @isPremiumCampaign campaignSlug
+    if @isPremiumCampaign(campaignSlug) and not me.isPremium()
+      e.preventDefault()
+      e.stopImmediatePropagation()
+      return @promptForSubscription campaignSlug, 'premium campaign switch clicked'
 
   loadUserPollsRecord: ->
     url = "/db/user.polls.record/-/user/#{me.id}"
