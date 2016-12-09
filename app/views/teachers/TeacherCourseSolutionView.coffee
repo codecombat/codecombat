@@ -3,7 +3,7 @@ RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Level = require 'models/Level'
-
+utils = require 'core/utils'
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
   template: require 'templates/teachers/teacher-course-solution-view'
@@ -63,3 +63,15 @@ module.exports = class TeacherCourseSolutionView extends RootView
       levels.push({key: level.get('original'), practice: level.get('practice') ? false})
     @levelNumberMap = utils.createLevelNumberMap(levels)
     @render?()
+
+  afterRender: ->
+    super()
+    lang = @language
+    @$el.find('pre>code').each ->
+      els = $(@)
+      c = els.parent()
+      aceEditor = utils.initializeACE c[0], lang
+      aceEditor.setShowInvisibles false
+      aceEditor.setBehavioursEnabled false
+      aceEditor.setAnimatedScroll false
+      aceEditor.$blockScrolling = Infinity
