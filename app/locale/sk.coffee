@@ -487,11 +487,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     infinite_loop_reset_level: "Reštartuj level"
     infinite_loop_comment_out: "Zakomentovať môj kód"
     tip_toggle_play: "Prepnite prehrávanie/pauzu pomocou Ctrl+P."
-    tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pre pretočenie a rychlý presun." # {change}
+    tip_scrub_shortcut: "Ctrl+[ a Ctrl+] pre pretočenie a rychlý presun." 
     tip_guide_exists: "Kliknite na sprievodcu v hernom menu (hore na stránke), pre užitočné informácie."
     tip_open_source: "CodeCombat je 100% open source!"
     tip_tell_friends: "Užívaš si CodeCombat? Povedz to svojím priateľom!"
-    tip_beta_launch: "CodeCombat spustil svoju beta verziu v Októbri, 2013."
+    tip_beta_launch: "CodeCombat spustil svoju beta verziu v októbri roku 2013."
     tip_think_solution: "Myslite na riešenie, nie na problém."
     tip_theory_practice: "Teoreticky nie je žiaden rozdiel medzi teoriou a praxou. Ale v praxi ten rozdiel je. - Yogi Berra"
     tip_error_free: "Sú dva spôsoby ako písať programy bez chýb; iba ten tretí funguje. - Alan Perlis"
@@ -618,10 +618,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     price: "x{{gems}} / mesiac"
 
   subscribe:
-#    subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
+    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !"
+    premium_pricing_prefix: "Získaj verziu  Premium iba za"
+    premium_pricing_suffix: "a staň sa majstrom v programovaní."
 #    premium: "Premium" # Make sure the following feature translations don't go onto two lines
     feature1: "__levelsCount__+ základných úrovní v __worldsCount__ svetoch" # {change}
     feature2: "__heroesCount__ mocných <strong>new hrdinov</strong> s jedinečnými schopnosťami!" # {change}
@@ -630,8 +630,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     feature6: "Prémiová emailová podpora"
     feature7: "Súkromné<strong>klany</strong>"
     feature8: "<strong>Žiadne reklamy!</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
+    feature_game_dev: "Vytvor hry, ktoré si môžu zahrať tvoji priatelia vo svetoch <strong>Vývoja hier</strong>"
+    feature_web_dev: "Vytvor webové stránky s HTML, CSS a jQuery vo svetoch <strong>Webového vývoja</strong>"
     free: "Zdarma"
     month: "mesiac"
     must_be_logged: "Najskôr sa musíš prihlásiť. Vytvor si účet alebo sa prihlás."
