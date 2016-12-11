@@ -1,5 +1,5 @@
 module.exports = nativeDescription: "Italiano", englishDescription: "Italian", translation:
- new_home:
+  new_home:
     slogan: "Il più avvincente gioco per imparare a programmare."
     classroom_edition: "Edizione Scuola:"
     learn_to_code: "Impara a programmare:"
@@ -552,7 +552,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     tip_programming_not_about_computers: "La Scienza dei Computer non riguarda i computer più di quanto l'astronomia riguardi i telescopi.. - Edsger Dijkstra"
     tip_mulan: "Se ci credi, raggiungerai i tuoi obbiettivi. - Mulan"
 
-play_game_dev_level:
+  play_game_dev_level:
     created_by: "Creato da {{name}}"
     how_to_play_1: "Usa il mouse per controllare l'eroe!"
     how_to_play_2: "Clicca dove vuoi sulla mappa per muoverti in quel punto."
