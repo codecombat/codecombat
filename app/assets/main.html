@@ -54,6 +54,7 @@
     m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
     })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
     ga('create', 'UA-39724129-1', 'auto');
+    if(features.codePlay) { ga('create', 'UA-80597440-3', {name: 'codeplay'}); }
   </script>
   <!-- Rollbar -->
   <script>
@@ -81,6 +82,8 @@ var _rollbarConfig = {
   </script>
 
   <script src="https://checkout.stripe.com/checkout.js"></script>
+    
+  <!-- CodePlay Tags -->
 
   <!-- IE9 doesn't support defer attribute: https://github.com/h5bp/lazyweb-requests/issues/42 -->
   <!--[if IE 9]>

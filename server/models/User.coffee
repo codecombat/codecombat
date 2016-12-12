@@ -504,7 +504,8 @@ UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'country',
-  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities'
+  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
+  'coursePrepaid', 'coursePrepaidID'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [

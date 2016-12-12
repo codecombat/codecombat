@@ -72,6 +72,7 @@ module.exports = class Tracker extends CocoClass
       traits[userTrait] ?= me.get(userTrait) if me.get(userTrait)?
     if me.isTeacher()
       traits.teacher = true
+    traits.host = document.location.host
 
     console.log 'Would identify', me.id, traits if debugAnalytics
     @trackEventInternal('Identify', {id: me.id, traits}) unless me?.isAdmin() and @isProduction
@@ -109,6 +110,7 @@ module.exports = class Tracker extends CocoClass
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', url
+    ga?('codeplay.send', 'pageview', url) if features.codePlay
 
     # Mixpanel
     mixpanel.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)

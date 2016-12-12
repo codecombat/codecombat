@@ -405,12 +405,11 @@ module.exports = class CampaignView extends RootView
         continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-        # TODO: Re-enable after HoC
-#        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
-#          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
-#            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
-#            dontPointTo = _.without dontPointTo, nextLevel.slug
-#            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
+        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
+            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
+            dontPointTo = _.without dontPointTo, nextLevel.slug
+            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
 
         # Should we point this level out?
         if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and

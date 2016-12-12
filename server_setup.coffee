@@ -25,6 +25,7 @@ errors = require './server/commons/errors'
 request = require 'request'
 Promise = require 'bluebird'
 Promise.promisifyAll(request, {multiArgs: true})
+codePlayTags = require './server/lib/code-play-tags'
 
 {countries} = require './app/core/utils'
 
@@ -305,6 +306,7 @@ setupFallbackRouteToIndex = (app) ->
         data = data.replace('"userObjectTag"', user)
         data = data.replace('"serverSessionTag"', JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode')))
         data = data.replace('"featuresTag"', JSON.stringify(req.features))
+        data = data.replace('<!-- CodePlay Tags -->', codePlayTags) if req.features.codePlay
         res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
         res.header 'Pragma', 'no-cache'
         res.header 'Expires', 0
