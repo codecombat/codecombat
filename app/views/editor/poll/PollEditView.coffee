@@ -45,7 +45,7 @@ module.exports = class PollEditView extends RootView
       @treema.set('/', @poll.attributes)
 
   buildTreema: ->
-    return if @treema? or (not @poll.loaded)
+    return if @treema? or (not @poll.loaded) or (not me.isAdmin())
     data = $.extend(true, {}, @poll.attributes)
     options =
       data: data

@@ -269,13 +269,7 @@ module.exports =
     if not classroom
       log.debug("classrooms.join: Classroom not found with code #{code}")
       throw new errors.NotFound("Classroom not found with code #{code}")
-    members = _.clone(classroom.get('members'))
-    if _.any(members, (memberID) -> memberID.equals(req.user._id))
-      return res.send(classroom.toObject({req: req}))
-    update = { $push: { members : req.user._id }}
-    yield classroom.update(update)
-    members.push req.user._id
-    classroom.set('members', members)
+    yield classroom.addMember(req.user)
 
     # make user role student
     if not req.user.get('role')
