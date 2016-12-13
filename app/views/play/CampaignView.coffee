@@ -451,11 +451,11 @@ module.exports = class CampaignView extends RootView
     mapWidth = parseFloat($(".map").css("width"))
     return unless mapHeight > 0
     ratio =  mapWidth / mapHeight
-    p1 = x: o1.x, y: o1.y / ratio - 0.5
+    p1 = x: o1.x, y: o1.y / ratio
     p2 = x: o2.x, y: o2.y / ratio
-    length = Math.sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y))
+    length = Math.sqrt(Math.pow(p1.x - p2.x , 2) + Math.pow(p1.y - p2.y, 2))
     angle = Math.atan2(p1.y - p2.y, p2.x - p1.x) * 180 / Math.PI
-    transform = "rotate(#{angle}deg)"
+    transform = "translateY(-50%) translateX(-50%) rotate(#{angle}deg) translateX(50%)"
     line = $('<div>').appendTo('.map').addClass('next-level-line').css(transform: transform, width: length + '%', left: o1.x + '%', bottom: (o1.y - 0.5) + '%')
     line.append($('<div class="line">')).append($('<div class="point">'))
 
