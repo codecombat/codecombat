@@ -339,12 +339,17 @@ module.exports = class SpellPaletteView extends CocoView
 
   onSectionHeaderClick: (e) ->
 
-    target = @$(@$(e.target).attr('data-panel'))
-    @$('.panel-collapse').each (idx) -> 
-      $(this).collapse(if @ is target[0] then 'show' else 'hide')
+    $et = @$(e.target)
+    target = @$($et.attr('data-panel'))
+    isCollapsed = !target.hasClass('in')
+    console.log "O", target[0], isCollapsed
+    if isCollapsed
+      target.collapse 'show'
+      $et.find('.glyphicon').removeClass('glyphicon-chevron-right').addClass('glyphicon-chevron-down')
+    else
+      target.collapse 'hide'
+      $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
 
-    @$('.glyphicon-chevron-down').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
-    $(e.target).find('.glyphicon').addClass('glyphicon-chevron-down')
     e.preventDefault()
 
   onClickHelp: (e) ->
