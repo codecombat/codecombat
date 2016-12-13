@@ -13,6 +13,7 @@ CourseInstance = require '../../../server/models/CourseInstance'
 Campaign = require '../../../server/models/Campaign'
 LevelSession = require '../../../server/models/LevelSession'
 Level = require '../../../server/models/Level'
+mongoose = require 'mongoose'
 
 classroomsURL = getURL('/db/classroom')
 
@@ -526,7 +527,7 @@ describe 'GET /db/classroom/:handle/members', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom])
     @teacher = yield utils.initUser()
-    @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L" })
+    @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L", coursePrepaid: { _id: mongoose.Types.ObjectId() } })
     @student2 = yield utils.initUser({ name: "Student Nameynamington", firstName: "Student", lastName: "N" })
     @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
     @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
@@ -550,7 +551,7 @@ describe 'GET /db/classroom/:handle/members', ->
     expect(body).toEqual([])
     done()
 
-  it 'returns all members with name, email, firstName and lastName', utils.wrap (done) ->
+  it 'returns all members with name, email, coursePrepaid, firstName and lastName', utils.wrap (done) ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync getURL("/db/classroom/#{@classroom.id}/members?name=true&email=true"), { json: true }
     expect(res.statusCode).toBe(200)
@@ -561,6 +562,8 @@ describe 'GET /db/classroom/:handle/members', ->
       expect(user.firstName).toBeDefined()
       expect(user.lastName).toBeDefined()
       expect(user.passwordHash).toBeUndefined()
+    student1 = _.find(body, {_id: @student1.id})
+    expect(student1.coursePrepaid).toBeDefined()
     done()
 
 describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->

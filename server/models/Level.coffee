@@ -45,7 +45,7 @@ LevelSchema.plugin(plugins.TranslationCoveragePlugin)
 LevelSchema.post 'init', (doc) ->
   if _.isString(doc.get('nextLevel'))
     doc.set('nextLevel', undefined)
-    
+
 LevelSchema.post 'save', (doc) ->
   return unless doc.get('version').isLatestMajor
   Campaign = require('./Campaign')
@@ -121,6 +121,7 @@ LevelSchema.statics.editableProperties = [
   'buildTime'
   'scoreTypes'
   'concepts'
+  'primaryConcepts'
   'picoCTFProblem'
   'practiceThresholdMinutes'
   'primerLanguage'
