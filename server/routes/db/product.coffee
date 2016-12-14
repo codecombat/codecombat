@@ -4,6 +4,7 @@ config = require '../../../server_config'
 wrap = require 'co-express'
 
 get = wrap (req, res) ->
+  yield new Promise((resolve) -> setTimeout(resolve, 1000))
   products = yield Product.find()
   return res.send(productStubs) unless _.size(products) or config.isProduction
   res.send(products)
