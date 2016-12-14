@@ -98,10 +98,6 @@ block modal-body-content
                   .reward-text= i18n(item.attributes, 'name')
 
 block modal-footer-content
-  if features.codePlay
-    a(href=document.location.protocol+"//gs-staging.thewoo.com/pages/products/")
-      img#lenovo-link(src="/images/common/codeplay/victorypage.png")
-  
   #totals
     .total-wrapper#xp-wrapper
       .total-count#xp-total 0
@@ -171,3 +167,7 @@ block modal-footer-content
         img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
         span(data-i18n="play_level.victory_viking_code_school")
       button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking
+
+  if features.codePlay
+    a(href=document.location.protocol + "//gs-staging.thewoo.com/pages/products/")
+      img#lenovo-link(src="/images/common/codeplay/victorypage.png")
