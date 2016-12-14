@@ -91,19 +91,17 @@
             td.center-ok
               span.glyphicon.glyphicon-ok
 
-      .premium-pricing
-        span(data-i18n="subscribe.premium_pricing_prefix")
-        span= ' '
-        if view.basicProduct
+      if view.basicProduct
+        .premium-pricing
+          span(data-i18n="subscribe.premium_pricing_prefix")
+          span= ' '
           span $#{(view.basicProduct.get('amount') / 100)}/
           span(data-i18n="subscribe.month")
-        else
-          span '...'
-        span= ' '
-        span(data-i18n="subscribe.premium_pricing_suffix")
-
-      #parents-info(data-i18n="subscribe.parents")
-      #payment-methods-info(data-i18n="subscribe.payment_methods")
+          span= ' '
+          span(data-i18n="subscribe.premium_pricing_suffix")
+  
+        #parents-info(data-i18n="subscribe.parents")
+        #payment-methods-info(data-i18n="subscribe.payment_methods")
 
       .subscribe-actions
         if !me.isOnPremiumServer()
