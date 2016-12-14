@@ -59,6 +59,8 @@ module.exports = class CampaignView extends RootView
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
     'click .poll': 'showPoll'
+  shortcuts:
+    'shift+s': 'onShiftS'
 
   constructor: (options, @terrain) ->
     super options
@@ -272,6 +274,51 @@ module.exports = class CampaignView extends RootView
       @showLeaderboard @options.justBeatLevel?.get('slug') if @options.showLeaderboard# or true  # Testing
     @applyCampaignStyles()
     @testParticles()
+
+  onShiftS: (e) ->
+    @generateCompletionRates() if @editorMode
+
+  generateCompletionRates: ->
+    return unless me.isAdmin()
+    startDay = utils.getUTCDay -14
+    startDayDashed = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
+    endDay = utils.getUTCDay -1
+    endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
+    for level in @campaign?.renderedLevels ? []
+      #$("div[data-level-slug=#{level.slug}] .level-kind").text("Loading...")
+      do (level) =>
+        console.log(level.slug)
+        request = @supermodel.addRequestResource 'level_completions', {
+          url: '/db/analytics_perday/-/level_completions'
+          data: {startDay: startDay, endDay: endDay, slug: level.slug}
+          method: 'POST'
+          success: (data) =>
+            return if @destroyed
+            started = 0
+            finished = 0
+            for day in data
+              started += day.started ? 0
+              finished += day.finished ? 0
+            if started is 0
+              ratio = 0
+            else
+              ratio = finished / started
+            rateDisplay = (ratio * 100).toFixed(2) + '%'
+            #$("div[data-level-slug=#{level.slug}] .level-kind").html(finished + " / " + started + "<br>" + rateDisplay)
+            if ratio <= 0.5
+              color = "rgb(255, 0, 0)"
+            else if ratio > 0.5 and ratio <= 0.85
+              offset = (ratio - 0.5) / 0.35
+              color = "rgb(255, #{Math.round(256 * offset)}, 0)"
+            else if ratio > 0.85 and ratio <= 0.95
+              offset = (ratio - 0.85) / 0.1
+              color = "rgb(#{Math.round(256 * (1-offset))}, 256, 0)"
+            else
+              color = "rgb(0, 256, 0)"
+            #$("div[data-level-slug=#{level.slug}] .level-kind").css("color", color)
+            $("div[data-level-slug=#{level.slug}]").css("background-color", color)
+        }, 0
+        request.load()
 
   afterInsert: ->
     super()
