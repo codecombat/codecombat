@@ -1,20 +1,20 @@
 // USAGE:
 
-// 1. Import the csv file. Works best with Google Sheets export. Apple Numbers fails to import.
-// mongoimport -d coco -c translations --type csv --file de.csv --headerline --host=127.0.0.1
-
-// 2. Export to json file, put in this folder
-// mongoexport -d coco -c translations -o de.json --host=127.0.0.1
-
-// TODO: Use csv package like github-translation-import.js does.
-
+// 1. npm install csv
+// 2. Put the csv file into this folder.
 // 3. Update constants below
-// 4. Export production environmental variables to run this in production.
+// 4. (Optional) Export production env to run on production.
 // 5. Run script with node.
 
+// Uncomment sections as needed. To test use any combination:
+// * run on local db
+// * return after the first change is found (commented out)
+// * uncomment "return true" lines
+
 // Constants (change these for different languages)
-langCode = 'de-DE';
-langProperty = 'German';
+langCode = 'ja';
+langProperty = 'Japanese';
+fileName = 'ja.csv';
 
 // Set up CoffeeScript
 require('coffee-script');
@@ -47,6 +47,10 @@ versionsLib = require('../../server/middleware/versions')
 database = require('../../server/commons/database')
 deltasLib = require('../../app/core/deltas')
 i18n = require('../../server/commons/i18n')
+fs = require('fs')
+parse = require('../../node_modules/csv').parse;
+Promise = require('bluebird')
+parseAsync = Promise.promisify(parse)
 
 Achievement.loadAchievements = () => Promise.resolve() // So they don't attempt to get loaded by the script
 
@@ -80,11 +84,14 @@ makeTranslationMap = (translations) => {
 co(function* () {
   myself = yield User.findOne({nameLower: 'scott'})
   req = { user: myself }
-  lines = fs.readFileSync(__dirname+'/de.json', {encoding:'utf8'}).split('\n')
-  allTranslations = _.map(_.filter(lines), (l) => JSON.parse(l))
-  
 
-  // Levels: DONE
+  rawTranslations = fs.readFileSync(__dirname+'/'+fileName, {encoding:'utf8'});
+  results = yield parseAsync(rawTranslations, {})
+  headerline = _.first(results)
+  allTranslations = _.map(_.rest(results), (line) => _.zipObject(headerline, line))
+  console.log(`Parsed ${allTranslations.length} translations (ex: ${JSON.stringify(allTranslations[0])}`)
+
+  // Levels
 
   //levelTranslations = _.filter(allTranslations, (t) => t.Type === 'levels')
   //levelOriginals = _.filter(_.unique(_.pluck(levelTranslations, 'Original')))
@@ -176,7 +183,7 @@ co(function* () {
   //}
   
   
-  // Achievements: DONE
+  // Achievements
   
   //achievementTranslations = _.filter(allTranslations, (t) => t.Type === 'achievements')
   //achievementIds = _.filter(_.unique(_.pluck(achievementTranslations, 'ID')))
@@ -208,7 +215,7 @@ co(function* () {
   //}
   
 
-  // Campaigns: DONE
+  // Campaigns
   
   //campaignTranslations = _.filter(allTranslations, (t) => t.Type === 'campaigns')
   //campaignIds = _.filter(_.unique(_.pluck(campaignTranslations, 'ID')))
@@ -243,7 +250,7 @@ co(function* () {
   //}
   
   
-  // Components: DONE
+  // Components
 
   //componentTranslations = _.filter(allTranslations, (t) => t.Type === 'level.components')
   //componentOriginals = _.filter(_.unique(_.pluck(componentTranslations, 'Original')))
@@ -303,7 +310,7 @@ co(function* () {
   //}
   
   
-  // Polls: DONE
+  // Polls
 
   //pollTranslations = _.filter(allTranslations, (t) => t.Type === 'polls')
   //pollIds = _.filter(_.unique(_.pluck(pollTranslations, 'ID')))
@@ -339,7 +346,7 @@ co(function* () {
   //}
 
 
-  // Thang Types: DONE
+  // Thang Types
 
   //thangTranslations = _.filter(allTranslations, (t) => t.Type === 'thang.types')
   //thangOriginals = _.filter(_.unique(_.pluck(thangTranslations, 'Original')))
