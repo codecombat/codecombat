@@ -65,6 +65,7 @@ update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   if(_.isUndefined(translationMap[englishString])) { return }
   translation = translationMap[englishString]
   if(!_.isString(translation)) { translation = translation.toString() }
+  translation = _.str.trim(translation)
   console.log('found translation!', englishString.slice(0,20), translation.slice(0,20))
   if (!rootDoc.i18n) { rootDoc.i18n = {} }
   if (!rootDoc.i18n[langCode]) { rootDoc.i18n[langCode] = {} }
@@ -223,6 +224,7 @@ co(function* () {
   //  campaignIdString = campaignIds[i]
   //  campaign = yield Campaign.findById(campaignIdString)
   //  if (!campaign) { continue; }
+  //  if (_.contains(['JS Primer', 'JS Primer Playtest', 'Game Dev HoC'], campaign.get('name'))) { continue; } // invalid data
   //
   //  originalCampaign = _.cloneDeep(campaign.toObject())
   //
@@ -242,7 +244,7 @@ co(function* () {
   //  flattened = deltasLib.flattenDelta(delta)
   //
   //  if(flattened.length > 0) {
-  //    console.log('flattened changes', campaign.get('name'), campaign.get('i18nCoverage'))
+  //    console.log('flattened changes', campaign.get('name'), JSON.stringify(flattened, null, '\t'))
   //    database.validateDoc(campaign)
   //    yield campaign.save()
   //    //return true
