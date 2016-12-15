@@ -48,7 +48,13 @@ jobs = _.map files, (file) ->
 					else cb code
 				child.on 'error', (err) ->
 					cb err
-		], cb2
+		], (err, data) ->
+			if err
+				console.log "Coudlnt minify #{dpath}, copying as-is"
+				fs.copy fpath, dpath, cb2
+			else
+				cb2 null, data
+
 
 async.parallelLimit jobs, cores, (err, res)->
 	if err
