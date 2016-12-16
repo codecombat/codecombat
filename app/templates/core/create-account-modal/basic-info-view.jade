@@ -2,7 +2,7 @@ form#basic-info-form.modal-body.basic-info
   .modal-body-content
     .auth-network-logins.text-center
       h4
-        span(data-i18n="signup.connect_with")
+        span(data-i18n="teachers_quote.connect_with")
       a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
         img.network-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false", width="175", height="40")
         span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
@@ -11,11 +11,11 @@ form#basic-info-form.modal-body.basic-info
         span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
         .gplus-login-wrapper
           .gplus-login-button
-    
+
     .hr-text
       hr
       span(data-i18n="general.or")
-                  
+
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
@@ -49,7 +49,7 @@ form#basic-info-form.modal-body.basic-info
                 span(data-i18n="signup.account_exists")
                 =" "
                 a.login-link(data-i18n="signup.sign_in")
-              
+
             if checkEmailState === 'available'
               span.small
                 span.text-forest.glyphicon.glyphicon-ok-circle
@@ -91,7 +91,7 @@ form#basic-info-form.modal-body.basic-info
               label
                 input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
                 span(data-i18n="signup.email_announcements")
-                
+
       .error-area
         - var error = view.state.get('error');
         if error
