@@ -1590,7 +1590,12 @@
     unlock_resources_desc: "Gain access to additional guides by adding student licenses to your account. Request a demo today to get started."
     request_demo: "Request Demo"
     student_overview: "Overview"
-    student_email: "Student Email"
+    student_details: "Student Details"
+    student_name: "Student Name"
+    no_name: "No name provided."
+    student_username: "Username"
+    no_username: "No username provided."
+    student_email: "Email" #{change}
     no_email: "Student has no email address set."
     student_profile: "Student Profile"
     playtime_detail: "Playtime Detail"
