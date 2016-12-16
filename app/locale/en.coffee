@@ -1593,9 +1593,7 @@
     student_details: "Student Details"
     student_name: "Student Name"
     no_name: "No name provided."
-    student_username: "Username"
     no_username: "No username provided."
-    student_email: "Email" #{change}
     no_email: "Student has no email address set."
     student_profile: "Student Profile"
     playtime_detail: "Playtime Detail"

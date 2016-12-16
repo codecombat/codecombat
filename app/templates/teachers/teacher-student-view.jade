@@ -98,14 +98,14 @@ block content
               else 
                 i(data-i18n="teacher.no_name")
             .small-details 
-              span(data-i18n="teacher.student_username")
+              span(data-i18n="general.username")
               span.spr :
               if (view.user.get('name'))
                 span= view.user.get('name')
               else 
                 i(data-i18n="teacher.no_username")
             .small-details  
-              span(data-i18n="teacher.student_email")
+              span(data-i18n="general.email")
               span.spr :
               if (view.user.get('email'))
                 a(href= "mailto:"+view.user.get('email'))
