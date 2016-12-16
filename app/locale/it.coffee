@@ -1,4 +1,4 @@
-gmodule.exports = nativeDescription: "Italiano", englishDescription: "Italian", translation:
+module.exports = nativeDescription: "Italiano", englishDescription: "Italian", translation:
  new_home:
     slogan: "Il più avvincente gioco per imparare a programmare."
     classroom_edition: "Edizione Scuola:"
