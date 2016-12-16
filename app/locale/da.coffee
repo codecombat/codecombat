@@ -851,7 +851,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     previous: "Forrige"
     location_title: "Vi har kontor i centrum af SF:"
 
-  teachers:
+#  teachers:
 #    licenses_needed: "Licenses needed"
 
 #  special_offer:

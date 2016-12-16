@@ -851,7 +851,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     previous: "Anterior"
 #    location_title: "We're located in downtown SF:"
 
-  teachers:
+#  teachers:
 #    licenses_needed: "Licenses needed"
 
 #  special_offer:

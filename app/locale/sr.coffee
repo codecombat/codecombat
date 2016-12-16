@@ -851,7 +851,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     previous: "Претходно"
     location_title: "Налазимо се у центру Сан Франциска:"
 
-  teachers:
+#  teachers:
 #    licenses_needed: "Licenses needed"
 
 #  special_offer:

@@ -851,7 +851,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     previous: "Trước"
     location_title: "Chúng tôi đóng quân tại trung tâm thành phố SF:"
 
-  teachers:
+#  teachers:
 #    licenses_needed: "Licenses needed"
 
 #  special_offer:

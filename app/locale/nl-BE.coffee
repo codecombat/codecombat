@@ -851,7 +851,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
 #    previous: "Previous"
 #    location_title: "We're located in downtown SF:"
 
-  teachers:
+#  teachers:
 #    licenses_needed: "Licenses needed"
 
 #  special_offer:
