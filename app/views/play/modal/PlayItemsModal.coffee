@@ -53,11 +53,11 @@ module.exports = class PlayItemsModal extends ModalView
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
-    'update .tab-pane .nano': 'onScrollItemPane'
+    'update .tab-pane .nano': 'showVisibleItemImages'
     'click #hero-type-select label': 'onClickHeroTypeSelect'
 
   constructor: (options) ->
-    @onScrollItemPane = _.throttle(_.bind(@onScrollItemPane, @), 200)
+    @showVisibleItemImages = _.throttle(_.bind(@showVisibleItemImages, @), 200)
     super options
     @items = new Backbone.Collection()
     @itemCategoryCollections = {}
@@ -131,6 +131,7 @@ module.exports = class PlayItemsModal extends ModalView
     if Level.levels['defense-of-plainswood'] not in earnedLevels
       @$el.find('#misc-tab').hide()
       @$el.find('#hero-type-select #warrior').click()  # Start on warrior tab, if low level.
+    @showVisibleItemImages()
 
   onHidden: ->
     super()
@@ -160,9 +161,9 @@ module.exports = class PlayItemsModal extends ModalView
     nano = $($(e.target).attr('href')).find('.nano')
     nano.nanoScroller({alwaysVisible: true})
     @paneNanoContent = nano.find('.nano-content')
-    @onScrollItemPane()
+    @showVisibleItemImages()
 
-  onScrollItemPane: ->
+  showVisibleItemImages: ->
     # dynamically load visible items when the user scrolls enough to see them
     return console.error "Couldn't update scroll, since paneNanoContent wasn't initialized." unless @paneNanoContent
     items = @paneNanoContent.find('.item:not(.loaded)')
@@ -184,7 +185,9 @@ module.exports = class PlayItemsModal extends ModalView
     e.stopPropagation()
     button = $(e.target).closest('button')
     item = @idToItem[button.data('item-id')]
-    affordable = item.affordable
+    gemsOwned = me.gems()
+    cost = item.get('gems') ? 0
+    affordable = cost <= gemsOwned
     if not affordable
       @playSound 'menu-button-click'
       @askToBuyGems button unless features.freeOnly
@@ -203,7 +206,9 @@ module.exports = class PlayItemsModal extends ModalView
 
       #- ...then rerender key bits
       @renderSelectors(".item[data-item-id='#{item.id}']", "#gems-count")
+      console.log('render selectors', ".item[data-item-id='#{item.id}']", "#gems-count")
       @itemDetailsView.render()
+      @showVisibleItemImages()
 
       Backbone.Mediator.publish 'store:item-purchased', item: item, itemSlug: item.get('slug')
     else

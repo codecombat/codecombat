@@ -17,12 +17,13 @@ block content
         h3.m-t-2
           span(data-i18n="teacher.student_profile")
           span.spr :
-          span= view.user.get('name')
+          span= view.user.broadName()
+            
                 
         .performance.col-md-7
           h4.student-details
             span.spr(data-i18n="teacher.student_state")
-            span.spr= view.user.get('name')
+            span.spr= view.user.broadName()
             span(data-i18n="teacher.student_state_2")
             // TODO: if no other students, this area is blank. Display something better. 
           .recommendation(style="width:100%")
@@ -31,7 +32,7 @@ block content
               if (Math.abs(lastCoursePerf.performance)) <= 1
                 .glyphicon.glyphicon-thumbs-up
                 .small-details
-                  .good= view.user.get('name')
+                  .good= view.user.broadName()
                     span.spr
                     span.spr(data-i18n="teacher.student_good")
                     span= lastCoursePerf.courseModel.getTranslatedName()
@@ -39,7 +40,7 @@ block content
               else if (lastCoursePerf.performance) >= 2
                 .glyphicon.glyphicon-star
                 .small-details
-                  .great= view.user.get('name')
+                  .great= view.user.broadName()
                     span.spr
                     span.spr(data-i18n="teacher.student_great")
                     span= lastCoursePerf.courseModel.getTranslatedName()
@@ -47,7 +48,7 @@ block content
               else if (lastCoursePerf.performance) <= -2 
                 .glyphicon.glyphicon-exclamation-sign
                 .small-details
-                  .warn= view.user.get('name')
+                  .warn= view.user.broadName()
                     span.spr
                     span.spr(data-i18n="teacher.student_warn")
                     span= lastCoursePerf.courseModel.getTranslatedName()
@@ -88,13 +89,28 @@ block content
         .classroom-info-row.container-fluid.row
           .overview.col-md-5
             h4.student-details(data-i18n="teacher.student_overview")
-            if (view.user.get('email'))
-              .small-details
-                span(data-i18n="teacher.student_email")
-                span.spr :
-                span= view.user.get('email')
-            else
-              .small-details
+            .small-details 
+              span(data-i18n="teacher.student_name")
+              span.spr :
+              if (view.user.get('firstName') && view.user.get('lastName'))
+                span= view.user.get('firstName')
+                span.spl= view.user.get('lastName')
+              else 
+                i(data-i18n="teacher.no_name")
+            .small-details 
+              span(data-i18n="general.username")
+              span.spr :
+              if (view.user.get('name'))
+                span= view.user.get('name')
+              else 
+                i(data-i18n="teacher.no_username")
+            .small-details  
+              span(data-i18n="general.email")
+              span.spr :
+              if (view.user.get('email'))
+                a(href= "mailto:"+view.user.get('email'))
+                  span= view.user.get('email')
+              else
                 i(data-i18n="teacher.no_email")
             .small-details
               span(data-i18n="user.last_played")
@@ -244,4 +260,4 @@ mixin breadcrumbs
     a(href='/teachers/classes/'+view.classroom.id)
       span= view.classroom.get('name')
     span.spl.spr >
-    span= view.user.get('name')
+    span= view.user.broadName()

@@ -120,16 +120,31 @@ ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly
     existingCourseMap = _.zipObject(existingCourseIds, coursesData)
     coursesData = _.map(newestCoursesData, (newCourseData) -> existingCourseMap[newCourseData._id+''] or newCourseData)
   @set('courses', coursesData)
+  
+ClassroomSchema.methods.addMember = (user) ->
+  # fires update, and adds to this local copy, or resolves immediately if the user is already part of the classroom
+  members = _.clone(@get('members'))
+  if _.any(members, (memberID) -> memberID.equals(user._id))
+    return Promise.resolve()
+  update = { $push: { members : user._id }}
+  members.push user._id
+  @set('members', members)
+  return @update(update)
 
 ClassroomSchema.statics.jsonSchema = jsonSchema
 
 ClassroomSchema.set('toObject', {
   transform: (doc, ret, options) ->
-    return ret unless options.req
-    user = options.req.user
-    unless user and (user.isAdmin() or user._id.equals(doc.get('ownerID')))
-      delete ret.code
-      delete ret.codeCamel
+    if options.req
+      user = options.req.user
+      unless user?.isAdmin() or user?._id.equals(doc.get('ownerID'))
+        delete ret.code
+        delete ret.codeCamel
+    if options.includeEnrolled
+      courseInstances = options.includeEnrolled
+      for course in ret.courses
+        courseInstance = _.find(courseInstances, (ci) -> ci.get('courseID').equals(course._id))
+        course.enrolled = courseInstance?.get('members') ? []
     return ret
 })
 

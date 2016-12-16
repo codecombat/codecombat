@@ -39,6 +39,7 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @loadArticles = options.loadArticles
     @sessionless = options.sessionless
     @fakeSessionConfig = options.fakeSessionConfig
     @spectateMode = options.spectateMode ? false
@@ -302,7 +303,7 @@ module.exports = class LevelLoader extends CocoClass
         for indieSprite in indieSprites
           thangIDs.push indieSprite.thangType
 
-    unless @headless
+    unless @headless and not @loadArticles
       for article in @level.get('documentation')?.generalArticles or []
         articleVersions.push _.pick(article, ['original', 'majorVersion'])
 

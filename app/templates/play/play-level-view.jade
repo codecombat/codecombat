@@ -52,8 +52,8 @@ if view.showAds()
       #level-dialogue-view
 
     if features.codePlay
-      a(href=document.location.protocol+"//gs-dev.thewoo.com/products/")
-        img#codeplay-product-banner(src="/images/common/codeplay/ProductBanner.png")
+      a(href=document.location.protocol+"//gs-staging.thewoo.com/pages/products/")
+        img#codeplay-product-banner(src="/images/common/codeplay/IngameProduct.png")
 
     button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')
@@ -73,7 +73,7 @@ if view.showAds()
   #level-footer-shadow
   #level-footer-background
 
-  if !me.get('anonymous') && !me.isStudent() && false
+  if !me.get('anonymous') && !me.isStudent() && !features.codePlay
     #play-footer(class=me.isPremium() ? "premium" : "")
       p(class='footer-link-text').picoctf-hide
         a.contact-link(title='Send CodeCombat a message', tabindex=-1, data-i18n="nav.contact")

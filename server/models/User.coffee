@@ -125,12 +125,15 @@ UserSchema.statics.search = (term, done) ->
   return User.findOne(query).exec(done)
 
 UserSchema.statics.findByEmail = (email, done=_.noop) ->
-  emailLower = email.toLowerCase()
+  emailLower = email?.toLowerCase()
+  return Promise.resolve(null) if _.isEmpty(emailLower)
   User.findOne({emailLower: emailLower}).exec(done)
 
 UserSchema.statics.findByName = (name, done=_.noop) ->
-  nameLower = name.toLowerCase()
-  User.findOne({nameLower: nameLower}).exec(done)
+  nameLower = name?.toLowerCase()
+  slug = _.str.slugify(name)
+  return Promise.resolve(null) if _.isEmpty(nameLower) and _.isEmpty(slug)
+  User.findOne({$or: [{nameLower}, {slug}]}).exec(done)
 
 emailNameMap =
   generalNews: 'announcement'
@@ -172,7 +175,7 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
   return emails[newName]?.enabled
 
-UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower') 
+UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower')
   
 UserSchema.methods.updateServiceSettings = co.wrap ->
   return unless isProduction or GLOBAL.testing
@@ -217,7 +220,7 @@ UserSchema.methods.updateMailChimp = co.wrap ->
   email = @get('emailLower')
   return unless email
 
-  # check if email is verified here or there 
+  # check if email is verified here or there
   emailVerified = @get('emailVerified')
   if mailChimpEmail and not emailVerified
     try
@@ -501,7 +504,8 @@ UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'country',
-  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities'
+  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
+  'coursePrepaid', 'coursePrepaidID'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
