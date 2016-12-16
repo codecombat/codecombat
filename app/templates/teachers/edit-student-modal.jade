@@ -1,12 +1,39 @@
 extends /templates/core/modal-base-flat
 
 block modal-header-content
-  h1
+  h3
     span.spr(data-i18n="teacher.edit_2")
     span=view.user.broadName()
     
 block modal-body-content
+        
   .text-center
+    .edit-student-details
+      strong(data-i18n="teacher.student_details")
+      span.spr :
+      .small-details 
+        span(data-i18n="teacher.student_name")
+        span.spr :
+        if (view.user.get('firstName') && view.user.get('lastName'))
+          span= view.user.get('firstName')
+          span.spl= view.user.get('lastName')
+        else 
+          i(data-i18n="teacher.no_name")
+      .small-details 
+        span(data-i18n="general.username")
+        span.spr :
+        if (view.user.get('name'))
+          span= view.user.get('name')
+        else 
+          i(data-i18n="teacher.no_username")
+      .small-details  
+        span(data-i18n="general.email")
+        span.spr :
+        if (view.user.get('email'))
+          a(href= "mailto:"+view.user.get('email'))
+            span= view.user.get('email')
+        else
+          i(data-i18n="teacher.no_email")
     if view.user.get('emailVerified')
       p
         span(data-i18n="teacher.send_email_to")
@@ -20,7 +47,7 @@ block modal-body-content
           span(data-i18n="teacher.send_recovery_email")
     else
       div.m-b-1
-        span(data-i18n="teacher.enter_new_password_below")
+        strong(data-i18n="teacher.enter_new_password_below")
       div.m-b-2.form-group(class=(state.get('errorMessage') ? 'has-error' : ''))
         input.new-password-input(placeholder="type a new password here" value=state.get('newPassword'))
         div.help-block.error-help-block.m-t-1.small
