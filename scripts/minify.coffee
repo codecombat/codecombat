@@ -32,7 +32,7 @@ jobs = _.map files, (file) ->
 		if /aether-python\.js/.test fpath
 			console.log "Skipping #{fpath} due to blacklist"
 			fs.copy fpath, dpath, cb2
-			cb2(null)
+			return cb2(null)
  
 		if fs.existsSync fpath + '.map'
 			smArgs = [
