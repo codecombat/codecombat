@@ -64,7 +64,7 @@ Up to this point, students have only used `while` loops that are set to True so 
 **CCSS.Math.Practice.MP4** Model with mathematics.<br>
 **CCSS.Math.Practice.MP7** Look for and make use of structure.
 
-### Instructive Activity: Conditionals (10 mins)
+### Instructive Activity: Conditional Passing (10 mins)
 
 #### Explain (3 mins)
 
@@ -188,7 +188,7 @@ The array is a fundamental data structure, and it shows up quite often in progra
 - Iterate over an array with a loop
 
 
-### Instructive Activity: Arrays (15 mins)
+### Instructive Activity: Secret Boxes (15 mins)
 
 #### Explain (6 mins)
 
@@ -365,7 +365,7 @@ Conceptually, nested `while` loops are similar to nested conditionals, but the i
 **CCSS.Math.Practice.MP6** Attend to precision.<br>
 **CCSS.Math.Practice.MP7** Look for and make use of structure.
 
-### Instructive Activity: Nested While Loops (10 mins)
+### Instructive Activity: Jumping While (10 mins)
 
 
 #### Explain (2 mins)
@@ -491,7 +491,7 @@ These levels give students an introduction to the concept of problem solving thr
 **CCSS.Math.Practice.MP4** Model with mathematics.   
 **CCSS.Math.Practice.MP6** Attend to precision.   
 
-### Instructive Activity: Optimization (10 mins)
+### Instructive Activity: Longest Item (10 mins)
 
 
 #### Explain (3 mins)
@@ -617,7 +617,7 @@ Objects, also referred to as dictionaries in Python, consist of properties and v
 **CCSS.Math.Practice.MP6** Attend to precision.  
 **CCSS.Math.Practice.MP7** Look for and make use of structure.  
 
-### Instructive Activity: Objects (10 mins)
+### Instructive Activity: Classroom Objects (10 mins)
 
 
 #### Explain (3 mins)
@@ -767,7 +767,8 @@ _Make sure you are using the Module appropriate to your classroom language_
 **CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.<br>
 **CCSS.Math.Practice.MP6** Attend to precision.
 **CCSS.Math.Practice.MP7** Look for and make use of structure.
-### Instructive Activity: For Loops (10 mins)
+
+### Instructive Activity: Jumping For (10 mins)
 
 
 #### Explain (3 mins)
@@ -910,7 +911,8 @@ _Make sure you are using the Module appropriate to your classroom language_
 **CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.<br>
 **CCSS.Math.Practice.MP6** Attend to precision.
 **CCSS.Math.Practice.MP7** Look for and make use of structure.
-### Instructive Activity: For Loops (10 mins)
+
+### Instructive Activity: Jump For (10 mins)
 
 
 #### Explain (3 mins)
