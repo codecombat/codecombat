@@ -254,6 +254,7 @@ module.exports = class LevelLoader extends CocoClass
   loadCodeLanguagesForSession: (session) ->
     codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
     for codeLanguage in codeLanguages
+      continue if codeLanguage in ['clojure', 'io']
       do (codeLanguage) =>
         modulePath = "vendor/aether-#{codeLanguage}"
         return unless application.moduleLoader?.load modulePath
