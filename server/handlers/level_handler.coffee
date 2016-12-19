@@ -71,6 +71,7 @@ LevelHandler = class LevelHandler extends Handler
       {$match: match}
       {$project: project}
     ]
+    aggregate.limit(100000)
     aggregate.cache(10 * 60 * 1000) unless league
 
     aggregate.exec (err, data) =>
