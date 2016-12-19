@@ -19,6 +19,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
+    'sales-dashboard': go('SalesDashboardView')
 
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
@@ -210,7 +211,7 @@ module.exports = class CocoRouter extends Backbone.Router
     if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
       return @navigate('/play', { trigger: true, replace: true })
     path = 'play/CampaignView' if features.playOnly and not /^(views)?\/?play/.test(path)
-    
+
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)

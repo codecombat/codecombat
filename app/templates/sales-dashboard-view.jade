@@ -1,0 +1,15 @@
+extends /templates/base-flat
+
+block content
+  .container
+    if view.skippedContacts.loaded
+      each skippedContact in view.skippedContacts.models
+        li
+          - var trialRequest = skippedContact.get('trialRequest')
+          if trialRequest
+            h2
+              = trialRequest.properties.email
+          div
+            = "Reason skipped: "
+            = skippedContact.get('reasonSkipped')
+        - console.log(skippedContact)
