@@ -1984,7 +1984,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     variables: "Premenné"
     vectors: "Vektory"
 #    while_condition_loops: "While Loops with Conditionals"
-#    while_loops_simple: "While Loops"
+    while_loops_simple: "Cykly while"
 #    while_loops_nested: "Nested While Loops"
 #    xy_coordinates: "Cartesian Coordinates"
     advanced_strings: "Pokročilá práca s reťazcami" # Rest of concepts are deprecated
