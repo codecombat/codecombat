@@ -284,8 +284,9 @@ module.exports = class CampaignView extends RootView
     startDayDashed = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
     endDay = utils.getUTCDay -1
     endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
+    $(".map-background").css('background-image','url("")')
     for level in @campaign?.renderedLevels ? []
-      #$("div[data-level-slug=#{level.slug}] .level-kind").text("Loading...")
+      $("div[data-level-slug=#{level.slug}] .level-kind").text("Loading...")
       do (level) =>
         console.log(level.slug)
         request = @supermodel.addRequestResource 'level_completions', {
@@ -304,7 +305,7 @@ module.exports = class CampaignView extends RootView
             else
               ratio = finished / started
             rateDisplay = (ratio * 100).toFixed(2) + '%'
-            #$("div[data-level-slug=#{level.slug}] .level-kind").html(finished + " / " + started + "<br>" + rateDisplay)
+            $("div[data-level-slug=#{level.slug}] .level-kind").html(started + "<br>" + rateDisplay)
             if ratio <= 0.5
               color = "rgb(255, 0, 0)"
             else if ratio > 0.5 and ratio <= 0.85
@@ -315,7 +316,7 @@ module.exports = class CampaignView extends RootView
               color = "rgb(#{Math.round(256 * (1-offset))}, 256, 0)"
             else
               color = "rgb(0, 256, 0)"
-            #$("div[data-level-slug=#{level.slug}] .level-kind").css("color", color)
+            $("div[data-level-slug=#{level.slug}] .level-kind").css({"color":color, "width":256+"px", "transform":"translateX(-50%) translateX(15px)"})
             $("div[data-level-slug=#{level.slug}]").css("background-color", color)
         }, 0
         request.load()

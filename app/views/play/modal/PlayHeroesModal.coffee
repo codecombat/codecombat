@@ -48,6 +48,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @heroAnimationInterval = setInterval @animateHeroes, 1000
 
   onHeroesLoaded: ->
+    console.log @heroes.models
     @formatHero hero for hero in @heroes.models
 
   formatHero: (hero) ->
