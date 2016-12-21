@@ -287,16 +287,13 @@ module.exports = class CampaignView extends RootView
     $("#campaign-view").css("background-color", "black")
     for level in @campaign?.renderedLevels ? []
       $("div[data-level-slug=#{level.slug}] .level-kind").text("Loading...")
-      @drawLevelCompletion(level, startDay, endDay)
-
-  drawLevelCompletion: (level, startDay, endDay) =>
-    request = @supermodel.addRequestResource 'level_completions', {
-      url: '/db/analytics_perday/-/level_completions'
-      data: {startDay: startDay, endDay: endDay, slug: level.slug}
-      method: 'POST'
-      success: @onLevelCompletionsLoaded.bind(@, level)
-    }, 0
-    request.load()
+      request = @supermodel.addRequestResource 'level_completions', {
+        url: '/db/analytics_perday/-/level_completions'
+        data: {startDay: startDay, endDay: endDay, slug: level.slug}
+        method: 'POST'
+        success: @onLevelCompletionsLoaded.bind(@, level)
+      }, 0
+      request.load()
     
   onLevelCompletionsLoaded: (level, data) ->
     return if @destroyed
