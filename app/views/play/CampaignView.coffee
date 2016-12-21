@@ -281,47 +281,48 @@ module.exports = class CampaignView extends RootView
   generateCompletionRates: ->
     return unless me.isAdmin()
     startDay = utils.getUTCDay -14
-    startDayDashed = "#{startDay[0..3]}-#{startDay[4..5]}-#{startDay[6..7]}"
     endDay = utils.getUTCDay -1
-    endDayDashed = "#{endDay[0..3]}-#{endDay[4..5]}-#{endDay[6..7]}"
-    $(".map-background").css('background-image','url("")')
+    $(".map-background").css('background-image','none')
+    $(".gradient").remove()
+    $("#campaign-view").css("background-color", "black")
     for level in @campaign?.renderedLevels ? []
       $("div[data-level-slug=#{level.slug}] .level-kind").text("Loading...")
-      do (level) =>
-        console.log(level.slug)
-        request = @supermodel.addRequestResource 'level_completions', {
-          url: '/db/analytics_perday/-/level_completions'
-          data: {startDay: startDay, endDay: endDay, slug: level.slug}
-          method: 'POST'
-          success: (data) =>
-            return if @destroyed
-            started = 0
-            finished = 0
-            for day in data
-              started += day.started ? 0
-              finished += day.finished ? 0
-            if started is 0
-              ratio = 0
-            else
-              ratio = finished / started
-            rateDisplay = (ratio * 100).toFixed(1) + '%'
-            $("div[data-level-slug=#{level.slug}] .level-kind").html((if started < 1000 then started else (started / 1000).toFixed(1) + "k") + "<br>" + rateDisplay)
-            if ratio <= 0.5
-              color = "rgb(255, 0, 0)"
-            else if ratio > 0.5 and ratio <= 0.85
-              offset = (ratio - 0.5) / 0.35
-              color = "rgb(255, #{Math.round(256 * offset)}, 0)"
-            else if ratio > 0.85 and ratio <= 0.95
-              offset = (ratio - 0.85) / 0.1
-              color = "rgb(#{Math.round(256 * (1-offset))}, 256, 0)"
-            else
-              color = "rgb(0, 256, 0)"
-            $("div[data-level-slug=#{level.slug}] .level-kind").css({"color":color, "width":256+"px", "transform":"translateX(-50%) translateX(15px)"})
-            $(".gradient").remove()
-            $("#campaign-view").css("background-color", "black")
-            $("div[data-level-slug=#{level.slug}]").css("background-color", color)
-        }, 0
-        request.load()
+      @drawLevelCompletion(level, startDay, endDay)
+
+  drawLevelCompletion: (level, startDay, endDay) =>
+    request = @supermodel.addRequestResource 'level_completions', {
+      url: '/db/analytics_perday/-/level_completions'
+      data: {startDay: startDay, endDay: endDay, slug: level.slug}
+      method: 'POST'
+      success: @onLevelCompletionsLoaded.bind(@, level)
+    }, 0
+    request.load()
+    
+  onLevelCompletionsLoaded: (level, data) ->
+    return if @destroyed
+    started = 0
+    finished = 0
+    for day in data
+      started += day.started ? 0
+      finished += day.finished ? 0
+    if started is 0
+      ratio = 0
+    else
+      ratio = finished / started
+    rateDisplay = (ratio * 100).toFixed(1) + '%'
+    $("div[data-level-slug=#{level.slug}] .level-kind").html((if started < 1000 then started else (started / 1000).toFixed(1) + "k") + "<br>" + rateDisplay)
+    if ratio <= 0.5
+      color = "rgb(255, 0, 0)"
+    else if ratio > 0.5 and ratio <= 0.85
+      offset = (ratio - 0.5) / 0.35
+      color = "rgb(255, #{Math.round(256 * offset)}, 0)"
+    else if ratio > 0.85 and ratio <= 0.95
+      offset = (ratio - 0.85) / 0.1
+      color = "rgb(#{Math.round(256 * (1-offset))}, 256, 0)"
+    else
+      color = "rgb(0, 256, 0)"
+    $("div[data-level-slug=#{level.slug}] .level-kind").css({"color":color, "width":256+"px", "transform":"translateX(-50%) translateX(15px)"})
+    $("div[data-level-slug=#{level.slug}]").css("background-color", color)
 
   afterInsert: ->
     super()
