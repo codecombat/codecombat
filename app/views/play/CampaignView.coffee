@@ -304,8 +304,8 @@ module.exports = class CampaignView extends RootView
               ratio = 0
             else
               ratio = finished / started
-            rateDisplay = (ratio * 100).toFixed(2) + '%'
-            $("div[data-level-slug=#{level.slug}] .level-kind").html(started + "<br>" + rateDisplay)
+            rateDisplay = (ratio * 100).toFixed(1) + '%'
+            $("div[data-level-slug=#{level.slug}] .level-kind").html((if started < 1000 then started else (started / 1000).toFixed(1) + "k") + "<br>" + rateDisplay)
             if ratio <= 0.5
               color = "rgb(255, 0, 0)"
             else if ratio > 0.5 and ratio <= 0.85
@@ -317,6 +317,8 @@ module.exports = class CampaignView extends RootView
             else
               color = "rgb(0, 256, 0)"
             $("div[data-level-slug=#{level.slug}] .level-kind").css({"color":color, "width":256+"px", "transform":"translateX(-50%) translateX(15px)"})
+            $(".gradient").remove()
+            $("#campaign-view").css("background-color", "black")
             $("div[data-level-slug=#{level.slug}]").css("background-color", color)
         }, 0
         request.load()
