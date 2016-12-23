@@ -9,19 +9,19 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     im_a_teacher: "אני מורה"
     im_a_student: "אני תלמיד"
     learn_more: "למד עוד"
-    classroom_in_a_box: "כיתה בפיתה ללימוד מדעי המחשב."
-    codecombat_is: "CodeCombat  היא פלטפורמה <strong>עבור תלמידים</strong> ללימוד תכנות באמצעות משחק."
+    classroom_in_a_box: "כיתה ללימוד מדעי המחשב."
+    codecombat_is: "קודקומבאט היא פלטפורמה <strong>עבור תלמידים</strong> ללימוד תכנות באמצעות משחק."
 #    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even by teachers with little to no prior programming experience."
 #    top_screenshots_hint: "Students write code and see their changes update in real-time"
 #    designed_with: "Designed with teachers in mind"
 #    real_code: "Real, typed code"
-#    from_the_first_level: "from the first level"
+    from_the_first_level: "החל משלב ראשון"
 #    getting_students: "Getting students to typed code as quickly as possible is critical to learning programming syntax and proper structure."
 #    educator_resources: "Educator resources"
 #    course_guides: "and course guides"
 #    teaching_computer_science: "Teaching computer science does not require a costly degree, because we provide tools to support educators of all backgrounds."
-#    accessible_to: "Accessible to"
-#    everyone: "everyone"
+    accessible_to: "זמין"
+    everyone: "לכולם"
 #    democratizing: "Democratizing the process of learning coding is at the core of our philosophy. Everyone should be able to learn to code."
 #    forgot_learning: "I think they actually forgot that they were actually learning something."
 #    wanted_to_do: " Coding is something I've always wanted to do, and I never thought I would be able to learn it in school."
@@ -109,7 +109,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     page_not_found: "העמוד לא נמצא"
 
   diplomat_suggestion:
-    title: "עזור לתרגם את CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+    title: "עזור לתרגם את קודקומבאט!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "אנחנו צריכים את כישורי השפה שלך!"
     pitch_body: "פיתחנו את המשחק באנגלית, אבל יש הרבה שחקנים מכול העולם. חלק מהם רוצים לשחק בעברית והם לא מבינים אנגלית. אם אתה דובר את שני השפות, עברית ואנגלית, אז בבקשה עזור לנו לתרגם לעברית את האתר ואת השלבים."
     missing_translations: "עד שנתרגם הכול לעברית, מה שלא תורגם יופיע באנגלית."
@@ -140,7 +140,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscription_required: "יש צורך במנוי"
     anonymous: "משתמש אנונימי"
     level_difficulty: "רמת קושי: "
-    play_classroom_version: "שיק בגרסה הכיתתית" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "שחק בגרסה הכיתתית" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "מסע המתחילים"
     awaiting_levels_adventurer_prefix: ".אנחנו מוסיפים חמישה שלבים בכל שבוע" # {change}
     awaiting_levels_adventurer: "הירשם כהרפתקן"
