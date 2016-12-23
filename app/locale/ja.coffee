@@ -78,12 +78,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     home: "ホーム"
     contribute: "コントリビュート"
     legal: "規約"
-#    privacy: "Privacy"
+    privacy: "プライバシー"
     about: "CoCoについて"
     contact: "お問い合わせ"
     twitter_follow: "フォロー"
-#    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
+    my_classrooms: "マイクラス"
+    my_courses: "マイコース"
     careers: "経歴"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -99,7 +99,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     faqs: "FAQ"
     help_pref: "ヘルプが必要ですか? Email"
     help_suff: "をくれれば協力します！"
-#    resource_hub: "Resource Hub"
+    resource_hub: "Resource Hub"
 
   modal:
     close: "閉じる"
@@ -234,11 +234,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     school_name: "学校名と市名"
     optional: "オプション"
     school_name_placeholder: "ほにゃらら高校, なんとか市, 日本"
-#    connected_gplus_header: "You've successfully connected with Google+!"
-#    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
-#    gplus_exists: "You already have an account associated with Google+!"
-#    connected_facebook_header: "You've successfully connected with Facebook!"
-#    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
+    connected_gplus_header: "Google+との連携に成功しました!"
+    connected_gplus_p: "Google+での登録が完了しました。"
+    gplus_exists: "Google+によるアカウントをすでにもっています!"
+    connected_facebook_header: "Facebookとの連携に成功しました!"
+    connected_facebook_p: "Facebookでの登録が完了しました。."
 #    facebook_exists: "You already have an account associated with Facebook!"
 #    hey_students: "Students, enter the class code from your teacher."
 #    birthday: "Birthday"
@@ -383,9 +383,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     last_name: "Last Name(姓)"
     last_initial: "イニシヤル"
     username: "ユーザー名"
-#    contact_us: "Contact Us"
-#    close_window: "Close Window"
-#    learn_more: "Learn More"
+    contact_us: "私たちにコンタクトをとる"
+    close_window: "ウィンドウを閉じる"
+    learn_more: "もっとみる"
 
   units:
     second: "秒"
@@ -404,11 +404,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     years: "年"
 
   play_level:
-#    directions: "Directions"
-#    edit_level: "Edit Level"
-#    explore_codecombat: "Explore CodeCombat"
-#    finished_hoc: "I'm finished with my Hour of Code"
-#    get_certificate: "Get your certificate!"
+    directions: "使用法"
+    edit_level: "編集レベル"
+    explore_codecombat: "CodeCombatを探検"
+    finished_hoc: "コードの時間は終了"
+    get_certificate: "証明書をゲットしよう!"
     level_complete: "レベルコンプリート"
     completed_level: "コンプリートレベル:"
     course: "コース:"
@@ -435,7 +435,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     reload_title: "コードを再読み込ますか？"
     reload_really: "レベルをリセットします。よろしいですか？"
     reload_confirm: "リセットする"
-#    test_level: "Test Level"
+    test_level: "テストレベル"
     victory: "勝利"
     victory_title_prefix: ""
     victory_title_suffix: "クリア"
@@ -613,11 +613,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     price: "x{{gems}} / 月"
 
   subscribe:
-#    subscribe_modal_title: "CodeCombat Premium"
+    subscribe_modal_title: "CodeCombatプレミアム"
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
+    premium_pricing_prefix: "プレミアムにするだけで"
+    premium_pricing_suffix: "マスターコーダーになれる"
+    premium: "プレミアム" # Make sure the following feature translations don't go onto two lines
     feature1: "__levelsCount__以上の基本レベルが__worldsCount__つの世界に" # {change}
     feature2: "__heroesCount__人のパワフルな <strong>ニューヒーロー</strong> とユニークなスキル!" # {change}
     feature3: "__bonusLevelsCount__以上のボーナスレベル" # {change}
@@ -768,7 +768,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     team_link: "チーム"
     story_link: "ストーリー"
     press_link: "記事"
-#    mission_title: "Our mission: make programming accessible to every student on Earth."
+    mission_title: "私たちのミッション: プログラミングを地球上の学生にとどけること."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
 #    mission_description_2: "As it turns out, that enables them to learn faster too. WAY faster. It's like having a conversation instead of reading a manual. We want to bring that conversation to every school and to <strong>every student</strong>, because everyone should have the chance to learn the magic of programming."
 #    team_title: "Meet the CodeCombat team"
@@ -1502,8 +1502,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    victory_course_share_suffix: "you just created."
 #    copy_url: "Copy URL"
 
-#  game_dev:
-#    creator: "Creator"
+  game_dev:
+    creator: "クリエーター"
 
 #  web_dev:
 #    image_gallery_title: "Image Gallery"
