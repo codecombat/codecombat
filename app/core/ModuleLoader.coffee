@@ -52,8 +52,19 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     @recentPaths.push(path)
     uri = "/javascripts/app/#{path}.js"
     
-    if path in ["esper", "aether"]
+    if path in ["aether"]
       uri = "/javascripts/#{path}.js"
+
+    if path is "esper"
+      try
+        #Detect very modern javascript support.
+        indirecteval = eval
+        indirecteval "'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"
+        console.log "Modern javascript detected, aw yeah!"
+        uri = "/javascripts/esper.modern.js"
+      catch e
+        console.log "Legacy javascript detected, falling back...", e.message
+        uri = "/javascripts/esper.js"
 
     console.debug 'Loading js file:', uri, "because", why if LOGX
     @queue.loadFile({
