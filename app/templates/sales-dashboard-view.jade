@@ -16,8 +16,9 @@ block content
           else
             button.archive-contact(data-contact-id=skippedContact.id)
               | Archive
-          div
-            = "Reason skipped: "
-            = skippedContact.get('reasonSkipped')
-          pre
-            = JSON.stringify(skippedContact.attributes, null, 4)
+          if !skippedContact.get('archived')
+            div
+              = "Reason skipped: "
+              = skippedContact.get('reasonSkipped')
+            pre
+              = JSON.stringify(skippedContact.attributes, null, 4)
