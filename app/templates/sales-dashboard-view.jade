@@ -22,3 +22,5 @@ block content
               = skippedContact.get('reasonSkipped')
             pre
               = JSON.stringify(skippedContact.attributes, null, 4)
+            pre
+              = view.noteData(skippedContact)
