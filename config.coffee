@@ -69,7 +69,9 @@ exports.config =
           regJoin('^app/views/core')
           'app/locale/locale.coffee'
           'app/locale/en.coffee'
+          'app/locale/en-US.coffee'
           'app/lib/sprites/SpriteBuilder.coffee' # loaded by ThangType
+          'app/views/HomeView.coffee'
         ]
 
         #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
@@ -81,6 +83,7 @@ exports.config =
         'javascripts/app/lib.js': regJoin('^app/lib')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
+        'javascripts/app/views/courses.js': regJoin('^app/views/courses')
 
         #- world.js, used by the worker to generate the world in game
         'javascripts/world.js': [
@@ -184,8 +187,9 @@ exports.config =
     templates:
       defaultExtension: 'jade'
       joinTo:
-        'javascripts/app.js': regJoin('^app/templates/core')
+        'javascripts/app.js': [regJoin('^app/templates/core'), regJoin('^app/templates/home-view')] 
         'javascripts/app/views/play.js': regJoin('^app/templates/play')
+        'javascripts/app/views/courses.js': regJoin('^app/templates/courses')
         'javascripts/app/views/game-menu.js': regJoin('^app/templates/game-menu')
         'javascripts/app/views/editor.js': regJoin('^app/templates/editor')
         'javascripts/whole-app.js': if TRAVIS then regJoin('^app/templates') else []

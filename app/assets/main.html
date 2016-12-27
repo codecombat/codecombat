@@ -90,8 +90,6 @@ var _rollbarConfig = {
   <script src="/shaTag/lib/ace/ace.js"></script>
   <script src="/shaTag/javascripts/box2d.js"></script>
   <script src="/shaTag/javascripts/vendor.js"></script>
-  <script src="/shaTag/javascripts/aether.js"></script>
-  <script src="/shaTag/javascripts/esper.js"></script>
   <script src="/shaTag/javascripts/app.js"></script>
   <![endif]-->
   <!-- IE9 cors support breaks analytics logging: http://caniuse.com/#feat=cors -->
@@ -101,8 +99,6 @@ var _rollbarConfig = {
   <![if (gt IE 9)|(!IE)]>
   <script src="/shaTag/lib/ace/ace.js" defer></script>
   <script src="/shaTag/javascripts/vendor.js" defer></script>
-  <script src="/shaTag/javascripts/aether.js" defer></script>
-  <script src="/shaTag/javascripts/esper.js" defer></script>
   <script src="/shaTag/javascripts/app.js" defer></script>
   <![endif]>
   <script>
@@ -121,8 +117,8 @@ var _rollbarConfig = {
 
         // IE8 can't handle this
         FastClick.attach(document.body);
-        require('core/initialize');
       } catch (error) { }
+      require('core/initialize');
     }
   </script>
 

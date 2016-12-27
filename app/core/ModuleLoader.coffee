@@ -2,7 +2,7 @@ CocoClass = require 'core/CocoClass'
 locale = require 'locale/locale'
 
 LOG = false
-
+LOGX = true
 
 module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
@@ -10,16 +10,23 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     'lib'
     'views/play'
     'views/editor'
+    'views/courses'
   ]
 
   constructor: ->
     super()
-    @loaded = {}
+    @loaded = {}    
+    @loaded[f] = true for f in window.require.list()
+    #Load the locales present in app.js
+    locale.update()
+
     @queue = new createjs.LoadQueue()
     @queue.on('fileload', @onFileLoad, @)
     wrapped = _.wrap window.require, (func, name, loaderPath) ->
       # vendor libraries aren't actually wrapped with common.js, so short circuit those requires
       return {} if _.string.startsWith(name, 'vendor/')
+      return window.esper if name is 'esper'
+      return window.Aether if name is 'aether'
       return {} if name is 'tests'
       return {} if name is 'demo-app'
       name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
@@ -29,7 +36,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     @updateProgress = _.throttle _.bind(@updateProgress, @), 700
     @lastShownProgress = 0
 
-  load: (path, first=true) ->
+  load: (path, first=true, why) ->
     $('#module-load-progress').css('opacity', 1)
     if first
       @recentPaths = []
@@ -39,12 +46,19 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     wad = _.find ModuleLoader.WADS, (wad) -> _.string.startsWith(path, wad)
     path = wad if wad
     return false if @loaded[path]
+    if wad
+      console.log "Loading", wad, " for ", originalPath if LOGX
     @loaded[path] = true
     @recentPaths.push(path)
-    console.debug 'Loading js file:', "/javascripts/app/#{path}.js" if LOG
+    uri = "/javascripts/app/#{path}.js"
+    
+    if path in ["esper", "aether"]
+      uri = "/javascripts/#{path}.js"
+
+    console.debug 'Loading js file:', uri, "because", why if LOGX
     @queue.loadFile({
       id: path
-      src: "/#{window.serverConfig.buildInfo.sha}/javascripts/app/#{path}.js"
+      src: "/#{window.serverConfig.buildInfo.sha}#{uri}"
       type: createjs.LoadQueue.JAVASCRIPT
     })
     return true
@@ -58,7 +72,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   onFileLoad: (e) =>
     # load dependencies if it's not a vendor library
-    if not _.string.startsWith(e.item.id, 'vendor')
+    if not /(^vendor)|aether$|esper$/.test e.item.id
       have = window.require.list()
       haveWithIndexRemoved = _(have)
         .filter (file) -> _.string.endsWith(file, 'index')
@@ -70,7 +84,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       dependencies = @parseDependencies(e.rawResult)
       console.groupEnd() if LOG
       missing = _.difference dependencies, have
-      @load(module, false) for module in missing
+      @load(module, false, "missing module of #{e.item.id}") for module in missing
 
     # update locale data
     if _.string.startsWith(e.item.id, 'locale')
