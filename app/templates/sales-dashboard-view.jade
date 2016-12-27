@@ -3,13 +3,21 @@ extends /templates/base-flat
 block content
   .container
     if view.skippedContacts.loaded
+      ol.skipped-contacts
       each skippedContact in view.skippedContacts.models
-        li
+        li.skipped-contact
           - var trialRequest = skippedContact.get('trialRequest')
           if trialRequest
             h2
               = trialRequest.properties.email
+          if skippedContact.get('archived')
+            button.unarchive-contact(data-contact-id=skippedContact.id)
+              | Unarchive
+          else
+            button.archive-contact(data-contact-id=skippedContact.id)
+              | Archive
           div
             = "Reason skipped: "
             = skippedContact.get('reasonSkipped')
-        - console.log(skippedContact)
+          pre
+            = JSON.stringify(skippedContact.attributes, null, 4)

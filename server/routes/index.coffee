@@ -189,7 +189,8 @@ module.exports.setup = (app) ->
 
   app.get '/db/products', require('./db/product').get
 
-  app.get '/db/skipped-contact', mw.skippedContacts.fetchAll
+  app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
+  app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)
 
   ThangType = require '../models/ThangType'
   app.post('/db/thang.type/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(ThangType, 'thang_type'))
