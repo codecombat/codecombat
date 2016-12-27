@@ -144,7 +144,7 @@ module.exports = class CoursesView extends RootView
     @classCode = @$('#class-code-input').val() or @classCodeQueryVar
     if not @classCode
       @state = null
-      @errorMessage = 'Please enter a code.'
+      @errorMessage = $.t('courses.enter_code')
       @renderSelectors '#join-class-form'
       return
     @renderSelectors '#join-class-form'
@@ -174,7 +174,7 @@ module.exports = class CoursesView extends RootView
   onJoinClassroomError: (classroom, jqxhr, options) ->
     @state = null
     if jqxhr.status is 422
-      @errorMessage = 'Please enter a code.'
+      @errorMessage = $.t('courses.enter_code')
     else if jqxhr.status is 404
       @errorMessage = $.t('signup.classroom_not_found')
     else

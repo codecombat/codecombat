@@ -9,12 +9,13 @@ block content
         #course-details-link
           a(href="/students/#{view.course.id}/#{view.league.id}")
             span.glyphicon.glyphicon-arrow-left
-            span.spl Levels
+            span.spl(data-i18n="nav.play")
       
         .text-center
           span#course-name
             span= i18n(view.course.attributes, 'name')
-            span.spl - Arena
+            span.spl.spr -
+            span(data-i18n="courses.arena")
 
     div#level-column
       if view.levelDescription
