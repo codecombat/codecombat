@@ -1,7 +1,7 @@
 .container
   ol.skipped-contacts
     li.skipped-contact(v-for="skippedContact in skippedContacts")
-      div(v-if="skippedContact")
+      div
         h2(v-if="skippedContact.trialRequest")
           {{ skippedContact.trialRequest.properties.email }}
         button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived", @click="onClickUnarchiveContact")
@@ -13,7 +13,17 @@
           h2
             | Reason skipped:
             {{ skippedContact.reasonSkipped }}
-          pre
-            {{ JSON.stringify(skippedContact, null, 4) }}
-          pre(v-if="skippedContact.noteData")
-            {{ skippedContact.noteData }}
+          div(v-if="skippedContact.queryString")
+            | Search string we tried to use:
+            pre
+              {{ skippedContact.queryString }}
+          .row
+            .col-md-6
+              h4 Trial request data:
+              pre
+                {{ JSON.stringify(skippedContact.trialRequest.properties, null, 4) }}
+            .col-md-6
+              div(v-if="skippedContact.noteData")
+                h4 Note info:
+                pre
+                      {{ skippedContact.noteData }}

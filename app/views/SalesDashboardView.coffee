@@ -4,7 +4,9 @@ SkippedContacts = require 'collections/SkippedContacts'
 User = require 'models/User'
 
 SalesDashboardComponent = Vue.extend({
-  template: require('templates/sales-dashboard-view')()
+  template: require('templates/sales-dashboard/sales-dashboard-view')()
+  data: ->
+    skippedContacts: []
 })
 
 module.exports = class SalesDashboardView extends RootView
@@ -15,33 +17,67 @@ module.exports = class SalesDashboardView extends RootView
     @debouncedRender = _.debounce(@render, 0)
     @skippedContacts = new SkippedContacts()
     @listenTo @skippedContacts, 'change update', ->
-      @debouncedRender()
-    @listenTo @skippedContacts, 'sync', ->
+      # @debouncedRender()
+    @listenToOnce @skippedContacts, 'sync', ->
+      console.log 'SkippedContacts Sync!'
       @debouncedRender()
       @skippedContacts.each (skippedContact) =>
         skippedContact.user = new User({ _id: skippedContact.get('trialRequest').applicant })
         skippedContact.user.fetch()
+        skippedContact.set('queryString', @queryString(skippedContact))
         @listenTo skippedContact.user, 'sync', =>
-          # console.log 'User sync:', skippedContact.user
-          skippedContact.set('nodeData', @noteData(skippedContact))
-          @debouncedRender()
+          console.log 'User sync!'
+          skippedContact.set('noteData', @noteData(skippedContact))
+          # @debouncedRender()
 
     @skippedContacts.fetch()
 
   afterRender: ->
+    console.log "Rendering!"
     @vueComponent?.$destroy() # TODO: Don't recreate this component every time things update
+    skippedContacts = @skippedContacts
     @vueComponent = new SalesDashboardComponent({
       el: @$el.find('#site-content-area')[0]
       data: {
-        message: 'Hello!'
         skippedContacts: @skippedContacts.toJSON()
+      }
+      computed: {
+        # TODO
       }
       methods: {
         onClickArchiveContact: @onClickArchiveContact.bind(@)
         onClickUnarchiveContact: @onClickUnarchiveContact.bind(@)
+        updateVueFromCollection: _.debounce((collection) ->
+          @skippedContacts = collection.toJSON()
+        , 10)
+        updateVueFromModel: _.debounce((model) ->
+          index = _.findIndex(@skippedContacts, (s) -> s._id is model.id)
+          Vue.set(@skippedContacts, index, model.toJSON())
+        , 10)
       }
+      created: ->
+        # Two-way bind backbone model to data http://jsfiddle.net/x1jeawzv/2/
+        # @$watch 'skippedContacts', (val) ->
+        #   console.log "Setting model based on vue"
+        #   skippedContacts.set(val)
+        skippedContacts.on 'update', @updateVueFromCollection
+        skippedContacts.on 'change', @updateVueFromModel
+      beforeDestroy: ->
+        skippedContacts.off null, @updateVueFromCollection
+        skippedContacts.off null, @updateVueFromModel
     })
     super(arguments...)
+
+  queryString: (skippedContact) ->
+    if skippedContact.get('trialRequest')
+      trialRequest = skippedContact.get('trialRequest')
+      leadName = trialRequest.properties.nces_name or trialRequest.properties.organization or trialRequest.properties.school or trialRequest.properties.district or trialRequest.properties.nces_district or trialRequest.properties.email
+      query = "name:\"#{leadName}\"";
+      if (trialRequest.properties.nces_school_id)
+        query = "custom.demo_nces_id:\"#{trialRequest.properties.nces_school_id}\"";
+      else if (trialRequest.properties.nces_district_id)
+        query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\"";
+      return query
 
   # TODO: Clean this up; it's hastily copied/modified from updateCloseIoLeads.js
   # TODO: Figure out how to make this less redundant with that script
