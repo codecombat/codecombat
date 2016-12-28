@@ -1,33 +1,15 @@
 RootView = require 'views/core/RootView'
-template = require 'templates/sales-dashboard-view'
+template = require 'templates/base-flat'
 SkippedContacts = require 'collections/SkippedContacts'
 User = require 'models/User'
 
-vueTemplate = """
-
-<div>
-  Yay stuff
-  {{message}}
-
-    <div class="container">
-      <ol class="skipped-contacts" v-if="skippedContacts">
-        <li class="skipped-contact" v-for="skippedContact in skippedContacts">
-
-          id: {{ skippedContact._id }}
-          <h2 v-if="skippedContact && skippedContact.trialRequest">
-            {{skippedContact.trialRequest.properties.email}}
-          </h2>
-        </li>
-      </ol>
-    </div>
-</div>
-
-"""
+SalesDashboardComponent = Vue.extend({
+  template: require('templates/sales-dashboard-view')()
+})
 
 module.exports = class SalesDashboardView extends RootView
   id: 'sales-dashboard-view'
   template: template
-  vueTemplate: vueTemplate
 
   events:
     'click .archive-contact': 'onClickArchiveContact'
@@ -47,9 +29,8 @@ module.exports = class SalesDashboardView extends RootView
     @skippedContacts.fetch()
 
   afterRender: ->
-    @vue = new Vue({
-      el: @$el.find('#sales-dashboard-view-2')[0]
-      template: @vueTemplate
+    new SalesDashboardComponent({
+      el: @$el.find('#site-content-area')[0]
       data: {
         message: 'Hello!'
         skippedContacts: @skippedContacts.toJSON()
