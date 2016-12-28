@@ -11,32 +11,36 @@ module.exports = class SalesDashboardView extends RootView
   id: 'sales-dashboard-view'
   template: template
 
-  events:
-    'click .archive-contact': 'onClickArchiveContact'
-    'click .unarchive-contact': 'onClickUnarchiveContact'
-
   initialize: ->
+    @debouncedRender = _.debounce(@render, 0)
     @skippedContacts = new SkippedContacts()
-    @listenTo @skippedContacts, 'sync change update', ->
-      @render()
-      # @skippedContacts.each (skippedContact) =>
-      #   skippedContact.user = new User({ _id: skippedContact.get('trialRequest').applicant })
-      #   skippedContact.user.fetch()
-      #   @listenTo skippedContact.user, 'sync', =>
-      #     # console.log 'User sync:', skippedContact.user
-      #     @render()
+    @listenTo @skippedContacts, 'change update', ->
+      @debouncedRender()
+    @listenTo @skippedContacts, 'sync', ->
+      @debouncedRender()
+      @skippedContacts.each (skippedContact) =>
+        skippedContact.user = new User({ _id: skippedContact.get('trialRequest').applicant })
+        skippedContact.user.fetch()
+        @listenTo skippedContact.user, 'sync', =>
+          # console.log 'User sync:', skippedContact.user
+          skippedContact.set('nodeData', @noteData(skippedContact))
+          @debouncedRender()
 
     @skippedContacts.fetch()
 
   afterRender: ->
-    new SalesDashboardComponent({
+    @vueComponent?.$destroy() # TODO: Don't recreate this component every time things update
+    @vueComponent = new SalesDashboardComponent({
       el: @$el.find('#site-content-area')[0]
       data: {
         message: 'Hello!'
         skippedContacts: @skippedContacts.toJSON()
       }
+      methods: {
+        onClickArchiveContact: @onClickArchiveContact.bind(@)
+        onClickUnarchiveContact: @onClickUnarchiveContact.bind(@)
+      }
     })
-    console.log @vue
     super(arguments...)
 
   # TODO: Clean this up; it's hastily copied/modified from updateCloseIoLeads.js
@@ -63,7 +67,6 @@ module.exports = class SalesDashboardView extends RootView
 
     if (skippedContact.user)
       user = skippedContact.user.attributes
-      console.log {user}
       noteData += "coco_userID: #{user._id}\n"
       noteData += "coco_firstName: #{user.firstName}\n" if (user.firstName)
       noteData += "coco_lastName: #{user.lastName}\n" if (user.lastName)

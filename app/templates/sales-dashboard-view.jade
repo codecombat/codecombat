@@ -3,10 +3,10 @@
     li.skipped-contact(v-for="skippedContact in skippedContacts")
       div(v-if="skippedContact")
         h2(v-if="skippedContact.trialRequest")
-          {{skippedContact.trialRequest.properties.email}}
-        button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived")
+          {{ skippedContact.trialRequest.properties.email }}
+        button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived", @click="onClickUnarchiveContact")
           | Unarchive
-        button.archive-contact(:data-contact-id="skippedContact._id", v-else)
+        button.archive-contact(:data-contact-id="skippedContact._id", v-else, @click="onClickArchiveContact")
           | Archive
 
         div(v-if="!skippedContact.archived")
@@ -15,5 +15,5 @@
             {{ skippedContact.reasonSkipped }}
           pre
             {{ JSON.stringify(skippedContact, null, 4) }}
-          //- pre
-          //-   = view.noteData(skippedContact)
+          pre(v-if="skippedContact.noteData")
+            {{ skippedContact.noteData }}
