@@ -11,6 +11,21 @@ console.log 'Travis Build' if TRAVIS
 #- regJoin replace a single '/' with '[\/\\]' so it can handle either forward or backslash
 regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
+gameLibraries = [
+  'register-game-libraries'
+  'easeljs'
+  'movieclip'
+  'tweenjs'
+  'soundjs'
+  'SpriteContainer'
+  'SpriteStage'
+  'ShaderParticles'
+  'deku'
+  'htmlparser2'
+  'css'
+  'firepad'
+  'jquery-ui-custom'
+].join '|'
 
 #- Build the config
 
@@ -98,10 +113,15 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine))')
-          regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|' + gameLibraries + '))')
+          regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui\.))')
           'bower_components/treema/treema-utils.js'
         ]
+
+        'javascripts/game-libraries.js': [
+          regJoin('^vendor/scripts/(' + gameLibraries + ')')
+        ],
+
         'javascripts/whole-vendor.js': if TRAVIS then [
           regJoin('^vendor/scripts/(?!(Box2d|jasmine))')
           regJoin('^bower_components/(?!aether|esper.js)')

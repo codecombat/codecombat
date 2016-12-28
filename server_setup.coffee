@@ -109,8 +109,15 @@ setupExpressMiddleware = (app) ->
   else if not global.testing
     express.logger.format('dev', developmentLogging)
     app.use(express.logger('dev'))
-  app.use('/'+config.buildInfo.sha, express.static(path.join(__dirname, 'public'), maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
-  app.use(express.static(path.join(__dirname, 'public'), maxAge: 0))
+
+  public_path = path.join(__dirname, 'public')
+  
+  if config.buildInfo.sha isnt 'dev' and config.isProduction
+    app.use("/#{config.buildInfo.sha}", express.static(public_path, maxAge: '1y'))
+  else
+    app.use('/dev', express.static(public_path, maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
+  
+  app.use(express.static(public_path, maxAge: 0))
   
   if config.proxy
     # Don't proxy static files with sha prefixes, redirect them

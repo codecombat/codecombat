@@ -8,6 +8,8 @@ PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 app = require 'core/application'
 
+require 'game-libraries'
+
 module.exports = class PollEditView extends RootView
   id: 'editor-poll-edit-view'
   template: template

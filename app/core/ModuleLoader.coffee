@@ -27,6 +27,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       return {} if _.string.startsWith(name, 'vendor/')
       return window.esper if name is 'esper'
       return window.Aether if name is 'aether'
+      return {} if name is 'game-libraries'
       return {} if name is 'tests'
       return {} if name is 'demo-app'
       name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
@@ -52,7 +53,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     @recentPaths.push(path)
     uri = "/javascripts/app/#{path}.js"
     
-    if path in ["aether"]
+    if path in ["aether", "game-libraries"]
       uri = "/javascripts/#{path}.js"
 
     if path is "esper"
@@ -83,7 +84,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   onFileLoad: (e) =>
     # load dependencies if it's not a vendor library
-    if not /(^vendor)|aether$|esper$/.test e.item.id
+    if not /(^vendor)|game-libraries$|aether$|esper$/.test e.item.id
       have = window.require.list()
       haveWithIndexRemoved = _(have)
         .filter (file) -> _.string.endsWith(file, 'index')

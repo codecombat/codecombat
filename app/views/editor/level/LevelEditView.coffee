@@ -49,6 +49,8 @@ require 'vendor/aether-lua'
 require 'vendor/aether-java'
 require 'vendor/aether-html'
 
+require 'game-libraries'
+
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
   className: 'editor'
