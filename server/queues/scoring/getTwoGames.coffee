@@ -27,7 +27,7 @@ sendSessionsResponse = (res) ->
   (err, sessions) ->
     if err then return errors.serverError res, "Couldn't get two games to simulate: #{err}"
     unless _.filter(sessions).length is 2
-      res.send 204, 'No games to score.'
+      res.status(204).send 'No games to score.'
       return res.end()
     taskObject = messageGenerated: Date.now(), sessions: (scoringUtils.formatSessionInformation session for session in sessions)
     #console.log 'Dispatching ladder game simulation between', taskObject.sessions[0].creatorName, 'and', taskObject.sessions[1].creatorName

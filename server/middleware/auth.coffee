@@ -324,7 +324,7 @@ module.exports =
       suggestedName
       conflicts: givenName isnt suggestedName
     }
-    res.send 200, response
+    res.status(200).send response
 
   email: wrap (req, res) ->
     { email } = req.params
@@ -332,4 +332,4 @@ module.exports =
       throw new errors.UnprocessableEntity 'No email provided.'
     
     user = yield User.findByEmail(email)
-    res.send 200, { exists: user? }
+    res.status(200).send { exists: user? }

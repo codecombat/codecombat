@@ -92,15 +92,15 @@ module.exports = class Handler
     errors.custom(res, code, message)
 
   sendSuccess: (res, message='{}') ->
-    res.send 200, message
+    res.status(200).send message
     res.end()
 
   sendCreated: (res, message='{}') ->
-    res.send 201, message
+    res.status(201).send message
     res.end()
 
   sendAccepted: (res, message='{}') ->
-    res.send 202, message
+    res.status(202).send message
     res.end()
 
   sendNoContent: (res) ->
