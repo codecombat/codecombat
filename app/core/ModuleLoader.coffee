@@ -22,6 +22,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
     @queue = new createjs.LoadQueue()
     @queue.on('fileload', @onFileLoad, @)
+    @queue.setMaxConnections 5
     wrapped = _.wrap window.require, (func, name, loaderPath) ->
       # vendor libraries aren't actually wrapped with common.js, so short circuit those requires
       return {} if _.string.startsWith(name, 'vendor/')
