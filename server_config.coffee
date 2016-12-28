@@ -5,8 +5,7 @@ config = {}
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
 
-config.chinaDomain = "cn.codecombat.com;ccombat.cn"
-config.brazilDomain = "br.codecombat.com"
+config.brazilDomain = "play.ellitegames.com"
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT  or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =
@@ -102,8 +101,8 @@ config.isProduction = config.mongo.host isnt 'localhost'
 
 # Domains (without subdomain prefix, with port number) for main hostname (usually codecombat.com)
 # and unsafe web-dev iFrame content (usually codecombatprojects.com).
-config.mainHostname = process.env.COCO_MAIN_HOSTNAME or 'localhost:3000'
-config.unsafeContentHostname = process.env.COCO_UNSAFE_CONTENT_HOSTNAME or 'localhost:3000'
+config.mainHostname = process.env.COCO_MAIN_HOSTNAME or 'play.ellitegames.com:3000'
+config.unsafeContentHostname = process.env.COCO_UNSAFE_CONTENT_HOSTNAME or 'play.ellitegames.com:3000'
 
 if process.env.COCO_PICOCTF
   config.picoCTF = true

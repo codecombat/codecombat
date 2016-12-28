@@ -2,13 +2,13 @@
   "name": "codecombat",
   "description": "A multiplayer programming game for learning how to code.",
   "author": "Nick Winter <nick@codecombat.com>",
-  "homepage": "https://github.com/codecombat/codecombat",
+  "homepage": "https://github.com/zoiobnu/codecombat",
   "domains": [
-    "codecombat.com"
+    "play.ellitegames.com"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/codecombat/codecombat"
+    "url": "https://github.com/zoiobnu/codecombat"
   },
   "contributors": [
     {

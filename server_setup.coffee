@@ -205,7 +205,7 @@ setupFeaturesMiddleware = (app) ->
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
 
-    if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
+    if req.headers.host is 'play.ellitegames.com' or req.session.featureMode is 'code-play'
       features.freeOnly = true
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
       features.playViewsOnly = true
@@ -244,7 +244,6 @@ exports.setupMiddleware = (app) ->
   setupPerfMonMiddleware app
   setupDomainFilterMiddleware app
   setupCountryTaggingMiddleware app
-  setupCountryRedirectMiddleware app, 'china', config.chinaDomain
   setupCountryRedirectMiddleware app, 'brazil', config.brazilDomain
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
@@ -346,7 +345,7 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
   proxy = httpProxy.createProxyServer({
-    target: 'https://direct.codecombat.com'
+    target: 'https://play.ellitegames.com'
     secure: false
   })
   log.info 'Using dev proxy server'

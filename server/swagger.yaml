@@ -18,7 +18,7 @@ info:
     API routes must be called with Basic HTTP Authentication. Provide your username and password with each request.
     
     ```javascript
-    url = 'https://codecombat.com/api/users'
+    url = 'https://play.ellitegames.com/api/users'
     json = { name: 'A username' }
     auth = { name: CLIENT_ID, pass: CLIENT_SECRET }
     request.get({ url, json, auth }, (err, res) => console.log(res.statusCode, res.body))
@@ -32,7 +32,7 @@ info:
     1. **Link the CodeCombat user to an OAuth identity** using [POST /api/users/:handle/o-auth-identities](#post-apiusershandleo-auth-identities).
     1. **Log the user in** by redirecting them to [/auth/login-o-auth](#get-authlogin-o-auth).
     
-host: codecombat.com
+host: play.ellitegames.com
 basePath: /api
 schemes:
   - https
@@ -54,7 +54,7 @@ paths:
         In this example, your lookup URL is `https://oauth.provider/user?t=<%= accessToken %>'` and returns `{ id: 'abcd' }`
         
         ```javascript
-        url = `https://codecombat.com/auth/login-o-auth?provider=${OAUTH_PROVIDER_ID}&accessToken=1234`
+        url = `https://play.ellitegames.com/auth/login-o-auth?provider=${OAUTH_PROVIDER_ID}&accessToken=1234`
         res.redirect(url)
         // User is sent to CodeCombat and assuming everything checks out, 
         // is logged in and redirected to the home page.
@@ -90,7 +90,7 @@ paths:
         
         #### Example
         ```javascript
-        url = 'https://codecombat.com/api/users'
+        url = 'https://play.ellitegames.com/api/users'
         json = { email: 'an@email.com', name: 'Some Username' }
         request.post({ url, json, auth })
         ```
@@ -187,7 +187,7 @@ paths:
         In this example, your lookup URL is `https://oauth.provider/user?t=<%= accessToken %>'` and returns `{ id: 'abcd' }`
         
         ```javascript
-        url = `https://codecombat.com/api/users/${userID}/o-auth-identities`
+        url = `https://play.ellitegames.com/api/users/${userID}/o-auth-identities`
         OAUTH_PROVIDER_ID = 'xyz'
         json = { provider: OAUTH_PROVIDER_ID, accessToken: '1234' }
         request.post({ url, json, auth}, (err, res) => {
@@ -230,7 +230,7 @@ paths:
         #### Example
         
         ```javascript
-        url = `https://codecombat.com/api/users/${userID}/subscription`
+        url = `https://play.ellitegames.com/api/users/${userID}/subscription`
         json = { ends: new Date('2017-01-01').toISOString() }
         request.put({ url, json, auth }, (err, res) => {
           console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
@@ -265,7 +265,7 @@ paths:
         #### Example
         
         ```javascript
-        url = `https://codecombat.com/api/users/${userID}/license`
+        url = `https://play.ellitegames.com/api/users/${userID}/license`
         json = { ends: new Date('2017-01-01').toISOString() }
         request.put({ url, json, auth }, (err, res) => {
           console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
