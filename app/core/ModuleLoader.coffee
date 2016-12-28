@@ -29,6 +29,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       return window.esper if name is 'esper'
       return window.Aether if name is 'aether'
       return {} if name is 'game-libraries'
+      return window.ace if name is 'ace'
       return {} if name is 'tests'
       return {} if name is 'demo-app'
       name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
@@ -57,7 +58,10 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     if path in ["aether", "game-libraries"]
       uri = "/javascripts/#{path}.js"
 
-    if path is "esper"
+    else if path is "ace"
+      uri = "/lib/ace/ace.js"
+
+    else if path is "esper"
       try
         #Detect very modern javascript support.
         indirecteval = eval

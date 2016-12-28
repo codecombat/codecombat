@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level_loading'
+ace = require 'ace'
 utils = require 'core/utils'
 SubscribeModal = require 'views/core/SubscribeModal'
 
