@@ -124,7 +124,7 @@ exports.config =
 
         'javascripts/whole-vendor.js': if TRAVIS then [
           regJoin('^vendor/scripts/(?!(Box2d|jasmine))')
-          regJoin('^bower_components/(?!aether|esper.js)')
+          regJoin('^bower_components/(?!aether|esper.js|register-game-libraries)')
         ] else []
 
         #- Other vendor libraries in separate bunches
