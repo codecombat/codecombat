@@ -229,8 +229,8 @@ module.exports = class Handler
   getByRelationship: (req, res, args...) ->
     # this handler should be overwritten by subclasses
     if @modelClass.schema.is_patchable
-      return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
-      return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
+      return @getPatchesFor(req, res, args[0]) if req.method is 'GET' and args[1] is 'patches'
+      return @setWatching(req, res, args[0]) if req.method is 'PUT' and args[1] is 'watch'
     return @sendNotFoundError(res)
 
   getNamesByIDs: (req, res) ->

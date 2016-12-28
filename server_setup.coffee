@@ -5,6 +5,8 @@ useragent = require 'express-useragent'
 fs = require 'graceful-fs'
 log = require 'winston'
 compressible = require 'compressible'
+compression = require 'compression'
+
 geoip = require '@basicer/geoip-lite'
 
 database = require './server/commons/database'
@@ -28,6 +30,7 @@ Promise.promisifyAll(request, {multiArgs: true})
 Promise.promisifyAll(fs)
 wrap = require 'co-express'
 codePlayTags = require './server/lib/code-play-tags'
+morgan = require 'morgan'
 
 {countries} = require './app/core/utils'
 
@@ -101,14 +104,14 @@ setupErrorMiddleware = (app) ->
 
 setupExpressMiddleware = (app) ->
   if config.isProduction
-    express.logger.format('prod', productionLogging)
-    app.use(express.logger('prod'))
-    app.use express.compress filter: (req, res) ->
+    morgan.format('prod', productionLogging)
+    app.use(morgan('prod'))
+    app.use compression filter: (req, res) ->
       return false if req.headers.host is 'codecombat.com'  # CloudFlare will gzip it for us on codecombat.com
       compressible res.getHeader('Content-Type')
   else if not global.testing
-    express.logger.format('dev', developmentLogging)
-    app.use(express.logger('dev'))
+    morgan.format('dev', developmentLogging)
+    app.use(morgan('dev'))
 
   public_path = path.join(__dirname, 'public')
   
@@ -130,14 +133,15 @@ setupExpressMiddleware = (app) ->
 
   setupProxyMiddleware app # TODO: Flatten setup into one function. This doesn't fit its function name.
 
-  app.use(express.favicon())
-  app.use(express.cookieParser())
-  app.use(express.bodyParser())
-  app.use(express.methodOverride())
-  app.use(express.cookieSession({
-    key:'codecombat.sess'
-    secret:config.cookie_secret
-  }))
+  app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon.ico')
+  app.use require('cookie-parser')()
+  app.use require('body-parser').json()
+  app.use require('body-parser').urlencoded({ extended: true })
+  app.use require('method-override')()
+  app.use require('cookie-session')
+    key: 'codecombat.sess'
+    secret: config.cookie_secret
+
 
 setupPassportMiddleware = (app) ->
   app.use(authentication.initialize())
@@ -204,14 +208,13 @@ setupRedirectMiddleware = (app) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
 
-# Before we even think about going to the database
-setupFeaturesEarlyMiddleware = (app) ->
+setupFeaturesMiddleware = (app) ->
   app.use (req, res, next) ->
     # TODO: Share these defaults with run-tests.js
     req.features = features = {
       freeOnly: false
-    }
-    
+    }  
+
 
     if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
       features.freeOnly = true
@@ -221,13 +224,6 @@ setupFeaturesEarlyMiddleware = (app) ->
 
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
-
-    next()
-
-# After we have access to the user
-setupFeaturesLateMiddleware = (app) ->
-  app.use (req, res, next) ->
-
     if req.user
       { user } = req
       if user.get('country') in ['china'] and not (user.isPremium() or user.get('stripe'))
@@ -259,21 +255,21 @@ setupAPIDocs = (app) ->
 exports.setupMiddleware = (app) ->
   setupSecureMiddleware app
   setupPerfMonMiddleware app
+  
   setupDomainFilterMiddleware app
   setupCountryTaggingMiddleware app
   setupCountryRedirectMiddleware app, 'china', config.chinaDomain
   setupCountryRedirectMiddleware app, 'brazil', config.brazilDomain
+  setupQuickBailToMainHTML app
+
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
-  setupFeaturesEarlyMiddleware app
-  setupQuickBailToMainHTML app
-  setupAPIDocs app # should happen after serving static files, so we serve the right favicon
+  setupAPIDocs app # should happen after serving static files, so we serve the fright favicon
   setupPassportMiddleware app
-  setupFeaturesLateMiddleware app
+  setupFeaturesMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
   setupAjaxCaching app
-  setupErrorMiddleware app
   setupJavascript404s app
 
 ###Routing function implementations###
@@ -305,19 +301,26 @@ mainTemplate = fs.readFileAsync(path.join(__dirname, 'app', 'assets', 'main.html
 
 renderMain = wrap (req, res) ->
   template = yield mainTemplate
-  res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
-  res.header 'Pragma', 'no-cache'
-  res.header 'Expires', 0
-
   if req.features.codePlay
    template = template.replace '<!-- CodePlay Tags -->', codePlayTags
 
   res.status(200).send template
 
 setupQuickBailToMainHTML = (app) ->
-  app.use (req, res, next) ->
-    return next() unless /^(\/?$|\/?play)$/.test(req.url) 
-    renderMain req, res
+  fast = (req, res, next) ->
+    req.features = features = {}
+    res.header 'Fast', 'Oh Yeah'
+    res.header 'Cache-Control', 'public, max-age=60'
+
+    if req.headers.host is 'cp.codecombat.com'
+      features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+    
+    renderMain(req, res)
+
+  app.get '/', fast
+  app.get '/play', fast
+  app.get '/play/level/:slug', fast
+  app.get '/play/:slug', fast
 
 setupUserDataRoute = (app) -> 
   app.get '/user-data', wrap (req, res) ->
@@ -361,7 +364,11 @@ setupUserDataRoute = (app) ->
     ].join "\n"
 
 setupFallbackRouteToIndex = (app) ->
-  app.all '*', renderMain
+  app.all '*', (req, res) =>
+    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+    res.header 'Pragma', 'no-cache'
+    res.header 'Expires', 0
+    renderMain req, res
 
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
@@ -370,12 +377,12 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
 
 exports.setupRoutes = (app) ->
   routes.setup(app)
-  app.use app.router
 
   baseRoute.setup app
   setupUserDataRoute app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app
+  setupErrorMiddleware app
 
 ###Miscellaneous configuration functions###
 
