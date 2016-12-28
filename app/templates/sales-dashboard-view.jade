@@ -1,26 +1,30 @@
 extends /templates/base-flat
 
 block content
-  .container
-    if view.skippedContacts.loaded
-      ol.skipped-contacts
-      each skippedContact in view.skippedContacts.models
-        li.skipped-contact
-          - var trialRequest = skippedContact.get('trialRequest')
-          if trialRequest
-            h2
-              = trialRequest.properties.email
-          if skippedContact.get('archived')
-            button.unarchive-contact(data-contact-id=skippedContact.id)
-              | Unarchive
-          else
-            button.archive-contact(data-contact-id=skippedContact.id)
-              | Archive
-          if !skippedContact.get('archived')
-            div
-              = "Reason skipped: "
-              = skippedContact.get('reasonSkipped')
-            pre
-              = JSON.stringify(skippedContact.attributes, null, 4)
-            pre
-              = view.noteData(skippedContact)
+  #sales-dashboard-view-2
+    //- != view.vueTemplate
+
+//- block content
+//-   .container
+//-     if view.skippedContacts && view.skippedContacts.loaded
+//-       ol.skipped-contacts
+//-       each skippedContact in view.skippedContacts.models
+//-         li.skipped-contact
+//-           - var trialRequest = skippedContact.get('trialRequest')
+//-           if trialRequest
+//-             h2
+//-               = trialRequest.properties.email
+//-           if skippedContact.get('archived')
+//-             button.unarchive-contact(data-contact-id=skippedContact.id)
+//-               | Unarchive
+//-           else
+//-             button.archive-contact(data-contact-id=skippedContact.id)
+//-               | Archive
+//-           if !skippedContact.get('archived')
+//-             div
+//-               = "Reason skipped: "
+//-               = skippedContact.get('reasonSkipped')
+//-             pre
+//-               = JSON.stringify(skippedContact.attributes, null, 4)
+//-             pre
+//-               = view.noteData(skippedContact)

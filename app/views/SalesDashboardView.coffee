@@ -3,9 +3,31 @@ template = require 'templates/sales-dashboard-view'
 SkippedContacts = require 'collections/SkippedContacts'
 User = require 'models/User'
 
+vueTemplate = """
+
+<div>
+  Yay stuff
+  {{message}}
+
+    <div class="container">
+      <ol class="skipped-contacts" v-if="skippedContacts">
+        <li class="skipped-contact" v-for="skippedContact in skippedContacts">
+
+          id: {{ skippedContact._id }}
+          <h2 v-if="skippedContact && skippedContact.trialRequest">
+            {{skippedContact.trialRequest.properties.email}}
+          </h2>
+        </li>
+      </ol>
+    </div>
+</div>
+
+"""
+
 module.exports = class SalesDashboardView extends RootView
   id: 'sales-dashboard-view'
   template: template
+  vueTemplate: vueTemplate
 
   events:
     'click .archive-contact': 'onClickArchiveContact'
@@ -15,14 +37,26 @@ module.exports = class SalesDashboardView extends RootView
     @skippedContacts = new SkippedContacts()
     @listenTo @skippedContacts, 'sync change update', ->
       @render()
-      @skippedContacts.each (skippedContact) =>
-        skippedContact.user = new User({ _id: skippedContact.get('trialRequest').applicant })
-        skippedContact.user.fetch()
-        @listenTo skippedContact.user, 'sync', =>
-          console.log 'User sync:', skippedContact.user
-          @render
+      # @skippedContacts.each (skippedContact) =>
+      #   skippedContact.user = new User({ _id: skippedContact.get('trialRequest').applicant })
+      #   skippedContact.user.fetch()
+      #   @listenTo skippedContact.user, 'sync', =>
+      #     # console.log 'User sync:', skippedContact.user
+      #     @render()
 
-    @supermodel.trackRequest @skippedContacts.fetch()
+    @skippedContacts.fetch()
+
+  afterRender: ->
+    @vue = new Vue({
+      el: @$el.find('#sales-dashboard-view-2')[0]
+      template: @vueTemplate
+      data: {
+        message: 'Hello!'
+        skippedContacts: @skippedContacts.toJSON()
+      }
+    })
+    console.log @vue
+    super(arguments...)
 
   # TODO: Clean this up; it's hastily copied/modified from updateCloseIoLeads.js
   # TODO: Figure out how to make this less redundant with that script
