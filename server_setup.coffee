@@ -203,22 +203,30 @@ setupRedirectMiddleware = (app) ->
   app.all '/account/profile/*', (req, res, next) ->
     nameOrID = req.path.split('/')[3]
     res.redirect 301, "/user/#{nameOrID}/profile"
-    
-setupFeaturesMiddleware = (app) ->
+
+# Before we even think about going to the database
+setupFeaturesEarlyMiddleware = (app) ->
   app.use (req, res, next) ->
     # TODO: Share these defaults with run-tests.js
     req.features = features = {
       freeOnly: false
     }
     
-    if config.picoCTF or req.session.featureMode is 'pico-ctf'
-      features.playOnly = true
 
     if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
       features.freeOnly = true
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
       features.playViewsOnly = true
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+
+    if config.picoCTF or req.session.featureMode is 'pico-ctf'
+      features.playOnly = true
+
+    next()
+
+# After we have access to the user
+setupFeaturesLateMiddleware = (app) ->
+  app.use (req, res, next) ->
 
     if req.user
       { user } = req
@@ -257,9 +265,11 @@ exports.setupMiddleware = (app) ->
   setupCountryRedirectMiddleware app, 'brazil', config.brazilDomain
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
+  setupFeaturesEarlyMiddleware app
+  setupQuickBailToMainHTML app
   setupAPIDocs app # should happen after serving static files, so we serve the right favicon
   setupPassportMiddleware app
-  setupFeaturesMiddleware app
+  setupFeaturesLateMiddleware app
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
   setupAjaxCaching app
@@ -291,47 +301,68 @@ setupJavascript404s = (app) ->
 mainTemplate = fs.readFileAsync(path.join(__dirname, 'app', 'assets', 'main.html'), 'utf8').then (data) =>
   data = data.replace '"environmentTag"', if config.isProduction then '"production"' else '"development"'
   data = data.replace /shaTag/g, config.buildInfo.sha
-  data = data.replace '"serverConfigTag"', '<%= mandate %>'
-  data = data.replace '"userObjectTag"', '<%= user %>'
-  data = data.replace '"serverSessionTag"', '<%= session %>'
-  data = data.replace '"featuresTag"', '<%= features %>'
-  data = data.replace '<!-- CodePlay Tags -->', '<%= codeplay %>'
-  return _.template data
+  return data
 
 renderMain = wrap (req, res) ->
   template = yield mainTemplate
-  user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
-
-
-  try
-    mandate = yield Mandate.findOne({}).cache(5 * 60 * 1000).exec()
-    configData =  _.omit mandate?.toObject() or {}, '_id'
-  catch err
-    log.error "Error getting mandate config: #{err}"
-    configData = {}
-
-  configData.picoCTF = config.picoCTF
-  configData.production = config.isProduction
-  configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
-  domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
-  domainPrefix = req.host.match(domainRegex)?[1] or ''
-  configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
-  configData.buildInfo = config.buildInfo
-
   res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
   res.header 'Pragma', 'no-cache'
   res.header 'Expires', 0
-  str = template
-    user: user
-    session: JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode'))
-    features: JSON.stringify(req.features)
-    codeplay: if req.features.codePlay then codePlayTags else '<!-- CodePlay Tags -->'
-    mandate: JSON.stringify configData
-  res.status(200).send str
+
+  if req.features.codePlay
+   template = template.replace '<!-- CodePlay Tags -->', codePlayTags
+
+  res.status(200).send template
+
+setupQuickBailToMainHTML = (app) ->
+  app.use (req, res, next) ->
+    return next() unless /^(\/?$|\/?play)$/.test(req.url) 
+    renderMain req, res
+
+setupUserDataRoute = (app) -> 
+  app.get '/user-data', wrap (req, res) ->
+    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+    res.header 'Pragma', 'no-cache'
+    res.header 'Expires', 0
+
+    # IMPORTANT: If you edit here, make sure app/assets/javascripts/run-tests.js puts in placeholders for
+    # running client tests on Travis.
+
+
+    sst = JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode'))
+    user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
+    try
+      mandate = yield Mandate.findOne({}).cache(5 * 60 * 1000).exec()
+      configData =  _.omit mandate?.toObject() or {}, '_id'
+    catch err
+      log.error "Error getting mandate config: #{err}"
+      configData = {}
+
+    domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
+    domainPrefix = req.host.match(domainRegex)?[1] or ''
+    
+    configData.picoCTF = config.picoCTF
+    configData.production = config.isProduction
+    configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
+    configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
+    configData.buildInfo = config.buildInfo
+
+
+
+    res.header 'Content-Type', 'application/javascript; charset=utf8'
+    res.send [
+      "window.serverConfig = #{JSON.stringify(configData)};"
+      "window.userObject = #{user};",
+      "window.serverSession = #{sst};",
+      "window.features = #{JSON.stringify(req.features)};"
+      "window.me = {"
+      "\tget: function(attribute) { return window.userObject[attribute]; }"
+      "}"
+    ].join "\n"
 
 setupFallbackRouteToIndex = (app) ->
   app.all '*', renderMain
-    
+
 
 setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
@@ -342,6 +373,7 @@ exports.setupRoutes = (app) ->
   app.use app.router
 
   baseRoute.setup app
+  setupUserDataRoute app
   setupFacebookCrossDomainCommunicationRoute app
   setupFallbackRouteToIndex app
 

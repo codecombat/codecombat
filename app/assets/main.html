@@ -34,18 +34,11 @@
     var DEXECURE_URL = "/dexecure-c167a5675c.js";
     "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
 
-    // IMPORTANT: If you edit here, make sure app/assets/javascripts/run-tests.js puts in placeholders for
-    // running client tests on Travis.
-    window.serverConfig = "serverConfigTag";
-    window.userObject = "userObjectTag";
-    window.serverSession = "serverSessionTag";
-    window.features = "featuresTag";
-    window.me = {
-        get: function(attribute) { return window.userObject[attribute]; }
-    }
+    
     // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
 
   </script>
+  <script src="/user-data?sha=shaTag"></script>
 
   <!-- Google Analytics -->
   <script>
