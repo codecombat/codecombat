@@ -1,6 +1,7 @@
 SkippedContact = require('../models/SkippedContact')
 wrap = require('co-express')
 database = require '../commons/database'
+errors = require '../commons/errors'
 
 module.exports =
   fetchAll: wrap (req, res, next) ->
