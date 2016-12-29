@@ -1,0 +1,26 @@
+div(v-if="skippedContact")
+  h2(v-if="skippedContact.trialRequest")
+    {{ skippedContact.trialRequest.properties.email }}
+  button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived", @click="onClickUnarchiveContact")
+    | Unarchive
+  button.archive-contact(:data-contact-id="skippedContact._id", v-else, @click="onClickArchiveContact")
+    | Archive
+
+  div(v-if="!skippedContact.archived")
+    h2
+      | Reason skipped:
+      {{ skippedContact.reasonSkipped }}
+    div(v-if="skippedContact.queryString")
+      | Search string we tried to use:
+      pre
+        {{ skippedContact.queryString }}
+    .row
+      .col-md-6
+        h4 Trial request data:
+        pre
+          {{ JSON.stringify(skippedContact.trialRequest.properties, null, 4) }}
+      .col-md-6
+        div(v-if="skippedContact.noteData")
+          h4 Note info:
+          pre
+            {{ skippedContact.noteData }}

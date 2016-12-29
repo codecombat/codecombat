@@ -16,10 +16,35 @@ skippedContactApi = {
     })
 }
 
+SkippedContactInfo = {
+  template: require('templates/sales-dashboard/skipped-contact-info')()
+  props:
+    skippedContact:
+      type: Object
+      default: -> {}
+  methods:
+    onClickArchiveContact: co (e) ->
+      e.preventDefault()
+      contactId = $(e.currentTarget).data('contact-id')
+      index = _.findIndex(@skippedContacts, (s) -> s._id is contactId)
+      contact = @skippedContacts[index]
+      yield skippedContactApi.setArchived(contactId, true)
+      Vue.set(@skippedContacts, index, _.assign({}, contact, {archived: true}))
+    onClickUnarchiveContact: co (e) ->
+      e.preventDefault()
+      contactId = $(e.currentTarget).data('contact-id')
+      index = _.findIndex(@skippedContacts, (s) -> s._id is contactId)
+      contact = @skippedContacts[index]
+      yield skippedContactApi.setArchived(contactId, false)
+      Vue.set(@skippedContacts, index, _.assign({}, contact, {archived: false}))
+}
+
 SalesDashboardComponent = Vue.extend({
   template: require('templates/sales-dashboard/sales-dashboard-view')()
   data: ->
     skippedContacts: []
+  components:
+    'skipped-contact-info': SkippedContactInfo
 })
 
 module.exports = class SalesDashboardView extends RootView
@@ -40,29 +65,14 @@ module.exports = class SalesDashboardView extends RootView
         # TODO
       }
       methods: {
-        onClickArchiveContact: co (e) ->
-          e.preventDefault()
-          contactId = $(e.currentTarget).data('contact-id')
-          index = _.findIndex(@skippedContacts, (s) -> s._id is contactId)
-          contact = @skippedContacts[index]
-          yield skippedContactApi.setArchived(contactId, true)
-          Vue.set(@skippedContacts, index, _.assign({}, contact, {archived: true}))
-        onClickUnarchiveContact: co (e) ->
-          e.preventDefault()
-          contactId = $(e.currentTarget).data('contact-id')
-          index = _.findIndex(@skippedContacts, (s) -> s._id is contactId)
-          contact = @skippedContacts[index]
-          yield skippedContactApi.setArchived(contactId, false)
-          Vue.set(@skippedContacts, index, _.assign({}, contact, {archived: false}))
-
-        updateVueFromCollection: _.debounce((collection) ->
-          console.log 'update from collection'
-          @skippedContacts = collection.toJSON()
-        , 10)
-        updateVueFromModel: _.debounce((model) ->
-          index = _.findIndex(@skippedContacts, (s) -> s._id is model.id)
-          Vue.set(@skippedContacts, index, model.toJSON())
-        , 10)
+        # updateVueFromCollection: _.debounce((collection) ->
+        #   console.log 'update from collection'
+        #   @skippedContacts = collection.toJSON()
+        # , 10)
+        # updateVueFromModel: _.debounce((model) ->
+        #   index = _.findIndex(@skippedContacts, (s) -> s._id is model.id)
+        #   Vue.set(@skippedContacts, index, model.toJSON())
+        # , 10)
         getQueryString: (skippedContact) ->
           if skippedContact.trialRequest
             trialRequest = skippedContact.trialRequest
