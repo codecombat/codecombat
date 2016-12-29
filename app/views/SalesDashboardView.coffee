@@ -90,14 +90,25 @@ SalesDashboardComponent = Vue.extend
     skippedContacts: []
     users: {}
     showArchived: true
+    sortOrder: 'date (ascending)'
   computed:
     numArchivedUsers: ->
       _.countBy(@skippedContacts, (contact) -> contact.archived)[true]
+    sortedContacts: ->
+      switch @sortOrder
+        when 'date (ascending)'
+          return _(@skippedContacts).sortBy((s) -> s.trialRequest.created).value()
+        when 'date (descending)'
+          return _(@skippedContacts).sortBy((s) -> s.trialRequest.created).reverse().value()
+        when 'email'
+          return _(@skippedContacts).sortBy((s) -> s.trialRequest.properties.email).value()
+        when 'archived'
+          return _(@skippedContacts).sortBy((s) -> !!s.archived).value()
+        else
+          return @skippedContacts
   components:
     'skipped-contact-info': SkippedContactInfo
   methods:
-    setShowArchived: (showArchived) ->
-      @showArchived = showArchived
     archiveContact: co (skippedContact, archived) ->
       yield skippedContactApi.setArchived(skippedContact._id, archived)
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
