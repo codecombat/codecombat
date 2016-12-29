@@ -1,7 +1,13 @@
 .container
+  label
+    input(type="checkbox", @click="setShowArchived(!showArchived)" checked="showArchived")
+    | Show archived users
+    | ({{ numArchivedUsers }})
+
   ol.skipped-contacts
     li( is="skipped-contact-info",
         v-for="skippedContact in skippedContacts",
+        v-if="showArchived || !skippedContact.archived",
         :skippedContact="skippedContact",
         :user="users[skippedContact._id]",
         v-on:archiveContact="archiveContact")

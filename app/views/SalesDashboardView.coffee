@@ -89,9 +89,15 @@ SalesDashboardComponent = Vue.extend
   data: ->
     skippedContacts: []
     users: {}
+    showArchived: true
+  computed:
+    numArchivedUsers: ->
+      _.countBy(@skippedContacts, (contact) -> contact.archived)[true]
   components:
     'skipped-contact-info': SkippedContactInfo
   methods:
+    setShowArchived: (showArchived) ->
+      @showArchived = showArchived
     archiveContact: co (skippedContact, archived) ->
       yield skippedContactApi.setArchived(skippedContact._id, archived)
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
