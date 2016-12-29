@@ -2,7 +2,6 @@ CocoClass = require 'core/CocoClass'
 locale = require 'locale/locale'
 
 LOG = false
-LOGX = true
 
 module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
@@ -50,7 +49,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     path = wad if wad
     return false if @loaded[path]
     if wad
-      console.log "Loading", wad, " for ", originalPath if LOGX
+      console.log "Loading", wad, " for ", originalPath if LOG
     @loaded[path] = true
     @recentPaths.push(path)
     uri = "/javascripts/app/#{path}.js"
@@ -72,7 +71,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
         console.log "Legacy javascript detected, falling back...", e.message
         uri = "/javascripts/esper.js"
 
-    console.debug 'Loading js file:', uri, "because", why if LOGX
+    console.debug 'Loading js file:', uri, "because", why if LOG
     @queue.loadFile({
       id: path
       src: "/#{window.serverConfig.buildInfo.sha}#{uri}"
