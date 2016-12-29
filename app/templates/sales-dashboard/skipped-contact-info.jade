@@ -1,9 +1,9 @@
-div(v-if="skippedContact")
+li.skipped-contact-info(v-if="skippedContact")
   h2(v-if="skippedContact.trialRequest")
     {{ skippedContact.trialRequest.properties.email }}
-  button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived", @click="onClickUnarchiveContact")
+  button.unarchive-contact(:data-contact-id="skippedContact._id", v-if="skippedContact.archived", @click.prevent="onClickUnarchiveContact")
     | Unarchive
-  button.archive-contact(:data-contact-id="skippedContact._id", v-else, @click="onClickArchiveContact")
+  button.archive-contact(:data-contact-id="skippedContact._id", v-else, @click.prevent="onClickArchiveContact")
     | Archive
 
   div(v-if="!skippedContact.archived")

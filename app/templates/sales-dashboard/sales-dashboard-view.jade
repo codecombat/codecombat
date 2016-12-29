@@ -1,5 +1,6 @@
 .container
   ol.skipped-contacts
-    li.skipped-contact(v-for="skippedContact in skippedContacts")
-      skipped-contact-info(:skippedContact="skippedContact")
-      hr
+    li( is="skipped-contact-info",
+        v-for="skippedContact in skippedContacts",
+        :skippedContact="skippedContact"
+        v-on:archiveContact="archiveContact")
