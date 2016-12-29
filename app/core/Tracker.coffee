@@ -137,7 +137,8 @@ module.exports = class Tracker extends CocoClass
     gaFieldObject.eventLabel = properties.label if properties.label?
     gaFieldObject.eventValue = properties.value if properties.value?
     ga? 'send', gaFieldObject
-
+    ga? 'codeplay.send', gaFieldObject if features.codePlay
+    
     # Inspectlet
     # http://www.inspectlet.com/docs#tagging
     __insp?.push ['tagSession', action: action, properies: properties]

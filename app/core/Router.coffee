@@ -139,7 +139,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
     'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView')
+    'play/:map': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': go('HomeView')
 
@@ -192,9 +192,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
   routeDirectly: (path, args=[], options={}) ->
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
-      return @navigate('/students', {trigger: true, replace: true})
+      return @redirectHome()
     if options.redirectTeachers and me.isTeacher() and not me.isAdmin()
-      return @navigate('/teachers', {trigger: true, replace: true})
+      return @redirectHome()
     if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and not (me.isStudent() or me.isAdmin())
@@ -221,6 +221,13 @@ module.exports = class CocoRouter extends Backbone.Router
     view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
+    
+  redirectHome: ->
+    homeUrl = switch 
+      when me.isStudent() then '/students'
+      when me.isTeacher() then '/teachers'
+      else '/'
+    @navigate(homeUrl, {trigger: true, replace: true})
 
   tryToLoadModule: (path) ->
     try

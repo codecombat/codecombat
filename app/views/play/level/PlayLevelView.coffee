@@ -147,6 +147,9 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     return if @destroyed
+    if (me.isStudent() or me.isTeacher()) and not @courseID and not e.level.isType('course-ladder')
+      return _.defer -> application.router.redirectHome()
+
     unless e.level.isType('web-dev')
       @god = new God({
         @gameUIState
