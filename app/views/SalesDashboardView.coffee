@@ -4,7 +4,7 @@ SkippedContacts = require 'collections/SkippedContacts'
 User = require 'models/User'
 # TODO: Stop using old co, switch to the kind that uses co.wrap
 
-skippedContactApi = {
+skippedContactApi =
   setArchived: (_id, archived) ->
     $.ajax({
       url: '/db/skipped-contact/' + _id
@@ -14,7 +14,6 @@ skippedContactApi = {
         archived
       }
     })
-}
 
 SkippedContactInfo = {
   template: require('templates/sales-dashboard/skipped-contact-info')()
@@ -69,6 +68,18 @@ SkippedContactInfo = {
         noteData += "coco_numStudents: #{skippedContact.numStudents}\n"
       return noteData
 
+    queryString: ->
+      console.log 'Getting query string'
+      if @skippedContact.trialRequest
+        trialRequest = @skippedContact.trialRequest
+        leadName = trialRequest.properties.nces_name or trialRequest.properties.organization or trialRequest.properties.school or trialRequest.properties.district or trialRequest.properties.nces_district or trialRequest.properties.email
+        query = "name:\"#{leadName}\"";
+        if (trialRequest.properties.nces_school_id)
+          query = "custom.demo_nces_id:\"#{trialRequest.properties.nces_school_id}\"";
+        else if (trialRequest.properties.nces_district_id)
+          query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\"";
+        return query
+
   methods:
     onClickArchiveContact: co (e) ->
       yield skippedContactApi.setArchived(@skippedContact._id, true)
@@ -89,16 +100,6 @@ SalesDashboardComponent = Vue.extend({
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
       oldContact = @skippedContacts[index]
       Vue.set(@skippedContacts, index, _.assign({}, oldContact, { archived }))
-    getQueryString: (skippedContact) ->
-      if skippedContact.trialRequest
-        trialRequest = skippedContact.trialRequest
-        leadName = trialRequest.properties.nces_name or trialRequest.properties.organization or trialRequest.properties.school or trialRequest.properties.district or trialRequest.properties.nces_district or trialRequest.properties.email
-        query = "name:\"#{leadName}\"";
-        if (trialRequest.properties.nces_school_id)
-          query = "custom.demo_nces_id:\"#{trialRequest.properties.nces_school_id}\"";
-        else if (trialRequest.properties.nces_district_id)
-          query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\"";
-        return query
     # TODO: Clean this up; it's hastily copied/modified from updateCloseIoLeads.js
     # TODO: Figure out how to make this less redundant with that script
 
@@ -121,7 +122,7 @@ module.exports = class SalesDashboardView extends RootView
         yield @skippedContacts.map co (skippedContact) =>
           user = new User({ _id: skippedContact.trialRequest.applicant })
           index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
-          Vue.set(@skippedContacts, index, _.assign({}, @skippedContacts[index], {queryString: @getQueryString(skippedContact)}))
+          # Vue.set(@skippedContacts, index, _.assign({}, @skippedContacts[index], {queryString: @getQueryString(skippedContact)}))
           yield user.fetch()
           # TODO: How do we pass this down into the components?
           console.log "Adding user to contact"

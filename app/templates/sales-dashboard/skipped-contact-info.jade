@@ -10,10 +10,10 @@ li.skipped-contact-info(v-if="skippedContact")
     h2
       | Reason skipped:
       {{ skippedContact.reasonSkipped }}
-    div(v-if="skippedContact.queryString")
+    div(v-if="queryString")
       | Search string we tried to use:
       pre
-        {{ skippedContact.queryString }}
+        {{ queryString }}
     .row
       .col-md-6
         h4 Trial request data:
