@@ -3,5 +3,5 @@
     li( is="skipped-contact-info",
         v-for="skippedContact in skippedContacts",
         :skippedContact="skippedContact",
-        :user="skippedContact.user",
+        :user="users[skippedContact._id]",
         v-on:archiveContact="archiveContact")

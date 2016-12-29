@@ -15,7 +15,7 @@ skippedContactApi =
       }
     })
 
-SkippedContactInfo = {
+SkippedContactInfo =
   template: require('templates/sales-dashboard/skipped-contact-info')()
   props:
     skippedContact:
@@ -23,45 +23,42 @@ SkippedContactInfo = {
       default: -> {}
     user:
       type: Object
-      default: -> {}
-    queryString:
-      type: String
-      default: -> ''
+      default: -> undefined
   computed:
     noteData: ->
-      console.log "Getting note data"
+      # TODO: Clean this up; it's hastily copied/modified from updateCloseIoLeads.js
+      # TODO: Figure out how to make this less redundant with that script
       noteData = ""
-      skippedContactAttrs = @skippedContact
-      if skippedContactAttrs.trialRequest.properties
-        props = skippedContactAttrs.trialRequest.properties
+      @skippedContact
+      if @skippedContact.trialRequest.properties
+        props = @skippedContact.trialRequest.properties
         if (props.name)
           noteData += "#{props.name}\n"
         if (props.email)
           noteData += "demo_email: #{props.email.toLowerCase()}\n"
-        if (skippedContactAttrs.trialRequest.created)
-          noteData += "demo_request: #{skippedContactAttrs.trialRequest.created}\n"
+        if (@skippedContact.trialRequest.created)
+          noteData += "demo_request: #{@skippedContact.trialRequest.created}\n"
         if (props.educationLevel)
           noteData += "demo_educationLevel: #{props.educationLevel.join(', ')}\n"
         for prop in props
           continue if (['email', 'educationLevel', 'created'].indexOf(prop) >= 0)
           noteData += "demo_#{prop}: #{props[prop]}\n"
-      noteData += "intercom_url: #{skippedContactAttrs.intercomUrl}\n" if (skippedContactAttrs.intercomUrl)
-      noteData += "intercom_lastSeen: #{skippedContactAttrs.intercomLastSeen}\n" if (skippedContactAttrs.intercomLastSeen)
-      noteData += "intercom_sessionCount: #{skippedContactAttrs.intercomSessionCount}\n" if (skippedContactAttrs.intercomSessionCount)
+      noteData += "intercom_url: #{@skippedContact.intercomUrl}\n" if (@skippedContact.intercomUrl)
+      noteData += "intercom_lastSeen: #{@skippedContact.intercomLastSeen}\n" if (@skippedContact.intercomLastSeen)
+      noteData += "intercom_sessionCount: #{@skippedContact.intercomSessionCount}\n" if (@skippedContact.intercomSessionCount)
 
-      if (@user)
-        user = @user
-        noteData += "coco_userID: #{user._id}\n"
-        noteData += "coco_firstName: #{user.firstName}\n" if (user.firstName)
-        noteData += "coco_lastName: #{user.lastName}\n" if (user.lastName)
-        noteData += "coco_name: #{user.name}\n" if (user.name)
-        noteData += "coco_email: #{user.emailLower}\n" if (user.emaillower)
-        noteData += "coco_gender: #{user.gender}\n" if (user.gender)
-        noteData += "coco_lastLevel: #{user.lastLevel}\n" if (user.lastLevel)
-        noteData += "coco_role: #{user.role}\n" if (user.role)
-        noteData += "coco_schoolName: #{user.schoolName}\n" if (user.schoolName)
-        noteData += "coco_gamesCompleted: #{user.stats.gamesCompleted}\n" if (user.stats && user.stats.gamesCompleted)
-        noteData += "coco_preferredLanguage: #{user.preferredLanguage || 'en-US'}\n"
+      if @user
+        noteData += "coco_userID: #{@user._id}\n"
+        noteData += "coco_firstName: #{@user.firstName}\n" if (@user.firstName)
+        noteData += "coco_lastName: #{@user.lastName}\n" if (@user.lastName)
+        noteData += "coco_name: #{@user.name}\n" if (@user.name)
+        noteData += "coco_email: #{@user.emailLower}\n" if (@user.emaillower)
+        noteData += "coco_gender: #{@user.gender}\n" if (@user.gender)
+        noteData += "coco_lastLevel: #{@user.lastLevel}\n" if (@user.lastLevel)
+        noteData += "coco_role: #{@user.role}\n" if (@user.role)
+        noteData += "coco_schoolName: #{@user.schoolName}\n" if (@user.schoolName)
+        noteData += "coco_gamesCompleted: #{@user.stats.gamesCompleted}\n" if (@user.stats && @user.stats.gamesCompleted)
+        noteData += "coco_preferredLanguage: #{@user.preferredLanguage || 'en-US'}\n"
       if (@numClassrooms) # TODO compute this
         noteData += "coco_numClassrooms: #{skippedContact.numClassrooms}\n"
       if (@numStudents) # TODO compute this
@@ -69,7 +66,6 @@ SkippedContactInfo = {
       return noteData
 
     queryString: ->
-      console.log 'Getting query string'
       if @skippedContact.trialRequest
         trialRequest = @skippedContact.trialRequest
         leadName = trialRequest.properties.nces_name or trialRequest.properties.organization or trialRequest.properties.school or trialRequest.properties.district or trialRequest.properties.nces_district or trialRequest.properties.email
@@ -81,52 +77,43 @@ SkippedContactInfo = {
         return query
 
   methods:
-    onClickArchiveContact: co (e) ->
-      yield skippedContactApi.setArchived(@skippedContact._id, true)
-      @$emit('archiveContact', @skippedContact, true)
-    onClickUnarchiveContact: co (e) ->
-      yield skippedContactApi.setArchived(@skippedContact._id, false)
-      @$emit('archiveContact', @skippedContact, false)
-}
+    onClickArchiveContact: (e) ->
+      archived = true
+      @$emit('archiveContact', @skippedContact, archived)
+    onClickUnarchiveContact: (e) ->
+      archived = false
+      @$emit('archiveContact', @skippedContact, archived)
 
-SalesDashboardComponent = Vue.extend({
+SalesDashboardComponent = Vue.extend
   template: require('templates/sales-dashboard/sales-dashboard-view')()
   data: ->
     skippedContacts: []
+    users: {}
   components:
     'skipped-contact-info': SkippedContactInfo
   methods:
-    archiveContact: (skippedContact, archived) ->
+    archiveContact: co (skippedContact, archived) ->
+      yield skippedContactApi.setArchived(skippedContact._id, archived)
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
       oldContact = @skippedContacts[index]
       Vue.set(@skippedContacts, index, _.assign({}, oldContact, { archived }))
-    # TODO: Clean this up; it's hastily copied/modified from updateCloseIoLeads.js
-    # TODO: Figure out how to make this less redundant with that script
-
-})
+  created: co ->
+    skippedContacts = new SkippedContacts()
+    yield skippedContacts.fetch()
+    @skippedContacts = skippedContacts.toJSON()
+    yield @skippedContacts.map co (skippedContact) =>
+      user = new User({ _id: skippedContact.trialRequest.applicant })
+      index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
+      yield user.fetch()
+      Vue.set(@users, skippedContact._id, user.toJSON())
 
 module.exports = class SalesDashboardView extends RootView
   id: 'sales-dashboard-view'
   template: template
 
   afterRender: ->
-    console.log "Rendering!"
     @vueComponent?.$destroy() # TODO: Don't recreate this component every time things update
     @vueComponent = new SalesDashboardComponent({
       el: @$el.find('#site-content-area')[0]
-      created: co ->
-        console.log "yay"
-        skippedContacts = new SkippedContacts()
-        yield skippedContacts.fetch()
-        @skippedContacts = skippedContacts.toJSON()
-        yield @skippedContacts.map co (skippedContact) =>
-          user = new User({ _id: skippedContact.trialRequest.applicant })
-          index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
-          # Vue.set(@skippedContacts, index, _.assign({}, @skippedContacts[index], {queryString: @getQueryString(skippedContact)}))
-          yield user.fetch()
-          # TODO: How do we pass this down into the components?
-          console.log "Adding user to contact"
-          Vue.set(@skippedContacts, index, _.assign({}, @skippedContacts[index], {user: user}))
-          # Vue.set(@skippedContacts, index, _.assign({}, @skippedContacts[index], {noteData: @getNoteData(skippedContact)}))
       })
     super(arguments...)
