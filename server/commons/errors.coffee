@@ -3,7 +3,7 @@ _ = require 'lodash'
 
 module.exports.custom = (res, code=500, message='Internal Server Error') ->
   log.debug "#{code}: #{message}"
-  res.send code, message
+  res.status(code).send message
   res.end()
 
 module.exports.unauthorized = (res, message='Unauthorized') ->

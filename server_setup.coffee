@@ -264,7 +264,7 @@ exports.setupMiddleware = (app) ->
 
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
-  setupAPIDocs app # should happen after serving static files, so we serve the fright favicon
+  setupAPIDocs app # should happen after serving static files, so we serve the right favicon
   setupPassportMiddleware app
   setupFeaturesMiddleware app
   setupOneSecondDelayMiddleware app
@@ -309,8 +309,13 @@ renderMain = wrap (req, res) ->
 setupQuickBailToMainHTML = (app) ->
   fast = (req, res, next) ->
     req.features = features = {}
-    res.header 'Fast', 'Oh Yeah'
-    res.header 'Cache-Control', 'public, max-age=60'
+    #res.header 'Cache-Control', 'public, max-age=60'
+
+    # Send these crappy headers for now, as we dont want to block a possible
+    # redirection based on country.
+    res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
+    res.header 'Pragma', 'no-cache'
+    res.header 'Expires', 0
 
     if req.headers.host is 'cp.codecombat.com'
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor

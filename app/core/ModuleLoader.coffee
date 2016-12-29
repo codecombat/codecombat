@@ -103,6 +103,10 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       missing = _.difference dependencies, have
       @load(module, false, "missing module of #{e.item.id}") for module in missing
 
+    if e.item.id is 'ace'
+      window.ace.config.set 'basePath', '/lib/ace'
+      
+
     # update locale data
     if _.string.startsWith(e.item.id, 'locale')
       locale.update()
