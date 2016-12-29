@@ -20,7 +20,7 @@ li.skipped-contact-info(v-if="skippedContact")
         pre
           {{ JSON.stringify(skippedContact.trialRequest.properties, null, 4) }}
       .col-md-6
-        div(v-if="skippedContact.noteData")
+        div(v-if="noteData")
           h4 Note info:
           pre
-            {{ skippedContact.noteData }}
+            {{ noteData }}
