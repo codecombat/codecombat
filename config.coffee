@@ -25,6 +25,7 @@ gameLibraries = [
   'css'
   'firepad'
   'jquery-ui-custom'
+  'coffeescript'
 ].join '|'
 
 #- Build the config
