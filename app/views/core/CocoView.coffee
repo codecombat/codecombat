@@ -240,9 +240,9 @@ module.exports = class CocoView extends Backbone.View
     # Redirect to the woo when trying to log in or signup
     if features.codePlay
       if modalView.id is 'create-account-modal'
-        return document.location.href = '//lenovogamestate.com/register/?cocoId='+me.id
+        return document.location.href = '//gs-staging.thewoo.com/register/?cocoId='+me.id
       if modalView.id is 'auth-modal'
-        return document.location.href = '//lenovogamestate.com/login/?cocoId='+me.id
+        return document.location.href = '//gs-staging.thewoo.com/login/?cocoId='+me.id
         
     $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
