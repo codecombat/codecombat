@@ -231,7 +231,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   tryToLoadModule: (path) ->
     try
-      return require(path)
+      return window.require(path)
     catch error
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error

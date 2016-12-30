@@ -15,6 +15,8 @@ urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
 
+require 'game-libraries'
+
 TEAM = 'humans'
 
 module.exports = class PlayGameDevLevelView extends RootView

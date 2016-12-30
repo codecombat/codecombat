@@ -6,6 +6,7 @@ LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
+ace = require 'ace'
 utils = require 'core/utils'
 
 N_ROWS = 4

@@ -22,6 +22,8 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
 
+require 'game-libraries'
+
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession

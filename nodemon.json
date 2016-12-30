@@ -7,7 +7,8 @@
         "server_config.js",
         "server_setup.coffee",
         "app/schemas",
-        "./server"
+        "./server",
+        "app/assets/main.html"
     ],
     "ext":"js coffee"
 }

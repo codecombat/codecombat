@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 
 CodeLog = require 'models/CodeLog'
+ace = require 'ace'
 utils = require 'core/utils'
 
 template = require 'templates/admin/codeplayback-view'
