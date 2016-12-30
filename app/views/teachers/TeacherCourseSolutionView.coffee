@@ -4,6 +4,8 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Level = require 'models/Level'
 utils = require 'core/utils'
+ace = require 'ace'
+
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
   template: require 'templates/teachers/teacher-course-solution-view'

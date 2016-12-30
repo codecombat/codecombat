@@ -1,5 +1,6 @@
 RootView = require 'views/core/RootView'
 utils = require 'core/utils'
+ace = require 'ace'
 
 module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'

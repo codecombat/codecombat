@@ -255,7 +255,7 @@ UserHandler = class UserHandler extends Handler
     @put(req, res)
 
   hasAccessToDocument: (req, document) ->
-    if req.route.method in ['put', 'post', 'patch', 'delete']
+    if req.method.toLowerCase() in ['put', 'post', 'patch', 'delete']
       return true if req.user?.isAdmin()
       return req.user?._id.equals(document._id)
     return true

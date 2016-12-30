@@ -32,6 +32,8 @@ DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
+require 'game-libraries'
+
 PROFILE_ME = false
 
 module.exports = class SpectateLevelView extends RootView

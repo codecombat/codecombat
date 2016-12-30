@@ -47,6 +47,8 @@ HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
 
+require 'game-libraries'
+
 PROFILE_ME = false
 
 module.exports = class PlayLevelView extends RootView
