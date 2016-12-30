@@ -98,7 +98,7 @@ block header
 
             li(class=anonymous ? "disabled": "")
               a(data-i18n="common.fork")#fork-start-button Fork
-            if me.isAdmin()
+            if me.isAdmin() || me.isArtisan()
               // DNT
               li
                 a#save-branch Save/Stash Branch
