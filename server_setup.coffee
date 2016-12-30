@@ -114,14 +114,14 @@ setupExpressMiddleware = (app) ->
     app.use(morgan('dev'))
 
   public_path = path.join(__dirname, 'public')
-  
+
   if config.buildInfo.sha isnt 'dev' and config.isProduction
     app.use("/#{config.buildInfo.sha}", express.static(public_path, maxAge: '1y'))
   else
     app.use('/dev', express.static(public_path, maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
-  
+
   app.use(express.static(public_path, maxAge: 0))
-  
+
   if config.proxy
     # Don't proxy static files with sha prefixes, redirect them
     regex = /\/[0-9a-f]{40}\/.*/
@@ -213,7 +213,7 @@ setupFeaturesMiddleware = (app) ->
     # TODO: Share these defaults with run-tests.js
     req.features = features = {
       freeOnly: false
-    }  
+    }
 
 
     if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
@@ -228,7 +228,7 @@ setupFeaturesMiddleware = (app) ->
       { user } = req
       if user.get('country') in ['china'] and not (user.isPremium() or user.get('stripe'))
         features.freeOnly = true
-        
+
     next()
 
 setupSecureMiddleware = (app) ->
@@ -255,7 +255,7 @@ setupAPIDocs = (app) ->
 exports.setupMiddleware = (app) ->
   setupSecureMiddleware app
   setupPerfMonMiddleware app
-  
+
   setupDomainFilterMiddleware app
   setupCountryTaggingMiddleware app
   setupCountryRedirectMiddleware app, 'china', config.chinaDomain
@@ -319,7 +319,7 @@ setupQuickBailToMainHTML = (app) ->
 
     if req.headers.host is 'cp.codecombat.com'
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
-    
+
     renderMain(req, res)
 
   app.get '/', fast
@@ -334,7 +334,7 @@ getMandate = (app) ->
       return rej(err) if err
       res(data)
 
-setupUserDataRoute = (app) -> 
+setupUserDataRoute = (app) ->
   app.get '/user-data', wrap (req, res) ->
     res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
     res.header 'Pragma', 'no-cache'
@@ -354,8 +354,8 @@ setupUserDataRoute = (app) ->
       configData = {}
 
     domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
-    domainPrefix = req.host.match(domainRegex)?[1] or ''
-    
+    domainPrefix = (req.hostname ? req.host).match(domainRegex)?[1] or ''
+
     configData.picoCTF = config.picoCTF
     configData.production = config.isProduction
     configData.codeNinjas = (req.hostname ? req.host) is 'coco.code.ninja'
