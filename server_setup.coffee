@@ -327,6 +327,13 @@ setupQuickBailToMainHTML = (app) ->
   app.get '/play/level/:slug', fast
   app.get '/play/:slug', fast
 
+# Mongo-cache doesnt support the .exec() promise, so we manually wrap it.
+getMandate = (app) ->
+  return new Promise (res, rej) ->
+    Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, data) ->
+      return rej(err) if err
+      res(data)
+
 setupUserDataRoute = (app) -> 
   app.get '/user-data', wrap (req, res) ->
     res.header 'Cache-Control', 'no-cache, no-store, must-revalidate'
@@ -340,7 +347,7 @@ setupUserDataRoute = (app) ->
     sst = JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode'))
     user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
     try
-      mandate = yield Mandate.findOne({}).cache(5 * 60 * 1000).exec()
+      mandate = yield getMandate()
       configData =  _.omit mandate?.toObject() or {}, '_id'
     catch err
       log.error "Error getting mandate config: #{err}"
