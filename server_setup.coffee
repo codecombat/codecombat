@@ -419,7 +419,7 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
   proxy = httpProxy.createProxyServer({
-    target: 'https://direct.codecombat.com'
+    target: 'https://very.direct.codecombat.com'
     secure: false
   })
   log.info 'Using dev proxy server'
