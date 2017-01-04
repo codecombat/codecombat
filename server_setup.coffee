@@ -302,7 +302,8 @@ mainTemplate = fs.readFileAsync(path.join(__dirname, 'app', 'assets', 'main.html
 renderMain = wrap (req, res) ->
   template = yield mainTemplate
   if req.features.codePlay
-   template = template.replace '<!-- CodePlay Tags -->', codePlayTags
+   template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
+   template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
 
   res.status(200).send template
 
@@ -418,7 +419,7 @@ setupProxyMiddleware = (app) ->
   return unless config.proxy
   httpProxy = require 'http-proxy'
   proxy = httpProxy.createProxyServer({
-    target: 'https://direct.codecombat.com'
+    target: 'https://very.direct.codecombat.com'
     secure: false
   })
   log.info 'Using dev proxy server'
