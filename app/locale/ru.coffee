@@ -166,7 +166,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     function: "функция"
     def: "определить"
     var: "переменная"
-    self: "личный"
+    self: "сам"
     hero: "герой"
     this: "этот"
     or: "или"
