@@ -124,9 +124,16 @@ module.exports = class Tracker extends CocoClass
       analytics.page url, {}, options
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
-    @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and not me.isAdmin()
+
+    @trackEventInternal action, _.cloneDeep properties    
+
+    # SnowPlow
+    window.snowplow 'trackUnstructEvent',
+      schema: 'iglu:com.codecombat/' + event + '/jsonschema/1-0-0'
+      data: properties
+
 
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
