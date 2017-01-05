@@ -128,12 +128,8 @@ module.exports = class Tracker extends CocoClass
     return unless me and @isProduction and not me.isAdmin()
 
     @trackEventInternal action, _.cloneDeep properties    
+    @trackSnowplow action, _.cloneDeep properties
 
-    # SnowPlow
-    snowplowAction = action.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
-    window.snowplow 'trackUnstructEvent',
-      schema: 'iglu:com.codecombat/' + snowplowAction + '/jsonschema/1-0-0'
-      data: properties
 
 
     # Google Analytics
@@ -163,6 +159,25 @@ module.exports = class Tracker extends CocoClass
         for integration in includeIntegrations
           options.integrations[integration] = true
       analytics?.track action, {}, options
+
+  trackSnowplow: (event, properties) =>
+
+    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
+    # Trimming properties we don't use internally
+    # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
+    if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
+      delete properties.category
+      delete properties.label
+    else if event in ['Loaded World Map', 'Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login', 'Show subscription modal']
+      delete properties.category
+
+    # SnowPlow
+    snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
+    properties.user = me.id
+    #console.log "SnowPlow", snowplowAction, properties
+    window.snowplow 'trackUnstructEvent',
+      schema: 'iglu:com.codecombat/' + snowplowAction + '/jsonschema/1-0-0'
+      data: properties
 
   trackEventInternal: (event, properties) =>
     return unless @supermodel?
