@@ -111,7 +111,7 @@ module.exports = class Tracker extends CocoClass
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', url
     ga?('codeplay.send', 'pageview', url) if features.codePlay
-
+    window.snowplow 'trackPageView'
     # Mixpanel
     mixpanel?.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
