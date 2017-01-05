@@ -130,8 +130,9 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal action, _.cloneDeep properties    
 
     # SnowPlow
+    snowplowAction = action.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
     window.snowplow 'trackUnstructEvent',
-      schema: 'iglu:com.codecombat/' + action + '/jsonschema/1-0-0'
+      schema: 'iglu:com.codecombat/' + snowplowAction + '/jsonschema/1-0-0'
       data: properties
 
 
