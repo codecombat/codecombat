@@ -1,4 +1,6 @@
 RootView = require 'views/core/RootView'
+utils = require 'core/utils'
+ace = require 'ace'
 
 module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
@@ -19,3 +21,21 @@ module.exports = class MarkdownResourceView extends RootView
         $('body').append($("<img src='https://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
 
       @render()
+      
+
+  afterRender: ->
+    super()
+    @$el.find('pre>code').each ->
+      els = $(@)
+      c = els.parent()
+      lang = els.attr('class')
+      if lang
+        lang = lang.replace(/^lang-/,'')
+      else
+        lang = 'python'
+
+      aceEditor = utils.initializeACE c[0], lang
+      aceEditor.setShowInvisibles false
+      aceEditor.setBehavioursEnabled false
+      aceEditor.setAnimatedScroll false
+      aceEditor.$blockScrolling = Infinity

@@ -4,7 +4,7 @@ TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
 errors = require 'core/errors'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 algolia = require 'core/services/algolia'
 
 SIGNUP_REDIRECT = '/teachers'

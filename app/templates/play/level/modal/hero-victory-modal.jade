@@ -131,6 +131,8 @@ block modal-footer-content
           button#share-level-btn.btn.btn-md.btn-success.btn-illustrated
             span(data-i18n='sharing.copy_url') Copy URL
 
+  if features.codePlay
+    img#sweepstakes-entry(src="/images/common/codeplay/SweepstakesEntry.png")
   if me.get('anonymous')
     .sign-up-poke.hide
       .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
@@ -148,7 +150,7 @@ block modal-footer-content
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 
-  if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
+  if !me.get('anonymous') && !showHourOfCodeDoneButton && !features.codePlay && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
   else if showReturnToCourse
     button.btn.btn-illustrated.btn-warning.return-to-course-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
@@ -165,3 +167,10 @@ block modal-footer-content
         img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
         span(data-i18n="play_level.victory_viking_code_school")
       button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking
+
+  if features.codePlay
+    a(href=document.location.protocol + "//lenovogamestate.com/pages/products/")
+      - var url = "/images/common/codeplay/NA_VictoryPage_Y710_735x100_VictoryPage.png"
+      if me.isFromUk()
+        - url = "/images/common/codeplay/UK_VictoryPage_Miix510_735x100_VictoryPage.png"
+      img#lenovo-link(src=url)

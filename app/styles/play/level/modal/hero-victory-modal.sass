@@ -223,8 +223,16 @@
   .gems .pulse
     @include animation(rewardPulse 0.25s infinite)
 
+    
+  //- Footer
 
-  //- Footer - totals
+  #lenovo-link
+    width: 100%
+    padding-top: 20px
+    
+  #sweepstakes-entry
+    height: 60px
+    display: inline-block
 
   #totals
     width: 709px
@@ -527,3 +535,7 @@ body.ipad
 body[lang='ru'], body[lang^='es-ES'], body[lang^='it'], body[lang^='hu'], body[lang^='mk-MK'], body[lang^='ja'], body[lang^='uk']
   #hero-victory-modal #totals .total-wrapper .total-label
     font-size: 12px
+
+body[lang^='nl']
+  #hero-victory-modal #totals .total-wrapper .total-label
+    font-size: 15px

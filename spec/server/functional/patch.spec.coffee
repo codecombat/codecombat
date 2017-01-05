@@ -181,6 +181,8 @@ describe 'PUT /db/patch/:handle/status', ->
 
   it 'only allows artisans and admins to set patch status for courses', utils.wrap (done) ->
     submitter = yield utils.initUser()
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
     course = yield utils.makeCourse()
     patch = new Patch({
       delta: { name: 'test' }

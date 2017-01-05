@@ -6,11 +6,11 @@ errors = require '../commons/errors'
 config = require '../../server_config'
 
 module.exports.setup = (app) ->
-  app.all '/file*', (req, res) ->
-    return fileGet(req, res) if req.route.method is 'get'
-    return filePost(req, res) if req.route.method is 'post'
-    return fileDelete(req, res) if req.route.method is 'delete'
-    return errors.badMethod(res, ['GET', 'POST', 'DELETE'])
+  app.get '/file*', fileGet
+  app.post '/file*', filePost
+  app.delete '/file*', fileDelete
+  app.all '/files*', (req, res) -> 
+    errors.badMethod(res, ['GET', 'POST', 'DELETE'])
 
 fileDelete = (req, res) ->
   return errors.forbidden(res) unless req.user

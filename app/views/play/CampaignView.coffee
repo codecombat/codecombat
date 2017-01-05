@@ -22,6 +22,8 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
 
+require 'game-libraries'
+
 class LevelSessionsCollection extends CocoCollection
   url: ''
   model: LevelSession
@@ -405,12 +407,11 @@ module.exports = class CampaignView extends RootView
         continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
-        # TODO: Re-enable after HoC
-#        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
-#          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
-#            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
-#            dontPointTo = _.without dontPointTo, nextLevel.slug
-#            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
+        if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
+          unless (timesPointedOut = storage.load("pointed-out-#{nextLevel.slug}") or 0) > 3
+            # We may determineNextLevel more than once per render, so we can't just do this once. But we do give up after a couple highlights.
+            dontPointTo = _.without dontPointTo, nextLevel.slug
+            storage.save "pointed-out-#{nextLevel.slug}", timesPointedOut + 1
 
         # Should we point this level out?
         if not nextLevel.disabled and @levelStatusMap[nextLevel.slug] isnt 'complete' and nextLevel.slug not in dontPointTo and
@@ -423,9 +424,17 @@ module.exports = class CampaignView extends RootView
       false
 
     foundNext = false
-    for level in orderedLevels
+    for level, levelIndex in orderedLevels
       # Iterate through all levels in order and look to find the first unlocked one that meets all our criteria for being pointed out as the next level.
-      level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
+      if @campaign.get('type') is 'course'
+        level.nextLevels = []
+        for nextLevel, nextLevelIndex in orderedLevels when nextLevelIndex > levelIndex
+          continue if nextLevel.practice and level.nextLevels.length
+          break if level.practice and not nextLevel.practice
+          level.nextLevels.push nextLevel.original
+          break unless nextLevel.practice
+      else
+        level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
       foundNext = findNextLevel(level.nextLevels, true) unless foundNext # Check practice levels first
       foundNext = findNextLevel(level.nextLevels, false) unless foundNext
 

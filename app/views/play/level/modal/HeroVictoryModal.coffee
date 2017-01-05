@@ -442,19 +442,19 @@ module.exports = class HeroVictoryModal extends ModalView
     if @showHoc2016ExploreButton
       # Send players to /play after completing final game-dev activity project level
       nextLevelLink = '/play'
-      viewClass = require 'views/play/CampaignView'
+      viewClass = 'views/play/CampaignView'
       viewArgs = [options]
     else if @level.isType('course') and @nextLevel and not options.returnToCourse
-      viewClass = require 'views/play/level/PlayLevelView'
+      viewClass = 'views/play/level/PlayLevelView'
       options.courseID = @courseID
       options.courseInstanceID = @courseInstanceID
       viewArgs = [options, @nextLevel.get('slug')]
     else if @level.isType('course')
       # TODO: shouldn't set viewClass and route in different places
-      viewClass = require 'views/courses/CoursesView'
+      viewClass = 'views/courses/CoursesView'
       viewArgs = [options]
       if @courseID
-        viewClass = require 'views/courses/CourseDetailsView'
+        viewClass = 'views/courses/CourseDetailsView'
         viewArgs.push @courseID
         viewArgs.push @courseInstanceID if @courseInstanceID
     else if @level.isType('course-ladder')
@@ -467,7 +467,7 @@ module.exports = class HeroVictoryModal extends ModalView
     else
       if @level.get('slug') in campaignEndLevels
         options.worldComplete = @level.get('campaign') or true
-      viewClass = require 'views/play/CampaignView'
+      viewClass = 'views/play/CampaignView'
       viewArgs = [options, @getNextLevelCampaign()]
     navigationEvent = route: nextLevelLink, viewClass: viewClass, viewArgs: viewArgs
     if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])

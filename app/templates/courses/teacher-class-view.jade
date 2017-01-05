@@ -39,7 +39,7 @@ block content
             span= classroom.capitalLanguage
 
           .student-count.small-details
-            span(data-i18n='teacher.students')
+            span(data-i18n='courses.students')
             span.spr :
             span= classroom.get('members').length
 
@@ -103,7 +103,7 @@ block content
 
         .adding-students.col-md-5
           h4.m-b-2
-            span(data-i18n='teacher.add_students')
+            span(data-i18n='courses.add_students')
             span :
           +copyCodes
           +addStudentsButton
@@ -113,7 +113,7 @@ block content
           - var activeTab = state.get('activeTab');
           li(class=(activeTab === "#students-tab" ? 'active' : ''))
             a.students-tab-btn(href='#students-tab')
-              .small-details.text-center(data-i18n='teacher.students')
+              .small-details.text-center(data-i18n='courses.students')
           .tab-spacer
           li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
             a.course-progress-tab-btn(href='#course-progress-tab')
@@ -492,4 +492,3 @@ mixin enrollmentStatusTab
                 span(data-i18n="teacher.full_license")
               else if student.prepaidType() === 'starter_license'
                 span(data-i18n="teacher.starter_license")
-

@@ -47,6 +47,8 @@ HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
 
+require 'game-libraries'
+
 PROFILE_ME = false
 
 module.exports = class PlayLevelView extends RootView
@@ -145,6 +147,9 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     return if @destroyed
+    if (me.isStudent() or me.isTeacher()) and not @courseID and not e.level.isType('course-ladder')
+      return _.defer -> application.router.redirectHome()
+
     unless e.level.isType('web-dev')
       @god = new God({
         @gameUIState

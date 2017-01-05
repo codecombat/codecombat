@@ -256,6 +256,7 @@ module.exports = class LadderTabView extends CocoView
         message = "#{histogramData.length} players in league"
       else if @leaderboards[teamName].myRank <= histogramData.length
         message = "##{@leaderboards[teamName].myRank} of #{histogramData.length}"
+        message += "+" if histogramData.length >= 100000
       else
         message = 'Rank your session!'
     svg.append('g')

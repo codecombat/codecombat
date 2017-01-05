@@ -538,11 +538,11 @@ describe 'GET /db/user', ->
   
 describe 'GET /db/user/:handle', ->
   it 'populates coursePrepaid from coursePrepaidID', utils.wrap (done) ->
-    course = yield utils.makeCourse()
-    user = yield utils.initUser({coursePrepaidID: course.id})
+    user = yield utils.initUser({coursePrepaidID: mongoose.Types.ObjectId()})
+    yield utils.loginUser(user)
     [res, body] = yield request.getAsync({url: getURL("/db/user/#{user.id}"), json: true})
     expect(res.statusCode).toBe(200)
-    expect(res.body.coursePrepaid._id).toBe(course.id)
+    expect(res.body.coursePrepaid._id).toBe(user.get('coursePrepaidID').toString())
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
     done()
     
@@ -798,6 +798,21 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     json = { name, password: '12345' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
+    expect(res.body.message).toBe('Username already taken')
+    done()
+  
+  it 'returns 409 if there is already a user with the same slug', utils.wrap (done) ->
+    name = 'some username'
+    name2 = 'Some.    User.Namé'
+    initialUser = yield utils.initUser({name})
+    expect(initialUser.get('nameLower')).toBeDefined()
+    expect(initialUser.get('slug')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { name: name2, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    expect(res.body.message).toBe('Username already taken')
     done()
     
   it 'disassociates the user from their trial request if the trial request email and signup email do not match', utils.wrap (done) ->

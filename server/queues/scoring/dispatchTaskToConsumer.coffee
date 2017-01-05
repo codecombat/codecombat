@@ -18,7 +18,7 @@ module.exports = dispatchTaskToConsumer = (req, res) ->
   ], (err, taskObjectToSend) ->
     if err?
       if typeof err is 'string' and err.indexOf 'No more games in the queue' isnt -1
-        res.send(204, 'No games to score.')
+        res.status(204).send('No games to score.')
         return res.end()
       else
         return errors.serverError res, "There was an error dispatching the task: #{err}"
