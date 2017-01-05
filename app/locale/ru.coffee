@@ -307,7 +307,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     loading: "Загрузка..."
     overview: "Обзор"
     solution: "Решение"
-    intro: "Вступление"
+    intro: "Введение"
     saving: "Сохранение..."
     sending: "Отправка..."
     send: "Отправить"
