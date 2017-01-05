@@ -166,14 +166,15 @@ module.exports = class Tracker extends CocoClass
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
-      delete properties.category
       delete properties.label
     else if event in ['Loaded World Map', 'Started Signup', 'Finished Signup', 'Login', 'Facebook Login', 'Google Login', 'Show subscription modal']
-      delete properties.category
+
+
 
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
     properties.user = me.id
+    delete properties.category
     #console.log "SnowPlow", snowplowAction, properties
     window.snowplow 'trackUnstructEvent',
       schema: 'iglu:com.codecombat/' + snowplowAction + '/jsonschema/1-0-0'
