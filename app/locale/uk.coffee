@@ -383,9 +383,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     last_name: "Прізвище"
     last_initial: "Ініціали прізвища"
     username: "Ім'я користувача"
-#    contact_us: "Contact Us"
-#    close_window: "Close Window"
-#    learn_more: "Learn More"
+    contact_us: "Зв'язатися з нами"
+    close_window: "Закрити вікно"
+    learn_more: "Дізнатися більше"
 
   units:
     second: "секунда"
@@ -404,11 +404,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     years: "років"
 
   play_level:
-#    directions: "Directions"
-#    edit_level: "Edit Level"
+    directions: "Напрямки"
+    edit_level: "Редагувати рівень"
 #    explore_codecombat: "Explore CodeCombat"
-#    finished_hoc: "I'm finished with my Hour of Code"
-#    get_certificate: "Get your certificate!"
+    finished_hoc: "Я закінчив свою Годиною Коду"
+    get_certificate: "Отримайте ваш сертифікат!"
     level_complete: "Рівень завершено"
     completed_level: "Завершено Рівень:"
     course: "Курс:"
@@ -613,11 +613,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     price: "x{{gems}} / міс"
 
   subscribe:
-#    subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Відточіть свої навички завдяки підписці на CodeCombat!" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
+    subscribe_modal_title: "CodeCombat Преміум"
+    comparison_blurb: "Відточіть свої навички завдяки підписці на CodeCombat!"
+    premium_pricing_prefix: "Отримати Преміум всього за"
+    premium_pricing_suffix: "і стати майстром програмування."
+    premium: "Преміум" # Make sure the following feature translations don't go onto two lines
     feature1: "__levelsCount__+ основних рівнів на просторах __worldsCount__ світів" # {change}
     feature2: "__heroesCount__ могутніх <strong>нових героїв</strong> з унікальними здібностями!" # {change}
     feature3: "__bonusLevelsCount__+ бонусних рівнів" # {change}
@@ -794,10 +794,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     nolan_title: "Менеджер територій"
     elliot_title: "Менеджер партнерства"
     elliot_blurb: "Читач думок"
-#    lisa_title: "School Specialist"
+    lisa_title: "School Specialist"
 #    lisa_blurb: "A gritty one"
     sean_title: "Менеджер територій"
-#    liz_title: "Territory Manager"
+    liz_title: "Менеджер територій"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
@@ -854,8 +854,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   teachers:
     licenses_needed: "Потрібна ліцензія"
 
-#  special_offer:
-#    special_offer: "Special Offer"
+  special_offer:
+    special_offer: "Особлива пропозиція"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
@@ -885,15 +885,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    maximum_students: "Maximum # of Students"
 #    unlimited: "Unlimited"
 #    priority_support: "Priority support"
-#    yes: "Yes"
+    yes: "Так"
 #    price_per_student: "__price__ per student"
 #    pricing: "Pricing"
 #    free: "Free"
 #    purchase: "Purchase"
-#    courses_prefix: "Courses"
-#    courses_suffix: ""
-#    course_prefix: "Course"
-#    course_suffix: ""
+    courses_prefix: "Курси"
+    courses_suffix: ""
+    course_prefix: "Курс"
+    course_suffix: ""
 
   teachers_quote:
     subtitle: "Ваші учні мають можливість розпочати навчання менш ніж за годину. Ви зможете <strong>створити клас, додати учнів та спостерігати за їхнім прогресом</strong> у вивченні комп'ютерних наук."
@@ -913,7 +913,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    influence_advocate: "Influence/Advocate"
 #    evaluate_recommend: "Evaluate/Recommend"
 #    approve_funds: "Approve Funds"
-#    no_purchaser_role: "No role in purchase decisions"
+    no_purchaser_role: "Не беру участі в рішеннях щодо покупок"
     district_label: "Область"
     district_na: "Введіть N/A якщо не застосовується"
     organization_label: "Школа"
@@ -1165,7 +1165,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     to_assign: "щоб призначити платні курси."
     student: "Учень"
     teacher: "Вчитель"
-#    arena: "Arena"
+    arena: "Арена"
     available_levels: "Доступні рівні"
     welcome_to_courses: "Шукачі пригод, ласкаво просимо до курсів!"
     ready_to_play: "Готові грати?"
@@ -1284,7 +1284,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     course_solution: "Рішення курсу"
     level_overview_solutions: "Огляд та рішення рівня"
 #    no_student_assigned: "No students have been assigned this course."
-#    paren_new: "(new)"
+    paren_new: "(новий)"
     teacher_dashboard: "Учительська панель" # Navbar
     my_classes: "Мої класи"
     courses: "Путівники курсу"
@@ -1333,12 +1333,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     started: "Розпочато"
     click_to_view_progress: "натисніть, щоб побачити прогрес"
     no_progress: "Немає прогресу"
-#    not_required: "Not required"
+    not_required: "Не обов'язково"
     select_course: "Оберіть курс для перегляду"
 #    progress_color_key: "Progress color key:"
 #    level_in_progress: "Level in Progress"
 #    level_not_started: "Level Not Started"
-#    project_or_arena: "Project or Arena"
+    project_or_arena: "Проект або Арена"
     students_not_assigned: "Учні, які ще не були призначені до {{courseName}}"
     course_overview: "Огляд курсу"
     copy_class_code: "Копіювати код класу"
@@ -1395,7 +1395,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     view_student_project: "Переглянути проект учня"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
-#    getting_started: "Getting Started"
+    getting_started: "Початок роботи"
 #    educator_faq: "Educator FAQ"
     educator_faq_desc: "Часті питання про використання CodeCombat у вашому класі чи школі."
     teacher_getting_started: "Путівник початківця для вчителя"
@@ -1441,10 +1441,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    wd2_quizlet_worksheet_instructions: "View instructions & examples"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."
     student_overview: "Огляд"
-#    student_details: "Student Details"
-#    student_name: "Student Name"
-#    no_name: "No name provided."
-#    no_username: "No username provided."
+    student_details: "Деталі учня"
+    student_name: "Ім'я учня"
+    no_name: "Ім'я е вказано."
+    no_username: "Ім'я користувача не вказано."
     no_email: "Учень не має вказаного email."
     student_profile: "Профіль учня"
     playtime_detail: "Деталі зіграного часу"
