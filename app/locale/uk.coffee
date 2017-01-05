@@ -1379,6 +1379,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     available_credits: "Доступні ліцензії"
     pending_credits: "Ліцензії в очікуванні"
     credits: "ліцензій"
+#    starter_licenses: "starter licenses"
     start_date: "дата початку:"
     end_date: "дата закінчення:"
     get_enrollments_blurb: " Ми допоможемо вам побудувати рішення, що відповідає потребам вашого класу, школи чи місцевості."
