@@ -538,11 +538,11 @@ describe 'GET /db/user', ->
   
 describe 'GET /db/user/:handle', ->
   it 'populates coursePrepaid from coursePrepaidID', utils.wrap (done) ->
-    course = yield utils.makeCourse()
-    user = yield utils.initUser({coursePrepaidID: course.id})
+    user = yield utils.initUser({coursePrepaidID: mongoose.Types.ObjectId()})
+    yield utils.loginUser(user)
     [res, body] = yield request.getAsync({url: getURL("/db/user/#{user.id}"), json: true})
     expect(res.statusCode).toBe(200)
-    expect(res.body.coursePrepaid._id).toBe(course.id)
+    expect(res.body.coursePrepaid._id).toBe(user.get('coursePrepaidID').toString())
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
     done()
     
@@ -798,6 +798,21 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     json = { name, password: '12345' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
+    expect(res.body.message).toBe('Username already taken')
+    done()
+  
+  it 'returns 409 if there is already a user with the same slug', utils.wrap (done) ->
+    name = 'some username'
+    name2 = 'Some.    User.Namé'
+    initialUser = yield utils.initUser({name})
+    expect(initialUser.get('nameLower')).toBeDefined()
+    expect(initialUser.get('slug')).toBeDefined()
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-password")
+    json = { name: name2, password: '12345' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    expect(res.body.message).toBe('Username already taken')
     done()
     
   it 'disassociates the user from their trial request if the trial request email and signup email do not match', utils.wrap (done) ->
@@ -989,16 +1004,16 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
 
     done()
 
-  # TODO: Fix this test, res.statusCode is occasionally 200
-#  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
-#    yield utils.initUser({name: 'someusername', email: gplusEmail})
-#    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-#    user = yield utils.becomeAnonymous()
-#    url = getURL("/db/user/#{user.id}/signup-with-gplus")
-#    json = { name: 'differentusername', email: gplusEmail, gplusID, gplusAccessToken: '...' }
-#    [res, body] = yield request.postAsync({url, json})
-#    expect(res.statusCode).toBe(409)
-#    done()
+  it 'returns 409 if there is already a user with the given email', utils.wrap (done) ->
+    conflictingUser = yield utils.initUser({name: 'someusername', email: gplusEmail})
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { name: 'differentusername', email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(409)
+    updatedUser = yield User.findById(user.id)
+    done()
     
 describe 'POST /db/user/:handle/destudent', ->
   beforeEach utils.wrap (done) ->
@@ -1222,4 +1237,23 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     expect(body.points).toBeUndefined()
     admin = yield User.findById(admin.id)
     expect(admin.get('lastAchievementChecked')).toBe(achievement.get('updated'))
+    done()
+
+    
+describe 'POST /db/user/:userID/request-verify-email', ->
+  mailChimp = require '../../../server/lib/mail-chimp'
+  
+  beforeEach utils.wrap (done) ->
+    spyOn(mailChimp.api, 'put').and.returnValue(Promise.resolve())
+    @user = yield utils.initUser()
+    verificationCode = @user.verificationCode(new Date().getTime())
+    @url = utils.getURL("/db/user/#{@user.id}/verify/#{verificationCode}")
+    done()
+  
+  it 'sets emailVerified to true and updates MailChimp', utils.wrap (done) ->
+    [res, body] = yield request.postAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    expect(mailChimp.api.put).toHaveBeenCalled()
+    user = yield User.findById(@user.id)
+    expect(user.get('emailVerified')).toBe(true)
     done()

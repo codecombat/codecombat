@@ -154,6 +154,9 @@ module.exports = class Classroom extends CocoModel
     nextLevel = courseLevels.models[nextIndex]
     nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
 
+    lastPlayedNumber ?= 1
+    if courseLevels.length >= 1 and lastPlayedNumber < courseLevels.length
+      lastPlayedNumber = @getLevelNumber(courseLevels.models[lastPlayedNumber - 1].get('original'), lastPlayedNumber)
     stats =
       levels:
         size: levelsTotal
@@ -162,7 +165,7 @@ module.exports = class Classroom extends CocoModel
         numDone: levelsTotal - levelsLeft
         pctDone: (100 * (levelsTotal - levelsLeft) / levelsTotal).toFixed(1) + '%'
         lastPlayed: lastPlayed
-        lastPlayedNumber: lastPlayedNumber ? 1
+        lastPlayedNumber: lastPlayedNumber
         next: nextLevel
         first: courseLevels.first()
         arena: arena

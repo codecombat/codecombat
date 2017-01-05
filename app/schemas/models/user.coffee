@@ -118,6 +118,7 @@ _.extend UserSchema.properties,
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
   lastIP: {type: 'string'}
+  createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
   nameLower: c.shortString()
@@ -357,7 +358,7 @@ _.extend UserSchema.properties,
   enrollmentRequestSent: { type: 'boolean' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
 

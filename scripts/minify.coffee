@@ -29,7 +29,11 @@ jobs = _.map files, (file) ->
 		fpath = path.join(root, file)
 		dpath = path.join(dest, file)
 		smArgs = []
-
+		if /aether-python\.js/.test fpath
+			console.log "Skipping #{fpath} due to blacklist"
+			fs.copy fpath, dpath, cb2
+			return cb2(null)
+ 
 		if fs.existsSync fpath + '.map'
 			smArgs = [
 				'--in-source-map', fpath + '.map',
@@ -48,7 +52,13 @@ jobs = _.map files, (file) ->
 					else cb code
 				child.on 'error', (err) ->
 					cb err
-		], cb2
+		], (err, data) ->
+			if err
+				console.log "Coudlnt minify #{dpath}, copying as-is"
+				fs.copy fpath, dpath, cb2
+			else
+				cb2 null, data
+
 
 async.parallelLimit jobs, cores, (err, res)->
 	if err

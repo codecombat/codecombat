@@ -39,6 +39,7 @@ module.exports = class LevelLoader extends CocoClass
     @opponentSessionID = options.opponentSessionID
     @team = options.team
     @headless = options.headless
+    @loadArticles = options.loadArticles
     @sessionless = options.sessionless
     @fakeSessionConfig = options.fakeSessionConfig
     @spectateMode = options.spectateMode ? false
@@ -253,6 +254,7 @@ module.exports = class LevelLoader extends CocoClass
   loadCodeLanguagesForSession: (session) ->
     codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
     for codeLanguage in codeLanguages
+      continue if codeLanguage in ['clojure', 'io']
       do (codeLanguage) =>
         modulePath = "vendor/aether-#{codeLanguage}"
         return unless application.moduleLoader?.load modulePath
@@ -302,7 +304,7 @@ module.exports = class LevelLoader extends CocoClass
         for indieSprite in indieSprites
           thangIDs.push indieSprite.thangType
 
-    unless @headless
+    unless @headless and not @loadArticles
       for article in @level.get('documentation')?.generalArticles or []
         articleVersions.push _.pick(article, ['original', 'majorVersion'])
 

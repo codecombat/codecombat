@@ -131,6 +131,8 @@ block modal-footer-content
           button#share-level-btn.btn.btn-md.btn-success.btn-illustrated
             span(data-i18n='sharing.copy_url') Copy URL
 
+  if features.codePlay
+    img#sweepstakes-entry(src="/images/common/codeplay/SweepstakesEntry.png")
   if me.get('anonymous')
     .sign-up-poke.hide
       .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
@@ -139,26 +141,24 @@ block modal-footer-content
   button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
 
   .next-level-buttons
-    if readyToRank
+    if view.showHoc2016ExploreButton
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
+    else if readyToRank
       .ladder-submission-view
     else if level.isType('hero-ladder')
       button.btn.btn-illustrated.btn-primary.btn-lg.return-to-ladder-button(data-href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
     else
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="common.continue") Continue
 
-  if !me.get('anonymous') && !showHourOfCodeDoneButton && showLeaderboard
+  if !me.get('anonymous') && !showHourOfCodeDoneButton && !features.codePlay && showLeaderboard
     button.btn.btn-illustrated.btn-success.leaderboard-button.btn-lg(data-dismiss="modal", data-i18n="leaderboard.view_other_solutions") View Other Solutions
   else if showReturnToCourse
     button.btn.btn-illustrated.btn-warning.return-to-course-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
 
   if showHourOfCodeDoneButton
     .hour-of-code-done
-      a.image-link(href="http://code.org/api/hour/finish")
-        img(src="/images/level/csedweek-logo-final-small.jpg", alt="CS Ed Week Hour of Code", title="I'm finished with my Hour of Code", width=80)
-      strong(data-i18n="play_level.victory_hour_of_code_done") Are You Done?
-      a.text-link(href="http://code.org/api/hour/finish")
-        span(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I am finished with my Hour of Code!
-      .clearfix
+      .hoc-label(data-i18n="play_level.get_certificate")
+      a.btn.btn-md.btn-illustrated(href="https://code.org/api/hour/finish", data-i18n="play_level.finished_hoc")
 
   if view.level.get('slug') == 'lost-viking'
     .offer.lost-viking
@@ -167,3 +167,10 @@ block modal-footer-content
         img.pull-right(src="/file/db/level/55144b509f0c4854051769c1/viking_2.png")
         span(data-i18n="play_level.victory_viking_code_school")
       button.btn.btn-illustrated.btn-primary.btn-lg.world-map-button.continue-from-offer-button(data-i18n="play_level.victory_become_a_viking") Become a Viking
+
+  if features.codePlay
+    a(href=document.location.protocol + "//lenovogamestate.com/pages/products/")
+      - var url = "/images/common/codeplay/NA_VictoryPage_Y710_735x100_VictoryPage.png"
+      if me.isFromUk()
+        - url = "/images/common/codeplay/UK_VictoryPage_Miix510_735x100_VictoryPage.png"
+      img#lenovo-link(src=url)

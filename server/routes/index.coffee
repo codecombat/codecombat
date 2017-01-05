@@ -6,9 +6,16 @@ module.exports.setup = (app) ->
   app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
   
   app.all('/api/*', mw.api.clientAuth)
+  
   app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
+  
+  app.put('/api/classrooms/:handle/members', mw.api.putClassroomMember)
+  app.put('/api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', mw.api.putClassroomCourseEnrolled)
+  
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
+  app.get('/api/users/:handle/classrooms', mw.api.getUserClassrooms)
+  app.put('/api/users/:handle/hero-config', mw.api.putUserHeroConfig)
   app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
   app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
   app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
@@ -150,7 +157,6 @@ module.exports.setup = (app) ->
   
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
-  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)

@@ -224,11 +224,14 @@ $level-resize-transition-time: 0.5s
     width: 2%
 
   #play-footer
+    position: absolute
+    bottom: 0px
+    width: calc(55% - #{$api-bar-width})
     text-align: center
     font-family: $headings-font-family
     font-variant: small-caps
     font-size: 25px
-    padding: 10px 0
+    padding: 0 0
     @include transition(opacity .10s linear)
     @include opacity(0.6)
 
@@ -268,7 +271,7 @@ $level-resize-transition-time: 0.5s
   #stop-real-time-playback-button
     display: none
     position: absolute
-    bottom: 70px
+    // bottom: 70px // Set via javascript because of gamedev level sizing
     right: 15px
     font-size: 30px
 
@@ -326,6 +329,10 @@ $level-resize-transition-time: 0.5s
     top: 52px
     width: 20%
     bottom: 38px
+    
+  #codeplay-product-banner
+    width: calc(58.5% - 250px)
+    position: relative
 
 html.fullscreen-editor
   #level-view
@@ -379,4 +386,3 @@ body.ipad #level-view
   background-size: 100% 400px
   height: 400px
   z-index: -9001
-

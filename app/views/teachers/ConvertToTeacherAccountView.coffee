@@ -5,7 +5,7 @@ TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
 errors = require 'core/errors'
 User = require 'models/User'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 algolia = require 'core/services/algolia'
 
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
@@ -118,7 +118,7 @@ module.exports = class ConvertToTeacherAccountView extends RootView
     trialRequestAttrs = _.cloneDeep(attrs)
 
     # Don't save n/a district entries, but do validate required district client-side
-    trialRequestAttrs = _.omit(trialRequestAttrs, 'district') if trialRequestAttrs.district?.replace(/\s/ig, '').match(/n\/a/ig)
+    trialRequestAttrs = _.omit(trialRequestAttrs, 'district') if trialRequestAttrs.district?.replace(/\s/ig, '').match(/^n\/?a$/ig)
 
     if @$('#other-education-level-checkbox').is(':checked')
       val = @$('#other-education-level-input').val()

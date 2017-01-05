@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
 State = require 'models/State'
+ace = require 'ace'
 utils = require 'core/utils'
 
 module.exports = class HintsView extends CocoView
@@ -40,6 +41,14 @@ module.exports = class HintsView extends CocoView
     super()
     @playSound 'game-menu-open'
     @$('a').attr 'target', '_blank'
+    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+
+    oldEditor.destroy() for oldEditor in @aceEditors ? []
+    @aceEditors = []
+    aceEditors = @aceEditors
+    @$el.find('pre:has(code[class*="lang-"])').each ->
+      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditors.push aceEditor
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')

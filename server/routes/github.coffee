@@ -17,7 +17,7 @@ module.exports.setup = (app) ->
     request.post {uri: 'https://github.com/login/oauth/access_token', json: response, headers: headers}, (err, r, response) ->
       log.error err if err?
       if response.error or err? # If anything goes wrong just 404
-        res.send 404, response.error_description or err
+        res.status(404).send response.error_description or err
       else
         {access_token, token_type, scope} = response
         headers =

@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
 SubscribeModal = require 'views/core/SubscribeModal'
+ace = require 'ace'
 utils = require 'core/utils'
 
 module.exports = class LevelGuideView extends CocoView

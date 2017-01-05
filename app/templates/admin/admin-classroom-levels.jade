@@ -15,6 +15,8 @@ block content
           th Levels
           th Course
         each course in view.courses.models
+          if course.get('releasePhase') !== 'released'
+            - continue;
           - var campaign = view.campaigns.get(course.get('campaignID'));
           if !campaign
             - continue;
@@ -27,6 +29,8 @@ block content
           td= levelsTotal
           td All
     each course in view.courses.models
+      if course.get('releasePhase') !== 'released'
+        - continue;
       - var campaign = view.campaigns.get(course.get('campaignID'));
       if !campaign
         - continue;

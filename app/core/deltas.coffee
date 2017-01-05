@@ -96,7 +96,7 @@ expandFlattenedDelta = (delta, left, right, schema) ->
 
   delta
 
-objectHash = (obj) -> if obj? then (obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj))) else 'null'
+objectHash = (obj) -> if obj? then (obj.name or obj.id or obj._id or JSON.stringify(_.keys(obj).sort())) else 'null'
 
 
 module.exports.makeJSONDiffer = ->

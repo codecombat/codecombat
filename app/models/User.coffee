@@ -208,23 +208,13 @@ module.exports = class User extends CocoModel
     @yearSubscriptionGroup
 
   getDungeonLevelsGroup: ->
+    # Fully dismantle this after Hour of Code week is done
     return @dungeonLevelsGroup if @dungeonLevelsGroup
-    group = me.get('testGroupNumber') % 7
-    [@dungeonLevelsGroup, @dungeonLevelsHidden] = switch group
-      when 0 then ['control', []]
-      when 1 then ['conservative', ['haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 2 then ['cell-commentary', ['kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 3 then ['kithgard-librarian', ['cell-commentary', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 4 then ['loop-da-loop', ['cell-commentary', 'kithgard-librarian', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
-      when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      else ['control', []]
-    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer() or not me.get('testGroupNumber')?
+    @dungeonLevelsGroup = 'none'
+    @dungeonLevelsHidden = ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']
+    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer()
     if skipTest
       [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
-    else
-      application.tracker.identify dungeonLevelsGroup: @dungeonLevelsGroup
-      console.log 'dungeonLevelsGroup:', @dungeonLevelsGroup
     @dungeonLevelsGroup
 
   getDungeonLevelsHidden: ->
@@ -477,6 +467,10 @@ module.exports = class User extends CocoModel
     @loading = false
 
     return jqxhr
+    
+  finishedAnyLevels: -> Boolean((@get('stats') or {}).gamesCompleted)
+
+  isFromUk: -> @get('country') is 'united-kingdom'
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15

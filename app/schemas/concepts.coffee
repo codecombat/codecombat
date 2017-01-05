@@ -12,7 +12,7 @@ concepts = [
   {concept: 'advanced_css', name: '', description: '', automatic: '', deprecated: true}
   {concept: 'advanced_web_scripting', name: '', description: '', automatic: '', deprecated: true}
   {concept: 'input_handling', name: '', description: '', automatic: '', deprecated: true}
-  {concept: 'while_loops', name: '', description: '', automatic: true, deprecated: true, tagger: 'WhileStatement'}
+  {concept: 'while_loops', name: '', description: '', automatic: '', deprecated: true}
 
   {concept: 'advanced_css_rules', name: 'Advanced CSS Rules', description: 'CSS Rules introduced in WD3+.', automatic: true}
   {concept: 'advanced_css_selectors', name: 'Advanced CSS Selectors', description: 'CSS Selectors introduced in WD3+.', automatic: true}

@@ -15,15 +15,19 @@ if view.showAds()
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
 .gameplay-container
-  a(href="/").picoctf-hide
-    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-
-  .picoctf-show
-    a(href="http://staging.picoctf.com").picoctf-logo
-      img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
-    a(href="http://codecombat.com").picoctf-powered-by
-      em.spr powered by
-      img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
+  if features.codePlay
+    img.small-nav-logo.codeplay-logo(src="/images/common/codeplay/CodePlay_Lockup.png")
+    
+  else
+    a(href="/").picoctf-hide
+      img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+  
+    .picoctf-show
+      a(href="http://staging.picoctf.com").picoctf-logo
+        img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
+      a(href="http://codecombat.com").picoctf-powered-by
+        em.spr powered by
+        img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -115,13 +119,14 @@ if view.showAds()
 
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
-          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id)
+          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
 
   else
     .portal
       .portals
         for campaignSlug in features.campaignSlugs || ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'mountain', 'glacier', 'volcano']
           if campaignSlug === 'beta-campaigns-1' || campaignSlug === 'beta-campaigns-2'
+            - if (features.freeOnly) continue;
             - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']);
             .beta-container
               each campaignSlug in betaSlugs
@@ -225,3 +230,10 @@ if view.showAds()
           span= levelsCompleted
           | /
           span= levelsTotal
+    
+if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds
+  a(href="https://lenovogamestate.com/")
+    - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
+    if me.isFromUk()
+      - url = "/images/common/codeplay/UK_LevelsPage_Cube_160x480.png"
+    img#codeplay-ad(src=url)

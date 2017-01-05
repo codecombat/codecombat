@@ -3,7 +3,7 @@
 
 #duel-stats-view
   position: absolute
-  right: 44.3%
+  right: calc(45% + 200px)
   bottom: 133px
   z-index: 3
   @include transition(opacity .2s linear)
@@ -18,6 +18,9 @@
   display: none
   //display: flex  // set if present
   flex-direction: row
+
+  #level-view.no-api &
+    right: 45%
 
   &:hover
     opacity: 0.1

@@ -73,6 +73,10 @@ paths:
           type: string
           in: query
           description: Will be passed to the OAuth token endpoint to get a token. Required if no `accessToken`.
+        - name: redirect
+          type: string
+          in: query
+          description: Override where the user will navigate to after successfully logging in.
       responses:
         "302":
           description: 'Redirects the user to a landing page after having logged them in.'
@@ -94,15 +98,22 @@ paths:
         - name: user
           in: body
           schema:
-            type: 'object'
+            type: object
             required:
               - name
               - email
             properties:
               name:
-                type: 'string'
+                type: string
               email:
-                type: 'string'
+                type: string
+              role:
+                type: string
+              heroConfig:
+                type: object
+                properties:
+                  thangType:
+                    $ref: '#/definitions/objectIdString'
       responses:
         "201":
           description: 'The created user'
@@ -119,6 +130,42 @@ paths:
       responses:
         "200":
           description: 'The requested user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+            
+  /users/{handle}/classrooms:
+    get:
+      tags: 
+        - users
+      description: Returns a list of `Classrooms` this user is in (if a student) or owns (if a teacher).
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+      responses:
+        "200":
+          description: 'The requested classrooms'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ClassroomResponse'
+            
+
+  /users/{handle}/hero-config:
+    put:
+      tags: 
+        - users
+      description: Set the user's hero.
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: heroConfig
+          in: body
+          schema:
+            type: object
+            properties:
+              thangType:
+                $ref: '#/definitions/objectIdString'
+      responses:
+        "200":
+          description: 'The affected user'
           schema:
             $ref: '#/definitions/UserResponse'
             
@@ -153,18 +200,18 @@ paths:
           in: body
           required: true
           schema:
-            type: 'object'
+            type: object
             required:
               - provider
             properties:
               provider:
-                type: 'string'
+                type: string
                 description: Your OAuth Provider ID.
               accessToken:
-                type: 'string'
+                type: string
                 description: Will be passed through your lookup URL to get the user ID. Required if no `code`.
               code:
-                type: 'string'
+                type: string
                 description: Will be passed to the OAuth token endpoint to get a token. Required if no `accessToken`.
                 
       responses:
@@ -195,7 +242,7 @@ paths:
           in: body
           required: true
           schema:
-            type: 'object'
+            type: object
             required:
               - ends
             properties:
@@ -230,7 +277,7 @@ paths:
           in: body
           required: true
           schema:
-            type: 'object'
+            type: object
             required:
               - ends
             properties:
@@ -241,6 +288,67 @@ paths:
           description: 'The affected user'
           schema:
             $ref: '#/definitions/UserResponse'
+            
+  /classrooms/{handle}/members:
+    put:
+      tags:
+        - classrooms
+      description: Upserts a user into the classroom.
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: member
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - code
+              - userId
+            properties:
+              code:
+                type: string
+                description: "The code for joining this classroom"
+              userId:
+                description: "The id of the user to add to the class."
+                type: string
+          
+      responses:
+        "200":
+          description: 'The classroom with the member added.'
+          schema:
+            $ref: '#/definitions/ClassroomResponse'
+        
+  /classrooms/{classroomHandle}/course/{courseHandle}/enrolled:
+    put:
+      tags:
+        - classrooms
+      description: |
+        Enrolls a user in a course in a classroom.
+        If the course is paid, user must have an active license.
+        User must be a member of the classroom.
+      parameters:
+        - name: classroomHandle
+          in: path
+          type: string
+          required: true
+          description: The classroom's `_id`.
+        - name: courseHandle
+          in: path
+          type: string
+          required: true
+          description: The course's `_id`.
+        - name: userId
+          description: "The id of the user to add to the class."
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/objectIdString'
+          
+      responses:
+        "200":
+          description: 'The classroom with the user enrolled.'
+          schema:
+            $ref: '#/definitions/ClassroomResponse'
             
   /user-lookup/{property}/{value}:
     get:
@@ -284,9 +392,17 @@ security:
   - basicAuth: []
 
 definitions:
+  roleString:
+    type: string
+    description: "Usually either 'teacher' or 'student'"
+
   datetimeString:
     type: string
     pattern: /^\d{4}-\d{2}-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}Z$/
+    
+  objectIdString:
+    type: string
+    pattern: /^[0-9a-f]{24}$/
     
   UserResponse:
     type: object
@@ -294,13 +410,15 @@ definitions:
     description: 'Subset of properties listed here'
     properties:
       _id:
-        type: string
+        $ref: '#/definitions/objectIdString'
       email: 
         type: string
       name:
         type: string
       slug:
         type: string
+      role:
+        $ref: '#/definitions/roleString'
       stats:
         type: object
         properties:
@@ -333,6 +451,33 @@ definitions:
             $ref: '#/definitions/datetimeString'
           active:
             type: 'boolean'
-      role:
+
+
+  ClassroomResponse:
+    type: object
+    title: 'ClassroomResponse'
+    description: 'Subset of properties listed here'
+    properties:
+      _id:
+        $ref: '#/definitions/objectIdString'
+      name:
         type: string
-        description: Set to "student" if the user has a license.
+      members:
+        type: array
+        items:
+          $ref: '#/definitions/objectIdString'
+      ownerID:
+        $ref: '#/definitions/objectIdString'
+      description:
+        type: string
+      courses:
+        type: array
+        items:
+          type: object
+          properties:
+            _id:
+              $ref: '#/definitions/objectIdString'
+            levels:
+              type: array
+              items:
+                type: object

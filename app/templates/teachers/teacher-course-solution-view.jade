@@ -42,7 +42,8 @@ block content
               i(data-i18n="common.coming_soon")
           h4.text-center(data-i18n="common.default_code")
           if level.get('begin')
-            pre= level.get('begin')
+            pre
+              code= level.get('begin')
           else
             .text-center
               i(data-i18n="common.coming_soon")
@@ -58,7 +59,8 @@ block content
             span= level.get('name')
             span.spl(data-i18n="common.solution")
           if level.get('solution')
-            pre= level.get('solution')
+            pre
+              code= level.get('solution')
           else
             .text-center
               i(data-i18n="common.coming_soon")
