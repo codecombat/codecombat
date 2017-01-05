@@ -131,7 +131,7 @@ module.exports = class Tracker extends CocoClass
 
     # SnowPlow
     window.snowplow 'trackUnstructEvent',
-      schema: 'iglu:com.codecombat/' + event + '/jsonschema/1-0-0'
+      schema: 'iglu:com.codecombat/' + action + '/jsonschema/1-0-0'
       data: properties
 
 
