@@ -23,6 +23,7 @@ module.exports = class AnalyticsView extends RootView
     @activeClassGroups = {}
     @activeUsers = []
     @yearMonthMrrMap = {}
+    @monthMrrMap = {}
     @revenue = []
     @revenueGroups = {}
     @dayEnrollmentsMap = {}
@@ -169,6 +170,21 @@ module.exports = class AnalyticsView extends RootView
               @revenue[i].groups.push(_.reduce(monthlyValues, (s, num) -> s + num))
         for monthlyGroup, dailyGroup of monthlyDailyGroupMap
           @revenueGroups.push monthlyGroup
+
+        # Calculate real monthly revenue instead of 30 days estimation
+        @monthMrrMap = {}
+        for revenue in @revenue
+          month = revenue.day.substring(0, 7)
+          @monthMrrMap[month] ?= {gems: 0, yearly: 0, monthly: 0, total: 0}
+          for group, i in @revenueGroups
+            if group is 'DRR gems'
+              @monthMrrMap[month].gems += revenue.groups[i]
+            else if group is 'DRR monthly subs'
+              @monthMrrMap[month].monthly += revenue.groups[i]
+            else if group is 'DRR yearly subs'
+              @monthMrrMap[month].yearly += revenue.groups[i]
+            if group in ['DRR gems', 'DRR monthly subs', 'DRR yearly subs']
+              @monthMrrMap[month].total += revenue.groups[i]
 
         @updateAllKPIChartData()
         @updateRevenueChartData()

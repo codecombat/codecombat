@@ -80,18 +80,40 @@ block content
 
 
       .tab-pane#tab_revenue
+        br
+        ul
+          li
+            a(href="#revenueHomeDaily90") Home Daily Revenue 90 days
+          li
+            a(href="#revenueHomeMonthly90") Home Monthly Revenue 90 days
+          li
+            a(href="#revenueHomDaily365") Home Daily Revenue 365 days
+          li
+            a(href="#revenueHomeMonthly365") Home Monthly Revenue 365 days
+          li
+            a(href="#revenueSchoolSales") School Sales
+          li
+            a(href="#revenueHomeMrr") Home MRR
+          li
+            a(href="#revenueHomeRevenue") Home Revenue
+
+        a(name="revenueHomeDaily90")
         h3 Home Daily Revenue 90 days
         .recurring-daily-revenue-chart-90.line-chart-container
 
+        a(name="revenueHomeMonthly90")
         h3 Home Monthly Revenue 90 days
         .recurring-monthly-revenue-chart-90.line-chart-container
 
+        a(name="revenueHomDaily365")
         h3 Home Daily Revenue 365 days
         .recurring-daily-revenue-chart-365.line-chart-container
 
+        a(name="revenueHomeMonthly365")
         h3 Home Monthly Revenue 365 days
         .recurring-monthly-revenue-chart-365.line-chart-container
 
+        a(name="revenueSchoolSales")
         .school-sales
           h3 School Sales
           if view.schoolSales
@@ -120,6 +142,27 @@ block content
           else
             div Loading ...
 
+        a(name="revenueHomeMrr")
+        h1 Home MRR
+        .small MRR = yearly subs + monthly subs + terminal subs + gems
+        .small Yearly sub purchase values not spread across timeframe.
+        .small Terminal sub purchase values not spread across timeframe.
+        table.table.table-striped.table-condensed
+          tr
+            th Month
+            th Gems
+            th Monthly subs
+            th Yearly subs
+            th MRR
+          each revenue, month in view.monthMrrMap
+            tr
+              td= month
+              td= Math.round(revenue.gems / 100)
+              td= Math.round(revenue.monthly / 100)
+              td= Math.round(revenue.yearly / 100)
+              td= Math.round(revenue.total / 100)
+
+        a(name="revenueHomeRevenue")
         h1 Home Revenue
         table.table.table-striped.table-condensed
           tr
