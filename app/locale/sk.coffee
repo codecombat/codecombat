@@ -740,7 +740,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     required_parameters: "Požadované  parametere"
     optional_parameters: "Voliteľné  parametere"
     returns: "Vracia"
-    granted_by: "Poskytnutné od"
+    granted_by: "Zaručuje"
 
   save_load:
     granularity_saved_games: "Uložené"
@@ -748,7 +748,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   options:
     general_options: "Všeobecné nastavenia" # Check out the Options tab in the Game Menu while playing a level
-    volume_label: "Halsitosť"
+    volume_label: "Hlasitosť"
     music_label: "Hudba"
     music_description: "Vypnúť/zapnúť hudbu na pozadí."
     editor_config_title: "Konfigurácia editora"
