@@ -1188,7 +1188,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    joining: "Joining class"
     course_complete: "Курс завершён"
     play_arena: "Играть Арену"
-#    view_project: "View Project"
+#    view_project: "Показать проэкт"
     start: "Старт"
     last_level: "Последний уровень" # {change}
     not_you: "Не вы?"
