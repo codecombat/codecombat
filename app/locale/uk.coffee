@@ -1488,8 +1488,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   sharing:
     game: "Гра"
     webpage: "Веб-сторінка"
-    your_students_preview: "Ваші учні зможуть клікнути тут, щоб побачити свої закінчені проекти! Не доступно у вчительскому прев'ю."
-    unavailable: "Не доступно у вчительському прев'ю."
+    your_students_preview: "Ваші учні зможуть клікнути тут, щоб побачити свої закінчені проекти! Недоступно у вчительскому прев'ю."
+    unavailable: "Недоступно у вчительському прев'ю."
     share_game: "Поділитись цією грою"
     share_web: "Поділитись цією веб-сторінкою"
     victory_share_prefix: "Поділитись цим посиланням, щоб запросити ваших друзів та рідних"
@@ -1499,7 +1499,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_course_share_prefix: "Це посилання дозволить вашим друзям та рідним"
     victory_course_share_game: "грати в гру"
     victory_course_share_web: "переглянути веб-сторінку"
-    victory_course_share_suffix: ", яку ви щойно стовили."
+    victory_course_share_suffix: ", яку ви щойно створили."
     copy_url: "Копіювати посилання"
 
   game_dev:
@@ -1905,7 +1905,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     algorithm_average: "Алгоритм пошуку середнього значення"
     algorithm_find_minmax: "Алгоритм пошуку мінімуму/максимуму"
     algorithm_search_binary: "Алгоритм бінарного пошуку"
-    algorithm_search_graph: "Алгоритм пошуку в графів"
+    algorithm_search_graph: "Алгоритм пошуку в графах"
     algorithm_sort: "Алгоритм сортування"
     algorithm_sum: "Алгоритм сумування"
     arguments: "Аргументи"
