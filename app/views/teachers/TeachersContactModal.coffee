@@ -67,6 +67,9 @@ module.exports = class TeachersContactModal extends ModalView
       data
       context: @
       success: ->
+        window.tracker?.trackEvent 'Teacher Contact',
+          category: 'Contact',
+          licensesNeeded: formValues.licensesNeeded
         @state.set({ sendingState: 'sent' })
         me.set('enrollmentRequestSent', true)
         setTimeout(=>

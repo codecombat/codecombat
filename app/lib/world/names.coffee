@@ -399,6 +399,7 @@ module.exports.thangNames = thangNames =
     'Usara'
     'Veigar'
     'Voldemort'
+    'Vallyria'
   ]
   'Archer F': [
     # Female
@@ -871,6 +872,7 @@ module.exports.thangNames = thangNames =
     'Hushbaum'
     'Mariam'
     'Matilda'
+    'Merilda'
     'Nordex'
     'Satish'
     'Vera'
@@ -974,6 +976,7 @@ module.exports.thangNames = thangNames =
   'Champion': [
     # Female
     'Ida'
+    'Jasmine'
   ]
   'Duelist': [
     # Male

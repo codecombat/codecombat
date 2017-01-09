@@ -49,6 +49,8 @@ require 'vendor/aether-lua'
 require 'vendor/aether-java'
 require 'vendor/aether-html'
 
+require 'game-libraries'
+
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
   className: 'editor'
@@ -82,7 +84,7 @@ module.exports = class LevelEditView extends RootView
     super options
     @supermodel.shouldSaveBackups = (model) ->
       model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, sessionless: true
+    @levelLoader = new LevelLoader supermodel: @supermodel, levelID: @levelID, headless: true, sessionless: true, loadArticles: true
     @level = @levelLoader.level
     @files = new DocumentFiles(@levelLoader.level)
     @supermodel.loadCollection(@files, 'file_names')

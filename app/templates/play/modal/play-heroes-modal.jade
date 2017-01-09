@@ -28,7 +28,7 @@
         for hero in heroes
           div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))
             canvas.hero-canvas
-            .hero-feature-image
+            .hero-pose-image
               img(draggable="false")
             .hero-stats
               h2= hero.name
@@ -106,3 +106,10 @@
                   option(value=option.id, selected=codeLanguage === option.id)= option.name
                   
           a#confirm-button(data-i18n=confirmButtonI18N)
+
+    if !me.finishedAnyLevels() && serverConfig.showCodePlayAds
+      a(href="https://lenovogamestate.com/")
+        - var url = "/images/common/codeplay/NA_ChooseHeroPage_Yoga520_800x90.png"
+        if me.isFromUk()
+          - url = "/images/common/codeplay/UK_ChooseHeroPage_Yoga510_800x90.png"
+        img#codeplay-choose-hero-ad(src=url)

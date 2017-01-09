@@ -159,7 +159,22 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     student = yield User.findById(@student.id)
     expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
     done()
-
+  
+  it 'adds includedCourseIDs to the user when redeeming', utils.wrap (done) ->
+    yield utils.loginUser(@admin)
+    @prepaid.set({
+      type: 'starter_license'
+      includedCourseIDs: ['course_1', 'course_2']
+    })
+    yield @prepaid.save()
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.postAsync { uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(1)
+    expect(res.statusCode).toBe(201)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')?.includedCourseIDs).toEqual(['course_1', 'course_2'])
+    expect(student.get('coursePrepaid')?.type).toEqual('starter_license')
+    done()
 
 describe 'GET /db/prepaid?creator=:id', ->
   beforeEach utils.wrap (done) ->
@@ -197,6 +212,10 @@ describe 'GET /db/prepaid?creator=:id', ->
 
     
 describe '/db/prepaid', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.populateProducts()
+    done()
+  
   prepaidURL = getURL('/db/prepaid')
 
   headers = {'X-Change-Plan': 'true'}

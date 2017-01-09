@@ -22,7 +22,7 @@ exports.middleware = (req, res, next) ->
     recordMetrics = ->
       diff = process.hrtime(time);
       ms = (diff[0] * 1000 + diff[1] / 1e6);
-      path = req.route?.path or '/*'
+      path = req.route?.path?.toString() or '/*'
       stat = req.method + "." + path.replace /[^A-Za-z0-9]+/g, '_'
       realClient.timing stat, ms
       name = req.user?._id

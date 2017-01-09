@@ -1,0 +1,135 @@
+
+//- DO NOT TRANSLATE
+extends /templates/base-flat
+
+block content
+
+  if !me.isAdmin()
+    div.text-center You must be logged in as an admin to view this page.
+  else
+    h1 Classroom progress vs. available content
+    .small Classroom progress vs. available content is against individual classroom version of content
+    .small Licenses with end dates between now and #{view.licenseEndMonths} months, with at least one redeemer
+    .small Reduce licenseEndMonths query variable if page doesn't load
+    .small Progress rows are per-license for a given classroom owner
+    .small Hover mouse over little dashes, vertical bars, etc. for more info
+    .small Users column is number of students for classroom details row, and number of redeemed licenses for colorful per-license progress row
+    .small
+      table.table.table-condensed
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.completed-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS1
+          td &nbsp; completed course
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.completed-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS1
+            span.level-cell(style="height:5px; left:70px; width:6px;", title="level")
+            span.level-cell(style="height:5px; left:76px; width:6px;", title="level")
+          td &nbsp; level
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.completed-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS1
+            span.student-cell(style="height:20px; left:30%; width:6px;", title="student")
+            span.level-cell(style="height:5px; left:30%; width:6px;", title="level")
+          td &nbsp; furthest level for an individual student
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.remaining-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS2
+          td &nbsp; remaining course in classroom
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.remaining-background(style="height:20px; width: 100%;")
+            span.course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS2
+            span.missing-level-cell(style="height:20px; left:70%; width:6px;", title="student")
+            span.level-cell(style="height:5px; left:70%; width:6px;", title="level")
+          td &nbsp; released level, but not available in classroom
+        tr
+          td.range-container(style="height: 20px; width:100px;")
+            span.available-background(style="height:20px; width: 100%;")
+            span.missing-course-cell(style="left:0%; width:100%;")
+              .course-cell-text CS3
+          td &nbsp; released course, but not available in classroom
+    if !view.classroomProgress
+      h1.text-center Loading..
+    else
+      .small
+        table.table.table-striped.table-condensed
+          tr
+            td
+            td Teacher name, email, id
+            td
+            td
+            td Class
+            td Latest Activity
+            td.text-center Users
+            td.text-center Start
+            td.text-center End
+          - lastTeacherId = null;
+          each classroomData, index in view.classroomProgress || []
+            tr
+              td #{index + 1}.
+              td #{view.teacherMap[classroomData.classroom.ownerID].name || 'Anonymous'}
+              if lastTeacherId !== classroomData.classroom.ownerID
+                td #{view.teacherMap[classroomData.classroom.ownerID].emailLower}
+                td #{classroomData.classroom.ownerID}
+                - lastTeacherId = classroomData.classroom.ownerID;
+              else
+                td
+                td
+              td
+                a(href='/teachers/classes/#{classroomData.classroom._id}') #{classroomData.classroom.name}
+              td #{classroomData.latestActivity ? classroomData.latestActivity.substring(0, 10) : 'n/a'}
+              td.text-center #{classroomData.classroom.members.length}
+              td.text-center #{new Date(parseInt(classroomData.classroom._id.substring(0, 8), 16) * 1000).toISOString().substring(0, 10)}
+              td.text-center n/a
+            each licenseData in classroomData.licenses
+              - var totalLevels = licenseData.levels.length;
+              - var numMissingCourseLevels = 0
+              each missingCourse in licenseData.missingCourses
+                - totalLevels += missingCourse.levels.length;
+                - numMissingCourseLevels += missingCourse.levels.length;
+              - var completedRatio = (licenseData.furthestLevelIndex + 1) / totalLevels;
+              - var remainingRatio = (licenseData.levels.length - licenseData.furthestLevelIndex - 1) / totalLevels;
+              - var availableRatio = numMissingCourseLevels / totalLevels;
+              - var levelCellWidth = 100 / (totalLevels);
+              tr
+                td.range-container(colspan=6)
+                  span.completed-background(style="width:#{completedRatio * 100}%;")
+                  span.remaining-background(style="left:#{(completedRatio) * 100}%; width:#{remainingRatio * 100}%;")
+                  span.available-background(style="left:#{(completedRatio + remainingRatio) * 100}%; width:#{availableRatio * 100}%;")
+                  each data, index in licenseData.courseLastLevelIndexes
+                    - var courseCellOffest = (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index + 1 : 0) / totalLevels * 100;
+                    - var courseCellWidth = (data.index - (index > 0 ? licenseData.courseLastLevelIndexes[index - 1].index : -1)) / totalLevels * 100;
+                    span.course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
+                      if view.latestCourseMap[data.courseId]
+                        .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                      else
+                        - console.log('no course?', data);
+                  - var missingCourseLastIndex = licenseData.levels.length;
+                  each data in licenseData.missingCourses
+                    - var courseCellOffest = (missingCourseLastIndex) / totalLevels * 100;
+                    - var courseCellWidth = data.levels.length / totalLevels * 100;
+                    span.missing-course-cell(style="left:#{courseCellOffest}%; width:#{courseCellWidth}%;")
+                      .course-cell-text #{(view.courseAcronymMap[data.courseId] || view.latestCourseMap[data.courseId].slug)}
+                    each levelOriginal, index in data.levels
+                      span.level-cell(style="left:#{index * levelCellWidth + courseCellOffest}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[levelOriginal] || levelOriginal}")
+                    - missingCourseLastIndex += data.levels.length;
+                  each level, index in licenseData.levels
+                    if level.numUsers > 0
+                      - var title = level.numUsers + " students on level " + (view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal);
+                      span.student-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="#{title}")
+                    else if level.missing
+                      span.missing-level-cell(style="left:#{index * levelCellWidth}%;width:#{levelCellWidth}%", title="level #{view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal} is released but not available in this classroom version")
+                    span.level-cell(style="left:#{index * levelCellWidth}%; width:#{levelCellWidth}%", title="#{index + 1}. #{view.latestLevelSlugMap[level.levelOriginal] || level.levelOriginal}")
+                td.text-center= licenseData.license.redeemers.length
+                td.text-center= licenseData.license.startDate.substring(0, 10)
+                td.text-center= licenseData.license.endDate.substring(0, 10)

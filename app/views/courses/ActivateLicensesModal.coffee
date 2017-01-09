@@ -102,7 +102,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     prepaid = @prepaids.find((prepaid) -> prepaid.status() is 'available')
     prepaid.redeem(user, {
       success: (prepaid) =>
-        user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate'))
+        user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
         usersToRedeem.remove(user)
         # pct = 100 * (usersToRedeem.originalSize - usersToRedeem.size() / usersToRedeem.originalSize)
         # @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")

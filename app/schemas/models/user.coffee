@@ -78,7 +78,7 @@ _.extend UserSchema.properties,
     }
   }
   clientCreator: c.objectId({description: 'Client which created this user'})
-  
+
   wizardColor1: c.pct({title: 'Wizard Clothes Color'})  # No longer used
   volume: c.pct({title: 'Volume'})
   music: { type: 'boolean' }
@@ -118,6 +118,7 @@ _.extend UserSchema.properties,
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
   lastIP: {type: 'string'}
+  createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
   nameLower: c.shortString()
@@ -333,8 +334,7 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  chinaVersion: { type: 'boolean' }  # Old, can be removed after we make sure it's deleted from all users
-  country: { type: 'string', enum: ['brazil', 'china'] }  # New, supports multiple countries for different versions--only set for specific countries where we have premium servers right now
+  country: { type: 'string' }  # Set on new users for certain countries on the server
 
   clans: c.array {}, c.objectId()
   courseInstances: c.array {}, c.objectId()
@@ -351,18 +351,20 @@ _.extend UserSchema.properties,
       _id: c.objectId()
       startDate: c.stringDate()
       endDate: c.stringDate()
+      type: { type: 'string' }
+      includedCourseIDs: c.array({ description: 'courseIDs that this prepaid includes access to' }, c.objectId())
     }
   }
   enrollmentRequestSent: { type: 'boolean' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["God", "advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}
   birthday: c.stringDate({title: "Birthday"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
-  
+
   israelId: {type: 'string', description: 'ID string used just for il.codecombat.com'}
-  school: { 
-    type: 'object', 
+  school: {
+    type: 'object',
     description: 'Generic property for storing school information. Currently
                   only used by Israel; if/when we use it for other purposes,
                   think about how to keep the data consistent.',

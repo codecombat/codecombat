@@ -2,14 +2,25 @@ mw = require '../middleware'
 
 module.exports.setup = (app) ->
   
+  app.put('/admin/feature-mode/:featureMode', mw.admin.putFeatureMode)
+  app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
+  
   app.all('/api/*', mw.api.clientAuth)
+  
   app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
+  
+  app.put('/api/classrooms/:handle/members', mw.api.putClassroomMember)
+  app.put('/api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', mw.api.putClassroomCourseEnrolled)
+  
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
+  app.get('/api/users/:handle/classrooms', mw.api.getUserClassrooms)
+  app.put('/api/users/:handle/hero-config', mw.api.putUserHeroConfig)
   app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
   app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
   app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
   app.put('/api/users/:handle/license', mw.api.putUserLicense)
+  app.get('/api/user-lookup/israel-id/:israelId', mw.api.getUserLookupByIsraelId)
   
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
@@ -146,11 +157,11 @@ module.exports.setup = (app) ->
   
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
-  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
+  app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
@@ -170,8 +181,10 @@ module.exports.setup = (app) ->
   app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
   
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
+  app.get('/db/prepaid/-/active-school-licenses', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchoolLicenses)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
+  app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
   app.get '/db/products', require('./db/product').get
@@ -189,4 +202,4 @@ module.exports.setup = (app) ->
 
   app.all('/headers', mw.headers)
   
-  app.get('/healthcheck', mw.healthcheck)  
+  app.get('/healthcheck', mw.healthcheck)

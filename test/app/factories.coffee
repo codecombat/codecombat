@@ -99,7 +99,7 @@ module.exports = {
       break if not courseAttrs
       course ?= @makeCourse()
       levels ?= new Levels()
-      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type') for level in levels.models)
+      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type', 'practice') for level in levels.models)
   
     # populate members
     if not attrs.members

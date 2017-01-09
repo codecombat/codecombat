@@ -15,15 +15,23 @@ if view.showAds()
 
 // TODO: .gameplay-container causes world map buttons to briefly appear in top left of screen
 .gameplay-container
-  a(href="/").picoctf-hide
-    img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+  if features.codePlay
+    img.small-nav-logo.codeplay-logo(src="/images/common/codeplay/CodePlay_Lockup.png")
+    
+  else
+    a(href="/").picoctf-hide
+      img.small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+  
+    .picoctf-show
+      a(href="http://staging.picoctf.com").picoctf-logo
+        img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
+      a(href="http://codecombat.com").picoctf-powered-by
+        em.spr powered by
+        img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
-  .picoctf-show
-    a(href="http://staging.picoctf.com").picoctf-logo
-      img.small-nav-logo(src="/images/pages/play/picoctf-logo-white.png", title="picoCTF home", alt="picoCTF home")
-    a(href="http://codecombat.com").picoctf-powered-by
-      em.spr powered by
-      img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
+  if serverConfig.codeNinjas
+    a(href="https://code.ninja")
+      img.small-nav-logo.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png", title="Code Ninjas home", alt="Code Ninjas home")
 
   if campaign
     .map
@@ -111,14 +119,14 @@ if view.showAds()
 
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
-          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id)
+          span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
 
   else
     .portal
       .portals
-        //- TODO: you must change CampaignView portalsWidth when adding/removing campaigns here
-        for campaignSlug in ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'mountain', 'glacier', 'volcano']
+        for campaignSlug in features.campaignSlugs || ['dungeon', 'beta-campaigns-1', 'forest', 'beta-campaigns-2', 'desert', 'mountain', 'glacier', 'volcano']
           if campaignSlug === 'beta-campaigns-1' || campaignSlug === 'beta-campaigns-2'
+            - if (features.freeOnly) continue;
             - var betaSlugs = campaignSlug === 'beta-campaigns-1' ? _.shuffle(['campaign-game-dev-1', 'campaign-web-dev-1']) : _.shuffle(['campaign-game-dev-2', 'campaign-web-dev-2']);
             .beta-container
               each campaignSlug in betaSlugs
@@ -169,13 +177,14 @@ if view.showAds()
 
   .game-controls.header-font.picoctf-hide
     button.btn.poll.hidden(data-i18n="[title]play.poll")
-    a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
+    if !features.codePlay
+      a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
     button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
     button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
     button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-    if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !me.isOnFreeOnlyServer()
+    if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !features.freeOnly
       button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-    if !me.get('anonymous', true)
+    if !me.get('anonymous', true) && !features.codePlay
       button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]nav.account")
     //if me.isAdmin()
     //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
@@ -221,3 +230,10 @@ if view.showAds()
           span= levelsCompleted
           | /
           span= levelsTotal
+    
+if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds
+  a(href="https://lenovogamestate.com/")
+    - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
+    if me.isFromUk()
+      - url = "/images/common/codeplay/UK_LevelsPage_Cube_160x480.png"
+    img#codeplay-ad(src=url)

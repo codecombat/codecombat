@@ -32,6 +32,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/clas': go('admin/CLAsView')
     'admin/classroom-content': go('admin/AdminClassroomContentView')
     'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
+    'admin/classrooms-progress': go('admin/AdminClassroomsProgressView')
     'admin/design-elements': go('admin/DesignElementsView')
     'admin/files': go('admin/FilesView')
     'admin/analytics': go('admin/AnalyticsView')
@@ -138,7 +139,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
     'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView')
+    'play/:map': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': go('HomeView')
 
@@ -169,6 +170,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @navigate('/teachers/update-account', {trigger: true, replace: true})
+    'teachers/starter-licenses': go('teachers/StarterLicenseUpsellView', { redirectStudents: true, teachersOnly: true })
     'teachers/update-account': ->
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
@@ -190,9 +192,9 @@ module.exports = class CocoRouter extends Backbone.Router
 
   routeDirectly: (path, args=[], options={}) ->
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
-      return @navigate('/students', {trigger: true, replace: true})
+      return @redirectHome()
     if options.redirectTeachers and me.isTeacher() and not me.isAdmin()
-      return @navigate('/teachers', {trigger: true, replace: true})
+      return @redirectHome()
     if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and not (me.isStudent() or me.isAdmin())
@@ -204,7 +206,11 @@ module.exports = class CocoRouter extends Backbone.Router
       else
         window.currentView.onLeaveMessage = _.noop # to stop repeat confirm calls
 
-    path = 'play/CampaignView' if window.serverConfig.picoCTF and not /^(views)?\/?play/.test(path)
+    # TODO: Combine these two?
+    if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
+      return @navigate('/play', { trigger: true, replace: true })
+    path = 'play/CampaignView' if features.playOnly and not /^(views)?\/?play/.test(path)
+    
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
@@ -215,10 +221,17 @@ module.exports = class CocoRouter extends Backbone.Router
     view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
+    
+  redirectHome: ->
+    homeUrl = switch 
+      when me.isStudent() then '/students'
+      when me.isTeacher() then '/teachers'
+      else '/'
+    @navigate(homeUrl, {trigger: true, replace: true})
 
   tryToLoadModule: (path) ->
     try
-      return require(path)
+      return window.require(path)
     catch error
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error

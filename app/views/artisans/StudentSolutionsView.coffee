@@ -7,6 +7,7 @@ Campaign = require 'models/Campaign'
 Levels = require 'collections/Levels'
 Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
+ace = require 'ace'
 utils = require 'core/utils'
 require 'vendor/aether-python'
 

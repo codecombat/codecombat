@@ -18,6 +18,8 @@ describe 'CoursesHelper', ->
       @courses = new Courses([@course])
       @members = new Users(_.times(2, -> factories.makeUser()))
       @levels = new Levels(_.times(2, -> factories.makeLevel()))
+      @practiceLevel = factories.makeLevel({practice: true})
+      @levels.push(@practiceLevel)
       
       @classroom = factories.makeClassroom({}, { @courses, @members, levels: [@levels] })
       @classrooms = new Classrooms([ @classroom ])
@@ -29,6 +31,7 @@ describe 'CoursesHelper', ->
       beforeEach ->
         sessions = []
         for level in @levels.models
+          continue if level is @practiceLevel
           for creator in @members.models
             sessions.push(factories.makeLevelSession({state: {complete: true}}, { level, creator }))
         @classroom.sessions = new LevelSessions(sessions)
@@ -52,6 +55,7 @@ describe 'CoursesHelper', ->
         it 'returns object with .completed=true and .started=true', ->
           progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
           for level in @levels.models
+            continue if level is @practiceLevel
             progress = progressData.get {@classroom, @course, level}
             expect(progress.completed).toBe true
             expect(progress.started).toBe true
@@ -60,6 +64,7 @@ describe 'CoursesHelper', ->
         it 'returns object with .completed=true and .started=true', ->
           progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
           for level in @levels.models
+            continue if level is @practiceLevel
             for user in @members.models
               progress = progressData.get {@classroom, @course, level, user}
               expect(progress.completed).toBe true
@@ -72,6 +77,7 @@ describe 'CoursesHelper', ->
         @finishedMember = @members.first()
         @unfinishedMember = @members.last()
         for level in @levels.models
+          continue if level is @practiceLevel
           sessions.push(factories.makeLevelSession(
             {state: {complete: true}}, 
             {level, creator: @finishedMember})
@@ -91,6 +97,7 @@ describe 'CoursesHelper', ->
         it 'progressData.get({classroom, course, level}) returns object with .completed=false and .started=true', ->
           progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
           for level in @levels.models
+            continue if level.get('practice')
             progress = progressData.get {@classroom, @course, level}
             expect(progress.completed).toBe false
 
@@ -112,6 +119,7 @@ describe 'CoursesHelper', ->
         it 'progressData.get({classroom, course, level, user}) returns object with .completed=true and .started=true', ->
           progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
           for level in @levels.models
+            continue if level.get('practice')
             progress = progressData.get {@classroom, @course, level, user: @finishedMember}
             expect(progress.completed).toBe true
             expect(progress.started).toBe true
@@ -131,3 +139,30 @@ describe 'CoursesHelper', ->
           progress = progressData.get {@classroom, @course, level, user: @unfinishedMember}
           expect(progress.completed).toBe false
           expect(progress.started).toBe false
+    
+    describe 'progressData.get({classroom, course, level:practiceLevel})', ->
+      it 'returns an object with .completed=true if there\'s at least one completed session and no incomplete sessions', ->
+        @classroom.sessions = new LevelSessions()
+        progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
+        progress = progressData.get {@classroom, @course, level: @practiceLevel}
+        expect(progress.completed).toBe false
+        expect(progress.started).toBe false
+
+        @classroom.sessions.push(factories.makeLevelSession(
+            {state: {complete: true}},
+            {level: @practiceLevel, creator: @members.first()})
+        )
+        progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
+        progress = progressData.get {@classroom, @course, level: @practiceLevel}
+        expect(progress.completed).toBe true
+        expect(progress.started).toBe true
+        progress = progressData.get {@classroom, @course, level: @practiceLevel}
+
+        @classroom.sessions.push(factories.makeLevelSession(
+            {state: {complete: false}},
+            {level: @practiceLevel, creator: @members.last()})
+        )
+        progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
+        progress = progressData.get {@classroom, @course, level: @practiceLevel}
+        expect(progress.completed).toBe false
+        expect(progress.started).toBe true

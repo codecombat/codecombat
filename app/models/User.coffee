@@ -185,18 +185,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
     @fourthLevelGroup
 
-  getHintsGroup: ->
-    # A/B testing two styles of hints
-    return @hintsGroup if @hintsGroup
-    group = me.get('testGroupNumber') % 3
-    @hintsGroup = switch group
-      when 0 then 'no-hints'  # Only show intro and overview in hints dialog
-      when 1 then 'hints'     # Automatically created code, doled out line-by-line, without full solutions
-      when 2 then 'hintsB'    # Manually created FAQ-style hints, reusable across levels
-    @hintsGroup = 'hints' if me.isAdmin()
-    application.tracker.identify hintsGroup: @hintsGroup unless me.isAdmin()
-    @hintsGroup
-
   getDefaultLanguageGroup: ->
     # A/B test default programming language in home version
     return @defaultLanguageGroup if @defaultLanguageGroup
@@ -220,23 +208,13 @@ module.exports = class User extends CocoModel
     @yearSubscriptionGroup
 
   getDungeonLevelsGroup: ->
+    # Fully dismantle this after Hour of Code week is done
     return @dungeonLevelsGroup if @dungeonLevelsGroup
-    group = me.get('testGroupNumber') % 7
-    [@dungeonLevelsGroup, @dungeonLevelsHidden] = switch group
-      when 0 then ['control', []]
-      when 1 then ['conservative', ['haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 2 then ['cell-commentary', ['kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 3 then ['kithgard-librarian', ['cell-commentary', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 4 then ['loop-da-loop', ['cell-commentary', 'kithgard-librarian', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      when 5 then ['haunted-kithmaze', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'dread-door', 'closing-the-distance']]
-      when 6 then ['none', ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']]
-      else ['control', []]
-    skipTest = me.isAdmin() or me.isPremium() or me.isOnFreeOnlyServer() or me.isOnPremiumServer() or not me.get('testGroupNumber')?
+    @dungeonLevelsGroup = 'none'
+    @dungeonLevelsHidden = ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']
+    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer()
     if skipTest
       [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
-    else
-      application.tracker.identify dungeonLevelsGroup: @dungeonLevelsGroup
-      console.log 'dungeonLevelsGroup:', @dungeonLevelsGroup
     @dungeonLevelsGroup
 
   getDungeonLevelsHidden: ->
@@ -313,10 +291,6 @@ module.exports = class User extends CocoModel
     return true if me.get('country') in ['china'] and (me.isPremium() or me.get('stripe'))
     return false
 
-  isOnFreeOnlyServer: ->
-    return true if me.get('country') in ['china'] and not (me.isPremium() or me.get('stripe'))
-    return false
-
   sendVerificationCode: (code) ->
     $.ajax({
       method: 'POST'
@@ -335,6 +309,19 @@ module.exports = class User extends CocoModel
     return 'not-enrolled' unless coursePrepaid
     return 'enrolled' unless coursePrepaid.endDate
     return if coursePrepaid.endDate > new Date().toISOString() then 'enrolled' else 'expired'
+
+  prepaidType: ->
+    # TODO: remove once legacy prepaidIDs are migrated to objects
+    return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
+    # NOTE: Default type is 'course' if no type is marked on the user's copy
+    return @get('coursePrepaid')?.type or 'course'
+
+  prepaidIncludesCourse: (course) ->
+    return false unless @get('coursePrepaid') or @get('coursePrepaidID')
+    includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
+    courseID = course.id or course
+    # NOTE: Full licenses implicitly include all courses
+    return !includedCourseIDs or courseID in includedCourseIDs
 
   # Function meant for "me"
 
@@ -442,6 +429,13 @@ module.exports = class User extends CocoModel
     Prepaid = require 'models/Prepaid'
     return new Prepaid(coursePrepaid)
 
+  # TODO: Probably better to denormalize this into the user
+  getLeadPriority: ->
+    request = $.get('/db/user/-/lead-priority')
+    request.then ({ priority }) ->
+      application.tracker.identify({ priority })
+    request
+
   becomeStudent: (options={}) ->
     options.url = '/db/user/-/become-student'
     options.type = 'PUT'
@@ -473,6 +467,10 @@ module.exports = class User extends CocoModel
     @loading = false
 
     return jqxhr
+    
+  finishedAnyLevels: -> Boolean((@get('stats') or {}).gamesCompleted)
+
+  isFromUk: -> @get('country') is 'united-kingdom'
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15

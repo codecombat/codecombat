@@ -17,7 +17,7 @@ module.exports = class SettingsTabView extends CocoView
   editableSettings: [
     'name', 'description', 'documentation', 'nextLevel', 'victory', 'i18n', 'goals',
     'type', 'kind', 'terrain', 'banner', 'loadingTip', 'requiresSubscription', 'adventurer', 'adminOnly',
-    'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'picoCTFProblem', 'practice', 'practiceThresholdMinutes'
+    'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'primaryConcepts', 'picoCTFProblem', 'practice', 'practiceThresholdMinutes'
     'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
     'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes'
   ]
@@ -53,6 +53,7 @@ module.exports = class SettingsTabView extends CocoView
         'solution-gear': SolutionGearNode
         'solution-stats': SolutionStatsNode
         concept: ConceptNode
+        'concepts-list': ConceptsListNode
       solutions: @level.getSolutions()
 
     @settingsTreema = @$el.find('#settings-treema').treema treemaOptions
@@ -135,10 +136,35 @@ class SolutionStatsNode extends TreemaNode.nodeMap.number
 class ConceptNode extends TreemaNode.nodeMap.string
   buildValueForDisplay: (valEl, data) ->
     super valEl, data
+    return unless data
     return console.error "Couldn't find concept #{@data}" unless concept = _.find concepts, concept: @data
     description = "#{concept.name} -- #{concept.description}"
     description = description + " (Deprecated)" if concept.deprecated
     description = "AUTO | " + description if concept.automatic
     @$el.find('.treema-row').css('float', 'left')
+    @$el.addClass('concept-automatic') if concept.automatic
+    @$el.addClass('concept-deprecated') if concept.deprecated
     @$el.find('.treema-description').remove()
     @$el.append($("<span class='treema-description'>#{description}</span>").show())
+
+  limitChoices: (options) ->
+    if @parent.keyForParent is 'concepts'
+      options = (o for o in options when _.find(concepts, (c) -> c.concept is o and not c.automatic and not c.deprecated))  # Allow manual, not automatic
+    else
+      options = (o for o in options when _.find(concepts, (c) -> c.concept is o and not c.deprecated))  # Allow both
+    super options
+
+  onClick: (e) ->
+    return if @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
+    super e
+
+class ConceptsListNode extends TreemaNode.nodeMap.array
+  sort: true
+
+  sortFunction: (a, b) ->
+    aAutomatic = _.find concepts, (c) -> c.concept is a and c.automatic
+    bAutomatic = _.find concepts, (c) -> c.concept is b and c.automatic
+    return 1 if bAutomatic and not aAutomatic  # Auto before manual
+    return -1 if aAutomatic and not bAutomatic  # Auto before manual
+    return 0 if not aAutomatic and not bAutomatic  # No ordering within manual
+    super a, b  # Alpha within auto

@@ -3,23 +3,32 @@ locale = require 'locale/locale'
 
 LOG = false
 
-
 module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   @WADS = [
     'lib'
     'views/play'
     'views/editor'
+    'views/courses'
   ]
 
   constructor: ->
     super()
-    @loaded = {}
+    @loaded = {}    
+    @loaded[f] = true for f in window.require.list()
+    #Load the locales present in app.js
+    locale.update()
+
     @queue = new createjs.LoadQueue()
     @queue.on('fileload', @onFileLoad, @)
+    @queue.setMaxConnections 5
     wrapped = _.wrap window.require, (func, name, loaderPath) ->
       # vendor libraries aren't actually wrapped with common.js, so short circuit those requires
       return {} if _.string.startsWith(name, 'vendor/')
+      return window.esper if name is 'esper'
+      return window.Aether if name is 'aether'
+      return {} if name is 'game-libraries'
+      return window.ace if name is 'ace'
       return {} if name is 'tests'
       return {} if name is 'demo-app'
       name = 'core/auth' if name is 'lib/auth' # proxy for iPad until it's been updated to use the new, refactored location. TODO: remove this
@@ -29,7 +38,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     @updateProgress = _.throttle _.bind(@updateProgress, @), 700
     @lastShownProgress = 0
 
-  load: (path, first=true) ->
+  load: (path, first=true, why) ->
     $('#module-load-progress').css('opacity', 1)
     if first
       @recentPaths = []
@@ -39,12 +48,33 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     wad = _.find ModuleLoader.WADS, (wad) -> _.string.startsWith(path, wad)
     path = wad if wad
     return false if @loaded[path]
+    if wad
+      console.log "Loading", wad, " for ", originalPath if LOG
     @loaded[path] = true
     @recentPaths.push(path)
-    console.debug 'Loading js file:', "/javascripts/app/#{path}.js" if LOG
+    uri = "/javascripts/app/#{path}.js"
+    
+    if path in ["aether", "game-libraries"]
+      uri = "/javascripts/#{path}.js"
+
+    else if path is "ace"
+      uri = "/lib/ace/ace.js"
+
+    else if path is "esper"
+      try
+        #Detect very modern javascript support.
+        indirecteval = eval
+        indirecteval "'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"
+        console.log "Modern javascript detected, aw yeah!"
+        uri = "/javascripts/esper.modern.js"
+      catch e
+        console.log "Legacy javascript detected, falling back...", e.message
+        uri = "/javascripts/esper.js"
+
+    console.debug 'Loading js file:', uri, "because", why if LOG
     @queue.loadFile({
       id: path
-      src: "/javascripts/app/#{path}.js"
+      src: "/#{window.serverConfig.buildInfo.sha}#{uri}"
       type: createjs.LoadQueue.JAVASCRIPT
     })
     return true
@@ -58,7 +88,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   onFileLoad: (e) =>
     # load dependencies if it's not a vendor library
-    if not _.string.startsWith(e.item.id, 'vendor')
+    if not /(^vendor)|game-libraries$|aether$|esper$/.test e.item.id
       have = window.require.list()
       haveWithIndexRemoved = _(have)
         .filter (file) -> _.string.endsWith(file, 'index')
@@ -70,7 +100,11 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       dependencies = @parseDependencies(e.rawResult)
       console.groupEnd() if LOG
       missing = _.difference dependencies, have
-      @load(module, false) for module in missing
+      @load(module, false, "missing module of #{e.item.id}") for module in missing
+
+    if e.item.id is 'ace'
+      window.ace.config.set 'basePath', '/lib/ace'
+      
 
     # update locale data
     if _.string.startsWith(e.item.id, 'locale')

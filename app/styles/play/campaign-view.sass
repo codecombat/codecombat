@@ -565,7 +565,6 @@ $gameControlMargin: 30px
       $campaignWidth: 317px
       $campaignHeight: 634px
       $campaignHoverScale: 1.2
-      width: 8 * $campaignWidth
       height: $campaignHeight * $campaignHoverScale
       flex-wrap: nowrap
       display: flex
@@ -607,7 +606,7 @@ $gameControlMargin: 30px
 
         .campaign-label
           position: absolute
-          top: 55%
+          top: 45%
           width: 100%
           text-align: center
 
@@ -728,6 +727,15 @@ $gameControlMargin: 30px
     img
       height: 30px
 
+  .code-ninjas-logo
+    top: calc(1% + 5px)
+    left: calc(1% + 200px)
+    
+  .codeplay-logo
+    top: calc(1% + 5px)
+    left: calc(1% + 5px)
+    height: 100px
+
   .ad-container
     width: 100%
     height: 90px
@@ -737,6 +745,13 @@ $gameControlMargin: 30px
     position: absolute
     height: 100%
     width: 100%
+    
+  #codeplay-ad
+    position: absolute
+    right: 10px
+    top: 60px
+    height: calc(100% - 160px)
+    z-index: 2
 
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.

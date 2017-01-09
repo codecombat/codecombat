@@ -5,6 +5,8 @@ ThangType = require 'models/ThangType'
 
 ThangTypes = require 'collections/ThangTypes'
 
+require 'game-libraries'
+
 module.exports = class ThangTasksView extends RootView
   template: template
   id: 'thang-tasks-view'

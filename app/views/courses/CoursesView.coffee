@@ -35,7 +35,7 @@ module.exports = class CoursesView extends RootView
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
 
-  getTitle: -> return $.i18n.t('teacher.students')
+  getTitle: -> return $.i18n.t('courses.students')
 
   initialize: ->
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)

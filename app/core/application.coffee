@@ -46,6 +46,9 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
+#    if features.codePlay and me.isAnonymous()
+#      document.location.href = '//lenovogamestate.com/login/'
+    
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
@@ -110,6 +113,18 @@ Application = {
     daysSince = moment.duration(new Date() - startFrom).asDays()
     if daysSince > 1
       me.checkForNewAchievement().then => @checkForNewAchievement()
+      
+  featureMode: {
+    useCodePlay: ->
+      $.ajax({method: 'put', url: '/admin/feature-mode/code-play'}).then(-> document.location.reload())
+      
+    usePicoCtf: ->
+      $.ajax({method: 'put', url: '/admin/feature-mode/pico-ctf'}).then(-> document.location.reload())
+
+    clear: ->
+      $.ajax({method: 'delete', url: '/admin/feature-mode'}).then(-> document.location.reload())
+  }
+      
 }
 
 module.exports = Application

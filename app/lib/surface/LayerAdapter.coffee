@@ -260,7 +260,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       colorConfig = bundleGrouping[0].colorConfig
       actionNames = (bundle.actionName for bundle in bundleGrouping)
       args = [thangType, colorConfig, actionNames, builder]
-      if thangType.get('raw')
+      if thangType.get('raw') or thangType.get('prerenderedSpriteSheetData')
         if (thangType.get('spriteType') or @defaultSpriteType) is 'segmented'
           @renderSegmentedThangType(args...)
         else

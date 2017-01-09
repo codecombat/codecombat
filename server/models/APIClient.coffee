@@ -14,6 +14,11 @@ APIClientSchema.methods.setNewSecret = ->
   @set('secret', APIClient.hash(secret))
   return secret
   
+APIClientSchema.methods.hasControlOfUser = (user) ->
+  # Check for The Woo
+  return true if @id is '582a4105053eea2400e0c7e8' and user.get('createdOnHost') is 'cp.codecombat.com'
+  return @_id.equals(user.get('clientCreator'))
+  
 APIClientSchema.statics.hash = (secret) ->
   shasum = crypto.createHash('sha512').update(config.salt + secret)
   return shasum.digest('hex')

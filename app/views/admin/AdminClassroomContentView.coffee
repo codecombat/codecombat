@@ -14,10 +14,11 @@ module.exports = class AdminClassroomContentView extends RootView
     # Fetch playtime data for released courses
     # Makes a bunch of small fetches per course and per day to avoid gateway timeouts
     @minSessionCount = 50
-    @maxDays = 15
+    @maxDays = 20
     @loadingMessage = "Loading.."
     courseLevelPlaytimesMap = {}
     courseLevelTotalPlaytimeMap = {}
+    levelPracticeMap = {}
     getMoreLevelSessions = (courseIDs, startOffset, endOffset) =>
       return if @destroyed
       @loadingMessage = "Fetching data for #{courseIDs.length} courses for #{endOffset ? 0}/#{@maxDays} days ago.."
@@ -47,6 +48,7 @@ module.exports = class AdminClassroomContentView extends RootView
           courseLevelTotalPlaytimeMap[courseID] ?= {}
           for levelPlaytime in levelPlaytimes
             courseLevelTotalPlaytimeMap[courseID][levelPlaytime.levelOriginal] ?= {count: 0, total: 0}
+            levelPracticeMap[levelPlaytime.levelOriginal] = true if levelPlaytime.practice
           for session in levelSessions
             courseLevelTotalPlaytimeMap[courseID][session.level.original].count++
             courseLevelTotalPlaytimeMap[courseID][session.level.original].total += session.playtime
@@ -72,24 +74,25 @@ module.exports = class AdminClassroomContentView extends RootView
           # console.log 'courseLevelPlaytimesMap', courseLevelPlaytimesMap
 
           @courseLevelPlaytimes = _.flatten((levelPlaytimes for courseID, levelPlaytimes of courseLevelPlaytimesMap))
+          @courseLevelPlaytimes.sort (a, b) =>
+            aRank = (utils.orderedCourseIDs.indexOf(a.courseID) ? 9000) * 1000 + (a.levelIndex ? 500)
+            bRank = (utils.orderedCourseIDs.indexOf(b.courseID) ? 9000) * 1000 + (b.levelIndex ? 500)
+            aRank - bRank
+
           @totalSeconds = 0
           courseSecondsMap = {}
           courseIDMap = {}
           for data in @courseLevelPlaytimes
             courseSecondsMap[data.courseSlug] ?= 0
+            avgPlaytime = if data.count > 0 then data.playtime / data.count else 300
+            avgPlaytime /= 3 if levelPracticeMap[data.levelOriginal]
             courseIDMap[data.courseSlug] = data.courseID
-            if data.count > 0
-              courseSecondsMap[data.courseSlug] += (data.playtime / data.count)
-              @totalSeconds += (data.playtime / data.count)
-            else
-              courseSecondsMap[data.courseSlug] += 300
-              @totalSeconds += 300
-          @courseLevelPlaytimes.sort (a, b) =>
-            aRank = (utils.orderedCourseIDs.indexOf(a.courseID) ? 9000) * 1000 + (a.levelIndex ? 500)
-            bRank = (utils.orderedCourseIDs.indexOf(b.courseID) ? 9000) * 1000 + (b.levelIndex ? 500)
-            aRank - bRank
+            courseSecondsMap[data.courseSlug] += avgPlaytime
+            @totalSeconds += avgPlaytime
           @courseSeconds = (courseSlug: courseSlug, seconds: data for courseSlug, data of courseSecondsMap)
           @courseSeconds.sort (a, b) ->
             utils.orderedCourseIDs.indexOf(courseIDMap[a.courseSlug]) - utils.orderedCourseIDs.indexOf(courseIDMap[b.courseSlug])
+
           @render?()
+
     getMoreLevelSessions((courseID for key, courseID of utils.courseIDs), 1)

@@ -22,7 +22,7 @@ block content
           p(data-i18n='teacher.teacher_account_explanation')
 
   else
-    if !me.isTeacher()
+    if !me.isTeacher() && !me.isAdmin()
       .alert.alert-danger.text-center
         .container
           // DNT: Temporary
@@ -32,16 +32,32 @@ block content
             | Please convert your account to ensure you retain access to your classrooms.
           a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
 
+    if view.state.get('shouldUpsell')
+      .bg-forest
+        .container
+          .row
+            .col-xs-9.m-t-1
+              b
+                span.text-uppercase(data-i18n="special_offer.special_offer")
+                =': '
+                span(data-i18n="special_offer.student_starter_license")
+              .small-details
+                i(data-i18n="special_offer.purchase_starter_licenses_to_grant", data-i18n-options=JSON.stringify(view.i18nData()))
+            .col-xs-3
+              a.btn.btn-lg.btn-forest-alt.m-t-2.m-b-2(href="/teachers/starter-licenses")
+                b(data-i18n="general.learn_more")
+
     .container.m-t-5
-      .pull-right
-        span.glyphicon.glyphicon-question-sign
-        =' '
-        a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
       h3(data-i18n='teacher.enrollments')
-      h4#enrollments-blurb(data-i18n='teacher.enrollments_blurb')  
+      h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
       - var available = view.state.get('prepaidGroups').available
       - var pending = view.state.get('prepaidGroups').pending
       - var anyPrepaids = available || pending
+      
+      .text-center.m-t-3
+        span.glyphicon.glyphicon-question-sign
+        =' '
+        a#how-to-enroll-link(data-i18n="teacher.how_to_apply_licenses")
 
       .row.m-t-3
         if anyPrepaids
@@ -62,19 +78,19 @@ block content
 
           #actions-col.col-md-3
             +addCredits
-            +enrollmentStats
 
         else
           // no prepaids
-          .col-sm-6.col-lg-4.col-lg-offset-2
+          .col-sm-6.col-sm-offset-3.col-lg-4.col-lg-offset-4
             +addCredits
-          .col-sm-6.col-lg-4
-            +enrollmentStats
 
 mixin prepaidCard(prepaid, className)
   .prepaid-card.bg-navy.text-center.m-b-2.p-a-2(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
-    div(data-i18n="teacher.credits")
+    if prepaid.get('type') === 'starter_license'
+      div(data-i18n="teacher.starter_licenses")
+    else
+      div(data-i18n="teacher.credits")
     hr
     em.small-details
       .pull-left(data-i18n="teacher.start_date")
@@ -98,32 +114,3 @@ mixin addCredits
     else
       p.m-y-2(data-i18n="teacher.get_enrollments_blurb")
       button#contact-us-btn.btn-lg.btn.btn-forest(data-i18n="contribute.contact_us_url")
-
-
-mixin enrollmentStats
-  h5.text-center.m-t-3.m-b-2(data-i18n='teacher.enrollment_status')
-  table#enrollment-stats-table.table-condensed.table.small-details
-    tr
-      td
-        span(data-i18n='teacher.total_unique_students')
-        span.spr :
-      td= view.state.get('totalEnrolled') + view.state.get('totalNotEnrolled')
-    tr
-      td
-        span(data-i18n='teacher.total_enrolled_students')
-        span.spr :
-      td= view.state.get('totalEnrolled')
-    tr
-      th(data-i18n='teacher.unenrolled_students')
-      th= view.state.get('totalNotEnrolled')
-    each classroom in view.classrooms.models
-      if classroom.get('members').length > 0 && view.state.get('classroomNotEnrolledMap')[classroom.id] > 0
-        tr
-          td.classroom-name-td
-            span= classroom.get('name')
-            span.spr :
-          td= view.state.get('classroomNotEnrolledMap')[classroom.id]
-
-  .text-center
-    button#enroll-students-btn.btn.btn-lg.btn-navy
-      span(data-i18n='teacher.apply_licenses')

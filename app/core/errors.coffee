@@ -57,3 +57,17 @@ showErrorModal = (html) ->
   $('#modal-wrapper').html(html)
   $('.modal:visible').modal('hide')
   $('#modal-error').modal('show')
+
+shownWorkerError = false
+  
+module.exports.onWorkerError = ->
+  # TODO: Improve worker error handling in general
+  # TODO: Remove this code when IE11 is deprecated OR Aether is removed.
+  
+  # Sometimes on IE11, Aether isn't loaded. Handle that error by messaging the user, reloading the page.
+  # Note: Edge is also considered 'msie'.
+  if (not shownWorkerError) and $.browser.msie and $.browser.versionNumber is 11
+    text = 'Explorer failure. Reloading...'
+    shownWorkerError = true
+    setTimeout((-> document.location.reload()), 5000)
+    noty({text, layout: 'topCenter', type: 'error'})

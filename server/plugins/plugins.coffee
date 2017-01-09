@@ -1,6 +1,8 @@
 mongoose = require('mongoose')
 log = require 'winston'
 utils = require '../lib/utils'
+co = require 'co'
+errors = require '../commons/errors'
 
 module.exports.MigrationPlugin = (schema, migrations) ->
   # Property name migrations made EZ
@@ -159,6 +161,14 @@ module.exports.VersionedPlugin = (schema) ->
   # Prevent multiple documents with the same version
   # Also used for looking up latest version, or specific versions.
   schema.index({'original': 1, 'version.major': -1, 'version.minor': -1}, {unique: true, name: 'version index'})
+  
+  schema.statics.findCurrentVersion = co.wrap (original, projection) ->
+    if _.isString original
+      try
+        original = mongoose.Types.ObjectId(original)
+      catch e
+        throw new errors.UnprocessableEntity('Invalid id provided.')
+    return @findOne({original, 'version.isLatestMajor': true}, projection)
 
   schema.statics.getLatestMajorVersion = (original, options, done) ->
     options = options or {}

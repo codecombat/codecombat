@@ -132,6 +132,7 @@ _.extend ThangTypeSchema.properties,
   raster: {type: 'string', format: 'image-file', title: 'Raster Image'}
   rasterIcon: { type: 'string', format: 'image-file', title: 'Raster Image Icon' }
   containerIcon: { type: 'string' }
+  poseImage: { type: 'string', format: 'image-file', title: 'Pose Image' }
   featureImages: c.object { title: 'Hero Doll Images' },
     body: { type: 'string', format: 'image-file', title: 'Body' }
     head: { type: 'string', format: 'image-file', title: 'Head' }
@@ -205,7 +206,7 @@ _.extend ThangTypeSchema.properties,
         type: 'number'
       }
       spriteType: { enum: ['singular', 'segmented'], title: 'Sprite Type' }
-
+  restricted: {type: 'string', title: 'Restricted', description: 'If set, this ThangType will only be accessible by admins and whoever it is restricted to.'}
 
 ThangTypeSchema.required = []
 

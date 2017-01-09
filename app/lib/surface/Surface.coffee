@@ -72,6 +72,8 @@ module.exports = Surface = class Surface extends CocoClass
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
+    'tome:manual-cast': 'onManualCast'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -474,10 +476,11 @@ module.exports = Surface = class Surface extends CocoClass
       @fastForwardingToFrame = ffToFrame
       @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
+      buffer = if @world.indefiniteLength then 0 else @world.realTimeBufferMax
       lag = (@world.frames.length - 1) * @world.dt - @world.age
-      intendedLag = @world.realTimeBufferMax + @world.dt
+      intendedLag = @world.dt + buffer
       if lag > intendedLag * 1.2
-        @fastForwardingToFrame = @world.frames.length - @world.realTimeBufferMax * @world.frameRate
+        @fastForwardingToFrame = @world.frames.length - buffer * @world.frameRate
         @fastForwardingSpeed = lag / intendedLag
       else
         @fastForwardingToFrame = @fastForwardingSpeed = null
@@ -542,10 +545,10 @@ module.exports = Surface = class Surface extends CocoClass
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
     @gameUIState.trigger('surface:mouse-scrolled', event)
-    
-    
+
+
   #- Keyboard callbacks
-  
+
   onKeyEvent: (e) =>
     return unless @realTime
     event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
@@ -567,7 +570,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     else if @realTime or @options.spectateGame
-      pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
     else if $('#thangs-tab-view')
@@ -639,7 +642,18 @@ module.exports = Surface = class Surface extends CocoClass
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)
     e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
 
+  # Force sizing based on width for game-dev levels, so that the instructions panel doesn't obscure the game
+  onManualCast: ->
+    if @options.levelType is 'game-dev'
+      console.log "Force resize strategy"
+      @options.originalResizeStrategy = @options.resizeStrategy
+      @options.resizeStrategy = 'wrapper-size'
 
+  # Revert back to normal sizing when done playing a game-dev level
+  onStopRealTimePlayback: ->
+    if @options.levelType is 'game-dev'
+      console.log "Reset resize strategy"
+      @options.resizeStrategy = @options.originalResizeStrategy
 
   updatePaths: ->
     return unless @options.paths and @heroLank

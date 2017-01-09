@@ -118,7 +118,7 @@ describe '/db/user, editing stripe property', ->
       request.put {uri: userURL, json: body, headers: headers}, (err, res, body) ->
         expect(res.statusCode).toBe 403
         done()
-  
+
   it 'denies username-only users trying to subscribe', utils.wrap (done) ->
     user = yield utils.initUser({ email: undefined,  })
     yield utils.loginUser(user)
@@ -266,6 +266,9 @@ describe 'Subscriptions', ->
   webhookURL = getURL('/stripe/webhook')
   headers = {'X-Change-Plan': 'true'}
   invoicesWebHooked = {}
+  beforeEach utils.wrap (done) ->
+    yield utils.populateProducts()
+    done()
   afterEach nockUtils.teardownNock
 
   # Start helpers

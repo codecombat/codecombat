@@ -66,8 +66,8 @@ config.mail =
   supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY or ''
   supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM or ''
   supportSchools: process.env.COCO_MAIL_SUPPORT_SCHOOLS or ''
-  mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
-  mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
+  mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
+  mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
   stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
@@ -124,7 +124,7 @@ if process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
 
-config.buildInfo = {}
+config.buildInfo = { sha: 'dev' }
 
 if fs.existsSync path.join(__dirname, '.build_info.json')
   config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'

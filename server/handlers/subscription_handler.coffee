@@ -16,6 +16,7 @@ User = require '../models/User'
 StripeUtils = require '../lib/stripe_utils'
 moment = require 'moment'
 Product = require '../models/Product'
+{formatDollarValue} = require '../../app/core/utils'
 
 recipientCouponID = 'free'
 
@@ -54,7 +55,9 @@ class SubscriptionHandler extends Handler
       (done) =>
         stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
           # TODO: return error instead of ignore?
-          stripeSubscriptions.push(subscription) unless err
+          unless err
+            trimmedSubscription = _.pick(subscription, ['cancel_at_period_end', 'canceled_at', 'customerID', 'start', 'id', 'metadata'])
+            stripeSubscriptions.push(trimmedSubscription)
           done()
     tasks = []
     for subscription in req.body.subscriptions
@@ -172,7 +175,7 @@ class SubscriptionHandler extends Handler
                     @logSubscriptionError(req.user, "User save error: #{JSON.stringify(err)}")
                     return @sendDatabaseError(res, err)
                   try
-                    msg = "#{req.user.get('email')} paid #{payment.get('amount')} for year campaign subscription"
+                    msg = "#{req.user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for year campaign subscription"
                     slack.sendSlackMessage msg, ['tower']
                   catch error
                     @logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")
@@ -280,13 +283,16 @@ class SubscriptionHandler extends Handler
           @checkForExistingSubscription(req, user, customer, couponID, done)
 
     else
-      couponID = user.get('stripe')?.couponID
-      if user.get('country') is 'brazil'
-        couponID ?= 'brazil'
-      # SALE LOGIC
-      # overwrite couponID with another for everyone-sales
-      #couponID = 'hoc_399' if not couponID
-      @checkForExistingSubscription(req, user, customer, couponID, done)
+      Promise.resolve().then =>
+        couponID = user.get('stripe')?.couponID
+        return couponID if couponID or not user.get 'country'
+        return Product.findBasicSubscriptionForUser(user).then (product) ->
+          return couponID if product.name is 'basic_subscription'
+          # We have a customized product for this country
+          couponID = user.get 'country'
+          return couponID
+      .catch(done).then (couponID) =>
+        @checkForExistingSubscription(req, user, customer, couponID, done)
 
   checkForExistingSubscription: (req, user, customer, couponID, done) ->
     findStripeSubscription customer.id, subscriptionID: user.get('stripe')?.subscriptionID, (err, subscription) =>
@@ -326,11 +332,18 @@ class SubscriptionHandler extends Handler
         options = { plan: 'basic', metadata: {id: user.id}}
         options.coupon = couponID if couponID
         stripe.customers.createSubscription customer.id, options, (err, subscription) =>
-          if err
-            @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+          if not err
+            return @updateUser(req, user, customer, subscription, true, done)
+          @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+          if err.message.indexOf('No such coupon') is -1
             return done({res: 'Database error.', code: 500})
-
-          @updateUser(req, user, customer, subscription, true, done)
+          # Try again without the coupon
+          delete options.coupon
+          stripe.customers.createSubscription customer.id, options, (err, subscription) =>
+            if err
+              @logSubscriptionError(user, 'Stripe customer plan setting error. ' + err)
+              return done({res: 'Database error.', code: 500})
+            @updateUser(req, user, customer, subscription, true, done)
 
   updateUser: (req, user, customer, subscription, increment, done) ->
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})
@@ -343,13 +356,8 @@ class SubscriptionHandler extends Handler
     req.body.stripe = stripeInfo
     user.set('stripe', stripeInfo)
 
-    productName = 'basic_subscription'
-    if user.get('country') in ['brazil']
-      productName = "#{user.get('country')}_basic_subscription"
-
-    Product.findOne({name: productName}).exec (err, product) =>
-      return done({res: 'Database error.', code: 500}) if err
-      return done({res: 'basic_subscription product not found.', code: 404}) if not product
+    Product.findBasicSubscriptionForUser(user).catch(done).then (product) =>
+      return done({res: 'basic_subscription product not found.', code: 404}) unless product
 
       if increment
         purchased = _.clone(user.get('purchased'))

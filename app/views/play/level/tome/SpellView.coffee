@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
+ace = require 'ace'
 Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
@@ -131,9 +132,8 @@ module.exports = class SpellView extends CocoView
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
-    ace = @ace
-    addCommand = (c) ->
-      ace.commands.addCommand c
+    addCommand = (c) =>
+      @ace.commands.addCommand c
       aceCommands.push c.name
     addCommand
       name: 'run-code'
@@ -629,22 +629,22 @@ module.exports = class SpellView extends CocoView
       @lastScreenLineCount = screenLineCount
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
-      spellPaletteView = $('#spell-palette-view')
       spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
+      @spellPaletteHeight ?= 75
       spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
       maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
+      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
       # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
       newTop = 185 + lineHeight * lines
-      spellPaletteView.css('top', newTop)
+      #spellPaletteView.css('top', newTop)
       # Expand it to bottom of tome if too short.
-      newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
-      spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+      #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
+      #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
 
   hideProblemAlert: ->
     return if @destroyed
@@ -1265,7 +1265,7 @@ module.exports = class SpellView extends CocoView
 
   onWindowResize: (e) =>
     @spellPaletteHeight = null
-    $('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
+    #$('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->

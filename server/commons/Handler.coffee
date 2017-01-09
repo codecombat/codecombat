@@ -92,15 +92,15 @@ module.exports = class Handler
     errors.custom(res, code, message)
 
   sendSuccess: (res, message='{}') ->
-    res.send 200, message
+    res.status(200).send message
     res.end()
 
   sendCreated: (res, message='{}') ->
-    res.send 201, message
+    res.status(201).send message
     res.end()
 
   sendAccepted: (res, message='{}') ->
-    res.send 202, message
+    res.status(202).send message
     res.end()
 
   sendNoContent: (res) ->
@@ -155,12 +155,14 @@ module.exports = class Handler
         else
           projection = {}
           projection[field] = 1 for field in req.query.project.split(',')
+      projection?.restricted = 1
       for filter in filters
         callback = (err, results) =>
           return @sendDatabaseError(res, err) if err
           for r in results.results ? results
             obj = r.obj ? r
             continue if obj in matchedObjects  # TODO: probably need a better equality check
+            continue if obj.get('restricted') and not req.user?.isAdmin() and not (obj.get('restricted') is 'code-play' and req.features.codePlay)
             matchedObjects.push obj
           filters.pop()  # doesn't matter which one
           unless filters.length
@@ -227,8 +229,8 @@ module.exports = class Handler
   getByRelationship: (req, res, args...) ->
     # this handler should be overwritten by subclasses
     if @modelClass.schema.is_patchable
-      return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
-      return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
+      return @getPatchesFor(req, res, args[0]) if req.method is 'GET' and args[1] is 'patches'
+      return @setWatching(req, res, args[0]) if req.method is 'PUT' and args[1] is 'watch'
     return @sendNotFoundError(res)
 
   getNamesByIDs: (req, res) ->
@@ -364,8 +366,15 @@ module.exports = class Handler
       return @sendNotFoundError(res) unless document?
       return @sendForbiddenError(res) unless @hasAccessToDocument(req, document)
       @doWaterfallChecks req, document, (err, document) =>
-        return if err is true
-        return @sendError(res, err.code, err.res) if err
+        if err is true
+          # Unknown why this was done; let's log it to see when this happens.
+          console.error "Ignoring some true waterfall error"
+          return
+        if err
+          if err.code? or err?.res
+            return @sendError(res, err.code, err.res) if err
+          console.error "Ill-formatted error in waterfall checks: #{err.stack}"
+          return @sendError(res, 500, 'Internal server error (waterfall)') if err
         @saveChangesToDocument req, document, (err) =>
           return @sendBadInputError(res, err.errors) if err?.valid is false
           return @sendDatabaseError(res, err) if err
@@ -510,12 +519,14 @@ module.exports = class Handler
     idOrSlug = idOrSlug+''
     if Handler.isID(idOrSlug)
       query = @modelClass.findById(idOrSlug)
-    else
+    else if @modelClass.schema.uses_coco_names
       if not idOrSlug or idOrSlug is 'undefined'
         console.error "Bad request trying to fetching the slug: #{idOrSlug} for #{@modelClass.collection?.name}"
         console.trace()
         return done null, null
       query = @modelClass.findOne {slug: idOrSlug}
+    else
+      return done(null, null)
     query.select projection if projection
     query.exec (err, document) ->
       done(err, document)

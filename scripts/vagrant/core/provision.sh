@@ -62,4 +62,5 @@ sudo apt-get -y install --no-install-recommends mongodb-org
 
 # populate mongo
 echo "populating mongodb..."
+chmod a+x /vagrant/scripts/vagrant/core/fillMongo.sh
 exec /vagrant/scripts/vagrant/core/fillMongo.sh

@@ -12,9 +12,8 @@ block content
           if view.activeClasses.length > 0
             div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
         .col-md-5.big-stat.recurring-revenue
-          div.description Monthly Recurring Revenue
-          if view.revenue.length > 0
-            div.count $#{Math.round((view.revenue[0].groups[view.revenue[0].groups.length - 1]) / 100)}
+          div.description Home Monthly Recurring Revenue
+          div.count $#{Math.round((view.yearMonthMrrMap[new Date().toISOString().substring(0, 7)] || 0) / 100)}
         .col-md-5.big-stat.classroom-active-users
           div.description Classroom Monthly Active Users
           if view.activeUsers.length > 0
@@ -81,18 +80,40 @@ block content
 
 
       .tab-pane#tab_revenue
-        h3 Daily Recurring Revenue 90 days
+        br
+        ul
+          li
+            a(href="#revenueHomeDaily90") Home Daily Revenue 90 days
+          li
+            a(href="#revenueHomeMonthly90") Home Monthly Revenue 90 days
+          li
+            a(href="#revenueHomDaily365") Home Daily Revenue 365 days
+          li
+            a(href="#revenueHomeMonthly365") Home Monthly Revenue 365 days
+          li
+            a(href="#revenueSchoolSales") School Sales
+          li
+            a(href="#revenueHomeMrr") Home MRR
+          li
+            a(href="#revenueHomeRevenue") Home Revenue
+
+        a(name="revenueHomeDaily90")
+        h3 Home Daily Revenue 90 days
         .recurring-daily-revenue-chart-90.line-chart-container
 
-        h3 Monthly Recurring Revenue 90 days
+        a(name="revenueHomeMonthly90")
+        h3 Home Monthly Revenue 90 days
         .recurring-monthly-revenue-chart-90.line-chart-container
 
-        h3 Daily Recurring Revenue 365 days
+        a(name="revenueHomDaily365")
+        h3 Home Daily Revenue 365 days
         .recurring-daily-revenue-chart-365.line-chart-container
 
-        h3 Monthly Recurring Revenue 365 days
+        a(name="revenueHomeMonthly365")
+        h3 Home Monthly Revenue 365 days
         .recurring-monthly-revenue-chart-365.line-chart-container
 
+        a(name="revenueSchoolSales")
         .school-sales
           h3 School Sales
           if view.schoolSales
@@ -121,7 +142,28 @@ block content
           else
             div Loading ...
 
-        h1 Recurring Revenue
+        a(name="revenueHomeMrr")
+        h1 Home MRR
+        .small MRR = yearly subs + monthly subs + terminal subs + gems
+        .small Yearly sub purchase values not spread across timeframe.
+        .small Terminal sub purchase values not spread across timeframe.
+        table.table.table-striped.table-condensed
+          tr
+            th Month
+            th Gems
+            th Monthly subs
+            th Yearly subs
+            th MRR
+          each revenue, month in view.monthMrrMap
+            tr
+              td= month
+              td= Math.round(revenue.gems / 100)
+              td= Math.round(revenue.monthly / 100)
+              td= Math.round(revenue.yearly / 100)
+              td= Math.round(revenue.total / 100)
+
+        a(name="revenueHomeRevenue")
+        h1 Home Revenue
         table.table.table-striped.table-condensed
           tr
             th(style='min-width:85px;') Day

@@ -13,6 +13,8 @@ CampaignLevelView = require './CampaignLevelView'
 SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
 
+require 'game-libraries'
+
 achievementProject = ['related', 'rewards', 'name', 'slug']
 thangTypeProject = ['name', 'original']
 

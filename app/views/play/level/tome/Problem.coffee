@@ -1,3 +1,4 @@
+ace = require 'ace'
 Range = ace.require('ace/range').Range
 
 # This class can either wrap an AetherProblem,

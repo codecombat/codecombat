@@ -28,7 +28,11 @@ mixin accountLinks
                 span.icon-bar
                 span.icon-bar
               a.navbar-brand(href="/")
-                img#logo-img(src="/images/pages/base/logo.png")
+                if serverConfig.codeNinjas
+                  img#logo-img.code-ninjas-powered-by(src="/images/pages/base/logo.png")
+                  img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
+                else
+                  img#logo-img(src="/images/pages/base/logo.png")
                 span.glyphicon.glyphicon-home
 
             #navbar-collapse.collapse.navbar-collapse
@@ -38,7 +42,7 @@ mixin accountLinks
                 if me.isStudent()
                   li
                     a(href="/students", data-i18n="nav.my_courses")
-                if me.isTeacher()
+                if !me.isAnonymous() && me.isTeacher()
                   li
                     a(href="/teachers/classes", data-i18n="nav.my_classrooms")
                 if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
@@ -105,18 +109,19 @@ mixin accountLinks
                 li
                   a(href="/privacy", data-i18n="nav.privacy")
 
-            .col-sm-3
-              ul.list-unstyled
-                li
-                  strong(data-i18n="nav.schools")
-                li
-                  a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
-                li
-                  a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                li
-                  a(href="/teachers/resources", data-i18n="nav.resource_hub")
-                li
-                  a(href="/teachers/demo", data-i18n="new_home.request_demo")
+            if !me.isStudent()
+              .col-sm-3
+                ul.list-unstyled
+                  li
+                    strong(data-i18n="nav.schools")
+                  li
+                    a(href="/teachers/resources/faq", data-i18n="teacher.educator_faq")
+                  li
+                    a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  li
+                    a(href="/teachers/resources", data-i18n="nav.resource_hub")
+                  li
+                    a(href="/teachers/demo", data-i18n="new_home.request_demo")
 
             .col-sm-3
               ul.list-unstyled
@@ -137,8 +142,9 @@ mixin accountLinks
               ul.list-unstyled
                 li
                   strong(data-i18n="nav.support")
-                li
-                  a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+                if !me.isStudent()
+                  li
+                    a.contact-modal(tabindex=-1, data-i18n="nav.contact")
                 li
                   a(href="https://www.facebook.com/codecombat", data-i18n="nav.facebook")
                 li
@@ -149,7 +155,8 @@ mixin accountLinks
         br.hidden-lg.hidden-md
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md
-        span.spr(data-i18n="nav.help_pref")
-        - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
-        a(href="mailto:" + supportEmail)= supportEmail
-        span.spl(data-i18n="nav.help_suff")
+        if !me.isStudent()
+          span.spr(data-i18n="nav.help_pref")
+          - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
+          a(href="mailto:" + supportEmail)= supportEmail
+          span.spl(data-i18n="nav.help_suff")

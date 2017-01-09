@@ -7,6 +7,7 @@ conceptList =require 'schemas/concepts'
 ThangType = require 'models/ThangType'
 
 ThangTypes = require 'collections/ThangTypes'
+ace = require 'ace'
 
 class ActualTagView extends CocoView
   template: require 'templates/artisans/tag-test-tags-view'

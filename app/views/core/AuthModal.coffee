@@ -150,9 +150,8 @@ formSchema = {
 }
 
 loginNavigate = ->
-  if me.isStudent()
+  if me.isStudent() and not me.isAdmin()
     application.router.navigate('/students', {trigger: true})
-  else if me.isTeacher()
+  else if me.isTeacher() and not me.isAdmin()
     application.router.navigate('/teachers/classes', {trigger: true})
   window.location.reload()
-
