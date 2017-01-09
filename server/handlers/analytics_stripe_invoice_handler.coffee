@@ -13,7 +13,7 @@ class AnalyticsStripeInvoiceHandler extends Handler
     super(arguments...)
 
   getAll: (req, res) ->
-    AnalyticsStripeInvoice.find {}, (err, docs) =>
+    AnalyticsStripeInvoice.find({}).lean().exec (err, docs) =>
       return @sendDatabaseError(res, err) if err
       @sendSuccess(res, docs)
 

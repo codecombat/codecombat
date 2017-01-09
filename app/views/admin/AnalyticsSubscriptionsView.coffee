@@ -74,7 +74,7 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     cancellations = []
     @getCancellationEvents (cancelledSubscriptions) =>
       # Get user objects for cancelled subscriptions
-      userIDs = _.map cancelledSubscriptions, (a) -> a.userID
+      userIDs = _.filter(_.map(cancelledSubscriptions, (a) -> a.userID), (b) -> b?)
       options =
         url: '/db/user/-/users'
         method: 'POST'
@@ -132,10 +132,11 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
 
   getOutstandingCancelledSubscriptions: (cancellations, done) ->
     @updateFetchDataState "Fetching oustanding cancellations..."
+    trimmedCancellations = _.map(cancellations, (a) -> _.pick(a, ['customerID', 'subscriptionID']))
     options =
       url: '/db/subscription/-/stripe_subscriptions'
       method: 'POST'
-      data: {subscriptions: cancellations}
+      data: {subscriptions: trimmedCancellations}
     options.error = (model, response, options) =>
       return if @destroyed
       console.error 'Failed to get outstanding cancellations', response
