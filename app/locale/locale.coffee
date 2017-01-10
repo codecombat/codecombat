@@ -66,7 +66,7 @@ module.exports =
   'sv': { nativeDescription: 'Svenska', englishDescription: 'Swedish' }
   'th': { nativeDescription: 'ไทย', englishDescription: 'Thai' }
   'tr': { nativeDescription: 'Türkçe', englishDescription: 'Turkish' }
-  'uk': { nativeDescription: 'українська мова', englishDescription: 'Ukrainian' }
+  'uk': { nativeDescription: 'українська', englishDescription: 'Ukrainian' }
   'ur': { nativeDescription: 'اُردُو', englishDescription: 'Urdu' }
   'vi': { nativeDescription: 'Tiếng Việt', englishDescription: 'Vietnamese' }
   'zh-WUU-HANS': { nativeDescription: '吴语', englishDescription: 'Wuu (Simplified)' }

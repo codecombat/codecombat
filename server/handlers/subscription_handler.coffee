@@ -55,7 +55,9 @@ class SubscriptionHandler extends Handler
       (done) =>
         stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) =>
           # TODO: return error instead of ignore?
-          stripeSubscriptions.push(subscription) unless err
+          unless err
+            trimmedSubscription = _.pick(subscription, ['cancel_at_period_end', 'canceled_at', 'customerID', 'start', 'id', 'metadata'])
+            stripeSubscriptions.push(trimmedSubscription)
           done()
     tasks = []
     for subscription in req.body.subscriptions
