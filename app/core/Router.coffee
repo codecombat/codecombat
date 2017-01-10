@@ -19,7 +19,6 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
-    'sales-dashboard': go('SalesDashboardView')
 
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
@@ -47,6 +46,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
+    'admin/skipped-contacts': go('admin/SkippedContactsView')
 
     'artisans': go('artisans/ArtisansView')
 

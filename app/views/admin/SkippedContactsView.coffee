@@ -2,7 +2,6 @@ RootView = require 'views/core/RootView'
 template = require 'templates/base-flat'
 SkippedContacts = require 'collections/SkippedContacts'
 User = require 'models/User'
-# TODO: Stop using old co, switch to the kind that uses co.wrap
 require('vendor/co')
 require('vendor/vue')
 require('vendor/vuex')
@@ -19,7 +18,7 @@ skippedContactApi =
     })
 
 SkippedContactInfo =
-  template: require('templates/sales-dashboard/skipped-contact-info')()
+  template: require('templates/admin/skipped-contacts/skipped-contact-info')()
   props:
     skippedContact:
       type: Object
@@ -89,8 +88,8 @@ SkippedContactInfo =
       @$store.dispatch('archiveContact', {@skippedContact, archived})
       # @$emit('archiveContact', @skippedContact, archived)
 
-SalesDashboardComponent = Vue.extend
-  template: require('templates/sales-dashboard/sales-dashboard-view')()
+SkippedContactsComponent = Vue.extend
+  template: require('templates/admin/skipped-contacts/skipped-contacts-view')()
   data: ->
     sortOrder: 'date (ascending)'
     showArchived: true
@@ -115,12 +114,6 @@ SalesDashboardComponent = Vue.extend
     )
   components:
     'skipped-contact-info': SkippedContactInfo
-  # methods:
-    # archiveContact: (skippedContact, archived) ->
-    #   @$store.commit('archiveContact', {skippedContact, archived})
-      # index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
-      # oldContact = @skippedContacts[index]
-      # Vue.set(@skippedContacts, index, _.assign({}, oldContact, { archived }))
   created: co.wrap ->
     skippedContacts = new SkippedContacts()
     yield skippedContacts.fetch()
@@ -131,14 +124,13 @@ SalesDashboardComponent = Vue.extend
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
       yield user.fetch()
       @$store.commit('addUser', { skippedContact , user: user.toJSON() })
-      # Vue.set(@users, skippedContact._id, user.toJSON())
 
-
-module.exports = class SalesDashboardView extends RootView
-  id: 'sales-dashboard-view'
+module.exports = class SkippedContactsView extends RootView
+  id: 'skipped-contacts-view'
   template: template
 
   initialize: ->
+    super(arguments...)
     # Vuex Store
     @store = new Vuex.Store({
       state:
@@ -148,8 +140,7 @@ module.exports = class SalesDashboardView extends RootView
         archiveContact: ({ commit, state }, {skippedContact, archived}) ->
           skippedContactApi.setArchived(skippedContact._id, archived).then ->
             commit('archiveContact', {skippedContact, archived})
-      # strict: true
-      # plugins: true
+      strict: not application.isProduction()
       mutations:
         archiveContact: (state, { skippedContact, archived }) ->
           index = _.findIndex(state.skippedContacts, (s) -> s._id is skippedContact._id)
@@ -167,7 +158,7 @@ module.exports = class SalesDashboardView extends RootView
 
   afterRender: ->
     @vueComponent?.$destroy() # TODO: Don't recreate this component every time things update
-    @vueComponent = new SalesDashboardComponent({
+    @vueComponent = new SkippedContactsComponent({
       el: @$el.find('#site-content-area')[0]
       store: @store
     })
