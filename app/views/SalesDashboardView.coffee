@@ -3,6 +3,9 @@ template = require 'templates/base-flat'
 SkippedContacts = require 'collections/SkippedContacts'
 User = require 'models/User'
 # TODO: Stop using old co, switch to the kind that uses co.wrap
+require('vendor/co')
+require('vendor/vue')
+require('vendor/vuex')
 
 skippedContactApi =
   setArchived: (_id, archived) ->
@@ -96,7 +99,6 @@ SalesDashboardComponent = Vue.extend
       Vuex.mapState(['skippedContacts', 'users']),
       Vuex.mapGetters(['numArchivedUsers']),
       sortedContacts: (state) ->
-        console.log "Calculating: SortedContacts"
         switch state.sortOrder
           when 'date (ascending)'
             return _(state.skippedContacts).sortBy((s) -> s.trialRequest.created).value()
@@ -107,7 +109,6 @@ SalesDashboardComponent = Vue.extend
           when 'archived'
             return _(state.skippedContacts).sortBy((s) -> !!s.archived).reverse().value()
           when 'unarchived'
-            console.log _(state.skippedContacts).sortBy((s) -> !!s.archived).map((s)->s.archived).value()
             return _(state.skippedContacts).sortBy((s) -> !!s.archived).value()
           else
             return state.skippedContacts
@@ -120,12 +121,12 @@ SalesDashboardComponent = Vue.extend
       # index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
       # oldContact = @skippedContacts[index]
       # Vue.set(@skippedContacts, index, _.assign({}, oldContact, { archived }))
-  created: co ->
+  created: co.wrap ->
     skippedContacts = new SkippedContacts()
     yield skippedContacts.fetch()
     skippedContacts = skippedContacts.toJSON()
     @$store.commit('loadContacts', skippedContacts)
-    yield skippedContacts.map co (skippedContact) =>
+    yield skippedContacts.map co.wrap (skippedContact) =>
       user = new User({ _id: skippedContact.trialRequest.applicant })
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
       yield user.fetch()
@@ -145,26 +146,21 @@ module.exports = class SalesDashboardView extends RootView
         users: {}
       actions:
         archiveContact: ({ commit, state }, {skippedContact, archived}) ->
-          console.log "Action: Archiving Contact"
           skippedContactApi.setArchived(skippedContact._id, archived).then ->
             commit('archiveContact', {skippedContact, archived})
       # strict: true
       # plugins: true
       mutations:
         archiveContact: (state, { skippedContact, archived }) ->
-          console.log "Mutation: Archiving Contact"
           index = _.findIndex(state.skippedContacts, (s) -> s._id is skippedContact._id)
           oldContact = state.skippedContacts[index]
           Vue.set(state.skippedContacts, index, _.assign({}, oldContact, { archived }))
         addUser: (state, { skippedContact, user }) ->
-          console.log "Mutation: Adding User"
           Vue.set(state.users, skippedContact._id, user)
         loadContacts: (state, skippedContacts) ->
-          console.log "Mutation: Initializing Loaded Contacts"
           state.skippedContacts = skippedContacts
       getters:
         numArchivedUsers: (state) ->
-          console.log "Calculating: numArchivedUsers"
           _.countBy(state.skippedContacts, (contact) -> contact.archived)[true]
     })
 
