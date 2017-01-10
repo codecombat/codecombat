@@ -16,6 +16,8 @@
         | email address
       option(value="archived")
         | archived
+      option(value="unarchived")
+        | unarchived
 
   ol.skipped-contacts
     li( is="skipped-contact-info",
@@ -23,5 +25,4 @@
         v-if="showArchived || !skippedContact.archived",
         :key="skippedContact._id",
         :skippedContact="skippedContact",
-        :user="users[skippedContact._id]",
-        v-on:archiveContact="archiveContact")
+        :user="users[skippedContact._id]")

@@ -79,58 +79,101 @@ SkippedContactInfo =
   methods:
     onClickArchiveContact: (e) ->
       archived = true
-      @$emit('archiveContact', @skippedContact, archived)
+      @$store.dispatch('archiveContact', {@skippedContact, archived})
+      # @$emit('archiveContact', @skippedContact, archived)
     onClickUnarchiveContact: (e) ->
       archived = false
-      @$emit('archiveContact', @skippedContact, archived)
+      @$store.dispatch('archiveContact', {@skippedContact, archived})
+      # @$emit('archiveContact', @skippedContact, archived)
 
 SalesDashboardComponent = Vue.extend
   template: require('templates/sales-dashboard/sales-dashboard-view')()
   data: ->
-    skippedContacts: []
-    users: {}
-    showArchived: true
     sortOrder: 'date (ascending)'
+    showArchived: true
   computed:
-    numArchivedUsers: ->
-      _.countBy(@skippedContacts, (contact) -> contact.archived)[true]
-    sortedContacts: ->
-      switch @sortOrder
-        when 'date (ascending)'
-          return _(@skippedContacts).sortBy((s) -> s.trialRequest.created).value()
-        when 'date (descending)'
-          return _(@skippedContacts).sortBy((s) -> s.trialRequest.created).reverse().value()
-        when 'email'
-          return _(@skippedContacts).sortBy((s) -> s.trialRequest.properties.email).value()
-        when 'archived'
-          return _(@skippedContacts).sortBy((s) -> !!s.archived).value()
-        else
-          return @skippedContacts
+    _.assign({},
+      Vuex.mapState(['skippedContacts', 'users']),
+      Vuex.mapGetters(['numArchivedUsers']),
+      sortedContacts: (state) ->
+        console.log "Calculating: SortedContacts"
+        switch state.sortOrder
+          when 'date (ascending)'
+            return _(state.skippedContacts).sortBy((s) -> s.trialRequest.created).value()
+          when 'date (descending)'
+            return _(state.skippedContacts).sortBy((s) -> s.trialRequest.created).reverse().value()
+          when 'email'
+            return _(state.skippedContacts).sortBy((s) -> s.trialRequest.properties.email).value()
+          when 'archived'
+            return _(state.skippedContacts).sortBy((s) -> !!s.archived).reverse().value()
+          when 'unarchived'
+            console.log _(state.skippedContacts).sortBy((s) -> !!s.archived).map((s)->s.archived).value()
+            return _(state.skippedContacts).sortBy((s) -> !!s.archived).value()
+          else
+            return state.skippedContacts
+    )
   components:
     'skipped-contact-info': SkippedContactInfo
-  methods:
-    archiveContact: co (skippedContact, archived) ->
-      yield skippedContactApi.setArchived(skippedContact._id, archived)
-      index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
-      oldContact = @skippedContacts[index]
-      Vue.set(@skippedContacts, index, _.assign({}, oldContact, { archived }))
+  # methods:
+    # archiveContact: (skippedContact, archived) ->
+    #   @$store.commit('archiveContact', {skippedContact, archived})
+      # index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
+      # oldContact = @skippedContacts[index]
+      # Vue.set(@skippedContacts, index, _.assign({}, oldContact, { archived }))
   created: co ->
     skippedContacts = new SkippedContacts()
     yield skippedContacts.fetch()
-    @skippedContacts = skippedContacts.toJSON()
-    yield @skippedContacts.map co (skippedContact) =>
+    skippedContacts = skippedContacts.toJSON()
+    @$store.commit('loadContacts', skippedContacts)
+    yield skippedContacts.map co (skippedContact) =>
       user = new User({ _id: skippedContact.trialRequest.applicant })
       index = _.findIndex(@skippedContacts, (s) -> s._id is skippedContact._id)
       yield user.fetch()
-      Vue.set(@users, skippedContact._id, user.toJSON())
+      @$store.commit('addUser', { skippedContact , user: user.toJSON() })
+      # Vue.set(@users, skippedContact._id, user.toJSON())
+
 
 module.exports = class SalesDashboardView extends RootView
   id: 'sales-dashboard-view'
   template: template
 
+  initialize: ->
+    # Vuex Store
+    @store = new Vuex.Store({
+      state:
+        skippedContacts: []
+        users: {}
+      actions:
+        archiveContact: ({ commit, state }, {skippedContact, archived}) ->
+          console.log "Action: Archiving Contact"
+          skippedContactApi.setArchived(skippedContact._id, archived).then ->
+            commit('archiveContact', {skippedContact, archived})
+      # strict: true
+      # plugins: true
+      mutations:
+        archiveContact: (state, { skippedContact, archived }) ->
+          console.log "Mutation: Archiving Contact"
+          index = _.findIndex(state.skippedContacts, (s) -> s._id is skippedContact._id)
+          oldContact = state.skippedContacts[index]
+          Vue.set(state.skippedContacts, index, _.assign({}, oldContact, { archived }))
+        addUser: (state, { skippedContact, user }) ->
+          console.log "Mutation: Adding User"
+          Vue.set(state.users, skippedContact._id, user)
+        loadContacts: (state, skippedContacts) ->
+          console.log "Mutation: Initializing Loaded Contacts"
+          state.skippedContacts = skippedContacts
+      getters:
+        numArchivedUsers: (state) ->
+          console.log "Calculating: numArchivedUsers"
+          _.countBy(state.skippedContacts, (contact) -> contact.archived)[true]
+    })
+
+
   afterRender: ->
     @vueComponent?.$destroy() # TODO: Don't recreate this component every time things update
     @vueComponent = new SalesDashboardComponent({
       el: @$el.find('#site-content-area')[0]
-      })
+      store: @store
+    })
+
     super(arguments...)
