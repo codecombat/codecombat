@@ -75,7 +75,12 @@ getUser = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  exception = req.client.id is '582a134eb9bce324006210e7' and user.get('israelId')
+  isSnowplow = req.client.id is '5876a40d19b82624002cf18d'
+  exception = _.any([
+    req.client.id is '582a134eb9bce324006210e7' and user.get('israelId') # israel access to its users
+    isSnowplow # snowplow read access
+  ])
+  
   unless exception or req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user.')
 
