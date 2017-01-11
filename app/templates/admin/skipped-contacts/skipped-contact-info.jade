@@ -13,7 +13,8 @@ li.skipped-contact-info(v-if="skippedContact")
     div(v-if="queryString")
       | Search string we tried to use:
       pre
-        {{ queryString }}
+        a(:href="queryURL")
+          {{ queryString }}
     .row
       .col-md-6
         h4 Trial request data:
