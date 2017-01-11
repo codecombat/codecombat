@@ -24,7 +24,7 @@ cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate/1000).toString(16)+'000
 module.exports =
   # Create a prepaid manually (as an admin)
   post: wrap (req, res) ->
-    validTypes = ['course']
+    validTypes = ['course', 'starter_license']
     unless req.body.type in validTypes
       throw new errors.UnprocessableEntity("Prepaid type must be one of: #{validTypes}.")
       # TODO: deprecate or refactor other prepaid types
@@ -60,7 +60,7 @@ module.exports =
       throw new errors.Forbidden('You may not redeem licenses from this prepaid')
     unless prepaid.get('type') in ['course', 'starter_license']
       throw new errors.Forbidden('This prepaid is not of type "course" or "starter_license"')
-    if user.isEnrolled()
+    unless prepaid.canReplaceUserPrepaid(user.get('coursePrepaid'))
       return res.status(200).send(prepaid.toObject({req: req}))
 
     yield prepaid.redeem(user)

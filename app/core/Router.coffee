@@ -46,6 +46,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
+    'admin/skipped-contacts': go('admin/SkippedContactsView')
 
     'artisans': go('artisans/ArtisansView')
 
@@ -210,7 +211,7 @@ module.exports = class CocoRouter extends Backbone.Router
     if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
       return @navigate('/play', { trigger: true, replace: true })
     path = 'play/CampaignView' if features.playOnly and not /^(views)?\/?play/.test(path)
-    
+
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)

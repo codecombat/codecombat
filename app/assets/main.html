@@ -30,17 +30,18 @@
   <link rel="stylesheet" href="/shaTag/stylesheets/app.css">
   <link href='//fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
 
+
   <script>
     var DEXECURE_URL = "/dexecure-c167a5675c.js";
     "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
 
-    
+
     // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
 
   </script>
-  
 
-  
+
+
 
   <!-- IE9 doesn't support defer attribute: https://github.com/h5bp/lazyweb-requests/issues/42 -->
   <!--[if IE 9]>
@@ -56,7 +57,7 @@
   <script src="/shaTag/javascripts/vendor.js" defer></script>
   <script src="/shaTag/javascripts/app.js" defer></script>
   <![endif]>
-  
+
   <script src="/user-data?sha=shaTag"></script>
 
   <!-- Google Analytics -->
@@ -86,7 +87,7 @@
   </script>
 
   <script src="https://checkout.stripe.com/checkout.js"></script>
-    
+
   <!-- CodePlay Tags Header -->
 
   <script>

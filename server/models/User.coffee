@@ -372,6 +372,12 @@ UserSchema.methods.isEnrolled = ->
   return true unless coursePrepaid.endDate
   return coursePrepaid.endDate > new Date().toISOString()
 
+UserSchema.methods.prepaidType = ->
+  # TODO: remove once legacy prepaidIDs are migrated to objects
+  return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
+  # NOTE: Default type is 'course' if no type is marked on the user's copy
+  return @get('coursePrepaid')?.type or 'course'
+
 UserSchema.methods.prepaidIncludesCourse = (course) ->
   # TODO: Migrate legacy prepaids that just use coursePrepaidID
   return false if not (@get('coursePrepaid') or @get('coursePrepaidID'))
