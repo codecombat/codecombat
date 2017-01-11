@@ -383,7 +383,9 @@ module.exports = class TeacherClassView extends RootView
       for course in @sortedCourses
         courseCountsMap[course._id] ?= {levels: 0, playtime: 0}
       courseCounts = []
-      for courseID, data of courseCountsMap
+      for course in @sortedCourses
+        courseID = course._id
+        data = courseCountsMap[courseID]
         courseCounts.push
           id: courseID
           levels: data.levels
