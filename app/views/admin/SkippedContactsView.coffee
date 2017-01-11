@@ -78,6 +78,9 @@ SkippedContactInfo =
           query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\"";
         return query
 
+    queryURL: ->
+      "https://app.close.io/search/" + encodeURIComponent(@queryString)
+
   methods:
     onClickArchiveContact: (e) ->
       archived = true
