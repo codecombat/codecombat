@@ -71,11 +71,11 @@ SkippedContactInfo =
       if @skippedContact.trialRequest
         trialRequest = @skippedContact.trialRequest
         leadName = trialRequest.properties.nces_name or trialRequest.properties.organization or trialRequest.properties.school or trialRequest.properties.district or trialRequest.properties.nces_district or trialRequest.properties.email
-        query = "name:\"#{leadName}\"";
+        query = "name:\"#{leadName}\""
         if (trialRequest.properties.nces_school_id)
-          query = "custom.demo_nces_id:\"#{trialRequest.properties.nces_school_id}\"";
+          query = "custom.demo_nces_id:\"#{trialRequest.properties.nces_school_id}\""
         else if (trialRequest.properties.nces_district_id)
-          query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\"";
+          query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\""
         return query
 
     queryURL: ->
