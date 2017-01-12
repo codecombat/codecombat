@@ -11,6 +11,7 @@ waitingModal = null
 classCount = 0
 makeScopeName = -> "view-scope-#{classCount++}"
 doNothing = ->
+ViewLoadTimer = require 'core/ViewLoadTimer'
 
 module.exports = class CocoView extends Backbone.View
   cache: false # signals to the router to keep this view around
@@ -235,6 +236,7 @@ module.exports = class CocoView extends Backbone.View
       return if softly
       return visibleModal.hide() if visibleModal.$el.is(':visible') # close, then this will get called again
       return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
+    viewLoad = new ViewLoadTimer(modalView)
     modalView.render()
     
     # Redirect to the woo when trying to log in or signup
@@ -252,7 +254,8 @@ module.exports = class CocoView extends Backbone.View
     window.currentModal = modalView
     @getRootView().stopListeningToShortcuts(true)
     Backbone.Mediator.publish 'modal:opened', {}
-    modalView
+    viewLoad.record()
+    return modalView
 
   modalClosed: =>
     visibleModal.willDisappear() if visibleModal
