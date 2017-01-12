@@ -159,7 +159,58 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     student = yield User.findById(@student.id)
     expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
     done()
-  
+
+  it 'replaces a starter license with a full license', utils.wrap (done) ->
+    yield utils.loginUser(@admin)
+    oldPrepaid = yield utils.makePrepaid({
+      creator: @teacher.id
+      startDate: moment().subtract(2, 'month').toISOString()
+      endDate: moment().add(4, 'month').toISOString()
+      type: 'starter_license'
+    })
+    @student.set('coursePrepaid', _.pick(oldPrepaid.toObject(), '_id', 'startDate', 'endDate', 'type'))
+    yield @student.save()
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.postAsync {uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(1)
+    expect(res.statusCode).toBe(201)
+    prepaid = yield Prepaid.findById(@prepaid._id)
+    expect(prepaid.get('redeemers').length).toBe(1)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
+    done()
+
+  it 'does NOT replace a full license with a starter license', utils.wrap (done) ->
+    yield utils.loginUser(@admin)
+    @prepaid.set({
+      creator: @teacher.id
+      startDate: moment().subtract(2, 'month').toISOString()
+      endDate: moment().add(4, 'month').toISOString()
+      type: 'starter_license'
+    })
+    yield @prepaid.save()
+    oldPrepaid = yield utils.makePrepaid({
+      creator: @teacher.id
+      startDate: moment().subtract(2, 'month').toISOString()
+      endDate: moment().add(10, 'month').toISOString()
+      type: 'course'
+    })
+    yield oldPrepaid.redeem(@student)
+    yield utils.loginUser(@teacher)
+
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')._id.equals(oldPrepaid._id)).toBe(true)
+    expect(student.get('coursePrepaid')._id.toString()).toBe(oldPrepaid._id.toString())
+
+    [res, body] = yield request.postAsync {uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(0)
+    expect(res.statusCode).toBe(200)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')._id.equals(oldPrepaid._id)).toBe(true)
+    expect(student.get('coursePrepaid')._id.toString()).toBe(oldPrepaid._id.toString())
+    expect((yield Prepaid.findById(oldPrepaid._id)).get('redeemers').length).toBe(1)
+    done()
+
   it 'adds includedCourseIDs to the user when redeeming', utils.wrap (done) ->
     yield utils.loginUser(@admin)
     @prepaid.set({

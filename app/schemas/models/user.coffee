@@ -351,8 +351,8 @@ _.extend UserSchema.properties,
       _id: c.objectId()
       startDate: c.stringDate()
       endDate: c.stringDate()
-      type: { type: 'string' }
-      includedCourseIDs: c.array({ description: 'courseIDs that this prepaid includes access to' }, c.objectId())
+      type: { type: ['string', 'null'] }
+      includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() }
     }
   }
   enrollmentRequestSent: { type: 'boolean' }

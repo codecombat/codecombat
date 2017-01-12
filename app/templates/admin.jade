@@ -34,10 +34,9 @@ block content
           input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
           a.search-help-toggle(href="#") (search help)
           .search-help
-            strong Note:
-            | Search information is updated every 10-15min.
             h4 Search Syntax
             ul
+              li use <code>role:teacher</code> to limit a search by role
               li By default parts of the search are matched exactly.
               li <code>*</code> can be used as a wildcard character (ex. '<code>rob*@gmail.com</code>')
               li Avoid special charaters and puncuation.  Consider replacing them with <code>*</code> in searches.
@@ -87,6 +86,8 @@ block content
         a(href="/admin/clas") CLAs
       li
         a(href="/admin/pending-patches") Patches
+      li
+        a(href="/admin/skipped-contacts") Sales — Contacts skipped by sales automation scripts
 
     hr
     h3 Prepaids

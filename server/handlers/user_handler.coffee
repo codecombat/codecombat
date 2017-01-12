@@ -730,18 +730,28 @@ UserHandler = class UserHandler extends Handler
     connection.connect()
 
     q = req.body.search
+    params = []
+    filters = []
     if isID q
-      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE mongoid = ? LIMIT 100;"
+      params.push q
+      filters.push 'mongoid = ?'
     else
-      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE MATCH(?)  LIMIT 100;"
+      params.push q
+      filters.push 'MATCH(?)'
 
-    connection.query mysqlq, [q], (err, rows, fields) =>
+    if req.body.role?
+      params.push req.body.role
+      filters.push 'role = ?'
+
+      
+    mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE #{filters.join(' AND ')}  LIMIT 100;"
+    console.log mysqlq, params
+    connection.query mysqlq, params, (err, rows, fields) =>
       return @sendDatabaseError res, err if err
       ids = rows.map (r) -> r.mongoid
-      User.find({_id: {$in: ids}}).select({name: 1, email: 1, dateCreated: 1}).lean().exec (err, users) =>
+      User.find({_id: {$in: ids}}).select({name: 1, email: 1, dateCreated: 1, role: 1}).lean().exec (err, users) =>
         return @sendDatabaseError res, err if err
         out = _.filter _.map ids, (id) => _.find(users, (u) -> String(u._id) is id)
-        console.log(out)
         @sendSuccess res, out
     connection.end()
 
@@ -755,11 +765,15 @@ UserHandler = class UserHandler extends Handler
       {nameLower: search}
     ]
     query.$or.push {_id: mongoose.Types.ObjectId(search) if isID search}
+
+    if req.body.role?
+      query.role = req.body.role
+
     if search.length > 5
       searchParts = search.split(/[.+@]/)
       if searchParts.length > 1
         query.$or.push {emailLower: {$regex: '^' + searchParts[0]}}
-    projection = name: 1, email: 1, dateCreated: 1
+    projection = name: 1, email: 1, dateCreated: 1, role: 1
     User.find(query).select(projection).lean().exec (err, users) =>
       return @sendDatabaseError res, err if err
       @sendSuccess res, users

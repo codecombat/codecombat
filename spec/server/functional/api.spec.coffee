@@ -125,6 +125,24 @@ describe 'GET /api/users/:handle', ->
     expect(res.statusCode).toBe(200)
     done()
     
+  it 'gives Snowplow read access to all users', utils.wrap (done) ->
+    snowplowClient = new APIClient({_id: new mongoose.Types.ObjectId('5876a40d19b82624002cf18d')})
+    secret = snowplowClient.setNewSecret()
+    snowplowAuth = { user: snowplowClient.id, pass: secret }
+    yield snowplowClient.save()
+
+    url = utils.getURL("/api/users/#{@user.id}")
+
+    # when snowplow
+    [res, body] = yield request.getAsync({url, json: true, auth: snowplowAuth})
+    expect(res.statusCode).toBe(200)
+
+    # when not snowplow
+    [res, body] = yield request.getAsync({url, json: true, auth: @otherClientAuth})
+    expect(res.statusCode).toBe(403)
+
+    done()
+    
     
 describe 'GET /api/users/:handle/classrooms', ->
   
