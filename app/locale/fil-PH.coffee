@@ -1862,9 +1862,9 @@ module.exports = nativeDescription: "Tagalog", englishDescription: "Filipino (Ph
 #    you_can3: "that can be applied to your own account or given to others."
 
 #  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
+#    text1: "Di na makapaghintay matuto ng programming?"
+#    text2: "Ang iyong mga magulang ay kailangan para gumawa ng account na iyong gagamitin! Mag-Email sa team@codecombat.com para sa inyong mga katanungan."
+#    close: "Isara"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
