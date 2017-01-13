@@ -64,7 +64,7 @@ module.exports = class SpellPaletteView extends CocoView
           for entry in entryColumn
             col.append entry.el
             entry.render()  # Render after appending so that we can access parent container for popover
-      $('.nano').nanoScroller()
+      @$('.nano').nanoScroller alwaysVisible: true
       @updateCodeLanguage @options.language
     else
       @entryGroupElements = {}
@@ -350,6 +350,9 @@ module.exports = class SpellPaletteView extends CocoView
       target.collapse 'hide'
       $et.find('.glyphicon').removeClass('glyphicon-chevron-down').addClass('glyphicon-chevron-right')
 
+    setTimeout () =>
+      @$('.nano').nanoScroller alwaysVisible: true
+    , 200
     e.preventDefault()
 
   onClickHelp: (e) ->
