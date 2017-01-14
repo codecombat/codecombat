@@ -45,11 +45,8 @@ languageAliases =
   'zh-hant-mo': 'zh-HANT'
 
 
-module.exports.languageCodeFromAcceptedLanguages = languageCodeFromAcceptedLanguages = (acceptedLanguages) ->
-  for lang in acceptedLanguages ? []
-    code = languageAliases[lang.toLowerCase()]
-    return code if code
-    codeIndex = _.indexOf languageCodesLower, lang
-    if codeIndex isnt -1
-      return languageCodes[codeIndex]
-  return 'en-US'
+module.exports.languageCodeFromRequest = languageCodeFromRequest = (req) ->
+  possibleCodes = _.without _.keys(locale).concat(_.keys(languageAliases)), 'update'
+  code = req.acceptsLanguages(possibleCodes) or 'en-US'
+  code = languageAliases[code.toLowerCase()] or code
+  code
