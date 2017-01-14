@@ -550,7 +550,7 @@ UserSchema.statics.makeNew = (req) ->
     newID = _.pad((User.idCounter++).toString(16), 24, '0')
     user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
-  lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  lang = languages.languageCodeFromRequest req
   { preferredLanguage } = req.query
   if preferredLanguage and _.contains(languages.languageCodes, preferredLanguage)
     user.set({ preferredLanguage })
