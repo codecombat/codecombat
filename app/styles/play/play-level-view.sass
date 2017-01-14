@@ -82,7 +82,7 @@ $level-resize-transition-time: 0.5s
 
   #canvas-wrapper
     top: 50px
-    width: calc(55% -  #{$api-bar-width})
+    width: calc(#{$game-view-width} - #{$api-bar-width})
     position: relative
     overflow: hidden
     background-color: black
@@ -140,8 +140,8 @@ $level-resize-transition-time: 0.5s
 
   #code-area
     @include box-sizing(border-box)
-    padding: 0px 0.9% 10px 1.4%
-    width: 45%
+    padding: 0px 0.9% 10px 0
+    width: 43.5%
     background: transparent url(/images/level/wood_texture.png)
     background-size: 100% 100%
     position: absolute
@@ -226,7 +226,7 @@ $level-resize-transition-time: 0.5s
   #play-footer
     position: absolute
     bottom: 0px
-    width: calc(55% - #{$api-bar-width})
+    width: calc(#{$game-view-width} - #{$api-bar-width})
     text-align: center
     font-family: $headings-font-family
     font-variant: small-caps
