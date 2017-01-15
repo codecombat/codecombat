@@ -550,7 +550,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
 #    tip_mulan: "Believe you can, then you will. - Mulan"
 
-#  play_game_dev_level:
+  play_game_dev_level:
     created_by: "Креирао {{name}}"
     restart: "Рестартуј ниво"
     play: "Играј ниво"
@@ -851,10 +851,10 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     previous: "Претходно"
     location_title: "Налазимо се у центру Сан Франциска:"
 
-#  teachers:
+  teachers:
     licenses_needed: "Потребне лиценце"
 
-#  special_offer:
+  special_offer:
     special_offer: "Специјална понуда"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
