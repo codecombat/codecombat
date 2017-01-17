@@ -150,6 +150,9 @@ module.exports.setup = (app) ->
   LevelComponent = require '../models/LevelComponent'
   app.post('/db/level.component/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelComponent, 'level_component'))
   app.get('/db/level.component/:handle/patches', mw.patchable.patches(LevelComponent))
+  
+  LevelSession = require '../models/LevelSession'
+  app.get('/db/level.session/:handle', mw.levelSessions.getByHandle)
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))

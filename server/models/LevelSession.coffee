@@ -4,6 +4,7 @@ AchievablePlugin = require '../plugins/achievements'
 jsonschema = require '../../app/schemas/models/level_session'
 log = require 'winston'
 config = require '../../server_config'
+LZString = require 'lz-string'
 
 LevelSessionSchema = new mongoose.Schema({
   created:

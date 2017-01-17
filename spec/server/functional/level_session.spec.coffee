@@ -1,66 +1,73 @@
-require '../common'
 LevelSession = require '../../../server/models/LevelSession'
+User = require '../../../server/models/User'
 mongoose = require 'mongoose'
 request = require '../request'
+utils = require '../utils'
+moment = require 'moment'
 
-describe '/db/level.session', ->
+describe 'GET /db/level.session/:handle', ->
 
-  url = getURL('/db/level.session/')
-  session =
-    permissions: simplePermissions
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, LevelSession])
+    @user = yield utils.initUser()
+    @session = yield utils.makeLevelSession({code: '# some code'}, {creator: @user})
+  
+  it 'returns the level session', utils.wrap ->
+    
+    [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body._id).toBe(@session.id)
 
-  it 'get schema', (done) ->
-    request.get {uri: url+'schema'}, (err, res, body) ->
+  it 'prevents users without permissions', utils.wrap ->
+    @session.set('permissions', _.filter(@session.get('permissions'), (p) -> p.target isnt 'public'))
+    @session.set('submittedCode', '...')
+    yield @session.save()
+    [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+    expect(res.statusCode).toBe(403)
+    yield utils.loginUser(@user)
+    [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+    expect(res.statusCode).toBe(200)
+
+  describe 'recording views', ->
+    
+    beforeEach utils.wrap ->
+      yield @session.update({$set: {'dateFirstCompleted': moment().subtract(1, 'days').toISOString()}})
+
+    it 'records views if within the first four days of session completion', utils.wrap ->
+      expect(@session.get('fourDayViewCount')).toBeUndefined()
+      anotherUser = yield utils.initUser()
+      yield utils.loginUser(anotherUser)
+      [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
       expect(res.statusCode).toBe(200)
-      body = JSON.parse(body)
-      expect(body.type).toBeDefined()
-      done()
+      session = yield LevelSession.findById(@session.id)
+      expect(session.get('fourDayViewCount')).toBe(1)
 
-  it 'clears things first', (done) ->
-    clearModels [LevelSession], (err) ->
-      expect(err).toBeNull()
-      done()
+      [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+      expect(res.statusCode).toBe(200)
+      session = yield LevelSession.findById(@session.id)
+      expect(session.get('fourDayViewCount')).toBe(2)
 
-  # TODO Tried to mimic what happens on the site. Why is this even so hard to do.
-  # Right now it's even possible to create ownerless sessions through POST
-#  xit 'allows users to create level sessions through PATCH', (done) ->
-#    loginJoe (joe) ->
-#      request {method: 'patch', uri: url + mongoose.Types.ObjectId(), json: session}, (err, res, body) ->
-#        expect(err).toBeNull()
-#        expect(res.statusCode).toBe 200
-#        console.log body
-#        expect(body.creator).toEqual joe.get('_id').toHexString()
-#        done()
-
-  # Should remove this as soon as the PATCH test case above works
-  it 'create a level session', (done) ->
-    unittest.getNormalJoe (joe) ->
-      session.creator = joe.get('_id').toHexString()
-      session = new LevelSession session
-      session.save (err) ->
-        expect(err).toBeNull()
-        done()
-
-  it 'GET /db/user/<ID>/level.sessions gets a user\'s level sessions', (done) ->
-    unittest.getNormalJoe (joe) ->
-      request.get {uri: getURL "/db/user/#{joe.get '_id'}/level.sessions"}, (err, res, body) ->
-        expect(err).toBeNull()
-        expect(res.statusCode).toBe 200
-        sessions = JSON.parse body
-        expect(sessions.length).toBe 1
-        done()
-
-  it 'GET /db/user/<SLUG>/level.sessions gets a user\'s level sessions', (done) ->
-    unittest.getNormalJoe (joe) ->
-      request.get {uri: getURL "/db/user/#{joe.get 'slug'}/level.sessions"}, (err, res, body) ->
-        expect(err).toBeNull()
-        expect(res.statusCode).toBe 200
-        sessions = JSON.parse body
-        expect(sessions.length).toBe 1
-        done()
-
-  it 'GET /db/user/<IDorSLUG>/level.sessions returns 404 if user not found', (done) ->
-    request.get {uri: getURL "/db/user/misterschtroumpf/level.sessions"}, (err, res) ->
-      expect(err).toBeNull()
-      expect(res.statusCode).toBe 404
-      done()
+      yield @session.update({$set: {'dateFirstCompleted': moment().subtract(5, 'days').toISOString()}})
+      [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+      expect(res.statusCode).toBe(200)
+      session = yield LevelSession.findById(@session.id)
+      expect(session.get('fourDayViewCount')).toBe(2)
+      
+    it 'does not record views by the creator', utils.wrap ->
+      yield utils.loginUser(@user)
+      [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+      expect(res.statusCode).toBe(200)
+      session = yield LevelSession.findById(@session.id)
+      expect(session.get('fourDayViewCount')).toBeUndefined()
+    
+    it 'does not record views by teachers', utils.wrap ->
+      @session.set('dateFirstCompleted', moment().subtract(1, 'day').toISOString())
+      yield @session.save()
+      teacher = yield utils.initUser({role: 'teacher'})
+      yield utils.loginUser(teacher)
+      [res, body] = yield request.getAsync({url: utils.getURL("/db/level.session/#{@session.id}"), json: true})
+      expect(res.statusCode).toBe(200)
+      session = yield LevelSession.findById(@session.id)
+      expect(session.get('fourDayViewCount')).toBeUndefined()
+  
+    
