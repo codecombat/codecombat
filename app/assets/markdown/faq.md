@@ -87,7 +87,7 @@ Hints come in handy when students are struggling with a specific level. Every le
 The second feature is Practice Levels, which helps students get more experience with a particular concept if they are struggling. When the game detects that a student has struggled with a level, the game adapts so the student has more opportunity to practice the same skill until they improve. This provides a personalized learning experience for each student, so they can move past concepts they understand quickly, and get more practice for concepts that are challenging.  
 
 ### What if I need licenses that only last a semester instead of a full year?
-The standard Student License term is for one year, but it can be broken into semesters or trimesters, or even prorated, as needed. Just talk to one of our [School Specialists](mailto:schools@codecombat.com) to discuss your needs.  
+The standard Student License term is for one year, but it can be broken into semesters as needed. Just talk to one of our [School Specialists](mailto:schools@codecombat.com) to discuss your needs.  
 
 ### What is the Arena level at the end of a course?
 Arenas are open practice levels where students can hone the skills they learned in each course. You may use the arena to let faster students explore a deeper multiplayer strategy while the slower students catch up, and then when everyone is at the arena level, optionally have some class time for an in-class tournament. That way you can assign the next course to all students at the same time so that everyone stays roughly in sync within a course.  

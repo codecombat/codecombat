@@ -19,22 +19,25 @@ const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const mongoConnUrlAnalytics = process.argv[2];
 const debugOutput = true;
-const endDay = "2017-01-06";
+const daysToViewForm = 7
+const daysToCreateClass = 4;
+const endDay = "2017-01-13";
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
-startDay.setUTCDate(startDay.getUTCDate() - 30);
+startDay.setUTCDate(startDay.getUTCDate() - daysToViewForm - daysToCreateClass);
 startDay = startDay.toISOString().substring(0, 10);
-const daysToCreateClass = 7;
+debug(`Measuring days ${startDay} to ${endDay}`);
 
 const teacherFormEvents = ['Teachers Request Demo Loaded', 'Teachers Create Account Loaded', 'Teachers Convert Account Loaded'];
 const classCreatedEvent = 'Teachers Classes Create New Class Finished';
 
 co(function*() {
   const analyticsDb = yield MongoClient.connect(mongoConnUrlAnalytics, {connectTimeoutMS: 1000 * 60 * 60, socketTimeoutMS: 1000 * 60 * 60});
+
   const startObjectId = objectIdWithTimestamp(new Date(`${startDay}T00:00:00.000Z`));
   const formEndDate = new Date(`${endDay}T00:00:00.000Z`);
   formEndDate.setUTCDate(formEndDate.getUTCDate() - daysToCreateClass);
   let endObjectId = objectIdWithTimestamp(formEndDate);
-  debug(`Finding events..`);
+  debug(`Finding view teacher form events between ${startDay} and ${formEndDate.toISOString().substring(0, 10)}..`);
 
   let query = {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: endObjectId}}, {event: {$in: teacherFormEvents}}]};
   const formEvents = yield analyticsDb.collection('log').find(query, {user: 1}).toArray();
@@ -46,6 +49,7 @@ co(function*() {
   const userIds = Object.keys(userFormMap);
   debug(`Unique users ${userIds.length}`);
 
+  debug(`Finding created class events between ${startDay} and ${endDay}..`);
   endObjectId = objectIdWithTimestamp(new Date(`${endDay}T00:00:00.000Z`));
   query = {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: endObjectId}}, {event: classCreatedEvent}, {user: {$in: userIds}}]};
   const classEvents = yield analyticsDb.collection('log').find(query, {user: 1}).toArray();
@@ -63,7 +67,7 @@ co(function*() {
     }
   }
   console.log(`Looking at data from ${startDay} to ${endDay}:`);
-  console.log(`Saw teacher signup form=${usersSawTeacherForm} Created class=${teachersCreatedClass} Conversion=%${(teachersCreatedClass / usersSawTeacherForm * 100).toFixed(2)}`);
+  console.log(`Saw teacher signup form= ${usersSawTeacherForm} Created class= ${teachersCreatedClass} Conversion= ${(teachersCreatedClass / usersSawTeacherForm).toFixed(4)}`);
 
   analyticsDb.close();
   debug(`Script runtime: ${new Date() - scriptStartTime}`);
