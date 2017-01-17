@@ -40,6 +40,7 @@ require("locale/ko")
 require("locale/sk")
 require("locale/sl")
 require("locale/fi")
+require("locale/fil")
 require("locale/bg")
 require("locale/nb")
 require("locale/nn")
@@ -148,3 +149,4 @@ module.exports = class DiplomatView extends ContributeClassView
     hr: []             # hrvatski jezik, Croatian
     mi: []             # te reo Māori, Māori
     haw: []            # ʻŌlelo Hawaiʻi, Hawaiian
+    fil: ['Celestz'] #Like This?

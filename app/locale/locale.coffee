@@ -33,6 +33,7 @@ module.exports =
   'et': { nativeDescription: 'Eesti', englishDescription: 'Estonian' }
   'el': { nativeDescription: 'Ελληνικά', englishDescription: 'Greek' }
   'eo': { nativeDescription: 'Esperanto', englishDescription: 'Esperanto' }
+  'fil': { nativeDescription: 'Filipino', englishDescription: 'Filipino' }
   'fa': { nativeDescription: 'فارسی', englishDescription: 'Persian' }
   'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' }
   'ko': { nativeDescription: '한국어', englishDescription: 'Korean' }
