@@ -32,6 +32,7 @@ module.exports = class SubscribeModal extends ModalView
     @state = 'standby'
     @products = new Products()
     @supermodel.loadCollection(@products, 'products')
+    @trackTimeVisible({ trackViewLifecycle: true })
 
   onLoaded: ->
     @basicProduct = @products.findWhere { name: 'basic_subscription' }

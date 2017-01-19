@@ -4,6 +4,7 @@ CocoClass = require 'core/CocoClass'
 loadingScreenTemplate = require 'templates/core/loading'
 loadingErrorTemplate = require 'templates/core/loading-error'
 auth = require 'core/auth'
+ViewVisibleTimer = require 'core/ViewVisibleTimer'
 
 lastToggleModalCall = 0
 visibleModal = null
@@ -65,6 +66,7 @@ module.exports = class CocoView extends Backbone.View
     super arguments...
 
   destroy: ->
+    @viewVisibleTimer?.destroy()
     @stopListening()
     @off()
     @stopListeningToShortcuts()
@@ -80,6 +82,28 @@ module.exports = class CocoView extends Backbone.View
     @destroy = doNothing
     $.noty.closeAll()
 
+  trackTimeVisible: ({ trackViewLifecycle } = {}) ->
+    return if @viewVisibleTimer
+    @viewVisibleTimer = new ViewVisibleTimer()
+    @trackViewLifecycle = trackViewLifecycle
+    
+  # Report the currently visible feature — this is the default handler for whole-view tracking
+  # Views with more involved features should implement this method instead.
+  currentVisiblePremiumFeature: ->
+    if @trackViewLifecycle
+      return { viewName: @.id }
+    else
+      return null
+  
+  updateViewVisibleTimer: ->
+    return if not @viewVisibleTimer
+    visibleFeature = not @hidden and not @destroyed and @currentVisiblePremiumFeature()
+    if visibleFeature and not _.isEqual(visibleFeature, @viewVisibleTimer.featureData)
+      @viewVisibleTimer.stopTimer({ clearName: true })
+      @viewVisibleTimer.startTimer(visibleFeature)
+    else if not visibleFeature
+      @viewVisibleTimer.stopTimer({ clearName: true })
+
   destroyAceEditor: (editor) ->
     # convenience method to make sure the ace editor is as destroyed as can be
     return unless editor
@@ -88,11 +112,13 @@ module.exports = class CocoView extends Backbone.View
     editor.destroy()
 
   afterInsert: ->
+    @updateViewVisibleTimer()
 
   willDisappear: ->
     # the router removes this view but this view will be cached
     @undelegateEvents()
     @hidden = true
+    @updateViewVisibleTimer()
     @stopListeningToShortcuts()
     view.willDisappear() for id, view of @subviews
     $.noty.closeAll()
@@ -102,6 +128,7 @@ module.exports = class CocoView extends Backbone.View
     @delegateEvents()
     wasHidden = @hidden
     @hidden = false
+    @updateViewVisibleTimer()
     @listenToShortcuts() if wasHidden
     view.didReappear() for id, view of @subviews
 
@@ -238,14 +265,14 @@ module.exports = class CocoView extends Backbone.View
       return @modalClosed(visibleModal) # was closed, but modalClosed was not called somehow
     viewLoad = new ViewLoadTimer(modalView)
     modalView.render()
-    
+
     # Redirect to the woo when trying to log in or signup
     if features.codePlay
       if modalView.id is 'create-account-modal'
         return document.location.href = '//lenovogamestate.com/register/?cocoId='+me.id
       if modalView.id is 'auth-modal'
         return document.location.href = '//lenovogamestate.com/login/?cocoId='+me.id
-        
+
     $('#modal-wrapper').removeClass('hide').empty().append modalView.el
     modalView.afterInsert()
     visibleModal = modalView
