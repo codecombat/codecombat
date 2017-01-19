@@ -63,12 +63,12 @@ class ViewLoadTimer
         totalTransferSize = _.reduce(entries, ((total, entry) -> total + entry.transferSize), 0)
         cachedResources = _.size(_.filter(entries, (entry) -> entry.transferSize / entry.encodedBodySize < 0.1))
         totalResources = _.size(entries)
-        resourceInfo = { networkTime, totalEncodedBodySize, totalTransferSize, cachedResources, totalResources }
+        resourceInfo = { totalEncodedBodySize, totalTransferSize, cachedResources, totalResources }
       else
         resourceInfo = {}
       console.log m if VIEW_LOAD_LOG
       noty({text:m, type:'information', timeout: 1000, layout:'topCenter'}) if SHOW_NOTY
-      window.tracker?.trackEvent 'View Load', _.assign({ totalTime, viewId: @view.id, @firstLoad }, resourceInfo)
+      window.tracker?.trackEvent 'View Load', _.assign({ networkTime, totalTime, viewId: @view.id, @firstLoad }, resourceInfo)
     .then =>
       console.groupEnd() if VIEW_LOAD_LOG
 
