@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
 State = require 'models/State'
+ace = require 'ace'
 utils = require 'core/utils'
 
 module.exports = class HintsView extends CocoView

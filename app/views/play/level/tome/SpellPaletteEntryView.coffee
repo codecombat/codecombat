@@ -3,6 +3,7 @@ template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
+ace = require 'ace'
 utils = require 'core/utils'
 
 module.exports = class SpellPaletteEntryView extends CocoView
@@ -35,35 +36,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
   afterRender: ->
     super()
     @$el.addClass _.string.slugify @doc.type
-    placement = -> if $('body').hasClass('dialogue-view-active') then 'top' else 'left'
-    if false
-      @$el.popover(
-        animation: false
-        html: true
-        placement: placement
-        trigger: 'manual'  # Hover, until they click, which will then pin it until unclick.
-        content: @docFormatter.formatPopover()
-        container: 'body'
-        template: @overridePopoverTemplate
-      ).on 'shown.bs.popover', =>
-        Backbone.Mediator.publish 'tome:palette-hovered', thang: @thang, prop: @doc.name, entry: @
-        soundIndex = Math.floor(Math.random() * 4)
-        @playSound "spell-palette-entry-open-#{soundIndex}", 0.75
-        @afterRenderPopover()
-
-  # NOTE: This can't be run twice without resetting the popover content HTML
-  #       in between. If you do, Ace will break.
-  afterRenderPopover: ->
-    popover = @$el.data('bs.popover')
-    popover?.$tip?.i18n()
-    codeLanguage = @options.language
-    oldEditor.destroy() for oldEditor in @aceEditors
-    @aceEditors = []
-    aceEditors = @aceEditors
-    # Initialize Ace for each popover code snippet that still needs it
-    popover?.$tip?.find('.docs-ace').each ->
-      aceEditor = utils.initializeACE @, codeLanguage
-      aceEditors.push aceEditor
 
   resetPopoverContent: ->
     #@$el.data('bs.popover').options.content = @docFormatter.formatPopover()
@@ -99,15 +71,6 @@ module.exports = class SpellPaletteEntryView extends CocoView
     @$el.toggleClass('selected', e.prop is @doc.name)
 
   onClick: (e) =>
-    if false and @options.level.isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder')
-      # Jiggle instead of pin for hero/course levels
-      jigglyPopover = $('.spell-palette-popover.popover')
-      jigglyPopover.addClass 'jiggling'
-      pauseJiggle = =>
-        jigglyPopover.removeClass 'jiggling'
-      _.delay pauseJiggle, 1000
-      return
-
     if key.shift
       Backbone.Mediator.publish 'tome:insert-snippet', doc: @options.doc, language: @options.language, formatted: @doc
       return

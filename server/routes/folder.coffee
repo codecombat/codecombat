@@ -2,9 +2,9 @@ mongoose = require 'mongoose'
 errors = require '../commons/errors'
 
 module.exports.setup = (app) ->
-  app.all '/folder*', (req, res) ->
-    return folderGet(req, res) if req.route.method is 'get'
-    return errors.badMethod(res, ['GET'])
+  app.head '/folder*', (req, res) -> return errors.badMethod(res, ['GET'])
+  app.get '/folder*', folderGet
+  app.all '/folder*', (req, res) -> return errors.badMethod(res, ['GET'])
 
 folderGet = (req, res) ->
   folder = req.path[7..]

@@ -5,9 +5,9 @@
 #playback-view
   $playback-button-color: rgb(248, 197, 146)
   // When 75% alpha, it will look like the rgb(194, 154, 114) from Heald's design
-  width: calc(55% -  #{$api-bar-width})
+  width: calc(#{$game-view-width} -  #{$api-bar-width})
   #level-view.no-api &
-    width: 55%
+    width: $game-view-width
   height: 60px
   padding-top: 17px
   position: relative

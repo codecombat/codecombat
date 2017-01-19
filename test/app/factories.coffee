@@ -73,7 +73,7 @@ module.exports = {
     }, attrs)
     
     if sources.prepaid and not attrs.coursePrepaid
-      attrs.coursePrepaid = sources.prepaid.pick('_id', 'startDate', 'endDate')
+      attrs.coursePrepaid = sources.prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs')
     
     return new User(attrs)
   

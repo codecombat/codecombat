@@ -92,19 +92,19 @@ module.exports = class Handler
     errors.custom(res, code, message)
 
   sendSuccess: (res, message='{}') ->
-    res.send 200, message
+    res.status(200).send message
     res.end()
 
   sendCreated: (res, message='{}') ->
-    res.send 201, message
+    res.status(201).send message
     res.end()
 
   sendAccepted: (res, message='{}') ->
-    res.send 202, message
+    res.status(202).send message
     res.end()
 
   sendNoContent: (res) ->
-    res.send 204
+    res.sendStatus 204
     res.end()
 
   # generic handlers
@@ -229,8 +229,8 @@ module.exports = class Handler
   getByRelationship: (req, res, args...) ->
     # this handler should be overwritten by subclasses
     if @modelClass.schema.is_patchable
-      return @getPatchesFor(req, res, args[0]) if req.route.method is 'get' and args[1] is 'patches'
-      return @setWatching(req, res, args[0]) if req.route.method is 'put' and args[1] is 'watch'
+      return @getPatchesFor(req, res, args[0]) if req.method is 'GET' and args[1] is 'patches'
+      return @setWatching(req, res, args[0]) if req.method is 'PUT' and args[1] is 'watch'
     return @sendNotFoundError(res)
 
   getNamesByIDs: (req, res) ->

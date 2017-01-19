@@ -52,8 +52,8 @@ if view.showAds()
             img.star(src="/images/pages/play/star.png")
           if editorMode
             - var kindKey = ((level.kind && level.kind[0]) || "").toUpperCase();
-            if kindKey
-              div(class="level-kind " + level.kind)= kindKey
+            //if kindKey
+            div(class="level-kind " + level.kind)= kindKey
             - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
             .level-acronym= acronym
           if !level.hidden
@@ -230,3 +230,10 @@ if view.showAds()
           span= levelsCompleted
           | /
           span= levelsTotal
+    
+if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds
+  a(href="https://lenovogamestate.com/")
+    - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
+    if me.isFromUk()
+      - url = "/images/common/codeplay/UK_LevelsPage_Cube_160x480.png"
+    img#codeplay-ad(src=url)

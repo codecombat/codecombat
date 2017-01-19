@@ -89,8 +89,8 @@ module.exports = class Tracker extends CocoClass
 
     # Mixpanel
     # https://mixpanel.com/help/reference/javascript
-    mixpanel.identify(me.id)
-    mixpanel.register(traits)
+    mixpanel?.identify(me.id)
+    mixpanel?.register(traits)
 
     if me.isTeacher() and @segmentLoaded
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
@@ -111,9 +111,9 @@ module.exports = class Tracker extends CocoClass
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
     ga? 'send', 'pageview', url
     ga?('codeplay.send', 'pageview', url) if features.codePlay
-
+    window.snowplow 'trackPageView'
     # Mixpanel
-    mixpanel.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
+    mixpanel?.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
     if me.isTeacher() and @segmentLoaded
       options = {}
@@ -124,9 +124,13 @@ module.exports = class Tracker extends CocoClass
       analytics.page url, {}, options
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
-    @trackEventInternal action, _.cloneDeep properties unless me?.isAdmin() and @isProduction
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and not me.isAdmin()
+
+    @trackEventInternal action, _.cloneDeep properties    
+    @trackSnowplow action, _.cloneDeep properties
+
+
 
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
@@ -137,14 +141,15 @@ module.exports = class Tracker extends CocoClass
     gaFieldObject.eventLabel = properties.label if properties.label?
     gaFieldObject.eventValue = properties.value if properties.value?
     ga? 'send', gaFieldObject
-
+    ga? 'codeplay.send', gaFieldObject if features.codePlay
+    
     # Inspectlet
     # http://www.inspectlet.com/docs#tagging
     __insp?.push ['tagSession', action: action, properies: properties]
 
     # Mixpanel
     # Only log explicit events for now
-    mixpanel.track(action, properties) if 'Mixpanel' in includeIntegrations
+    mixpanel?.track(action, properties) if 'Mixpanel' in includeIntegrations
 
     if me.isTeacher() and @segmentLoaded
       options = {}
@@ -155,10 +160,27 @@ module.exports = class Tracker extends CocoClass
           options.integrations[integration] = true
       analytics?.track action, {}, options
 
+  trackSnowplow: (event, properties) =>
+
+    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
+    # Trimming properties we don't use internally
+    # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
+    if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
+      delete properties.label
+
+    # SnowPlow
+    snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
+    properties.user = me.id
+    delete properties.category
+    #console.log "SnowPlow", snowplowAction, properties
+    window.snowplow 'trackUnstructEvent',
+      schema: 'iglu:com.codecombat/' + snowplowAction + '/jsonschema/1-0-0'
+      data: properties
+
   trackEventInternal: (event, properties) =>
     return unless @supermodel?
     # Skipping heavily logged actions we don't use internally
-    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
+    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load']
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']

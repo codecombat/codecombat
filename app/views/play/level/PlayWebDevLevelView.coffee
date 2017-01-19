@@ -4,6 +4,8 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 WebSurfaceView = require './WebSurfaceView'
 
+require 'game-libraries'
+
 module.exports = class PlayWebDevLevelView extends RootView
   id: 'play-web-dev-level-view'
   template: require 'templates/play/level/play-web-dev-level-view'
@@ -19,6 +21,15 @@ module.exports = class PlayWebDevLevelView extends RootView
     Backbone.Mediator.publish 'tome:html-updated', html: @getHTML() ? '<h1>Player has no HTML</h1>', create: true
     @$el.find('#info-bar').delay(4000).fadeOut(2000)
     $('body').css('overflow', 'hidden')  # Don't show tiny scroll bar from our minimal additions to the iframe
+    @eventProperties = {
+      category: 'Play WebDev Level'
+      @courseID
+      sessionID: @session.id
+      levelID: @level.id
+      levelSlug: @level.get('slug')
+    }
+    window.tracker?.trackEvent 'Play WebDev Level - Load', @eventProperties
+
 
   showError: (jqxhr) ->
     $('h1').text jqxhr.statusText

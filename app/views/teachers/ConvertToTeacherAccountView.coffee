@@ -5,7 +5,7 @@ TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
 errors = require 'core/errors'
 User = require 'models/User'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 algolia = require 'core/services/algolia'
 
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']

@@ -25,5 +25,5 @@ module.exports.setup = (app) ->
       return errors.notFound res, 'Method not found for handler ' + name
 
     catch error
-      log.error("Error trying db method '#{req.route.method}' route '#{parts}' from #{name}: #{error}")
+      log.error("Error trying db method '#{req.method}' route '#{parts}' from #{name}: #{error}")
       errors.notFound(res, "Route #{req.path} not found.")

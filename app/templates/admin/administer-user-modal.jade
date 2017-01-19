@@ -12,6 +12,11 @@ block modal-header-content
   h3 Administer User
   h4 #{view.user.get('name') || 'Unnamed'} / #{view.user.get('email')}
   span= view.user.id
+  if view.user.get('cleverID')
+    br
+    b Clever ID:
+    =" "
+    span= view.user.get('cleverID')
 
 block modal-body-content
 

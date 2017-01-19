@@ -52,8 +52,11 @@ if view.showAds()
       #level-dialogue-view
 
     if features.codePlay
-      a(href=document.location.protocol+"//gs-staging.thewoo.com/pages/products/")
-        img#codeplay-product-banner(src="/images/common/codeplay/IngameProduct.png")
+      a(href=document.location.protocol+"//lenovogamestate.com/pages/products/")
+        - var url = "/images/common/codeplay/NA_InLevelPage_Y700_1132X283_ingameProduct.png"
+        if me.isFromUk()
+          - url = "/images/common/codeplay/UK_InLevelPage_Y700_1132X283_ingameProduct.png"
+        img#codeplay-product-banner(src=url)
 
     button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")
       if view.level && view.level.isType('game-dev')

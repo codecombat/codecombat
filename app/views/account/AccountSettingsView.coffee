@@ -2,7 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/account/account-settings-view'
 forms = require 'core/forms'
 User = require 'models/User'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 {logoutUser, me} = require('core/auth')
 
 module.exports = class AccountSettingsView extends CocoView

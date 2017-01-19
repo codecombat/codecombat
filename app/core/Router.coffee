@@ -1,6 +1,7 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
 redirect = (path) -> -> @navigate(path + document.location.search, { trigger: true, replace: true })
 utils = require './utils'
+ViewLoadTimer = require 'core/ViewLoadTimer'
 
 module.exports = class CocoRouter extends Backbone.Router
 
@@ -46,6 +47,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
+    'admin/skipped-contacts': go('admin/SkippedContactsView')
 
     'artisans': go('artisans/ArtisansView')
 
@@ -139,7 +141,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
     'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView')
+    'play/:map': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true })
 
     'preview': go('HomeView')
 
@@ -191,10 +193,11 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
+    @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
-      return @navigate('/students', {trigger: true, replace: true})
+      return @redirectHome()
     if options.redirectTeachers and me.isTeacher() and not me.isAdmin()
-      return @navigate('/teachers', {trigger: true, replace: true})
+      return @redirectHome()
     if options.teachersOnly and not (me.isTeacher() or me.isAdmin())
       return @routeDirectly('teachers/RestrictedToTeachersView')
     if options.studentsOnly and not (me.isStudent() or me.isAdmin())
@@ -210,21 +213,31 @@ module.exports = class CocoRouter extends Backbone.Router
     if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
       return @navigate('/play', { trigger: true, replace: true })
     path = 'play/CampaignView' if features.playOnly and not /^(views)?\/?play/.test(path)
-    
+
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path
     if not ViewClass and application.moduleLoader.load(path)
       @listenToOnce application.moduleLoader, 'load-complete', ->
+        options.recursive = true
         @routeDirectly(path, args, options)
       return
     return go('NotFoundView') if not ViewClass
     view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
     @openView(view)
+    @viewLoad.setView(view)
+    @viewLoad.record()
+    
+  redirectHome: ->
+    homeUrl = switch 
+      when me.isStudent() then '/students'
+      when me.isTeacher() then '/teachers'
+      else '/'
+    @navigate(homeUrl, {trigger: true, replace: true})
 
   tryToLoadModule: (path) ->
     try
-      return require(path)
+      return window.require(path)
     catch error
       if error.toString().search('Cannot find module "' + path + '" from') is -1
         throw error
@@ -272,12 +285,13 @@ module.exports = class CocoRouter extends Backbone.Router
   _trackPageView: ->
     window.tracker?.trackPageView()
 
-  onNavigate: (e) ->
+  onNavigate: (e, recursive=false) ->
+    @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
       ViewClass = @tryToLoadModule e.viewClass
       if not ViewClass and application.moduleLoader.load(e.viewClass)
         @listenToOnce application.moduleLoader, 'load-complete', ->
-          @onNavigate(e)
+          @onNavigate(e, true)
         return
       e.viewClass = ViewClass
 
@@ -292,8 +306,11 @@ module.exports = class CocoRouter extends Backbone.Router
       view = new e.viewClass(args...)
       view.render()
       @openView view
+      @viewLoad.setView(view)
     else
       @openView e.view
+      @viewLoad.setView(e.view)
+    @viewLoad.record()
 
   navigate: (fragment, options) ->
     super fragment, options
