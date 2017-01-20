@@ -90,9 +90,6 @@ UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
-UserSchema.methods.getYearSubscriptionGroup = ->
-  core_utils.getYearSubscriptionGroup(@get('testGroupNumber'))
-
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(

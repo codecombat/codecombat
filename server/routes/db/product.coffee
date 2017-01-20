@@ -60,13 +60,6 @@ productStubs = [
   }
 
   {
-    name: 'year_subscription_b'
-    amount: 1001
-    gems: 42000
-  }
-
-
-  {
     name: 'prepaid_subscription'
     amount: 100
     gems: 3500
