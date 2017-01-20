@@ -201,12 +201,6 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
-  getYearSubscriptionGroup: ->
-    return @yearSubscriptionGroup if @yearSubscriptionGroup
-    @yearSubscriptionGroup = utils.getYearSubscriptionGroup(me.get('testGroupNumber'))
-    application.tracker.identify yearSubscriptionGroup: @yearSubscriptionGroup unless me.isAdmin()
-    @yearSubscriptionGroup
-
   getDungeonLevelsGroup: ->
     # Fully dismantle this after Hour of Code week is done
     return @dungeonLevelsGroup if @dungeonLevelsGroup

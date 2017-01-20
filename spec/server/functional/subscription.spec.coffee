@@ -1550,33 +1550,6 @@ describe 'Subscriptions', ->
                   nockDone()
                   done()
 
-    it 'year_sale test group b', (done) ->
-      nockUtils.setupNock 'sub-test-42.json', (err, nockDone) ->
-        stripe.tokens.create {
-          card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
-        }, (err, token) ->
-          loginNewUser (user1) ->
-            expect(user1.get('stripe')?.free).toBeUndefined()
-            user1.set('testGroupNumber', 1)
-            user1.save (err, user1) ->
-              requestBody =
-                stripe:
-                  token: token.id
-                  timestamp: new Date()
-              request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
-                expect(err).toBeNull()
-                expect(res.statusCode).toBe(200)
-                User.findById user1.id, (err, user1) ->
-                  expect(err).toBeNull()
-                  stripeInfo = user1.get('stripe')
-                  Payment.findOne purchaser: user1._id, (err, payment) ->
-                    expect(err).toBeNull()
-                    Product.findOne name: 'year_subscription_b', (err, product) ->
-                      expect(err).toBeNull()
-                      expect(product.get('amount')).toEqual(payment.get('amount'))
-                      nockDone()
-                      done()
-
     it 'year_sale when stripe.free === true', (done) ->
       nockUtils.setupNock 'sub-test-36.json', (err, nockDone) ->
         stripe.tokens.create {
