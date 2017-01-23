@@ -167,6 +167,10 @@ module.exports = class Tracker extends CocoClass
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
       delete properties.label
+      
+    # TODO: Update snowplow schema so this doesn't break events
+    if event is 'Saw Victory'
+      delete properties.playtime
 
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')

@@ -9,6 +9,7 @@ Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
 ace = require 'ace'
 utils = require 'core/utils'
+Aether = require 'aether'
 require 'vendor/aether-python'
 
 unless typeof esper is 'undefined'
