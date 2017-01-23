@@ -39,6 +39,7 @@ module.exports = class BuyGemsModal extends ModalView
         if jqxhr.status is 201
           @state = 'recovered_charge'
           @render()
+    @trackTimeVisible({ trackViewLifecycle: true })
 
   onLoaded: ->
     @basicProduct = @products.findWhere { name: 'basic_subscription' }

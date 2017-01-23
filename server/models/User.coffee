@@ -90,9 +90,6 @@ UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
-UserSchema.methods.getYearSubscriptionGroup = ->
-  core_utils.getYearSubscriptionGroup(@get('testGroupNumber'))
-
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(
@@ -243,7 +240,7 @@ UserSchema.methods.updateMailChimp = co.wrap ->
   }
   yield mailChimp.api.put(mailChimp.makeSubscriberUrl(email), body)
   yield @update({$set: {mailChimp: {email}}})
-  
+
 
 UserSchema.statics.statsMapping =
   edits:
@@ -479,7 +476,7 @@ UserSchema.post 'save', co.wrap ->
   catch e
     console.error 'User Post Save Error:', e.stack
 
-  
+
 UserSchema.post 'init', ->
   @set('anonymous', false) if @get('email') # TODO: Remove once User handler waterfall-signup system is removed, and we make sure all signup methods set anonymous to false
   @originalEmail = @get('emailLower')
