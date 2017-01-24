@@ -1,0 +1,19 @@
+{
+	"$schema": "http://iglucentral.com/schemas/com.snowplowanalytics.self-desc/schema/jsonschema/1-0-0#",
+	"self": {
+		"vendor": "com.codecombat",
+		"name": "joined_classroom",
+		"format": "jsonschema",
+		"version": "1-0-0"
+	},
+	"type": "object",
+	"properties": {
+		"user": {"type": "string", "pattern": "^[a-z0-9]{24}$", "maxLength": 24, "minLength": 24},
+		"classroomName": {"type": "string"},
+		"classroomID": {"type": "string"},
+		"classCode": {"type": "string"},
+		"ownerID": {"type": "string"}
+	},
+	"required": ["user", "classroomID", "ownerID"],
+	"additionalProperties": false
+}
