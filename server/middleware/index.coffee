@@ -22,6 +22,7 @@ module.exports =
   patches: require './patches'
   prepaids: require './prepaids'
   rest: require './rest'
+  skippedContacts: require './skipped-contacts'
   subscriptions: require './subscriptions'
   trialRequests: require './trial-requests'
   users: require './users'

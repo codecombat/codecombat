@@ -1,0 +1,28 @@
+.container
+  div
+    label
+      input(type="checkbox" v-model="showArchived")
+      | Show archived users
+      | ({{ numArchivedUsers }})
+
+  div
+    | Sort by:
+    select(v-model="sortOrder")
+      option(value="date (ascending)")
+        | date (ascending)
+      option(value="date (descending)")
+        | date (descending)
+      option(value="email")
+        | email address
+      option(value="archived")
+        | archived
+      option(value="unarchived")
+        | unarchived
+
+  ol.skipped-contacts
+    li( is="skipped-contact-info",
+        v-for="skippedContact in sortedContacts",
+        v-if="showArchived || !skippedContact.archived",
+        :key="skippedContact._id",
+        :skippedContact="skippedContact",
+        :user="users[skippedContact._id]")

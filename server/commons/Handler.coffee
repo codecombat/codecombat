@@ -104,7 +104,7 @@ module.exports = class Handler
     res.end()
 
   sendNoContent: (res) ->
-    res.send 204
+    res.sendStatus 204
     res.end()
 
   # generic handlers

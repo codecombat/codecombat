@@ -90,9 +90,6 @@ UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
-UserSchema.methods.getYearSubscriptionGroup = ->
-  core_utils.getYearSubscriptionGroup(@get('testGroupNumber'))
-
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(
@@ -243,7 +240,7 @@ UserSchema.methods.updateMailChimp = co.wrap ->
   }
   yield mailChimp.api.put(mailChimp.makeSubscriberUrl(email), body)
   yield @update({$set: {mailChimp: {email}}})
-  
+
 
 UserSchema.statics.statsMapping =
   edits:
@@ -372,6 +369,12 @@ UserSchema.methods.isEnrolled = ->
   return true unless coursePrepaid.endDate
   return coursePrepaid.endDate > new Date().toISOString()
 
+UserSchema.methods.prepaidType = ->
+  # TODO: remove once legacy prepaidIDs are migrated to objects
+  return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
+  # NOTE: Default type is 'course' if no type is marked on the user's copy
+  return @get('coursePrepaid')?.type or 'course'
+
 UserSchema.methods.prepaidIncludesCourse = (course) ->
   # TODO: Migrate legacy prepaids that just use coursePrepaidID
   return false if not (@get('coursePrepaid') or @get('coursePrepaidID'))
@@ -473,7 +476,7 @@ UserSchema.post 'save', co.wrap ->
   catch e
     console.error 'User Post Save Error:', e.stack
 
-  
+
 UserSchema.post 'init', ->
   @set('anonymous', false) if @get('email') # TODO: Remove once User handler waterfall-signup system is removed, and we make sure all signup methods set anonymous to false
   @originalEmail = @get('emailLower')
@@ -544,7 +547,7 @@ UserSchema.statics.makeNew = (req) ->
     newID = _.pad((User.idCounter++).toString(16), 24, '0')
     user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
-  lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  lang = languages.languageCodeFromRequest req
   { preferredLanguage } = req.query
   if preferredLanguage and _.contains(languages.languageCodes, preferredLanguage)
     user.set({ preferredLanguage })

@@ -12,7 +12,6 @@ geoip = require '@basicer/geoip-lite'
 database = require './server/commons/database'
 perfmon = require './server/commons/perfmon'
 baseRoute = require './server/routes/base'
-user = require './server/handlers/user_handler'
 logging = require './server/commons/logging'
 config = require './server_config'
 auth = require './server/commons/auth'
@@ -346,7 +345,7 @@ setupUserDataRoute = (app) ->
 
 
     sst = JSON.stringify(_.pick(req.session ? {}, 'amActually', 'featureMode'))
-    user = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
+    formattedUser = if req.user then JSON.stringify(UserHandler.formatEntity(req, req.user)).replace(/\//g, '\\/') else '{}'
     try
       mandate = yield getMandate()
       configData =  _.omit mandate?.toObject() or {}, '_id'
@@ -363,12 +362,12 @@ setupUserDataRoute = (app) ->
     configData.fullUnsafeContentHostname = domainPrefix + config.unsafeContentHostname
     configData.buildInfo = config.buildInfo
 
-
-
+    if not _.isString(formattedUser)
+      throw new Error('Error serving user: #{formattedUser}')
     res.header 'Content-Type', 'application/javascript; charset=utf8'
     res.send [
       "window.serverConfig = #{JSON.stringify(configData)};"
-      "window.userObject = #{user};",
+      "window.userObject = #{formattedUser};",
       "window.serverSession = #{sst};",
       "window.features = #{JSON.stringify(req.features)};"
       "window.me = {"
@@ -388,12 +387,17 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
     res.sendfile path.join(__dirname, 'public', 'channel.html')
 
+setupUpdateBillingRoute = (app) ->
+  app.get '/update-billing', (req, res) ->
+    res.sendfile path.join(__dirname, 'public', 'update-billing.html')
+
 exports.setupRoutes = (app) ->
   routes.setup(app)
 
   baseRoute.setup app
   setupUserDataRoute app
   setupFacebookCrossDomainCommunicationRoute app
+  setupUpdateBillingRoute app
   setupFallbackRouteToIndex app
   setupErrorMiddleware app
 

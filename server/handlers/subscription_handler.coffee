@@ -131,8 +131,7 @@ class SubscriptionHandler extends Handler
           Product.find().exec (err, products) =>
             return @sendDatabaseError(res, err) if err
 
-            product = _.find(products, (p) -> p.get('name') is req.user.getYearSubscriptionGroup())
-            product ?= _.find(products, (p) -> p.get('name') is 'year_subscription')
+            product = _.find(products, (p) -> p.get('name') is 'year_subscription')
             return @sendNotFoundError(res, 'year_subscription product not found') if not product
 
             metadata =

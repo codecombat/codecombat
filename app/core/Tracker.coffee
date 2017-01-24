@@ -127,7 +127,7 @@ module.exports = class Tracker extends CocoClass
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
     return unless me and @isProduction and not me.isAdmin()
 
-    @trackEventInternal action, _.cloneDeep properties    
+    @trackEventInternal action, _.cloneDeep properties
     @trackSnowplow action, _.cloneDeep properties
 
 
@@ -167,6 +167,10 @@ module.exports = class Tracker extends CocoClass
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
       delete properties.label
+      
+    # TODO: Update snowplow schema so this doesn't break events
+    if event is 'Saw Victory'
+      delete properties.playtime
 
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
@@ -180,7 +184,7 @@ module.exports = class Tracker extends CocoClass
   trackEventInternal: (event, properties) =>
     return unless @supermodel?
     # Skipping heavily logged actions we don't use internally
-    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
+    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load']
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
