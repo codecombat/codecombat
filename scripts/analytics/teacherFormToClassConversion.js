@@ -1,3 +1,4 @@
+'use strict';
 // Find conversion rate between viewing the teacher sign up form and creating a class
 
 // Rough algorithm
@@ -12,7 +13,6 @@ if (process.argv.length !== 3) {
   process.exit();
 }
 
-'use strict';
 const scriptStartTime = new Date();
 const co = require('co');
 const MongoClient = require('mongodb').MongoClient;

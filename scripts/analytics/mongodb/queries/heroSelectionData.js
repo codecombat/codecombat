@@ -1,9 +1,9 @@
+'use strict';
 // Export csv-formatted per-student/day hero selection data
 
 // Usage:
 // mongo --quiet <address>:<port>/<database> <script file> -u <username> -p <password> --eval "var lsConn='<level session connection string,user,password>';"
 
-'use strict';
 const scriptStartTime = new Date();
 
 const debugOutput = false;

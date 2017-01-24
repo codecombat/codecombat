@@ -1,9 +1,9 @@
+'use strict';
 // Find school data by state, export csv-formatted lines per-email
 
 // Usage:
 // mongo --quiet <address>:<port>/<database> <script file> -u <username> -p <password>
 
-'use strict';
 const scriptStartTime = new Date();
 
 const debugOutput = false;

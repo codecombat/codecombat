@@ -1,3 +1,4 @@
+'use strict';
 // Find users that may have incorrect roles based on classroom ownership and membership
 
 // Usage:
@@ -11,7 +12,6 @@
 // Classroom member, teacher role
 // Classroom member, student role (GOOD)
 
-'use strict';
 const scriptStartTime = new Date();
 
 const classrooms = db.classrooms.find({}, {ownerID: 1, members: 1}).toArray();
