@@ -257,7 +257,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     teacher_type_3: "Отримайте доступ до навчальних матеріалів"
     teacher_type_4: "Слідкуйте за прогресом учнів"
     signup_as_teacher: "Зареєструйтесь як учитель"
-    student_type_1: "Вчіть програмування поки граєте в захоплюючу гру!"
+    student_type_1: "Вчіть програмування граючи в захоплюючу гру!"
     student_type_2: "Грайте разом зі своїм класом"
     student_type_3: "Змагайтесь на аренах"
     student_type_4: "Оберіть свого героя!"
