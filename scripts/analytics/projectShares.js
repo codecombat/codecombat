@@ -41,14 +41,13 @@ if(moment(eventEndDay).isAfter(moment())) {
 
 console.log('\nConnecting...')
 co(function*() {
-  const db = yield mongoose.connect(mongoConnUrl);
+  yield mongoose.connect(mongoConnUrl);
   const analyticsDb = yield MongoClient.connect(mongoConnUrlAnalytics);
-  const levelSessionDb = MongoClient.connect(mongoConnUrlLevelSessions);
   console.log('Connected');
   
   // Get all levels which are shareable.
-  Level = require('../../server/models/Level');
-  levels = yield Level.find(
+  const Level = require('../../server/models/Level');
+  var levels = yield Level.find(
     {shareable: 'project', slug: {$exists: true}},
     {original: 1, name: 1, type: 1}
   )
@@ -56,7 +55,7 @@ co(function*() {
   // Web dev level event tracking not added until 1/17/2017, do not count them before then.
   levels = levels.filter((l) => l.get('type') !== 'web-dev')
   console.log(`Loaded ${levels.length} levels. Loading sessions...`);
-  levelOriginals = levels.map((l) => l.get('original').toString());
+  var levelOriginals = levels.map((l) => l.get('original').toString());
   
   // Get all sessions created during a certain window for those levels,
   // which also have a dateFirstCompleted.
@@ -75,7 +74,7 @@ co(function*() {
   const sessionCursor = LevelSession.find(sessionQuery).sort('-_id').cursor()
   const levelSessionViews = {};
   while(true) {
-    levelSession = yield sessionCursor.next()
+    const levelSession = yield sessionCursor.next()
     if (!levelSession) break;
     levelSessionViews[levelSession._id.toString()] = {
       user: levelSession.get('creator'),
@@ -101,10 +100,10 @@ co(function*() {
       $in: ['Play WebDev Level - Load', 'Play GameDev Level - Load']
     }
   }
-  cursor = analyticsDb.collection('log').find(eventQuery)
+  const cursor = analyticsDb.collection('log').find(eventQuery)
   var totalViews = 0;
   while(true) {
-    event = yield cursor.next()
+    const event = yield cursor.next()
     if(!event) { break; }
     if(!event.properties) { continue }
     var sessionID = event.properties.sessionID;
@@ -118,8 +117,12 @@ co(function*() {
     }
   }
   console.log("RESULT: ", (totalViews / _.size(levelSessionViews)).toFixed(3), 'views per completed shareable project.')
+
+  mongoose.disconnect();
+  analyticsDb.close();
 }).catch(function(e) {
   console.log('Error: ', e)
+  process.exit();
 });
 
 // * Helper functions
