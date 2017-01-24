@@ -799,7 +799,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sean_title: "Менеджер територій"
     liz_title: "Менеджер територій"
     retrostyle_title: "Ілюстрація"
-    retrostyle_blurb: "Ігри в ретро стилі"
+    retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
     jose_blurb: "Hа зліт"
     community_title: "...і наша open-source спільнота"
