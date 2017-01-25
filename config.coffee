@@ -245,6 +245,12 @@ exports.config =
         'javascripts': ['bower_components/esper.js/esper.modern.js']
     autoReload:
       delay: 1000
+    static:
+      processors: [
+        require('./brunch-static-stuff') {
+          locals: {shaTag: 'dev' or process.env.GIT_SHA}
+        }
+      ]
 
   modules:
     definition: (path, data) ->
@@ -280,6 +286,7 @@ for file in coffeeFiles
 numBundles = 0
 
 for file in jadeFiles
+  continue if /static.jade$/.test file
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.jade', '.js').replace('./app', 'javascripts/app')
   exports.config.files.templates.joinTo[outputFile] = inputFile

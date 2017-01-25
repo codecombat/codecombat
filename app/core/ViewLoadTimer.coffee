@@ -73,6 +73,9 @@ class ViewLoadTimer
       console.log m if VIEW_LOAD_LOG
       noty({text:m, type:'information', timeout: 1000, layout:'topCenter'}) if SHOW_NOTY
       window.tracker?.trackEvent 'View Load', props
+      window.timeSpendWaiting ?= 0
+      window.timeSpendWaiting += totalTime
+
     .then =>
       console.groupEnd() if VIEW_LOAD_LOG
 

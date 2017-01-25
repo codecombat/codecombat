@@ -147,7 +147,7 @@ if view.showAds()
                 if !campaign
                   - continue;
                 div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
-                  .background-container(class="#{campaignSlug}")
+                  .background-container(class=campaignSlug)
                   .campaign-label
                     h3.campaign-name
                       if campaign
@@ -161,14 +161,17 @@ if view.showAds()
                     if campaign && campaign.locked && !godmode
                       h4.campaign-locked(data-i18n="play.locked") Locked
                     else if campaign
-                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                     if campaign && campaign.get('description')
                       p.campaign-description
                         span= i18n(campaign.attributes, 'description')
           else
             - var campaign = campaigns[campaignSlug];
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
-            div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+            div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
               .campaign-label
                 h2.campaign-name
                   if campaign
@@ -183,7 +186,10 @@ if view.showAds()
                 if campaign && campaign.locked && !godmode
                   h3.campaign-locked(data-i18n="play.locked") Locked
                 else if campaign
-                  btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
                 if campaign && campaign.get('description')
                   p.campaign-description
                     span= i18n(campaign.attributes, 'description')
