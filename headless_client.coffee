@@ -29,7 +29,7 @@ options =
   simulateOnlyOneGame: simulateOneGame
 
 options.heapdump = require('heapdump') if options.heapdump
-server = if options.testing then 'http://127.0.0.1:3000' else 'http://direct.codecombat.com'
+server = if options.testing then 'http://127.0.0.1:3000' else 'https://play.ellitegames.com'
 # Use direct instead of live site because jQlone's requests proxy doesn't do caching properly and CloudFlare gets too aggressive.
 
 # Disabled modules
