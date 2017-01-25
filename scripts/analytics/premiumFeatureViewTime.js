@@ -28,13 +28,13 @@ const moment = require('moment');
 const LevelSession = require('../../server/models/LevelSession');
 
 const startOfWeek = 5 // Friday morning at 00:00
-const daysAgoToStart = (moment().toDate().getDay() - startOfWeek + 7) % 7 + 7 + 46
+const daysAgoToStart = (moment().toDate().getDay() - startOfWeek + 7) % 7 + 7
 console.log();
 if(moment().toDate().getDay() !== 5){
   console.log('NOTE: To get data for the last week including thursday, run this script on friday!');
 }
 const startDay = (moment().subtract(daysAgoToStart, 'days').startOf('day')).toDate()
-const eventWindow = 1 // days
+const eventWindow = 7 // days
 const endDay = moment(startDay).add(eventWindow, 'days').toDate()
 console.log('start: ', startDay, '\n  end: ', endDay);
 if(moment(endDay).isAfter(moment())) {
@@ -62,14 +62,6 @@ const totalRecentUsers = (yield analyticsDb.collection('log').distinct('user',
   }
 )).length;
 console.log("totalRecentUsers:", totalRecentUsers);
-const totalRecentUsersThatIdentified = (yield analyticsDb.collection('log').distinct('user',
-  {
-    _id: { $gt: startObjectId, $lt: endObjectId },
-    event: "Identify",
-    // user: { $regex: /^.{24}$/ }
-  }
-)).length;
-console.log("totalRecentUsersThatIdentified:", totalRecentUsersThatIdentified);
 
 const results = (yield analyticsDb.collection('log').mapReduce(function(){
   emit('timeTotal', parseFloat(this.properties.timeViewed))
@@ -94,8 +86,8 @@ results.forEach((obj)=>{
 })
 
 console.log("usersThatViewedPremiumFeatures:", usersThatViewedPremiumFeatures);
-console.log("totalPremiumViewTime:", totalPremiumViewTime);
-console.log("Final OKR value (milliseconds per user):", (totalPremiumViewTime/totalRecentUsers).toFixed(4));
+console.log("totalPremiumViewTime:", totalPremiumViewTime, 'ms');
+console.log("Final G1KR2 value:", (totalPremiumViewTime/totalRecentUsers).toFixed(0), 'ms/user');
 
 mongoose.connection.close();
 analyticsDb.close();
