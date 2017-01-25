@@ -17,8 +17,8 @@ module.exports = class Tracker extends CocoClass
     window.tracker = @
     @isProduction = document.location.href.search('codecombat.com') isnt -1
     @trackReferrers()
-    @identify()
     @supermodel = new SuperModel()
+    @identify() # Needs supermodel to exist first
     @updateRole() if me.get 'role'
 
   enableInspectletJS: (levelSlug) ->
