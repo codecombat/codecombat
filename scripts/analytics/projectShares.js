@@ -1,3 +1,4 @@
+'use strict';
 // Output Hints style a/b test results in csv format
 
 if (process.argv.length !== 5) {
@@ -5,8 +6,6 @@ if (process.argv.length !== 5) {
   log("Include ?readPreference=secondary in connection URLs");
   process.exit();
 }
-
-'use strict';
 
 require('coffee-script');
 require('coffee-script/register');
@@ -50,7 +49,7 @@ co(function*() {
   // Get all levels which are shareable.
   Level = require('../../server/models/Level');
   levels = yield Level.find(
-    {shareable: 'project', slug: {$exists: true}}, 
+    {shareable: 'project', slug: {$exists: true}},
     {original: 1, name: 1, type: 1}
   )
   
@@ -59,7 +58,7 @@ co(function*() {
   console.log(`Loaded ${levels.length} levels. Loading sessions...`);
   levelOriginals = levels.map((l) => l.get('original').toString());
   
-  // Get all sessions created during a certain window for those levels, 
+  // Get all sessions created during a certain window for those levels,
   // which also have a dateFirstCompleted.
   // put in object id -> { user, views }
 
@@ -120,7 +119,7 @@ co(function*() {
   }
   console.log("RESULT: ", (totalViews / _.size(levelSessionViews)).toFixed(3), 'views per completed shareable project.')
 }).catch(function(e) {
-  console.log('Error: ', e)  
+  console.log('Error: ', e)
 });
 
 // * Helper functions

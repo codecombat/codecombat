@@ -1,3 +1,4 @@
+'use strict';
 // Find return rate for individual players
 
 // Rough algorithm
@@ -14,7 +15,6 @@ if (process.argv.length !== 3) {
   process.exit();
 }
 
-'use strict';
 const scriptStartTime = new Date();
 const co = require('co');
 const MongoClient = require('mongodb').MongoClient;
