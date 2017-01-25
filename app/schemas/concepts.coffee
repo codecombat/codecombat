@@ -43,13 +43,13 @@ concepts = [
         call = n.parent.parent
         return false unless call.arguments.length is 1
         call.matches('Literal[value=2]')}
-  {concept: 'boolean_and', name: 'Boolean And', description: 'Using boolean and/&&.', automatic: true, tagger: 'BinaryExpression[operator="&&"]'}
+  {concept: 'boolean_and', name: 'Boolean And', description: 'Using boolean and/&&.', automatic: true, tagger: 'LogicalExpression[operator="&&"]'}
   {concept: 'boolean_equality', name: 'Boolean Equality', description: 'Using == and !=.', automatic: true, tagger: 'BinaryExpression[operator="=="]'}
-  {concept: 'boolean_greater_less', name: 'Boolean Greater/Less', description: 'Using >, >=, <, and <=.', automatic: 'Maybe, use in for loops confuses the issue', tagger: 'BinaryExpression[operator=">"],BinaryExpression[operator="<"]'}
+  {concept: 'boolean_greater_less', name: 'Boolean Greater/Less', description: 'Using >, >=, <, and <=.', automatic: 'Maybe, use in for loops confuses the issue', tagger: 'BinaryExpression[operator=">"],BinaryExpression[operator="<"],BinaryExpression[operator=">="],BinaryExpression[operator="<="]'}
   {concept: 'boolean_logic_shortcircuit', name: 'Boolean Logic Shortcircuiting', description: 'Writing longer if-conditionals with potential failing operations in the conditional. (if a && b.c > 0)', automatic: false}
   {concept: 'boolean_not', name: 'Boolean Not', description: 'Using boolean not/!.', automatic: 'Unsure, depends on if we teach !blah for null checks', tagger: 'UnaryyExpression[operator="!"]'}
   {concept: 'boolean_operator_precedence', name: 'Boolean Operator Precedence', description: 'Chaining booleans together (if (a || b) && c)', automatic: false}
-  {concept: 'boolean_or', name: 'Boolean Or', description: 'Using boolean or/||.', automatic: true, tagger: 'BinaryExpression[operator="||"]'}
+  {concept: 'boolean_or', name: 'Boolean Or', description: 'Using boolean or/||.', automatic: true, tagger: 'LogicalExpression[operator="||"]'}
   {concept: 'bootstrap', name: 'Bootstrap', description: 'Webpage structure involves Bootstrap in some way.', automatic: true}
   {concept: 'break_statements', name: 'Break Statements', description: 'Using the break statement.', automatic: true, tagger: 'BreakStatement'}
   {concept: 'classes', name: 'Classes', description: 'Defining a class.', automatic: true}

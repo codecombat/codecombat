@@ -114,7 +114,7 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|' + gameLibraries + '))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|co|vue|vuex|' + gameLibraries + '))')
           regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui|' + gameLibraries  + '))')
           'bower_components/treema/treema-utils.js'
         ]
@@ -157,6 +157,9 @@ exports.config =
         'javascripts/app/vendor/three.js': 'bower_components/three.js/three.min.js'
         'javascripts/app/vendor/htmlparser2.js': 'vendor/scripts/htmlparser2.js'
         'javascripts/app/vendor/deku.js': 'vendor/scripts/deku.js'
+        'javascripts/app/vendor/co.js': 'vendor/scripts/co.js'
+        'javascripts/app/vendor/vue.js': 'vendor/scripts/vue.js'
+        'javascripts/app/vendor/vuex.js': 'vendor/scripts/vuex.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')
@@ -210,7 +213,7 @@ exports.config =
     templates:
       defaultExtension: 'jade'
       joinTo:
-        'javascripts/app.js': [regJoin('^app/templates/core'), regJoin('^app/templates/home-view')] 
+        'javascripts/app.js': [regJoin('^app/templates/core'), regJoin('^app/templates/home-view')]
         'javascripts/app/views/play.js': regJoin('^app/templates/play')
         'javascripts/app/views/courses.js': regJoin('^app/templates/courses')
         'javascripts/app/views/game-menu.js': regJoin('^app/templates/game-menu')

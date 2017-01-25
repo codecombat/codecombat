@@ -18,16 +18,16 @@ block content
           tr
             th Level Name
             th Task List
-          for level in view.processedLevels
+          for level, slug in view.processedLevels
             if view.hasIncompleteTasks(level)
-              +levelRow(level)
+              +levelRow(level, slug)
       else
         div No view.processedLevels
 
-mixin levelRow(level)
+mixin levelRow(level, slug)
   tr
     td.taskOwner
-      a(href= 'level/' + level.slug)= level.name
+      a(href= '/editor/level/' + slug)= level.name
     td.tasks
       table.table-striped.table-hover.tasksTable
         for task in (level.tasks || [])

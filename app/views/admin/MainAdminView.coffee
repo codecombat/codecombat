@@ -85,10 +85,18 @@ module.exports = class MainAdminView extends RootView
     return if searchValue is @lastUserSearchValue
     return @onSearchRequestSuccess [] unless @lastUserSearchValue = searchValue.toLowerCase()
     forms.disableSubmit(@$('#user-search-button'))
+    q = @lastUserSearchValue
+    role = undefined
+    q = q.replace /role:([^ ]+)/, (dummy, m1) ->
+      role = m1
+      return ''
+
+    data = {search: q}
+    data.role = role if role?
     $.ajax
       type: 'POST',
       url: '/db/user/-/admin_search'
-      data: {search: @lastUserSearchValue}
+      data: data
       success: @onSearchRequestSuccess
       error: @onSearchRequestFailure
 

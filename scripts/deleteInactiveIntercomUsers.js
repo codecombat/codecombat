@@ -1,6 +1,6 @@
+'use strict';
 // Delete Intercom users last seen over 30 days ago with no conversations
 
-'use strict';
 if (process.argv.length !== 3) {
   console.log("Usage: node <script> <Intercom 'App ID:API write key'> ");
   process.exit();

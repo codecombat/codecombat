@@ -1,4 +1,4 @@
-concepts =require 'schemas/concepts'
+concepts = require 'schemas/concepts'
 
 module.exports = TagSolution = (solution) ->
   code = solution.source

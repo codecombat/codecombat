@@ -243,7 +243,7 @@ module.exports = mw =
     
     unless mw.lastLogin?.isAdmin()
       # TODO: Make this function transparently turn into an admin if necessary
-      done("Must be logged in as an admin to create a campaign") 
+      done("Must be logged in as an admin to create a campaign")
 
     data = _.extend({}, {
       name: _.uniqueId('Campaign ')
