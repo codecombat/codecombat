@@ -154,7 +154,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    else: "else"
 #    elif: "else if"
 #    while: "while"
-#    loop: "loop"
+    loop: "pętla"
 #    for: "for"
 #    break: "break"
 #    continue: "continue"
@@ -169,10 +169,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    self: "self"
     hero: "bohater"
 #    this: "this"
-#    or: "or"
-#    "||": "or"
-#    and: "and"
-#    "&&": "and"
+    or: "lub"
+    "||": "lub"
+    and: "i"
+    "&&": "i"
     not: "negacja"
     "!": "negacja"
     "=": "przypisz"
@@ -385,7 +385,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     username: "Nazwa użytkownika"
     contact_us: "Skontaktuj się z nami"
     close_window: "Zamknij okno"
-#    learn_more: "Learn More"
+    learn_more: "Dowiedz się więcej"
 
   units:
     second: "sekunda"
@@ -408,7 +408,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     edit_level: "Edytuj poziom"
 #    explore_codecombat: "Explore CodeCombat"
 #    finished_hoc: "I'm finished with my Hour of Code"
-#    get_certificate: "Get your certificate!"
+    get_certificate: "Pobierz swój certyfikat!"
     level_complete: "Poziom ukończony"
     completed_level: "Ukończony poziom:"
     course: "Kurs:"
@@ -526,7 +526,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    tip_javascript_java: "Java is to JavaScript what Car is to Carpet. - Chris Heilmann"
 #    tip_move_forward: "Whatever you do, keep moving forward. - Martin Luther King Jr."
     tip_google: "Masz problem z którym nie dajesz sobie rady? Użyj Google!"
-#    tip_adding_evil: "Adding a pinch of evil."
+    tip_adding_evil: "Dodajemy szczyptę zła."
 #    tip_hate_computers: "That's the thing about people who think they hate computers. What they really hate is lousy programmers. - Larry Niven"
     tip_open_source_contribute: "Możesz pomóc w ulepszeniu CodeCombat!"
 #    tip_recurse: "To iterate is human, to recurse divine. - L. Peter Deutsch"
@@ -539,7 +539,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
 #    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
 #    tip_adding_orgres: "Rounding up ogres."
-#    tip_sharpening_swords: "Sharpening the swords."
+    tip_sharpening_swords: "Ostrzymy miecze."
     tip_ratatouille: "Nigdy nie pozwólcie, aby ograniczało was to, kim jesteście. Duch nie zna granic. - Gusteau, Ratatuj"
     tip_nemo: "Wiesz co się robi jak życie dołuje? Mówi się trudno... i płynie się dalej. - Dory, Gdzie jest Nemo"
 #    tip_internet_weather: "Just move to the internet, it's great here. We get to live inside where the weather is always awesome. - John Green"
@@ -550,8 +550,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
 #    tip_mulan: "Believe you can, then you will. - Mulan"
 
-#  play_game_dev_level:
-#    created_by: "Created by {{name}}"
+  play_game_dev_level:
+    created_by: "Stworzone przez {{name}}"
     restart: "Restartuj poziom"
     play: "Zagraj poziom"
     play_more_codecombat: "Graj więcej CodeCombat"
@@ -613,11 +613,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     price: "x{{gems}} / mieś."
 
   subscribe:
-#    subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Popraw swoje umiejętności z subskrypcją CodeCombat!" # {change}
+    subscribe_modal_title: "CodeCombat Premium"
+    comparison_blurb: "Popraw swoje umiejętności z subskrypcją <strong>CodeCombat Premium</strong>!"
 #    premium_pricing_prefix: "Get Premium for just"
 #    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
+    premium: "Premium" # Make sure the following feature translations don't go onto two lines
     feature1: "__levelsCount__+ poziomów w __worldsCount__ różnych światach" # {change}
     feature2: "__heroesCount__ potężnych, <strong>nowych bohaterów</strong> z unikalnymi umiejętnościami!" # {change}
     feature3: "__bonusLevelsCount__+ bonusowych poziomów" # {change}
@@ -786,8 +786,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     rob_blurb: "Programuje różne rzeczy"
     josh_c_title: "Twórca Gry"
     josh_c_blurb: "Tworzy nowe gry"
-    robin_title: "Design i Badania" # {change}
-    robin_blurb: "Rusztowanie" # {change}
+#    robin_title: "Product Manager"
+#    robin_blurb: "Ships things"
     josh_title: "Projektant Gier"
     josh_blurb: "Podłoga to lawa"
     phoenix_title: "Programista"
@@ -851,11 +851,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     previous: "Poprzedni"
     location_title: "Nasza siedziba w San Francisco:"
 
-#  teachers:
-#    licenses_needed: "Licenses needed"
+  teachers:
+    licenses_needed: "Potrzebne licencje"
 
-#  special_offer:
-#    special_offer: "Special Offer"
+  special_offer:
+    special_offer: "Specjalna oferta"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
@@ -868,13 +868,13 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    purchase_starter_licenses: "Purchase Starter Licenses"
 #    purchase_starter_licenses_to_grant: "Purchase Starter Licenses to grant access to __starterLicenseCourseList__"
 #    starter_licenses_can_be_used: "Starter Licenses can be used to assign additional courses immediately after purchase."
-#    pay_now: "Pay Now"
+    pay_now: "Zapłać teraz"
 #    we_accept_all_major_credit_cards: "We accept all major credit cards."
 #    cs2_description: "builds on the foundation from Introduction to Computer Science, diving into if-statements, functions, events and more."
 #    wd1_description: "introduces the basics of HTML and CSS while teaching skills needed for students to build their first webpage."
 #    gd1_description: "uses syntax students are already familiar with to show them how to build and share their own playable game levels."
 #    see_an_example_project: "see an example project"
-#    get_started_today: "Get started today!"
+    get_started_today: "Zacznij dziś!"
 #    want_all_the_courses: "Want all the courses? Request information on our Full Licenses."
 #    compare_license_types: "Compare License Types:"
 #    cs: "Computer Science"
@@ -890,10 +890,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    pricing: "Pricing"
 #    free: "Free"
 #    purchase: "Purchase"
-#    courses_prefix: "Courses"
-#    courses_suffix: ""
-#    course_prefix: "Course"
-#    course_suffix: ""
+    courses_prefix: "Kursy"
+    courses_suffix: ""
+    course_prefix: "Kurs"
+    course_suffix: ""
 
   teachers_quote:
     subtitle: "Twoi uczniowie mogą zacząć nukę w mniej niż godzinę. Będziesz mógł <strong>utworzyć klasy, dodać uczniów, doglądać ich postępy</strong> w nauce programowania."
@@ -915,7 +915,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    approve_funds: "Approve Funds"
 #    no_purchaser_role: "No role in purchase decisions"
 #    district_label: "District"
-#    district_na: "Enter N/A if not applicable"
+    district_na: "Wprowadź N/A jeżeli nie dotyczy"
     organization_label: "Nazwa szkoły/Obwodu" # {change}
     city: "Miasto"
     state: "Województwo"
@@ -933,7 +933,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
 #    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
-#    back_to_classes: "Back to Classes"
+    back_to_classes: "Idź do klas"
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
@@ -1178,7 +1178,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     welcome_to_page: "Witamy na naszej stronia z kursami!" # {change}
     my_classes: "Moje klasy"
     class_added: "Udało się dodać klasę!"
-    view_levels: "pokaż poziomy" # {change}
+    view_levels: "zobacz wszystkie poziomy kursu"
     join_class: "Dołącz do klasy"
     join_class_2: "Dołącz do klasy"
     ask_teacher_for_code: "Poproś nauczyciela o kod klasy z CodeCombat! Jeśli już go masz, wpisz go poniżej:"
@@ -1187,12 +1187,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     joining: "Dołączanie do klasy"
     course_complete: "Ukończono kurs"
     play_arena: "Zagraj na arenie"
-#    view_project: "View Project"
+    view_project: "Zobacz project"
     start: "Start"
-    last_level: "Ostatni poziom" # {change}
+    last_level: "Ostatni grany poziom"
     not_you: "To nie ty?"
     continue_playing: "Kontynuuj grę"
-    option1_header: "Opcja 1: Zaproś uczniów poprzez email" # {change}
+    option1_header: "Zaproś uczniów poprzez email"
 #    option1_body: "Note: If your students do not have email addresses, they can enter your unique Class Code when creating a Student Account to make email addresses optional."
     remove_student1: "Usuń ucznia"
     are_you_sure: "Na pewno chcesz usunąć tego ucznia z klasy?"
@@ -1485,8 +1485,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
 
-#  sharing:
-#    game: "Game"
+  sharing:
+    game: "Gra"
 #    webpage: "Webpage"
 #    your_students_preview: "Your students will click here to see their finished projects! Unavailable in teacher preview."
 #    unavailable: "Link sharing not available in teacher preview."
@@ -1495,7 +1495,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    victory_share_prefix: "Share this link to invite your friends & family to"
 #    victory_share_game: "play your game level"
 #    victory_share_web: "view your webpage"
-#    victory_share_suffix: "."
+    victory_share_suffix: "."
 #    victory_course_share_prefix: "This link will let your friends & family"
 #    victory_course_share_game: "play the game"
 #    victory_course_share_web: "view the webpage"
@@ -1952,7 +1952,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     if_else_statements: "Wyrażenia if/else"
     if_statements: "Wyrażenia warunkowe"
 #    if_statements_nested: "Nested If Statemnts"
-#    indexing: "Array Indexes"
+    indexing: "Indeksy tablicy"
 #    input_handling_flags: "Input Handling - Flags"
 #    input_handling_keyboard: "Input Handling - Keyboard"
 #    input_handling_mouse: "Input Handling - Mouse"
@@ -1961,8 +1961,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     intermediate_html_attributes: "Średnio zaawansowane atrybuty HTML"
     intermediate_html_tags: "Średnio zaawansowane tagi HTML"
     jquery: "jQuery"
-#    jquery_animations: "jQuery Animations"
-#    jquery_filtering: "jQuery Element Filtering"
+    jquery_animations: "jQuery animacje"
+    jquery_filtering: "jQuery filtrowanie elementów"
     jquery_selectors: "jQuery selektory"
     length: "Rozmiar tablicy"
     math_geometry: "Geometria"
