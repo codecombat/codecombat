@@ -2,6 +2,7 @@ basicAuth = require('basic-auth')
 APIClient = require '../models/APIClient'
 Classroom = require '../models/Classroom'
 CourseInstance = require '../models/CourseInstance'
+LevelSession = require '../models/LevelSession'
 Course = require '../models/Course'
 ThangType = require '../models/ThangType'
 User = require '../models/User'
@@ -294,6 +295,39 @@ getUserClassrooms = wrap (req, res) ->
     return classroom.toObject({req, includeEnrolled: courseInstancesGroup})
   ))
 
+getPlayTimeStats = wrap (req, res) ->
+  startDate = new Date(2000,1,1).toISOString()
+  endDate = new Date().toISOString()
+
+  if req.query.startDate?
+    unless DATETIME_REGEX.test req.query.startDate
+      throw new errors.UnprocessableEntity('startDate is not properly formatted.')
+
+    startDate = req.query.startDate
+
+  if req.query.endDate?
+    unless DATETIME_REGEX.test req.query.endDate
+      throw new errors.UnprocessableEntity('endDate is not properly formatted.')
+
+    endDate = req.query.endDate
+
+  user = yield User.find({
+    dateCreated: {$lt: Date.parse(endDate), $gt: Date.parse(startDate)}
+    clientCreator: req.client._id,
+    oAuthIdentities: {$exists: 1}
+  },{_id: 1}).exec()
+  
+  ids = _.map user, (x) -> x._id.toString()
+
+  result = yield LevelSession.aggregate()
+    .match({creator: {$in: ids}})
+    .group({_id: '1', playTime: {$sum: "$playtime"}, gamesPlayed: {$sum: 1}})
+    .exec()
+
+  output = result[0]
+  delete output._id
+
+  res.send result[0]
 
 module.exports = {
   clientAuth
@@ -307,4 +341,5 @@ module.exports = {
   putUserLicense
   putClassroomMember
   putClassroomCourseEnrolled
+  getPlayTimeStats
 }
