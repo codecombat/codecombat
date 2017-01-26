@@ -374,7 +374,7 @@ paths:
     get:
       tags:
         - users
-      description: Returnst the playtime stats
+      description: Returns the playtime stats
       parameters:
         - name: startDate
           in: query
@@ -389,9 +389,9 @@ paths:
 
       responses:
         "200":
-          description: "Returns the playtime stats accrost all owned users."         
+          description: "Returns the playtime stats accross all owned users."
           schema:
-            $ref: '#/definitions/PlaytimeStatsResonse'
+            $ref: '#/definitions/PlaytimeStatsResponse'
 
 parameters:
   handlePathParameter:
@@ -503,7 +503,7 @@ definitions:
               items:
                 type: object
 
-  PlaytimeStatsResonse:
+  PlaytimeStatsResponse:
     type: object
     properties:
       playTime:

@@ -25,11 +25,11 @@ clientAuth = wrap (req, res, next) ->
 
   unless creds and creds.name and creds.pass
     throw new errors.Unauthorized('Basic auth credentials not provided.')
-    
+
   client = yield APIClient.findById(creds.name)
   if not client
     throw new errors.Unauthorized('Credentials incorrect.')
-    
+
   hashed = APIClient.hash(creds.pass)
   if client.get('secret') isnt hashed
     throw new errors.Unauthorized('Credentials incorrect.')
@@ -37,7 +37,7 @@ clientAuth = wrap (req, res, next) ->
   req.client = client
   next()
 
-  
+
 postUser = wrap (req, res) ->
   user = new User({anonymous: false})
   user.set(_.pick(req.body, 'name', 'email', 'role'))
@@ -69,8 +69,8 @@ putUserHeroConfig = wrap (req, res) ->
   database.validateDoc(user)
   yield user.save()
   res.status(200).send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
-  
-  
+
+
 getUser = wrap (req, res) ->
   user = yield database.getDocFromHandle(req, User)
   if not user
@@ -81,7 +81,7 @@ getUser = wrap (req, res) ->
     req.client.id is '582a134eb9bce324006210e7' and user.get('israelId') # israel access to its users
     isSnowplow # snowplow read access
   ])
-  
+
   unless exception or req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user.')
 
@@ -93,21 +93,21 @@ getUserLookupByIsraelId = wrap (req, res) ->
   user = yield User.findOne({ israelId })
   if not user
     throw new errors.NotFound('User not found.')
-    
+
   res.redirect(301, "/api/users/#{user.id}")
-  
-  
+
+
 postUserOAuthIdentity = wrap (req, res) ->
   user = yield database.getDocFromHandle(req, User)
   if not user
     throw new errors.NotFound('User not found.')
-    
+
   unless req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user to perform this action.')
-    
+
   { provider: providerId, accessToken, code } = req.body or {}
   identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
-  
+
   otherUser = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
   if otherUser
     throw new errors.Conflict('User already exists with this identity')
@@ -117,8 +117,8 @@ postUserOAuthIdentity = wrap (req, res) ->
   oAuthIdentities.push(identity)
   user.set({oAuthIdentities})
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
-  
-  
+
+
 putUserSubscription = wrap (req, res) ->
   user = yield database.getDocFromHandle(req, User)
   if not user
@@ -126,25 +126,25 @@ putUserSubscription = wrap (req, res) ->
 
   unless req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user to perform this action.')
-    
+
   # TODO: Remove 'endDate' parameter
   { endDate, ends } = req.body
   ends ?= endDate
   unless ends and DATETIME_REGEX.test(ends)
     throw new errors.UnprocessableEntity('ends is not properly formatted.')
-    
+
   { free } = user.get('stripe') ? {}
   if free is true
     throw new errors.UnprocessableEntity('This user already has free premium access')
 
-  # if the user is already subscribed, this prepaid starts when it would have ended, otherwise it starts now 
+  # if the user is already subscribed, this prepaid starts when it would have ended, otherwise it starts now
   now = new Date().toISOString()
   startDate = if _.isString(free) then moment(free).toISOString() else now
   startDate = now if startDate < now
-  
+
   if startDate >= ends
     throw new errors.UnprocessableEntity("ends is before when the subscription would start: #{startDate}")
-    
+
   prepaid = new Prepaid({
     clientCreator: req.client._id
     redeemers: []
@@ -157,7 +157,7 @@ putUserSubscription = wrap (req, res) ->
   yield prepaid.redeem(user)
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
 
-  
+
 putUserLicense = wrap (req, res) ->
   user = yield database.getDocFromHandle(req, User)
   if not user
@@ -174,7 +174,7 @@ putUserLicense = wrap (req, res) ->
   if ends < now
     throw new errors.UnprocessableEntity('ends must be in the future.')
 
-  # if the user is already subscribed, this prepaid starts when it would have ended, otherwise it starts now 
+  # if the user is already subscribed, this prepaid starts when it would have ended, otherwise it starts now
   { endDate } = user.get('coursePrepaid') ? {}
   if endDate and endDate >= now
     throw new errors.UnprocessableEntity("User is already enrolled, and may not be enrolled again until their current enrollment is finished")
@@ -191,19 +191,19 @@ putUserLicense = wrap (req, res) ->
   yield prepaid.redeem(user)
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
 
-  
+
 putClassroomMember = wrap (req, res) ->
   classroom = yield database.getDocFromHandle(req, Classroom)
   if not classroom
     throw new errors.NotFound('Classroom not found.')
-    
+
   { code, userId } = req.body
   if not (code and userId)
     throw new errors.UnprocessableEntity('code and userId required.')
-    
+
   if classroom.get('code') isnt code
     throw new errors.UnprocessableEntity('code is incorrect.')
-    
+
   user = yield User.findById(userId)
   if not user
     throw new errors.NotFound('User not found.')
@@ -216,12 +216,12 @@ putClassroomMember = wrap (req, res) ->
   yield classroom.addMember(user)
   res.send(classroom.toObject({req, includeEnrolled: courseInstances}))
 
-  
+
 putClassroomCourseEnrolled = wrap (req, res) ->
   classroom = yield database.getDocFromHandle(req, Classroom, {handleName: 'classroomHandle'})
   if not classroom
     throw new errors.NotFound('Classroom not found.')
-    
+
   classroomCourse = _.find(classroom.get('courses'), (c) -> c._id + '' is req.params.courseHandle)
   if not classroomCourse
     throw new errors.NotFound('Course not found.')
@@ -233,14 +233,14 @@ putClassroomCourseEnrolled = wrap (req, res) ->
   { userId } = req.body
   if not userId
     throw new errors.UnprocessableEntity('userId required.')
-    
+
   user = yield User.findById(userId)
   if not user
     throw new errors.NotFound('User not found.')
-    
+
   if not classroom.isMember(user._id)
     throw new errors.Forbidden('User must be in this classroom.')
-    
+
   clientHasControlOfOwner = yield User.count({_id: classroom.get('ownerID'), clientCreator: req.client._id})
   if not clientHasControlOfOwner
     throw new errors.Forbidden('Must have created the user who created this classroom to perform this action.')
@@ -267,14 +267,14 @@ putClassroomCourseEnrolled = wrap (req, res) ->
     { $addToSet: { members: user._id } }
     { new: true }
   )
-  
+
   # put the updated course instance into the courseInstances array
   courseInstanceIndex = _.findIndex(courseInstances, (ci) -> ci.id is courseInstance.id)
   if courseInstanceIndex isnt -1
     courseInstances[courseInstanceIndex] = courseInstance
 
   userUpdateResult = yield user.update({ $addToSet: { courseInstances: courseInstance._id } })
-    
+
   res.send(classroom.toObject({req, includeEnrolled: courseInstances}))
 
 
@@ -289,8 +289,8 @@ getUserClassrooms = wrap (req, res) ->
   classrooms = yield Classroom.find(if user.get('role') is 'student' then { members: user._id } else { ownerID: user._id })
   courseInstances = yield CourseInstance.find({classroomID: {$in: _.map(classrooms, '_id')}})
   courseInstancesGrouped = _.groupBy(courseInstances, (ci) -> ci.get('classroomID').toString())
-  
-  res.send(_.map(classrooms, (classroom) -> 
+
+  res.send(_.map(classrooms, (classroom) ->
     courseInstancesGroup = courseInstancesGrouped[classroom.id] ? []
     return classroom.toObject({req, includeEnrolled: courseInstancesGroup})
   ))
@@ -314,9 +314,9 @@ getPlayTimeStats = wrap (req, res) ->
   user = yield User.find({
     dateCreated: {$lt: Date.parse(endDate), $gt: Date.parse(startDate)}
     clientCreator: req.client._id,
-    oAuthIdentities: {$exists: 1}
+    oAuthIdentities: {$exists: 1}  # Take advantage of index
   },{_id: 1}).exec()
-  
+
   ids = _.map user, (x) -> x._id.toString()
 
   result = yield LevelSession.aggregate()
@@ -327,7 +327,7 @@ getPlayTimeStats = wrap (req, res) ->
   output = result[0]
   delete output._id
 
-  res.send result[0]
+  res.send output
 
 module.exports = {
   clientAuth
