@@ -26,8 +26,12 @@ const debugOutput = true;
 const minHoursForReturn = 4;
 const daysToVisit = 7;
 const daysToReturn = 4;
-const endDay = "2017-01-18";
+const endDay = "2017-01-27";
 
+if(new Date(`${endDay}T00:00:00.000Z`) > new Date()) {
+  console.log('\n* * * ERROR: Latest date is in the future! * * *')
+  process.exit()
+}
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
 startDay.setUTCDate(startDay.getUTCDate() - daysToVisit - daysToReturn);
 startDay = startDay.toISOString().substring(0, 10);
