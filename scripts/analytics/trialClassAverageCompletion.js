@@ -1,7 +1,13 @@
+'use strict';
+
 // Find average classroom completion rate for first week of cs1 activity
 
+// Two timespans:
+// 1. A specific 7 days for a classroom to create it's first level session in and be included
+// 2. Per classroom, 7 days from it's first level session for students to complete levels
+
 // Algorithm
-// 1. Find initial classroom student activity for first cs1 level between start and midpoint times
+// 1. Find initial classroom student activity for first cs1 level between 14 and 7 days back from target end date
 // 2. Find course instances for newly active students
 // 3. Find free teachers for student course instances
 // 4. Find first non-empty cs1 course instances for teachers
@@ -21,7 +27,6 @@ if (process.argv.length !== 4) {
   process.exit();
 }
 
-'use strict';
 const scriptStartTime = new Date();
 const co = require('co');
 const MongoClient = require('mongodb').MongoClient;
@@ -35,16 +40,18 @@ const cs1CampaignId = '55b29efd1cd6abe8ce07db0d';
 const cs1CourseId = '560f1a9f22961295f9427742';
 
 const daysToFirstLevelSession = 7;
-const daysToCompleteTrial = 7;
-const endDay = "2017-01-26";
+const daysToCompleteCs1 = 7;
+
+const endDay = "2017-01-27";
+
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
-startDay.setUTCDate(startDay.getUTCDate() - daysToCompleteTrial);
+if (isNaN(startDay.getTime())) throw new Error(`Invalid endDay set ${endDay}`);
+startDay.setUTCDate(startDay.getUTCDate() - daysToCompleteCs1);
 const midpointDay = startDay.toISOString().substring(0, 10);
 startDay.setUTCDate(startDay.getUTCDate() - daysToFirstLevelSession);
 startDay = startDay.toISOString().substring(0, 10);
 const startObjectId = objectIdWithTimestamp(new Date(`${startDay}T00:00:00.000Z`));
 const midpointObjectId = objectIdWithTimestamp(new Date(`${midpointDay}T00:00:00.000Z`));
-const endObjectId = objectIdWithTimestamp(new Date(`${endDay}T00:00:00.000Z`));
 console.log(`Measuring days ${startDay} to ${midpointDay} to ${endDay}`);
 
 co(function*() {
@@ -64,7 +71,7 @@ co(function*() {
   // Find initial classroom student activity for first cs1 level between start and midpoint times
   console.log(`Finding initial activity between ${startDay} and ${midpointDay}..`);
   const firstLevelSessions = yield lsDb.collection('level.sessions').find(
-    {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: midpointObjectId}}, {'level.original': cs1OriginalLevelIds[0]}, {heroConfig: {$exists: false}}]},
+    {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: midpointObjectId}}, {'level.original': cs1OriginalLevelIds[0]}, {isForClassroom: true}]},
     {created: 1, creator: 1}).toArray();
   debug(`firstLevelSessions ${firstLevelSessions.length}`);
   const studentObjectIds = [];
@@ -120,7 +127,7 @@ co(function*() {
   let classroomCompletionsTotal = 0;
   for (let i = 0; i < firstCourseInstances.length; i++) {
     const courseInstance = firstCourseInstances[i];
-    console.log(`Processing classroom ${i + 1}/${firstCourseInstances.length} ${courseInstance.classroomID}..`);
+    debug(`Processing classroom ${i + 1}/${firstCourseInstances.length} ${courseInstance.classroomID}..`);
 
     // Find classroom for this course instance and do some sanity checking
     const classroom = yield prodDb.collection('classrooms').findOne(
@@ -182,7 +189,7 @@ co(function*() {
 
     // Have a target classroom, find per-student completions
     const progressCutoff = new Date(firstLevelSession.created);
-    progressCutoff.setUTCDate(progressCutoff.getUTCDate() + daysToCompleteTrial);
+    progressCutoff.setUTCDate(progressCutoff.getUTCDate() + daysToCompleteCs1);
     const studentLevelCompletedMap = {};
     for (const levelSession of levelSessions) {
       // console.log(`student ${levelSession.creator} level ${levelSession.level.original} created ${levelSession.created} completed ${levelSession.dateFirstCompleted}`);
