@@ -185,16 +185,6 @@ module.exports = class User extends CocoModel
     application.tracker.identify fourthLevelGroup: @fourthLevelGroup unless me.isAdmin()
     @fourthLevelGroup
 
-  getDefaultLanguageGroup: ->
-    # A/B test default programming language in home version
-    return @defaultLanguageGroup if @defaultLanguageGroup
-    group = me.get('testGroupNumber') % 2
-    @defaultLanguageGroup = switch group
-      when 0 then 'javascript'
-      when 1 then 'python'
-    application.tracker.identify defaultLanguageGroup: @defaultLanguageGroup unless me.isAdmin()
-    @defaultLanguageGroup
-
   getVideoTutorialStylesIndex: (numVideos=0)->
     # A/B Testing video tutorial styles
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
