@@ -46,6 +46,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @session = new LevelSession()
     @gameUIState = new GameUIState()
     @courseID = @getQueryVariable 'course'
+    @courseInstanceID = @getQueryVariable 'course-instance'
     @god = new God({ @gameUIState, indefiniteLength: true })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
     @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
@@ -119,7 +120,7 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onEditLevelButton: ->
     viewClass = 'views/play/level/PlayLevelView'
-    route = "/play/level/#{@level.get('slug')}"
+    route = "/play/level/#{@level.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
       viewArgs: [{}, @levelID]
