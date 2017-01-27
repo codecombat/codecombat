@@ -41,7 +41,10 @@ if features.codePlay
       )
     else
       - var url = '/play/' + view.options.level.get('type') + '-level/' + view.options.level.get('slug') + '/' + view.options.session.id;
-      - if (view.options.courseID) url += '?course=' + view.options.courseID;
+      if view.options.courseID
+        - url += '?course=' + view.options.courseID;
+        if view.options.courseInstanceID
+          - url += '&course-instance=' + view.options.courseInstanceID;
       a.btn.btn-small.btn-illustrated(href=url, data-i18n=i18nName)
 
   .clearfix
