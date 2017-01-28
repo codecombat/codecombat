@@ -4,7 +4,7 @@
 		"vendor": "com.codecombat",
 		"name": "view_load",
 		"format": "jsonschema",
-		"version": "1-0-1"
+		"version": "1-0-2"
 	},
 	"type": "object",
 	"properties": {
@@ -16,7 +16,8 @@
 		"totalTime": {"type": "number"},
 		"networkTime": {"type": "number"},
 		"viewId": {"type": "string"},
-		"firstLoad": {"type": "boolean"}
+		"firstLoad": {"type": "boolean"},
+		"tag": {"type": "string", "maxLength": 64}
 	},
 	"required": ["user"],
 	"additionalProperties": false
