@@ -28,12 +28,13 @@ const moment = require('moment');
 const LevelSession = require('../../server/models/LevelSession');
 
 const startOfWeek = 5 // Friday morning at 00:00
-const daysAgoToStart = (moment().toDate().getDay() - startOfWeek + 7) % 7 + 7
+const today = new Date();
+const daysAgoToStart = (today.getUTCDay() - startOfWeek + 7) % 7 + 7
 console.log();
-if(moment().toDate().getDay() !== 5){
-  console.log('NOTE: To get data for the last week including thursday, run this script on friday!');
+if(today.getUTCDay() !== 5){
+  console.log('NOTE: To get data for the last week including thursday, run this script after UTC midnight thursday! (4pm Pacific/7pm Eastern)');
 }
-const startDay = (moment().subtract(daysAgoToStart, 'days').startOf('day')).toDate()
+const startDay = (moment(today).subtract(daysAgoToStart, 'days').utc().startOf('day')).toDate()
 const eventWindow = 7 // days
 const endDay = moment(startDay).add(eventWindow, 'days').toDate()
 console.log('start: ', startDay, '\n  end: ', endDay);

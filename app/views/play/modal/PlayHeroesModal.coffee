@@ -125,21 +125,12 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'javascript', name: 'JavaScript'}
       ]
     else
-      @codeLanguageList = switch me.getDefaultLanguageGroup()
-        when 'javascript'
-          [
-            {id: 'javascript', name: "JavaScript (#{$.i18n.t('choose_hero.default')})"}
-            {id: 'python', name: "Python"}
-            {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-            {id: 'lua', name: 'Lua'}
-          ]
-        else
-          [
-            {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
-            {id: 'javascript', name: 'JavaScript'}
-            {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-            {id: 'lua', name: 'Lua'}
-          ]
+      @codeLanguageList = [
+        {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
+        {id: 'javascript', name: 'JavaScript'}
+        {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
+        {id: 'lua', name: 'Lua'}
+      ]
 
       if me.isAdmin() or not application.isProduction()
         @codeLanguageList.push {id: 'java', name: "Java (#{$.i18n.t('choose_hero.experimental')})"}

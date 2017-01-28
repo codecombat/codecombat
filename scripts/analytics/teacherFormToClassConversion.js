@@ -8,8 +8,8 @@
 // NOTE: update the endDay variable below to control the date range
 
 if (process.argv.length !== 3) {
-  log("Usage: node <script> <mongo connection Url analytics>");
-  log("Include ?readPreference=secondary in connection URLs");
+  console.log("Usage: node <script> <mongo connection Url analytics>");
+  console.log("Include ?readPreference=secondary in connection URLs");
   process.exit();
 }
 
