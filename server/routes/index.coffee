@@ -21,6 +21,7 @@ module.exports.setup = (app) ->
   app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
   app.put('/api/users/:handle/license', mw.api.putUserLicense)
   app.get('/api/user-lookup/israel-id/:israelId', mw.api.getUserLookupByIsraelId)
+  app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
 
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)

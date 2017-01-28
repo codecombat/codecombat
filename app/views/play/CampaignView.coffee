@@ -303,7 +303,7 @@ module.exports = class CampaignView extends RootView
         success: @onLevelCompletionsLoaded.bind(@, level)
       }, 0
       request.load()
-    
+
   onLevelCompletionsLoaded: (level, data) ->
     return if @destroyed
     started = 0
@@ -705,7 +705,7 @@ module.exports = class CampaignView extends RootView
 
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
-    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2350, mountain: 2422, glacier: 2421}[@terrain] or 2350
+    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421}[@terrain] or 2350
     aspectRatio = mapWidth / mapHeight
     pageWidth = @$el.width()
     pageHeight = @$el.height()
@@ -880,3 +880,6 @@ module.exports = class CampaignView extends RootView
     $pollButton = @$el.find 'button.poll'
     pollModal.on 'vote-updated', ->
       $pollButton.removeClass('highlighted').tooltip 'hide'
+
+  getLoadTrackingTag: () ->
+    @campaign?.get?('slug') or 'overworld'

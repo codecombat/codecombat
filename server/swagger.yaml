@@ -369,8 +369,29 @@ paths:
       responses:
         "301":
           description: "Redirect to `User` resource at `/users/{handle}`"
-           
 
+  /playtime-stats:
+    get:
+      tags:
+        - users
+      description: Returns the playtime stats
+      parameters:
+        - name: startDate
+          in: query
+          description: "Earliest an included user was created"
+          required: false
+          type: string
+        - name: endDate
+          in: query
+          description: "Latest an included user was created"
+          required: false
+          type: string
+
+      responses:
+        "200":
+          description: "Returns the playtime stats accross all owned users."
+          schema:
+            $ref: '#/definitions/PlaytimeStatsResponse'
 
 parameters:
   handlePathParameter:
@@ -481,3 +502,13 @@ definitions:
               type: array
               items:
                 type: object
+
+  PlaytimeStatsResponse:
+    type: object
+    properties:
+      playTime:
+        type: number
+        description: "Total play time in seconds"
+      gamesPlayed:
+        type: number
+        description: "Number of levels played"

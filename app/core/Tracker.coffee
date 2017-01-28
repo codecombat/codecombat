@@ -168,17 +168,27 @@ module.exports = class Tracker extends CocoClass
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
       delete properties.label
       
-    # TODO: Update snowplow schema so this doesn't break events
-    if event is 'Saw Victory'
-      delete properties.playtime
-
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
     properties.user = me.id
     delete properties.category
     #console.log "SnowPlow", snowplowAction, properties
+    
+    try
+      schema = require("schemas/events/#{snowplowAction}")
+    catch
+      console.warn('Schema not found for snowplow action: ', snowplowAction, properties)
+      return
+
+    unless @isProduction
+      result = tv4.validateResult(properties, schema)
+      if not result.valid
+        text = 'Snowplow event schema validation failed! See console'
+        console.log 'Snowplow event failure info:', {snowplowAction, properties, error: result.error}
+        noty {text, layout: 'center', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3}
+    
     window.snowplow 'trackUnstructEvent',
-      schema: 'iglu:com.codecombat/' + snowplowAction + '/jsonschema/1-0-0'
+      schema: "iglu:com.codecombat/#{snowplowAction}/jsonschema/#{schema.self.version}"
       data: properties
 
   trackEventInternal: (event, properties) =>
