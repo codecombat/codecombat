@@ -120,7 +120,9 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onEditLevelButton: ->
     viewClass = 'views/play/level/PlayLevelView'
-    route = "/play/level/#{@level.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
+    route = "/play/level/#{@level.get('slug')}"
+    if @courseID and @courseInstanceID
+      route += "?course=#{@courseID}&course-instance=#{@courseInstanceID}"
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
       viewArgs: [{}, @levelID]
