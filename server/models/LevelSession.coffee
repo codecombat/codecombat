@@ -107,8 +107,7 @@ LevelSessionSchema.set('toObject', {
 })
 
 if config.mongo.level_session_replica_string?
-  levelSessionMongo = mongoose.createConnection()
-  levelSessionMongo.open config.mongo.level_session_replica_string, (error) ->
+  levelSessionMongo = mongoose.createConnection config.mongo.level_session_replica_string, (error) ->
     if error
       log.error "Couldn't connect to session mongo!", error
     else
