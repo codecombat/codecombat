@@ -81,6 +81,12 @@ productStubs = [
     gems: 1500
     planID: 'basic'
   }
+  
+  {
+    name: 'lifetime_subscription'
+    amount: 1000
+    gems: 42000
+  }
 ]
 
 module.exports = {

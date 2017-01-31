@@ -168,12 +168,13 @@ module.exports.setup = (app) ->
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
   app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
+  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
+  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
-  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
-  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
-  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+  app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
@@ -190,6 +191,9 @@ module.exports.setup = (app) ->
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
   app.get '/db/products', require('./db/product').get
+  app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
+  # TODO: have client use POST product purchase instead of PUT subscription year sale
+  app.put('/db/subscription/:anything/year_sale', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
 
   app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
   app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)
