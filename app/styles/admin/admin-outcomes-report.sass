@@ -1,0 +1,124 @@
+#admin-outcomes-report-result-view
+  
+  margin-left: auto
+  margin-right: auto
+  width: 8.5in
+  background-color: white
+  .header
+    height: 1.6in
+    text-align: right
+    padding-top: 0.8in
+    padding-left: 0.25in
+    padding-right: 0.25in
+    background-color: rgb(14, 76, 96)
+    -webkit-print-color-adjust: exact !important
+    background: linear-gradient(rgb(14, 76, 96), rgb(14, 76, 96)) !important
+
+    h3,h4,h5
+      bottom: 0px
+      color: white !important
+
+    .logo
+      float: left
+      width: 3in
+      margin-top: -0.2in
+
+  .address
+    margin-top: 0.25in
+    padding-left: 0.25in
+    padding-right: 0.25in
+    text-align: center
+    p
+      line-height: 14pt
+      font-size: 12pt
+
+  .course
+    margin-bottom: 0.25in
+    .bar
+      page-break-inside: avoid
+      //border: 1px solid orange
+      .el
+        margin-right: 0.25in
+        svg
+          transform: rotate(-90deg)
+          circle.top
+            fill: rgb(14,75,96)
+            stroke-width: 50
+            stroke: rgb(242, 190, 24)
+          circle.bottom
+            fill: rgb(14,75,96)
+
+        
+        .big
+          display: block
+          font-size: 48pt
+          line-height: 48pt
+          text-align: center
+          width: 1.5in
+        .under
+          display: block
+          text-align: center
+          width: 1.5in
+        li
+          line-height: 14pt
+          font-size: 12pt
+
+        height: 1in
+        float: left
+    .bar::after
+       clear: both
+       display: table
+       content: " "
+    h3
+      font-size: 14pt
+      font-weight: bold
+
+  .block
+    margin-top: 0.25in
+    margin-left: 0.25in
+    margin-right: 0.25in
+
+    h1, h2
+      border-bottom: 1px solid #ccc
+      border-radius: 0px
+      margin-bottom: 0.1in
+
+    p
+      font-size: 12pt
+      line-height: 14pt
+
+
+    .left-col
+      page-break-inside: avoid
+      float: left
+      width: 4in
+      margin-right: 1in
+
+    .right-col
+      page-break-inside: avoid
+      float: left
+      width: 2in
+      font-size: 10pt
+      line-height: 14pt
+      ul
+        padding-left: 2ex
+
+    .row-row
+      page-break-inside: avoid
+
+    .rob-row::after
+      page-break-inside: avoid
+      content: " "
+      display: table
+      clear: both
+
+  .bottom
+    border-top: 2px solid black
+    padding-top: 0.1in
+    margin-top: 0.25in
+    margin-left: 0.25in
+    margin-right: 0.25in
+    p
+      text-align: center
+      line-height: 14pt
+      font-weight: bold
