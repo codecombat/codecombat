@@ -1,0 +1,15 @@
+.container
+  form
+    label
+      | Teacher email:
+      input(v-model="teacherEmail")
+    button(type="submit" @click.prevent="submitEmail")
+      | Next
+
+  div(v-if="teacher")
+    label
+      | Teacher name:
+        input(value="teacherFullName")
+    label
+      | Account Manager Name:
+        input(value="accountManagerFullName")
