@@ -2,14 +2,26 @@
   form
     label
       | Teacher email:
-      input(v-model="teacherEmail")
+      input(v-model="teacherEmail", :disabled="teacher")
     button(type="submit" @click.prevent="submitEmail")
       | Next
 
   div(v-if="teacher")
     label
       | Teacher name:
-        input(value="teacherFullName")
+      input(:value="teacherFullName")
     label
       | Account Manager Name:
-        input(value="accountManagerFullName")
+      input(:value="accountManagerFullName")
+    label
+      | Account Manager Name:
+      input(:value="accountManager.email")
+    label
+      | School Name:
+      input(:value="schoolNameAndAddress")
+    label
+      | Start Date:
+      input(:value="startDate" type="date")
+    label
+      | End Date:
+      input(:value="endDate" type="date")
