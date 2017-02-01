@@ -387,8 +387,18 @@ module.exports = class SpellView extends CocoView
     currentView.toggleSpellPalette()
     targetDiv = $('<div id="blocklyDiv"></div>')
     @$(".ace").hide().after(targetDiv)
+    $("span.programming-language").text("Blockly")
     $("body").append """
-      <style>.blocklyTreeLabel { font-size: 12px; font-family: Menlo, Monaco, Consolas, "Courier New", monospace }</style>
+      <style>
+        .blocklyTreeLabel { font-size: 12px; font-family: Menlo, Monaco, Consolas, "Courier New", monospace }
+        .blocklySvg { background-color: transparent; }
+        .blocklyScrollbarHandle { fill: #555 }
+        .blocklyScrollbarBackground:hover+.blocklyScrollbarHandle, .blocklyScrollbarHandle:hover { fill: #111 }
+        .blocklyZoom>image { opacity: .6; }
+        .blocklyZoom>image:hover { opacity: .9; }
+        .blocklyZoom>image:active { opacity: 1.0; }
+         
+      </style>
       """
     @sizeBlocklyDiv targetDiv
     Blockly.JavaScript.STATEMENT_PREFIX = '// highlightBlock(%1);\n'
@@ -405,7 +415,11 @@ module.exports = class SpellView extends CocoView
            
           Blockly.JavaScript[name] = (block) ->
             parts = []
-            parts.push "hero.#{doc.name}"
+            if doc.name?
+              parts.push "hero.#{doc.name}"
+            else
+              parts.push "#{thing}"
+
             if doc.type is "function"
               parts.push "("
               for idx, arg of (doc.args or [])
@@ -422,12 +436,20 @@ module.exports = class SpellView extends CocoView
    
           Blockly.Python[name] = (block) ->
             parts = []
-            parts.push "hero.#{doc.name}("
-            for idx, arg of (doc.args or [])
-              parts.push "," if idx > 0
-              code = Blockly.Python.valueToCode(block, arg.name, Blockly.Python.ORDER_NONE)
-              parts.push code or "None /* #{arg.name} */"
-            parts.push ")"
+            if doc.name?
+              parts.push "#{thing}.#{doc.name}"
+            else
+              parts.push "#{thing}"
+
+            if doc.type is "function"
+              parts.push "("
+
+              for idx, arg of (doc.args or [])
+                parts.push "," if idx > 0
+                code = Blockly.Python.valueToCode(block, arg.name, Blockly.Python.ORDER_NONE)
+                parts.push code or "None /* #{arg.name} */"
+
+              parts.push ")"
             parts.push "\n" unless returnsValue
 
             if returnsValue
@@ -436,12 +458,12 @@ module.exports = class SpellView extends CocoView
               return parts.join('')            
 
           setup =
-            "message0": "#{doc.name} " + (doc.args or []).map((a, v) => "#{a.name}: %#{v+1}").join(" ")
+            "message0": "#{doc.name or thing} " + (doc.args or []).map((a, v) => "#{a.name}: %#{v+1}").join(" ")
             "args0": (doc.args or []).map (a) ->
               type: "input_value"
               name: a.name
             "colour": if returnsValue then 30 else 240
-            "tooltip": doc.description
+            "tooltip": doc.description or ''
             "helpUrl": ""
 
           if returnsValue
@@ -470,6 +492,14 @@ module.exports = class SpellView extends CocoView
         name: "what"
       ]
       type: "function"
+    addThing 'hero', {type: "ref"}
+    addThing 'Esper.str',
+      args: [
+        name: "what"
+      ]
+      type: "function"
+      returns: {}
+
     extraStuff.push "</category>"
     toolbox = """
  <xml id="toolbox" style="display: none">
@@ -497,6 +527,22 @@ module.exports = class SpellView extends CocoView
      <block type="text"></block>
      <block type="math_number"></block>
      <block type="logic_boolean"></block>
+   </category>
+   <category colour="10" name="Lists">
+      <block type="lists_create_empty"></block>
+      <block type="lists_create_with"></block>
+      <block type="lists_repeat">
+        <value name="NUM">
+          <block type="math_number">
+            <field name="NUM">5</field>
+          </block>
+        </value>
+      </block>
+      <block type="lists_length"></block>
+      <block type="lists_isEmpty"></block>
+      <block type="lists_indexOf"></block>
+      <block type="lists_getIndex"></block>
+      <block type="lists_setIndex"></block>
    </category>
    <category name="Variables" custom="VARIABLE" colour="50"></category>
    <category name="User Functions" custom="PROCEDURE" colour="50"></category>
