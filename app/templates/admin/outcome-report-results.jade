@@ -1,0 +1,67 @@
+div.style-flat
+  div.header
+    img.logo(src="/images/pages/base/logo.png")
+    h4 Outcomes Report
+    h5 Nov 5, 1955 - Jan 1, 2015
+
+  div.address
+    p 
+      b Some place
+      |, 301 Pine St, San Francisco, CA 94109
+      br
+      b Teacher: 
+      | #{view.options.teacher.name} (#{view.options.teacher.email})
+    p 
+      b CodeCombat Account Manager: 
+      | #{view.options.ae.name} (#{view.options.ae.email})
+
+  div.block
+    h1 Course Progress
+    for course in view.courses
+      div.course
+        h3= course.name
+        div.bar
+          div.el
+            svg(width=100, height=100)
+              circle.bottom(r=50,cx=50,cy=50)
+              circle.top(r=25,cx=50,cy=50,style="stroke-dasharray: 60 150")
+              
+          div.el
+            div.big 91%
+            div.under complete
+          div.el
+            div.big 30
+            div.under students
+          div.el
+            b Key Concepts:
+            ul
+              li Basic Syntax
+              li Loops
+              li Variables
+
+  div.block
+    div.rob-row
+      div.left-col
+        h2 Insights
+        p.
+          Tilde drinking vinegar plaid, yr dreamcatcher williamsburg flexitarian man braid godard umami disrupt cardigan before they sold out brooklyn poke. Cliche beard single-origin coffee celiac quinoa, prism ethical. Slow-carb pug skateboard chicharrones gochujang 3 wolf moon, 8-bit kickstarter cronut cliche edison bulb tilde kinfolk mlkshk wayfarers. Chartreuse gluten-free kombucha hashtag, polaroid meggings health goth small batch intelligentsia seitan distillery hot chicken coloring book 8-bit church-key. Synth chicharrones man bun gochujang biodiesel. Roof party poke typewriter whatever, letterpress salvia gastropub kombucha man bun. Fashion axe brooklyn deep v mixtape neutra.
+
+        h2 Standards Coverage
+        p.
+          The full CodeCombat curriculuum covers all
+          major programming standards in several prominet
+          frameworks, including ISTE, CSTA, K12
+      
+      div.right-col
+        h2 Classes
+        for clazz in view.classes
+          b= clazz.name
+          ul
+            li Language: python
+            li 12 students
+
+  div.bottom
+    p Have question or want more information? We'd be happy to help.
+    p
+      | Reach out your Account Manager at 
+      a(href="mailto:" + view.options.ae.email)= view.options.ae.email 
