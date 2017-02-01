@@ -26,6 +26,7 @@ gameLibraries = [
   'firepad'
   'jquery-ui-custom'
   'coffeescript'
+  'google-blockly'
 ].join '|'
 
 #- Build the config

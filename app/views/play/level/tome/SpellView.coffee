@@ -364,6 +364,163 @@ module.exports = class SpellView extends CocoView
     @ace.setValue @spell.source
     @aceSession.setUndoManager(new UndoManager())
     @ace.clearSelection()
+    @addBlockly()
+
+  sizeBlocklyDiv: (targetDiv) ->
+    
+    tomeHeight = $('#tome-view').innerHeight()
+    spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
+    spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
+    spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
+    maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
+
+    targetDiv.css('height', "#{maxHeight}px")
+    targetDiv.css('margin-left', '-15px')
+    targetDiv.css('margin-right', '15px')
+    targetDiv.css('margin-top', '-15px')
+
+
+  addBlockly: =>
+    unless currentView.spellPaletteView?
+      return setTimeout @addBlockly, 500
+
+    currentView.toggleSpellPalette()
+    targetDiv = $('<div id="blocklyDiv"></div>')
+    @$(".ace").hide().after(targetDiv)
+    $("body").append """
+      <style>.blocklyTreeLabel { font-size: 12px; font-family: Menlo, Monaco, Consolas, "Courier New", monospace }</style>
+      """
+    @sizeBlocklyDiv targetDiv
+    Blockly.JavaScript.STATEMENT_PREFIX = '// highlightBlock(%1);\n'
+    Blockly.Python.STATEMENT_PREFIX = '# highlightBlock(%1)\n'
+
+    extraStuff = []
+    for thing of currentView.spellPaletteView.entryGroups
+      console.log "Adding #{thing}"
+      extraStuff.push "<category name=\"#{thing}\" colour=\"190\" >"
+      for prop in currentView.spellPaletteView.entryGroups[thing]
+        addThing = (thing, doc) ->
+          returnsValue = doc.returns? or doc.userShouldCaptureReturn? or (doc.type isnt "function")
+          name = "#{thing}_#{doc.name}"
+           
+          Blockly.JavaScript[name] = (block) ->
+            parts = []
+            parts.push "hero.#{doc.name}"
+            if doc.type is "function"
+              parts.push "("
+              for idx, arg of (doc.args or [])
+                parts.push "," if idx > 0
+                code = Blockly.JavaScript.valueToCode(block, arg.name, Blockly.JavaScript.ORDER_NONE)
+                parts.push code or "undefined /* #{arg.name} */"
+              parts.push ")"
+            parts.push ";\n" unless returnsValue
+
+            if returnsValue
+              return [parts.join(''), Blockly.JavaScript.ORDER_NONE]
+            else
+              return parts.join('')
+   
+          Blockly.Python[name] = (block) ->
+            parts = []
+            parts.push "hero.#{doc.name}("
+            for idx, arg of (doc.args or [])
+              parts.push "," if idx > 0
+              code = Blockly.Python.valueToCode(block, arg.name, Blockly.Python.ORDER_NONE)
+              parts.push code or "None /* #{arg.name} */"
+            parts.push ")"
+            parts.push "\n" unless returnsValue
+
+            if returnsValue
+              return [parts.join(''), Blockly.Python.ORDER_NONE]
+            else
+              return parts.join('')            
+
+          setup =
+            "message0": "#{doc.name} " + (doc.args or []).map((a, v) => "#{a.name}: %#{v+1}").join(" ")
+            "args0": (doc.args or []).map (a) ->
+              type: "input_value"
+              name: a.name
+            "colour": if returnsValue then 30 else 240
+            "tooltip": doc.description
+            "helpUrl": ""
+
+          if returnsValue
+            setup.output = null
+          else
+            setup.previousStatement =  null
+            setup.nextStatement = null
+
+          Blockly.Blocks[name] =
+            init: () ->
+              @jsonInit setup
+                 
+               
+
+          extraStuff.push "<block type=\"#{name}\"></block>"
+        addThing thing, prop.doc
+
+
+
+      extraStuff.push "</category>"
+
+    extraStuff.push "<category name=\"Misc\" colour=\"190\" >"
+    addThing 'hero',
+      name: 'say'
+      args: [
+        name: "what"
+      ]
+      type: "function"
+    extraStuff.push "</category>"
+    toolbox = """
+ <xml id="toolbox" style="display: none">
+   #{extraStuff.join('\n')}
+   <category colour="290" name="Logic">
+     <block type="controls_if"></block>
+     <block type="logic_compare"></block>
+     <block type="logic_operation"></block>
+     <block type="logic_negate"></block>
+     <block type="math_arithmetic"></block>
+   </category>
+   <category colour="290" name="Loops">
+     <block type="controls_whileUntil">
+       <field name="MODE">WHILE</field>
+       <value name="BOOL">
+       <block type="logic_boolean">
+       </block>
+       </value>
+     </block>
+     <block type="controls_whileUntil"></block>
+     <block type="controls_repeat_ext"></block>
+     <block type="controls_forEach"></block>
+   </category>
+   <category colour="10" name="Literals">
+     <block type="text"></block>
+     <block type="math_number"></block>
+     <block type="logic_boolean"></block>
+   </category>
+   <category name="Variables" custom="VARIABLE" colour="50"></category>
+   <category name="User Functions" custom="PROCEDURE" colour="50"></category>
+ </xml>
+       """
+    prev = @ace.getValue()
+    @blockly = window.bbt = Blockly.inject targetDiv[0], 
+      toolbox: toolbox
+      zoom:
+        controls: true
+        wheel: true
+        startScale: 1.0
+        maxScale: 3
+        minScale: 0.3
+        scaleSpeed: 1.2
+
+    console.log "Consider Loading", prev
+    match = prev.match(/[#\/]+BLOCKLY. ([^\n]*)/)
+    if match?
+      Blockly.Xml.domToWorkspace(Blockly.Xml.textToDom(match[1]), @blockly)
+      @blockly.scrollCenter()
+
+
+    @createOnCodeChangeHandlers()
 
   lockDefaultCode: (force=false) ->
     # TODO: Lock default indent for an empty line?
@@ -579,7 +736,16 @@ module.exports = class SpellView extends CocoView
     @saveSpade()
 
   getSource: ->
-    @ace.getValue()
+    if @blockly
+      backup = Blockly.Xml.domToText(Blockly.Xml.workspaceToDom(@blockly))
+      if @session.get('codeLanguage') is 'javascript'
+        src = "//BLOCKLY| " + backup + "\n\n" + Blockly.JavaScript.workspaceToCode @blockly
+      else
+        src = "#BLOCKLY| " + backup + "\n\n" + Blockly.Python.workspaceToCode @blockly
+      console.log src
+      src
+    else
+      @ace.getValue()
 
   setThang: (thang) ->
     @focus()
@@ -604,11 +770,11 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-changed', spell: @spell
 
   notifyEditingEnded: =>
-    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc?.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-ended', {}
 
   notifyEditingBegan: =>
-    return if @destroyed or @aceDoc.undergoingFirepadOperation  # from my Firepad ACE adapter
+    return if @destroyed or @aceDoc?.undergoingFirepadOperation  # from my Firepad ACE adapter
     Backbone.Mediator.publish 'tome:editing-began', {}
 
   updateLines: =>
@@ -645,6 +811,7 @@ module.exports = class SpellView extends CocoView
       # Expand it to bottom of tome if too short.
       #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
       #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+    
 
   hideProblemAlert: ->
     return if @destroyed
@@ -742,6 +909,14 @@ module.exports = class SpellView extends CocoView
             callback() for callback in onSignificantChange  # Do these first
           callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
+    
+    # RTD: Add blockly change listener.
+
+    if @blockly
+      @blockly.addChangeListener @onCodeChangeMetaHandler
+      console.log "Added changed listener"
+    else
+      console.log "Missed change listern add"
 
   onCursorActivity: =>  # Used to refresh autocast delay; doesn't do anything at the moment.
 
@@ -821,8 +996,9 @@ module.exports = class SpellView extends CocoView
     @clearProblemsCreatedBy 'web-dev-iframe'
 
   clearProblemsCreatedBy: (createdBy) ->
-    nonAetherAnnotations = _.reject @aceSession.getAnnotations(), (annotation) -> annotation.createdBy is createdBy
-    @reallySetAnnotations nonAetherAnnotations
+    if @aceSession?
+      nonAetherAnnotations = _.reject @aceSession.getAnnotations(), (annotation) -> annotation.createdBy is createdBy
+      @reallySetAnnotations nonAetherAnnotations
 
     problemsToClear = _.filter @problems, (p) -> p.createdBy is createdBy
     problemsToClear.forEach (problem) -> problem.destroy()
@@ -836,6 +1012,7 @@ module.exports = class SpellView extends CocoView
 
   displayAether: (aether, isCast=false) ->
     @displayedAether = aether
+    return unless @ace?
     isCast = isCast or not _.isEmpty(aether.metrics) or _.some aether.getAllProblems(), {type: 'runtime'}
     annotations = @aceSession.getAnnotations()
 
@@ -895,8 +1072,9 @@ module.exports = class SpellView extends CocoView
 
   onProblemsUpdated: ({ spell, problems, isCast }) ->
     # This just handles some ace styles for now; other things handle @problems changes elsewhere
-    @ace[if problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
-    @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast' # Does this still do anything?
+    if @ace?
+      @ace[if problems.length then 'setStyle' else 'unsetStyle'] 'user-code-problem'
+      @ace[if isCast then 'setStyle' else 'unsetStyle'] 'spell-cast' # Does this still do anything?
 
   saveUserCodeProblem: (aether, aetherProblem) ->
     # Skip duplicate problems
@@ -938,6 +1116,7 @@ module.exports = class SpellView extends CocoView
   # - Go after specified delay if a) and not b) or c)
   guessWhetherFinished: (aether) ->
     valid = not aether.getAllProblems().length
+    return true if @blockly?
     return unless valid
     cursorPosition = @ace.getCursorPosition()
     currentLine = _.string.rtrim(@aceDoc.$lines[cursorPosition.row].replace(@singleLineCommentRegex(), ''))  # trim // unless inside "
@@ -1058,9 +1237,7 @@ module.exports = class SpellView extends CocoView
     # TODO: it's a hack checking if a modal is visible; the events should be removed somehow
     # but this view is not part of the normal subview destroying because of how it's swapped
     return unless @controlsEnabled and @writable and $('.modal:visible').length is 0
-    return if @ace.isFocused()
-    @ace.focus()
-    @ace.clearSelection()
+    # RTD: Focuse blockly
 
   onFrameChanged: (e) ->
     return unless @spellThang and e.selectedThang?.id is @spellThang?.thang.id
@@ -1109,6 +1286,8 @@ module.exports = class SpellView extends CocoView
     #console.log 'got call index', currentCallIndex, 'for time', @thang.world.age, 'out of', states.length
 
     @decoratedGutter = @decoratedGutter || {}
+
+    return unless @aceSession?
 
     # TODO: don't redo the markers if they haven't actually changed
     for markerRange in (@markerRanges ?= [])
@@ -1164,6 +1343,7 @@ module.exports = class SpellView extends CocoView
     # Usually, this is indicated by a blank line after a comment line, except for the first comment lines.
     # If we need to indicate an entry point on a line that has code, we use ∆ in a comment on that line.
     # If the entry point line has been changed (beyond the most basic shifted lines), we don't point it out.
+    return unless @aceDoc?
     lines = @aceDoc.$lines
     originalLines = @spell.originalSource.split '\n'
     session = @aceSession
@@ -1264,11 +1444,20 @@ module.exports = class SpellView extends CocoView
     _.delay (=> @resize()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   onWindowResize: (e) =>
+    if @blockly?
+      @sizeBlocklyDiv @$("#blocklyDiv")
+      Blockly.svgResize @blockly
+      @blockly.scrollCenter()
+
     @spellPaletteHeight = null
     #$('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->
+    if @blockly?
+      Blockly.svgResize @blockly
+      @blockly.scrollCenter()
+
     @ace?.resize true
     @lastScreenLineCount = null
     @updateLines()

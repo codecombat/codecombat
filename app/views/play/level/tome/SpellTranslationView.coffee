@@ -30,7 +30,8 @@ module.exports = class SpellTranslationView extends CocoView
     
   afterRender: ->
     super()
-    @ace.on 'mousemove', @onMouseMove
+    if @ace?
+      @ace.on 'mousemove', @onMouseMove
 
   setTooltipText: (text) =>
     @$el.find('code').text text
