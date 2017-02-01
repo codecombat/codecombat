@@ -42,7 +42,7 @@ const cs1CourseId = '560f1a9f22961295f9427742';
 const daysToFirstLevelSession = 7;
 const daysToCompleteCs1 = 7;
 
-const endDay = "2017-01-27";
+const endDay = "2017-02-01";
 
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
 if (isNaN(startDay.getTime())) throw new Error(`Invalid endDay set ${endDay}`);
@@ -95,7 +95,7 @@ co(function*() {
   const licenses = yield prodDb.collection('prepaids').find(
     {creator: {$in: teacherObjectIds}, type: {$in: ['course', 'starter_license']}},
     {creator: 1}).toArray();
-  // debug('licenses', licenses.length);
+  // debug(`licenses ${licenses.length}`);
   const teacherLicenseMap = {};
   for (const license of licenses) {
     teacherLicenseMap[license.creator.toHexString()] = true;
@@ -156,6 +156,7 @@ co(function*() {
     for (const course of classroom.courses) {
       if (course._id.toString() === cs1CourseId) {
         for (const level of course.levels) {
+          if (level.practice) continue;
           levelOriginalIds.push(level.original.toString());
         }
         break;
