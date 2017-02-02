@@ -82,11 +82,26 @@ OutcomesReportComponent = Vue.extend
         courses: @courses.filter (c) => @isCourseSelected[c._id]
       })
       resultView.render()
-      resultWindow = window.open('/admin/outcomes-report-result')
-      console.log resultView.el
-      setTimeout(->
-        $(resultWindow.document.body).find('#page-container').empty().append(resultView.el)
-      , 500)
+      wow = [
+        '<html>'
+        '<head>'
+        $('head').html()
+        '</head>'
+        '<body>'
+        '<div id="#page-container"></div>'
+        '</body>'
+        '</html>'
+      ].join('\n')
+
+      resultWindow = window.open('', 'print', 'status=1,width=850,height=600')
+      window.resultWindow = resultWindow
+
+      setTimeout () ->
+        $(resultWindow.document.body, "#page-container").append(resultView.el)
+      , 100
+
+      resultWindow.document.write(wow)
+
     
     fetchCompleteUser: (data) ->
       if data.length isnt 1
