@@ -69,7 +69,7 @@ OutcomesReportComponent = Vue.extend
         error: (data) => console.log arguments
         
     displayReport: (e) ->
-      new OutcomeReportResult({
+      resultView = new OutcomeReportResult({
         @teacherEmail
         @teacherFullName
         @accountManagerFullName
@@ -81,6 +81,12 @@ OutcomesReportComponent = Vue.extend
         classrooms: @classrooms.filter (c) => @isClassroomSelected[c._id]
         courses: @courses.filter (c) => @isCourseSelected[c._id]
       })
+      resultView.render()
+      resultWindow = window.open('/admin/outcomes-report-result')
+      console.log resultView.el
+      setTimeout(->
+        $(resultWindow.document.body).find('#page-container').empty().append(resultView.el)
+      , 500)
     
     fetchCompleteUser: (data) ->
       if data.length isnt 1
