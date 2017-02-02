@@ -3,6 +3,9 @@ template = require 'templates/base-flat'
 User = require 'models/User'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
+Classrooms = require 'collections/Classrooms'
+Courses = require 'collections/Courses'
+CourseInstances = require 'collections/CourseInstances'
 require('vendor/co')
 require('vendor/vue')
 require('vendor/vuex')
@@ -39,24 +42,37 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: '583f580a9aa323940016b2ac'
+    teacherEmail: '580e517382bf11520af8a1f6'
     teacher: null
+    teacherFullName: null
+    accountManagerFullName: null
+    schoolNameAndAddress: null
     trialRequest: null
     startDate: null
+    classrooms: null
+    courses: null
+    isClassroomSelected: {}
+    isCourseSelected: {}
     endDate: moment(new Date()).format('YYYY-MM-DD')
   computed:
-    teacherFullName: ->
-      if @teacher
-        if @teacher.firstName && @teacher.lastName
-          return "#{@teacher.firstName} #{@teacher.lastName}"
-        else
-          return teacher.name
-    accountManagerFullName: ->
-      if @accountManager.firstName && @accountManager.lastName
-        return "#{@accountManager.firstName} #{@accountManager.lastName}"
+    {}
+  watch:
+    teacher: (teacher) ->
+      if teacher.firstName && teacher.lastName
+        @teacherFullName = "#{teacher.firstName} #{teacher.lastName}"
       else
-        return @accountManager.name
-    schoolNameAndAddress: -> @trialRequest?.properties.school
+        @teacherFullName = teacher.name
+    trialRequest: (trialRequest) ->
+      @schoolNameAndAddress = trialRequest?.properties.school
+      @startDate = moment(new Date(trialRequest.created)).format('YYYY-MM-DD')
+    classrooms: (classrooms) ->
+      for classroom in classrooms
+        if _.isUndefined(@isClassroomSelected[classroom._id])
+          Vue.set(@isClassroomSelected, classroom._id, true)
+    courses: (courses) ->
+      for course in courses
+        if _.isUndefined(@isCourseSelected[course._id])
+          Vue.set(@isCourseSelected, course._id, true)
   methods:
     submitEmail: (e) ->
       e.preventDefault
@@ -76,10 +92,33 @@ OutcomesReportComponent = Vue.extend
       user.once 'sync', (fullData) =>
         @teacher = fullData.toJSON()
         @fetchTrialRequest()
+        @fetchClassrooms()
+        @fetchCourses()
     
     fetchTrialRequest: ->
       trialRequests = new TrialRequests()
       trialRequests.fetchByApplicant(@teacher._id)
       trialRequests.once 'sync', =>
         @trialRequest = trialRequests.models[0].toJSON()
-        @startDate = moment(new Date(@trialRequest.created)).format('YYYY-MM-DD')
+
+    fetchClassrooms: ->
+      classrooms = new Classrooms()
+      classrooms.fetchByOwner(@teacher._id)
+      classrooms.once 'sync', =>
+        @classrooms = classrooms.toJSON()
+
+    fetchCourses: ->
+      courseInstances = new CourseInstances()
+      courseInstances.fetchByOwner(@teacher._id)
+      courseInstances.once 'sync', =>
+        courses = new Courses()
+        courses.fetch()
+        courses.once 'sync', =>
+          Vue.set @$data, 'courses', courseInstances.map (courseInstance) =>
+            courses.get(courseInstance.get('courseID')).toJSON()
+
+  created: ->
+    if @accountManager.firstName && @accountManager.lastName
+      @accountManagerFullName = "#{@accountManager.firstName} #{@accountManager.lastName}"
+    else
+      @accountManagerFullName = @accountManager.name

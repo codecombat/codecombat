@@ -7,21 +7,38 @@
       | Next
 
   div(v-if="teacher")
-    label
-      | Teacher name:
-      input(:value="teacherFullName")
-    label
-      | Account Manager Name:
-      input(:value="accountManagerFullName")
-    label
-      | Account Manager Name:
-      input(:value="accountManager.email")
-    label
-      | School Name:
-      input(:value="schoolNameAndAddress")
-    label
-      | Start Date:
-      input(:value="startDate" type="date")
-    label
-      | End Date:
-      input(:value="endDate" type="date")
+    div
+      label
+        | Teacher name:
+        input(v-model:value="teacherFullName")
+    div
+      label
+        | Account Manager Name:
+        input(v-model:value="accountManagerFullName")
+    div
+      label
+        | Account Manager Name:
+        input(v-model:value="accountManager.email")
+    div
+      label
+        | School Name:
+        input(v-model:value="schoolNameAndAddress")
+    div
+      label
+        | Start Date:
+        input(v-model:value="startDate" type="date")
+    div
+      label
+        | End Date:
+        input(v-model:value="endDate" type="date")
+
+    div(v-for="classroom in classrooms")
+      label
+        //- input(type="checkbox", v-model:value="startDate")
+        input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
+        {{classroom.name}}
+
+    div(v-for="course in courses")
+      label
+        input(type="checkbox", v-model:value="isCourseSelected[course._id]")
+        {{course.name}}
