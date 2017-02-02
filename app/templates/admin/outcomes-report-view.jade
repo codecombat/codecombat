@@ -42,3 +42,6 @@
       label
         input(type="checkbox", v-model:value="isCourseSelected[course._id]")
         {{course.name}}
+    
+    label
+      input(type="button" @click.prevent="displayReport" value="Create report!")

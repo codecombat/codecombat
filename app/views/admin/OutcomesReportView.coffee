@@ -1,4 +1,5 @@
 RootView = require 'views/core/RootView'
+OutcomeReportResult = require 'views/admin/OutcomeReportResult'
 template = require 'templates/base-flat'
 User = require 'models/User'
 TrialRequest = require 'models/TrialRequest'
@@ -14,21 +15,6 @@ module.exports = class OutcomesReportView extends RootView
   id: 'skipped-contacts-view'
   template: template
 
-  initialize: ->
-    super(arguments...)
-    # Vuex Store
-    @store = new Vuex.Store({
-      state:
-        {}
-      actions:
-        {}
-      strict: not application.isProduction()
-      mutations:
-        {}
-      getters:
-        {}
-    })
-
   afterRender: ->
     @vueComponent?.$destroy()
     @vueComponent = new OutcomesReportComponent({
@@ -42,7 +28,7 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: '580e517382bf11520af8a1f6'
+    teacherEmail: '580e517382bf11520af8a1f6' # TODO: Don't hardcode this. And add get-by-email endpoint.
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
@@ -61,7 +47,7 @@ OutcomesReportComponent = Vue.extend
       if teacher.firstName && teacher.lastName
         @teacherFullName = "#{teacher.firstName} #{teacher.lastName}"
       else
-        @teacherFullName = teacher.name
+        @teacherFullName = teacher.email
     trialRequest: (trialRequest) ->
       @schoolNameAndAddress = trialRequest?.properties.school
       @startDate = moment(new Date(trialRequest.created)).format('YYYY-MM-DD')
@@ -75,13 +61,26 @@ OutcomesReportComponent = Vue.extend
           Vue.set(@isCourseSelected, course._id, true)
   methods:
     submitEmail: (e) ->
-      e.preventDefault
       $.ajax
         type: 'POST',
         url: '/db/user/-/admin_search'
         data: {search: @teacherEmail}
         success: @fetchCompleteUser
         error: (data) => console.log arguments
+        
+    displayReport: (e) ->
+      new OutcomeReportResult({
+        @teacherEmail
+        @teacherFullName
+        @accountManagerFullName
+        @schoolNameAndAddress
+        @teacher # toJSON'd
+        @trialRequest # toJSON'd
+        @startDate # string YYYY-MM-DD
+        @endDate # string YYYY-MM-DD
+        classrooms: @classrooms.filter (c) => @isClassroomSelected[c._id]
+        courses: @courses.filter (c) => @isCourseSelected[c._id]
+      })
     
     fetchCompleteUser: (data) ->
       if data.length isnt 1
