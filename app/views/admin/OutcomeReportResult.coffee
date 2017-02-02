@@ -29,12 +29,15 @@ module.exports = class OutcomesReportResult extends RootView
     @courses = [
       {
         name: "Introduction to Computer Science"
+        completion: (Math.random()*100).toFixed(0)
       }
       {
         name: "Computer Science 2"
+        completion: (Math.random()*100).toFixed(0)
       }
       {
         name: "Web Development 1"
+        completion: (Math.random()*100).toFixed(0)
       }
     ]
 

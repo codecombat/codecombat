@@ -4,10 +4,17 @@
   margin-right: auto
   width: 8.5in
   background-color: white
+  
+  .header-art
+    float: right
+    width: 2.25in
+    margin-top: 0.8in
+    margin-right: 0.4in
+    transform: scaleX(-1);
+
   .header
-    height: 1.6in
-    text-align: right
-    padding-top: 0.8in
+    height: 2.15in
+    padding-top: 0.1in
     padding-left: 0.25in
     padding-right: 0.25in
     background-color: rgb(14, 76, 96)
@@ -15,19 +22,19 @@
     background: linear-gradient(rgb(14, 76, 96), rgb(14, 76, 96)) !important
 
     h3,h4,h5
+      padding-left: 0.25in
       bottom: 0px
       color: white !important
 
-    .logo
-      float: left
-      width: 3in
-      margin-top: -0.2in
+    .print-logo
+      margin: 0 0 0 0
+      width: 3.75in
 
   .address
     margin-top: 0.25in
-    padding-left: 0.25in
-    padding-right: 0.25in
-    text-align: center
+    padding-left: 0.5in
+    padding-right: 0.5in
+    text-align: left
     p
       line-height: 14pt
       font-size: 12pt
@@ -75,13 +82,46 @@
 
   .block
     margin-top: 0.25in
-    margin-left: 0.25in
-    margin-right: 0.25in
+    margin-left: 0.5in
+    margin-right: 0.5in
 
     h1, h2
       border-bottom: 1px solid #ccc
       border-radius: 0px
       margin-bottom: 0.1in
+
+    h1
+      font-size: 18pt
+      line-height: 18pt
+
+    h2
+      font-size: 14pt
+      line-height: 15pt
+
+    h4
+      font-size: 16pt
+      line-height: 16pt
+
+    div.fakebar
+
+      margin-top: 0.1in
+      margin-bottom: 0.5in
+
+      background-color: rgb(31, 87, 43)
+      height: 0.4in
+      line-height: 0.4in
+      >div
+        background-color: white
+        height: 100%
+        padding-left: 0.1in
+        float: right
+        font-size: 30pt
+        small
+          font-size: 16pt
+      >div::after
+        clear: both
+        content: ' '
+        display: table
 
     p
       font-size: 12pt
@@ -111,6 +151,14 @@
       content: " "
       display: table
       clear: both
+
+  img.anya
+    margin-left: 0.5in
+    margin-top: 0.2in
+    float: left
+
+  .room-for-anya
+    margin-left: 2.5in
 
   .bottom
     border-top: 2px solid black

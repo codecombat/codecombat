@@ -1,8 +1,12 @@
 div.style-flat
+  img.header-art(src="https://files.slack.com/files-pri/T3A7R00SU-F3ZPE5CH0/arryn.png")
+
   div.header
-    img.logo(src="/images/pages/base/logo.png")
-    h4 Outcomes Report
-    h5 Nov 5, 1955 - Jan 1, 2015
+    div
+      img.print-logo(src="/images/pages/base/logo.png")
+    div
+      h4 Outcomes Report
+      h5 Nov 5, 1955 - Jan 1, 2015
 
   div.address
     p 
@@ -24,10 +28,10 @@ div.style-flat
           div.el
             svg(width=100, height=100)
               circle.bottom(r=50,cx=50,cy=50)
-              circle.top(r=25,cx=50,cy=50,style="stroke-dasharray: 60 150")
+              circle.top(r=25,cx=50,cy=50,style="stroke-dasharray: #{158/100*course.completion} 158")
               
           div.el
-            div.big 91%
+            div.big #{course.completion}%
             div.under complete
           div.el
             div.big 30
@@ -40,17 +44,31 @@ div.style-flat
               li Variables
 
   div.block
+    h1 Summary
+    h4 Using CodeCombat's personalized learning engine, your students wrote
+    div.fakebar
+      div
+        | 150 
+        small computer programs
+    h4 across an estimated...
+    div.fakebar
+      div
+        | 123,3456 
+        small lines of code
+    h4 and expressed creativity by building
+    div.fakebar
+      div
+        | 30 
+        small standalone game and web projects
+
+
+
+  div.block
     div.rob-row
       div.left-col
         h2 Insights
         p.
           Tilde drinking vinegar plaid, yr dreamcatcher williamsburg flexitarian man braid godard umami disrupt cardigan before they sold out brooklyn poke. Cliche beard single-origin coffee celiac quinoa, prism ethical. Slow-carb pug skateboard chicharrones gochujang 3 wolf moon, 8-bit kickstarter cronut cliche edison bulb tilde kinfolk mlkshk wayfarers. Chartreuse gluten-free kombucha hashtag, polaroid meggings health goth small batch intelligentsia seitan distillery hot chicken coloring book 8-bit church-key. Synth chicharrones man bun gochujang biodiesel. Roof party poke typewriter whatever, letterpress salvia gastropub kombucha man bun. Fashion axe brooklyn deep v mixtape neutra.
-
-        h2 Standards Coverage
-        p.
-          The full CodeCombat curriculuum covers all
-          major programming standards in several prominet
-          frameworks, including ISTE, CSTA, K12
       
       div.right-col
         h2 Classes
@@ -59,6 +77,23 @@ div.style-flat
           ul
             li Language: python
             li 12 students
+
+  img.anya(src="/file/db/thang.type/529ec584c423d4e83b000014/captain-pose.png")
+  div.block.room-for-anya
+    h1 Standards Coverage
+    p.
+      The full CodeCombat curriculum covers major programming standards in
+      several widely-adopted frameworks, including those of the International
+      Society for Technology in Education (ISTE), the Computer Science Teacher
+      Association (CSTA), and the K-12 Computer Science Framework.
+
+    p.
+      At CodeCombat, we believe that students will be most prepared for both
+      real-world computing jobs and further study of computer science by using
+      real, typed code in full programming languages, so instead of using blockbased
+      visual programming languages for beginners, we teach Python and
+      JavaScript –the same languages used widely today by companies ranging
+      from Google to the New York Times.
 
   div.bottom
     p Have question or want more information? We'd be happy to help.
