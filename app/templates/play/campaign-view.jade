@@ -84,7 +84,7 @@ if view.showAds()
             if levelDifficultyMap[level.slug]
               .level-difficulty-banner-text= levelDifficultyMap[level.slug]
           if level.locked
-            if level.unlocksItem
+            if level.unlocksItem && !level.unlocksHero
               img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
