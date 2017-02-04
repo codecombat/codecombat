@@ -81,6 +81,14 @@ $gameControlMargin: 30px
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
 
+      .treasure-chest
+        position: absolute
+        left: 50%
+        width: 150%
+        transform: translateX(-50%) translateY(-100%) scaleY(1.33)
+        cursor: pointer
+        z-index: 3
+
       &.disabled, &.locked
         //background-image: url(/images/pages/game-menu/lock.png)
         //background-size: 75%
@@ -92,6 +100,16 @@ $gameControlMargin: 30px
         margin-left: -0.5 * 0.67 * $levelDotWidth
         margin-bottom: -$levelDotHeight / 3 * 0.67 + $levelDotZ / 2
 
+        .treasure-chest
+          animation: pulsateWhileShifted 0.5s infinite ease-in-out alternate
+
+        +keyframes(pulsateWhileShifted)
+          0%
+            transform: translateX(-50%) translateY(-300%) scaleY(1.33) scale(0.9)
+          100%
+            transform: translateX(-50%) translateY(-300%) scaleY(1.33) scale(1.1)
+
+      
       &.started, &.next
         border: 3px solid lightgreen
         @include box-shadow(0px 0px 35px skyblue)
@@ -169,6 +187,13 @@ $gameControlMargin: 30px
         margin-left: 0
         margin-bottom: 0
 
+    img.premium-hero-banner
+      position: absolute
+      height: 250%
+      left: 50%
+      transform: translate(-50%, -100%) scaleY(1.33)
+      z-index: 4
+
     img.hero-portrait, img.item-portrait
       position: absolute
       border: 1px solid black
@@ -205,6 +230,8 @@ $gameControlMargin: 30px
         height: $levelDotShadowHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotShadowWidth
         margin-bottom: -$levelDotShadowHeight / 3 * 0.67
+
+
 
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
