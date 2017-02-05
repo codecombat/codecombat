@@ -47,8 +47,7 @@ module.exports = class CampaignView extends RootView
 
   events:
     'click .map-background': 'onClickMap'
-    'click .level a': 'onClickLevel'
-    'click .level .treasure-chest': 'onClickLevel'
+    'click .level': 'onClickLevel'
     'dblclick .level a': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
@@ -382,7 +381,6 @@ module.exports = class CampaignView extends RootView
       level.color = 'rgb(193, 193, 193)' if level.locked
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
       if level.unlocksHero
-        console.log level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
       level.unlocksItem = _.find(level.rewards, 'item')?.item
 

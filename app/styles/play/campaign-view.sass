@@ -80,6 +80,7 @@ $gameControlMargin: 30px
       margin-bottom: -$levelDotHeight / 3 + $levelDotZ
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
+      cursor: pointer
 
       .treasure-chest
         position: absolute
@@ -109,7 +110,6 @@ $gameControlMargin: 30px
           100%
             transform: translateX(-50%) translateY(-300%) scaleY(1.33) scale(1.1)
 
-      
       &.started, &.next
         border: 3px solid lightgreen
         @include box-shadow(0px 0px 35px skyblue)
@@ -140,7 +140,6 @@ $gameControlMargin: 30px
         bottom: 38%
         width: 170%
         left: -35%
-        pointer-events: none
 
       img.star
         width: 100%
@@ -230,8 +229,6 @@ $gameControlMargin: 30px
         height: $levelDotShadowHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotShadowWidth
         margin-bottom: -$levelDotShadowHeight / 3 * 0.67
-
-
 
     .level:hover
       // TODO: This rotate stops Firefox from flickering, but also disables the scaleY(0.75)
