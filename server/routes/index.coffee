@@ -4,6 +4,7 @@ module.exports.setup = (app) ->
 
   app.put('/admin/feature-mode/:featureMode', mw.admin.putFeatureMode)
   app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
+  app.get('/admin/calculate-lines-of-code', mw.admin.calculateLinesOfCode) # For outcomes report
 
   app.all('/api/*', mw.api.clientAuth)
 
@@ -159,7 +160,7 @@ module.exports.setup = (app) ->
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
-  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
+  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)

@@ -19,14 +19,17 @@ style.
   } 
 
 div.style-flat
-  img.header-art(src="https://files.slack.com/files-pri/T3A7R00SU-F3ZPE5CH0/arryn.png")
+  img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
 
   div.header
     div
       img.print-logo(src="/images/pages/base/logo.png")
     div
       h4 Outcomes Report
-      h5 Nov 5, 1955 - Jan 1, 2015
+      h5
+        | #{moment(view.options.startDate).format('MMM d, YYYY')}
+        | &ndash;
+        | #{moment(view.options.endDate).format('MMM d, YYYY')}
 
   div.address
     p 
@@ -34,10 +37,13 @@ div.style-flat
       |, 301 Pine St, San Francisco, CA 94109
       br
       b Teacher: 
-      | #{view.options.teacher.name} (#{view.options.teacher.email})
+      if view.options.teacher.fullName
+        | #{view.options.teacher.fullName} (#{view.options.teacher.email})
+      else
+        | #{view.options.teacher.email}
     p 
       b Account Manager: 
-      | #{view.options.ae.name} (#{view.options.ae.email})
+      | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
 
   div.block
     h1 Course Progress
@@ -47,38 +53,42 @@ div.style-flat
         div.bar
           div.el
             svg(width=100, height=100)
-              circle.bottom(r=50,cx=50,cy=50)
-              circle.top(r=25,cx=50,cy=50,style="stroke-dasharray: #{158/100*course.completion} 158")
+              - var radius = 50
+              - var fullCircleStroke = 2*Math.PI*radius / 2
+              circle.bottom(r=radius,cx=50,cy=50)
+              circle.top(r=radius / 2,cx=50,cy=50,style="stroke-dasharray: #{fullCircleStroke/100*course.completion} #{fullCircleStroke}")
               
           div.el
             div.big #{course.completion}%
             div.under complete
           div.el
-            div.big 30
+            div.big #{view.options.courseStudentCounts[course._id].count}
             div.under students
-          div.el
+          div.el.concepts-list
             b Key Concepts:
             ul
-              li Basic Syntax
-              li Loops
-              li Variables
+              for concept in course.newConcepts
+                li(data-i18n="concepts.#{concept}")
 
   div.dont-break.block
     h1 Summary
     h4 Using CodeCombat's personalized learning engine, your students wrote
     div.fakebar
       div
-        | 150 
+        | #{view.options.numProgramsWritten}
+        = " "
         small computer programs
     h4 across an estimated...
     div.fakebar
       div
-        | 123,3456 
+        | #{view.options.linesOfCode}
+        = " "
         small lines of code
     h4 and expressed creativity by building
     div.fakebar
       div
-        | 30 
+        | #{view.options.numShareableProjects}
+        = " "
         small standalone game and web projects
 
 
@@ -87,8 +97,7 @@ div.style-flat
     div.rob-row
       div.left-col
         h2 Insights
-        p.
-          Tilde drinking vinegar plaid, yr dreamcatcher williamsburg flexitarian man braid godard umami disrupt cardigan before they sold out brooklyn poke. Cliche beard single-origin coffee celiac quinoa, prism ethical. Slow-carb pug skateboard chicharrones gochujang 3 wolf moon, 8-bit kickstarter cronut cliche edison bulb tilde kinfolk mlkshk wayfarers. Chartreuse gluten-free kombucha hashtag, polaroid meggings health goth small batch intelligentsia seitan distillery hot chicken coloring book 8-bit church-key. Synth chicharrones man bun gochujang biodiesel. Roof party poke typewriter whatever, letterpress salvia gastropub kombucha man bun. Fashion axe brooklyn deep v mixtape neutra.
+        != view.options.insightsHtml
       
       div.right-col
         h2 Classes
@@ -99,7 +108,7 @@ div.style-flat
             li 12 students
 
   div.dont-break
-    img.anya(src="/file/db/thang.type/529ec584c423d4e83b000014/captain-pose.png")
+    img.anya(src="/images/pages/admin/outcomes-report/anya.png")
     div.block.room-for-anya
       h1 Standards Coverage
       p.
@@ -120,4 +129,4 @@ div.style-flat
       p Have question or want more information? We'd be happy to help.
       p
         | Reach out your Account Manager at 
-        a(href="mailto:" + view.options.ae.email)= view.options.ae.email 
+        a(href="mailto:" + view.options.accountManager.email)= view.options.accountManager.email 

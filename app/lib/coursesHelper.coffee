@@ -144,6 +144,8 @@ module.exports =
         progressData[classroom.id][course.id] = { completed: true, started: false } # to be updated
 
         levels = classroom.getLevels({courseID: course.id})
+        progressData[classroom.id][course.id].levelCount = levels.models.length
+        progressData[classroom.id][course.id].userCount = students.models.length
         for level in levels.models
           levelID = level.get('original')
           progressData[classroom.id][course.id][levelID] = {
@@ -170,7 +172,7 @@ module.exports =
               courseProgress[userID].started ||= false unless isPractice #no-op
               courseProgress[userID].completed = false unless isPractice
               courseProgress[levelID].started ||= false #no-op
-              courseProgress[levelID].completed = false unless isPractice 
+              courseProgress[levelID].completed = false unless isPractice
               courseProgress[levelID][userID].started = false
               courseProgress[levelID][userID].completed = false
               
