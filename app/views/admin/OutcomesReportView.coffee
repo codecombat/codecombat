@@ -47,7 +47,7 @@ OutcomesReportComponent = Vue.extend
       if teacher.firstName && teacher.lastName
         @teacherFullName = "#{teacher.firstName} #{teacher.lastName}"
       else
-        @teacherFullName = teacher.email
+        @teacherFullName = null
     trialRequest: (trialRequest) ->
       @schoolNameAndAddress = trialRequest?.properties.school
       @startDate = moment(new Date(trialRequest.created)).format('YYYY-MM-DD')
@@ -70,9 +70,12 @@ OutcomesReportComponent = Vue.extend
         
     displayReport: (e) ->
       resultView = new OutcomeReportResult({
-        @teacherEmail
-        @teacherFullName
-        @accountManagerFullName
+        teacher:
+          fullName: @teacherFullName
+          email: @teacherEmail
+        accountManager:
+          fullName: @accountManagerFullName
+          email: @accountManager.email
         @schoolNameAndAddress
         @teacher # toJSON'd
         @trialRequest # toJSON'd

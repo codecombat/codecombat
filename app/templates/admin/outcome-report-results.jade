@@ -19,7 +19,7 @@ style.
   } 
 
 div.style-flat
-  img.header-art(src="https://files.slack.com/files-pri/T3A7R00SU-F3ZPE5CH0/arryn.png")
+  img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
 
   div.header
     div
@@ -34,10 +34,13 @@ div.style-flat
       |, 301 Pine St, San Francisco, CA 94109
       br
       b Teacher: 
-      | #{view.options.teacher.name} (#{view.options.teacher.email})
+      if view.options.teacher.fullName
+        | #{view.options.teacher.fullName} (#{view.options.teacher.email})
+      else
+        | #{view.options.teacher.email}
     p 
       b Account Manager: 
-      | #{view.options.ae.name} (#{view.options.ae.email})
+      | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
 
   div.block
     h1 Course Progress
@@ -99,7 +102,7 @@ div.style-flat
             li 12 students
 
   div.dont-break
-    img.anya(src="/file/db/thang.type/529ec584c423d4e83b000014/captain-pose.png")
+    img.anya(src="/images/pages/admin/outcomes-report/captain-pose.png")
     div.block.room-for-anya
       h1 Standards Coverage
       p.
@@ -120,4 +123,4 @@ div.style-flat
       p Have question or want more information? We'd be happy to help.
       p
         | Reach out your Account Manager at 
-        a(href="mailto:" + view.options.ae.email)= view.options.ae.email 
+        a(href="mailto:" + view.options.accountManager.email)= view.options.accountManager.email 
