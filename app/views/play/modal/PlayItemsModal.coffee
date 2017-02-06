@@ -83,6 +83,7 @@ module.exports = class PlayItemsModal extends ModalView
     @stopListening @supermodel, 'loaded-all'
     @supermodel.loadCollection(itemFetcher, 'items')
     @idToItem = {}
+    @trackTimeVisible()
 
   onItemsFetched: (itemFetcher) ->
     gemsOwned = me.gems()
@@ -155,7 +156,27 @@ module.exports = class PlayItemsModal extends ModalView
       else
         itemEl.addClass('selected') unless wasSelected
     @itemDetailsView.setItem(item)
+    @updateViewVisibleTimer()
 
+  currentVisiblePremiumFeature: ->
+    item = @itemDetailsView?.item
+    if 'pet' in (item?.getAllowedSlots() or []) or item?.get('heroClass') in ['Ranger', 'Wizard']
+      return {
+        viewName: @.id
+        featureName: 'view-item'
+        premiumThang:
+          _id: item.id
+          slug: item.get('slug')
+          heroClass: item.get('heroClass')
+          slots: item.getAllowedSlots()
+      }
+    else if @$el.find('.tab-content').hasClass('filter-wizard')
+      return { viewName: @.id, featureName: 'filter-wizard' }
+    else if @$el.find('.tab-content').hasClass('filter-ranger')
+      return { viewName: @.id, featureName: 'filter-ranger' }
+    else
+      return null
+  
   onTabClicked: (e) ->
     @playSound 'game-menu-tab-switch'
     nano = $($(e.target).attr('href')).find('.nano')
@@ -180,6 +201,7 @@ module.exports = class PlayItemsModal extends ModalView
     tabContent = @$el.find('.tab-content')
     tabContent.removeClass('filter-wizard filter-ranger filter-warrior')
     tabContent.addClass("filter-#{value}") if value isnt 'all'
+    @updateViewVisibleTimer()
 
   onUnlockButtonClicked: (e) ->
     e.stopPropagation()

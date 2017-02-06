@@ -281,7 +281,7 @@ module.exports =
     
     if not achievement
       userUpdate = { 'lastAchievementChecked': checkTimestamp }
-      user.update({$set: userUpdate}).exec()
+      yield user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
     userUpdate = { 'lastAchievementChecked': achievement.get('updated') }
@@ -296,13 +296,13 @@ module.exports =
         creator: user.id
       })
     else
-      user.update({$set: userUpdate}).exec()
+      yield user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
       
     trigger = _.find(triggers, (trigger) -> LocalMongo.matchesQuery(trigger.toObject(), query))
     
     if not trigger
-      user.update({$set: userUpdate}).exec()
+      yield user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
     earned = yield EarnedAchievement.findOne({ achievement: achievement.id, user: req.user.id })

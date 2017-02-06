@@ -61,7 +61,7 @@ block content
                   - var levelOriginal = level.get('original');
                   - var session = view.levelSessions.find(function(session) { return session.get('level').original === levelOriginal });
                   if session
-                    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + session.id + '?course=' + view.courseID;
+                    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + session.id + '?course=' + view.courseID + '&course-instance=' + view.courseInstanceID;
                     a.btn.btn-gold.btn-view-project-level(href=url)
                       if level.isType('game-dev')
                         span(data-i18n='sharing.game')

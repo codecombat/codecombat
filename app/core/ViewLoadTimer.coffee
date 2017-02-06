@@ -55,7 +55,8 @@ class ViewLoadTimer
       totalTime = performance.now() - @t0 
       return console.warn("Unknown view at: #{document.location.href}, could not record perf.") if not @view.id
       return console.warn("Got invalid time result for view #{@view.id}: #{totalTime}, could not record perf.") if not _.isNumber(totalTime)
-      m = "Loaded #{@view.id} in: #{totalTime}ms"
+      tag = @view.getLoadTrackingTag?()
+      m = "Loaded #{@view.id}/#{tag} in: #{totalTime}ms"
 
       if @firstLoad
         entries = performance.getEntriesByType('resource').filter((r) => _.string.startsWith(r.name, location.origin))
@@ -63,12 +64,15 @@ class ViewLoadTimer
         totalTransferSize = _.reduce(entries, ((total, entry) -> total + entry.transferSize), 0)
         cachedResources = _.size(_.filter(entries, (entry) -> entry.transferSize / entry.encodedBodySize < 0.1))
         totalResources = _.size(entries)
-        resourceInfo = { networkTime, totalEncodedBodySize, totalTransferSize, cachedResources, totalResources }
+        resourceInfo = { totalEncodedBodySize, totalTransferSize, cachedResources, totalResources }
       else
         resourceInfo = {}
+      
+      props = _.assign({networkTime, totalTime, viewId: @view.id, @firstLoad }, resourceInfo)
+      props.tag = tag if tag
       console.log m if VIEW_LOAD_LOG
       noty({text:m, type:'information', timeout: 1000, layout:'topCenter'}) if SHOW_NOTY
-      window.tracker?.trackEvent 'View Load', _.assign({ totalTime, viewId: @view.id, @firstLoad }, resourceInfo)
+      window.tracker?.trackEvent 'View Load', props
     .then =>
       console.groupEnd() if VIEW_LOAD_LOG
 

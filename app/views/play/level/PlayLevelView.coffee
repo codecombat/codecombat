@@ -636,6 +636,7 @@ module.exports = class PlayLevelView extends RootView
         label: @level.get('name')
         levelID: @levelID
         ls: @session?.get('_id')
+        playtime: @session?.get('playtime')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID
 
   showVictory: (options={}) ->
@@ -771,3 +772,6 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+
+  getLoadTrackingTag: () ->
+    @level.get 'slug'

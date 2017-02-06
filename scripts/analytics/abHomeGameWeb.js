@@ -1,3 +1,4 @@
+'use strict';
 // Find % home users that navigated to web-dev, game-dev, or forest worlds first
 
 // Find all events, sort by create time, grab oldest one for each user
@@ -9,7 +10,6 @@ if (process.argv.length !== 3) {
   process.exit();
 }
 
-'use strict';
 const scriptStartTime = new Date();
 const co = require('co');
 const MongoClient = require('mongodb').MongoClient;

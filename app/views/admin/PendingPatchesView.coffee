@@ -93,7 +93,10 @@ module.exports = class PendingPatchesView extends RootView
     success = (nameMapArray) =>
       return if @destroyed
       nameMap = {}
-      for model in nameMapArray
+      for model, modelIndex in nameMapArray
+        unless model
+          console.warn "No model found for id #{ids[modelIndex]}"
+          continue
         nameMap[model.original or model._id] = model.name
       for patch in patches
         original = patch.target.original

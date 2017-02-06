@@ -387,12 +387,17 @@ setupFacebookCrossDomainCommunicationRoute = (app) ->
   app.get '/channel.html', (req, res) ->
     res.sendfile path.join(__dirname, 'public', 'channel.html')
 
+setupUpdateBillingRoute = (app) ->
+  app.get '/update-billing', (req, res) ->
+    res.sendfile path.join(__dirname, 'public', 'update-billing.html')
+
 exports.setupRoutes = (app) ->
   routes.setup(app)
 
   baseRoute.setup app
   setupUserDataRoute app
   setupFacebookCrossDomainCommunicationRoute app
+  setupUpdateBillingRoute app
   setupFallbackRouteToIndex app
   setupErrorMiddleware app
 

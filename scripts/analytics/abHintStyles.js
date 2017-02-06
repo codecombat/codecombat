@@ -1,3 +1,4 @@
+'use strict';
 // Output Hints style a/b test results in csv format
 
 if (process.argv.length !== 5) {
@@ -29,7 +30,6 @@ if (process.argv.length !== 5) {
 // TODO: javascript vs. python
 // TODO: target specifically hard levels, and ignore strict level progression (i.e. just X number levels before target)
 
-'use strict';
 const scriptStartTime = new Date();
 
 const mongoConnUrl = process.argv[2];

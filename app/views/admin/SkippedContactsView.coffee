@@ -95,7 +95,7 @@ SkippedContactsComponent = Vue.extend
   template: require('templates/admin/skipped-contacts/skipped-contacts-view')()
   data: ->
     sortOrder: 'date (ascending)'
-    showArchived: true
+    showArchived: false
   computed:
     _.assign({},
       Vuex.mapState(['skippedContacts', 'users']),

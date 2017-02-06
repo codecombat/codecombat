@@ -7,6 +7,7 @@ CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
 Course = require '../models/Course'
 database = require '../commons/database'
+codePlay = require '../../app/lib/code-play'
 
 module.exports =
   upsertSession: wrap (req, res) ->
@@ -112,7 +113,11 @@ module.exports =
       
     else
       requiresSubscription = level.get('requiresSubscription') or (req.user.isOnPremiumServer() and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-      canPlayAnyway = req.user.isPremium() or level.get 'adventurer'
+      canPlayAnyway = _.any([
+        req.user.isPremium(),
+        level.get('adventurer'),
+        req.features.codePlay and codePlay.canPlay(level.get('slug'))
+      ])
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
     

@@ -21,6 +21,7 @@ UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
+codePlay = require('lib/code-play')
 
 require 'game-libraries'
 
@@ -195,7 +196,9 @@ module.exports = class CampaignView extends RootView
       reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
       context.levels = _.reject context.levels, slug: reject
     if features.freeOnly
-      context.levels = _.reject context.levels, 'requiresSubscription'
+      context.levels = _.reject context.levels, (level) ->
+        return false if features.codePlay and codePlay.canPlay(level.slug)
+        return level.requiresSubscription
     @annotateLevels(context.levels)
     count = @countLevels context.levels
     context.levelsCompleted = count.completed
@@ -235,6 +238,10 @@ module.exports = class CampaignView extends RootView
         context.campaigns[campaign.get('slug')] = campaign
         if @sessions?.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
+          if features.freeOnly
+            levels = _.reject levels, (level) ->
+              return false if features.codePlay and codePlay.canPlay(level.slug)
+              return level.requiresSubscription
           count = @countLevels levels
           campaign.levelsTotal = count.total
           campaign.levelsCompleted = count.completed
@@ -296,7 +303,7 @@ module.exports = class CampaignView extends RootView
         success: @onLevelCompletionsLoaded.bind(@, level)
       }, 0
       request.load()
-    
+
   onLevelCompletionsLoaded: (level, data) ->
     return if @destroyed
     started = 0
@@ -362,7 +369,6 @@ module.exports = class CampaignView extends RootView
       level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
-      level.locked = true if level.slug in me.getDungeonLevelsHidden()
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
@@ -370,7 +376,7 @@ module.exports = class CampaignView extends RootView
       level.disabled = true if level.adminOnly and @levelStatusMap[level.slug] not in ['started', 'complete']
       level.disabled = false if me.isInGodMode()
       level.color = 'rgb(255, 80, 60)'
-      level.color = 'rgb(80, 130, 200)' if level.requiresSubscription
+      level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
       level.color = 'rgb(200, 80, 200)' if level.adventurer
       level.color = 'rgb(193, 193, 193)' if level.locked
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
@@ -405,7 +411,6 @@ module.exports = class CampaignView extends RootView
       for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
         for reward in (otherLevel.rewards ? []) when reward.level
           level.unlockedInSameCampaign ||= reward.level is level.original
-      level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
 
   countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
@@ -646,7 +651,7 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@campaign.get('levels')), slug: levelSlug
 
     requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug]
+    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug] or (features.codePlay and codePlay.canPlay(level.slug))
     if requiresSubscription and not canPlayAnyway
       @promptForSubscription levelSlug, 'map level clicked'
     else
@@ -698,7 +703,7 @@ module.exports = class CampaignView extends RootView
 
   onWindowResize: (e) =>
     mapHeight = iPadHeight = 1536
-    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2350, mountain: 2422, glacier: 2421}[@terrain] or 2350
+    mapWidth = {dungeon: 2350, forest: 2500, auditions: 2500, desert: 2411, mountain: 2422, glacier: 2421}[@terrain] or 2350
     aspectRatio = mapWidth / mapHeight
     pageWidth = @$el.width()
     pageHeight = @$el.height()
@@ -873,3 +878,6 @@ module.exports = class CampaignView extends RootView
     $pollButton = @$el.find 'button.poll'
     pollModal.on 'vote-updated', ->
       $pollButton.removeClass('highlighted').tooltip 'hide'
+
+  getLoadTrackingTag: () ->
+    @campaign?.get?('slug') or 'overworld'

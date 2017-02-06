@@ -3,6 +3,12 @@ c = require 'schemas/schemas'
 module.exports =
   'application:idle-changed': c.object {},
     idle: {type: 'boolean'}
+    type: {enum: ['activity', 'visibility']}
+
+  'view-visibility:away': c.object {}
+  'view-visibility:away-back': c.object {}
+  'view-visibility:hidden': c.object {}
+  'view-visibility:visible': c.object {}
 
   'application:error': c.object {},
     message: {type: 'string'}

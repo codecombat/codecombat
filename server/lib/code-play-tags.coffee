@@ -50,14 +50,5 @@ module.exports =
     })(window,document,'script','dataLayer','GTM-NBV9T9');</script>
     <!-- End Google Tag Manager -->
 
-    <!-- Lenovo DTM JS -->
-    <script src="//assets.adobedtm.com/9f0b01d01b963414024fff848ca9d3750437e1fa/satelliteLib-72ed6aba7cec9558bd09a076c144b1856387c6d5.js"></script>
-    <script> window.lmd={ cc:"ww", bu:"public", language:"en" }; </script>
-    <!-- End Lenovo DTM JS -->
-
 '''
-    footer: '''
-<!-- Lenovo DTM tag -->
-<script type="text/javascript">if(typeof _satellite !== "undefined")_satellite.pageBottom(); </script>
-<!-- End Lenovo DTM tag -->
-'''
+    footer: ''
