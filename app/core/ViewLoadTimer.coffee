@@ -13,13 +13,19 @@ class ViewLoadTimer
 
   record: ->
     console.group('Recording view:', @view.id) if VIEW_LOAD_LOG
-    views = [@view]
-    networkPromises = []
-    while views.length
-      subView = views.pop()
-      views = views.concat(_.values(subView.subviews))
-      if not subView.supermodel.finished()
-        networkPromises.push(subView.supermodel.finishLoading())
+
+    # Static pages do not measure resource loading
+    if @firstLoad and application.loadedStaticPage and me.isAnonymous()
+      @skippingNetworkResources = true
+      networkPromises = []
+    else
+      views = [@view]
+      networkPromises = []
+      while views.length
+        subView = views.pop()
+        views = views.concat(_.values(subView.subviews))
+        if not subView.supermodel.finished()
+          networkPromises.push(subView.supermodel.finishLoading())
     console.log 'Network promises:', networkPromises.length if VIEW_LOAD_LOG
     thatThereId = @view.id
     Promise.all(networkPromises)
@@ -48,10 +54,25 @@ class ViewLoadTimer
           imagePromises.push(promise)
 
       console.groupEnd() if VIEW_LOAD_LOG
+      @imagesAlreadyLoaded = imagePromises.length is 0
       return Promise.all(imagePromises)
     .then =>
-      networkTime = @networkLoad - @t0
-      totalTime = performance.now() - @t0 
+      endTime = performance.now()
+      if @imagesAlreadyLoaded and @skippingNetworkResources
+        # if JS loads after a static page load and all images are already loaded,
+        # use performance resources to determine endTime and, by extension, totalTime
+        imageResponseEnds = performance.getEntriesByType('resource')
+          .filter((r) => _.string.endsWith(r.initiatorType, 'img'))
+          .map((r) => r.responseEnd)
+        endTime = Math.max(imageResponseEnds...)
+
+      if @skippingNetworkResources
+        # if there were no network resources, or we didn't count them for static pages,
+        # use domInteractive instead
+        networkTime = performance.timing.domInteractive - performance.timing.navigationStart
+      else
+        networkTime = @networkLoad - @t0
+      totalTime = endTime - @t0 
       console.log "Saw view load event", thatThereId, @view.id
 
       if @view.destroyed
