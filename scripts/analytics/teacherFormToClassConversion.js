@@ -25,7 +25,7 @@ const mongoConnUrlAnalytics = process.argv[2];
 const debugOutput = true;
 const daysToViewForm = 7;
 const daysToCreateClass = 7;
-const endDay = "2017-01-06";
+const endDay = "2017-02-03";
 
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
 startDay.setUTCDate(startDay.getUTCDate() - daysToViewForm - daysToCreateClass);
@@ -49,7 +49,7 @@ co(function*() {
   debug(`Teacher form events found ${formEvents.length}`);
   const userFormMap = {};
   for (const event of formEvents) {
-    userFormMap[event.user] = true;
+    userFormMap[event.user] = event._id.getTimestamp();
   }
   const userIds = Object.keys(userFormMap);
   debug(`Unique users ${userIds.length}`);
@@ -61,6 +61,12 @@ co(function*() {
   debug(`Class created events found ${classEvents.length}`);
   const userFunnelEventsMap = {};
   for (const event of classEvents) {
+    const progressCutoff = new Date(userFormMap[event.user]);
+    progressCutoff.setUTCDate(progressCutoff.getUTCDate() + daysToCreateClass);
+    if (progressCutoff < event._id.getTimestamp()) {
+      // Skip events outside of timeframe to create class
+      continue;
+    }
     if (!userFunnelEventsMap[event.event]) userFunnelEventsMap[event.event] = {};
     userFunnelEventsMap[event.event][event.user] = true;
   }
