@@ -47,7 +47,7 @@ module.exports = class CampaignView extends RootView
 
   events:
     'click .map-background': 'onClickMap'
-    'click .level a': 'onClickLevel'
+    'click .level': 'onClickLevel'
     'dblclick .level a': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'

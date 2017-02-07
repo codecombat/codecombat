@@ -32,6 +32,7 @@ module.exports.setup = (app) ->
         handler = require('../' + name)
         method = req.method.toLowerCase()
         return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
+        return handler.toFile(req, res, parts[1], parts[3]) if parts[2] is 'toFile'
         return handler.versions(req, res, parts[1]) if parts[2] is 'versions'
         return handler.files(req, res, parts[1]) if parts[2] is 'files'
         return handler.getNamesByIDs(req, res) if method in ['get', 'post'] and parts[1] is 'names'
