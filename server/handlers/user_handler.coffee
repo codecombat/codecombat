@@ -149,9 +149,8 @@ UserHandler = class UserHandler extends Handler
           if err instanceof errors.NetworkError
             return callback({res: err.message, code: err.code})
           if err.res and err.code
-            callback(err)
-          console.log err.stack # TODO: Make sure runtime errors are logged properly
-          SubscriptionHandler.logSubscriptionError(user, 'Subscription error: '+(err.type or err.message))
+            return callback(err)
+          SubscriptionHandler.logSubscriptionError(user, 'Subscribe error: '+(err.stack or err.type or err.message))
           callback({res: 'Subscription error.', code: 500})
         )
       else if hasPlan and not wantsPlan
@@ -161,9 +160,8 @@ UserHandler = class UserHandler extends Handler
           if err instanceof errors.NetworkError
             return callback({res: err.message, code: err.code})
           if err.res and err.code
-            callback(err)
-          console.log err.stack # TODO: Make sure runtime errors are logged properly
-          SubscriptionHandler.logSubscriptionError(user, 'Subscription error: '+(err.type or err.message))
+            return callback(err)
+          SubscriptionHandler.logSubscriptionError(user, 'Unsubscribe error: '+(err.stack or err.type or err.message))
           callback({res: 'Subscription error.', code: 500})
         )
 

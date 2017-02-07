@@ -608,19 +608,10 @@
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Sharpen your skills with a <strong>CodeCombat Premium</strong> subscription!"
+    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!" # {change}
     premium_pricing_prefix: "Get Premium for just"
     premium_pricing_suffix: "and become a master coder."
     premium: "Premium"  # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ basic levels to learn Python, JavaScript, Lua, or CoffeeScript"
-    feature2: "Unlock <strong>__heroesCount__ powerful new heroes</strong>, including wizards and rangers"
-    feature3: "<strong>__bonusLevelsCount__+ premium levels</strong> to play, with new levels every month"
-    feature4: "<strong>{{gems}} bonus gems</strong> per month to upgrade your hero's items and pets"
-    feature6: "Premium email support"
-    feature7: "Private <strong>Clans</strong>"
-    feature8: "<strong>No ads!</strong>"
-    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Free"
     month: "month"
     must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
@@ -670,6 +661,22 @@
     unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
+    feature_levels: "Access __levelsCount__ levels available"
+    feature_gems: "Receive __gems__ gems per month"
+    feature_heroes: "Unlock exclusive heroes"
+    feature_games: "Make games for your friends"
+    feature_websites: "Build websites in apps"
+    feature_items: "Equip more powerful items"
+    month_price: "$__price__/mo"
+    lifetime: "Lifetime Subscription"
+    lifetime_price: "$__price__"
+    year_subscription: "Yearly Subscription"
+    year_price: "$__price__/year"
+    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+    kids_message_2: "Ask Your Parent"
+    support_part1: "Need help with payment options? Email"
+    support_part2: "support@codecombat.com"
+    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Choose Your Hero"

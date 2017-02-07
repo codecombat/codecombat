@@ -1,11 +1,16 @@
-Product = require '../../models/Product'
-errors = require '../../commons/errors'
-config = require '../../../server_config'
+Product = require '../models/Product'
+errors = require '../commons/errors'
+config = require '../../server_config'
 wrap = require 'co-express'
 
 get = wrap (req, res) ->
-  products = yield Product.find()
-  return res.send(productStubs) unless _.size(products) or config.isProduction
+  products = yield Product.find().lean()
+  unless _.size(products) or config.isProduction
+    products = productStubs
+  if (req.user.get('testGroupNumber') or 0) % 2 is 0
+    products = (p for p in products when p.name isnt 'year_subscription')
+  else
+    products = (p for p in products when p.name isnt 'lifetime_subscription')
   res.send(products)
 
 ###

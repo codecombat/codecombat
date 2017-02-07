@@ -28,7 +28,6 @@ class SubscriptionHandler extends Handler
     return @getStripeInvoices(req, res) if args[1] is 'stripe_invoices'
     return @getStripeSubscriptions(req, res) if args[1] is 'stripe_subscriptions'
     return @getSubscribers(req, res) if args[1] is 'subscribers'
-    return @purchaseYearSale(req, res) if args[1] is 'year_sale'
     super(arguments...)
 
   getStripeEvents: (req, res) ->

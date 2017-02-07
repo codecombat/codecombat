@@ -13,6 +13,9 @@ Product = require '../../../server/models/Product'
 request = require '../request'
 libUtils = require '../../../server/lib/utils'
 moment = require 'moment'
+middleware = require '../../../server/middleware'
+errors = require '../../../server/commons/errors'
+winston = require 'winston'
 
 subPrice = 100
 subGems = 3500
@@ -131,6 +134,87 @@ describe '/db/user, editing stripe property', ->
   #- shared data between tests
   joeData = null
   firstSubscriptionID = null
+
+  describe 'glue between PUT /db/user handler and subscriptions.subscribeUser middleware', ->
+    beforeEach utils.wrap ->
+      user = yield utils.initUser()
+      yield utils.loginUser(user)
+      @json = user.toObject()
+      @json.stripe = { planID: 'basic' }
+      @url = userURL
+    
+    describe 'when subscriptions.subscribeUser throws a NetworkError subclass', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'subscribeUser')
+        .and.returnValue(Promise.reject(new errors.Forbidden('Forbidden!')))
+  
+      it 'returns the thrown network error', utils.wrap ->
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(403)
+        expect(res.body).toBe('Forbidden!')
+        
+    describe 'when subscriptions.subscribeUser returns a legacy error object', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'subscribeUser')
+        .and.returnValue(Promise.reject({ res: 'test', code: 444 }))
+
+      it 'returns the thrown error', utils.wrap ->
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(444)
+        expect(res.body).toBe('test')
+        
+    describe 'when subscriptions.subscribeUser returns a runtime error', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'subscribeUser')
+        .and.returnValue(Promise.reject(new Error('Something went terribly awry!')))
+
+      it 'returns 500', utils.wrap ->
+        spyOn(winston, 'warn')
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(500)
+        expect(res.body).toBe('Subscription error.')
+        expect(winston.warn).toHaveBeenCalled()
+
+  describe 'glue between PUT /db/user handler and subscriptions.unsubscribeUser middleware', ->
+    beforeEach utils.wrap ->
+      user = yield utils.initUser({stripe: {planID: 'basic'}})
+      yield utils.loginUser(user)
+      @json = _.clone(user.toObject())
+      @json.stripe = {}
+      @url = userURL
+
+    describe 'when subscriptions.unsubscribeUser throws a NetworkError subclass', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'unsubscribeUser')
+        .and.returnValue(Promise.reject(new errors.Forbidden('Forbidden!')))
+
+      it 'returns the thrown network error', utils.wrap ->
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(403)
+        expect(res.body).toBe('Forbidden!')
+
+    describe 'when subscriptions.unsubscribeUser returns a legacy error object', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'unsubscribeUser')
+        .and.returnValue(Promise.reject({ res: 'test', code: 444 }))
+
+      it 'returns the thrown error', utils.wrap ->
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(444)
+        expect(res.body).toBe('test')
+
+    describe 'when subscriptions.unsubscribeUser returns a runtime error', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'unsubscribeUser')
+        .and.returnValue(Promise.reject(new Error('Something went terribly awry!')))
+
+      it 'returns 500', utils.wrap ->
+        spyOn(winston, 'warn')
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(500)
+        expect(res.body).toBe('Subscription error.')
+        expect(winston.warn).toHaveBeenCalled()
+    
 
   it 'returns client error when a token fails to charge', (done) ->
     nockUtils.setupNock 'db-user-sub-test-1.json', (err, nockDone) ->
@@ -625,9 +709,13 @@ describe 'Subscriptions', ->
               done()
 
   describe 'APIs', ->
+    # TODO: Refactor these tests to be use yield, be independent of one another, and move to products.spec.coffee
     subscriptionURL = getURL('/db/subscription')
+    purchaseYearSaleUrl = null
     beforeEach utils.wrap (done) ->
       yield utils.populateProducts()
+      product = yield Product.findOne({name: 'year_subscription'})
+      purchaseYearSaleUrl = getURL("/db/products/#{product.id}/purchase")
       done()
 
     it 'year_sale', (done) ->
@@ -641,7 +729,7 @@ describe 'Subscriptions', ->
               stripe:
                 token: token.id
                 timestamp: new Date()
-            request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+            request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
               expect(err).toBeNull()
               expect(res.statusCode).toBe(200)
               User.findById user1.id, (err, user1) ->
@@ -675,7 +763,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -711,7 +799,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -747,7 +835,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -789,7 +877,7 @@ describe 'Subscriptions', ->
                       stripe:
                         token: token.id
                         timestamp: new Date()
-                    request.put {uri: "#{subscriptionURL}/-/year_sale", json: requestBody, headers: headers }, (err, res) ->
+                    request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
                       expect(err).toBeNull()
                       expect(res.statusCode).toBe(200)
                       User.findById user1.id, (err, user1) ->
@@ -898,32 +986,3 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
 
     
-describe 'POST /db/products/:handle/purchase', ->
-  
-  beforeEach utils.wrap ->
-    yield utils.clearModels([User, Payment])
-    yield utils.populateProducts()
-    @user = yield utils.initUser()
-    yield utils.loginUser(@user)
-    spyOn(stripe.customers, 'create').and.callFake (newCustomer, cb) -> cb(null, {id: 'cus_1'})
-    spyOn(libUtils, 'findStripeSubscriptionAsync').and.returnValue(Promise.resolve(null))
-    spyOn(stripe.charges, 'create').and.callFake (opts, cb) -> 
-      cb(null, _.assign({id: 'charge_1'}, _.pick(opts, 'metadata', 'amount', 'customer')))
-    
-    
-  it 'allows purchase of a year subscription', utils.wrap ->
-    url = utils.getURL('/db/products/year_subscription/purchase')
-    json = {stripe: { token: '1', timestamp: new Date() }}
-    [res, body] = yield request.postAsync({url, json})
-    expect(moment(res.body.stripe.free).isAfter(moment().add(1, 'year').subtract(1, 'day'))).toBe(true)
-    expect(res.statusCode).toBe(200)
-
-  it 'allows purchase of a lifetime subscription', utils.wrap ->
-    url = utils.getURL('/db/products/lifetime_subscription/purchase')
-    json = {stripe: { token: '1', timestamp: new Date() }}
-    [res, body] = yield request.postAsync({url, json})
-    expect(res.body.stripe.free).toBe(true)
-    expect(res.statusCode).toBe(200)
-    product = yield Product.findOne({name:'lifetime_subscription'})
-    payment = yield Payment.findOne()
-    expect(product.get('amount')).toBe(payment.get('amount'))

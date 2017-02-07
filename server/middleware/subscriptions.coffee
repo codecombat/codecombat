@@ -119,10 +119,10 @@ checkForCoupon = co.wrap (req, user, customer) ->
     couponID = user.get('stripe')?.couponID
     unless couponID or not user.get 'country'
       product = yield Product.findBasicSubscriptionForUser(user)
-      unless product.name is 'basic_subscription'
+      unless product.get('name') is 'basic_subscription'
         # We have a customized product for this country
         couponID = user.get 'country'
-    yield checkForExistingSubscription(req, user, customer, couponID)
+    yield module.exports.checkForExistingSubscription(req, user, customer, couponID)
 
 
 checkForExistingSubscription = co.wrap (req, user, customer, couponID) ->
@@ -205,24 +205,25 @@ unsubscribeUser = co.wrap (req, user) ->
 
 
 purchaseProduct = expressWrap (req, res) ->
-  productName = req.params.handle or 'year_subscription' 
+  product = yield database.getDocFromHandle(req, Product)
+  product ?= yield Product.findOne({name: req.params.handle})
+  if not product
+    throw new errors.NotFound('Product not found')
+  productName = product?.get('name')
   if req.user.get('stripe.sponsorID')
     throw new errors.Forbidden('Sponsored subscribers may not purchase products.')
   unless productName in ['year_subscription', 'lifetime_subscription']
     throw new errors.UnprocessableEntity('Unsupported product')
-  customer = yield StripeUtils.getCustomerAsync(req.user, req.body.stripe?.token)
+  customer = yield StripeUtils.getCustomerAsync(req.user, req.body.stripe?.token or req.body.token)
   subscription = yield libUtils.findStripeSubscriptionAsync(customer.id, {subscriptionID: req.user.get('stripe')?.subscriptionID})
   stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
   yield StripeUtils.cancelSubscriptionImmediatelyAsync(req.user, subscription)
-  product = yield Product.findOne({name: productName})
-  if not product
-    throw new errors.NotFound('Product not found')
   
   metadata = {
     type: req.body.type
     userID: req.user.id
     gems: product.get('gems')
-    timestamp: parseInt(req.body.stripe?.timestamp)
+    timestamp: parseInt(req.body.stripe?.timestamp or req.body.timestamp)
     description: req.body.description
   }
 
@@ -254,10 +255,10 @@ purchaseProduct = expressWrap (req, res) ->
 
   yield req.user.save()
   try
-    msg = "#{req.user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for year campaign subscription"
+    msg = "#{req.user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for #{productName}"
     slack.sendSlackMessage msg, ['tower']
   catch error
-    SubscriptionHandler.logSubscriptionError(req.user, "Year sub sale Slack tower msg error: #{JSON.stringify(error)}")
+    SubscriptionHandler.logSubscriptionError(req.user, "#{productName} sale Slack tower msg error: #{JSON.stringify(error)}")
   res.send(req.user.toObject({req}))
 
   
@@ -351,4 +352,6 @@ module.exports = {
   unsubscribeUser
   unsubscribeRecipientEndpoint
   purchaseProduct
+  checkForCoupon
+  checkForExistingSubscription
 }

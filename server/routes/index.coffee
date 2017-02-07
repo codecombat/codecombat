@@ -190,10 +190,8 @@ module.exports.setup = (app) ->
   app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
-  app.get '/db/products', require('./db/product').get
+  app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)
   app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
-  # TODO: have client use POST product purchase instead of PUT subscription year sale
-  app.put('/db/subscription/:anything/year_sale', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
 
   app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
   app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)
