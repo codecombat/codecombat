@@ -150,6 +150,7 @@ _.extend ThangTypeSchema.properties,
     femaleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
     maleBack: { type: 'string', format: 'image-file', title: ' Male Back' }
     femaleBack: { type: 'string', format: 'image-file', title: ' Female Back' }
+    pet: { type: 'string', format: 'image-file', title: ' Pet' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:
