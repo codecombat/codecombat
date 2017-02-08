@@ -198,11 +198,11 @@ if view.showAds()
     if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !features.freeOnly
       button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
     if !me.get('anonymous', true) && !features.codePlay
-      button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]nav.account")
+      a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
     //if me.isAdmin()
     //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
     if me.get('anonymous', true)
-      button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]play.settings")
+      button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
 
   .user-status.header-font.picoctf-hide
     .user-status-line
