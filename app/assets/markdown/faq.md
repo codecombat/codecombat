@@ -24,6 +24,7 @@
 * [Does the teacher need to purchase a license if they want to work through the levels like their students?](#does-the-teacher-need-to-purchase-a-license-if-they-want-to-work-through-the-levels-like-their-students-)
 * [How do I get started with CodeCombat?](#how-do-i-get-started-with-codecombat-)
 * [Is there a limit to how many students I can add in Introduction to Computer Science?](#is-there-a-limit-to-how-many-students-i-can-add-in-introduction-to-computer-science-)
+* [How do I reset my student's password?](#how-do-i-reset-my-student-s-password-)
 
 
 ### What is CodeCombat?
@@ -125,5 +126,9 @@ Please refer to [Teacher Getting Started Guide](https://codecombat.com/teachers/
 ### Is there a limit to how many students I can add in Introduction to Computer Science?
 No.  
 
+### How do I reset my student's password?
+As an instructor, you can reset the password for any students who have not verified their email address (or if they haven't provided an email address). To do so, go to that student's class, find the student in the list of students, and click "Edit" on the right side of the student's row.
+
+If your student has verified their email, they will need to use the 'Forgot your password?' link in the Log In pop-up to reset their password. 
 
 [Back to Top](#frequently-asked-questions)
