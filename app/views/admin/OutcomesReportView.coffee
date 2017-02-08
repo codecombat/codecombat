@@ -4,15 +4,21 @@ template = require 'templates/base-flat'
 User = require 'models/User'
 TrialRequest = require 'models/TrialRequest'
 TrialRequests = require 'collections/TrialRequests'
+LevelSessions = require 'collections/LevelSessions'
+Level = require 'models/Level'
+Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
+Users = require 'collections/Users'
+Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
 require('vendor/co')
 require('vendor/vue')
 require('vendor/vuex')
+helper = require 'lib/coursesHelper'
 
 module.exports = class OutcomesReportView extends RootView
-  id: 'skipped-contacts-view'
+  id: 'outcomes-report-view'
   template: template
 
   afterRender: ->
@@ -28,7 +34,7 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: '580e517382bf11520af8a1f6' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
@@ -37,11 +43,71 @@ OutcomesReportComponent = Vue.extend
     startDate: null
     classrooms: null
     courses: null
+    sessions: []
+    courseInstances: []
     isClassroomSelected: {}
     isCourseSelected: {}
     endDate: moment(new Date()).format('YYYY-MM-DD')
   computed:
-    {}
+    studentIDs: ->
+      _.uniq _.flatten _.pluck(@classrooms, 'members')
+    percentCourseCompleted: ->
+      return 0
+      # @courses.forEach (course) =>
+      #   console.log {@classrooms}
+      #   debugger
+      #   console.log "Course #{course.name}"
+      #   @studentIDs.forEach (studentID) =>
+      #     studentSessions = _.where @sessions, (s) ->
+      #       debugger
+      #       course
+      #       s.creator is studentID and s.state.complete is true
+      #     console.log {studentID, studentSessions}
+      #     # debugger
+      #     null
+    courseCompletion: ->
+      console.log [@classrooms, @courses, @courseInstances, @classrooms?.map (c) -> c.sessions]
+      return if not (_.all([@classrooms, @courses, @courseInstances]) and _.all(@classrooms?.map (c) -> c.sessions))
+      classroomsWithSessions = new Classrooms(@classrooms)
+      classroomsWithSessions.forEach (classroom) =>
+        classroom.sessions = new LevelSessions(_.find(@classrooms, {_id: classroom.id}).sessions)
+      progressData = helper.calculateAllProgress(
+        classroomsWithSessions,
+        new Courses(@courses),
+        new CourseInstances(@courseInstances),
+        new Users(@studentIDs.map (_id) -> {_id})
+      )
+      courseCompletion = {}
+      for classroom in @classrooms
+        for course in classroom.courses
+          courseCompletion[course._id] ?= {
+            _id: course._id
+            name: course.name
+            completion: 0
+          }
+          courseCompletion[course._id].numerator ?= 0
+          courseCompletion[course._id].denominator ?= 0
+          for userID in classroom.members
+            for level in course.levels when not level.practice
+              progressDatum = progressData.get({
+                classroom: new Classroom(classroom)
+                course: new Course(course)
+                level: new Level(level)
+                user: {id: userID}
+              })
+              if _.contains(_.find(this.courseInstances, {courseID: course._id})?.members, userID)
+                if progressDatum.completed
+                  courseCompletion[course._id].numerator += 1
+                courseCompletion[course._id].denominator += 1
+              null
+          courseCompletion[course._id].completion = ((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100).toFixed(0)
+          # levelCount = progressData[classroom._id]?[course._id]?.levelCount or 0
+          # userCount = progressData[classroom._id]?[course._id]?.userCount or 0
+          # courseCompletion[course._id].denominator += levelCount * userCount
+      console.table courseCompletion
+      courseCompletion
+          
+
   watch:
     teacher: (teacher) ->
       if teacher.firstName && teacher.lastName
@@ -83,6 +149,7 @@ OutcomesReportComponent = Vue.extend
         @endDate # string YYYY-MM-DD
         classrooms: @classrooms.filter (c) => @isClassroomSelected[c._id]
         courses: @courses.filter (c) => @isCourseSelected[c._id]
+        @courseCompletion
       })
       resultView.render()
       wow = [
@@ -101,7 +168,7 @@ OutcomesReportComponent = Vue.extend
 
       setTimeout () ->
         $(resultWindow.document.body, "#page-container").append(resultView.el)
-      , 100
+      , 200
 
       resultWindow.document.write(wow)
 
@@ -129,6 +196,8 @@ OutcomesReportComponent = Vue.extend
       classrooms.fetchByOwner(@teacher._id)
       classrooms.once 'sync', =>
         @classrooms = classrooms.toJSON()
+        @fetchStudentSessions()
+        @fetchCourseInstances()
 
     fetchCourses: ->
       courseInstances = new CourseInstances()
@@ -139,6 +208,30 @@ OutcomesReportComponent = Vue.extend
         courses.once 'sync', =>
           Vue.set @$data, 'courses', courseInstances.map (courseInstance) =>
             courses.get(courseInstance.get('courseID')).toJSON()
+    
+    fetchStudentSessions: ->
+      @classrooms.forEach (classroom) =>
+        console.log "Fetching sessions for", classroom
+        sessions = new LevelSessions()
+        jqxhrs = sessions.fetchForAllClassroomMembers(new Classroom(classroom))
+        processSessions = (sessions) =>
+          Vue.set(classroom, 'sessions', sessions.toJSON())
+          sessions.forEach (session) =>
+            if not _.contains(@$data.sessions, { _id: session.id })
+              @$data.sessions.push(session.toJSON())
+        if jqxhrs.length > 0
+          sessions.once 'sync', processSessions
+        else
+          processSessions(sessions)
+              
+    fetchCourseInstances: ->
+      @classrooms.forEach (classroom) =>
+        courseInstances = new CourseInstances()
+        courseInstances.fetchForClassroom(classroom._id)
+        courseInstances.once 'sync', (courseInstances) =>
+          courseInstances.forEach (courseInstance) =>
+            if not _.contains(@$data.courseInstances, { _id: courseInstance.id })
+              @$data.courseInstances.push(courseInstance.toJSON())
 
   created: ->
     if @accountManager.firstName && @accountManager.lastName

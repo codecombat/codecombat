@@ -8,6 +8,8 @@ module.exports = class OutcomesReportResult extends RootView
   initialize: (@options) ->
     return super() unless me.isAdmin()
     @fetchData()
+    @courses = @options.courses.map (course) =>
+      _.merge course, {completion: @options.courseCompletion[course._id].completion}
     super()
 
   fetchData: ->
@@ -19,25 +21,25 @@ module.exports = class OutcomesReportResult extends RootView
     courseLevelPlaytimesMap = {}
     courseLevelTotalPlaytimeMap = {}
     levelPracticeMap = {}
-    @courses = [
-      {
-        name: "Introduction to Computer Science"
-        completion: (Math.random()*100).toFixed(0)
-      }
-      {
-        name: "Computer Science 2"
-        completion: (Math.random()*100).toFixed(0)
-      }
-      {
-        name: "Web Development 1"
-        completion: (Math.random()*100).toFixed(0)
-      }
-      {
-        name: "Robin Class 6"
-        completion: (Math.random()*100).toFixed(0)
-      }
-
-    ]
+    # @courses = [
+    #   {
+    #     name: "Introduction to Computer Science"
+    #     completion: (Math.random()*100).toFixed(0)
+    #   }
+    #   {
+    #     name: "Computer Science 2"
+    #     completion: (Math.random()*100).toFixed(0)
+    #   }
+    #   {
+    #     name: "Web Development 1"
+    #     completion: (Math.random()*100).toFixed(0)
+    #   }
+    #   {
+    #     name: "Robin Class 6"
+    #     completion: (Math.random()*100).toFixed(0)
+    #   }
+    #
+    # ]
 
     @classes = [
       {

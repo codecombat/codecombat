@@ -144,6 +144,8 @@ module.exports =
         progressData[classroom.id][course.id] = { completed: true, started: false } # to be updated
 
         levels = classroom.getLevels({courseID: course.id})
+        progressData[classroom.id][course.id].levelCount = levels.models.length
+        progressData[classroom.id][course.id].userCount = students.models.length
         for level in levels.models
           levelID = level.get('original')
           progressData[classroom.id][course.id][levelID] = {

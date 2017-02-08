@@ -32,12 +32,16 @@
         | End Date:
         input(v-model:value="endDate" type="date")
 
+    h2
+      | Classrooms:
     div(v-for="classroom in classrooms")
       label
         //- input(type="checkbox", v-model:value="startDate")
         input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
         {{classroom.name}}
 
+    h2
+      | Courses:
     div(v-for="course in courses")
       label
         input(type="checkbox", v-model:value="isCourseSelected[course._id]")

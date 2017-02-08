@@ -50,8 +50,10 @@ div.style-flat
         div.bar
           div.el
             svg(width=100, height=100)
-              circle.bottom(r=50,cx=50,cy=50)
-              circle.top(r=25,cx=50,cy=50,style="stroke-dasharray: #{158/100*course.completion} 158")
+              - var radius = 50
+              - var fullCircleStroke = 2*Math.PI*radius / 2
+              circle.bottom(r=radius,cx=50,cy=50)
+              circle.top(r=radius / 2,cx=50,cy=50,style="stroke-dasharray: #{fullCircleStroke/100*course.completion} #{fullCircleStroke}")
               
           div.el
             div.big #{course.completion}%
