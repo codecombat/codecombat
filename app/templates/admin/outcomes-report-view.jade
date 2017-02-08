@@ -48,4 +48,7 @@
         {{course.name}}
     
     label
-      input(type="button" @click.prevent="displayReport" value="Create report!")
+      input(type="button" @click.prevent="displayReport" value="Create report!", :disabled="!dataReady")
+      
+    //- div(v-if="allProgress")
+    //-   {{allProgress}}

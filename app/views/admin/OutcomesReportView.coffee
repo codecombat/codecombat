@@ -34,7 +34,8 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    # teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    teacherEmail: '530fd60747a891b3518b4776' # TODO: Don't hardcode this. And add get-by-email endpoint.
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
@@ -65,9 +66,11 @@ OutcomesReportComponent = Vue.extend
       #     console.log {studentID, studentSessions}
       #     # debugger
       #     null
+    dataReady: ->
+      return (_.all([@classrooms, @courses, @courseInstances]) and _.all(@classrooms?.map (c) -> c.sessions))
     courseCompletion: ->
       console.log [@classrooms, @courses, @courseInstances, @classrooms?.map (c) -> c.sessions]
-      return if not (_.all([@classrooms, @courses, @courseInstances]) and _.all(@classrooms?.map (c) -> c.sessions))
+      return if not @dataReady
       classroomsWithSessions = new Classrooms(@classrooms)
       classroomsWithSessions.forEach (classroom) =>
         classroom.sessions = new LevelSessions(_.find(@classrooms, {_id: classroom.id}).sessions)
@@ -125,6 +128,7 @@ OutcomesReportComponent = Vue.extend
       for course in courses
         if _.isUndefined(@isCourseSelected[course._id])
           Vue.set(@isCourseSelected, course._id, true)
+    
   methods:
     submitEmail: (e) ->
       $.ajax
@@ -133,7 +137,7 @@ OutcomesReportComponent = Vue.extend
         data: {search: @teacherEmail}
         success: @fetchCompleteUser
         error: (data) => console.log arguments
-        
+
     displayReport: (e) ->
       resultView = new OutcomeReportResult({
         teacher:
@@ -206,8 +210,9 @@ OutcomesReportComponent = Vue.extend
         courses = new Courses()
         courses.fetch()
         courses.once 'sync', =>
-          Vue.set @$data, 'courses', courseInstances.map (courseInstance) =>
-            courses.get(courseInstance.get('courseID')).toJSON()
+          courseIDs = _.uniq courseInstances.map (courseInstance) =>
+            courseInstance.get('courseID')
+          Vue.set @$data, 'courses', courseIDs.map (courseID) => courses.get(courseID).toJSON()
     
     fetchStudentSessions: ->
       @classrooms.forEach (classroom) =>
