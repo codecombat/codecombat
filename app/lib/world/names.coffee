@@ -1,6 +1,7 @@
 module.exports.thangNames = thangNames =
   'Ogre Munchkin F': [
     # Female
+    'Babaga'
     'Alali'
     'Anabel'
     'Delma'
