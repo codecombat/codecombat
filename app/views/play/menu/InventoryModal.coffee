@@ -691,7 +691,9 @@ module.exports = class InventoryModal extends ModalView
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     didAdd = false
-    if slot is 'gloves'
+    if slot is 'pet'
+      imageKeys = ["pet"]
+    else if slot is 'gloves'
       if heroClass is 'Ranger'
         imageKeys = ["#{gender}#{heroClass}", "#{gender}#{heroClass}Thumb"]
       else
