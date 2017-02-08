@@ -62,8 +62,9 @@ class ViewLoadTimer
         # if JS loads after a static page load and all images are already loaded,
         # use performance resources to determine endTime and, by extension, totalTime
         imageResponseEnds = performance.getEntriesByType('resource')
-          .filter((r) => _.string.endsWith(r.initiatorType, 'img'))
+          .filter((r) => _.contains(['img', 'css'], r.initiatorType))
           .map((r) => r.responseEnd)
+        console.log('Static page measures endTime as', Math.max(imageResponseEnds...).toFixed(1), 'instead of', endTime.toFixed(1)) if VIEW_LOAD_LOG
         endTime = Math.max(imageResponseEnds...)
 
       if @skippingNetworkResources
@@ -82,7 +83,7 @@ class ViewLoadTimer
       return console.warn("Unknown view at: #{document.location.href}, could not record perf.") if not @view.id
       return console.warn("Got invalid time result for view #{@view.id}: #{totalTime}, could not record perf.") if not _.isNumber(totalTime)
       tag = @view.getLoadTrackingTag?()
-      m = "Loaded #{@view.id}/#{tag} in: #{totalTime}ms"
+      m = "Loaded #{@view.id}/#{tag} in: #{totalTime.toFixed(1)}ms"
 
       if @firstLoad
         entries = performance.getEntriesByType('resource').filter((r) => _.string.startsWith(r.name, location.origin))
