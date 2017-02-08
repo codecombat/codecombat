@@ -80,6 +80,16 @@ $gameControlMargin: 30px
       margin-bottom: -$levelDotHeight / 3 + $levelDotZ
       border: 2px groove white
       @include transition(margin-bottom 0.5s ease)
+      cursor: pointer
+
+      .treasure-chest
+        position: absolute
+        left: 50%
+        width: 150%
+        transform: translateX(-50%) translateX(50%) translateY(-130%) scaleY(1.33) scale(0.75)
+        cursor: pointer
+        z-index: -1
+        filter: drop-shadow(0px 0px 4px gold)
 
       &.disabled, &.locked
         //background-image: url(/images/pages/game-menu/lock.png)
@@ -91,6 +101,10 @@ $gameControlMargin: 30px
         height: $levelDotHeight * 0.67
         margin-left: -0.5 * 0.67 * $levelDotWidth
         margin-bottom: -$levelDotHeight / 3 * 0.67 + $levelDotZ / 2
+
+        .treasure-chest
+          transform: translateX(-50%) translateY(-200%) scaleY(1.33) scale(0.95)
+
 
       &.started, &.next
         border: 3px solid lightgreen
@@ -122,7 +136,6 @@ $gameControlMargin: 30px
         bottom: 38%
         width: 170%
         left: -35%
-        pointer-events: none
 
       img.star
         width: 100%
@@ -168,6 +181,13 @@ $gameControlMargin: 30px
         left: 75%
         margin-left: 0
         margin-bottom: 0
+
+    img.premium-hero-banner
+      position: absolute
+      height: 250%
+      transform: translate(-50%, -100%) translateX(-20%) translateY(-10%) scaleY(1.33)
+      filter: drop-shadow(0px 0px 10px black)
+      z-index: 3
 
     img.hero-portrait, img.item-portrait
       position: absolute
