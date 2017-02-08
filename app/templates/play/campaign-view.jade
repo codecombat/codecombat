@@ -199,8 +199,6 @@ if view.showAds()
       button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
     if !me.get('anonymous', true) && !features.codePlay
       a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    //if me.isAdmin()
-    //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
     if me.get('anonymous', true)
       button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
 
@@ -216,7 +214,7 @@ if view.showAds()
         button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
         button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
       else
-        a(data-toggle="coco-modal", data-target="play/modal/PlayAccountModal").player-name.spr= me.get('name')
+        a(href="/account").player-name.spr= me.get('name')
         button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
         if me.isPremium()
           button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
