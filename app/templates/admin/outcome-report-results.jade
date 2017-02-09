@@ -75,17 +75,20 @@ div.style-flat
     h4 Using CodeCombat's personalized learning engine, your students wrote
     div.fakebar
       div
-        | 150 
+        | #{view.options.numProgramsWritten}
+        = " "
         small computer programs
     h4 across an estimated...
     div.fakebar
       div
-        | 123,3456 
+        | 123,3456
+        = " "
         small lines of code
     h4 and expressed creativity by building
     div.fakebar
       div
-        | 30 
+        | #{view.options.numShareableProjects}
+        = " "
         small standalone game and web projects
 
 

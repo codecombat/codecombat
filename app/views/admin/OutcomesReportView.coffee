@@ -16,6 +16,7 @@ require('vendor/co')
 require('vendor/vue')
 require('vendor/vuex')
 helper = require 'lib/coursesHelper'
+utils = require 'core/utils'
 
 module.exports = class OutcomesReportView extends RootView
   id: 'outcomes-report-view'
@@ -34,8 +35,8 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    # teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
-    teacherEmail: '568e7f2552eea226005180b3' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    # teacherEmail: '568e7f2552eea226005180b3' # TODO: Don't hardcode this. And add get-by-email endpoint.
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
@@ -53,6 +54,18 @@ OutcomesReportComponent = Vue.extend
   computed:
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
+    indexedSessions: ->
+      _.indexBy(@sessions, '_id')
+    numProgramsWritten: ->
+      _.size(@indexedSessions)
+    numShareableProjects: ->
+      shareableLevels = _.flatten @classrooms.map (classroom) ->
+        classroom.courses.map (course) ->
+          _.filter course.levels, (level) ->
+            level.shareable is 'project'
+      originals = _.map(shareableLevels, 'original')
+      projects = _.where(Object.values(@indexedSessions), (s) -> s.level.original in originals)
+      projects.length
     percentCourseCompleted: ->
       return 0
       # @courses.forEach (course) =>
@@ -172,6 +185,8 @@ OutcomesReportComponent = Vue.extend
         courses: @courses.filter (c) => @isCourseSelected[c._id]
         @courseCompletion
         @courseStudentCounts
+        @numProgramsWritten
+        @numShareableProjects
       })
       resultView.render()
       wow = [
@@ -230,7 +245,7 @@ OutcomesReportComponent = Vue.extend
         courses.once 'sync', =>
           courseIDs = _.uniq courseInstances.map (courseInstance) =>
             courseInstance.get('courseID')
-          Vue.set @$data, 'courses', courseIDs.map (courseID) => courses.get(courseID).toJSON()
+          Vue.set @$data, 'courses', utils.sortCourses(courseIDs.map (courseID) => courses.get(courseID).toJSON())
     
     fetchStudentSessions: ->
       @classrooms.forEach (classroom) =>
@@ -241,8 +256,8 @@ OutcomesReportComponent = Vue.extend
           console.log sessions
           Vue.set(classroom, 'sessions', sessions.toJSON())
           sessions.forEach (session) =>
-            if not _.contains(@$data.sessions, { _id: session.id })
-              @$data.sessions.push(session.toJSON())
+            # if not _.detect(@$data.sessions, { _id: session.id })
+            @$data.sessions.push(session.toJSON())
               
     fetchCourseInstances: ->
       @classrooms.forEach (classroom) =>
