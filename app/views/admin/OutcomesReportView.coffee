@@ -235,15 +235,12 @@ OutcomesReportComponent = Vue.extend
         console.log "Fetching sessions for", classroom
         sessions = new LevelSessions()
         jqxhrs = sessions.fetchForAllClassroomMembers(new Classroom(classroom))
-        processSessions = (sessions) =>
+        $.when(jqxhrs...).done =>
+          console.log sessions
           Vue.set(classroom, 'sessions', sessions.toJSON())
           sessions.forEach (session) =>
             if not _.contains(@$data.sessions, { _id: session.id })
               @$data.sessions.push(session.toJSON())
-        if jqxhrs.length > 0
-          sessions.once 'sync', processSessions
-        else
-          processSessions(sessions)
               
     fetchCourseInstances: ->
       @classrooms.forEach (classroom) =>
