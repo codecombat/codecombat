@@ -10,7 +10,6 @@ CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
-utils = require 'core/utils'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
