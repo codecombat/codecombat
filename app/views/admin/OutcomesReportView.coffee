@@ -39,7 +39,8 @@ OutcomesReportComponent = Vue.extend
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
-    schoolNameAndAddress: null
+    schoolName: null
+    schoolAddress: null
     trialRequest: null
     startDate: null
     classrooms: null
@@ -128,7 +129,7 @@ OutcomesReportComponent = Vue.extend
       else
         @teacherFullName = null
     trialRequest: (trialRequest) ->
-      @schoolNameAndAddress = trialRequest?.properties.school
+      @schoolName = trialRequest?.properties.school
       @startDate = moment(new Date(trialRequest.created)).format('YYYY-MM-DD')
     classrooms: (classrooms) ->
       for classroom in classrooms
@@ -161,7 +162,8 @@ OutcomesReportComponent = Vue.extend
         accountManager:
           fullName: @accountManagerFullName
           email: @accountManager.email
-        @schoolNameAndAddress
+        @schoolName
+        @schoolAddress
         @teacher # toJSON'd
         @trialRequest # toJSON'd
         @startDate # string YYYY-MM-DD

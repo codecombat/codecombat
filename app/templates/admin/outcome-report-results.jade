@@ -26,7 +26,10 @@ div.style-flat
       img.print-logo(src="/images/pages/base/logo.png")
     div
       h4 Outcomes Report
-      h5 Nov 5, 1955 - Jan 1, 2015
+      h5
+        | #{moment(view.options.startDate).format('MMM d, YYYY')}
+        | &ndash;
+        | #{moment(view.options.endDate).format('MMM d, YYYY')}
 
   div.address
     p 
