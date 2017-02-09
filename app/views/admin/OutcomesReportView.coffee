@@ -35,7 +35,7 @@ OutcomesReportComponent = Vue.extend
   data: ->
     accountManager: me.toJSON()
     # teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
-    teacherEmail: '530fd60747a891b3518b4776' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    teacherEmail: '568e7f2552eea226005180b3' # TODO: Don't hardcode this. And add get-by-email endpoint.
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
@@ -103,14 +103,24 @@ OutcomesReportComponent = Vue.extend
                   courseCompletion[course._id].numerator += 1
                 courseCompletion[course._id].denominator += 1
               null
-          courseCompletion[course._id].completion = ((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100).toFixed(0)
+          courseCompletion[course._id].completion = Math.floor((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100)
           # levelCount = progressData[classroom._id]?[course._id]?.levelCount or 0
           # userCount = progressData[classroom._id]?[course._id]?.userCount or 0
           # courseCompletion[course._id].denominator += levelCount * userCount
       console.table courseCompletion
+      console.trace()
       courseCompletion
-          
-
+    courseStudentCounts: ->
+      counts = @courses.map (course) =>
+        courseID = course._id ? course
+        instancesOfThisCourse = _.where(@courseInstances, {courseID})
+        console.log _.union.apply(null, instancesOfThisCourse.map((i) -> i.members)).length
+        {
+          _id: courseID
+          count: _.union.apply(null, instancesOfThisCourse.map((i) -> i.members)).length
+        }
+      _.indexBy(counts, '_id')
+      
   watch:
     teacher: (teacher) ->
       if teacher.firstName && teacher.lastName
@@ -128,6 +138,11 @@ OutcomesReportComponent = Vue.extend
       for course in courses
         if _.isUndefined(@isCourseSelected[course._id])
           Vue.set(@isCourseSelected, course._id, true)
+      alreadyCoveredConcepts = []
+      for course in courses
+        course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
+        alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
+        console.log course.campaignID, course.newConcepts
     
   methods:
     submitEmail: (e) ->
@@ -154,6 +169,7 @@ OutcomesReportComponent = Vue.extend
         classrooms: @classrooms.filter (c) => @isClassroomSelected[c._id]
         courses: @courses.filter (c) => @isCourseSelected[c._id]
         @courseCompletion
+        @courseStudentCounts
       })
       resultView.render()
       wow = [
@@ -171,8 +187,8 @@ OutcomesReportComponent = Vue.extend
       window.resultWindow = resultWindow
 
       setTimeout () ->
-        $(resultWindow.document.body, "#page-container").append(resultView.el)
-      , 200
+        $(resultWindow.document.body, "#page-container").empty().append(resultView.el)
+      , 500
 
       resultWindow.document.write(wow)
 

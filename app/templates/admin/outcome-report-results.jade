@@ -59,14 +59,13 @@ div.style-flat
             div.big #{course.completion}%
             div.under complete
           div.el
-            div.big 30
+            div.big #{view.options.courseStudentCounts[course._id].count}
             div.under students
           div.el
             b Key Concepts:
             ul
-              li Basic Syntax
-              li Loops
-              li Variables
+              for concept in course.newConcepts
+                li(data-i18n="concepts.#{concept}")
 
   div.dont-break.block
     h1 Summary

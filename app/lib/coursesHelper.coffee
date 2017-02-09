@@ -172,7 +172,7 @@ module.exports =
               courseProgress[userID].started ||= false unless isPractice #no-op
               courseProgress[userID].completed = false unless isPractice
               courseProgress[levelID].started ||= false #no-op
-              courseProgress[levelID].completed = false unless isPractice 
+              courseProgress[levelID].completed = false unless isPractice
               courseProgress[levelID][userID].started = false
               courseProgress[levelID][userID].completed = false
               
