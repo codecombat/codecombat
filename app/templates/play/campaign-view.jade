@@ -75,7 +75,10 @@ if view.showAds()
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
             else if level.unlocksItem && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unlock#{level.requiresSubscription?'-subscriber':''}.png")
-              img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
+              if level.unlocksPet
+                img.premium-hero-banner.pet-banner(src="/file/#{level.unlocksPet}")
+              else
+                img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
               img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
             else if levelStatusMap[level.slug] === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")

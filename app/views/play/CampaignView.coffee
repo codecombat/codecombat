@@ -41,6 +41,7 @@ class CampaignsCollection extends CocoCollection
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'
   template: template
+  itemCache: {}
 
   subscriptions:
     'subscribe-modal:subscribed': 'onSubscribed'
@@ -382,7 +383,26 @@ module.exports = class CampaignView extends RootView
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
-      level.unlocksItem = _.find(level.rewards, 'item')?.item
+
+      if not @itemCache[level.original]
+        @itemCache[level.original] = "pre-cache"
+        if level.unlocksItem = _.find(level.rewards, 'item')?.item
+          do (level) =>
+            request = @supermodel.addRequestResource 'load_full_thang', {
+              url: "/db/thang.type/#{level.unlocksItem}/version",
+              success: (data) =>
+                itemComponent = data.components[_.findIndex(data.components, (elem) -> return elem.config?.slots?)]
+                @itemCache?[level.original] = "cached"
+                if itemComponent?.config? and itemComponent.config.slots.indexOf("pet") >= 0
+                  level.unlocksPet = data.dollImages.pet
+                  @itemCache?[level.original] = data.dollImages.pet
+                  @renderSelectors("div[data-level-original=#{level.original}]")
+            }
+            request.load()
+      else
+        level.unlocksItem = _.find(level.rewards, 'item')?.item
+        if ["pre-cache", "cached"].indexOf(@itemCache[level.original]) is -1
+          level.unlocksPet = @itemCache[level.original]
 
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
