@@ -4,6 +4,7 @@ module.exports.setup = (app) ->
 
   app.put('/admin/feature-mode/:featureMode', mw.admin.putFeatureMode)
   app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
+  app.get('/admin/calculate-lines-of-code', mw.admin.calculateLinesOfCode) # For outcomes report
 
   app.all('/api/*', mw.api.clientAuth)
 

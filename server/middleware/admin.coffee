@@ -17,8 +17,15 @@ deleteFeatureMode = (req, res) ->
   delete req.session.featureMode
   res.send({})
   
+calculateLinesOfCode = (req, res) ->
+  { courseIDs, classroomIDs } = req.query
+  console.log {courseIDs, classroomIDs}
+  # Get total number of lines of code for all sessions that are in
+  # one of these classrooms AND one of these courses
+  res.send({ linesOfCode: "42" })
 
 module.exports = {
   putFeatureMode
   deleteFeatureMode
+  calculateLinesOfCode
 }

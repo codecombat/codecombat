@@ -69,6 +69,10 @@ OutcomesReportComponent = Vue.extend
       originals = _.map(shareableLevels, 'original')
       projects = _.where(Object.values(@indexedSessions), (s) -> s.level.original in originals)
       projects.length
+    selectedClassrooms: ->
+      @classrooms.filter (c) => @isClassroomSelected[c._id]
+    selectedCourses: ->
+      @courses.filter (c) => @isCourseSelected[c._id]
     insightsHtml: ->
       marked(@insightsMarkdown, sanitize: false)
     dataReady: ->
@@ -150,12 +154,15 @@ OutcomesReportComponent = Vue.extend
     submitEmail: (e) ->
       $.ajax
         type: 'GET',
-        url: "/db/user"
+        url: '/db/user'
         data: {email: @teacherEmail}
         success: @fetchCompleteUser
-        error: (data) => noty text: "Failed to find user by that email"
+        error: (data) => noty text: 'Failed to find user by that email', type: 'error'
 
     displayReport: (e) ->
+      @fetchLinesOfCode().then @finishDisplayReport
+    
+    finishDisplayReport: ->
       resultView = new OutcomeReportResult({
         teacher:
           fullName: @teacherFullName
@@ -169,11 +176,12 @@ OutcomesReportComponent = Vue.extend
         @trialRequest # toJSON'd
         @startDate # string YYYY-MM-DD
         @endDate # string YYYY-MM-DD
-        classrooms: @classrooms.filter (c) => @isClassroomSelected[c._id]
-        courses: @courses.filter (c) => @isCourseSelected[c._id]
+        classrooms: @selectedClassrooms
+        courses: @selectedCourses
         @courseCompletion
         @courseStudentCounts
         @numProgramsWritten
+        @linesOfCode
         @numShareableProjects
         @insightsHtml
       })
@@ -257,3 +265,15 @@ OutcomesReportComponent = Vue.extend
           courseInstances.forEach (courseInstance) =>
             if not _.contains(@$data.courseInstances, { _id: courseInstance.id })
               @$data.courseInstances.push(courseInstance.toJSON())
+    
+    fetchLinesOfCode: ->
+      $.ajax
+        type: 'GET',
+        url: '/admin/calculate-lines-of-code'
+        data: {
+          classroomIDs: @selectedClassrooms.map (c) -> c._id
+          courseIDs: @selectedCourses.map (c) -> c._id
+        }
+        success: (data) =>
+          @linesOfCode = parseInt(data.linesOfCode)
+        error: (data) => noty text: 'Failed to fetch lines of code', type: 'error'
