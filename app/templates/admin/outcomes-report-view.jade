@@ -36,20 +36,36 @@
         | End Date:
         input(v-model:value="endDate" type="date")
 
-    h2
-      | Classrooms:
-    div(v-for="classroom in classrooms")
-      label
-        //- input(type="checkbox", v-model:value="startDate")
-        input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
-        {{classroom.name}}
+    .row
+      .col-xs-6
+        h2
+          | Classrooms:
+        div(v-for="classroom in classrooms")
+          label
+            //- input(type="checkbox", v-model:value="startDate")
+            input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
+            {{classroom.name}}
+
+      .col-xs-6
+        h2
+          | Courses:
+        div(v-for="course in courses")
+          label
+            input(type="checkbox", v-model:value="isCourseSelected[course._id]")
+            {{course.name}}
 
     h2
-      | Courses:
-    div(v-for="course in courses")
-      label
-        input(type="checkbox", v-model:value="isCourseSelected[course._id]")
-        {{course.name}}
+      | Insights (markdown):
+    p
+      b **bold**
+      = " "
+      i *italics*
+      = " "
+      | [link text](url)
+    .row
+      div.col-xs-6
+        textarea(v-model:insightsMarkdown="insightsMarkdown")
+      div.col-xs-6(v-html="insightsHtml")
     
     label
       input(type="button" @click.prevent="displayReport" value="Create report!", :disabled="!(dataReady)")

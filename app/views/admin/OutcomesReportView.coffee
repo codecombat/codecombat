@@ -51,6 +51,7 @@ OutcomesReportComponent = Vue.extend
     isClassroomSelected: {}
     isCourseSelected: {}
     endDate: moment(new Date()).format('YYYY-MM-DD')
+    insightsMarkdown: ""
   computed:
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
@@ -66,20 +67,8 @@ OutcomesReportComponent = Vue.extend
       originals = _.map(shareableLevels, 'original')
       projects = _.where(Object.values(@indexedSessions), (s) -> s.level.original in originals)
       projects.length
-    percentCourseCompleted: ->
-      return 0
-      # @courses.forEach (course) =>
-      #   console.log {@classrooms}
-      #   debugger
-      #   console.log "Course #{course.name}"
-      #   @studentIDs.forEach (studentID) =>
-      #     studentSessions = _.where @sessions, (s) ->
-      #       debugger
-      #       course
-      #       s.creator is studentID and s.state.complete is true
-      #     console.log {studentID, studentSessions}
-      #     # debugger
-      #     null
+    insightsHtml: ->
+      marked(@insightsMarkdown, sanitize: false)
     dataReady: ->
       return (_.all([@classrooms, @courses, @courseInstances]) and _.all(@classrooms?.map (c) -> c.sessions))
     courseCompletion: ->
@@ -118,9 +107,6 @@ OutcomesReportComponent = Vue.extend
                 courseCompletion[course._id].denominator += 1
               null
           courseCompletion[course._id].completion = Math.floor((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100)
-          # levelCount = progressData[classroom._id]?[course._id]?.levelCount or 0
-          # userCount = progressData[classroom._id]?[course._id]?.userCount or 0
-          # courseCompletion[course._id].denominator += levelCount * userCount
       console.table courseCompletion
       console.trace()
       courseCompletion
@@ -187,6 +173,7 @@ OutcomesReportComponent = Vue.extend
         @courseStudentCounts
         @numProgramsWritten
         @numShareableProjects
+        @insightsHtml
       })
       resultView.render()
       wow = [
