@@ -13,15 +13,21 @@ class ViewLoadTimer
 
   record: ->
     console.group('Recording view:', @view.id) if VIEW_LOAD_LOG
-    views = [@view]
-    networkPromises = []
-    while views.length
-      subView = views.pop()
-      views = views.concat(_.values(subView.subviews))
-      if not subView.supermodel.finished()
-        networkPromises.push(subView.supermodel.finishLoading())
-    console.log 'Network promises:', networkPromises.length if VIEW_LOAD_LOG
 
+    # Static pages do not measure resource loading
+    if @firstLoad and application.loadedStaticPage and me.isAnonymous()
+      @skippingNetworkResources = true
+      networkPromises = []
+    else
+      views = [@view]
+      networkPromises = []
+      while views.length
+        subView = views.pop()
+        views = views.concat(_.values(subView.subviews))
+        if not subView.supermodel.finished()
+          networkPromises.push(subView.supermodel.finishLoading())
+    console.log 'Network promises:', networkPromises.length if VIEW_LOAD_LOG
+    thatThereId = @view.id
     Promise.all(networkPromises)
     .then =>
       @networkLoad = performance.now()
@@ -48,15 +54,36 @@ class ViewLoadTimer
           imagePromises.push(promise)
 
       console.groupEnd() if VIEW_LOAD_LOG
+      @imagesAlreadyLoaded = imagePromises.length is 0
       return Promise.all(imagePromises)
     .then =>
-      return if @view.destroyed
-      networkTime = @networkLoad - @t0
-      totalTime = performance.now() - @t0 
+      endTime = performance.now()
+      if @imagesAlreadyLoaded and @skippingNetworkResources
+        # if JS loads after a static page load and all images are already loaded,
+        # use performance resources to determine endTime and, by extension, totalTime
+        imageResponseEnds = performance.getEntriesByType('resource')
+          .filter((r) => _.contains(['img', 'css'], r.initiatorType))
+          .map((r) => r.responseEnd)
+        console.log('Static page measures endTime as', Math.max(imageResponseEnds...).toFixed(1), 'instead of', endTime.toFixed(1)) if VIEW_LOAD_LOG
+        endTime = Math.max(imageResponseEnds...)
+
+      if @skippingNetworkResources
+        # if there were no network resources, or we didn't count them for static pages,
+        # use domInteractive instead
+        networkTime = performance.timing.domInteractive - performance.timing.navigationStart
+      else
+        networkTime = @networkLoad - @t0
+      totalTime = endTime - @t0 
+      console.log "Saw view load event", thatThereId, @view.id
+
+      if @view.destroyed
+        console.log "Sure did toss that thing."
+        window.bored += totalTime
+        return
       return console.warn("Unknown view at: #{document.location.href}, could not record perf.") if not @view.id
       return console.warn("Got invalid time result for view #{@view.id}: #{totalTime}, could not record perf.") if not _.isNumber(totalTime)
       tag = @view.getLoadTrackingTag?()
-      m = "Loaded #{@view.id}/#{tag} in: #{totalTime}ms"
+      m = "Loaded #{@view.id}/#{tag} in: #{totalTime.toFixed(1)}ms"
 
       if @firstLoad
         entries = performance.getEntriesByType('resource').filter((r) => _.string.startsWith(r.name, location.origin))
@@ -73,6 +100,9 @@ class ViewLoadTimer
       console.log m if VIEW_LOAD_LOG
       noty({text:m, type:'information', timeout: 1000, layout:'topCenter'}) if SHOW_NOTY
       window.tracker?.trackEvent 'View Load', props
+      window.timeSpendWaiting ?= 0
+      window.timeSpendWaiting += totalTime
+
     .then =>
       console.groupEnd() if VIEW_LOAD_LOG
 

@@ -214,11 +214,11 @@
     logging_in: "Logging In"
     log_out: "Log Out"
     forgot_password: "Forgot your password?"
-    authenticate_gplus: "Authenticate G+"
-    load_profile: "Load G+ Profile"
+    authenticate_gplus: "Authenticate Google"
+    load_profile: "Load Google Profile"
     finishing: "Finishing"
     sign_in_with_facebook: "Sign in with Facebook"
-    sign_in_with_gplus: "Sign in with G+"
+    sign_in_with_gplus: "Sign in with Google"
     signup_switch: "Want to create an account?"
 
   signup:

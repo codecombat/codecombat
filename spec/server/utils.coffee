@@ -30,6 +30,7 @@ campaignAdjacentCampaignProperties = _.keys(campaignSchema.properties.adjacentCa
 module.exports = mw =
   getURL: (path) -> 'http://localhost:3001' + path
 
+  getUrl: (path) -> 'http://localhost:3001' + path
   clearModels: Promise.promisify (models, done) ->
     funcs = []
     for model in models

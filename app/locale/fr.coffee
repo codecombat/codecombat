@@ -59,7 +59,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     courses_available_in: "Les cours sont disponibles en JavaScript, Python et Java (bientôt disponible!)" # {change}
     boast: "Comprend des énigmes assez complexes pour fasciner autant les joueurs que les programmeurs."
     winning: "Une combinaison gagnante d'élément de jeux de rôles et programmation qui permet aux enfants d'apprendre de façon légitimement plaisante."
-    run_class: "Tous ce dont vous avez besoin pour enseigner l'informaique dans votre classe aujourd'hui, sans expérience préalable en informatique."
+    run_class: "Tous ce dont vous avez besoin pour enseigner l'informatique dans votre classe aujourd'hui, sans expérience préalable en informatique."
     goto_classes: "Aller à Mes Classes"
     view_profile: "Voir Mon Profil"
     view_progress: "Voir Progrès"

@@ -879,5 +879,10 @@ module.exports = class CampaignView extends RootView
     pollModal.on 'vote-updated', ->
       $pollButton.removeClass('highlighted').tooltip 'hide'
 
+
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
+
+  mergeWithPrerendered: (el) ->
+    true
+

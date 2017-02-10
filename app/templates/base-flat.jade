@@ -34,53 +34,53 @@ mixin accountLinks
                 else
                   img#logo-img(src="/images/pages/base/logo.png")
                 span.glyphicon.glyphicon-home
-
-            #navbar-collapse.collapse.navbar-collapse
-              ul.nav.navbar-nav
-                li
-                  a(href="/about", data-i18n="nav.about")
-                if me.isStudent()
-                  li
-                    a(href="/students", data-i18n="nav.my_courses")
-                if !me.isAnonymous() && me.isTeacher()
-                  li
-                    a(href="/teachers/classes", data-i18n="nav.my_classrooms")
-                if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
-                  li
-                    a(href="/play", data-i18n="common.play")
-                  li
-                    a(href=view.forumLink(), data-i18n="nav.forum")
-              if me.isAnonymous()
+            if !serverConfig.static
+              #navbar-collapse.collapse.navbar-collapse
                 ul.nav.navbar-nav
                   li
-                    a#create-account-link.signup-button(data-i18n="login.sign_up")
-                  li
-                    a#login-link.login-button(data-i18n="login.log_in")
-              else
-                ul.nav.navbar-nav.hidden-md.hidden-lg
-                  li.disabled
-                    a
-                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                      span= me.displayName()
-                  +accountLinks
+                    a(href="/about", data-i18n="nav.about")
+                  if me.isStudent()
+                    li
+                      a(href="/students", data-i18n="nav.my_courses")
+                  if !me.isAnonymous() && me.isTeacher()
+                    li
+                      a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+                  if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
+                    li
+                      a(href="/play", data-i18n="common.play")
+                    li
+                      a(href=view.forumLink(), data-i18n="nav.forum")
+                if me.isAnonymous()
+                  ul.nav.navbar-nav
+                    li
+                      a#create-account-link.signup-button(data-i18n="login.sign_up")
+                    li
+                      a#login-link.login-button(data-i18n="login.log_in")
+                else
+                  ul.nav.navbar-nav.hidden-md.hidden-lg
+                    li.disabled
+                      a
+                        img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                        span= me.displayName()
+                    +accountLinks
+
+                  ul.nav.navbar-nav
+                    li.dropdown.hidden-xs.hidden-sm
+                      a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
+                        img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                        span(data-i18n="nav.my_account")
+                      ul.dropdown-menu
+                        li.user-dropdown-header.text-center
+                          span.user-level= me.level()
+                          a(href="/user/#{me.getSlugOrID()}")
+                            img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
+                          h5=me.broadName()
+                        +accountLinks
 
                 ul.nav.navbar-nav
-                  li.dropdown.hidden-xs.hidden-sm
-                    a.dropdown-toggle(href="#", data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false")
-                      img.img-circle.img-circle-small.m-r-1(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                      span(data-i18n="nav.my_account")
-                    ul.dropdown-menu
-                      li.user-dropdown-header.text-center
-                        span.user-level= me.level()
-                        a(href="/user/#{me.getSlugOrID()}")
-                          img.img-circle(src=me.getPhotoURL() class=(me.isTeacher() ? 'border-navy' : ''))
-                        h5=me.broadName()
-                      +accountLinks
-
-              ul.nav.navbar-nav
-                li
-                  #language-dropdown-wrapper
-                    select.language-dropdown.form-control
+                  li
+                    #language-dropdown-wrapper
+                      select.language-dropdown.form-control
 
   block page_nav
 

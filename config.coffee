@@ -96,6 +96,12 @@ exports.config =
         ] else []
 
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
+        'javascripts/perf.js': [
+          regJoin('^bower_components/lodash')
+          regJoin('^bower_components/jquery')
+          regJoin('^bower_components/backbone')
+          regJoin('^app/lib/scripts/PerfTester')
+        ]
         'javascripts/app/lib.js': regJoin('^app/lib')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
@@ -245,10 +251,16 @@ exports.config =
         'javascripts': ['bower_components/esper.js/esper.modern.js']
     autoReload:
       delay: 1000
+    static:
+      processors: [
+        require('./brunch-static-stuff') {
+          locals: {shaTag: process.env.GIT_SHA or 'dev'}
+        }
+      ]
 
   modules:
     definition: (path, data) ->
-      needHeaderExpr = regJoin('^public/javascripts/?(app.js|world.js|whole-app.js)')
+      needHeaderExpr = regJoin('^public/javascripts/?(app.js|world.js|perf.js|whole-app.js)')
       defn = if path.match(needHeaderExpr) then commonjsHeader else ''
       return defn
 
@@ -280,6 +292,7 @@ for file in coffeeFiles
 numBundles = 0
 
 for file in jadeFiles
+  continue if /static.jade$/.test file
   inputFile = file.replace('./app', 'app')
   outputFile = file.replace('.jade', '.js').replace('./app', 'javascripts/app')
   exports.config.files.templates.joinTo[outputFile] = inputFile
