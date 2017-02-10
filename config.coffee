@@ -254,7 +254,7 @@ exports.config =
     static:
       processors: [
         require('./brunch-static-stuff') {
-          locals: {shaTag: 'dev' or process.env.GIT_SHA}
+          locals: {shaTag: process.env.GIT_SHA or 'dev'}
         }
       ]
 
