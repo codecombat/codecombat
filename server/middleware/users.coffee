@@ -52,6 +52,15 @@ module.exports =
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user
     res.status(200).send(user.toObject({req: req}))
+  
+  fetchByEmail: wrap (req, res, next) ->
+    email = req.query.email
+    return next() unless email
+    throw new errors.Forbidden('Only admins can search by email') unless req.user?.isAdmin()
+    
+    user = yield User.findOne({ emailLower: email.toLowerCase() })
+    throw new errors.NotFound('No user with that email') unless user
+    res.status(200).send(user.toObject({req}))
 
   removeFromClassrooms: wrap (req, res, next) ->
     yield req.user.removeFromClassrooms()

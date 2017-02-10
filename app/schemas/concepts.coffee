@@ -1,3 +1,5 @@
+# NOTE: 'automatic' is whether rob's auto-tagger can find it.
+
 concepts = [
   {concept: 'advanced_strings', name: '', description: '', automatic: '??', deprecated: true}
   {concept: 'algorithms', name: '', description: '', automatic: false, deprecated: true}
@@ -110,6 +112,25 @@ concepts = [
       return false unless ast.find('MemberExpression.object>Identifier[name="y"]').length > 0
       return false unless ast.find('MemberExpression.object>Identifier[name="x"]').length > 0
       return true}
+  # Human-y concepts added for extra flair on teacher-facing stuff
+  # Game Dev 1
+  {concept: 'place_game_objects', name: 'Place game objects', automatic: false}
+  {concept: 'construct_mazes', name: 'Construct mazes', automatic: false}
+  {concept: 'create_playable_game', name: 'Create a playable, sharable game project', automatic: false}
+  # Web Dev 1
+  {concept: 'basic_html', name: 'Basic HTML', automatic: false}
+  {concept: 'basic_css', name: 'Basic CSS', automatic: false}
+  {concept: 'alter_existing_web_pages', name: 'Alter existing web pages', automatic: false}
+  {concept: 'create_sharable_web_page', name: 'Create a sharable web page', automatic: false}
+  # Game Dev 2
+  {concept: 'basic_input_handling', name: 'Basic Input Handling', automatic: false}
+  {concept: 'basic_game_ai', name: 'Basic Game AI', automatic: false}
+  {concept: 'create_playable_game', name: 'Create a playable, sharable game project', automatic: false}
+  # Web Dev 2:
+  {concept: 'advanced_html', name: 'Advanced HTML', automatic: false}
+  {concept: 'basic_javascript', name: 'Basic JavaScript', automatic: false}
+  {concept: 'basic_event_handling', name: 'Basic Event Handling', automatic: false}
+  {concept: 'create_sharable_interactive_web_page', name: 'Create a sharable interactive web page', automatic: false}
 ]
 
 module.exports = concepts

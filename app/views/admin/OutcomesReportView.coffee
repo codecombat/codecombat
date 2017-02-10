@@ -53,6 +53,8 @@ OutcomesReportComponent = Vue.extend
     endDate: moment(new Date()).format('YYYY-MM-DD')
     insightsMarkdown: ""
   computed:
+    accountManagerFullName: ->
+      "#{@accountManager?.firstName} #{@accountManager?.lastName}"
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
     indexedSessions: ->
@@ -129,7 +131,7 @@ OutcomesReportComponent = Vue.extend
         @teacherFullName = null
     trialRequest: (trialRequest) ->
       @schoolName = trialRequest?.properties.school
-      @startDate = moment(new Date(trialRequest.created)).format('YYYY-MM-DD')
+      @startDate = moment(new Date(trialRequest?.created)).format('YYYY-MM-DD')
     classrooms: (classrooms) ->
       for classroom in classrooms
         if _.isUndefined(@isClassroomSelected[classroom._id])
@@ -147,11 +149,11 @@ OutcomesReportComponent = Vue.extend
   methods:
     submitEmail: (e) ->
       $.ajax
-        type: 'POST',
-        url: '/db/user/-/admin_search'
-        data: {search: @teacherEmail}
+        type: 'GET',
+        url: "/db/user"
+        data: {email: @teacherEmail}
         success: @fetchCompleteUser
-        error: (data) => console.log arguments
+        error: (data) => noty text: "Failed to find user by that email"
 
     displayReport: (e) ->
       resultView = new OutcomeReportResult({
@@ -198,13 +200,12 @@ OutcomesReportComponent = Vue.extend
 
     
     fetchCompleteUser: (data) ->
-      if data.length isnt 1
-        noty text: "Didn't find exactly one such user"
-        return
-      user = new User(data[0])
+      user = new User(data)
+      console.log data
       user.fetch()
       user.once 'sync', (fullData) =>
         @teacher = fullData.toJSON()
+        console.log @teacher
         @fetchTrialRequest()
         @fetchClassrooms()
         @fetchCourses()
@@ -213,7 +214,9 @@ OutcomesReportComponent = Vue.extend
       trialRequests = new TrialRequests()
       trialRequests.fetchByApplicant(@teacher._id)
       trialRequests.once 'sync', =>
-        @trialRequest = trialRequests.models[0].toJSON()
+        if trialRequests.length is 0
+          noty text: "WARNING: No trial request found for that user!", type: 'error'
+        @trialRequest = trialRequests.models[0]?.toJSON()
 
     fetchClassrooms: ->
       classrooms = new Classrooms()
@@ -254,9 +257,3 @@ OutcomesReportComponent = Vue.extend
           courseInstances.forEach (courseInstance) =>
             if not _.contains(@$data.courseInstances, { _id: courseInstance.id })
               @$data.courseInstances.push(courseInstance.toJSON())
-
-  created: ->
-    if @accountManager.firstName && @accountManager.lastName
-      @accountManagerFullName = "#{@accountManager.firstName} #{@accountManager.lastName}"
-    else
-      @accountManagerFullName = @accountManager.name
