@@ -384,24 +384,34 @@ module.exports = class CampaignView extends RootView
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
 
+      # This function gets called 5+ times when visiting campaign screens
+      # Manually cache calls to minimize the amount of requests
       if not @itemCache[level.original]
-        @itemCache[level.original] = "pre-cache"
         if level.unlocksItem = _.find(level.rewards, 'item')?.item
+          @itemCache[level.original] = 'pre-cache'
+          # Gotta closure to preserve variable across for-loop
           do (level) =>
             request = @supermodel.addRequestResource 'load_full_thang', {
               url: "/db/thang.type/#{level.unlocksItem}/version",
               success: (data) =>
+                # Find the thang's Item component
                 itemComponent = data.components[_.findIndex(data.components, (elem) -> return elem.config?.slots?)]
-                @itemCache?[level.original] = "cached"
-                if itemComponent?.config? and itemComponent.config.slots.indexOf("pet") >= 0
+                # If the item is a pet
+                if itemComponent?.config? and itemComponent.config.slots.indexOf('pet') >= 0
+                  # Set the level to be the url of the pet image
                   level.unlocksPet = data.dollImages.pet
                   @itemCache?[level.original] = data.dollImages.pet
                   @renderSelectors("div[data-level-original=#{level.original}]")
+                else
+                  @itemCache?[level.original] = 'cached'
             }
             request.load()
+        else
+          @itemCache[level.original] = 'no-cache'
       else
         level.unlocksItem = _.find(level.rewards, 'item')?.item
-        if ["pre-cache", "cached"].indexOf(@itemCache[level.original]) is -1
+        if ['no-cache', 'pre-cache', 'cached'].indexOf(@itemCache[level.original]) is -1
+          # If there is a url in the cache, that is a pet unlock
           level.unlocksPet = @itemCache[level.original]
 
       if window.serverConfig.picoCTF
