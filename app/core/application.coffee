@@ -125,6 +125,8 @@ Application = {
       $.ajax({method: 'delete', url: '/admin/feature-mode'}).then(-> document.location.reload())
   }
       
+  loadedStaticPage: window.alreadyLoadedView?
+  
 }
 
 module.exports = Application
