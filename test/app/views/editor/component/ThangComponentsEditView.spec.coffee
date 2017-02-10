@@ -37,7 +37,6 @@ describe 'ThangComponentsEditView', ->
     _.defer ->
       view.render()
       view.componentsTreema.set('/', [ { original: 'C', majorVersion: 0 }])
-      spyOn(window, 'noty')
       success = jasmine.Ajax.requests.sendResponses(responses)
       expect(success).toBeTruthy()
       _.defer ->

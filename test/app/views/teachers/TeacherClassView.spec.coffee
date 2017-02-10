@@ -312,7 +312,7 @@ describe 'TeacherClassView', ->
           expect(request.url).toBe('/db/course_instance')
 
         it 'shows a noty if the course instance request fails', (done) ->
-          spyOn(window, 'noty').and.callFake(done)
+          @notySpy.and.callFake(done)
           request = jasmine.Ajax.requests.mostRecent()
           request.respondWith({
             status: 500,
@@ -333,7 +333,7 @@ describe 'TeacherClassView', ->
           done()
 
         it 'shows a noty if a redeem request fails', (done) ->
-          spyOn(window, 'noty').and.callFake(done)
+          @notySpy.and.callFake(done)
           request = jasmine.Ajax.requests.mostRecent()
           request.respondWith({
             status: 500,
@@ -363,7 +363,7 @@ describe 'TeacherClassView', ->
           expect(request.method).toBe('POST')
 
         it 'shows a noty if POSTing students fails', (done) ->
-          spyOn(window, 'noty').and.callFake(done)
+          @notySpy.and.callFake(done)
           request = jasmine.Ajax.requests.mostRecent()
           request.respondWith({
             status: 500,

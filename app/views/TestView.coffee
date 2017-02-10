@@ -103,6 +103,7 @@ module.exports = TestView = class TestView extends RootView
       Backbone.Mediator.setValidationEnabled false
       spyOn(application.tracker, 'trackEvent')
       application.timeoutsToClear = []
+      @notySpy = spyOn(window, 'noty') # mainly to hide them
       # TODO Stubbify more things
       #   * document.location
       #   * firebase
