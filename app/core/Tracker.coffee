@@ -131,17 +131,17 @@ module.exports = class Tracker extends CocoClass
     @trackSnowplow action, _.cloneDeep properties
 
 
-
-    # Google Analytics
-    # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
-    gaFieldObject =
-      hitType: 'event'
-      eventCategory: properties.category ? 'All'
-      eventAction: action
-    gaFieldObject.eventLabel = properties.label if properties.label?
-    gaFieldObject.eventValue = properties.value if properties.value?
-    ga? 'send', gaFieldObject
-    ga? 'codeplay.send', gaFieldObject if features.codePlay
+    unless event in ['View Load', 'Script Started', 'Script Ended', 'Heard Sprite']
+      # Google Analytics
+      # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
+      gaFieldObject =
+        hitType: 'event'
+        eventCategory: properties.category ? 'All'
+        eventAction: action
+      gaFieldObject.eventLabel = properties.label if properties.label?
+      gaFieldObject.eventValue = properties.value if properties.value?
+      ga? 'send', gaFieldObject
+      ga? 'codeplay.send', gaFieldObject if features.codePlay
     
     # Inspectlet
     # http://www.inspectlet.com/docs#tagging
