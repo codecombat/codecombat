@@ -175,6 +175,16 @@ block content
                   span(data-i18n="teachers_quote.please_explain")
               input#other-education-level-input.form-control
 
+      #referrer.row.m-y-2
+        .col-md-offset-2.col-md-8
+          span.control-label
+            span(data-i18n="teachers_quote.referrer")
+            span.spl.text-muted(data-i18n="signup.optional")
+            .help-block.small
+              em.text-info(data-i18n="teachers_quote.referrer_help")
+            
+          input#oreferrer-input.form-control(name="referrer")
+
       #anything-else-row.row.m-y-2
         .col-md-offset-2.col-md-8
           span.control-label
@@ -182,6 +192,7 @@ block content
             span.spl.text-muted(data-i18n="signup.optional")
 
           textarea.form-control(rows=8, name="notes")
+
           input(type="hidden" name="nces_id")
           input(type="hidden" name="nces_name")
           input(type="hidden" name="nces_district")

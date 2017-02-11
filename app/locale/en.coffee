@@ -929,6 +929,8 @@
     please_explain: "(please explain)"
     middle_school: "Middle School"
     college_plus: "College or higher"
+    referrer: "How did you hear about us?"
+    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     anything_else: "Anything else we should know?"
     thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
