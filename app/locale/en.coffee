@@ -1419,6 +1419,8 @@
     progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
     cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
     cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+    arenas_curriculum: "Arena Levels - Teacher Guide"
+    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
     cs2_curriculum: "Computer Science 2 - Curriculum Guide"
     cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
     cs3_curriculum: "Computer Science 3 - Curriculum Guide"
