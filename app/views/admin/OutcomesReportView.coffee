@@ -25,7 +25,7 @@ module.exports = class OutcomesReportView extends RootView
   afterRender: ->
     @vueComponent?.$destroy()
     @vueComponent = new OutcomesReportComponent({
-      data: {}
+      data: {parentView: @}
       el: @$el.find('#site-content-area')[0]
       store: @store
     })
@@ -184,27 +184,11 @@ OutcomesReportComponent = Vue.extend
         @linesOfCode
         @numShareableProjects
         @insightsHtml
+        backView: @parentView
       })
       resultView.render()
-      wow = [
-        '<html>'
-        '<head>'
-        $('head').html()
-        '</head>'
-        '<body>'
-        '<div id="#page-container"></div>'
-        '</body>'
-        '</html>'
-      ].join('\n')
-
-      resultWindow = window.open('', 'print', 'status=1,width=850,height=600')
-      window.resultWindow = resultWindow
-
-      setTimeout () ->
-        $(resultWindow.document.body, "#page-container").empty().append(resultView.el)
-      , 500
-
-      resultWindow.document.write(wow)
+      window.currentView = undefined
+      application.router.openView(resultView)
 
     
     fetchCompleteUser: (data) ->
