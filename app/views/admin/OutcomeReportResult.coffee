@@ -4,49 +4,24 @@ RootView = require 'views/core/RootView'
 module.exports = class OutcomesReportResult extends RootView
   id: 'admin-outcomes-report-result-view'
   template: require 'templates/admin/outcome-report-results'
-
+  events:
+    'click .back-btn': 'onClickBackButton'
+    'click .print-btn': 'onClickPrintButton'
   initialize: (@options) ->
     return super() unless me.isAdmin()
-    @fetchData()
+    @format = _.identity
+    
+    if window?.Intl?.NumberFormat?
+      intl = new window.Intl.NumberFormat()
+      @format = intl.format.bind(intl)
+
     @courses = @options.courses.map (course) =>
       _.merge course, {completion: @options.courseCompletion[course._id].completion}
     super()
 
-  fetchData: ->
-    # Fetch playtime data for released courses
-    # Makes a bunch of small fetches per course and per day to avoid gateway timeouts
-    @minSessionCount = 50
-    @maxDays = 20
-    @loadingMessage = "Loading..."
-    courseLevelPlaytimesMap = {}
-    courseLevelTotalPlaytimeMap = {}
-    levelPracticeMap = {}
-    # @courses = [
-    #   {
-    #     name: "Introduction to Computer Science"
-    #     completion: (Math.random()*100).toFixed(0)
-    #   }
-    #   {
-    #     name: "Computer Science 2"
-    #     completion: (Math.random()*100).toFixed(0)
-    #   }
-    #   {
-    #     name: "Web Development 1"
-    #     completion: (Math.random()*100).toFixed(0)
-    #   }
-    #   {
-    #     name: "Robin Class 6"
-    #     completion: (Math.random()*100).toFixed(0)
-    #   }
-    #
-    # ]
+  onClickBackButton: ->
+    console.log("Back View is", @options.backView)
+    application.router.openView(@options.backView)
 
-    @classes = [
-      {
-        name: "6th Grade Computers"
-      }
-      {
-        name: "Robotics Club"
-      }
-    ]
-    
+  onClickPrintButton: ->
+    window.print()

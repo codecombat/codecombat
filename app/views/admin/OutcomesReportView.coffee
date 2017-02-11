@@ -25,7 +25,7 @@ module.exports = class OutcomesReportView extends RootView
   afterRender: ->
     @vueComponent?.$destroy()
     @vueComponent = new OutcomesReportComponent({
-      data: {}
+      data: {parentView: @}
       el: @$el.find('#site-content-area')[0]
       store: @store
     })
@@ -35,7 +35,7 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: '589a58412e76b5f0215bb9fd' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    teacherEmail: 'robin+teacher@codecombat.com' # TODO: Don't hardcode this. And add get-by-email endpoint.
     # teacherEmail: '568e7f2552eea226005180b3' # TODO: Don't hardcode this. And add get-by-email endpoint.
     teacher: null
     teacherFullName: null
@@ -134,7 +134,9 @@ OutcomesReportComponent = Vue.extend
       else
         @teacherFullName = null
     trialRequest: (trialRequest) ->
-      @schoolName = trialRequest?.properties.school
+      @schoolName ?= trialRequest?.properties.nces_name
+      @schoolName ?= trialRequest?.properties.school
+      @schoolName ?= trialRequest?.properties.organization
       @startDate = moment(new Date(trialRequest?.created)).format('YYYY-MM-DD')
     classrooms: (classrooms) ->
       for classroom in classrooms
@@ -172,7 +174,6 @@ OutcomesReportComponent = Vue.extend
           email: @accountManager.email
         @schoolName
         @schoolAddress
-        @teacher # toJSON'd
         @trialRequest # toJSON'd
         @startDate # string YYYY-MM-DD
         @endDate # string YYYY-MM-DD
@@ -181,30 +182,15 @@ OutcomesReportComponent = Vue.extend
         @courseCompletion
         @courseStudentCounts
         @numProgramsWritten
+        @myNumProgramsWritten
         @linesOfCode
         @numShareableProjects
         @insightsHtml
+        backView: @parentView
       })
       resultView.render()
-      wow = [
-        '<html>'
-        '<head>'
-        $('head').html()
-        '</head>'
-        '<body>'
-        '<div id="#page-container"></div>'
-        '</body>'
-        '</html>'
-      ].join('\n')
-
-      resultWindow = window.open('', 'print', 'status=1,width=850,height=600')
-      window.resultWindow = resultWindow
-
-      setTimeout () ->
-        $(resultWindow.document.body, "#page-container").empty().append(resultView.el)
-      , 500
-
-      resultWindow.document.write(wow)
+      window.currentView = undefined
+      application.router.openView(resultView)
 
     
     fetchCompleteUser: (data) ->
@@ -276,4 +262,5 @@ OutcomesReportComponent = Vue.extend
         }
         success: (data) =>
           @linesOfCode = parseInt(data.linesOfCode)
+          @myNumProgramsWritten = parseInt(data.programs)
         error: (data) => noty text: 'Failed to fetch lines of code', type: 'error'

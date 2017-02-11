@@ -9,11 +9,21 @@
   margin-right: auto
   width: 8.5in
   background-color: white
-  
+  .clear-both
+    clear: both
+    
+  .menu
+    position: fixed
+    left: 5px
+    top: 5px
+
+    @media print
+      display: none
+
   .header-art
     float: right
-    width: 2.25in
-    margin-top: 0.8in
+    width: 2in
+    margin-top: 0.35in
     margin-right: 0.4in
     transform: scaleX(-1)
 
@@ -53,6 +63,7 @@
     p
       line-height: 18pt
       font-size: 15pt
+      margin-bottom: 0.1in
 
 
   .course
@@ -103,7 +114,7 @@
       font-size: 18pt
 
   .block
-    margin-top: 0.25in
+    margin-top: 0
     margin-left: 0.5in
     margin-right: 0.5in
 
@@ -194,11 +205,10 @@
     page-break-inside: avoid
 
   img.anya
-    margin-left: 0.2in
-    margin-right: -0.2in
-    margin-top: 0.2in
+    margin-left: 0.5in
+    margin-top: 0.5in
     float: left
-    width: 2.5in
+    width: 1.75in
   
   .room-for-anya
     margin-left: 2.5in

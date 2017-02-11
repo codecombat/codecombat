@@ -19,6 +19,9 @@ style.
   } 
 
 div.style-flat
+  div.menu
+    div.back-btn.btn.btn-primary Back
+    div.print-btn.btn.btn-primary Print
   img.header-art(src="/images/pages/admin/outcomes-report/arryn.png")
 
   div.header
@@ -33,15 +36,16 @@ div.style-flat
 
   div.address
     p 
-      b Some place
-      |, 301 Pine St, San Francisco, CA 94109
+      b= view.options.schoolName
+      if view.options.schoolAddress
+        span, #{view.options.schoolAddress}
       br
       b Teacher: 
       if view.options.teacher.fullName
         | #{view.options.teacher.fullName} (#{view.options.teacher.email})
       else
         | #{view.options.teacher.email}
-    p 
+    p.clear-both 
       b Account Manager: 
       | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
 
@@ -75,37 +79,38 @@ div.style-flat
     h4 Using CodeCombat's personalized learning engine, your students wrote
     div.fakebar
       div
-        | #{view.options.numProgramsWritten}
+        | #{view.format(view.options.numProgramsWritten)}
         = " "
         small computer programs
     h4 across an estimated...
     div.fakebar
       div
-        | #{view.options.linesOfCode}
+        | #{view.format(view.options.linesOfCode)}
         = " "
         small lines of code
-    h4 and expressed creativity by building
-    div.fakebar
-      div
-        | #{view.options.numShareableProjects}
-        = " "
-        small standalone game and web projects
+    if view.options.numShareableProjects > 9
+      h4 and expressed creativity by building
+      div.fakebar
+        div
+          | #{view.format(view.options.numShareableProjects)}
+          = " "
+          small standalone game and web projects
 
 
-
-  div.dont-break.block
-    div.rob-row
-      div.left-col
-        h2 Insights
-        != view.options.insightsHtml
-      
-      div.right-col
-        h2 Classes
-        for clazz in view.classes
-          b= clazz.name
-          ul
-            li Language: python
-            li 12 students
+  if view.options.insightsHtml
+    div.dont-break.block
+      div.rob-row
+        div.left-col
+          h1 Insights
+          != view.options.insightsHtml
+        
+        div.right-col
+          h1 Classes
+          for clazz in view.options.classrooms
+            b= clazz.name
+            ul
+              li Language: #{clazz.aceConfig.language}
+              li #{clazz.members.length} students
 
   div.dont-break
     img.anya(src="/images/pages/admin/outcomes-report/anya.png")
