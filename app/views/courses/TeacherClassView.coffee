@@ -347,7 +347,7 @@ module.exports = class TeacherClassView extends RootView
     levelCourseIdMap = {}
     levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
-    for trimCourse in @classroom.get('courses')
+    for trimCourse in @classroom.getSortedCourses()
       for trimLevel in trimCourse.levels
         continue if language and trimLevel.primerLanguage is language
         if trimLevel.practice
@@ -356,7 +356,7 @@ module.exports = class TeacherClassView extends RootView
         levelCourseIdMap[trimLevel.original] = trimCourse._id
     for student in @students.models
       concepts = []
-      for trimCourse in @classroom.get('courses')
+      for trimCourse in @classroom.getSortedCourses()
         course = @courses.get(trimCourse._id)
         instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
         if instance and instance.hasMember(student)
