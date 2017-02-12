@@ -1505,7 +1505,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   game_dev:
     creator: "Tvorca"
 
-#  web_dev:
+  web_dev:
     image_gallery_title: "Galéria obrázkov"
     select_an_image: "Vyber si obrázok, ktorý chceš použiť"
     scroll_down_for_more_images: "(Skroluj dole a uvidíš viacej obrázkov)"
