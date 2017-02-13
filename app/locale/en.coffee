@@ -136,6 +136,8 @@
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     buy_gems: "Buy Gems"
     subscription_required: "Subscription Required"
+    subscribers_only: "Subscribers Only!"
+    subscribe_unlock: "Subscribe to Unlock!"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     play_classroom_version: "Play Classroom Version"  # Choose a level in campaign version that you also can play in one of your courses

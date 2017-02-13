@@ -8,6 +8,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 utils = require 'core/utils'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 Purchase = require 'models/Purchase'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
@@ -23,6 +24,7 @@ module.exports = class PlayHeroesModal extends ModalView
     'click #close-modal': 'hide'
     'click #confirm-button': 'saveAndHide'
     'click .unlock-button': 'onUnlockButtonClicked'
+    'click .subscribe-button': 'onSubscribeButtonClicked'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click': 'onClickedSomewhere'
 
@@ -58,7 +60,8 @@ module.exports = class PlayHeroesModal extends ModalView
     hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
     original = hero.get('original')
     hero.locked = not me.ownsHero(original)
-    hero.purchasable = hero.locked and (original in (me.get('earned')?.heroes ? []))
+    hero.purchasable = hero.locked and me.hasSubscription()
+    hero.unlockBySubscribing = true if hero.attributes.slug in ['samurai', 'ninja', 'librarian']
     if @options.level and allowedHeroes = @options.level.get 'allowedHeroes'
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
@@ -314,6 +317,9 @@ module.exports = class PlayHeroesModal extends ModalView
     return if @destroyed
     @$el.find('.unlock-button').popover 'destroy'
 
+  onSubscribeButtonClicked: (e) ->
+    return @askToSignUp() if me.get('anonymous')
+    @openModalView new SubscribeModal()
 
   #- Exiting
 
