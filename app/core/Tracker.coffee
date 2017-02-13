@@ -125,7 +125,7 @@ module.exports = class Tracker extends CocoClass
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
-    #return unless me and @isProduction and not me.isAdmin()
+    return unless me and @isProduction and not me.isAdmin()
 
     @trackEventInternal action, _.cloneDeep properties
     @trackSnowplow action, _.cloneDeep properties
