@@ -42,7 +42,7 @@ div.style-flat
         | #{view.options.teacher.fullName} (#{view.options.teacher.email})
       else
         | #{view.options.teacher.email}
-    p 
+    p.clear-both 
       b Account Manager: 
       | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
 
@@ -76,19 +76,19 @@ div.style-flat
     h4 Using CodeCombat's personalized learning engine, your students wrote
     div.fakebar
       div
-        | #{view.options.numProgramsWritten}
+        | #{view.format(view.options.numProgramsWritten)}
         = " "
         small computer programs
     h4 across an estimated...
     div.fakebar
       div
-        | #{view.options.linesOfCode}
+        | #{view.format(view.options.linesOfCode)}
         = " "
         small lines of code
     h4 and expressed creativity by building
     div.fakebar
       div
-        | #{view.options.numShareableProjects}
+        | #{view.format(view.options.numShareableProjects)}
         = " "
         small standalone game and web projects
 
@@ -102,11 +102,11 @@ div.style-flat
       
       div.right-col
         h2 Classes
-        for clazz in view.classes
+        for clazz in view.options.classrooms
           b= clazz.name
           ul
-            li Language: python
-            li 12 students
+            li Language: #{clazz.aceConfig.language}
+            li #{clazz.members.length} students
 
   div.dont-break
     img.anya(src="/images/pages/admin/outcomes-report/anya.png")

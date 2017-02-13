@@ -181,6 +181,7 @@ OutcomesReportComponent = Vue.extend
         @courseCompletion
         @courseStudentCounts
         @numProgramsWritten
+        @myNumProgramsWritten
         @linesOfCode
         @numShareableProjects
         @insightsHtml
@@ -260,4 +261,5 @@ OutcomesReportComponent = Vue.extend
         }
         success: (data) =>
           @linesOfCode = parseInt(data.linesOfCode)
+          @myNumProgramsWritten = parseInt(data.programs)
         error: (data) => noty text: 'Failed to fetch lines of code', type: 'error'

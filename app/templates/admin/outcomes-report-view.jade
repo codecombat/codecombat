@@ -6,7 +6,10 @@
     button(type="submit" @click.prevent="submitEmail")
       | Next
 
+
   div(v-if="teacher")
+    label
+      input(type="button" @click.prevent="displayReport" value="Create report!", :disabled="!(dataReady)")
     div
       label
         | Teacher name:
@@ -44,7 +47,7 @@
           label
             //- input(type="checkbox", v-model:value="startDate")
             input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
-            {{classroom.name}}
+            {{classroom.name}}  [{{classroom.members.length}}]
 
       .col-xs-6
         h2
@@ -57,6 +60,7 @@
     h2
       | Insights (markdown):
     p
+      h2 ## Header
       b **bold**
       = " "
       i *italics*
@@ -65,7 +69,10 @@
     .row
       div.col-xs-6
         textarea(v-model:insightsMarkdown="insightsMarkdown")
-      div.col-xs-6(v-html="insightsHtml")
+
+      div.col-xs-6
+        h4(style="border-bottom: 1px solid black") Insights
+        div(v-html="insightsHtml")
     
     label
       input(type="button" @click.prevent="displayReport" value="Create report!", :disabled="!(dataReady)")
