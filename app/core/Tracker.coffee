@@ -130,8 +130,7 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal action, _.cloneDeep properties
     @trackSnowplow action, _.cloneDeep properties
 
-
-    unless event in ['View Load', 'Script Started', 'Script Ended', 'Heard Sprite']
+    unless action in ['View Load', 'Script Started', 'Script Ended', 'Heard Sprite']
       # Google Analytics
       # https://developers.google.com/analytics/devguides/collection/analyticsjs/events
       gaFieldObject =
@@ -142,7 +141,7 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventValue = properties.value if properties.value?
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
-    
+
     # Inspectlet
     # http://www.inspectlet.com/docs#tagging
     __insp?.push ['tagSession', action: action, properies: properties]
@@ -167,13 +166,13 @@ module.exports = class Tracker extends CocoClass
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
       delete properties.label
-      
+
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
     properties.user = me.id
     delete properties.category
     #console.log "SnowPlow", snowplowAction, properties
-    
+
     try
       schema = require("schemas/events/#{snowplowAction}")
     catch
@@ -186,7 +185,7 @@ module.exports = class Tracker extends CocoClass
         text = 'Snowplow event schema validation failed! See console'
         console.log 'Snowplow event failure info:', {snowplowAction, properties, error: result.error}
         noty {text, layout: 'center', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3}
-    
+
     window.snowplow 'trackUnstructEvent',
       schema: "iglu:com.codecombat/#{snowplowAction}/jsonschema/#{schema.self.version}"
       data: properties

@@ -25,7 +25,7 @@ module.exports = class SpellPaletteView extends CocoView
     'tome:palette-clicked': 'onPalleteClick'
     'surface:stage-mouse-down': 'hide'
     'level:set-playing': 'hide'
-    
+
 
   events:
     'click #spell-palette-help-button': 'onClickHelp'
@@ -375,6 +375,7 @@ module.exports = class SpellPaletteView extends CocoView
     @$el.addClass('open')
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
+    content.i18n()
     codeLanguage = e.entry.options.language
     oldEditor.destroy() for oldEditor in @aceEditors
     @aceEditors = []
