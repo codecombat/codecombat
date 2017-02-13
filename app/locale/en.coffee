@@ -3,8 +3,6 @@
     slogan: "The most engaging game for learning programming."
     classroom_edition: "Classroom Edition:"
     learn_to_code: "Learn to code:"
-    teacher: "Teacher"
-    student: "Student"
     play_now: "Play Now"
     im_a_teacher: "I'm a Teacher"
     im_a_student: "I'm a Student"
@@ -422,7 +420,6 @@
     level: "Level"  # Like "Level: Dungeons of Kithgard"
     skip: "Skip"
     game_menu: "Game Menu"
-    guide: "Guide"
     restart: "Restart"
     goals: "Goals"
     goal: "Goal"
@@ -456,7 +453,6 @@
     victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
     victory_become_a_viking: "Become a Viking"
     victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
-    guide_title: "Guide"
     tome_cast_button_run: "Run"
     tome_cast_button_running: "Running"
     tome_cast_button_ran: "Ran"
@@ -464,13 +460,11 @@
     tome_reload_method: "Reload original code to restart the level"
     tome_available_spells: "Available Spells"
     tome_your_skills: "Your Skills"
-    tome_current_method: "Current Method"
     hints: "Hints"
     hints_title: "Hint {{number}}"
     code_saved: "Code Saved"
     skip_tutorial: "Skip (esc)"
     keyboard_shortcuts: "Key Shortcuts"
-    loading_ready: "Ready!"
     loading_start: "Start Level"
     problem_alert_title: "Fix Your Code"
     time_current: "Now:"
@@ -976,7 +970,6 @@
   account_settings:
     title: "Account Settings"
     not_logged_in: "Log in or create an account to change your settings."
-    autosave: "Changes Save Automatically"
     me_tab: "Me"
     picture_tab: "Picture"
     delete_account_tab: "Delete Your Account"
@@ -1684,7 +1677,6 @@
     helpful_ambassadors: "Our Helpful Ambassadors:"
 
   ladder:
-    please_login: "Please log in first before playing a ladder game."
     my_matches: "My Matches"
     simulate: "Simulate"
     simulation_explanation: "By simulating games you can get your game ranked faster!"
@@ -1802,9 +1794,6 @@
     email_sent: "Email sent! Check your inbox."
     verifying_email: "Verifying your email address..."
     successfully_verified: "You've successfully verified your email address!"
-    back_to_student_page: "Go back to student things"
-    back_to_teacher_page: "Go to My Classes"
-    back_to_game: "Go play some more levels!"
     verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
@@ -1840,11 +1829,6 @@
     you_can1: "You can"
     you_can2: "purchase a prepaid code"
     you_can3: "that can be applied to your own account or given to others."
-
-  coppa_deny:
-    text1: "Can’t wait to learn programming?"
-    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-    close: "Close Window"
 
   loading_error:
     could_not_load: "Error loading from server"
