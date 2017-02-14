@@ -28,7 +28,6 @@ module.exports = class CreateTeacherAccountView extends RootView
     'change input[name="country"]': 'invalidateNCES'
     'change input[name="email"]': 'onChangeEmail'
     'change input[name="name"]': 'onChangeName'
-    'click .login-link': 'onClickLoginLink'
 
   initialize: ->
     @trialRequest = new TrialRequest()
@@ -57,6 +56,11 @@ module.exports = class CreateTeacherAccountView extends RootView
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
+      @state.set({
+        authModalInitialValues: {
+          email: @trialRequest?.get('properties')?.email
+        }
+      })
     super()
 
   invalidateNCES: ->
@@ -121,8 +125,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       @onChangeForm()
 
   onClickLoginLink: ->
-    modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
-    @openModalView(modal)
+    @openModalView(new AuthModal({ initialValues: @state.get('authModalInitialValues') }))
 
   onChangeForm: ->
     unless @formChanged
@@ -205,10 +208,6 @@ module.exports = class CreateTeacherAccountView extends RootView
       forms.scrollToFirstError()
     else
       errors.showNotyNetworkError(arguments...)
-
-  onClickEmailExistsLoginLink: ->
-    modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
-    @openModalView(modal)
 
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Create Account Submitted', category: 'Teachers', ['Mixpanel']
@@ -425,9 +424,6 @@ module.exports = class CreateTeacherAccountView extends RootView
     })
     return @state.get('checkEmailPromise')
     
-  onClickLoginLink: ->
-    @openModalView(new AuthModal({ initialValues: @state.get('authModalInitialValues') }))
-
 
 formSchema = {
   type: 'object'
