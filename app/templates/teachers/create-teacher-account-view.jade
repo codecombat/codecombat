@@ -2,34 +2,34 @@ extends /templates/base-flat
 
 block content
   .container
+    .row.text-center
+      .col-md-offset-2.col-md-8
+        h3.m-t-3(data-i18n="teachers_quote.create_account")
+        h4(data-i18n="[html]teachers_quote.create_account_subtitle")
+        .alert.alert-info.m-y-2
+          span.spr(data-i18n="signup.login_switch")
+          a.login-link(data-i18n="login.log_in")
+        #social-network-signups.m-y-2
+          button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
+            span.spr(data-i18n="teachers_quote.connect_with")
+            | Facebook
+            img.m-l-1(src='/images/pages/community/logo_facebook.png')
+
+          button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
+            span.spr(data-i18n="teachers_quote.connect_with")
+            | Google
+            img.m-l-1(src='/images/pages/community/logo_g+.png')
+
+    #gplus-logged-in-row.row.text-center.hide
+      .col-md-offset-2.col-md-8
+        h2(data-i18n="signup.connected_gplus_header")
+        p(data-i18n="signup.connected_gplus_p")
+    #facebook-logged-in-row.row.text-center.hide
+      .col-md-offset-2.col-md-8
+        h2(data-i18n="signup.connected_facebook_header")
+        p(data-i18n="signup.connected_facebook_p")
+
     form#signup-form
-      .row.text-center
-        .col-md-offset-2.col-md-8
-          h3.m-t-3(data-i18n="teachers_quote.create_account")
-          h4(data-i18n="[html]teachers_quote.create_account_subtitle")
-          .alert.alert-info.m-y-2
-            span.spr(data-i18n="signup.login_switch")
-            a.login-link(data-i18n="login.log_in")
-          #social-network-signups.m-y-2
-            button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
-              span.spr(data-i18n="teachers_quote.connect_with")
-              | Facebook
-              img.m-l-1(src='/images/pages/community/logo_facebook.png')
-
-            button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
-              span.spr(data-i18n="teachers_quote.connect_with")
-              | Google
-              img.m-l-1(src='/images/pages/community/logo_g+.png')
-
-      #gplus-logged-in-row.row.text-center.hide
-        .col-md-offset-2.col-md-8
-          h2(data-i18n="signup.connected_gplus_header")
-          p(data-i18n="signup.connected_gplus_p")
-      #facebook-logged-in-row.row.text-center.hide
-        .col-md-offset-2.col-md-8
-          h2(data-i18n="signup.connected_facebook_header")
-          p(data-i18n="signup.connected_facebook_p")
-
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
