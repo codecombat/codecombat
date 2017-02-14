@@ -1,5 +1,5 @@
 RootView = require 'views/core/RootView'
-OutcomeReportResult = require 'views/admin/OutcomeReportResult'
+OutcomeReportResultView = require 'views/admin/OutcomeReportResultView'
 template = require 'templates/base-flat'
 User = require 'models/User'
 TrialRequest = require 'models/TrialRequest'
@@ -165,7 +165,7 @@ OutcomesReportComponent = Vue.extend
       @fetchLinesOfCode().then @finishDisplayReport
     
     finishDisplayReport: ->
-      resultView = new OutcomeReportResult({
+      resultView = new OutcomeReportResultView({
         teacher:
           fullName: @teacherFullName
           email: @teacherEmail
