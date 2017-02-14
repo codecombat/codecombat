@@ -21,6 +21,9 @@ EarnedAchievement = require '../models/EarnedAchievement'
 log = require 'winston'
 LocalMongo = require '../../app/lib/LocalMongo'
 LevelSession = require '../models/LevelSession'
+config = require '../../server_config'
+utils = require '../lib/utils'
+CLASubmission = require '../models/CLASubmission'
 
 module.exports =
   fetchByGPlusID: wrap (req, res, next) ->
@@ -319,3 +322,79 @@ module.exports =
     yield user.update({$set: userUpdate})
     user = yield User.findById(user.id).select({points: 1, earned: 1})
     return res.send(_.assign({}, userUpdate, user.toObject()))
+
+    
+  adminSearch: wrap (req, res, next) ->
+    { adminSearch } = req.query
+    return next() unless adminSearch
+    
+    unless req.user
+      throw new errors.Unauthorized()
+    unless req.user.isAdmin()
+      throw new errors.Forbidden()
+
+    projection = name: 1, email: 1, dateCreated: 1, role: 1
+
+    search = adminSearch
+    query = email: {$exists: true}, $or: [
+      {emailLower: search.toLowerCase()}
+      {nameLower: search.toLowerCase()}
+    ]
+    query.$or.push {_id: mongoose.Types.ObjectId(search)} if utils.isID search
+
+    if req.query.role?
+      query.role = req.query.role
+
+    # TODO: Surface on the Admin page when users match these submissions
+    githubSubmission = yield CLASubmission.findOne({githubUsername: adminSearch})
+    if githubSubmission
+      query.$or.push { _id: mongoose.Types.ObjectId(githubSubmission.get('user')) }
+      query.$or = [{ _id: mongoose.Types.ObjectId(githubSubmission.get('user')) }]
+
+    users = yield User.find(query).select(projection)
+
+    sphinxIds = null
+    if config.sphinxServer
+      sphinxIds = yield module.exports.sphinxSearch(req, adminSearch)
+      sphinxUsers = yield User.find({_id: {$in: sphinxIds}}).select(projection)
+      
+      sortedSphinxUsers = _.filter _.map sphinxIds, (id) => _.find(sphinxUsers, (u) -> u._id.equals(id))
+      users = users.concat(sortedSphinxUsers)
+
+    else if search.length > 5
+      searchParts = search.split(/[.+@]/)
+      if searchParts.length > 1
+        users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).select(projection))
+        
+    users = _.uniq(users, false, (u) -> u.id)
+    
+    res.send(users)
+    
+    
+  sphinxSearch: co.wrap (req, search) ->
+    mysql = require('mysql');
+    connection = mysql.createConnection
+      host: config.sphinxServer
+      port: 9306
+    connection.connect()
+    
+    q = search
+    params = []
+    filters = []
+    if utils.isID q
+      params.push q
+      filters.push 'mongoid = ?'
+    else
+      params.push q
+      filters.push 'MATCH(?)'
+    
+    if req.body.role?
+      params.push req.body.role
+      filters.push 'role = ?'
+    
+    mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE #{filters.join(' AND ')}  LIMIT 100;"
+    connection.queryAsync = Promise.promisify(connection.query, {multiArgs:true})
+    [rows, fields] = yield connection.queryAsync(mysqlq, params)
+    ids = rows.map (r) -> mongoose.Types.ObjectId(r.mongoid)
+    connection.end()
+    return ids    

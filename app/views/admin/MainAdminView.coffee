@@ -91,11 +91,11 @@ module.exports = class MainAdminView extends RootView
       role = m1
       return ''
 
-    data = {search: q}
+    data = {adminSearch: q}
     data.role = role if role?
     $.ajax
-      type: 'POST',
-      url: '/db/user/-/admin_search'
+      type: 'GET',
+      url: '/db/user'
       data: data
       success: @onSearchRequestSuccess
       error: @onSearchRequestFailure
