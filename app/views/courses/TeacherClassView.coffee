@@ -42,6 +42,7 @@ module.exports = class TeacherClassView extends RootView
     'click .remove-student-link': 'onClickRemoveStudentLink'
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
+    'click .revoke-student-button': 'onClickRevokeStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
@@ -529,6 +530,23 @@ module.exports = class TeacherClassView extends RootView
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
+  onClickRevokeStudentButton: (e) ->
+    button = $(e.currentTarget)
+    userID = button.data('user-id')
+    user = @students.get(userID)
+    s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
+    return unless confirm(s)
+    prepaid = user.makeCoursePrepaid()
+    button.text($.i18n.t('teacher.revoking'))
+    prepaid.revoke(user, {
+      success: =>
+        user.unset('coursePrepaid')
+      error: (prepaid, jqxhr) =>
+        msg = jqxhr.responseJSON.message
+        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+      complete: => @render()
+    })
+    
   onClickSelectAll: (e) ->
     e.preventDefault()
     checkboxStates = _.clone @state.get('checkboxStates')

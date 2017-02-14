@@ -1298,6 +1298,7 @@
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
     apply_license: "Apply License"
+    revoke_enrollment: "Revoke Enrollment"
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
@@ -1464,6 +1465,8 @@
     hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
     hoc_additional_desc2: "Questions"
     hoc_additional_contact: "Get in touch"
+    revoke_confirm: "Are you sure you want to revoke enrollment from {{student_name}}?"
+    revoking: "Revoking..."
 
   sharing:
     game: "Game"

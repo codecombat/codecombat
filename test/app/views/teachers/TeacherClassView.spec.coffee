@@ -132,6 +132,33 @@ describe 'TeacherClassView', ->
             users = @view.enrollStudents.calls.argsFor(0)[0]
             expect(users.size()).toBe(1)
             expect(users.first().id).toBe(@view.students.first().id)
+            
+      ###
+        describe 'Revoke button', ->
+          it 'opens a confirm modal once clicked', ->
+            spyOn(window, 'confirm').and.returnValue(true)
+            @view.$('.revoke-student-button:first').click()
+            expect(window.confirm).toHaveBeenCalled()
+  
+          describe 'once the prepaid is successfully revoked', ->
+            beforeEach ->
+              spyOn(window, 'confirm').and.returnValue(true)
+              button = @view.$('.revoke-student-button:first')
+              @revokedUser = @view.students.get(button.data('user-id'))
+              @view.$('.revoke-student-button:first').click()
+              request = jasmine.Ajax.requests.mostRecent()
+              request.respondWith({
+                status: 200
+                responseText: '{}'
+              })
+              
+            it 'updates the user and rerenders the page', ->
+              if @view.$(".enroll-student-button[data-user-id='#{@revokedUser.id}']").length isnt 1
+                fail('Could not find enroll student button for user whose enrollment was revoked')
+       ###
+            
+            
+            
 
       describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', ->
