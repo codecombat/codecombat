@@ -35,12 +35,37 @@ block content
         .col-md-offset-2.col-md-4.col-sm-6
           .form-group
             span.control-label(data-i18n="general.username")
+            span.name-check.fancy-error.pull-right
+              - var checkNameState = view.state.get('checkNameState');
+              if checkNameState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkNameState === 'exists'
+                span.small
+                  span= view.state.get('suggestedNameText')
+              if checkNameState === 'available'
+                span.small
+                  span(data-i18n="signup.name_available")
+
             input.form-control(name="name")
 
         .col-md-4.col-sm-6
           #email-form-group.form-group
             span.control-label(data-i18n="general.email")
+            span.email-check.fancy-error.pull-right
+              - var checkEmailState = view.state.get('checkEmailState');
+              if checkEmailState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkEmailState === 'exists'
+                span.small
+                  span(data-i18n="signup.account_exists")
+                  =" "
+                  a.login-link(data-i18n="signup.sign_in")
+
+              if checkEmailState === 'available'
+                span.small
+                  span(data-i18n="signup.email_good")
             input.form-control(name="email")
+
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
