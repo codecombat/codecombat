@@ -392,13 +392,9 @@ module.exports = class CampaignView extends RootView
           # Gotta closure to preserve variable across for-loop
           do (level) =>
             request = @supermodel.addRequestResource 'load_full_thang', {
-              url: "/db/thang.type/#{level.unlocksItem}/version",
+              url: "/db/thang.type/#{level.unlocksItem}/version?project=dollImages",
               success: (data) =>
-                # Find the thang's Item component
-                itemComponent = data.components[_.findIndex(data.components, (elem) -> return elem.config?.slots?)]
-                # If the item is a pet
-                if itemComponent?.config? and itemComponent.config.slots.indexOf('pet') >= 0
-                  # Set the level to be the url of the pet image
+                if data.dollImages?.pet?
                   level.unlocksPet = data.dollImages.pet
                   @itemCache?[level.original] = data.dollImages.pet
                   @renderSelectors("div[data-level-original=#{level.original}]")
