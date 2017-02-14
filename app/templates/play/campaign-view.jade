@@ -76,7 +76,7 @@ if view.showAds()
             else if level.unlocksItem && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-unlock#{level.requiresSubscription?'-subscriber':''}.png")
               if level.unlocksPet
-                img.premium-hero-banner.pet-banner(src="/file/#{level.unlocksPet}")
+                img.pet-banner(src="/db/thang.type/#{level.unlocksItem}/toFile/dollImages.pet")
               else
                 img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
               img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")

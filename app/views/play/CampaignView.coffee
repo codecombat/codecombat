@@ -41,7 +41,6 @@ class CampaignsCollection extends CocoCollection
 module.exports = class CampaignView extends RootView
   id: 'campaign-view'
   template: template
-  itemCache: {}
 
   subscriptions:
     'subscribe-modal:subscribed': 'onSubscribed'
@@ -49,7 +48,7 @@ module.exports = class CampaignView extends RootView
   events:
     'click .map-background': 'onClickMap'
     'click .level': 'onClickLevel'
-    'dblclick .level a': 'onDoubleClickLevel'
+    'dblclick .level': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click .level-info-container .course-version button': 'onClickCourseVersion'
@@ -384,31 +383,8 @@ module.exports = class CampaignView extends RootView
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
 
-      # This function gets called 5+ times when visiting campaign screens
-      # Manually cache calls to minimize the amount of requests
-      if not @itemCache[level.original]
-        if level.unlocksItem = _.find(level.rewards, 'item')?.item
-          @itemCache[level.original] = 'pre-cache'
-          # Gotta closure to preserve variable across for-loop
-          do (level) =>
-            request = @supermodel.addRequestResource 'load_full_thang', {
-              url: "/db/thang.type/#{level.unlocksItem}/version?project=dollImages",
-              success: (data) =>
-                if data.dollImages?.pet?
-                  level.unlocksPet = data.dollImages.pet
-                  @itemCache?[level.original] = data.dollImages.pet
-                  @renderSelectors("div[data-level-original=#{level.original}]")
-                else
-                  @itemCache?[level.original] = 'cached'
-            }
-            request.load()
-        else
-          @itemCache[level.original] = 'no-cache'
-      else
-        level.unlocksItem = _.find(level.rewards, 'item')?.item
-        if ['no-cache', 'pre-cache', 'cached'].indexOf(@itemCache[level.original]) is -1
-          # If there is a url in the cache, that is a pet unlock
-          level.unlocksPet = @itemCache[level.original]
+      level.unlocksItem = _.find(level.rewards, 'item')?.item
+      level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
