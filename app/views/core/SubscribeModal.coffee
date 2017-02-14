@@ -11,11 +11,7 @@ module.exports = class SubscribeModal extends ModalView
   plain: true
   closesOnClickOutside: false
   planID: 'basic'
-  i18nData:
-    levelsCount: '100'
-    worldsCount: '5'
-    heroesCount: '16'
-    bonusLevelsCount: '330'
+  i18nData: utils.premiumContent
 
   events:
     'click #close-modal': 'hide'
