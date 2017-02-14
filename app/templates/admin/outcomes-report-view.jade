@@ -1,0 +1,81 @@
+.container
+  form
+    label
+      | Teacher email:
+      input(v-model="teacherEmail", :disabled="teacher")
+    button(type="submit" @click.prevent="submitEmail")
+      | Next
+
+
+  div(v-if="teacher")
+    label
+      input(type="button" @click.prevent="displayReport" value="Create report!", :disabled="!(dataReady)")
+    div
+      label
+        | Teacher name:
+        input(v-model:value="teacherFullName")
+    div
+      label
+        | Account Manager Name:
+        input(v-model:value="accountManagerFullName")
+    div
+      label
+        | Account Manager Email:
+        input(v-model:value="accountManager.email")
+    div
+      label
+        | School Name:
+        input(v-model:value="schoolName")
+    div
+      label
+        | School Address:
+        input(v-model:value="schoolAddress")
+    div
+      label
+        | Start Date:
+        input(v-model:value="startDate" type="date")
+    div
+      label
+        | End Date:
+        input(v-model:value="endDate" type="date")
+
+    .row
+      .col-xs-6
+        h2
+          | Classrooms:
+        div(v-for="classroom in classrooms")
+          label
+            //- input(type="checkbox", v-model:value="startDate")
+            input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
+            {{classroom.name}}  [{{classroom.members.length}}]
+
+      .col-xs-6
+        h2
+          | Courses:
+        div(v-for="course in courses")
+          label
+            input(type="checkbox", v-model:value="isCourseSelected[course._id]")
+            {{course.name}}
+
+    h2
+      | Insights (markdown):
+    p
+      h2 ## Header
+      b **bold**
+      = " "
+      i *italics*
+      = " "
+      | [link text](url)
+    .row
+      div.col-xs-6
+        textarea(v-model:insightsMarkdown="insightsMarkdown")
+
+      div.col-xs-6
+        h4(style="border-bottom: 1px solid black") Insights
+        div(v-html="insightsHtml")
+    
+    label
+      input(type="button" @click.prevent="displayReport" value="Create report!", :disabled="!(dataReady)")
+      
+    //- div(v-if="allProgress")
+    //-   {{allProgress}}

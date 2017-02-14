@@ -4,6 +4,7 @@ module.exports.setup = (app) ->
 
   app.put('/admin/feature-mode/:featureMode', mw.admin.putFeatureMode)
   app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
+  app.get('/admin/calculate-lines-of-code', mw.admin.calculateLinesOfCode) # For outcomes report
 
   app.all('/api/*', mw.api.clientAuth)
 
@@ -159,7 +160,7 @@ module.exports.setup = (app) ->
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
-  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
+  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.adminSearch)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
@@ -167,12 +168,13 @@ module.exports.setup = (app) ->
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
   app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
+  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
+  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
-  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
-  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
-  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+  app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
@@ -188,7 +190,8 @@ module.exports.setup = (app) ->
   app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
 
-  app.get '/db/products', require('./db/product').get
+  app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)
+  app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
 
   app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
   app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)

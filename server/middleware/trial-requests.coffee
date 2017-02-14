@@ -45,7 +45,7 @@ module.exports =
     applicantID = req.query.applicant
     return next() unless applicantID
     throw new errors.UnprocessableEntity('Bad applicant id') unless utils.isID(applicantID)
-    throw new errors.Forbidden('May not fetch for anyone but yourself') unless req.user?.id is applicantID
+    throw new errors.Forbidden('May not fetch for anyone but yourself') unless req.user?.id is applicantID or req.user.isAdmin()
     trialRequests = yield TrialRequest.find({applicant: mongoose.Types.ObjectId(applicantID)})
     trialRequests = (tr.toObject({req: req}) for tr in trialRequests)
     res.status(200).send(trialRequests)

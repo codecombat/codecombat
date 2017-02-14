@@ -96,4 +96,4 @@ module.exports =
       user.set('stripe', stripeInfo)
       user.save(done)
 
-module.exports.cancelSubscriptionImmediatelyAsync = Promise.promisify(module.exports.cancelSubscriptionImmediately)
+Promise.promisifyAll(module.exports)

@@ -99,19 +99,35 @@ setupConsoleLogging = ->
 watchForErrors = ->
   currentErrors = 0
   oldOnError = window.onerror
-  window.onerror = (msg, url, line, col, error) ->
-    oldOnError.apply window, arguments if oldOnError
+  
+  showError = (text) ->
     return if currentErrors >= 3
     return unless me.isAdmin() or document.location.href.search(/codecombat.com/) is -1 or document.location.href.search(/\/editor\//) isnt -1
     ++currentErrors
-    message = "Error: #{msg}<br>Check the JS console for more."
-    #msg += "\nLine: #{line}" if line?
-    #msg += "\nColumn: #{col}" if col?
-    #msg += "\nError: #{error}" if error?
-    #msg += "\nStack: #{stack}" if stack = error?.stack
     unless webkit?.messageHandlers  # Don't show these notys on iPad
-      noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
+      noty {
+        text
+        layout: 'topCenter'
+        type: 'error'
+        killer: false
+        timeout: 5000
+        dismissQueue: true
+        maxVisible: 3
+        callback: {onClose: -> --currentErrors}
+      } 
+  
+  window.onerror = (msg, url, line, col, error) ->
+    oldOnError.apply window, arguments if oldOnError
+    message = "Error: #{msg}<br>Check the JS console for more."
+    showError(message)
     Backbone.Mediator.publish 'application:error', message: "Line #{line} of #{url}:\n#{msg}"  # For iOS app
+
+  # Promise error handling
+  window.addEventListener("unhandledrejection", (err) ->
+    err.promise.catch (e) ->
+      message = "#{e.message}<br>Check the JS console for more."
+      showError(message)
+  )
 
 window.addIPadSubscription = (channel) ->
   window.iPadSubscriptions[channel] = true

@@ -69,6 +69,68 @@
     position: absolute
     top: 114px
     right: 65px
+    
+  //- Paper area
+  
+  .paper-area
+    position: absolute
+    top: 114px
+    left: 31px
+    min-height: 370px
+    width: 684px
+    background: #d4c9b1
+    border: 3px solid black
+    
+    .benefits-header
+      font-weight: bold
+      font-size: 20px
+      margin: 10px 0
+      
+    table
+      width: 100%
+      margin: 20px 0
+      text-align: center
+    
+    ul
+      list-style: none
+      padding: 0
+      font-size: 16px
+      font-weight: bold
+      
+      li::before
+        content: "• "
+      
+    hr
+      border-top: 1px solid gray
+      margin: 20px 40px
+      
+    th
+      font-size: 36px
+      text-align: center
+      line-height: 36px
+      color: #59882f
+      text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
+      
+    .option-col
+      text-align: center
+      
+    .option-header
+      font-weight: bold
+      font-size: 16px
+      
+    .price
+      font-weight: bold
+      font-size: 24px
+      
+    p
+      margin: 5px 0 0 20px
+      
+    button
+      min-width: 250px
+      
+    .row
+      margin-bottom: 17px
+
 
   //- Feature comparison table
 
@@ -170,10 +232,10 @@
 
   .purchase-button
     flex-grow: 1
-    font-size: 32px
-    line-height: 42px
+    font-size: 24px
+    line-height: 30px
     border-style: solid
-    border-image: url(/images/level/code_toolbar_submit_button_active.png) 14 20 20 20 fill round
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
     border-width: 14px 20px 20px 20px
     color: darken(white, 5%)
 
@@ -181,32 +243,24 @@
       pointer-events: none
 
     &:hover
-      border-image: url(/images/level/code_toolbar_submit_button_zazz.png) 14 20 20 20 fill round
-      color: white
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
 
     &:active
-      border-image: url(/images/level/code_toolbar_submit_button_zazz_pressed.png) 14 20 20 20 fill round
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
       padding: 2px 0 0 2px
       color: white
 
-  //- Parent button
-  //- TODO: Add hover and active effects
-
-  .parent-button
-    font-size: 28px
-    line-height: 38px
-    border-style: solid
-    border-image: url(/images/common/button-background-warning-disabled.png) 14 20 20 20 fill round
-    border-width: 14px 20px 20px 20px
-    color: darken(white, 5%)
-
   //- Sale button
 
-  .sale-button
-    font-size: 32px
-    line-height: 42px
+  .sale-button, .lifetime-button
+    font-size: 24px
+    line-height: 30px
     border-style: solid
-    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-image: url(/images/common/button-background-success-active.png) 14 20 20 20 fill round
+    &:hover
+      border-image: url(/images/common/button-background-success-inactive.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
     border-width: 14px 20px 20px 20px
     color: darken(white, 5%)
 
@@ -230,36 +284,8 @@
     border: 5px solid gray
 
 
-html.no-borderimage #subscribe-modal
-  .purchase-button, .parent-button, .sale-button
-    border: 0
-    background-size: 100% 100%
-    padding: 7px 10px 10px 10px
-
-    &:hover
-      border: 0
-
-    &:active
-      padding: 9px 8px 8px 12px
-      border: 0
-
-  .purchase-button
-    background-image: url(/images/level/code_toolbar_submit_button_active.png)
-    &:hover
-      background-image: url(/images/level/code_toolbar_submit_button_zazz.png)
-
-  .parent-button
-    background-image: url(/images/common/button-background-warning-active.png)
-    &:hover, &:active
-      background-image: url(/images/common/button-background-warning-pressed.png)
-
-  .sale-button
-    background-image: url(/images/common/button-background-primary-active.png)
-    &:hover, &:active
-      background-image: url(/images/common/button-background-primary-pressed.png)
-
 body[lang='fr']
-  #subscribe-modal .parent-button
+  #subscribe-modal
     font-size: 21px
 
   #subscribe-modal .comparison-table tbody
@@ -279,5 +305,5 @@ body[lang='pt-PT']
   #subscribe-modal .comparison-table tbody
     font-size: 12px
 
-  #subscribe-modal .parent-button
+  #subscribe-modal
     font-size: 18px

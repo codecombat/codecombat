@@ -48,7 +48,7 @@ module.exports = class CampaignView extends RootView
   events:
     'click .map-background': 'onClickMap'
     'click .level': 'onClickLevel'
-    'dblclick .level a': 'onDoubleClickLevel'
+    'dblclick .level': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click .level-info-container .course-version button': 'onClickCourseVersion'
@@ -382,7 +382,9 @@ module.exports = class CampaignView extends RootView
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+
       level.unlocksItem = _.find(level.rewards, 'item')?.item
+      level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
