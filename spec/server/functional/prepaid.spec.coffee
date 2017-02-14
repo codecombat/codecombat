@@ -283,6 +283,10 @@ describe 'DELETE /db/prepaid/:handle/redeemers', ->
     expect(res.statusCode).toBe(422)
     done()
     
+  it 'returns 403 if the prepaid is a starter license', utils.wrap ->
+    yield @prepaid.update({$set: {type: 'starter_license'}})
+    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
+    expect(res.statusCode).toBe(403)
 
 describe 'GET /db/prepaid?creator=:id', ->
   beforeEach utils.wrap (done) ->
