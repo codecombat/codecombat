@@ -550,7 +550,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_programming_not_about_computers: "Информационные технологии – это настолько же про компьютеры, как астрономия – про телескопы. - Эдсгер Дейкстра"
     tip_mulan: "Верь, что сможешь, тогда получится. - Мулан"
 
-#  play_game_dev_level:
+  play_game_dev_level:
     created_by: "Создано {{name}}"
     restart: "Переиграть уровень"
     play: "Начать уровень"
@@ -896,7 +896,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    course_prefix: "Course"
 #    course_suffix: ""
 
-#  teachers_quote:
+  teachers_quote:
 #    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
     phone_number: "Телефонный номер"
@@ -1280,7 +1280,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 
-#  teacher:
+  teacher:
 #    assigning_course: "Assigning course"
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
@@ -1838,7 +1838,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrying: "Ошибка сервера, пробуем ещё раз."
     success: "Оплата прошла успешно. Спасибо!"
 
-#  account_prepaid:
+  account_prepaid:
 #    purchase_code: "Purchase a Subscription Code"
 #    purchase_code1: "Subscription Codes can be redeemed to add premium subscription time to one or more accounts for the Home version of CodeCombat." #
 #    purchase_code2: "Each CodeCombat account can only redeem a particular Subscription Code once."
