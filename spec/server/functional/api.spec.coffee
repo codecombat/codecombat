@@ -10,6 +10,7 @@ Prepaid = require '../../../server/models/Prepaid'
 Classroom = require '../../../server/models/Classroom'
 Course = require '../../../server/models/Course'
 CourseInstance = require '../../../server/models/CourseInstance'
+LevelSession = require '../../../server/models/LevelSession'
 
 describe 'POST /api/users', ->
 
@@ -603,3 +604,56 @@ describe 'PUT /api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', 
     expect(res.statusCode).toBe(403)
 
   
+describe 'GET /api/playtime-stats', ->
+  
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, APIClient, LevelSession])
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @client = yield utils.makeAPIClient()
+    @user1 = yield utils.initUser({
+      clientCreator: @client._id
+      oAuthIdentities: [{ provider: '1', id: '2' }] # these are included in search for efficiency
+      dateCreated: new Date(2016,1,15)
+      country: 'united-states'
+    })
+
+    @user2 = yield utils.initUser({
+      clientCreator: @client._id
+      oAuthIdentities: [{ provider: '1', id: '3' }]
+      dateCreated: new Date(2016,2,15)
+      country: 'brazil'
+    })
+
+    @session1 = yield utils.makeLevelSession({playtime: 30}, {creator: @user1})
+    @session2 = yield utils.makeLevelSession({playtime: 50}, {creator: @user2})
+
+    @url = utils.getUrl('/api/playtime-stats')
+  
+  it 'returns aggregate LevelSession playtime data for users created by the client', utils.wrap ->
+    [res, body] = yield request.getAsync({ @url, json: true, auth: @client.auth })
+    expect(res.body).toDeepEqual({ playTime: 80, gamesPlayed: 2 })
+
+  describe 'query parameters startDate and endDate', ->
+    it 'only returns data for users created during the given range', utils.wrap ->
+      qs = {
+        startDate: new Date(2016,1,1).toISOString(),
+        endDate: new Date(2016,2,1).toISOString()
+      }
+      [res, body] = yield request.getAsync({ @url, json: true, auth: @client.auth, qs })
+      expect(res.body).toDeepEqual({ playTime: 30, gamesPlayed: 1 })
+
+      qs = {
+        startDate: new Date(2016,3,1).toISOString(),
+        endDate: new Date(2016,4,1).toISOString()
+      }
+      [res, body] = yield request.getAsync({ @url, json: true, auth: @client.auth, qs })
+      expect(res.body).toDeepEqual({ playTime: 0, gamesPlayed: 0 })
+
+  describe 'query parameter country', ->
+    it 'filters results by country', utils.wrap ->
+      qs = { country: 'brazil' }
+      [res, body] = yield request.getAsync({ @url, json: true, auth: @client.auth, qs })
+      expect(res.body).toDeepEqual({ playTime: 50, gamesPlayed: 1 })
+      
