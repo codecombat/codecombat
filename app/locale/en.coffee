@@ -665,7 +665,7 @@
     feature_gems: "Receive __gems__ gems per month"
     feature_heroes: "Unlock exclusive heroes"
     feature_games: "Make games for your friends"
-    feature_websites: "Build websites in apps"
+    feature_websites: "Build websites and apps"
     feature_items: "Equip more powerful items"
     month_price: "$__price__/mo"
     lifetime: "Lifetime Subscription"

@@ -162,6 +162,19 @@ describe '/db/user, editing stripe property', ->
         [res, body] = yield request.putAsync { @url, @json, headers }
         expect(res.statusCode).toBe(444)
         expect(res.body).toBe('test')
+
+
+    describe 'when subscriptions.subscribeUser returns an error with "declined" in the message', ->
+      beforeEach ->
+        spyOn(middleware.subscriptions, 'subscribeUser')
+        .and.returnValue(Promise.reject(new Error('Your card was declined.')))
+
+      it 'returns 500', utils.wrap ->
+        spyOn(winston, 'warn')
+        [res, body] = yield request.putAsync { @url, @json, headers }
+        expect(res.statusCode).toBe(402)
+        expect(res.body).toBe('Card declined')
+        expect(winston.warn).not.toHaveBeenCalled()
         
     describe 'when subscriptions.subscribeUser returns a runtime error', ->
       beforeEach ->
