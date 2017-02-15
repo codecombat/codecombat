@@ -150,6 +150,8 @@ UserHandler = class UserHandler extends Handler
             return callback({res: err.message, code: err.code})
           if err.res and err.code
             return callback(err)
+          if err.message.indexOf('declined') > -1
+            return callback({res: 'Card declined', code: 402})
           SubscriptionHandler.logSubscriptionError(user, 'Subscribe error: '+(err.stack or err.type or err.message))
           callback({res: 'Subscription error.', code: 500})
         )
