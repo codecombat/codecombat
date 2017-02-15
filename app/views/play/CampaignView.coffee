@@ -541,23 +541,42 @@ module.exports = class CampaignView extends RootView
     @playAmbientSound()
 
   testParticles: ->
+    # TODO: figure out which browsers we can turn it on in instead of just doing it in Chrome
     return unless @campaign?.loaded and $.browser.chrome  # Sometimes this breaks in non-Chrome browsers, according to A/B tests.
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
-    for level in @campaign.renderedLevels ? {}
-      continue if level.hidden and (@campaign.levelIsPractice(level) or not level.unlockedInSameCampaign)
-      terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
-      particleKey = ['level', terrain]
-      particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
-      particleKey.push 'replayable' if level.replayable
-      particleKey.push 'premium' if level.requiresSubscription
-      particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
-      particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
-      #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
-      continue if particleKey.length is 2  # Don't show basic levels
-      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable', 'game-dev']).length
-      @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
+    $.getJSON 'https://s3.amazonaws.com/sp-codecombat-level-state/level_information.json', (playersPerLevel) =>
+      # TODO: handle repeated fetches, errors, refreshing periodically
+      for level in @campaign.renderedLevels ? {}
+        numPlayers = playersPerLevel[level.slug] or 0
+        # TODO: adjust particle configs in ParticleMan to make each individual particle more visually intuitive, prettier
+        @particleMan.addEmitter level.position.x / 100, level.position.y / 100, 'player', numPlayers
+    $.getJSON 'https://s3.amazonaws.com/sp-codecombat-level-state/transition_information.json', (transitions) =>
+      for transition in transitions
+        fromLevel = _.find (@campaign.renderedLevels ? {}), slug: transition.from
+        toLevel = _.find (@campaign.renderedLevels ? {}), slug: transition.to
+        continue unless fromLevel and toLevel
+        console.log 'from', transition.from, 'to', transition.to, 'is', transition.count
+        # TODO: just emit at fromLevel and make it use the right speed/direction to go to the toLevel
+        # TODO: get the timing right to show the transitions as actually happening once per player transition
+        # TODO: make transition particles more visually intuitive, pretty
+        @particleMan.addEmitter fromLevel.position.x / 100, fromLevel.position.y / 100, 'transition-from', transition.count
+
+    # TODO: rip out support for old style of particles
+    #for level in @campaign.renderedLevels ? {}
+    #  continue if level.hidden and (@campaign.levelIsPractice(level) or not level.unlockedInSameCampaign)
+    #  terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
+    #  particleKey = ['level', terrain]
+    #  particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
+    #  particleKey.push 'replayable' if level.replayable
+    #  particleKey.push 'premium' if level.requiresSubscription
+    #  particleKey.push 'gate' if level.slug in ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate']
+    #  particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
+    #  #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
+    #  continue if particleKey.length is 2  # Don't show basic levels
+    #  continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable', 'game-dev']).length
+    #  @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
     return unless @campaigns?.loaded and @sessions?.loaded
@@ -885,4 +904,3 @@ module.exports = class CampaignView extends RootView
 
   mergeWithPrerendered: (el) ->
     true
-

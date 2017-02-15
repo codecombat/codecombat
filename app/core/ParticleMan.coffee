@@ -82,10 +82,11 @@ module.exports = ParticleMan = class ParticleMan extends CocoClass
       @framesRendered = 0
       @lastFPS = now
 
-  addEmitter: (x, y, kind="level-dungeon-premium") ->
+  addEmitter: (x, y, kind="level-dungeon-premium", particleCount=undefined) ->
     return if @unsupported
     options = $.extend true, {}, particleKinds[kind]
     return console.error "Couldn't find particle configuration for", kind unless options.group
+    options.emitter.particleCount = particleCount if particleCount?
     options.group.texture = THREE.ImageUtils.loadTexture "/images/common/particles/#{options.group.texture}.png"
     scale = 100
     aspectRatio = @$el
@@ -177,6 +178,41 @@ ext = (d, options) ->
   $.extend true, {}, d, options ? {}
 
 particleKinds =
+  'player': ext defaults,
+    group:
+      maxAge: 1
+    emitter:
+      particleCount: 10
+      sizeStart: 10
+      sizeMiddle: 8
+      sizeEnd: 6
+      isStatic: 0
+      acceleration: vec 0, 0.1, 0
+      colorStart: hsl 0.5, 0.75, 0.9
+      colorMiddle: hsl 0.5, 0.75, 0.7
+      colorEnd: hsl 0.5, 0.75, 0.3
+      colorStartSpread: vec 1, 1, 1
+      colorMiddleSpread: vec 1.5, 1.5, 1.5
+      colorEndSpread: vec 2.5, 2.5, 2.5
+
+  'transition-from': ext defaults,
+    group:
+      maxAge: 3
+    emitter:
+      particleCount: 10
+      sizeStart: 10
+      sizeMiddle: 8
+      sizeEnd: 6
+      isStatic: 0
+      velocity: vec 1, 0, 0
+      acceleration: vec 1, 0, 0
+      colorStart: hsl 0.5, 0.75, 0.9
+      colorMiddle: hsl 0.5, 0.75, 0.7
+      colorEnd: hsl 0.5, 0.75, 0.3
+      colorStartSpread: vec 1, 1, 1
+      colorMiddleSpread: vec 1.5, 1.5, 1.5
+      colorEndSpread: vec 2.5, 2.5, 2.5
+
   'level-dungeon-premium': ext defaults
   'level-forest-premium': ext defaults,
     emitter:
