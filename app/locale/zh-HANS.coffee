@@ -3,8 +3,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     slogan: "最引人入胜的编程游戏。"
     classroom_edition: "教育版："
     learn_to_code: "学习编程："
-    teacher: "教师"
-    student: "学生"
     play_now: "开始游戏"
     im_a_teacher: "我是教师"
     im_a_student: "我是学生"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level: "关卡" # Like "Level: Dungeons of Kithgard"
     skip: "跳过"
     game_menu: "游戏菜单"
-    guide: "指南"
     restart: "重新开始"
     goals: "目标"
     goal: "目标"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_viking_code_school: "这关真的超难! 如果您想成为一个软件开发人员，您就应该去试一下Viking Code School。在这里您可以把您的知识增长到另一个台阶。只需要14周您就能成为一个专业的网页开发人员。"
     victory_become_a_viking: "成为一个维京人吧"
     victory_no_progress_for_teachers: "教师不能保存进度。但您可在您的班级为自己添加一个学生账号。"
-    guide_title: "指南"
     tome_cast_button_run: "运行"
     tome_cast_button_running: "正在运行"
     tome_cast_button_ran: "运行过"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tome_reload_method: "恢复关卡初始代码"
     tome_available_spells: "可用的法术"
     tome_your_skills: "您的技能"
-    tome_current_method: "当前方法"
     hints: "提示"
     hints_title: "提示 {{number}}"
     code_saved: "代码已保存"
     skip_tutorial: "跳过（esc）"
     keyboard_shortcuts: "快捷键"
-    loading_ready: "载入完成!"
     loading_start: "开战"
     problem_alert_title: "修正您的代码"
     time_current: "现在:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    premium_pricing_prefix: "Get Premium for just"
 #    premium_pricing_suffix: "and become a master coder."
 #    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ 基本关卡（__worldsCount__个世界）" # {change}
-    feature2: "__heroesCount__ 个强大 <strong>英雄</strong>以及各式非凡技能!" # {change}
-    feature3: "__bonusLevelsCount__+ 奖励关卡" # {change}
-    feature4: "每月享有{{gems}}额外宝石" # {change}
-    feature6: "专业邮件支援"
-    feature7: "私人 <strong>部落</strong>"
-    feature8: "<strong>无广告！</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "免费"
     month: "月"
     must_be_logged: "您需要先登入。请先注册或者在上方的目录中点击登入。"
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unsubscribing: "取消订阅中"
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     please_explain: "(请注明)"
     middle_school: "初中"
     college_plus: "大学以上"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     anything_else: "您还有什么建议？"
     thanks_header: "申请已发送！"
     thanks_sub_header: "感谢您为您的学校表达对 CodeCombat 的兴趣。"
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   account_settings:
     title: "账户设置"
     not_logged_in: "登录或创建一个账户来修改设置。"
-    autosave: "自动保存修改"
     me_tab: "我"
     picture_tab: "图片"
     delete_account_tab: "删除账户"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     private_require_sub: "创建或加入私人部落时需要具体描述。"
 
   courses:
-    course: "课程"
     create_new_class: "建立新的课堂"
     unnamed_class: "班级未命名"
     edit_settings1: "编辑班级设定"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     average_levels: "平均完成关卡："
     total_levels: "总共完成关卡："
     students: "学生"
-    students1: "个学生"
     concepts: "课目"
     play_time: "游戏时间："
     completed: "完成："
     enter_emails: "输入学生电邮地​​址来邀请，每行一个" # {change}
     send_invites: "发送邀请" # {change}
-    creating_class: "班级创建中..."
-    purchasing_course: "购买课程中..."
-    buy_course: "购买课程"
-    select_all_courses: "可半价一次购买所有课程！"
-    all_courses: "所有课程"
     number_programming_students: "掌握编程的学生数量"
     number_total_students: "学校/地区中学生总数"
-    enter_number_students: "输入该班级的学生上限人数"
-    name_class: "命名您的班级"
-    displayed_course_page: "这将会在课程页面显示，可被修改。"
-    buy: "购买"
-    purchasing_for: "你正在购买许可证，课程为"
-    creating_for: "您正在创建一个课程为"
-    for: "人数上限为" # Like in 'for 30 students'
-    receive_code: "然后您会收到一个解锁码，把它分发给你的学生用来注册你的班级。"
-    questions: "有疑问？"
     enroll: "注册"
-    enter: "输入"
     enroll_paid: "招收学生到已付费课程"
     get_enrollments: "获取更多学生许可"
     change_language: "修改课程语言"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     remove_description2: "被激活的付费许可证将无法返还。"
     keep_student: "保留学生"
     removing_user: "删除用户"
-    to_join_ask: "为了加入课程，问你的老师得到一个解锁码。"
-    join_this_class: "加入课程"
-    enter_here: "<在这里输入解锁码>"
-    successfully_joined: "成功加入"
-    click_to_start: "点击这里开始"
-    my_courses: "我的课程"
-    classroom: "教室"
     subtitle: "复习课程指导、解法和关卡" # Flat style redesign
     changelog: "查看课程关卡的最新改动。"
     select_language: "选择语言"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     current_hero: "当前英雄:"
     change_hero: "更改英雄"
     web_dev_language_transition: "课程所有的编程将在HTML / JavaScript中进行。 已经使用Python的类将从额外的JavaScript介绍级开始，以缓解过渡。 已经使用JavaScript的类将跳过介绍级别。"
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     latest_complete: "最近通关关卡"
     enroll_student: "注册学生"
     apply_license: "应用许可"
+#    revoke_license: "Revoke License"
     course_progress: "课程进度"
     not_applicable: "N/A"
     edit: "修改"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     progress_journal_desc: "鼓励学生通过进度日志跟踪他们的进步."
     cs1_curriculum: "计算机科学的介绍 - 课程指南"
     cs1_curriculum_desc: "课程 1 的范围、顺序、课程计划和活动等."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
     cs2_curriculum: "计算机科学 2 - 课程指南"
     cs2_curriculum_desc: "课程 2 的范围、顺序、课程计划和活动等."
     cs3_curriculum: "计算机科学 3 - 课程指南"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
   sharing:
     game: "游戏"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     helpful_ambassadors: "我们亲切的使节:"
 
   ladder:
-    please_login: "对战之前请先登录。"
     my_matches: "我的对手"
     simulate: "模拟"
     simulation_explanation: "通过模拟游戏，您可以让您的游戏更快的得到评分。"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     email_sent: "邮件已发送！检查您的收件箱"
     verifying_email: "验证邮箱地址中..."
     successfully_verified: "验证成功！"
-    back_to_student_page: "回到学生页面"
-    back_to_teacher_page: "访问我的班级"
-    back_to_game: "探索更多关卡！"
     verify_error: "验证时出了点问题 :("
 
   account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     you_can1: "您可以"
     you_can2: "购买一个预购码"
     you_can3: "使用在您的账户或者给其他人。"
-
-  coppa_deny:
-    text1: "迫不及待学习编程？"
-    text2: "你的家长需要为你创建一个账号！若有疑问请发送邮件至 team@codecombat.com"
-    close: "关闭窗口"
 
   loading_error:
     could_not_load: "载入失败"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     advanced_web_scripting: "高级 Web 脚本"
     input_handling: "输入处理"
     while_loops: "While 循环"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "被添加"

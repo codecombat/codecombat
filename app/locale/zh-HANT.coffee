@@ -3,8 +3,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     slogan: "最迷人的程式設計學習遊戲"
     classroom_edition: "教室版本"
     learn_to_code: "學習寫程式碼"
-    teacher: "老師"
-    student: "學生"
     play_now: "馬上遊玩"
     im_a_teacher: "我是老師"
     im_a_student: "我是學生"
@@ -381,7 +379,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     wizard: "巫師"
     first_name: "名"
     last_name: "姓"
-#    last_initial: "Last Initial" #中文中較少使用
+#    last_initial: "Last Initial"
     username: "使用者名稱"
     contact_us: "與我們聯繫"
     close_window: "關閉視窗"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     level: "關卡" # Like "Level: Dungeons of Kithgard"
     skip: "跳過"
     game_menu: "遊戲選單"
-    guide: "指南"
     restart: "重新開始"
     goals: "目標"
     goal: "目標"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     victory_viking_code_school: "太厲害了，您剛完成了非常困難的關卡！如果您想成為一個軟體開發人員，您就應該去試一下Viking Code School。在這裡您可以把您的知識增長到另一個台階。只需要14個星期您就能成為一個專業的網頁開發人員。"
     victory_become_a_viking: "成為一個維京人。"
     victory_no_progress_for_teachers: "老師們不能儲存進度，但是您可以將自己的帳號加入班級作為學生來儲存進度。"
-    guide_title: "指南"
     tome_cast_button_run: "運行"
     tome_cast_button_running: "運行中"
     tome_cast_button_ran: "已運行"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tome_reload_method: "重新載入原始程式碼來重啟關卡"
     tome_available_spells: "可用的法術"
     tome_your_skills: "您的技能"
-    tome_current_method: "現在的方法"
     hints: "小提示"
     hints_title: "提示{{number}} "
     code_saved: "程式碼已保存"
     skip_tutorial: "跳過 (esc)"
     keyboard_shortcuts: "快捷鍵"
-    loading_ready: "準備！"
     loading_start: "開始戰役"
     problem_alert_title: "修正您的程式碼"
     time_current: "現在："
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    premium_pricing_prefix: "Get Premium for just"
 #    premium_pricing_suffix: "and become a master coder."
 #    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__ 個以上的基本關卡分佈在__worldsCount__張地圖中" # {change}
-    feature2: "__heroesCount__ 個強力的<strong>新英雄</strong>並且每位都有不同技能！" # {change}
-    feature3: "__bonusLevelsCount__ 個以上的額外關卡" # {change}
-    feature4: "每個月<strong>{{gems}}顆額外寶石</strong>！" # {change}
-    feature6: "高級郵件幫助"
-    feature7: "私密<strong>部落</strong>"
-    feature8: "<strong>沒有廣告!</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "免費"
     month: "月"
     must_be_logged: "您需要先登入。請先註冊或者在上方的目錄中點擊登入。"
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unsubscribing: "取消訂閱中…" # {change}
     subscribe_prepaid: "點擊訂閱來使用預付代碼"
     using_prepaid: "使用預付費代碼進行每月訂閱"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "選擇您的英雄"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     please_explain: "(請註明)"
     middle_school: "中學"
     college_plus: "大學以上"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     anything_else: "還有甚麼我們需要知道的嗎?"
     thanks_header: "已收到申請!"
     thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。"
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
   account_settings:
     title: "帳號設定"
     not_logged_in: "登錄或建立一個帳號來修改設置。"
-    autosave: "自動保存修改"
     me_tab: "我"
     picture_tab: "頭像"
     delete_account_tab: "刪除您的帳戶"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     private_require_sub: "需要訂閱才可以建立或加入私密部落"
 
   courses:
-    course: "課程"
     create_new_class: "建立新的班級"
     unnamed_class: "未命名的班級"
     edit_settings1: "編輯班級設定"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     average_levels: "平均完成關卡："
     total_levels: "總共完成關卡："
     students: "學生"
-    students1: "個學生。"
     concepts: "課目"
     play_time: "遊戲時間："
     completed: "完成："
     enter_emails: "以斷行或是逗號分隔電郵地址"
     send_invites: "邀請學生"
-    creating_class: "班級創建中…"
-    purchasing_course: "購買課程中…"
-    buy_course: "購買課程"
-    select_all_courses: "可半價一次購買所有課程！"
-    all_courses: "所有課程"
     number_programming_students: "正在編程的學生數量"
     number_total_students: "所有在學區中的學生"
-    enter_number_students: "輸入該班級的學生上限人數"
-    name_class: "命名您的班級"
-    displayed_course_page: "這將會在課程頁面顯示，可被修改。"
-    buy: "購買"
-    purchasing_for: "你正在購買許可證，課程為"
-    creating_for: "您正在創建一個課程為"
-    for: "，人數上限為" # Like in 'for 30 students'
-    receive_code: "然後您會收到一個解鎖碼，把它分發給你的學生用來加入您的課程"
-    questions: "有疑問嗎？"
     enroll: "註冊"
-    enter: "輸入"
     enroll_paid: "招收學生到付費課程中"
     get_enrollments: "取得更多註冊碼"
     change_language: "更換班級使用的語言"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     remove_description2: "已經啟動的付費註冊碼將不能退費。"
     keep_student: "保留學生"
     removing_user: "移除使用者中"
-    to_join_ask: "向您的老師請求一個解鎖碼已加入班級。"
-    join_this_class: "加入班級"
-    enter_here: "<在此輸入解鎖碼>"
-    successfully_joined: "成功的加入了"
-    click_to_start: "點擊這邊來開始"
-    my_courses: "我的課程"
-    classroom: "教室"
     subtitle: "回顧課程的總覽以及關卡" # Flat style redesign
     changelog: "觀看課程關卡的最後編輯。"
     select_language: "選擇語言"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     current_hero: "現在使用英雄:"
     change_hero: "更換英雄"
     web_dev_language_transition: "在這個課程中所有的班級都使用 HTML / JavaScript。 已經使用Python的班級將會從額外的JavaScript介紹關卡開始以銜接內容。 已經使用JavaScript的班級將會跳過介紹關卡。"
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
   sharing:
     game: "遊戲"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     helpful_ambassadors: "我們善於幫助的使節："
 
   ladder:
-    please_login: "在參與對戰前請先登入。"
     my_matches: "我的對戰"
     simulate: "模擬"
     simulation_explanation: "通過模擬遊戲，您可以使您的遊戲更快得到評定排名！"
@@ -1740,7 +1724,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tutorial_skip: "略過教學"
     tutorial_not_sure: "不確定發生啥事？"
     tutorial_play_first: "先試試教學"
-    simple_ai: "簡單電腦角色" 
+    simple_ai: "簡單電腦角色"
     warmup: "熱身"
     friends_playing: "與朋友連線"
     log_in_for_friends: "登入與朋友一起玩！"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     email_sent: "已寄出Email! 請查看您的信箱。"
     verifying_email: "正在驗證您的email..."
     successfully_verified: "您已經成功的驗證了您的email!"
-    back_to_student_page: "返回到學生頁面"
-    back_to_teacher_page: "進入我的班級頁面"
-    back_to_game: "前往遊玩更多關卡!"
     verify_error: "在驗證您的信箱時發生錯誤 :("
 
   account_invoices:
@@ -1861,11 +1842,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
 
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
-
   loading_error:
     could_not_load: "從伺服器載入失敗"
     connection_failure: "連線失敗。"
@@ -1882,7 +1858,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     conflict: "資源衝突。"
     bad_input: "錯誤輸入。"
     server_error: "伺服器錯誤。"
-    unknown: "未知錯誤。" 
+    unknown: "未知錯誤。"
     error: "錯誤"
     general_desc: "發生了某些錯誤，它很有可能是我們造成的。 請試著等待一小段時間然後再刷新這個頁面，或是進入下方的其中一個連結以回到編程頁面!"
 
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     advanced_web_scripting: "進階Web腳本"
     input_handling: "輸入處理"
     while_loops: "while迴圈"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "已填加"

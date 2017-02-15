@@ -3,8 +3,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     slogan: "Самая захватывающая игра для обучения программированию."
     classroom_edition: "Классная комната:"
     learn_to_code: "Учись программировать:"
-    teacher: "Учитель"
-    student: "Ученик"
     play_now: "Играть сейчас"
     im_a_teacher: "Я учитель"
     im_a_student: "Я ученик"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level: "Уровень" # Like "Level: Dungeons of Kithgard"
     skip: "Пропустить"
     game_menu: "Меню игры"
-    guide: "Руководство"
     restart: "Перезапустить"
     goals: "Цели"
     goal: "Цель"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     victory_viking_code_school: "Ого, это был тяжёлый уровень! Если вы ещё не разработчик программ, подумайте об этом. Вы практически приняты в Школу Викингов, где сможете поднять свои навыки на новый уровень и стать профессиональным веб-разработчиком за 14 недель."
     victory_become_a_viking: "Стать Викингом"
     victory_no_progress_for_teachers: "Для учителей прогресс не сохраняется. Но вы можете создать для себя учётную запись ученика и добавить её в класс."
-    guide_title: "Руководство"
     tome_cast_button_run: "Запустить"
     tome_cast_button_running: "В процессе"
     tome_cast_button_ran: "Запущен"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tome_reload_method: "Загрузить оригинальный код и начать уровень заново" # {change}
     tome_available_spells: "Доступные заклинания"
     tome_your_skills: "Ваши навыки"
-    tome_current_method: "Текущий метод"
     hints: "Советы"
     hints_title: "Совет {{number}}"
     code_saved: "Код сохранён"
     skip_tutorial: "Пропуск (Esc)"
     keyboard_shortcuts: "Горячие клавиши"
-    loading_ready: "Готово!"
     loading_start: "Начать уровень"
     problem_alert_title: "Исправьте код"
     time_current: "Текущее:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     premium_pricing_prefix: "Получите Премиум всего лишь за"
     premium_pricing_suffix: "и станьте мастером кода."
     premium: "Премиум" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ основных уровней для изучения Python, JavaScript, Lua или CoffeeScript" # {change}
-    feature2: "__heroesCount__ могущественных <strong>новых героев</strong> с уникальными способностями!" # {change}
-    feature3: "__bonusLevelsCount__+ дополнительных уровней" # {change}
-    feature4: "<strong>{{gems}} бонусных самоцветов</strong> каждый месяц!" # {change}
-    feature6: "Эксклюзивная поддержка по электронной почте"
-    feature7: "Частные <strong>Кланы</strong>"
-    feature8: "<strong>Без рекламы!</strong>"
-    feature_game_dev: "Создавай игры для своих друзей в <strong>Мирах разработчика игр</strong>"
-    feature_web_dev: "Создавай сайты и приложения с помощью HTML, CSS и jQuery в <strong>Мирах веб-разработчика</strong>"
     free: "Бесплатно"
     month: "месяц"
     must_be_logged: "Вы должны войти на сайт. Пожалуйста, создайте аккаунт или зайти в уже существующий с помощью меню наверху."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unsubscribing: "Отписываемся..." # {change}
     subscribe_prepaid: "Нажмите 'Подпишись', чтобы использовать предоплаченный код"
     using_prepaid: "Использовать предоплаченный код для месячной подписки"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Выбери героя"
@@ -855,8 +856,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     licenses_needed: "Требуются лицензии"
 
   special_offer:
-    special_offer: "Специальное предложение"    # "Special Offer"
-    project_based_title: "Проектно-ориентированные курсы"   #   "Project-Based Courses"
+    special_offer: "Специальное предложение"
+    project_based_title: "Проектно-ориентированные курсы"
     project_based_description: "Курсы по Веб-разработке и Разработке Игр имеют различные финальные проекты."
     great_for_clubs_title: "Отлично подходит для клубов и факультативов"
     great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ Стартовых Лицензий ежегодно."
@@ -868,16 +869,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     purchase_starter_licenses: "Оплатить Стартовую Лицензию"
     purchase_starter_licenses_to_grant: "Оплатить Стартовую Лицензию и получить доступ к __starterLicenseCourseList__"
     starter_licenses_can_be_used: "Стартовая Лицензия может использоваться для выбора дополнительного курса сразу после оплаты."
-    pay_now: "Оплатить"   #    "Pay Now"
+    pay_now: "Оплатить"
     we_accept_all_major_credit_cards: "Мы принимаем все основные кредитные карты."
     cs2_description: "выстраивается на фундаменте из основ Информатики, с погружением в условные переходы, функции, события и многое другое."
     wd1_description: "знакомит с основами HTML и CSS, владение которыми необходимо для создания учениками их первого сайта."
     gd1_description: "используя знакомый ученикам синтаксис, покажем как создавать свои игровые уровни и делиться ими с другими игроками."
-
-    see_an_example_project: "посмотреть пример проекта"   #    "see an example project"
-    get_started_today: "Начать сейчас!"   #    "Get started today!"
-    want_all_the_courses: "Хотите все курсы? Посмотрите информацию о нашей Полной Лицензии."    #    "Want all the courses? Request information on our Full Licenses."
-    compare_license_types: "Сравнить типы лицензий:"    #    "Compare License Types:"
+    see_an_example_project: "посмотреть пример проекта"
+    get_started_today: "Начать сейчас!"
+    want_all_the_courses: "Хотите все курсы? Посмотрите информацию о нашей Полной Лицензии."
+    compare_license_types: "Сравнить типы лицензий:"
     cs: "Информатика"
     wd: "Веб-разработка"
     wd1: "Веб-разработка 1"
@@ -930,6 +930,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     please_explain: "(пожалуйста, объясните)"
     middle_school: "Средняя школа"
 #    college_plus: "College or higher"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    anything_else: "Anything else we should know?"
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
@@ -975,7 +977,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   account_settings:
     title: "Настройки аккаунта"
     not_logged_in: "Войдите или зарегистрируйтесь, чтобы изменить настройки."
-    autosave: "Настройки сохраняются автоматически"
     me_tab: "Я"
     picture_tab: "Аватар"
     delete_account_tab: "Удалить ваш аккаунт"
@@ -1115,7 +1116,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     private_require_sub: "Требуется подписка, чтобы создать тайный клан или вступить в него."
 
   courses:
-    course: "Курс"
     create_new_class: "Создать новый класс"
     unnamed_class: "Безымянный класс"
     edit_settings1: "Изменить настройки класса"
@@ -1127,30 +1127,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     average_levels: "Среднее количество завершённых уровней:"
     total_levels: "Всего уровней завершено:"
     students: "Ученики"
-    students1: "ученики"
     concepts: "Концепты"
     play_time: "Время в игре:"
     completed: "Завершено:"
     enter_emails: "Каждый e-mail начинайте с новой строки или отделяйте запятой" # {change}
     send_invites: "Пригласить учеников" # {change}
-    creating_class: "Создание класса..."
-    purchasing_course: "Покупка курса..."
-    buy_course: "Купить курс"
-    select_all_courses: "Выбрать 'Все курсы' для 50% скидки!"
-    all_courses: "Все курсы"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
-    enter_number_students: "Введите кол-во студентов, нужное для вашего класса."
-    name_class: "Назовите ваш класс"
-    displayed_course_page: "Это будет видно на странице курсе для вас и ваших учеников. Потом вы сможете это изменить."
-    buy: "Купить"
-    purchasing_for: "Вы покупаете лицензию для"
-    creating_for: "Вы создаете класс для"
-    for: "для" # Like in 'for 30 students'
-    receive_code: "После вы получите код, который нужно будет отправить вашим ученикам, чтобы они могли записаться на курс."
-    questions: "Вопросы?"
     enroll: "Записаться"
-    enter: "Войти"
     enroll_paid: "Записать учеников на платные курсы"
     get_enrollments: "Получить больше Лицензий"
     change_language: "Изменить язык программирования курса"
@@ -1201,13 +1185,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    remove_description2: "The activated paid license will not be returned."
     keep_student: "Оставить ученика"
 #    removing_user: "Removing user"
-#    to_join_ask: "To join a class, ask your teacher for an unlock code."
-#    join_this_class: "Join Class"
-    enter_here: "<Ввести здесь код разблокировки>"
-    successfully_joined: "Успешно присоединился"
-    click_to_start: "Нажмите здесь, чтобы начать" # "Click here to start taking"
-    my_courses: "Мои курсы"
-    classroom: "Класс"
     subtitle: "Посмотреть описание и уровни курса" # Flat style redesign
     changelog: "Посмотреть последние изменения уровней курса."
     select_language: "Выбрать язык"
@@ -1279,6 +1256,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1321,6 +1300,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1420,6 +1400,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1485,6 +1467,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
   sharing:
     game: "Игра"
@@ -1705,7 +1689,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     helpful_ambassadors: "Наши полезные Послы:"
 
   ladder:
-    please_login: "Пожалуйста, перед игрой на рейтинг войдите в аккаунт."
     my_matches: "Мои матчи"
     simulate: "Симулирование"
     simulation_explanation: "Симулированием игр вы сможете быстрее получить оценку игры!"
@@ -1823,9 +1806,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
-#    back_to_student_page: "Go back to student things"
-#    back_to_teacher_page: "Go to My Classes"
-#    back_to_game: "Go play some more levels!"
 #    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
@@ -1861,11 +1841,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
 
   loading_error:
     could_not_load: "Ошибка загрузки с сервера"
@@ -2002,6 +1977,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    advanced_web_scripting: "Advanced Web Scripting"
     input_handling: "Обработка ввода"
     while_loops: "Циклы"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "Добавлено"

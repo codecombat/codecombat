@@ -3,8 +3,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     slogan: "Најзанимљивија игра за учење програмирања."
     classroom_edition: "Учионица едиција:"
     learn_to_code: "Научи да кодираш:"
-    teacher: "Наставник"
-    student: "Ученик"
     play_now: "Играј сад"
     im_a_teacher: "Ја сам наставник"
     im_a_student: "Ја сам ученик"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     level: "Ниво" # Like "Level: Dungeons of Kithgard"
     skip: "Прескочи"
     game_menu: "Мени игре"
-    guide: "Водич"
     restart: "Поновно учитавање"
     goals: "Циљеви"
     goal: "Циљ"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     victory_viking_code_school: "Ау, то је баш био тежак ниво који си управо завршио! Ако се већ не бавиш писањем софтвера, требало би. Управо си уврштен у групу оних који по убрзаној процедури могу да оду у Викиншку школу кодирања, где можеш да унапредиш своје знање и способности и постанеш професионални веб програмер за 14 недеља."
     victory_become_a_viking: "Постани Викинг"
     victory_no_progress_for_teachers: "Напредак се не чува за наставнике, али можеш додати ученички профил за себе у свој разред."
-    guide_title: "Водич"
     tome_cast_button_run: "Покрени"
     tome_cast_button_running: "Покреће се"
     tome_cast_button_ran: "Покренуто"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     tome_reload_method: "Поново учитај оригинални код за овај метод" # {change}
     tome_available_spells: "Доступне чини"
     tome_your_skills: "Твоје вештине"
-    tome_current_method: "Тренутни метод"
     hints: "Смернице"
     hints_title: "Смерница {{number}}"
     code_saved: "Код сачуван"
     skip_tutorial: "Прескочи (esc)"
     keyboard_shortcuts: "Пречице на тастатури"
-    loading_ready: "Спремно!"
     loading_start: "Почни ниво"
     problem_alert_title: "Исправи свој код"
     time_current: "Сад:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     premium_pricing_prefix: "Пређи на премијум за само"
     premium_pricing_suffix: "и постани вркунски програмер."
     premium: "Премијум" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ основних нивоа кроз __worldsCount__ светова" # {change}
-    feature2: "__heroesCount__ моћних <strong>нових хероја</strong> са јединственим вештинама!" # {change}
-    feature3: "__bonusLevelsCount__+ бонус нивоа" # {change}
-    feature4: "<strong>{{gems}} бонус драгуља</strong> сваког месеца!" # {change}
-    feature6: "Премијум имејл подршка"
-    feature7: "Приватни <strong>Кланови</strong>"
-    feature8: "<strong>Без реклама!</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Бесплатан"
     month: "месец"
     must_be_logged: "Мораш прво бити пријављен. Направи налог или се пријави у менију изнад."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     unsubscribing: "Одјава претплате"
     subscribe_prepaid: "Кликните на Претплата да искористите припејд код"
     using_prepaid: "Коришћење припејд кода за месечну претплату"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Изабери свог хероја"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     please_explain: "(објасните)"
     middle_school: "Основна школа (виши разреди)"
     college_plus: "Факултет или више"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     anything_else: "Још нешто што треба да знамо?"
     thanks_header: "Захтев је примљен!"
     thanks_sub_header: "Хвала на интересовању за CodeCombat за твоју школу."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
   account_settings:
     title: "Подешавања налога"
     not_logged_in: "Улогуј се или направи налог како би могао да измениш подешавања."
-    autosave: "Измене се чувају аутоматски"
     me_tab: "Ја"
     picture_tab: "Фотографија"
     delete_account_tab: "Избриши свој налог"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     private_require_sub: "Приватни кланови захтевају претплату да би могао да их направиш или да им се придружиш."
 
   courses:
-    course: "Курс"
     create_new_class: "Направи нови разред"
     unnamed_class: "Неименован разред"
     edit_settings1: "Измени подешавања разреда"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     average_levels: "Просечан број завршених нивоа:"
     total_levels: "Укупно завршених нивоа:"
     students: "Ученици"
-    students1: "ученици"
     concepts: "Концепти"
     play_time: "Време играња:"
     completed: "Завршено:"
     enter_emails: "Упиши мејлове ученика, један по линији" # {change}
     send_invites: "Пошаљи позиве" # {change}
-    creating_class: "Креирање разреда..."
-    purchasing_course: "Куповина курса..."
-    buy_course: "Купи курс"
-    select_all_courses: "Изабери 'Сви курсеви' за 50% попуста!"
-    all_courses: "Сви курсеви"
     number_programming_students: "Број ученика који програмирају"
     number_total_students: "Укупан број ученика у школи/округу"
-    enter_number_students: "Унеси број ученика који ти треба за овај разред."
-    name_class: "Именуј свој разред"
-    displayed_course_page: "Ово ће бити приказано на страници курса за тебе и твоје ученике. Може бити измењено касније."
-    buy: "Купи"
-    purchasing_for: "Купујеш лиценцу за"
-    creating_for: "Правиш разред за"
-    for: "за" # Like in 'for 30 students'
-    receive_code: "Касније ћеш добити код за откључавање да поделиш својим ученицима, којим ће они моћи да се пријаве у разред."
-    questions: "Питања?"
     enroll: "Упиши се"
-    enter: "Унеси"
     enroll_paid: "Упиши студенте у плаћене курсеве"
     get_enrollments: "Добиј још уписа"
     change_language: "Промени језик курса"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     remove_description2: "Активирана плаћена лиценца неће бити враћена."
     keep_student: "Задржи ученика"
     removing_user: "Уклањање корисника"
-    to_join_ask: "Да се прикључиш разреду, питај наставника за код за откључавање."
-    join_this_class: "Придружи се разреду"
-    enter_here: "<овде унеси код за откључавање>"
-    successfully_joined: "Успешно си се прикључио"
-    click_to_start: "Кликни овде да почнеш да причаш"
-    my_courses: "Моји курсеви"
-    classroom: "Учионица"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
 #    changelog: "View latest changes to course levels."
     select_language: "Изабери језик"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
 #  sharing:
 #    game: "Game"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
 #  ladder:
-#    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
-#    back_to_student_page: "Go back to student things"
-#    back_to_teacher_page: "Go to My Classes"
-#    back_to_game: "Go play some more levels!"
 #    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-  coppa_deny:
-    text1: "Не можеш да дочекаш да научиш програмирање?"
-    text2: "Питај своје родитеље да направе налог за тебе!" # {change}
-    close: "Затвори прозор"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     advanced_web_scripting: "Напредни Веб скриптинг"
     input_handling: "Руковање инпутом"
     while_loops: "While петље"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "Додато"
