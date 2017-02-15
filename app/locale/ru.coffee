@@ -551,7 +551,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_mulan: "Верь, что сможешь, тогда получится. - Мулан"
 
 #  play_game_dev_level:
-    created_by: "Создано {{имя}}"
+    created_by: "Создано {{name}}"
     restart: "Переиграть уровень"
     play: "Начать уровень"
 #    play_more_codecombat: "Play More CodeCombat"
