@@ -279,12 +279,12 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    parent_email_sent: "We’ve sent an email with further instructions on how to create an account. Ask your parent to check their inbox."
 #    account_created: "Account Created!"
 #    confirm_student_blurb: "Write down your information so that you don't forget it. Your teacher can also help you reset your password at any time."
-#    confirm_individual_blurb: "Write down your login information in case you need it later. Verify your email so you can recover your account if you ever forget your password - check your inbox!"
-#    write_this_down: "Write this down:"
-#    start_playing: "Start Playing!"
-#    sso_connected: "Successfully connected with:"
-#    select_your_starting_hero: "Select Your Starting Hero:"
-#    you_can_always_change_your_hero_later: "You can always change your hero later."
+    confirm_individual_blurb: "Napíš si na papier svoje prihlasovacie údaje. Pozri si svoju emailovú schránku. Máš tam od nás email, ktorým overíš svoju adresu, aby si si mohol neskôr zmeniť heslo, ak ho zabudneš!"
+    write_this_down: "Napíš si na papier:"
+    start_playing: "Začni hrať!"
+    sso_connected: "Úspešne pripojený:"
+    select_your_starting_hero: "Vyber hrdinu, s ktorým začneš hru:"
+    you_can_always_change_your_hero_later: "Svojho hrdinu môžeš neskôr zmeniť."
 
   recover:
     recover_account_title: "Obnov účet"
@@ -383,9 +383,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     last_name: "Priezvisko"
     last_initial: "Iniciálka priezviska"
     username: "Uživateľské meno"
-#    contact_us: "Contact Us"
-#    close_window: "Close Window"
-#    learn_more: "Learn More"
+    contact_us: "Spoj sa s anmi"
+    close_window: "Zatvor okno"
+    learn_more: "Dozveď sa viac"
 
   units:
     second: "sekunda"
