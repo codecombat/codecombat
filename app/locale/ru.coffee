@@ -878,7 +878,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     get_started_today: "Начать сейчас!"   #    "Get started today!"
     want_all_the_courses: "Хотите все курсы? Посмотрите информацию о нашей Полной Лицензии."    #    "Want all the courses? Request information on our Full Licenses."
     compare_license_types: "Сравнить типы лицензий:"    #    "Compare License Types:"
-    cs: "Компьютерная инженерия"
+    cs: "Информатика"
     wd: "Веб-разработка"
     wd1: "Веб-разработка 1"
     gd: "Разработка игр"
