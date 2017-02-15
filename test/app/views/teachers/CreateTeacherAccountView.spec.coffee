@@ -38,6 +38,7 @@ describe 'CreateTeacherAccountView', ->
     state: 'AA'
     country: 'asdf'
     numStudents: '1-10'
+    numStudentsTotal: '1-500'
     educationLevel: ['Middle']
     email: 'some@email.com'
     firstName: 'Mr'
