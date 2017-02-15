@@ -1256,6 +1256,8 @@
     current_hero: "Current Hero:"
     change_hero: "Change Hero"
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+    course_membership_required_to_play: "You'll need to join a course to play this level."
+    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
   teacher:
     assigning_course: "Assigning course"

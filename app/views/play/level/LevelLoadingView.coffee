@@ -1,5 +1,5 @@
 CocoView = require 'views/core/CocoView'
-template = require 'templates/play/level/level_loading'
+template = require 'templates/play/level/level-loading-view'
 ace = require 'ace'
 utils = require 'core/utils'
 SubscribeModal = require 'views/core/SubscribeModal'
@@ -16,8 +16,9 @@ module.exports = class LevelLoadingView extends CocoView
   subscriptions:
     'level:loaded': 'onLevelLoaded'  # If Level loads after level loading view.
     'level:session-loaded': 'onSessionLoaded'
-    'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription to start playing.
-    'level:course-membership-required': 'onCourseMembershipRequired'  # If they'd need a subscription to start playing.
+    'level:subscription-required': 'onSubscriptionRequired'  # If they'd need a subscription.
+    'level:course-membership-required': 'onCourseMembershipRequired'  # If they need to be added to a course.
+    'level:license-required': 'onLicenseRequired' # If they need a license.
     'subscribe-modal:subscribed': 'onSubscribed'
 
   shortcuts:
@@ -211,6 +212,10 @@ module.exports = class LevelLoadingView extends CocoView
   onCourseMembershipRequired: (e) ->
     @$el.find('.level-loading-goals, .tip, .load-progress').hide()
     @$el.find('.course-membership-required').show()
+
+  onLicenseRequired: (e) ->
+    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.license-required').show()
 
   onLoadError: (resource) ->
     @$el.find('.level-loading-goals, .tip, .load-progress').hide()
