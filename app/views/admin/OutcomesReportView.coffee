@@ -53,8 +53,6 @@ OutcomesReportComponent = Vue.extend
     endDate: moment(new Date()).format('YYYY-MM-DD')
     insightsMarkdown: ""
   computed:
-    accountManagerFullName: ->
-      "#{@accountManager?.firstName} #{@accountManager?.lastName}"
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
     indexedSessions: ->
@@ -151,6 +149,8 @@ OutcomesReportComponent = Vue.extend
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
         console.log course.campaignID, course.newConcepts
+    accountManager: ->
+      @accountManagerFullName = "#{@accountManager?.firstName} #{@accountManager?.lastName}"
     
   methods:
     submitEmail: (e) ->
