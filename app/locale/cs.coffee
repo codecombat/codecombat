@@ -3,8 +3,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    slogan: "The most engaging game for learning programming."
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
 #    play_now: "Play Now"
 #    im_a_teacher: "I'm a Teacher"
 #    im_a_student: "I'm a Student"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     level: "Úroveň" # Like "Level: Dungeons of Kithgard"
     skip: "Přeskočit"
     game_menu: "Herní menu"
-    guide: "Průvodce"
     restart: "Restartovat"
     goals: "Cíle"
     goal: "Cíl"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    victory_viking_code_school: "Holy smokes, that was a hard level you just beat! If you aren't already a software developer, you should be. You just got fast-tracked for acceptance with Viking Code School, where you can take your skills to the next level and become a professional web developer in 14 weeks."
 #    victory_become_a_viking: "Become a Viking"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
-    guide_title: "Průvodce"
     tome_cast_button_run: "Spustit"
     tome_cast_button_running: "Spuštěné"
     tome_cast_button_ran: "Spuštěno"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tome_reload_method: "Znovu načíst původní kód pro tuto metodu" # {change}
     tome_available_spells: "Dostupná kouzla"
     tome_your_skills: "Vaše dovednosti"
-    tome_current_method: "Aktuální metoda"
     hints: "Nápověda"
     hints_title: "Nápověda č. {{number}}"
     code_saved: "Kód uložen"
     skip_tutorial: "Přeskočit (esc)"
     keyboard_shortcuts: "Klávesové zkratky"
-    loading_ready: "Připraven!"
     loading_start: "Začít úroveň"
     problem_alert_title: "Oprav si kód"
     time_current: "Nyní:"
@@ -537,7 +531,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     tip_compiler_ignores_comments: "Někdy mám pocit, že kompilátor ignoruje moje komentáře."
     tip_understand_recursion: "Jediný způsob, jak pochopit rekurzi, je pochopit rekurzi."
 #    tip_life_and_polymorphism: "Open Source is like a totally polymorphic heterogeneous structure: All types are welcome."
-#    tip_mistakes_proof_of_trying: "Chyby v tvém kódu jsou jen důkazem, že se snažíš."
+#    tip_mistakes_proof_of_trying: "Mistakes in your code are just proof that you are trying."
 #    tip_adding_orgres: "Rounding up ogres."
 #    tip_sharpening_swords: "Sharpening the swords."
 #    tip_ratatouille: "You must not let anyone define your limits because of where you come from. Your only limit is your soul. - Gusteau, Ratatouille"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    premium_pricing_prefix: "Get Premium for just"
 #    premium_pricing_suffix: "and become a master coder."
 #    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ základních úrovní napříč __worldsCount__ světy" # {change}
-    feature2: "__heroesCount__ silných <strong>nových hrdinů</strong> s jedinečnými dovednostmi!" # {change}
-    feature3: "__bonusLevelsCount__+ bonusových úrovní" # {change}
-    feature4: "<strong>{{gems}} bonusových drahokamů</strong> každý měsíc!" # {change}
-    feature6: "Premiová e-mailová podpora"
-    feature7: "Soukromé <strong>Klany</strong>"
-    feature8: "<strong>Bez reklam!</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Zdarma"
     month: "měsíc"
     must_be_logged: "Musíte se nejdříve přihlásit. Prosím vytvořte si účet nebo se přihlaste z menu nahoře."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Vyberte vašeho hrdinu"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    please_explain: "(please explain)"
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    anything_else: "Anything else we should know?"
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
   account_settings:
     title: "Nastavení účtu"
     not_logged_in: "Přihlaste se, nebo vytvořte si účet pro uložení nastavení."
-    autosave: "Automatické ukládání změn"
     me_tab: "O mne"
     picture_tab: "Obrázek"
     delete_account_tab: "Smazat váš účet"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    private_require_sub: "Private clans require a subscription to create or join."
 
   courses:
-    course: "Kurz"
     create_new_class: "Vytvořit novou třídu"
     unnamed_class: "Bezejmenná třída"
     edit_settings1: "Upravit nastavení třídy"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     average_levels: "Průměrný počet splněných úrovní:"
     total_levels: "Celkový počet splněných úrovní:"
     students: "Studenti"
-    students1: "studentů"
     concepts: "Koncepty"
     play_time: "Doba hraní:"
     completed: "Splněno:"
     enter_emails: "Oddělte emailové adresy čárkou nebo novým řádkem"
     send_invites: "Pozvat studenty"
-#    creating_class: "Creating class..."
-#    purchasing_course: "Purchasing course..."
-    buy_course: "Koupit kurz"
-#    select_all_courses: "Select 'All Courses' for a 50% discount!"
-    all_courses: "Všechny kurzy"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
-    enter_number_students: "Zadejte počet studentů potřebných pro tuto třídu."
-    name_class: "Pojmenujte svou třídu"
-#    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
-    buy: "Koupit"
-    purchasing_for: "Kupujete licenci pro"
-    creating_for: "Vytváříte třídu pro"
-    for: "pro" # Like in 'for 30 students'
-#    receive_code: "Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class."
-    questions: "Dotazy?"
 #    enroll: "Enroll"
-#    enter: "Enter"
 #    enroll_paid: "Enroll Students in Paid Courses"
 #    get_enrollments: "Get More Licenses"
 #    change_language: "Change Course Language"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    remove_description2: "The activated paid license will not be returned."
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
-#    to_join_ask: "To join a class, ask your teacher for an unlock code."
-#    join_this_class: "Join Class"
-#    enter_here: "<enter unlock code here>"
-#    successfully_joined: "Successfully joined"
-#    click_to_start: "Click here to start taking"
-#    my_courses: "My Courses"
-#    classroom: "Classroom"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
 #  sharing:
 #    game: "Game"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     helpful_ambassadors: "Naši nápomocní Velvyslanci:"
 
   ladder:
-    please_login: "Před hraním hry o umístění se nejprve přihlašte prosím."
     my_matches: "Mé souboje"
     simulate: "Simulovat"
     simulation_explanation: "Simulováním hry odehrajete hru rychleji!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
-#    back_to_student_page: "Go back to student things"
-#    back_to_teacher_page: "Go to My Classes"
-#    back_to_game: "Go play some more levels!"
 #    verify_error: "Something went wrong when verifying your email :("
 
 #  account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
 
   loading_error:
     could_not_load: "Chyba při načítání ze serveru"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    advanced_web_scripting: "Advanced Web Scripting"
     input_handling: "Zpracování vstupu"
     while_loops: "Cykly"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "Přidáno"

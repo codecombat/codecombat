@@ -3,8 +3,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
     classroom_edition: "Klasversie:"
     learn_to_code: "Leer programmeren:"
-    teacher: "Leraar"
-    student: "Leerling"
     play_now: "Speel"
     im_a_teacher: "Ik ben een leraar"
     im_a_student: "Ik ben een leerling"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Overslaan"
     game_menu: "Spelmenu"
-    guide: "Handleiding"
     restart: "Herstarten"
     goals: "Doelen"
     goal: "Doel"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     victory_viking_code_school: "Wow, jij hebt net een moeilijk level gehaald! Als je nog geen programmeur was, zou je er een moeten worden! Je hebt net versneld toegang gekregen voor de Viking programmeerSchool, waar je je vaardigheden kan opkrikken en binnen 14 weken een professionele webontwikkelaar kunt worden."
     victory_become_a_viking: "Word een Viking"
     victory_no_progress_for_teachers: "Voortgang voor leraren wordt niet bewaard. Maar u kunt een leerling-account voor uzelf aanmaken in uw eigen klas."
-    guide_title: "Handleiding"
     tome_cast_button_run: "Uitvoeren"
     tome_cast_button_running: "Afspelen"
     tome_cast_button_ran: "Uitgevoerd"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tome_reload_method: "Oorspronkelijke code voor deze methode herladen" # {change}
     tome_available_spells: "Beschikbare spreuken"
     tome_your_skills: "Jouw Vaardigheden"
-    tome_current_method: "Huidige Methode"
     hints: "Hints"
     hints_title: "Hint {{number}}"
     code_saved: "Code Opgeslagen"
     skip_tutorial: "Overslaan (esc)"
     keyboard_shortcuts: "Sneltoetsen"
-    loading_ready: "Klaar!"
     loading_start: "Start Level"
     problem_alert_title: "Verbeter je Code"
     time_current: "Nu:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     premium_pricing_prefix: "Neem Premium voor maar"
     premium_pricing_suffix: "en word een meester programmeur."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "meer dan __levelsCount__ basislevels over __worldsCount__ werelden" # {change}
-    feature2: "__heroesCount__ sterke <strong>nieuwe helden</strong> met unieke vaardigheden!" # {change}
-    feature3: "__bonusLevelsCount__ bonuslevels" # {change}
-    feature4: "<strong>{{gems}} bonus edelstenen</strong> elke maand!" # {change}
-    feature6: "Hoogwaardige e-mail ondersteuning"
-    feature7: "Besloten <strong>Clans</strong>"
-    feature8: "<strong>Geen advertenties!</strong>"
-    feature_game_dev: "Maak spellen voor je vrienden om te spelen in onze <strong>Game Dev Werelden</strong>"
-    feature_web_dev: "Bouw websites en apps met HTML, CSS, en jQuery in onze <strong>Web Dev Werelden</strong>"
     free: "Gratis"
     month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unsubscribing: "Uitschrijven..." # {change}
     subscribe_prepaid: "Klik op inschrijven om een prepaidcode te gebruiken."
     using_prepaid: "Prepaidcode gebruiken voor maandelijkse inschrijving."
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Kies je held"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     please_explain: "(licht toe a.u.b.)"
     middle_school: "Middelbare school (onderbouw)"
     college_plus: "Hoger Onderwijs"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     anything_else: "Is er verder nog iets dat we moeten weten?"
     thanks_header: "Bedankt voor je demo-aanvraag!"
     thanks_sub_header: "Bedankt voor je interesse in CodeCombat."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   account_settings:
     title: "Accountinstellingen"
     not_logged_in: "Log in of maak een account aan om je instellingen aan te passen."
-    autosave: "Aanpassingen Automatisch Opgeslagen"
     me_tab: "Ik"
     picture_tab: "Afbeelding"
     delete_account_tab: "Verwijder je Account"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     private_require_sub: "Om aan besloten clans deel te kunnen nemen is een abonnement vereist."
 
   courses:
-    course: "Cursus"
     create_new_class: "Maak Nieuwe Klas aan"
     unnamed_class: "Naamloze klas"
     edit_settings1: "Bewerk Klas Instellingen"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     average_levels: "Gemiddeld aantal levels voltooid:"
     total_levels: "Totaal aantal levels voltooid:"
     students: "leerlingen"
-    students1: "leerlingen"
     concepts: "Concepten"
     play_time: "speeltijd:"
     completed: "voltooid:"
     enter_emails: "Voer e-mailadressen van leerlingen in om hen uit te nodigen, één per regel" # {change}
     send_invites: "Verstuur uitnodigingen" # {change}
-    creating_class: "Aanmaken klas..."
-    purchasing_course: "Aanschaffen cursus..."
-    buy_course: "Cursus kopen"
-    select_all_courses: "Selecteer 'Alle cursussen' voor 50% korting!"
-    all_courses: "Alle cursussen"
     number_programming_students: "Aantal doelgroepleerlingen"
     number_total_students: "Totaal aan leerlingen op school"
-    enter_number_students: "Voer het aantal leerlingen in dat je voor de klas nodig hebt."
-    name_class: "Geef je klas een naam"
-    displayed_course_page: "Dit wordt getoond op de cursuspagina aan u en uw leerlingen. Het kan later worden veranderd."
-    buy: "Kopen"
-    purchasing_for: "U koopt een licentie voor"
-    creating_for: "U maakt een klas voor"
-    for: "voor" # Like in 'for 30 students'
-    receive_code: "Naderhand ontvangt u een ontgrendelcode vooor uw leerlingen, waarmee zij zich kunnen inschrijven in uw klas."
-    questions: "Vragen?"
     enroll: "Inschrijven"
-    enter: "Treed toe"
     enroll_paid: "Schrijf leerlingen in voor bepaalde cursussen"
     get_enrollments: "krijg meer inschrijvingen"
     change_language: "Verander cursustaal"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     remove_description2: "De geactiveerde betaalde licenties worden niet teruggegeven."
     keep_student: "bewaar leerling"
     removing_user: "Verwijder gebruiker"
-    to_join_ask: "Om met de klas mee te doen, moet je jouw juf/meester om de code vragen."
-    join_this_class: "Doe mee met de klas"
-    enter_here: "<Voer klassencode in>"
-    successfully_joined: "Je doet nu mee"
-    click_to_start: "Klik hier om te beginnen met"
-    my_courses: "Mijn cursussen"
-    classroom: "klaslokaal"
     subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign {change}
     changelog: "Bekijk recente aanpassingen aan cursuslevels."
     select_language: "Selecteer taal"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     current_hero: "Huidige Held:"
     change_hero: "Verander Held"
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
   teacher:
     assigning_course: "Cursus toewijzen"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     latest_complete: "Laatste voltooide level"
     enroll_student: "Schrijf leerling in"
     apply_license: "Pas licentie toe"
+#    revoke_license: "Revoke License"
     course_progress: "Cursus voortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     progress_journal_desc: "Moedig leerlingen aan hun voortgang bij te houden in hun logboek."
     cs1_curriculum: "Introductie tot programmeren - Curriculum Gids"
     cs1_curriculum_desc: "Cursus 1: leertraject, lesplannen, activiteiten en meer."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
     cs2_curriculum: "Informatica 2 - Curriculum Gids"
     cs2_curriculum_desc: "Cursus 2: leertraject, lesplannen, activiteiten en meer."
     cs3_curriculum: "Informatica 3 - Curriculum Gids"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     hoc_additional_desc1: "Voor meer Codecombat informatie en activiteiten, ga naar"
     hoc_additional_desc2: "Vragen"
     hoc_additional_contact: "Neem contact op"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
   sharing:
     game: "Spel"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     helpful_ambassadors: "Onze behulpzame Ambassadeurs:"
 
   ladder:
-    please_login: "Log alstublieft eerst in voordat je een ladderspel speelt."
     my_matches: "Mijn Wedstrijden"
     simulate: "Simuleer"
     simulation_explanation: "Door spellen te simuleren kan je zelf sneller beoordeeld worden!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     email_sent: "Email verstuurd! Check je inbox."
     verifying_email: "Email addres bevestigen..."
     successfully_verified: "Je hebt succesvol je email adres bevestigd!"
-    back_to_student_page: "Ga terug naar Leerling dingen"
-    back_to_teacher_page: "Ga naar Mijn Klassen"
-    back_to_game: "Speel nog wat levels!"
     verify_error: "Er is iets mis gegaan bij het bevestigen van je email :("
 
   account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     you_can1: "Je kunt"
     you_can2: "een prepaidcode kopen"
     you_can3: "die je voor jke eigen account kunt gebruiken of aan anderen kunt geven."
-
-  coppa_deny:
-    text1: "Kan je niet wachten om te leren programmeren?"
-    text2: "Vraag je ouders een account voor je te maken!" # {change}
-    close: "Sluit Venster"
 
   loading_error:
     could_not_load: "Fout bij het laden van de server"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     advanced_web_scripting: "Geavanceerde Web Scripts"
     input_handling: "Input Behandeling"
     while_loops: "While Loops"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "Toegevoegd"

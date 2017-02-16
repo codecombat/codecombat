@@ -25,16 +25,20 @@
           .progress-bar.progress-bar-success
         .rim
 
-    .could-not-load
-      span(data-i18n="loading_error.could_not_load") Error loading from server
+  .could-not-load
+    span(data-i18n="loading_error.could_not_load")
 
-    .subscription-required
-      span(data-i18n="subscribe.subscription_required_to_play") You'll need a subscription to play this level.
-      button.start-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.subscribe") Subscribe
+  .subscription-required
+    span(data-i18n="subscribe.subscription_required_to_play")
+    button.start-subscription-button.btn.btn-lg.btn-warning(data-i18n="subscribe.subscribe_title")
 
-    .course-membership-required
-      span(data-i18n="courses.course_membership_required_to_play") You'll need to join a course to play this level.
-      a.btn.btn-lg.btn-warning(data-i18n="courses.go_to_courses", href="/students") Go To Courses
+  .course-membership-required
+    span(data-i18n="courses.course_membership_required_to_play")
+    a.btn.btn-lg.btn-warning(data-i18n="courses.back_courses", href="/students")
+    
+  .license-required
+    span(data-i18n="courses.license_required_to_play")
+    a.btn.btn-lg.btn-warning(data-i18n="courses.back_courses", href="/students")
 
   #tip-wrapper.picoctf-hide
     strong.tip(data-i18n='play_level.tip_toggle_play') Toggle play/paused with Ctrl+P.

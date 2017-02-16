@@ -608,7 +608,7 @@
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!" # {change}
+    comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!"
     premium_pricing_prefix: "Get Premium for just"
     premium_pricing_suffix: "and become a master coder."
     premium: "Premium"  # Make sure the following feature translations don't go onto two lines
@@ -1256,6 +1256,8 @@
     current_hero: "Current Hero:"
     change_hero: "Change Hero"
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+    course_membership_required_to_play: "You'll need to join a course to play this level."
+    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
   teacher:
     assigning_course: "Assigning course"
@@ -1298,6 +1300,7 @@
     latest_complete: "Latest completed level"
     enroll_student: "Enroll student"
     apply_license: "Apply License"
+    revoke_license: "Revoke License"
     course_progress: "Course Progress"
     not_applicable: "N/A"
     edit: "edit"
@@ -1464,6 +1467,8 @@
     hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
     hoc_additional_desc2: "Questions"
     hoc_additional_contact: "Get in touch"
+    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+    revoking: "Revoking..."
 
   sharing:
     game: "Game"

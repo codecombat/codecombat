@@ -70,7 +70,49 @@ module.exports =
     redeemers.push({ date: new Date(), userID: user._id })
     prepaid.set('redeemers', redeemers)
     res.status(201).send(prepaid.toObject({req: req}))
+    
+    
+  revoke: wrap (req, res) ->
+    if not req.user?.isTeacher()
+      throw new errors.Forbidden('Must be a teacher to use enrollments')
 
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+    if not prepaid
+      throw new errors.NotFound('Prepaid not found.')
+
+    unless prepaid.get('creator').equals(req.user._id)
+      throw new errors.Forbidden('You may not revoke enrollments you do not own.')
+    unless prepaid.get('type') is 'course'
+      throw new errors.Forbidden('This prepaid is not of type "course".')
+    if prepaid.get('endDate') and new Date(prepaid.get('endDate')) < new Date()
+      throw new errors.Forbidden('This prepaid is expired.')
+
+    user = yield User.findById(req.body?.userID)
+    if not user
+      throw new errors.NotFound('User not found.')
+
+    if not user.isEnrolled()
+      throw new errors.UnprocessableEntity('User to revoke must be enrolled first.')
+    if not _.any(prepaid.get('redeemers'), (obj) -> obj.userID.equals(user._id))
+      throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments')
+
+    query =
+      _id: prepaid._id
+      'redeemers.userID': { $eq: user._id }
+    update = { $pull: { redeemers : { userID: user._id } }}
+    result = yield Prepaid.update(query, update)
+    if result.nModified is 0
+      @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
+      throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments (race)')
+
+    user.set('coursePrepaid', undefined)
+    yield user.save()
+
+    # return prepaid with new redeemer added locally
+    prepaid.set('redeemers', _.filter(prepaid.get('redeemers') or [], (obj) -> not obj.userID.equals(user._id)))
+    res.status(200).send(prepaid.toObject({req: req}))
+
+    
   fetchByCreator: wrap (req, res, next) ->
     creator = req.query.creator
     return next() if not creator

@@ -3,8 +3,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    slogan: "The most engaging game for learning programming."
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
 #    play_now: "Play Now"
 #    im_a_teacher: "I'm a Teacher"
 #    im_a_student: "I'm a Student"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     level: "Επίπεδο" # Like "Level: Dungeons of Kithgard"
     skip: "Παράλειψη"
     game_menu: "Μενού Παιχνιδιού"
-    guide: "Οδηγός"
     restart: "Επανεκκίνηση"
     goals: "Στόχοι"
     goal: "Στόχος"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     victory_viking_code_school: "Μπράβο σου, μόλις πέρασες ένα δύσκολο επίπεδο! Αν δεν είσαι ήδη προγραμματιστής, πρέπει να γίνεις. Είσαι σε καλό δρόμο για να γίνεις δεκτός στο Σχολείο Προγρααματισμού των Βίκινγκ, όπου μπορείς να πας τις ικανότητες στο επόμενο επίπεδο και να γίνεις ένας επαγγελματίας προγραμματιστής ιστού σε 14 weeks."
     victory_become_a_viking: "Γίνε Βίκιγκ"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
-    guide_title: "Οδηγός"
     tome_cast_button_run: "Εκτελεση"
     tome_cast_button_running: "Εκτελείται"
     tome_cast_button_ran: "Εκτελέστηκε"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     tome_reload_method: "Φόρτωσε ξανά τον αρχικό κώδικα για τη μέθοδο αυτή" # {change}
     tome_available_spells: "Διαθέσιμα ξόρκια"
     tome_your_skills: "Οι Ικανότητες σου"
-    tome_current_method: "Τρέχουσα μέθοδος"
 #    hints: "Hints"
 #    hints_title: "Hint {{number}}"
     code_saved: "Ο κώδικας αποθηκεύτηκε"
     skip_tutorial: "Παράκαμψη (esc)"
     keyboard_shortcuts: "Συντομεύσεις"
-    loading_ready: "Έτοιμος!"
     loading_start: "Ξεκίνα το Επίπεδο"
     problem_alert_title: "Διόρθωσε τον Κώδικά σου"
     time_current: "Τώρα:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    premium_pricing_prefix: "Get Premium for just"
 #    premium_pricing_suffix: "and become a master coder."
 #    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ βασικά επίπεδα που εκτείνονται σε __worldsCount__ κόσμους" # {change}
-    feature2: "__heroesCount__ παντοδύναμοι <strong>νέοι ήρωες</strong> με μοναδικές ικανότητες!" # {change}
-    feature3: "__bonusLevelsCount__+ επίπεδα δώρο" # {change}
-    feature4: "<strong>{{gems}} πετράδια δώρο</strong> κάθε μήνα!" # {change}
-    feature6: "Προνομιακή υποστήριξη μέσω ηλεκτρονικού ταχυδρομείου"
-    feature7: "Ιδιωτικές <strong>Φατρίες</strong>"
-#    feature8: "<strong>No ads!</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Δωρεάν"
     month: "μήνας"
     must_be_logged: "Πρέπει να συνδεθείς πρώτα. Παρακαλώ, δημιούργησε ένα λογαριασμό ή συνδέσου από το παραπάνω μενού."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     unsubscribing: "Κατάργηση συνδρομής"
     subscribe_prepaid: "Πατήστε Συνδρομή για να χρησιμποιήσετε τον προπληρωμένο κωδικό"
     using_prepaid: "Χρήση προπληρωμένου κωδικού για μηνιαία συνδρομή"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Διάλεξε τον Ήρωά σου"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    please_explain: "(please explain)"
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    anything_else: "Anything else we should know?"
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   account_settings:
     title: "Ρυθμίσεις λογαριασμού"
     not_logged_in: "Συνδέση ή Δημιούργησε έναν λογαριιασμό για να αλλάξεις τις ρυθμίσεις."
-    autosave: "Οι ρυθμίσεις αποθηκεύονται αυτόματα"
     me_tab: "Εγώ"
     picture_tab: "Φωτογραφία"
     delete_account_tab: "Διαγράψτε το λογαριασμό σας"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     private_require_sub: "Οι ιδιωτικές φατρίες απιατούν να είσαι συνδρομητής για τις δημιουργήσεις ή να συνδεθείς με αυτές."
 
   courses:
-    course: "Μάθημα"
     create_new_class: "Δημιουργια Νεας Ταξης"
     unnamed_class: "Τάξη Χωρίς Όνομα"
     edit_settings1: "Επεξεργασία Ρυθμίσεων Τάξης"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     average_levels: "Μέσος όρος ολοκληρωμένων επιπέδων:"
     total_levels: "Συνολικά ολοκληρωμένα επίπεδα:"
     students: "Μαθητές"
-    students1: "μαθητές"
     concepts: "Θέματα"
     play_time: "Χρόνος παιχνιδιού:"
     completed: "Ολοκληρώθηκαν:"
     enter_emails: "Δώσε τις διευθύνσεις ηλεκτρονικού ταχυδρομείου των μαθητών για να τους προσκαλέσουμε, μια ανά γραμμή" # {change}
     send_invites: "Αποστολή Προσκλήσεων" # {change}
-    creating_class: "Δημιουργία τάξης..."
-    purchasing_course: "Αγορά μαθήματος..."
-    buy_course: "Αγορά Μαθήματος"
-    select_all_courses: "Διάλεξε  'Όλα τα μαθήματα' για έκπτωση 50%!"
-    all_courses: "Όλα τα μαθήματα"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
-    enter_number_students: "Δώσε τον αριθμό μαθητών που χρειάζεσαι γι αυτήν την τάξη."
-    name_class: "Όνομα Τάξης"
-    displayed_course_page: "Θα εμφανίζεται στη σελίδα του μαθήματοςγι αεσένα και του μαθητές σου. Μπορεί να αλλαχθεί αργότερα."
-    buy: "Αγορά"
-    purchasing_for: "Αγοράζεις μια άδεια για"
-    creating_for: "Δημιουργείς μια τάξη για"
-    for: "για" # Like in 'for 30 students'
-    receive_code: "Θα λάβεις μετά έναν κωδικό ξεκλειδώματος για να τον δώσεις στους μαθητές σου για να εγγραφούν στο μάθημα."
-    questions: "Ερωτήσεις;"
     enroll: "Εγγραφή"
-    enter: "Είσοδος"
     enroll_paid: "Γράψε  μαθητές σε μαθήματα με πληρωμή"
     get_enrollments: "Ζήτα και αλλές εγγραφές"
     change_language: "Αλλαγή Γλώσσας Μαθήματος"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     remove_description2: "Η ενεργοποιημένη πληρωμένη συνδρομή δεν πρόκειται να επιστραφεί."
     keep_student: "Keep Student"
     removing_user: "Διαγραφή χρήστη"
-    to_join_ask: "Για να συνδεθείς με μία τάξη, ζήτα από το δάσκαλο σου τον κώδικο τάξης."
-    join_this_class: "Σύνδεση με Τάξη"
-    enter_here: "<Πληκτρόλογησε κωδικό τάξης εδώ>"
-    successfully_joined: "Επιτυχώς Συνδέθηκες"
-    click_to_start: "Κλικ εδώ για να ξεκινήσεις"
-    my_courses: "Μαθήματα μου"
-    classroom: "Τάξη"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
 #  sharing:
 #    game: "Game"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     helpful_ambassadors: "Οι πάντα πρόθυμοι να βοηθήσουν Πρεσβευτές μας:"
 
   ladder:
-    please_login: "Παρακαλούμε συνδεθείτε πρώτα προτού παίξετε ένα παιχνίδι Ladder."
     my_matches: "Οι αγώνες μου"
     simulate: "Προσομοίωση"
     simulation_explanation: "Προσομοινοντας παιχνίδια τα παιχνίδια σου βαθμολογούνται πιο γρήγορα!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
-#    back_to_student_page: "Go back to student things"
-#    back_to_teacher_page: "Go to My Classes"
-#    back_to_game: "Go play some more levels!"
 #    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     you_can1: "Μπορείτε"
     you_can2: "να αγοράσετε ένα προπληρωμένο κωδικό"
     you_can3: "που θα χρησιμοποιήσετε στο δικό σας λογαριασμό ή θα το δώσετε σε άλλους."
-
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
 
   loading_error:
     could_not_load: "Σφάλμα φόρτωσης από τον εξυπηρετητή"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 #    advanced_web_scripting: "Advanced Web Scripting"
     input_handling: "Χειρισμού Εισόδου"
     while_loops: "Επαναλήψεις"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "Προστέθηκε"

@@ -492,3 +492,6 @@ mixin enrollmentStatusTab
                 span(data-i18n="teacher.full_license")
               else if student.prepaidType() === 'starter_license'
                 span(data-i18n="teacher.starter_license")
+          td.revoke-col
+            if status === 'enrolled' && student.prepaidType() === 'course'
+              button.revoke-student-button.btn.btn-burgandy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
