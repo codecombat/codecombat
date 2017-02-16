@@ -41,6 +41,26 @@ module.exports = class JoshEmitter extends SPE.Emitter
         p.idx = x
         @levelParticles[level].push p
 
+  moveParticleTarget: (x, from, to) ->
+    x.level = to
+    unless @levelInfo[to].position?
+      console.log "Couldnt locaate", to
+    x.position = @levelInfo[to].position
+    
+    if from
+      oldidx = @levelParticles[from].indexOf(x)
+      @levelParticles[from].splice(oldidx, 1, null)
+
+    @levelParticles[to] ?= []
+    targetidx = @levelParticles[to].indexOf null
+
+    if targetidx is -1
+      x.idx = @levelParticles[to].length
+    else
+      x.idx = targetidx
+
+    @levelParticles[to][x.idx] = x
+
   updateEdgeInfo: (data) ->
     console.log "Got Edge Info", data
     updates = []
@@ -49,33 +69,19 @@ module.exports = class JoshEmitter extends SPE.Emitter
       toInfo = @levelInfo[d.to]
       continue unless fromInfo? and toInfo?
       toUpdate = d.count
+      list = _.shuffle @levelParticles[d.from]
       for j in [0..toUpdate]
-        for x in @behaviors
+        for x in list
           continue unless x? and x.level is d.from and not x.banned
           x.banned = true
           do (x, d, toInfo, j, updates) =>
             updates.push =>
-              x.level = d.to
-              x.position = toInfo.position
-              
-              oldidx = @levelParticles[d.from].indexOf(x)
-              @levelParticles[d.from].splice(oldidx, 1, null)
-              @levelParticles[d.to] ?= []
-              targetidx = @levelParticles[d.to].indexOf null
-
-              if targetidx is -1
-                x.idx = @levelParticles[d.to].length
-              else
-                x.idx = targetidx
-
-              @levelParticles[d.to][x.idx] = x
-
+              @moveParticleTarget x, d.from, d.to
               if d.from is 'dungeons-of-kithgard'
-                p2 = @getParticle()
-                p2.position = @levelInfo['dungeons-of-kithgard'].position
-                p2.level = 'dungeons-of-kithgard'
-                @levelParticles['dungeons-of-kithgard'].push p2
-                p2.idx = @levelParticles['dungeons-of-kithgard'].length
+                setTimeout =>
+                  p2 = @getParticle()
+                  @moveParticleTarget p2, null, 'dungeons-of-kithgard'
+                , 1000
 
           break
 
@@ -118,7 +124,7 @@ module.exports = class JoshEmitter extends SPE.Emitter
       
       if isAlive
         behavior.banned = false
-        tot = 10 + @counts[behavior.level] - 1
+        tot = 10 + @levelParticles[behavior.level].length - 1
         radius = if tot > 30 then 5 else 2
         spots = tot / 3.5
         z = 10 + behavior.idx
