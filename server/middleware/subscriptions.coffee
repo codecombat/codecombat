@@ -197,7 +197,11 @@ updateUser = co.wrap (req, user, customer, subscription, increment) ->
 
 unsubscribeUser = co.wrap (req, user) ->
   stripeInfo = _.cloneDeep(user.get('stripe') ? {})
-  yield stripe.customers.cancelSubscription(stripeInfo.customerID, stripeInfo.subscriptionID, { at_period_end: true })
+  try
+    yield stripe.customers.cancelSubscription(stripeInfo.customerID, stripeInfo.subscriptionID, { at_period_end: true })
+  catch e
+    unless e.message.indexOf('does not have a subscription with ID')
+      throw e
   delete stripeInfo.planID
   user.set('stripe', stripeInfo)
   req.body.stripe = stripeInfo
