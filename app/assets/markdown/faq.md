@@ -25,6 +25,7 @@
 * [How do I get started with CodeCombat?](#how-do-i-get-started-with-codecombat-)
 * [Is there a limit to how many students I can add in Introduction to Computer Science?](#is-there-a-limit-to-how-many-students-i-can-add-in-introduction-to-computer-science-)
 * [How do I reset my student's password?](#how-do-i-reset-my-student-s-password-)
+* [How do I transfer a license from one student to another?](#how-do-i-transfer-a-license-from-one-student-to-another-)
 
 
 ### What is CodeCombat?
@@ -130,5 +131,9 @@ No.
 As an instructor, you can reset the password for any students who have not verified their email address (or if they haven't provided an email address). To do so, go to that student's class, find the student in the list of students, and click "Edit" on the right side of the student's row.
 
 If your student has verified their email, they will need to use the 'Forgot your password?' link in the Log In pop-up to reset their password. 
+
+### How do I transfer a license from one student to another?
+
+A Full License can be removed from a student at any time before the license expires, and assigned to another student. To do so, go to that student's class, click the "License Status" tab, and click "Revoke License" from the student you wish to revoke the license from. This student will not be able to play any new levels that require a license (they will still be able to access any levels they've already started). The license will be available to assign to another student (the license expiration date will remain the same) -- see the [Student Licenses](https://codecombat.com/teachers/licenses) page for all of your available licenses. 
 
 [Back to Top](#frequently-asked-questions)
