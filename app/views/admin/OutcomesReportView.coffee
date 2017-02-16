@@ -50,7 +50,7 @@ OutcomesReportComponent = Vue.extend
     courseInstances: []
     isClassroomSelected: {}
     isCourseSelected: {}
-    endDate: moment(new Date()).format('MMM d, YYYY')
+    endDate: moment(new Date()).format('MMM D, YYYY')
     insightsMarkdown: ""
   computed:
     studentIDs: ->
@@ -135,7 +135,7 @@ OutcomesReportComponent = Vue.extend
       @schoolName ?= trialRequest?.properties.nces_name
       @schoolName ?= trialRequest?.properties.school
       @schoolName ?= trialRequest?.properties.organization
-      @startDate = moment(new Date(trialRequest?.created)).format('MMM d, YYYY')
+      @startDate = moment(new Date(trialRequest?.created)).format('MMM D, YYYY')
     classrooms: (classrooms) ->
       for classroom in classrooms
         if _.isUndefined(@isClassroomSelected[classroom._id])
