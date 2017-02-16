@@ -30,9 +30,11 @@ div.style-flat
     div
       h4 Outcomes Report
       h5
-        | #{moment(view.options.startDate).format('MMM d, YYYY')}
-        | &ndash;
-        | #{moment(view.options.endDate).format('MMM d, YYYY')}
+        | #{view.options.startDate}
+        = " "
+        if view.options.endDate
+          | &ndash;
+          | #{view.options.endDate}
 
   div.address
     p 
