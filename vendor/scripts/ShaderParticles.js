@@ -411,6 +411,8 @@ SPE.Group.prototype = {
         // that.attributes.angleAlignVelocity.needsUpdate = true;
         that.attributes.velocity.needsUpdate = true;
         that.attributes.acceleration.needsUpdate = true;
+        that.attributes.colorStart.needsUpdate = true;
+        that.attributes.size.needsUpdate = true;
         that.geometry.verticesNeedUpdate = true;
 
         return that;
