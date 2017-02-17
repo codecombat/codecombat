@@ -12,9 +12,24 @@ module.exports = class JoshEmitter extends SPE.Emitter
     @nextPossiblePosition = 0
     @white = new THREE.Color('white') 
 
+  randomEdge: ->
+    if Math.random() > 0.5
+      {x: Math.random() * 100, y: if Math.random() > 0.5 then -10 else 110}
+    else
+      {y: Math.random() * 100, x: if Math.random() > 0.5 then -10 else 110}
+
   getParticle: ->
-    @behaviors[++@nextPossiblePosition] =
+    idx = ++@nextPossiblePosition
+    start = @randomEdge()
+    @vertices[idx].x = start.x
+    @vertices[idx].y = start.y
+    #@attributes.alive.value[idx] = 1.0
+    @attributes.colorStart.value[idx] = new THREE.Color utils.hslToHex([Math.random(), Math.random(), 0.8])
+    @behaviors[idx] =
       alive: true
+      idx: idx
+      speed: 20
+
 
   updateWorldInfo: (data) ->
     console.log "Incoming world", data
@@ -29,67 +44,91 @@ module.exports = class JoshEmitter extends SPE.Emitter
     console.log "Incoming data", data
     #sum = Object.values(data).reduceRight ((a,b) -> a + b), 0
     #@liveCount = sum
-    @counts = data
+    @counts = data.level_player_counts
 
-    for level, count of data
+    for level, count of data.level_player_counts
       continue unless @levelInfo[level]
       @levelParticles[level] ?= []
       for x in [0...count-1]
         p = @getParticle()
-        p.position = @levelInfo[level].position
-        p.level = level
-        p.idx = x
+
+        @moveParticleTarget p, null, level
         @levelParticles[level].push p
 
   moveParticleTarget: (x, from, to) ->
+    console.log "MPT #{from} -> #{to}"
     x.level = to
-    unless @levelInfo[to].position?
-      console.log "Couldnt locaate", to
-    x.position = @levelInfo[to].position
+
     
-    if from
+    if from and @levelParticles[from]?
       oldidx = @levelParticles[from].indexOf(x)
       @levelParticles[from].splice(oldidx, 1, null)
 
-    @levelParticles[to] ?= []
-    targetidx = @levelParticles[to].indexOf null
+    if to
+      unless @levelInfo[to].position?
+        console.log "Couldnt locaate", to
 
-    if targetidx is -1
-      x.idx = @levelParticles[to].length
+      x.position ?= {}
+      x.position.x = @levelInfo[to].position.x
+      x.position.y = @levelInfo[to].position.y
+
+      @levelParticles[to] ?= []
+      targetidx = @levelParticles[to].indexOf null
+
+      if targetidx is -1
+        x.idx = @levelParticles[to].length
+      else
+        x.idx = targetidx
+
+      @levelParticles[to][x.idx] = x
     else
-      x.idx = targetidx
+      where = @randomEdge()
+      x.position.x = where.x
+      x.position.y = where.y
+      console.log "killing particle from", from
 
-    @levelParticles[to][x.idx] = x
+    
 
   updateEdgeInfo: (data) ->
-    console.log "Got Edge Info", data
+    console.log "Got Edge Info"
+    console.log data.transitions.map (x) -> "#{x.to} -> #{x.from} [#{x.count}]"
     updates = []
-    for d in data
+    for d in data.transitions
       fromInfo = @levelInfo[d.from]
       toInfo = @levelInfo[d.to]
-      continue unless fromInfo? and toInfo?
-      toUpdate = d.count
-      list = _.shuffle @levelParticles[d.from]
-      for j in [0..toUpdate]
-        for x in list
-          continue unless x? and x.level is d.from and not x.banned
-          x.banned = 2
-          do (x, d, toInfo, j, updates) =>
-            updates.push =>
+      continue unless fromInfo? or not d.from
+      continue unless toInfo? or not d.to
+      do (d) =>
+        toUpdate = d.count
+        if d.from
+          list = _.shuffle @levelParticles[d.from]
+          getParticle = =>
+            for x in list
+              continue unless x? and not x.banned > 0
+              return x
+
+            console.log "Out of Particles...", d.from
+
+        else
+          getParticle = =>
+            console.log "Created particle for", d.to
+            x = @getParticle()
+            @attributes.alive.value[x.idx] = 1.0
+            return x
+
+        for j in [0..toUpdate]
+          updates.push =>
+            x = getParticle()
+            if x?
+              x.banned = 5
               @moveParticleTarget x, d.from, d.to
-              x.banned = 1
-              if d.from is 'dungeons-of-kithgard'
-                setTimeout =>
-                  p2 = @getParticle()
-                  @moveParticleTarget p2, null, 'dungeons-of-kithgard'
-                , 1000
 
-          break
 
-    updates =_.shuffle updates
+    updates = _.shuffle updates
+    console.log "Schedueled #{updates.length} updates @ #{(data.update_interval_secs * 1000)/updates.length} ups"
     for u,i in updates
-      setTimeout u, i * 5000/updates.length
-
+      setTimeout u, i * (data.update_interval_secs * 1000)/updates.length
+      
       
 
   moveAtSpeed: (a, b, s) ->
@@ -100,6 +139,12 @@ module.exports = class JoshEmitter extends SPE.Emitter
     else
       return a - s
 
+  moveTowardTargetAtSpeed: (f, t, s) ->
+    d = Math.sqrt((f.x-t.x)*(f.x-t.x)+(f.y-t.y)*(f.y-t.y))
+    return t unless d > s
+    ang = Math.atan2(t.y - f.y, t.x - f.x)
+    {x: f.x + Math.cos(ang) * s, y: f.y + Math.sin(ang) * s}
+    
 
   tick: (dt) ->
     @time += dt    
@@ -117,23 +162,31 @@ module.exports = class JoshEmitter extends SPE.Emitter
       
       
       if isAlive
-        behavior.banned = false
-        tot = @levelParticles[behavior.level].length - 1
-        radius = if tot > 20 then 5 else 3
-        spots = 5.5 + Math.floor(z/10)
-        z = behavior.idx
-        partialRadius = 1+(z/tot)*radius
         
-        idealX = 0.1*Math.random() + Math.sin(-@time + z/spots*3.1415*2)*partialRadius + behavior.position.x
-        idealY = 0.1*Math.random() + Math.cos(-@time + z/spots*3.1415*2)*partialRadius*ar + behavior.position.y * ar + 1.8
+        behavior.banned -= dt
 
-        if wasAlive
-          @vertices[i].x = @moveAtSpeed(@vertices[i].x, idealX, speed*dt)
-          @vertices[i].y = @moveAtSpeed(@vertices[i].y, idealY, speed*dt*ar)
+        if behavior.level
+          tot = @levelParticles[behavior.level].length - 1
+          radius = if tot > 20 then 5 else 3
+          spots = 5.5 + Math.floor(z/10)
+          z = behavior.idx
+          partialRadius = 1+(z/tot)*radius
+        
+          idealX = 0.1*Math.random() + Math.sin(-@time + z/spots*3.1415*2)*partialRadius + behavior.position.x
+          idealY = 0.1*Math.random() + Math.cos(-@time + z/spots*3.1415*2)*partialRadius*ar + behavior.position.y * ar + 1.8
+
         else
-          @attributes.colorStart.value[i] = new THREE.Color utils.hslToHex([Math.random(), Math.random(), 0.8])
+          idealX = behavior.position.x
+          idealY = behavior.position.y * ar
+
+        if wasAlive or true
+          newxy = @moveTowardTargetAtSpeed({x: @vertices[i].x, y: @vertices[i].y}, {x: idealX, y: idealY}, behavior.speed*dt)
+          @vertices[i].x = newxy.x
+          @vertices[i].y = newxy.y
+        else
           @vertices[i].x = idealX
           @vertices[i].y = idealY
+          
 
       @attributes.alive.value[i] = if isAlive then 1.0 else 0.0
       @attributes.age.value[i] = 0

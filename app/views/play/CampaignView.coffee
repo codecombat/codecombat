@@ -582,8 +582,8 @@ module.exports = class CampaignView extends RootView
     doIt = ->
       $.getJSON 'https://s3.amazonaws.com/sp-codecombat-level-state/transition_information.json', (transitions) =>
         emitter.updateEdgeInfo transitions
-        setTimeout doIt, 5000
-    setTimeout doIt, 5000
+        setTimeout doIt, transitions.update_interval_secs * 1000
+    setTimeout doIt, 500
 
     # TODO: rip out support for old style of particles
     #for level in @campaign.renderedLevels ? {}
