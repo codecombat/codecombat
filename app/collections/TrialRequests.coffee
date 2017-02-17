@@ -9,3 +9,8 @@ module.exports = class TrialRequestCollection extends CocoCollection
     options = _.extend({data: {}}, options)
     options.data.applicant = me.id
     @fetch(options)
+
+  fetchByApplicant: (applicant) ->
+    @fetch({
+      data: { applicant }
+    })

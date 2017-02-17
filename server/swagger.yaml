@@ -373,7 +373,7 @@ paths:
   /playtime-stats:
     get:
       tags:
-        - users
+        - stats
       description: Returns the playtime stats
       parameters:
         - name: startDate
@@ -384,6 +384,11 @@ paths:
         - name: endDate
           in: query
           description: "Latest an included user was created"
+          required: false
+          type: string
+        - name: country
+          in: query
+          description: "Filter by country string"
           required: false
           type: string
 

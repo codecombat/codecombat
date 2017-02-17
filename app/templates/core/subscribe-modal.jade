@@ -14,101 +14,61 @@
       div#close-modal
         span.glyphicon.glyphicon-remove
 
-      div.comparison-blurb(data-i18n="[html]subscribe.comparison_blurb")
-      table.table.table-condensed.table-bordered.comparison-table
-        thead
-          tr
-            if me.isOnPremiumServer()
-              th
-            else
-              th.free-cell(data-i18n="subscribe.free", colspan=2)
-            th(data-i18n="subscribe.premium")
-        tbody
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature1", data-i18n-options='{"levelsCount": ' + view.i18nData.levelsCount + ', "worldsCount": ' + view.i18nData.worldsCount + '}')
-            if !me.isOnPremiumServer()
-              td.center-ok.free-cell
-                span.glyphicon.glyphicon-ok
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature3", data-i18n-options='{"bonusLevelsCount": ' + view.i18nData.bonusLevelsCount + '}'))
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          // Could try testing out things like features 6-8 in a new design with more space
-          //tr
-          //  td.feature-description
-          //    span(data-i18n="[html]subscribe.feature7")
-          //  if !me.isOnPremiumServer()
-          //    td.free-cell
-          //  td.center-ok
-          //    span.glyphicon.glyphicon-ok
-          //tr
-          //  td.feature-description
-          //    span(data-i18n="subscribe.feature6")
-          //  if !me.isOnPremiumServer()
-          //    td.free-cell
-          //  td.center-ok
-          //    span.glyphicon.glyphicon-ok
-          //if me.getCampaignAdsGroup() === 'leaderboard-ads'
-          //  tr
-          //    td.feature-description
-          //      span(data-i18n="[html]subscribe.feature8")
-          //    if !me.isOnPremiumServer()
-          //      td.free-cell
-          //    td.center-ok
-          //      span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature_game_dev")
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature_web_dev")
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature2", data-i18n-options='{"heroesCount": ' + view.i18nData.heroesCount + '}')
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description.gem-amount
-              span(data-i18n="[html]subscribe.feature4")
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
+      div.paper-area
+        div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
+          
+            
+        .container-fluid
+          .row
+            .col-xs-5.feature-col.col-xs-offset-1
+              ul
+                li(data-i18n="subscribe.feature_levels" data-i18n-options={premiumLevelsCount:view.i18nData.premiumLevelsCount})
+                if view.basicProduct
+                  li(data-i18n="subscribe.feature_gems", data-i18n-options={gems:view.basicProduct.get('gems')})
+                li(data-i18n="subscribe.feature_heroes")
+              
+              
+            .col-xs-5.feature-col
+              ul
+                li(data-i18n="subscribe.feature_games")
+                li(data-i18n="subscribe.feature_websites")
+                li(data-i18n="subscribe.feature_items")
+                
+          hr
+          
+          .row
+            if view.basicProduct
+              .col-xs-5.option-col.col-xs-offset-1
+                .option-header.text-center(data-i18n="subscribe.stripe_description")
+                .price(data-i18n="subscribe.month_price", data-i18n-options={price:view.basicProduct.priceStringNoSymbol()})
+                button.btn.btn-lg.btn-illustrated.purchase-button Subscribe Now
+                
+            if view.lifetimeProduct
+              .col-xs-5.option-col
+                .option-header.text-center(data-i18n="subscribe.lifetime")
+                .price(data-i18n="subscribe.lifetime_price", data-i18n-options={price:view.lifetimeProduct.priceStringNoSymbol()})
+                button.btn.btn-lg.btn-illustrated.lifetime-button Buy Now
+            
+            if view.yearProduct
+              .col-xs-5.option-col
+                .option-header.text-center(data-i18n="subscribe.year_subscription")
+                .price(data-i18n="subscribe.year_price", data-i18n-options={price: view.yearProduct.priceStringNoSymbol()})
+                button.btn.btn-lg.btn-illustrated.sale-button Buy Now
 
-      if view.basicProduct
-        .premium-pricing
-          span(data-i18n="subscribe.premium_pricing_prefix")
-          span= ' '
-          span $#{(view.basicProduct.get('amount') / 100)}/
-          span(data-i18n="subscribe.month")
-          span= ' '
-          span(data-i18n="subscribe.premium_pricing_suffix")
-  
-        #parents-info(data-i18n="subscribe.parents")
-        #payment-methods-info(data-i18n="subscribe.payment_methods")
+        p 
+          span(data-i18n="subscribe.kids_message_1")
+          =" "
+          a.parent-link(data-i18n="subscribe.kids_message_2")
+          
+        p
+          span(data-i18n="subscribe.support_part1")
+          =" "
+          a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+          =" "
+          span(data-i18n="subscribe.support_part3")
 
-      .subscribe-actions
-        if !me.isOnPremiumServer()
-          button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
-        if view.yearProduct
-          button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title", data-i18n="subscribe.sale_button")
-        button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
+
+
 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
@@ -123,7 +83,7 @@
           p(data-i18n="loading_error.unknown")
           p= view.stateMessage
 
-    .parent-button-popover-content.hidden
+    .parent-link-popover-content.hidden
       .email-parent-form
         p(data-i18n="subscribe.parent_email_description")
         form
@@ -134,4 +94,4 @@
           button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
       .email-parent-complete
         p(data-i18n="subscribe.parent_email_sent")
-        button.btn(type='button', onclick="$('.parent-button').popover('hide');", data-i18n="modal.close")
+        button.btn(type='button', onclick="$('.parent-link').popover('hide');", data-i18n="modal.close")

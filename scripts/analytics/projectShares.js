@@ -29,8 +29,8 @@ const co = require('co');
 const moment = require('moment');
 const LevelSession = require('../../server/models/LevelSession');
 
-const startDay = "2017-01-09";
-const sessionWindow = 7 // days
+const startDay = "2017-01-18";
+const sessionWindow = 7; // days
 const sessionEndDay = moment(startDay).add(sessionWindow, 'days').toDate()
 const waitWindow = 4 // days
 const eventEndDay = moment(startDay).add(sessionWindow + waitWindow, 'days').toDate()
@@ -52,8 +52,6 @@ co(function*() {
     {original: 1, name: 1, type: 1}
   )
   
-  // Web dev level event tracking not added until 1/17/2017, do not count them before then.
-  levels = levels.filter((l) => l.get('type') !== 'web-dev')
   console.log(`Loaded ${levels.length} levels. Loading sessions...`);
   var levelOriginals = levels.map((l) => l.get('original').toString());
   

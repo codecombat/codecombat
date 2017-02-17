@@ -27,6 +27,7 @@ Prepaid = require '../models/Prepaid'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
 facebook = require '../lib/facebook'
+middleware = require '../middleware'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -136,35 +137,35 @@ UserHandler = class UserHandler extends Handler
 
     # Subscription setting
     (req, user, callback) ->
-      # TODO: Make subscribe vs. unsubscribe explicit.  This property dance is confusing.
       return callback(null, req, user) unless req.headers['x-change-plan'] # ensure only saves that are targeted at changing the subscription actually affect the subscription
       return callback(null, req, user) unless req.body.stripe
-      finishSubscription = (hasPlan, wantsPlan) ->
-        return callback(null, req, user) if hasPlan is wantsPlan
-        if wantsPlan and not hasPlan
-          SubscriptionHandler.subscribeUser(req, user, (err) ->
-            return callback(err) if err
-            return callback(null, req, user)
-          )
-        else if hasPlan and not wantsPlan
-          SubscriptionHandler.unsubscribeUser(req, user, (err) ->
-            return callback(err) if err
-            return callback(null, req, user)
-          )
-      if req.body.stripe.subscribeEmails?
-        SubscriptionHandler.subscribeUser(req, user, (err) ->
-          return callback(err) if err
-          return callback(null, req, user)
+      wantsPlan = req.body.stripe.planID?
+      hasPlan = user.get('stripe')?.planID? and not req.body.stripe.prepaidCode?
+      return callback(null, req, user) if hasPlan is wantsPlan
+      if wantsPlan and not hasPlan
+        middleware.subscriptions.subscribeUser(req, user)
+        .then(-> callback(null, req, user))
+        .catch((err) ->
+          if err instanceof errors.NetworkError
+            return callback({res: err.message, code: err.code})
+          if err.res and err.code
+            return callback(err)
+          if err.message.indexOf('declined') > -1
+            return callback({res: 'Card declined', code: 402})
+          SubscriptionHandler.logSubscriptionError(user, 'Subscribe error: '+(err.stack or err.type or err.message))
+          callback({res: 'Subscription error.', code: 500})
         )
-      else if req.body.stripe.unsubscribeEmail?
-        SubscriptionHandler.unsubscribeUser(req, user, (err) ->
-          return callback(err) if err
-          return callback(null, req, user)
+      else if hasPlan and not wantsPlan
+        middleware.subscriptions.unsubscribeUser(req, user)
+        .then(-> callback(null, req, user))
+        .catch((err) ->
+          if err instanceof errors.NetworkError
+            return callback({res: err.message, code: err.code})
+          if err.res and err.code
+            return callback(err)
+          SubscriptionHandler.logSubscriptionError(user, 'Unsubscribe error: '+(err.stack or err.type or err.message))
+          callback({res: 'Subscription error.', code: 500})
         )
-      else
-        wantsPlan = req.body.stripe.planID?
-        hasPlan = user.get('stripe')?.planID? and not req.body.stripe.prepaidCode?
-        finishSubscription hasPlan, wantsPlan
 
     # Discount setting
     (req, user, callback) ->
@@ -337,7 +338,6 @@ UserHandler = class UserHandler extends Handler
     return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
-    return @searchForUser(req, res) if args[1] is 'admin_search'
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
@@ -719,64 +719,6 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
-
-  searchForUser: (req, res) ->
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    return module.exports.mongoSearchForUser(req,res) unless config.sphinxServer
-    mysql = require('mysql');
-    connection = mysql.createConnection
-      host: config.sphinxServer
-      port: 9306
-    connection.connect()
-
-    q = req.body.search
-    params = []
-    filters = []
-    if isID q
-      params.push q
-      filters.push 'mongoid = ?'
-    else
-      params.push q
-      filters.push 'MATCH(?)'
-
-    if req.body.role?
-      params.push req.body.role
-      filters.push 'role = ?'
-
-      
-    mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE #{filters.join(' AND ')}  LIMIT 100;"
-    console.log mysqlq, params
-    connection.query mysqlq, params, (err, rows, fields) =>
-      return @sendDatabaseError res, err if err
-      ids = rows.map (r) -> r.mongoid
-      User.find({_id: {$in: ids}}).select({name: 1, email: 1, dateCreated: 1, role: 1}).lean().exec (err, users) =>
-        return @sendDatabaseError res, err if err
-        out = _.filter _.map ids, (id) => _.find(users, (u) -> String(u._id) is id)
-        @sendSuccess res, out
-    connection.end()
-
-
-  mongoSearchForUser: (req, res) ->
-    # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    search = req.body.search
-    query = email: {$exists: true}, $or: [
-      {emailLower: search}
-      {nameLower: search}
-    ]
-    query.$or.push {_id: mongoose.Types.ObjectId(search) if isID search}
-
-    if req.body.role?
-      query.role = req.body.role
-
-    if search.length > 5
-      searchParts = search.split(/[.+@]/)
-      if searchParts.length > 1
-        query.$or.push {emailLower: {$regex: '^' + searchParts[0]}}
-    projection = name: 1, email: 1, dateCreated: 1, role: 1
-    User.find(query).select(projection).lean().exec (err, users) =>
-      return @sendDatabaseError res, err if err
-      @sendSuccess res, users
 
   resetProgress: (req, res, userID) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'

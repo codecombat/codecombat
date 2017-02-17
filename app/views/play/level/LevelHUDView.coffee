@@ -18,6 +18,13 @@ module.exports = class LevelHUDView extends CocoView
 
   events:
     'click': 'onClick'
+    
+  constructor: ->
+    if features.codePlay
+      classNames = (@className or '').split(' ')
+      classNames.push 'code-play'
+      @className = classNames.join(' ')
+    super(arguments...)
 
   afterRender: ->
     super()

@@ -79,7 +79,7 @@ mixin course-info(course)
     p= i18n(course.attributes, 'description')
     p.concepts.semibold
       span(data-i18n="courses.concepts_covered")
-      | :
+      = ": "
       each concept in course.get('concepts')
         span(data-i18n="concepts." + concept)
         if course.get('concepts').indexOf(concept) !== course.get('concepts').length - 1

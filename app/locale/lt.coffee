@@ -3,8 +3,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     slogan: "Labiausiai įtraukiantis žaidimas programavimo mokymuisi."
     classroom_edition: "Klasės režimas:"
     learn_to_code: "Išmok programuoti:"
-    teacher: "Mokytojas"
-    student: "Mokinys"
     play_now: "Žaisk dabar"
     im_a_teacher: "Aš - mokytojas"
     im_a_student: "Aš - mokinys"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     level: "Lygis" # Like "Level: Dungeons of Kithgard"
     skip: "Praleisti"
     game_menu: "Žaidimo meniu"
-    guide: "Vedlys"
     restart: "Paleisti iš naujo"
     goals: "Pagalba"
     goal: "Tikslas"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     victory_viking_code_school: "Po paraliais, tu katik įveikei sunkujį lygį! Jei tu dar nesi programuotojas, tai bent turėtum būti. Tu katik paspartinai priėmimą į Vikingų Kodo Mokyklą, kur savo įgudžius gali perkelti į naują lygį ir, per 14 sąvaičių, gali tapti profesionaliu internetinių sistemų programuotoju."
     victory_become_a_viking: "Tapk Vikingu"
     victory_no_progress_for_teachers: "Mokytojų progresas nesaugomas. Bet jūs galite susikurti sau mokinio paskyrą savo klasėje."
-    guide_title: "Vedlys"
     tome_cast_button_run: "Paleisti"
     tome_cast_button_running: "Leidžiama"
     tome_cast_button_ran: "Paleista"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     tome_reload_method: "Atstatyti originalų kodą šiam metodui" # {change}
     tome_available_spells: "Prieinami Kerai"
     tome_your_skills: "Jūsų Įgūdžiai"
-    tome_current_method: "Vartojamas Metodas"
     hints: "Užuominos"
     hints_title: "Užuomina {{number}}"
     code_saved: "Kodas išsaugotas"
     skip_tutorial: "Praleisti (ESC)"
     keyboard_shortcuts: "Mygtukai"
-    loading_ready: "Pirmyn!"
     loading_start: "Pradėti lygį"
     problem_alert_title: "Taisyti kodą"
     time_current: "Dabar:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     premium_pricing_prefix: "Gauk Premium tik už"
     premium_pricing_suffix: "ir tapk programavimo meistru."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ įprastų lygių per __worldsCount__ pasaulius" # {change}
-    feature2: "__heroesCount__ galingų <strong>naujų herojų</strong> su unikaliais įgudžiais!" # {change}
-    feature3: "__bonusLevelsCount__+ papildomų lygių" # {change}
-    feature4: "<strong>{{gems}} papildomi krystalai</strong> kiekvieną mėnesį!" # {change}
-    feature6: "Papildomas el.pašto palaikymas"
-    feature7: "Privatūs <strong>Klanai</strong>"
-    feature8: "<strong>Jokių reklamų!</strong>"
-    feature_game_dev: "Kurk žaidimus savo draugams savo <strong>Žaidimų Kūrimo Pasaulyje</strong>"
-    feature_web_dev: "Kurk svetaines ir programėles su HTML, CSS, ir jQuery savo <strong>Svetainių Kūrimo Palaulyje</strong>"
     free: "Nemokama"
     month: "Mėnesis"
     must_be_logged: "Turi pirmiau prisijungti. Susikurk paskyrą arba prisijunk per meniu, esančiu viršuje."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    unsubscribing: "Unsubscribing"
 #    subscribe_prepaid: "Click Subscribe to use prepaid code"
 #    using_prepaid: "Using prepaid code for monthly subscription"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Pasirink Herojų"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    please_explain: "(please explain)"
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    anything_else: "Anything else we should know?"
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
   account_settings:
     title: "Paskyros Nustatymai"
     not_logged_in: "Norint pakeisti paskyros nustatymus turite prisijungti arba susikurti paskyrą."
-    autosave: "Pakeitimai Išsaugomi Automatiškai"
     me_tab: "Aš"
     picture_tab: "Nuotrauka"
     delete_account_tab: "Pašalinti Mano Paskyrą"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     private_require_sub: "Norint sukurti privatų ar prisijungti prie privataus klano, reikalingas abonementas."
 
 #  courses:
-#    course: "Course"
 #    create_new_class: "Create New Class"
 #    unnamed_class: "Unnamed Class"
 #    edit_settings1: "Edit Class Settings"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    average_levels: "Average levels completed:"
 #    total_levels: "Total levels completed:"
 #    students: "Students"
-#    students1: "students"
 #    concepts: "Concepts"
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    enter_emails: "Separate each email address by a line break or commas"
 #    send_invites: "Invite Students"
-#    creating_class: "Creating class..."
-#    purchasing_course: "Purchasing course..."
-#    buy_course: "Buy Course"
-#    select_all_courses: "Select 'All Courses' for a 50% discount!"
-#    all_courses: "All Courses"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
-#    enter_number_students: "Enter the number of students you need for this class."
-#    name_class: "Name your class"
-#    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
-#    buy: "Buy"
-#    purchasing_for: "You are purchasing a license for"
-#    creating_for: "You are creating a class for"
-#    for: "for" # Like in 'for 30 students'
-#    receive_code: "Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class."
-#    questions: "Questions?"
 #    enroll: "Enroll"
-#    enter: "Enter"
 #    enroll_paid: "Enroll Students in Paid Courses"
 #    get_enrollments: "Get More Licenses"
 #    change_language: "Change Course Language"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    remove_description2: "The activated paid license will not be returned."
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
-#    to_join_ask: "To join a class, ask your teacher for an unlock code."
-#    join_this_class: "Join Class"
-#    enter_here: "<enter unlock code here>"
-#    successfully_joined: "Successfully joined"
-#    click_to_start: "Click here to start taking"
-#    my_courses: "My Courses"
-#    classroom: "Classroom"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
 #  sharing:
 #    game: "Game"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    helpful_ambassadors: "Our Helpful Ambassadors:"
 
 #  ladder:
-#    please_login: "Please log in first before playing a ladder game."
 #    my_matches: "My Matches"
 #    simulate: "Simulate"
 #    simulation_explanation: "By simulating games you can get your game ranked faster!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
-#    back_to_student_page: "Go back to student things"
-#    back_to_teacher_page: "Go to My Classes"
-#    back_to_game: "Go play some more levels!"
 #    verify_error: "Something went wrong when verifying your email :("
 
 #  account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
 
 #  loading_error:
 #    could_not_load: "Error loading from server"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
 #    advanced_web_scripting: "Advanced Web Scripting"
     input_handling: "Įvesties apdirbimas (Input Handling)"
     while_loops: "Ciklai (Loops)"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
 #  delta:
 #    added: "Added"

@@ -222,59 +222,60 @@ block content
             span.spr(data-i18n="new_home.have_an_account")
             a.login-button(data-i18n="login.log_in")
 
-    h3.text-center(data-i18n="new_home.computer_science")
-    h4.text-center
-      span#school-level-label(data-i18n="new_home.show_me_lesson_time")
-      select#school-level-dropdown.form-control.text-navy
-        option(value='elementary', data-i18n="teachers_quote.elementary_school")
-        option(value='middle', selected=true, data-i18n="teachers_quote.middle_school")
-        option(value='high', data-i18n="teachers_quote.high_school")
-    h5.text-center#total-hours-header
-      span.spr(data-i18n="new_home.curriculum")
-      span#semester-duration
-    #courses-row.row
-      - var conceptsSeen = {};
-      for course, courseIndex in view.courses.models
-        .col-md-3.col-sm-4
-          .media.course-details(data-course-slug=course.get('slug'))
-            if courseIndex === 0
-              .free-course
-                h6(data-i18n="new_home.ffa")
-            .media-body(title=i18n(course.attributes, 'description'))
-              h6.course-name= i18n(course.attributes, 'name') + ':'
-              p.small
-                - var total = 0;
-                each concept in course.get('concepts') || []
-                  - if (conceptsSeen[concept]) continue;
-                  - conceptsSeen[concept] = true;
-                  if total === 3
+    if !serverConfig.static
+      h3.text-center(data-i18n="new_home.computer_science")
+      h4.text-center
+        span#school-level-label(data-i18n="new_home.show_me_lesson_time")
+        select#school-level-dropdown.form-control.text-navy
+          option(value='elementary', data-i18n="teachers_quote.elementary_school")
+          option(value='middle', selected=true, data-i18n="teachers_quote.middle_school")
+          option(value='high', data-i18n="teachers_quote.high_school")
+      h5.text-center#total-hours-header
+        span.spr(data-i18n="new_home.curriculum")
+        span#semester-duration
+      #courses-row.row
+        - var conceptsSeen = {};
+        for course, courseIndex in view.courses.models
+          .col-md-3.col-sm-4
+            .media.course-details(data-course-slug=course.get('slug'))
+              if courseIndex === 0
+                .free-course
+                  h6(data-i18n="new_home.ffa")
+              .media-body(title=i18n(course.attributes, 'description'))
+                h6.course-name= i18n(course.attributes, 'name') + ':'
+                p.small
+                  - var total = 0;
+                  each concept in course.get('concepts') || []
+                    - if (conceptsSeen[concept]) continue;
+                    - conceptsSeen[concept] = true;
+                    if total === 3
+                      - total += 1;
+                      span ...
+                      - continue;
+                    else if total > 3
+                      - continue;
+                    else if total > 0
+                      span.spr ,
                     - total += 1;
-                    span ...
-                    - continue;
-                  else if total > 3
-                    - continue;
-                  else if total > 0
-                    span.spr ,
-                  - total += 1;
-                  span(data-i18n="concepts." + concept)
-                if total === 0
-                  span= course.get('description')
-            img.media-object(src="/images/pages/home/" + course.get('slug') + ".png")
-            h6.course-duration
-              span.spr(data-i18n="new_home.lesson_time")
-              span.course-hours= course.get('duration') || 0
-              span.spl.unit(data-i18n="units.hours")
-      .col-md-3.col-sm-4
-        .media.disabled
-          .media-body
-            p.small(data-i18n="new_home.coming_soon")
-          img.media-object(src="/images/pages/home/inprogress.png")
+                    span(data-i18n="concepts." + concept)
+                  if total === 0
+                    span= course.get('description')
+              img.media-object(src="/images/pages/home/" + course.get('slug') + ".png")
+              h6.course-duration
+                span.spr(data-i18n="new_home.lesson_time")
+                span.course-hours= course.get('duration') || 0
+                span.spl.unit(data-i18n="units.hours")
+        .col-md-3.col-sm-4
+          .media.disabled
+            .media-body
+              p.small(data-i18n="new_home.coming_soon")
+            img.media-object(src="/images/pages/home/inprogress.png")
 
-      .clearfix
-      .text-center
-        h4
-          img(src="/images/pages/about/new_languages.png")
-          div(data-i18n="new_home.courses_available_in")
+        .clearfix
+        .text-center
+          h4
+            img(src="/images/pages/about/new_languages.png")
+            div(data-i18n="new_home.courses_available_in")
 
     .testimonials-rows
       .testimonials-filler-left

@@ -50,3 +50,10 @@ module.exports = class Prepaid extends CocoModel
       return courseID in @get('includedCourseIDs')
     else
       return true
+
+  revoke: (user, options={}) ->
+    options.url = _.result(@, 'url')+'/redeemers'
+    options.type = 'DELETE'
+    options.data ?= {}
+    options.data.userID = user.id or user
+    @fetch(options)

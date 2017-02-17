@@ -5,7 +5,9 @@ TrialRequests = require 'collections/TrialRequests'
 AuthModal = require 'views/core/AuthModal'
 errors = require 'core/errors'
 ConfirmModal = require 'views/core/ConfirmModal'
+User = require 'models/User'
 algolia = require 'core/services/algolia'
+State = require 'models/State'
 
 SIGNUP_REDIRECT = '/teachers'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
@@ -28,6 +30,8 @@ module.exports = class RequestQuoteView extends RootView
     'click #logout-link': -> me.logout()
     'click #gplus-signup-btn': 'onClickGPlusSignupButton'
     'click #facebook-signup-btn': 'onClickFacebookSignupButton'
+    'change input[name="email"]': 'onChangeEmail'
+    'change input[name="name"]': 'onChangeName'
 
   initialize: ->
     @trialRequest = new TrialRequest()
@@ -36,6 +40,19 @@ module.exports = class RequestQuoteView extends RootView
     @supermodel.trackCollection(@trialRequests)
     @formChanged = false
     window.tracker?.trackEvent 'Teachers Request Demo Loaded', category: 'Teachers', ['Mixpanel']
+    @state = new State {
+      suggestedNameText: '...'
+      checkEmailState: 'standby' # 'checking', 'exists', 'available'
+      checkEmailValue: null
+      checkEmailPromise: null
+      checkNameState: 'standby' # same
+      checkNameValue: null
+      checkNamePromise: null
+      authModalInitialValues: {}
+    }
+    @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
+    @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
+    @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
 
   onLeaveMessage: ->
     if @formChanged
@@ -44,6 +61,11 @@ module.exports = class RequestQuoteView extends RootView
   onLoaded: ->
     if @trialRequests.size()
       @trialRequest = @trialRequests.first()
+      @state.set({
+        authModalInitialValues: {
+          email: @trialRequest?.get('properties')?.email
+        }
+      })
     super()
 
   invalidateNCES: ->
@@ -184,8 +206,7 @@ module.exports = class RequestQuoteView extends RootView
       errors.showNotyNetworkError(arguments...)
 
   onClickEmailExistsLoginLink: ->
-    modal = new AuthModal({ initialValues: { email: @trialRequest.get('properties')?.email } })
-    @openModalView(modal)
+    @openModalView(new AuthModal({ initialValues: @state.get('authModalInitialValues') }))
 
   onTrialRequestSubmit: ->
     window.tracker?.trackEvent 'Teachers Request Demo Form Submitted', category: 'Teachers', ['Mixpanel']
@@ -284,6 +305,87 @@ module.exports = class RequestQuoteView extends RootView
         window.location.reload()
       error: errors.showNotyNetworkError
     })
+    
+  updateAuthModalInitialValues: (values) ->
+    @state.set {
+      authModalInitialValues: _.merge @state.get('authModalInitialValues'), values
+    }, { silent: true }
+
+  onChangeName: (e) ->
+    @updateAuthModalInitialValues { name: @$(e.currentTarget).val() }
+    @checkName()
+
+  checkName: ->
+    name = @$('input[name="name"]').val()
+
+    if name is @state.get('checkNameValue')
+      return @state.get('checkNamePromise')
+
+    if not name
+      @state.set({
+        checkNameState: 'standby'
+        checkNameValue: name
+        checkNamePromise: null
+      })
+      return Promise.resolve()
+
+    @state.set({
+      checkNameState: 'checking'
+      checkNameValue: name
+
+      checkNamePromise: (User.checkNameConflicts(name)
+      .then ({ suggestedName, conflicts }) =>
+        return unless name is @$('input[name="name"]').val()
+        if conflicts
+          suggestedNameText = $.i18n.t('signup.name_taken').replace('{{suggestedName}}', suggestedName)
+          @state.set({ checkNameState: 'exists', suggestedNameText })
+        else
+          @state.set { checkNameState: 'available' }
+      .catch (error) =>
+        @state.set('checkNameState', 'standby')
+        throw error
+      )
+    })
+
+    return @state.get('checkNamePromise')
+
+  onChangeEmail: (e) ->
+    @updateAuthModalInitialValues { email: @$(e.currentTarget).val() }
+    @checkEmail()
+    
+  checkEmail: ->
+    email = @$('[name="email"]').val()
+    
+    if not _.isEmpty(email) and email is @state.get('checkEmailValue')
+      return @state.get('checkEmailPromise')
+
+    if not (email and forms.validateEmail(email))
+      @state.set({
+        checkEmailState: 'standby'
+        checkEmailValue: email
+        checkEmailPromise: null
+      })
+      return Promise.resolve()
+      
+    @state.set({
+      checkEmailState: 'checking'
+      checkEmailValue: email
+      
+      checkEmailPromise: (User.checkEmailExists(email)
+      .then ({exists}) =>
+        return unless email is @$('[name="email"]').val()
+        if exists
+          @state.set('checkEmailState', 'exists')
+        else
+          @state.set('checkEmailState', 'available')
+      .catch (e) =>
+        @state.set('checkEmailState', 'standby')
+        throw e
+      )
+    })
+    return @state.get('checkEmailPromise')
+    
+
 
 requestFormSchemaAnonymous = {
   type: 'object'

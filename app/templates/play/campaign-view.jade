@@ -44,7 +44,13 @@ if view.showAds()
       each level in levels
         - if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
           - continue;
-        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}", class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""), data-level-slug=level.slug, data-level-original=level.original, title=i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : ''))
+        div(
+          style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}",
+          class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""),
+          data-level-slug=level.slug,
+          data-level-original=level.original,
+          title=i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : '')
+        )
           if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatusMap[level.slug] === 'complete')
             img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
           a(href=level.type == 'hero' ? '#' : level.disabled ? "/play" : "/play/#{level.levelPath || 'level'}/#{level.slug}", disabled=level.disabled, data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
@@ -64,18 +70,28 @@ if view.showAds()
             else if ['kithgard-gates', 'siege-of-stonehold', 'clash-of-clones', 'summits-gate', 'kithgard-mastery'].indexOf(level.slug) !== -1 && levelStatusMap[level.slug] !== 'complete'
               img.banner(src="/images/pages/play/level-banner-special.png")
             else if level.unlocksHero && levelStatusMap[level.slug] !== 'complete'
-              img.banner(src="/images/pages/play/level-banner-unlock.png")
-              img.hero-portrait.hero-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
+              img.banner(src="/images/pages/play/level-banner-unlock#{level.requiresSubscription?'-subscriber':''}.png")
+              img.premium-hero-banner(src="/db/thang.type/#{level.unlocksHero}/toFile/poseImage")
+              img.treasure-chest(src="/images/pages/play/gold-chest.png")
             else if level.unlocksItem && levelStatusMap[level.slug] !== 'complete'
-              img.banner(src="/images/pages/play/level-banner-unlock.png")
-              img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
+              img.banner(src="/images/pages/play/level-banner-unlock#{level.requiresSubscription?'-subscriber':''}.png")
+              if level.unlocksPet
+                img.pet-banner(src="/db/thang.type/#{level.unlocksItem}/toFile/dollImages.pet")
+              else
+                img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
+              img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
             else if levelStatusMap[level.slug] === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")
             else if levelStatusMap[level.slug] !== 'complete'
-              img.banner(src="/images/pages/play/level-banner-unstarted.png")
+              img.banner(src="/images/pages/play/level-banner-unstarted#{level.requiresSubscription?'-subscriber':''}.png")
             if levelDifficultyMap[level.slug]
               .level-difficulty-banner-text= levelDifficultyMap[level.slug]
-        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%", class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
+          if level.locked
+            if level.unlocksItem && !level.unlocksHero
+              img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
+            else if level.unlocksHero
+              img.treasure-chest(src="/images/pages/play/gold-chest.png")
+        div(style="left: #{level.position.x}%; bottom: #{level.position.y}%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
         .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
@@ -134,7 +150,7 @@ if view.showAds()
                 if !campaign
                   - continue;
                 div(class="beta-campaign" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
-                  .background-container(class="#{campaignSlug}")
+                  .background-container(class=campaignSlug)
                   .campaign-label
                     h3.campaign-name
                       if campaign
@@ -148,14 +164,17 @@ if view.showAds()
                     if campaign && campaign.locked && !godmode
                       h4.campaign-locked(data-i18n="play.locked") Locked
                     else if campaign
-                      btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
+                      if serverConfig.static
+                        a.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play", href="/play/" + campaignSlug)
+                      else
+                        btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                     if campaign && campaign.get('description')
                       p.campaign-description
                         span= i18n(campaign.attributes, 'description')
           else
             - var campaign = campaigns[campaignSlug];
             - var godmode = me.get('permissions', true).indexOf('godmode') != -1;
-            div(class="campaign #{campaignSlug}" + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
+            div(class="campaign " + campaignSlug + (campaign ? "" : " silhouette") + (campaign && campaign.locked && !godmode ? " locked" : ""), data-campaign-slug=campaignSlug)
               .campaign-label
                 h2.campaign-name
                   if campaign
@@ -170,7 +189,10 @@ if view.showAds()
                 if campaign && campaign.locked && !godmode
                   h3.campaign-locked(data-i18n="play.locked") Locked
                 else if campaign
-                  btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
+                  if serverConfig.static
+                    a(data-i18n="common.play", href="/play/" + campaignSlug).btn.btn-illustrated.btn-lg.btn-success.play-button
+                  else
+                    btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
                 if campaign && campaign.get('description')
                   p.campaign-description
                     span= i18n(campaign.attributes, 'description')
@@ -185,11 +207,9 @@ if view.showAds()
     if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !features.freeOnly
       button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
     if !me.get('anonymous', true) && !features.codePlay
-      button.btn.account(data-toggle='coco-modal', data-target='play/modal/PlayAccountModal', data-i18n="[title]nav.account")
-    //if me.isAdmin()
-    //  button.btn.settings(data-toggle='coco-modal', data-target='play/modal/PlaySettingsModal', data-i18n="[title]play.settings")
+      a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
     if me.get('anonymous', true)
-      button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]play.settings")
+      button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
 
   .user-status.header-font.picoctf-hide
     .user-status-line
@@ -203,7 +223,7 @@ if view.showAds()
         button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
         button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
       else
-        a(data-toggle="coco-modal", data-target="play/modal/PlayAccountModal").player-name.spr= me.get('name')
+        a(href="/account").player-name.spr= me.get('name')
         button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
         if me.isPremium()
           button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact

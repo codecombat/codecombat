@@ -20,6 +20,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
+    'premium': go('PremiumFeaturesView')
 
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
@@ -48,6 +49,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')
     'admin/skipped-contacts': go('admin/SkippedContactsView')
+    'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
+    'admin/outcomes-report': go('admin/OutcomesReportView')
 
     'artisans': go('artisans/ArtisansView')
 
@@ -193,6 +196,9 @@ module.exports = class CocoRouter extends Backbone.Router
     @navigate e, {trigger: true}
 
   routeDirectly: (path, args=[], options={}) ->
+    if window.alreadyLoadedView
+      path = window.alreadyLoadedView
+
     @viewLoad = new ViewLoadTimer() unless options.recursive
     if options.redirectStudents and me.isStudent() and not me.isAdmin()
       return @redirectHome()
@@ -224,12 +230,18 @@ module.exports = class CocoRouter extends Backbone.Router
     return go('NotFoundView') if not ViewClass
     view = new ViewClass(options, args...)  # options, then any path fragment args
     view.render()
-    @openView(view)
+    if window.alreadyLoadedView
+      console.log "Need to merge view"
+      delete window.alreadyLoadedView
+      @mergeView(view)
+    else
+      @openView(view)
+
     @viewLoad.setView(view)
     @viewLoad.record()
     
   redirectHome: ->
-    homeUrl = switch 
+    homeUrl = switch
       when me.isStudent() then '/students'
       when me.isTeacher() then '/teachers'
       else '/'
@@ -245,11 +257,25 @@ module.exports = class CocoRouter extends Backbone.Router
   openView: (view) ->
     @closeCurrentView()
     $('#page-container').empty().append view.el
-    window.currentView = view
     @activateTab()
+    @didOpenView view
+
+  mergeView: (view) ->   
+    unless view.mergeWithPrerendered?
+      return @openView(view)
+
+    target = $('#page-container>div')
+    view.mergeWithPrerendered target
+    view.setElement target[0]
+    @didOpenView view
+
+  didOpenView: (view) ->
+    window.currentView = view
     view.afterInsert()
     view.didReappear()
     @path = document.location.pathname + document.location.search
+    console.log "Did-Load-Route"
+    @trigger 'did-load-route'
 
   closeCurrentView: ->
     if window.currentView?.reloadOnClose

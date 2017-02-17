@@ -90,6 +90,20 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     else
       super(arguments...)
 
+  toFile: (req, res, original, prop) ->
+    return @sendBadInputError(res, 'Invalid MongoDB id: '+original) if not Handler.isID(original)
+
+    query = { 'original': mongoose.Types.ObjectId(original) }
+    sort = { 'version.major': -1, 'version.minor': -1 }
+    return @sendNotFoundError(res) unless prop
+    proj = {original: 1}
+    proj[prop] = 1
+    @modelClass.findOne(query, proj).sort(sort).exec (err, doc) =>
+      return @sendNotFoundError(res) unless doc?
+      return @sendForbiddenError(res) unless @hasAccessToDocument(req, doc)
+      return @sendNotFoundError(res) unless doc.get(prop)?
+      res.redirect "/file/#{doc.get(prop)}"
+
   # Was testing to see what the bandwidth savings are here. This would need more logic to determine whether we need the vector data, probably with extra info from the client.
   #formatEntity: (req, document) ->
   #  result = document?.toObject()

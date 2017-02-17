@@ -44,14 +44,16 @@ module.exports = class AdminClassroomContentView extends RootView
           [levelPlaytimes, levelSessions] = data
           continue unless levelPlaytimes[0]
           courseID = levelPlaytimes[0].courseID
+          # console.log courseID, 'course sessions returned', levelSessions.length
           courseLevelPlaytimesMap[courseID] ?= levelPlaytimes
           courseLevelTotalPlaytimeMap[courseID] ?= {}
           for levelPlaytime in levelPlaytimes
             courseLevelTotalPlaytimeMap[courseID][levelPlaytime.levelOriginal] ?= {count: 0, total: 0}
             levelPracticeMap[levelPlaytime.levelOriginal] = true if levelPlaytime.practice
           for session in levelSessions
+            continue unless session.playtime?
             courseLevelTotalPlaytimeMap[courseID][session.level.original].count++
-            courseLevelTotalPlaytimeMap[courseID][session.level.original].total += session.playtime
+            courseLevelTotalPlaytimeMap[courseID][session.level.original].total += session.playtime ? 0
         # console.log 'courseLevelTotalPlaytimeMap', courseLevelTotalPlaytimeMap
 
         for courseID, totalPlaytimes of courseLevelTotalPlaytimeMap when courseID in courseIDs

@@ -140,16 +140,17 @@ _.extend ThangTypeSchema.properties,
     thumb: { type: 'string', format: 'image-file', title: 'Thumb' }
     wizardHand: { type: 'string', format: 'image-file', title: 'Wizard Hand' }
   dollImages: c.object { title: 'Paper Doll Images' },
-    male: { type: 'string', format: 'image-file', title: ' Male' }
-    female: { type: 'string', format: 'image-file', title: ' Female' }
+    male: { type: 'string', format: 'image-file', title: 'Male' }
+    female: { type: 'string', format: 'image-file', title: 'Female' }
     maleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male)' }
     femaleThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female)' }
     maleRanger: { type: 'string', format: 'image-file', title: 'Glove (Male Ranger)' }
     maleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Male Ranger)' }
     femaleRanger: { type: 'string', format: 'image-file', title: 'Glove (Female Ranger)' }
     femaleRangerThumb: { type: 'string', format: 'image-file', title: 'Thumb (Female Ranger)' }
-    maleBack: { type: 'string', format: 'image-file', title: ' Male Back' }
-    femaleBack: { type: 'string', format: 'image-file', title: ' Female Back' }
+    maleBack: { type: 'string', format: 'image-file', title: 'Male Back' }
+    femaleBack: { type: 'string', format: 'image-file', title: 'Female Back' }
+    pet: { type: 'string', format: 'image-file', title: 'Pet' }
   colorGroups: c.object
     title: 'Color Groups'
     additionalProperties:

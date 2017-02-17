@@ -227,6 +227,67 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     expect(student.get('coursePrepaid')?.type).toEqual('starter_license')
     done()
 
+describe 'DELETE /db/prepaid/:handle/redeemers', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([Course, CourseInstance, Payment, Prepaid, User])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser()
+    @url = getURL("/db/prepaid/#{@prepaid.id}/redeemers")
+    [res, body] = yield request.postAsync {uri: @url, json: { userID: @student.id } }
+    expect(res.statusCode).toBe(201)
+    done()
+
+  it 'removes a given user to the redeemers property', utils.wrap (done) ->
+    prepaid = yield Prepaid.findById(@prepaid.id)
+    expect(prepaid.get('redeemers').length).toBe(1)
+    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(0)
+    expect(res.statusCode).toBe(200)
+    prepaid = yield Prepaid.findById(body._id)
+    expect(prepaid.get('redeemers').length).toBe(0)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')).toBeUndefined()
+    done()
+
+  it 'works if the user has not migrated from coursePrepaidID to coursePrepaid', utils.wrap (done) ->
+    yield @student.update({
+      $set: { coursePrepaidID: @prepaid._id }
+      $unset: { coursePrepaid: '' }
+    })
+    yield @student.save()
+    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
+    expect(body.redeemers.length).toBe(0)
+    expect(res.statusCode).toBe(200)
+    prepaid = yield Prepaid.findById(body._id)
+    expect(prepaid.get('redeemers').length).toBe(0)
+    student = yield User.findById(@student.id)
+    expect(student.get('coursePrepaid')).toBeUndefined()
+    expect(student.get('coursePrepaidID')).toBeUndefined()
+    done()
+    
+  it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
+    otherTeacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(otherTeacher)
+    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
+    expect(res.statusCode).toBe(403)
+    done()
+
+  it 'returns 422 unless the target user is in "redeemers"', utils.wrap (done) ->
+    otherStudent = yield utils.initUser({role: 'student'})
+    [res, body] = yield request.delAsync {uri: @url, json: { userID: otherStudent.id } }
+    expect(res.statusCode).toBe(422)
+    done()
+    
+  it 'returns 403 if the prepaid is a starter license', utils.wrap ->
+    yield @prepaid.update({$set: {type: 'starter_license'}})
+    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
+    expect(res.statusCode).toBe(403)
+
 describe 'GET /db/prepaid?creator=:id', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([Course, CourseInstance, Payment, Prepaid, User])
@@ -255,7 +316,7 @@ describe 'GET /db/prepaid?creator=:id', ->
     done()
     
   it 'returns 403 if the user tries to view another user\'s prepaids', utils.wrap (done) ->
-    anotherUser = yield utils.initUser()
+    anotherUser = yield utils.initUser() 
     url = getURL("/db/prepaid?creator=#{anotherUser.id}")
     [res, body] = yield request.getAsync({uri: url, json: true})
     expect(res.statusCode).toBe(403)
@@ -770,14 +831,14 @@ describe '/db/prepaid', ->
     
       # Spawn all requests at once!
       requests = []
-      options = {
+      options = { 
         url: getURL('/db/subscription/-/subscribe_prepaid')
         json: { ppc: prepaid.code }
       }
       for thread in threads
         requests.push(thread.request.postAsync(options))
         
-      # Wait until all requests finish, make sure all but one succeeded
+      # Wait until all requests finish, make sure all but one succeeded 
       responses = yield requests
       redeemed = _.size(_.where(responses, {statusCode: 200}))
       errors = _.size(_.where(responses, {statusCode: 403}))

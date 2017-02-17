@@ -311,12 +311,16 @@ getPlayTimeStats = wrap (req, res) ->
 
     endDate = req.query.endDate
 
-  user = yield User.find({
+  query = {
     dateCreated: {$lt: Date.parse(endDate), $gt: Date.parse(startDate)}
     clientCreator: req.client._id,
     oAuthIdentities: {$exists: 1}  # Take advantage of index
-  },{_id: 1}).exec()
-
+  }
+  if req.query.country
+    query.country = req.query.country
+    
+  user = yield User.find(query,{_id: 1}).exec()
+  
   ids = _.map user, (x) -> x._id.toString()
 
   result = yield LevelSession.aggregate()
@@ -325,6 +329,9 @@ getPlayTimeStats = wrap (req, res) ->
     .exec()
 
   output = result[0]
+  if not output
+    return res.send { playTime: 0, gamesPlayed: 0 } 
+    
   delete output._id
 
   res.send output

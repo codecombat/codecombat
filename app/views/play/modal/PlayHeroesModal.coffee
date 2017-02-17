@@ -63,7 +63,7 @@ module.exports = class PlayHeroesModal extends ModalView
       hero.restricted = not (hero.get('original') in allowedHeroes)
     hero.class = (hero.get('heroClass') or 'warrior').toLowerCase()
     hero.stats = hero.getHeroStats()
-    
+
   currentVisiblePremiumFeature: ->
     isPremium = @visibleHero and not (@visibleHero.class is 'warrior' and @visibleHero.get('tier') is 0)
     if isPremium
@@ -88,7 +88,7 @@ module.exports = class PlayHeroesModal extends ModalView
     context.gems = me.gems()
     context.isIE = @isIE()
     context
-  
+
   afterInsert: ->
     @updateViewVisibleTimer()
     super()
@@ -245,7 +245,8 @@ module.exports = class PlayHeroesModal extends ModalView
       languageName = $(@).text()
       languageID = $(@).data('value')
       blurb = $.i18n.t("choose_hero.#{languageID}_blurb")
-      $(@).text("#{languageName} - #{blurb}")
+      if languageName.indexOf(blurb) is -1  # Avoid doubling blurb if this is called 2x
+        $(@).text("#{languageName} - #{blurb}")
 
   onCodeLanguageChanged: (e) ->
     @codeLanguage = @$el.find('#option-code-language').val()

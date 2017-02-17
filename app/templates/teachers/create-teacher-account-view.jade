@@ -2,45 +2,70 @@ extends /templates/base-flat
 
 block content
   .container
+    .row.text-center
+      .col-md-offset-2.col-md-8
+        h3.m-t-3(data-i18n="teachers_quote.create_account")
+        h4(data-i18n="[html]teachers_quote.create_account_subtitle")
+        .alert.alert-info.m-y-2
+          span.spr(data-i18n="signup.login_switch")
+          a.login-link(data-i18n="login.log_in")
+        #social-network-signups.m-y-2
+          button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
+            span.spr(data-i18n="teachers_quote.connect_with")
+            | Facebook
+            img.m-l-1(src='/images/pages/community/logo_facebook.png')
+
+          button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
+            span.spr(data-i18n="teachers_quote.connect_with")
+            | Google
+            img.m-l-1(src='/images/pages/community/logo_g+.png')
+
+    #gplus-logged-in-row.row.text-center.hide
+      .col-md-offset-2.col-md-8
+        h2(data-i18n="signup.connected_gplus_header")
+        p(data-i18n="signup.connected_gplus_p")
+    #facebook-logged-in-row.row.text-center.hide
+      .col-md-offset-2.col-md-8
+        h2(data-i18n="signup.connected_facebook_header")
+        p(data-i18n="signup.connected_facebook_p")
+
     form#signup-form
-      .row.text-center
-        .col-md-offset-2.col-md-8
-          h3.m-t-3(data-i18n="teachers_quote.create_account")
-          h4(data-i18n="[html]teachers_quote.create_account_subtitle")
-          .alert.alert-info.m-y-2
-            span.spr(data-i18n="signup.login_switch")
-            a.login-link(data-i18n="login.log_in")
-          #social-network-signups.m-y-2
-            button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
-              span.spr(data-i18n="teachers_quote.connect_with")
-              | Facebook
-              img.m-l-1(src='/images/pages/community/logo_facebook.png')
-
-            button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
-              span.spr(data-i18n="teachers_quote.connect_with")
-              | G+
-              img.m-l-1(src='/images/pages/community/logo_g+.png')
-
-      #gplus-logged-in-row.row.text-center.hide
-        .col-md-offset-2.col-md-8
-          h2(data-i18n="signup.connected_gplus_header")
-          p(data-i18n="signup.connected_gplus_p")
-      #facebook-logged-in-row.row.text-center.hide
-        .col-md-offset-2.col-md-8
-          h2(data-i18n="signup.connected_facebook_header")
-          p(data-i18n="signup.connected_facebook_p")
-
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
           .form-group
             span.control-label(data-i18n="general.username")
+            span.name-check.fancy-error.pull-right
+              - var checkNameState = view.state.get('checkNameState');
+              if checkNameState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkNameState === 'exists'
+                span.small
+                  span= view.state.get('suggestedNameText')
+              if checkNameState === 'available'
+                span.small
+                  span(data-i18n="signup.name_available")
+
             input.form-control(name="name")
 
         .col-md-4.col-sm-6
           #email-form-group.form-group
             span.control-label(data-i18n="general.email")
+            span.email-check.fancy-error.pull-right
+              - var checkEmailState = view.state.get('checkEmailState');
+              if checkEmailState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkEmailState === 'exists'
+                span.small
+                  span(data-i18n="signup.account_exists")
+                  =" "
+                  a.login-link(data-i18n="signup.sign_in")
+
+              if checkEmailState === 'available'
+                span.small
+                  span(data-i18n="signup.email_good")
             input.form-control(name="email")
+
 
       .row.m-y-2
         .col-md-offset-2.col-md-4.col-sm-6
@@ -137,7 +162,6 @@ block content
             .form-group
               span.control-label
                 span(data-i18n="courses.number_total_students")
-                span.spl.text-muted(data-i18n="signup.optional")
               select.form-control(name="numStudentsTotal")
                 option(data-i18n="teachers_quote.num_students_default", value='')
                 option 1-500
@@ -175,6 +199,16 @@ block content
                   span(data-i18n="teachers_quote.please_explain")
               input#other-education-level-input.form-control
 
+      #referrer.row.m-y-2
+        .col-md-offset-2.col-md-8
+          span.control-label
+            span(data-i18n="teachers_quote.referrer")
+            span.spl.text-muted(data-i18n="signup.optional")
+            .help-block.small
+              em.text-info(data-i18n="teachers_quote.referrer_help")
+            
+          input#oreferrer-input.form-control(name="referrer")
+
       #anything-else-row.row.m-y-2
         .col-md-offset-2.col-md-8
           span.control-label
@@ -182,6 +216,7 @@ block content
             span.spl.text-muted(data-i18n="signup.optional")
 
           textarea.form-control(rows=8, name="notes")
+
           input(type="hidden" name="nces_id")
           input(type="hidden" name="nces_name")
           input(type="hidden" name="nces_district")
