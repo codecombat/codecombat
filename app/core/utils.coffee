@@ -125,8 +125,14 @@ courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
 petThangIDs = [
-  "578d320d15e2501f00a585bd"
+  '578d320d15e2501f00a585bd'
 ]
+
+premiumContent =
+  premiumHeroesCount: '12'
+  totalHeroesCount: '16'
+  premiumLevelsCount: '330'
+  freeLevelsCount: '100'
 
 normalizeFunc = (func_thing, object) ->
   # func could be a string to a function in this class
@@ -670,4 +676,5 @@ module.exports = {
   usStateCodes
   userAgent
   petThangIDs
+  premiumContent
 }
