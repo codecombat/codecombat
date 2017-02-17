@@ -928,7 +928,7 @@
     primary_role_default: "Select Primary Role"
     purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "Technology coordinator"
-    advisor: "Advisor"
+    advisor: "Curriculum Specialist/Advisor" # {change}
     principal: "Principal"
     superintendent: "Superintendent"
     parent: "Parent"
