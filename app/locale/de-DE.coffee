@@ -3,8 +3,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     slogan: "Das beste Spiel, um Programmieren zu lernen."
     classroom_edition: "Klassenraum Edition:"
     learn_to_code: "Lerne zu coden:"
-    teacher: "Lehrer"
-    student: "Schüler"
     play_now: "Jetzt spielen"
     im_a_teacher: "Ich bin eine Lehrkraft"
     im_a_student: "Ich bin ein Schüler"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     level: "Level" # Like "Level: Dungeons of Kithgard"
     skip: "Überspringen"
     game_menu: "Spielmenü"
-    guide: "Hilfe"
     restart: "Neustart"
     goals: "Ziele"
     goal: "Ziel"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_viking_code_school: "Heiliger Bimbam, das war ein schweres Level, dass du gerade gemeister hast! Wenn du noch kein Softwareentwickler bist, solltest du darüber nachdenken. Du wurdest zum Eilverfahren für die Annahme an der Viking Code School eingeschrieben, wo du deine Skills auf den nächsten Level bringen kannst und ein professioneller Web-developer in 14 Wochen werden kannst."
     victory_become_a_viking: "Werde ein Viking"
     victory_no_progress_for_teachers: "Der Fortschritt wird für Lehrer nicht gespeichert. Aber du kannst ein Schüler-Konto für deine Klasse hinzufügen und es selbst benutzen."
-    guide_title: "Anleitung"
     tome_cast_button_run: "Ausführen"
     tome_cast_button_running: "Wird ausgeführt"
     tome_cast_button_ran: "Wurde ausgeführt"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_reload_method: "Original Code für diese Methode neu laden" # {change}
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
-    tome_current_method: "Aktuelle Methode"
     hints: "Tipps"
     hints_title: "Tipp {{number}}"
     code_saved: "Code gespeichert"
     skip_tutorial: "Überspringen (Esc)"
     keyboard_shortcuts: "Tastenkürzel"
-    loading_ready: "Bereit!"
     loading_start: "Starte Level"
     problem_alert_title: "Repariere deinen Code"
     time_current: "Aktuell:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     premium_pricing_prefix: "Hol dir Premium für nur"
     premium_pricing_suffix: "und werde Master-Coder."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ Basislevel in __worldsCount__ Gebieten" # {change}
-    feature2: "__heroesCount__ mächtige <strong>neue Helden</strong> mit einzigartigen Fertigkeiten" # {change}
-    feature3: "__bonusLevelsCount__+ Bonuslevel" # {change}
-    feature4: "<strong>{{gems}} Bonusedelsteine</strong> jeden Monat!" # {change}
-    feature6: "Premium Emailsupport"
-    feature7: "Private <strong>Klans</strong>"
-    feature8: "<strong>Keine Werbung!</strong>"
-    feature_game_dev: "In unseren <strong>Spielentwickler-Welten</strong> können deine Freunde dein Spiel spielen"
-    feature_web_dev: "Baue in unseren <strong>Webentwicklungs-Welten</strong> Websites und Apps mit HTML, CSS und jQuery."
     free: "Kostenlos"
     month: "Monat"
     must_be_logged: "Du musst eingeloggt sein. Bitte kreiere einen Account oder logge dich oben im Menü ein."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unsubscribing: "Abonnement wird gekündigt..."
     subscribe_prepaid: "Klicke auf abonnieren, um einen Prepaidcode zu benutzen"
     using_prepaid: "Benutze einen Prepaidcode für ein Monatsabo"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Wähle deinen Helden"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     please_explain: "(bitte erklären)"
     middle_school: "Mittelschule"
     college_plus: "Hochschule oder höher"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
     anything_else: "Weitere Dinge die wir wissen sollten?"
     thanks_header: "Danke dass Sie eine Demo beantragen!" # {change}
     thanks_sub_header: "Vielen Dank für dein Interesse an CodeCombat für deine Schule."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   account_settings:
     title: "Accounteinstellungen"
     not_logged_in: "Logge Dich ein oder lege einen Account an, um deine Einstellungen ändern zu können."
-    autosave: "Sichere Änderungen automatisch"
     me_tab: "Ich"
     picture_tab: "Bild"
     delete_account_tab: "Account löschen"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     private_require_sub: "Private Clans benötigen ein Abonnement zum Erstellen oder Beitreten."
 
   courses:
-    course: "Kurs"
     create_new_class: "Erstellen Sie eine neue Klassen"
     unnamed_class: "Unbenannte Klasse"
     edit_settings1: "Klasseneinstellungen bearbeiten"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     average_levels: "Durchschnittliche abgeschlossene Level:"
     total_levels: "Anzahl abgeschlossener Level:"
     students: "Schüler"
-    students1: "Schüler"
     concepts: "Konzepten"
     play_time: "Spielzeit:"
     completed: "Abgeschlossen:"
     enter_emails: "Schüler-Emails eingeben zum hinzufügen, eine Adresse pro Zeile" # {change}
     send_invites: "Einladung senden" # {change}
-    creating_class: "Klasse wird erstellt..."
-    purchasing_course: "Kurs wird gekauft..."
-    buy_course: "Kurs kaufen"
-    select_all_courses: "Wählen Sie 'Alle Kurse' für einen 50% Rabatt!"
-    all_courses: "Alle Kurse"
     number_programming_students: "Anzahl an Programmierschülern"
     number_total_students: "Gesamtzahl der Schüler in Schule/Bezirk"
-    enter_number_students: "Geben Sie die Anzahl der Schüler ein, die Sie für diese Klasse brauchen."
-    name_class: "Benennen Sie ihre Klasse"
-    displayed_course_page: "Diese Seite wird für Sie und ihre Schüler auf der Kursseite angezeigt. Sie kann später verändert werden."
-    buy: "Kaufen"
-    purchasing_for: "Sie sind dabei eine Lizenz für"
-    creating_for: "Sie sind dabei eine Klasse zu erstellen für"
-    for: "für" # Like in 'for 30 students'
-    receive_code: "Danach werden Sie einen Einschreibecode zum Verteilen an ihre Schüler bekommen, den diese benutzen können um sich in die Klasse einzuschreiben."
-    questions: "Fragen?"
     enroll: "Einschreiben"
-    enter: "Eingabe"
     enroll_paid: "Schreiben Sie Schüler in Bezahlkurse ein"
     get_enrollments: "Mehr Einschreibungen erhalten"
     change_language: "Kurssprache wechseln"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     remove_description2: "Die acitvierte bezahlte Lizenz wird nicht zurückgenommen."
     keep_student: "Schüler behalten"
     removing_user: "Benutzer entfernen"
-    to_join_ask: "Um einer Klasse beizutreten, frage deinen Lehrer nach einem Freischaltcode."
-    join_this_class: "Der Klasse beitreten"
-    enter_here: "<Freischaltcode hier eingeben>"
-    successfully_joined: "Erfolgreich beigetreten"
-    click_to_start: "Klicke hier um folgenden Kurs zu beginnen"
-    my_courses: "Meine Kurse"
-    classroom: "Klassenraum"
     subtitle: "Kursübersichten und Level anzeigen" # Flat style redesign
     changelog: "Letzte Änderungen an Kurs-Leveln anzeigen."
     select_language: "Sprache auswählen"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     current_hero: "Aktueller Held:"
     change_hero: "Held wechseln"
     web_dev_language_transition: "Alle Klassen für diesen Kurs programmieren in HTML / JavaScript.  Klassen, die Python verwendet haben, fangen mit gesonderten Einführungsleveln für JavaScript an, um den Übergang zu erleichtern.  Klassen, die bereits JavaScript verwenden, überspringen die Einführungslevel."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
   teacher:
     assigning_course: "Kurs zuweisen"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     latest_complete: "Letztes abgeschlossenes Level"
     enroll_student: "Schüler einschreiben"
     apply_license: "Lizenz anwenden"
+#    revoke_license: "Revoke License"
     course_progress: "Kursfortschritt"
     not_applicable: "n. v."
     edit: "bearbeiten"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     progress_journal_desc: "Halte deine Schüler an, ihren Fortschritt mithilfe eines Fortschrittstagebuchs aufzuzeichnen."
     cs1_curriculum: "Einführung in die Computerwissenschaft – Curriculumsleitfaden"
     cs1_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
     cs2_curriculum: "Computerwissenschaft 2 – Curriculumsleitfaden"
     cs2_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 2."
     cs3_curriculum: "Computerwissenschaft 3 – Curriculumsleitfaden"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     hoc_additional_desc1: "Für zusätzliche CodeCombat-Ressourcen und -Aktivitäten, siehe unsere"
     hoc_additional_desc2: "Fragen"
     hoc_additional_contact: "Kontakt"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
   sharing:
     game: "Spiel"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     helpful_ambassadors: "Unsere hilfreichen Botschafter:"
 
   ladder:
-    please_login: "Bitte logge dich zunächst ein, bevor du ein Ladder-Game spielst."
     my_matches: "Meine Matches"
     simulate: "Simuliere"
     simulation_explanation: "Durch die Simulation von Spielen kannst du dein Spiel schneller ranken lassen!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     email_sent: "E-Mail verschickt! Überprüfe deinen Posteingang."
     verifying_email: "E-Mail-Adressen verifizieren..."
     successfully_verified: "Du hast deine E-Mail-Adresse erfolgreich verifiziert!"
-    back_to_student_page: "Zurück zu den Schülersachen"
-    back_to_teacher_page: "Gehe zu Meine Klassen"
-    back_to_game: "Geh und spiel noch einige Level!"
     verify_error: "Etwas ist bei der Verifikation deiner E-Mail schiefgelaufen :("
 
   account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     you_can1: "Sie können"
     you_can2: "einen Prepaidcode kaufen"
     you_can3: "der ihrem Account hinzugefügt werden kann oder den Sie verschenken können."
-
-  coppa_deny:
-    text1: "Du kannst es nicht erwarten, programmieren zu lernen?"
-    text2: "Deine Eltern müssen ein Konto für dich erstellen! Schreibe eine E-Mail an team@codecombat.com, wenn du Fragen hast."
-    close: "Fenster schließen"
 
   loading_error:
     could_not_load: "Fehler beim Laden vom Server"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     advanced_web_scripting: "Fortgeschrittenes Web-Scripting"
     input_handling: "Eingabebehandlung"
     while_loops: "while-Schleifen"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "hinzugefügt"

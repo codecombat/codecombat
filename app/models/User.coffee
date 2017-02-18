@@ -138,8 +138,8 @@ module.exports = class User extends CocoModel
   items: -> (me.get('earned')?.items ? []).concat(me.get('purchased')?.items ? []).concat([ThangType.items['simple-boots']])
   levels: -> (me.get('earned')?.levels ? []).concat(me.get('purchased')?.levels ? []).concat(Level.levels['dungeons-of-kithgard'])
   ownsHero: (heroOriginal) -> me.isInGodMode() || heroOriginal in @heroes()
-  #ownsItem: (itemOriginal) -> itemOriginal in @items()  # See redefinition while getDungeonLevelsGroup test is active
-  #ownsLevel: (levelOriginal) -> levelOriginal in @levels()  # See redefinition while getDungeonLevelsGroup test is active
+  ownsItem: (itemOriginal) -> itemOriginal in @items()
+  ownsLevel: (levelOriginal) -> levelOriginal in @levels()
 
   getHeroClasses: ->
     idsToSlugs = _.invert ThangType.heroes
@@ -190,72 +190,6 @@ module.exports = class User extends CocoModel
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
-
-  getDungeonLevelsGroup: ->
-    # Fully dismantle this after Hour of Code week is done
-    return @dungeonLevelsGroup if @dungeonLevelsGroup
-    @dungeonLevelsGroup = 'none'
-    @dungeonLevelsHidden = ['cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'dread-door', 'closing-the-distance']
-    skipTest = me.isAdmin() or me.isPremium() or features.freeOnly or me.isOnPremiumServer()
-    if skipTest
-      [@dungeonLevelsGroup, @dungeonLevelsHidden] = ['control', []]
-    @dungeonLevelsGroup
-
-  getDungeonLevelsHidden: ->
-    @getDungeonLevelsGroup()
-    @dungeonLevelsHidden
-
-  dungeonLevelSlugsToOriginals:
-    'cell-commentary': '57aa1bd5e5636725008854c0'
-    'kithgard-librarian': '5604169b60537b8705386a59'
-    'loop-da-loop': '565ce2291b940587057366dd'
-    'haunted-kithmaze': '545a5914d820eb0000f6dc0a'
-    'dread-door': '5418d40f4c16460000ab9ac2'
-    'closing-the-distance': '541b288e1ccc8eaae19f3c25'
-    'fire-dancing': '55ca293b9bc1892c835b0136'
-    'the-second-kithmaze': '5418cf256bae62f707c7e1c3'
-    'descending-further': '5452a84d57e83800009730e4'
-    'known-enemy': '5452adea57e83800009730ee'
-    'cupboards-of-kithgard': '54e0cdefe308cb510555a7f5'
-    'a-mayhem-of-munchkins': '55ca29439bc1892c835b0137'
-    'tactical-strike': '5452cfa706a59e000067e4f5'
-
-  dungeonItemSlugsToOriginals:
-    'programmaticon-i': '53e4108204c00d4607a89f78'
-    'wooden-shield': '53e22aa153457600003e3ef5'
-
-  dungeonLevelUnlocksToRewrite: [
-    {levels: ['kithgard-librarian'], unlockedInsteadOf: 'cell-commentary', groups: ['kithgard-librarian']}
-    {levels: ['fire-dancing'], item: 'programmaticon-i', unlockedInsteadOf: 'cell-commentary', groups: ['loop-da-loop', 'haunted-kithmaze', 'none']}
-    {levels: ['fire-dancing'], item: 'programmaticon-i', unlockedInsteadOf: 'kithgard-librarian', groups: ['cell-commentary']}
-    {levels: ['haunted-kithmaze'], unlockedInsteadOf: 'loop-da-loop', groups: ['haunted-kithmaze']}
-    {levels: ['the-second-kithmaze', 'descending-further'], unlockedInsteadOf: 'haunted-kithmaze', groups: ['conservative', 'loop-da-loop']}
-    {levels: ['the-second-kithmaze', 'descending-further'], unlockedInsteadOf: 'loop-da-loop', groups: ['cell-commentary', 'kithgard-librarian', 'none']}
-    {levels: ['known-enemy', 'cupboards-of-kithgard'], unlockedInsteadOf: 'dread-door', groups: ['conservative', 'cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'none']}
-    {levels: ['a-mayhem-of-munchkins', 'tactical-strike'], item: 'wooden-shield', unlockedInsteadOf: 'closing-the-distance', groups: ['conservative', 'cell-commentary', 'kithgard-librarian', 'loop-da-loop', 'haunted-kithmaze', 'none']}
-  ]
-
-  ownsLevel: (levelOriginal) ->
-    # Temporary hack; revert to simpler ownsLevel above when test is concluded
-    return true if levelOriginal in @levels()
-    @dungeonLevelOriginalsToSlugs ?= _.invert @dungeonLevelSlugsToOriginals
-    levelSlug = @dungeonLevelOriginalsToSlugs[levelOriginal]
-    return false unless levelSlug
-    for levelUnlockRewrite in @dungeonLevelUnlocksToRewrite when @getDungeonLevelsGroup() in levelUnlockRewrite.groups
-      if levelSlug in levelUnlockRewrite.levels
-        return @ownsLevel @dungeonLevelSlugsToOriginals[levelUnlockRewrite.unlockedInsteadOf]
-    false
-
-  ownsItem: (itemOriginal) ->
-    # Temporary hack; revert to simpler ownsItem above when test is concluded
-    return true if itemOriginal in @items()
-    @dungeonItemOriginalsToSlugs ?= _.invert @dungeonItemSlugsToOriginals
-    itemSlug = @dungeonItemOriginalsToSlugs[itemOriginal]
-    return false unless itemSlug
-    for levelUnlockRewrite in @dungeonLevelUnlocksToRewrite when @getDungeonLevelsGroup() in levelUnlockRewrite.groups
-      if itemSlug is levelUnlockRewrite.item
-        return @ownsLevel @dungeonLevelSlugsToOriginals[levelUnlockRewrite.unlockedInsteadOf]
-    false
 
   hasSubscription: ->
     return false unless stripe = @get('stripe')
@@ -451,10 +385,25 @@ module.exports = class User extends CocoModel
     @loading = false
 
     return jqxhr
-    
+
   finishedAnyLevels: -> Boolean((@get('stats') or {}).gamesCompleted)
 
   isFromUk: -> @get('country') is 'united-kingdom'
+    
+  sendParentEmail: (email, options={}) ->
+    options.data ?= {}
+    options.data.type = 'subscribe modal parent'
+    options.data.email = email
+    options.url = '/db/user/-/send_one_time_email'
+    options.method = 'POST'
+    return $.ajax(options)
+    
+  subscribe: (token, options={}) ->
+    stripe = _.clone(@get('stripe') ? {})
+    stripe.planID = 'basic'
+    stripe.token = token.id
+    @set({stripe})
+    return me.patch({headers: {'X-Change-Plan': 'true'}})
 
 tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04, 1.22, 1.35, 1.48, 1.65, 1.78, 1.96, 2.1, 2.24, 2.38, 2.55, 2.69, 2.86, 3.03, 3.16, 3.29, 3.42, 3.58, 3.74, 3.89, 4.04, 4.19, 4.32, 4.47, 4.64, 4.79, 4.96,
   5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5, 15

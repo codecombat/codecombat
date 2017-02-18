@@ -13,7 +13,8 @@ block content
             div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
         .col-md-5.big-stat.recurring-revenue
           div.description Home Monthly Recurring Revenue
-          div.count $#{Math.round((view.yearMonthMrrMap[new Date().toISOString().substring(0, 7)] || 0) / 100)}
+          - var yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 1).toISOString().substring(0, 10);
+          div.count $#{Math.round((view.dayMrrMap[yesterday] || 0) / 100)}
         .col-md-5.big-stat.classroom-active-users
           div.description Classroom Monthly Active Users
           if view.activeUsers.length > 0

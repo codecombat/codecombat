@@ -81,7 +81,7 @@ mixin classRow(classroom)
         else
           - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
           - var courseLabelsArray = view.helper.courseLabelsArray(courses);
-          each trimCourse, index in classroom.get('courses') || []
+          each trimCourse, index in classroom.getSortedCourses() || []
             - var course = view.courses.get(trimCourse._id);
             if view.courseInstances.findWhere({ classroomID: classroom.id, courseID: course.id })
               - var label = courseLabelsArray[index];

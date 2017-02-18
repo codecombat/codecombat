@@ -133,7 +133,7 @@ block content
             span :
             span.spr
             select#course-dropdown.text-navy
-              each versionedCourse in (view.classroom.get('courses') || [])
+              each versionedCourse in (view.classroom.getSortedCourses() || [])
                 - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
                 if !course
                   // TODO: make sure this doesn't happen when data is loaded. 
@@ -156,7 +156,7 @@ block content
               span(data-i18n="teacher.class_average") 
           
           .graphs
-            each versionedCourse in (view.classroom.get('courses') || [])
+            each versionedCourse in (view.classroom.getSortedCourses() || [])
               - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
               if !course
                 - continue;
@@ -175,7 +175,7 @@ block content
         .student-levels 
           h4(data-i18n="teacher.course_progress")
           .student-levels-progress
-            each versionedCourse in (view.classroom.get('courses') || [])
+            each versionedCourse in (view.classroom.getSortedCourses()|| [])
                 - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
                 if !course
                   - continue;

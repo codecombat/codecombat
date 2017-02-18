@@ -47,8 +47,8 @@ module.exports = class CampaignView extends RootView
 
   events:
     'click .map-background': 'onClickMap'
-    'click .level a': 'onClickLevel'
-    'dblclick .level a': 'onDoubleClickLevel'
+    'click .level': 'onClickLevel'
+    'dblclick .level': 'onDoubleClickLevel'
     'click .level-info-container .start-level': 'onClickStartLevel'
     'click .level-info-container .view-solutions': 'onClickViewSolutions'
     'click .level-info-container .course-version button': 'onClickCourseVersion'
@@ -369,7 +369,6 @@ module.exports = class CampaignView extends RootView
       level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
-      level.locked = true if level.slug in me.getDungeonLevelsHidden()
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
       level.locked = false if @editorMode
       level.locked = false if @campaign?.get('name') in ['Auditions', 'Intro']
@@ -383,7 +382,9 @@ module.exports = class CampaignView extends RootView
       level.unlocksHero = _.find(level.rewards, 'hero')?.hero
       if level.unlocksHero
         level.purchasedHero = level.unlocksHero in (me.get('purchased')?.heroes or [])
+
       level.unlocksItem = _.find(level.rewards, 'item')?.item
+      level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
@@ -412,7 +413,6 @@ module.exports = class CampaignView extends RootView
       for otherLevel in orderedLevels when not level.unlockedInSameCampaign and otherLevel isnt level
         for reward in (otherLevel.rewards ? []) when reward.level
           level.unlockedInSameCampaign ||= reward.level is level.original
-      level.unlockedInSameCampaign = false if level.slug in me.getDungeonLevelsHidden()
 
   countLevels: (orderedLevels) ->
     count = total: 0, completed: 0
@@ -881,5 +881,10 @@ module.exports = class CampaignView extends RootView
     pollModal.on 'vote-updated', ->
       $pollButton.removeClass('highlighted').tooltip 'hide'
 
+
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
+
+  mergeWithPrerendered: (el) ->
+    true
+

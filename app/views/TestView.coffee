@@ -9,6 +9,16 @@ require 'tests'
 TEST_REQUIRE_PREFIX = 'test/app/'
 TEST_URL_PREFIX = '/test/'
 
+customMatchers = {
+  toDeepEqual: (util, customEqualityTesters) ->
+    return {
+      compare: (actual, expected) ->
+        pass = _.isEqual(actual, expected)
+        message = "Expected #{JSON.stringify(actual, null, '\t')} to DEEP EQUAL #{JSON.stringify(expected, null, '\t')}"
+        return { pass, message }
+    }
+}
+
 module.exports = TestView = class TestView extends RootView
   id: 'test-view'
   template: template
@@ -98,17 +108,21 @@ module.exports = TestView = class TestView extends RootView
     jasmine.Ajax.install()
     beforeEach ->
       me.clear()
+      me.markToRevert()
       jasmine.Ajax.requests.reset()
       Backbone.Mediator.init()
       Backbone.Mediator.setValidationEnabled false
       spyOn(application.tracker, 'trackEvent')
       application.timeoutsToClear = []
+      jasmine.addMatchers(customMatchers)
+      @notySpy = spyOn(window, 'noty') # mainly to hide them
       # TODO Stubbify more things
       #   * document.location
       #   * firebase
       #   * all the services that load in main.html
 
     afterEach ->
+      jasmine.Ajax.stubs.reset()
       application.timeoutsToClear?.forEach (timeoutID) ->
         clearTimeout(timeoutID)
       # TODO Clean up more things

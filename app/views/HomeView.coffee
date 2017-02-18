@@ -207,3 +207,7 @@ module.exports = class HomeView extends RootView
     newOffset = parseInt(target.css('height') || 0) + adjustment
     newOffset = Math.min(Math.max(0, newOffset), 170)
     target.css(height: "#{newOffset}px")
+
+  mergeWithPrerendered: (el) ->
+    true
+

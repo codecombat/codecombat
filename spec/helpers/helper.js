@@ -66,8 +66,22 @@ if (process.argv.indexOf('--with-test-names') > -1) {
   })
 }
 
+// TODO: Share this between client and server tests
+customMatchers = {
+  toDeepEqual: function (util, customEqualityTesters) {
+    return {
+      compare: function (actual, expected) {
+        pass = _.isEqual(actual, expected)
+        message = `Expected ${JSON.stringify(actual, null, '\t')} to DEEP EQUAL ${JSON.stringify(expected, null, '\t')}`
+        return {pass, message}
+      }
+    }
+  }
+}
+
 var initialized = false;
 beforeEach(function(done) {
+  jasmine.addMatchers(customMatchers);
   if (initialized) {
     return done();
   }

@@ -3,8 +3,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    slogan: "The most engaging game for learning programming."
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
-#    teacher: "Teacher"
-#    student: "Student"
 #    play_now: "Play Now"
 #    im_a_teacher: "I'm a Teacher"
 #    im_a_student: "I'm a Student"
@@ -422,7 +420,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     level: "Nivel" # Like "Level: Dungeons of Kithgard"
     skip: "Sari peste"
     game_menu: "Meniul Jocului"
-    guide: "Ghid"
     restart: "Restart"
     goals: "Obiective"
     goal: "Obiectiv"
@@ -456,7 +453,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     victory_viking_code_school: "Wow, ăla a fost un nivel greu! Daca nu ești deja un dezvoltator de software, ar trebui să fi. Tocmai ai fost selectat pentru acceptare in Viking Code School, unde poți sa iți dezvolți abilitățile la nivelul următor și să devi un dezvoltator web profesionist în 14 săptămâni."
     victory_become_a_viking: "Devino Viking"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
-    guide_title: "Ghid"
     tome_cast_button_run: "Ruleaza"
     tome_cast_button_running: "In Derulare"
     tome_cast_button_ran: "A rulat"
@@ -464,13 +460,11 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     tome_reload_method: "Reîncarcă cod original, pentru această metodă" # {change}
     tome_available_spells: "Vrăji disponibile"
     tome_your_skills: "Skillurile tale"
-    tome_current_method: "Metoda curentă"
 #    hints: "Hints"
 #    hints_title: "Hint {{number}}"
     code_saved: "Cod Salvat"
     skip_tutorial: "Sari peste (esc)"
     keyboard_shortcuts: "Scurtături Keyboard"
-    loading_ready: "Gata!"
     loading_start: "Începe Level"
     problem_alert_title: "Repară codul"
     time_current: "Acum:"
@@ -618,15 +612,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    premium_pricing_prefix: "Get Premium for just"
 #    premium_pricing_suffix: "and become a master coder."
 #    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    feature1: "__levelsCount__+ de nivele de bază în __worldsCount__ lumi diferite!" # {change}
-    feature2: "__heroesCount__ <strong>Eroi Noi</strong> puternici, cu skilluri unice!" # {change}
-    feature3: "__bonusLevelsCount__+ nivele bonus" # {change}
-    feature4: "<strong>{{gems}} de Pietre Prețioase bonus</strong> în fiecare lună!" # {change}
-    feature6: "Suport e-mail premium"
-    feature7: "<strong>Clanuri</strong> private"
-#    feature8: "<strong>No ads!</strong>"
-#    feature_game_dev: "Make games for your friends to play in our <strong>Game Dev Worlds</strong>"
-#    feature_web_dev: "Build websites and apps with HTML, CSS, and jQuery in our <strong>Web Dev Worlds</strong>"
     free: "Gratuit"
     month: "lună"
 #    must_be_logged: "You must be logged in first. Please create an account or log in from the menu above."
@@ -676,6 +661,22 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     unsubscribing: "Te Dezabonăm..." # {change}
     subscribe_prepaid: "Dăi Click pe Abonare pentru a folosi un cod prepaid"
     using_prepaid: "Folosesc codul prepaid pentru un abonament lunar"
+#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_gems: "Receive __gems__ gems per month"
+#    feature_heroes: "Unlock exclusive heroes"
+#    feature_games: "Make games for your friends"
+#    feature_websites: "Build websites and apps"
+#    feature_items: "Equip more powerful items"
+#    month_price: "$__price__/mo"
+#    lifetime: "Lifetime Subscription"
+#    lifetime_price: "$__price__"
+#    year_subscription: "Yearly Subscription"
+#    year_price: "$__price__/year"
+#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
+#    kids_message_2: "Ask Your Parent"
+#    support_part1: "Need help with payment options? Email"
+#    support_part2: "support@codecombat.com"
+#    support_part3: "if you have any questions."
 
   choose_hero:
     choose_hero: "Alege Eroul"
@@ -929,6 +930,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    please_explain: "(please explain)"
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
+#    referrer: "How did you hear about us?"
+#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
 #    anything_else: "Anything else we should know?"
 #    thanks_header: "Request Received!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
@@ -974,7 +977,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
   account_settings:
     title: "Setări Cont"
     not_logged_in: "Loghează-te sau crează un cont nou pentru a schimba setările."
-    autosave: "Modificările se salvează automat"
     me_tab: "Eu"
     picture_tab: "Poză"
     delete_account_tab: "Șterge Contul"
@@ -1114,7 +1116,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    private_require_sub: "Private clans require a subscription to create or join."
 
 #  courses:
-#    course: "Course"
 #    create_new_class: "Create New Class"
 #    unnamed_class: "Unnamed Class"
 #    edit_settings1: "Edit Class Settings"
@@ -1126,30 +1127,14 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    average_levels: "Average levels completed:"
 #    total_levels: "Total levels completed:"
 #    students: "Students"
-#    students1: "students"
 #    concepts: "Concepts"
 #    play_time: "Play time:"
 #    completed: "Completed:"
 #    enter_emails: "Separate each email address by a line break or commas"
 #    send_invites: "Invite Students"
-#    creating_class: "Creating class..."
-#    purchasing_course: "Purchasing course..."
-#    buy_course: "Buy Course"
-#    select_all_courses: "Select 'All Courses' for a 50% discount!"
-#    all_courses: "All Courses"
 #    number_programming_students: "Number of Programming Students"
 #    number_total_students: "Total Students in School/District"
-#    enter_number_students: "Enter the number of students you need for this class."
-#    name_class: "Name your class"
-#    displayed_course_page: "This will be displayed on the course page for you and your students. It can be changed later."
-#    buy: "Buy"
-#    purchasing_for: "You are purchasing a license for"
-#    creating_for: "You are creating a class for"
-#    for: "for" # Like in 'for 30 students'
-#    receive_code: "Afterwards you will receive an unlock code to distribute to your students, which they can use to enroll in your class."
-#    questions: "Questions?"
 #    enroll: "Enroll"
-#    enter: "Enter"
 #    enroll_paid: "Enroll Students in Paid Courses"
 #    get_enrollments: "Get More Licenses"
 #    change_language: "Change Course Language"
@@ -1200,13 +1185,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    remove_description2: "The activated paid license will not be returned."
 #    keep_student: "Keep Student"
 #    removing_user: "Removing user"
-#    to_join_ask: "To join a class, ask your teacher for an unlock code."
-#    join_this_class: "Join Class"
-#    enter_here: "<enter unlock code here>"
-#    successfully_joined: "Successfully joined"
-#    click_to_start: "Click here to start taking"
-#    my_courses: "My Courses"
-#    classroom: "Classroom"
 #    subtitle: "Review course overviews and levels" # Flat style redesign
 #    changelog: "View latest changes to course levels."
 #    select_language: "Select language"
@@ -1278,6 +1256,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    current_hero: "Current Hero:"
 #    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
+#    course_membership_required_to_play: "You'll need to join a course to play this level."
+#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1320,6 +1300,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    latest_complete: "Latest completed level"
 #    enroll_student: "Enroll student"
 #    apply_license: "Apply License"
+#    revoke_license: "Revoke License"
 #    course_progress: "Course Progress"
 #    not_applicable: "N/A"
 #    edit: "edit"
@@ -1419,6 +1400,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    progress_journal_desc: "Encourage students to keep track of their progress via a progress journal."
 #    cs1_curriculum: "Introduction to Computer Science - Curriculum Guide"
 #    cs1_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 1."
+#    arenas_curriculum: "Arena Levels - Teacher Guide"
+#    arenas_curriculum_desc: "Instructions on how to run Wakka Maul, Cross Bones and Power Peak multiplayer arenas with your class."
 #    cs2_curriculum: "Computer Science 2 - Curriculum Guide"
 #    cs2_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 2."
 #    cs3_curriculum: "Computer Science 3 - Curriculum Guide"
@@ -1484,6 +1467,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    hoc_additional_desc1: "For additional CodeCombat resources and activities, see our"
 #    hoc_additional_desc2: "Questions"
 #    hoc_additional_contact: "Get in touch"
+#    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
+#    revoking: "Revoking..."
 
 #  sharing:
 #    game: "Game"
@@ -1704,7 +1689,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     helpful_ambassadors: "Ambasadorii noștri de ajutor:"
 
   ladder:
-    please_login: "Vă rugăm să vă autentificați înainte de a juca un meci de clasament."
     my_matches: "Jocurile mele"
     simulate: "Simulează"
     simulation_explanation: "Simulând jocuri poți afla poziția în clasament a jocului tău mai repede!"
@@ -1822,9 +1806,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    email_sent: "Email sent! Check your inbox."
 #    verifying_email: "Verifying your email address..."
 #    successfully_verified: "You've successfully verified your email address!"
-#    back_to_student_page: "Go back to student things"
-#    back_to_teacher_page: "Go to My Classes"
-#    back_to_game: "Go play some more levels!"
 #    verify_error: "Something went wrong when verifying your email :("
 
   account_invoices:
@@ -1860,11 +1841,6 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    you_can1: "You can"
 #    you_can2: "purchase a prepaid code"
 #    you_can3: "that can be applied to your own account or given to others."
-
-#  coppa_deny:
-#    text1: "Can’t wait to learn programming?"
-#    text2: "Your parents will need to create an account for you to use! Email team@codecombat.com if you have any questions."
-#    close: "Close Window"
 
   loading_error:
     could_not_load: "Eroare la încărcarea pe server"
@@ -2001,6 +1977,16 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    advanced_web_scripting: "Advanced Web Scripting"
 #    input_handling: "Input Handling"
 #    while_loops: "While Loops"
+#    place_game_objects: "Place game objects"
+#    construct_mazes: "Construct mazes"
+#    create_playable_game: "Create a playable, sharable game project"
+#    alter_existing_web_pages: "Alter existing web pages"
+#    create_sharable_web_page: "Create a sharable web page"
+#    basic_input_handling: "Basic Input Handling"
+#    basic_game_ai: "Basic Game AI"
+#    basic_javascript: "Basic JavaScript"
+#    basic_event_handling: "Basic Event Handling"
+#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   delta:
     added: "Adăugat"

@@ -6,3 +6,9 @@ module.exports = class Products extends CocoCollection
   url: '/db/products'
   
   getByName: (name) -> @findWhere { name: name }
+
+  getBasicSubscriptionForUser: (user) ->
+    if countrySpecificProduct = @findWhere { name: "#{user?.get('country')}_basic_subscription" }
+      return countrySpecificProduct
+    else
+      return @findWhere { name: 'basic_subscription' }
