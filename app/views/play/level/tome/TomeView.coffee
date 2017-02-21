@@ -46,7 +46,7 @@ module.exports = class TomeView extends CocoView
 
   constructor: (options) ->
     super options
-    unless options.god
+    unless options.god or options.level.get('type') is 'web-dev'
       console.error "TomeView created with no God!"
 
   afterRender: ->

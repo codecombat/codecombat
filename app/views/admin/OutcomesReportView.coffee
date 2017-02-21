@@ -50,11 +50,9 @@ OutcomesReportComponent = Vue.extend
     courseInstances: []
     isClassroomSelected: {}
     isCourseSelected: {}
-    endDate: moment(new Date()).format('YYYY-MM-DD')
+    endDate: moment(new Date()).format('MMM D, YYYY')
     insightsMarkdown: ""
   computed:
-    accountManagerFullName: ->
-      "#{@accountManager?.firstName} #{@accountManager?.lastName}"
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
     indexedSessions: ->
@@ -137,7 +135,7 @@ OutcomesReportComponent = Vue.extend
       @schoolName ?= trialRequest?.properties.nces_name
       @schoolName ?= trialRequest?.properties.school
       @schoolName ?= trialRequest?.properties.organization
-      @startDate = moment(new Date(trialRequest?.created)).format('YYYY-MM-DD')
+      @startDate = moment(new Date(trialRequest?.created)).format('MMM D, YYYY')
     classrooms: (classrooms) ->
       for classroom in classrooms
         if _.isUndefined(@isClassroomSelected[classroom._id])
@@ -151,6 +149,8 @@ OutcomesReportComponent = Vue.extend
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
         console.log course.campaignID, course.newConcepts
+    accountManager: ->
+      @accountManagerFullName = "#{@accountManager?.firstName} #{@accountManager?.lastName}"
     
   methods:
     submitEmail: (e) ->

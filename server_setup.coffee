@@ -335,6 +335,7 @@ setupQuickBailToMainHTML = (app) ->
 
   app.get '/', fast('home.html')
   app.get '/about', fast('about.html')
+  app.get '/features', fast('premium-features.html')
   app.get '/privacy', fast('privacy.html')
   app.get '/legal', fast('legal.html')
   app.get '/play', fast('overworld.html')

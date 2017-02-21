@@ -11,11 +11,7 @@ module.exports = class SubscribeModal extends ModalView
   plain: true
   closesOnClickOutside: false
   planID: 'basic'
-  i18nData:
-    levelsCount: '100'
-    worldsCount: '5'
-    heroesCount: '16'
-    bonusLevelsCount: '330'
+  i18nData: utils.premiumContent
 
   events:
     'click #close-modal': 'hide'
@@ -117,6 +113,7 @@ module.exports = class SubscribeModal extends ModalView
       application.tracker?.trackEvent 'Finished subscription purchase', value: @purchasedAmount
       @onSubscriptionSuccess() 
     .catch (jqxhr) =>
+      return unless jqxhr # in case of cancellations
       @onSubscriptionError(jqxhr, 'Failed to finish subscription purchase')
 
   onClickSaleButton: ->
@@ -141,6 +138,7 @@ module.exports = class SubscribeModal extends ModalView
       me.set 'stripe', response?.stripe if response?.stripe?
       @onSubscriptionSuccess()
     .catch (jqxhr) =>
+      return unless jqxhr # in case of cancellations
       @onSubscriptionError(jqxhr, 'Failed to finish 1 year subscription purchase')
       
   onClickLifetimeButton: ->
@@ -163,6 +161,7 @@ module.exports = class SubscribeModal extends ModalView
       me.set 'stripe', response?.stripe if response?.stripe?
       @onSubscriptionSuccess()
     .catch (jqxhr) =>
+      return unless jqxhr # in case of cancellations
       @onSubscriptionError(jqxhr, 'Fail Lifetime Purchase')
 
   onSubscriptionSuccess: ->

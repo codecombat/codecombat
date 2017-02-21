@@ -4,6 +4,7 @@ log = require 'winston'
 
 roomChannelMap =
   main: '#general'
+  tower: '#general'
   artisans: '#artisan'
 
 module.exports.sendChangedSlackMessage = (options) ->

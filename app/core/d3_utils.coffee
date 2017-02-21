@@ -17,7 +17,7 @@ module.exports.createLineChart = (containerSelector, chartLines, containerWidth)
   return unless chartLines?.length > 0 and containerSelector
 
   margin = 20
-  keyHeight = 20
+  keyHeight = 35
   xAxisHeight = 20
   yAxisWidth = 40
   containerWidth = $(containerSelector).width() unless containerWidth

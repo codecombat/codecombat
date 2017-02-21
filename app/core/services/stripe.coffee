@@ -18,8 +18,13 @@ else
       Backbone.Mediator.publish 'stripe:received-token', { token: token }
     locale: 'auto'
   })
+  handler.rejectLastPromise = _.noop
   handler.openAsync = (options) ->
-    promise = new Promise((resolve) -> handler.once('received-token', resolve))
+    handler.rejectLastPromise() # make sure it never resolves
+    promise = new Promise((resolve, reject) -> 
+      handler.once('received-token', resolve)
+      handler.rejectLastPromise = reject
+    )
     handler.open(options)
     return promise
   _.extend(handler, Backbone.Events)
