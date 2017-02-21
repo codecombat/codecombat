@@ -16,7 +16,7 @@ module.exports = class InviteToClassroomModal extends ModalView
 
   onClickSendInvitesButton: ->
     emails = @$('#invite-emails-textarea').val()
-    emails = emails.split('\n')
+    emails = emails.split(/[,\n]/)
     emails = _.filter((_.string.trim(email) for email in emails))
     if not emails.length
       return
