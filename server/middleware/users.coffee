@@ -355,11 +355,18 @@ module.exports =
 
     sphinxIds = null
     if config.sphinxServer
-      sphinxIds = yield module.exports.sphinxSearch(req, adminSearch)
-      sphinxUsers = yield User.find({_id: {$in: sphinxIds}}).select(projection)
-      
-      sortedSphinxUsers = _.filter _.map sphinxIds, (id) => _.find(sphinxUsers, (u) -> u._id.equals(id))
-      users = users.concat(sortedSphinxUsers)
+      try
+        timeout = new Promise((resolve) ->
+          f = -> resolve([])
+          setTimeout(f, 5000)
+        )
+        sphinxIds = yield Promise.any([module.exports.sphinxSearch(req, adminSearch), timeout])
+        sphinxUsers = yield User.find({_id: {$in: sphinxIds}}).select(projection)
+  
+        sortedSphinxUsers = _.filter _.map sphinxIds, (id) => _.find(sphinxUsers, (u) -> u._id.equals(id))
+        users = users.concat(sortedSphinxUsers)
+      catch e
+        log.warn('Sphinx error:', e.stack)
 
     else if search.length > 5
       searchParts = search.split(/[.+@]/)
