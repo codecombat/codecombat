@@ -505,7 +505,8 @@ module.exports = class Handler
       model.set 'watchers', watchers
     model
 
-  validateDocumentInput: (input) ->
+  validateDocumentInput: (input, req) ->
+    # NOTE: req may not be included
     tv4 = require('tv4').tv4
     res = tv4.validateMultiple(input, @jsonSchema)
     res
@@ -556,7 +557,7 @@ module.exports = class Handler
     # so that validation doesn't get hung up on Date objects in the documents.
     delete obj.dateCreated
 
-    validation = @validateDocumentInput(obj)
+    validation = @validateDocumentInput(obj, req)
     return done(validation) unless validation.valid
 
     document.save (err) -> done(err)
