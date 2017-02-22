@@ -32,7 +32,7 @@ module.exports = class TeacherCoursesView extends RootView
       @supermodel.trackRequest @courses.fetch()
     else
       @supermodel.trackRequest @courses.fetchReleased()
-    @campaigns = new Campaigns()
+    @campaigns = new Campaigns([], { forceCourseNumbering: true })
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
 
