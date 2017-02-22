@@ -891,6 +891,7 @@ module.exports = class CampaignView extends RootView
     true
 
   checkForUnearnedAchievements: ->
+    return unless @campaign
     
     # Another layer attempting to make sure users unlock levels properly.
     
@@ -903,7 +904,7 @@ module.exports = class CampaignView extends RootView
     achievements = new Achievements()
     
     achievements.fetchForCampaign(
-      this.campaign.get('slug'),
+      @campaign.get('slug'),
       { data: { project: 'related,rewards,name' } })
     
     .done((achievements) =>
@@ -917,7 +918,7 @@ module.exports = class CampaignView extends RootView
       
       campaignLevels = @campaign.get('levels')
       
-      levelsEarned = _(me.get('earned').levels)
+      levelsEarned = _(me.get('earned')?.levels)
         .filter (levelOriginal) => campaignLevels[levelOriginal]
         .map (levelOriginal) => campaignLevels[levelOriginal].slug
         .filter()
