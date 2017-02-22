@@ -390,7 +390,7 @@ module.exports = class LevelLoader extends CocoClass
     return false if @sessionDependenciesRegistered and not @sessionDependenciesRegistered[@session.id] and not @sessionless
     return false if @sessionDependenciesRegistered and @opponentSession and not @sessionDependenciesRegistered[@opponentSession.id] and not @sessionless
     return false unless @session?.loaded or @sessionless
-    return false unless @publishedLevelLoaded
+    return false unless @publishedLevelLoaded or @sessionless
     true
 
   onWorldNecessitiesLoaded: ->
