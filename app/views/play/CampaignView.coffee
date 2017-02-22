@@ -3,6 +3,7 @@ template = require 'templates/play/campaign-view'
 LevelSession = require 'models/LevelSession'
 EarnedAchievement = require 'models/EarnedAchievement'
 CocoCollection = require 'collections/CocoCollection'
+Achievements = require 'collections/Achievements'
 Campaign = require 'models/Campaign'
 AudioPlayer = require 'lib/AudioPlayer'
 LevelSetupManager = require 'lib/LevelSetupManager'
@@ -171,6 +172,7 @@ module.exports = class CampaignView extends RootView
     return if @fullyRendered
     @fullyRendered = true
     @render()
+    @checkForUnearnedAchievements()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
     if not me.get('hourOfCode') and @terrain
@@ -888,3 +890,61 @@ module.exports = class CampaignView extends RootView
   mergeWithPrerendered: (el) ->
     true
 
+  checkForUnearnedAchievements: ->
+    
+    # Another layer attempting to make sure users unlock levels properly.
+    
+    # Every time the user goes to the campaign view (after initial load),
+    # load achievements for that campaign.
+    # Look for any achievements where the related level is complete, but
+    # the reward level is not earned.
+    # Try to create EarnedAchievements for each such Achievement found.
+    
+    achievements = new Achievements()
+    
+    achievements.fetchForCampaign(
+      this.campaign.get('slug'),
+      { data: { project: 'related,rewards,name' } })
+    
+    .done((achievements) =>
+      sessionsComplete = _(currentView.sessions.models)
+        .filter (s) => s.get('levelID')
+        .filter (s) => s.get('state') && s.get('state').complete
+        .map (s) => [s.get('levelID'), s.id]
+        .value()
+
+      sessionsCompleteMap = _.zipObject(sessionsComplete)
+      
+      campaignLevels = @campaign.get('levels')
+      
+      levelsEarned = _(me.get('earned').levels)
+        .filter (levelOriginal) => campaignLevels[levelOriginal]
+        .map (levelOriginal) => campaignLevels[levelOriginal].slug
+        .filter()
+        .value()
+
+      levelsEarnedMap = _.zipObject(
+        levelsEarned,
+        _.times(levelsEarned.length, -> true)
+      )
+      
+      levelAchievements = _.filter(achievements, 
+        (a) -> a.rewards && a.rewards.levels && a.rewards.levels.length)
+      
+      for achievement in levelAchievements
+        continue unless campaignLevels[achievement.related]
+        relatedLevelSlug = campaignLevels[achievement.related].slug
+        for levelOriginal in achievement.rewards.levels
+          continue unless campaignLevels[levelOriginal]
+          rewardLevelSlug = campaignLevels[levelOriginal].slug
+          if sessionsCompleteMap[relatedLevelSlug] and not levelsEarnedMap[rewardLevelSlug]
+            ea = new EarnedAchievement({
+              achievement: achievement._id,
+              triggeredBy: sessionsCompleteMap[relatedLevelSlug],
+              collection: 'level.sessions'
+            })
+            ea.notyErrors = false
+            ea.save()
+            .error ->
+              console.warn 'Achievement NOT complete:', achievement.name
+    )
