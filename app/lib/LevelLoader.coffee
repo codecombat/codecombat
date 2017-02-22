@@ -157,6 +157,8 @@ module.exports = class LevelLoader extends CocoClass
       url = "/db/level/#{@levelID}/session"
       if @team
         url += "?team=#{@team}"
+        if @courseInstanceID
+          url += "&courseInstance=#{@courseInstanceID}"
       else if @courseID
         url += "?course=#{@courseID}"
         if @courseInstanceID
