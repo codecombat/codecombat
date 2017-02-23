@@ -661,7 +661,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unsubscribing: "Триває скасування підписки..."
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
-    feature_levels: "Отримай доступ до __levelsCount__ доступних рівнів"
+    feature_levels: "Отримай доступ до __premiumLevelsCount__ доступних рівнів"
     feature_gems: "Отримуй __gems__ самоцвітів щомісяця"
     feature_heroes: "Розблокуй ексклюзивних героїв"
     feature_games: "Створюй ігри для своїх друзів"

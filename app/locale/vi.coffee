@@ -661,7 +661,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     unsubscribing: "Đang hủy gói dịch vụ"
     subscribe_prepaid: "Nhấn Subscribe để sử dụng mã mua hàng"
     using_prepaid: "Sử dụng mã mua hàng để mua gói dịch vụ tháng"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

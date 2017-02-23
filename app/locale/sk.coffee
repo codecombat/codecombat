@@ -661,7 +661,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     unsubscribing: "Zrušenie predpaltného"
     subscribe_prepaid: "Klikni na Predplatné s kódom"
     using_prepaid: "Používam Mesačné predplatné"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

@@ -661,7 +661,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     unsubscribing: "Te Dezabonăm..." # {change}
     subscribe_prepaid: "Dăi Click pe Abonare pentru a folosi un cod prepaid"
     using_prepaid: "Folosesc codul prepaid pentru un abonament lunar"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

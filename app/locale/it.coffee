@@ -661,7 +661,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     unsubscribing: "Deregistrazione"
     subscribe_prepaid: "Clicca su Registrazione per usare un codice pre pagato"
     using_prepaid: "Usa un codice pre pagato per un abbonamento mensile"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

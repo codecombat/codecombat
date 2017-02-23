@@ -661,7 +661,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     unsubscribing: "Leiratkozás"
     subscribe_prepaid: "Az előre utalt előfizetési kód használatához kattints az Előfizetés lehetőségre"
     using_prepaid: "Előre utalt előfizetési kód használata havi előfizetéshez"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

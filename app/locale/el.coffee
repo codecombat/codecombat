@@ -661,7 +661,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     unsubscribing: "Κατάργηση συνδρομής"
     subscribe_prepaid: "Πατήστε Συνδρομή για να χρησιμποιήσετε τον προπληρωμένο κωδικό"
     using_prepaid: "Χρήση προπληρωμένου κωδικού για μηνιαία συνδρομή"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

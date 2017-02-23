@@ -661,7 +661,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     unsubscribing: "구독해제중"
     subscribe_prepaid: "선불 코드를 사용하여 구독 클릭"
     using_prepaid: "매달 구독 선불 코드를 사용"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"
