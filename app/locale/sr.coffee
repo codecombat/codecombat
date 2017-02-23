@@ -661,7 +661,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     unsubscribing: "Одјава претплате"
     subscribe_prepaid: "Кликните на Претплата да искористите припејд код"
     using_prepaid: "Коришћење припејд кода за месечну претплату"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

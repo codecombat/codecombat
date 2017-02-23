@@ -661,7 +661,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     unsubscribing: "取消訂閱中…" # {change}
     subscribe_prepaid: "點擊訂閱來使用預付代碼"
     using_prepaid: "使用預付費代碼進行每月訂閱"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

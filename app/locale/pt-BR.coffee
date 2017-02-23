@@ -661,7 +661,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     unsubscribing: "Cancelando assinatura" # {change}
     subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago"
     using_prepaid: "Utilizando código pré-pago para assinatura mensal"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"

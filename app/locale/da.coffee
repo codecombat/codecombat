@@ -661,7 +661,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     unsubscribing: "Afmelder"
     subscribe_prepaid: "Klik Abonnér at bruge en forudbetalte kode"
     using_prepaid: "Bruger forudbetalt kode til månedligt abonnement"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"
