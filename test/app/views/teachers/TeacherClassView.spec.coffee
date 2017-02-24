@@ -162,9 +162,9 @@ describe 'TeacherClassView', ->
 
       describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', ->
-          spyOn(window, 'open').and.callFake (encodedCSV) =>
+          spyOn(window, 'encodeURI').and.callFake (encodedCSV) =>
             progressData = decodeURI(encodedCSV)
-            CSVHeader = 'data:text\/csv;charset=utf-8,'
+            CSVHeader = 'data:application\/csv;charset=utf-8,'
             expect(progressData).toMatch new RegExp('^' + CSVHeader)
             lines = progressData.slice(CSVHeader.length).split('\n')
             expect(lines.length).toBe(@students.length + 1)
@@ -182,7 +182,7 @@ describe 'TeacherClassView', ->
                 expect(simplerLine).toMatch /0,0,0/
             return true
           @view.$el.find('.export-student-progress-btn').click()
-          expect(window.open).toHaveBeenCalled()
+          expect(window.encodeURI).toHaveBeenCalled()
 
     describe 'when javascript classroom', ->
       beforeEach (done) ->
@@ -223,9 +223,9 @@ describe 'TeacherClassView', ->
 
       describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', ->
-          spyOn(window, 'open').and.callFake (encodedCSV) =>
+          spyOn(window, 'encodeURI').and.callFake (encodedCSV) =>
             progressData = decodeURI(encodedCSV)
-            CSVHeader = 'data:text\/csv;charset=utf-8,'
+            CSVHeader = 'data:application\/csv;charset=utf-8,'
             expect(progressData).toMatch new RegExp('^' + CSVHeader)
             lines = progressData.slice(CSVHeader.length).split('\n')
             expect(lines.length).toBe(@students.length + 1)
@@ -241,7 +241,7 @@ describe 'TeacherClassView', ->
                 expect(simplerLine).toMatch /0,0,0/
             return true
           @view.$el.find('.export-student-progress-btn').click()
-          expect(window.open).toHaveBeenCalled()
+          expect(window.encodeURI).toHaveBeenCalled()
 
     describe '.assignCourse(courseID, members)', ->
       beforeEach (done) ->

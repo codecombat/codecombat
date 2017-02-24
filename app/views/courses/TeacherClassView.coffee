@@ -403,11 +403,11 @@ module.exports = class TeacherClassView extends RootView
     csvContent = csvContent.substring(0, csvContent.length - 1)
     fileName = 'CodeCombat.csv'
     if @isIE()
-        var IEwindow = window.open()
-        IEwindow.document.write('sep=,\r\n' + csvContent);
-        IEwindow.document.close();
-        IEwindow.document.execCommand('SaveAs', true, fileName);
-        IEwindow.close();
+      IEwindow = window.open()
+      IEwindow.document.write('sep=,\r\n' + csvContent)
+      IEwindow.document.close()
+      IEwindow.document.execCommand('SaveAs', true, fileName)
+      IEwindow.close()
     else
       csvContent = 'data:application/csv;charset=utf-8,' + csvContent
       encodedUri = encodeURI(csvContent)
