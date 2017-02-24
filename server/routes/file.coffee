@@ -6,6 +6,7 @@ errors = require '../commons/errors'
 config = require '../../server_config'
 co = require 'co'
 wrap = require 'co-express'
+Promise = require 'bluebird'
 
 module.exports.setup = (app) ->
   app.get '/file*', fileGet
@@ -94,6 +95,9 @@ filePost = wrap (req, res) ->
   valid = tv4.validate(options, postFileSchema)
   hasSource = options.url or options.postName or options.b64png
   # TODO : give tv4.error  to badInput
+  unless req.user?.hasPermission('artisan')
+    unless new RegExp("^db/user/#{req.user.id}$").test(req.body.path)
+      throw new errors.UnprocessableEntity("Bad file path: #{req.user.id}")
   return errors.badInput(res) if (not valid) or (not hasSource)
   return yield saveURL(req, res) if options.url
   return savePNG(req, res) if options.b64png
@@ -105,7 +109,7 @@ saveURL = co.wrap (req, res) ->
   [filePickerResponse] = yield request.getAsync(req.body.url + '/metadata', {json: true})
   unless filePickerResponse.statusCode is 200
     throw new errors.NotFound("Could not find filepicker metadata.")
-  unless req.user.hasPermission('artisan')
+  unless req.user?.hasPermission('artisan')
     unless /^image\/.*$/.test(filePickerResponse.body.mimetype)
       throw new errors.UnprocessableEntity("Unsupported image mimetype: #{req.body.mimetype}")
     if filePickerResponse.body.size > Math.pow(2, 10*2) # one megabyte
