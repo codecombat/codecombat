@@ -1039,6 +1039,7 @@
     saved: "Changes Saved"
     password_mismatch: "Password does not match."
     password_repeat: "Please repeat your password."
+    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"

@@ -4,12 +4,14 @@ request = require 'request'
 mongoose = require 'mongoose'
 errors = require '../commons/errors'
 config = require '../../server_config'
+co = require 'co'
+wrap = require 'co-express'
 
 module.exports.setup = (app) ->
   app.get '/file*', fileGet
   app.post '/file*', filePost
   app.delete '/file*', fileDelete
-  app.all '/files*', (req, res) -> 
+  app.all '/files*', (req, res) ->
     errors.badMethod(res, ['GET', 'POST', 'DELETE'])
 
 fileDelete = (req, res) ->
@@ -85,7 +87,7 @@ postFileSchema =
 
   required: ['filename', 'mimetype', 'path']
 
-filePost = (req, res) ->
+filePost = wrap (req, res) ->
   return errors.forbidden(res) unless req.user
   options = req.body
   tv4 = require('tv4').tv4
@@ -93,30 +95,35 @@ filePost = (req, res) ->
   hasSource = options.url or options.postName or options.b64png
   # TODO : give tv4.error  to badInput
   return errors.badInput(res) if (not valid) or (not hasSource)
-  return saveURL(req, res) if options.url
-  return saveFile(req, res) if options.postName
+  return yield saveURL(req, res) if options.url
   return savePNG(req, res) if options.b64png
 
-saveURL = (req, res) ->
+saveURL = co.wrap (req, res) ->
   options = createPostOptions(req)
-  checkExistence options, req, res, req.body.force, (err) ->
-    return errors.serverError(res) if err
-    writestream = Grid.gfs.createWriteStream(options)
-    request(req.body.url).pipe(writestream)
-    handleStreamEnd(res, writestream)
-
-saveFile = (req, res) ->
-  options = createPostOptions(req)
-  checkExistence options, req, res, req.body.force, (err) ->
-    return if err
-    writestream = Grid.gfs.createWriteStream(options)
-    f = req.files[req.body.postName]
-    fileStream = fs.createReadStream(f.path)
-    fileStream.pipe(writestream)
-    handleStreamEnd(res, writestream)
+  unless _.str.startsWith(req.body.url, 'https://www.filepicker.io/api/file/')
+    throw new errors.UnprocessableEntity('Only files uploaded through filepicker are allowed.')
+  [filePickerResponse] = yield request.getAsync(req.body.url + '/metadata', {json: true})
+  unless filePickerResponse.statusCode is 200
+    throw new errors.NotFound("Could not find filepicker metadata.")
+  unless req.user.hasPermission('artisan')
+    unless /^image\/.*$/.test(filePickerResponse.body.mimetype)
+      throw new errors.UnprocessableEntity("Unsupported image mimetype: #{req.body.mimetype}")
+    if filePickerResponse.body.size > Math.pow(2, 10*2) # one megabyte
+      throw new errors.UnprocessableEntity("File too large: #{filePickerResponse.body.size} bytes")
+  try
+    yield Promise.promisify(checkExistence)(options, req, res, req.body.force)
+  catch err
+    return errors.serverError(res)
+  writestream = Grid.gfs.createWriteStream(options)
+  request(req.body.url).pipe(writestream)
+  handleStreamEnd(res, writestream)
 
 savePNG = (req, res) ->
   options = createPostOptions(req)
+  unless /^image\/png$/.test(req.body.mimetype)
+    throw new errors.UnprocessableEntity("Only image/png mimetype allowed with base64 encoding.")
+  if req.body.b64png.length > Math.pow(2, 10 * 10*2) # ten megabytes
+    throw new errors.UnprocessableEntity("File too large: #{filePickerResponse.body.size} bytes")
   checkExistence options, req, res, req.body.force, (err) ->
     return if err
     writestream = Grid.gfs.createWriteStream(options)

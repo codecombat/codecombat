@@ -178,7 +178,7 @@ module.exports = class AccountSettingsView extends CocoView
       @$el.find('#photoURL').trigger('change') # cause for some reason editing the value doesn't trigger the jquery event
       @user.set('photoURL', uploadingPath)
       photoContainer.removeClass('saving').attr('src', @user.getPhotoURL(photoContainer.width()))
-    filepicker.pick {mimetypes: 'image/*'}, @onImageChosen(onSaving, onSaved)
+    filepicker.pick {mimetypes: 'image/*', maxSize: Math.pow(2, 10*2)}, @onImageChosen(onSaving, onSaved)
 
   formatImagePostData: (inkBlob) ->
     url: inkBlob.url, filename: inkBlob.filename, mimetype: inkBlob.mimetype, path: @uploadFilePath, force: true
