@@ -105,4 +105,8 @@
         - var url = "/images/common/codeplay/NA_ChooseHeroPage_Yoga520_800x90.png"
         if me.isFromUk()
           - url = "/images/common/codeplay/UK_ChooseHeroPage_Yoga510_800x90.png"
+        if me.setToGerman()
+          - url = "/images/common/codeplay/DE_ChooseHeroPage_Ideapad710s_800x90_DE.png"
+        if me.setToSpanish()
+          - url = "/images/common/codeplay/MX_ChooseHeroPage_YogaBook_800x90_MX.png"
         img#codeplay-choose-hero-ad(src=url)

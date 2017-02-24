@@ -173,4 +173,8 @@ block modal-footer-content
       - var url = "/images/common/codeplay/NA_VictoryPage_Y710_735x100_VictoryPage.png"
       if me.isFromUk()
         - url = "/images/common/codeplay/UK_VictoryPage_Miix510_735x100_VictoryPage.png"
+      if me.setToGerman()
+        - url = "/images/common/codeplay/DE_VictoryPage_Y910_735x100_DE.png"
+      if me.setToSpanish()
+        - url = "/images/common/codeplay/MX_VictoryPage_YogaBook_735x100_MX.png"
       img#lenovo-link(src=url)

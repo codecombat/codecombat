@@ -256,4 +256,8 @@ if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds
     - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
     if me.isFromUk()
       - url = "/images/common/codeplay/UK_LevelsPage_Cube_160x480.png"
+    if me.setToGerman()
+      - url = "/images/common/codeplay/DE_LevelsPage_MIIX510_160x480_DE.png"
+    if me.setToSpanish()
+      - url = "/images/common/codeplay/MX_LevelsPage_910_160x480_MX.png"
     img#codeplay-ad(src=url)
