@@ -369,6 +369,8 @@ Focus on clearly communicating the goal of the level, and describing the problem
 
 The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Wakka Maul arena and attempt multiple solutions until time is called. 
 
+See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
+
 ### Transfer Goals
 - Write accurate Python syntax
 - Debug Python programs

@@ -8,6 +8,7 @@ module.exports = class MarkdownResourceView extends RootView
   initialize: (options, @name) ->
     super(options)
     @content = ''
+    @loadingData = true
     $.get '/markdown/' + @name + '.md', (data) =>
       if data.indexOf('<!doctype html>') is -1
         i = 0
@@ -19,9 +20,9 @@ module.exports = class MarkdownResourceView extends RootView
 
       if @name is 'cs1'
         $('body').append($("<img src='https://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
-
+      @loadingData = false
       @render()
-      
+
 
   afterRender: ->
     super()
