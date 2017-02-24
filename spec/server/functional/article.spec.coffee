@@ -543,8 +543,9 @@ describe 'version fetching endpoints', ->
   
   
 describe 'GET /db/article/:handle/files', ->
-  
-  it 'returns an array of file metadata for the given original article', utils.wrap (done) ->
+
+  # If we keep this test, it shouldn't use the now-restricted POST /file endpoint.
+  xit 'returns an array of file metadata for the given original article', utils.wrap (done) ->
     yield utils.clearModels([Article])
     articleData = { name: 'Article', body: 'Article' }
     admin = yield utils.initAdmin({})

@@ -405,7 +405,9 @@ module.exports = class User extends CocoModel
 
   finishedAnyLevels: -> Boolean((@get('stats') or {}).gamesCompleted)
 
-  isFromUk: -> @get('country') is 'united-kingdom'
+  isFromUk: -> @get('country') is 'united-kingdom' or @get('preferredLanguage') is 'en-GB'
+  setToGerman: -> _.string.startsWith((@get('preferredLanguage') or ''), 'de')
+  setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
     
   sendParentEmail: (email, options={}) ->
     options.data ?= {}

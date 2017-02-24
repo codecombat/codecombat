@@ -240,6 +240,9 @@ module.exports = class CampaignView extends RootView
         context.campaigns[campaign.get('slug')] = campaign
         if @sessions?.loaded
           levels = _.values($.extend true, {}, campaign.get('levels') ? {})
+          if me.level() < 12 and campaign.get('slug') is 'dungeon' and not @editorMode
+            reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
+            levels = _.reject levels, slug: reject
           if features.freeOnly
             levels = _.reject levels, (level) ->
               return false if features.codePlay and codePlay.canPlay(level.slug)
@@ -431,8 +434,9 @@ module.exports = class CampaignView extends RootView
       continue if level.disabled
       completed = @levelStatusMap[level.slug] is 'complete'
       started = @levelStatusMap[level.slug] is 'started'
-      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not @campaign?.levelIsPractice(level))
+      ++count.total if (level.unlockedInSameCampaign or not level.locked) and (started or completed or not (level.locked and level.practice and level.slug.substring(level.slug.length - 2) in ['-a', '-b', '-c', '-d']))
       ++count.completed if completed
+
     count
 
   showLeaderboard: (levelSlug) ->

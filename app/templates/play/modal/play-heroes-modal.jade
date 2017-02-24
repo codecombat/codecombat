@@ -19,11 +19,6 @@
           for hero, index in heroes
             li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""))
               .hero-avatar
-              if hero.locked && !hero.purchasable
-                if isIE
-                  img.lock-indicator(src="/images/pages/game-menu/lock-processed.png", draggable="false")
-                else
-                  img.lock-indicator(src="/images/pages/game-menu/lock.png", draggable="false")
       .carousel-inner
         for hero in heroes
           div(class="item hero-item" + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""), data-hero-id=hero.get('original'))
@@ -91,11 +86,9 @@
   
         else if visibleHero.locked
           #locked-hero-explanation
-            h2
-              span= visibleHero.name
-              span.spl(data-i18n="play.locked") Locked
-            span.spr(data-i18n="choose_hero.level_to_unlock") Level to unlock:
-            strong= visibleHero.unlockLevelName || '???'
+            h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
+          button.btn.subscribe-button#subscribe-hero-button
+            span.spr(data-i18n="subscribe.subscribe_title") Subscribe
   
         else if visibleHero.loaded
           .form
@@ -112,4 +105,8 @@
         - var url = "/images/common/codeplay/NA_ChooseHeroPage_Yoga520_800x90.png"
         if me.isFromUk()
           - url = "/images/common/codeplay/UK_ChooseHeroPage_Yoga510_800x90.png"
+        if me.setToGerman()
+          - url = "/images/common/codeplay/DE_ChooseHeroPage_Ideapad710s_800x90_DE.png"
+        if me.setToSpanish()
+          - url = "/images/common/codeplay/MX_ChooseHeroPage_YogaBook_800x90_MX.png"
         img#codeplay-choose-hero-ad(src=url)
