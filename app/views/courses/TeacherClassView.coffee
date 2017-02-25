@@ -401,23 +401,8 @@ module.exports = class TeacherClassView extends RootView
           courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},"
       csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
-    fileName = 'CodeCombat.csv'
-    if @isIE()
-      IEwindow = window.open()
-      IEwindow.document.write('sep=,\r\n' + csvContent)
-      IEwindow.document.close()
-      IEwindow.document.execCommand('SaveAs', true, fileName)
-      IEwindow.close()
-    else
-      csvContent = 'data:application/csv;charset=utf-8,' + csvContent
-      encodedUri = encodeURI(csvContent)
-      link = document.createElement('a')
-      link.href = encodedUri
-      link.style = 'visibility:hidden'
-      link.download = fileName
-      @$el.append(link)
-      link.click()
-      $(link).remove()
+    file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+    saveAs(file, 'CodeCombat.csv')
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin

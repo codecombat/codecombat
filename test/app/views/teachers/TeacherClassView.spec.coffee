@@ -162,7 +162,7 @@ describe 'TeacherClassView', ->
 
       describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', ->
-          spyOn(window, 'encodeURI').and.callFake (encodedCSV) =>
+          spyOn(window, 'saveAs').and.callFake (encodedCSV) =>
             progressData = decodeURI(encodedCSV)
             CSVHeader = 'data:application\/csv;charset=utf-8,'
             expect(progressData).toMatch new RegExp('^' + CSVHeader)
@@ -182,7 +182,7 @@ describe 'TeacherClassView', ->
                 expect(simplerLine).toMatch /0,0,0/
             return true
           @view.$el.find('.export-student-progress-btn').click()
-          expect(window.encodeURI).toHaveBeenCalled()
+          expect(window.saveAs).toHaveBeenCalled()
 
     describe 'when javascript classroom', ->
       beforeEach (done) ->
@@ -223,7 +223,7 @@ describe 'TeacherClassView', ->
 
       describe 'Export Student Progress (CSV) button', ->
         it 'downloads a CSV file', ->
-          spyOn(window, 'encodeURI').and.callFake (encodedCSV) =>
+          spyOn(window, 'saveAs').and.callFake (encodedCSV) =>
             progressData = decodeURI(encodedCSV)
             CSVHeader = 'data:application\/csv;charset=utf-8,'
             expect(progressData).toMatch new RegExp('^' + CSVHeader)
@@ -241,7 +241,7 @@ describe 'TeacherClassView', ->
                 expect(simplerLine).toMatch /0,0,0/
             return true
           @view.$el.find('.export-student-progress-btn').click()
-          expect(window.encodeURI).toHaveBeenCalled()
+          expect(window.saveAs).toHaveBeenCalled()
 
     describe '.assignCourse(courseID, members)', ->
       beforeEach (done) ->
