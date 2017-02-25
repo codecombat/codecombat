@@ -507,7 +507,7 @@ UserSchema.statics.privateProperties = [
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'country',
   'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
-  'coursePrepaid', 'coursePrepaidID'
+  'coursePrepaid', 'coursePrepaidID', 'lastAnnouncementSeen'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
@@ -516,7 +516,7 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent', 'israelId', 'school'
+  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']

@@ -1,0 +1,25 @@
+.modal-dialog
+  .modal-content
+    block config
+      - showSubscribe = true
+    img#subscribe-background(src="/images/pages/play/modal/subscribe-background-blank.png")
+
+    block title
+      h1(data-i18n="subscribe.subscribe_modal_title")
+
+    div#close-modal
+      span.glyphicon.glyphicon-remove
+
+    div.paper-area(style="position: relative")
+      .img
+        block image
+      .sub
+        if showSubscribe && me.isPremium()
+          button.btn.btn-lg.btn-illustrated.purchase-button Subscribe Now
+        else
+          button.btn.btn-lg.btn-illustrated.close-button Close
+      .nfo
+        block info                
+            
+
+
