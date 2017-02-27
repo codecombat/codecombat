@@ -17,6 +17,7 @@ module.exports = class AnalyticsView extends RootView
   furthestCourseDayRange: 365
   lineColors: ['red', 'blue', 'green', 'purple', 'goldenrod', 'brown', 'darkcyan']
   minSchoolCount: 20
+  allTimeStartDate: new Date("2014-11-12")
 
   initialize: ->
     @activeClasses = []
@@ -429,6 +430,7 @@ module.exports = class AnalyticsView extends RootView
         points.splice i, 0,
           day: day
           y: prevY
+      points[i].y = 0.0 if isNaN(points[i].y)
       points[i].x = i
 
     points.splice(0, points.length - days.length) if points.length > days.length
@@ -438,6 +440,7 @@ module.exports = class AnalyticsView extends RootView
     visibleWidth = $('.kpi-recent-chart').width()
     d3Utils.createLineChart('.kpi-recent-chart', @kpiRecentChartLines, visibleWidth)
     d3Utils.createLineChart('.kpi-chart', @kpiChartLines, visibleWidth)
+    d3Utils.createLineChart('.kpi-all-time-chart', @kpiAllTimeChartLines, visibleWidth)
     d3Utils.createLineChart('.active-classes-chart-90', @activeClassesChartLines90, visibleWidth)
     d3Utils.createLineChart('.active-classes-chart-365', @activeClassesChartLines365, visibleWidth)
     d3Utils.createLineChart('.classroom-daily-active-users-chart-90', @classroomDailyActiveUsersChartLines90, visibleWidth)
@@ -475,8 +478,11 @@ module.exports = class AnalyticsView extends RootView
 
     @kpiRecentChartLines = []
     @kpiChartLines = []
+    @kpiAllTimeChartLines = []
     @updateKPIChartData(60, @kpiRecentChartLines)
     @updateKPIChartData(365, @kpiChartLines)
+    @numAllDays = Math.round((new Date() - @allTimeStartDate) / 1000 / 60 / 60 / 24)
+    @updateKPIChartData(@numAllDays, @kpiAllTimeChartLines)
 
   updateKPIChartData: (timeframeDays, chartLines) ->
     days = d3Utils.createContiguousDays(timeframeDays)
