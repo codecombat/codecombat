@@ -528,7 +528,6 @@
     stripe_description_year_sale: "1 Year Subscription (${{discount}} discount)"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
-
     personal_sub: "Personal Subscription"  # Accounts Subscription View below
     loading_info: "Loading subscription information..."
     managed_by: "Managed by"
