@@ -190,6 +190,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     school_name: "Schulname und Stadt"
     optional: "optional"
     school_name_placeholder: "Beispiel Gymnasium, Musterdorf, DE"
+    or_sign_up_with: #"or sign up with"
+    connected_gplus_header: #"You've successfully connected with Google+!"
+    connected_gplus_p: #"Finish signing up so you can log in with your Google+ account."
+    gplus_exists: #"You already have an account associated with Google+!"
+    connected_facebook_header:# "You've successfully connected with Facebook!"
+    connected_facebook_p:# "Finish signing up so you can log in with your Facebook account."
+    facebook_exists: #"You already have an account associated with Facebook!"
+    hey_students:# "Students, enter the class code from your teacher."
 
   recover:
     recover_account_title: "Account-Wiederherstellung"
@@ -216,7 +224,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     publish: "Veröffentlichen"
     create: "Erstellen"
     fork: "Kopieren"
-    play: "Spielen" # When used as an action verb, like "Play next level"
+    play: "Spiele" # When used as an action verb, like "Play next level"
     retry: "Erneut versuchen"
     actions: "Aktionen"
     info: "Informationen"
