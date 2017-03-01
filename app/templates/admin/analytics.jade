@@ -1,30 +1,31 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
 
   //- NOTE: do not localize / i18n
 
   if me.isAdmin()
-    .container-fluid
-      .row
-        .col-md-5.big-stat.active-classes
-          div.description Monthly Active Classes
+    table.table.kpi-table
+      tr
+        td.description.active-classes Monthly Active Classes
+        td.description.recurring-revenue Home Monthly Recurring Revenue
+        td.description.classroom-active-users Classroom Monthly Active Users
+        td.description.campaign-active-users Home Monthly Active Users
+      tr
+        td.active-classes
           if view.activeClasses.length > 0
             div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
-        .col-md-5.big-stat.recurring-revenue
-          div.description Home Monthly Recurring Revenue
+        td.recurring-revenue
           - var yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 1).toISOString().substring(0, 10);
           div.count $#{Math.round((view.dayMrrMap[yesterday] || 0) / 100)}
-        .col-md-5.big-stat.classroom-active-users
-          div.description Classroom Monthly Active Users
+        td.classroom-active-users
           if view.activeUsers.length > 0
             - var classroomBigMAU = 0;
             each count, event in view.activeUsers[0].events
               if event.indexOf('MAU classroom') >= 0
                 - classroomBigMAU += count;
             div.count= classroomBigMAU
-        .col-md-5.big-stat.campaign-active-users
-          div.description Home Monthly Active Users
+        td.campaign-active-users
           if view.activeUsers.length > 0
             - var homeBigMAU = 0;
             each count, event in view.activeUsers[0].events

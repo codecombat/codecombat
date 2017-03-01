@@ -1,9 +1,10 @@
 # Caller needs require 'vendor/d3'
 
-module.exports.createContiguousDays = (timeframeDays, skipToday=true) ->
+module.exports.createContiguousDays = (timeframeDays, skipToday=true, dayOffset=0) ->
   # Return list of last 'timeframeDays' contiguous days in yyyy-mm-dd format
   days = []
   currentDate = new Date()
+  currentDate.setUTCDate(currentDate.getUTCDate() - dayOffset)
   currentDate.setUTCDate(currentDate.getUTCDate() - timeframeDays + 1)
   currentDate.setUTCDate(currentDate.getUTCDate() - 1) if skipToday
   for i in [0...timeframeDays]
@@ -103,6 +104,7 @@ module.exports.createLineChart = (containerSelector, chartLines, containerWidth)
       .attr("class", "key-text")
       .text(line.description)
 
+    pointRadius = line.pointRadius ? 2
     # Path and points
     svg.selectAll(".circle")
       .data(line.points)
@@ -111,7 +113,7 @@ module.exports.createLineChart = (containerSelector, chartLines, containerWidth)
       .attr("transform", "translate(" + (margin + yAxisWidth * yScaleCount) + "," + margin + ")")
       .attr("cx", (d) -> xRange(d.x))
       .attr("cy", (d) -> yRange(d.y))
-      .attr("r", 2)
+      .attr("r", pointRadius)
       .attr("fill", line.lineColor)
       .attr("stroke-width", 1)
       .attr("class", "graph-point")

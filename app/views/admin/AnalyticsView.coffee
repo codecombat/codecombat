@@ -423,6 +423,17 @@ module.exports = class AnalyticsView extends RootView
             points.splice(0, i)
             break
 
+    # Trim points following days
+    if points.length and days.length and points[points.length - 1].day.localeCompare(days[days.length - 1]) > 0
+      if points[0].day.localeCompare(days[days.length - 1]) > 0
+        points = []
+      else
+        for i in [points.length - 1..0]
+          point = points[i]
+          if point.day.localeCompare(days[days.length - 1]) <= 0
+            points.splice(i)
+            break
+
     # Ensure points for each day
     for day, i in days
       if points.length <= i or points[i]?.day isnt day
@@ -485,7 +496,82 @@ module.exports = class AnalyticsView extends RootView
     @updateKPIChartData(@numAllDays, @kpiAllTimeChartLines)
 
   updateKPIChartData: (timeframeDays, chartLines) ->
-    days = d3Utils.createContiguousDays(timeframeDays)
+
+    if timeframeDays is 365
+      # Add previous year too
+      days = d3Utils.createContiguousDays(timeframeDays, true, 365)
+      pointRadius = 0.5
+
+      # Build active classes KPI line
+      if @activeClasses?.length > 0
+        data = []
+        for entry in @activeClasses
+          data.push
+            day: entry.day
+            value: entry.groups[entry.groups.length - 1]
+        data.reverse()
+        points = @createLineChartPoints(days, data)
+        chartLines.push
+          points: points
+          description: 'Monthly Active Classes (last year)'
+          lineColor: 'lightskyblue'
+          strokeWidth: 1
+          min: 0
+          max: _.max(points, 'y').y
+          showYScale: false
+          pointRadius: pointRadius
+
+      # Build recurring revenue KPI line
+      if @revenue?.length > 0
+        data = []
+        for entry in @revenue
+          value = @dayMrrMap[entry.day]
+          data.push
+            day: entry.day
+            value: value / 100 / 1000
+        data.reverse()
+        points = @createLineChartPoints(days, data)
+        chartLines.push
+          points: points
+          description: 'Monthly Recurring Revenue (in thousands) (last year)'
+          lineColor: 'mediumseagreen'
+          strokeWidth: 1
+          min: 0
+          max: _.max(points, 'y').y
+          showYScale: false
+          pointRadius: pointRadius
+
+      # Build campaign MAU KPI line
+      if @activeUsers?.length > 0
+        eventDayDataMap = {}
+        for entry in @activeUsers
+          day = entry.day
+          for event, count of entry.events
+            if event.indexOf('MAU campaign') >= 0
+              eventDayDataMap['MAU campaign'] ?= {}
+              eventDayDataMap['MAU campaign'][day] ?= 0
+              eventDayDataMap['MAU campaign'][day] += count
+
+        campaignData = []
+        for event, entry of eventDayDataMap
+          for day, count of entry
+            campaignData.push day: day, value: count / 1000
+        campaignData.reverse()
+
+        points = @createLineChartPoints(days, campaignData)
+        chartLines.push
+          points: points
+          description: 'Home Monthly Active Users (in thousands) (last year)'
+          lineColor: 'mediumorchid'
+          strokeWidth: 1
+          min: 0
+          max: _.max(points, 'y').y
+          showYScale: false
+          pointRadius: pointRadius
+
+    days = d3Utils.createContiguousDays(timeframeDays, true)
+
+    pointRadius = if timeframeDays > 365 then 1 else if timeframeDays > 90 then 1.5 else 2
 
     # Build active classes KPI line
     if @activeClasses?.length > 0
@@ -504,6 +590,7 @@ module.exports = class AnalyticsView extends RootView
         min: 0
         max: _.max(points, 'y').y
         showYScale: true
+        pointRadius: pointRadius
 
     # Build recurring revenue KPI line
     if @revenue?.length > 0
@@ -523,6 +610,7 @@ module.exports = class AnalyticsView extends RootView
         min: 0
         max: _.max(points, 'y').y
         showYScale: true
+        pointRadius: pointRadius
 
     # Build campaign MAU KPI line
     if @activeUsers?.length > 0
@@ -550,6 +638,13 @@ module.exports = class AnalyticsView extends RootView
         min: 0
         max: _.max(points, 'y').y
         showYScale: true
+        pointRadius: pointRadius
+
+      # Update previous year maxes if necessary
+      if chartLines.length is 6
+        chartLines[0].max = chartLines[3].max
+        chartLines[1].max = chartLines[4].max
+        chartLines[2].max = chartLines[5].max
 
   updateActiveClassesChartData: ->
     @activeClassesChartLines90 = []
