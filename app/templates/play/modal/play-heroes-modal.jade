@@ -17,7 +17,7 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : ""))
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : ""))
               .hero-avatar
       .carousel-inner
         for hero in heroes
@@ -30,8 +30,8 @@
               .hero-description= hero.description
               
               .hero-stat-row
-                .stat-label(data-i18n='choose_hero.status')
-                .stat-value.hero-status-value(data-i18n=hero.restricted ? 'inventory.restricted_title' : (hero.purchasable ? 'play.purchasable' : (hero.locked ? 'play.locked' : 'play.available')))
+                .stat-label(data-i18n='play.level_difficulty')
+                .stat-value.hero-status-value(data-i18n=hero.class == 'ranger' ? 'general.medium' : (hero.class == 'wizard' ? 'general.hard' : 'general.easy'))
               
               .hero-stat-row
                 .stat-label(data-i18n='editor.level_components_type')  
@@ -87,6 +87,7 @@
         else if visibleHero.locked
           #locked-hero-explanation
             h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
+            span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
           button.btn.subscribe-button#subscribe-hero-button
             span.spr(data-i18n="subscribe.subscribe_title") Subscribe
   

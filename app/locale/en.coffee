@@ -138,6 +138,8 @@
     subscription_required: "Subscription Required"
     subscribers_only: "Subscribers Only!"
     subscribe_unlock: "Subscribe to Unlock!"
+    subscriber_heroes: "Subscribers immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_gems: "Subscribers can purchase this hero with gems."
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     play_classroom_version: "Play Classroom Version"  # Choose a level in campaign version that you also can play in one of your courses
