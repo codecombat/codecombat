@@ -51,6 +51,7 @@ Application = {
     
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
+    Vue.config.devtools = not @isProduction()
 
     # propagate changes from global 'me' User to 'me' vuex module
     store = require('core/store')
