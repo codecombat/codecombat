@@ -292,7 +292,7 @@ PaymentHandler = class PaymentHandler extends Handler
         userID: req.user._id + ''
         gems: product.get('gems')
         timestamp: parseInt(req.body.stripe?.timestamp)
-        description: req.body.description
+        description: req.body.description ? product.get('name')
       }
       receipt_email: req.user.get('email')
       statement_descriptor: 'CODECOMBAT.COM'
@@ -411,7 +411,7 @@ PaymentHandler = class PaymentHandler extends Handler
 
   sendPaymentSlackMessage: (options) ->
     try
-      message = "#{options.user?.get('emailLower')} paid #{formatDollarValue(options.payment?.get('amount')/100)} for #{options.payment.get('description') or '???, no payment description!'}"
+      message = "#{options.user?.get('emailLower')} paid #{formatDollarValue(options.payment?.get('amount') / 100)} for #{options.payment.get('description') or '???, no payment description!'}"
       slack.sendSlackMessage message, ['tower']
     catch e
       log.error "Couldn't send Slack message on payment because of error: #{e}"

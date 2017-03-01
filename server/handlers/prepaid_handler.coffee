@@ -175,7 +175,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
               if err
                 @logError(user, "createPayment error: #{JSON.stringify(err)}")
                 return done(err)
-              msg = "#{user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for #{type} prepaid redeemers=#{maxRedeemers}"
+              msg = "#{user.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for #{type} prepaid redeemers=#{maxRedeemers}"
               slack.sendSlackMessage msg, ['tower']
               done(null, prepaid)
 
@@ -212,7 +212,7 @@ PrepaidHandler = class PrepaidHandler extends Handler
             if err
               @logError(user, "createPayment error: #{JSON.stringify(err)}")
               return done(err)
-            msg = "#{user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for #{type} prepaid redeemers=#{maxRedeemers} months=#{months}"
+            msg = "#{user.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for #{type} prepaid redeemers=#{maxRedeemers} months=#{months}"
             slack.sendSlackMessage msg, ['tower']
             done(null, prepaid)
 

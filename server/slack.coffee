@@ -13,7 +13,7 @@ module.exports.sendChangedSlackMessage = (options) ->
 
 module.exports.sendSlackMessage = (message, rooms=['#eng'], options={}) ->
   unless config.isProduction
-    log.info "Slack msg: #{message}"
+    log.info "Slack msg: #{message} #{JSON.stringify(rooms)}, #{JSON.stringify(options)}"
     return
   unless token = config.slackToken
     log.info "No Slack token."
