@@ -132,7 +132,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     achievements: "Достижения" # Tooltip on achievement list button from /play
     settings: "Настройки" # Tooltip on settings button from /play
     poll: "Опрос" # Tooltip on poll button from /play
-    next: "Выбрать" # Go from choose hero to choose inventory before playing a level
+    next: "Далее" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     buy_gems: "Купить самоцветы"
     subscription_required: "Требуется подписка"

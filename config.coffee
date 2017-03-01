@@ -120,7 +120,7 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|co|vue|vuex|' + gameLibraries + '))')
+          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|co|' + gameLibraries + '))')
           regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui|' + gameLibraries  + '))')
           'bower_components/treema/treema-utils.js'
         ]
@@ -164,8 +164,6 @@ exports.config =
         'javascripts/app/vendor/htmlparser2.js': 'vendor/scripts/htmlparser2.js'
         'javascripts/app/vendor/deku.js': 'vendor/scripts/deku.js'
         'javascripts/app/vendor/co.js': 'vendor/scripts/co.js'
-        'javascripts/app/vendor/vue.js': 'vendor/scripts/vue.js'
-        'javascripts/app/vendor/vuex.js': 'vendor/scripts/vuex.js'
 
         #- test, demo libraries
         'javascripts/app/tests.js': regJoin('^test/app/')

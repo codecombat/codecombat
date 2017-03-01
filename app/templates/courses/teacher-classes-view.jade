@@ -83,9 +83,8 @@ mixin classRow(classroom)
           - var courseLabelsArray = view.helper.courseLabelsArray(courses);
           each trimCourse, index in classroom.getSortedCourses() || []
             - var course = view.courses.get(trimCourse._id);
-            if view.courseInstances.findWhere({ classroomID: classroom.id, courseID: course.id })
-              - var label = courseLabelsArray[index];
-              +progressDot(classroom, course, label)
+            - var label = courseLabelsArray[index];
+            +progressDot(classroom, course, label)
       .view-class-arrow
         a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
 
@@ -107,13 +106,13 @@ mixin progressDot(classroom, course, label)
   - var complete = 0;
   - var dotClass = '';
   - var started = 0;
-  if courseInstance
+  if courseInstance && !_.isEmpty(courseInstance.get('members'))
     - complete = courseInstance.numCompleted
     - started = courseInstance.started
     - dotClass = complete === total ? 'forest' : started ? 'gold' : '';
-  - var progressDotContext = {total: total, complete: complete};
-  .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
-    +progressDotLabel(label)
+    - var progressDotContext = {total: total, complete: complete};
+    .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+      +progressDotLabel(label)
 
 mixin progressDotLabel(label)
   .dot-label.text-h6= label

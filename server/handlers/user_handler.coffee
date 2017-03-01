@@ -534,7 +534,7 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          slack.sendSlackMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['dev-feed']
+          slack.sendSlackMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['#eng']
 
   avatar: (req, res, id) ->
     if not isID(id)

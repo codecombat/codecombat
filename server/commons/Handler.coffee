@@ -402,7 +402,7 @@ module.exports = class Handler
   onPutSuccess: (req, doc) ->
 
   ###
-  TODO: think about pulling some common stuff out of postFirstVersion/postNewVersion
+  TODO: think about pulling some common stuff out of postFirstVersion / postNewVersion
   into a postVersion if we can figure out the breakpoints?
   ..... actually, probably better would be to do the returns with throws instead
   and have a handler which turns them into status codes and messages

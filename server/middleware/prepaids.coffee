@@ -19,7 +19,7 @@ slack = require '../slack'
 {formatDollarValue} = require '../../app/core/utils'
 
 cutoffDate = new Date(2015,11,11)
-cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate/1000).toString(16)+'0000000000000000')
+cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate / 1000).toString(16)+'0000000000000000')
 
 module.exports =
   # Create a prepaid manually (as an admin)
@@ -285,7 +285,7 @@ module.exports =
         charge = yield StripeUtils.createChargeAsync(creator, totalAmount, metadata)
         prepaid = yield createStarterLicense({ creator: creator.id, maxRedeemers })
         payment = yield StripeUtils.createPaymentAsync(creator, charge, {prepaidID: prepaid._id})
-        msg = "#{creator.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for starter_license prepaid redeemers=#{maxRedeemers}"
+        msg = "#{creator.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for starter_license prepaid redeemers=#{maxRedeemers}"
         slack.sendSlackMessage msg, ['tower']
         res.status(200).send(prepaid)
       catch err

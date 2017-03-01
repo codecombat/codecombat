@@ -11,6 +11,7 @@ User = require '../models/User'
 database = require '../commons/database'
 { getSponsoredSubsAmount } = require '../../app/core/utils'
 StripeUtils = require '../lib/stripe_utils'
+slack = require '../slack'
 
 subscribeWithPrepaidCode = expressWrap (req, res) ->
   { ppc } = req.body
@@ -74,9 +75,9 @@ subscribeUser = co.wrap (req, user) ->
 
 
 checkForCoupon = co.wrap (req, user, customer) ->
-  
+
   { prepaidCode } = req.body?.stripe or {}
-  
+
   if prepaidCode
     prepaid = yield Prepaid.findOne({code: prepaidCode})
     if not prepaid
@@ -222,7 +223,7 @@ purchaseProduct = expressWrap (req, res) ->
   subscription = yield libUtils.findStripeSubscriptionAsync(customer.id, {subscriptionID: req.user.get('stripe')?.subscriptionID})
   stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
   yield StripeUtils.cancelSubscriptionImmediatelyAsync(req.user, subscription)
-  
+
   metadata = {
     type: req.body.type
     userID: req.user.id
@@ -233,7 +234,7 @@ purchaseProduct = expressWrap (req, res) ->
 
   charge = yield StripeUtils.createChargeAsync(req.user, product.get('amount'), metadata)
   payment = yield StripeUtils.createPaymentAsync(req.user, charge, {})
-  
+
   # Add terminal subscription to User with extensions for existing subscriptions
   stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
   if productName is 'year_subscription'
@@ -249,7 +250,7 @@ purchaseProduct = expressWrap (req, res) ->
   else
     throw new Error('Unsupported product')
   req.user.set('stripe', stripeInfo)
-  
+
   # Add gems to User
   purchased = _.clone(req.user.get('purchased'))
   purchased ?= {}
@@ -259,17 +260,17 @@ purchaseProduct = expressWrap (req, res) ->
 
   yield req.user.save()
   try
-    msg = "#{req.user.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for #{productName}"
+    msg = "#{req.user.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for #{productName}"
     slack.sendSlackMessage msg, ['tower']
   catch error
     SubscriptionHandler.logSubscriptionError(req.user, "#{productName} sale Slack tower msg error: #{JSON.stringify(error)}")
   res.send(req.user.toObject({req}))
 
-  
-# TODO: Delete all 'unsubscribeRecipient' code when managed subscriptions are no more 
+
+# TODO: Delete all 'unsubscribeRecipient' code when managed subscriptions are no more
 unsubscribeRecipientEndpoint = expressWrap (req, res) ->
   user = req.user
-  
+
   # wraps the un-refactored, deprecated subscription handler code
   try
     recipient = yield database.getDocFromHandle(req, User, {handleName: 'recipientHandle'})
@@ -280,7 +281,7 @@ unsubscribeRecipientEndpoint = expressWrap (req, res) ->
     else
       throw err
   res.send(req.user.toObject({req}))
-  
+
 unsubscribeRecipient = (req, res, user, recipient, done) ->
   deleteUserStripeProp = (user, propName) ->
     stripeInfo = _.cloneDeep(user.get('stripe') ? {})
@@ -349,7 +350,7 @@ unsubscribeRecipient = (req, res, user, recipient, done) ->
             done()
 
 unsubscribeRecipientAsync = Promise.promisify(unsubscribeRecipient)
-      
+
 module.exports = {
   subscribeWithPrepaidCode
   subscribeUser
