@@ -5,10 +5,14 @@ block content
   //- NOTE: do not localize / i18n
 
   if me.isAdmin()
+    - var yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 1).toISOString().substring(0, 10);
+    if !view.dayMrrMap[yesterday]
+      //- No new data yet, use two days ago
+      - yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 2).toISOString().substring(0, 10);
     table.table.kpi-table
       tr
         td.description.active-classes Monthly Active Classes
-        td.description.recurring-revenue Home Monthly Recurring Revenue
+        td.description.recurring-revenue Home Monthly Recurring Revenue (#{yesterday})
         td.description.classroom-active-users Classroom Monthly Active Users
         td.description.campaign-active-users Home Monthly Active Users
       tr
@@ -16,7 +20,6 @@ block content
           if view.activeClasses.length > 0
             div.count= view.activeClasses[0].groups[view.activeClasses[0].groups.length - 1]
         td.recurring-revenue
-          - var yesterday = new Date(new Date().getUTCFullYear(), new Date().getUTCMonth(), new Date().getUTCDate() - 1).toISOString().substring(0, 10);
           div.count $#{Math.round((view.dayMrrMap[yesterday] || 0) / 100)}
         td.classroom-active-users
           if view.activeUsers.length > 0
