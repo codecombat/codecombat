@@ -102,6 +102,10 @@ productStubs = [
   }
 ]
 
+# For Backbone collection in dev environment, otherwise models merge
+for productStub in productStubs
+  productStub._id = _.uniqueId()
+
 module.exports = {
   get
   productStubs

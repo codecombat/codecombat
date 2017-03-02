@@ -607,6 +607,9 @@
     prompt_button: "Enter Shop"
     recovered: "Previous gems purchase recovered. Please refresh the page."
     price: "x{{gems}} / mo"
+    buy_premium: "Buy Premium"
+    purchase: "Purchase"
+    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
