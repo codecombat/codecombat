@@ -15,6 +15,7 @@ Course = require 'models/Course'
 Level = require 'models/Level'
 LevelFeedback = require 'models/LevelFeedback'
 storage = require 'core/storage'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -34,6 +35,7 @@ module.exports = class HeroVictoryModal extends ModalView
     'click .continue-from-offer-button': 'onClickContinueFromOffer'
     'click .skip-offer-button': 'onClickSkipOffer'
     'click #share-level-btn': 'onClickShareLevelButton'
+    'click .subscribe-button': 'onSubscribeButtonClicked'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -120,7 +122,7 @@ module.exports = class HeroVictoryModal extends ModalView
       thangType = new ThangType()
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
       #thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers', 'i18n']  # This is what we need, but the PlayHeroesModal needs more, and so we load more to fill up the supermodel.
-      thangType.project = ['original', 'rasterIcon', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'unlockLevelName', 'i18n']
+      thangType.project = ['original', 'rasterIcon', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'unlockLevelName', 'i18n', 'subscriber']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType).model
 
     @newEarnedAchievements = []
@@ -508,6 +510,9 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickShareLevelButton: ->
     @$('#share-level-input').val(@shareURL).select()
     @tryCopy()
+
+  onSubscribeButtonClicked: ->
+    @openModalView new SubscribeModal()
 
   # Ratings and reviews
 

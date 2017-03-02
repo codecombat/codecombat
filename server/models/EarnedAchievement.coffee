@@ -4,6 +4,7 @@ util = require '../../app/core/utils'
 log = require 'winston'
 co = require 'co'
 errors = require '../commons/errors'
+ThangType = require './ThangType'
 
 EarnedAchievementSchema = new mongoose.Schema({
   notified:
@@ -41,7 +42,18 @@ EarnedAchievementSchema.statics.upsertFor = co.wrap (achievement, trigger, earne
     for rewardType, rewards of achievement.get('rewards') ? {}
       if rewardType is 'gems'
         update.$inc['earned.gems'] = rewards - (actuallyEarned?.gems ? 0)
-      else if rewards.length
+      else if rewardType is 'items'
+        # Unlock items if they aren't marked 'subscriber' true
+        earn = []
+        for reward in rewards
+          item = yield ThangType.findOne({ original: mongoose.Types.ObjectId(reward) }, { slug: 1, description: 1, subscriber: 1 });
+          if (not item.get('subscriber')) or (user.isPremium())
+            earn.push reward
+        if earn.length
+          update.$addToSet ?= {}
+          update.$addToSet["earned.#{rewardType}"] = { $each: earn }
+      else if rewards.length and rewardType isnt 'heroes'
+        # Don't unlock heroes anymore. They are available to subscribers.
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = { $each: rewards }
     yield user.update(update)
@@ -118,9 +130,20 @@ EarnedAchievementSchema.statics.createForAchievement = co.wrap (achievement, doc
 
   if earnedDoc
     update = {$inc: {points: earnedPoints, 'earned.gems': earnedGems}}
+    user = yield User.findOne({_id: mongoose.Types.ObjectId(userID)})
     for rewardType, rewards of achievement.get('rewards') ? {}
-      continue if rewardType is 'gems'
-      if rewards.length
+      continue if rewardType is 'gems' or rewardType is 'heroes'
+      if rewardType is 'items'
+        # Unlock items if they aren't marked 'subscriber' true
+        earn = []
+        for reward in rewards
+          item = yield ThangType.findOne({ original: mongoose.Types.ObjectId(reward) }, { slug: 1, description: 1, subscriber: 1 });
+          if (not item.get('subscriber')) or (user.isPremium())
+            earn.push reward
+        if earn.length
+          update.$addToSet ?= {}
+          update.$addToSet["earned.#{rewardType}"] = { $each: earn }
+      else if rewards.length
         update.$addToSet ?= {}
         update.$addToSet["earned.#{rewardType}"] = $each: rewards
     yield User.update({_id: mongoose.Types.ObjectId(userID)}, update, {})
