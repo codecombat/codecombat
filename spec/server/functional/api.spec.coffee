@@ -551,6 +551,14 @@ describe 'PUT /api/classrooms/:handle/members', ->
     expect(res.body.code).toBeUndefined()
     expect(res.body.codeCamel).toBeUndefined()
     done()
+
+  it 'accepts user handles', utils.wrap (done) ->
+    url = utils.getURL("/api/classrooms/#{@classroom.id}/members")
+    json = { code: @classroom.get('code'), userId: @student.get('slug') }
+    [res, body] = yield request.putAsync { url, auth: @client.auth, json }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.members.length).toBe(1)
+    done()
     
     
 describe 'PUT /api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', ->
