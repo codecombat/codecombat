@@ -28,7 +28,7 @@ module.exports =
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
-    delighted.addDelightedUser(req.user, trialRequest) if trialRequest.get('type') is 'course'
+    delighted.maybeAddDelightedUser(req.user, trialRequest)
     res.status(201).send(trialRequest.toObject({req: req}))
 
   put: wrap (req, res) ->

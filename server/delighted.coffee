@@ -4,8 +4,25 @@ log = require 'winston'
 
 DELIGHTED_EMAIL_DELAY = 10 * 86400  # in seconds
 
-module.exports.addDelightedUser = addDelightedUser = (user, trialRequest) ->
+isTargetedCountry = (country) ->
+  if /^u\.s\.?(\.a)?\.?$|^us$|usa|america|united states/ig.test(country)
+    return true
+
+  if /^england$|^uk$|^united kingdom$/ig.test(country)
+    return true
+
+  if /^ca$|^canada$/ig.test(country)
+    return true
+
+  if /^au$|^australia$/ig.test(country)
+    return true
+  
+  return false
+
+module.exports.maybeAddDelightedUser = addDelightedUser = (user, trialRequest) ->
   props = trialRequest.get('properties')
+  return unless trialRequest.get('type') is 'course'
+  return unless isTargetedCountry props.country
   name = props.firstName + ' ' + props.lastName
   form =
     email: props.email
