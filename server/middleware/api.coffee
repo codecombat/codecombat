@@ -204,7 +204,7 @@ putClassroomMember = wrap (req, res) ->
   if classroom.get('code') isnt code
     throw new errors.UnprocessableEntity('code is incorrect.')
 
-  user = yield User.findById(userId)
+  user = yield User.findBySlugOrId(userId)
   if not user
     throw new errors.NotFound('User not found.')
 
@@ -234,7 +234,7 @@ putClassroomCourseEnrolled = wrap (req, res) ->
   if not userId
     throw new errors.UnprocessableEntity('userId required.')
 
-  user = yield User.findById(userId)
+  user = yield User.findBySlugOrId(userId)
   if not user
     throw new errors.NotFound('User not found.')
 
