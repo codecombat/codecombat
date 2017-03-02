@@ -217,10 +217,6 @@ setupFeaturesMiddleware = (app) ->
 
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
-    if req.user
-      { user } = req
-      if user.get('country') in ['china'] and not (user.isPremium() or user.get('stripe'))
-        features.freeOnly = true
 
     next()
 
