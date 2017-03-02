@@ -211,6 +211,9 @@ setupFeaturesMiddleware = (app) ->
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
       features.playViewsOnly = true
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+    
+    if /cn\.codecombat\.com/.test(req.get('host')) or req.session.featureMode is 'china'
+      features.china = true
 
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
@@ -319,6 +322,8 @@ setupQuickBailToMainHTML = (app) ->
 
       if req.headers.host is 'cp.codecombat.com'
         features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+      if /cn\.codecombat\.com/.test(req.get('host'))
+        features.china = true
 
       renderMain(template, req, res)
 
