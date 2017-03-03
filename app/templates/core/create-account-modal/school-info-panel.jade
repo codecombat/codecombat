@@ -1,0 +1,72 @@
+div.school-info-panel
+  .container-fluid.text-left
+    .row.m-y-2
+      .col-xs-offset-2.col-xs-8
+        .form-group(v-bind:class="{ 'has-error': showRequired && !organization }")
+          span.control-label
+            | {{ $t("teachers_quote.organization_label") }}
+            =" "
+            strong(v-if="showRequired && !organization") {{ $t("common.required_field") }}
+          input.form-control#organization-control(
+            name="organization"
+            v-model="organization"
+            v-on:keyup.up="navSearchUp"
+            v-on:keyup.down="navSearchDown"
+            v-on:keyup.enter="navSearchChoose"
+            v-on:keyup.esc.stop="navSearchClear"
+            ref='focus'
+          )
+          #suggestion-wrapper
+            .list-group
+              .list-group-item(
+                v-for="(suggestion, index) in suggestions"
+                v-bind:class="{ active: index === suggestionIndex }"
+                v-on:mouseover="suggestionHover(index)"
+                v-on:click="navSearchChoose"
+              )
+                .school(v-html="suggestion._highlightResult.name.value")
+                .district
+                  span(v-html="suggestion._highlightResult.district.value"),
+                  =" "
+                  span(v-if="suggestion._highlightResult.city", v-html="suggestion._highlightResult.city.value")
+                  =" "
+                  span(v-html="suggestion._highlightResult.state.value")
+                  
+    .row.m-y-2
+      .col-xs-offset-2.col-xs-4
+        .form-group(v-bind:class="{ 'has-error': showRequired && !district }")
+          span.control-label
+            | {{ $t("teachers_quote.district_label") }}
+            =" "
+            strong(v-if="showRequired && !district") {{ $t("common.required_field") }}
+          input.form-control#district-control(name="district", v-model="district", v-bind:placeholder="$t('teachers_quote.district_na')")
+
+      .col-xs-4
+        .form-group(v-bind:class="{ 'has-error': showRequired && !city }")
+          span.control-label
+            | {{ $t("teachers_quote.city") }}
+            =" "
+            strong(v-if="showRequired && !city") {{ $t("common.required_field") }}
+          input.form-control(name="city", v-model="city")
+
+    .row.m-y-2
+      .col-xs-offset-2.col-xs-4
+        .form-group(v-bind:class="{ 'has-error': showRequired && !state }")
+          span.control-label
+            | {{ $t("teachers_quote.state") }}
+            =" "
+            strong(v-if="showRequired && !state") {{ $t("common.required_field") }}
+          input.form-control(name="state", v-model="state")
+
+      .col-xs-4
+        .form-group(v-bind:class="{ 'has-error': showRequired && !country }")
+          span.control-label
+            | {{ $t("teachers_quote.country") }}
+            =" "
+            strong(v-if="showRequired && !country") {{ $t("common.required_field") }}
+          input.form-control(name="country", v-model="country")
+  
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button#create-account-btn.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("common.continue") }}
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack") {{ $t("common.back") }}

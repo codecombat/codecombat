@@ -288,6 +288,7 @@
     sso_connected: "Successfully connected with:"
     select_your_starting_hero: "Select Your Starting Hero:"
     you_can_always_change_your_hero_later: "You can always change your hero later."
+    finish: "Finish"
 
   recover:
     recover_account_title: "Recover Account"
@@ -2170,3 +2171,7 @@
     sign_up: "Sign up & keep coding ▶"
     victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
     victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
+    
+  server_error:
+    email_taken: 'Email already taken'
+    username_taken: 'Username already taken'

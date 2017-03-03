@@ -16,8 +16,8 @@
   .modal-content
     display: flex
     flex-direction: column
-    height: 850px
-    max-height: 90vh
+    min-height: 550px
+    max-height: 850px
     width: 850px
     text-align: center
     padding: 0
@@ -33,9 +33,6 @@
       opacity: 0.9
   
   .modal-header, .modal-footer
-    &.teacher
-      background-color: $burgandy
-      
     &.student
       background-color: $forest
 
@@ -85,6 +82,7 @@
     flex-direction: column
     align-items: center
     justify-content: center
+    padding: 20px 0
     
   // Back/forward buttons
   

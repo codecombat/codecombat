@@ -205,6 +205,15 @@ module.exports = class BasicInfoView extends CocoView
       return new Promise(jqxhr.then)
     
     .then =>
+      
+      # Don't sign up, kick to TeacherComponent instead
+      if @signupState.get('path') is 'teacher'
+        @signupState.set({
+          signupForm: _.pick(forms.formToObject(@$el), 'name', 'email', 'password') 
+        })
+        @trigger 'signup'
+        return
+      
       # Use signup method
       window.tracker?.identify()
       switch @signupState.get('ssoUsed')

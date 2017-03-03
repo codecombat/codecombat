@@ -1,0 +1,17 @@
+.setup-account-panel.text-left
+  .p-a-3
+    div.text-center(v-if="saving")
+      | Saving...
+    div.text-center(v-else-if="error")
+      | Error: {{ error }}
+    div(v-else)
+      h3.text-center You’re ready to start!
+      p.m-t-3 Your students will be able to start playing the first course, Introduction to Computer Science, immediately. Here are some resources to help your class get the most out of CodeCombat!
+      ol
+        li Visit our Resource Hub for curriculum guides for each course, highlighting activities, worksheets and helpful advice for running a successful programming class. 
+        li View solutions to each level (or play the level yourself!) in our Course Guides.
+        li Have questions about how your students can create Web and Game Development projects? Get in touch with our school specialists today.
+    
+  .history-nav-buttons
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack" v-if="error") {{ $t("common.back") }}
+    button.next-button.btn.btn-lg.btn-navy(v-on:click="clickFinish" v-else-if="!saving") {{ $t("signup.finish") }}
