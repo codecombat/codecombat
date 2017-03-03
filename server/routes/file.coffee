@@ -17,8 +17,13 @@ module.exports.setup = (app) ->
 
 fileDelete = (req, res) ->
   return errors.forbidden(res) unless req.user
-  query = parsePathIntoQuery(req.path)
-  return errors.badInput(res) if not query.filename
+  
+  if req.body._id
+    query = { _id: mongoose.Types.ObjectId(req.body._id) }
+  else
+    query = parsePathIntoQuery(req.path)
+    return errors.badInput(res) if not query.filename
+    
   Grid.gfs.collection('media').findOne query, (err, filedata) =>
     return errors.notFound(res) if not filedata
     return errors.forbidden(res) unless userCanEditFile(req.user, filedata)
