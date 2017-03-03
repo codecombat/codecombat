@@ -54,7 +54,7 @@
           | Courses:
         div(v-for="course in courses")
           label
-            input(type="checkbox", v-model:value="isCourseSelected[course._id]")
+            input(type="checkbox", v-model:value="isCourseSelected[course._id]", :disabled="!isCourseVisible[course._id]")
             {{course.name}}
 
     h2
