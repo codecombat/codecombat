@@ -420,11 +420,12 @@ class CocoModel extends Backbone.Model
 
   #- Internationalization
 
-  updateI18NCoverage: ->
+  updateI18NCoverage: (attributes) ->
     langCodeArrays = []
     pathToData = {}
+    attributes ?= @attributes
 
-    TreemaUtils.walk(@attributes, @schema(), null, (path, data, workingSchema) ->
+    TreemaUtils.walk(attributes, @schema(), null, (path, data, workingSchema) ->
       # Store parent data for the next block...
       if data?.i18n
         pathToData[path] = data
