@@ -176,7 +176,7 @@ module.exports = class CampaignView extends RootView
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
     if not me.get('hourOfCode') and @terrain
-      if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+      if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4 and !features.noAuth
         @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
       else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
@@ -201,6 +201,9 @@ module.exports = class CampaignView extends RootView
       context.levels = _.reject context.levels, (level) ->
         return false if features.codePlay and codePlay.canPlay(level.slug)
         return level.requiresSubscription
+    if features.brainPop
+      context.levels = _.filter context.levels, (level) ->
+        level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'true-names']
     @annotateLevels(context.levels)
     count = @countLevels context.levels
     context.levelsCompleted = count.completed
@@ -339,13 +342,15 @@ module.exports = class CampaignView extends RootView
     super()
     if @getQueryVariable('signup') and not me.get('email')
       return @promptForSignup()
-    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.freeOnly))
+    if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth))
       if not me.get('email')
         return @promptForSignup()
       campaignSlug = window.location.pathname.split('/')[2]
       return @promptForSubscription campaignSlug, 'premium campaign visited'
 
   promptForSignup: ->
+    return if features.noAuth
+    
     @endHighlight()
     authModal = new CreateAccountModal supermodel: @supermodel
     authModal.mode = 'signup'
@@ -912,6 +917,7 @@ module.exports = class CampaignView extends RootView
       { data: { project: 'related,rewards,name' } })
     
     .done((achievements) =>
+      return if @destroyed
       sessionsComplete = _(currentView.sessions.models)
         .filter (s) => s.get('levelID')
         .filter (s) => s.get('state') && s.get('state').complete

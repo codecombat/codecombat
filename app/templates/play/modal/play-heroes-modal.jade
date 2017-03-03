@@ -100,7 +100,7 @@
                   
           a#confirm-button(data-i18n=confirmButtonI18N)
 
-    if !me.finishedAnyLevels() && serverConfig.showCodePlayAds
+    if !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds
       a(href="https://lenovogamestate.com/pages/products/")
         - var url = "/images/common/codeplay/NA_ChooseHeroPage_Yoga520_800x90.png"
         if me.isFromUk()

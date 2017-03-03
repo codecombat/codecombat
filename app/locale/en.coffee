@@ -148,6 +148,7 @@
     adjust_volume: "Adjust volume"
     campaign_multiplayer: "Multiplayer Arenas"
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
+    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
