@@ -111,10 +111,39 @@ $heroCanvasHeight: 275px
             left: 21px
             top: 18px
 
-          &.locked:not(.purchasable)
+          &.locked
+            background: url(/images/pages/play/modal/hero-portrait-gem.png)
+            background-size: 100% 100%
+            z-index: 5
+
+            &.active
+              background: url(/images/pages/play/modal/hero-portrait-gem-selected.png)
+              z-index: 6
+
             .hero-avatar
-              background-color: goldenrod
-              @include filter(contrast(50%) brightness(65%))
+              background-color: rgb(0,119,168)
+              background-size: 100% 100%
+              width: 56px
+              height: 58px
+              left: 23px
+              top: 20px
+
+            &.subscribe-unlock
+              background: url(/images/pages/play/modal/hero-portrait-silver.png)
+              background-size: 100% 100%
+              z-index: 5
+
+              &.active
+                background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
+                z-index: 6
+
+              .hero-avatar
+                background-color: goldenrod
+                background-size: 100% 100%
+                width: 54px
+                height: 54px
+                left: 25px
+                top: 25px
 
               &.ie
                 @include opacity(0.35)
@@ -178,9 +207,6 @@ $heroCanvasHeight: 275px
 
   #hero-carousel
     .hero-item
-
-      &.locked:not(.purchasable), &.restricted
-        @include opacity(0.6)
 
       canvas, .hero-pose-image
         width: 334px
@@ -285,11 +311,17 @@ $heroCanvasHeight: 275px
     top: 532px
     width: 541px
     height: 97px
-    padding: 10px 40px
+    padding: 20px 40px
 
     h2
       color: #333
       text-align: center
+      margin: 0 auto
+
+    span.subscribers
+      text-align: center
+      display: table
+      margin: 0 auto
 
   #restricted-hero-explanation
     position: absolute
