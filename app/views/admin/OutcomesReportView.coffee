@@ -54,12 +54,23 @@ OutcomesReportComponent = Vue.extend
   computed:
     sessions: ->
       _.flatten(@classrooms.map (c) -> c.sessions)
+    selectedSessions: ->
+      courseIds = _.zipObject(([c._id, true] for c in @selectedCourses))
+      levelOriginals = {}
+      for classroom in @selectedClassrooms
+        for course in classroom.courses
+          continue unless courseIds[course._id]
+          for level in course.levels
+            levelOriginals[level.original] = true
+      return _.filter(@sessions, (s) ->
+        return unless s
+        levelOriginals[s.level.original])
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
     indexedSessions: ->
       _.indexBy(@sessions, '_id')
     numProgramsWritten: ->
-      _.size(@indexedSessions)
+      _.size(@selectedSessions)
     numShareableProjects: ->
       shareableLevels = _.flatten @classrooms.map (classroom) ->
         classroom.courses.map (course) ->
@@ -89,7 +100,7 @@ OutcomesReportComponent = Vue.extend
     courseStudentCounts: ->
       counts = @courses.map (course) =>
         courseID = course._id ? course
-        instancesOfThisCourse = _.where(@courseInstances, {courseID})
+        instancesOfThisCourse = _.where(@selectedCourseInstances, {courseID})
         {
           _id: courseID
           count: _.union.apply(null, instancesOfThisCourse.map((i) -> i.members)).length
