@@ -900,7 +900,7 @@ module.exports = class CampaignView extends RootView
     true
 
   checkForUnearnedAchievements: ->
-    return unless @campaign
+    return unless @campaign and currentView.sessions
     
     # Another layer attempting to make sure users unlock levels properly.
     
