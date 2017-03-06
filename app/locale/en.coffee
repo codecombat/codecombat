@@ -138,6 +138,8 @@
     subscription_required: "Subscription Required"
     subscribers_only: "Subscribers Only!"
     subscribe_unlock: "Subscribe to Unlock!"
+    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     play_classroom_version: "Play Classroom Version"  # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@
     adjust_volume: "Adjust volume"
     campaign_multiplayer: "Multiplayer Arenas"
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
+    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -930,7 +933,7 @@
     primary_role_default: "Select Primary Role"
     purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "Technology coordinator"
-    advisor: "Curriculum Specialist/Advisor" # {change}
+    advisor: "Curriculum Specialist/Advisor"
     principal: "Principal"
     superintendent: "Superintendent"
     parent: "Parent"

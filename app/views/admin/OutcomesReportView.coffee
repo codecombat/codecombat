@@ -54,12 +54,23 @@ OutcomesReportComponent = Vue.extend
   computed:
     sessions: ->
       _.flatten(@classrooms.map (c) -> c.sessions)
+    selectedSessions: ->
+      courseIds = _.zipObject(([c._id, true] for c in @selectedCourses))
+      levelOriginals = {}
+      for classroom in @selectedClassrooms
+        for course in classroom.courses
+          continue unless courseIds[course._id]
+          for level in course.levels
+            levelOriginals[level.original] = true
+      return _.filter(@sessions, (s) ->
+        return unless s
+        levelOriginals[s.level.original])
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
     indexedSessions: ->
       _.indexBy(@sessions, '_id')
     numProgramsWritten: ->
-      _.size(@indexedSessions)
+      _.size(@selectedSessions)
     numShareableProjects: ->
       shareableLevels = _.flatten @classrooms.map (classroom) ->
         classroom.courses.map (course) ->
@@ -72,50 +83,24 @@ OutcomesReportComponent = Vue.extend
       @classrooms.filter (c) => @isClassroomSelected[c._id]
     selectedCourses: ->
       @courses.filter (c) => @isCourseSelected[c._id]
+    isCourseVisible: ->
+      mapping = {}
+      @courses.forEach (course) =>
+        mapping[course._id] = _.any @courseInstances, (ci) =>
+          (ci.courseID is course._id) and @isClassroomSelected[ci.classroomID]
+      mapping
+    selectedCourseInstances: ->
+      @courseInstances.filter (ci) =>
+        (ci.classroomID in @selectedClassrooms.map((c)->c._id)) and (ci.courseID in @selectedCourses.map((c)->c._id))
+    selectedStudentIDs: ->
+      @studentIDs.filter (studentID) =>
+        studentID in _.flatten(@selectedCourseInstances.map((c)->c.members))
     insightsHtml: ->
       marked(@insightsMarkdown, sanitize: false)
-    courseCompletion: ->
-      return if not @dataReady
-      classroomsWithSessions = new Classrooms(@classrooms)
-      classroomsWithSessions.forEach (classroom) =>
-        classroom.sessions = new LevelSessions(_.find(@classrooms, {_id: classroom.id}).sessions)
-      progressData = helper.calculateAllProgress(
-        classroomsWithSessions,
-        new Courses(@courses),
-        new CourseInstances(@courseInstances),
-        new Users(@studentIDs.map (_id) -> {_id})
-      )
-      courseCompletion = {}
-      for classroom in @classrooms
-        for course in classroom.courses
-          courseCompletion[course._id] ?= {
-            _id: course._id
-            name: course.name
-            completion: 0
-          }
-          courseCompletion[course._id].numerator ?= 0
-          courseCompletion[course._id].denominator ?= 0
-          for userID in classroom.members
-            for level in course.levels when not level.practice
-              progressDatum = progressData.get({
-                classroom: new Classroom(classroom)
-                course: new Course(course)
-                level: new Level(level)
-                user: {id: userID}
-              })
-              if _.contains(_.find(this.courseInstances, {courseID: course._id})?.members, userID)
-                if progressDatum.completed
-                  courseCompletion[course._id].numerator += 1
-                courseCompletion[course._id].denominator += 1
-              null
-          courseCompletion[course._id].completion = Math.floor((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100)
-      console.table courseCompletion
-      console.trace()
-      courseCompletion
     courseStudentCounts: ->
       counts = @courses.map (course) =>
         courseID = course._id ? course
-        instancesOfThisCourse = _.where(@courseInstances, {courseID})
+        instancesOfThisCourse = _.where(@selectedCourseInstances, {courseID})
         {
           _id: courseID
           count: _.union.apply(null, instancesOfThisCourse.map((i) -> i.members)).length
@@ -151,6 +136,48 @@ OutcomesReportComponent = Vue.extend
       console.log "Data ready!", @dataReady
     
   methods:
+    courseCompletion: ->
+      return if not @dataReady
+      classroomsWithSessions = new Classrooms(@selectedClassrooms)
+      classroomsWithSessions.forEach (classroom) =>
+        # classroom.sessions = new LevelSessions(_.find(@classrooms, {_id: classroom.id}).sessions)
+        classroom.sessions = new LevelSessions(@sessions)
+      console.log {@selectedCourses, @selectedCourseInstances, @selectedStudentIDs}
+      progressData = helper.calculateAllProgress(
+        classroomsWithSessions,
+        new Courses(@selectedCourses),
+        new CourseInstances(@selectedCourseInstances),
+        new Users(@selectedStudentIDs.map (_id) -> {_id})
+      )
+      console.log progressData
+      courseCompletion = {}
+      for classroom in @selectedClassrooms
+        for course in classroom.courses # intersect with @selectedCourses ?
+          courseCompletion[course._id] ?= {
+            _id: course._id
+            name: course.name
+            completion: 0
+          }
+          courseCompletion[course._id].numerator ?= 0
+          courseCompletion[course._id].denominator ?= 0
+          for userID in classroom.members
+            for level in course.levels when not level.practice
+              progressDatum = progressData.get({
+                classroom: new Classroom(classroom)
+                course: new Course(course)
+                level: new Level(level)
+                user: {id: userID}
+              })
+              if _.contains(_.find(this.courseInstances, {courseID: course._id, classroomID: classroom._id})?.members, userID)
+                if progressDatum.completed
+                  courseCompletion[course._id].numerator += 1
+                courseCompletion[course._id].denominator += 1
+              null
+          courseCompletion[course._id].completion = Math.floor((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100)
+      console.table courseCompletion
+      console.trace()
+      courseCompletion
+
     submitEmail: (e) ->
       @fetchData().then =>
         @dataReady = true
@@ -185,7 +212,7 @@ OutcomesReportComponent = Vue.extend
         @endDate # string YYYY-MM-DD
         classrooms: @selectedClassrooms
         courses: @selectedCourses
-        @courseCompletion
+        courseCompletion: @courseCompletion()
         @courseStudentCounts
         @numProgramsWritten
         @myNumProgramsWritten

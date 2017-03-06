@@ -35,6 +35,9 @@ if view.showAds()
 
   if campaign
     .map
+      if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
+        #brain-pop-done-banner-wrapper
+          #brain-pop-done-banner(data-i18n="play.brain_pop_done")
       .gradient.horizontal-gradient.top-gradient
       .gradient.vertical-gradient.right-gradient
       .gradient.horizontal-gradient.bottom-gradient
@@ -181,7 +184,7 @@ if view.showAds()
                     span= i18n(campaign.attributes, 'fullName')
                   else
                     span ???
-                if campaign && campaign.levelsTotal
+                if campaign && campaign.levelsTotal && !features.brainPop
                   h3.levels-completed
                     span= campaign.levelsCompleted
                     | /
@@ -198,35 +201,37 @@ if view.showAds()
                     span= i18n(campaign.attributes, 'description')
 
   .game-controls.header-font.picoctf-hide
-    button.btn.poll.hidden(data-i18n="[title]play.poll")
-    if !features.codePlay
-      a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
-    button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
-    button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
-    button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-    if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !features.freeOnly
-      button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-    if !me.get('anonymous', true) && !features.codePlay
-      a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
-    if me.get('anonymous', true)
-      button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
+    if !(features.picoCtf || features.brainPop)
+      button.btn.poll.hidden(data-i18n="[title]play.poll")
+      if !features.codePlay
+        a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
+      button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+      button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+      button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+      if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !features.freeOnly
+        button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
+      if !me.get('anonymous', true) && !features.codePlay
+        a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
+      if me.get('anonymous', true)
+        button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
 
   .user-status.header-font.picoctf-hide
     .user-status-line
-      span.gem.gem-30
-      span#gems-count.spr= me.gems()
-      span.level-indicator(data-i18n="general.player_level")
-      span.player-level.spr= me.level()
-      span.player-hero-icon
-      if me.get('anonymous')
-        span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
-        button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-        button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
-      else
-        a(href="/account").player-name.spr= me.get('name')
-        button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-        if me.isPremium()
-          button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+      if !features.noAuth
+        span.gem.gem-30
+        span#gems-count.spr= me.gems()
+        span.level-indicator(data-i18n="general.player_level")
+        span.player-level.spr= me.level()
+        span.player-hero-icon
+        if me.get('anonymous')
+          span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
+          button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+          button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+        else
+          a(href="/account").player-name.spr= me.get('name')
+          button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          if me.isPremium()
+            button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
   button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
     .glyphicon.glyphicon-volume-off
@@ -251,7 +256,7 @@ if view.showAds()
           | /
           span= levelsTotal
     
-if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds
+if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds
   a(href="https://lenovogamestate.com/pages/products/")
     - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
     if me.isFromUk()

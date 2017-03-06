@@ -45,3 +45,5 @@ module.exports = class Campaign extends CocoModel
       return level.practice
     else
       return level.practice and / [ABCD]$/.test level.name
+
+  updateI18NCoverage: -> super(_.omit(@attributes, 'levels'))

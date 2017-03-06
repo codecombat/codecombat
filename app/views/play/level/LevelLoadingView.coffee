@@ -206,19 +206,19 @@ module.exports = class LevelLoadingView extends CocoView
     @resize()
 
   onSubscriptionRequired: (e) ->
-    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     @$el.find('.subscription-required').show()
 
   onCourseMembershipRequired: (e) ->
-    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     @$el.find('.course-membership-required').show()
 
   onLicenseRequired: (e) ->
-    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     @$el.find('.license-required').show()
 
   onLoadError: (resource) ->
-    @$el.find('.level-loading-goals, .tip, .load-progress').hide()
+    @$el.find('.level-loading-goals, .tip, .progress-or-start-container').hide()
     @$el.find('.could-not-load').show()
 
   onClickStartSubscription: (e) ->
