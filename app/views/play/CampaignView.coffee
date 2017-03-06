@@ -373,10 +373,9 @@ module.exports = class CampaignView extends RootView
     false
 
   annotateLevels: (orderedLevels) ->
-    previousIncompletePracticeLevel = false # Lock owned levels if there's a earlier incomplete practice level to play
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
-      level.locked = not me.ownsLevel(level.original) or previousIncompletePracticeLevel
+      level.locked = not me.ownsLevel(level.original)
       level.locked = true if level.slug is 'kithgard-mastery' and @calculateExperienceScore() is 0
       level.locked = true if level.requiresSubscription and @requiresSubscription and me.get('hourOfCode')
       level.locked = false if @levelStatusMap[level.slug] in ['started', 'complete']
@@ -396,6 +395,7 @@ module.exports = class CampaignView extends RootView
       level.unlocksItem = _.find(level.rewards, 'item')?.item
       level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
+      
       if window.serverConfig.picoCTF
         if problem = _.find(@picoCTFProblems or [], pid: level.picoCTFProblem)
           level.locked = false if problem.unlocked or level.slug is 'digital-graffiti'
@@ -407,10 +407,6 @@ module.exports = class CampaignView extends RootView
             #{problem.category} - #{problem.score} points
           """
           level.color = 'rgb(80, 130, 200)' if problem.solved
-
-      if @campaign?.levelIsPractice(level) and not level.locked and @levelStatusMap[level.slug] isnt 'complete' and
-      (not level.requiresSubscription or level.adventurer or not @requiresSubscription)
-        previousIncompletePracticeLevel = true
 
       level.hidden = level.locked
       if level.concepts?.length
