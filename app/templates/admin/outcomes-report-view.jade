@@ -2,7 +2,7 @@
   form
     label
       | Teacher email:
-      input(v-model="teacherEmail", :disabled="teacher")
+      input(v-model.trim="teacherEmail", :disabled="teacher")
     button(type="submit" @click.prevent="submitEmail")
       | Next
 
