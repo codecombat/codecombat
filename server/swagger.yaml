@@ -360,7 +360,7 @@ paths:
           in: path
           type: string
           required: true
-          description: The property to lookup by. Currently only `"israel-id"` is available.
+          description: The property to lookup by. May either be `"israel-id"` or `"name"`.
         - name: value
           in: path
           type: string
