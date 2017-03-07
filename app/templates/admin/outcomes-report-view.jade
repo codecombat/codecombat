@@ -2,7 +2,7 @@
   form
     label
       | Teacher email:
-      input(v-model="teacherEmail", :disabled="teacher")
+      input(v-model.trim="teacherEmail", :disabled="teacher")
     button(type="submit" @click.prevent="submitEmail")
       | Next
 
@@ -53,7 +53,7 @@
         h2
           | Courses:
         div(v-for="course in courses")
-          label
+          label(v-if="isCourseVisible[course._id]")
             input(type="checkbox", v-model:value="isCourseSelected[course._id]", :disabled="!isCourseVisible[course._id]")
             {{course.name}}
 

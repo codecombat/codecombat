@@ -1,5 +1,9 @@
 go = (path, options) -> -> @routeDirectly path, arguments, options
-redirect = (path) -> -> @navigate(path + document.location.search, { trigger: true, replace: true })
+
+redirect = (path) -> ->
+  delete window.alreadyLoadedView
+  @navigate(path + document.location.search, { trigger: true, replace: true })
+
 utils = require './utils'
 ViewLoadTimer = require 'core/ViewLoadTimer'
 
@@ -241,6 +245,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @viewLoad.record()
     
   redirectHome: ->
+    delete window.alreadyLoadedView
     homeUrl = switch
       when me.isStudent() then '/students'
       when me.isTeacher() then '/teachers'

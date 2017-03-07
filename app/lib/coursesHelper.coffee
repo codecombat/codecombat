@@ -155,14 +155,16 @@ module.exports =
             # numCompleted: 0
           }
           isPractice = level.get('practice')
+          sessionsForLevel = _.filter classroom.sessions.models, (session) ->
+            session.get('level').original is levelID
 
           for user in students.models
             userID = user.id
             courseProgress = progressData[classroom.id][course.id]
             courseProgress[userID] ?= { completed: true, started: false, levelsCompleted: 0 } # Only set it the first time through a user
             courseProgress[levelID][userID] = { completed: true, started: false } # These don't matter, will always be set
-            sessions = _.filter classroom.sessions.models, (session) ->
-              session.get('creator') is userID and session.get('level').original is levelID
+            sessions = _.filter sessionsForLevel, (session) ->
+              session.get('creator') is userID
             
             courseProgress[levelID][userID].session = _.find(sessions, (s) -> s.completed()) or _.first(sessions)
 

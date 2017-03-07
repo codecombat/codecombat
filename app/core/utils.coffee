@@ -125,7 +125,8 @@ courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
 petThangIDs = [
-  '578d320d15e2501f00a585bd'
+  '578d320d15e2501f00a585bd',
+  '5744e3683af6bf590cd27371'
 ]
 
 premiumContent =
