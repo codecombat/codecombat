@@ -116,6 +116,7 @@ block content
             else
               span.spr(data-i18n="subscribe.was_free_until")
               span= moment(new Date(view.personalSub.free)).format('l')
+              button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
           else
             button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
 

@@ -6,6 +6,7 @@ locale = require 'locale/locale'
 {me} = require 'core/auth'
 Tracker = require 'core/Tracker'
 CocoModel = require 'models/CocoModel'
+api = require 'core/api'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -125,14 +126,10 @@ Application = {
       me.checkForNewAchievement().then => @checkForNewAchievement()
       
   featureMode: {
-    useCodePlay: ->
-      $.ajax({method: 'put', url: '/admin/feature-mode/code-play'}).then(-> document.location.reload())
-      
-    usePicoCtf: ->
-      $.ajax({method: 'put', url: '/admin/feature-mode/pico-ctf'}).then(-> document.location.reload())
-
-    clear: ->
-      $.ajax({method: 'delete', url: '/admin/feature-mode'}).then(-> document.location.reload())
+    useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
+    useCodePlay: -> api.admin.setFeatureMode('code-play').then(-> document.location.reload())
+    usePicoCtf: -> api.admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
+    clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
   }
       
   loadedStaticPage: window.alreadyLoadedView?

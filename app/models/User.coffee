@@ -220,6 +220,9 @@ module.exports = class User extends CocoModel
     return true if me.isAdmin()
     return true if me.hasSubscription()
     return false
+    
+  isForeverPremium: ->
+    return @get('stripe')?.free is true
 
   isOnPremiumServer: ->
     return true if me.get('country') in ['brazil']

@@ -33,16 +33,29 @@
               a(href="http://www.codecombat.nl/kopen", target="_blank")
                 button.btn.btn-ideal.btn-illustrated.btn-lg.btn-succes PREPAID CODES
   
-          .product
-            h4.subscription-gem-amount x{{gems}} / mo
-            h3(data-i18n="account.subscription")
-            if me.hasSubscription()
-              button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
-                | ✓ 
-                span(data-i18n="account.subscribed")
-            else
-              button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="subscribe.subscribe_title") Subscribe
-                  
+          if view.basicProduct
+            .product
+              h4.subscription-gem-amount x{{gems}} / mo
+              h3(data-i18n="account.subscription")
+              if me.hasSubscription()
+                button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
+                  | ✓ 
+                  span(data-i18n="account.subscribed")
+              else
+                button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="subscribe.subscribe_title")
+            
+          else if view.lifetimeProduct
+            .product
+              h4.subscription-gem-amount x#{view.lifetimeProduct.get('gems')}
+              h3(data-i18n="buy_gems.buy_premium")
+              if me.isForeverPremium()
+                button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
+                  | ✓ 
+                  span(data-i18n="buy_gems.purchased")
+              else
+                button.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success(data-i18n="buy_gems.purchase")
+
+
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
           span(data-i18n="buy_gems.declined")
