@@ -236,6 +236,10 @@ OutcomesReportComponent = Vue.extend
               @classrooms = classrooms
               Promise.all @classrooms.map (classroom) =>
                 @fetchStudentSessions(classroom).then (sessions) =>
+                  # Freeze the sessions so Vue doesn't create a ton of listeners
+                  # and update-dependencies for all the sessions and their properties
+                  Object.freeze(sessions)
+                  Object.freeze(session) for session in sessions
                   Vue.set classroom, 'sessions', sessions
             Promise.all([
               @fetchCourseInstances(teacher).then (courseInstances) =>
