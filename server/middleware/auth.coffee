@@ -15,6 +15,7 @@ config = require '../../server_config'
 oauth = require '../lib/oauth'
 facebook = require '../lib/facebook'
 OAuthProvider = require '../models/OAuthProvider'
+querystring = require 'querystring'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -209,6 +210,12 @@ module.exports =
       req.shouldRedirect = provider.get('redirectAfterLogin')
     
     next()
+    
+  redirectOnError: wrap (err, req, res, next) ->
+    { errorRedirect } = req.query
+    return next(err) unless errorRedirect
+    qs = querystring.stringify(err.toJSON())
+    res.redirect errorRedirect + '?' + qs
     
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user

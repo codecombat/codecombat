@@ -77,6 +77,10 @@ paths:
           type: string
           in: query
           description: Override where the user will navigate to after successfully logging in.
+        - name: errorRedirect
+          type: string
+          in: query
+          description: If an error happens, redirects the user to this url, with at least query parameters `code`, `errorName` and `message`.
       responses:
         "302":
           description: 'Redirects the user to a landing page after having logged them in.'
