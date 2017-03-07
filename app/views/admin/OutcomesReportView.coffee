@@ -82,7 +82,7 @@ OutcomesReportComponent = Vue.extend
     selectedClassrooms: ->
       @classrooms.filter (c) => @isClassroomSelected[c._id]
     selectedCourses: ->
-      @courses.filter (c) => @isCourseSelected[c._id]
+      @courses.filter (c) => @isCourseSelected[c._id] and @isCourseVisible[c._id]
     isCourseVisible: ->
       mapping = {}
       @courses.forEach (course) =>
