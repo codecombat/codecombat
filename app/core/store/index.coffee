@@ -3,6 +3,7 @@ store = new Vuex.Store({
   state: {
     pageErrors: []
     localesLoaded: {}
+    features: {}
   }
   mutations: {
     addPageError: (state, error) -> state.pageErrors.push(error)
@@ -11,6 +12,7 @@ store = new Vuex.Store({
       addition = {}
       addition[localeCode] = true
       state.localesLoaded = _.assign(addition, state.localesLoaded)
+    updateFeatures: (state, features) -> state.features = features
   }
   modules: {
     me: require('./modules/me')

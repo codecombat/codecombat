@@ -16,5 +16,6 @@ module.exports = {
 
   mutations:
     updateUser: (state, updates) ->
-      _.assign(state, updates)
+      # deep copy, since nested data may be changed, and vuex store restricts mutations
+      _.assign(state, $.extend(true, {}, updates))
 }

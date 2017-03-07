@@ -25,16 +25,6 @@ describe 'CampaignView', ->
         expect(@levels[2].hidden).toEqual(false)
         expect(@levels[3].hidden).toEqual(false)
 
-    describe 'and 3rd one is practice', ->
-      beforeEach ->
-        @levels[2].practice = true
-        @levels[2].name += ' A'
-        @levels[2].slug += '-a'
-        @campaignView.annotateLevels(@levels)
-      it 'hides next levels if there are practice levels to do', ->
-        expect(@levels[2].hidden).toEqual(false)
-        expect(@levels[3].hidden).toEqual(true)
-
     describe 'and 2nd rewards a practice a non-practice level', ->
       beforeEach ->
         @campaignView.levelStatusMap[@levels[0].slug] = 'complete'

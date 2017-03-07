@@ -35,8 +35,7 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: 'robin+teacher@codecombat.com' # TODO: Don't hardcode this. And add get-by-email endpoint.
-    # teacherEmail: '568e7f2552eea226005180b3' # TODO: Don't hardcode this. And add get-by-email endpoint.
+    teacherEmail: ''
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
@@ -46,19 +45,32 @@ OutcomesReportComponent = Vue.extend
     startDate: null
     classrooms: null
     courses: null
-    sessions: []
     courseInstances: []
+    dataReady: false
     isClassroomSelected: {}
     isCourseSelected: {}
     endDate: moment(new Date()).format('MMM D, YYYY')
     insightsMarkdown: ""
   computed:
+    sessions: ->
+      _.flatten(@classrooms.map (c) -> c.sessions)
+    selectedSessions: ->
+      courseIds = _.zipObject(([c._id, true] for c in @selectedCourses))
+      levelOriginals = {}
+      for classroom in @selectedClassrooms
+        for course in classroom.courses
+          continue unless courseIds[course._id]
+          for level in course.levels
+            levelOriginals[level.original] = true
+      return _.filter(@sessions, (s) ->
+        return unless s
+        levelOriginals[s.level.original])
     studentIDs: ->
       _.uniq _.flatten _.pluck(@classrooms, 'members')
     indexedSessions: ->
       _.indexBy(@sessions, '_id')
     numProgramsWritten: ->
-      _.size(@indexedSessions)
+      _.size(@selectedSessions)
     numShareableProjects: ->
       shareableLevels = _.flatten @classrooms.map (classroom) ->
         classroom.courses.map (course) ->
@@ -70,55 +82,25 @@ OutcomesReportComponent = Vue.extend
     selectedClassrooms: ->
       @classrooms.filter (c) => @isClassroomSelected[c._id]
     selectedCourses: ->
-      @courses.filter (c) => @isCourseSelected[c._id]
+      @courses.filter (c) => @isCourseSelected[c._id] and @isCourseVisible[c._id]
+    isCourseVisible: ->
+      mapping = {}
+      @courses.forEach (course) =>
+        mapping[course._id] = _.any @courseInstances, (ci) =>
+          (ci.courseID is course._id) and @isClassroomSelected[ci.classroomID]
+      mapping
+    selectedCourseInstances: ->
+      @courseInstances.filter (ci) =>
+        (ci.classroomID in @selectedClassrooms.map((c)->c._id)) and (ci.courseID in @selectedCourses.map((c)->c._id))
+    selectedStudentIDs: ->
+      @studentIDs.filter (studentID) =>
+        studentID in _.flatten(@selectedCourseInstances.map((c)->c.members))
     insightsHtml: ->
       marked(@insightsMarkdown, sanitize: false)
-    dataReady: ->
-      return (_.all([@classrooms, @courses, @courseInstances]) and _.all(@classrooms?.map (c) -> c.sessions))
-    courseCompletion: ->
-      console.log [@classrooms, @courses, @courseInstances, @classrooms?.map (c) -> c.sessions]
-      return if not @dataReady
-      classroomsWithSessions = new Classrooms(@classrooms)
-      classroomsWithSessions.forEach (classroom) =>
-        classroom.sessions = new LevelSessions(_.find(@classrooms, {_id: classroom.id}).sessions)
-      progressData = helper.calculateAllProgress(
-        classroomsWithSessions,
-        new Courses(@courses),
-        new CourseInstances(@courseInstances),
-        new Users(@studentIDs.map (_id) -> {_id})
-      )
-      courseCompletion = {}
-      for classroom in @classrooms
-        for course in classroom.courses
-          courseCompletion[course._id] ?= {
-            _id: course._id
-            name: course.name
-            completion: 0
-          }
-          courseCompletion[course._id].numerator ?= 0
-          courseCompletion[course._id].denominator ?= 0
-          for userID in classroom.members
-            for level in course.levels when not level.practice
-              progressDatum = progressData.get({
-                classroom: new Classroom(classroom)
-                course: new Course(course)
-                level: new Level(level)
-                user: {id: userID}
-              })
-              if _.contains(_.find(this.courseInstances, {courseID: course._id})?.members, userID)
-                if progressDatum.completed
-                  courseCompletion[course._id].numerator += 1
-                courseCompletion[course._id].denominator += 1
-              null
-          courseCompletion[course._id].completion = Math.floor((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100)
-      console.table courseCompletion
-      console.trace()
-      courseCompletion
     courseStudentCounts: ->
       counts = @courses.map (course) =>
         courseID = course._id ? course
-        instancesOfThisCourse = _.where(@courseInstances, {courseID})
-        console.log _.union.apply(null, instancesOfThisCourse.map((i) -> i.members)).length
+        instancesOfThisCourse = _.where(@selectedCourseInstances, {courseID})
         {
           _id: courseID
           count: _.union.apply(null, instancesOfThisCourse.map((i) -> i.members)).length
@@ -148,18 +130,69 @@ OutcomesReportComponent = Vue.extend
       for course in courses
         course.newConcepts = _.difference(course.concepts, alreadyCoveredConcepts)
         alreadyCoveredConcepts = _.union(course.concepts, alreadyCoveredConcepts)
-        console.log course.campaignID, course.newConcepts
     accountManager: ->
       @accountManagerFullName = "#{@accountManager?.firstName} #{@accountManager?.lastName}"
+    dataReady: ->
+      console.log "Data ready!", @dataReady
     
   methods:
+    courseCompletion: ->
+      return if not @dataReady
+      classroomsWithSessions = new Classrooms(@selectedClassrooms)
+      classroomsWithSessions.forEach (classroom) =>
+        # classroom.sessions = new LevelSessions(_.find(@classrooms, {_id: classroom.id}).sessions)
+        classroom.sessions = new LevelSessions(@sessions)
+      console.log {@selectedCourses, @selectedCourseInstances, @selectedStudentIDs}
+      progressData = helper.calculateAllProgress(
+        classroomsWithSessions,
+        new Courses(@selectedCourses),
+        new CourseInstances(@selectedCourseInstances),
+        new Users(@selectedStudentIDs.map (_id) -> {_id})
+      )
+      console.log progressData
+      courseCompletion = {}
+      for classroom in @selectedClassrooms
+        for course in classroom.courses # intersect with @selectedCourses ?
+          courseCompletion[course._id] ?= {
+            _id: course._id
+            name: course.name
+            completion: 0
+          }
+          courseCompletion[course._id].numerator ?= 0
+          courseCompletion[course._id].denominator ?= 0
+          for userID in classroom.members
+            for level in course.levels when not level.practice
+              progressDatum = progressData.get({
+                classroom: new Classroom(classroom)
+                course: new Course(course)
+                level: new Level(level)
+                user: {id: userID}
+              })
+              if _.contains(_.find(this.courseInstances, {courseID: course._id, classroomID: classroom._id})?.members, userID)
+                if progressDatum.completed
+                  courseCompletion[course._id].numerator += 1
+                courseCompletion[course._id].denominator += 1
+              null
+          courseCompletion[course._id].completion = Math.floor((courseCompletion[course._id].numerator / courseCompletion[course._id].denominator)*100)
+      console.table courseCompletion
+      console.trace()
+      courseCompletion
+
     submitEmail: (e) ->
-      $.ajax
-        type: 'GET',
-        url: '/db/user'
-        data: {email: @teacherEmail}
-        success: @fetchCompleteUser
-        error: (data) => noty text: 'Failed to find user by that email', type: 'error'
+      @fetchData().then =>
+        @dataReady = true
+    
+    fetchByEmail: ->
+      new Promise (accept, reject) =>
+        reject("No email provided!") if _.isEmpty(@teacherEmail)
+        $.ajax
+          type: 'GET',
+          url: '/db/user'
+          data: {email: @teacherEmail}
+          success: (data) => accept(data)
+          error: (data) =>
+            noty text: 'Failed to find user by that email', type: 'error'
+            reject(data)
 
     displayReport: (e) ->
       @fetchLinesOfCode().then @finishDisplayReport
@@ -179,7 +212,7 @@ OutcomesReportComponent = Vue.extend
         @endDate # string YYYY-MM-DD
         classrooms: @selectedClassrooms
         courses: @selectedCourses
-        @courseCompletion
+        courseCompletion: @courseCompletion()
         @courseStudentCounts
         @numProgramsWritten
         @myNumProgramsWritten
@@ -192,66 +225,86 @@ OutcomesReportComponent = Vue.extend
       window.currentView = undefined
       application.router.openView(resultView)
 
+    fetchData: ->
+      @fetchByEmail().then (trimTeacher) =>
+        @fetchCompleteUser(trimTeacher).then (teacher) =>
+          @teacher = teacher
+          Promise.all([
+            @fetchTrialRequest(teacher).then (trialRequests) =>
+              @trialRequest = trialRequests[0]
+            @fetchClassrooms(teacher).then (classrooms) =>
+              @classrooms = classrooms
+              Promise.all @classrooms.map (classroom) =>
+                @fetchStudentSessions(classroom).then (sessions) =>
+                  # Freeze the sessions so Vue doesn't create a ton of listeners
+                  # and update-dependencies for all the sessions and their properties
+                  Object.freeze(sessions)
+                  Object.freeze(session) for session in sessions
+                  Vue.set classroom, 'sessions', sessions
+            Promise.all([
+              @fetchCourseInstances(teacher).then (courseInstances) =>
+                @courseInstances = courseInstances
+              @fetchCourses().then (courses) =>
+                @courses = courses
+            ]).then ([courseInstances, courses]) =>
+              courseIDs = _.uniq courseInstances.map (courseInstance) =>
+                courseInstance.courseID
+              indexedCourses = _.indexBy(courses, '_id')
+              @courses = utils.sortCourses(courseIDs.map (courseID) =>
+                indexedCourses[courseID]
+              )
+          ])
     
     fetchCompleteUser: (data) ->
-      user = new User(data)
-      console.log data
-      user.fetch()
-      user.once 'sync', (fullData) =>
-        @teacher = fullData.toJSON()
-        console.log @teacher
-        @fetchTrialRequest()
-        @fetchClassrooms()
-        @fetchCourses()
+      new Promise (accept, reject) ->
+        user = new User(data)
+        user.fetch().then (data) ->
+          return accept(data)
+        , (error) ->
+          return reject(error) if error
     
-    fetchTrialRequest: ->
-      trialRequests = new TrialRequests()
-      trialRequests.fetchByApplicant(@teacher._id)
-      trialRequests.once 'sync', =>
-        if trialRequests.length is 0
-          noty text: "WARNING: No trial request found for that user!", type: 'error'
-        @trialRequest = trialRequests.models[0]?.toJSON()
+    fetchTrialRequest: (teacher) ->
+      new Promise (accept, reject) ->
+        trialRequests = new TrialRequests()
+        trialRequests.fetchByApplicant(teacher._id).then (data) ->
+          if data.length is 0
+            noty text: "WARNING: No trial request found for that user!", type: 'error'
+            return reject("WARNING: No trial request found for that user!")
+          return accept(data)
+        , (error) ->
+          return reject(error) if error
 
-    fetchClassrooms: ->
-      classrooms = new Classrooms()
-      classrooms.fetchByOwner(@teacher._id)
-      classrooms.once 'sync', =>
-        @classrooms = classrooms.toJSON()
-        @fetchStudentSessions()
-        @fetchCourseInstances()
+    fetchClassrooms: (teacher) ->
+      new Promise (accept, reject) ->
+        classrooms = new Classrooms()
+        classrooms.fetchByOwner(teacher._id).then (data) ->
+          accept(data)
+        , (error) ->
+          reject(error)
+
+    fetchCourseInstances: (teacher) ->
+      new Promise (accept, reject) ->
+        courseInstances = new CourseInstances()
+        courseInstances.fetchByOwner(teacher._id).then (data) ->
+          accept(data)
+        , (error) ->
+          reject(error)
 
     fetchCourses: ->
-      courseInstances = new CourseInstances()
-      courseInstances.fetchByOwner(@teacher._id)
-      courseInstances.once 'sync', =>
+      new Promise (accept, reject) ->
         courses = new Courses()
-        courses.fetch()
-        courses.once 'sync', =>
-          courseIDs = _.uniq courseInstances.map (courseInstance) =>
-            courseInstance.get('courseID')
-          Vue.set @$data, 'courses', utils.sortCourses(courseIDs.map (courseID) => courses.get(courseID).toJSON())
+        courses.fetch().then (data) ->
+          accept(data)
+        , (error) ->
+          reject(error)
     
-    fetchStudentSessions: ->
-      @classrooms.forEach (classroom) =>
-        console.log "Fetching sessions for", classroom
+    fetchStudentSessions: (classroom) ->
+      new Promise (accept, reject) ->
         sessions = new LevelSessions()
         jqxhrs = sessions.fetchForAllClassroomMembers(new Classroom(classroom))
-        $.when(jqxhrs...).done =>
-          console.log sessions
-          Vue.set(classroom, 'sessions', sessions.toJSON())
-          sessions.forEach (session) =>
-            # if not _.detect(@$data.sessions, { _id: session.id })
-            @$data.sessions.push(session.toJSON())
-              
-    fetchCourseInstances: ->
-      @classrooms.forEach (classroom) =>
-        courseInstances = new CourseInstances()
-        courseInstances.fetchForClassroom(classroom._id)
-        courseInstances.once 'sync', (courseInstances) =>
-          courseInstances.forEach (courseInstance) =>
-            if not _.contains(@$data.courseInstances, { _id: courseInstance.id })
-              @$data.courseInstances.push(courseInstance.toJSON())
-    
+        Promise.all(jqxhrs.map (jqxhr) -> new Promise(jqxhr.then)).then (responses) ->
+          return accept(_.union.apply(_, responses))
+          
     fetchLinesOfCode: ->
       $.ajax
         type: 'GET',

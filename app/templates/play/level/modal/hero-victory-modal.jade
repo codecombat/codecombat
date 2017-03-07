@@ -79,6 +79,7 @@ block modal-body-content
             for hero in rewards.heroes
               - var hero = thangTypes[hero];
               .reward-panel.hero(data-hero-thang-type=hero.get('original'))
+                .subscribe-text(data-i18n="play.subscribers_only")
                 .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                   img(src=hero.getPortraitURL())
                 if animate
@@ -90,6 +91,8 @@ block modal-body-content
             for item in rewards.items
               - var item = thangTypes[item];
               .reward-panel.item(data-item-thang-type=item.get('original'))
+                if item.get('subscriber')
+                  .subscribe-text(data-i18n="play.subscribers_only")
                 .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                   img(src=item.getPortraitURL())
                 if animate
@@ -133,10 +136,12 @@ block modal-footer-content
 
   if features.codePlay
     img#sweepstakes-entry(src="/images/common/codeplay/SweepstakesEntry.png")
-  if me.get('anonymous')
+  if me.get('anonymous') && !features.noAuth
     .sign-up-poke.hide
       .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
       button.btn.btn-illustrated.btn-warning.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
+  else if !me.isPremium() && !features.freeOnly
+    button.btn.subscribe-button(data-dismiss="modal", data-i18n="subscribe.subscribe_title")
 
   button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
 

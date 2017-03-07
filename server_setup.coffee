@@ -205,6 +205,13 @@ setupFeaturesMiddleware = (app) ->
       freeOnly: false
     }
 
+    if req.headers.host is 'brainpop.codecombat.com' or req.session.featureMode is 'brain-pop'
+      features.freeOnly = true
+      features.campaignSlugs = ['dungeon']
+      features.playViewsOnly = true
+      features.noAuth = true
+      features.brainPop = true
+      features.noAds = true
 
     if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
       features.freeOnly = true
@@ -217,7 +224,9 @@ setupFeaturesMiddleware = (app) ->
 
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
-
+      features.noAds = true
+      features.picoCtf = true
+      
     next()
 
 setupSecureMiddleware = (app) ->

@@ -309,7 +309,7 @@ paths:
                 type: string
                 description: "The code for joining this classroom"
               userId:
-                description: "The id of the user to add to the class."
+                description: "The `_id` or `slug` of the user to add to the class."
                 type: string
           
       responses:
@@ -338,7 +338,7 @@ paths:
           required: true
           description: The course's `_id`.
         - name: userId
-          description: "The id of the user to add to the class."
+          description: "The `_id` or `slug` of the user to add to the class."
           in: body
           required: true
           schema:

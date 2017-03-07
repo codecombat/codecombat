@@ -12,6 +12,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 Purchase = require 'models/Purchase'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
+store = require 'core/store'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -52,6 +53,8 @@ module.exports = class PlayHeroesModal extends ModalView
 
   onHeroesLoaded: ->
     @formatHero hero for hero in @heroes.models
+    if store.state.features.freeOnly
+      @heroes.reset(@heroes.filter((hero) => !hero.locked))
 
   formatHero: (hero) ->
     hero.name = utils.i18n hero.attributes, 'extendedName'
