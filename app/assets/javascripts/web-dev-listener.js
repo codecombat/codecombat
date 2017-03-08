@@ -98,7 +98,7 @@ function replaceNodes(selector, newNodes){
     // Resetting innerText strips the newlines from it
     var recreatedNodes = $newNodes.toArray();
     recreatedNodes.forEach(function(node){
-      node.innerText = node.innerText;
+      node.innerText = node.innerText.trim();
     })
 
     var newFirstNode = recreatedNodes[0];
