@@ -138,6 +138,8 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     subscription_required: "الإشتراك إلزامي"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "لاعب مجهول"
     level_difficulty: "الصعوبة:"
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     adjust_volume: "تعديل الصوت"
     campaign_multiplayer: "ساحات متعددة اللاّعبين"
     campaign_multiplayer_description: "... فيها تبرمج وجه لوجه ضد لاعبين آخرين."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "العربية", englishDescription: "Arabi
     prompt_button: "أدخل متجر"
     recovered: "الأحجار الكريمة السابقة أون استردادها. يرجى تحديث الصفحة."
 #    price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
 #  subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

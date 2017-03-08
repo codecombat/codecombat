@@ -138,6 +138,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscription_required: "需订阅"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     play_classroom_version: "玩课堂模式" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     adjust_volume: "音量调节"
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里您可以与其他玩家进行代码肉搏战。"
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     prompt_button: "进入商店"
     recovered: "之前购买的宝石已恢复。请刷新页面。"
     price: "x{{gems}} / 月"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

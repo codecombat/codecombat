@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     subscription_required: "Потрібен абонемет"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
     play_classroom_version: "Грати в версію для класу" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     adjust_volume: "Підлаштувати гучність"
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     prompt_button: "Увійти до крамниці"
     recovered: "Попередні покупки самоцвітів відновлені. Будь ласка, поновіть сторінку."
     price: "x{{gems}} / міс"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Преміум"

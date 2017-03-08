@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     subscription_required: "Abonnement benötigt"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonyme Spieler"
     level_difficulty: "Schwierigkeit: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     adjust_volume: "Luutsterchi apasse"
     campaign_multiplayer: "Multiplayer Arenas"
     campaign_multiplayer_description: "... i dene du Chopf a Chopf geg anderi Spieler spielsch."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Dütsch (Schwiiz)", englishDescription: "Ge
     prompt_button: "zum Shop"
     recovered: "Früenere Ichauf zruggerstatet. Bitte dSite neu lade!"
 #    price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

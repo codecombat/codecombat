@@ -138,6 +138,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     subscription_required: "サブスクリプション必須"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "名無しのプレイヤー"
     level_difficulty: "難易度: "
     play_classroom_version: "教室版を遊ぶ" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     adjust_volume: "音量を調整する"
     campaign_multiplayer: "マルチプレイ・アリーナ"
     campaign_multiplayer_description: "コーディングで他のプレイヤーに対して格闘しましょう"
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "もし" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     prompt_button: "ショップに入る"
     recovered: "前のジェム購入をリカバリーしました。ページを更新してください。"
     price: "x{{gems}} / 月"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombatプレミアム"

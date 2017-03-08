@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     subscription_required: "Kräver prenumeration"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonym Spelare"
     level_difficulty: "Svårighetsgrad: "
     play_classroom_version: "Spela klassrumsversion" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     adjust_volume: "justera volymen"
     campaign_multiplayer: "Flerspelararenor"
     campaign_multiplayer_description: "... i vilken du tävlar i kodande mot andra spelare"
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Svenska", englishDescription: "Swedish", tr
     prompt_button: "Gå till affären"
     recovered: "Föregående köp av ädelstenar återskapat. Var vänlig och uppdatera sidan."
 #    price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
 #  subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

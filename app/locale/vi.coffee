@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     subscription_required: "Cần đăng kí"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Người chơi ẩn danh"
     level_difficulty: "Độ khó: "
     play_classroom_version: "Chơi Phiên Bản Lớp Học" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     adjust_volume: "Tùy chỉnh âm lượng"
     campaign_multiplayer: "Đấu trường thi đấu"
     campaign_multiplayer_description: "... nơi mà bạn đối đầu với người chơi khác."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     prompt_button: "Vào cửa hàng"
     recovered: "Ngọc đã được hoàn trả. Vui lòng refresh lại trang."
     price: "x{{gems}} / tháng"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
