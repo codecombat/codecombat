@@ -111,7 +111,24 @@ $heroCanvasHeight: 275px
             left: 21px
             top: 18px
 
-          &.locked
+          &.subscribe-unlock
+            background: url(/images/pages/play/modal/hero-portrait-silver.png)
+            background-size: 100% 100%
+            z-index: 5
+
+            &.active
+              background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
+              z-index: 6
+
+            .hero-avatar
+              background-color: goldenrod
+              background-size: 100% 100%
+              width: 54px
+              height: 54px
+              left: 25px
+              top: 25px
+
+          &.premium
             background: url(/images/pages/play/modal/hero-portrait-gem.png)
             background-size: 100% 100%
             z-index: 5
@@ -127,23 +144,6 @@ $heroCanvasHeight: 275px
               height: 58px
               left: 23px
               top: 20px
-
-            &.subscribe-unlock
-              background: url(/images/pages/play/modal/hero-portrait-silver.png)
-              background-size: 100% 100%
-              z-index: 5
-
-              &.active
-                background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
-                z-index: 6
-
-              .hero-avatar
-                background-color: goldenrod
-                background-size: 100% 100%
-                width: 54px
-                height: 54px
-                left: 25px
-                top: 25px
 
               &.ie
                 @include opacity(0.35)
