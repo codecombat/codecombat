@@ -17,7 +17,7 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : ""))
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : "") + (hero.premium ? " premium " : ""))
               .hero-avatar
       .carousel-inner
         for hero in heroes

@@ -15,6 +15,8 @@ StripeUtils = require '../lib/stripe_utils'
 Promise.promisifyAll(StripeUtils)
 moment = require 'moment'
 slack = require '../slack'
+delighted = require '../delighted'
+
 { STARTER_LICENSE_COURSE_IDS } = require '../../app/core/constants'
 {formatDollarValue} = require '../../app/core/utils'
 
@@ -41,6 +43,8 @@ module.exports =
     prepaid.set('redeemers', [])
     database.validateDoc(prepaid)
     yield prepaid.save()
+    if req.body.creator
+      yield delighted.checkTriggerPrepaidAdded user, req.body.type
     res.status(201).send(prepaid.toObject())
 
 

@@ -138,6 +138,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     subscription_required: "Vyžaduje sa predplatné"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
     play_classroom_version: "Hraj verziu pre triedy" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     adjust_volume: "Zmeniť hlasitosť"
     campaign_multiplayer: "Aréna pre viacerých hráčov"
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "ak" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     prompt_button: "Vstúpiť do obchodu"
     recovered: "Obnovenie už zakúpených drahokamov prebehlo úspěšne. Aktualizujte stránku prosím."
     price: "x{{gems}} / mesiac"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -1907,7 +1913,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     algorithm_find_minmax: "Algoritmus pre nájdenie Minima/Maxima"
     algorithm_search_binary: "Algoritmus binárneho vyhľadávania"
     algorithm_search_graph: "Algoritmus grafového vyhľadávania "
-    algorithm_sort: "Triediaci algoritmus" 
+    algorithm_sort: "Triediaci algoritmus"
     algorithm_sum: "Algoritmus súčtu"
     arguments: "Argumenty"
     arithmetic: "Aritmetika"

@@ -6,6 +6,8 @@ async = require 'async'
 errors = require '../commons/errors'
 config = require '../../server_config'
 LevelSession = require '../models/LevelSession'
+Classroom = require '../models/Classroom'
+CourseInstance = require '../models/CourseInstance'
 Level = require '../models/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
@@ -18,6 +20,7 @@ module.exports.setup = (app) ->
   app.all config.mail.mailChimpWebhook, handleMailChimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
   app.get '/mail/cron/next-steps', handleNextSteps
+  app.get '/mail/cron/teacher-drip', handleTeacherDrip
   if lockManager
     setupScheduledEmails()
 
@@ -692,6 +695,7 @@ handleNextSteps = (req, res) ->
 
 module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
   return log.info "Not sending next steps email to user with no email address" if not user.get('email')
+  return log.debug "Not sending next steps email to teacher based on role" if user.isTeacher()
   unless user.isEmailSubscriptionEnabled('generalNews') and user.isEmailSubscriptionEnabled('anyNotes')
     log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{JSON.stringify(user.get('emails'))}" if DEBUGGING
     return
@@ -745,6 +749,66 @@ module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
 
 ### End Next Steps Email ###
 
+### Teacher Drip Emails ###
+
+handleTeacherDrip = (req, res) ->
+  return unless DEBUGGING or isRequestFromDesignatedCronHandler req, res
+  res.send('Great work, Captain Cron! I can take it from here.')
+  res.end()
+  emailDays = [0, 1, 2, 4, 5, 7]
+  now = new Date()
+  targetRoles = ['advisor', 'principal', 'superintendent', 'teacher', 'technology coordinator']
+  for daysAgo in emailDays
+    # Get every User that was created in a 5-minute window after the time.
+    startTime = getTimeFromDaysAgo now, daysAgo
+    endTime = startTime + 35 * 60 * 1000
+    findParameters = {dateCreated: {$gt: new Date(startTime), $lte: new Date(endTime)}, emailLower: {$exists: true}, role: {$in: targetRoles}}
+    selectString = 'name firstName lastName email emailLower emailSubscriptions emails dateCreated preferredLanguage role'
+    query = User.find(findParameters).select(selectString)
+    do (daysAgo) ->
+      query.exec (err, results) ->
+        if err
+          log.error "Couldn't fetch teacher drip users for #{findParameters}\nError: #{err}"
+          return errors.serverError res, "teacher drip email query failed: #{JSON.stringify(err)}"
+        log.info "Found #{results.length} teacher-drip users to email updates about for #{daysAgo} day(s) ago." if DEBUGGING
+        sendTeacherDripEmail result, now, daysAgo for result in results
+
+module.exports.sendTeacherDripEmail = sendTeacherDripEmail = (user, now, daysAgo) ->
+  return log.info "Not sending teacher drip email to user with no email address" if not user.get('email')
+  unless user.isEmailSubscriptionEnabled('generalNews') and user.isEmailSubscriptionEnabled('anyNotes')
+    log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{JSON.stringify(user.get('emails'))}" if DEBUGGING
+    return
+  return unless template = sendwithus.templates["teacher_drip_day_#{daysAgo}"]
+
+  Classroom.find({ownerID: user.get('_id')}).exec (err, classrooms) ->
+    return log.error "Couldn't find classrooms for #{user.get('email')} #{user.get('name')}: #{err}" if err
+    CourseInstance.find({ownerID: user.get('_id')}).exec (err, courseInstances) ->
+      return log.error "Couldn't find courseInstances for #{user.get('email')} #{user.get('name')}: #{err}" if err
+      coursesWithStudents = []
+      for courseInstance in courseInstances
+        if courseInstance.get('courseID') + '' not in coursesWithStudents and courseInstance.get('members')?.length
+          coursesWithStudents.push courseInstance.get('courseID') + ''
+      numClassrooms = classrooms.length
+      numStudents = _.reduce(classrooms, ((sum, c) -> sum + c.get('members').length), 0)
+      numCourses = coursesWithStudents.length
+      hasPython = _.any(classrooms, (c) -> c.get('aceConfig')?.language is 'python')
+      hasJavaScript = _.any(classrooms, (c) -> c.get('aceConfig')?.language is 'javascript')
+      name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
+      name = 'Teacher' if not name or name in ['Anoner', 'Anonymous']
+      name = _.str.titleize name
+      context =
+        email_id: template
+        recipient:
+          #address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
+          address: 'nick@codecombat.com'  # Always send to me for testing until we're sure it's good to go
+          name: name
+        email_data: {name, daysAgo, numClassrooms, numStudents, numCourses, hasPython, hasJavaScript}
+      log.info "Sending teacher drip email day #{daysAgo} to #{context.recipient.address} with email_data: #{JSON.stringify(context.email_data)}." if DEBUGGING
+      sendwithus.api.send context, (err, result) ->
+        log.error "Error sending teacher drip email: #{err} with result #{result}" if err
+
+### End Teacher Drip Email ###
+
 handleMailChimpWebHook = wrap (req, res) ->
   post = req.body
 
@@ -761,18 +825,18 @@ handleMailChimpWebHook = wrap (req, res) ->
     user = yield User.findOne { 'mailChimp.leid': post.data.web_id }
   if not user
     user = yield User.findOne { 'mailChimp.email': email }
-  
+
   if not user
     throw new errors.NotFound('MailChimp subscriber not found')
 
   if not user.get('emailVerified')
     return res.send('User email unverified')
-    
+
   if post.type is 'profile'
     handleProfileUpdate(user, post)
   else if post.type in ['unsubscribe', 'upemail']
     handleUnsubscribe(user)
-    
+
   user.updatedMailChimp = true # so as not to echo back to mailchimp
   yield user.save()
   res.end('Success')
@@ -798,5 +862,3 @@ module.exports.handleUnsubscribe = handleUnsubscribe = (user) ->
   for interest in mailChimp.interests
     user.setEmailSubscription interest.property, false
   user.set 'mailChimp', undefined
-
-  

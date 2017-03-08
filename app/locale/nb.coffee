@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     subscription_required: "Krever abonnement"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonym Spiller"
     level_difficulty: "Vanskelighetsgrad: "
     play_classroom_version: "Spill klasseromsutgave" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     adjust_volume: "Juster lydnivå"
     campaign_multiplayer: "Flerspillerarenaer"
     campaign_multiplayer_description: "... hvor du spiller direkte mot andre spillere."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "hvis" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Norsk Bokmål", englishDescription: "Norweg
     prompt_button: "Til Butikken"
     recovered: "Tidligere juvelkjøp hentet. Vennligst last siden på nytt"
 #    price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

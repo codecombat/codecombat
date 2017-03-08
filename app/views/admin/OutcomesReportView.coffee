@@ -70,8 +70,10 @@ OutcomesReportComponent = Vue.extend
     indexedSessions: ->
       _.indexBy(@sessions, '_id')
     numProgramsWritten: ->
-      _.size(@selectedSessions)
+      # Include unselected classrooms and courses because we don't particularly need to filter these numbers down
+      _.size(@indexedSessions)
     numShareableProjects: ->
+      # Include unselected classrooms and courses because we don't particularly need to filter these numbers down
       shareableLevels = _.flatten @classrooms.map (classroom) ->
         classroom.courses.map (course) ->
           _.filter course.levels, (level) ->
@@ -310,8 +312,9 @@ OutcomesReportComponent = Vue.extend
         type: 'GET',
         url: '/admin/calculate-lines-of-code'
         data: {
-          classroomIDs: @selectedClassrooms.map (c) -> c._id
-          courseIDs: @selectedCourses.map (c) -> c._id
+          # Include unselected classrooms and courses because we don't particularly need to filter these numbers down
+          classroomIDs: @classrooms.map (c) -> c._id
+          courseIDs: @courses.map (c) -> c._id
         }
         success: (data) =>
           @linesOfCode = parseInt(data.linesOfCode)

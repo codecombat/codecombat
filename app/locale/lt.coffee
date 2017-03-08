@@ -138,6 +138,8 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     subscription_required: "Reikalingas patvirtinimas"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anoniminis Žaidėjas"
     level_difficulty: "Sudėtingumas: "
     play_classroom_version: "Žaidimo klasėje versija" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     adjust_volume: "Reguliuoti garsą"
     campaign_multiplayer: "Daugelio žaidėjų arenos"
     campaign_multiplayer_description: "... kuriose tu prgramuoji kad įveiktum kitus žaidėjus."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "lietuvių kalba", englishDescription: "Lith
     prompt_button: "Į Parduotuvę"
     recovered: "Atstatyta deimantų pirkimo operacija. Prašome pakraukite puslapį iš naujo."
     price: "x{{gems}} / mėn"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"

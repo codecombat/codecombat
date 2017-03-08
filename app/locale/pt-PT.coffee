@@ -150,6 +150,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     adjust_volume: "Ajustar volume"
     campaign_multiplayer: "Arenas Multijogador"
     campaign_multiplayer_description: "... nas quais programas contra outros jogadores."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "se" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -609,6 +610,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     prompt_button: "Entra na Loja"
     recovered: "A compra de gemas anterior foi recuperada. Por favor atualiza a página."
     price: "x{{gems}} / mês"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat 'Premium'"

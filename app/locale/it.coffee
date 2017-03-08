@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     subscription_required: "E' richiesta l'iscrizione"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Giocatore anonimo"
     level_difficulty: "Difficoltà: "
     play_classroom_version: "Gioca con la versione Scuola" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     adjust_volume: "Regola il volume"
     campaign_multiplayer: "Arene multigiocatore"
     campaign_multiplayer_description: "... nelle quali programmi faccia a faccia contro altri giocatori."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "se" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Italiano", englishDescription: "Italian", t
     prompt_button: "Entra nel negozio"
     recovered: "Acquisto precedente recuperato. Ricaricare la pagina."
     price: "x{{gems}} / mese"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"

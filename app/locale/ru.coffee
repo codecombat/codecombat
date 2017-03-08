@@ -138,6 +138,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subscription_required: "Требуется подписка"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     play_classroom_version: "Играть в версию для класса" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     adjust_volume: "Регулировать громкость"
     campaign_multiplayer: "Арены для мультиплеера"
     campaign_multiplayer_description: "... там вы соревнуетесь в программировании с другими игроками."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     prompt_button: "Войти в магазин"
     recovered: "Предыдущие покупки самоцветов восстановлены. Пожалуйста, обновите страницу."
     price: "x{{gems}} / месяц"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Премиум"

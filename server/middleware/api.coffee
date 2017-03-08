@@ -97,6 +97,15 @@ getUserLookupByIsraelId = wrap (req, res) ->
   res.redirect(301, "/api/users/#{user.id}")
 
 
+getUserLookupByName = wrap (req, res) ->
+  { name } = req.params
+  user = yield User.findByName(name)
+  if not user
+    throw new errors.NotFound('User not found.')
+
+  res.redirect(301, "/api/users/#{user.id}")
+
+
 postUserOAuthIdentity = wrap (req, res) ->
   user = yield database.getDocFromHandle(req, User)
   if not user
@@ -340,6 +349,7 @@ module.exports = {
   clientAuth
   getUser
   getUserLookupByIsraelId
+  getUserLookupByName
   postUser
   postUserOAuthIdentity
   getUserClassrooms
