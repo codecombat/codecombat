@@ -34,9 +34,10 @@ module.exports = class TeacherClassesView extends RootView
 
   initialize: (options) ->
     super(options)
+    @teacherID = (me.isAdmin() and utils.getQueryVariable('teacherID')) or me.id
     @classrooms = new Classrooms()
     @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
-    @classrooms.fetchMine()
+    @classrooms.fetchByOwner(@teacherID)
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
       for classroom in @classrooms.models
@@ -51,7 +52,7 @@ module.exports = class TeacherClassesView extends RootView
     @supermodel.trackCollection(@courses)
 
     @courseInstances = new CourseInstances()
-    @courseInstances.fetchByOwner(me.id)
+    @courseInstances.fetchByOwner(@teacherID)
     @supermodel.trackCollection(@courseInstances)
     @progressDotTemplate = require 'templates/teachers/hovers/progress-dot-whole-course'
 
@@ -81,6 +82,7 @@ module.exports = class TeacherClassesView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickCreateClassroomButton: (e) ->
+    return unless me.id is @teacherID # Viewing page as admin
     window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers', ['Mixpanel']
     classroom = new Classroom({ ownerID: me.id })
     modal = new ClassroomSettingsModal({ classroom: classroom })
@@ -108,6 +110,7 @@ module.exports = class TeacherClassesView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickArchiveClassroom: (e) ->
+    return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     classroom.set('archived', true)
@@ -118,6 +121,7 @@ module.exports = class TeacherClassesView extends RootView
     }
 
   onClickUnarchiveClassroom: (e) ->
+    return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
     classroom.set('archived', false)
