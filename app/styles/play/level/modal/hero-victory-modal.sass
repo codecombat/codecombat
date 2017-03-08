@@ -382,26 +382,28 @@
   .subscribe-button
     width: 209px
     height: 60px
+    flex-grow: 1
     text-align: center
     text-transform: uppercase
     font-size: 24.5px
-    font-family: $headings-font-family
-    color: white
-    border: 3px solid rgb(7,65,83)
-    background: rgb(0,119,168)
-    border-radius: 0
+    font-family: $headings-font-family    
+    line-height: 20px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+    background-color: black
 
-    &:disabled
-      background: rgb(72, 106, 113)
-      opacity: 1
-      color: rgba(255,255,255, 0.4)
+    span
+      pointer-events: none
 
-    > *
-      @include opacity(0.9)
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
 
-    &:hover > *
-      @include opacity(1)
-
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
 
   .leaderboard-button, .courses-button
     height: 60px
