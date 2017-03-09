@@ -1,6 +1,7 @@
 # Middleware for both authentication and authorization
 
 errors = require '../commons/errors'
+log = require 'winston'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
@@ -25,17 +26,17 @@ module.exports =
         return next new errors.Forbidden('You do not have permissions necessary.')
       return next new errors.Unauthorized('You must be logged in.')
     next()
-    
+
   checkLoggedIn: ->
     return (req, res, next) ->
       if (not req.user) or (req.user.isAnonymous())
         return next new errors.Unauthorized('You must be logged in.')
       next()
-    
+
   checkHasPermission: (permissions) ->
     if _.isString(permissions)
       permissions = [permissions]
-    
+
     return (req, res, next) ->
       if not req.user
         return next new errors.Unauthorized('You must be logged in.')
@@ -55,9 +56,9 @@ module.exports =
       yield user.save()
       req.logInAsync = Promise.promisify(req.logIn)
       yield req.logInAsync(user)
-      
+
     if req.query.callback
-      res.jsonp(req.user.toObject({req, publicOnly: true})) 
+      res.jsonp(req.user.toObject({req, publicOnly: true}))
     else
       res.send(req.user.toObject({req, publicOnly: false}))
     res.end()
@@ -115,7 +116,7 @@ module.exports =
         password: config.clever.client_secret
         sendImmediately: true
 
-    
+
     throw new errors.UnprocessableEntity('Invalid Clever OAuth Code.') unless auth.access_token
 
     [re2, userInfo] = yield request.getAsync
@@ -133,7 +134,7 @@ module.exports =
     unless lookupRes.statusCode is 200
       throw new errors.Forbidden("Couldn't look up user.  Is data sharing enabled in clever?")
 
-    
+
     user = yield User.findOne({cleverID: userInfo.data.id})
     unless user
       email = lookup.data.email
@@ -191,36 +192,36 @@ module.exports =
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
     next()
-    
+
   loginByOAuthProvider: wrap (req, res, next) ->
     { provider: providerId, accessToken, code, redirect } = req.query
     identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
-    
+
     user = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
     if not user
       throw new errors.NotFound('No user with this identity exists')
-    
+
     req.loginAsync = Promise.promisify(req.login)
     yield req.loginAsync user
-    
+
     if redirect
       req.shouldRedirect = redirect
     else
       provider = yield OAuthProvider.findById(providerId)
       req.shouldRedirect = provider.get('redirectAfterLogin')
-    
+
     next()
-    
+
   redirectOnError: wrap (err, req, res, next) ->
     { errorRedirect } = req.query
     return next(err) unless errorRedirect
     qs = querystring.stringify(err.toJSON())
     res.redirect errorRedirect + '?' + qs
-    
+
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user
     throw new errors.Forbidden('You must be an admin to enter espionage mode') unless req.user.isAdmin()
-    
+
     user = req.body.user
     throw new errors.UnprocessableEntity('Specify an id, username or email to espionage.') unless user
     user = yield User.search(user)
@@ -230,11 +231,11 @@ module.exports =
     yield req.loginAsync user
     req.session.amActually = amActually.id
     res.status(200).send(user.toObject({req: req}))
-    
+
   stopSpying: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to leave espionage mode') unless req.user
     throw new errors.Forbidden('You must be in espionage mode to leave it') unless req.session.amActually
-    
+
     user = yield User.findById(req.session.amActually)
     delete req.session.amActually
     throw new errors.NotFound() unless user
@@ -262,10 +263,12 @@ module.exports =
         address: req.body.email
       email_data:
         tempPassword: user.get('passwordReset')
-    sendwithus.api.sendAsync = Promise.promisify(sendwithus.api.send)
-    yield sendwithus.api.sendAsync(context)
+    try
+      yield sendwithus.api.sendAsync(context)
+    catch err
+      log.error("auth/reset sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
     res.end()
-    
+
   unsubscribe: wrap (req, res) ->
     # need to grab email directly from url, in case it has "+" in it
     queryString = req.url.split('?')[1] or ''
@@ -276,7 +279,7 @@ module.exports =
       if name is 'email'
         email = value
         break
-    
+
     unless email
       throw new errors.UnprocessableEntity 'No email provided to unsubscribe.'
     email = decodeURIComponent(email)
@@ -323,7 +326,7 @@ module.exports =
     if not req.params.name
       throw new errors.UnprocessableEntity 'No name provided.'
     givenName = req.params.name
-      
+
     User.unconflictNameAsync = Promise.promisify(User.unconflictName)
     suggestedName = yield User.unconflictNameAsync givenName
     response = {
@@ -337,6 +340,6 @@ module.exports =
     { email } = req.params
     if not email
       throw new errors.UnprocessableEntity 'No email provided.'
-    
+
     user = yield User.findByEmail(email)
     res.status(200).send { exists: user? }
