@@ -1,17 +1,29 @@
 .setup-account-panel.text-left
   .p-a-3
     div.text-center(v-if="saving")
-      | Saving...
+      {{ $t("common.saving") }}
     div.text-center(v-else-if="error")
-      | Error: {{ error }}
+      {{ $t("loading_error.error") }}
+      =": "
+      | {{ error }}
     div(v-else)
-      h3.text-center You’re ready to start!
-      p.m-t-3 Your students will be able to start playing the first course, Introduction to Computer Science, immediately. Here are some resources to help your class get the most out of CodeCombat!
+      h3.text-center {{ $t("signup.teacher_ready_to_create_class") }}
+      p.m-t-3 {{ $t("signup.teacher_students_can_start_now") }}
       ol
-        li Visit our Resource Hub for curriculum guides for each course, highlighting activities, worksheets and helpful advice for running a successful programming class. 
-        li View solutions to each level (or play the level yourself!) in our Course Guides.
-        li Have questions about how your students can create Web and Game Development projects? Get in touch with our school specialists today.
-    
+        li {{ $t("signup.teacher_list_create_class") }}
+        li {{ $t("signup.teacher_list_add_students") }}
+        li
+          span {{ $t("signup.teacher_list_resource_hub_1") }}
+          =" "
+          a(href="/teachers/courses") {{ $t("signup.teacher_list_resource_hub_2") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_3") }}
+          =" "
+          a(href="/teachers/resources") {{ $t("signup.teacher_list_resource_hub_4") }}
+          =" "
+          span {{ $t("signup.teacher_list_resource_hub_5") }}
+      span(v-html="$t('signup.teacher_additional_questions', {supportEmail})")
+
   .history-nav-buttons
     button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack" v-if="error") {{ $t("common.back") }}
     button.next-button.btn.btn-lg.btn-navy(v-on:click="clickFinish" v-else-if="!saving") {{ $t("signup.finish") }}

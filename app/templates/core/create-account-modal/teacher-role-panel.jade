@@ -6,7 +6,7 @@ div.school-info-panel.text-left
           | {{ $t("teachers_quote.phone_number") }}
           =" "
           strong(v-if="showRequired && !phoneNumber") {{ $t("common.required_field") }}
-          strong(v-if="showRequired && phoneNumber && !validPhoneNumber") Invalid number
+          strong(v-if="showRequired && phoneNumber && !validPhoneNumber") {{ $t("valid_phone") }}
         input.form-control(
           v-bind:placeholder="$t('teachers_quote.phone_number_help')"
           v-model="phoneNumber"
@@ -45,5 +45,5 @@ div.school-info-panel.text-left
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    button#create-account-btn.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("common.continue") }}
+    button#create-account-btn.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("common.next") }}
     button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack") {{ $t("common.back") }}

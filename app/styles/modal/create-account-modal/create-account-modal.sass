@@ -12,6 +12,8 @@
 #create-account-modal
   .modal-dialog
     width: 850px
+    @media (max-height: 800px)
+      margin-top: 0
   
   .modal-content
     display: flex
@@ -98,8 +100,9 @@
       // Undo .style-flat's .btn + .btn margin
       margin: 0
     
-    &.just-one
-      flex-direction: row
+    // Left-align when there's only a back button
+    .back-button:first-child:last-child
+      margin-right: auto
 
   // Forms
 

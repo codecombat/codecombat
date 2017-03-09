@@ -161,7 +161,10 @@ module.exports = class BasicInfoView extends CocoView
       email: User.schema.properties.email
       name: User.schema.properties.name
       password: User.schema.properties.password
-    required: ['name', 'password'].concat (if @signupState.get('path') is 'student' then ['firstName', 'lastName'] else ['email'])
+    required: switch @signupState.get('path')
+      when 'student' then ['name', 'password', 'firstName', 'lastName']
+      when 'teacher' then ['name', 'password', 'email', 'firstName', 'lastName']
+      else ['name', 'password', 'email']
   
   onClickBackButton: -> @trigger 'nav-back'
   
@@ -209,7 +212,7 @@ module.exports = class BasicInfoView extends CocoView
       # Don't sign up, kick to TeacherComponent instead
       if @signupState.get('path') is 'teacher'
         @signupState.set({
-          signupForm: _.pick(forms.formToObject(@$el), 'name', 'email', 'password') 
+          signupForm: _.pick(forms.formToObject(@$el), 'firstName', 'lastName', 'email', 'name', 'password', 'subscribe')
         })
         @trigger 'signup'
         return

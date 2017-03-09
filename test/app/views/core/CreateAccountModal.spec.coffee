@@ -4,6 +4,9 @@ Classroom = require 'models/Classroom'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
 
+SchoolInfoPanel = require 'views/core/CreateAccountModal/teacher/SchoolInfoPanel'
+TeacherSignupStoreModule = require 'views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
+
 # TODO: Figure out why these tests break Travis. Suspect it has to do with the
 # asynchronous, Promise system. On the browser, these work, but in Travis, they
 # sometimes fail, so it's some sort of race condition.
@@ -11,6 +14,7 @@ factories = require 'test/app/factories'
 responses = {
   signupSuccess: { status: 200, responseText: JSON.stringify({ email: 'some@email.com' })}
 }
+
 
 xdescribe 'CreateAccountModal', ->
   
@@ -42,10 +46,9 @@ xdescribe 'CreateAccountModal', ->
         spyOn application.router, 'navigate'
         modal.$('.teacher-path-button').click()
         
-      it 'navigates the user to /teachers/signup', ->
-        expect(application.router.navigate).toHaveBeenCalled()
-        args = application.router.navigate.calls.argsFor(0)
-        expect(args[0]).toBe('/teachers/signup')
+      it 'switches to BasicInfoView and sets "path" to "teacher"', ->
+        expect(modal.signupState.get('path')).toBe('teacher')
+        expect(modal.signupState.get('screen')).toBe('basic-info')
         
     describe 'click sign up as STUDENT button', ->
       beforeEach ->
@@ -424,3 +427,239 @@ xdescribe 'CreateAccountModal', ->
       coppaDenyView = modal.subviews.coppa_deny_view
 
     it '(for demo testing)', ->
+
+describe 'CreateAccountModal Vue Components', ->
+  describe 'TeacherSignupComponent', ->
+    beforeEach ->
+      @store = {}
+
+    describe 'SchoolInfoPanel', ->
+      describe 'updateValue', ->
+        beforeEach ->
+          @store = {
+            state:
+              modal:
+                trialRequestProperties:
+                  organization: 'suggested school'
+                  district: 'suggested district'
+                  nces_id: 'school NCES id'
+                  nces_district_id: 'district NCES id'
+                  nces_phone: 'school NCES phone'
+          }
+          @schoolInfoPanel = new SchoolInfoPanel({
+            store: @store
+          })
+          null
+
+        describe 'when you type into the school field', ->
+          it 'clears the school NCES info', ->
+            expect(@schoolInfoPanel.organization).not.toBe('')
+            expect(@schoolInfoPanel.district).not.toBe('')
+            expect(@schoolInfoPanel.nces_id).not.toBe('')
+            expect(@schoolInfoPanel.nces_phone).not.toBe('')
+            expect(@schoolInfoPanel.nces_district_id).not.toBe('')
+            @schoolInfoPanel.updateValue('organization', 'homeschool')
+            expect(@schoolInfoPanel.organization).toBe('homeschool')
+            expect(@schoolInfoPanel.district).toBe('suggested district')
+            expect(@schoolInfoPanel.nces_id).toBe('')
+            expect(@schoolInfoPanel.nces_phone).toBe('')
+            expect(@schoolInfoPanel.nces_district_id).toBe('district NCES id')
+
+        describe 'when you type into the district field', ->
+          it 'clears the school and district NCES info', ->
+            expect(@schoolInfoPanel.organization).not.toBe('')
+            expect(@schoolInfoPanel.district).not.toBe('')
+            expect(@schoolInfoPanel.nces_id).not.toBe('')
+            expect(@schoolInfoPanel.nces_phone).not.toBe('')
+            expect(@schoolInfoPanel.nces_district_id).not.toBe('')
+            @schoolInfoPanel.updateValue('district', 'homedistrict')
+            expect(@schoolInfoPanel.organization).toBe('suggested school')
+            expect(@schoolInfoPanel.district).toBe('homedistrict')
+            expect(@schoolInfoPanel.nces_id).toBe('')
+            expect(@schoolInfoPanel.nces_phone).toBe('')
+            expect(@schoolInfoPanel.nces_district_id).toBe('')
+
+      describe 'clearDistrictNcesValues', ->
+
+      describe 'clearSchoolNcesValues', ->
+
+      describe 'applySuggestion', ->
+        beforeEach ->
+          @store = {
+            state:
+              modal:
+                trialRequestProperties:
+                  organization: 'suggested school'
+                  district: 'suggested district'
+                  nces_id: 'school NCES id'
+                  nces_district_id: 'district NCES id'
+                  nces_phone: 'school NCES phone'
+          }
+          @schoolInfoPanel = new SchoolInfoPanel({
+            store: @store
+          })
+
+        describe 'when choosing a suggested school', ->
+          it 'sets the school name', ->
+            @schoolInfoPanel.applySuggestion('name', {
+              name: 'suggested school 2'
+              district: 'suggested district 2'
+              city: 'suggested city 2'
+              state: 'suggested state 2'
+              id: 'suggested nces_id 2'
+              district_id: 'suggested nces_district_id 2'
+              phone: 'suggested nces_phone 2'
+            })
+            expect(@schoolInfoPanel.organization).toBe('suggested school 2')
+            expect(@schoolInfoPanel.district).toBe('suggested district 2')
+            expect(@schoolInfoPanel.city).toBe('suggested city 2')
+            expect(@schoolInfoPanel.state).toBe('suggested state 2')
+            expect(@schoolInfoPanel.nces_id).toBe('suggested nces_id 2')
+            expect(@schoolInfoPanel.nces_phone).toBe('suggested nces_phone 2')
+            expect(@schoolInfoPanel.nces_district_id).toBe('suggested nces_district_id 2')
+
+        describe 'when choosing a suggested district', ->
+          it 'sets the district and leaves the school name alone', ->
+            @schoolInfoPanel.applySuggestion('district', {
+              name: 'suggested name 2'
+              district: 'suggested district 2'
+              city: 'suggested city 2'
+              state: 'suggested state 2'
+              id: 'suggested nces_id 2'
+              district_id: 'suggested nces_district_id 2'
+              phone: 'suggested nces_phone'
+            })
+            expect(@schoolInfoPanel.organization).toBe('suggested school')
+            expect(@schoolInfoPanel.district).toBe('suggested district 2')
+            expect(@schoolInfoPanel.city).toBe('suggested city 2')
+            expect(@schoolInfoPanel.state).toBe('suggested state 2')
+            expect(@schoolInfoPanel.nces_id).toBe('')
+            expect(@schoolInfoPanel.nces_phone).toBe('')
+            expect(@schoolInfoPanel.nces_district_id).toBe('suggested nces_district_id 2')
+
+      describe 'commitValues', ->
+        beforeEach ->
+          @store = {
+            state:
+              modal:
+                trialRequestProperties: {}
+            commit: jasmine.createSpy()
+          }
+          @schoolInfoPanel = new SchoolInfoPanel({
+            store: @store
+            data:
+              organization: 'some name'
+              district: 'some district'
+              city: 'some city'
+              state: 'some state'
+              country: 'some country'
+              nces_id: 'some nces_id'
+              nces_name: 'some name'
+              nces_students: 'some students'
+              nces_phone: 'some nces_phone'
+              nces_district_id: 'some nces_district_id'
+              nces_district_schools: 'some nces_district_schools'
+              nces_district_students: 'some nces_district_students'
+          })
+
+        it 'Commits all of the important values', ->
+          @schoolInfoPanel.commitValues()
+          [storeName, attrs] = @store.commit.calls.argsFor(0)
+          expect(storeName).toBe('modal/updateTrialRequestProperties')
+          expect(attrs.organization).toBe('some name')
+          expect(attrs.district).toBe('some district')
+          expect(attrs.city).toBe('some city')
+          expect(attrs.state).toBe('some state')
+          expect(attrs.country).toBe('some country')
+          expect(attrs.nces_id).toBe('some nces_id')
+          expect(attrs.nces_name).toBe('some name')
+          expect(attrs.nces_students).toBe('some students')
+          expect(attrs.nces_phone).toBe('some nces_phone')
+          expect(attrs.nces_district_id).toBe('some nces_district_id')
+          expect(attrs.nces_district_schools).toBe('some nces_district_schools')
+          expect(attrs.nces_district_students).toBe('some nces_district_students')
+
+      describe 'clickContinue', ->
+    
+      describe 'clickBack', ->
+    
+    describe 'NcesSearchInput', ->
+    
+    describe 'DemographicsPanel', ->
+    
+    describe 'SetupAccountPanel', ->
+    
+    describe 'TeacherRolePanel', ->
+
+api = require 'core/api'
+describe 'CreateAccountModal Vue Store', ->
+  describe 'actions.createAccount', ->
+    beforeEach ->
+      spyOn(window, 'fetch').and.callFake ->
+        throw "This shouldn't be called!"
+      spyOn(api.users, 'signupWithGPlus').and.returnValue(Promise.resolve())
+      spyOn(api.users, 'signupWithFacebook').and.returnValue(Promise.resolve())
+      spyOn(api.users, 'signupWithPassword').and.returnValue(Promise.resolve())
+      spyOn(api.trialRequests, 'post').and.returnValue(Promise.resolve())
+      @dispatch = jasmine.createSpy()
+      @commit = jasmine.createSpy()
+      @rootState = {
+        me:
+          _id: '12345'
+      }
+      @state = {
+        trialRequestProperties:
+          role: 'teacher'
+          organization: 'some name'
+          district: 'some district'
+          city: 'some city'
+          nces_id: 'some nces_id'
+        signupForm:
+          email: 'form email'
+          name: 'form name'
+          password: 'form password'
+        ssoAttrs:
+          email: ''
+          gplusID: ''
+          facebookID: ''
+        ssoUsed: ''
+      }
+    
+    it "uses the form email when SSO isn't used", (done) ->
+      TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
+        expect(api.users.signupWithPassword).toHaveBeenCalled()
+        expect(api.users.signupWithGPlus).not.toHaveBeenCalled()
+        expect(api.users.signupWithFacebook).not.toHaveBeenCalled()
+        expect(api.users.signupWithPassword.calls.argsFor(0)?[0]?.email).toBe('form email')
+        expect(api.users.signupWithPassword.calls.argsFor(0)?[0]?.name).toBe('form name')
+        done()
+
+    it "uses the SSO email when using GPlus SSO", (done) ->
+      _.assign @state,
+        ssoAttrs:
+          email: 'sso email'
+          gplusID: 'gplus ID'
+        ssoUsed: 'gplus'
+      TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
+        expect(api.users.signupWithPassword).not.toHaveBeenCalled()
+        expect(api.users.signupWithGPlus).toHaveBeenCalled()
+        expect(api.users.signupWithFacebook).not.toHaveBeenCalled()
+        expect(api.users.signupWithGPlus.calls.argsFor(0)?[0]?.email).toBe('sso email')
+        expect(api.users.signupWithGPlus.calls.argsFor(0)?[0]?.name).toBe('form name')
+        expect(api.users.signupWithGPlus.calls.argsFor(0)?[0]?.gplusID).toBe('gplus ID')
+        done()
+
+    it "uses the SSO email when using Facebook SSO", (done) ->
+      _.assign @state,
+        ssoAttrs:
+          email: 'sso email'
+          facebookID: 'facebook ID'
+        ssoUsed: 'facebook'
+      TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
+        expect(api.users.signupWithPassword).not.toHaveBeenCalled()
+        expect(api.users.signupWithGPlus).not.toHaveBeenCalled()
+        expect(api.users.signupWithFacebook).toHaveBeenCalled()
+        expect(api.users.signupWithFacebook.calls.argsFor(0)?[0]?.email).toBe('sso email')
+        expect(api.users.signupWithFacebook.calls.argsFor(0)?[0]?.name).toBe('form name')
+        expect(api.users.signupWithFacebook.calls.argsFor(0)?[0]?.facebookID).toBe('facebook ID')
+        done()

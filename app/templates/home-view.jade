@@ -5,7 +5,7 @@ mixin box
     if me.isAnonymous() == true
       h6#classroom-edition-header(data-i18n="new_home.classroom_edition")
       div
-        a.teacher-btn.btn.btn-primary.btn-lg.btn-block(data-event-action="Homepage Click Teacher Button CTA", data-i18n="new_home.im_a_teacher")
+        a.teacher-btn.btn.btn-primary.btn-lg.btn-block(href="/home#create-account-teacher", data-event-action="Homepage Click Teacher Button CTA", data-i18n="new_home.im_a_teacher")
       div
         a.student-btn.btn.btn-forest.btn-lg.btn-block(href="/home#create-account-student", data-event-action="Homepage Click Student Button CTA", data-i18n="new_home.im_a_student")
       h6#learn-to-code-header(data-i18n="new_home.learn_to_code")
