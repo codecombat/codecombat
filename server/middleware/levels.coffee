@@ -1,3 +1,4 @@
+mongoose = require 'mongoose'
 wrap = require 'co-express'
 errors = require '../commons/errors'
 Level = require '../models/Level'
@@ -24,8 +25,10 @@ module.exports =
 
     if req.query.team?
       sessionQuery.team = req.query.team
-      
+
     if req.query.courseInstance
+      unless mongoose.Types.ObjectId.isValid(req.query.courseInstance)
+        throw new errors.UnprocessableEntity('Invalid course instance id')
       courseInstance = yield CourseInstance.findById(req.query.courseInstance)
       if not courseInstance
         throw new errors.NotFound('Course Instance not found.')
@@ -50,7 +53,7 @@ module.exports =
     session = yield LevelSession.findOne(sessionQuery)
     if session
       return res.send(session.toObject({req: req}))
-      
+
     attrs = sessionQuery
     _.extend(attrs, {
       state:
@@ -65,7 +68,7 @@ module.exports =
     })
 
     if level.get('type') in ['course', 'course-ladder'] or req.query.course?
-      
+
       # Find the course and classroom that has assigned this level, verify access
       # Handle either being given the courseInstance, or having to deduce it
       if courseInstance and classroom
@@ -83,11 +86,11 @@ module.exports =
       classroomMap = {}
       classroomMap[classroom.id] = classroom for classroom in classrooms
       for courseInstance in courseInstances
+        courseID = courseInstance.get('courseID')
         classroomID = courseInstance.get('classroomID')
         continue unless classroomID
         classroom = classroomMap[classroomID.toString()]
         continue unless classroom
-        courseID = courseInstance.get('courseID')
         classroomCourse = _.find(classroom.get('courses'), (c) -> c._id.equals(courseID))
         for courseLevel in classroomCourse.levels
           if courseLevel.original.equals(levelOriginal)
@@ -95,22 +98,19 @@ module.exports =
             classroomWithLevel = classroom
             break
         break if classroomWithLevel
-      
-      if course?.id
-        prepaidIncludesCourse = req.user.prepaidIncludesCourse(course?.id)
-      else
-        prepaidIncludesCourse = true
-      
-      unless classroomWithLevel and prepaidIncludesCourse
+
+      prepaidIncludesCourse = req.user.prepaidIncludesCourse(courseID)
+
+      unless courseID and classroomWithLevel and prepaidIncludesCourse
         throw new errors.PaymentRequired('You must be in a course which includes this level to play it')
-      
+
       course = yield Course.findById(courseID).select('free')
       unless course.get('free') or req.user.isEnrolled()
         throw new errors.PaymentRequired('You must be enrolled to access this content')
-        
+
       lang = targetLevel.primerLanguage or classroomWithLevel.get('aceConfig')?.language
       attrs.codeLanguage = lang if lang
-      
+
     else
       requiresSubscription = level.get('requiresSubscription') or (req.user.isOnPremiumServer() and level.get('campaign') and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
       canPlayAnyway = _.any([
@@ -120,7 +120,7 @@ module.exports =
       ])
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
-    
+
     attrs.isForClassroom = course?
     session = new LevelSession(attrs)
     yield session.save()
