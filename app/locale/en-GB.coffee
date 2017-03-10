@@ -2090,3 +2090,8 @@ module.exports = nativeDescription: "English (UK)", englishDescription: "English
 #    october: "October"
 #    november: "November"
 #    december: "December"
+
+  code_play_create_account_modal:
+    title: "You did it!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win £2,000 & other Lenovo Prizes</strong>."
+    sign_up: "Sign up & keep coding ▶"

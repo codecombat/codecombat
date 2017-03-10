@@ -22,6 +22,7 @@ Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
 codePlay = require('lib/code-play')
+CodePlayCreateAccountModal = require 'views/play/modal/CodePlayCreateAccountModal'
 
 require 'game-libraries'
 
@@ -174,7 +175,10 @@ module.exports = class CampaignView extends RootView
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
     if not me.get('hourOfCode') and @terrain
-      if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
+      if features.codePlay
+        if me.get('anonymous') and me.get('lastLevel') is 'true-names' and me.level() < 5
+          @openModalView new CodePlayCreateAccountModal()
+      else if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4
         @openModalView new CreateAccountModal supermodel: @supermodel, showSignupRationale: true
       else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
@@ -887,4 +891,3 @@ module.exports = class CampaignView extends RootView
 
   mergeWithPrerendered: (el) ->
     true
-

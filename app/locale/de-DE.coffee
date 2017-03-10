@@ -2090,3 +2090,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     october: "Oktober"
     november: "November"
     december: "Dezember"
+
+  code_play_create_account_modal:
+    title: "DU HAST ES GESCHAFFT!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    body: "Du bist nun auf dem besten Weg, ein Meisterprogrammierer zu werden. Melde dich an und erhalte zusätzliche <strong>100 EDELSTEINE</strong> sowie die Chance, <strong>2.500 € UND ANDERE PREISE VON LENOVO ZU GEWINNEN</strong>."
+    sign_up: "MELDE DICH AN UND PROGRAMMIERE WEITER ▶"
