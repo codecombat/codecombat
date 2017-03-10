@@ -18,6 +18,7 @@ block content
   if classroom.loaded
     .container
       +breadcrumbs
+      div#classes-nag-subview
       if classroom.get('archived')
         .row.center-block.text-center.m-t-3.m-b-3
           .unarchive-btn.btn.btn-lg.btn-navy

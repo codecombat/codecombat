@@ -21,7 +21,7 @@ module.exports = class CourseNagSubview extends CocoView
   afterRender: ->
     super()
     if @shown
-      @$el.fadeIn()
+      @$el.show()
     else
       @$el.hide()
 

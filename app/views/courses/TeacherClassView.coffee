@@ -9,6 +9,7 @@ ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
+CourseNagSubview = require 'views/teachers/CourseNagSubview'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -195,6 +196,8 @@ module.exports = class TeacherClassView extends RootView
 
   afterRender: ->
     super(arguments...)
+    @coureNagSubview = new CourseNagSubview()
+    @insertSubView(@coureNagSubview)
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
