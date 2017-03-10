@@ -8,6 +8,7 @@ locale = require 'locale/locale'
 
 Achievement = require 'models/Achievement'
 AchievementPopup = require 'views/core/AchievementPopup'
+errors = require 'core/errors'
 utils = require 'core/utils'
 
 # TODO remove
@@ -23,6 +24,7 @@ module.exports = class RootView extends CocoView
 
   events:
     'click #logout-button': 'logoutAccount'
+    'click #nav-stop-spying-button': 'stopSpying'
     'change .language-dropdown': 'onLanguageChanged'
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .signup-button': 'onClickSignupButton'
@@ -61,6 +63,13 @@ module.exports = class RootView extends CocoView
     Backbone.Mediator.publish("auth:logging-out", {})
     window.tracker?.trackEvent 'Log Out', category:'Homepage', ['Google Analytics'] if @id is 'home-view'
     logoutUser($('#login-email').val())
+
+  stopSpying: ->
+    me.stopSpying({
+      success: -> document.location.reload()
+      error: ->
+        errors.showNotyNetworkError(arguments...)
+    })
 
   onClickSignupButton: ->
     CreateAccountModal = require 'views/core/CreateAccountModal'
