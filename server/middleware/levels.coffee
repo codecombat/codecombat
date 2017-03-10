@@ -86,11 +86,11 @@ module.exports =
       classroomMap = {}
       classroomMap[classroom.id] = classroom for classroom in classrooms
       for courseInstance in courseInstances
-        courseID = courseInstance.get('courseID')
         classroomID = courseInstance.get('classroomID')
         continue unless classroomID
         classroom = classroomMap[classroomID.toString()]
         continue unless classroom
+        courseID = courseInstance.get('courseID')
         classroomCourse = _.find(classroom.get('courses'), (c) -> c._id.equals(courseID))
         for courseLevel in classroomCourse.levels
           if courseLevel.original.equals(levelOriginal)
@@ -99,9 +99,12 @@ module.exports =
             break
         break if classroomWithLevel
 
-      prepaidIncludesCourse = req.user.prepaidIncludesCourse(courseID)
+      if course?.id
+        prepaidIncludesCourse = req.user.prepaidIncludesCourse(course?.id)
+      else
+        prepaidIncludesCourse = true
 
-      unless courseID and classroomWithLevel and prepaidIncludesCourse
+      unless classroomWithLevel and prepaidIncludesCourse
         throw new errors.PaymentRequired('You must be in a course which includes this level to play it')
 
       course = yield Course.findById(courseID).select('free')
