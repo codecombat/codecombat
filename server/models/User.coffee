@@ -380,6 +380,7 @@ UserSchema.methods.prepaidIncludesCourse = (course) ->
   includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
   return true if !includedCourseIDs # NOTE: Full licenses implicitly include all courses
   courseID = course.id or course
+  return false unless courseID
   return courseID.toString() in includedCourseIDs.map((id)->id.toString())
 
 UserSchema.methods.hasLogInMethod = ->

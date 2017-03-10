@@ -155,6 +155,7 @@ putUserSubscription = wrap (req, res) ->
     throw new errors.UnprocessableEntity("ends is before when the subscription would start: #{startDate}")
 
   prepaid = new Prepaid({
+    creator: user._id
     clientCreator: req.client._id
     redeemers: []
     maxRedeemers: 1
@@ -189,6 +190,7 @@ putUserLicense = wrap (req, res) ->
     throw new errors.UnprocessableEntity("User is already enrolled, and may not be enrolled again until their current enrollment is finished")
 
   prepaid = new Prepaid({
+    creator: user._id
     clientCreator: req.client._id
     redeemers: []
     maxRedeemers: 1
