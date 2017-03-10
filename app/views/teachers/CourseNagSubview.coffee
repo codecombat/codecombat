@@ -28,13 +28,12 @@ module.exports = class CourseNagSubview extends CocoView
 
   gotPrepaids: ->
     unusedPrepaids = @prepaids.groupBy (p) ->
-      return false if p.status() isnt "available"
-      return false if p.get('exhausted') is true
-      return false if p.get('redeemers')?.length isnt 0
-      return true
+      return 'I' if p.status() in ["expired", "pending"]
+      return 'U' if p.get('exhausted') is true
+      return 'U' if p.get('redeemers')?.length isnt 0
+      return 'E'
     
-    @shown = unusedPrepaids.true?
-    console.log "Targets", @shown, unusedPrepaids
+    @shown = unusedPrepaids.E? and not unusedPrepaids.U?
     @render()
 
   onClickMoreInfo: ->
