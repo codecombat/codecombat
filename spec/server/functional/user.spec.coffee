@@ -506,6 +506,22 @@ describe 'GET /db/user/:handle', ->
     expect(res.body.coursePrepaid._id).toBe(user.get('coursePrepaidID').toString())
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
     
+    
+describe 'GET /db/user/:handle/level.sessions', ->
+  
+  it 'gets a user\'s level sessions', utils.wrap ->
+    yield utils.logout()
+    user = yield utils.initUser()
+    session = yield utils.makeLevelSession({}, {creator: user})
+    [res, body] = yield request.getAsync {uri: getURL("/db/user/#{user.id}/level.sessions"), json: true}
+    expect(res.statusCode).toBe 200
+    expect(res.body.length).toBe 1
+    expect(res.body[0]._id).toBe(session.id)
+    
+  it 'returns 404 if user not found', utils.wrap ->
+    [res, body] = yield request.getAsync {uri: getURL("/db/user/dne/level.sessions"), json: true}
+    expect(res.statusCode).toBe 404
+
 
 describe 'DELETE /db/user', ->
   it 'can delete a user', utils.wrap ->

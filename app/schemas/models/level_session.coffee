@@ -57,6 +57,8 @@ _.extend LevelSessionSchema.properties,
 #    title: 'Completed'
 #    readOnly: true
 
+  fourDayViewCount: { type: 'number' }
+
   team: c.shortString()
   level: LevelSessionLevelSchema
 

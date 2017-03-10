@@ -15,6 +15,7 @@ class LevelSessionHandler extends Handler
     super(arguments...)
 
   formatEntity: (req, document) ->
+    # TODO: Delete this as it's duplicated in LevelSession
     document = super(req, document)
     submittedCode = document.submittedCode ? {}
     unless req.user?.isAdmin() or
