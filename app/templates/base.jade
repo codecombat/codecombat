@@ -48,6 +48,12 @@ block header
                 if me.isAdmin() || !(me.isTeacher() || me.isStudent())
                   li
                     a(href="/account/prepaid", data-i18n="account.prepaid_codes")
+                if me.isAdmin()
+                  li
+                    a(href="/admin", data-i18n="account_settings.admin")
+                if serverSession && serverSession.amActually
+                  li
+                    a#nav-stop-spying-button Stop Spying
                 li
                   a#logout-button(data-i18n="login.log_out")
   
