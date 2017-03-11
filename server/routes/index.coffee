@@ -22,6 +22,7 @@ module.exports.setup = (app) ->
   app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
   app.put('/api/users/:handle/license', mw.api.putUserLicense)
   app.get('/api/user-lookup/israel-id/:israelId', mw.api.getUserLookupByIsraelId)
+  app.get('/api/user-lookup/name/:name', mw.api.getUserLookupByName)
   app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
 
   passport = require('passport')
@@ -29,7 +30,7 @@ module.exports.setup = (app) ->
   app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
   app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
-  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectAfterLogin)
+  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)

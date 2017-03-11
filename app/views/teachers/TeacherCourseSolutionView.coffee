@@ -45,7 +45,11 @@ module.exports = class TeacherCourseSolutionView extends RootView
       comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
-        translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(programmableMethod.context)
+        try
+          translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(programmableMethod.context)
+        catch e
+          console.error('Broken solution for level:', level.get('name'))
+          continue
         # See if it has <playercode> tags, extract them
         playerCodeTag = utils.extractPlayerCodeTag(translatedDefaultCode)
         finalDefaultCode = if playerCodeTag then playerCodeTag else translatedDefaultCode

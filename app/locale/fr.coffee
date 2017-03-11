@@ -136,6 +136,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     change_hero: "Changer le héros" # Go back from choose inventory to choose hero
     buy_gems: "Acheter des gemmes"
     subscription_required: "Enregistrement nécessaire"
+#    subscribers_only: "Subscribers Only!"
+#    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Joueur anonyme"
     level_difficulty: "Difficulté : "
     play_classroom_version: "Jouer à la version Classe" # Choose a level in campaign version that you also can play in one of your courses
@@ -146,6 +150,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     adjust_volume: "Ajuster le volume"
     campaign_multiplayer: "Campagne multi-joueurs"
     campaign_multiplayer_description: "... dans laquelle vous coderez en face-à-face contre d'autres joueurs."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "Si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -605,6 +610,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     prompt_button: "Entrer dans la boutique"
     recovered: "Gemmes précédemment achetées récupérées. Merci de rafraîchir la page."
     price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
@@ -661,7 +669,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     unsubscribing: "Desincription en cours..." # {change}
     subscribe_prepaid: "Cliquer S'abonner pour utiliser du code prépayé"
     using_prepaid: "Utiliser le code prépayé pour un abonnement mensuel"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"
@@ -677,6 +685,28 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+
+#  premium_features:
+#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+#    master_coder: "Become a Master Coder by subscribing today!"
+#    subscribe_now: "Subscribe Now"
+#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
+#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
+#    hero_caption: "Exciting new heroes!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
+#    pet_caption: "Adopt pets to accompany your hero!"
+#    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
+#    game_dev_caption: "Design your own games to challenge your friends!"
+#    everything_in_premium: "Everything you get in CodeCombat Premium:"
+#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_levels: "Gain access to __premiumLevelsCount__ more levels"
+#    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
+#    list_game_dev: "Make and share games with friends"
+#    list_web_dev: "Build websites and interactive apps"
+#    list_items: "Equip Premium-only items like pets"
+#    list_support: "Get Premium support to help you debug tricky code"
+#    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
   choose_hero:
     choose_hero: "Choisissez votre héros"
@@ -906,7 +936,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    primary_role_default: "Select Primary Role"
 #    purchaser_role_default: "Select Purchaser Role"
 #    tech_coordinator: "Technology coordinator"
-#    advisor: "Advisor"
+#    advisor: "Curriculum Specialist/Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
 #    parent: "Parent"
@@ -1015,6 +1045,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     saved: "Changements sauvegardés"
     password_mismatch: "Le mot de passe ne correspond pas."
     password_repeat: "Veuillez s'il vous plaît répéter votre mot de passe"
+#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Raccourcis Clavier"

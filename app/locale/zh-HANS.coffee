@@ -136,6 +136,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     buy_gems: "购买宝石"
     subscription_required: "需订阅"
+#    subscribers_only: "Subscribers Only!"
+#    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     play_classroom_version: "玩课堂模式" # Choose a level in campaign version that you also can play in one of your courses
@@ -146,6 +150,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     adjust_volume: "音量调节"
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里您可以与其他玩家进行代码肉搏战。"
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -605,6 +610,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     prompt_button: "进入商店"
     recovered: "之前购买的宝石已恢复。请刷新页面。"
     price: "x{{gems}} / 月"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
@@ -661,7 +669,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unsubscribing: "取消订阅中"
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
-#    feature_levels: "Access __levelsCount__ levels available"
+#    feature_levels: "Access __premiumLevelsCount__ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes"
 #    feature_games: "Make games for your friends"
@@ -677,6 +685,28 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+
+#  premium_features:
+#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+#    master_coder: "Become a Master Coder by subscribing today!"
+#    subscribe_now: "Subscribe Now"
+#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
+#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
+#    hero_caption: "Exciting new heroes!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
+#    pet_caption: "Adopt pets to accompany your hero!"
+#    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
+#    game_dev_caption: "Design your own games to challenge your friends!"
+#    everything_in_premium: "Everything you get in CodeCombat Premium:"
+#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_levels: "Gain access to __premiumLevelsCount__ more levels"
+#    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
+#    list_game_dev: "Make and share games with friends"
+#    list_web_dev: "Build websites and interactive apps"
+#    list_items: "Equip Premium-only items like pets"
+#    list_support: "Get Premium support to help you debug tricky code"
+#    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
   choose_hero:
     choose_hero: "请选择您的英雄"
@@ -906,7 +936,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     primary_role_default: "（请选择）"
     purchaser_role_default: "（请选择）"
     tech_coordinator: "技术负责人"
-    advisor: "顾问"
+    advisor: "顾问" # {change}
     principal: "校长"
     superintendent: "主管"
     parent: "家长"
@@ -1015,6 +1045,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     saved: "更改已保存"
     password_mismatch: "密码不匹配。"
     password_repeat: "请重新键入密码。"
+#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "快捷键"

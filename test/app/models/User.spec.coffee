@@ -40,3 +40,19 @@ describe 'UserModel', ->
       emails = u.get('emails')
       expect(emails.anyNotes).toBeUndefined()
       expect(emails.generalNews).toBeUndefined()
+
+  describe 'validate', ->
+    it 'returns undefined if the user is valid', ->
+      expect(new User().validate()).toBeUndefined()
+      
+    it 'returns an array of errors if the user is invalid', ->
+      res = new User({invalidProp:'...'}).validate()
+      expect(_.isArray(res)).toBe(true)
+
+    it 'returns undefined if the user is invalid but has no new validation errors since when last marked to revert', ->
+      user = new User({invalidProp:'...'})
+      user.markToRevert()
+      user.set('name', 'this is fine')
+      expect(user.validate()).toBeUndefined()
+      user.set('newInvalidProp', '...')
+      expect(_.isArray(user.validate())).toBe(true)

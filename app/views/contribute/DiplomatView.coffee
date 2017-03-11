@@ -74,7 +74,7 @@ module.exports = class DiplomatView extends ContributeClassView
     totalStrings = @countStrings @locale.en
     languageStats = {}
     for languageCode, language of @locale
-      continue if languageCode is 'update'
+      continue if languageCode in ['update', 'installVueI18n']
       languageStats[languageCode] =
         githubURL: "https://github.com/codecombat/codecombat/blob/master/app/locale/#{languageCode}.coffee"
         completion: @countStrings(language) / totalStrings

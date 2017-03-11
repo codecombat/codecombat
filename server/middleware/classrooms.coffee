@@ -18,6 +18,7 @@ CourseInstance = require '../models/CourseInstance'
 TrialRequest = require '../models/TrialRequest'
 sendwithus = require '../sendwithus'
 co = require 'co'
+delighted = require '../delighted'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
@@ -235,6 +236,7 @@ module.exports =
     # finish
     database.validateDoc(classroom)
     classroom = yield classroom.save()
+    yield delighted.checkTriggerClassroomCreated(req.user)
     res.status(201).send(classroom.toObject({req: req}))
 
   updateCourses: wrap (req, res) ->

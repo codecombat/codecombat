@@ -1,6 +1,7 @@
 Backbone.Mediator.setValidationEnabled false
 app = null
 utils = require './utils'
+{ installVueI18n } = require 'locale/locale'
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -44,6 +45,7 @@ init = ->
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
+  installVueI18n()
 
 module.exports.init = init
 

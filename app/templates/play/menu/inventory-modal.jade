@@ -49,6 +49,14 @@
               span.glyphicon.glyphicon-info-sign.spr
               span(data-i18n="inventory.should_equip")
             
+            if itemGroups.subscriberItems.models.length
+              h4#restricted-description Subscriber Only
+              for item in itemGroups.subscriberItems.models
+                if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
+                  .item(class=item.classes, data-item-id=item.id)
+                    img(draggable="false")
+              .clearfix
+
             if itemGroups.restrictedItems.models.length
               h4#restricted-description(data-i18n="inventory.restricted_title")
               for item in itemGroups.restrictedItems.models
@@ -69,6 +77,7 @@
     #item-details-extra
       button#equip-item-viewed.btn.secret(data-i18n="inventory.equip")
       button#unequip-item-viewed.btn.secret(data-i18n="inventory.unequip")
+      button#subscriber-item-viewed.btn.big-font.secret(data-i18n="play.subscribe_unlock")
       .alert.alert-danger#restricted-item-viewed.secret(data-i18n="inventory.restricted")
     
     button#choose-hero-button.btn.btn-lg.btn-primary.choose-inventory-active(data-i18n="play.change_hero") Change Hero

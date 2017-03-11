@@ -530,7 +530,32 @@ describe 'GET /api/user-lookup/israel-id/:israelId', ->
     expect(res.statusCode).toBe(404)
     done()
 
+
+describe 'GET /api/user-lookup/israel-id/:israelId', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, APIClient])
+    @client = new APIClient()
+    @secret = @client.setNewSecret()
+    @auth = { user: @client.id, pass: @secret }
+    yield @client.save()
+    @user = yield utils.initUser()
+    done()
+
+  it 'redirects to the user with the given israelId', utils.wrap (done) ->
+    url = utils.getURL("/api/user-lookup/name/#{@user.get('name')}")
+    [res, body] = yield request.getAsync({url, json: true, @auth, followRedirect: false })
+    expect(res.statusCode).toBe(301)
+    expect(res.headers.location).toBe("/api/users/#{@user.id}")
+    done()
+
+  it 'returns 404 if the user is not found', utils.wrap (done) ->
+    url = utils.getURL("/api/user-lookup/name/54321")
+    [res, body] = yield request.getAsync({url, json: true, @auth, followRedirect: false })
+    expect(res.statusCode).toBe(404)
+    done()
     
+
 describe 'PUT /api/classrooms/:handle/members', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, Classroom, APIClient])
@@ -550,6 +575,14 @@ describe 'PUT /api/classrooms/:handle/members', ->
     expect(res.body.members.length).toBe(1)
     expect(res.body.code).toBeUndefined()
     expect(res.body.codeCamel).toBeUndefined()
+    done()
+
+  it 'accepts user handles', utils.wrap (done) ->
+    url = utils.getURL("/api/classrooms/#{@classroom.id}/members")
+    json = { code: @classroom.get('code'), userId: @student.get('slug') }
+    [res, body] = yield request.putAsync { url, auth: @client.auth, json }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.members.length).toBe(1)
     done()
     
     

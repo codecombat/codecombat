@@ -103,7 +103,7 @@ module.exports = class SubscribeModal extends ModalView
     }
     
     @purchasedAmount = options.amount
-    stripeHandler.openAsync(options)
+    stripeHandler.makeNewInstance().openAsync(options)
     .then ({token}) =>
       @state = 'purchasing'
       @render()
@@ -127,7 +127,7 @@ module.exports = class SubscribeModal extends ModalView
       amount: @yearProduct.get('amount')
     }
     @purchasedAmount = options.amount
-    stripeHandler.openAsync(options)
+    stripeHandler.makeNewInstance().openAsync(options)
     .then ({token}) =>
       @state = 'purchasing'
       @render()
@@ -150,7 +150,7 @@ module.exports = class SubscribeModal extends ModalView
       amount: @lifetimeProduct.get('amount')
     }
     @purchasedAmount = options.amount
-    stripeHandler.openAsync(options)
+    stripeHandler.makeNewInstance().openAsync(options)
     .then ({token}) =>
       @state = 'purchasing'
       @render()

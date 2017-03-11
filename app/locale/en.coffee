@@ -136,6 +136,10 @@
     change_hero: "Change Hero"  # Go back from choose inventory to choose hero
     buy_gems: "Buy Gems"
     subscription_required: "Subscription Required"
+    subscribers_only: "Subscribers Only!"
+    subscribe_unlock: "Subscribe to Unlock!"
+    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonymous Player"
     level_difficulty: "Difficulty: "
     play_classroom_version: "Play Classroom Version"  # Choose a level in campaign version that you also can play in one of your courses
@@ -146,6 +150,7 @@
     adjust_volume: "Adjust volume"
     campaign_multiplayer: "Multiplayer Arenas"
     campaign_multiplayer_description: "... in which you code head-to-head against other players."
+    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -605,6 +610,9 @@
     prompt_button: "Enter Shop"
     recovered: "Previous gems purchase recovered. Please refresh the page."
     price: "x{{gems}} / mo"
+    buy_premium: "Buy Premium"
+    purchase: "Purchase"
+    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -928,7 +936,7 @@
     primary_role_default: "Select Primary Role"
     purchaser_role_default: "Select Purchaser Role"
     tech_coordinator: "Technology coordinator"
-    advisor: "Curriculum Specialist/Advisor" # {change}
+    advisor: "Curriculum Specialist/Advisor"
     principal: "Principal"
     superintendent: "Superintendent"
     parent: "Parent"
@@ -1037,6 +1045,7 @@
     saved: "Changes Saved"
     password_mismatch: "Password does not match."
     password_repeat: "Please repeat your password."
+    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"
@@ -2112,3 +2121,10 @@
     october: "October"
     november: "November"
     december: "December"
+
+  code_play_create_account_modal:
+    title: "You did it!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
+    sign_up: "Sign up & keep coding ▶"
+    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
+    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"

@@ -39,7 +39,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     feedback: "Ігри також забезпечують зворотній зв'язок в реальному часі, що дозволяє учням вдосконалювати способи вирішення задач і більш цілісно розуміти концепції, виходячи за рамки відповідей на зразок “вірно” чи “не вірно”."
     real_game: "Справжня гра в яку граєш за допомогою справжнього програмування."
     great_game: "Хороша гра - це більше ніж медалі та досягнення. Це пригода для гравця, якісно виконані головоломки, можливість впевнено долати перешкоди."
-    agency: "CodeCombat - це гра яка за допомогою надійної платформи типізованого коду допомагає як новачкам, так і досвідченим гравцям писати якісний та коректний програмний код."
+    agency: "CodeCombat - це гра яка за допомогою надійної платформи написання коду допомагає як новачкам, так і досвідченим гравцям писати якісний та коректний програмний код."
     request_demo_title: "Розпочніть вчити ваших учнів вже сьогодні!"
     request_demo_subtitle: "Запросіть демо версію і ваші учні зможуть почати навчання менш ніж за годину."
     get_started_title: "Налаштуйте ваш клас вже сьогодні"
@@ -136,6 +136,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     buy_gems: "Придбати самоцвіти"
     subscription_required: "Потрібен абонемет"
+#    subscribers_only: "Subscribers Only!"
+#    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
     play_classroom_version: "Грати в версію для класу" # Choose a level in campaign version that you also can play in one of your courses
@@ -146,6 +150,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     adjust_volume: "Підлаштувати гучність"
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -605,6 +610,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     prompt_button: "Увійти до крамниці"
     recovered: "Попередні покупки самоцвітів відновлені. Будь ласка, поновіть сторінку."
     price: "x{{gems}} / міс"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Преміум"
@@ -640,7 +648,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
     payment_methods: "Платіжні методи"
     payment_methods_title: "Платіжні методи, що приймаються"
-    payment_methods_blurb1: "Наразі ми приймаємо кредитні картки та Alpiay. Ви також можете оплатити {{three_month_price}}$ через PayPal до nick@codecombat.com з email-адресою вашого акаунту в коментарі щоб придбати підписку на три місяці та самоцвіти, або {{year_price}}$ на рік."
+    payment_methods_blurb1: "Наразі ми приймаємо кредитні картки та Alpiay. Ви також можете оплатити {{three_month_price}}$ через PayPal на адресу nick@codecombat.com, вказавши email-адресу вашого акаунту, щоб придбати підписку на три місяці та самоцвіти, або {{year_price}}$ для підписки на рік."
     payment_methods_blurb2: "Якщо Вам необхідно використати інший спосіб оплати, будь ласка, зв'яжіться з нами."
     sale_button: "Розпродаж!"
     sale_button_title: "Збережіть {{discount}}$ при покупці абонементу на 1 рік"
@@ -661,7 +669,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unsubscribing: "Триває скасування підписки..."
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
-    feature_levels: "Отримай доступ до __levelsCount__ доступних рівнів"
+    feature_levels: "Отримай доступ до __premiumLevelsCount__ доступних рівнів"
     feature_gems: "Отримуй __gems__ самоцвітів щомісяця"
     feature_heroes: "Розблокуй ексклюзивних героїв"
     feature_games: "Створюй ігри для своїх друзів"
@@ -677,6 +685,28 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     support_part1: "Потрібна допомога з опціями оплати? Напишіть на"
     support_part2: "support@codecombat.com"
     support_part3: "якщо у вас є які-небудь питання."
+
+#  premium_features:
+#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+#    master_coder: "Become a Master Coder by subscribing today!"
+#    subscribe_now: "Subscribe Now"
+#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
+#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
+#    hero_caption: "Exciting new heroes!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
+#    pet_caption: "Adopt pets to accompany your hero!"
+#    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
+#    game_dev_caption: "Design your own games to challenge your friends!"
+#    everything_in_premium: "Everything you get in CodeCombat Premium:"
+#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_levels: "Gain access to __premiumLevelsCount__ more levels"
+#    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
+#    list_game_dev: "Make and share games with friends"
+#    list_web_dev: "Build websites and interactive apps"
+#    list_items: "Equip Premium-only items like pets"
+#    list_support: "Get Premium support to help you debug tricky code"
+#    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
   choose_hero:
     choose_hero: "Оберіть героя"
@@ -770,7 +800,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     story_link: "Історія"
     press_link: "Преса"
     mission_title: "Наша місія: зробити програмування доступним для кожного учня на Землі."
-    mission_description_1: "<strong>Програмування - це магія</strong>. Це можливість створювати речі виключно з уяви. Ми створили CodeCombat щоб дозволити учням відчути магічні сили на кінчиках їхніх пальців використовуючи <strong>типізований код</strong>."
+    mission_description_1: "<strong>Програмування - це магія</strong>. Це можливість створювати речі виключно з уяви. Ми створили CodeCombat щоб дозволити учням відчути магічні сили на кінчиках їхніх пальців <strong>пишучи код</strong>."
     mission_description_2: "Виявляється, що це дозволяє їм також і навчатися скоріше. ЗНАЧНО скоріше. Це як спілкування замість читання підручників. Ми хочемо донести цю розмову до кожної школи і до <strong>кожного учня</strong>, тому що коден повинен мати шанс навчитися магії програмування."
     team_title: "Зустрічайте команду CodeCombat"
     team_values: "Ми цінуємо відкритий і ввічливий діалог в якому найкращі ідеї перемагають. Наші рішення засновані на дослідженнях наших клієнтів, а наш процес фокусується на забезпеченні клієнтів суттєвими результатами. Кожен голос враховується, від нашого CEO до помічників на GitHub, тому що ми цінуємо ріст та навчання в нашій команді."
@@ -906,7 +936,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     primary_role_default: "Оберіть основну роль"
     purchaser_role_default: "Оберіть роль покупця"
     tech_coordinator: "Координатор технологій"
-#    advisor: "Advisor"
+#    advisor: "Curriculum Specialist/Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
     parent: "Батьки"
@@ -1015,6 +1045,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     saved: "Зміни збережено"
     password_mismatch: "Паролі не збігаються."
     password_repeat: "Будь ласка, повторіть пароль."
+#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Клавіатурні скорочення"
@@ -1201,8 +1232,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     avg_student_exp_select: "Оберіть найкращий варіант"
     avg_student_exp_none: "Зовсім немає або майже немає досвіду"
     avg_student_exp_beginner: "Початківці - деякий або фрагментарний досвід"
-    avg_student_exp_intermediate: "Середній рівень - деякий досвід програмування типізованого коду"
-    avg_student_exp_advanced: "Досвідчені - широкий досвід програмування типізованого коду"
+    avg_student_exp_intermediate: "Середній рівень - деякий досвід написання коду"
+    avg_student_exp_advanced: "Досвідчені - великий досвід написання коду"
     avg_student_exp_varied: "Різні рівні досвіду"
     student_age_range_label: "Діапазон віку учнів"
     student_age_range_younger: "Молодше 6-ти років"

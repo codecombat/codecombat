@@ -40,7 +40,7 @@ module.exports = class LevelGoalsView extends CocoView
     @$el.find('.goal-status').addClass 'secret'
     classToShow = null
     classToShow = 'success' if e.overallStatus is 'success'
-    classToShow = 'failure' if e.overallStatus is 'failure'
+    classToShow = 'incomplete' if e.overallStatus is 'failure'
     classToShow ?= 'timed-out' if e.timedOut
     classToShow ?= 'incomplete'
     @$el.find('.goal-status.'+classToShow).removeClass 'secret'

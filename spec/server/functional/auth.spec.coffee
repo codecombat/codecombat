@@ -10,6 +10,7 @@ mongoose = require 'mongoose'
 LevelSession = require '../../../server/models/LevelSession'
 OAuthProvider = require '../../../server/models/OAuthProvider'
 config = require '../../../server_config'
+querystring = require 'querystring'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -469,6 +470,15 @@ describe 'GET /auth/login-o-auth', ->
     qs =  { provider: @provider.id, code: 'xyzzy' }
     [res, body] = yield request.getAsync({ @url, qs, json:true, followRedirect:false })
     expect(res.statusCode).toBe(422)
+    done()
+    
+  it 'redirects the user on error when errorRedirect param is provided', utils.wrap (done) ->
+    errorRedirect = 'http://source.com/error-happened'
+    [res, body] = yield request.getAsync({ @url, qs: { errorRedirect }, followRedirect: false })
+    expect(res.statusCode).toBe(302)
+    expect(_.startsWith(res.headers.location, errorRedirect)).toBe(true)
+    qs = querystring.parse(_.last(res.headers.location.split('?')))
+    expect(qs.code).toBe('422')
     done()
 
       

@@ -182,6 +182,7 @@ module.exports = class CocoView extends Backbone.View
     context.i18n = utils.i18n
     context.state = @state
     context.serverConfig = window.serverConfig
+    context.serverSession = window.serverSession
     context.features = window.features
     context
 

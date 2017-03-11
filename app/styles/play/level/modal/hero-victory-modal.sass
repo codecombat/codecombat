@@ -153,7 +153,7 @@
       @include scale(1.5)
       z-index: 2
 
-    &.numerical &.animating .reward-text
+    &.numerical &.animating .reward-text, .subscribe-text
       font-size: 18px
       overflow: visible
       bottom: 9px
@@ -202,6 +202,21 @@
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
+
+    .subscribe-text
+      position: absolute
+      bottom: 84px
+      left: 4px
+      right: 3px
+      height: 15px
+      text-align: center
+      color: white
+      font-weight: bold
+      font-size: 12px
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+
 
   //- Pulse effect
 
@@ -345,6 +360,9 @@
   .sign-up-poke
     width: 430px
 
+    &.code-play
+     width: 495px
+
     .sign-up-blurb
       width: 175px
       font-family: $headings-font-family
@@ -357,12 +375,51 @@
       margin: 5px 0 0 5px
       color: rgb(160, 150, 126)
 
+      &.code-play
+        font-size: 14px
+        line-height: 14px
+
     .sign-up-button
       width: 250px
       height: 60px
       line-height: 30px
       margin: 0
       float: left
+
+      &.code-play
+        width: 315px
+
+        strong
+          font-size: 22px
+          color: $hero-yellow-text
+          opacity: 1
+          letter-spacing: -1px
+
+  .subscribe-button
+    width: 209px
+    height: 60px
+    flex-grow: 1
+    text-align: center
+    text-transform: uppercase
+    font-size: 24.5px
+    font-family: $headings-font-family    
+    line-height: 20px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+    background-color: black
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
 
   .leaderboard-button, .courses-button
     height: 60px
@@ -382,6 +439,9 @@
       height: 60px
       line-height: 30px
       margin: 0 10px
+
+      &.code-play
+        width: 190px
 
     .ladder-submission-view
       display: inline-block
@@ -536,6 +596,30 @@ body[lang='ru'], body[lang^='es-ES'], body[lang^='it'], body[lang^='hu'], body[l
   #hero-victory-modal #totals .total-wrapper .total-label
     font-size: 12px
 
-body[lang^='nl']
+body[lang^='nl'], body[lang^='de']
   #hero-victory-modal #totals .total-wrapper .total-label
     font-size: 15px
+
+body[lang^='es']
+  #hero-victory-modal .sign-up-poke.code-play
+    .sign-up-blurb
+      font-size: 12px
+      letter-spacing: -1px
+
+    .sign-up-button
+      font-size: 16px
+
+body[lang^='de']
+  #hero-victory-modal .sign-up-poke.code-play
+    .sign-up-blurb
+      font-size: 12px
+
+    .sign-up-button
+      font-size: 14px
+      letter-spacing: 1px
+      white-space: normal
+      line-height: 16px
+
+      strong
+        font-size: 28px
+        letter-spacing: 1px

@@ -19,8 +19,8 @@ EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'e
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
 
-EarnedAchievementSchema.statics.upsertFor = (achievement, trigger, earned, user) ->
-
+EarnedAchievementSchema.statics.upsertFor = co.wrap (achievement, trigger, earned, user) ->
+  
   if achievement.get('proportionalTo') and earned
     earnedAchievementDoc = yield @createForAchievement(achievement, trigger, {previouslyEarnedAchievement: earned})
     return earnedAchievementDoc or earned

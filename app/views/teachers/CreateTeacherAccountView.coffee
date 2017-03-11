@@ -170,6 +170,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     if not _.size(trialRequestAttrs.educationLevel)
       forms.setErrorToProperty(form, 'educationLevel', 'include at least one')
       error = true
+    if not allAttrs.name
+      forms.setErrorToProperty(form, 'name', $.i18n.t('common.required_field'))
+      error = true
     unless allAttrs.district
       forms.setErrorToProperty(form, 'district', $.i18n.t('common.required_field'))
       error = true

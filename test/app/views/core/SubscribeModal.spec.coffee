@@ -37,11 +37,13 @@ describe 'SubscribeModal', ->
   tokenError.catch(_.noop) # shush, Chrome
   
   beforeEach ->
+    @openAsync = jasmine.createSpy()
+    spyOn(stripeHandler, 'makeNewInstance').and.returnValue({ @openAsync })
     @getTrackerEventNames = -> _.without(tracker.trackEvent.calls.all().map((c) -> c.args[0]), 'View Load')
 
   afterEach ->
-    if stripeHandler.openAsync.calls?.any()
-      options = stripeHandler.openAsync.calls.argsFor(0)[0]
+    if @openAsync.calls?.any()
+      options = @openAsync.calls.argsFor(0)[0]
       expect(options.alipayReusable).toBeDefined()
       expect(options.alipay).toBeDefined()
   
@@ -68,7 +70,7 @@ describe 'SubscribeModal', ->
     describe 'when the subscription succeeds', ->
       beforeEach ->
         @subscribeRequest.andReturn({status: 200, responseText: '{}'})
-        spyOn(stripeHandler, 'openAsync').and.returnValue(tokenSuccess)
+        @openAsync.and.returnValue(tokenSuccess)
 
       it 'calls hide()', wrapJasmine ->
         spyOn(@modal, 'hide')
@@ -80,7 +82,7 @@ describe 'SubscribeModal', ->
     describe 'when the subscription response is 402', ->
       beforeEach ->
         @subscribeRequest.andReturn({status: 402, responseText: '{}'})
-        spyOn(stripeHandler, 'openAsync').and.returnValue(tokenSuccess)
+        @openAsync.and.returnValue(tokenSuccess)
 
       it 'shows state "declined"', wrapJasmine ->
         yield @modal.onClickPurchaseButton()
@@ -91,7 +93,7 @@ describe 'SubscribeModal', ->
     describe 'when the subscription response is any other error', ->
       beforeEach ->
         @subscribeRequest.andReturn({status: 500, responseText: '{}'})
-        spyOn(stripeHandler, 'openAsync').and.returnValue(tokenSuccess)
+        @openAsync.and.returnValue(tokenSuccess)
 
       it 'shows state "unknown_error"', wrapJasmine ->
         yield @modal.onClickPurchaseButton()
@@ -101,7 +103,7 @@ describe 'SubscribeModal', ->
         
     describe 'when stripe errors out, or some other runtime error happens', ->
       beforeEach ->
-        spyOn(stripeHandler, 'openAsync').and.returnValue(tokenError)
+        @openAsync.and.returnValue(tokenError)
         spyOn(console, 'error')
 
       it 'shows state "unknown_error"', wrapJasmine ->
@@ -120,7 +122,7 @@ describe 'SubscribeModal', ->
       @modal = new SubscribeModal({products: new Products(productListNoLifetime)})
       @modal.render()
       jasmine.demoModal(@modal)
-      spyOn(stripeHandler, 'openAsync').and.returnValue(tokenSuccess)
+      @openAsync.and.returnValue(tokenSuccess)
     
     describe 'when the purchase succeeds', ->
       beforeEach ->
@@ -150,7 +152,7 @@ describe 'SubscribeModal', ->
       @modal = new SubscribeModal({products: new Products(productListNoYear)})
       @modal.render()
       jasmine.demoModal(@modal)
-      spyOn(stripeHandler, 'openAsync').and.returnValue(tokenSuccess)
+      @openAsync.and.returnValue(tokenSuccess)
 
     describe 'when the purchase succeeds', ->
       beforeEach ->

@@ -28,7 +28,6 @@ module.exports =
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
-    delighted.addDelightedUser(req.user, trialRequest) if trialRequest.get('type') is 'course'
     res.status(201).send(trialRequest.toObject({req: req}))
 
   put: wrap (req, res) ->
@@ -45,7 +44,7 @@ module.exports =
     applicantID = req.query.applicant
     return next() unless applicantID
     throw new errors.UnprocessableEntity('Bad applicant id') unless utils.isID(applicantID)
-    throw new errors.Forbidden('May not fetch for anyone but yourself') unless req.user?.id is applicantID or req.user.isAdmin()
+    throw new errors.Forbidden('May not fetch for anyone but yourself') unless req.user?.id is applicantID or req.user?.isAdmin()
     trialRequests = yield TrialRequest.find({applicant: mongoose.Types.ObjectId(applicantID)})
     trialRequests = (tr.toObject({req: req}) for tr in trialRequests)
     res.status(200).send(trialRequests)

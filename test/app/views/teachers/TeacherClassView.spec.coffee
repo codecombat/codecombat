@@ -132,14 +132,14 @@ describe 'TeacherClassView', ->
             users = @view.enrollStudents.calls.argsFor(0)[0]
             expect(users.size()).toBe(1)
             expect(users.first().id).toBe(@view.students.first().id)
-            
+
       ###
         describe 'Revoke button', ->
           it 'opens a confirm modal once clicked', ->
             spyOn(window, 'confirm').and.returnValue(true)
             @view.$('.revoke-student-button:first').click()
             expect(window.confirm).toHaveBeenCalled()
-  
+
           describe 'once the prepaid is successfully revoked', ->
             beforeEach ->
               spyOn(window, 'confirm').and.returnValue(true)
@@ -151,38 +151,36 @@ describe 'TeacherClassView', ->
                 status: 200
                 responseText: '{}'
               })
-              
+
             it 'updates the user and rerenders the page', ->
               if @view.$(".enroll-student-button[data-user-id='#{@revokedUser.id}']").length isnt 1
                 fail('Could not find enroll student button for user whose enrollment was revoked')
        ###
-            
-            
-            
 
       describe 'Export Student Progress (CSV) button', ->
-        it 'downloads a CSV file', ->
-          spyOn(window, 'open').and.callFake (encodedCSV) =>
-            progressData = decodeURI(encodedCSV)
-            CSVHeader = 'data:text\/csv;charset=utf-8,'
-            expect(progressData).toMatch new RegExp('^' + CSVHeader)
-            lines = progressData.slice(CSVHeader.length).split('\n')
-            expect(lines.length).toBe(@students.length + 1)
-            for line in lines
-              simplerLine = line.replace(/"[^"]+"/g, '""')
-              # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
-              expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
-              if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
-              else if simplerLine.match new RegExp(@finishedStudentWithPractice.get('email'))
-                expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
-              else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                expect(simplerLine).toMatch /1,a minute,1,a minute,0/
-              else if simplerLine.match /@/
-                expect(simplerLine).toMatch /0,0,0/
-            return true
+        it 'downloads a CSV file', (done) ->
+          spyOn(window, 'saveAs').and.callFake (blob, fileName) =>
+            reader = new FileReader()
+            reader.onload = (event) =>
+              encodedCSV = reader.result
+              progressData = decodeURI(encodedCSV)
+              lines = progressData.split('\n')
+              expect(lines.length).toBe(@students.length + 1)
+              for line in lines
+                simplerLine = line.replace(/"[^"]+"/g, '""')
+                # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
+                expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
+                if simplerLine.match new RegExp(@finishedStudent.get('email'))
+                  expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
+                else if simplerLine.match new RegExp(@finishedStudentWithPractice.get('email'))
+                  expect(simplerLine).toMatch /3,3 minutes,3,3 minutes,0/
+                else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
+                  expect(simplerLine).toMatch /1,a minute,1,a minute,0/
+                else if simplerLine.match /@/
+                  expect(simplerLine).toMatch /0,0,0/
+              done()
+            reader.readAsText(blob);
           @view.$el.find('.export-student-progress-btn').click()
-          expect(window.open).toHaveBeenCalled()
 
     describe 'when javascript classroom', ->
       beforeEach (done) ->
@@ -222,26 +220,27 @@ describe 'TeacherClassView', ->
         _.defer done
 
       describe 'Export Student Progress (CSV) button', ->
-        it 'downloads a CSV file', ->
-          spyOn(window, 'open').and.callFake (encodedCSV) =>
-            progressData = decodeURI(encodedCSV)
-            CSVHeader = 'data:text\/csv;charset=utf-8,'
-            expect(progressData).toMatch new RegExp('^' + CSVHeader)
-            lines = progressData.slice(CSVHeader.length).split('\n')
-            expect(lines.length).toBe(@students.length + 1)
-            for line in lines
-              simplerLine = line.replace(/"[^"]+"/g, '""')
-              # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
-              expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
-              if simplerLine.match new RegExp(@finishedStudent.get('email'))
-                expect(simplerLine).toMatch /2,2 minutes,2,2 minutes,0/
-              else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
-                expect(simplerLine).toMatch /1,a minute,1,a minute,0/
-              else if simplerLine.match /@/
-                expect(simplerLine).toMatch /0,0,0/
-            return true
+        it 'downloads a CSV file', (done) ->
+          spyOn(window, 'saveAs').and.callFake (blob, fileName) =>
+            reader = new FileReader()
+            reader.onload = (event) =>
+              encodedCSV = reader.result
+              progressData = decodeURI(encodedCSV)
+              lines = progressData.split('\n')
+              expect(lines.length).toBe(@students.length + 1)
+              for line in lines
+                simplerLine = line.replace(/"[^"]+"/g, '""')
+                # Name, Username,Email,Total Levels,Total Playtime, [CS1 Levels, CS1 Playtime, ...], Concepts
+                expect(simplerLine.match(/[^,]+/g).length).toBe(5 + @releasedCourses.length * 2 + 1)
+                if simplerLine.match new RegExp(@finishedStudent.get('email'))
+                  expect(simplerLine).toMatch /2,2 minutes,2,2 minutes,0/
+                else if simplerLine.match new RegExp(@unfinishedStudent.get('email'))
+                  expect(simplerLine).toMatch /1,a minute,1,a minute,0/
+                else if simplerLine.match /@/
+                  expect(simplerLine).toMatch /0,0,0/
+              done()
+            reader.readAsText(blob);
           @view.$el.find('.export-student-progress-btn').click()
-          expect(window.open).toHaveBeenCalled()
 
     describe '.assignCourse(courseID, members)', ->
       beforeEach (done) ->
@@ -278,7 +277,7 @@ describe 'TeacherClassView', ->
 
         jasmine.demoEl(@view.$el)
         _.defer done
-        
+
       describe 'when the student has a starter license', ->
         describe 'and the course is NOT covered by starter licenses', ->
           beforeEach (done) ->
