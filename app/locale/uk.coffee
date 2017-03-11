@@ -150,7 +150,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     adjust_volume: "Підлаштувати гучність"
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
-    brain_pop_done: "Ви перемогли Оґрів за допомогою коду! Ви перемогли!"
+    brain_pop_done: "Ви перемогли Оґрів за допомогою коду! Ви виграли!"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
