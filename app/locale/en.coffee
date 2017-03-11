@@ -2117,3 +2117,5 @@
     title: "You did it!"  # This section is only needed in US, UK, Mexico, India, and Germany
     body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
     sign_up: "Sign up & keep coding ▶"
+    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
+    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
