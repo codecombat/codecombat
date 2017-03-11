@@ -14,10 +14,10 @@ module.exports = class CodePlayCreateAccountModal extends ModalView
     lang = me.get('preferredLanguage')
     @codePlayGeo = switch
       when me.isFromUk() then 'uk'
+      when me.isFromIndia() then 'in'
       when me.setToGerman() then 'de'
       when me.setToSpanish() then 'es'
       else 'en'
-    # TODO: figure out India
 
   onClickCodePlaySignupButton: (e) ->
     document.location.href = '//lenovogamestate.com/register/?cocoId='+me.id
