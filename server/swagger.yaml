@@ -77,6 +77,10 @@ paths:
           type: string
           in: query
           description: Override where the user will navigate to after successfully logging in.
+        - name: errorRedirect
+          type: string
+          in: query
+          description: If an error happens, redirects the user to this url, with at least query parameters `code`, `errorName` and `message`.
       responses:
         "302":
           description: 'Redirects the user to a landing page after having logged them in.'
@@ -309,7 +313,7 @@ paths:
                 type: string
                 description: "The code for joining this classroom"
               userId:
-                description: "The id of the user to add to the class."
+                description: "The `_id` or `slug` of the user to add to the class."
                 type: string
           
       responses:
@@ -338,7 +342,7 @@ paths:
           required: true
           description: The course's `_id`.
         - name: userId
-          description: "The id of the user to add to the class."
+          description: "The `_id` or `slug` of the user to add to the class."
           in: body
           required: true
           schema:
@@ -360,7 +364,7 @@ paths:
           in: path
           type: string
           required: true
-          description: The property to lookup by. Currently only `"israel-id"` is available.
+          description: The property to lookup by. May either be `"israel-id"` or `"name"`.
         - name: value
           in: path
           type: string

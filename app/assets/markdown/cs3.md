@@ -80,7 +80,7 @@ In CodeCombat, using strings and `hero.say()` is useful for communicating with f
 
 ### Instructive Activity: String Chuck (12 mins)
 #### Explain (2 mins)
-Strings are pieces of text inside quotes. The students have been using strings ever since Course 1. For example, in the `buildXY()` function, students use the string `"fence"`, to build a fence as in `hero.buildXY("fence", 34, 30)`. In the `attack()` function, the can choose to attack a chest by passing the string, `"Chest"` as a parameter, with `hero.attack("Chest")`. 
+Strings are pieces of text inside quotes. The students have been using strings ever since Course 1. For example, in the `buildXY()` function, students use the string `"fence"`, to build a fence as in `hero.buildXY("fence", 34, 30)`. In the `attack()` function, the can choose to attack a chest by passing the string, `"Chest"` as a parameter, with `hero.attack("Chest")`.
 
 In these levels, students will need to combine two strings together to form a longer string. In programming, this is referred to as **string concatenation**. The students will learn how to concatenate, or add, two strings together by using the string concatenation operator, `+`.
 
@@ -90,7 +90,7 @@ The syntax to concatenate two strings is as follows:
 # results in the hero saying "Come at me, Treg!"
 hero.say("Come at me, " + "Treg!")
 ```
-Notice in the code above that each of the separate strings has its own set of quotes, but the `+` is not in quotes. The `+` is not part of either string, but is instead the operator that is placed between the two strings. 
+Notice in the code above that each of the separate strings has its own set of quotes, but the `+` is not in quotes. The `+` is not part of either string, but is instead the operator that is placed between the two strings.
 
 Notice as well the extra space in the first string, `"Come at me, "`. When concatenating strings, the second string is appended to the end of the first one, and both strings appear exactly as they are shown between the quotation marks. Thus, without the extra space, the hero would say `"Come at me,Treg!"`.
 
@@ -104,7 +104,7 @@ hero.say("Come at me, " + ogre.id)
 ```
 By using a variable, the students are able to call out an ogre without hard-coding its name into their code. This will allow them to call out ogres without knowing their names first.
 
-Notice again in the code above the extra space after the first string. Just as with two strings, concatenating a string and a variable simply appends the two strings together as they are written in the code. It is important to remember to include an extra space if the strings are meant to be separated by a space when they are concatenated.  
+Notice again in the code above the extra space after the first string. Just as with two strings, concatenating a string and a variable simply appends the two strings together as they are written in the code. It is important to remember to include an extra space if the strings are meant to be separated by a space when they are concatenated.
 
 Note that concatenation will only work with strings on either side of the `+`. Trying to concatenate a string with a different type, such as an integer, or with a variable that is not storing a string, will result in an error.
 
@@ -131,7 +131,7 @@ Then write the following lines on the board:
 
 ```
 noun = "wood"
-verb = 
+verb =
 teacher.write("How much " + noun)
 ```
 
@@ -171,9 +171,9 @@ teacher.write("How much " + noun + " w" + ould + " a " + noun + verb + " " + ver
 ```
 
 #### Reflect (2 mins)
-**When have you used strings before in CodeCombat?** (To attack by name, like `hero.attack("Treg")`; to `buildXY` by type, like `hero.buildXY("fence", 34, 30)`; to say passwords, like `hero.say("Hush!")`; etc.)  
-**What kind of text can you put in a string?** (Any text you want!)  
-**What does string concatenation mean?** (Adding a string to the end of another string.)  
+**When have you used strings before in CodeCombat?** (To attack by name, like `hero.attack("Treg")`; to `buildXY` by type, like `hero.buildXY("fence", 34, 30)`; to say passwords, like `hero.say("Hush!")`; etc.)
+**What kind of text can you put in a string?** (Any text you want!)
+**What does string concatenation mean?** (Adding a string to the end of another string.)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -190,7 +190,7 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students’ attention to the instructions and tips, and especially for string concatenation, the error messages. You may need to reinforce that each string needs opening and closing quotes, and that in between strings and other strings or strings and variables, you always need a `+` to concatenate. Remind the students to double check the spacing and the types on either side of the `+`. 
+Circulate to assist. Draw students’ attention to the instructions and tips, and especially for string concatenation, the error messages. You may need to reinforce that each string needs opening and closing quotes, and that in between strings and other strings or strings and variables, you always need a `+` to concatenate. Remind the students to double check the spacing and the types on either side of the `+`.
 
 Students may run into errors with code like this:
 
@@ -218,9 +218,9 @@ If student have trouble figuring out an error, ask them to carefully review thei
 ##### Module 12
 ## Computer Arithmetic
 ### Summary
-Just like calculators, computers can be used to perform mathematical calculations. In fact, the word computer stems from the act of computing, in a mathematical sense. **Computer arithmetic** is writing code to have a computer perform mathematical operations. 
+Just like calculators, computers can be used to perform mathematical calculations. In fact, the word computer stems from the act of computing, in a mathematical sense. **Computer arithmetic** is writing code to have a computer perform mathematical operations.
 
-Computers can be used to add, subtract, multiply, and divide numbers. Additionally, they can be used to perform operations on variables representing numbers, and the results of functions that return numbers. 
+Computers can be used to add, subtract, multiply, and divide numbers. Additionally, they can be used to perform operations on variables representing numbers, and the results of functions that return numbers.
 
 Computer arithmetic is used in these levels to allow the students to dynamically calculate the magic numbers needed to get past a series of wizards. Students will have to edit and run their programs a number of times to get the instructions from each wizard and compute each of the magic numbers.
 
@@ -275,9 +275,9 @@ x = 3
 An additional operation that can be performed with code is **modulo**. This operation does not have to be used in these CodeCombat levels, but may still be of use or interest to the students. Modulo is used to find the remainder after dividing two numbers:
 
 ```
-5 % 3	# answer: 2
-9 % 4	# answer: 5
-6 % 2	# answer: 0 (no remainder)
+5 % 3  # answer: 2
+9 % 4  # answer: 5
+6 % 2  # answer: 0 (no remainder)
 ```
 
 The benefit of **computer arithmetic** is that computers are very fast, and thus the answers can be calculated almost instantly. This allows for programs to perform a large number of calculations while still running very quickly.
@@ -326,7 +326,7 @@ hailstone(10)
 Sequence: 10 5 16 8 4 2 1
 ```
 
-If you explained the modulo operator and believe the students are up for an extra challenge, encourage them to replace the line `isEven(number)` with one line of code that will determine if the number is even. Push them to think about all of the operators they learned about before the activity. 
+If you explained the modulo operator and believe the students are up for an extra challenge, encourage them to replace the line `isEven(number)` with one line of code that will determine if the number is even. Push them to think about all of the operators they learned about before the activity.
 
 The appropriate line of code to use is:
 
@@ -354,13 +354,13 @@ Sequence: 3 10 5 16 8 4 2 1
 Steps: 7
 ```
 
-Ensure the students understand how the counter works in the code above. Share that `hailstone(27)` takes 111 steps and gets as high as 9232 before falling back down to 1. 
+Ensure the students understand how the counter works in the code above. Share that `hailstone(27)` takes 111 steps and gets as high as 9232 before falling back down to 1.
 
 Explain that these are called hailstone numbers because like hailstones, they go up and down a number of times before inevitably falling all the way. However, no one has been able to prove that this has to happen every time, even though computers can calculate the number of hailstone steps for numbers with thousands of digits instantly with the code on the board. If someone found a number that didn't eventually fall back to 1, they would be famous.
 
 #### Reflect (2 mins)
-**What operations can you perform on a computer? What are the operators to use for them?** (You can use a computer to do addition, subtraction, multiplication, and division. The operators you use are `+`, `-`, `*`, and `/`, respectively.)  
-**What is the proper syntax to multiply a variable called `number` by 5 and store the result in `number`?** (`number = number * 5`) 
+**What operations can you perform on a computer? What are the operators to use for them?** (You can use a computer to do addition, subtraction, multiplication, and division. The operators you use are `+`, `-`, `*`, and `/`, respectively.)
+**What is the proper syntax to multiply a variable called `number` by 5 and store the result in `number`?** (`number = number * 5`)
 
 ### Coding Time (25 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -415,7 +415,7 @@ A **property** is an attribute, or trait, of an object. For example, an enemy ob
 
 Properties are similar to functions, because both functions and properties are things that belong to the object. They differ, however, because functions are like actions or verbs and properties are like aspects (adjectives) or possessions (nouns).
 
-Properties can be accessed by specifying the object, then `.` then the name of the property. The following code returns the position property of a flag object: 
+Properties can be accessed by specifying the object, then `.` then the name of the property. The following code returns the position property of a flag object:
 
 `flag.pos`
 
@@ -423,7 +423,7 @@ Some properties are also objects and thus have properties of their own. For exam
 
 `flag.pos.x`
 
-Once a property is accessed, its value can be found and used in the code. For each object type, different instances of each object have the same properties that are accessed in the same way, but those properties can, and likely will, have different values. 
+Once a property is accessed, its value can be found and used in the code. For each object type, different instances of each object have the same properties that are accessed in the same way, but those properties can, and likely will, have different values.
 
 For example, different flags have the same way of accessing their position property, but the values of each flag's position may be different. The differences in these values allow each object to be distinguished from each other and acted on separately.
 
@@ -441,23 +441,23 @@ Encourage the students to suggest properties of other properties, such as:
 After each property is written correctly, have the students help you fill in the values, so that each line is built to look like these below:
 
 ```
-doll.hair.color	= "blue" 
-doll.fur.length = "short" 
+doll.hair.color = "blue"
+doll.fur.length = "short"
 doll.legs.amount = 4
 ```
 
-Build a list of at least ten different properties by following the same pattern of having the students suggest a property, writing the property correctly on the board, then adding the correct value. If desired, you may have a student help you write everything on the board. Your list should 
+Build a list of at least ten different properties by following the same pattern of having the students suggest a property, writing the property correctly on the board, then adding the correct value. If desired, you may have a student help you write everything on the board. Your list should
 
 Once the list is complete, ask the students if there are any properties on the list that may be shared by all dolls similar to the one you brought. Encourage them to think about whether or not every doll has the same value for that property. If possible, you may wish to bring in a second doll that has the same property, but a different value for that property (such as green hair instead of blue hair).
 
 #### Reflect (2 mins)
-**What is a property?** (An attribute of an object)  
-**How can you tell the difference between a function and a property?** (Functions have parentheses () and properties do not. Also, functions perform actions, while properties describe attributes about objects.)  
+**What is a property?** (An attribute of an object)
+**How can you tell the difference between a function and a property?** (Functions have parentheses () and properties do not. Also, functions perform actions, while properties describe attributes about objects.)
 
-**Can two objects of the same type have the same property? Explain.** (Yes because they are the same type, they likely have the same properties. For example, every enemy in the game has a type.)  
+**Can two objects of the same type have the same property? Explain.** (Yes because they are the same type, they likely have the same properties. For example, every enemy in the game has a type.)
 
 
-**Do two objects’ properties always have the same value if the objects are of the same type? Explain.** (No. For example, there are many different types of enemies in the game, so even though all enemies have the type property, the value of this property can be different between them.)  
+**Do two objects’ properties always have the same value if the objects are of the same type? Explain.** (No. For example, there are many different types of enemies in the game, so even though all enemies have the type property, the value of this property can be different between them.)
 
 
 ### Coding Time (30-45 mins)
@@ -482,7 +482,7 @@ If students are having trouble placing the flags, be sure to direct them to the 
 
 ### Written Reflection (5 mins)
 **How did you use properties today?**
->I used properties to determine where flags were so the hero could move to them. To do this, I used the flag's property called pos and the pos properties, x and y to determine where the flag was. 
+>I used properties to determine where flags were so the hero could move to them. To do this, I used the flag's property called pos and the pos properties, x and y to determine where the flag was.
 
 **Tell me about flags.**
 >You use flags to tell the hero what to do when the game is running. You can write code to say if there’s a flag, then go to it. Flags have a pos that has x and y. X is right-left and y is up-down.
@@ -492,7 +492,7 @@ If students are having trouble placing the flags, be sure to direct them to the 
 ##### Module 14
 ## Functions with Returns
 ### Summary
-**Return statements** are used to create functions that compute and return a value, rather than just perform an action. If a function contains a `return` statement, it will be equal to whatever value it returns whenever it is called. 
+**Return statements** are used to create functions that compute and return a value, rather than just perform an action. If a function contains a `return` statement, it will be equal to whatever value it returns whenever it is called.
 
 When a function gets to a `return` statement, the value is returned immediately and the flow of control is also returned to the place at which the function was called. This causes the function to end immediately.
 
@@ -537,7 +537,7 @@ Notice in the code above that each `if` statement contains a `return` statement.
 
 Notice as well the last `return` statement located outside of the `if` statements. This `return` statement is executed if none of the conditionals of the `if` statements above are met. If using conditionals and `return` statements, it is important to make sure that the function will always return something, even when the conditions are not met.
 
-The value that is returned by a function can be used just as any variable can. Notice the final line in the code segment above. `howMany(hats)` is concatenated with the rest of the string to form a full sentence as output from the teacher. 
+The value that is returned by a function can be used just as any variable can. Notice the final line in the code segment above. `howMany(hats)` is concatenated with the rest of the string to form a full sentence as output from the teacher.
 
 It is important to note that when a function returns a value, it also returns the flow of control back to the place from which it was called. This ensures that only one value will be returned by the function. Note that because of this, any code written within a function but below a `return` statement is unreachable.
 
@@ -548,7 +548,7 @@ def howMany(things):
     if things == 1:
         return "a"
         things += 1  # this line is unreachable
-        
+
     # more code below here
 ```
 Because the function is stopped once it hits a `return` statement, no additional code within the function is executed once a value is returned. Thus proper planning and indentation are particularly important when writing functions with `return` statements.
@@ -557,7 +557,7 @@ Because the function is stopped once it hits a `return` statement, no additional
 #### Interact (8 mins)
 In this activity, you will work with the students to write the code for a simple vending machine. To make the activity more interactive, gather the following materials:
 
-* 4 or more boxes 
+* 4 or more boxes
 * One different snack for each of the boxes
 
 You may also choose to put beverages, or even toys, in each of the boxes. If you do choose an item besides food, be sure to change the variable and function names in your sample code so that the appropriate noun and verb are used.
@@ -650,9 +650,9 @@ If you do not have boxes for this activity, you can simply draw a picture of a v
 #### Reflect (2 mins)
 **What is a return value used for?** (return values are used so that functions can be created to perform computations and return them to another function. This allows the code to be better organized.)
 
-**What are some built-in CodeCombat functions you use that `return` values?** (`hero.findNearestEnemy()`, `hero.isReady("cleave")`, `hero.distanceTo(target)`, `hero.findNearestItem()`)  
+**What are some built-in CodeCombat functions you use that `return` values?** (`hero.findNearestEnemy()`, `hero.isReady("cleave")`, `hero.distanceTo(target)`, `hero.findNearestItem()`)
 
-**Why does a return statement immediately exit a function?** (Because if you called `return` twice, you wouldn't know which value to use.)  
+**Why does a return statement immediately exit a function?** (Because if you called `return` twice, you wouldn't know which value to use.)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -669,7 +669,7 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students' attention to the instructions and tips. Whenever a student is having trouble with a function, have them go execute the function themselves so they can say exactly what value it will return. 
+Circulate to assist. Draw students' attention to the instructions and tips. Whenever a student is having trouble with a function, have them go execute the function themselves so they can say exactly what value it will return.
 
 Remind students to make sure that they do something with the return value of the function once they have called it. The following examples show correct and incorrect usage of return values:
 
@@ -726,7 +726,7 @@ if gem.pos.x == 34:
 ```
 Notice that the conditional expression in the `if` statement uses the **equality operator**, `==` to check if `gem.pos.x` is equal to `34`. The students have used this operator many times and should be familiar with it. Expressions containing `==` return `True` if the two values being compared are equal and `False` if they are not.
 
-In this module, the students will learn about a new operator called the **inequality operator**. Rather than checking to see if two values are equal to each other, the inequality operator checks to see if the two values are *not* equal to each other. 
+In this module, the students will learn about a new operator called the **inequality operator**. Rather than checking to see if two values are equal to each other, the inequality operator checks to see if the two values are *not* equal to each other.
 
 The symbol for the inequality operator is `!=`. `!` is the equivalent of `not`, and is thus placed before `=` to translate as "not equal".
 
@@ -736,9 +736,9 @@ Below is an example of code that uses `!=` to see if an item is not a gem:
 item = hero.findNearestItem()
     if item:
         if item.type != "gem":
-        	hero.moveXY(item.pos.x, item.pos.y)
+            hero.moveXY(item.pos.x, item.pos.y)
 ```
-The code above first looks for an item, then if one is found checks to see that the item is *not* a gem. If the item is not a gem, then the expression `item.type != "gem"` returns `True`. If the item is a gem then the expression returns `False`. 
+The code above first looks for an item, then if one is found checks to see that the item is *not* a gem. If the item is not a gem, then the expression `item.type != "gem"` returns `True`. If the item is a gem then the expression returns `False`.
 
 Just like `==`, `!=` can be used with numbers, variables, strings, and properties on either side of the operator. In these levels, the students will practice using `!=` to compare these different data types.
 
@@ -760,13 +760,13 @@ zombie.moveXY(fridge.pos.x, fridge.pos.y)
 while True:
     food = zombie.ransack(fridge)
     if food.type == "cake":
-    	zombie.eat(food)
+        zombie.eat(food)
     if food.type == "cookies":
-    	zombie.eat(food)
+        zombie.eat(food)
     if food.type == "fruit":
-    	zombie.eat(food)
+        zombie.eat(food)
     if food.type == "ice cream":
-    	zombie.eat(food)
+        zombie.eat(food)
 ```
 
 The students should see that coding a solution in this manner would take a lot of time and require many lines of code, especially when considering all the different options that the students may want to eat.
@@ -799,8 +799,8 @@ Explain that because they want to eat most foods they shuold not explicitly name
 Note that the students have not learned how to do a compound conditional yet, but if students ask, they will learn how to do that in the next two modules. This will allow them to write statements such as: `if food.type != "broccoli" and food.color != "green"`.
 
 #### Reflect (2 mins)
-**What would be returned from 1 * 2 != 3?** (True because 2 does not equal 3.)  
-**How would you write an `if` statement to check if an item is not a gem?** (`if item.type != "gem":`) 
+**What would be returned from 1 * 2 != 3?** (True because 2 does not equal 3.)
+**How would you write an `if` statement to check if an item is not a gem?** (`if item.type != "gem":`)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -817,7 +817,7 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students' attention to the instructions and tips. When students are checking `item.type` and `enemy.type`, remind them to make sure they are spelling the types correctly: `if enemy.type != "peon"`, `if item.type != "poison"`,  and `if item.type != "gem"`. 
+Circulate to assist. Draw students' attention to the instructions and tips. When students are checking `item.type` and `enemy.type`, remind them to make sure they are spelling the types correctly: `if enemy.type != "peon"`, `if item.type != "poison"`,  and `if item.type != "gem"`.
 
 Have students pay close attention to the yellow arrows indicating where to code, since they sometimes need to modify existing `if` conditions.
 
@@ -835,9 +835,9 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 ### Summary
 A **boolean** is a data type with two possible values, `True` or `False`. Students have used booleans in prior modules with the use of `if` statements and `while` loops. The conditionals used in these are expressions that must be either `True` or `False`, and thus are boolean expressions. The statement or loop is executed if the condition is `True`, and not executed if the condition is `False`.
 
-**Boolean logic** is a form of arithmetic that is performed on boolean values. The result of boolean logic is always a single boolean value, which is either `True` or `False`. 
+**Boolean logic** is a form of arithmetic that is performed on boolean values. The result of boolean logic is always a single boolean value, which is either `True` or `False`.
 
-One operator that is used in boolean logic is the **boolean or** operator, `or`.  When using `or`, if one or both values in the expression is `True`, then the entire expression evaluates to `True`. If both values in the expression are `False`, then the entire expression evaluates to `False`. 
+One operator that is used in boolean logic is the **boolean or** operator, `or`.  When using `or`, if one or both values in the expression is `True`, then the entire expression evaluates to `True`. If both values in the expression are `False`, then the entire expression evaluates to `False`.
 
 ### Transfer Goals
 - Define what a boolean value is
@@ -852,26 +852,26 @@ One operator that is used in boolean logic is the **boolean or** operator, `or`.
 
 ### Instructive Activity: Simon Says - Or (10 mins)
 #### Explain (2 mins)
-**Booleans** are data types that have two possible values, `True` and `False`. Although the students have not extensively learned about boolean values, they have used them many times in CodeCombat before. 
+**Booleans** are data types that have two possible values, `True` and `False`. Although the students have not extensively learned about boolean values, they have used them many times in CodeCombat before.
 
 For example, every `while` loop seen thus far has been set to `True`, as so:
 
 ```
 while True:
-	# do something
+    # do something
 ```
 
 In addition, students have used functions that return boolean values, such as the `isReady` function:
 
 ```
 hero.isReady("cleave") # this function returns True if the cleave is ready and False if not
-``` 
+```
 They have then used the result of such functions to perform different actions based on the return value:
 
 ```
 # if hero.isReady("cleave") returns True then the hero will cleave
 if hero.isReady("cleave"):
-	hero.cleave()
+    hero.cleave()
 ```
 In the code above, the hero will cleave if `hero.isReady("cleave")` returns `True`. If the function returns `False`, then the hero will not cleave and the control flow will move to the next line outside of the `if` statement.
 
@@ -880,7 +880,7 @@ Expressions can also be evaluated to a boolean value. The students saw this in t
 
 ```
 if item.type == 'coin'
-	# do something
+    # do something
 ```
 Just as with boolean values that are returned, in the code shown above, the code within the `if` statement will be executed if `item.type == 'coin'` evaluates to `True`. If it evaluates to `False` then the code in the `if` statement will not be executed.
 
@@ -913,7 +913,7 @@ Each statement should be written on the board after each move. Be sure to use th
 
 ```
 if name.startsWith("A") or name.startsWith("B"):
-	hands.putOn(head)
+    hands.putOn(head)
 ```
 
 As with Simon Says, there are a few ways for the students to be eliminated:
@@ -928,11 +928,11 @@ When students are eliminated, instead of having them return to their seats, you 
 * Provide additional `if` statements or boolean expressions for the instructions
 * Act as additional eyes to help see when other students should be eliminated
 
-Feel free to be creative with the conditions and instructions throughout this activity. You may also choose to end the game whenever you feel that the students have a good grasp on the concept. Additionally, you can run the game again if you think they need more practice. 
+Feel free to be creative with the conditions and instructions throughout this activity. You may also choose to end the game whenever you feel that the students have a good grasp on the concept. Additionally, you can run the game again if you think they need more practice.
 
 #### Reflect (1 min)
-**What is `or` useful for?** (To determine if one or more conditions in an expression is `True`.)  
-**What is a boolean value?** (A value that is either `True` or `False`.)  
+**What is `or` useful for?** (To determine if one or more conditions in an expression is `True`.)
+**What is a boolean value?** (A value that is either `True` or `False`.)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -953,10 +953,10 @@ Circulate to assist. Draw students' attention to the instructions and tips. Remi
 
 ```
 # incorrect, since the computer sees (enemy.type == "thrower") or "munchkin"
-if enemy.type == "thrower" or "munchkin":  
+if enemy.type == "thrower" or "munchkin":
 
-# correct 
-if enemy.type == "thrower" or enemy.type == "munchkin":  
+# correct
+if enemy.type == "thrower" or enemy.type == "munchkin":
 ```
 
 ### Written Reflection (5 mins)
@@ -971,11 +971,11 @@ if enemy.type == "thrower" or enemy.type == "munchkin":
 ##### Module 17
 ## Boolean And
 ### Summary
-In the next few levels, the students will learn about a second boolean operator, **boolean and**. Just as the boolean or is written as `or`, boolean and is written as `and`. 
+In the next few levels, the students will learn about a second boolean operator, **boolean and**. Just as the boolean or is written as `or`, boolean and is written as `and`.
 
 When using `and`, if both values in the expression are `True`, then the entire expression evaluates to `True`. If one or both of the values is `False`, then the entire expression evaluates to `False`. In this sense, `and` is almost the opposite of `or`.
 
-Students will use `and` to execute actions only when two conditions are `True`. In the later levels, they will need to combine their knowledge of `and`, `or`, and `not` to communicate with wizards. 
+Students will use `and` to execute actions only when two conditions are `True`. In the later levels, they will need to combine their knowledge of `and`, `or`, and `not` to communicate with wizards.
 
 ### Transfer Goals
 - Understand how to use the boolean `and` operator
@@ -994,8 +994,8 @@ In the past few levels, the students used the boolean `or` to find the result of
 
 ```
 if item.type == "gem" or item.type == "coin":
-	hero.moveXY(item.pos.x, item.pos.y)
-``` 
+    hero.moveXY(item.pos.x, item.pos.y)
+```
 
 In these levels, the students will learn about boolean `and`, a boolean operator that works similarly but provides different results.
 
@@ -1003,7 +1003,7 @@ The syntax for using `and` is the same as `or`, except with a different operator
 
 ```
 if item.type == "coin" and item.value == 2:
-	# do something
+    # do something
 ```
 Note that both sides of the `and` are expressions that can be evaluated to boolean values.
 
@@ -1021,9 +1021,9 @@ Because a boolean `and` will always result in `False` if either operand (value o
 ```
 # checks if there is an enemy and if the enemy is a dragon
 if enemy and enemy.type == "dragon":
-	# do something
+    # do something
 ```
-If there is no enemy present, then the first part of the boolean operation is deemed to be `False`. Thus, the second part of the `if` statement will simply not be checked since it can already be determined that the expression will evaluate to `False`. Hence, a variable that may not even be present can be referenced without the code generating an error. 
+If there is no enemy present, then the first part of the boolean operation is deemed to be `False`. Thus, the second part of the `if` statement will simply not be checked since it can already be determined that the expression will evaluate to `False`. Hence, a variable that may not even be present can be referenced without the code generating an error.
 
 
 #### Interact (6 mins)
@@ -1035,7 +1035,7 @@ As with the last activity, be sure to write the statement on the board after eac
 
 ```
 if name.startsWith("A") and hair.color == 'brown':
-	hands.putOn(hips)
+    hands.putOn(hips)
 ```
 
 Students can be eliminated for any of the following reasons:
@@ -1052,12 +1052,12 @@ When students are eliminated, instead of having them return to their seats, you 
 
 You should be sure to have some `if` statements that apply to none of the students in order to make sure they fully grasp the concept. For example, you could say "if your name starts with 'A' and your name starts with 'B' put your hands on your hips". In this instance, none of the students should perform the action, since each name can only start with one letter.
 
-Feel free to be creative with the conditions and instructions throughout this activity. You may also choose to end the game whenever you feel that the students have a good grasp on the concept. Additionally, you can run the game again if you think they need more practice. 
+Feel free to be creative with the conditions and instructions throughout this activity. You may also choose to end the game whenever you feel that the students have a good grasp on the concept. Additionally, you can run the game again if you think they need more practice.
 
 #### Reflect (2 mins)
-**What is the `and` operator used for?** (To perform an action if two conditionals are both `True`) 
-**What is some code you have written in CodeCombat that you can use `and` to simplify?** (Checking whether there is an enemy and cleave is ready, or if cleave is ready and the enemy is close enough.)  
- 
+**What is the `and` operator used for?** (To perform an action if two conditionals are both `True`)
+**What is some code you have written in CodeCombat that you can use `and` to simplify?** (Checking whether there is an enemy and cleave is ready, or if cleave is ready and the enemy is close enough.)
+
 
 ### Coding Time (35-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -1093,9 +1093,9 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 ##### Module 18
 ## Relative Movement
 ### Summary
-In prior modules, the students learned how to move their heroes to a particular spot by using `hero.moveXY()` and passing in numbers or properties as the coordinate values. 
+In prior modules, the students learned how to move their heroes to a particular spot by using `hero.moveXY()` and passing in numbers or properties as the coordinate values.
 
-In this module, the students will combine their knowledge of computer arithmetic and properties to learn about **relative movement**. This will allow the students to move their hero dynamically by specifying coordinates that are relative to a known position. 
+In this module, the students will combine their knowledge of computer arithmetic and properties to learn about **relative movement**. This will allow the students to move their hero dynamically by specifying coordinates that are relative to a known position.
 
 The students will execute relative movement by adding and subtracting from properties and values to create new x and y position values for their hero to move to. They will use this new skill in these levels to move their hero relative to the current position in order to dodge obstacles.
 
@@ -1120,7 +1120,7 @@ hero.moveXY(34, 20)
 hero.moveXY(item.pos.x, item.pos.y)
 ```
 
-Now that they know how to do computer arithmetic, the students can use those skills to make their hero move dynamically with **relative movement**. Using relative movement, students can move their heroes relative to something else, such as their previous position or an enemy unit. 
+Now that they know how to do computer arithmetic, the students can use those skills to make their hero move dynamically with **relative movement**. Using relative movement, students can move their heroes relative to something else, such as their previous position or an enemy unit.
 
 Below is code that will move the hero to a new position relative to their current position:
 
@@ -1136,13 +1136,13 @@ Notice in the code above that the variables `x` and `y` are set to the hero's or
 It is important to note that when `x` is decreased the hero moves to the left; when it is increased the hero moves to the right. When `y` is decreased the hero moves down; when it is increased the hero moves up.
 
 #### Interact (8 mins)
-Explain to the class that the goal is to write a program to make you (the teacher) walk in a square around a student whenever the student claps. 
+Explain to the class that the goal is to write a program to make you (the teacher) walk in a square around a student whenever the student claps.
 
 Ask for a volunteer to stand in front of the class and clap. Have the class help write the event handler from scratch, prompting them for a function name and the code to start listening for a clap event from a student. The code should look similar to this:
 
 ```
 def heardClap():
-    
+
 
 student.on("clap", heardClap)
 ```
@@ -1156,7 +1156,7 @@ def heardClap():
 student.on("clap", heardClap)
 ```
 
-Have the student face the board and tell the chosen student to clap. Move to the corresponding coordinate about five feet to the right and five feet in front of the student. 
+Have the student face the board and tell the chosen student to clap. Move to the corresponding coordinate about five feet to the right and five feet in front of the student.
 
 Get the class to work through the rest of the program on the board to create to a solution that correctly has you walking in a square. Have the student clap every time a new line of code is added to test the solution. Act out the new line of code each time, even if it is wrong, so the students can see the outcome of their code.
 
@@ -1179,9 +1179,9 @@ Be sure the students understand that the position you move to is always relative
 
 
 #### Reflect (2 mins)
-**What would happen if the student moved while the teacher was moving around her?** (The teacher would walk in a different shape depending on where the student was when each `moveXY` started.)  
-**What two new Course 3 concepts do you have to combine to do relative movement?** (Properties and computer arithmetic.)  
-**In CodeCombat, which directions are -x, +x, -y, and +y?** (Left, right, down, and up.)  
+**What would happen if the student moved while the teacher was moving around her?** (The teacher would walk in a different shape depending on where the student was when each `moveXY` started.)
+**What two new Course 3 concepts do you have to combine to do relative movement?** (Properties and computer arithmetic.)
+**In CodeCombat, which directions are -x, +x, -y, and +y?** (Left, right, down, and up.)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -1217,15 +1217,15 @@ Remind the students to think about the direction you moved when `x` and `y` were
 ##### Module 19
 ## Time and Health
 ### Summary
-**Time** is a basic input for many programs. For example, programs can be made to perform an action at a certain time. They can also be constructed to execute a statement after enough time has passed. 
+**Time** is a basic input for many programs. For example, programs can be made to perform an action at a certain time. They can also be constructed to execute a statement after enough time has passed.
 
-In this module, students will learn how to respond to time passing with the `hero.now()` function. They will use this function to perform actions at a certain time by using the amount of time that has passed since the level started. 
+In this module, students will learn how to respond to time passing with the `hero.now()` function. They will use this function to perform actions at a certain time by using the amount of time that has passed since the level started.
 
 In this module, students will also practice using  `hero.health` to determine when to do something. This property allows the students to perform an action when their hero's health reaches a certain threshold.
 
 ### Transfer Goals
 - Write code based on elapsed time by using the `hero.now()` function
-- Write code based on thresholds using `hero.health` 
+- Write code based on thresholds using `hero.health`
 - Learn when to change overall strategies in code
 
 ### Standards
@@ -1250,8 +1250,8 @@ Additionally, the students have used `while` loops in conjunction with `if` stat
 
 ```
 while True:
-	if hero.isReady("cleave"):
-		hero.cleave()
+    if hero.isReady("cleave"):
+        hero.cleave()
 ```
 
 Today the students will learn how to perform actions based on time, rather than on events and conditions. One way they can do this is with the function `hero.now()`. `hero.now()` returns the amount of time, in seconds, that has passed since the "Run" button was pressed. Each time the button is pressed, the time starts again from 0 seconds.
@@ -1260,24 +1260,24 @@ The `hero.now()` function can be used as so:
 
 ```
 if hero.now() < 10:
-        enemy = hero.findNearestEnemy()
-        if enemy:
-            hero.attack(enemy)
+    enemy = hero.findNearestEnemy()
+    if enemy:
+        hero.attack(enemy)
 ```
-The code above ensures that in the first 10 seconds of the level, the hero will attack as long as there is an enemy present. By combining `if` and `elif` statements that have conditionals for different time amounts, the students can set different actions to occur at specific times. 
+The code above ensures that in the first 10 seconds of the level, the hero will attack as long as there is an enemy present. By combining `if` and `elif` statements that have conditionals for different time amounts, the students can set different actions to occur at specific times.
 
 In addition to the function `hero.now()`, students will learn about the properties `hero.health` and `hero.maxHealth`. The students can set conditionals using these properties so that certain actions occur when their health reaches a certain amount:
 
 ```
-    healingThreshold = hero.maxHealth / 2
-    if hero.health < healingThreshold:
-        hero.say("Can I get a heal?")
+healingThreshold = hero.maxHealth / 2
+if hero.health < healingThreshold:
+    hero.say("Can I get a heal?")
 ```
-The first line of the code segment above uses `hero.maxHealth` to set a threshold at which the hero should perform a certain action. Notice that the variable `healingThreshold` is created in the first then used in the `if` statement just below it. This `if` statement will execute only when the hero's health is below the `healingThreshold`. 
+The first line of the code segment above uses `hero.maxHealth` to set a threshold at which the hero should perform a certain action. Notice that the variable `healingThreshold` is created in the first then used in the `if` statement just below it. This `if` statement will execute only when the hero's health is below the `healingThreshold`.
 
 #### Interact (7 mins)
 
-This activity is a modified version of the Quiet Game, in which the entire class tries to be quiet for as long as they can. 
+This activity is a modified version of the Quiet Game, in which the entire class tries to be quiet for as long as they can.
 
 Tell the class you're going to write a program to score them on how long they can be quiet. Start with this code on the board:
 
@@ -1291,11 +1291,11 @@ students.on("noise", calculateScore)
 
 Say that you're going to test the program. Tell the students that you will count down from 3 and they should be silent. Once they are quiet, record the current time, including the seconds on the board as so:
 
- "`startTime` is 10:05:30". 
- 
+ "`startTime` is 10:05:30".
+
 For the first round, the goal is for the students to only be silent for a few seconds. If your students are generally good at being silent, you may want to start making funny faces or make a loud noise to startle them so they are not silent for too long. This also helps to add a fun aspect to the game.
 
-Once the students have made noise, note the current time and say it out loud for the students (i.e. "10:05:35"). Tell them that because they made noise, the `calculateScore` event listener fired for the "noise" event. 
+Once the students have made noise, note the current time and say it out loud for the students (i.e. "10:05:35"). Tell them that because they made noise, the `calculateScore` event listener fired for the "noise" event.
 
 Ask the students what the `endTime` should be, and guide them to see that it is the current time, 10:05:35. Note that is not the current time in the present, but the time at which they started making noise.
 
@@ -1362,8 +1362,8 @@ Explain that if the students were silent four-fifths as long as their longest tr
 
 
 #### Reflect (2 mins)
-**How do you get a time duration from two absolute times?** (Subtract the beginning time from the end time.)  
-**How do you pronounce `if duration < 1 / 5 * maxTime:`?** ("If the duration is less than one-fifth of the maxTime...")  
+**How do you get a time duration from two absolute times?** (Subtract the beginning time from the end time.)
+**How do you pronounce `if duration < 1 / 5 * maxTime:`?** ("If the duration is less than one-fifth of the maxTime...")
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -1380,7 +1380,7 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students' attention to the instructions and tips. Remind them to compare their current `hero.health` to some fraction of `hero.maxHealth`. Also encourage the students to look for common mistakes in their code, such as typos or incorrect relational operators (`<`, `<=`, `>`, and `>=`). 
+Circulate to assist. Draw students' attention to the instructions and tips. Remind them to compare their current `hero.health` to some fraction of `hero.maxHealth`. Also encourage the students to look for common mistakes in their code, such as typos or incorrect relational operators (`<`, `<=`, `>`, and `>=`).
 
 ### Written Reflection (5 mins)
 
@@ -1433,18 +1433,18 @@ Psuedocode for the code written above is as follows:
 
 ```
 while True:
-	find the nearest enemy
-	if there is an enemy:
-		attack the enemy (and return to the top of the loop)
-	or if there are no enemies:
-		break and move out of the loop to the next line of code
-		
+    find the nearest enemy
+    if there is an enemy:
+        attack the enemy (and return to the top of the loop)
+    or if there are no enemies:
+        break and move out of the loop to the next line of code
+
 say "My job here is done!"
 retire and go home
 ```
 Notice that the code above has a conditional within the while loop that determines whether the loop should continue running or not. Without the `break` statement, the loop would continue to run forever, even when there are no enemies present, and the two lines of code below the loop would not be reachable.
 
-Similar to `break` statements are `continue` statements. Instead of breaking out of a loop, `continue` statements are used to stop the current iteration of a loop and continue to the next iteration. Students can use `continue` statements to write a loop that has a lot of code to run if there are enemies, but does nothing if there are no enemies: 
+Similar to `break` statements are `continue` statements. Instead of breaking out of a loop, `continue` statements are used to stop the current iteration of a loop and continue to the next iteration. Students can use `continue` statements to write a loop that has a lot of code to run if there are enemies, but does nothing if there are no enemies:
 
 ```
 # this loop continues to run but starts again from the beginning if there is not an enemy
@@ -1459,16 +1459,16 @@ while True:
 
 The code above uses a conditional to determine whether to complete the current iteration of the loop or to stop the current iteration and move on to the next. Notice that because the loop is not broken with a `break` statement, it will run infinitely.
 
-It is important to note that both `continue` and `break` change the flow of control and prevent the next lines of code from being run, at least in that current loop iteration. Thus, when combining them with conditionals, they can help to eliminate the number of conditionals needed. 
+It is important to note that both `continue` and `break` change the flow of control and prevent the next lines of code from being run, at least in that current loop iteration. Thus, when combining them with conditionals, they can help to eliminate the number of conditionals needed.
 
 For example, the code above could be written as so without the use of `continue`:
 
 ```
 while True:
-	if not enemy:
-		# do something
-	else:
-		# do something else
+    if not enemy:
+        # do something
+    else:
+        # do something else
 ```
 For that scenario, `continue` helps to not only allow the hero to do nothing if he does not see an enemy, but also to avoid the extra `else` clause because the code will not be reached in that iteration once `continue` is executed.
 
@@ -1485,38 +1485,38 @@ Ask for one student to volunteer to be "it". Get the student to slowly walk arou
 
 ```
 while True:
-	it.moveTo(nextStudent) 	# note: this first line is optional
-	if it.say("duck"):
-		continue
+    it.moveTo(nextStudent)   # note: this first line is optional
+    if it.say("duck"):
+        continue
 ```
 Ensure that the students understand why `continue` is used here. Because the loop just starts again (i.e. it just moves to the next student then says either "duck" or "goose" again, it is appropriate to stop the current iteration of the loop and begin again at the top for the next move.
 
 Resume the game reminding "it" to move slowly from person to person. Point to the corresponding line of code with each move and statement until it says "goose". Quickly yell "Pause!" when this happens to have the students help you finish writing the code.
 
-Ask the class what happens in the game now. Many students will likely mention that the "goose" now chases "it" around the circle. Be sure to guide the discussion of the two possible outcomes from the chase - either the "goose" catches "it" or he doesn't. 
+Ask the class what happens in the game now. Many students will likely mention that the "goose" now chases "it" around the circle. Be sure to guide the discussion of the two possible outcomes from the chase - either the "goose" catches "it" or he doesn't.
 
 Now ask the students what happens if the "goose" catches "it". They should respond that "it" then resumes from where he left off, repeating the same process as before. Ask them how to represent that as code, and push them to see that since the loop starts again from the top, this could be represented with `continue`:
 
 ```
 while True:
-	it.moveTo(nextStudent) 	# note: this first line is optional
-	if it.say("duck"):
-		continue
-	if goose.catch(it):
-			continue
+    it.moveTo(nextStudent)   # note: this first line is optional
+    if it.say("duck"):
+        continue
+    if goose.catch(it):
+        continue
 ```
 
 Then ask them what happens if the "goose" does not catch "it". They should respond that "it" takes the "goose's" spot and the "goose" then becomes "it". You should emphasize that if the "goose" does not catch "it", the current round is over, and the game could even end at that point. Have them help you complete the code so that you have something similar to this:
 
 ```
 while True:
-	it.moveTo(nextStudent) 	# note: this first line is optional
-	if it.say("duck"):
-		continue
-	if goose.catch(it):
-			continue
-	else:
-		break
+    it.moveTo(nextStudent) # note: this first line is optional
+    if it.say("duck"):
+        continue
+    if goose.catch(it):
+        continue
+    else:
+        break
 
 # determine whether to play another round
 # if you play another round, it = goose
@@ -1528,8 +1528,8 @@ Allow the students to play a few more rounds of the game, ensuring to point to t
 
 
 #### Reflect (2 mins)
-**When does it make sense to use `break`?** (When you want to stop doing a while loop and do something else.)  
-**When does it make sense to use `continue`?** (When you don't want to have everything nested inside an `else`.)  
+**When does it make sense to use `break`?** (When you want to stop doing a while loop and do something else.)
+**When does it make sense to use `continue`?** (When you don't want to have everything nested inside an `else`.)
 
 ### Coding Time (25-40 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -1546,7 +1546,7 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students' attention to the instructions and tips. If they get stuck, have them drag the timeline scrubber to the point where their code stopped doing what they expected, and have them reconstruct what their code is trying to do at that time. 
+Circulate to assist. Draw students' attention to the instructions and tips. If they get stuck, have them drag the timeline scrubber to the point where their code stopped doing what they expected, and have them reconstruct what their code is trying to do at that time.
 
 To help with debugging, this could be a good time to use the Engineering Cycle worksheet again if students haven't tried that recently.
 
@@ -1566,9 +1566,11 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 
 This is a boss level that will require ingenuity and collaboration to solve it. The goal of the level is to defeat the main boss, but students will also have to collect coins, hire mercenaries, and heal their champion.
 
-Have students work in pairs and share their tips with other teams. The students should make observations about the level on scratch paper, and then use them to make a plan.  
+Have students work in pairs and share their tips with other teams. The students should make observations about the level on scratch paper, and then use them to make a plan.
 
 The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Cross Bones arena and attempt multiple solutions until time is called.
+
+See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
 
 ### Transfer Goals
 - Synthesize all CS3 concepts.
@@ -1599,15 +1601,15 @@ Have students who have completed the rest of Course 3 work in pairs and navigate
 
 Note that the player area is in the bottom left, and the tents may be obscured by the status bar. Students can press SUBMIT to see the full screen.
 
-For students having problems, remind them of all the debugging strategies they have learned so far. Tell them to carefully read the instructions and remember the hints. Encourage them to sit and think about how to solve the problem and to write down a plan for solving it before they begin coding. 
+For students having problems, remind them of all the debugging strategies they have learned so far. Tell them to carefully read the instructions and remember the hints. Encourage them to sit and think about how to solve the problem and to write down a plan for solving it before they begin coding.
 
-Students should approach these levels with the habits and mindset of a good programmer and problem solver by doing the following: 
+Students should approach these levels with the habits and mindset of a good programmer and problem solver by doing the following:
 
 * Define the problem
 * Break the problem down into parts
-* Make a plan on how to solve the problem 
+* Make a plan on how to solve the problem
 * Pay attention to syntax
-* Debugging to find the cause of errors 
+* Debugging to find the cause of errors
 * Ask for hints when needed
 
 #### Rankings

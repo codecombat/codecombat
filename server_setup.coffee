@@ -30,6 +30,7 @@ Promise.promisifyAll(fs)
 wrap = require 'co-express'
 codePlayTags = require './server/lib/code-play-tags'
 morgan = require 'morgan'
+domainFilter = require './server/middleware/domain-filter'
 
 {countries} = require './app/core/utils'
 
@@ -59,20 +60,8 @@ developmentLogging = (tokens, req, res) ->
   return s
 
 setupDomainFilterMiddleware = (app) ->
-  if config.isProduction
-    unsafePaths = [
-      /^\/web-dev-iframe\.html$/
-      /^\/javascripts\/web-dev-listener\.js$/
-    ]
-    app.use (req, res, next) ->
-      domainRegex = new RegExp("(.*\.)?(#{config.mainHostname}|#{config.unsafeContentHostname})")
-      domainPrefix = req.host.match(domainRegex)?[1] or ''
-      if _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and (req.host isnt domainPrefix + config.unsafeContentHostname)
-        res.redirect('//' + domainPrefix + config.unsafeContentHostname + req.path)
-      else if not _.any(unsafePaths, (pathRegex) -> pathRegex.test(req.path)) and req.host is domainPrefix + config.unsafeContentHostname
-        res.redirect('//' + domainPrefix + config.mainHostname + req.path)
-      else
-        next()
+  if config.isProduction or global.testing
+    app.use domainFilter
 
 setupErrorMiddleware = (app) ->
   app.use (err, req, res, next) ->
@@ -216,20 +205,28 @@ setupFeaturesMiddleware = (app) ->
       freeOnly: false
     }
 
+    if req.headers.host is 'brainpop.codecombat.com' or req.session.featureMode is 'brain-pop'
+      features.freeOnly = true
+      features.campaignSlugs = ['dungeon']
+      features.playViewsOnly = true
+      features.noAuth = true
+      features.brainPop = true
+      features.noAds = true
 
     if req.headers.host is 'cp.codecombat.com' or req.session.featureMode is 'code-play'
       features.freeOnly = true
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
       features.playViewsOnly = true
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+    
+    if /cn\.codecombat\.com/.test(req.get('host')) or req.session.featureMode is 'china'
+      features.china = true
 
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
-    if req.user
-      { user } = req
-      if user.get('country') in ['china'] and not (user.isPremium() or user.get('stripe'))
-        features.freeOnly = true
-
+      features.noAds = true
+      features.picoCtf = true
+      
     next()
 
 setupSecureMiddleware = (app) ->
@@ -330,6 +327,8 @@ setupQuickBailToMainHTML = (app) ->
 
       if req.headers.host is 'cp.codecombat.com'
         features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
+      if /cn\.codecombat\.com/.test(req.get('host'))
+        features.china = true
 
       renderMain(template, req, res)
 

@@ -10,6 +10,7 @@ ItemDetailsView = require 'views/play/modal/ItemDetailsView'
 Purchase = require 'models/Purchase'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 hasGoneFullScreenOnce = false
 
@@ -33,6 +34,7 @@ module.exports = class InventoryModal extends ModalView
     'click .unlock-button': 'onUnlockButtonClicked'
     'click #equip-item-viewed': 'onClickEquipItemViewed'
     'click #unequip-item-viewed': 'onClickUnequipItemViewed'
+    'click #subscriber-item-viewed': 'onClickSubscribeItemViewed'
     'click #close-modal': 'hide'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click': 'onClickedSomewhere'
@@ -63,6 +65,7 @@ module.exports = class InventoryModal extends ModalView
       'description'
       'heroClass'
       'i18n'
+      'subscriber'
     ]
     @supermodel.loadCollection(@items, 'items')
     @equipment = {}  # Assign for real when we have loaded the session and items.
@@ -81,6 +84,7 @@ module.exports = class InventoryModal extends ModalView
     @itemGroups.availableItems = new Backbone.Collection()
     @itemGroups.restrictedItems = new Backbone.Collection()
     @itemGroups.lockedItems = new Backbone.Collection()
+    @itemGroups.subscriberItems = new Backbone.Collection()
     itemGroup.comparator = ((m) -> m.get('tier') ? m.get('gems')) for itemGroup in _.values @itemGroups
 
     equipped = _.values(@equipment)
@@ -95,9 +99,10 @@ module.exports = class InventoryModal extends ModalView
       item.classes.push heroClass
     item.classes.push 'equipped' if item.get('original') in equipped
 
-    # sort into one of the four groups
+    # sort into one of the five groups
     locked = not me.ownsItem item.get('original')
 
+    subscriber = (not me.isPremium()) and item.get('subscriber')
     restrictedGear = @calculateRestrictedGearPerSlot()
     allRestrictedGear = _.flatten(_.values(restrictedGear))
     restricted = item.get('original') in allRestrictedGear
@@ -140,6 +145,9 @@ module.exports = class InventoryModal extends ModalView
     else if restricted
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
+    else if subscriber
+      @itemGroups.subscriberItems.add(item)
+      item.classes.push 'subscriber'
     else
       @itemGroups.availableItems.add(item)
 
@@ -267,7 +275,7 @@ module.exports = class InventoryModal extends ModalView
 
   onUnequippedItemDoubleClick: (e) ->
     itemEl = $(e.target).closest('.item')
-    return if itemEl.hasClass('locked') or itemEl.hasClass('restricted')
+    return if itemEl.hasClass('locked') or itemEl.hasClass('restricted') or itemEl.hasClass('subscriber')
     @equipSelectedItem()
     @justDoubleClicked = true
     _.defer => @justDoubleClicked = false
@@ -284,6 +292,10 @@ module.exports = class InventoryModal extends ModalView
     @justClickedEquipItemButton = true
     _.defer => @justClickedEquipItemButton = false
 
+  onClickSubscribeItemViewed: (e) ->
+    return @askToSignUp() if me.get('anonymous')
+    @openModalView new SubscribeModal()
+
   #- Select/equip higher-level, all encompassing methods the callbacks all use
 
   selectItemSlot: (slotEl) ->
@@ -297,7 +309,7 @@ module.exports = class InventoryModal extends ModalView
   selectUnequippedItem: (itemEl) ->
     @clearSelection()
     itemEl.addClass('active')
-    showExtra = if itemEl.hasClass('restricted') then 'restricted' else if not itemEl.hasClass('locked') then 'equip' else ''
+    showExtra = if itemEl.hasClass('restricted') then 'restricted' else if itemEl.hasClass('subscriber') then 'subscriber' else if not itemEl.hasClass('locked') then 'equip' else ''
     @showItemDetails(@items.get(itemEl.data('item-id')), showExtra)
     @onSelectionChanged()
 

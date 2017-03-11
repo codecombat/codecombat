@@ -91,18 +91,6 @@ describe 'POST /db/trial.request', ->
     expect(count).toBe(1)
     done()
     
-  it 'creates a delighted profile', utils.wrap (done) ->
-    @user = yield utils.initUser({gender: 'male', lastLevel: 'abcd', preferredLanguage: 'de', testGroupNumber: 1})
-    yield utils.loginUser(@user)
-    fixture.properties.email = @user.get('email')
-    fixture.type = 'course'
-    [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
-    expect(delighted.postPeople).toHaveBeenCalled()
-    args = delighted.postPeople.calls.argsFor(0)
-    expect(args[0]?.email).toBe(@user.get('email'))
-    expect(args[0]?.name).toBe('First Last')
-    done()
-
 describe 'GET /db/trial.request', ->
 
   beforeEach utils.wrap (done) ->

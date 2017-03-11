@@ -40,10 +40,10 @@ CodeCombat is recommended for schools with students aged 9 and up, which starts 
 ### What programing languages are available?
 We currently support Python and JavaScript.
 
-**Why should you choose Python?**  
+**Why should you choose Python?**
 Python is both beginner-friendly and currently used by major corporations (such as Google). If you have younger or first-time learners, we strongly recommend Python.
 
-**Why should you choose JavaScript?**  
+**Why should you choose JavaScript?**
 JavaScript is the language of the web and is used across nearly every website. You may prefer to choose JavaScript if you are planning to also study web development.  We’ve also made it easy for students to transition from Python to JavaScript-based web development.
 
 JavaScript’s syntax is a little more difficult for beginners than Python, so if you cannot decide between the two, we recommend Python.
@@ -51,7 +51,7 @@ JavaScript’s syntax is a little more difficult for beginners than Python, so i
 ### Can I use CodeCombat as the class’s main curriculum?
 Absolutely! We’ve spent time consulting with education specialists to craft classroom curriculum and materials specifically for teachers who are using CodeCombat without any prior computer science experience themselves. Many schools are implementing CodeCombat as the main computer science curriculum.
 
-We’ve published a set of curriculum resources in our [Resource Hub](https://codecombat.com/teachers/resources), which includes lesson plans, exercises, activities, and writing prompts to encourage reflection and retention. We’re also making printable guides available for students to reference as they work through levels. In addition, we provide level solutions for every course so teachers can help spot and correct errors in students’ code as they come up.  
+We’ve published a set of curriculum resources in our [Resource Hub](https://codecombat.com/teachers/resources), which includes lesson plans, exercises, activities, and writing prompts to encourage reflection and retention. We’re also making printable guides available for students to reference as they work through levels. In addition, we provide level solutions for every course so teachers can help spot and correct errors in students’ code as they come up.
 
 ### How much does it cost to access all of the available courses and resources?
 We customize solutions for schools and districts and work with you to understand your use case, context, and budget. Contact schools@codecombat.com for further details!
@@ -72,37 +72,39 @@ Yes - the Teacher Dashboard provides detailed student progress, completion time 
 We do not currently support iPads or Android Tablets at this time.
 
 ### Does CodeCombat support Clever Instant Logins?
-Yes! Check our our [Clever Integration FAQ](/teachers/resources/clever-faq) for more details on how to get started. 
+Yes! Check our our [Clever Integration FAQ](/teachers/resources/clever-faq) for more details on how to get started.
 
 ### Is there a recommended browser and operating system?
-CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later courses.  
+CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later courses.
 
 ### Students’ computer science backgrounds vary differently in my class, how does CodeCombat help me with that challenge?
-Many teachers are facing the challenge to address different student needs in the classroom. You are not alone there. CodeCombat solves your problem by providing truly personalized learning experience to your students.    
+Many teachers are facing the challenge to address different student needs in the classroom. You are not alone there. CodeCombat solves your problem by providing truly personalized learning experience to your students.
 
 We know that different students learn at different paces, and sometimes they may need extra assistance with new concepts. We’ve built two new features to help smooth out the learning curve of students who find themselves stuck: Hints, and Practice Levels.
 
-**Hints**  
-Hints come in handy when students are struggling with a specific level. Every level has a blue “Hints” button at the top right corner, which gives a more in-depth explanation of the level’s specific concepts and provides additional step by step examples of how to complete it.  
+**Hints**
+Hints come in handy when students are struggling with a specific level. Every level has a blue “Hints” button at the top right corner, which gives a more in-depth explanation of the level’s specific concepts and provides additional step by step examples of how to complete it.
 
-**Practice Levels**  
-The second feature is Practice Levels, which helps students get more experience with a particular concept if they are struggling. When the game detects that a student has struggled with a level, the game adapts so the student has more opportunity to practice the same skill until they improve. This provides a personalized learning experience for each student, so they can move past concepts they understand quickly, and get more practice for concepts that are challenging.  
+**Practice Levels**
+The second feature is Practice Levels, which helps students get more experience with a particular concept if they are struggling. When the game detects that a student has struggled with a level, the game adapts so the student has more opportunity to practice the same skill until they improve. This provides a personalized learning experience for each student, so they can move past concepts they understand quickly, and get more practice for concepts that are challenging.
 
 ### What if I need licenses that only last a semester instead of a full year?
-The standard Student License term is for one year, but it can be broken into semesters as needed. Just talk to one of our [School Specialists](mailto:schools@codecombat.com) to discuss your needs.  
+The standard Student License term is for one year, but it can be broken into semesters as needed. Just talk to one of our [School Specialists](mailto:schools@codecombat.com) to discuss your needs.
 
 ### What is the Arena level at the end of a course?
-Arenas are open practice levels where students can hone the skills they learned in each course. You may use the arena to let faster students explore a deeper multiplayer strategy while the slower students catch up, and then when everyone is at the arena level, optionally have some class time for an in-class tournament. That way you can assign the next course to all students at the same time so that everyone stays roughly in sync within a course.  
+[Arenas](/teachers/resources/arenas) are open practice levels where students can hone the skills they learned in each course. You may use the arena to let faster students explore a deeper multiplayer strategy while the slower students catch up, and then when everyone is at the arena level, optionally have some class time for an in-class tournament. That way you can assign the next course to all students at the same time so that everyone stays roughly in sync within a course.
+
+See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
 
 ### Does CodeCombat have projects that students can work on and share?
-Our game development and web development courses are all project-based! Teachers and students love those courses because they get to be the ‘creator’ in those projects. At the end of these courses they will also be able to showcase their projects by sharing permanent project links.  
+Our game development and web development courses are all project-based! Teachers and students love those courses because they get to be the ‘creator’ in those projects. At the end of these courses they will also be able to showcase their projects by sharing permanent project links.
 
 ### What do you offer in the Web Development and Game Development courses?
-**Web Development**  
+**Web Development**
 In our Web Development courses, students learn the fundamentals of building
 interactive websites using HTML, CSS, and JavaScript. All webpages are automatically published to a custom URL so that students can easily share their finished project with friends and family. Check out this example poster by one of the students from our summer coding camp -- the result of just an hour’s work by a student who had no prior experience with web development!
 
-**Game Development**  
+**Game Development**
 What’s even more fun than playing a game? Making your own! In our Game Development courses, students learn how to build their own CodeCombat-style game levels and unleash them on friends and family to play with a mouse and keyboard. Over time, they’ll unlock the tools needed to create challenging puzzles and practice their game design skills to become the next star game designer. Final projects for each course can be shared are published to a custom URL so that students can easily share their games with friends and family.
 
 Teachers can preview all Web and Game Development levels by going to the [Course Guides](http://codecombat.com/teachers/courses) page and selecting a level from the dropdown menus.
@@ -125,15 +127,15 @@ To get started:
 Please refer to [Teacher Getting Started Guide](https://codecombat.com/teachers/resources/getting-started) for instructions on each step .
 
 ### Is there a limit to how many students I can add in Introduction to Computer Science?
-No.  
+No.
 
 ### How do I reset my student's password?
 As an instructor, you can reset the password for any students who have not verified their email address (or if they haven't provided an email address). To do so, go to that student's class, find the student in the list of students, and click "Edit" on the right side of the student's row.
 
-If your student has verified their email, they will need to use the 'Forgot your password?' link in the Log In pop-up to reset their password. 
+If your student has verified their email, they will need to use the 'Forgot your password?' link in the Log In pop-up to reset their password.
 
 ### How do I transfer a license from one student to another?
 
-A Full License can be removed from a student at any time before the license expires, and assigned to another student. To do so, go to that student's class, click the "License Status" tab, and click "Revoke License" from the student you wish to revoke the license from. This student will not be able to play any new levels that require a license (they will still be able to access any levels they've already started). The license will be available to assign to another student (the license expiration date will remain the same) -- see the [Student Licenses](https://codecombat.com/teachers/licenses) page for all of your available licenses. 
+A Full License can be removed from a student at any time before the license expires, and assigned to another student. To do so, go to that student's class, click the "License Status" tab, and click "Revoke License" from the student you wish to revoke the license from. This student will not be able to play any new levels that require a license (they will still be able to access any levels they've already started). The license will be available to assign to another student (the license expiration date will remain the same) -- see the [Student Licenses](https://codecombat.com/teachers/licenses) page for all of your available licenses.
 
 [Back to Top](#frequently-asked-questions)

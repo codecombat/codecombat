@@ -49,6 +49,19 @@ UserHandler = class UserHandler extends Handler
         props = _.without props, 'role'
     props
 
+  validateDocumentInput: (input, req) ->
+    res = super(input)
+    
+    if res.errors and req
+      mapper = (error) -> [error.code.toString(),error.dataPath,error.schemaPath].join(':')
+      originalErrors = _.map(req.originalErrors, mapper)
+      currentErrors = _.map(res.errors, mapper)
+      newErrors = _.difference(currentErrors, originalErrors)
+      if _.size(newErrors) is 0
+        return { valid: true }
+    
+    return res
+
   formatEntity: (req, document, publicOnly=false) =>
     # TODO: Delete. This function is duplicated in server User model toObject transform.
     return null unless document?
@@ -61,6 +74,12 @@ UserHandler = class UserHandler extends Handler
     return obj
 
   waterfallFunctions: [
+    (req, user, callback) ->
+      tv4 = require('tv4').tv4
+      res = tv4.validateMultiple(user.toObject(), User.jsonSchema)
+      req.originalErrors = res.errors
+      callback(null, req, user)
+
     # FB access token checking
     # Check the email is the same as FB reports
     # TODO: Remove deprecated signups on RequestQuoteView, then these waterfall functions
@@ -515,7 +534,6 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          slack.sendSlackMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['dev-feed']
 
   avatar: (req, res, id) ->
     if not isID(id)

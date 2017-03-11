@@ -344,7 +344,7 @@ module.exports = class TeacherClassView extends RootView
     courseLabelsArray = helper.courseLabelsArray(courses)
     for course, index in courses
       courseLabels += "#{courseLabelsArray[index]} Levels,#{courseLabelsArray[index]} Playtime,"
-    csvContent = "data:text/csv;charset=utf-8,Name,Username,Email,Total Levels, Total Playtime,#{courseLabels}Concepts\n"
+    csvContent = "Name,Username,Email,Total Levels,Total Playtime,#{courseLabels}Concepts\n"
     levelCourseIdMap = {}
     levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
@@ -401,8 +401,8 @@ module.exports = class TeacherClassView extends RootView
           courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},"
       csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
-    encodedUri = encodeURI(csvContent)
-    window.open(encodedUri)
+    file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+    saveAs(file, 'CodeCombat.csv')
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin

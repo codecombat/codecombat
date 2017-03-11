@@ -130,7 +130,14 @@ describe 'GET /db/level/:handle/session', ->
       @primerLevel = yield utils.makeLevel({type: 'course', primerLanguage: 'javascript'})
       @campaign = yield utils.makeCampaign({}, {levels: [@level, @primerLevel]})
       @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
-      @student = yield utils.initUser({role: 'student'})
+      @student = yield utils.initUser({
+        role: 'student'
+        coursePrepaid: {
+          _id: {}
+          startDate: moment().subtract(1, 'month').toISOString()
+          endDate: moment().add(1, 'month').toISOString()
+        }
+      })
       @members = [@student]
       @teacher = yield utils.initUser({role: 'teacher'})
       yield utils.loginUser(@teacher)
@@ -215,20 +222,20 @@ describe 'GET /db/level/:handle/session', ->
         done()
       
       it 'returns 402 if the user is not enrolled', utils.wrap (done) ->
+        @student.set({
+          coursePrepaid: {
+            _id: {}
+            startDate: moment().subtract(2, 'month').toISOString()
+            endDate: moment().subtract(1, 'month').toISOString()
+          }
+        })
+        yield @student.save()
         [res, body] = yield request.getAsync({ uri: @url, json: true })
         expect(res.statusCode).toBe(402)
         expect(res.body.message).toBe('You must be enrolled to access this content')
         done()
         
       it 'creates the session if the user is enrolled', utils.wrap (done) ->
-        @student.set({
-          coursePrepaid: {
-            _id: {}
-            startDate: moment().subtract(1, 'month').toISOString()
-            endDate: moment().add(1, 'month').toISOString()
-          }
-        })
-        @student.save()
         [res, body] = yield request.getAsync({ uri: @url, json: true })
         expect(res.statusCode).toBe(201)
         done()
@@ -241,7 +248,7 @@ describe 'GET /db/level/:handle/session', ->
             endDate: moment().subtract(1, 'month').toISOString()
           }
         })
-        @student.save()
+        yield @student.save()
         [res, body] = yield request.getAsync({ uri: @url, json: true })
         expect(res.statusCode).toBe(402)
         expect(res.body.message).toBe('You must be enrolled to access this content')

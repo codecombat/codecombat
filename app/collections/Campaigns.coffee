@@ -5,6 +5,14 @@ module.exports = class Campaigns extends CocoCollection
   model: Campaign
   url: '/db/campaign'
 
+  initialize: (models, @options = {}) ->
+    @forceCourseNumbering = @options.forceCourseNumbering
+    super(arguments...)
+
+  _prepareModel: (model, options) ->
+    model.forceCourseNumbering = @forceCourseNumbering
+    super(arguments...)
+
   fetchByType: (type, options={}) ->
     options.data ?= {}
     options.data.type = type

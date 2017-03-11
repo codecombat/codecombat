@@ -132,10 +132,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     achievements: "Достижения" # Tooltip on achievement list button from /play
     settings: "Настройки" # Tooltip on settings button from /play
     poll: "Опрос" # Tooltip on poll button from /play
-    next: "Выбрать" # Go from choose hero to choose inventory before playing a level
+    next: "Далее" # Go from choose hero to choose inventory before playing a level
     change_hero: "Выбрать героя" # Go back from choose inventory to choose hero
     buy_gems: "Купить самоцветы"
     subscription_required: "Требуется подписка"
+#    subscribers_only: "Subscribers Only!"
+#    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
     play_classroom_version: "Играть в версию для класса" # Choose a level in campaign version that you also can play in one of your courses
@@ -146,6 +150,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     adjust_volume: "Регулировать громкость"
     campaign_multiplayer: "Арены для мультиплеера"
     campaign_multiplayer_description: "... там вы соревнуетесь в программировании с другими игроками."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -605,6 +610,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     prompt_button: "Войти в магазин"
     recovered: "Предыдущие покупки самоцветов восстановлены. Пожалуйста, обновите страницу."
     price: "x{{gems}} / месяц"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Премиум"
@@ -661,7 +669,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unsubscribing: "Отписываемся"
     subscribe_prepaid: "Нажмите 'Подпишись', чтобы использовать предоплаченный код"
     using_prepaid: "Использовать предоплаченный код для месячной подписки"
-    feature_levels: "Получи доступ к __levelsCount__ доступным уровням"
+    feature_levels: "Получи доступ к __premiumLevelsCount__ доступным уровням"
     feature_gems: "Получай __gems__ самоцветов каждый месяц"
     feature_heroes: "Разблокируй эксклюзивных героев"
     feature_games: "Создавай игры для своих друзей"
@@ -677,6 +685,28 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     support_part1: "Нужна помощь по способах оплаты? Напишите на"
     support_part2: "support@codecombat.com"
     support_part3: ", если у вас есть вопросы."
+
+#  premium_features:
+#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+#    master_coder: "Become a Master Coder by subscribing today!"
+#    subscribe_now: "Subscribe Now"
+#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
+#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
+#    hero_caption: "Exciting new heroes!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
+#    pet_caption: "Adopt pets to accompany your hero!"
+#    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
+#    game_dev_caption: "Design your own games to challenge your friends!"
+#    everything_in_premium: "Everything you get in CodeCombat Premium:"
+#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_levels: "Gain access to __premiumLevelsCount__ more levels"
+#    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
+#    list_game_dev: "Make and share games with friends"
+#    list_web_dev: "Build websites and interactive apps"
+#    list_items: "Equip Premium-only items like pets"
+#    list_support: "Get Premium support to help you debug tricky code"
+#    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
   choose_hero:
     choose_hero: "Выбери героя"
@@ -906,7 +936,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     primary_role_default: "Выберите главную роль"
     purchaser_role_default: "Выберите роль покупателя"
 #    tech_coordinator: "Technology coordinator"
-#    advisor: "Advisor"
+#    advisor: "Curriculum Specialist/Advisor"
 #    principal: "Principal"
 #    superintendent: "Superintendent"
     parent: "Родитель"
@@ -1015,6 +1045,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     saved: "Изменения сохранены"
     password_mismatch: "Пароли не совпадают."
     password_repeat: "Пожалуйста, повторите пароль."
+#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Горячие клавиши"
@@ -1280,8 +1311,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
     current_classes: "Текущие классы"
     archived_classes: "Архивные классы"
-    view_class: "посмотреть класс"
     archived_classes_blurb: "Классы можно архивировать для доступа в будущем. Разархивируйте класс, чтобы снова увидеть его в списке текущих классов."
+    view_class: "посмотреть класс"
     archive_class: "архивировать класс"
     unarchive_class: "разархивировать класс"
     unarchive_this_class: "Разархивировать этот класс"
@@ -1416,7 +1447,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"
 #    wd1_html_syntax: "HTML Syntax Guide"
 #    wd1_html_syntax_desc: "One-page reference for the HTML style students will learn in Web Development 1."
-    d1_css_syntax: "Руководство по синтаксису CSS"
+#    wd1_css_syntax: "CSS Syntax Guide"
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
     wd2: "Веб-разработка 2"
 #    wd2_jquery_syntax: "jQuery Functions Syntax Guide"

@@ -13,9 +13,9 @@ module.exports = class CodePlayCreateAccountModal extends ModalView
   initialize: (options={}) ->
     lang = me.get('preferredLanguage')
     @codePlayGeo = switch
-      when /^de/.test lang  then 'de'
-      when /en-GB/.test lang then 'uk'
-      when /^es/.test lang then 'es'
+      when me.isFromUk() then 'uk'
+      when me.setToGerman() then 'de'
+      when me.setToSpanish() then 'es'
       else 'en'
     # TODO: figure out India
 

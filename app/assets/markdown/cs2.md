@@ -63,10 +63,10 @@ Course 2 introduces more advanced programming concepts, so the progress through 
 - Evaluate expressions
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP4** Model with mathematics.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.  
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+**CCSS.Math.Practice.MP4** Model with mathematics.
+**CCSS.Math.Practice.MP7** Look for and make use of structure.
 
 ### Instructive Activity: Conditionals (10 mins)
 #### Explain (2 mins)
@@ -96,9 +96,9 @@ Identify some school or classroom rules, and write them on the board, e.g.
 - Stop talking when the teacher claps twice.
 
 Reformulate them in English to start with the word “If”, e.g.
-- **If** you have a question, then raise your hand.  
-- **If** you’re late, then you get a detention.  
-- **If** the teacher claps twice, then stop talking.  
+- **If** you have a question, then raise your hand.
+- **If** you’re late, then you get a detention.
+- **If** the teacher claps twice, then stop talking.
 
 Now reformulate again using Python syntax, e.g.
 
@@ -121,8 +121,8 @@ Label each of the parts of the conditionals: *keyword*, *expression*, *action*.
 Code is called code because we’re encoding our ideas into a language the computer can understand.  You can use this three-step process of reformulating your ideas any time you’re writing code. As long as you know the syntax of the programming language, you know what the encoded idea should look like!
 
 #### Reflect (2 mins)
-**Why do we need conditionals?** (Not all actions happen all the time)  
-**What is the part that comes between the if and the colon?** (an expression)  
+**Why do we need conditionals?** (Not all actions happen all the time)
+**What is the part that comes between the if and the colon?** (an expression)
 **What’s important about expressions?** (They have to be True or False)
 
 
@@ -163,10 +163,10 @@ These levels have two things going on at once. Students have to decide under whi
 - Define `else` as the opposite of `if`.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.   
-**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.  
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+**CCSS.Math.Practice.MP7** Look for and make use of structure.
+**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.
 
 ### Instructive Activity: Conditionals (Else) (10 mins)
 
@@ -210,9 +210,9 @@ if teacher.claps == 2:
 Label the parts of these conditionals: _keywords_ (`if` and `else`), _expression_, _actions_
 
 #### Reflect (2 mins)
-**What does else mean?** (if not)  
-**Why doesn’t else come with another expression?** (the expression is implied-- it’s the opposite of the if, or when the if is False)  
-**Do you always need an else?** (no, it depends on the situation)  
+**What does else mean?** (if not)
+**Why doesn’t else come with another expression?** (the expression is implied-- it’s the opposite of the if, or when the if is False)
+**Do you always need an else?** (no, it depends on the situation)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -229,7 +229,7 @@ What was challenging:
 
 ```
 
-Circulate to assist. Draw students’ attention to the instructions and tips. The crux of these levels is in deciding what should happen and when it should happen. Students have to entertain multiple possibilities to figure out what the best course of action is under every condition.  
+Circulate to assist. Draw students’ attention to the instructions and tips. The crux of these levels is in deciding what should happen and when it should happen. Students have to entertain multiple possibilities to figure out what the best course of action is under every condition.
 
 ### Written Reflection (5 mins)
 **Do you know more code now than in the beginning? What powers do you have now that you couldn’t do before?**
@@ -253,10 +253,10 @@ Serious coding starts now. Students will have to remember how to construct condi
 - Attend to indentation
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP6** Attend to precision.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.  
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+**CCSS.Math.Practice.MP6** Attend to precision.
+**CCSS.Math.Practice.MP7** Look for and make use of structure.
 
 ### Instructive Activity: Nested Conditionals (10 mins)
 
@@ -284,9 +284,9 @@ When they have finished, trade papers with a partner. Read each other’s schedu
 Invite volunteers to share their finished schedules with the class.
 
 #### Reflect (2 mins)
-**Why do we need nested conditionals?** (Because sometimes more than two different actions are possible)  
-**Why do we indent the second conditional by 4 spaces?** (To show that it is inside the first conditional.)  
-**What does it mean when an action is indented by 8 spaces?** (It depends on two expressions being True or False)  
+**Why do we need nested conditionals?** (Because sometimes more than two different actions are possible)
+**Why do we indent the second conditional by 4 spaces?** (To show that it is inside the first conditional.)
+**What does it mean when an action is indented by 8 spaces?** (It depends on two expressions being True or False)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -335,9 +335,9 @@ These levels give students the chance to take some shortcuts. Just like loops ga
 - Call a function.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP7** Look for and make use of structure.  
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+**CCSS.Math.Practice.MP7** Look for and make use of structure.
 
 ### Instructive Activity: Functions (10 mins)
 #### Explain
@@ -394,9 +394,9 @@ Then, play Simon Says by calling the functions, e.g.
 - Pogo! (Simon didn’t say)
 
 ### Reflect (2 mins)
-**Why do functions make coding easier?** (Because you don’t have to say the complicated steps every time; you can just use the function name.)  
-**Why is it important to give your functions good names?** (So you can remember what they’re for later.)  
-**What does the keyword def stand for?** (define, or make)  
+**Why do functions make coding easier?** (Because you don’t have to say the complicated steps every time; you can just use the function name.)
+**Why is it important to give your functions good names?** (So you can remember what they’re for later.)
+**What does the keyword def stand for?** (define, or make)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -441,8 +441,8 @@ Explain to the class that you're waiting for an important call from the White Ho
 
 ``` python
 while True:
-	if phone.isRinging:
-	    teacher.answer(phone)
+    if phone.isRinging:
+        teacher.answer(phone)
 ```
 
 But that's boring, since you're not doing anything else. So you're going to grade their homework while you wait:
@@ -450,9 +450,9 @@ But that's boring, since you're not doing anything else. So you're going to grad
 ``` python
 while True:
     paper = teacher.findNextPaper()
-	teacher.grade(paper)
-	if phone.isRinging:
-	    teacher.answer(phone)
+    teacher.grade(paper)
+    if phone.isRinging:
+        teacher.answer(phone)
 ```
 
 
@@ -476,7 +476,7 @@ def answerPhone():
 phone.on("ring", answerPhone)
 while True:
     paper = teacher.findNextPaper()
-	teacher.grade(paper)
+    teacher.grade(paper)
 ```
 
 Explain that the `phone.on("ring", answerPhone)` makes your code start listening for the `"ring"` event, and note that you **don't use parentheses** on the function you are listening with: `answerPhone`, not `answerPhone()`. This is because you are telling the code the name of the function to run, but you are **not running it yet**. (The parentheses would run the function immediately.)
@@ -492,9 +492,9 @@ bigRedButton.on("press", initiateSelfDestruct)
 
 
 #### Reflect (2 mins)
-**What do you use event handling for?** (To run a function when something happens.)  
-**What kind of data is an event name?** (The event name you listen to is a string.)  
-**Why don't you use function parentheses when you start listening to an event?** (The parentheses would make the function run now, and you want to run it later when the event happens.)  
+**What do you use event handling for?** (To run a function when something happens.)
+**What kind of data is an event name?** (The event name you listen to is a string.)
+**Why don't you use function parentheses when you start listening to an event?** (The parentheses would make the function run now, and you want to run it later when the event happens.)
 
 ### Coding Time (30-45 mins)
 Allow the students to go through the game at their own pace, keeping notes about every level on paper or digital document. We recommend using following format, which you can also print out as templates: [Progress Journal [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
@@ -530,17 +530,19 @@ Select appropriate prompt(s) for the students respond to, referring to their not
 
 The arena level is a reward for completing the required work. Students who have fallen behind in the levels or who have not completed their written reflections should use this time to finish. As students turn in their work, they can enter the Power Peak arena and attempt multiple solutions until time is called.
 
+See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
+
 ### Transfer Goals
 - Design an algorithm to solve a problem.
 - Implement an algorithm in Python.
 - Debug a Python program.
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.  
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.  
-**CCSS.Math.Practice.MP3** Construct viable arguments and critique the reasoning of others.  
-**CCSS.Math.Practice.MP5** Use appropriate tools strategically.  
-**CCSS.Math.Practice.MP6** Attend to precision.  
+**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+**CCSS.Math.Practice.MP3** Construct viable arguments and critique the reasoning of others.
+**CCSS.Math.Practice.MP5** Use appropriate tools strategically.
+**CCSS.Math.Practice.MP6** Attend to precision.
 
 ### Instructive Activity: Engineering Cycle (10 mins)
 #### Explain (3 mins)
@@ -551,8 +553,8 @@ First, we DESIGN a solution to our problem. This includes figuring out what the 
 Then we keep designing, implementing, and testing until it the problem is solved!
 
 #### Reflect (2 mins)
-**What are the steps of the Engineering Cycle?** (Design, implement, test)  
-**When does the Engineering Cycle stop?** (When the problem is solved, or you run out of time)   
+**What are the steps of the Engineering Cycle?** (Design, implement, test)
+**When does the Engineering Cycle stop?** (When the problem is solved, or you run out of time)
 
 #### Interact (5 mins)
 As a class, make a list of all the things your hero can do (functions). Use appropriate vocabulary. Annotate with any tips or code snippets the students deem useful.
@@ -587,9 +589,9 @@ Code for Power Peak can be submitted more than once. Encourage your students to 
 
 Remind students to use the Engineering Cycle when working on their algorithms:
 
-**DESIGN**: Make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.  
-**IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!  
-**TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!  
+**DESIGN**: Make observations about the level. Make a list of requirements. Decide what part of the problem you will start with.
+**IMPLEMENT**: Write the solution to that part of your problem in code. Tip: Use a different function to solve each part of the problem!
+**TEST**: Does your code work? If not, fix your code. If it does, does it solve the right part of the problem? If not, redesign. If so, move on to the next part!
 
 ### Written Reflection (5 mins)
 

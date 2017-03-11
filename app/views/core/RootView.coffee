@@ -137,7 +137,7 @@ module.exports = class RootView extends CocoView
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when code isnt 'update' and (not (code in genericCodes) or code is initialVal)
+    for code, localeInfo of locale when code not in ['update', 'installVueI18n'] and (not (code in genericCodes) or code is initialVal)
       $select.append(
         $('<option></option>').val(code).text(localeInfo.nativeDescription))
       if code is 'fr'

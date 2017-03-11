@@ -56,6 +56,10 @@ if view.showAds()
         - var url = "/images/common/codeplay/NA_InLevelPage_Y700_1132X283_ingameProduct.png"
         if me.isFromUk()
           - url = "/images/common/codeplay/UK_InLevelPage_Y700_1132X283_ingameProduct.png"
+        if me.setToGerman()
+          - url = "/images/common/codeplay/DE_InLevelPage_Y700_1132X283_DE.png"
+        if me.setToSpanish()
+          - url = "/images/common/codeplay/MX_InLevelPage_Y700_1132X283_MX.png"
         img#codeplay-product-banner(src=url)
 
     button.btn.btn-lg.btn-warning.banner.header-font#stop-real-time-playback-button(title="Stop real-time playback")

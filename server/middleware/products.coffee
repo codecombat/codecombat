@@ -7,6 +7,14 @@ get = wrap (req, res) ->
   products = yield Product.find().lean()
   unless _.size(products) or config.isProduction
     products = productStubs
+
+  if req.features.china
+    products = _.filter(products, (product) ->
+      return true if product.name is 'lifetime_subscription'
+      product.name.indexOf('subscription') is -1
+    )
+    return res.send(products)
+
   if (req.user.get('testGroupNumber') or 0) % 2 is 0
     products = (p for p in products when p.name isnt 'year_subscription')
   else
@@ -93,6 +101,11 @@ productStubs = [
     gems: 42000
   }
 ]
+
+# For Backbone collection in dev environment, otherwise models merge
+if not global.testing
+  for productStub in productStubs
+    productStub._id = _.uniqueId()
 
 module.exports = {
   get

@@ -42,7 +42,7 @@ module.exports = class TeacherClassesView extends RootView
         classroom.sessions = new LevelSessions()
         jqxhrs = classroom.sessions.fetchForAllClassroomMembers(classroom)
         if jqxhrs.length > 0
-          @supermodel.trackCollection(classroom.sessions)
+          @supermodel.trackRequests(jqxhrs)
     window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
 
     @courses = new Courses()

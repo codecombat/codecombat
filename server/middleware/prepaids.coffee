@@ -15,11 +15,13 @@ StripeUtils = require '../lib/stripe_utils'
 Promise.promisifyAll(StripeUtils)
 moment = require 'moment'
 slack = require '../slack'
+delighted = require '../delighted'
+
 { STARTER_LICENSE_COURSE_IDS } = require '../../app/core/constants'
 {formatDollarValue} = require '../../app/core/utils'
 
 cutoffDate = new Date(2015,11,11)
-cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate/1000).toString(16)+'0000000000000000')
+cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate / 1000).toString(16)+'0000000000000000')
 
 module.exports =
   # Create a prepaid manually (as an admin)
@@ -41,6 +43,8 @@ module.exports =
     prepaid.set('redeemers', [])
     database.validateDoc(prepaid)
     yield prepaid.save()
+    if req.body.creator
+      yield delighted.checkTriggerPrepaidAdded user, req.body.type
     res.status(201).send(prepaid.toObject())
 
 
@@ -197,7 +201,7 @@ module.exports =
       res.status(200).send({classrooms, levelSessions, prepaids, teachers})
 
   fetchActiveSchools: wrap (req, res) ->
-    unless req.user.isAdmin() or creator is req.user.id
+    unless req.user.isAdmin()
       throw new errors.Forbidden('Must be logged in as given creator')
     prepaids = yield Prepaid.find({type: 'course'}, {creator: 1, properties: 1, startDate: 1, endDate: 1, maxRedeemers: 1, redeemers: 1}).lean()
     userPrepaidsMap = {}
@@ -208,6 +212,7 @@ module.exports =
     for prepaid in prepaids
       continue if new Date(prepaid.endDate ? prepaid.properties?.endDate ? '2000') < today
       continue if new Date(prepaid.endDate) < new Date(prepaid.startDate)
+      continue unless prepaid.creator
       userPrepaidsMap[prepaid.creator.valueOf()] ?= []
       userPrepaidsMap[prepaid.creator.valueOf()].push(prepaid)
       userIDs.push prepaid.creator
@@ -285,7 +290,7 @@ module.exports =
         charge = yield StripeUtils.createChargeAsync(creator, totalAmount, metadata)
         prepaid = yield createStarterLicense({ creator: creator.id, maxRedeemers })
         payment = yield StripeUtils.createPaymentAsync(creator, charge, {prepaidID: prepaid._id})
-        msg = "#{creator.get('email')} paid #{formatDollarValue(payment.get('amount')/100)} for starter_license prepaid redeemers=#{maxRedeemers}"
+        msg = "#{creator.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for starter_license prepaid redeemers=#{maxRedeemers}"
         slack.sendSlackMessage msg, ['tower']
         res.status(200).send(prepaid)
       catch err

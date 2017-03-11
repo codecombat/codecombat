@@ -12,6 +12,10 @@ module.exports = class Campaign extends CocoModel
   @denormalizedLevelProperties: _.keys(_.omit(schema.properties.levels.additionalProperties.properties, ['position', 'rewards']))
   @denormalizedCampaignProperties: ['name', 'i18n', 'slug']
 
+  initialize: (options = {}) ->
+    @forceCourseNumbering = options.forceCourseNumbering
+    super(arguments...)
+
   getLevels: ->
     levels = new Levels(_.values(@get('levels')))
     levels.comparator = 'campaignIndex'
@@ -37,7 +41,9 @@ module.exports = class Campaign extends CocoModel
   levelIsPractice: (level) ->
     # Migration: in home version, only treat levels explicitly labeled as "Level Name A", "Level Name B", etc. as practice levels
     level = level.attributes if level.attributes
-    if @get('type') is 'course'
+    if @get('type') is 'course' or @forceCourseNumbering
       return level.practice
     else
       return level.practice and / [ABCD]$/.test level.name
+
+  updateI18NCoverage: -> super(_.omit(@attributes, 'levels'))

@@ -65,6 +65,8 @@ else
           img.profile-photo(src=me.getPhotoURL(230), draggable="false")
           input#photoURL(type="hidden", value=me.get('photoURL')||'')
           button#upload-photo-button.btn.form-control.btn-primary(data-i18n="account_settings.upload_picture")
+          .text-center
+            span.small-details(data-i18n="account_settings.file_size_limit")
     
       .panel.panel-default
         .panel-heading

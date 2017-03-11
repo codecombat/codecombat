@@ -101,6 +101,7 @@ module.exports = class I18NEditModelView extends RootView
     @onTranslationChanged(rowInfo, value)
 
   wrapRow: (title, key, enValue, toValue, path, format) ->
+    return unless enValue
     @translationList.push {
       title: title,
       key: key,
