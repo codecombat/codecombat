@@ -9,6 +9,7 @@ LevelSessions = require 'collections/LevelSessions'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
+CourseNagSubview = require 'views/teachers/CourseNagSubview'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 User = require 'models/User'
 utils = require 'core/utils'
@@ -58,6 +59,8 @@ module.exports = class TeacherClassesView extends RootView
 
   afterRender: ->
     super()
+    @courseNagSubview = new CourseNagSubview()
+    @insertSubView(@courseNagSubview)
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
