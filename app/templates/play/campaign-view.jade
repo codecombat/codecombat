@@ -140,7 +140,7 @@ if view.showAds()
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
           span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
       // Minecraft Modal
-      .level.cube-level#cube-level-container(style="display: " + (view.fullyRendered?"default;":"none;"))
+      .level.cube-level#cube-level-container(style="display: none;")
         #spinning-cube
           .cube
             .front
