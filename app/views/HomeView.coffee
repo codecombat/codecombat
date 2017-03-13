@@ -129,12 +129,10 @@ module.exports = class HomeView extends RootView
     levels =
       elementary:
         'introduction-to-computer-science': '2-4'
-        'game-dev-1': '2-3'
-        'web-dev-1': '2-3'
         'game-development-1': '2-3'
         'web-development-1': '2-3'
         'game-development-2': '2-3'
-        'web-development-3': '2-3'
+        'web-development-2': '2-3'
         'computer-science-6': '24-30'
         'computer-science-7': '30-40'
         'computer-science-8': '30-40'
@@ -142,8 +140,6 @@ module.exports = class HomeView extends RootView
         total: '150-215 hours (about two and a half years)'
       middle:
         'introduction-to-computer-science': '1-3'
-        'game-dev-1': '1-3'
-        'web-dev-1': '1-3'
         'game-development-1': '1-3'
         'web-development-1': '1-3'
         'game-development-2': '1-3'
@@ -155,8 +151,6 @@ module.exports = class HomeView extends RootView
         total: '75-100 hours (about one and a half years)'
       high:
         'introduction-to-computer-science': '1'
-        'game-dev-1': '1-2'
-        'web-dev-1': '1-2'
         'game-development-1': '1-2'
         'web-development-1': '1-2'
         'game-development-2': '1-2'

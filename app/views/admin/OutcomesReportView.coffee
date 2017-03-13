@@ -89,7 +89,7 @@ OutcomesReportComponent = Vue.extend
       mapping = {}
       @courses.forEach (course) =>
         mapping[course._id] = _.any @courseInstances, (ci) =>
-          (ci.courseID is course._id) and @isClassroomSelected[ci.classroomID]
+          (ci.courseID is course._id) and @isClassroomSelected[ci.classroomID] and not _.isEmpty(ci.members)
       mapping
     selectedCourseInstances: ->
       @courseInstances.filter (ci) =>
@@ -154,7 +154,7 @@ OutcomesReportComponent = Vue.extend
       console.log progressData
       courseCompletion = {}
       for classroom in @selectedClassrooms
-        for course in classroom.courses # intersect with @selectedCourses ?
+        for course in _.where(classroom.courses, (c) => @isCourseSelected[c._id])
           courseCompletion[course._id] ?= {
             _id: course._id
             name: course.name

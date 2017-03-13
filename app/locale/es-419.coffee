@@ -2121,3 +2121,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     october: "Octubre"
     november: "Noviembre"
     december: "Diciembre"
+
+  code_play_create_account_modal:
+    title: "¡LO LOGRASTE!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    body: "Pronto serás un programador experto. Regístrate para recibir <strong>100 GEMAS</strong> adicionales y participar en un sorteo donde podrás <strong>GANAR $50,000 Y OTROS PREMIOS DE LENOVO</strong>."
+    sign_up: "REGÍSTRATE Y SIGUE PROGRAMANDO ▶"
+    victory_sign_up_poke: "¡ABRE UNA CUENTA GRATUITA PARA GUARDAR TU CÓDIGO Y PARTICIPAR EN UN SORTEO DONDE PODRÁS GANAR PREAMIOS!"
+    victory_sign_up: "REGÍSTRATE PARA PODER <strong>GANAR $50,000</strong>"
