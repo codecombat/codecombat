@@ -27,6 +27,7 @@ module.exports = class CourseNagSubview extends CocoView
 
 
   gotPrepaids: ->
+    # Group prepaids into (I)gnored (U)sed (E)mpty
     unusedPrepaids = @prepaids.groupBy (p) ->
       return 'I' if p.status() in ["expired", "pending"]
       return 'U' if p.get('exhausted') is true

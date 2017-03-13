@@ -1500,7 +1500,7 @@
     hoc_additional_contact: "Get in touch"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
     revoking: "Revoking..."
-    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they’re ready to ready to learn more!"
+    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
     remember_new_courses: "Remember to assign new courses!"
     more_info: "More Info"
     how_to_assign_courses: "How to Assign Courses"

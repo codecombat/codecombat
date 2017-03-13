@@ -59,8 +59,8 @@ module.exports = class TeacherClassesView extends RootView
 
   afterRender: ->
     super()
-    @coureNagSubview = new CourseNagSubview()
-    @insertSubView(@coureNagSubview)
+    @courseNagSubview = new CourseNagSubview()
+    @insertSubView(@courseNagSubview)
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
