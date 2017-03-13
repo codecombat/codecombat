@@ -98,13 +98,13 @@ function replaceNodes(selector, newNodes){
     // Resetting innerText strips the newlines from it
     var recreatedNodes = $newNodes.toArray();
     recreatedNodes.forEach(function(node){
-      node.innerText = node.innerText.trim();
+      node.innerHTML = node.innerHTML.trim();
     })
 
     var newFirstNode = recreatedNodes[0];
-    firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
-
-    $(newFirstNode).after(recreatedNodes);
+    firstNode.replaceWith(newFirstNode);
+    
+    $(newFirstNode).after(_.tail(recreatedNodes));
 }
 
 function update(options) {
