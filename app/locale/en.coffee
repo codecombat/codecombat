@@ -1500,7 +1500,16 @@
     hoc_additional_contact: "Get in touch"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
     revoking: "Revoking..."
-
+    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
+    remember_new_courses: "Remember to assign new courses!"
+    more_info: "More Info"
+    how_to_assign_courses: "How to Assign Courses"
+    select_students: "Select Students"
+    select_instructions: "Click the checkbox next to each student you want to assign courses to."
+    choose_course: "Choose Course"
+    choose_instructions: "Select the course from the dropdown menu you’d like to assign, then click “Assign to Selected Students.”"
+    push_projects: "We recommend assigning Web Development 1 or Game Development 1 after students have finished Introduction to Computer Science! See our {{resource_hub}} for more details on those courses."
+  
   sharing:
     game: "Game"
     webpage: "Webpage"
