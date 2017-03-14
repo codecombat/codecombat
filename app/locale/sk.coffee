@@ -132,14 +132,14 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     achievements: "Úspechy" # Tooltip on achievement list button from /play
     settings: "Nastavenia" # Tooltip on settings button from /play
     poll: "Anketa" # Tooltip on poll button from /play
-    next: "Ďalší" # Go from choose hero to choose inventory before playing a level
+    next: "Ďalej" # Go from choose hero to choose inventory before playing a level
     change_hero: "Zmeniť hrdinu" # Go back from choose inventory to choose hero
     buy_gems: "Zakúpiť drahokamy"
     subscription_required: "Vyžaduje sa predplatné"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscribers_only: "Iba pre predplatiteľov!"
+    subscribe_unlock: "Predplať si hru a odomkni!"
+    subscriber_heroes: "Predplať si hru a okamžite odomkneš Amaru, Tichú a Hattoriho!"
+    subscriber_gems: "Predplať si hru a zakúp si tohto hrdinu za diamanty!"
     anonymous: "Anonymný hráč"
     level_difficulty: "Obtiažnosť."
     play_classroom_version: "Hraj verziu pre triedy" # Choose a level in campaign version that you also can play in one of your courses
@@ -150,7 +150,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     adjust_volume: "Zmeniť hlasitosť"
     campaign_multiplayer: "Aréna pre viacerých hráčov"
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
+    brain_pop_done: "Svojim kódom si porazil ogrov. Vyhral si!"
 
   code:
     if: "ak" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
