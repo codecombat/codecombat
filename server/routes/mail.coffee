@@ -761,7 +761,7 @@ handleTeacherDrip = (req, res) ->
   for daysAgo in emailDays
     # Get every User that was created in a 5-minute window after the time.
     startTime = getTimeFromDaysAgo now, daysAgo
-    endTime = startTime + 35 * 60 * 1000
+    endTime = startTime + 5 * 60 * 1000
     findParameters = {dateCreated: {$gt: new Date(startTime), $lte: new Date(endTime)}, emailLower: {$exists: true}, role: {$in: targetRoles}}
     selectString = 'name firstName lastName email emailLower emailSubscriptions emails dateCreated preferredLanguage role'
     query = User.find(findParameters).select(selectString)
@@ -804,8 +804,9 @@ module.exports.sendTeacherDripEmail = sendTeacherDripEmail = (user, now, daysAgo
           name: name
         email_data: {name, daysAgo, numClassrooms, numStudents, numCourses, hasPython, hasJavaScript}
       log.info "Sending teacher drip email day #{daysAgo} to #{context.recipient.address} with email_data: #{JSON.stringify(context.email_data)}." if DEBUGGING
-      sendwithus.api.send context, (err, result) ->
-        log.error "Error sending teacher drip email: #{err} with result #{result}" if err
+      if Math.random() < 0.05  # Getting too many of these, even for testing
+        sendwithus.api.send context, (err, result) ->
+          log.error "Error sending teacher drip email: #{err} with result #{result}" if err
 
 ### End Teacher Drip Email ###
 
