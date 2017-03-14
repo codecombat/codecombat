@@ -221,6 +221,7 @@ setupFeaturesMiddleware = (app) ->
     
     if /cn\.codecombat\.com/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
+      features.freeOnly = true
 
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
