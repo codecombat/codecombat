@@ -138,6 +138,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     subscription_required: "가입 필수"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "이름없는 플레이어"
     level_difficulty: "난이도: "
     play_classroom_version: "교실 버전 플레이" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     adjust_volume: "소리 조절"
     campaign_multiplayer: "멀티 플레이어 전투장"
     campaign_multiplayer_description: "... 이곳에서 당신은 다른 인간 플레이어들과 직접 결투할 수 있습니다."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     prompt_button: "샵 앤터"
     recovered: "gem 구매후 브라우져를 새로고침 하세요."
     price: "x{{gems}} / 한달"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

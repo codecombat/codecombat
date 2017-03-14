@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     subscription_required: "Потребно е зачленување"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Анонимен играч"
     level_difficulty: "Тешкотија: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
 #    adjust_volume: "Adjust volume"
     campaign_multiplayer: "Арени за повеќе играчи"
     campaign_multiplayer_description: "... во кои кодираш лице-во-лице против други играчи."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Македонски", englishDescription: 
     prompt_button: "Влези во продавницата"
     recovered: "Претходното купување на скапоцени камења е вратено од загуба. Те молам 'освежи' ја страната."
 #    price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

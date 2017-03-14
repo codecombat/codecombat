@@ -37,7 +37,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     conventional: "system nauczania oparty na grze z tradycyjnym, różnica jest wyraźna: dzięki grom uczniowie dłużej pamiętają, lepiej się koncentrują "
     perform_at_higher_level: "oraz osiągają lepsze wyniki."
     feedback: "Gry dostarczają także natychmiastową informację zwrotną, które pozwala uczniom dostosować ich rozwiązanie i zrozumieć pomysł całościowo, zamiast być ograniczonym tylko do odpowiedzi dobrze albo źle."
-    real_game: "A real game, played with real coding."
+    real_game: "Prawdziwa gra z prawdziwym kodowaniem."
     great_game: "Dobra gra to coś więcej niż tylko odznaki czy osiągnięcia - to podróż, dobrze dobrane zagadki i możliwość sprostania wyzwaniom samodzielnie z uczuciem pewności."
     agency: "CodeCombat jest grą, która daje graczom tą samodzielność i pewność, to dzięki naszemu silnikowi pisania kodu, który pomaga zarówno początkującym jak i zaawansowanym uczniom pisać poprawny kod."
     request_demo_title: "Namów swoich uczniów już dziś!"
@@ -97,7 +97,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     faqs: "FAQs"
     help_pref: "Potrzebujesz pomocy? Wyślij email"
     help_suff: "a my się odezwiemy!"
-    resource_hub: "Resource Hub"
+    resource_hub: "Baza Wiedzy"
 
   modal:
     close: "Zamknij"
@@ -136,8 +136,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     change_hero: "Wybierz bohatera" # Go back from choose inventory to choose hero
     buy_gems: "Kup klejnoty"
     subscription_required: "Wymagana subskrypcja"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
+    subscribers_only: "Tylko subskrybenci!"
+    subscribe_unlock: "Zasubskrybuj by odblokować!"
+    subscriber_heroes: "Zasubskrybuj dziś by od razu odblokować Amarę, Hushbauma i Hattoriego!"
+    subscriber_gems: "Zasubskrybuj dziś by wykupić tego bohatera za pomocą kryształów!"
     anonymous: "Anonimowy gracz"
     level_difficulty: "Poziom trudności: "
     play_classroom_version: "Zagraj w wersję szkolną" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     adjust_volume: "Dopasuj głośność"
     campaign_multiplayer: "Kampania dla wielu graczy"
     campaign_multiplayer_description: "... w której konkurujesz z innymi graczami."
+    brain_pop_done: "Pokonałeś ogry kodem! Wygrałeś!"
 
   code:
     if: "jeśli" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -242,7 +245,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     facebook_exists: "Już posiadasz konto powiązane z Facebook!"
     hey_students: "Uczniowie, wprowadźcie otrzymany od nauczyciela kod klasy."
     birthday: "Dzień urodzenia"
-#    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
+    parent_email_blurb: "Wiemy że nie możesz się doczekać programowania &mdash; też się cieszymy! Twoi rodzice otrzymają dalsze instrukcje jak założyć dla ciebie konto. Napisz emaila na {{email_link}} jeżeli masz jakiekolwiek pytania."
     classroom_not_found: "Żadna klasa nie jest powiązana z tym kodem. Sprawdź czy wprowadziłeś poprawnie kod lub zapytaj nauczyciela."
     checking: "Sprawdzanie..."
     account_exists: "Ten email jest już zajęty:"
@@ -434,7 +437,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     reload_title: "Przywrócić cały kod?"
     reload_really: "Czy jesteś pewien, że chcesz przywrócić kod startowy tego poziomu?"
     reload_confirm: "Przywróć cały kod"
-#    test_level: "Test Level"
+    test_level: "Poziom testowy"
     victory: "Zwycięstwo"
     victory_title_prefix: ""
     victory_title_suffix: " ukończony"
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     prompt_button: "Wejdź do sklepu"
     recovered: "Przywrócono poprzednie zakupy. Proszę odświeżyć stronę."
     price: "x{{gems}} / mieś."
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"

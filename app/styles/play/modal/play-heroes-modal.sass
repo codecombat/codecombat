@@ -111,7 +111,24 @@ $heroCanvasHeight: 275px
             left: 21px
             top: 18px
 
-          &.locked
+          &.subscribe-unlock
+            background: url(/images/pages/play/modal/hero-portrait-silver.png)
+            background-size: 100% 100%
+            z-index: 5
+
+            &.active
+              background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
+              z-index: 6
+
+            .hero-avatar
+              background-color: goldenrod
+              background-size: 100% 100%
+              width: 54px
+              height: 54px
+              left: 25px
+              top: 25px
+
+          &.premium
             background: url(/images/pages/play/modal/hero-portrait-gem.png)
             background-size: 100% 100%
             z-index: 5
@@ -127,23 +144,6 @@ $heroCanvasHeight: 275px
               height: 58px
               left: 23px
               top: 20px
-
-            &.subscribe-unlock
-              background: url(/images/pages/play/modal/hero-portrait-silver.png)
-              background-size: 100% 100%
-              z-index: 5
-
-              &.active
-                background: url(/images/pages/play/modal/hero-portrait-silver-selected.png)
-                z-index: 6
-
-              .hero-avatar
-                background-color: goldenrod
-                background-size: 100% 100%
-                width: 54px
-                height: 54px
-                left: 25px
-                top: 25px
 
               &.ie
                 @include opacity(0.35)
@@ -337,7 +337,7 @@ $heroCanvasHeight: 275px
       margin-top: 12px
       margin-bottom: 5px
 
-  #restricted-hero-button, #purchase-hero-button, #subscribe-hero-button
+  #restricted-hero-button, #purchase-hero-button
     width: 209px
     height: 110px
     position: absolute
@@ -350,7 +350,37 @@ $heroCanvasHeight: 275px
     font-family: $headings-font-family
     color: white
 
-  #purchase-hero-button, #subscribe-hero-button
+  #subscribe-hero-button
+    width: 209px
+    height: 110px
+    position: absolute
+    left: 588px
+    top: 522px
+    flex-grow: 1
+    font-size: 24px
+    line-height: 30px
+    text-align: center
+    text-transform: uppercase    
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    font-family: $headings-font-family
+    color: darken(white, 5%)
+    background-color: black
+
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
+
+  #purchase-hero-button
     border: 3px solid rgb(7,65,83)
     background: rgb(0,119,168)
     border-radius: 0

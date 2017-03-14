@@ -70,8 +70,10 @@ OutcomesReportComponent = Vue.extend
     indexedSessions: ->
       _.indexBy(@sessions, '_id')
     numProgramsWritten: ->
-      _.size(@selectedSessions)
+      # Include unselected classrooms and courses because we don't particularly need to filter these numbers down
+      _.size(@indexedSessions)
     numShareableProjects: ->
+      # Include unselected classrooms and courses because we don't particularly need to filter these numbers down
       shareableLevels = _.flatten @classrooms.map (classroom) ->
         classroom.courses.map (course) ->
           _.filter course.levels, (level) ->
@@ -82,12 +84,12 @@ OutcomesReportComponent = Vue.extend
     selectedClassrooms: ->
       @classrooms.filter (c) => @isClassroomSelected[c._id]
     selectedCourses: ->
-      @courses.filter (c) => @isCourseSelected[c._id]
+      @courses.filter (c) => @isCourseSelected[c._id] and @isCourseVisible[c._id]
     isCourseVisible: ->
       mapping = {}
       @courses.forEach (course) =>
         mapping[course._id] = _.any @courseInstances, (ci) =>
-          (ci.courseID is course._id) and @isClassroomSelected[ci.classroomID]
+          (ci.courseID is course._id) and @isClassroomSelected[ci.classroomID] and not _.isEmpty(ci.members)
       mapping
     selectedCourseInstances: ->
       @courseInstances.filter (ci) =>
@@ -152,7 +154,7 @@ OutcomesReportComponent = Vue.extend
       console.log progressData
       courseCompletion = {}
       for classroom in @selectedClassrooms
-        for course in classroom.courses # intersect with @selectedCourses ?
+        for course in _.where(classroom.courses, (c) => @isCourseSelected[c._id])
           courseCompletion[course._id] ?= {
             _id: course._id
             name: course.name
@@ -310,8 +312,9 @@ OutcomesReportComponent = Vue.extend
         type: 'GET',
         url: '/admin/calculate-lines-of-code'
         data: {
-          classroomIDs: @selectedClassrooms.map (c) -> c._id
-          courseIDs: @selectedCourses.map (c) -> c._id
+          # Include unselected classrooms and courses because we don't particularly need to filter these numbers down
+          classroomIDs: @classrooms.map (c) -> c._id
+          courseIDs: @courses.map (c) -> c._id
         }
         success: (data) =>
           @linesOfCode = parseInt(data.linesOfCode)

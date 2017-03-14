@@ -136,8 +136,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     buy_gems: "Придбати самоцвіти"
     subscription_required: "Потрібен абонемет"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
+    subscribers_only: "Тільки для підписників!"
+    subscribe_unlock: "Придбайте підписку для розблокування!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_gems: "Підпишіться сьогодні, щоб придбати цього героя за самоцвіти!"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
     play_classroom_version: "Грати в версію для класу" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     adjust_volume: "Підлаштувати гучність"
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
+    brain_pop_done: "Ви перемогли Оґрів за допомогою коду! Ви виграли!"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     prompt_button: "Увійти до крамниці"
     recovered: "Попередні покупки самоцвітів відновлені. Будь ласка, поновіть сторінку."
     price: "x{{gems}} / міс"
+    buy_premium: "Придбати Преміум"
+    purchase: "Купити"
+    purchased: "Куплено"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Преміум"
@@ -680,27 +686,27 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     support_part2: "support@codecombat.com"
     support_part3: "якщо у вас є які-небудь питання."
 
-#  premium_features:
-#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
-#    master_coder: "Become a Master Coder by subscribing today!"
-#    subscribe_now: "Subscribe Now"
+  premium_features:
+    get_premium: "Отримайте<br>CodeCombat<br>Преміум" # Fit into the banner on the /features page
+    master_coder: "Станьте майстром програмування придбавши підписку вже сьогодні!"
+    subscribe_now: "Підписатися зараз"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
-#    hero_caption: "Exciting new heroes!"
+    hero_caption: "Нові вражаючі герої!"
 #    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
-#    game_dev_caption: "Design your own games to challenge your friends!"
-#    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
-#    list_levels: "Gain access to __premiumLevelsCount__ more levels"
-#    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
-#    list_game_dev: "Make and share games with friends"
-#    list_web_dev: "Build websites and interactive apps"
+    game_dev_caption: "Проектуйте власні ігри, щоб кинути виклик своїм друзям!"
+    everything_in_premium: "Все, що ви отримаєте в Преміум CodeCombat:"
+    list_gems: "Отримуйте бонусні самоцвіти щомісяця для придбання спорядження, компаньйонів та героїв"
+    list_levels: "Отримайте доступ до __premiumLevelsCount__ додаткових рівнів"
+    list_heroes: "Розблокуйте екслюзивних героїв, в тому числі класи рейнджера та чаклуна"
+    list_game_dev: "Створюйте та діліться іграми з друзями"
+    list_web_dev: "Створюйте веб-сайти та інтерактивні програми"
 #    list_items: "Equip Premium-only items like pets"
-#    list_support: "Get Premium support to help you debug tricky code"
-#    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+    list_support: "Отримайте преміум підтримку для допомоги з відладкою заплутаного коду"
+    list_clans: "Створюйте приватні клани, щоб запросити ваших друзів та змагатися в груповому лідерстві"
 
   choose_hero:
     choose_hero: "Оберіть героя"
@@ -1039,7 +1045,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     saved: "Зміни збережено"
     password_mismatch: "Паролі не збігаються."
     password_repeat: "Будь ласка, повторіть пароль."
-#    file_size_limit: "(max file size: 1MB)"
+    file_size_limit: "(максимальний розмір файлу: 1МБ)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Клавіатурні скорочення"

@@ -138,6 +138,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     subscription_required: "Előfizetést igényel"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonymus Játékos"
     level_difficulty: "Nehézség: "
     play_classroom_version: "Osztálytermi változat" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     adjust_volume: "Hangerő beállítása"
     campaign_multiplayer: "Multiplayer Arénák"
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_button: "Lépj be a boltba"
     recovered: "Az előző drágakő vásárlás helyreállt. Kérlek frissítsd az oldalt."
     price: "x {{gems}} / hó"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

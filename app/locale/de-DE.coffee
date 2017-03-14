@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     subscription_required: "Abonnement benötigt"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonymer Spieler"
     level_difficulty: "Schwierigkeit: "
     play_classroom_version: "Spiele die Klassenraum-Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     adjust_volume: "Lautstärke anpassen"
     campaign_multiplayer: "Mehrspieler-Abenteuer"
     campaign_multiplayer_description: "... in der Du Kopf-an-Kopf gegen andere Spieler programmierst."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "wenn" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_button: "Laden betreten"
     recovered: "Vorangegangener Edelsteinkauf rückgängig gemacht. Aktualisiere bitte die Seite."
     price: "x{{gems}} / Monat"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -2115,3 +2121,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     october: "Oktober"
     november: "November"
     december: "Dezember"
+
+  code_play_create_account_modal:
+    title: "DU HAST ES GESCHAFFT!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    body: "Du bist nun auf dem besten Weg, ein Meisterprogrammierer zu werden. Melde dich an und erhalte zusätzliche <strong>100 EDELSTEINE</strong> sowie die Chance, <strong>2.500 € UND ANDERE PREISE VON LENOVO ZU GEWINNEN</strong>."
+    sign_up: "MELDE DICH AN UND PROGRAMMIERE WEITER ▶"
+    victory_sign_up_poke: "ERSTELLE EIN KOSTENLOSES KONTO, UM DEINEN CODE ZU SPEICHERN UND EINE CHANCE AUF DEN GEWINN VON PREISEN ZU HABEN!"
+    victory_sign_up: "MELDE DICH AN FÜR EINE CHANCE AUF DEN <strong>GEWINN VON 2.500 €</strong>"

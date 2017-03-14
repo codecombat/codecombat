@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     subscription_required: "Abonnement nodig"
     subscribers_only: "Alleen voor abonnees!"
     subscribe_unlock: "Abonneer om toegang te krijgen!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
     play_classroom_version: "Speel de klassikale versie" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     adjust_volume: "Volume aanpassen"
     campaign_multiplayer: "Multiplayer Arena's"
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     prompt_button: "Naar de winkel"
     recovered: "Edelstenen aankoop hersteld. Ververs de pagina alstublieft."
     price: "x{{gems}} / maand"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"

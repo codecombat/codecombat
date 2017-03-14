@@ -499,8 +499,25 @@ $itemSlotGridHeight: 51px
       color: white
 
     #subscriber-item-viewed
-      background: rgb(81,153,236)
-      color: white
+      flex-grow: 1
+      height: 55px
+      line-height: 10px
+      border-style: solid
+      border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+      border-width: 14px 20px 20px 20px
+      color: darken(white, 5%)
+      background-color: black
+
+      span
+        pointer-events: none
+
+      &:hover
+        border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+      &:active
+        border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+        padding: 2px 0 0 2px
+        color: white
 
   //- Paper doll positioning
 

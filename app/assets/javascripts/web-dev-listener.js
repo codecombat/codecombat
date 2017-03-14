@@ -88,16 +88,23 @@ function unwrapConcreteNodes(wrappedNodes) {
 }
 
 function replaceNodes(selector, newNodes){
-    $newNodes = $(newNodes).clone();
+    var $newNodes = $(newNodes).clone();
     $(selector + ':not(:first)').remove();
     
-    firstNode = $(selector).first();
-    $newNodes.attr('for', firstNode.attr('for'));
+    var firstNode = $(selector).first();
+    $newNodes.attr('for', firstNode.attr('for'))
     
-    newFirstNode = $newNodes[0];
-    firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
+    // Workaround for an IE bug where style nodes created by Deku aren't read
+    // Resetting innerText strips the newlines from it
+    var recreatedNodes = $newNodes.toArray();
+    recreatedNodes.forEach(function(node){
+      node.innerHTML = node.innerHTML.trim();
+    })
 
-    $(newFirstNode).after($newNodes);
+    var newFirstNode = recreatedNodes[0];
+    firstNode.replaceWith(newFirstNode);
+    
+    $(newFirstNode).after(_.tail(recreatedNodes));
 }
 
 function update(options) {

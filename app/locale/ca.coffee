@@ -138,6 +138,8 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     subscription_required: "Subscripció necessària"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Jugador anònim"
     level_difficulty: "Dificultat: "
     play_classroom_version: "Juga a la versió de classe" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     adjust_volume: "Ajustar volum"
     campaign_multiplayer: "Arenes Multijugador"
     campaign_multiplayer_description: "... on programes cara a cara contra altres jugadors."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "Català", englishDescription: "Catalan", tr
     prompt_button: "Entrar a la botiga"
     recovered: "S'han recuperat les anteriors compres de gemmes. Si us plaus, recarrega al pàgina."
     price: "x{{gems}} / més"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

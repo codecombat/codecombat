@@ -610,6 +610,9 @@
     prompt_button: "Enter Shop"
     recovered: "Previous gems purchase recovered. Please refresh the page."
     price: "x{{gems}} / mo"
+    buy_premium: "Buy Premium"
+    purchase: "Purchase"
+    purchased: "Purchased"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -1497,7 +1500,16 @@
     hoc_additional_contact: "Get in touch"
     revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
     revoking: "Revoking..."
-
+    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
+    remember_new_courses: "Remember to assign new courses!"
+    more_info: "More Info"
+    how_to_assign_courses: "How to Assign Courses"
+    select_students: "Select Students"
+    select_instructions: "Click the checkbox next to each student you want to assign courses to."
+    choose_course: "Choose Course"
+    choose_instructions: "Select the course from the dropdown menu you’d like to assign, then click “Assign to Selected Students.”"
+    push_projects: "We recommend assigning Web Development 1 or Game Development 1 after students have finished Introduction to Computer Science! See our {{resource_hub}} for more details on those courses."
+  
   sharing:
     game: "Game"
     webpage: "Webpage"
@@ -2118,3 +2130,10 @@
     october: "October"
     november: "November"
     december: "December"
+
+  code_play_create_account_modal:
+    title: "You did it!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
+    sign_up: "Sign up & keep coding ▶"
+    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
+    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"

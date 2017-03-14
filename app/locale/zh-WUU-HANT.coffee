@@ -138,6 +138,8 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    subscription_required: "Subscription Required"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
 #    anonymous: "Anonymous Player"
     level_difficulty: "難度："
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    adjust_volume: "Adjust volume"
     campaign_multiplayer: "多人競賽場"
     campaign_multiplayer_description: "……徠箇搭爾好搭別人代碼捉跤。"
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "吳語", englishDescription: "Wuu (Traditio
 #    prompt_button: "Enter Shop"
 #    recovered: "Previous gems purchase recovered. Please refresh the page."
 #    price: "x{{gems}} / mo"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
 #  subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

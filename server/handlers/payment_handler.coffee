@@ -45,7 +45,7 @@ PaymentHandler = class PaymentHandler extends Handler
     payment
 
   getSchoolSalesAPI: (req, res, code) ->
-    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
 
     Payment.find({}, {amount: 1, created: 1, description: 1, prepaidID: 1, productID: 1, purchaser: 1, service: 1}).lean().exec (err, payments) =>
       return @sendDatabaseError(res, err) if err

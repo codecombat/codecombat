@@ -138,6 +138,8 @@ module.exports = nativeDescription: "български език", englishDescri
     subscription_required: "Нужен е абонамент"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Анонимен играч"
     level_difficulty: "Трудност"
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
@@ -148,6 +150,7 @@ module.exports = nativeDescription: "български език", englishDescri
     adjust_volume: "Настрой звук"
     campaign_multiplayer: "Арени за мултиплейър"
     campaign_multiplayer_description: "... където се състезаваш по програмиране с други играчи."
+#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -607,6 +610,9 @@ module.exports = nativeDescription: "български език", englishDescri
     prompt_button: "Влез в Магазина"
     recovered: "Предишните покупки на скъпоценни камъни са възстановени. Моля опреснете страницата."
     price: "x{{gems}} / месец"
+#    buy_premium: "Buy Premium"
+#    purchase: "Purchase"
+#    purchased: "Purchased"
 
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"

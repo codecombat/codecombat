@@ -17,7 +17,7 @@
       .carousel-indicator-container
         ol.carousel-indicators
           for hero, index in heroes
-            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : ""))
+            li(data-hero-id=hero.get('original'), title=hero.name, data-slide-to=index, data-target="#hero-carousel", class="hero-indicator hero-index-" + index + (hero.locked ? " locked" : "") + (hero.purchasable ? " purchasable" : "") + (hero.restricted ? " restricted" : "") + (hero.unlockBySubscribing ? " subscribe-unlock " : "") + (hero.premium ? " premium " : ""))
               .hero-avatar
       .carousel-inner
         for hero in heroes
@@ -30,7 +30,7 @@
               .hero-description= hero.description
               
               .hero-stat-row
-                .stat-label(data-i18n='play.level_difficulty')
+                .stat-label(data-i18n='leaderboard.difficulty')
                 .stat-value.hero-status-value(data-i18n=hero.class == 'ranger' ? 'general.medium' : (hero.class == 'wizard' ? 'general.hard' : 'general.easy'))
               
               .hero-stat-row

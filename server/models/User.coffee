@@ -354,7 +354,6 @@ UserSchema.methods.isPremium = ->
 
 UserSchema.methods.isOnPremiumServer = ->
   return true if @get('country') in ['brazil']
-  return true if @get('country') in ['china'] and (@isPremium() or @get('stripe'))
   return false
 
 UserSchema.methods.level = ->
