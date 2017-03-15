@@ -36,9 +36,9 @@ module.exports = class AnnouncementModal extends ModalView
       randomNum = Math.floor(Math.random() * elems.length)
       randomItem = elems[randomNum]
       if randomItem
-        $(randomItem).addClass('shimmy')
+        $(randomItem).addClass('wiggle')
         setTimeout(() ->
-          $(randomItem).removeClass('shimmy')
+          $(randomItem).removeClass('wiggle')
         , 1000)
     , 1000)
     $(".pet-image").on('mouseover', (e) =>

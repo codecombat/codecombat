@@ -987,15 +987,11 @@ module.exports = class CampaignView extends RootView
   maybeShowPendingAnnouncement: () ->
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
-    console.log "LID: #{latest} vs #{myLatest}"
     return unless typeof latest is 'number'
     accountHours = (new Date() - new Date(me.get("dateCreated"))) / (60 * 60 * 1000) # min*sec*ms
     return unless accountHours > 18
     if latest > myLatest or not myLatest?
       me.set('lastAnnouncementSeen', latest)
       me.save()
-      console.log "Opening #{latest}"
       window.tracker?.trackEvent 'Show announcement modal', label: latest
       @openModalView new AnnouncementModal({announcementId: latest})
-
-
