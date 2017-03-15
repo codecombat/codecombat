@@ -162,7 +162,7 @@ module.exports.VersionedPlugin = (schema) ->
   # Also used for looking up latest version, or specific versions.
   schema.index({'original': 1, 'version.major': -1, 'version.minor': -1}, {unique: true, name: 'version index'})
   
-  schema.statics.findCurrentVersion = co.wrap (original, projection) ->
+  schema.statics.findCurrentVersion = (original, projection) ->
     if _.isString original
       try
         original = mongoose.Types.ObjectId(original)

@@ -80,6 +80,10 @@ setupErrorMiddleware = (app) ->
       if err.status and 400 <= err.status < 500
         res.status(err.status).send("Error #{err.status}")
         return
+      
+      if err.name is 'CastError' and err.kind is 'ObjectId'
+        newError = new errors.UnprocessableEntity('Invalid id provided')
+        return res.status(422).send(newError.toJSON())
 
       res.status(err.status ? 500).send(error: "Something went wrong!")
       message = "Express error: #{req.method} #{req.path}: #{err.message} \n #{err.stack}"

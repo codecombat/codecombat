@@ -742,7 +742,7 @@ module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
           secretLevelName: secretLevel.name
           secretLevelLink: "http://codecombat.com/play/level/#{secretLevel.slug}"
           levelsComplete: complete.length
-          isCoursePlayer: user.get('courseInstances')?.length > 0
+          isCoursePlayer: user.get('courseInstances')?.length > 0 # TODO: use based on role instead, as courseInstances can be unreliable
       log.info "Sending next steps email to #{context.recipient.address} with #{context.email_data.nextLevelName} next and #{context.email_data.levelsComplete} levels complete since #{daysAgo} day(s) ago." if DEBUGGING
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending next steps email: #{err} with result #{result}" if err

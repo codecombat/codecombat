@@ -29,4 +29,12 @@ CourseInstanceSchema.statics.postEditableProperties = [
 
 CourseInstanceSchema.statics.jsonSchema = jsonSchema
 
+CourseInstanceSchema.methods.isMember = (userId) ->
+  if _.isString(userId)
+    userId = mongoose.Types.ObjectId(userId)
+  return false unless @get('members')
+  for memberId in @get('members')
+    return true if memberId.equals(userId)
+  return false
+
 module.exports = CourseInstance = mongoose.model 'course.instance', CourseInstanceSchema, 'course.instances'

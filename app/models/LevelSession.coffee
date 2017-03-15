@@ -108,3 +108,9 @@ module.exports = class LevelSession extends CocoModel
     spells
 
   isFake: -> @id is 'A Fake Session ID'
+
+  inLeague: (leagueId) ->
+    return false unless @get('leagues')
+    for league in @get('leagues')
+      return true if league.leagueID is leagueId
+    return false

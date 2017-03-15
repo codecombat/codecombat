@@ -31,8 +31,6 @@ module.exports.setup = (app) ->
         handler.dispatchTaskToConsumer req, res
       else if isHTTPMethodPut req
         handler.processTaskResult req, res
-      else if isHTTPMethodPost req
-        handler.createNewTask req, res 
       else
         sendMethodNotSupportedError req, res
     catch error
