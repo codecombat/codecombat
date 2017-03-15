@@ -395,8 +395,8 @@ module.exports =
       params.push q
       filters.push 'MATCH(?)'
     
-    if req.body.role?
-      params.push req.body.role
+    if req.query.role?
+      params.push req.query.role
       filters.push 'role = ?'
     
     mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE #{filters.join(' AND ')}  LIMIT 100;"
