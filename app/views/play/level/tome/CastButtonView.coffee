@@ -29,7 +29,9 @@ module.exports = class CastButtonView extends CocoView
     @castShortcut = '⇧↵'
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
     @observing = options.session.get('creator') isnt me.id
-    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span']
+    # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a 
+    # mirror level is added to 
+    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span'] 
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
 

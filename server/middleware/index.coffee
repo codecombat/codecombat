@@ -16,6 +16,7 @@ module.exports =
   headers: require './headers'
   healthcheck: require './healthcheck'
   levels: require './levels'
+  levelSessions: require './level-sessions'
   logging: require './logging'
   named: require './named'
   patchable: require './patchable'

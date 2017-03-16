@@ -22,7 +22,9 @@ UserPollsRecord = require 'models/UserPollsRecord'
 Poll = require 'models/Poll'
 PollModal = require 'views/play/modal/PollModal'
 CourseInstance = require 'models/CourseInstance'
+AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 codePlay = require('lib/code-play')
+MineModal = require 'views/core/MineModal' # Minecraft modal
 CodePlayCreateAccountModal = require 'views/play/modal/CodePlayCreateAccountModal'
 
 require 'game-libraries'
@@ -48,6 +50,7 @@ module.exports = class CampaignView extends RootView
     'subscribe-modal:subscribed': 'onSubscribed'
 
   events:
+    'click .cube-level': 'onSpinningCubeClick' # Minecraft Modal
     'click .map-background': 'onClickMap'
     'click .level': 'onClickLevel'
     'dblclick .level': 'onDoubleClickLevel'
@@ -186,6 +189,32 @@ module.exports = class CampaignView extends RootView
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
       not storage.load('sent-parent-email') and not me.isPremium()
         @openModalView new ShareProgressModal()
+    else
+      @maybeShowPendingAnnouncement()
+
+    # Minecraft Modal:
+    @maybeShowMinecraftModal()
+
+  # Minecraft Modal:
+  maybeShowMinecraftModal: ->
+    userQualifiesForMinecraftModal: (user) ->
+      return false if features.codePlay
+      return true if user.isAdmin()
+      return false if user.isPremium()
+      return false if user.isAnonymous()
+      return user.get('testGroupNumber') % 5 is 1
+
+    return unless userQualifiesForMinecraftModal(me)
+    if @campaign and @campaign.get('levels')
+      levels = @campaign.get('levels')
+      level = _.find(levels, {slug: "the-second-kithmaze"})
+      if level and @levelStatusMap['the-second-kithmaze'] is 'complete' and /^en/i.test(me.get('preferredLanguage', true))
+        $(".cube-level").show()
+
+  # Minecraft Modal:
+  onSpinningCubeClick: (e) ->
+    window.tracker?.trackEvent "Mine Explored", engageAction: "campaign_level_click"
+    @openModalView new MineModal()
 
   setCampaign: (@campaign) ->
     @render()
@@ -642,6 +671,7 @@ module.exports = class CampaignView extends RootView
     @$levelInfo?.hide()
     levelElement = $(e.target).parents('.level')
     levelSlug = levelElement.data('level-slug')
+    return unless levelSlug # Minecraft Modal
     levelOriginal = levelElement.data('level-original')
     if @editorMode
       return @trigger 'level-clicked', levelOriginal
@@ -959,3 +989,15 @@ module.exports = class CampaignView extends RootView
             .error ->
               console.warn 'Achievement NOT complete:', achievement.name
     )
+
+  maybeShowPendingAnnouncement: () ->
+    latest = window.serverConfig.latestAnnouncement
+    myLatest = me.get('lastAnnouncementSeen')
+    return unless typeof latest is 'number'
+    accountHours = (new Date() - new Date(me.get("dateCreated"))) / (60 * 60 * 1000) # min*sec*ms
+    return unless accountHours > 18
+    if latest > myLatest or not myLatest?
+      me.set('lastAnnouncementSeen', latest)
+      me.save()
+      window.tracker?.trackEvent 'Show announcement modal', label: latest
+      @openModalView new AnnouncementModal({announcementId: latest})

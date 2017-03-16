@@ -6,6 +6,7 @@ LevelSessions = require 'collections/LevelSessions'
 ProgressView = require './ProgressView'
 Classroom = require 'models/Classroom'
 utils = require 'core/utils'
+api = require('core/api')
 
 module.exports = class CourseVictoryModal extends ModalView
   id: 'course-victory-modal'
@@ -112,6 +113,7 @@ module.exports = class CourseVictoryModal extends ModalView
       link = '/teachers/courses'
     else
       link = '/students'
+    @submitLadder()
     application.router.navigate(link, {trigger: true})
 
   onLadder: ->
@@ -124,4 +126,9 @@ module.exports = class CourseVictoryModal extends ModalView
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
     ladderURL += '#my-matches'
+    @submitLadder()
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
+
+  submitLadder: ->
+    if @level.get('type') is 'course-ladder' and @session.readyToRank() or not @session.inLeague(@courseInstanceID)
+      api.levelSessions.submitToRank({ session: @session.id, courseInstanceId: @courseInstanceID })

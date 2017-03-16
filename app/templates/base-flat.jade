@@ -3,13 +3,13 @@ mixin accountLinks
     a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
   li
     a(href="/account/settings", data-i18n="play.settings")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent())
+  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || features.freeOnly)
     li
       a(href="/account/payments", data-i18n="account.payments")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent()) || me.hasSubscription()
+  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || features.freeOnly) || me.hasSubscription()
     li
       a(href="/account/subscription", data-i18n="account.subscription")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent())
+  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || features.freeOnly)
     li
       a(href="/account/prepaid", data-i18n="account.prepaid_codes")
   if me.isAdmin()
@@ -18,8 +18,9 @@ mixin accountLinks
   if serverSession && serverSession.amActually
     li
       a#nav-stop-spying-button Stop Spying
-  li
-    a#logout-button(data-i18n="login.log_out")
+  if !features.codePlay
+    li
+      a#logout-button(data-i18n="login.log_out")
 
 .style-flat
   block header

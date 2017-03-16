@@ -139,7 +139,18 @@ if view.showAds()
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
           span.glyphicon.glyphicon-share-alt.campaign-switch(style=adjacentCampaign.style, title=adjacentCampaign.name, data-campaign-id=adjacentCampaign.id, data-campaign-slug=adjacentCampaign.slug)
-
+      // Minecraft Modal
+      .level.cube-level#cube-level-container(style="display: none;")
+        #spinning-cube
+          .cube
+            .front
+            .back
+            .top
+            .bottom
+            .left
+            .right
+      // Minecraft Modal
+      .cube-level#cube-level-shadow(style="left: 30%; top: 16.5%;display: none",class="level-shadow")
   else
     .portal
       .portals
@@ -229,7 +240,8 @@ if view.showAds()
           button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
         else
           a(href="/account").player-name.spr= me.get('name')
-          button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          if !features.codePlay
+            button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
           if me.isPremium()
             button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
