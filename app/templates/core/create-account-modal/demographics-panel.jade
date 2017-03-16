@@ -5,7 +5,7 @@
         span.control-label {{ $t("courses.number_programming_students") }}
         .help-block.small
           em.text-info {{ $t("teachers_quote.num_students_help") }}
-        select.form-control(v-model="numStudents", ref='focus')
+        select.form-control(v-model="numStudents", ref='focus' name="numStudents")
           option(value='') {{ $t("teachers_quote.num_students_default") }}
           option 1-10
           option 11-50
@@ -19,7 +19,7 @@
       .form-group(v-bind:class="{ 'has-error': showRequired && !numStudentsTotal }")
         span.control-label
           span {{ $t("courses.number_total_students") }}
-        select.form-control(v-model="numStudentsTotal")
+        select.form-control(v-model="numStudentsTotal" name="numStudentsTotal")
           option(value='') {{ $t("teachers_quote.num_students_default") }}
           option 1-500
           option 500-1,000
@@ -35,19 +35,19 @@
         strong.help-block(v-if="showRequired && !educationLevelComplete") {{ $t("common.required_field") }}
         .checkbox
           label
-            input(type="checkbox" value="Elementary", v-model="educationLevel")
+            input(type="checkbox" value="Elementary", v-model="educationLevel", name="educationLevel")
             span {{ $t("teachers_quote.elementary_school") }}
         .checkbox
           label
-            input(type="checkbox" value="Middle", v-model="educationLevel")
+            input(type="checkbox" value="Middle", v-model="educationLevel", name="educationLevel")
             span {{ $t("teachers_quote.middle_school") }}
         .checkbox
           label
-            input(type="checkbox" value="High", v-model="educationLevel")
+            input(type="checkbox" value="High", v-model="educationLevel", name="educationLevel")
             span {{ $t("teachers_quote.high_school") }}
         .checkbox
           label
-            input(type="checkbox" value="College+", v-model="educationLevel")
+            input(type="checkbox" value="College+", v-model="educationLevel", name="educationLevel")
             span {{ $t("teachers_quote.college_plus") }}
         .checkbox
           label

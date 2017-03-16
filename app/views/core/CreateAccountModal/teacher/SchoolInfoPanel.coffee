@@ -4,7 +4,7 @@ DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_s
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
 # NOTE: Phone number in algolia search results is for a school, not a district
 
-SchoolInfoPanel = Vue.extend
+SchoolInfoPanel =
   name: 'school-info-panel'
   template: require('templates/core/create-account-modal/school-info-panel')()
   
@@ -61,7 +61,7 @@ SchoolInfoPanel = Vue.extend
       attrs = _.pick(@, 'organization', 'district', 'city', 'state', 'country')
       for key in SCHOOL_NCES_KEYS
         ncesKey = 'nces_'+key
-        attrs[ncesKey] = @[ncesKey]
+        attrs[ncesKey] = @[ncesKey].toString()
       @$store.commit('modal/updateTrialRequestProperties', attrs)
 
     clickContinue: ->

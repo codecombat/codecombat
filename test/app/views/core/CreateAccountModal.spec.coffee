@@ -4,7 +4,7 @@ Classroom = require 'models/Classroom'
 forms = require 'core/forms'
 factories = require 'test/app/factories'
 
-SchoolInfoPanel = require 'views/core/CreateAccountModal/teacher/SchoolInfoPanel'
+SchoolInfoPanel = Vue.extend(require 'views/core/CreateAccountModal/teacher/SchoolInfoPanel')
 TeacherSignupStoreModule = require 'views/core/CreateAccountModal/teacher/TeacherSignupStoreModule'
 
 # TODO: Figure out why these tests break Travis. Suspect it has to do with the

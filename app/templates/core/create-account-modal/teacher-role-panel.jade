@@ -11,6 +11,7 @@ div.school-info-panel.text-left
           v-bind:placeholder="$t('teachers_quote.phone_number_help')"
           v-model="phoneNumber"
           ref='focus'
+          name="phoneNumber"
         )
       
   .row
@@ -20,7 +21,7 @@ div.school-info-panel.text-left
           | {{ $t("teachers_quote.primary_role_label") }}
           =" "
           strong(v-if="showRequired && !role") {{ $t("common.required_field") }}
-        select.form-control(v-model="role")
+        select.form-control(v-model="role", name="role")
           option(value='') {{ $t("teachers_quote.primary_role_default") }}
           option(value="Teacher") {{ $t("courses.teacher") }}
           option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
@@ -36,7 +37,7 @@ div.school-info-panel.text-left
           | {{ $t("teachers_quote.purchaser_role_label") }}
           =" "
           strong(v-if="showRequired && !purchaserRole") {{ $t("common.required_field") }}
-        select.form-control(v-model="purchaserRole")
+        select.form-control(v-model="purchaserRole", name="purchaserRole")
           option(value='') {{ $t("teachers_quote.purchaser_role_default") }}
           option(value="Influence/Advocate") {{ $t("teachers_quote.influence_advocate") }}
           option(value="Evaluate/Recommend") {{ $t("teachers_quote.evaluate_recommend") }}
