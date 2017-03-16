@@ -197,8 +197,8 @@ module.exports = class CampaignView extends RootView
   
   # Minecraft Modal:
   maybeShowMinecraftModal: ->
-    return if features.codePlay or me.isPremium() or me.isAnonymous()
-    return unless me.isAdmin() or me.get('testGroupNumber') % 5
+    return if (not me.isAdmin()) and (features.codePlay or me.isPremium() or me.isAnonymous())
+    return unless me.isAdmin() or (me.get('testGroupNumber') % 5 is 1)
     if @campaign and @campaign.get('levels')
       levels = @campaign.get('levels')
       level = _.find(levels, {slug: "the-second-kithmaze"})
