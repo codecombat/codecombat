@@ -193,12 +193,18 @@ module.exports = class CampaignView extends RootView
       @maybeShowPendingAnnouncement()
 
     # Minecraft Modal:
-    @maybeShowMinecraftModal() 
-  
+    @maybeShowMinecraftModal()
+
   # Minecraft Modal:
   maybeShowMinecraftModal: ->
-    return if (not me.isAdmin()) and (features.codePlay or me.isPremium() or me.isAnonymous())
-    return unless me.isAdmin() or (me.get('testGroupNumber') % 5 is 1)
+    userQualifiesForMinecraftModal: (user) ->
+      return false if features.codePlay
+      return true if user.isAdmin()
+      return false if user.isPremium()
+      return false if user.isAnonymous()
+      return user.get('testGroupNumber') % 5 is 1
+
+    return unless userQualifiesForMinecraftModal(me)
     if @campaign and @campaign.get('levels')
       levels = @campaign.get('levels')
       level = _.find(levels, {slug: "the-second-kithmaze"})
