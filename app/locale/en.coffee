@@ -707,11 +707,14 @@
     ball_name: "Red Squeaky Ball"
     ball_description: "ball.squeak()"
     collect_pets: "Collect pets for your heroes!"
-    each_pet: "Each pet has a unique ability!"
-    upgrade_to_premium: "Upgrade to {{premium_features}} today!"
-    play_second_kithmaze: "Play {{the_second_kithmaze}} today!"
+    each_pet: "Each pet has a unique helper ability!"
+    upgrade_to_premium: "Become a {{subscriber}} to equip pets."
+    play_second_kithmaze: "Play {{the_second_kithmaze}} to unlock the Wolf Pup!"
     the_second_kithmaze: "The Second Kithmaze"
-    keep_playing: "Keep playing to discover them!"
+    keep_playing: "Keep playing to discover the first pet!"
+    coming_soon: "Coming soon"
+    now_available: "Now available for subscribers!"
+    subscriber: "subscriber"
 
   premium_features:
     get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page

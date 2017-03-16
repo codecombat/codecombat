@@ -56,6 +56,10 @@ module.exports = class AnnouncementModal extends ModalView
     x = $(".paper-area").position()
     $("#item-tooltip").show().css("left", ((e.clientX - w.left) + 96) + "px")
     $("#item-tooltip").show().css("top", ((e.clientY - w.top)) + "px")
+    if $(e.currentTarget).data('coming-soon')
+      $("#item-tooltip #coming-soon").show()
+    else
+      $("#item-tooltip #coming-soon").hide()
     $("#item-tooltip #pet-name").text($.i18n.t($(e.currentTarget).data("name")))
     $("#item-tooltip #pet-description").text($.i18n.t($(e.currentTarget).data("description")))
     @isHover = true
