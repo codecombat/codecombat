@@ -376,6 +376,9 @@ _.extend UserSchema.properties,
       country: { type: 'string' }
     }
   }
+  lastAnnouncementSeen:
+    type: 'number'
+    description: 'The highed announcement modal index displayed to the user.'
 
 c.extendBasicProperties UserSchema, 'user'
 
