@@ -277,6 +277,7 @@ module.exports = class User extends CocoModel
     @fetch(options)
 
   logout: (options={}) ->
+    return if features.codePlay
     options.type = 'POST'
     options.url = '/auth/logout'
     FB?.logout?()

@@ -221,8 +221,11 @@ module.exports = class CocoRouter extends Backbone.Router
 
     # TODO: Combine these two?
     if features.playViewsOnly and not (_.string.startsWith(document.location.pathname, '/play') or document.location.pathname is '/admin')
+      delete window.alreadyLoadedView
       return @navigate('/play', { trigger: true, replace: true })
-    path = 'play/CampaignView' if features.playOnly and not /^(views)?\/?play/.test(path)
+    if features.playOnly and not /^(views)?\/?play/.test(path)
+      delete window.alreadyLoadedView
+      path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     ViewClass = @tryToLoadModule path

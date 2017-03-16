@@ -240,7 +240,8 @@ if view.showAds()
           button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
         else
           a(href="/account").player-name.spr= me.get('name')
-          button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+          if !features.codePlay
+            button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
           if me.isPremium()
             button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 

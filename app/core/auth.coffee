@@ -21,6 +21,7 @@ init = ->
 
 module.exports.logoutUser = ->
   # TODO: Refactor to use User.logout
+  return if features.codePlay
   FB?.logout?()
   callback = ->
     location = _.result(currentView, 'logoutRedirectURL')

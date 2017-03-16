@@ -54,8 +54,9 @@ block header
                 if serverSession && serverSession.amActually
                   li
                     a#nav-stop-spying-button Stop Spying
-                li
-                  a#logout-button(data-i18n="login.log_out")
+                if !features.codePlay
+                  li
+                    a#logout-button(data-i18n="login.log_out")
   
           else
             button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
