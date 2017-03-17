@@ -197,8 +197,8 @@ module.exports = class CampaignView extends RootView
 
   # Minecraft Modal:
   maybeShowMinecraftModal: ->
+    return false if features.freeOnly
     userQualifiesForMinecraftModal = (user) ->
-      return false if features.codePlay
       return true if user.isAdmin()
       return false if user.isPremium()
       return false if user.isAnonymous()
@@ -991,6 +991,7 @@ module.exports = class CampaignView extends RootView
     )
 
   maybeShowPendingAnnouncement: () ->
+    return false if features.freeOnly # TODO: handle announcements that can be shown to free only servers
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
