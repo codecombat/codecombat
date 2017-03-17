@@ -97,7 +97,8 @@ module.exports = class SubscriptionView extends RootView
 
   onClickRecipientConfirmUnsubscribe: (e) ->
     email = $(e.target).closest('tr').find('td.recipient-email').text()
-    @recipientSubs.unsubscribe(email, => @render?())
+    id = $(e.target).closest('tr').data('recipient-id')
+    @recipientSubs.unsubscribe(email, id, => @render?())
 
   onStripeReceivedToken: (e) ->
     @recipientSubs.finishSubscribe(e.token.id, => @render?())
@@ -324,19 +325,15 @@ class RecipientSubs
       render()
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
-  unsubscribe: (email, render) ->
+  unsubscribe: (email, id, render) ->
     delete @state
     @stateMessage = ''
     delete @justSubscribed
     @addSubscribing(email)
     render()
-    stripeInfo = _.clone(me.get('stripe'))
-    stripeInfo.unsubscribeEmail = email
-    me.set('stripe', stripeInfo)
-    me.once 'sync', =>
+    me.unsubscribeRecipient(id).then =>
       @removeSubscribing(email)
       @update(render)
-    me.patch({headers: {'X-Change-Plan': 'true'}})
 
   update: (render) ->
     delete @state

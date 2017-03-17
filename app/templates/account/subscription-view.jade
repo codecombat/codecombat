@@ -158,7 +158,7 @@ block content
               th(data-i18n="general.name")
               th
             for recipient in view.recipientSubs.recipients
-              tr
+              tr(data-recipient-id=recipient._id)
                 td.recipient-email= recipient.emailLower
                 td.recipient-name= recipient.name
                 td.recipient-unsubscribe

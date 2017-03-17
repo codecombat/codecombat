@@ -151,6 +151,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
         dep = @expand(rootFolder, dep)
         continue if dep is 'memwatch'
         continue if _.string.startsWith(dep, 'ace/')
+        #https://staging.codecombat.com/f6c93e8617aaec9d337682513af46eb1094caf8d/javascripts/app/templates/play/modal/announcements.js
+        continue if _.string.startsWith(dep, 'templates/play/modal/announcements')
         dependencies.push(dep)
         console.debug dep if LOG
     console.groupEnd() if LOG
