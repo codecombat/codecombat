@@ -197,7 +197,7 @@ module.exports = class CampaignView extends RootView
 
   # Minecraft Modal:
   maybeShowMinecraftModal: ->
-    userQualifiesForMinecraftModal: (user) ->
+    userQualifiesForMinecraftModal = (user) ->
       return false if features.codePlay
       return true if user.isAdmin()
       return false if user.isPremium()
