@@ -18,7 +18,7 @@ block content
       div.col-md-4
         #account-links
           a.btn.btn-lg.btn-primary(href="/account/settings", data-i18n="play.settings")
-      if !features.freeOnly
+      if !me.freeOnly()
         div.col-md-4
           #account-links
             a.btn.btn-lg.btn-primary(href="/account/payments", data-i18n="account.payments")

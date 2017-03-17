@@ -53,7 +53,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
   onHeroesLoaded: ->
     @formatHero hero for hero in @heroes.models
-    if store.state.features.freeOnly
+    if me.freeOnly()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
 
   formatHero: (hero) ->
@@ -269,7 +269,7 @@ module.exports = class PlayHeroesModal extends ModalView
     affordable = @visibleHero.get('gems') <= me.gems()
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless features.freeOnly
+      @askToBuyGems button unless me.freeOnly()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(@visibleHero)

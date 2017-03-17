@@ -413,6 +413,9 @@ module.exports = class User extends CocoModel
   isFromIndia: -> @get('country') is 'india'
   setToGerman: -> _.string.startsWith((@get('preferredLanguage') or ''), 'de')
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
+  
+  freeOnly: ->
+    return features.freeOnly and not me.isPremium()
 
   sendParentEmail: (email, options={}) ->
     options.data ?= {}
