@@ -34,6 +34,10 @@ block content
 
 
     .container
+      +teacher-quests
+
+    //- TODO: above or below teacher quests?
+    .container
       div#classes-nag-subview
 
       h3(data-i18n='teacher.current_classes')
@@ -127,3 +131,48 @@ mixin archivedClassRow(classroom)
     .col-xs-2
       .class-links.pull-right
         a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
+
+mixin teacher-quests
+  .teacher-quests
+    .row
+      .col-sm-3.quests-summary-col
+        h1.center 37%
+        .center TODO: pie chart
+        .center Teacher Quests
+      .col-sm-9.quests-list-col
+        strong.center Keep going! Here's what you can do next:
+        - var lastComplete = null;
+        - var nextIncomplete = null;
+        each quest in view.teacherQuestData
+          if quest.complete
+            - lastComplete = quest;
+          else if !nextIncomplete
+            - nextIncomplete = quest;
+        - lastComplete.lastComplete = true;
+        - nextIncomplete.nextIncomplete = true;
+        each quest in view.teacherQuestData
+          if quest.complete
+            if quest.lastComplete
+              .quest-complete.hide
+                +teacherQuest(quest)
+            else
+              .quest-complete
+                +teacherQuest(quest)
+          else
+            if quest.nextIncomplete
+              .quest-incomplete
+                +teacherQuest(quest)
+            else
+              .quest-incomplete.hide
+                +teacherQuest(quest)
+    .row
+      .col-md-12
+        a.see-all-quests See all quests
+
+mixin teacherQuest(quest)
+  div !{quest.title}
+  if (quest.steps || []).length > 0
+    ul
+      each step in quest.steps || []
+        li !{step}
+

@@ -20,6 +20,57 @@ module.exports = class TeacherClassesView extends RootView
   template: template
   helper: helper
 
+  # TODO: where to track this data?
+  teacherQuestData:
+    'create_classroom':
+      title: 'Create Classroom'
+      complete: true
+    'add_students':
+      title: 'Add Students'
+      complete: true
+    'teach_calls':
+      title: 'Teach your students to call methods.'
+      complete: false
+      steps: [
+        "<a href='http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf'>Print out the Student Quick Start Guide in the Resource Hub.</a>"
+      ]
+    'teach_strings':
+      title: 'Teach your students <strong>strings</strong>.'
+      complete: false
+      steps: [
+        'Play True Names as a teacher.'
+      ]
+    'teach_loops':
+      title: 'Teach your students <strong>loops</strong>.'
+      complete: false
+      steps: [
+        'Use the Loops Activity in the CS1 Curriculum guide.'
+      ]
+    'teach_variables':
+      title: 'Teach your students <strong>variables</strong>.'
+      complete: false
+      steps: [
+        'Print out the Python Syntax guide located in the Resource Hub.'
+      ]
+    'kithgard_gates_100':
+      title: 'Get 100% of class to Kithguard Gates.'
+      complete: false
+      steps: [
+        'Print out the Engineering Cycle Worksheet in the Resource Hub.'
+      ]
+    'through_wakka_maul':
+      title: 'Get your students through Wakka Maul.'
+      complete: false
+      steps: [
+        'Read the Arena Levels - Teacher Guide in the Resource Hub.'
+      ]
+    'reach_gamedev':
+      title: 'Get to new World (GameDev)'
+      complete: false
+      steps: [
+        'Create a license request.'
+      ]
+
   events:
     'click .edit-classroom': 'onClickEditClassroom'
     'click .archive-classroom': 'onClickArchiveClassroom'
@@ -29,6 +80,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .create-teacher-btn': 'onClickCreateTeacherButton'
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
     'click .view-class-btn': 'onClickViewClassButton'
+    'click .see-all-quests': 'onClickSeeAllQuests'
 
   getTitle: -> return $.i18n.t('teacher.my_classes')
 
@@ -154,3 +206,7 @@ module.exports = class TeacherClassesView extends RootView
           @courseInstances.add(courseInstance)
           @listenToOnce courseInstance, 'sync', @addFreeCourseInstances
           return
+
+  onClickSeeAllQuests: (e) ->
+    $(e.target).addClass('hide')
+    $('.quest-complete,.quest-incomplete').removeClass('hide')
