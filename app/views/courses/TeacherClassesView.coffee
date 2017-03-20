@@ -20,56 +20,55 @@ module.exports = class TeacherClassesView extends RootView
   template: template
   helper: helper
 
-  # TODO: where to track this data?
-  # TODO: i18n all the things
+  # TODO: where to track/save this data?
   teacherQuestData:
     'create_classroom':
-      title: 'Create Classroom'
+      title: $.i18n.t('teacher.teacher_quest_create_classroom')
       complete: false
     'add_students':
-      title: 'Add Students'
+      title: $.i18n.t('teacher.teacher_quest_add_students')
       complete: false
     'teach_methods':
-      title: 'Teach your students to call methods.'
+      title: $.i18n.t('teacher.teacher_quest_teach_methods')
       complete: false
       steps: [
-        "<a href='http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf'>Print out the Student Quick Start Guide in the Resource Hub.</a>"
+        $.i18n.t('teacher.teacher_quest_teach_methods_step1')
       ]
     'teach_strings':
-      title: 'Teach your students <strong>strings</strong>.'
+      title: $.i18n.t('teacher.teacher_quest_teach_strings')
       complete: false
       steps: [
-        'Play True Names as a teacher.'
+        $.i18n.t('teacher.teacher_quest_teach_strings_step1')
       ]
     'teach_loops':
-      title: 'Teach your students <strong>loops</strong>.'
+      title: $.i18n.t('teacher.teacher_quest_teach_loops')
       complete: false
       steps: [
-        'Use the Loops Activity in the CS1 Curriculum guide.'
+        $.i18n.t('teacher.teacher_quest_teach_loops_step1')
       ]
     'teach_variables':
-      title: 'Teach your students <strong>variables</strong>.'
+      title: $.i18n.t('teacher.teacher_quest_teach_variables')
       complete: false
       steps: [
-        'Print out the Python Syntax guide located in the Resource Hub.'
+        $.i18n.t('teacher.teacher_quest_teach_variables_step1')
       ]
     'kithgard_gates_100':
-      title: 'Get 100% of a class to Kithguard Gates.'
+      title: $.i18n.t('teacher.teacher_quest_kithgard_gates_100')
       complete: false
       steps: [
-        'Print out the Engineering Cycle Worksheet in the Resource Hub.'
+        $.i18n.t('teacher.teacher_quest_kithgard_gates_100_step1')
       ]
     'wakka_maul_100':
-      title: 'Get your students through Wakka Maul.'
+      title: $.i18n.t('teacher.teacher_quest_wakka_maul_100')
       complete: false
       steps: [
-        'Read the Arena Levels - Teacher Guide in the Resource Hub.'
+        $.i18n.t('teacher.teacher_quest_wakka_maul_100_step1')
       ]
     'reach_gamedev':
-      title: 'Get to new World (GameDev)'
+      title: $.i18n.t('teacher.teacher_quest_reach_gamedev')
       complete: false
       steps: [
-        'Create a license request.'
+        $.i18n.t('teacher.teacher_quest_reach_gamedev_step1')
       ]
 
   events:
