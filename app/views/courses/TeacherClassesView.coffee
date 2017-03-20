@@ -131,6 +131,8 @@ module.exports = class TeacherClassesView extends RootView
       kithgardGatesCompletes = 0
       wakkaMaulCompletes = 0
       for session in classroom.sessions.models
+        if session.get('level')?.original is '541c9a30c6362edfb0f34479' # kithgard-gates
+          kithgardGatesCompletes++
         continue unless session.get('state')?.complete
         if session.get('level')?.original is '5411cb3769152f1707be029c' # dungeons-of-kithgard
           @teacherQuestData['teach_methods'].complete = true
@@ -140,8 +142,6 @@ module.exports = class TeacherClassesView extends RootView
           @teacherQuestData['teach_loops'].complete = true
         if session.get('level')?.original is '5452adea57e83800009730ee' # known-enemy
           @teacherQuestData['teach_variables'].complete = true
-        if session.get('level')?.original is '541c9a30c6362edfb0f34479' # kithgard-gates
-          kithgardGatesCompletes++
         if session.get('level')?.original is '5630eab0c0fcbd86057cc2f8' # wakka-maul
           wakkaMaulCompletes++
       if kithgardGatesCompletes is classroom.get('members')?.length
