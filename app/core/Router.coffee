@@ -139,6 +139,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'il-signup': go('account/IsraelSignupView')
 
     'legal': go('LegalView')
+    
+    'logout': 'logout'
 
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
@@ -352,3 +354,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   reload: ->
     document.location.reload()
+    
+  logout: ->
+    me.logout()
+    @navigate('/', { trigger: true })
