@@ -277,12 +277,11 @@ module.exports = class User extends CocoModel
     @fetch(options)
 
   logout: (options={}) ->
-    return if features.codePlay
     options.type = 'POST'
     options.url = '/auth/logout'
     FB?.logout?()
     options.success ?= ->
-      location = _.result(currentView, 'logoutRedirectURL')
+      location = _.result(window.currentView, 'logoutRedirectURL')
       if location
         window.location = location
       else
@@ -413,6 +412,9 @@ module.exports = class User extends CocoModel
   isFromIndia: -> @get('country') is 'india'
   setToGerman: -> _.string.startsWith((@get('preferredLanguage') or ''), 'de')
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
+  
+  freeOnly: ->
+    return features.freeOnly and not me.isPremium()
 
   sendParentEmail: (email, options={}) ->
     options.data ?= {}

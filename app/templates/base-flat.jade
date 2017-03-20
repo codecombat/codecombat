@@ -3,13 +3,13 @@ mixin accountLinks
     a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
   li
     a(href="/account/settings", data-i18n="play.settings")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || features.freeOnly)
+  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
     li
       a(href="/account/payments", data-i18n="account.payments")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || features.freeOnly) || me.hasSubscription()
+  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
     li
       a(href="/account/subscription", data-i18n="account.subscription")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || features.freeOnly)
+  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
     li
       a(href="/account/prepaid", data-i18n="account.prepaid_codes")
   if me.isAdmin()

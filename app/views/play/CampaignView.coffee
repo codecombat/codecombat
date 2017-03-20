@@ -197,7 +197,7 @@ module.exports = class CampaignView extends RootView
 
   # Minecraft Modal:
   maybeShowMinecraftModal: ->
-    return false if features.freeOnly
+    return false if me.freeOnly()
     userQualifiesForMinecraftModal = (user) ->
       return true if user.isAdmin()
       return false if user.isPremium()
@@ -230,7 +230,7 @@ module.exports = class CampaignView extends RootView
     if me.level() < 12 and @terrain is 'dungeon' and not @editorMode
       reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
       context.levels = _.reject context.levels, slug: reject
-    if features.freeOnly
+    if me.freeOnly()
       context.levels = _.reject context.levels, (level) ->
         return false if features.codePlay and codePlay.canPlay(level.slug)
         return level.requiresSubscription
@@ -279,7 +279,7 @@ module.exports = class CampaignView extends RootView
           if me.level() < 12 and campaign.get('slug') is 'dungeon' and not @editorMode
             reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
             levels = _.reject levels, slug: reject
-          if features.freeOnly
+          if me.freeOnly()
             levels = _.reject levels, (level) ->
               return false if features.codePlay and codePlay.canPlay(level.slug)
               return level.requiresSubscription
@@ -991,7 +991,7 @@ module.exports = class CampaignView extends RootView
     )
 
   maybeShowPendingAnnouncement: () ->
-    return false if features.freeOnly # TODO: handle announcements that can be shown to free only servers
+    return false if me.freeOnly() # TODO: handle announcements that can be shown to free only servers
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'

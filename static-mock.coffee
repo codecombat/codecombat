@@ -22,6 +22,7 @@ exports.me =
   broadName: () -> ''
   get: (prop) -> props[prop]
   isOnPremiumServer: () -> false
+  freeOnly: -> false
 
 exports.view = 
   forumLink: () -> 'http://discourse.codecombat.com/'
