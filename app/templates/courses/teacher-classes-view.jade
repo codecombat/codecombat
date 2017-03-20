@@ -133,25 +133,30 @@ mixin archivedClassRow(classroom)
         a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
 
 mixin teacher-quests
+  - var numComplete = 0;
+  - var totalQuests = 0;
+  each quest in view.teacherQuestData
+    - totalQuests++;
+    if quest.complete
+      - lastComplete = quest;
+      - numComplete++;
+    else if !nextIncomplete
+      - nextIncomplete = quest;
+  if lastComplete
+    - lastComplete.lastComplete = true;
+  if nextIncomplete
+    - nextIncomplete.nextIncomplete = true;
+  - var percentComplete = totalQuests ? Math.round(numComplete * 100.0 / totalQuests) : 0;
   .teacher-quests
     .row
       .col-sm-3.quests-summary-col
-        h1.center 37%
+        h1.center #{percentComplete}%
         .center TODO: pie chart
         .center Teacher Quests
       .col-sm-9.quests-list-col
         strong.center Keep going! Here's what you can do next:
         - var lastComplete = null;
         - var nextIncomplete = null;
-        each quest in view.teacherQuestData
-          if quest.complete
-            - lastComplete = quest;
-          else if !nextIncomplete
-            - nextIncomplete = quest;
-        if lastComplete
-          - lastComplete.lastComplete = true;
-        if nextIncomplete
-          - nextIncomplete.nextIncomplete = true;
         ul
           each quest in view.teacherQuestData
             if quest.complete
