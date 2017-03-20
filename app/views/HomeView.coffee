@@ -7,6 +7,7 @@ Courses = require 'collections/Courses'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
+CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
 
 #  TODO: auto margin feature paragraphs
 
@@ -28,6 +29,7 @@ module.exports = class HomeView extends RootView
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickViewProfile'
     'click .setup-class-btn': 'onClickSetupClass'
+    'click .my-classes-btn': 'onClickMyClassesButton'
     'click .resource-btn': 'onClickResourceButton'
 
   shortcuts:
@@ -80,19 +82,23 @@ module.exports = class HomeView extends RootView
 
   onClickStudentButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    @render?() if document.location.href.search('/home#create-account-student') isnt -1
+    @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    @render?() if document.location.href.search('/home#create-account-teacher') isnt -1
+    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickViewProfile: (e) ->
+    e.preventDefault()
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    application.router.navigate("/user/#{me.getSlugOrID()}", { trigger: true })
+
+  onClickMyClassesButton: (e) ->
+    e.preventDefault()
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   onClickResourceButton: (e) ->
+    e.preventDefault()
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    application.router.navigate('/teachers/resources', { trigger: true })
 
   afterRender: ->
     @onChangeSchoolLevelDropdown()
@@ -105,7 +111,6 @@ module.exports = class HomeView extends RootView
     @fitToPage()
     setTimeout(@fitToPage, 0)
     if me.isAnonymous()
-      CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
       if document.location.hash is '#create-account'
         @openModalView(new CreateAccountModal())
       if document.location.hash is '#create-account-individual'

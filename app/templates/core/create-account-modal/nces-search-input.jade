@@ -21,8 +21,8 @@
         v-for="(suggestion, index) in suggestions"
         v-bind:class="{ active: index === suggestionIndex }"
         v-on:mouseover="suggestionHover(index)"
-        v-on:mouseout="hoverOff"
         v-on:click="navSearchChoose"
+        v-on:mousedown.prevent=""
       )
         .school(v-if="displayKey === 'name'" v-html="suggestion._highlightResult.name.value")
         .district

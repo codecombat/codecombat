@@ -51,21 +51,16 @@ NcesSearchInput = Vue.extend
     navSearchUp: -> @suggestionIndex = Math.max(0, @suggestionIndex - 1)
     navSearchDown: -> @suggestionIndex = Math.min(@suggestions.length, @suggestionIndex + 1)
     navSearchChoose: ->
-      @mouseOnSuggestion = false
       suggestion = @suggestions[@suggestionIndex]
       return unless suggestion
       @navSearchClear()
       @$emit('navSearchChoose', @displayKey, suggestion)
     onBlur: ->
-      return if @mouseOnSuggestion
       @navSearchClear()
     navSearchClear: ->
       @suggestions = []
-      @mouseOnSuggestion = false
     suggestionHover: (index) ->
-      @mouseOnSuggestion = true
       @suggestionIndex = index
-    hoverOff: -> @mouseOnSuggestion = false
   
   watch:
     initialValue: (@value) ->

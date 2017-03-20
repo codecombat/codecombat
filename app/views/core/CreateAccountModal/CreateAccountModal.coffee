@@ -171,7 +171,8 @@ module.exports = class CreateAccountModal extends ModalView
   destroy: ->
     if @teacherSignupComponent
       @teacherSignupComponent.$destroy()
-    store.unregisterModule('modal')
+    try
+      store.unregisterModule('modal')
   
   onClickLoginLink: ->
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues') }))
