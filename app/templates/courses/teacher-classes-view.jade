@@ -150,8 +150,15 @@ mixin teacher-quests
   .teacher-quests
     .row
       .col-sm-3.quests-summary-col
-        h1.center #{percentComplete}%
-        .center TODO: pie chart
+        .quest-progress.center #{percentComplete}%
+        .center
+          .el
+            - var height = 100;
+            svg(width=height, height=height)
+              - var radius = height / 2;
+              - var fullCircleStroke = 2*Math.PI*radius / 2
+              circle.bottom(r=radius,cx=radius,cy=radius)
+              circle.top(r=radius / 2,cx=radius,cy=radius,style="stroke-dasharray: #{fullCircleStroke/100*percentComplete} #{fullCircleStroke}")
         .center Teacher Quests
       .col-sm-9.quests-list-col
         strong.center Keep going! Here's what you can do next:
