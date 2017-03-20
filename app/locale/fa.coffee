@@ -686,6 +686,36 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
 
+#  announcement:
+#    cuddly_companions: "Cuddly Companions!"
+#    kindling_name: "Kindling Elemental"
+#    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
+#    griffin_name: "Baby Griffin"
+#    griffin_description: "Griffins are half eagle, half lion, all adorable."
+#    raven_name: "Raven"
+#    raven_description: "Ravens are excellent at gathering shiny bottles full of health for you."
+#    mimic_name: "Mimic"
+#    mimic_description: "Mimics can pick up coins for you. Move them on top of coins to increase your gold supply."
+#    cougar_name: "Cougar"
+#    cougar_description: "Cougars like to earn a PhD by Purring Happily Daily."
+#    fox_name: "Blue Fox"
+#    fox_description: "Blue foxes are very clever and love digging in the dirt and snow!"
+#    pugicorn_name: "Pugicorn"
+#    pugicorn_description: "Pugicorns are some of the rarest creatures and cast cast spells!"
+#    wolf_name: "Wolf Pup"
+#    wolf_description: "Wolf pups excel in hunting, gathering, and playing a mean game of hide-and-seek!"
+#    ball_name: "Red Squeaky Ball"
+#    ball_description: "ball.squeak()"
+#    collect_pets: "Collect pets for your heroes!"
+#    each_pet: "Each pet has a unique helper ability!"
+#    upgrade_to_premium: "Become a {{subscriber}} to equip pets."
+#    play_second_kithmaze: "Play {{the_second_kithmaze}} to unlock the Wolf Pup!"
+#    the_second_kithmaze: "The Second Kithmaze"
+#    keep_playing: "Keep playing to discover the first pet!"
+#    coming_soon: "Coming soon"
+#    now_available: "Now available for subscribers!"
+#    subscriber: "subscriber"
+
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
@@ -1441,6 +1471,9 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
 #    cs1_pairprogramming: "Pair Programming Activity"
 #    cs1_pairprogramming_desc: "Introduce students to a pair programming exercise that will help them become better listeners and communicators."
+#    gd1: "Game Development 1"
+#    gd1_guide: "Game Development 1 - Project Guide"
+#    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
 #    wd1: "Web Development 1"
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
@@ -1500,6 +1533,15 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    hoc_additional_contact: "Get in touch"
 #    revoke_confirm: "Are you sure you want to revoke a Full License from {{student_name}}? The license will become available to assign to another student."
 #    revoking: "Revoking..."
+#    unused_licenses: "You have unused Licenses that allow you to assign students paid courses when they're ready to learn more!"
+#    remember_new_courses: "Remember to assign new courses!"
+#    more_info: "More Info"
+#    how_to_assign_courses: "How to Assign Courses"
+#    select_students: "Select Students"
+#    select_instructions: "Click the checkbox next to each student you want to assign courses to."
+#    choose_course: "Choose Course"
+#    choose_instructions: "Select the course from the dropdown menu you’d like to assign, then click “Assign to Selected Students.”"
+#    push_projects: "We recommend assigning Web Development 1 or Game Development 1 after students have finished Introduction to Computer Science! See our {{resource_hub}} for more details on those courses."
 
 #  sharing:
 #    game: "Game"
@@ -2121,3 +2163,10 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    october: "October"
 #    november: "November"
 #    december: "December"
+
+#  code_play_create_account_modal:
+#    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
+#    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
+#    sign_up: "Sign up & keep coding ▶"
+#    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
+#    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
