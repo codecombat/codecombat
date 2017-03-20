@@ -148,23 +148,26 @@ mixin teacher-quests
             - lastComplete = quest;
           else if !nextIncomplete
             - nextIncomplete = quest;
-        - lastComplete.lastComplete = true;
-        - nextIncomplete.nextIncomplete = true;
-        each quest in view.teacherQuestData
-          if quest.complete
-            if quest.lastComplete
-              .quest-complete.hide
-                +teacherQuest(quest)
+        if lastComplete
+          - lastComplete.lastComplete = true;
+        if nextIncomplete
+          - nextIncomplete.nextIncomplete = true;
+        ul
+          each quest in view.teacherQuestData
+            if quest.complete
+              if quest.lastComplete
+                li.quest-complete
+                  +teacherQuest(quest)
+              else
+                li.quest-complete.hide
+                  +teacherQuest(quest)
             else
-              .quest-complete
-                +teacherQuest(quest)
-          else
-            if quest.nextIncomplete
-              .quest-incomplete
-                +teacherQuest(quest)
-            else
-              .quest-incomplete.hide
-                +teacherQuest(quest)
+              if quest.nextIncomplete
+                li.quest-incomplete
+                  +teacherQuest(quest)
+              else
+                li.quest-incomplete.hide
+                  +teacherQuest(quest)
     .row
       .col-md-12
         a.see-all-quests See all quests

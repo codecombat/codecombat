@@ -21,14 +21,15 @@ module.exports = class TeacherClassesView extends RootView
   helper: helper
 
   # TODO: where to track this data?
+  # TODO: i18n all the things
   teacherQuestData:
     'create_classroom':
       title: 'Create Classroom'
-      complete: true
+      complete: false
     'add_students':
       title: 'Add Students'
-      complete: true
-    'teach_calls':
+      complete: false
+    'teach_methods':
       title: 'Teach your students to call methods.'
       complete: false
       steps: [
@@ -53,12 +54,12 @@ module.exports = class TeacherClassesView extends RootView
         'Print out the Python Syntax guide located in the Resource Hub.'
       ]
     'kithgard_gates_100':
-      title: 'Get 100% of class to Kithguard Gates.'
+      title: 'Get 100% of a class to Kithguard Gates.'
       complete: false
       steps: [
         'Print out the Engineering Cycle Worksheet in the Resource Hub.'
       ]
-    'through_wakka_maul':
+    'wakka_maul_100':
       title: 'Get your students through Wakka Maul.'
       complete: false
       steps: [
@@ -123,6 +124,33 @@ module.exports = class TeacherClassesView extends RootView
 
   onLoaded: ->
     helper.calculateDots(@classrooms, @courses, @courseInstances)
+
+    @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
+    for classroom in @classrooms.models
+      continue unless classroom.get('members')?.length > 0
+      @teacherQuestData['add_students'].complete = true
+      kithgardGatesCompletes = 0
+      wakkaMaulCompletes = 0
+      for session in classroom.sessions.models
+        continue unless session.get('state')?.complete
+        if session.get('level')?.original is '5411cb3769152f1707be029c' # dungeons-of-kithgard
+          @teacherQuestData['teach_methods'].complete = true
+        if session.get('level')?.original is '541875da4c16460000ab990f' # true-names
+          @teacherQuestData['teach_strings'].complete = true
+        if session.get('level')?.original is '55ca293b9bc1892c835b0136' # fire-dancing
+          @teacherQuestData['teach_loops'].complete = true
+        if session.get('level')?.original is '5452adea57e83800009730ee' # known-enemy
+          @teacherQuestData['teach_variables'].complete = true
+        if session.get('level')?.original is '541c9a30c6362edfb0f34479' # kithgard-gates
+          kithgardGatesCompletes++
+        if session.get('level')?.original is '5630eab0c0fcbd86057cc2f8' # wakka-maul
+          wakkaMaulCompletes++
+      if kithgardGatesCompletes is classroom.get('members')?.length
+        @teacherQuestData['kithgard_gates_100'].complete = true
+      if wakkaMaulCompletes is classroom.get('members')?.length
+        @teacherQuestData['wakka_maul_100'].complete = true
+    # TODO: sort teacher quest data to be completes followed incompletes
+
     super()
 
   onClickEditClassroom: (e) ->
