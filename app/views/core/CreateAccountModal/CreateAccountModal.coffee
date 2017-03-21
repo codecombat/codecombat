@@ -86,6 +86,7 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @insertSubView(new ChooseAccountTypeView()),
       'choose-path': (path) ->
         if path is 'teacher'
+          window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers', ['Mixpanel']
           @signupState.set { path, screen: 'basic-info' }
         else
           @signupState.set { path, screen: 'segment-check' }
