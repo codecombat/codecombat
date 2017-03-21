@@ -15,7 +15,7 @@ module.exports =
       throw new errors.UnprocessableEntity('Email not provided.') unless email
       email = email.toLowerCase()
       user = yield User.findOne({emailLower: email})
-      throw new errors.Conflict('User with this email already exists.') if user
+      throw new errors.Conflict('User with this email already exists.', { i18n: 'server_error.email_taken' }) if user
 
     trialRequest = yield TrialRequest.findOne({applicant: req.user._id})
     if not trialRequest

@@ -288,6 +288,17 @@
     sso_connected: "Successfully connected with:"
     select_your_starting_hero: "Select Your Starting Hero:"
     you_can_always_change_your_hero_later: "You can always change your hero later."
+    finish: "Finish"
+    teacher_ready_to_create_class: "You're ready to create your first class!"
+    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+    teacher_list_create_class: "On the next screen you will be able to create a new class."
+    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
+    teacher_list_resource_hub_1: "Check out the"
+    teacher_list_resource_hub_2: "Course Guides"
+    teacher_list_resource_hub_3: "for solutions to every level, and the"
+    teacher_list_resource_hub_4: "Resource Hub"
+    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
+    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 
   recover:
     recover_account_title: "Recover Account"
@@ -306,6 +317,7 @@
     back: "Back" # When used as an action verb, like "Navigate backward"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
+    next: "Next"
     default_code: "Default Code"
     loading: "Loading..."
     overview: "Overview"
@@ -331,6 +343,7 @@
     submit_changes: "Submit Changes"
     save_changes: "Save Changes"
     required_field: "required"
+    valid_phone: "Enter a valid phone number."
 
   general:
     and: "and"
@@ -976,12 +989,14 @@
     approve_funds: "Approve Funds"
     no_purchaser_role: "No role in purchase decisions"
     district_label: "District"
+    district_name: "District Name"
     district_na: "Enter N/A if not applicable"
     organization_label: "School"
+    school_name: "School Name"
     city: "City"
     state: "State"
     country: "Country"
-    num_students_help: "How many do you anticipate enrolling in CodeCombat?"
+    num_students_help: "How many students do you anticipate using CodeCombat with?"
     num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
@@ -1471,6 +1486,9 @@
     cs4_curriculum_desc: "Scope and sequence, lesson plans, activities and more for Course 4."
     cs1_pairprogramming: "Pair Programming Activity"
     cs1_pairprogramming_desc: "Introduce students to a pair programming exercise that will help them become better listeners and communicators."
+    gd1: "Game Development 1"
+    gd1_guide: "Game Development 1 - Project Guide"
+    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
     wd1: "Web Development 1"
     wd1_headlines: "Headlines & Headers Activity"
     wd1_headlines_example: "View sample solution"
@@ -2167,3 +2185,7 @@
     sign_up: "Sign up & keep coding ▶"
     victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
     victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
+    
+  server_error:
+    email_taken: 'Email already taken'
+    username_taken: 'Username already taken'

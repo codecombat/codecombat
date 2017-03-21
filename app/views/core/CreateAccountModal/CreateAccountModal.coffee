@@ -8,6 +8,8 @@ SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
 SingleSignOnConfirmView = require './SingleSignOnConfirmView'
 ExtrasView = require './ExtrasView'
 ConfirmationView = require './ConfirmationView'
+TeacherSignupComponent = require './teacher/TeacherSignupComponent'
+TeacherSignupStoreModule = require './teacher/TeacherSignupStoreModule'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
@@ -15,6 +17,7 @@ User = require 'models/User'
 application  = require 'core/application'
 errors = require 'core/errors'
 utils = require 'core/utils'
+store = require('core/store')
 
 ###
 CreateAccountModal is a wizard-style modal with several subviews, one for each
@@ -65,6 +68,9 @@ module.exports = class CreateAccountModal extends ModalView
       birthday: new Date('') # so that birthday.getTime() is NaN
       authModalInitialValues: {}
       accountCreated: false
+      signupForm: {
+        subscribe: ['on'] # checked by default
+      }
     }
     
     { startOnPath } = options
@@ -72,13 +78,15 @@ module.exports = class CreateAccountModal extends ModalView
       @signupState.set({ path: 'student', screen: 'segment-check' })
     if startOnPath is 'individual'
       @signupState.set({ path: 'individual', screen: 'segment-check' })
+    if startOnPath is 'teacher'
+      @signupState.set({ path: 'teacher', screen: 'basic-info' })
 
     @listenTo @signupState, 'all', _.debounce @render
 
     @listenTo @insertSubView(new ChooseAccountTypeView()),
       'choose-path': (path) ->
         if path is 'teacher'
-          application.router.navigate('/teachers/signup', trigger: true)
+          @signupState.set { path, screen: 'basic-info' }
         else
           @signupState.set { path, screen: 'segment-check' }
 
@@ -93,10 +101,19 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @insertSubView(new BasicInfoView({ @signupState })),
       'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
       'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
-      'nav-back': -> @signupState.set { screen: 'segment-check' }
+      'nav-back': ->
+        if @signupState.get('path') is 'teacher'
+          @signupState.set { screen: 'choose-account-type' }
+        else
+          @signupState.set { screen: 'segment-check' }
       'signup': ->
         if @signupState.get('path') is 'student'
           @signupState.set { screen: 'extras', accountCreated: true }
+        else if @signupState.get('path') is 'teacher'
+          store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
+          store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
+          store.commit('modal/updateTrialRequestProperties', _.pick(@signupState.get('signupForm'), 'firstName', 'lastName'))
+          @signupState.set { screen: 'teacher-signup-component' }
         else
           @signupState.set { screen: 'confirmation', accountCreated: true }
 
@@ -108,6 +125,10 @@ module.exports = class CreateAccountModal extends ModalView
       'signup': ->
         if @signupState.get('path') is 'student'
           @signupState.set { screen: 'extras', accountCreated: true }
+        else if @signupState.get('path') is 'teacher'
+          store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
+          store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
+          @signupState.set { screen: 'teacher-signup-component' }
         else
           @signupState.set { screen: 'confirmation', accountCreated: true }
         
@@ -128,6 +149,30 @@ module.exports = class CreateAccountModal extends ModalView
         else if me.isTeacher()
           application.router.navigate('/teachers/classes', {trigger: true})
         window.location.reload()
+    
+    store.registerModule('modal', TeacherSignupStoreModule)
+
+  afterRender: ->
+    target = @$el.find('#teacher-signup-component')
+    return unless target[0]
+    if @teacherSignupComponent
+      target.replaceWith(@teacherSignupComponent.$el)
+    else
+      @teacherSignupComponent = new TeacherSignupComponent({
+        el: target[0]
+        store
+      })
+      @teacherSignupComponent.$on 'back', =>
+        if @signupState.get('ssoUsed')
+          @signupState.set('screen', 'sso-confirm')
+        else
+          @signupState.set('screen', 'basic-info')
+      
+  destroy: ->
+    if @teacherSignupComponent
+      @teacherSignupComponent.$destroy()
+    try
+      store.unregisterModule('modal')
   
   onClickLoginLink: ->
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues') }))

@@ -1,4 +1,5 @@
 form#basic-info-form.modal-body.basic-info
+  - var path = view.signupState.get('path')
   .modal-body-content
     .auth-network-logins.text-center
       h4
@@ -19,16 +20,22 @@ form#basic-info-form.modal-body.basic-info
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
-          .col-xs-offset-3.col-xs-5
+          .col-xs-offset-3(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-5'))
             .form-group
               label.control-label(for="first-name-input")
                 span(data-i18n="general.first_name")
-              input#first-name-input.form-control.input-lg(name="firstName")
-          .col-xs-4
-            .last-initial.form-group
-              label.control-label(for="last-name-input")
-                span(data-i18n="general.last_initial")
-              input#last-name-input.form-control.input-lg(name="lastName" maxlength="1")
+              input#first-name-input.form-control.input-lg(name="firstName" value=view.signupState.get('signupForm').firstName)
+          div(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-4'))
+            if view.signupState.get('path') === 'teacher'
+              .last-name.form-group
+                label.control-label(for="last-name-input")
+                  span(data-i18n="general.last_name")
+                input#last-name-input.form-control.input-lg(name="lastName" value=view.signupState.get('signupForm').lastName)
+            else
+              .last-initial.form-group
+                label.control-label(for="last-name-input")
+                  span(data-i18n="general.last_initial")
+                input#last-name-input.form-control.input-lg(name="lastName" maxlength="1" value=view.signupState.get('signupForm').lastName)
       .form-group
         .row
           .col-xs-5.col-xs-offset-3
@@ -37,14 +44,14 @@ form#basic-info-form.modal-body.basic-info
             if view.signupState.get('path') === 'student'
               .help-block.optional-help-block.pull-right
                 span(data-i18n="signup.optional")
-            input.form-control.input-lg#email-input(name="email" type="email")
+            input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email)
           .col-xs-4.email-check.fancy-error
             - var checkEmailState = view.state.get('checkEmailState');
             if checkEmailState === 'checking'
               span.small(data-i18n="signup.checking")
             if checkEmailState === 'exists'
               span.small
-                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                span.text-burgundy.glyphicon.glyphicon-remove-circle
                 =" "
                 span(data-i18n="signup.account_exists")
                 =" "
@@ -61,14 +68,14 @@ form#basic-info-form.modal-body.basic-info
           .col-xs-5.col-xs-offset-3
             label.control-label(for="username-input")
               span(data-i18n="general.username")
-            input.form-control.input-lg#username-input(name="name")
+            input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name)
           .col-xs-4.name-check.fancy-error
             - var checkNameState = view.state.get('checkNameState');
             if checkNameState === 'checking'
               span.small(data-i18n="signup.checking")
             if checkNameState === 'exists'
               span.small
-                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                span.text-burgundy.glyphicon.glyphicon-remove-circle
                 =" "
                 span= view.state.get('suggestedNameText')
             if checkNameState === 'available'
@@ -82,14 +89,14 @@ form#basic-info-form.modal-body.basic-info
           .col-xs-5.col-xs-offset-3
             label.control-label(for="password-input")
               span(data-i18n="general.password")
-            input.form-control.input-lg#password-input(name="password" type="password")
+            input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password)
 
       .form-group.checkbox.subscribe
         .row
           .col-xs-7.col-xs-offset-3
             .checkbox
               label
-                input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+                input#subscribe-input(type="checkbox" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
                 span(data-i18n="signup.email_announcements")
 
       .error-area
@@ -101,8 +108,12 @@ form#basic-info-form.modal-body.basic-info
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="login.sign_up")
+    if view.signupState.get('path') === 'teacher'
+      button.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.next")
+    else
+      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="login.sign_up")
 
     button.back-button.btn.btn-lg.btn-navy-alt(type='button')
       span(data-i18n="common.back")
