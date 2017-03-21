@@ -147,45 +147,52 @@ mixin teacher-quests
   if nextIncomplete
     - nextIncomplete.nextIncomplete = true;
   - var percentComplete = totalQuests ? Math.round(numComplete * 100.0 / totalQuests) : 0;
-  .teacher-quests
-    .row
-      .col-sm-3.quests-summary-col
-        .quest-progress.center #{percentComplete}%
-        .center
-          .el
-            - var height = 100;
-            svg(width=height, height=height)
-              - var radius = height / 2;
-              - var fullCircleStroke = 2*Math.PI*radius / 2
-              circle.bottom(r=radius,cx=radius,cy=radius)
-              circle.top(r=radius / 2,cx=radius,cy=radius,style="stroke-dasharray: #{fullCircleStroke/100*percentComplete} #{fullCircleStroke}")
-        .center Teacher Quests
-      .col-sm-9.quests-list-col
-        strong.center Keep going! Here's what you can do next:
-        - var lastComplete = null;
-        - var nextIncomplete = null;
-        ul
-          each quest in view.teacherQuestData
-            if quest.complete
-              if quest.lastComplete
-                li.quest-complete
-                  +teacherQuest(quest)
+  if view.prepaids.length < 1
+    .teacher-quests
+      .row
+        .col-sm-3.quests-summary-col
+          .quest-progress.center #{percentComplete}%
+          .center
+            if numComplete != totalQuests
+              .el
+                - var height = 100;
+                svg(width=height, height=height)
+                  - var radius = height / 2;
+                  - var fullCircleStroke = 2*Math.PI*radius / 2
+                  circle.bottom(r=radius,cx=radius,cy=radius)
+                  circle.top(r=radius / 2,cx=radius,cy=radius,style="stroke-dasharray: #{fullCircleStroke/100*percentComplete} #{fullCircleStroke}")
+          .center Quests Complete
+        .col-sm-9.quests-list-col
+          if numComplete != totalQuests
+            h3 Teacher Quest for Success
+            strong.center!= view.translateWithMarkdown('teacher.teacher_quest_keep_going')
+          else
+            strong.center!= view.translateWithMarkdown('teacher.teacher_quest_done')
+          - var lastComplete = null;
+          - var nextIncomplete = null;
+          ul
+            each quest in view.teacherQuestData
+              if quest.complete
+                if quest.lastComplete && numComplete != totalQuests
+                  li.quest.quest-complete
+                    +teacherQuest(quest)
+                else
+                  li.quest.quest-complete.hide
+                    +teacherQuest(quest)
               else
-                li.quest-complete.hide
-                  +teacherQuest(quest)
-            else
-              if quest.nextIncomplete
-                li.quest-incomplete
-                  +teacherQuest(quest)
-              else
-                li.quest-incomplete.hide
-                  +teacherQuest(quest)
-    .row
-      .col-md-12
-        a.see-all-quests See all quests
+                if quest.nextIncomplete
+                  li.quest.quest-incomplete
+                    +teacherQuest(quest)
+                else
+                  li.quest.quest-incomplete.hide
+                    +teacherQuest(quest)
+          .div
+            a.see-all-quests.btn.btn-primary.btn-small.pull-right(data-i18n="teacher.teacher_quest_more")
+            a.see-less-quests.btn.btn-small.btn-primary.pull-right(data-i18n="teacher.teacher_quest_less" style="display: none")
 
 mixin teacherQuest(quest)
-  div !{quest.title}
+  div.quest-title !{quest.title}
+  //[!{Math.floor(quest.best*100)}%]
   if (quest.steps || []).length > 0
     ul
       each step in quest.steps || []

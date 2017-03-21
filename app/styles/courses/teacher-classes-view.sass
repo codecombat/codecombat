@@ -133,16 +133,27 @@
       margin: 20px 0px
     .quests-summary-col
     .quests-list-col
-      .quest-complete
+      > ul
+        list-style: none
+        padding-left: 0
+        margin-left: 0
+      li.quest-complete
+        padding-left: 20px
         font-size: 12px
         opacity: 0.5
-        text-decoration: line-through
-      .quest-incomplete
-    .see-all-quests
-      float: right
-      color: black
-      margin-right: 1rem
-      text-decoration: underline
+        line-height: 14px
+        > div > p
+          margin-bottom: 7px
+        .quest-title::before
+          content: "☑ "
+          font-size: 200%
+      li.quest-incomplete
+        li
+          font-size: 15px
+        .quest-title::before
+          content: "☐ "
+          font-size: 200%
+
     .el
       svg
         transform: rotate(-90deg)

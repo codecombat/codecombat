@@ -11,64 +11,67 @@ CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
+Prepaids = require 'collections/Prepaids'
 User = require 'models/User'
 utils = require 'core/utils'
+
 helper = require 'lib/coursesHelper'
+
+translateWithMarkdown = (label) ->
+  marked.inlineLexer $.i18n.t(label), []
 
 module.exports = class TeacherClassesView extends RootView
   id: 'teacher-classes-view'
   template: template
   helper: helper
+  translateWithMarkdown: translateWithMarkdown
 
   # TODO: where to track/save this data?
   teacherQuestData:
     'create_classroom':
-      title: $.i18n.t('teacher.teacher_quest_create_classroom')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_create_classroom')
     'add_students':
-      title: $.i18n.t('teacher.teacher_quest_add_students')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_add_students')
     'teach_methods':
-      title: $.i18n.t('teacher.teacher_quest_teach_methods')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_teach_methods')
       steps: [
-        $.i18n.t('teacher.teacher_quest_teach_methods_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_methods_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_methods_step2')
       ]
     'teach_strings':
-      title: $.i18n.t('teacher.teacher_quest_teach_strings')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_teach_strings')
       steps: [
-        $.i18n.t('teacher.teacher_quest_teach_strings_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_strings_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_strings_step2')
       ]
     'teach_loops':
-      title: $.i18n.t('teacher.teacher_quest_teach_loops')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_teach_loops')
       steps: [
-        $.i18n.t('teacher.teacher_quest_teach_loops_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_loops_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_loops_step2')
       ]
     'teach_variables':
-      title: $.i18n.t('teacher.teacher_quest_teach_variables')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_teach_variables')
       steps: [
-        $.i18n.t('teacher.teacher_quest_teach_variables_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_variables_step1')
+        translateWithMarkdown('teacher.teacher_quest_teach_variables_step2')
       ]
     'kithgard_gates_100':
-      title: $.i18n.t('teacher.teacher_quest_kithgard_gates_100')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_kithgard_gates_100')
       steps: [
-        $.i18n.t('teacher.teacher_quest_kithgard_gates_100_step1')
+        translateWithMarkdown('teacher.teacher_quest_kithgard_gates_100_step1')
+        translateWithMarkdown('teacher.teacher_quest_kithgard_gates_100_step2')
       ]
     'wakka_maul_100':
-      title: $.i18n.t('teacher.teacher_quest_wakka_maul_100')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_wakka_maul_100')
       steps: [
-        $.i18n.t('teacher.teacher_quest_wakka_maul_100_step1')
+        translateWithMarkdown('teacher.teacher_quest_wakka_maul_100_step1')
+        translateWithMarkdown('teacher.teacher_quest_wakka_maul_100_step2')
       ]
     'reach_gamedev':
-      title: $.i18n.t('teacher.teacher_quest_reach_gamedev')
-      complete: false
+      title: translateWithMarkdown('teacher.teacher_quest_reach_gamedev')
       steps: [
-        $.i18n.t('teacher.teacher_quest_reach_gamedev_step1')
+        translateWithMarkdown('teacher.teacher_quest_reach_gamedev_step1')
       ]
 
   events:
@@ -81,8 +84,9 @@ module.exports = class TeacherClassesView extends RootView
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
     'click .view-class-btn': 'onClickViewClassButton'
     'click .see-all-quests': 'onClickSeeAllQuests'
+    'click .see-less-quests': 'onClickSeeLessQuests'
 
-  getTitle: -> return $.i18n.t('teacher.my_classes')
+  getTitle: -> $.i18n.t 'teacher.my_classes'
 
   initialize: (options) ->
     super(options)
@@ -107,6 +111,8 @@ module.exports = class TeacherClassesView extends RootView
     @courseInstances.fetchByOwner(@teacherID)
     @supermodel.trackCollection(@courseInstances)
     @progressDotTemplate = require 'templates/teachers/hovers/progress-dot-whole-course'
+    @prepaids = new Prepaids()
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
@@ -127,28 +133,40 @@ module.exports = class TeacherClassesView extends RootView
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
       continue unless classroom.get('members')?.length > 0
-      @teacherQuestData['add_students'].complete = true
+      classCompletion = {}
+      classCompletion[key] = 0 for key in Object.keys(@teacherQuestData)
+      students = classroom.get('members')?.length
+
+      
       kithgardGatesCompletes = 0
       wakkaMaulCompletes = 0
       for session in classroom.sessions.models
         if session.get('level')?.original is '541c9a30c6362edfb0f34479' # kithgard-gates
-          kithgardGatesCompletes++
+          ++classCompletion['kithgard_gates_100']
+        if session.get('level')?.original is '5630eab0c0fcbd86057cc2f8' # wakka-maul
+          ++classCompletion['wakka_maul_100']            
         continue unless session.get('state')?.complete
         if session.get('level')?.original is '5411cb3769152f1707be029c' # dungeons-of-kithgard
-          @teacherQuestData['teach_methods'].complete = true
+          ++classCompletion['teach_methods']
         if session.get('level')?.original is '541875da4c16460000ab990f' # true-names
-          @teacherQuestData['teach_strings'].complete = true
+          ++classCompletion['teach_strings']
         if session.get('level')?.original is '55ca293b9bc1892c835b0136' # fire-dancing
-          @teacherQuestData['teach_loops'].complete = true
+          ++classCompletion['teach_loops']
         if session.get('level')?.original is '5452adea57e83800009730ee' # known-enemy
-          @teacherQuestData['teach_variables'].complete = true
-        if session.get('level')?.original is '5630eab0c0fcbd86057cc2f8' # wakka-maul
-          wakkaMaulCompletes++
-      if kithgardGatesCompletes is classroom.get('members')?.length
-        @teacherQuestData['kithgard_gates_100'].complete = true
-      if wakkaMaulCompletes is classroom.get('members')?.length
-        @teacherQuestData['wakka_maul_100'].complete = true
-    # TODO: sort teacher quest data to be completes followed incompletes
+          ++classCompletion['teach_variables']
+
+      classCompletion[k] /= students for k of classCompletion
+        
+
+
+      classCompletion['add_students'] = if students > 0 then 1.0 else 0.0
+      if me.get('enrollmentRequestSent') or @prepaids.length > 0
+        classCompletion['reach_gamedev'] = 1.0
+      else
+        classCompletion['reach_gamedev'] = 0.0
+
+      @teacherQuestData[k].complete ||= v > 0.74 for k,v of classCompletion
+      @teacherQuestData[k].best = Math.max(@teacherQuestData[k].best||0,v) for k,v of classCompletion
 
     super()
 
@@ -234,6 +252,12 @@ module.exports = class TeacherClassesView extends RootView
           @listenToOnce courseInstance, 'sync', @addFreeCourseInstances
           return
 
-  onClickSeeAllQuests: (e) ->
-    $(e.target).addClass('hide')
-    $('.quest-complete,.quest-incomplete').removeClass('hide')
+  onClickSeeAllQuests: (e) =>
+    $(e.target).hide()
+    @$el.find('.see-less-quests').show()
+    @$el.find('.quest.hide').addClass('hide-revealed').removeClass('hide')
+
+  onClickSeeLessQuests: (e) =>
+    $(e.target).hide()
+    @$el.find('.see-all-quests').show()
+    @$el.find('.quest.hide-revealed').addClass('hide').removeClass('hide-revealed')
