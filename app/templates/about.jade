@@ -1,169 +1,426 @@
-extends /templates/base
+extends /templates/base-flat
 
 block content
+  .style-flat(data-spy="scroll", data-target="#nav-container")
+    .container-fluid#jumbotron
+      .container
+        .row
+          //TODO: Size these correctly
+          .col-xs-10
+            h1(data-i18n="about.main_title")
+        .row
+          .col-xs-8
+            h2(data-i18n="about.main_description")
 
-  .row
+    #nav-container
+      nav#fixed-nav.nav.navbar
+        .container-fluid.text-center
+          ul.center-block
+            li.active
+              a(href="#mission")#mission-link
+                small.label(data-i18n="about.mission_link")
+            li
+              a(href="#team")#team-link
+                small.label(data-i18n="about.team_link")
+            li
+              a(href="#community")#community-link
+                small.label(data-i18n="nav.community")
+            li
+              a(href="#story")#story-link
+                small.label(data-i18n="about.story_link")
+            li
+              a(href="#jobs")#jobs-link
+                small.label(data-i18n="nav.careers")
+            li
+              a(href="#contact")#contact-link
+                small.label(data-i18n="about.press_link")
 
-    .col-sm-6
+    #about-container.container
+      #mission.anchor.row
+        .col-sm-6#mission-graphic.responsive-side-margins
+          img(src="/images/pages/about/globe_white.png")
+          h2(data-i18n="about.mission_title")
+          #mission-graphic-filler
+        .col-sm-5.col-sm-offset-1
+          #mission-text.responsive-side-margins
+            p(data-i18n="[html]about.mission_description_1")
+            p(data-i18n="[html]about.mission_description_2")
 
-      h2(data-i18n="about.who_is_codecombat")
-        | Who is CodeCombat?
-    
-      p
-        a(href="http://georgesaines.com/") George
-        span , 
-        a(href="http://scotterickson.info/") Scott
-        span , 
-        span(data-i18n="general.and") and
-        span  
-        a(href="http://www.nickwinter.net") Nick
-        span  
-        span(data-i18n="about.who_description_prefix")
-          | together started CodeCombat in 2013. We also created 
-        a(href="http://www.skritter.com/") Skritter
-        span  
-        span(data-i18n="about.who_description_suffix")
-          | in 2008, growing it to the #1 web and iOS application 
-          | for learning to write Chinese and Japanese characters.
+      #team.anchor
+        .text-center
+          h3(data-i18n="about.team_title")
+          h4.responsive-side-margins(data-i18n="about.team_values")
+        ul
+          // Full time
+          li
+            a(href="http://www.nickwinter.net" rel="external")
+              .profile-pic
+                img(src="/images/pages/about/team-avatars/nick-avatar.png").img-thumbnail.avatar
+                img(src="/images/pages/about/team-headshots/nick-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name
+                a(href="http://www.nickwinter.net" rel="external") Nick Winter
+              small(data-i18n="about.nick_title")
+              small(data-i18n="about.nick_blurb")
 
-      p(data-i18n="about.who_description_ending")
-        | Now it's time to teach people to write code.
-    
-      h2(data-i18n="about.why_codecombat")
-        | Why CodeCombat?
-      
-      p(data-i18n="about.why_paragraph_1")
-        | When making Skritter, George didn't know how to program and was constantly 
-        | frustrated by his inability to implement his ideas. Afterwards, 
-        | he tried learning, but the lessons were too slow. His housemate, 
-        | wanting to reskill and stop teaching, tried Codecademy, but "got bored." 
-        | Each week another friend started Codecademy, then dropped off. 
-        | We realized it was the same problem we'd solved with Skritter: 
-        | people learning a skill via slow, intensive lessons when what they need is fast,
-        | extensive practice. We know how to fix that.
-    
-      p(data-i18n="about.why_paragraph_2")
-        | Need to learn to code? You don't need lessons. 
-        | You need to write a lot of code and have a great time doing it.
+          li
+            a(href="http://www.mattlott.com/" rel="external")
+              .profile-pic
+                img(src="/images/pages/about/team-avatars/matt-avatar.png").img-thumbnail.avatar
+                img(src="/images/pages/about/team-headshots/matt-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name
+                a(href="http://www.mattlott.com/" rel="external") Matt Lott
+              small(data-i18n="about.matt_title")
+              br
 
-      p
-        span(data-i18n="about.why_paragraph_3_prefix")
-          | That's what programming is about. It's gotta be fun.
-          | Not fun like
-        span  
-        i(data-i18n="about.why_paragraph_3_italic")
-          | yay a badge
-        span  
-        span(data-i18n="about.why_paragraph_3_center")
-          | but fun like
-        span  
-        i(data-i18n="about.why_paragraph_3_italic_caps")
-          | NO MOM I HAVE TO FINISH THE LEVEL!
-        span  
-        span(data-i18n="about.why_paragraph_3_suffix")
-          | That's why CodeCombat is a multiplayer game,
-          | not a gamified lesson course. We won't stop 
-          | until you can't stop--but this time, that's a good thing.
+          li
+            a(href="http://cat.zdh.com/" rel="external")
+              .profile-pic
+                img(src="/images/pages/about/team-avatars/cat-avatar.png").img-thumbnail.avatar
+                img(src="/images/pages/about/team-headshots/cat-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name
+                a(href="http://cat.zdh.com/" rel="external") Catherine Weresow
+              small(data-i18n="about.cat_title")
+              small(data-i18n="about.cat_blurb")
 
-      p(data-i18n="about.why_paragraph_4")
-        | If you're going to get addicted to some game, 
-        | get addicted to this one and become one of the wizards of the tech age.
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/scott-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/scott-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Scott Erickson
+              small(data-i18n="about.scott_title")
+              small(data-i18n="about.scott_blurb")
 
-      p.lead
-        span(data-i18n="about.why_ending")
-          | And hey, it's free. 
-        a(href="/", data-i18n="about.why_ending_url")
-          | Start wizarding now!
-    
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/maka-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/maka-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Michael 'Maka' Gradin
+              small(data-i18n="about.maka_title")
+              small(data-i18n="about.maka_blurb")
 
-    ul.col-sm-6.team-column
- 
-      ul.thumbnails
-    
-        li.row
-    
-          a(href="http://georgesaines.com")
-            img(src="/images/pages/about/george_small.png").img-thumbnail
-  
-          .col-sm-8
-  
-            h3
-              a(href="http://georgesaines.com") George Saines
+          li
+            a(href="http://basicer.com/" rel="external")
+              .profile-pic
+                img(src="/images/pages/about/team-avatars/rob-avatar.png").img-thumbnail.avatar
+                img(src="/images/pages/about/team-headshots/rob-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name
+                a(href="http://basicer.com/" rel="external") Rob Blanckaert
+              small(data-i18n="about.rob_title")
+              small(data-i18n="about.rob_blurb")
 
-            p(data-i18n="about.george_description")
-              | CEO, business guy, web designer, game designer, 
-              | and champion of beginning programmers everywhere.
-    
-        li.row
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/josh-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/josh-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Josh Callebaut
+              small(data-i18n="about.josh_c_title")
+              small(data-i18n="about.josh_c_blurb")
 
-          a(href="http://scotterickson.info")
-            img(src="/images/pages/about/scott_small.png").img-thumbnail
-  
-          .col-sm-8
+          li
+            a(href="http://robinyang.com/" rel="external")
+              .profile-pic
+                img(src="/images/pages/about/team-avatars/robin-avatar.png").img-thumbnail.avatar
+                img(src="/images/pages/about/team-headshots/robin-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name
+                a(href="http://robinyang.com/" rel="external") Robin Yang
+              small(data-i18n="about.robin_title")
+              small(data-i18n="about.robin_blurb")
 
-            h3
-              a(href="http://scotterickson.info") Scott Erickson
-  
-            p(data-i18n="about.scott_description")
-              | Programmer extraordinaire, software architect, 
-              | kitchen wizard, and master of finances. 
-              | Scott is the reasonable one.
-    
-        li.row
-    
-          a(href="http://www.nickwinter.net")
-            img(src="/images/pages/about/nick_small.png").img-thumbnail
-  
-          .col-sm-8
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/phoenix-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/phoenix-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Phoenix Eliot
+              small(data-i18n="about.phoenix_title")
+              br
 
-            h3
-              a(href="http://www.nickwinter.net") Nick Winter
-    
-            p(data-i18n="about.nick_description")
-              | Programming wizard, eccentric motivation mage, 
-              | and upside-down experimenter. 
-              | Nick can do anything and chooses to build CodeCombat.
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/nolan-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/nolan-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Nolan Kelly
+              small(data-i18n="about.nolan_title")
+              br
 
-        li.row
-    
-          a(href="http://michaelschmatz.com")
-            img(src="/images/pages/about/michael_small.png").img-thumbnail
-  
-          .col-sm-8
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/elliot-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/elliot-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Elliot Okiwelu
+              small(data-i18n="about.elliot_title")
+              small(data-i18n="about.elliot_blurb")
 
-            h3
-              a(href="http://michaelschmatz.com/") Michael Schmatz
-    
-            p(data-i18n="about.michael_description")
-              | Programmer, sys-admin, and undergrad technical wunderkind, 
-              | Michael is the person keeping our servers online.
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/lisa-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/lisa-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Lisa Wu
+              small(data-i18n="about.lisa_title")
+              small(data-i18n="about.lisa_blurb")
 
-        li.row
-    
-          img(src="/images/pages/about/jeremy_small.png").img-thumbnail
-  
-          .col-sm-8
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/sean-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/sean-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Sean McNulty
+              small(data-i18n="about.sean_title")
+              br
+              
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/liz-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/liz-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Liz Coluni
+              small(data-i18n="about.liz_title")
+              br
+        ul
+          // Part time / contract
+          li
+            a(href="http://floor.is/lava/" rel="external")
+              img(src="/images/pages/about/josh_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://floor.is/lava/" rel="external") Josh Lee
+              small(data-i18n="about.josh_title")
+              small(data-i18n="about.josh_blurb")
 
-            h3 Jeremy Arns
-    
-            p(data-i18n="about.jeremy_description")
-              | Customer support mage, usability tester, 
-              | and community organizer; you've probably 
-              | already spoken with Jeremy.
+          li
+            a(href="https://soundcloud.com/taking-off" rel="external")
+              img(src="/images/pages/about/jose_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="https://soundcloud.com/taking-off" rel="external") Jose Antonini
+              small(data-i18n="about.jose_title")
+              small(data-i18n="about.jose_blurb")
 
-        li.row
-    
-          img(src="/images/pages/about/glen_small.png").img-thumbnail
-  
-          .col-sm-8
+          li
+            a(href="http://retrostylegames.com/" rel="external")
+              img(src="/images/pages/about/pavel_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://retrostylegames.com/" rel="external") Pavel Konstantinov
+              small(data-i18n="about.retrostyle_title")
+              small(data-i18n="about.retrostyle_blurb")
 
-            h3
-              a(href="http://www.glendc.com/") Glen De Cauwsemaecker
-    
-            p(data-i18n="about.glen_description")
-              | Programmer and passionate game developer,
-              | with the motivation to make this world a better place,
-              | by developing things that mather. The word impossible can't
-              | be found in his dictionary. Learning new skills is his joy!
+          li
+            a(href="http://retrostylegames.com/" rel="external")
+              img(src="/images/pages/about/oleg_small.png").img-thumbnail
+            .team-bio
+              h6.label.team-name
+                a(href="http://retrostylegames.com/" rel="external") Oleg Ulyanickiy
+              small(data-i18n="about.retrostyle_title")
+              small(data-i18n="about.retrostyle_blurb")
 
+      #community.anchor
+        #community-row-1.row.text-center
+          .col-sm-12
+          .text-center
+            h3(data-i18n="about.community_title")
+            h4(data-i18n="about.community_subtitle")
+            img(src="/images/pages/about/github_avatars.png")#community-avatars
 
+        #community-row-2.row
+          .col-sm-5
+            p.responsive-side-margins
+              span.spr(data-i18n="about.community_description_3")
+              a(href="/community")
+                span(data-i18n="about.community_description_link_2")
+              span , 
+              span.spr(data-i18n="about.community_description_1")
+              a(href="/contribute")
+                span(data-i18n="about.community_description_link")
+              span.spl(data-i18n="about.community_description_2")
+          .col-sm-6.col-sm-offset-1#community-graphic.responsive-side-margins
+            h2(data-i18n="about.number_contributors")
+            img(src="/images/pages/about/github.png")
+            #community-graphic-filler
+
+      #story.anchor
+        .text-center
+          h3(data-i18n="about.story_title")
+          h4.responsive-side-margins(data-i18n="about.story_subtitle")
+        .row
+          #story-graphic-1.col-lg-6
+            .media
+              .pull-left
+                img.media-object#story-image-1(src="/images/pages/about/character_silouhette.png")
+              .media-body
+                .media-heading.text-h1
+                  span(data-i18n="about.story_statistic_1a")
+                  br
+                  span(data-i18n="about.story_statistic_1b")
+                p.text-h5(data-i18n="about.story_statistic_1c")
+
+          .col-lg-5.col-lg-offset-1
+            #story-graphic-2
+              .media
+                p.text-h5(data-i18n="about.story_statistic_2a")
+                .pull-right
+                  img(src="/images/pages/about/globe_green.png")
+                .media-body
+                  .media-heading.text-h1(data-i18n="about.story_statistic_2b")
+
+        #story-graphic-3.text-center
+          p
+            div.text-h5(data-i18n="about.story_statistic_3a")
+            #story-bracketed-text
+              div#left-bracket
+                img(src="/images/pages/about/bracket_left.png")
+              div.text-h1(data-i18n="about.story_statistic_3b")
+              div#right-bracket
+                img(src="/images/pages/about/bracket_right.png")
+          #story-languages
+            .text-center
+              .text-h5(data-i18n="about.story_statistic_3c")
+            #language-icons.text-center(title="JavaScript, Python, HTML, CSS, jQuery, Bootstrap")
+              img.hidden-xs(src="/images/pages/about/new_languages.png")
+              img.hidden-sm.hidden-md.hidden-lg(src="/images/pages/about/new_languages_xs.png")
+
+        #story-graphic-4.text-center
+          p
+            div.text-h5(data-i18n="about.story_long_way_1")
+            figure
+              img(src="/images/pages/about/sketch.png")
+              figcaption
+                small(data-i18n="about.story_sketch_caption")
+          p
+            .text-h5(data-i18n="about.story_long_way_2")
+
+      #jobs.anchor
+        .text-center
+          h3(data-i18n="about.jobs_title")
+          h4(data-i18n="about.jobs_subtitle")
+        #jobs-row.row
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+            #benefits
+              h5(data-i18n="about.jobs_benefits")
+              ul
+                li.small
+                  a.benefits-link(href='http://blog.triplebyte.com/fixing-the-inequity-of-startup-equity', data-i18n="about.jobs_benefit_9")
+                li.small(data-i18n="about.jobs_benefit_6")
+                li.small(data-i18n="about.jobs_benefit_10")
+                li.small(data-i18n="about.jobs_benefit_11")
+                li.small(data-i18n="about.jobs_benefit_4")
+                li.small(data-i18n="about.jobs_benefit_5")
+                li.small(data-i18n="about.jobs_benefit_7")
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+            .job-listing
+              h5 (No Open Roles)
+              p.small Check back later for updates on new positions at CodeCombat.
+          .col-sm-6.col-md-5.col-lg-4
+            .job-listing
+              h5(data-i18n="about.jobs_custom_title")
+              p.small(data-i18n="about.jobs_custom_description")
+              p.small
+                span.spr(data-i18n="about.jobs_custom_contact_1")
+                a(href="mailto:team@codecombat.com")
+                  | team@codecombat.com
+                span.spl(data-i18n="about.jobs_custom_contact_2")
+
+      #contact.anchor
+        .text-center
+          h3(data-i18n="about.contact_title")
+          h4(data-i18n="about.contact_subtitle")
+          a(href="mailto:team@codecombat.com") team@codecombat.com
+
+      #files
+        .row
+          .col-md-6.col-lg-8
+            #screenshots
+              span.label(data-i18n="about.screenshots_title")
+              .hidden-sm.hidden-md.hidden-lg
+                small(data-i18n="about.screenshots_hint")
+              #screenshot-grid
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+                  img(src="/images/pages/about/screenshot_desert.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+                  img(src="/images/pages/about/screenshot_forest.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+                  img(src="/images/pages/about/screenshot_dungeon.png")
+                a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+                  img(src="/images/pages/about/screenshot_glacier.png")
+              .clearfix.hidden-xs
+                small(data-i18n="about.screenshots_hint")
+          .col-md-6.col-lg-4
+            #downloads-container
+              #downloads
+                .label(data-i18n="about.downloads_title")
+                ul
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/AboutCodeCombat.pdf")
+                      span(data-i18n="about.about_codecombat")
+                      | (.pdf)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.ai")
+                      span(data-i18n="about.logo")
+                      | (.ai)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/CodeCombat-Logo.png")
+                      span(data-i18n="about.logo")
+                      | (.png)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/GameImages.zip")
+                      span(data-i18n="about.screenshots")
+                      | (.zip)
+                  li
+                    a.small(href="http://files.codecombat.com/presspack/gameimages/CodeCombat_Splash.png")
+                      span(data-i18n="about.character_art")
+                      | (.png)
+                .text-center
+                  a.btn.btn-lg.btn-primary-alt#download-button(href="http://files.codecombat.com/presspack/CodeCombat_PressPack.zip")
+                    span.glyphicon.glyphicon-download-alt
+                    span(data-i18n="about.download_all")
+
+      #screenshot-lightbox.modal.fade(data-show="false")
+        .modal-dialog
+          .modal-content
+            #screenshot-carousel.carousel
+              ol.carousel-indicators
+                li(data-target=".screenshot-display", data-slide-to="0").active
+                li(data-target=".screenshot-display", data-slide-to="1")
+                li(data-target=".screenshot-display", data-slide-to="2")
+                li(data-target=".screenshot-display", data-slide-to="3")
+
+              .carousel-inner
+                .item.active
+                  img#screenshot-desert(src="/images/pages/about/desert.png")
+                .item
+                  img#screenshot-forest(src="/images/pages/about/forest.png")
+                .item
+                  img#screenshot-dungeon(src="/images/pages/about/dungeon.png")
+                .item
+                  img#screenshot-glacier(src="/images/pages/about/glacier.png")
+              a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
+                span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
+                span.sr-only(data-i18n="about.previous")
+              a#carousel-right.right.carousel-control(href="#screenshot-carousel", role="button")
+                span.glyphicon.glyphicons-chevron-right.glyphicon-chevron-right(aria-hidden="true")
+                span.sr-only(data-i18n="play.next")
+
+      #location
+        .row
+          .col-sm-4.col-sm-offset-2
+            p
+              b CodeCombat Inc.
+            p 301 Howard Street
+            p Suite No. 830
+            p San Francisco, California 94105
+            a(href="mailto:team@codecombat.com") team@codecombat.com
+          .col-sm-4
+            p
+              b(data-i18n="about.location_title")
+            iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=301+Howard+St+Suite+830,+San+Francisco,+CA+94105")

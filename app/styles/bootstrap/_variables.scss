@@ -44,7 +44,7 @@ $brand-info:            $blueDark !default;
 // Scaffolding
 // -------------------------
 
-$body-bg:               #2f261d;
+$body-bg:               rgb(70,58,44);
 $text-color:            $gray !default;
 
 // Links
@@ -75,8 +75,8 @@ $font-size-h6:            ceil($font-size-base * 0.85) !default; // ~12px
 $line-height-base:        1.428571429 !default; // 20/14
 $line-height-computed:    floor($font-size-base * $line-height-base) !default; // ~20px
 
-$headings-font-family:    'Bangers', cursive; // empty to use BS default, $baseFontFamily;
-$headings-font-weight:    500 !default;
+$headings-font-family:    'Open Sans Condensed', "Helvetica Neue", Helvetica, Arial, sans-serif; // empty to use BS default, $baseFontFamily;
+$headings-font-weight:    700 !default;
 $headings-line-height:    1.1 !default;
 $headings-color:          #317EAC;
 
@@ -272,7 +272,7 @@ $grid-gutter-width:         30px !default;
 // Navbar collapse
 
 // Point at which the navbar becomes uncollapsed
-$grid-float-breakpoint:     $screen-sm-min !default;
+$grid-float-breakpoint:     $screen-md-min !default;
 // Point at which the navbar begins collapsing
 $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
 

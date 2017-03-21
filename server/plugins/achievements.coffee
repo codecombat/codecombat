@@ -1,96 +1,54 @@
 mongoose = require 'mongoose'
-EarnedAchievement = require '../achievements/EarnedAchievement'
+EarnedAchievement = require '../models/EarnedAchievement'
 LocalMongo = require '../../app/lib/LocalMongo'
-util = require '../../app/lib/utils'
+util = require '../../app/core/utils'
 log = require 'winston'
 
-achievements = {}
+# Warning: To ensure proper functioning one must always `find` documents before saving them.
+# Otherwise the schema's `post init` won't be triggered and the plugin can't keep track of changes
+# TODO if this is still a common scenario I could implement a database hit after all, but only
+# on the condition that it's necessary and still not too frequent in occurrence
+AchievablePlugin = (schema, options) ->
+  User = require '../models/User'  # Avoid mutual inclusion cycles
+  Achievement = require '../models/Achievement'
 
-module.exports = AchievablePlugin = (schema, options) ->
-  User = require '../users/User'  # Avoid mutual inclusion cycles
-  Achievement = require '../achievements/Achievement'
-
-  checkForAchievement = (doc) ->
-    collectionName = doc.constructor.modelName
-
-  before = {}
-
+  # Keep track the document before it's saved
   schema.post 'init', (doc) ->
-    before[doc.id] = doc.toObject()
+    unless doc.unchangedCopy
+      doc.unchangedCopy = doc.toObject()
 
+  # Check if an achievement has been earned
   schema.post 'save', (doc) ->
-    isNew = not doc.isInit('_id')
-    originalDocObj = before[doc.id] unless isNew
+    promises = schema.statics.createNewEarnedAchievements(doc)
+    if global.testing
+      # Provide a way for tests to know when achievements have been earned
+      doc.achievementsEarning ?= []
+      doc.achievementsEarning = doc.achievementsEarning.concat(promises)
 
-    category = doc.constructor.modelName
+  schema.statics.createNewEarnedAchievements = (doc, unchangedCopy) ->
+    unchangedCopy ?= doc.unchangedCopy
+    isNew = not doc.isInit('_id') or not unchangedCopy
 
-    if category of achievements
+    if doc.isInit('_id') and not unchangedCopy
+      log.warn 'document was already initialized but did not go through `init` and is therefore treated as new while it might not be'
+
+    category = doc.constructor.collection.name
+    loadedAchievements = Achievement.getLoadedAchievements()
+    promises = []
+
+    if category of loadedAchievements
+      #log.debug 'about to save ' + category + ', number of achievements is ' + loadedAchievements[category].length
       docObj = doc.toObject()
-      for achievement in achievements[category]
-        query = achievement.get('query')
-        isRepeatable = achievement.get('proportionalTo')?
-        alreadyAchieved = if isNew then false else LocalMongo.matchesQuery originalDocObj, query
-        newlyAchieved = LocalMongo.matchesQuery(docObj, query)
-        log.debug 'isRepeatable: ' + isRepeatable
-        log.debug 'alreadyAchieved: ' +  alreadyAchieved
-        log.debug 'newlyAchieved: ' + newlyAchieved
+      for achievement in loadedAchievements[category]
+        do (achievement) ->
+          query = achievement.get('query')
+          return log.error("Empty achievement query for #{achievement.get('name')}.") if _.isEmpty query
+          isRepeatable = achievement.get('proportionalTo')?
+          alreadyAchieved = if isNew then false else LocalMongo.matchesQuery unchangedCopy, query
+          newlyAchieved = LocalMongo.matchesQuery(docObj, query)
+          return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
+          promises.push EarnedAchievement.createForAchievement(achievement, doc, {originalDocObj: unchangedCopy})
+          
+    return promises
 
-        userObjectID = doc.get(achievement.get('userField'))
-        userID = if _.isObject userObjectID then userObjectID.toHexString() else userObjectID # Standardize! Use strings, not ObjectId's
-
-        if newlyAchieved and (not alreadyAchieved or isRepeatable)
-          earned = {
-            user: userID
-            achievement: achievement._id.toHexString()
-            achievementName: achievement.get 'name'
-          }
-
-          worth = achievement.get('worth')
-          earnedPoints = 0
-          wrapUp = ->
-            # Update user's experience points
-            User.update({_id: userID}, {$inc: {points: earnedPoints}}, {}, (err, count) ->
-              console.error err if err?
-            )
-
-          if isRepeatable
-            log.debug 'Upserting repeatable achievement called \'' + (achievement.get 'name') + '\' for ' + userID
-            proportionalTo = achievement.get 'proportionalTo'
-            originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
-            newAmount = docObj[proportionalTo]
-
-            if originalAmount isnt newAmount
-              expFunction = achievement.getExpFunction()
-              earned.notified = false
-              earned.achievedAmount = newAmount
-              earned.earnedPoints = (expFunction(newAmount) - expFunction(originalAmount)) * worth
-              earned.previouslyAchievedAmount = originalAmount
-              EarnedAchievement.update {achievement: earned.achievement, user: earned.user}, earned, {upsert: true}, (err) ->
-                return log.debug err if err?
-
-              earnedPoints = earned.earnedPoints
-              log.debug earnedPoints
-              wrapUp()
-
-          else # not alreadyAchieved
-            log.debug 'Creating a new earned achievement called \'' + (achievement.get 'name') + '\' for ' + userID
-            earned.earnedPoints = worth
-            (new EarnedAchievement(earned)).save (err, doc) ->
-              return log.debug err if err?
-              earnedPoints = worth
-              wrapUp()
-
-    delete before[doc.id] unless isNew # This assumes everything we patch has a _id
-    return
-
-module.exports.loadAchievements = ->
-  achievements = {}
-  Achievement = require '../achievements/Achievement'
-  query = Achievement.find({})
-  query.exec (err, docs) ->
-    _.each docs, (achievement) ->
-      category = achievement.get 'collection'
-      achievements[category] = [] unless category of achievements
-      achievements[category].push achievement
-
-AchievablePlugin.loadAchievements()
+module.exports = AchievablePlugin

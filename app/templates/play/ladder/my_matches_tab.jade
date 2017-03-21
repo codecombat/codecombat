@@ -1,12 +1,12 @@
-div#columns.row
-  for team in teams
+.row
+  for team in view.teams
     div.matches-column.col-md-6
-      table.table.table-bordered.table-condensed
+      table.table.table-bordered.table-condensed.my-matches-table
 
         tr
           th(colspan=5, style="color: #{team.primaryColor}")
             span(data-i18n="ladder.summary_your") Your 
-            |#{team.name}
+            |#{team.displayName}
             |  
             span(data-i18n="ladder.summary_matches") Matches - 
             |#{team.wins}
@@ -31,7 +31,7 @@ div#columns.row
           th(data-i18n="general.when") When
           th
         for match in team.matches
-          tr(class=(match.stale ? "stale " : "") + (match.fresh ? "fresh " : "") + match.state)
+          tr(class=(match.stale ? "stale " : "") + (match.fresh ? "fresh " : "") + match.state, title=match.simulator)
             td.state-cell
               if match.state === 'win'
                 span(data-i18n="general.win").win Win
@@ -39,17 +39,19 @@ div#columns.row
                 span(data-i18n="general.loss").loss Loss
               if match.state === 'tie'
                 span(data-i18n="general.tie").tie Tie
-            td.code-language-cell(style="background-image: url(/images/pages/home/language_logo_" + match.codeLanguage +  ".png)")
+            td.code-language-cell(style="background-image: url(/images/common/code_languages/" + match.codeLanguage +  "_icon.png)")
             td.name-cell= match.opponentName || "Anonymous"
             td.time-cell= match.when
             td.battle-cell
-              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}")
+              - var levelID = view.level.get('slug') || view.level.id
+              - var league = view.options.league
+              a(href="/play/level/#{levelID}?team=#{team.id}&opponent=#{match.sessionID}" + (league ? "&league=" + league.id : ""))
                 if (match.state === 'win')
                   span(data-i18n="ladder.watch_victory") Watch your victory
                 else
                   span(data-i18n="ladder.defeat_the") Defeat the
                   |  
-                  | #{team.otherTeam}
+                  | #{team.otherTeamDisplayName}
 
         if !team.matches.length
           tr

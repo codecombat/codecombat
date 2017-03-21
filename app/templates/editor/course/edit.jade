@@ -1,0 +1,27 @@
+extends /templates/base
+
+block content
+  div
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/course", data-i18n="editor.course_title") Course Editor
+      li.active
+        | #{view.course.get('name')}
+
+  - var authorized = !me.get('anonymous');
+  button.course-tool-button(data-i18n="common.save", disabled=authorized === true ? undefined : "true").btn.btn-primary#save-button Save
+
+  h3(data-i18n="course.edit_course_title") Edit Course
+    span
+     |: "#{view.course.attributes.name}"
+    
+  .alert.alert-warning Can only edit translations currently
+    
+  #course-treema
+
+  h3(data-i18n="resources.patches") Patches
+  .patches-view
+
+  hr

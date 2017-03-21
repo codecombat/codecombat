@@ -1,0 +1,96 @@
+@import "app/styles/mixins"
+
+#buy-gems-modal-nl
+
+  //- Header
+  
+  h1
+    position: absolute
+    left: 325px
+    top: -70px
+    margin: 0
+    width: 612px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0
+
+  //- Clear modal defaults
+  .modal-dialog
+    margin: 150px auto 0 auto
+    padding: 0
+    width: 1300px
+    height: 460px
+    background: none
+
+  //- Background
+  #buy-gems-background
+    position: absolute
+    top: -157px
+    left: -2px
+
+  //- Close modal button
+
+  #close-modal
+    position: absolute
+    left: 1005px
+    top: -80px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  //- Products
+
+  #products
+    position: absolute
+    left: 55px
+    top: 242px
+    width: 1300px
+    height: 140px
+    
+    .product
+      width: 228px
+      height: 136px
+      float: left
+      text-align: center
+      margin-right: 12px
+      position: relative
+      
+      h4
+        font-size: 20px
+        color: rgb(22,16,5)
+        
+      h3
+        margin-top: 10px
+        text-transform: uppercase
+        color: rgb(22,16,5)
+        
+      button
+        position: absolute
+        width: 80%
+        left: 10%
+        bottom: -30px
+      
+      .btn-ideal
+        border-image: url(/images/common/lang-nl/button-background-ideal-active-border.png) 14 20 20 fill round
+        color: #f2f2f2
+        
+      a
+        color: #f2f2f2
+        text-decoration: none
+
+  //- Errors
+  .alert
+    position: absolute
+    left: 10%
+    width: 80%
+    top: 20px
+    border: 5px solid gray

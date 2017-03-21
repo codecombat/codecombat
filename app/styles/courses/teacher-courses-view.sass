@@ -1,0 +1,31 @@
+@import "app/styles/bootstrap/variables"
+
+#teacher-courses-view
+  //TODO: Refactor colors into .style-flat?
+  
+  h1
+    margin-top: 50px
+
+  #site-content-area
+    margin-bottom: 250px
+  
+  .access-restricted
+    margin-top: 75px
+  
+  .courses
+    margin-top: 20px
+    
+    .course
+      padding: 30px
+      
+      .concepts
+        font-weight: 600
+      
+      .play-level-form
+        font-weight: normal
+
+  .course:nth-child(2n+1)
+    background-color: #ebebeb
+
+  .course:nth-child(2n)
+    background-color: $gray-lighter

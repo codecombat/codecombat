@@ -1,19 +1,50 @@
 CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
+LevelComponent = require './LevelComponent'
+CocoCollection = require 'collections/CocoCollection'
+
+utils = require 'core/utils'
 
 buildQueue = []
 
 module.exports = class ThangType extends CocoModel
   @className: 'ThangType'
   @schema: require 'schemas/models/thang_type'
+  @heroes:
+    captain: '529ec584c423d4e83b000014'
+    knight: '529ffbf1cf1818f2be000001'
+    samurai: '53e12be0d042f23505c3023b'
+    raider: '55527eb0b8abf4ba1fe9a107'
+    goliath: '55e1a6e876cb0948c96af9f8'
+    guardian: '566a058620de41290036a745'
+    ninja: '52fc0ed77e01835453bd8f6c'
+    'forest-archer': '5466d4f2417c8b48a9811e87'
+    trapper: '5466d449417c8b48a9811e83'
+    pixie: ''
+    assassin: '566a2202e132c81f00f38c81'
+    librarian: '52fbf74b7e01835453bd8d8e'
+    'potion-master': '52e9adf7427172ae56002172'
+    sorcerer: '52fd1524c7e6cf99160e7bc9'
+    necromancer: '55652fb3b9effa46a1f775fd'
+    'master-wizard': ''
+    duelist: '57588f09046caf2e0012ed41'
+    champion: '575848b522179b2800efbfbf'
+    'code-ninja': '58192d484954d56144a7062f'
+  @heroClasses:
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja']
+    Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
+    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
+  @items:
+    'simple-boots': '53e237bf53457600003e3f05'
   urlRoot: '/db/thang.type'
   building: {}
+  editableByArtisans: true
+  @defaultActions: ['idle', 'die', 'move', 'attack', 'trick', 'cast']
+  @heroConfigStats: {}  # Build a cache of these for quickly determining hero/item loadout aggregate stats
 
   initialize: ->
     super()
     @building = {}
-    @setDefaults()
-    @on 'sync', @setDefaults
     @spriteSheets = {}
 
     ## Testing memory clearing
@@ -22,9 +53,6 @@ module.exports = class ThangType extends CocoModel
     #  @unset 'raw'
     #  @_previousAttributes.raw = null
     #setTimeout f, 40000
-
-  setDefaults: ->
-    @resetRawData() unless @get('raw')
 
   resetRawData: ->
     @set('raw', {shapes: {}, containers: {}, animations: {}})
@@ -38,9 +66,31 @@ module.exports = class ThangType extends CocoModel
     # TODO: Come up with a better way to identify when the model doesn't have everything needed to build the sprite. ie when it's a projection without all the required data.
     return @get('actions') or @get('raster') # needs one of these two things
 
+  loadRasterImage: ->
+    return if @loadingRaster or @loadedRaster
+    return unless raster = @get('raster')
+    @rasterImage = $("<img src='/file/#{raster}' />")
+    @loadingRaster = true
+    @rasterImage.one('load', =>
+      @loadingRaster = false
+      @loadedRaster = true
+      @trigger('raster-image-loaded', @))
+    @rasterImage.one('error', =>
+      @loadingRaster = false
+      @trigger('raster-image-load-errored', @)
+    )
+
   getActions: ->
     return {} unless @isFullyLoaded()
     return @actions or @buildActions()
+
+  getDefaultActions: ->
+    actions = []
+    for action in _.values(@getActions())
+      continue unless _.any ThangType.defaultActions, (prefix) ->
+        _.string.startsWith(action.name, prefix)
+      actions.push(action)
+    return actions
 
   buildActions: ->
     return null unless @isFullyLoaded()
@@ -52,20 +102,16 @@ module.exports = class ThangType extends CocoModel
         @actions[relatedAction.name] = relatedAction
     @actions
 
-  getSpriteSheet: (options) ->
-    options = @fillOptions options
-    key = @spriteSheetKey(options)
-    return @spriteSheets[key] or @buildSpriteSheet(options)
-
   fillOptions: (options) ->
     options ?= {}
     options = _.clone options
     options.resolutionFactor ?= SPRITE_RESOLUTION_FACTOR
     options.async ?= false
+    options.thang = null  # Don't hold onto any bad Thang references.
     options
 
   buildSpriteSheet: (options) ->
-    return false unless @isFullyLoaded()
+    return false unless @isFullyLoaded() and @get 'raw'
     @options = @fillOptions options
     key = @spriteSheetKey(@options)
     if ss = @spriteSheets[key] then return ss
@@ -197,17 +243,49 @@ module.exports = class ThangType extends CocoModel
     portraitOnly = !!options.portraitOnly
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
+  getHeroShortName: ->
+    map = {
+      "Assassin": "Ritic"
+      "Captain": "Anya"
+      "Champion": "Ida"
+      "Master Wizard": "Usara"
+      "Duelist": "Alejandro"
+      "Forest Archer": "Naria"
+      "Goliath": "Okar"
+      "Guardian": "Illia"
+      "Knight": "Tharin"
+      "Librarian": "Hushbaum"
+      "Necromancer": "Nalfar"
+      "Ninja": "Amara"
+      "Pixie": "Zana"
+      "Potion Master": "Omarn"
+      "Raider": "Arryn"
+      "Samurai": "Hattori"
+      "Ian Elliott": "Hattori"
+      "Sorcerer": "Pender"
+      "Trapper": "Senick"
+      "Code Ninja": "Code Ninja"
+    }
+    map[@get('name')]
+
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
     return null unless src
     $('<img />').attr('src', src)
 
   getPortraitSource: (spriteOptionsOrKey, size=100) ->
+    return @getPortraitURL() if @get('rasterIcon') or @get('raster')
     stage = @getPortraitStage(spriteOptionsOrKey, size)
     stage?.toDataURL()
 
   getPortraitStage: (spriteOptionsOrKey, size=100) ->
-    return unless @isFullyLoaded()
+    canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
+    try
+      stage = new createjs.Stage(canvas[0])
+    catch err
+      console.error "Error trying to create #{@get('name')} avatar stage:", err, "with window as", window
+      return null
+    return stage unless @isFullyLoaded()
     key = spriteOptionsOrKey
     key = if _.isString(key) then key else @spriteSheetKey(@fillOptions(key))
     spriteSheet = @spriteSheets[key]
@@ -217,8 +295,6 @@ module.exports = class ThangType extends CocoModel
       spriteSheet = @buildSpriteSheet(options)
     return if _.isString spriteSheet
     return unless spriteSheet
-    canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
-    stage = new createjs.Stage(canvas[0])
     sprite = new createjs.Sprite(spriteSheet)
     pt = @actions.portrait?.positions?.registration
     sprite.regX = pt?.x or 0
@@ -229,19 +305,44 @@ module.exports = class ThangType extends CocoModel
     stage.update()
     stage.startTalking = ->
       sprite.gotoAndPlay 'portrait'
+      return  # TODO: causes infinite recursion in new EaselJS
       return if @tick
       @tick = (e) => @update(e)
       createjs.Ticker.addEventListener 'tick', @tick
     stage.stopTalking = ->
       sprite.gotoAndStop 'portrait'
+      return  # TODO: just breaks in new EaselJS
       @update()
       createjs.Ticker.removeEventListener 'tick', @tick
       @tick = null
     stage
 
+  getVectorPortraitStage: (size=100) ->
+    return unless @actions
+    canvas = $("<canvas width='#{size}' height='#{size}'></canvas>")
+    stage = new createjs.Stage(canvas[0])
+    portrait = @actions.portrait
+    return unless portrait and (portrait.animation or portrait.container)
+    scale = portrait.scale or 1
+
+    vectorParser = new SpriteBuilder(@, {})
+    if portrait.animation
+      sprite = vectorParser.buildMovieClip portrait.animation
+      sprite.gotoAndStop(0)
+    else if portrait.container
+      sprite = vectorParser.buildContainerFromStore(portrait.container)
+
+    pt = portrait.positions?.registration
+    sprite.regX = pt?.x / scale or 0
+    sprite.regY = pt?.y / scale or 0
+    sprite.scaleX = sprite.scaleY = scale * size / 100
+    stage.addChild(sprite)
+    stage.update()
+    stage
+
   uploadGenericPortrait: (callback, src) ->
     src ?= @getPortraitSource()
-    return callback?() unless src
+    return callback?() unless src and _.string.startsWith src, 'data:'
     src = src.replace('data:image/png;base64,', '').replace(/\ /g, '+')
     body =
       filename: 'portrait.png'
@@ -262,3 +363,310 @@ module.exports = class ThangType extends CocoModel
     @wizardType.url = -> url
     @wizardType.fetch()
     @wizardType
+
+  getPortraitURL: ->
+    if iconURL = @get('rasterIcon')
+      return "/file/#{iconURL}"
+    if rasterURL = @get('raster')
+      return "/file/#{rasterURL}"
+    "/file/db/thang.type/#{@get('original')}/portrait.png"
+
+  # Item functions
+
+  getAllowedSlots: ->
+    itemComponentRef = _.find(
+      @get('components') or [],
+      (compRef) -> compRef.original is LevelComponent.ItemID)
+    return itemComponentRef?.config?.slots or ['right-hand']  # ['right-hand'] is default
+
+  getAllowedHeroClasses: ->
+    return [heroClass] if heroClass = @get 'heroClass'
+    ['Warrior', 'Ranger', 'Wizard']
+
+  getHeroStats: ->
+    # Translate from raw hero properties into appropriate display values for the PlayHeroesModal.
+    # Adapted from https://docs.google.com/a/codecombat.com/spreadsheets/d/1BGI1bzT4xHvWA81aeyIaCKWWw9zxn7-MwDdydmB5vw4/edit#gid=809922675
+    return unless heroClass = @get('heroClass')
+    components = @get('components') or []
+    unless equipsConfig = _.find(components, original: LevelComponent.EquipsID)?.config
+      return console.warn @get('name'), 'is not an equipping hero, but you are asking for its hero stats. (Did you project away components?)'
+    unless movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
+      return console.warn @get('name'), 'is not a moving hero, but you are asking for its hero stats.'
+    unless programmableConfig = _.find(components, original: LevelComponent.ProgrammableID)?.config
+      return console.warn @get('name'), 'is not a Programmable hero, but you are asking for its hero stats.'
+    @classStatAverages ?=
+      attack: {Warrior: 7.5, Ranger: 5, Wizard: 2.5}
+      health: {Warrior: 7.5, Ranger: 5, Wizard: 3.5}
+    stats = {}
+    rawNumbers = attack: equipsConfig.attackDamageFactor ? 1, health: equipsConfig.maxHealthFactor ? 1, speed: movesConfig.maxSpeed
+    for prop in ['attack', 'health']
+      stat = rawNumbers[prop]
+      if stat < 1
+        classSpecificScore = 10 - 5 / stat
+      else
+        classSpecificScore = stat * 5
+      classAverage = @classStatAverages[prop][@get('heroClass')]
+      stats[prop] =
+        relative: Math.round(2 * ((classAverage - 2.5) + classSpecificScore / 2)) / 2 / 10
+        absolute: stat
+      pieces = ($.i18n.t "choose_hero.#{prop}_#{num}" for num in [1 .. 3])
+      percent = Math.round(stat * 100) + '%'
+      className = $.i18n.t "general.#{_.string.slugify @get('heroClass')}"
+      stats[prop].description = [pieces[0], percent, pieces[1], className, pieces[2]].join ' '
+
+    minSpeed = 4
+    maxSpeed = 16
+    speedRange = maxSpeed - minSpeed
+    speedPoints = rawNumbers.speed - minSpeed
+    stats.speed =
+      relative: Math.round(20 * speedPoints / speedRange) / 2 / 10
+      absolute: rawNumbers.speed
+      description: "#{$.i18n.t 'choose_hero.speed_1'} #{rawNumbers.speed} #{$.i18n.t 'choose_hero.speed_2'}"
+
+    stats.skills = (_.string.titleize(_.string.humanize(skill)) for skill in programmableConfig.programmableProperties when skill isnt 'say' and not /(Range|Pos|Radius|Damage)$/.test(skill))
+
+    stats
+
+  getFrontFacingStats: ->
+    components = @get('components') or []
+    unless itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
+      console.warn @get('name'), 'is not an item, but you are asking for its stats.'
+      return props: [], stats: {}
+    stats = {}
+    props = itemConfig.programmableProperties ? []
+    props = props.concat itemConfig.moreProgrammableProperties ? []
+    props = _.without props, 'canCast', 'spellNames', 'spells'
+    for stat, modifiers of itemConfig.stats ? {}
+      stats[stat] = @formatStatDisplay stat, modifiers
+    for stat in itemConfig.extraHUDProperties ? []
+      stats[stat] ?= null  # Find it in the other Components.
+    for component in components
+      continue unless config = component.config
+      for stat, value of stats when not value?
+        value = config[stat]
+        continue unless value?
+        stats[stat] = @formatStatDisplay stat, setTo: value
+        if stat is 'attackDamage'
+          dps = (value / (config.cooldown or 0.5)).toFixed(1)
+          stats[stat].display += " (#{dps} DPS)"
+      if config.programmableSnippets
+        props = props.concat config.programmableSnippets
+    for stat, value of stats when not value?
+      stats[stat] = name: stat, display: '???'
+    statKeys = _.keys(stats)
+    statKeys.sort()
+    props.sort()
+    sortedStats = {}
+    sortedStats[key] = stats[key] for key in statKeys
+    props: props, stats: sortedStats
+
+  formatStatDisplay: (name, modifiers) ->
+    i18nKey = {
+      maxHealth: 'health'
+      maxSpeed: 'speed'
+      healthReplenishRate: 'regeneration'
+      attackDamage: 'attack'
+      attackRange: 'range'
+      shieldDefenseFactor: 'blocks'
+      visualRange: 'range'
+      throwDamage: 'attack'
+      throwRange: 'range'
+      bashDamage: 'attack'
+      backstabDamage: 'backstab'
+    }[name]
+
+    if i18nKey
+      name = $.i18n.t 'choose_hero.' + i18nKey
+      matchedShortName = true
+    else
+      name = _.string.humanize name
+      matchedShortName = false
+
+    format = ''
+    format = 'm' if /(range|radius|distance|vision)$/i.test name
+    format ||= 's' if /cooldown$/i.test name
+    format ||= 'm/s' if /speed$/i.test name
+    format ||= '/s' if /(regeneration| rate)$/i.test name
+    value = modifiers.setTo
+    if /(blocks)$/i.test name
+      format ||= '%'
+      value = (value*100).toFixed(1)
+    value = value.join ', ' if _.isArray value
+    display = []
+    display.push "#{value}#{format}" if value?
+    display.push "+#{modifiers.addend}#{format}" if modifiers.addend > 0
+    display.push "#{modifiers.addend}#{format}" if modifiers.addend < 0
+    display.push "x#{modifiers.factor}" if modifiers.factor? and modifiers.factor isnt 1
+    display = display.join ', '
+    display = display.replace /9001m?/, 'Infinity'
+    name: name, display: display, matchedShortName: matchedShortName
+
+  isSilhouettedItem: ->
+    return console.error "Trying to determine whether #{@get('name')} should be a silhouetted item, but it has no gem cost." unless @get('gems')? or @get('tier')?
+    console.info "Add (or make sure you have fetched) a tier for #{@get('name')} to more accurately determine whether it is silhouetted." unless @get('tier')?
+    tier = @get 'tier'
+    if tier?
+      return @levelRequiredForItem() > me.level()
+    points = me.get('points')
+    expectedTotalGems = (points ? 0) * 1.5   # Not actually true, but roughly kinda close for tier 0, kinda tier 1
+    @get('gems') > (100 + expectedTotalGems) * 1.2
+
+  levelRequiredForItem: ->
+    return console.error "Trying to determine what level is required for #{@get('name')}, but it has no tier." unless @get('tier')?
+    itemTier = @get 'tier'
+    playerTier = itemTier / 2.5
+    playerLevel = me.constructor.levelForTier playerTier
+    #console.log 'Level required for', @get('name'), 'is', playerLevel, 'player tier', playerTier, 'because it is itemTier', itemTier, 'which is normally level', me.constructor.levelForTier(itemTier)
+    playerLevel
+
+  getContainersForAnimation: (animation, action) ->
+    rawAnimation = @get('raw').animations[animation]
+    if not rawAnimation
+      console.error 'thang type', @get('name'), 'is missing animation', animation, 'from action', action
+    containers = rawAnimation.containers
+    for animation in @get('raw').animations[animation].animations
+      containers = containers.concat(@getContainersForAnimation(animation.gn, action))
+    return containers
+
+  getContainersForActions: (actionNames) ->
+    containersToRender = {}
+    actions = @getActions()
+    for actionName in actionNames
+      action = _.find(actions, {name: actionName})
+      if action.container
+        containersToRender[action.container] = true
+      else if action.animation
+        animationContainers = @getContainersForAnimation(action.animation, action)
+        containersToRender[container.gn] = true for container in animationContainers
+    return _.keys(containersToRender)
+
+  nextForAction: (action) ->
+    next = true
+    next = action.goesTo if action.goesTo
+    next = false if action.loops is false
+    return next
+
+  noRawData: -> not @get('raw')
+
+  initPrerenderedSpriteSheets: ->
+    return if @prerenderedSpriteSheets or not data = @get('prerenderedSpriteSheetData')
+    # creates a collection of prerendered sprite sheets
+    @prerenderedSpriteSheets = new PrerenderedSpriteSheets(data)
+
+  getPrerenderedSpriteSheet: (colorConfig, defaultSpriteType) ->
+    return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
+    spriteType = @get('spriteType') or defaultSpriteType
+    @prerenderedSpriteSheets.find (pss) ->
+      return false if pss.get('spriteType') isnt spriteType
+      otherColorConfig = pss.get('colorConfig')
+      return true if _.isEmpty(colorConfig) and _.isEmpty(otherColorConfig)
+      getHue = (config) -> _.result(_.result(config, 'team'), 'hue')
+      return getHue(colorConfig) is getHue(otherColorConfig)
+
+  getPrerenderedSpriteSheetToLoad: ->
+    return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
+    @prerenderedSpriteSheets.find (pss) -> pss.needToLoad and not pss.loadedImage
+
+  onLoaded: ->
+    super()
+    return if ThangType.heroConfigStats[@get('original')]
+    # Cache certain component properties for quickly determining hero/item loadout aggregate stats
+    components = @get('components') or []
+    return unless components.length
+    return if not @get('gems')? and (
+      (@project and not /gems/.test(@project)) or
+      (/project/.test(@getURL()) and not /gems/.test(@getURL())) or
+      (@collection?.project and not /gems/.test(@collection?.project)) or
+      (/project/.test(@collection?.getURL()) and not /gems/.test(@collection?.getURL()))
+    )
+    stats = gems: @get('gems') or 0
+    if itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
+      stats.kind = 'item'
+      stats.speed = speed if speed = itemConfig.stats?.maxSpeed?.addend
+      stats.health = health if health = itemConfig.stats?.maxHealth?.addend
+      if attacksConfig = _.find(components, original: LevelComponent.AttacksID)?.config
+        stats.attack = (attacksConfig.attackDamage ? 3) / (attacksConfig.cooldown ? 1)
+      ThangType.heroConfigStats[@get('original')] = stats
+    else if equipsConfig = _.find(components, original: LevelComponent.EquipsID)?.config
+      stats.kind = 'hero'
+      stats.attackMultiplier = equipsConfig.attackDamageFactor ? 1
+      stats.healthMultiplier = equipsConfig.maxHealthFactor ? 1
+      if movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
+        stats.speed = movesConfig.maxSpeed ? 3.6
+      if attackableConfig = _.find(components, original: LevelComponent.AttackableID)?.config
+        stats.baseHealth = attackableConfig.maxHealth ? 11
+      ThangType.heroConfigStats[@get('original')] = stats
+    null
+
+  @calculateStatsForHeroConfig: (heroConfig, callback) ->
+    # Load enough information from the ThangTypes involved in a hero configuration to show various stats the hero will have.
+    # We don't rely on any supermodel caches, because this ThangType projection is useless anywhere else.
+    thisHeroConfigStats = {}
+    heroOriginal = heroConfig.thangType ? ThangType.heroes.captain
+    for original in _.values(heroConfig.inventory).concat [heroOriginal]
+      thisHeroConfigStats[original] = ThangType.heroConfigStats[original] or 'loading'
+    for original, stats of thisHeroConfigStats when stats is 'loading'
+      url = "/db/thang.type/#{original}/version?project=original,components,gems"
+      tt = new ThangType().setURL url
+      do (tt) =>
+        tt.on 'sync', =>
+          thisHeroConfigStats[tt.get('original')] = ThangType.heroConfigStats[tt.get('original')]
+          tt.off 'sync'
+          tt.destroy()
+          @formatStatsForHeroConfig thisHeroConfigStats, callback
+      tt.fetch()
+    @formatStatsForHeroConfig thisHeroConfigStats, callback
+
+  @formatStatsForHeroConfig: (heroConfigStats, callback) ->
+    heroConfigStatValues = _.values heroConfigStats
+    return if 'loading' in heroConfigStatValues
+    heroStats = _.find heroConfigStatValues, kind: 'hero'
+    totals = {health: heroStats.baseHealth ? 11, speed: 0, gems: 0}
+    for stats in heroConfigStatValues
+      totals.gems += stats.gems if stats.gems
+      totals.health += stats.health * (heroStats.healthMultiplier or 1) if stats.health
+      totals.attack = stats.attack * (heroStats.attackMultiplier or 1) if stats.attack
+      totals.speed += stats.speed if stats.speed
+    callback totals
+
+
+class PrerenderedSpriteSheet extends CocoModel
+  @className: 'PrerenderedSpriteSheet'
+
+  loadImage: ->
+    return true if @loadingImage
+    return false if @loadedImage
+    return false unless imageURL = @get('image')
+    @image = $("<img src='/file/#{imageURL}' />")
+    @loadingImage = true
+    @image.one('load', =>
+      @loadingImage = false
+      @loadedImage = true
+      @buildSpriteSheet()
+      @trigger('image-loaded', @))
+    @image.one('error', =>
+      @loadingImage = false
+      @trigger('image-load-error', @)
+    )
+    return true
+
+  buildSpriteSheet: ->
+    @spriteSheet = new createjs.SpriteSheet({
+      images: [@image[0]],
+      frames: @get('frames')
+      animations: @get('animations')
+    })
+
+  markToLoad: -> @needToLoad = true
+
+  needToLoad: false
+  loadedImage: false
+  loadingImage: false
+
+
+class PrerenderedSpriteSheets extends CocoCollection
+  model: PrerenderedSpriteSheet

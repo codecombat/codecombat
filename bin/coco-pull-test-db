@@ -1,0 +1,8 @@
+DIR=`mktemp -dt cocoXXXXXXXXXX`
+curl http://analytics.codecombat.com:8080/dump.tar.gz | tar -xzC $DIR
+
+mongoexport --db coco --collection users --out $DIR/users.json
+mongorestore --drop --batchSize 100 $DIR/dump
+mongoimport --db coco --upsert -c users $DIR/users.json
+cat  $DIR/users.json
+rm -r $DIR

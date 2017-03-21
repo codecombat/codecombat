@@ -1,0 +1,45 @@
+.container
+  .pull-right
+    button.btn.btn-primary#toggle-all-component-code Toggle all code
+  .clearfix
+
+  .row
+    .col-xs-3.index-column.nano
+      ul.nav.nav-list.list-group.nano-content
+        for component in components
+            a.doc-name(href="##{component.get('name')}")
+              li.list-group-item= component.get('system') + '.' + component.get('name')
+              ul
+                // .list-group for different layout
+                each doc in (component.attributes.propertyDocumentation ? component.attributes.propertyDocumentation : [])
+                  a(href="##{component.get('name')}#{doc.name}")
+                    li.list-group-item
+                      | #{doc.name}
+    .col-xs-9.documentation-column.nano
+      ul.nano-content
+        for component in components
+          div(id="#{component.get('name')}" class="panel panel-defalt")
+            div(class="panel-heading")
+              strong= component.get('system') + '.' + component.get('name')
+            div(class="panel-body")
+              | #{component.get('description')}
+            ul
+              each doc in (component.attributes.propertyDocumentation ? component.attributes.propertyDocumentation : [])
+                li.list-group-item(id="#{component.get('name')}#{doc.name}")
+                  | #{doc.name}
+                  ul.special-list
+                    if doc.description[codeLanguage]
+                      li!=marked(doc.description[codeLanguage])
+                    else
+                      li!=marked(doc.description)
+              li.panel-heading
+                a.code-block(data-toggle="collapse" data-parent="##{component.get('name')}" href="##{component.get('name')}Code")
+                  | Code
+            div(id="#{component.get('name')}Code" class="panel-collapse collapse")
+              div.panel-body
+                pre
+                  | #{component.attributes.code}
+
+      .clearfix
+    .clearfix
+  .clearfix

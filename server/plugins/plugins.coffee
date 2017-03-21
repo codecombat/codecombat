@@ -1,5 +1,8 @@
-mongoose = require 'mongoose'
-textSearch = require 'mongoose-text-search'
+mongoose = require('mongoose')
+log = require 'winston'
+utils = require '../lib/utils'
+co = require 'co'
+errors = require '../commons/errors'
 
 module.exports.MigrationPlugin = (schema, migrations) ->
   # Property name migrations made EZ
@@ -29,6 +32,13 @@ module.exports.NamedPlugin = (schema) ->
   schema.uses_coco_names = true
   schema.add({name: String, slug: String})
   schema.index({'slug': 1}, {unique: true, sparse: true, name: 'slug index'})
+
+  schema.statics.findBySlug = (slug, done) ->
+    @findOne {slug: slug}, done
+
+  schema.statics.findBySlugOrId = (slugOrID, done) ->
+    return @findById slugOrID, done if utils.isID slugOrID
+    @findOne {slug: slugOrID}, done
 
   schema.pre('save', (next) ->
     if schema.uses_coco_versions
@@ -107,7 +117,7 @@ module.exports.PermissionsPlugin = (schema) ->
     allowed = allowed[method] or []
 
     for permission in @permissions
-      if permission.target is 'public' or actor._id.equals(permission.target)
+      if permission.target is 'public' or actor?._id.equals(permission.target)
         return true if permission.access in allowed
 
     return false
@@ -151,6 +161,14 @@ module.exports.VersionedPlugin = (schema) ->
   # Prevent multiple documents with the same version
   # Also used for looking up latest version, or specific versions.
   schema.index({'original': 1, 'version.major': -1, 'version.minor': -1}, {unique: true, name: 'version index'})
+  
+  schema.statics.findCurrentVersion = (original, projection) ->
+    if _.isString original
+      try
+        original = mongoose.Types.ObjectId(original)
+      catch e
+        throw new errors.UnprocessableEntity('Invalid id provided.')
+    return @findOne({original, 'version.isLatestMajor': true}, projection)
 
   schema.statics.getLatestMajorVersion = (original, options, done) ->
     options = options or {}
@@ -171,7 +189,7 @@ module.exports.VersionedPlugin = (schema) ->
         latest = latest[0]
 
         # don't fix missing versions by default. In all likelihood, it's about to change anyway
-        if options.autofix
+        if options.autofix # not used
           latest.version.isLatestMajor = true
           latest.version.isLatestMinor = true
           latestObject = latest.toObject()
@@ -196,7 +214,7 @@ module.exports.VersionedPlugin = (schema) ->
         return done(null, null) if latest.length is 0
         latest = latest[0]
 
-        if options.autofix
+        if options.autofix # not used
           latestObject = latest.toObject()
           latestObject.version.isLatestMajor = true
           latestObject.version.isLatestMinor = true
@@ -257,13 +275,22 @@ module.exports.VersionedPlugin = (schema) ->
       )
     )
 
+  # Assume every save is a new version, hence an edit
+  schema.pre 'save', (next) ->
+    User = require '../models/User'  # Avoid mutual inclusion cycles
+    userID = @get('creator')?.toHexString()
+    return next() unless userID?
+
+    statName = User.statsMapping.edits[@constructor.modelName]
+    User.incrementStat userID, statName, next
+
 module.exports.SearchablePlugin = (schema, options) ->
   # this plugin must be added only after the others (specifically Versioned and Permissions)
   # have been added, as how it builds the text search index depends on which of those are used.
 
   searchable = options.searchable
   unless searchable
-    throw Error('SearchablePlugin options must include list of searchable properties.')
+    throw new Error('SearchablePlugin options must include list of searchable properties.')
 
   index = {}
 
@@ -275,7 +302,6 @@ module.exports.SearchablePlugin = (schema, options) ->
   index[prop] = 'text' for prop in searchable
 
   # should now have something like {'index': 1, name: 'text', body: 'text'}
-  schema.plugin(textSearch)
   schema.index(index, {sparse: true, name: 'search index', language_override: 'searchLanguage'})
 
   schema.pre 'save', (next) ->
@@ -289,3 +315,19 @@ module.exports.SearchablePlugin = (schema, options) ->
       @index = @getOwner() unless access
 
     next()
+
+module.exports.TranslationCoveragePlugin = (schema, options) ->
+
+  schema.uses_coco_translation_coverage = true
+  schema.set('autoIndex', true)
+
+  index = {}
+
+  if schema.uses_coco_versions
+    if not schema.uses_coco_names
+      throw Error('If using translation coverage and versioning, should also use names for indexing.')
+    index.slug = 1
+
+  index.i18nCoverage = 1
+
+  schema.index(index, {sparse: true, name: 'translation coverage index', background: true})

@@ -1,0 +1,54 @@
+extends /templates/core/modal-base-flat
+
+//- TODO: i18n
+
+block modal-header-content
+  .text-center
+    h3 Contact Our Classroom Team
+
+block modal-body-content
+  p Send us a message and our classroom success team will be in touch to help find the best solution for your students' needs!
+  form
+    - var sending = view.state.get('sendingState') === 'sending'
+    - var sent = view.state.get('sendingState') === 'sent';
+    - var values = view.state.get('formValues');
+    - var errors = view.state.get('formErrors');
+
+    .form-group(class=errors.name ? 'has-error' : '')
+      label.control-label(for="name" data-i18n="general.name")
+      +formErrors(errors.name)
+      input.form-control(name="name", type="text", value=values.name || '', tabindex=1, disabled=sending || sent)
+
+    .form-group(class=errors.email ? 'has-error' : '')
+      label.control-label(for="email" data-i18n="general.email")
+      +formErrors(errors.email)
+      input.form-control(name="email", type="email", value=values.email || '', tabindex=1, disabled=sending || sent)
+
+    .form-group(class=errors.licensesNeeded ? 'has-error' : '')
+      label.control-label(for="licensesNeeded" data-i18n="teachers.licenses_needed")
+      +formErrors(errors.licensesNeeded)
+      input.form-control(name="licensesNeeded", type="text", value=values.licensesNeeded || '', tabindex=1, disabled=sending || sent)
+
+    .form-group(class=errors.message ? 'has-error' : '')
+      label.control-label(for="message" data-i18n="general.message")
+      +formErrors(errors.message)
+      textarea.form-control(name="message", tabindex=1 disabled=sending || sent)= values.message
+
+    if view.state.get('sendingState') === 'error'
+      .alert.alert-danger Could not send message.
+
+    if sent
+      .alert.alert-success Message sent!
+
+    .text-right
+      button#submit-btn.btn.btn-navy.btn-lg(type='submit' disabled=sending || sent) Submit
+
+block modal-footer
+
+mixin formErrors(errors)
+  if _.isString(errors)
+    - errors = [errors]
+  if _.size(errors)
+    .help-block
+      for error in errors
+        div= error

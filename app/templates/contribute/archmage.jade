@@ -4,13 +4,12 @@ block content
 
   div.contribute_class
 
-    include /templates/contribute/contribute_nav
+    .class_detail
+
+      img(src="/images/pages/contribute/class_detail_archmage.png", alt="")
 
     div.class-main#archmage-main
     
-      .class_image
-        img.img-responsive(src="/images/pages/contribute/archmage.png", alt="")
-
       h2
         span(data-i18n="classes.archmage_title") Archmage
         span  
@@ -42,17 +41,17 @@ block content
       p
         span(data-i18n="contribute.join_desc_1")
           | Anyone can help out! Just check out our 
-        a(title='GitHub', href="https://github.com/codecombat/codecombat", tabindex=-1)
+        a(href="https://github.com/codecombat/codecombat", tabindex=-1)
           | GitHub
         span  
         span(data-i18n="contribute.join_desc_2")  
           | to get started, and check the box below to mark yourself as a brave Archmage and get the latest news by email.
           | Want to chat about what to do or how to get more deeply involved? 
-        a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="contribute.join_url_email")
+        a(tabindex=-1, data-toggle="coco-modal", data-target="core/ContactModal", data-i18n="contribute.join_url_email")
           | Email us
         span(data-i18n="contribute.join_desc_3")
           | , or find us in our 
-        a(href="http://www.hipchat.com/g3plnOKqa", data-i18n="contribute.join_url_hipchat") public HipChat room
+        a(href="https://coco-slack-invite.herokuapp.com/", data-i18n="contribute.join_url_slack") public Slack channel
         span  
         span(data-i18n="contribute.join_desc_4")
           | and we'll go from there!

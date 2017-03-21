@@ -1,0 +1,68 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOQxKaReE7xLUdIT2cvKAt",
+            "card": {
+                "id": "card_17IOQxKaReE7xLUdls71CTWN"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTN2QmGLf0x5K",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user98@me.com",
+            "metadata": {
+                "id": "00000000000000000000008c"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOQxKaReE7xLUdls71CTWN",
+                        "customer": "cus_7XTN2QmGLf0x5K"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17IOQyKaReE7xLUdftH7lIJF",
+            "amount": 300,
+            "customer": "cus_7XTN2QmGLf0x5K",
+            "metadata": {
+                "type": "terminal_subscription",
+                "timestamp": "1450207563299",
+                "months": "1",
+                "productID": "prepaid terminal_subscription"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17IOQxKaReE7xLUdls71CTWN",
+                "customer": "cus_7XTN2QmGLf0x5K"
+            }
+        }
+    }
+]

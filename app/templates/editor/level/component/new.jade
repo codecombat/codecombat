@@ -1,4 +1,4 @@
-extends /templates/modal/modal_base
+extends /templates/core/modal-base
 
 block modal-header-content
   h3(data-i18n="editor.new_component_title") Create New Component
@@ -8,9 +8,8 @@ block modal-body-content
     .form-group
       label(for="level-component-system", data-i18n="editor.new_component_field_system").control-label System
       select.form-control#level-component-system(name='system')
-        for system in systems
+        for system in view.systems
           option(value=system)= system
-      //input.form-control#level-component-system(name="system", type="text")
     .form-group
       label(for="level-component-name", data-i18n="general.name").control-label Name
       input.form-control#level-component-name(name="name", type="text")

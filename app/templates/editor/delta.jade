@@ -1,4 +1,5 @@
 - var i = 0
+- var counter = view.constructor.deltaCounter;
 
 mixin deltaPanel(delta, conflict)
   - delta.index = i++
@@ -11,7 +12,7 @@ mixin deltaPanel(delta, conflict)
       if delta.action === 'deleted'
         strong(data-i18n="delta.deleted") Deleted
       if delta.action === 'moved-index'
-        strong(data-i18n="delta.modified_array") Moved Index
+        strong(data-i18n="delta.moved_index") Moved Index
       if delta.action === 'text-diff'
         strong(data-i18n="delta.text_diff") Text Diff
       span  
@@ -33,7 +34,7 @@ mixin deltaPanel(delta, conflict)
             div.text-diff
         if delta.action === 'moved-index'
           .col-md-12
-            span Moved array value #{JSON.stringify(delta.left)} to index #{delta.destinationIndex}
+            span Moved array value #{delta.hash}: #{delta.originalIndex} ➜ #{delta.destinationIndex}
   
     if delta.conflict && !conflict
       .panel-body
@@ -41,8 +42,16 @@ mixin deltaPanel(delta, conflict)
         +deltaPanel(delta.conflict, true)
 
 .panel-group(id='delta-accordion-'+(counter))
-  for delta in deltas
+  for delta in view.expandedDeltas
     +deltaPanel(delta)
-  if !deltas.length
+  if !view.expandedDeltas.length
     alert.alert-warning(data-i18n="delta.no_changes") No changes
-    
+  else
+    .delta.panel.panel-default
+      .panel-heading
+        a(data-toggle="collapse" data-parent="#delta-accordion-expert" href="#collapse-expert-"+(counter))
+          span Expert View
+
+      .panel-collapse.collapse(id="collapse-expert-"+(counter))
+        .panel-body.row
+          .expert-view

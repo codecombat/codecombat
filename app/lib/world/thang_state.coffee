@@ -64,7 +64,10 @@ module.exports = class ThangState
     # Get the property, whether we have it stored in @props or in @trackedPropertyValues. Optimize it.
     # Figured based on http://jsperf.com/object-vs-array-vs-native-linked-list/13 that it should be faster with small arrays to do the indexOf reads (each up to 24x faster) than to do a single object read, and then we don't have to maintain an extra @props object; just keep array
     propIndex = @trackedPropertyKeys.indexOf prop
-    return null if propIndex is -1
+    if propIndex is -1
+      initialPropIndex = @thang.unusedTrackedPropertyKeys.indexOf prop
+      return null if initialPropIndex is -1
+      return @thang.unusedTrackedPropertyValues[initialPropIndex]
     value = @props[propIndex]
     return value if value isnt undefined or @hasRestored
     return @props[propIndex] = @getStoredProp propIndex
@@ -73,22 +76,29 @@ module.exports = class ThangState
     # Restore trackedProperties' values to @thang, retrieving them from @trackedPropertyValues if needed. Optimize it.
     return @ if @thang._state is @ and not @thang.partialState
     unless @hasRestored  # Restoring in a deserialized World for first time
+      for prop, propIndex in @thang.unusedTrackedPropertyKeys when @trackedPropertyKeys.indexOf(prop) is -1
+        @thang[prop] = @thang.unusedTrackedPropertyValues[propIndex]
       props = []
       for prop, propIndex in @trackedPropertyKeys
         type = @trackedPropertyTypes[propIndex]
         storage = @trackedPropertyValues[propIndex]
-        props.push(@thang[prop] = @getStoredProp propIndex, type, storage)
+        props.push @thang[prop] = @getStoredProp propIndex, type, storage
         #console.log @frameIndex, @thang.id, prop, propIndex, type, storage, 'got', @thang[prop]
       @props = props
       @trackedPropertyTypes = @trackedPropertyValues = @specialKeysToValues = null  # leave @trackedPropertyKeys for indexing
       @hasRestored = true
     else  # Restoring later times
+      for prop, propIndex in @thang.unusedTrackedPropertyKeys when @trackedPropertyKeys.indexOf(prop) is -1
+        @thang[prop] = @thang.unusedTrackedPropertyValues[propIndex]
       for prop, propIndex in @trackedPropertyKeys
         @thang[prop] = @props[propIndex]
     @thang.partialState = false
+    @thang.stateChanged = true
     @
 
   restorePartial: (ratio) ->
+    # Don't think we need to worry about unusedTrackedPropertyValues here.
+    # If it's not tracked yet, it'll very rarely partially change between frames; we can afford to miss the first one.
     inverse = 1 - ratio
     for prop, propIndex in @trackedPropertyKeys when prop is 'pos' or prop is 'rotation'
       if @hasRestored
@@ -98,7 +108,7 @@ module.exports = class ThangState
         storage = @trackedPropertyValues[propIndex]
         value = @getStoredProp propIndex, type, storage
       if prop is 'pos'
-        if @thang.teleport and @thang.pos.distanceSquared(value) > 900
+        if (@thang.teleport and @thang.pos.distanceSquared(value) > 900) or (@thang.pos.x is 0 and @thang.pos.y is 0)
           # Don't interpolate; it was probably a teleport. https://github.com/codecombat/codecombat/issues/738
           @thang.pos = value
         else
@@ -109,6 +119,7 @@ module.exports = class ThangState
       else if prop is 'rotation'
         @thang.rotation = inverse * @thang.rotation + ratio * value
       @thang.partialState = true
+    @thang.stateChanged = true
     @
 
   serialize: (frameIndex, trackedPropertyIndices, trackedPropertyTypes, trackedPropertyValues, specialValuesToKeys, specialKeysToValues) ->

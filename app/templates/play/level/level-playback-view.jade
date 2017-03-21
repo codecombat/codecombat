@@ -1,0 +1,30 @@
+button.btn.btn-xs.btn-inverse#play-button.paused(title="Ctrl/Cmd + P: Toggle level play/pause")
+  .glyphicon.glyphicon-play
+  .glyphicon.glyphicon-pause
+  .glyphicon.glyphicon-repeat
+
+button.btn.btn-xs.btn-inverse.picoctf-hide#volume-button(title="Adjust volume")
+  .glyphicon.glyphicon-volume-off
+  .glyphicon.glyphicon-volume-down
+  .glyphicon.glyphicon-volume-up
+button.btn.btn-xs.btn-inverse.picoctf-hide#music-button(title="Toggle Music")
+  span ♫
+
+if !view.options.level.isType('game-dev')
+  .scrubber
+    .scrubber-inner
+      .progress.secret#timeProgress
+        .progress-bar
+          .scrubber-handle
+          .popover.fade.top.in#timePopover
+            .arrow
+            h3.popover-title
+            .popover-content
+
+.btn-group.dropup#playback-settings
+  button.btn.btn-xs.btn-inverse.toggle-fullscreen(title="Toggle fullscreen")
+    .glyphicon.glyphicon-fullscreen
+  button.btn.btn-xs.btn-inverse#zoom-in-button(title="Zoom In (or scroll down)")
+    .glyphicon.glyphicon-zoom-in
+  button.btn.btn-xs.btn-inverse#zoom-out-button(title="Zoom Out (or scroll up)")
+    .glyphicon.glyphicon-zoom-out

@@ -1,0 +1,74 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTFh5awQT3w6y",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user11@me.com",
+            "metadata": {
+                "id": "0000000000000000000186ad"
+            },
+            "sources": {
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTFh5awQT3w6y",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTFh5awQT3w6y",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "user11@me.com",
+            "metadata": {
+                "id": "0000000000000000000186ad"
+            },
+            "sources": {
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTFh5awQT3w6y/subscriptions",
+        "status": 200,
+        "response": {
+            "id": "sub_7XTFud1h8PNwi1",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452885441,
+            "current_period_start": 1450207041,
+            "customer": "cus_7XTFh5awQT3w6y",
+            "discount": {
+                "coupon": {
+                    "id": "free"
+                },
+                "customer": "cus_7XTFh5awQT3w6y",
+                "subscription": "sub_7XTFud1h8PNwi1"
+            },
+            "metadata": {
+                "id": "0000000000000000000186ad"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 100
+            },
+            "quantity": 1
+        }
+    }
+]

@@ -1,13 +1,14 @@
 .row
-  for contributor in contributors
-    .col-xs-6.col-md-3
-      .thumbnail
-        - var src = "/images/pages/contribute/" + contributorClassName + ".png";
-        - if(contributor.avatar)
-        -   src = src.replace(contributorClassName, contributorClassName + "/" + contributor.avatar + "_small");
-        - if(contributor.id)
-        -   src = "/db/user/" + contributor.id + "/avatar?s=100&fallback=" + src;
-        a(href=contributor.github ? "https://github.com/codecombat/codecombat/commits?author=" + contributor.github : null, class=contributor.github ? 'has-github' : '')
-          img.img-responsive(src=src, alt=contributor.name)
-          .caption
-            h4= contributor.name
+  if contributors
+    for contributor in contributors
+      .col-xs-6.col-md-3
+        .thumbnail
+          - var src = "/images/pages/contribute/" + contributorClassName + ".png";
+          - if(contributor.avatar)
+          -   src = src.replace(contributorClassName, contributorClassName + "/" + contributor.avatar + "_small");
+          - if(contributor.id)
+          -   src = "/db/user/" + contributor.id + "/avatar?s=100&fallback=" + src;
+          a(href=contributor.github ? "https://github.com/codecombat/codecombat/commits?author=" + contributor.github : null, class=contributor.github ? 'has-github' : '')
+            img.img-responsive(src=src, alt=contributor.name)
+            .caption
+              h4= contributor.name

@@ -62,7 +62,7 @@ module.exports = class Thang
         componentClass = @world.classMap[componentClass]
       else
         @world?.classMap[componentClass.className] ?= componentClass
-      c = new componentClass componentConfig
+      c = new componentClass componentConfig ? {}
       c.attach @
 
   # [prop, type]s of properties which have values tracked across WorldFrames. Also call keepTrackedProperty some non-expensive time when you change it or it will be skipped.
@@ -73,7 +73,7 @@ module.exports = class Thang
     for [prop, type] in props
       unless type in ThangState.trackedPropertyTypes
         # How should errors for busted Components work? We can't recover from this and run the world.
-        throw new Error "Type #{type} for property #{prop} is not a trackable property type: #{trackedPropertyTypes}"
+        throw new Error "Type #{type} for property #{prop} is not a trackable property type: #{ThangState.trackedPropertyTypes}"
       oldPropIndex = @trackedPropertiesKeys.indexOf prop
       if oldPropIndex is -1
         @trackedPropertiesKeys.push prop
@@ -85,7 +85,7 @@ module.exports = class Thang
           throw new Error "Two types were specified for trackable property #{prop}: #{oldType} and #{type}."
 
   keepTrackedProperty: (prop) ->
-    # Hmm; can we do this faster?
+    # Wish we could do this faster, but I can't think of how.
     propIndex = @trackedPropertiesKeys.indexOf prop
     if propIndex isnt -1
       @trackedPropertiesUsed[propIndex] = true
@@ -147,13 +147,21 @@ module.exports = class Thang
     for trackedFinalProperty in @trackedFinalProperties ? []
       # TODO: take some (but not all) of serialize logic from ThangState to handle other types
       o.finalState[trackedFinalProperty] = @[trackedFinalProperty]
+    # Since we might keep tracked properties later during streaming, we need to know which we think are unused.
+    o.unusedTrackedPropertyKeys = (@trackedPropertiesKeys[propIndex] for used, propIndex in @trackedPropertiesUsed when not used)
     o
 
-  @deserialize: (o, world, classMap) ->
+  @deserialize: (o, world, classMap, levelComponents) ->
     t = new Thang world, o.spriteName, o.id
     for [componentClassName, componentConfig] in o.components
-      componentClass = classMap[componentClassName]
+      unless componentClass = classMap[componentClassName]
+        console.debug 'Compiling new Component while deserializing:', componentClassName
+        componentModel = _.find levelComponents, name: componentClassName
+        componentClass = world.loadClassFromCode componentModel.js, componentClassName, 'component'
+        world.classMap[componentClassName] = componentClass
       t.addComponents [componentClass, componentConfig]
+    t.unusedTrackedPropertyKeys = o.unusedTrackedPropertyKeys
+    t.unusedTrackedPropertyValues = (t[prop] for prop in o.unusedTrackedPropertyKeys)
     for prop, val of o.finalState
       # TODO: take some (but not all) of deserialize logic from ThangState to handle other types
       t[prop] = val
@@ -162,9 +170,22 @@ module.exports = class Thang
   serializeForAether: ->
     {CN: @constructor.className, id: @id}
 
-  getSpriteOptions: ->
-    colorConfigs = @world?.getTeamColors() or {}
-    options = {}
-    if @team and colorConfigs[@team]
-      options.colorConfig = {team: colorConfigs[@team]}
+  getLankOptions: ->
+    colorConfigs = @teamColors or @world?.getTeamColors() or {}
+    options = {colorConfig: {}}
+    if @id is 'Hero Placeholder' and not @world.getThangByID 'Hero Placeholder 1'
+      return options  # No team colors for heroes on single-player levels
+    if @team and teamColor = colorConfigs[@team]
+      options.colorConfig.team = teamColor
+    if @color and color = @grabColorConfig @color
+      options.colorConfig.color = color
+    if @colors
+      options.colorConfig[colorType] = colorValue for colorType, colorValue of @colors
     options
+
+  grabColorConfig: (color) ->
+    {
+      green: {hue: 0.33, saturation: 0.5, lightness: 0.5}
+      black: {hue: 0, saturation: 0, lightness: 0.25}
+      violet: {hue: 0.83, saturation: 0.5, lightness: 0.5}
+    }[color]

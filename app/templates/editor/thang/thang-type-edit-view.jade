@@ -1,0 +1,143 @@
+extends /templates/base
+block header
+  if thangType.loading
+    nav.navbar.navbar-default(role='navigation')#thang-editor-top-nav
+      .container-fluid
+        ul.nav.navbar-nav
+          li
+            a(href="/editor/thang")
+              span.glyphicon-home.glyphicon
+  else
+    nav.navbar.navbar-default(role='navigation')#thang-editor-top-nav
+      ul.nav.navbar-nav
+        li
+          a(href="/editor/thang")
+            span.glyphicon-home.glyphicon
+      ul.nav.navbar-nav.nav-tabs
+        li.active
+          a(href="#editor-thang-main-tab-view", data-toggle="tab", data-i18n="editor.thang_main") Main
+        li
+          a(href="#editor-thang-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components") Components
+        li
+          a(href="#editor-thang-spritesheets-view", data-toggle="tab", data-i18n="editor.thang_spritesheets") Spritesheets
+        li
+          a(href="#editor-thang-colors-tab-view", data-toggle="tab", data-i18n="editor.thang_colors")#color-tab Colors
+        li
+          a(href="#editor-thang-patches-view", data-toggle="tab")#patches-tab
+            span(data-i18n="resources.patches").spr Patches
+            - var patches = thangType.get('patches')
+            if patches && patches.length
+              span.badge= patches.length
+
+      .navbar-header
+        span.navbar-brand #{thangType.attributes.name}
+
+      ul.nav.navbar-nav.navbar-right
+        li.dropdown
+          a(data-toggle='dropdown').play-with-level-parent
+            span.glyphicon-play.glyphicon
+          ul.dropdown-menu
+            li.dropdown-header Play Which Level?
+            li
+              for level in recentlyPlayedLevels
+                a.play-with-level-button(data-level=level)= level
+              input.play-with-level-input(placeholder="Type in a level name")
+
+        if authorized
+          li#save-button
+            a
+              span.glyphicon-floppy-disk.glyphicon
+        li.dropdown
+          a(data-toggle='dropdown')
+            span.glyphicon-chevron-down.glyphicon
+          ul.dropdown-menu
+            li.dropdown-header(data-i18n="common.actions") Actions
+            li(class=!me.isAdmin() && !me.isArtisan() ? "disabled": "")
+              a(data-i18n="common.fork")#fork-start-button Fork
+            li(class=!authorized ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert", disabled=!authorized)#revert-button Revert
+            li(class=!authorized ? "disabled": "")
+              a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
+            li.divider
+            li.dropdown-header(data-i18n="common.info") Info
+            li#history-button
+              a(href='#', data-i18n="general.version_history") Version History
+            li.divider
+            li.dropdown-header(data-i18n="common.help") Help
+            li
+              a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', data-i18n="editor.wiki", target="_blank") Wiki
+            li
+              a(href='https://coco-slack-invite.herokuapp.com/', data-i18n="editor.live_chat", target="_blank") Live Chat
+            li
+              a(href='http://discourse.codecombat.com/category/artisan', data-i18n="nav.forum", target="_blank") Forum
+            if !me.isStudent()
+              li
+                a.contact-modal(data-i18n="nav.contact")
+
+block outer_content
+  .outer-content
+    div.tab-content
+      div.tab-pane#editor-thang-colors-tab-view
+      div.tab-pane#editor-thang-main-tab-view.active
+        div#settings-col.well
+          .row
+            .col-sm-3
+              img#portrait.img-thumbnail
+            .col-sm-9
+              div.file-controls
+                button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-info#upload-button
+                  span.glyphicon.glyphicon-upload
+                  span.spl Upload Animation
+                button(disabled=authorized === true ? undefined : "true").btn.btn-sm.btn-danger#clear-button
+                  span.glyphicon.glyphicon-remove
+                  span.spl Clear Data
+                button#set-vector-icon(disabled=authorized === true ? undefined : "true").btn.btn-sm
+                  span.glyphicon.glyphicon-gbp
+                  span.spl Vector Icon Setup
+                button#export-sprite-sheet-btn.btn.btn-sm(disabled=authorized === true ? undefined : "true")
+                  span.glyphicon.glyphicon-export
+                  span.spl Export SpriteSheet
+                input#real-upload-button(type="file")
+              #thang-type-file-size= fileSizeString
+          div#thang-type-treema
+          .clearfix
+        div#display-col.well
+          canvas#canvas(width="400", height="600")
+          select#animations-select.form-control
+            for animation in animations
+              option #{animation}
+          div
+            button.btn.btn-small.btn-primary#marker-button
+              i.icon-map-marker
+              span.spl Markers
+            button.btn.btn-small.btn-primary#play-button
+              i.icon-play
+              span.spl Play
+            button.btn.btn-small.btn-primary#stop-button
+              i.icon-stop
+              span.spl Stop
+          div.slider-cell
+            | Rotation:
+            span.rotation-label
+            .selector#rotation-slider
+          div.slider-cell
+            | Scale:
+            span.scale-label
+            .selector#scale-slider
+          div.slider-cell
+            | Resolution:
+            span.resolution-label  4.0x
+            .selector#resolution-slider
+          div.slider-cell
+            | Health:
+            span.health-label  10hp
+            .selector#health-slider
+
+      div.tab-pane#editor-thang-components-tab-view
+        #thang-components-edit-view
+      div.tab-pane#editor-thang-spritesheets-view
+        div#spritesheets
+      div.tab-pane#editor-thang-patches-view
+        div.patches-view
+    .clearfix
+block footer

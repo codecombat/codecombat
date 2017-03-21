@@ -1,9 +1,13 @@
-CocoView = require 'views/kinds/CocoView'
+RootView = require 'views/core/RootView'
+ModalView = require 'views/core/ModalView'
 template = require 'templates/demo'
 requireUtils = require 'lib/requireUtils'
 
 DEMO_REQUIRE_PREFIX = 'test/demo/'
 DEMO_URL_PREFIX = '/demo/'
+
+require 'vendor/jasmine-bundle'
+require 'demo-app'
 
 ###
   What are demo files?
@@ -23,7 +27,7 @@ DEMO_URL_PREFIX = '/demo/'
 
 ###
 
-module.exports = DemoView = class DemoView extends CocoView
+module.exports = DemoView = class DemoView extends RootView
   id: 'demo-view'
   template: template
 
@@ -32,23 +36,8 @@ module.exports = DemoView = class DemoView extends CocoView
   constructor: (options, @subPath='') ->
     super(options)
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    @loadDemoingLibs() unless DemoView.loaded
-
-  loadDemoingLibs: ->
-    @queue = new createjs.LoadQueue()
-    @queue.on('complete', @scriptsLoaded, @)
-    window.jasmine = {} # so that mock-ajax properly loads. It expects jasmine to be loaded
-    for f in ['mock-ajax', 'demo-app']
-      @queue.loadFile({
-        src: "/javascripts/#{f}.js"
-        type: createjs.LoadQueue.JAVASCRIPT
-      })
-
-  scriptsLoaded: ->
     @initDemoFiles()
     @children = requireUtils.parseImmediateChildren(@demoFiles, @subPath, DEMO_REQUIRE_PREFIX, DEMO_URL_PREFIX)
-    @render()
-    @runDemo()
 
   # RENDER DATA
 
@@ -59,6 +48,10 @@ module.exports = DemoView = class DemoView extends CocoView
     parts = @subPath.split('/')
     c.currentFolder = parts[parts.length-1] or parts[parts.length-2] or 'All'
     c
+    
+  afterInsert: ->
+    super()
+    @runDemo()
 
   # RUNNING DEMOS
 
@@ -66,7 +59,7 @@ module.exports = DemoView = class DemoView extends CocoView
     @demoFiles = @getAllDemoFiles()
     if @subPath
       prefix = DEMO_REQUIRE_PREFIX + @subPath
-      @demoFiles = (f for f in @demoFiles when f.startsWith prefix)
+      @demoFiles = (f for f in @demoFiles when _.string.startsWith f, prefix)
 
   runDemo: ->
     # TODO: Maybe have an option to run all demos in this folder at the same time?
@@ -80,9 +73,21 @@ module.exports = DemoView = class DemoView extends CocoView
     jasmine.Ajax.install()
     view = demoFunc()
     return unless view
-    @$el.find('#demo-area').empty().append(view.$el)
+    @ranDemo = true
+    if view instanceof ModalView
+      @openModalView(view)
+    else
+      @$el.find('#demo-area').empty().append(view.$el)
+    view.afterInsert()
+    window.currentDemoView = view
     # TODO, maybe handle root views differently than modal views differently than everything else?
 
   getAllDemoFiles: ->
     allFiles = window.require.list()
     (f for f in allFiles when f.indexOf('.demo') > -1)
+
+  destroy: ->
+    # hack to get jasmine tests to properly run again on clicking links, and make sure if you
+    # leave this page (say, back to the main site) that test stuff doesn't follow you.
+    if @ranDemo
+      document.location.reload()

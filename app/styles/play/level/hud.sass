@@ -1,309 +1,221 @@
-@import "app/styles/bootstrap/mixins"
 @import "app/styles/mixins"
-
-#thang-hud.no-selection
-  .center
-    > *
-      display: none
-
-    .no-selection-message
-      //display: block  // we fade this in
-      margin: auto
-      width: 100%
-      height: 100%
-      text-align: center
-      background: transparent url(/images/level/no_selection_pointer.png) no-repeat 50% 40%
-      background-size: 40px 37px
-      @include opacity(75)
-
-      &:hover
-        @include opacity(100)
-
-      div
-        padding-top: 70px
-        font-size: 14px
+@import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #thang-hud
-  width: 55%
-  height: 120px
+  width: calc(#{$game-view-width} - #{$api-bar-width})
+  #level-view.no-api &
+    width: $game-view-width
+  height: 80px
   position: relative
+  overflow: visible
 
-  .left-wing
+  &.controls-disabled
+    pointer-events: none
+
+    .wood-background, .hinge, .avatar-wrapper-container, .center
+      @include filter(brightness(50%))
+
+  .wood-background
     position: absolute
-    width: 50%
-    height: 100%
     left: 0
-    top: 0
-    z-index: 0
-    background-image: url(/images/level/hud_left_wing.png)
-    background-position: right
+    top: -2px
+    background: transparent url(/images/level/hud_wood_background.png)
+    background-size: auto 100%
+    width: 100%
+    height: 100px
+    z-index: 4
 
-  .right-wing
+  .hinge
     position: absolute
-    width: 50%
-    height: 100%
-    right: 0
+    top: -16px
+    background: transparent url(/images/level/hud_hinge.png)
+    width: 27px
+    height: 44px
+    background-size: contain
+    z-index: 4
+    pointer-events: none
+
+  .hinge-0
+    left: 3%
+  .hinge-1
+    left: 12%
+  .hinge-2
+    left: 86%
+    @include scaleX(-1)
+  .hinge-3
+    left: 95%
+    @include scaleX(-1)
+
+  .avatar-wrapper-container
+    position: absolute
+    width: 100px
+    height: 100px
     top: 0
-    z-index: 0
-    background-image: url(/images/level/hud_right_wing.png)
-    background-position: left
+    left: 18%
+    left: -webkit-calc(50% - (560px - 100px) / 2 - 10px)
+    left: calc(50% - (560px - 100px) / 2 - 10px)
+    z-index: 5
 
-  .center
-    width: 560px
-    height: 120px
-    padding: 4px 20px 0 20px
-    margin: auto
-    background-image: url(/images/level/hud_center.png)
-    color: #BEBEBE
-    font-size: 12px
-    overflow: hidden
-    z-index: 1
-    position: relative
-
-    .no-selection-message
-      display: none
-
-    .thang-canvas-wrapper, .speaker-image-wrapper
-      width: 100px
-      height: 100px
-      margin: 7px 7px 7px 22px
-      float: left
-      overflow: hidden
-      border: 1px solid #888
+    .thang-canvas-wrapper
+      width: 80px
+      height: 80px
+      position: relative
       border-radius: 4px
       @include gradient-radial-custom-stops(hsla(205,0%,74%,1), 20%, hsla(205,0%,31%,1), 70%)
-
+  
       &.team-humans
         border-color: darkred
         @include gradient-radial-custom-stops(hsla(4,80%,74%,1), 20%, hsla(4,80%,51%,1), 70%)
-
+  
       &.team-ogres
         border-color: darkblue
         @include gradient-radial-custom-stops(hsla(205,100%,74%,1), 20%, hsla(205,100%,31%,1), 70%)
-
+  
       &.team-allies, &.team-minions
         border-color: darkgreen
         @include gradient-radial-custom-stops(hsla(116,80%,74%,1), 20%, hsla(116,80%,31%,1), 70%)
+  
+      .thang-canvas
+        width: 100%
+  
+      .avatar-frame
+        position: absolute
+        left: -18%
+        top: -19%
+        width: 145%
+
+  &.hide-hud-properties .center:hover
+    // Don't allow them to hover over confusing HUD stuff until later levels
+    top: 24px
+
+  .center
+    width: 560px
+    height: 166px
+    position: absolute
+    top: 24px
+    left: 13%
+    left: -webkit-calc(50% - 560px / 2)
+    left: calc(50% - 560px / 2)
+    padding: 10px 20px 0 145px
+    background-image: url(/images/level/hud_background.png)
+    color: white
+    text-transform: uppercase
+    font-family: $headings-font-family
+    font-weight: bold
+    font-size: 16px
+    z-index: 4
+    @include transition(0.5s ease)
+
+    &:hover
+      top: -36px
+
+    .thang-name
+      font-size: 18px
+      margin: 10px 0 0 0
 
     .thang-props
-      margin: 8px 8px 0 0
+      margin: 24px 0 0 0
       float: left
+      @include user-select(text)
 
-      .thang-props-column
+      .prop:not([name="health"])
+        min-width: 120px
+        display: inline-block
+        line-height: 16px
+
+      &.nonexistent
+        visibility: hidden
+
+      .text-prop
+        width: 50%
+
+      .prop-label-icon
+        $iconSize: 16px
+        display: inline-block
+        width: $iconSize
+        height: $iconSize
+        margin-right: 5px
+        background: transparent url(/images/level/hud_info_icons.png) no-repeat
+        background-size: auto $iconSize
         float: left
-        width: 144px
-        height: 100px
-        @include user-select(text)
-  
-        &.nonexistent
-          visibility: hidden
 
-        .text-prop
-          width: 50%
+        &.prop-label-icon-pos
+          background-position: (-1 * $iconSize) 0px
+        &.prop-label-icon-target
+          background-position: (-2 * $iconSize) 0px
+        &.prop-label-icon-collectedThangIDs
+          background-position: (-3 * $iconSize) 0px
+        &.prop-label-icon-visualRange
+          background-position: (-4 * $iconSize) 0px
+        &.prop-label-icon-attackDamage
+          background-position: (-5 * $iconSize) 0px
+        &.prop-label-icon-attackRange, &.prop-label-icon-attackNearbyEnemyRange
+          background-position: (-6 * $iconSize) 0px
+        &.prop-label-icon-maxSpeed
+          background-position: (-7 * $iconSize) 0px
+        &.prop-label-icon-gold, &.prop-label-icon-bountyGold, &.prop-label-icon-value
+          background-position: (-8 * $iconSize) 0px
 
-        .prop-label-icon
-          $iconSize: 16px
-          display: inline-block
-          width: $iconSize
-          height: $iconSize
-          margin-right: 5px
-          background: transparent url(/images/level/hud_info_icons.png) no-repeat
-          background-size: auto $iconSize
-          float: left
-
-          &.prop-label-icon-pos
-            background-position-x: -1 * $iconSize
-          &.prop-label-icon-target
-            background-position-x: -2 * $iconSize
-          &.prop-label-icon-inventory
-            background-position-x: -3 * $iconSize
-          &.prop-label-icon-visualRange
-            background-position-x: -4 * $iconSize
-          &.prop-label-icon-attackDamage
-            background-position-x: -5 * $iconSize
-          &.prop-label-icon-attackRange
-            background-position-x: -6 * $iconSize
-          &.prop-label-icon-maxSpeed
-            background-position-x: -7 * $iconSize
-          &.prop-label-icon-gold, &.prop-label-icon-bountyGold
-            background-position-x: -8 * $iconSize
-  
-        .prop-value.bar-prop
-          width: 100px
-          display: inline-block
-          height: 6px
-          background: #ddd
-          border: 1px solid black
-          border-radius: 6px
-          overflow: hidden
-  
-          .bar
-            background: black
-            width: 100%
-            height: 100%
-  
-        .prop[name="health"] .bar
-          background: #C5362B
-  
-        .message
-          text-align: center
-          display: table
-          height: 100%
-          width: 100%
-  
-          p
-            display: table-cell
-            vertical-align: middle
-            font-size: 20px
-
-    .thang-actions
-      width: 212px
-      height: 100px
-      margin: 8px 24px 8px 0
-      float: left
-      overflow-y: auto
-      overflow-x: hidden
-
-      .table-container
-        position: relative
-
-        .progress-indicator
-          position: absolute
-          right: 45px
-          background-color: #fce
-          z-index: 1
-
-        .progress-arrow
-          width: 14px
-          height: 6px
-          top: -6px
-          // Could put top: 0 to make the arrow go inside, but it doesn't have enough contrast over the bar
-          right: 39px
-          background: transparent url(/images/level/action_timeline_indicator.png) no-repeat center
-
-        .progress-line
-          width: 1px
-          height: 100%
-          top: 0
-          background-color: #A4A198
-
-        table
-          border: 1px solid #5B5855
-          border-radius: 2px
-          line-height: 17px
-          width: 100%
-
-          tr
-            border: 1px solid #5b5855
-
-          .action-indicator
-            width: 10px
-
-          .action-label
-            width: 75px
-
-          .action-timeline
-            padding: 0
-
-            .timeline-wrapper
-              position: relative
-              width: 100%
-              height: 19px
-
-              div
-                border-radius: 1px
-                background-color: #6BA1C8
-                height: 100%
-                border-bottom: 2px groove darken(#6BA1C8, 30%)
-                border-right: 1px solid darken(#6BA1C8, 10%)
-                position: absolute
-                top: 0
-
-        .current-action
-          font-weight: bold
-
-          .action-indicator
-            background: #4B4133 url(/images/level/current_action_indicator.png) no-repeat center
-
-          td
-            background-color: #4B4133
-
-    .dialogue-area
-      opacity: 0.0
-      position: relative
-      height: 100%
-      width: 100%
-
-      .bubble
+      .prop[name="health"]
         position: absolute
-        left: 140px
-        right: 8px
-        top: 8px
-        bottom: 0px
-        padding: 10px
-        color: black
-        font-weight: bold
-        background: #FFFFFF
-        border: black solid 1px
-        border-radius: 10px
-        font-size: 14px
+        right: 35px
+        top: 23px
+        height: 18px
         line-height: 18px
+        font-size: 18px
 
-        strong
-          color: #09B057
+        .prop-value.bar-prop
+          width: 150px
+          margin: 1px 10px 0 0
+          height: 16px
+          background: rgb(32, 27, 21)
+          padding: 4px
+          border-radius: 8px
+          border: 0
 
-        .hud-hint
-          font-weight: normal
-          color: #999
-
-        .enter
-          position: absolute
-          right: 7px
-          bottom: 7px
-          div.dot
-            background: #337
-            width: 8px
+          .bar
+            background: rgb(234, 35, 45)
             height: 8px
-            position: absolute
-            right: 8px
-            top: 9px
-            border-radius: 5px
+            border-radius: 4px
 
-        button, .alert
-          padding: 2px 5px
+        .bar-prop-value
+          vertical-align: top
 
-        .enter button.with-dot
-          padding-right: 20px
+      .prop-value.bar-prop
+        width: 100px
+        display: inline-block
+        height: 6px
+        background: #ddd
+        border: 1px solid black
+        border-radius: 6px
+        overflow: hidden
 
-        h3
-          margin: 0
-          font-size: 16px
-          line-height: 16px
-          color: #338
+        .bar
+          background: black
+          width: 100%
+          height: 100%
 
-        button
-          margin-left: 10px
+      .message
+        text-align: center
+        display: table
+        height: 100%
+        width: 100%
 
-      .bubble:after
-        content: ""
-        position: absolute
-        top: 55px
-        left: -27px
-        border-style: solid
-        border-width: 11px 27px 11px 0
-        border-color: transparent #FFFFFF
-        display: block
-        width: 0
-        z-index: 1
+        p
+          display: table-cell
+          vertical-align: middle
+          font-size: 20px
 
-      .bubble:before
-        content: ""
-        position: absolute
-        top: 55px
-        left: -28px
-        border-style: solid
-        border-width: 11px 27px 11px 0
-        border-color: transparent black
-        display: block
-        width: 0
-        z-index: 0
+  &.code-play
+    .avatar-wrapper-container
+      left: calc(50% - (560px - 100px) / 2 - 10px + 50px)
+
+    .center .thang-name
+      margin-left: 45px
+
+    .center .thang-props .prop[name="health"]
+      right: 90px
+      .prop-value.bar-prop
+        width: 100px
+        

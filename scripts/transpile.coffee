@@ -2,15 +2,14 @@ do (setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.mixin _.str.exports()
-Aether = require 'aether'
+GLOBAL.Aether = Aether = require 'aether'
 async = require 'async'
 
 serverSetup = require '../server_setup'
-Level = require '../server/levels/Level'
-LevelSession = require '../server/levels/sessions/LevelSession'
+Level = require '../server/models/Level'
+LevelSession = require '../server/models/LevelSession'
+{createAetherOptions} = require '../app/lib/aether_utils'
 
-Aether.addGlobal 'Vector', require '../app/lib/world/vector'
-Aether.addGlobal '_', _
 i = 0
 transpileLevelSession = (sessionID, cb) ->
   query = LevelSession.findOne('_id': sessionID).select('team teamSpells submittedCode submittedCodeLanguage').lean()
@@ -18,7 +17,8 @@ transpileLevelSession = (sessionID, cb) ->
     if err then return cb err
     submittedCode = session.submittedCode
     unless session.submittedCodeLanguage
-      throw 'SUBMITTED CODE LANGUAGE DOESN\'T EXIST'
+      console.log '\n\n\n#{i++} SUBMITTED CODE LANGUAGE DOESN\'T EXIST\n', session, '\n\n'
+      return cb()
     else
       console.log "Transpiling code for session #{i++} #{session._id} in language #{session.submittedCodeLanguage}"
     transpiledCode = {}
@@ -27,23 +27,9 @@ transpileLevelSession = (sessionID, cb) ->
       transpiledCode[thang] = {}
       for spellID, spell of spells
         spellName = thang + '/' + spellID
-
-        if session.teamSpells and not (spellName in session.teamSpells[session.team]) then continue
+        continue if session.teamSpells and not (spellName in session.teamSpells[session.team])
         #console.log "Transpiling spell #{spellName}"
-        aetherOptions =
-          problems: {}
-          language: session.submittedCodeLanguage
-          functionName: spellID
-          functionParameters: []
-          yieldConditionally: spellID is 'plan'
-          globals: ['Vector', '_']
-          protectAPI: true
-          includeFlow: false
-          executionLimit: 1 * 1000 * 1000
-        if spellID is 'hear' then aetherOptions.functionParameters = ['speaker', 'message', 'data']
-        if spellID is 'makeBid' then aetherOptions.functionParameters = ['tileGroupLetter']
-        if spellID is 'findCentroids' then aetherOptions.functionParameters = ['centroids']
-
+        aetherOptions = createAetherOptions functionName: spellID, codeLanguage: session.submittedCodeLanguage
         aether = new Aether aetherOptions
         transpiledCode[thang][spellID] = aether.transpile spell
     conditions =

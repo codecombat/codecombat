@@ -1,0 +1,45 @@
+.row
+  .col-sm-4
+    .btn-group(data-toggle="buttons")#save-granularity-toggle
+      label.btn.btn-primary.active
+        input(type="radio", checked=true, value="level-sessions")
+        span(data-i18n="save_load.granularity_saved_games", title="Manage your saved games")
+      label.btn.btn-primary
+        input(type="radio", value="change-history")
+        span(data-i18n="save_load.granularity_change_history", title="See your autosaved code edit history")
+    .save-list.level-sessions
+      ul.list-group
+        li.list-group-item Save 001
+        li.list-group-item Greedy Algorithm
+        li.list-group-item Defensive Strategy
+    .save-list.change-history.secret
+      ul.list-group
+        li.list-group-item --item switches yeah--
+        li.list-group-item Autosaved 17:05
+        li.list-group-item Autosaved 14:45
+        li.list-group-item Autosaved 16:40
+        li.list-group-item Autosaved 5:05
+        li.list-group-item Autosaved 5:00
+        li.list-group-item --item switches yeah--
+        li.list-group-item Autosaved 4:50
+        li.list-group-item Autosaved 7/7/14
+        li.list-group-item Autosaved 7/7/14
+  .col-sm-8
+    .save-pane.level-sessions
+      img(src="/images/pages/game-menu/save-load-stub.png")
+      h3 Interactions:
+      ul
+        li On the left is a flat list of saves for this level. Click one and the stuff on the right appears.
+        li There are name and description input boxes. Editing them auto updates the save on the left.
+        li There are also items showing what the current equipment is, and below the current code. Neither are editable.
+        li If you click the red box on any save, or click the delete button for the selected save, it asks for confirmation, then deletes.
+        li Click the new save button: current code, items and empty name/description appear on the right, and a new save slot appears at the top of the list on the left, which is selected. Works like editing otherwise.
+    
+    .save-pane.change-history.secret
+      img(src="/images/pages/game-menu/save-load-history-stub.png")
+      h3 Interactions
+      ul
+        li Similar to WebStorm. Click ‘history’ tab in the upper left of the save/load screen to switch to this view.
+        li Click the left row of VCS versions, and the hero, language, items and code for it shows on the right.
+        li Click revert to set the code back to the version of the code on the left. Modal closes with the new code.
+        li Might experiment with showing diffs with difflib. More of an interface issue than a showing-diff issue.

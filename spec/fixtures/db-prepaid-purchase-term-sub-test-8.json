@@ -1,0 +1,282 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOQnKaReE7xLUd7vxmypxi",
+            "card": {
+                "id": "card_17IOQnKaReE7xLUdwvfk7NXJ"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTNzqLiTWHO6t",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000088"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOQnKaReE7xLUdwvfk7NXJ",
+                        "customer": "cus_7XTNzqLiTWHO6t"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTNzqLiTWHO6t/subscriptions",
+        "status": 200,
+        "response": {
+            "id": "sub_7XTN0j8yRl2LLW",
+            "cancel_at_period_end": false,
+            "current_period_end": 1452885954,
+            "current_period_start": 1450207554,
+            "customer": "cus_7XTNzqLiTWHO6t",
+            "metadata": {
+                "id": "000000000000000000000088"
+            },
+            "plan": {
+                "id": "basic",
+                "amount": 100
+            },
+            "quantity": 1
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTNzqLiTWHO6t",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTNzqLiTWHO6t",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000088"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOQnKaReE7xLUdwvfk7NXJ",
+                        "customer": "cus_7XTNzqLiTWHO6t"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7XTN0j8yRl2LLW",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452885954,
+                        "current_period_start": 1450207554,
+                        "customer": "cus_7XTNzqLiTWHO6t",
+                        "metadata": {
+                            "id": "000000000000000000000088"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 100
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOQqKaReE7xLUdvDFV7zxM",
+            "card": {
+                "id": "card_17IOQqKaReE7xLUdRqwKR3Vo"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTNzqLiTWHO6t",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTNzqLiTWHO6t",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000088"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOQnKaReE7xLUdwvfk7NXJ",
+                        "customer": "cus_7XTNzqLiTWHO6t"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7XTN0j8yRl2LLW",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452885954,
+                        "current_period_start": 1450207554,
+                        "customer": "cus_7XTNzqLiTWHO6t",
+                        "metadata": {
+                            "id": "000000000000000000000088"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 100
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTNzqLiTWHO6t",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTNzqLiTWHO6t",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000088"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOQnKaReE7xLUdwvfk7NXJ",
+                        "customer": "cus_7XTNzqLiTWHO6t"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7XTN0j8yRl2LLW",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452885954,
+                        "current_period_start": 1450207554,
+                        "customer": "cus_7XTNzqLiTWHO6t",
+                        "metadata": {
+                            "id": "000000000000000000000088"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 100
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTNzqLiTWHO6t",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTNzqLiTWHO6t",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000088"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOQqKaReE7xLUdRqwKR3Vo",
+                        "customer": "cus_7XTNzqLiTWHO6t"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "data": [
+                    {
+                        "id": "sub_7XTN0j8yRl2LLW",
+                        "cancel_at_period_end": false,
+                        "current_period_end": 1452885954,
+                        "current_period_start": 1450207554,
+                        "customer": "cus_7XTNzqLiTWHO6t",
+                        "metadata": {
+                            "id": "000000000000000000000088"
+                        },
+                        "plan": {
+                            "id": "basic",
+                            "amount": 100
+                        },
+                        "quantity": 1
+                    }
+                ],
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17IOQsKaReE7xLUd6vAsPLa6",
+            "amount": 900,
+            "customer": "cus_7XTNzqLiTWHO6t",
+            "metadata": {
+                "type": "terminal_subscription",
+                "timestamp": "1450207556958",
+                "months": "3",
+                "productID": "prepaid terminal_subscription"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17IOQqKaReE7xLUdRqwKR3Vo",
+                "customer": "cus_7XTNzqLiTWHO6t"
+            }
+        }
+    }
+]

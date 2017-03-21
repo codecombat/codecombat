@@ -1,0 +1,19 @@
+extends /templates/common/table
+
+block tableHeader
+  tr
+    th(data-i18n="general.name") Name
+    th(data-i18n="general.description") Description
+    th(data-i18n="polls.priority") Priority
+    th(data-i18n="general.date") Date
+
+block tableBody
+  for data in documents
+    - data = data.attributes;
+    tr
+      td
+        a(href="/editor/poll/#{data.slug || data._id}")
+          | #{data.name}
+      td= data.description
+      td= data.priority
+      td= moment(data.created).fromNow()

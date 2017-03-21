@@ -4,8 +4,10 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Angel = require 'lib/Angel'
+GameUIState = require 'models/GameUIState'
+errors = require 'core/errors'
 
 module.exports = class God extends CocoClass
   @nicks: ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', '嫦娥', 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva']
@@ -18,13 +20,18 @@ module.exports = class God extends CocoClass
   constructor: (options) ->
     options ?= {}
     @retrieveValueFromFrame = _.throttle @retrieveValueFromFrame, 1000
+    @gameUIState ?= options.gameUIState or new GameUIState()
+    @indefiniteLength = options.indefiniteLength or false
     super()
 
     # Angels are all given access to this.
-    @angelsShare =
+    @angelsShare = {
       workerCode: options.workerCode or '/javascripts/workers/worker_world.js'  # Either path or function
       headless: options.headless  # Whether to just simulate the goals, or to deserialize all simulation results
+      spectate: options.spectate
+      god: @
       godNick: @nick
+      @gameUIState
       workQueue: []
       firstWorld: true
       world: undefined
@@ -32,9 +39,17 @@ module.exports = class God extends CocoClass
       worldClassMap: undefined
       angels: []
       busyAngels: []  # Busy angels will automatically register here.
+    }
 
+    # Determine how many concurrent Angels/web workers to use at a time
     # ~20MB per idle worker + angel overhead - every Angel maps to 1 worker
-    angelCount = options.maxAngels ? 2  # How many concurrent Angels/web workers to use at a time
+    if options.maxAngels?
+      angelCount = options.maxAngels
+    else if window.application.isIPadApp
+      angelCount = 1
+    else
+      angelCount = 2
+
     # Don't generate all Angels at once.
     _.delay (=> new Angel @angelsShare unless @destroyed), 250 * i for i in [0 ... angelCount]
 
@@ -53,9 +68,14 @@ module.exports = class God extends CocoClass
   setWorldClassMap: (worldClassMap) -> @angelsShare.worldClassMap = worldClassMap
 
   onTomeCast: (e) ->
-    @createWorld e.spells, e.preload
+    return unless e.god is @
+    @lastSubmissionCount = e.submissionCount
+    @lastFixedSeed = e.fixedSeed
+    @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
+    @lastDifficulty = e.difficulty
+    @createWorld e.spells, e.preload, e.realTime, e.justBegin
 
-  createWorld: (spells, preload=false) ->
+  createWorld: (spells, preload, realTime, justBegin) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -65,7 +85,7 @@ module.exports = class God extends CocoClass
       isPreloading = angel.running and angel.work.preload and _.isEqual angel.work.userCodeMap, userCodeMap, (a, b) ->
         return a.raw is b.raw if a?.raw? and b?.raw?
         undefined  # Let default equality test suffice.
-      if not hadPreloader and isPreloading
+      if not hadPreloader and isPreloading and not realTime
         angel.finalizePreload()
         hadPreloader = true
       else if preload and angel.running and not angel.work.preload
@@ -76,21 +96,30 @@ module.exports = class God extends CocoClass
     return if hadPreloader
 
     @angelsShare.workQueue = []
-    @angelsShare.workQueue.push
+    work = {
       userCodeMap: userCodeMap
-      level: @level
+      @level
       levelSessionIDs: @levelSessionIDs
+      submissionCount: @lastSubmissionCount
+      fixedSeed: @lastFixedSeed
+      flagHistory: @lastFlagHistory
+      difficulty: @lastDifficulty
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
-      preload: preload
+      preload
       synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
+      realTime
+      justBegin
+      indefiniteLength: @indefiniteLength and realTime
+    }
+    @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
+    work
 
   getUserCodeMap: (spells) ->
     userCodeMap = {}
     for spellKey, spell of spells
-      for thangID, spellThang of spell.thangs
-        (userCodeMap[thangID] ?= {})[spell.name] = spellThang.aether.serialize()
+      (userCodeMap[spell.thang.thang.id] ?= {})[spell.name] = spell.thang.aether.serialize()
     userCodeMap
 
 
@@ -107,6 +136,10 @@ module.exports = class God extends CocoClass
         userCodeMap: @currentUserCodeMap
         level: @level
         levelSessionIDs: @levelSessionIDs
+        submissionCount: @lastSubmissionCount
+        fixedSeed: @fixedSeed
+        flagHistory: @lastFlagHistory
+        difficulty: @lastDifficulty
         goals: @goalManager?.getGoals()
         frame: args.frame
         currentThangID: args.thangID
@@ -116,6 +149,7 @@ module.exports = class God extends CocoClass
   createDebugWorker: ->
     worker = new Worker '/javascripts/workers/worker_world.js'
     worker.addEventListener 'message', @onDebugWorkerMessage
+    worker.addEventListener 'error', errors.onWorkerError
     worker
 
   onDebugWorkerMessage: (event) =>
@@ -123,9 +157,9 @@ module.exports = class God extends CocoClass
       when 'console-log'
         console.log "|#{@nick}'s debugger|", event.data.args...
       when 'debug-value-return'
-        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized
+        Backbone.Mediator.publish 'god:debug-value-return', event.data.serialized, god: @
       when 'debug-world-load-progress-changed'
-        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', event.data
+        Backbone.Mediator.publish 'god:debug-world-load-progress-changed', progress: event.data.progress, god: @
 
   onNewWorldCreated: (e) ->
     @currentUserCodeMap = @filterUserCodeMapWhenFromWorld e.world.userCodeMap

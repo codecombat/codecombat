@@ -1,0 +1,11 @@
+extends mock.static.pug
+block begin
+  - viewName = 'HomeView'
+
+block content
+  - view.courses = {models: []}
+  - view.playURL = '/play'
+
+  #page-container
+    #home-view.style-flat
+      include /templates/home-view.jade

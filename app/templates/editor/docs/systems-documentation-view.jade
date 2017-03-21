@@ -1,0 +1,31 @@
+.container
+  .pull-right
+    button.btn.btn-primary#toggle-all-system-code Toggle all code
+  .clearfix
+
+  .row
+    .col-xs-3.index-column.nano
+      ul.nav.nav-list.list-group.nano-content
+        for system in systems
+            a.doc-name(href="##{system.get('name')}")
+              li.list-group-item= system.get('name')
+    .col-xs-9.documentation-column.nano
+      ul.nano-content
+        for system in systems
+          div(id="#{system.get('name')}" class="panel panel-defalt")
+            div(class="panel-heading")
+              | #{system.get('name')}
+            div(class="panel-body")
+              | #{system.get('description')}
+            ul
+              li.panel-heading
+                a.code-block(data-toggle="collapse" data-parent="##{system.get('name')}" href="##{system.get('name')}Code")
+                  | Code
+            div(id="#{system.get('name')}Code" class="panel-collapse collapse")
+              div.panel-body
+                pre
+                  | #{system.attributes.code}
+
+      .clearfix
+    .clearfix
+  .clearfix

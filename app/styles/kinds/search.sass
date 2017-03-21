@@ -15,6 +15,26 @@
       white-space: nowrap
       overflow: hidden
       text-overflow: ellipsis
+    .name-row
+      @extend .body-row
+      max-width: 300px
+    .description-row
+      @extend .body-row
+      max-width: 520px
+    .small-name-row
+      @extend .body-row
+      max-width: 200px
+    .watch-row
+      @extend .body-row
+      max-width: 80px
+      text-align: center
+      &.watching
+        opacity: 1.0
+      &.not-watching
+        opacity: 0.5
+
+    tr.mine
+      background-color: #f8ecaa
 
   .loading
     text-align: center

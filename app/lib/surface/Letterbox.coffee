@@ -1,6 +1,6 @@
 module.exports = class Letterbox extends createjs.Container
   subscriptions:
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:set-letterbox': 'onSetLetterbox'
 
   constructor: (options) ->
     super()

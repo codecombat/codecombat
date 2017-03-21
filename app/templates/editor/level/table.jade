@@ -1,21 +1,35 @@
-table.table
+extends /templates/common/table
+
+block tableResultsHeader
   tr
-    th(colspan=3)
+    th(colspan=4)
       span(data-i18n="general.results")
         | Results
       span
         |: #{documents.length}
-  
+
+block tableHeader
   tr
     th(data-i18n="general.name") Name
     th(data-i18n="general.description") Description
     th(data-i18n="general.version") Version
- 
-  for data in documents 
-    - data = data.attributes;
-    tr
-      td
-        a(href="/editor/level/#{data.slug || data._id}")
+    th(data-i18n="common.watch") Watch
+
+block tableBody
+  for document in documents
+    - var data = document.attributes;
+    tr(class=document.get('creator') == me.id ? 'mine' : '')
+      td(title=data.name).name-row
+        a(href="/editor/#{page}/#{data.slug || data._id}")
           | #{data.name}
-      td.body-row #{data.description}
+      td(title=data.description).description-row
+        | #{data.description}
       td #{data.version.major}.#{data.version.minor}
+      if document.watching()
+        td.watch-row.watching
+          span(aria-hidden="true").glyphicon.glyphicon-eye-open
+          span(data-i18n="common.watch").sr-only Watch
+      else
+        td.watch-row.not-watching
+          span(aria-hidden="true").glyphicon.glyphicon-eye-close
+          span(data-i18n="common.unwatch").sr-only Unwatch

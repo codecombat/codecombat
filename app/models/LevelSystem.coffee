@@ -1,10 +1,11 @@
 CocoModel = require './CocoModel'
-SystemNameLoader = require 'lib/SystemNameLoader'
+SystemNameLoader = require 'core/SystemNameLoader'
 
 module.exports = class LevelSystem extends CocoModel
   @className: 'LevelSystem'
   @schema: require 'schemas/models/level_system'
   urlRoot: '/db/level.system'
+  editableByArtisans: true
 
   set: (key, val, options) ->
     if _.isObject key

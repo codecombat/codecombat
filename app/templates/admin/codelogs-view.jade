@@ -1,0 +1,25 @@
+extends /templates/base
+
+block content
+  #codeplayback-view
+  input.searchInput#userid-search(placeholder='Filter: userID (exact)')
+  br
+  input.searchInput#levelslug-search(placeholder='Filter: levelSlug (exact)')
+  #codelogtable
+    table.table.table-striped
+      tr
+        th date
+        th userID
+        th levelSlug
+        th
+      if view.codelogs
+        for codelog in view.codelogs.models
+          +codeLogRow(codelog)
+
+mixin codeLogRow(codelog)
+  tr
+    td= codelog.get('created')
+    td= codelog.get('userID')
+    td= codelog.get('levelSlug')
+    td
+      button.button.playback(data-codelog=codelog.get('log')) Playback

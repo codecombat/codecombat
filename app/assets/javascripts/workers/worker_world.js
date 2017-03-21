@@ -43,7 +43,7 @@ var console = {
       var args = [].slice.call(arguments);
       for(var i = 0; i < args.length; ++i) {
         if(args[i] && args[i].constructor) {
-          if(args[i].constructor.className === "Thang" || args[i].isComponent)
+          if(args[i].constructor.className === "Thang" || args[i].isComponent || args[i].isVector || args[i].isRectangle || args[i].isEllipse)
             args[i] = args[i].toString();
         }
       }
@@ -64,8 +64,37 @@ console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
+try {
+  //Detect very modern javascript support.
+  (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
+  console.log("Modern javascript detected, aw yeah!");
+  self.importScripts('/javascripts/esper.modern.js');  
+} catch (e) {
+  console.log("Legacy javascript detected, falling back...", e.message);
+  self.importScripts('/javascripts/esper.js');  
+}
 
-var restricted = ["XMLHttpRequest", "importScripts", "Worker"];
+
+var myImportScripts = importScripts;
+
+var languagesImported = {};
+var ensureLanguageImported = function(language) {
+  if (languagesImported[language]) return;
+  if (language === 'javascript' || language === 'html') return;  // Only has JSHint, but we don't need to lint here.
+  myImportScripts("/javascripts/app/vendor/aether-" + language + ".js");
+  languagesImported[language] = true;
+};
+
+var ensureLanguagesImportedFromUserCodeMap = function (userCodeMap) {
+  for (var thangID in userCodeMap)
+    for (var spellName in userCodeMap[thangID]) {
+      var language = userCodeMap[thangID][spellName].originalOptions.language;
+      ensureLanguageImported(language);
+    }
+};
+
+
+var restricted = ["XMLHttpRequest", "Worker"];
 for(var i = 0; i < restricted.length; ++i) {
   // We could do way more from this: http://stackoverflow.com/questions/10653809/making-webworkers-a-safe-environment
   Object.defineProperty(self, restricted[i], {
@@ -256,12 +285,13 @@ self.retrieveValueFromFrame = function retrieveValueFromFrame(args) {
 self.enableFlowOnThangSpell = function (thangID, spellID, userCodeMap) {
     try {
         var options = userCodeMap[thangID][spellID].originalOptions;
-        if (options.includeFlow === true && options.noSerializationInFlow === true)
+        if (options.includeFlow === true && options.noSerializationInFlow === true && options.noVariablesInFlow === false)
             return;
         else
         {
             options.includeFlow = true;
             options.noSerializationInFlow = true;
+            options.noVariablesInFlow = false;
             var temporaryAether = Aether.deserialize(userCodeMap[thangID][spellID]);
             temporaryAether.transpile(temporaryAether.raw);
             userCodeMap[thangID][spellID] = temporaryAether.serialize();
@@ -278,6 +308,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
     self.debugt0 = new Date();
     self.logsLogged = 0;
 
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     var stringifiedUserCodeMap = JSON.stringify(args.userCodeMap);
     var userCodeMapHasChanged = ! _.isEqual(self.currentUserCodeMapCopy, stringifiedUserCodeMap);
     self.currentUserCodeMapCopy = stringifiedUserCodeMap;
@@ -285,6 +316,11 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         try {
             self.debugWorld = new World(args.userCodeMap);
             self.debugWorld.levelSessionIDs = args.levelSessionIDs;
+            self.debugWorld.submissionCount = args.submissionCount;
+            self.debugWorld.fixedSeed = args.fixedSeed;
+            self.debugWorld.flagHistory = args.flagHistory;
+            self.debugWorld.realTimeInputEvents = args.realTimeInputEvents;
+            self.debugWorld.difficulty = args.difficulty;
             if (args.level)
                 self.debugWorld.loadFromLevel(args.level, true);
             self.debugWorld.debugging = true;
@@ -300,7 +336,7 @@ self.setupDebugWorldToRunUntilFrame = function (args) {
         }
         Math.random = self.debugWorld.rand.randf;  // so user code is predictable
         Aether.replaceBuiltin("Math", Math);
-        replacedLoDash = _.runInContext(self);
+        var replacedLoDash = _.runInContext(self);
         for(var key in replacedLoDash)
           _[key] = replacedLoDash[key];
     }
@@ -340,12 +376,21 @@ self.runWorld = function runWorld(args) {
   self.logsLogged = 0;
 
   try {
+    ensureLanguagesImportedFromUserCodeMap(args.userCodeMap);
     self.world = new World(args.userCodeMap);
     self.world.levelSessionIDs = args.levelSessionIDs;
+    self.world.submissionCount = args.submissionCount;
+    self.world.fixedSeed = args.fixedSeed;
+    self.world.flagHistory = args.flagHistory || [];
+    self.world.realTimeInputEvents = args.realTimeInputEvents || [];
+    self.world.difficulty = args.difficulty || 0;
     if(args.level)
       self.world.loadFromLevel(args.level, true);
     self.world.preloading = args.preload;
     self.world.headless = args.headless;
+    self.world.realTime = args.realTime;
+    self.world.indefiniteLength = args.indefiniteLength;
+    self.world.justBegin = args.justBegin;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
@@ -358,33 +403,69 @@ self.runWorld = function runWorld(args) {
   }
   Math.random = self.world.rand.randf;  // so user code is predictable
   Aether.replaceBuiltin("Math", Math);
-  replacedLoDash = _.runInContext(self);
+  var replacedLoDash = _.runInContext(self);
   for(var key in replacedLoDash)
     _[key] = replacedLoDash[key];
   self.postMessage({type: 'start-load-frames'});
-  self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress);
+  self.world.loadFrames(self.onWorldLoaded, self.onWorldError, self.onWorldLoadProgress, self.onWorldPreloaded);
 };
 
-self.onWorldLoaded = function onWorldLoaded() {
-  self.goalManager.worldGenerationEnded();
-  var goalStates = self.goalManager.getGoalStates();
-  self.postMessage({type: 'end-load-frames', goalStates: goalStates});
-  var t1 = new Date();
-  var diff = t1 - self.t0;
-  if (self.world.headless)
-    return console.log('Headless simulation completed in ' + diff + 'ms.');
+self.serializeFramesSoFar = function serializeFramesSoFar() {
+  if(!self.world) return;  // We probably got this message late, after delivering the world.
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  self.onWorldLoaded();
+  self.world.framesSerializedSoFar = self.world.frames.length;
+};
 
-  var transferableSupported = self.transferableSupported();
+function trySerialize() {
   try {
     var serialized = self.world.serialize();
   }
   catch(error) {
     console.log("World serialization error:", error.toString() + "\n" + error.stack || error.stackTrace);
+    return false;
   }
+  return serialized;
+}
+
+self.onWorldLoaded = function onWorldLoaded() {
+  if(self.world.framesSerializedSoFar == self.world.frames.length) return;
+  if(self.world.ended)
+    self.goalManager.worldGenerationEnded();
+  var t1 = new Date();
+  var diff = t1 - self.t0;
+  var goalStates = self.goalManager.getGoalStates();
+  var totalFrames = self.world.totalFrames;
+  if(self.world.indefiniteLength) {
+    totalFrames = self.world.frames.length;
+  }
+  if(self.world.ended) {
+    var overallStatus = self.goalManager.checkOverallStatus();
+    var lastFrameHash = self.world.frames[totalFrames - 2].hash
+    var simulationFrameRate = self.world.frames.length / diff * 1000 * 30 / self.world.frameRate
+    self.postMessage({type: 'end-load-frames', goalStates: goalStates, overallStatus: overallStatus, totalFrames: totalFrames, lastFrameHash: lastFrameHash, simulationFrameRate: simulationFrameRate});
+    if(self.world.headless)
+      return console.log('Headless simulation completed in ' + diff + 'ms, ' + simulationFrameRate.toFixed(1) + ' FPS.');
+  }
+
+  var worldEnded = self.world.ended;
+  var serialized;
+  var transferableSupported = self.transferableSupported();
+  if ( !( serialized = trySerialize()) ) {
+    self.destroyWorld();
+    return;
+  }
+  //self.serialized = serialized;  // Testing peak memory usage
+  //return;  // Testing peak memory usage
+  if(worldEnded)
+    // Make sure we clean up memory as soon as possible, since we just used the most ever and don't want to crash.
+    self.destroyWorld();
+
   var t2 = new Date();
   //console.log("About to transfer", serialized.serializedWorld.trackedPropertiesPerThangValues, serialized.transferableObjects);
+  var messageType = worldEnded ? 'new-world' : 'some-frames-serialized';
   try {
-    var message = {type: 'new-world', serialized: serialized.serializedWorld, goalStates: goalStates};
+    var message = {type: messageType, serialized: serialized.serializedWorld, goalStates: goalStates, startFrame: serialized.startFrame, endFrame: serialized.endFrame};
     if(transferableSupported)
       self.postMessage(message, serialized.transferableObjects);
     else
@@ -393,11 +474,27 @@ self.onWorldLoaded = function onWorldLoaded() {
   catch(error) {
     console.log("World delivery error:", error.toString() + "\n" + error.stack || error.stackTrace);
   }
-  var t3 = new Date();
-  console.log("And it was so: (" + (diff / self.world.totalFrames).toFixed(3) + "ms per frame,", self.world.totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms");
+
+  if(worldEnded) {
+    var t3 = new Date();
+    console.log("And it was so: (" + (diff / totalFrames).toFixed(3) + "ms per frame,", totalFrames, "frames)\nSimulation   :", diff + "ms \nSerialization:", (t2 - t1) + "ms\nDelivery     :", (t3 - t2) + "ms\nFPS          :", simulationFrameRate.toFixed(1));
+  }
+};
+
+self.destroyWorld = function destroyWorld() {
   self.world.goalManager.destroy();
   self.world.destroy();
   self.world = null;
+};
+
+self.onWorldPreloaded = function onWorldPreloaded() {
+  self.goalManager.worldGenerationEnded();
+  var goalStates = self.goalManager.getGoalStates();
+  var overallStatus = self.goalManager.checkOverallStatus();
+  var t1 = new Date();
+  var diff = t1 - self.t0;
+  var simulationFrameRate = self.world.frames.length / diff * 1000 * 30 / self.world.frameRate
+  self.postMessage({type: 'end-preload-frames', goalStates: goalStates, overallStatus: overallStatus, simulationFrameRate: simulationFrameRate});
 };
 
 self.onWorldError = function onWorldError(error) {
@@ -410,7 +507,13 @@ self.onWorldError = function onWorldError(error) {
   }
   else {
     console.log("Non-UserCodeError:", error.toString() + "\n" + error.stack || error.stackTrace);
+    if(self.world.indefiniteLength) {
+      // We don't abort completely, since the player can always click to end the game.
+      // TODO: some better error to the user would be nice, though.
+      return true;
+    }
     self.postMessage({type: 'non-user-code-problem', problem: {message: error.toString()}});
+    return false;
   }
   /*  We don't actually have the recoverable property any more; hmm
   if(!error.recoverable) {
@@ -441,6 +544,21 @@ self.reportIn = function reportIn() {
 
 self.finalizePreload = function finalizePreload() {
   self.world.finalizePreload(self.onWorldLoaded);
+};
+
+self.addFlagEvent = function addFlagEvent(flagEvent) {
+  if(!self.world) return;
+  self.world.addFlagEvent(flagEvent);
+};
+
+self.addRealTimeInputEvent = function addRealTimeInputEvent(realTimeInputEvent) {
+  if(!self.world) return;
+  self.world.addRealTimeInputEvent(realTimeInputEvent);
+};
+
+self.stopRealTimePlayback = function stopRealTimePlayback() {
+  if(!self.world) return;
+  self.world.realTime = false;
 };
 
 self.addEventListener('message', function(event) {

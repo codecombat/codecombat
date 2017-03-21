@@ -1,0 +1,54 @@
+extends /templates/base
+
+block content
+
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+
+  else
+    h2 Teacher Demo Requests
+
+    if view.trialRequests.models.length < 1
+      h4 Fetching trial requests...
+    else
+      h3 Incoming Rate
+      table.table.table-condensed
+        thead
+          tr
+            th Day
+            th Count
+            th 7-day Average
+        tbody
+          each dayCount in view.dayCounts
+            tr
+              td= dayCount.day
+              td= dayCount.count
+              td= dayCount.sevenAverage
+
+      h3 Student Counts
+      table.table.table-condensed
+        thead
+          tr
+            th Created
+            th School Name
+            th School District
+            th.number NCES District Schools
+            th.number NCES District Students
+            th.number NCES School Students
+            th.number School Students
+            th.number Teacher Students
+            th Site Origin
+        tbody
+          each trialRequest in view.trialRequests.models
+            if trialRequest.get('type') !== 'course'
+              - continue;
+            tr
+              td.created= trialRequest.get('created').substring(0, 10)
+              td= trialRequest.get('properties').nces_name || trialRequest.get('properties').organization || ''
+              td= trialRequest.get('properties').nces_district || trialRequest.get('properties').district || ''
+              td= trialRequest.get('properties').nces_district_schools || ''
+              td= trialRequest.get('properties').nces_district_students || ''
+              td= trialRequest.get('properties').nces_students || ''
+              td= trialRequest.get('properties').numStudentsTotal || ''
+              td= trialRequest.get('properties').numStudents || ''
+              td= trialRequest.get('properties').siteOrigin

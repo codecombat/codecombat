@@ -1,0 +1,91 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOPAKaReE7xLUdrPE253ea",
+            "card": {
+                "id": "card_17IOPAKaReE7xLUdbLiixDCY"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTL5uSTRsbBAg",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000069"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOPAKaReE7xLUdbLiixDCY",
+                        "customer": "cus_7XTL5uSTRsbBAg"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTL5uSTRsbBAg",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTL5uSTRsbBAg",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000069"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOPAKaReE7xLUdbLiixDCY",
+                        "customer": "cus_7XTL5uSTRsbBAg"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 402,
+        "response": {
+            "error": {
+                "type": "card_error"
+            }
+        }
+    }
+]

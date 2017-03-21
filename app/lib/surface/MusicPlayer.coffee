@@ -1,16 +1,22 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 
 CROSSFADE_LENGTH = 1500
+MUSIC_VOLUME = 0.6
 
 module.exports = class MusicPlayer extends CocoClass
   currentMusic: null
   standingBy: null
 
   subscriptions:
-    'level-play-music': 'onPlayMusic'
+    'music-player:play-music': 'onPlayMusic'
     'audio-player:loaded': 'onAudioLoaded'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'music-player:enter-menu': 'onEnterMenu'
+    'music-player:exit-menu': 'onExitMenu'
+    'level:set-volume': 'onSetVolume'
 
   constructor: ->
     super arguments...
@@ -20,8 +26,12 @@ module.exports = class MusicPlayer extends CocoClass
     @onPlayMusic(@standingBy) if @standingBy
 
   onPlayMusic: (e) ->
+    return if application.isIPadApp  # Hard to measure, but just guessing this will save memory.
+    unless me.get 'volume'
+      @lastMusicEventIgnoredWhileMuted = e
+      return
     src = e.file
-    src = "/file#{e.file}#{AudioPlayer.ext}"
+    src = "/file#{src}#{AudioPlayer.ext}"
     if (not e.file) or src is @currentMusic?.src
       if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
       return
@@ -32,9 +42,10 @@ module.exports = class MusicPlayer extends CocoClass
       @standingBy = e
       return
 
+    delay = e.delay ? 0
     @standingBy = null
     @fadeOutCurrentMusic()
-    @startNewMusic(src) if e.play
+    @startNewMusic(src, delay) if e.play
 
   restartCurrentMusic: ->
     return unless @currentMusic
@@ -43,15 +54,16 @@ module.exports = class MusicPlayer extends CocoClass
 
   fadeOutCurrentMusic: ->
     return unless @currentMusic
+    createjs.Tween.removeTweens(@currentMusic)
     f = -> @stop()
     createjs.Tween.get(@currentMusic).to({volume: 0.0}, CROSSFADE_LENGTH).call(f)
 
-  startNewMusic: (src) ->
+  startNewMusic: (src, delay) ->
     @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src
     return unless @currentMusic
     @currentMusic.volume = 0.0
-    if me.get('music')
-      createjs.Tween.get(@currentMusic).to({volume: 1.0}, CROSSFADE_LENGTH)
+    if me.get('music', true)
+      createjs.Tween.get(@currentMusic).wait(delay).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
 
   onMusicSettingChanged: ->
     @updateMusicVolume()
@@ -59,8 +71,42 @@ module.exports = class MusicPlayer extends CocoClass
   updateMusicVolume: ->
     return unless @currentMusic
     createjs.Tween.removeTweens(@currentMusic)
-    @currentMusic.volume = if me.get('music') then 1.0 else 0.0
+    @currentMusic.volume = if me.get('music', true) then MUSIC_VOLUME else 0.0
+
+  onRealTimePlaybackStarted: (e) ->
+    @previousMusic = @currentMusic
+    trackNumber = _.random 0, 2
+    Backbone.Mediator.publish 'music-player:play-music', file: "/music/music_real_time_#{trackNumber}", play: true
+
+  onRealTimePlaybackEnded: (e) ->
+    @fadeOutCurrentMusic()
+    if @previousMusic
+      @currentMusic = @previousMusic
+      @restartCurrentMusic()
+      if @currentMusic.volume
+        createjs.Tween.get(@currentMusic).wait(5000).to({volume: MUSIC_VOLUME}, CROSSFADE_LENGTH)
+
+  onEnterMenu: (e) ->
+    return if @inMenu
+    @inMenu = true
+    @previousMusic = @currentMusic
+    file = "/music/music-menu"
+    Backbone.Mediator.publish 'music-player:play-music', file: file, play: true, delay: 1000
+
+  onExitMenu: (e) ->
+    return unless @inMenu
+    @inMenu = false
+    @fadeOutCurrentMusic()
+    if @previousMusic
+      @currentMusic = @previousMusic
+      @restartCurrentMusic()
+
+  onSetVolume: (e) ->
+    return unless e.volume and @lastMusicEventIgnoredWhileMuted
+    @onPlayMusic @lastMusicEventIgnoredWhileMuted
+    @lastMusicEventIgnoredWhileMuted = null
 
   destroy: ->
     me.off 'change:music', @onMusicSettingChanged, @
+    @fadeOutCurrentMusic()
     super()

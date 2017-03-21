@@ -1,5 +1,5 @@
 #jQuery for node, reimplementated for compatibility purposes. Poorly.
-#Leaves out all the dome stuff but allows ajax.
+#Leaves out all the DOM stuff but allows ajax.
 _ = require 'lodash'
 request = require 'request'
 Deferred = require 'JQDeferred'
@@ -8,8 +8,6 @@ module.exports = $ = (input) ->
   append: (input)-> exports: ()->
 
 # Non-standard jQuery stuff. Don't use outside of server.
-$._debug = false
-$._server = 'https://codecombat.com'
 $._cookies = request.jar()
 
 $.when = Deferred.when
@@ -20,16 +18,17 @@ $.ajax = (options) ->
     url = '/' + url unless url[0] is '/'
     url = $._server + url
 
-  data = options.data
   console.log 'Requesting: ' + JSON.stringify options if $._debug
   console.log 'URL: ' + url if $._debug
+  if /db\/thang.type\/names/.test url
+    url += '?_=' + Math.random()  # Make sure that the ThangType names don't get cached, since response varies based on parameters in a way that apparently doesn't work in this hacky implementation.
   deferred = Deferred()
   request
     url: url
     jar: $._cookies
     json: options.parse
     method: options.type
-    body: data
+    body: options.data
     , (error, response, body) ->
       console.log 'HTTP Request:' + JSON.stringify options if $._debug and not error
       if responded
@@ -48,7 +47,7 @@ $.ajax = (options) ->
   deferred.promise().done(options.success).fail(options.error)
 
 $.extend = (deep, into, from) ->
-  copy = _.clone(from, deep);
+  copy = _.clone(from, deep)
   if into
     _.assign into, copy
     copy = into

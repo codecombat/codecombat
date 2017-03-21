@@ -1,0 +1,523 @@
+swagger: "2.0"
+info:
+  version: "0.0.0"
+  title: CodeCombat API
+  description: |
+    ## Basics
+
+    * Examples are in JavaScript on a Node/Express server with [request](https://github.com/request/request) installed.
+    * Request and responses are in JSON.
+    * API responses are the base resource being created/referenced. So, for example, all routes starting with `/api/users` return [User](#users) resources.
+
+    ## Client Setup
+    
+    We currently do not have a way for you to create or setup your own API Client or OAuth Provider information. Please contact us directly to get started.
+    
+    ## Client Authentication
+    
+    API routes must be called with Basic HTTP Authentication. Provide your username and password with each request.
+    
+    ```javascript
+    url = 'https://codecombat.com/api/users'
+    json = { name: 'A username' }
+    auth = { name: CLIENT_ID, pass: CLIENT_SECRET }
+    request.get({ url, json, auth }, (err, res) => console.log(res.statusCode, res.body))
+    ```
+
+    ## User Authentication
+    
+    To authenticate a user on CodeCombat through your service, you will need to use OAuth 2. CodeCombat will act as the client, and your service will act as the provider. Your service will need to provide a trusted lookup URL where we can send the tokens given to us by users and receive user information. The process from user account creation to log in will look like this:
+    
+    1. **Create the user** using [POST /api/users](#post-apiusers).
+    1. **Link the CodeCombat user to an OAuth identity** using [POST /api/users/:handle/o-auth-identities](#post-apiusershandleo-auth-identities).
+    1. **Log the user in** by redirecting them to [/auth/login-o-auth](#get-authlogin-o-auth).
+    
+host: codecombat.com
+basePath: /api
+schemes:
+  - https
+consumes:
+  - application/json
+produces:
+  - application/json
+
+paths:
+  /auth/login-o-auth:
+    get:
+      tags:
+        - auth
+      description: |
+        Logs a [user](#users) in.
+        
+        #### Example
+
+        In this example, your lookup URL is `https://oauth.provider/user?t=<%= accessToken %>'` and returns `{ id: 'abcd' }`
+        
+        ```javascript
+        url = `https://codecombat.com/auth/login-o-auth?provider=${OAUTH_PROVIDER_ID}&accessToken=1234`
+        res.redirect(url)
+        // User is sent to CodeCombat and assuming everything checks out, 
+        // is logged in and redirected to the home page.
+        ```
+      parameters:
+        - name: provider
+          in: query
+          required: true
+          type: string
+          description: Your OAuth Provider ID
+        - name: accessToken
+          in: query
+          type: string
+          description: Will be passed through your lookup URL to get the user ID. Required if no `code`.
+        - name: code
+          type: string
+          in: query
+          description: Will be passed to the OAuth token endpoint to get a token. Required if no `accessToken`.
+        - name: redirect
+          type: string
+          in: query
+          description: Override where the user will navigate to after successfully logging in.
+        - name: errorRedirect
+          type: string
+          in: query
+          description: If an error happens, redirects the user to this url, with at least query parameters `code`, `errorName` and `message`.
+      responses:
+        "302":
+          description: 'Redirects the user to a landing page after having logged them in.'
+          
+  /users:
+    post:
+      tags: 
+        - users
+      description: |
+        Creates a `User`.
+        
+        #### Example
+        ```javascript
+        url = 'https://codecombat.com/api/users'
+        json = { email: 'an@email.com', name: 'Some Username' }
+        request.post({ url, json, auth })
+        ```
+      parameters:
+        - name: user
+          in: body
+          schema:
+            type: object
+            required:
+              - name
+              - email
+            properties:
+              name:
+                type: string
+              email:
+                type: string
+              role:
+                type: string
+              heroConfig:
+                type: object
+                properties:
+                  thangType:
+                    $ref: '#/definitions/objectIdString'
+      responses:
+        "201":
+          description: 'The created user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+            
+  /users/{handle}:
+    get:
+      tags: 
+        - users
+      description: Returns a `User`.
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+      responses:
+        "200":
+          description: 'The requested user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+            
+  /users/{handle}/classrooms:
+    get:
+      tags: 
+        - users
+      description: Returns a list of `Classrooms` this user is in (if a student) or owns (if a teacher).
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+      responses:
+        "200":
+          description: 'The requested classrooms'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ClassroomResponse'
+            
+
+  /users/{handle}/hero-config:
+    put:
+      tags: 
+        - users
+      description: Set the user's hero.
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: heroConfig
+          in: body
+          schema:
+            type: object
+            properties:
+              thangType:
+                $ref: '#/definitions/objectIdString'
+      responses:
+        "200":
+          description: 'The affected user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+            
+  /users/{handle}/o-auth-identities:
+    post:
+      tags:
+        - users
+      description: |
+        Adds an OAuth2 identity to the user, so that they can be logged in with that identity. This endpoint:
+        
+        1. Uses your OAuth2 token url to exchange the given code for a token, if no token is provided.
+        
+        1. Uses the token to lookup the user on your service, and expects a JSON object in response with an `id` property.
+        
+        1. Saves that user `id` to the user as a new OAuthIdentity.
+        
+        #### Example
+
+        In this example, your lookup URL is `https://oauth.provider/user?t=<%= accessToken %>'` and returns `{ id: 'abcd' }`
+        
+        ```javascript
+        url = `https://codecombat.com/api/users/${userID}/o-auth-identities`
+        OAUTH_PROVIDER_ID = 'xyz'
+        json = { provider: OAUTH_PROVIDER_ID, accessToken: '1234' }
+        request.post({ url, json, auth}, (err, res) => {
+          console.log(res.body.oAuthIdentities) // [ { provider: 'xyx', id: 'abcd' } ]
+        })
+        ```
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: oAuthIdentity
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - provider
+            properties:
+              provider:
+                type: string
+                description: Your OAuth Provider ID.
+              accessToken:
+                type: string
+                description: Will be passed through your lookup URL to get the user ID. Required if no `code`.
+              code:
+                type: string
+                description: Will be passed to the OAuth token endpoint to get a token. Required if no `accessToken`.
+                
+      responses:
+        "200":
+          description: 'The affected user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+            
+  /users/{handle}/subscription:
+    put:
+      tags:
+        - users
+      description: |
+        Grants a user premium access to the "Home" version up to a certain time.
+        
+        #### Example
+        
+        ```javascript
+        url = `https://codecombat.com/api/users/${userID}/subscription`
+        json = { ends: new Date('2017-01-01').toISOString() }
+        request.put({ url, json, auth }, (err, res) => {
+          console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
+        })
+        ```
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: subscription
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - ends
+            properties:
+              ends:
+                $ref: '#/definitions/datetimeString'
+      responses:
+        "200":
+          description: 'The affected user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+
+  /users/{handle}/license:
+    put:
+      tags:
+        - users
+      description: |
+        Grants a user access to the "Classroom" version up to a certain time.
+        Sets their role to "student".
+        
+        #### Example
+        
+        ```javascript
+        url = `https://codecombat.com/api/users/${userID}/license`
+        json = { ends: new Date('2017-01-01').toISOString() }
+        request.put({ url, json, auth }, (err, res) => {
+          console.log(res.body.subscription) // { ends: '2017-01-01T00:00:00.000Z', active: true }
+        })
+        ```
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: license
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - ends
+            properties:
+              ends:
+                $ref: '#/definitions/datetimeString'
+      responses:
+        "200":
+          description: 'The affected user'
+          schema:
+            $ref: '#/definitions/UserResponse'
+            
+  /classrooms/{handle}/members:
+    put:
+      tags:
+        - classrooms
+      description: Upserts a user into the classroom.
+      parameters:
+        - $ref: '#/parameters/handlePathParameter'
+        - name: member
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - code
+              - userId
+            properties:
+              code:
+                type: string
+                description: "The code for joining this classroom"
+              userId:
+                description: "The `_id` or `slug` of the user to add to the class."
+                type: string
+          
+      responses:
+        "200":
+          description: 'The classroom with the member added.'
+          schema:
+            $ref: '#/definitions/ClassroomResponse'
+        
+  /classrooms/{classroomHandle}/course/{courseHandle}/enrolled:
+    put:
+      tags:
+        - classrooms
+      description: |
+        Enrolls a user in a course in a classroom.
+        If the course is paid, user must have an active license.
+        User must be a member of the classroom.
+      parameters:
+        - name: classroomHandle
+          in: path
+          type: string
+          required: true
+          description: The classroom's `_id`.
+        - name: courseHandle
+          in: path
+          type: string
+          required: true
+          description: The course's `_id`.
+        - name: userId
+          description: "The `_id` or `slug` of the user to add to the class."
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/objectIdString'
+          
+      responses:
+        "200":
+          description: 'The classroom with the user enrolled.'
+          schema:
+            $ref: '#/definitions/ClassroomResponse'
+            
+  /user-lookup/{property}/{value}:
+    get:
+      tags:
+        - users
+      description: Redirects to `/users/{handle}` given a unique, identifying property
+      parameters:
+        - name: property
+          in: path
+          type: string
+          required: true
+          description: The property to lookup by. May either be `"israel-id"` or `"name"`.
+        - name: value
+          in: path
+          type: string
+          required: true
+          description: The value to be looked up.
+      responses:
+        "301":
+          description: "Redirect to `User` resource at `/users/{handle}`"
+
+  /playtime-stats:
+    get:
+      tags:
+        - stats
+      description: Returns the playtime stats
+      parameters:
+        - name: startDate
+          in: query
+          description: "Earliest an included user was created"
+          required: false
+          type: string
+        - name: endDate
+          in: query
+          description: "Latest an included user was created"
+          required: false
+          type: string
+        - name: country
+          in: query
+          description: "Filter by country string"
+          required: false
+          type: string
+
+      responses:
+        "200":
+          description: "Returns the playtime stats accross all owned users."
+          schema:
+            $ref: '#/definitions/PlaytimeStatsResponse'
+
+parameters:
+  handlePathParameter:
+    name: handle
+    in: path
+    type: string
+    required: true
+    description: The document's `_id` or `slug`.
+    
+tags:
+  - name: "users"
+
+securityDefinitions:
+  basicAuth:
+    type: basic
+    description: HTTP Basic Authentication. We will need to provide you with your client ID and secret.
+    
+security:
+  - basicAuth: []
+
+definitions:
+  roleString:
+    type: string
+    description: "Usually either 'teacher' or 'student'"
+
+  datetimeString:
+    type: string
+    pattern: /^\d{4}-\d{2}-\d{2}T\d{2}\:\d{2}\:\d{2}\.\d{3}Z$/
+    
+  objectIdString:
+    type: string
+    pattern: /^[0-9a-f]{24}$/
+    
+  UserResponse:
+    type: object
+    title: 'UserResponse'
+    description: 'Subset of properties listed here'
+    properties:
+      _id:
+        $ref: '#/definitions/objectIdString'
+      email: 
+        type: string
+      name:
+        type: string
+      slug:
+        type: string
+      role:
+        $ref: '#/definitions/roleString'
+      stats:
+        type: object
+        properties:
+          gamesCompleted:
+            type: number
+          concepts:
+            type: object
+            additionalProperties:
+              type: number
+      oAuthIdentities:
+        type: array
+        items:
+          type: object
+          properties:
+            provider:
+              type: string
+            id:
+              type: string
+      subscription:
+        type: object
+        properties:
+          ends:
+            $ref: '#/definitions/datetimeString'
+          active:
+            type: 'boolean'
+      license:
+        type: object
+        properties:
+          ends:
+            $ref: '#/definitions/datetimeString'
+          active:
+            type: 'boolean'
+
+
+  ClassroomResponse:
+    type: object
+    title: 'ClassroomResponse'
+    description: 'Subset of properties listed here'
+    properties:
+      _id:
+        $ref: '#/definitions/objectIdString'
+      name:
+        type: string
+      members:
+        type: array
+        items:
+          $ref: '#/definitions/objectIdString'
+      ownerID:
+        $ref: '#/definitions/objectIdString'
+      description:
+        type: string
+      courses:
+        type: array
+        items:
+          type: object
+          properties:
+            _id:
+              $ref: '#/definitions/objectIdString'
+            levels:
+              type: array
+              items:
+                type: object
+
+  PlaytimeStatsResponse:
+    type: object
+    properties:
+      playTime:
+        type: number
+        description: "Total play time in seconds"
+      gamesPlayed:
+        type: number
+        description: "Number of levels played"

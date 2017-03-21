@@ -1,0 +1,33 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  if dataList
+    h3
+     span(data-i18n="general.version_history_for") Version History for:
+     |"#{dataList[0].name}"
+    p(data-i18n="general.select_changes")
+     |Select two changes below to see the difference.
+
+  div.delta-container
+    div.delta-view
+
+block modal-body-content
+  if dataList
+    table.table.table-condensed
+      tr
+        th
+        th
+        th
+        th
+        th(data-i18n="general.commit_msg") Commit Message
+      for data in dataList
+        tr
+          td
+            input(type="checkbox", value=data._id).select
+          td
+            a(href="/editor/#{page}/#{data._id}") #{data.version.major}.#{data.version.minor}
+          td= moment(data.created).format('l')
+          td= data.creator
+          td #{data.commitMessage}
+
+block modal-footer-content

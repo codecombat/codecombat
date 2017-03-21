@@ -1,0 +1,11 @@
+- var completed = session && session.get('state') && session.get('state').complete;
+h3 #{i}. #{level.get('name').replace('Course: ', '')}
+if session
+  p
+    span.spr(data-i18n="courses.play_time")
+    span #{moment.duration(session.get('playtime'), "seconds").humanize()}
+  p
+    span.spr(data-i18n=completed ? "courses.completed" : "clans.last_played")
+    span #{moment(session.get('changed')).format('MMMM Do YYYY, h:mm:ss a')}
+if session && canViewSolution
+  strong(data-i18n=completed ? "clans.view_solution" : "clans.view_attempt")

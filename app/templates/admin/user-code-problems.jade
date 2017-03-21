@@ -1,0 +1,36 @@
+extends /templates/base
+
+block content
+
+  h1 User Code Problems
+
+  if fetchingData
+    h3 Fetching data...
+  else
+    table.table.table-striped.table-bordered.table-condensed#users
+      thead(style='font-weight:bold')
+          tr
+            td language
+            //- td errType
+            //- td errLevel
+            //- td errId
+            td levelID
+            td codeSnippet
+            td errHint
+            td errMessage
+            //- td code
+            td created
+
+      tbody
+        each problem in userCodeProblems
+          tr
+            td #{problem.language}
+            //- td #{problem.errType}
+            //- td #{problem.errLevel}
+            //- td #{problem.errId}
+            td #{problem.levelID}
+            td #{problem.codeSnippet}
+            td #{problem.errHint}
+            td #{problem.errMessage}
+            //- td #{problem.code}
+            td #{new Date(problem.created).toLocaleString()}

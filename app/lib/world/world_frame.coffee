@@ -10,14 +10,14 @@ module.exports = class WorldFrame
   getNextFrame: ->
     # Optimized. Must be called while thangs are current at this frame.
     nextTime = @time + @world.dt
-    return null if nextTime > @world.lifespan
+    return null if nextTime > @world.lifespan and not @world.indefiniteLength
     @hash = @world.rand.seed
     @hash += system.update() for system in @world.systems
     nextFrame = new WorldFrame(@world, nextTime)
     return nextFrame
 
   setState: ->
-    for thang in @world.thangs
+    for thang in @world.thangs when not thang.stateless
       @thangStateMap[thang.id] = thang.getState()
 
   restoreState: ->
@@ -60,9 +60,9 @@ module.exports = class WorldFrame
         thangState.serialize(frameIndex, trackedPropertiesPerThangIndices[thangIndex], trackedPropertiesPerThangTypes[thangIndex], trackedPropertiesPerThangValues[thangIndex], specialValuesToKeys, specialKeysToValues)
     @hash
 
-  @deserialize: (world, frameIndex, trackedPropertiesThangIDs, trackedPropertiesThangs, trackedPropertiesPerThangKeys, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialKeysToValues, hash) ->
+  @deserialize: (world, frameIndex, trackedPropertiesThangIDs, trackedPropertiesThangs, trackedPropertiesPerThangKeys, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialKeysToValues, hash, age) ->
     # Optimize
-    wf = new WorldFrame null, world.dt * frameIndex
+    wf = new WorldFrame null, age
     wf.world = world
     wf.hash = hash
     for thangID, thangIndex in trackedPropertiesThangIDs

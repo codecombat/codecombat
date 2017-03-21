@@ -1,0 +1,525 @@
+@import "app/styles/bootstrap/variables"
+@import "app/styles/mixins"
+@import "app/styles/style-flat-variables"
+
+// TODO: Move flat style into probably several files and Bootstrap variables
+
+body[lang='ru'], body[lang='uk'], body[lang='bg'], body[lang^='mk'], body[lang='sr']
+  // Google Fonts version of Arvo only has Latin glyphs, not Cyrillic
+  // TODO: figure out font fallbacks for other languages not covered by Arvo
+  //$headline-font: 'Open Sans', serif  // Doesn't work
+  h1, .text-h1, h3, .text-h3, h5, .text-h5
+    font-family: 'Open Sans', serif
+
+.style-flat
+  background: white
+  color: black
+  
+  // Fonts
+  h1, h2, h3, h4, h5, h6, .text-h1, .text-h2, .text-h3, .text-h4, .text-h5, .text-h6
+    // Unsetting game styles
+    font-variant: normal
+    color: black
+    margin: 0
+  
+  h1, .text-h1
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 46px
+    line-height: 62px
+    
+  h2, .text-h2
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 30px
+    line-height: 42px
+    
+  h3, .text-h3
+    font-family: $headline-font
+    font-weight: normal
+    font-size: 33px
+    line-height: 45px
+    
+  h4, .text-h4
+    font-family: $body-font
+    font-weight: lighter
+    font-size: 22px
+    line-height: 32px
+    
+  h5, .text-h5
+    font-family: $headline-font
+    font-weight: bold
+    font-size: 20px
+    line-height: 31px
+    
+  h6, .text-h6
+    font-family: $body-font
+    font-weight: bold
+    font-size: 14px
+    line-height: 20px
+    
+  p
+    color: black
+    margin: 0 0 14px
+    
+  .small
+    font-weight: normal
+    font-size: 14px
+    line-height: 20px
+    
+  .semibold, .student-name
+    font-weight: 600
+    
+  .small-details
+    font: $headline-font
+    font-size: 15px
+    line-height: 26px
+
+  font-family: $body-font
+  font-size: 18px
+  line-height: 29px
+  
+  blockquote
+    border: none
+    
+    &:before
+      font-family: "Monaco"
+      content: "\201C"
+      position: absolute
+      left: 0px
+      top: 20px
+      font-size: 40px
+      opacity: 0.5
+      
+  hr
+    border-top: 1px solid gray
+  
+  // Navbar
+
+  #main-nav.navbar
+    background: white
+    margin-bottom: 0
+    white-space: nowrap // prevent home icon from going under brand
+
+    a.navbar-brand
+      #logo-img
+        width: 230px
+        height: 65px
+        margin-right: 10px
+
+        &.code-ninjas-powered-by
+          width: 150px
+          height: auto
+          margin-top: -10px
+
+      .code-ninjas-logo
+        width: 150px
+        margin-right: 10px
+        margin-top: 6px
+        margin-bottom: 10px
+
+      color: $burgandy
+      &:hover
+        color: white
+        background: $burgandy
+        
+      .glyphicon-home
+        position: relative
+        top: 3px
+
+    .navbar-toggle
+      color: black
+      margin: 30px 25px 0
+      border-color: $navy
+
+      .icon-bar
+        background-color: $navy
+      
+    @media (min-width: $grid-float-breakpoint)
+      #navbar-collapse
+        float: right
+        
+    #navbar-collapse
+      max-height: none
+
+    .nav > li > a
+      // TODO: Move this to bootstrap variables for navbars
+      font-weight: bold
+      font-family: $body-font
+      font-size: 16px
+      line-height: 31px
+      padding: 32px 15px 0
+      height: 95px
+      color: $burgandy
+      text-shadow: 0 0 0
+      
+      &:hover
+        background: $burgandy
+        color: white
+        
+    .nav > li.disabled > a
+      color: black
+      &:hover
+        background: white
+        color: black
+        cursor: default
+
+    #language-dropdown-wrapper
+      display: inline-block
+      padding: 30px 10px
+      width: 100%
+      
+    @media (max-width: $grid-float-breakpoint)
+      .nav > li > a
+        padding: 10px 20px
+        height: 45px
+      #language-dropdown-wrapper
+        display: inline-block
+        padding: 10px 10px
+        .language-dropdown
+          width: 150px
+      
+    .img-circle
+      border: $gold 8px solid
+      width: 98px
+      height: 98px // Includes the border
+    
+    .img-circle-small
+      border: $gold 3px solid
+      width: 33px
+      height: 33px
+    
+    // For teacher avatars
+    .border-burgandy
+      border-color: $burgandy
+      
+    .border-navy
+      border-color: $navy
+      
+    .user-level
+      position: absolute
+      top: 76px
+      right: 42px
+      color: $gold
+      text-shadow: 1px 1px black, -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black
+      
+  // Wells
+  
+  .well
+    padding: 8px
+    background-color: transparent
+    border: thin solid lightgray
+    border-radius: 0
+    
+  
+  // Buttons
+ 
+  .btn
+    border: none
+    border-radius: 5px
+    font-family: $body-font
+    font-weight: normal
+    background-image: none // overrides legacy buttons
+    .disabled
+      opacity: 50%
+  
+  .btn + .btn
+    margin-left: 12px
+
+  .btn-primary, .btn-navy
+    background-color: $navy
+    color: white
+  
+  .btn-primary-alt, .btn-navy-alt
+    background-color: white
+    border: 1px solid $navy
+    color: $navy
+    
+  .btn-forest
+    background-color: $forest
+    color: white
+    
+  .btn-forest-alt
+    background-color: white
+    border: 1px solid $forest
+    color: $forest
+    
+  .btn-gold
+    background-color: $gold
+    color: white
+    
+  .btn-gold-alt
+    background-color: white
+    border: 1px solid $gold
+    color: $gold
+
+  .btn-purple
+    background-color: $purple
+    color: white
+
+  .btn-gold-alt
+    background-color: white
+    border: 1px solid $purple
+    color: $purple
+
+  .btn-burgandy
+    background-color: $burgandy
+    color: white
+  
+  .btn-burgandy-alt
+    background-color: white
+    border: 1px solid $burgandy
+    color: $burgandy
+  
+  .btn-lg
+    font-size: 18px
+    
+  .btn-gplus
+    color: white
+    background-color: #DD4B39
+    img
+      height: 22px
+    
+  .btn-facebook
+    color: white
+    background-color: #3B5998
+    img
+      height: 22px
+    
+  // Dropdowns
+  select
+    height: 33px
+    background-color: white
+    border: 1px solid $navy
+    color: $navy
+    // TODO: Font size 18? Inconsistent with buttons on teacher-class-view bulk assign
+    
+  // Tooltips
+  .tooltip.in
+    opacity: 1
+
+  .tooltip .tooltip-arrow::after
+    // Create a duplicate tooltip arrow which will cover the main arrow and make it seem like a line rather than filled
+    content: ' '
+    position: absolute
+    width: 0
+    height: 0
+    border-color: transparent
+    border-style: solid
+
+  // For each arrow position: make color gray-dark, make arrow larger, and position duplicate arrow
+  .tooltip.top .tooltip-arrow
+    margin-left: -10px
+    border-width: 5px 10px 0
+    border-top-color: $gray-dark
+    &::after
+      top: -6px
+      left: 50%
+      margin-left: -10px
+      border-width: 5px 10px 0
+      border-top-color: white
+
+  .tooltip.right .tooltip-arrow
+    border-right-color: $gray-dark
+    border-width: 5px 6px 5px 0
+
+    &::after
+      top: 50%
+      left: 1px
+      margin-top: -5px
+      border-width: 5px 6px 5px 0
+      border-right-color: white
+    
+  .tooltip.left .tooltip-arrow
+    border-right-color: $gray-dark
+    border-width: 5px 0 5px 6px
+
+    &::after
+      top: 50%
+      right: 1px
+      margin-top: -5px
+      border-width: 5px 0 5px 6px
+      border-left-color: white
+  
+  .tooltip.bottom .tooltip-arrow
+    border-bottom-color: $gray-dark
+    margin-left: -10px
+    border-width: 0 10px 5px
+    &::after
+      top: 1px
+      left: 50%
+      margin-left: -10px
+      border-width: 0 10px 5px
+      border-bottom-color: white
+
+  .tooltip-inner
+    padding: 10px 20px
+    border: 1px solid $gray-dark
+    color: black
+    background: white
+    border-radius: 20px
+    min-width: 150px
+    max-width: 600px
+
+  
+  // Checkboxes
+  // Note: You have to use this structure in your jade:
+  //   .checkbox-flat
+  //     input(type='checkbox' id='some-id')
+  //     label.checkmark(for='some-id')
+  
+  .checkbox-flat
+    position: relative
+    background: white
+    border: thin solid #979797
+    width: 20px
+    height: 20px
+    
+    input
+      visibility: hidden
+      
+    label
+      position: absolute
+      width: 18px
+      height: 18px
+      left: 1px
+      top: 1px
+
+    label:after
+      opacity: 0
+      content: ''
+      position: absolute
+      width: 14px
+      height: 7px
+      background: transparent
+      top: 3px
+      left: 1px
+      border: 2px solid black
+      border-top: none
+      border-right: none
+      transform: rotate(-45deg)
+
+    label:hover::after
+      opacity: 0.3
+    
+    input:checked + label:after
+      opacity: 1
+    
+
+  // Classes
+  
+  .text-navy
+    color: $navy
+    
+  .text-burgandy
+    color: $burgandy
+    
+  .text-forest
+    color: $forest
+    
+  .bg-navy
+    background-color: $navy
+    color: white
+    h1, h2, h3, h4, h5, h6, a
+      color: white
+    a.btn-primary-alt, a.btn-navy-alt
+      color: $navy
+    
+  .bg-forest
+    background-color: $forest
+    color: white
+    h1, h2, h3, h4, h5, h6, a
+      color: white
+    a.btn-primary-alt, a.btn-forest-alt
+      color: $forest
+      
+  // Spacing
+  // Copied spacing classes in bootstrap v4 alpha 2
+  // http://v4-alpha.getbootstrap.com/components/utilities/#spacing
+
+  $spacer: 1rem !default
+  $spacer-x: $spacer !default
+  $spacer-y: $spacer !default
+  $spacers: ( 0: ( x: 0, y: 0 ), 1: ( x: $spacer-x, y: $spacer-y ), 2: ( x: ($spacer-x * 1.5), y:   ($spacer-y * 1.5) ), 3: ( x:   ($spacer-x * 3), y:   ($spacer-y * 3) ), 4: ( x:   ($spacer-x * 4), y:   ($spacer-y * 4) ), 5: ( x:   ($spacer-x * 5), y:   ($spacer-y * 5) ) ) !default
+  
+  .m-x-auto
+    margin-right: auto !important
+    margin-left:  auto !important
+  
+  @each $prop, $abbrev in (margin: m, padding: p)
+    @each $size, $lengths in $spacers
+      $length-x:   map-get($lengths, x)
+      $length-y:   map-get($lengths, y)
+  
+      .#{$abbrev}-a-#{$size}
+        #{$prop}: $length-y $length-x !important // a = All sides
+      .#{$abbrev}-t-#{$size}
+        #{$prop}-top:    $length-y !important
+      .#{$abbrev}-r-#{$size}
+        #{$prop}-right:  $length-x !important
+      .#{$abbrev}-b-#{$size}
+        #{$prop}-bottom: $length-y !important
+      .#{$abbrev}-l-#{$size}
+        #{$prop}-left:   $length-x !important
+  
+      // Axes
+      .#{$abbrev}-x-#{$size}
+        #{$prop}-right:  $length-x !important
+        #{$prop}-left:   $length-x !important
+    
+      .#{$abbrev}-y-#{$size}
+        #{$prop}-top:    $length-y !important
+        #{$prop}-bottom: $length-y !important
+    
+  // base-flat.jade
+      
+  #footer
+    background-image: url("/images/pages/home/footer_background.png")
+    height: 229px
+    margin: 65px auto 0
+    color: white
+
+    @media (max-width: $screen-sm-min)
+      background-color: #201a15
+      background-image: none
+      height: auto
+    
+    ul
+      margin: 30px
+      li:first-child
+        border-bottom: 1px solid white
+        margin-bottom: 10px
+    a
+      color: white
+      
+  #final-footer
+    position: absolute
+    left: 0
+    right: 0
+    height: 60px
+    color: white
+    background-color: #463a2c
+    @media (max-width: $screen-sm-min)
+      position: inherit
+      padding: 20px
+      height: auto
+    
+    a
+      color: white
+    
+    img
+      width: 150px
+      margin: 0 10px
+
+      
+  // modal-base-flat.jade
+  
+  &.modal-content
+    padding: 10px
+    border-radius: 0
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5)
+    
+  .button.close
+    position: absolute
+    top: 10px
+    right: 10px

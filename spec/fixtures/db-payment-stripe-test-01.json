@@ -1,0 +1,104 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOOxKaReE7xLUdajQLXj2u",
+            "card": {
+                "id": "card_17IOOxKaReE7xLUdaA1sZ1RB"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTLZvrxxi9h67",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000067"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOOxKaReE7xLUdaA1sZ1RB",
+                        "customer": "cus_7XTLZvrxxi9h67"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "GET",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "has_more": false
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers/cus_7XTLZvrxxi9h67",
+        "status": 200,
+        "response": {
+            "id": "cus_7XTLZvrxxi9h67",
+            "alipay_accounts": {
+                "has_more": false
+            },
+            "email": "normal@jo.com",
+            "metadata": {
+                "id": "000000000000000000000067"
+            },
+            "sources": {
+                "data": [
+                    {
+                        "id": "card_17IOOxKaReE7xLUdaA1sZ1RB",
+                        "customer": "cus_7XTLZvrxxi9h67"
+                    }
+                ],
+                "has_more": false
+            },
+            "subscriptions": {
+                "has_more": false
+            }
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/charges",
+        "status": 200,
+        "response": {
+            "id": "ch_17IOOyKaReE7xLUdzY39hxln",
+            "amount": 100,
+            "customer": "cus_7XTLZvrxxi9h67",
+            "metadata": {
+                "productID": "gems_5",
+                "gems": "5000",
+                "timestamp": "1447443579286"
+            },
+            "paid": true,
+            "refunds": {
+                "has_more": false
+            },
+            "source": {
+                "id": "card_17IOOxKaReE7xLUdaA1sZ1RB",
+                "customer": "cus_7XTLZvrxxi9h67"
+            }
+        }
+    }
+]

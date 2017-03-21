@@ -1,15 +1,19 @@
 @import "app/styles/mixins"
-@import "app/styles/bootstrap/mixins"
+@import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #gold-view
   display: none
   position: absolute
-  right: 46%
-  top: 42px
-  user-select: none
-  -webkit-user-select: none
+  right: calc(45% + 10px + #{$api-bar-width})
+  #level-view.no-api &
+    right: calc(50% + 20px)
+    z-index: 10
+  top: 62px
+  z-index: 6
   @include transition(box-shadow .2s linear)
-  padding: 4px
+  @include user-select(none)
+  padding: 0.4vw
   background: transparent url(/images/level/gold_background.png) no-repeat
   background-size: 100% 100%
   border-radius: 4px
@@ -18,9 +22,9 @@
     box-shadow: 2px 2px 2px black
 
   .team-gold
-    font-size: 16px
+    font-size: 1.4vw
+    line-height: 1.4vw
     margin: 0
-    line-height: 20px
     color: hsla(205,0%,51%,1)
     display: inline-block
     padding: 0px 4px
@@ -35,11 +39,12 @@
       color: hsla(116,80%,51%,1)
 
     img
-      width: 16px
-      height: 16px
+      width: 1.2vw
+      height: 1.2vw
       border-radius: 2px
-      padding: 1px
-      margin-top: -1px
+      padding: 0.1vw
+      margin-top: -0.2vw
+      margin-right: 0.1vw
   
     .gold-amount
       display: inline-block

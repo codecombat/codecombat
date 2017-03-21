@@ -1,86 +1,114 @@
-body
-  #fb-root
-  block header
-    .nav.navbar.navbar-fixed-top#mobile-nav
-      .content.clearfix
-        .navbar-header
-          button.navbar-toggle(type="button" data-toggle="collapse" data-target="#collapsible-navbar")
-            span.sr-only Toggle navigation
-            span.icon-bar
-            span.icon-bar
-            span.icon-bar
-          
-          a.navbar-brand(href='/')
-            img(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
-        .collapse.navbar-collapse#collapsible-navbar
-          ul.nav.navbar-nav
-            li.play
-              a.header-font(href='/play', data-i18n="nav.play") Levels
-            li
-              a.header-font(href='/community', data-i18n="nav.community") Community
-      
-    .nav.navbar.navbar-fixed-top#top-nav
-      .content.clearfix
-        .navbar-header
-          a.navbar-brand(href='/')
-            img(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+block header
+  #site-nav
+    block site_nav
+      a(href="/")
+        img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+      div#site-nav-links
+        a(href="/")
+          img#small-nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
+        a(href="/")
+          span.glyphicon.glyphicon-home
 
-        select.language-dropdown
+        if !features.playViewsOnly
+          a(href="/about", data-i18n="nav.about")
+          if me.isStudent()
+            a(href="/students", data-i18n="nav.my_courses")
+          if me.isTeacher()
+            a(href="/teachers/classes", data-i18n="nav.my_classrooms")
+          if !me.isAnonymous() && !me.isStudent() && !me.isTeacher()
+            a(href="/play", data-i18n="common.play")
+            a(href=view.forumLink(), data-i18n="nav.forum")
+          a(href='/community', data-i18n="nav.community")
 
-        if me.get('anonymous') === false
-          button.btn.btn-primary.navbuttontext.header-font#logout-button(data-i18n="login.log_out") Log Out
-          a.btn.btn-primary.navbuttontext.header-font(href=me.get('jobProfile') ? "/account/profile/#{me.id}" : "/account/settings")
-            div.navbuttontext-account(data-i18n="nav.account") Account
-            if me.get('photoURL')
-              img.account-settings-image(src=me.getPhotoURL(18), alt="")
-            else
-              span.glyphicon.glyphicon-user
-
-        else
-          button.btn.btn-primary.navbuttontext.header-font.auth-button 
-            span(data-i18n="login.log_in") Log In
-            span.spr.spl /
-            span(data-i18n="login.sign_up") Create Account
-
-        ul(class='navbar-link-text').nav.navbar-nav.pull-right
-          li.play
-            a.header-font(href='/play', data-i18n="nav.play") Levels
-          li
-            a.header-font(href='/community', data-i18n="nav.community") Community
-
-  block outer_content
-    #outer-content-wrapper
-      #intermediate-content-wrapper
-        #inner-content-wrapper
-          .main-content-area
-            block content
-              p If this is showing, you dun goofed
-
-  block footer
-    .footer.clearfix
-      .content
-        p.footer-link-text
-          if pathname == "/" || (me.get('permissions') || []).indexOf('employer') != -1
-            a(href='/employers', title='Home', tabindex=-1, data-i18n="nav.employers") Employers
+          if me.get('anonymous') === false
+            span.dropdown
+              button.btn.btn-sm.header-font.dropdown-toggle(href="#", data-toggle="dropdown")
+                if me.get('photoURL')
+                  img.account-settings-image(src=me.getPhotoURL(18), alt="")
+                else
+                  i.glyphicon.glyphicon-user
+                span.spl.spr(data-i18n="nav.account" href="/account")
+                span.caret
+              ul.dropdown-menu(role="menu")
+                li.user-dropdown-header
+                  span.user-level= me.level()
+                  a(href="/user/#{me.getSlugOrID()}")
+                    div.img-circle(style="background-image: url(#{me.getPhotoURL()})")
+                  h3=me.broadName()
+                li
+                  a(href="/user/#{me.getSlugOrID()}", data-i18n="nav.profile")
+                li
+                  a(href="/account/settings", data-i18n="play.settings")
+                if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
+                  li
+                    a(href="/account/payments", data-i18n="account.payments")
+                if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
+                  li
+                    a(href="/account/subscription", data-i18n="account.subscription")
+                if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
+                  li
+                    a(href="/account/prepaid", data-i18n="account.prepaid_codes")
+                if me.isAdmin()
+                  li
+                    a(href="/admin", data-i18n="account_settings.admin")
+                if serverSession && serverSession.amActually
+                  li
+                    a#nav-stop-spying-button Stop Spying
+                if !features.codePlay
+                  li
+                    a#logout-button(data-i18n="login.log_out")
+  
           else
-            a(href='/', title='Home', tabindex=-1, data-i18n="nav.home") Home
-          a(href='/contribute', title='Contribute', tabindex=-1, data-i18n="nav.contribute") Contribute
-          a(href='/legal', title='Legal', tabindex=-1, data-i18n="nav.legal") Legal
-          a(href='/about', title='About', tabindex=-1, data-i18n="nav.about") About
-          a(title='Contact', tabindex=-1, data-toggle="coco-modal", data-target="modal/contact", data-i18n="nav.contact") Contact
-          a(href='/editor', data-i18n="nav.editor") Editor
-          a(href='http://blog.codecombat.com/', data-i18n="nav.blog") Blog
-          a(href='http://discourse.codecombat.com/', data-i18n="nav.forum") Forum
-          if me.isAdmin()
-            a(href='/admin', data-i18n="nav.admin") Admin
+            button.btn.btn-sm.btn-primary.header-font.signup-button(data-i18n="login.sign_up")
+            button.btn.btn-sm.btn-default.header-font.login-button(data-i18n="login.log_in")
+        select.language-dropdown.form-control
 
-      .share-buttons
-        .g-plusone(data-href="http://codecombat.com", data-size="medium")
-        .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
-        a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
-        iframe.github-star-button(src="http://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
-      .partner-badges
-        a.mixpanel-badge(href="https://mixpanel.com/f/partner")
-          img(src="//cdn.mxpnl.com/site_media/images/partner/badge_light.png", alt="Mobile Analytics")
-        a.firebase-bade(href="https://www.firebase.com/")
-          img(src="/images/pages/base/firebase.png", alt="Powered by Firebase")
+
+block outer_content
+  #site-content-area
+    block content
+      p If this is showing, you dun goofed
+  .achievement-corner
+
+
+block footer
+  #site-footer
+    img#footer-background(src="/images/pages/base/nav_background.png")
+
+    #footer-links(class=features.playViewsOnly ? 'hide' : '')
+      a(href="/about", data-i18n="nav.about")
+      if !me.isStudent()
+        a.contact-modal(tabindex=-1, data-i18n="nav.contact")
+      a(href='http://blog.codecombat.com/', data-i18n="nav.blog")
+      a(href='https://jobs.lever.co/codecombat', tabindex=-1, data-i18n="nav.careers")
+      a(href='/legal', tabindex=-1, data-i18n="nav.legal")
+      a(href='/privacy', tabindex=-1, data-i18n="legal.privacy_title")
+      a(href='/contribute', tabindex=-1, data-i18n="nav.contribute")
+      if !me.isStudent()
+        a(href='/play/ladder', tabindex=-1, data-i18n="game_menu.multiplayer_tab")
+      if me.isAdmin()
+        a(href='/admin') Admin
+
+      if usesSocialMedia
+        .share-buttons
+          if !isIE
+            .g-plusone(data-href="http://codecombat.com", data-size="medium")
+          .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_footer_#{fbRef}")
+          if !isIE
+            a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow")
+            iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
+
+    #footer-credits
+      span
+        span © All Rights Reserved
+        br
+        span CodeCombat 2015
+      img#footer-logo(src="/images/pages/base/logo.png", alt="CodeCombat")
+      span
+        span Site Design by
+        br
+        a(href="http://www.fullyillustrated.com/") Fully Illustrated
+      //a.firebase-bade(href="https://www.firebase.com/")  // Not using right now
+      //  img(src="/images/pages/base/firebase.png", alt="Powered by Firebase")
+
+    block extra_footer_content

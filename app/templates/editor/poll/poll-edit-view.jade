@@ -1,0 +1,32 @@
+extends /templates/base
+
+block content
+  - var authorized = me.isAdmin();
+  if authorized
+    ol.breadcrumb
+      li
+        a(href="/editor", data-i18n="editor.main_title") CodeCombat Editors
+      li
+        a(href="/editor/poll", data-i18n="editor.poll_title") Poll Editor
+      li.active
+        | #{view.poll.attributes.name}
+
+    button.poll-tool-button(data-i18n="common.delete", disabled=!me.isAdmin()).btn.btn-primary#delete-button Delete
+    button.poll-tool-button(data-i18n="common.save", disabled=!me.isAdmin()).btn.btn-primary#save-button Save
+
+    h3(data-i18n="poll.edit_poll_title") Edit Poll
+      span
+        |: "#{view.poll.attributes.name}"
+
+    #poll-treema
+
+    #poll-view.clearfix
+
+    h3(data-i18n="resources.patches") Patches
+    .patches-view
+
+    hr
+
+  else
+    .alert.alert-danger
+      span Admin only. Turn around.

@@ -3,7 +3,12 @@
 
 {now} = require 'lib/world/world_utils'
 World = require 'lib/world/world'
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
+GoalManager = require 'lib/world/GoalManager'
+{sendContactMessage} = require 'core/contact'
+errors = require 'core/errors'
+
+reportedLoadErrorAlready = false
 
 module.exports = class Angel extends CocoClass
   @nicks: ['Archer', 'Lana', 'Cyril', 'Pam', 'Cheryl', 'Woodhouse', 'Ray', 'Krieger']
@@ -12,17 +17,28 @@ module.exports = class Angel extends CocoClass
   infiniteLoopTimeoutDuration: 7500  # wait this long for a response when checking
   abortTimeoutDuration: 500  # give in-process or dying workers this long to give up
 
+  subscriptions:
+    'level:flag-updated': 'onFlagEvent'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
+    'level:escape-pressed': 'onEscapePressed'
+
   constructor: (@shared) ->
     super()
     @say 'Got my wings.'
-    if window.navigator and (window.navigator.userAgent.search('MSIE') isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
-      @infiniteLoopIntervalDuration *= 10  # since it's so slow to serialize without transferable objects, we can't trust it
+    isIE = window.navigator and (window.navigator.userAgent.search('MSIE') isnt -1 or window.navigator.appName is 'Microsoft Internet Explorer')
+    slowerSimulations = isIE  #or @shared.headless
+    # Since IE is so slow to serialize without transferable objects, we can't trust it.
+    # We also noticed the headless_client simulator needing more time. (This does both Simulators, though.) If we need to use lots of headless clients, enable this.
+    if slowerSimulations
+      @infiniteLoopIntervalDuration *= 10
       @infiniteLoopTimeoutDuration *= 10
       @abortTimeoutDuration *= 10
     @initialized = false
     @running = false
+    @allLogs = []
     @hireWorker()
     @shared.angels.push @
+    @listenTo @shared.gameUIState.get('realTimeInputEvents'), 'add', @onAddRealTimeInputEvent
 
   destroy: ->
     @fireWorker false
@@ -34,7 +50,13 @@ module.exports = class Angel extends CocoClass
 
   # say: debugging stuff, usually off; log: important performance indicators, keep on
   say: (args...) -> #@log args...
-  log: (args...) -> console.info "|#{@shared.godNick}'s #{@nick}|", args...
+  log: ->
+    # console.info.apply is undefined in IE9, CoffeeScript splats invocation won't work.
+    # http://stackoverflow.com/questions/5472938/does-ie9-support-console-log-and-is-it-a-real-function
+    message = "|#{@shared.godNick}'s #{@nick}|"
+    message += " #{arg}" for arg in arguments
+    console.info message
+    @allLogs.push message
 
   testWorker: =>
     return if @destroyed
@@ -62,27 +84,20 @@ module.exports = class Angel extends CocoClass
         clearTimeout @condemnTimeout
       when 'end-load-frames'
         clearTimeout @condemnTimeout
-        @beholdGoalStates event.data.goalStates  # Work ends here if we're headless.
-
-      # We pay attention to certain progress indicators as the world loads.
-      when 'world-load-progress-changed'
-        Backbone.Mediator.publish 'god:world-load-progress-changed', event.data
-      when 'console-log'
-        @log event.data.args...
-      when 'user-code-problem'
-        Backbone.Mediator.publish 'god:user-code-problem', problem: event.data.problem
+        @beholdGoalStates {goalStates: event.data.goalStates, overallStatus: event.data.overallStatus, preload: false, totalFrames: event.data.totalFrames, lastFrameHash: event.data.lastFrameHash, simulationFrameRate: event.data.simulationFrameRate}  # Work ends here if we're headless.
+      when 'end-preload-frames'
+        clearTimeout @condemnTimeout
+        @beholdGoalStates {goalStates: event.data.goalStates, overallStatus: event.data.overallStatus, preload: true, simulationFrameRate: event.data.simulationFrameRate}
 
       # We have to abort like an infinite loop if we see one of these; they're not really recoverable
       when 'non-user-code-problem'
-        Backbone.Mediator.publish 'god:non-user-code-problem', problem: event.data.problem
+        @publishGodEvent 'non-user-code-problem', problem: event.data.problem
         if @shared.firstWorld
-          @infinitelyLooped()  # For now, this should do roughly the right thing if it happens during load.
+          @infinitelyLooped(false, true)  # For now, this should do roughly the right thing if it happens during load.
         else
           @fireWorker()
 
-      # Either the world finished simulating successfully, or we abort the worker.
-      when 'new-world'
-        @beholdWorld event.data.serialized, event.data.goalStates
+      # If it didn't finish simulating successfully, or we abort the worker.
       when 'abort'
         @say 'Aborted.', event.data
         clearTimeout @abortTimeout
@@ -91,50 +106,110 @@ module.exports = class Angel extends CocoClass
         _.remove @shared.busyAngels, @
         @doWork()
 
+      # We pay attention to certain progress indicators as the world loads.
+      when 'console-log'
+        @log event.data.args...
+      when 'user-code-problem'
+        @publishGodEvent 'user-code-problem', problem: event.data.problem
+      when 'world-load-progress-changed'
+        progress = event.data.progress
+        progress = Math.min(progress, 0.9) if @work.indefiniteLength
+        @publishGodEvent 'world-load-progress-changed', { progress }
+        unless event.data.progress is 1 or @work.preload or @work.headless or @work.synchronous or @deserializationQueue.length or (@shared.firstWorld and not @shared.spectate)
+          @worker.postMessage func: 'serializeFramesSoFar'  # Stream it!
+
+      # We have some or all of the frames serialized, so let's send the (partially?) simulated world to the Surface.
+      when 'some-frames-serialized', 'new-world'
+        deserializationArgs = [event.data.serialized, event.data.goalStates, event.data.startFrame, event.data.endFrame, @streamingWorld]
+        @deserializationQueue.push deserializationArgs
+        if @deserializationQueue.length is 1
+          @beholdWorld deserializationArgs...
+
       else
         @log 'Received unsupported message:', event.data
 
-  beholdGoalStates: (goalStates) ->
+  beholdGoalStates: ({goalStates, overallStatus, preload, totalFrames, lastFrameHash, simulationFrameRate}) ->
     return if @aborting
-    Backbone.Mediator.publish 'god:goals-calculated', goalStates: goalStates
+    event = goalStates: goalStates, preload: preload ? false, overallStatus: overallStatus
+    event.totalFrames = totalFrames if totalFrames?
+    event.lastFrameHash = lastFrameHash if lastFrameHash?
+    event.simulationFrameRate = simulationFrameRate if simulationFrameRate?
+    @publishGodEvent 'goals-calculated', event
     @finishWork() if @shared.headless
 
-  beholdWorld: (serialized, goalStates) ->
+  beholdWorld: (serialized, goalStates, startFrame, endFrame, streamingWorld) ->
     return if @aborting
     # Toggle BOX2D_ENABLED during deserialization so that if we have box2d in the namespace, the Collides Components still don't try to create bodies for deserialized Thangs upon attachment.
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    streamingWorld?.indefiniteLength = @work.indefiniteLength
+    @streamingWorld = World.deserialize serialized, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), startFrame, endFrame, @work.level, streamingWorld
     window.BOX2D_ENABLED = true
     @shared.lastSerializedWorldFrames = serialized.frames
 
   finishBeholdingWorld: (goalStates) -> (world) =>
-    return if @aborting
-    world.findFirstChangedFrame @shared.world
-    @shared.world = world
-    errorCount = (t for t in @shared.world.thangs when t.errorsOut).length
-    Backbone.Mediator.publish 'god:new-world-created', world: world, firstWorld: @shared.firstWorld, errorCount: errorCount, goalStates: goalStates, team: me.team
-    for scriptNote in @shared.world.scriptNotes
-      Backbone.Mediator.publish scriptNote.channel, scriptNote.event
-    @shared.goalManager?.world = world
-    @finishWork()
+    return if @aborting or @destroyed
+    finished = world.frames.length is world.totalFrames
+    if @work?.indefiniteLength and world.victory?
+      finished = true
+      world.totalFrames = world.frames.length
+    firstChangedFrame = if @work?.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
+    eventType = if finished then 'new-world-created' else 'streaming-world-updated'
+    if finished
+      @shared.world = world
+    @publishGodEvent eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame, finished: finished
+    if finished
+      for scriptNote in @shared.world.scriptNotes
+        Backbone.Mediator.publish scriptNote.channel, scriptNote.event
+      @shared.goalManager?.world = world
+      @finishWork()
+    else
+      @deserializationQueue.shift()  # Finished with this deserialization.
+      if deserializationArgs = @deserializationQueue[0]  # Start another?
+        @beholdWorld deserializationArgs...
 
   finishWork: ->
+    @streamingWorld = null
     @shared.firstWorld = false
+    @deserializationQueue = []
     @running = false
     _.remove @shared.busyAngels, @
+    clearTimeout @condemnTimeout
+    clearInterval @purgatoryTimer
+    @condemnTimeout = @purgatoryTimer = null
     @doWork()
 
   finalizePreload: ->
     @say 'Finalize preload.'
     @worker.postMessage func: 'finalizePreload'
+    @work.preload = false
 
-  infinitelyLooped: =>
+  infinitelyLooped: (escaped=false, nonUserCodeProblem=false) =>
     @say 'On infinitely looped! Aborting?', @aborting
     return if @aborting
     problem = type: 'runtime', level: 'error', id: 'runtime_InfiniteLoop', message: 'Code never finished. It\'s either really slow or has an infinite loop.'
-    Backbone.Mediator.publish 'god:user-code-problem', problem: problem
-    Backbone.Mediator.publish 'god:infinite-loop', firstWorld: @shared.firstWorld
+    problem.message = 'Escape pressed; code aborted.' if escaped
+    @publishGodEvent 'user-code-problem', problem: problem
+    @publishGodEvent 'infinite-loop', firstWorld: @shared.firstWorld, nonUserCodeProblem: nonUserCodeProblem
+    @reportLoadError() if nonUserCodeProblem
     @fireWorker()
+
+  publishGodEvent: (channel, e) ->
+    # For Simulator. TODO: refactor all the god:* Mediator events to be local events.
+    @shared.god.trigger channel, e
+    e.god = @shared.god
+    Backbone.Mediator.publish 'god:' + channel, e
+
+  reportLoadError: ->
+    return if me.isAdmin() or /dev=true/.test(window.location?.href ? '') or reportedLoadErrorAlready
+    reportedLoadErrorAlready = true
+    context = email: me.get('email')
+    context.message = "Automatic Report - Unable to Load Level\nLogs:\n" + @allLogs.join('\n')
+    if $.browser
+      context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
+    context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"
+    context.subject = "Level Load Error: #{@work?.level?.name or 'Unknown Level'}"
+    context.levelSlug = @work?.level?.slug
+    sendContactMessage context
 
   doWork: ->
     return if @aborting
@@ -145,6 +220,7 @@ module.exports = class Angel extends CocoClass
       @say 'Running world...'
       @running = true
       @shared.busyAngels.push @
+      @deserializationQueue = []
       @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
       @say 'Infinite loop timer started at interval of', @infiniteLoopIntervalDuration
@@ -158,12 +234,15 @@ module.exports = class Angel extends CocoClass
     @say 'Aborting...'
     @running = false
     @work = null
+    @streamingWorld = null
+    @deserializationQueue = []
     _.remove @shared.busyAngels, @
     @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
     @aborting = true
     @worker.postMessage func: 'abort'
 
   fireWorker: (rehire=true) =>
+    return if @destroyed
     @aborting = false
     @running = false
     _.remove @shared.busyAngels, @
@@ -175,24 +254,58 @@ module.exports = class Angel extends CocoClass
     @say 'Fired worker.'
     @initialized = false
     @work = null
+    @streamingWorld = null
+    @deserializationQueue = []
     @hireWorker() if rehire
 
   hireWorker: ->
+    unless Worker?
+      unless @initialized
+        @initialized = true
+        @doWork()
+      return null
     return if @worker
     @say 'Hiring worker.'
     @worker = new Worker @shared.workerCode
+    @worker.addEventListener 'error', errors.onWorkerError
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
 
+  onFlagEvent: (e) ->
+    return unless @running and @work.realTime
+    @worker.postMessage func: 'addFlagEvent', args: e
+
+  onAddRealTimeInputEvent: (realTimeInputEvent) ->
+    return unless @running and @work.realTime
+    @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
+
+  onStopRealTimePlayback: (e) ->
+    return unless @running and @work.realTime
+    @work.realTime = false
+    @lastRealTimeWork = new Date()
+    @worker.postMessage func: 'stopRealTimePlayback'
+
+  onEscapePressed: (e) ->
+    return unless @running and not @work.realTime
+    return if (new Date() - @lastRealTimeWork) < 1000  # Fires right after onStopRealTimePlayback
+    @infinitelyLooped true
 
   #### Synchronous code for running worlds on main thread (profiling / IE9) ####
   simulateSync: (work) =>
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
-    work.testWorld = testWorld = new World work.userCodeMap
-    testWorld.loadFromLevel work.level
+    work.world = testWorld = new World work.userCodeMap
+    work.world.levelSessionIDs = work.levelSessionIDs
+    work.world.submissionCount = work.submissionCount
+    work.world.fixedSeed = work.fixedSeed
+    work.world.flagHistory = work.flagHistory ? []
+    work.world.difficulty = work.difficulty
+    work.world.loadFromLevel work.level
+    work.world.preloading = work.preload
+    work.world.headless = work.headless
+    work.world.realTime = work.realTime
     if @shared.goalManager
-      testGM = new @shared.goalManager.constructor @testWorld
+      testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
       testGM.setCode work.userCodeMap
       testGM.worldGenerationWillBegin()
@@ -203,19 +316,29 @@ module.exports = class Angel extends CocoClass
 
     # If performance was really a priority in IE9, we would rework things to be able to skip this step.
     goalStates = testGM?.getGoalStates()
-    serialized = testWorld.serialize().serializedWorld
+    work.world.goalManager.worldGenerationEnded() if work.world.ended
+
+    if work.headless
+      simulationFrameRate = work.world.frames.length / (work.t2 - work.t1) * 1000 * 30 / work.world.frameRate
+      @beholdGoalStates {goalStates, overallStatus: testGM.checkOverallStatus(), preload: false, totalFrames: work.world.totalFrames, lastFrameHash: work.world.frames[work.world.totalFrames - 2]?.hash, simulationFrameRate: simulationFrameRate}
+      return
+
+    serialized = world.serialize()
     window.BOX2D_ENABLED = false
-    World.deserialize serialized, @angelsShare.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates)
+    World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame, work.level
     window.BOX2D_ENABLED = true
-    @shared.lastSerializedWorldFrames = serialized.frames
+    @shared.lastSerializedWorldFrames = serialized.serializedWorld.frames
 
   doSimulateWorld: (work) ->
     work.t1 = now()
-    Math.random = work.testWorld.rand.randf  # so user code is predictable
+    Math.random = work.world.rand.randf  # so user code is predictable
     Aether.replaceBuiltin('Math', Math)
+    replacedLoDash = _.runInContext(window)
+    _[key] = replacedLoDash[key] for key, val of replacedLoDash
     i = 0
-    while i < work.testWorld.totalFrames
-      frame = work.testWorld.getFrame i++
-    work.testWorld.ended = true
-    system.finish work.testWorld.thangs for system in work.testWorld.systems
+    while i < work.world.totalFrames
+      frame = work.world.getFrame i++
+    @publishGodEvent 'world-load-progress-changed', progress: 1
+    work.world.ended = true
+    system.finish work.world.thangs for system in work.world.systems
     work.t2 = now()

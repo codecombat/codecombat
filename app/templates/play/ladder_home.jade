@@ -2,22 +2,32 @@ extends /templates/base
 
 block content
 
-  each campaign in campaigns
+  each campaign in view.campaigns
     .campaign-container
       h1
         a(href="/play/#{campaign.levels[0].levelPath || 'level'}/#{campaign.levels[0].id}", data-i18n="play.campaign_#{campaign.id}")= campaign.name
       p.campaign-description(data-i18n="[html]play.campaign_#{campaign.id}_description")!= campaign.description
       each level in campaign.levels
-        a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, class=levelStatusMap[level.id] || '', title=level.description)
+        a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, class=view.levelStatusMap[level.id] || '', title=level.description)
           .level
             if level.image
               img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
             else
-              img.level-image(src="/images/pages/home/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
-            //h3= level.name + (level.disabled ? " (Coming soon!)" : "")
+              img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+              h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
             .overlay-text.level-difficulty
               span(data-i18n="play.level_difficulty") Difficulty: 
               each i in Array(level.difficulty)
                 | ★
+              - var playCount = view.levelPlayCountMap[level.id]
+              if playCount
+                span.spl.spr - #{playCount.sessions}
+                span(data-i18n="play.players") players
+                if (view.levelStatusMap[level.id]=='complete')
+                  span.spl.spr -
+                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.complete_2")
+                else if (view.levelStatusMap[level.id]=='started')
+                  span.spl.spr -
+                  span(class="level-status-#{view.levelStatusMap[level.id]}", data-i18n="clans.started_2")
             .play-text-container
-              .overlay-text.play-text(data-i18n="home.play") Play
+              .overlay-text.play-text(data-i18n="common.play") Play

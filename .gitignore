@@ -35,6 +35,9 @@ Thumbs.db
 node_modules/
 bower_components/
 
+# Vagrant
+.vagrant/
+
 # Some other random stuff
 always-ignore extensions
 *.diff
@@ -74,12 +77,12 @@ coverage/
 FLOOBITS_README.md
 
 # mongodb
-db/
 bin/node/
 bin/mongo/
 
 # windows
 /SCOCODE.bat
+cocodb/
 
 # local settings
 login.coffee
@@ -87,6 +90,24 @@ login.coffee
 # debugging
 *.heapsnapshot
 
+npm-debug.log*
+
 temp/
+Dockerfile
 ### If you add something here, copy it to the end of .npmignore, too. ###
 
+# Visual Studio Code
+.vscode/
+
+# editorconfig (might be standardized eventually)
+.editorconfig
+
+# coffeelint for editors (might be standardized eventually)
+coffeelint.json
+gitSpy/*
+
+# nightwatch reports
+spec/smoke/reports/
+
+scripts/analytics/mongodb/.analyticsAuth.json
+scripts/analytics/mongodb/.mainAuth.json

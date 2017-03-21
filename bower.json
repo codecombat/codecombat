@@ -28,26 +28,39 @@
     "lodash": "~2.4.1",
     "backbone": "1.1.0",
     "jquery-mousewheel": "~3.1.9",
-    "i18next": "git://github.com/nwinter/i18next.git",
+    "i18next": "https://github.com/nwinter/i18next.git",
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.2.22",
+    "aether": "~0.5.21",
     "underscore.string": "~2.3.3",
-    "firebase": "~1.0.2",
-    "catiline": "~2.9.3",
     "d3": "~3.4.4",
-    "jsondiffpatch": "~0.1.5",
+    "jsondiffpatch": "^0.2.3",
     "nanoscroller": "~0.8.0",
-    "jquery.tablesorter": "~2.15.13",
-    "treema": "~0.0.9",
-    "bootstrap": "~3.1.1",
+    "treema": "https://github.com/codecombat/treema.git#master",
+    "bootstrap": "~3.2.0",
     "validated-backbone-mediator": "~0.1.3",
     "jquery.browser": "~0.0.6",
-    "zatanna": "~0.0.2",
-    "modernizr": "~2.8.3"
+    "modernizr": "~2.8.3",
+    "fastclick": "~1.0.3",
+    "three.js": "~0.71.0",
+    "lscache": "~1.0.5",
+    "esper.js": "http://files.codecombat.com/esper.tar.gz",
+    "algoliasearch": "^3.13.1",
+    "algolia-autocomplete.js": "^0.17.0",
+    "algolia-autocomplete-no-conflict": "1.0.0",
+    "promise-polyfill": "^5.2.1",
+    "font-awesome": "fontawesome#^4.7.0",
+    "fetch": "^2.0.2",
+    "file-saver": "^1.3.3"
   },
   "overrides": {
+    "algolia-autocomplete.js": {
+      "main": "dist/autocomplete.jquery.js"
+    },
+    "algolia-autocomplete-no-conflict": {
+      "main": "no-conflict.js"
+    },
     "backbone": {
       "main": "backbone.js"
     },
@@ -62,16 +75,16 @@
     },
     "jsondiffpatch": {
       "main": [
-        "build/bundle-full.js",
-        "build/formatters.js",
-        "src/formatters/html.css"
+        "public/build/jsondiffpatch-full.js",
+        "public/build/jsondiffpatch-formatters.js",
+        "public/formatters-styles/html.css"
       ]
     },
-    "jquery.tablesorter": {
+    "treema": {
       "main": [
-        "js/jquery.tablesorter.js",
-        "js/jquery.tablesorter.widgets.js",
-        "css/theme.bootstrap.css"
+        "treema.js",
+        "treema.css",
+        "treema-utils.js"
       ]
     },
     "bootstrap": {
@@ -85,6 +98,22 @@
     },
     "modernizr": {
       "main": "modernizr.js"
+    },
+    "aether": {
+      "main": [
+        "build/aether.js",
+        "build/coffeescript.js",
+        "build/javascript.js",
+        "build/lua.js",
+        "build/python.js",
+        "build/java.js",
+        "build/html.js"
+      ]
     }
+  },
+  "devDependencies": {
+    "modernizr-mixin": "~3.0.0",
+    "openSansCondensed": "https://google-fonts.azurewebsites.net/googleFonts/openSansCondensed?family=Open+Sans+Condensed:700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic",
+    "openSans": "https://google-fonts.azurewebsites.net/googleFonts/openSans?family=Open+Sans:600,700&subset=latin,latin-ext,cyrillic-ext,greek-ext,greek,vietnamese,cyrillic"
   }
 }

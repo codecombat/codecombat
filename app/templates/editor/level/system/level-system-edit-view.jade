@@ -1,0 +1,50 @@
+nav.navbar.navbar-default(role='navigation')
+
+  ul.nav.navbar-nav.nav-tabs
+    li.active
+      a(href="#system-code" data-toggle="tab" data-i18n="general.code")#system-code-tab Code
+    li
+      a(href="#system-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema")#system-config-schema-tab Config Schema
+    li
+      a(href="#system-settings" data-toggle="tab" data-i18n="play.settings")#system-settings-tab Settings
+    li
+      a(href="#system-patches" data-toggle="tab" data-i18n="resources.patches")#system-patches-tab Patches
+
+  ul.nav.navbar-nav.navbar-right
+    if !me.isAdmin() && !me.isArtisan()
+      li#patch-system-button
+        a(data-i18n="[title]common.submit_patch")
+          span.glyphicon-floppy-disk.glyphicon
+    li.dropdown
+      a(data-toggle='dropdown')
+        span.glyphicon-chevron-down.glyphicon
+      ul.dropdown-menu
+        li.dropdown-header(data-i18n="common.actions") Actions
+        li
+          a#system-watch-button
+            span.watch
+              span.glyphicon.glyphicon-eye-open
+              span.spl(data-i18n="common.watch") Watch
+            span.unwatch.secret
+              span.glyphicon.glyphicon-eye-close
+              span.spl(data-i18n="common.unwatch") Unwatch
+        if me.isAdmin()
+          li#create-new-system
+            a(data-i18n="editor.level_system_btn_new") Create New System
+        li.divider
+        li.dropdown-header(data-i18n="common.info") Info
+        li#system-history-button
+          a(data-i18n="general.version_history") Version History
+
+  .navbar-header
+    span.navbar-brand= view.levelSystem.get('name')
+
+.tab-content
+  .tab-pane.active#system-code
+    #system-code-editor
+  .tab-pane#system-config-schema
+    #config-schema-treema
+  .tab-pane#system-settings
+    #edit-system-treema
+  .tab-pane#system-patches
+    .patches-view

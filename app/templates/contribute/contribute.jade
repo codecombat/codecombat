@@ -2,181 +2,85 @@ extends /templates/base
 
 block content
 
-  div.contribute_class
+  h2(data-i18n="contribute.page_title") Contributing
+  p(data-i18n="contribute.intro_blurb")
+    | CodeCombat is 100% open source! Hundreds of dedicated players have helped us build the game 
+    | into what it is today. Join us and write the next chapter in CodeCombat's quest to teach the 
+    | world to code!
 
-    include /templates/contribute/contribute_nav    
+  a(href="/contribute/archmage")
+    div.class_tile
+      img(src="/images/pages/contribute/tile_archmage.png", alt="")
 
-    div#contribute-main.class-main
-      div#intro
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.archmage_title") Archmage
+          span(data-i18n="classes.archmage_title_description")
 
-        h2(data-i18n="contribute.page_title") Contributing
+        p(data-i18n="classes.archmage_summary")
+          | If you are a developer interested in coding educational games, become an archmage to help us build CodeCombat!
 
-        #homepage_screenshot
-          img.img-responsive(src="/images/pages/contribute/contribute_header.png", alt="")
+  a(href="/contribute/artisan")
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_artisan.png", alt="")
 
-        p
-          strong(data-i18n="contribute.introduction_desc_intro")
-            | We have high hopes for CodeCombat.
-          | 
-          span(data-i18n="contribute.introduction_desc_pref")  
-            | We want to be where programmers of all stripes come to learn and play together, 
-            | introduce others to the wonderful world of coding,
-            | and reflect the best parts of the community.
-            | We can't and don't want to do that alone;
-            | what makes projects like GitHub, Stack Overflow and Linux great are the people who
-            | use them and build on them.
-            | To that end, 
-          a(href="https://github.com/codecombat/codecombat", data-i18n="contribute.introduction_desc_github_url")
-            | CodeCombat is totally open source
-          span(data-i18n="contribute.introduction_desc_suf")
-            | , and we aim to provide as many ways as possible for you to take part and
-            | make this project as much yours as ours.
-        p(data-i18n="contribute.introduction_desc_ending")
-          | We hope you'll join our party!
-        p(data-i18n="contribute.introduction_desc_signature").signature
-          | - Nick, George, Scott, Michael, Jeremy and Glen
-        hr
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.artisan_title") Artisan
+          span(data-i18n="classes.artisan_title_description")
 
-      .contributor-signup-anonymous
+        p(data-i18n="classes.artisan_summary")
+          | Build and share levels for you and your friends to play. Become an Artisan to learn the art of teaching others to program.
 
-      #archmage.header-scrolling-fix
-        .class_image
-          img.img-responsive(src="/images/pages/contribute/archmage.png", alt="")
+  if !me.isOnPremiumServer()
+    a(href="/contribute/adventurer")
+      div.class_tile
+        img.tile-img(src="/images/pages/contribute/tile_adventurer.png", alt="")
+  
+        div.class_text
+          h3
+            span.spr(data-i18n="classes.adventurer_title") Adventurer
+            span(data-i18n="classes.adventurer_title_description")
+  
+          p(data-i18n="classes.adventurer_summary")
+            | Get our new levels (even our subscriber content) for free one week early and help us work out bugs before our public release.
 
-        h3.header-scrolling-fix
-          span(data-i18n="classes.archmage_title") Archmage
-          span  
-          span(data-i18n="classes.archmage_title_description") (Coder)
-        p(data-i18n="contribute.archmage_summary")
-          | Interested in working on game graphics, user interface design, database and server organization,
-          | multiplayer networking, physics, sound, or game engine performance? Want to help build a game to
-          | help other people learn what you are good at? We have a lot to do and if you are an experienced
-          | programmer and want to develop for CodeCombat, this class is for you. We would love your help
-          | building the best programming game ever.
+  a(href="/contribute/scribe")
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_scribe.png", alt="")
 
-        a(href="/contribute/archmage")
-          p.lead(data-i18n="contribute.more_about_archmage")
-            | Learn More About Becoming an Archmage
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.scribe_title") Scribe
+          span(data-i18n="classes.scribe_title_description")
 
-        .contributor-signup(data-contributor-class-id="developer", data-contributor-class-name="archmage")
+        p(data-i18n="classes.scribe_summary")
+          | Good code needs good documentation. Write, edit, and improve the docs read by millions of players across the globe.
 
-      #artisan.header-scrolling-fix
 
-        .class_image
-          img.img-responsive(src="/images/pages/contribute/artisan.png", alt="")
+  a(href="/contribute/diplomat")
 
-        h3.header-scrolling-fix
-          span(data-i18n="classes.artisan_title") Artisan
-          span  
-          span(data-i18n="classes.artisan_title_description") (Level Builder)
-        p
-          span(data-i18n="contribute.artisan_summary_pref")
-            | Want to design levels and expand CodeCombat's arsenal? People are playing through our
-            | content at a pace faster than we can build! Right now, our level editor is barebone, 
-            | so be wary. Making levels will be a little challenging and buggy. If you have visions
-            | of campaigns spanning for-loops to
-          span  
-          a(href="http://stackoverflow.com/questions/758088/seeking-contrived-example-code-continuations/758105#758105")
-            | Mondo Bizzaro
-          span(data-i18n="contribute.artisan_summary_suf")
-            | , then this class is for you.
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_diplomat.png", alt="")
 
-        a(href="/contribute/artisan")
-          p.lead(data-i18n="contribute.more_about_artisan")
-            | Learn More About Becoming An Artisan
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.diplomat_title") Diplomat
+          span(data-i18n="classes.diplomat_title_description")
 
-        .contributor-signup(data-contributor-class-id="level_creator", data-contributor-class-name="artisan")
+        p(data-i18n="classes.diplomat_summary")
+          | CodeCombat is localized in 45+ languages by our Diplomats. Help us out and contribute translations.
 
-      #adventurer.header-scrolling-fix
+  a(href="/contribute/ambassador")
+    div.class_tile
+      img.tile-img(src="/images/pages/contribute/tile_ambassador.png", alt="")
 
-        .class_image
-          img.img-responsive(src="/images/pages/contribute/adventurer.png", alt="")
+      div.class_text
+        h3
+          span.spr(data-i18n="classes.ambassador_title") Ambassador
+          span(data-i18n="classes.ambassador_title_description")
 
-        h3.header-scrolling-fix
-          span(data-i18n="classes.adventurer_title") Adventurer
-          span  
-          span(data-i18n="classes.adventurer_title_description") (Level Playtester)
-        p(data-i18n="contribute.adventurer_summary")
-          | Let us be clear about your role: you are the tank. You are going to take heavy damage.
-          | We need people to try out brand-new levels and help identify how to make things better.
-          | The pain will be enormous; making good games is a long process and no one gets
-          | it right the first time.
-          | If you can endure and have a high constitution score, then this class is for you.
-        
-        a(href="/contribute/adventurer")
-          p.lead(data-i18n="contribute.more_about_adventurer")
-            | Learn More About Becoming an Adventurer
+        p(data-i18n="classes.ambassador_summary")
+          | Tame our forum users and provide direction for those with questions. Our ambassadors represent CodeCombat to the world.
 
-        .contributor-signup(data-contributor-class-id="tester", data-contributor-class-name="adventurer")
-    
-      #scribe.header-scrolling-fix
-
-        .class_image
-          img.img-responsive(src="/images/pages/contribute/scribe.png", alt="")
-
-        h3.header-scrolling-fix
-          span(data-i18n="classes.scribe_title") Scribe
-          span  
-          span(data-i18n="classes.scribe_title_description") (Article Editor)
-        p
-          span(data-i18n="contribute.scribe_summary_pref")
-            | CodeCombat is not just going to be a bunch of levels. It will also be a resource of
-            | programming knowledge that players can hook into. That way, each Artisan can link
-            | to a detailed article that for the player's edification:
-            | documentation akin to what the 
-          a(href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide", data-i18n="contribute.scribe_introduction_url_mozilla")
-            | Mozilla Developer Network
-          span(data-i18n="contribute.scribe_summary_suf")  
-            |  has built. If you enjoy explaining programming concepts, then this class is for you.
-    
-        a(href="/contribute/scribe")
-          p.lead(data-i18n="contribute.more_about_scribe")
-            | Learn More About Becoming a Scribe
-
-        .contributor-signup(data-contributor-class-id="article_editor", data-contributor-class-name="scribe")
-
-      #diplomat.header-scrolling-fix
-
-        .class_image
-          img.img-responsive(src="/images/pages/contribute/diplomat.png", alt="")
-
-        h3.header-scrolling-fix
-          span(data-i18n="classes.diplomat_title") Diplomat
-          span  
-          span(data-i18n="classes.diplomat_title_description") (Translator)
-        p
-          span(data-i18n="contribute.diplomat_summary")
-            | There is a large interest in CodeCombat in other countries that do not speak English!
-            | We are looking for translators who are willing to spend their time translating the 
-            | site's corpus of words so that CodeCombat is accessible across the world as soon as 
-            | possible. If you'd like to help getting CodeCombat international, then this class is 
-            | for you.
-    
-        a(href="/contribute/diplomat")
-          p.lead(data-i18n="contribute.more_about_diplomat")
-            | Learn More About Becoming a Diplomat
-
-        .contributor-signup(data-contributor-class-id="translator", data-contributor-class-name="diplomat")
-
-      #ambassador.header-scrolling-fix
-
-        .class_image
-          img.img-responsive(src="/images/pages/contribute/ambassador.png", alt="")
-
-        h3.header-scrolling-fix
-          span(data-i18n="classes.ambassador_title") Ambassador
-          span  
-          span(data-i18n="classes.ambassador_title_description") (Support)
-        p(data-i18n="contribute.ambassador_summary")
-          | We are trying to build a community, and every community needs a support team when 
-          | there are troubles. We have got chats, emails, and social networks so that our users 
-          | can get acquainted with the game. If you want to help people get involved, have fun, 
-          | and learn some programming, then this c lass is for you.
-
-        a(href="/contribute/ambassador")
-          p.lead(data-i18n="contribute.more_about_ambassador")
-            | Learn More About Becoming an Ambassador
-
-        .contributor-signup(data-contributor-class-id="support", data-contributor-class-name="ambassador")
-
-    div.clearfix
+  div.clearfix

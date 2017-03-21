@@ -1,0 +1,17 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3(data-i18n="editor.fork_title") Fork New Version
+
+block modal-body-content
+  form.form
+    .form-group
+      label(for="model-name", data-i18n="general.name") Name
+      input#fork-model-name(name="name", type="text").form-control
+
+block modal-footer-content
+  button.btn(data-dismiss="modal", data-i18n="common.cancel") Cancel
+  button.btn.btn-primary#fork-model-confirm-button(data-i18n="common.save") Save
+    
+block modal-body-wait-content
+  h3(data-i18n="editor.fork_creating") Creating Fork...

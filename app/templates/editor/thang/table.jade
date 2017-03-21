@@ -1,25 +1,38 @@
-table.table
+extends /templates/common/table
+
+block tableResultsHeader
   tr
-    th(colspan=3)
+    th(colspan=4)
       span(data-i18n="general.results")
         | Results
       span
         |: #{documents.length}
   
+block tableHeader
   tr
     th#portrait-col
     th(data-i18n="general.name") Name
     th(data-i18n="general.description") Description
     th(data-i18n="general.version") Version
+    th(data-i18n="editor.tasks") Tasks
   
-  for data in documents 
-    - data = data.attributes;
+block tableBody
+  for thang in documents 
     tr
       td
-        - path = '/file/db/thang.type/'+data.original+'/portrait.png'
-        img(title="Add " + data.name, src=path, alt="").portrait
-      td
-        a(href="/editor/thang/#{data.slug || data._id}")
-          | #{data.name}
-      td.body-row #{data.description}
-      td #{data.version.major}.#{data.version.minor}
+        - var name = thang.get('name');
+        img(title="Add #{name}", src=thang.getPortraitURL(), alt="").portrait
+      td(title=name).small-name-row
+        a(href="/editor/thang/#{thang.get('slug') || thang.id}")
+          | #{name}
+      - var description = thang.get('description');
+      td(title=description).body-row
+        | #{description}
+      - var version = thang.get('version')
+      td #{version.major}.#{version.minor}
+      - var tasks = thang.get('tasks');
+      if tasks && tasks.length
+        - var completed = tasks.filter(function(t) { return t.complete; });
+        td #{completed.length}/#{tasks.length}
+      else
+        td

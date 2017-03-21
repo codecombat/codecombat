@@ -1,4 +1,5 @@
 CocoModel = require 'models/CocoModel'
+utils = require 'core/utils'
 
 class BlandClass extends CocoModel
   @className: 'Bland'
@@ -14,8 +15,32 @@ class BlandClass extends CocoModel
   urlRoot: '/db/bland'
 
 describe 'CocoModel', ->
-  describe 'save', ->
+  describe 'setProjection', ->
+    it 'takes an array of properties to project and adds them as a query parameter', ->
+      b = new BlandClass({})
+      b.setProjection ['number', 'object']
+      b.fetch()
+      request = jasmine.Ajax.requests.mostRecent()
+      expect(decodeURIComponent(request.url).indexOf('project=number,object')).toBeGreaterThan(-1)
 
+    it 'can update its projection', ->
+      baseURL = '/db/bland/test?filter-creator=Mojambo&project=number,object&ignore-evil=false'
+      unprojectedURL = baseURL.replace /&project=number,object/, ''
+      b = new BlandClass({})
+      b.setURL baseURL
+      expect(b.getURL()).toBe baseURL
+      b.setProjection ['number', 'object']
+      expect(b.getURL()).toBe baseURL
+      b.setProjection ['number']
+      expect(b.getURL()).toBe baseURL.replace /,object/, ''
+      b.setProjection []
+      expect(b.getURL()).toBe unprojectedURL
+      b.setProjection null
+      expect(b.getURL()).toBe unprojectedURL
+      b.setProjection ['object', 'number']
+      expect(b.getURL()).toBe unprojectedURL + '&project=object,number'
+
+  describe 'save', ->
     it 'saves to db/<urlRoot>', ->
       b = new BlandClass({})
       res = b.save()
@@ -67,7 +92,7 @@ describe 'CocoModel', ->
       b.patch()
       request = jasmine.Ajax.requests.mostRecent()
       attrs = JSON.stringify(b.attributes) # server responds with all
-      request.response({status: 200, responseText: attrs})
+      request.respondWith({status: 200, responseText: attrs})
 
       b.set('number', 3)
       b.patch()
@@ -82,3 +107,90 @@ describe 'CocoModel', ->
       b.patch()
       request = jasmine.Ajax.requests.mostRecent()
       expect(request).toBeUndefined()
+
+  xdescribe 'Achievement polling', ->
+    # TODO: Figure out how to do debounce in tests so that this test doesn't need to use keepDoingUntil
+
+    it 'achievements are polled upon saving a model', (done) ->
+      #spyOn(CocoModel, 'pollAchievements')
+      Backbone.Mediator.subscribe 'achievements:new', (collection) ->
+        Backbone.Mediator.unsubscribe 'achievements:new'
+        expect(collection.constructor.name).toBe('NewAchievementCollection')
+        done()
+
+      b = new BlandClass({})
+      res = b.save()
+      request = jasmine.Ajax.requests.mostRecent()
+      request.respondWith(status: 200, responseText: '{}')
+
+      collection = []
+      model =
+        _id: "5390f7637b4d6f2a074a7bb4"
+        achievement: "537ce4855c91b8d1dda7fda8"
+      collection.push model
+
+      utils.keepDoingUntil (ready) ->
+        request = jasmine.Ajax.requests.mostRecent()
+        achievementURLMatch = (/.*achievements\?notified=false$/).exec request.url
+        if achievementURLMatch
+          ready true
+        else return ready false
+
+        request.respondWith {status: 200, responseText: JSON.stringify collection}
+
+        utils.keepDoingUntil (ready) ->
+          request = jasmine.Ajax.requests.mostRecent()
+          userURLMatch = (/^\/db\/user\/[a-zA-Z0-9]*$/).exec request.url
+          if userURLMatch
+            ready true
+          else return ready false
+
+          request.respondWith {status:200, responseText: JSON.stringify me}
+
+  describe 'updateI18NCoverage', ->
+    class FlexibleClass extends CocoModel
+      @className: 'Flexible'
+      @schema: {
+        type: 'object'
+        properties: {
+          name: { type: 'string' }
+          description: { type: 'string' }
+          innerObject: {
+            type: 'object'
+            properties: {
+              name: { type: 'string' }
+              i18n: { type: 'object', format: 'i18n', props: ['name']}
+            }
+          }
+          i18n: { type: 'object', format: 'i18n', props: ['description', 'name', 'prop1']}
+        }
+      }
+
+    it 'only includes languages for which all objects include a translation', ->
+      m = new FlexibleClass({
+        i18n: { es: { name: '+', description: '+' }, fr: { name: '+', description: '+' } }
+        name: 'Name'
+        description: 'Description'
+        innerObject: {
+          i18n: { es: { name: '+' }, de: { name: '+' }, fr: {} }
+          name: 'Name'
+        }
+      })
+
+      m.updateI18NCoverage()
+      expect(_.isEqual(m.get('i18nCoverage'), ['es'])).toBe(true)
+
+    it 'ignores objects for which there is nothing to translate', ->
+      m = new FlexibleClass()
+      m.set({
+        name: 'Name'
+        i18n: {
+          '-': {'-':'-'}
+          'es': {name: 'Name in Spanish'}
+        }
+        innerObject: {
+          i18n: { '-': {'-':'-'} }
+        }
+      })
+      m.updateI18NCoverage()
+      expect(_.isEqual(m.get('i18nCoverage'), ['es'])).toBe(true)

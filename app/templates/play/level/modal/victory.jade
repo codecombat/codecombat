@@ -1,4 +1,4 @@
-extends /templates/modal/modal_base
+extends /templates/core/modal-base
 
 block modal-header-content
   h3
@@ -13,15 +13,13 @@ block modal-body-content
 block modal-footer-content
   if readyToRank
     .ladder-submission-view
-  else if level.get('type') === 'ladder'
-    a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_go_ladder") Return to Ladder
-  else if hasNextLevel
-    button.btn.btn-primary.next-level-button(data-dismiss="modal", data-i18n="play_level.victory_play_next_level") Play Next Level
+  else if level.isType('ladder')
+    a.btn.btn-primary(href="/play/ladder/#{level.get('slug')}#my-matches", data-dismiss="modal", data-i18n="play_level.victory_return_to_ladder") Return to Ladder
   else
     a.btn.btn-primary(href="/", data-dismiss="modal", data-i18n="play_level.victory_go_home") Go Home
   if me.get('anonymous')
     p.sign-up-poke
-      button.btn.btn-success.sign-up-button.btn-large(data-toggle="coco-modal", data-target="modal/signup", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
+      button.btn.btn-success.sign-up-button.btn-large(data-dismiss="modal", data-i18n="play_level.victory_sign_up") Sign Up to Save Progress
       span(data-i18n="play_level.victory_sign_up_poke") Want to save your code? Create a free account!
     p.clearfix
   else
@@ -41,10 +39,4 @@ block modal-footer-content
     .g-plusone(data-href="http://codecombat.com", data-size="medium")
     .fb-like(data-href="https://www.facebook.com/codecombat", data-send="false", data-layout="button_count", data-width="350", data-show-faces="true", data-ref="coco_victory_#{fbRef}")
     a.twitter-follow-button(href="https://twitter.com/CodeCombat", data-show-count="true", data-show-screen-name="false", data-dnt="true", data-align="right", data-i18n="nav.twitter_follow") Follow
-    iframe.github-star-button(src="http://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")
-  
-  if showHourOfCodeDoneButton
-    h3.pull-left(data-i18n="play_level.victory_hour_of_code_done") Are You Done?
-    a(href="http://code.org/api/hour/finish")
-      strong(data-i18n="play_level.victory_hour_of_code_done_yes") Yes, I'm finished with my Hour of Code!
-      img(src="/images/level/csedweek-logo-final-small.jpg", alt="CS Ed Week Hour of Code", title="I'm finished with my Hour of Code", width=80)
+    iframe.github-star-button(src="https://ghbtns.com/github-btn.html?user=codecombat&repo=codecombat&type=watch&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="110", height="20")

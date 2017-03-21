@@ -1,0 +1,54 @@
+nav.navbar.navbar-default(role='navigation')
+  ul.nav.navbar-nav.nav-tabs
+    li.active
+      a(href="#component-code" data-toggle="tab" data-i18n="general.code")#component-code-tab Code
+    li
+      a(href="#component-config-schema" data-toggle="tab" data-i18n="editor.level_component_config_schema")#component-config-schema-tab Config Schema
+    li
+      a(href="#component-settings" data-toggle="tab" data-i18n="play.settings")#component-settings-tab Settings
+    li
+      a(href="#component-patches" data-toggle="tab" data-i18n="resources.patches")#component-patches-tab Patches
+
+  .navbar-header
+    span.navbar-brand= editTitle
+
+  ul.nav.navbar-nav.navbar-right
+    if !component.hasWriteAccess()
+      li#patch-component-button
+        a(data-i18n="[title]common.submit_patch")
+          span.glyphicon-floppy-disk.glyphicon
+    li.dropdown
+      a(data-toggle='dropdown')
+        span.glyphicon-chevron-down.glyphicon
+
+      ul.dropdown-menu
+        li.dropdown-header(data-i18n="common.actions") Actions
+        li
+          a#component-watch-button
+            span.watch
+              span.glyphicon.glyphicon-eye-open
+              span.spl(data-i18n="common.watch") Watch
+            span.unwatch.secret
+              span.glyphicon.glyphicon-eye-close
+              span.spl(data-i18n="common.unwatch") Unwatch
+        if !me.get('anonymous')
+          li#create-new-component-button
+            a(data-i18n="editor.level_component_btn_new") Create New Component
+          li
+            a(data-i18n="editor.pop_i18n")#pop-component-i18n-button Populate i18n
+
+        li.divider
+        li.dropdown-header(data-i18n="common.info") Info
+  
+        li#component-history-button
+          a(data-i18n="general.version_history") Version History
+
+.tab-content
+  .tab-pane.active#component-code
+    #component-code-editor
+  .tab-pane#component-config-schema
+    #config-schema-treema
+  .tab-pane#component-settings
+    #edit-component-treema
+  .tab-pane#component-patches
+    .patches-view

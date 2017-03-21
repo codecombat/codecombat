@@ -1,14 +1,14 @@
-@import "app/styles/bootstrap/mixins"
+@import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
 
-#ladder-home-view
+#main-ladder-view
   .level
     width: 100%
     position: relative
     margin-bottom: 20px
     text-shadow: 2px 2px 5px black
 
-    &:hover div
+    &:hover div, &:hover .dynamic-level-name
       color: lighten($yellow, 20%)
 
     &:hover img
@@ -19,9 +19,24 @@
     .level-image
       width: 100%
 
+    .dynamic-level-name
+      position: absolute
+      z-index: 1
+      top: 40px
+      width: 100%
+      text-align: center
+
+      text-shadow: 0px 5px 5px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
+      font-size: 72px
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
     .overlay-text
       color: $yellow
-      font-family: Bangers
+      font-family: $headings-font-family
+      font-variant: small-caps
       @include transition(color .10s linear)
 
     .level-difficulty
@@ -45,10 +60,8 @@
   a[disabled] .level
     opacity: 0.7
 
-  a.complete .level-difficulty:after
-    content: " - Complete!"
+  a .level-difficulty .level-status-complete
     color: $yellow
 
-  a.started .level-difficulty:after
-    content: " - Started"
+  a .level-difficulty .level-status-started
     color: desaturate($yellow, 50%)

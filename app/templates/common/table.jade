@@ -1,0 +1,25 @@
+table.table
+  block tableResultsHeader
+    tr
+      th(colspan=3)
+        span(data-i18n="general.results")
+          | Results
+        span
+          |: #{documents.length}
+
+  block tableHeader
+    tr
+      th(data-i18n="general.name") Name
+      th(data-i18n="general.description") Description
+      th(data-i18n="general.version") Version
+
+  block tableBody
+    for document in documents
+      - var data = document.attributes;
+      tr(class=document.getOwner() == me.id ? 'mine' : '')
+        td(title=data.name).name-row
+          a(href="/editor/#{page}/#{data.slug || data._id}")
+            | #{data.name}
+        td(title=data.description).body-row
+          | #{data.description}
+        td #{data.version.major}.#{data.version.minor}

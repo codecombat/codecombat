@@ -1,36 +1,57 @@
-CocoView = require 'views/kinds/CocoView'
-template = require 'templates/test'
+RootView = require 'views/core/RootView'
+template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
+storage = require 'core/storage'
+
+require 'vendor/jasmine-bundle'
+require 'tests'
 
 TEST_REQUIRE_PREFIX = 'test/app/'
 TEST_URL_PREFIX = '/test/'
 
-module.exports = TestView = class TestView extends CocoView
+customMatchers = {
+  toDeepEqual: (util, customEqualityTesters) ->
+    return {
+      compare: (actual, expected) ->
+        pass = _.isEqual(actual, expected)
+        message = "Expected #{JSON.stringify(actual, null, '\t')} to DEEP EQUAL #{JSON.stringify(expected, null, '\t')}"
+        return { pass, message }
+    }
+}
+
+module.exports = TestView = class TestView extends RootView
   id: 'test-view'
   template: template
   reloadOnClose: true
+  className: 'style-flat'
+  
+  events:
+    'click #show-demos-btn': 'onClickShowDemosButton'
+    'click #hide-demos-btn': 'onClickHideDemosButton'
 
   # INITIALIZE
 
-  constructor: (options, @subPath='') ->
-    super(options)
+  initialize: (options, @subPath='') ->
     @subPath = @subPath[1..] if @subPath[0] is '/'
-    @loadTestingLibs()
+    @demosOn = storage.load('demos-on')
+    @failureReports = []
+    @loadedFileIDs = []
 
-  loadTestingLibs: ->
-    @queue = new createjs.LoadQueue()
-    @queue.on('complete', @scriptsLoaded, @)
-    for f in ['jasmine', 'jasmine-html', 'boot', 'mock-ajax', 'test-app']
-      @queue.loadFile({
-        src: "/javascripts/#{f}.js"
-        type: createjs.LoadQueue.JAVASCRIPT
-      })
-
-  scriptsLoaded: ->
+  afterInsert: ->
     @initSpecFiles()
     @render()
-    TestView.runTests(@specFiles)
+    TestView.runTests(@specFiles, @demosOn, @)
     window.runJasmine()
+    
+  # EVENTS
+
+  onClickShowDemosButton: ->
+    storage.save('demos-on', true)
+    document.location.reload()
+
+  onClickHideDemosButton: ->
+    storage.remove('demos-on')
+    document.location.reload()
 
   # RENDER DATA
 
@@ -48,26 +69,66 @@ module.exports = TestView = class TestView extends CocoView
     @specFiles = TestView.getAllSpecFiles()
     if @subPath
       prefix = TEST_REQUIRE_PREFIX + @subPath
-      @specFiles = (f for f in @specFiles when f.startsWith prefix)
+      @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
-  @runTests: (specFiles) ->
+  @runTests: (specFiles, demosOn=false, view) ->
+    
+    jasmine.getEnv().addReporter({
+      suiteStack: []
+      
+      specDone: (result) ->
+        if result.status is 'failed'
+          report = {
+            suiteDescriptions: _.clone(@suiteStack)
+            failMessages: (fe.message for fe in result.failedExpectations)
+            testDescription: result.description
+          }
+          view?.failureReports.push(report)
+          view?.renderSelectors('#failure-reports')
+        
+      suiteStarted: (result) ->
+        @suiteStack.push(result.description)
+
+      suiteDone: (result) ->
+        @suiteStack.pop()
+        
+    })
+    
+    application.testing = true
     specFiles ?= @getAllSpecFiles()
-    describe 'CodeCombat Client', =>
-      jasmine.Ajax.install()
-      beforeEach ->
-        jasmine.Ajax.requests.reset()
-        Backbone.Mediator.init()
-        Backbone.Mediator.setValidationEnabled false
-        # TODO Stubbify more things
-        #   * document.location
-        #   * firebase
-        #   * all the services that load in main.html
+    if demosOn
+      jasmine.demoEl = _.once ($el) ->
+        $('#demo-area').append($el)
+      jasmine.demoModal = _.once (modal) ->
+        currentView.openModalView(modal)
+    else
+      jasmine.demoEl = _.noop
+      jasmine.demoModal = _.noop
 
-      afterEach ->
-        # TODO Clean up more things
-        #   * Events
+    jasmine.Ajax.install()
+    beforeEach ->
+      me.clear()
+      me.markToRevert()
+      jasmine.Ajax.requests.reset()
+      Backbone.Mediator.init()
+      Backbone.Mediator.setValidationEnabled false
+      spyOn(application.tracker, 'trackEvent')
+      application.timeoutsToClear = []
+      jasmine.addMatchers(customMatchers)
+      @notySpy = spyOn(window, 'noty') # mainly to hide them
+      # TODO Stubbify more things
+      #   * document.location
+      #   * firebase
+      #   * all the services that load in main.html
 
-      require f for f in specFiles # runs the tests
+    afterEach ->
+      jasmine.Ajax.stubs.reset()
+      application.timeoutsToClear?.forEach (timeoutID) ->
+        clearTimeout(timeoutID)
+      # TODO Clean up more things
+      #   * Events
+
+    require f for f in specFiles # runs the tests
 
   @getAllSpecFiles = ->
     allFiles = window.require.list()

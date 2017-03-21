@@ -1,0 +1,26 @@
+// DNT
+extends /templates/base
+
+block content
+  #solution-problems-view
+    div
+      a(href='/artisans')
+        span.glyphicon.glyphicon-chevron-left
+        span Artisans Home
+    br
+    div Total number of problems: #{view.problemCount}
+    hr
+    table.table.table-striped#level-table
+      tr
+        th Level Name
+        th Solution Problems
+      for level in (view.parsedLevels || [])
+        if (level.problems || []).length != 0
+          tr
+            td(style="width:10%")= level.level.get('name')
+            td
+              table.table-striped.table-hover.problemsTable
+                for problem in (level.problems || [])
+                  tr(style="width:100%")
+                    td.problemValue= problem.value
+                    td.problemType= problem.type

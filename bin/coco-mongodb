@@ -71,18 +71,18 @@ def which(cmd, mode=os.F_OK | os.X_OK, path=None):
 
 
 current_directory = os.path.dirname(os.path.realpath(sys.argv[0]))
-allowedMongoVersions = ["v2.5.4","v2.5.5","v2.6.0"]
+allowedMongoVersions = ["v2.6", "v3.0", "v3.2"]
 if which("mongod") and any(i in subprocess.check_output("mongod --version",shell=True) for i in allowedMongoVersions):
     mongo_executable = "mongod"
 else:
     mongo_executable = None
-    print("Mongod 2.5.4 wasn't found. Searching in bin directory...")
+    print("Mongod 2.6.4 wasn't found. Searching in bin directory...")
 
 mongo_directory = current_directory + os.sep + u"mongo"
 if not mongo_executable:
     mongo_executable = os.environ.get("COCO_MONGOD_PATH",mongo_directory + os.sep + u"mongod")
     if not os.path.exists(mongo_executable):
-        raise EnvironmentError("Mongo 2.5.4 executable not found.")
+        raise EnvironmentError("Mongo 2.6.4 executable not found.")
     print("Using mongo executable: " + str(mongo_executable))
 mongo_db_path = os.path.abspath(os.path.join(current_directory,os.pardir)) + os.sep + u"mongo"
 if not os.path.exists(mongo_db_path):
@@ -92,4 +92,3 @@ mongo_arguments = [mongo_executable + u" --setParameter textSearchEnabled=true -
 if 'fork' in sys.argv: mongo_arguments[0] += " --fork --logpath ./mongodb.log"
 
 call(mongo_arguments,shell=True)
-

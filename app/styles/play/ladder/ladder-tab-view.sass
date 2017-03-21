@@ -1,0 +1,76 @@
+#ladder-tab-view
+  .ladder-table
+    .name-col-cell
+      max-width: 170px
+
+      &.ai
+        color: #3f44bf
+
+  .histogram-display
+    height: 130px
+
+    svg
+      overflow: visible
+    
+  .bar rect
+    fill: steelblue
+    shape-rendering: crispEdges
+    
+  .bar text
+    fill: #fff
+    
+  .specialbar rect
+    fill: #555555
+    
+    
+  .axis path, .axis line
+    fill: none
+    stroke: #555555
+    shape-rendering: crispEdges
+    
+  .humans-bar
+    fill: #bf3f3f
+    shape-rendering: crispEdges
+  .ogres-bar
+    fill: #3f44bf
+    shape-rendering: crispEdges
+  text
+    fill: #555555
+    
+  .rank-text
+    font-size: 15px
+    fill: #555555
+    
+  .humans-rank-text
+    fill: #bf3f3f
+    
+  .ogres-rank-text
+    fill: #3f44bf
+    
+  .load-more-ladder-entries
+    position: absolute
+    right: 15px
+    bottom: -5px
+
+  td
+    padding: 1px 2px
+
+  .code-language-cell, .hero-portrait-cell
+    padding: 0 10px
+    background: transparent url(/images/common/code_languages/javascript_icon.png) no-repeat center center
+    height: 16px
+    background-size: 16px 16px
+
+  .spectate-cell
+    cursor: pointer
+
+    &:not(.selected) .glyphicon
+      display: none
+      opacity: 0.75
+
+    &:hover .glyphicon
+      display: inline-block
+
+  .iconic-cell
+    text-align: center
+

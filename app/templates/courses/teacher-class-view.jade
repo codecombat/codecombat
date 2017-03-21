@@ -1,0 +1,498 @@
+extends /templates/base-flat
+
+block page_nav
+  include ./teacher-dashboard-nav.jade
+
+block content
+  - var classroom = view.classroom
+  if !me.isTeacher() && !me.isAdmin()
+    .alert.alert-danger.text-center
+      .container
+        // DNT: Temporary
+        h3 ATTENTION: Please upgrade your account to a Teacher Account.
+        p
+          | We are transitioning to a new improved classroom management system for instructors.
+          | Please convert your account to ensure you retain access to your classrooms.
+        a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
+
+  if classroom.loaded
+    .container
+      +breadcrumbs
+      div#classes-nag-subview
+      if classroom.get('archived')
+        .row.center-block.text-center.m-t-3.m-b-3
+          .unarchive-btn.btn.btn-lg.btn-navy
+            span(data-i18n='teacher.unarchive_this_class')
+
+      h3.m-t-2= classroom.get('name')
+      a.label.edit-classroom(data-classroom-id=classroom.id)
+        span(data-i18n='teacher.edit_class_settings')
+      h4= classroom.get('description')
+
+      .classroom-info-row.row.m-t-5
+        .classroom-details.col-md-3
+          - var stats = state.get('classStats')
+          h4.m-b-2(data-i18n='teacher.class_overview')
+
+          .language.small-details
+            span(data-i18n='teacher.language')
+            span.spr :
+            span= classroom.capitalLanguage
+
+          .student-count.small-details
+            span(data-i18n='courses.students')
+            span.spr :
+            span= classroom.get('members').length
+
+          .average-playtime.small-details
+            span(data-i18n='teacher.avg_playtime')
+            span.spr :
+            span= stats.averagePlaytime
+
+          .total-playtime.small-details
+            span(data-i18n='teacher.total_playtime')
+            span.spr :
+            span= stats.totalPlaytime
+
+          .average-complete.small-details
+            span(data-i18n='teacher.avg_completed')
+            span.spr :
+            span= stats.averageLevelsComplete
+
+          .total-complete.small-details
+            span(data-i18n='teacher.total_completed')
+            span.spr :
+            span= stats.totalLevelsComplete
+
+          .total-complete.small-details
+            span(data-i18n='teacher.created')
+            span.spr :
+            span= moment(classroom.created()).format('l')
+
+          if view.students && view.students.models.length > 0
+            button.export-student-progress-btn.btn.btn-lg.btn-primary
+              span(data-i18n='teacher.export_student_progress')
+
+          //- .concepts.small-details
+          //-   if state.get('progressData')
+          //-     div
+          //-       span(data-i18n='teacher.concepts_covered')
+          //-       span :
+          //-     - console.log('concepts', view.conceptData)
+          //-     - concepts = view.conceptData
+          //-     each state, name in view.conceptData[view.classroom.id]
+          //-       if state.get('started')
+          //-         b.concept(class=state.get('completed') ? 'forest' : 'gold')
+          //-           span(data-i18n='concepts.'+name)
+
+        .completeness-info.col-md-4
+          h4.m-b-2
+            &nbsp;
+          if state.get('earliestIncompleteLevel')
+            div.small-details
+              span(data-i18n='teacher.earliest_incomplete')
+              span :
+            +longLevelName(state.get('earliestIncompleteLevel'))
+            +inlineUserList(state.get('earliestIncompleteLevel').users)
+
+          if state.get('latestCompleteLevel')
+            div.small-details.m-t-3
+              span(data-i18n='teacher.latest_complete')
+              span :
+            +longLevelName(state.get('latestCompleteLevel'))
+            +inlineUserList(state.get('latestCompleteLevel').users)
+
+        .adding-students.col-md-5
+          h4.m-b-2
+            span(data-i18n='courses.add_students')
+            span :
+          +copyCodes
+          +addStudentsButton
+
+      if view.students.length > 0
+        ul.nav.nav-tabs.m-t-5(role='tablist')
+          - var activeTab = state.get('activeTab');
+          li(class=(activeTab === "#students-tab" ? 'active' : ''))
+            a.students-tab-btn(href='#students-tab')
+              .small-details.text-center(data-i18n='courses.students')
+          .tab-spacer
+          li(class=(activeTab === "#course-progress-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#course-progress-tab')
+              .small-details.text-center(data-i18n='teacher.course_progress')
+          .tab-spacer
+          li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
+            a.course-progress-tab-btn(href='#license-status-tab')
+              .small-details.text-center(data-i18n='teacher.license_status')
+          .tab-filler
+
+        .tab-content
+          if activeTab === '#students-tab'
+            +studentsTab
+          else if activeTab === '#course-progress-tab'
+            +courseProgressTab
+          else if activeTab === '#license-status-tab'
+            +enrollmentStatusTab
+
+      else
+        .text-center.m-t-5.m-b-5
+          .text-h2
+            span(data-i18n="teacher.no_students_yet")
+          .text-h4
+            span(data-i18n="teacher.try_refreshing")
+
+mixin breadcrumbs
+  .breadcrumbs
+    a(data-i18n='teacher.my_classes' href='/teachers/classes')
+    span.spl.spr >
+    //- TODO: Use .glyphicon-menu-right when we update bootstrap
+    span
+      = view.classroom.get('name')
+
+mixin longLevelName(data)
+  if data
+    div.level-name
+      span= data.courseName + ': '
+      span(data-i18n='play_level.level')
+      span.spl= data.levelNumber
+  else
+    div.level-name(data-i18n='teacher.not_applicable')
+
+mixin inlineUserList(users)
+  if users
+    ul.inline-student-list.small
+      each student in users
+        li
+          span.inline-student-name
+            = student.broadName()
+
+mixin addStudentsButton
+  .add-students
+    a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
+      span(data-i18n='teacher.add_students_manually')
+
+mixin studentsTab
+  #students-tab
+    +bulkAssignControls
+    table.students-table
+      thead
+        th.checkbox-col.select-all.small.text-center
+          span(data-i18n="teacher.select_all")
+          .checkbox-flat
+            - var allStudentsChecked = _.all(state.get('checkboxStates'))
+            input(type='checkbox', id='checkbox-all-students', checked=allStudentsChecked)
+            label.checkmark(for='checkbox-all-students')
+        th
+          +sortButtons
+      tbody
+        each student in state.get('students').models
+          +studentRow(student)
+
+mixin sortButtons
+  .sort-buttons.small
+    span(data-i18n='teacher.sort_by')
+    span.spr :
+    button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+    button.sort-button.sort-by-progress(data-i18n='teacher.progress', value='progress')
+
+mixin studentRow(student)
+  tr.student-row.alternating-background
+    td.checkbox-col.student-checkbox
+      .checkbox-flat
+        input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id, checked=state.get('checkboxStates')[student.id])
+        label.checkmark(for='checkbox-student-' + student.id)
+    td.student-info-col
+      .student-info
+        if student.get('deleted')
+          em (deleted)
+        - var url = '/teachers/classes/' + view.classroom.id + '/' + student.id;
+        a(href=url)
+          div.student-name= student.broadName()
+        div.student-email.small-details= student.get('email')
+    td.hidden
+      a.edit-student-button(data-student-id=student.id)
+        span.glyphicon.glyphicon-edit
+        span(data-i18n='teacher.edit')
+    td.latest-level-col.small
+      div
+        i
+          span(data-i18n='teacher.latest_completed')
+      div
+        +longLevelName(student.latestCompleteLevel)
+    td
+      if state.get('progressData')
+        - var courses = view.sortedCourses.map(function(c) { return view.courses.get(c._id); });
+        - var courseLabelsArray = view.helper.courseLabelsArray(courses);
+        each trimCourse, index in view.sortedCourses
+          - var course = view.courses.get(trimCourse._id);
+          - var instance = view.courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
+          if instance && instance.hasMember(student)
+            - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
+            - var levelsTotal = _.reject(trimCourse.levels, 'practice').length
+            - var label = courseLabelsArray[index];
+            +studentCourseProgressDot(progress, levelsTotal, label)
+    td
+      .pull-right
+        a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+          div.glyphicon.glyphicon-edit
+          div(data-i18n='teacher.edit')
+        a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+          div.glyphicon.glyphicon-remove
+          div(data-i18n='teacher.remove')
+
+mixin courseProgressTab
+  #course-progress-tab.m-t-3
+    if view.courses
+      .text-center
+        span(data-i18n='teacher.select_course')
+        span.spr :
+        select.course-select
+          each course in view.latestReleasedCourses
+            option(value=course.id selected=(course===state.get('selectedCourse')))
+              = i18n(course.attributes, 'name')
+              if !view.availableCourseMap[course.id]
+                = " " + translate('teacher.paren_new')
+
+    h4.m-b-2(data-i18n="teacher.progress_color_key")
+    #progress-color-key-row.row
+      .col.col-md-2.col-xs-4
+        .progress-dot.forest
+        .key-text
+          span.small(data-i18n="play_level.level_complete")
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot.gold
+        .key-text
+          span.small(data-i18n="teacher.level_in_progress")
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot.navy
+        .key-text
+          span.small(data-i18n="teacher.project_or_arena")
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot
+        .key-text
+          span.small(data-i18n="teacher.level_not_started")
+        .clearfix
+    - var course = state.get('selectedCourse');
+    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
+      .render-on-course-sync
+        +courseOverview(course)
+        .student-levels-table
+          +sortButtons
+          each student in state.get('students').models
+            if _.contains(state.get('selectedCourse').members, student.id)
+              +studentLevelsRow(student)
+    else
+      br
+      h2.text-center
+        i(data-i18n='teacher.no_student_assigned')
+    .unassigned-students.render-on-course-sync
+      if state.get('selectedCourse') && state.get('selectedCourse').members.length < state.get('students').length
+        h2
+          - var courseName = i18n(state.get('selectedCourse').attributes, 'name');
+          span= translate('teacher.students_not_assigned').replace('{{courseName}}', courseName)
+        for student in state.get('students').models
+          unless _.contains(state.get('selectedCourse').members, student.id)
+            .row.unassigned-student-row.alternating-background
+              .student-name.col-sm-3
+                = student.broadName()
+              .student-email.small-details.col-sm-3
+                = student.get('email')
+              .col-sm-4
+                .latest-completed.truncate.small
+                  i.m-r-1
+                    span(data-i18n='teacher.latest_completed')
+                  +longLevelName(student.latestCompleteLevel)
+              .col-sm-2
+                .assign-student-button.btn.btn-md.btn-navy.pull-right(data-user-id=student.id data-course-id=state.get('selectedCourse').id)
+                  span(data-i18n='teacher.assign_course')
+
+mixin courseOverview(course)
+  - var levels = view.classroom.getLevels({courseID: course.id}).models
+  .course-overview-row
+    .course-title.student-name
+      span= i18n(course.attributes, 'name')
+      span= ': '
+      span(data-i18n='teacher.course_overview')
+    .course-overview-progress
+      each level, index in levels
+        - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
+        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+        +allStudentsLevelProgressDot(progress, level, levelNumber)
+
+mixin studentLevelsRow(student)
+  .student-levels-row.alternating-background
+    div.student-info
+      div.student-name= student.broadName()
+      div.student-email.small-details= student.get('email')
+    div.student-levels-progress
+      - var course = state.get('selectedCourse')
+      - var levels = view.classroom.getLevels({courseID: course.id}).models
+      each level, index in levels
+        - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+        +studentLevelProgressDot(progress, level, levelNumber)
+
+
+mixin studentCourseProgressDot(progress, levelsTotal, label)
+  //- TODO: Refactor with TeacherClassesView jade
+  //- TODO: Give classes abbreviations instead of using index?
+  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
+  - _.assign(progress, { levelsTotal: levelsTotal })
+  .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+    +progressDotLabel(label)
+
+mixin allStudentsLevelProgressDot(progress, level, levelNumber)
+  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
+  - levelName = i18n(level.attributes, 'name')
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
+  - link = null;
+  - labelText = levelNumber;
+  if level.isLadder()
+    - var course = view.state.get('selectedCourse');
+    - var courseInstance = course && view.classroom ? view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id }) : null;
+    if courseInstance
+      - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
+      - labelText = translate('teacher.view_arena_ladder');
+    else
+      - labelText = translate('courses.arena');
+    - dotClass = 'navy progress-dot-lg';
+  else if level.isProject()
+    - labelText = translate('teacher.project')
+    - dotClass += ' progress-dot-lg';
+  else if level.get('practice')
+    if !(progress.completed || progress.started)
+      - labelText = ''
+      - dotClass += ' practice'
+
+  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
+    if link
+      a(href=link)
+        +progressDotLabel(labelText)
+    else
+      +progressDotLabel(labelText)
+
+
+mixin studentLevelProgressDot(progress, level, levelNumber)
+  //- TODO: Refactor with TeacherClassesView jade
+  - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
+  - levelName = i18n(level.attributes, 'name')
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice') })
+  - link = null;
+  - labelText = levelNumber;
+  if level.isLadder()
+    - var course = view.state.get('selectedCourse');
+    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    if courseInstance
+      - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
+      - labelText = translate('courses.arena');
+    else
+      - labelText = translate('courses.arena');
+    - dotClass += ' progress-dot-lg';
+  else if level.isProject()
+    if progress.started
+      - link = view.urls.playDevLevel({level: level, session: progress.session, course: view.state.get('selectedCourse')});
+      - labelText = translate('teacher.view_student_project');
+      - dotClass = 'navy';
+    else
+      - labelText = translate('teacher.project');
+    - dotClass += ' progress-dot-lg';
+  else if level.get('practice')
+    if !(progress.completed || progress.started)
+      - labelText = ''
+      - dotClass += ' practice'
+  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
+    if link
+      a(href=link)
+        +progressDotLabel(labelText)
+    else
+      +progressDotLabel(labelText)
+
+mixin progressDotLabel(label)
+  .dot-label.text-center
+    .dot-label-inner
+      = label
+
+mixin copyCodes
+  div.copy-button-group.form-inline.m-b-3
+    .form-group
+      input.text-h4.semibold#join-code-input(value=state.get('classCode'))
+    button#copy-code-btn.form-control.btn.btn-lg.btn-forest
+      span(data-i18n='teacher.copy_class_code')
+    div.text-center.small.class-code-blurb(data-i18n='teacher.class_code_blurb')
+
+  div.copy-button-group.form-inline.m-b-3
+    .form-group
+      input.form-control.text-h4.semibold#join-url-input(value=state.get('joinURL'))
+    button#copy-url-btn.form-control.btn.btn-lg.btn-forest
+      span(data-i18n='teacher.copy_class_url')
+    div.text-center.small.class-code-blurb(data-i18n='teacher.class_join_url_blurb')
+
+mixin bulkAssignControls
+  .bulk-assign-controls.form-inline
+    .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
+      span(data-i18n='teacher.no_students_selected')
+    span.small
+      span(data-i18n='teacher.bulk_assign')
+      span :
+    select.bulk-course-select.form-control
+      each course in _.rest(view.latestReleasedCourses)
+        option(value=course.id selected=(course===state.get('selectedCourse')))
+          = i18n(course.attributes, 'name')
+          if !view.availableCourseMap[course.id]
+            = " " + translate('teacher.paren_new')
+    button.btn.btn-primary-alt.assign-to-selected-students
+      span(data-i18n='teacher.assign_to_selected_students')
+
+mixin enrollmentStatusTab
+  // TODO: Have search input in all tabs
+
+  //form.form-inline.text-center.m-t-3
+  //  #search-form-group.form-group
+  //    label(for="student-search") Search for student:
+  //    input#student-search.form-control.m-l-1(type="search")
+  //    span.glyphicon.glyphicon-search.form-control-feedback
+
+  table.table#license-status-table.table-condensed.m-t-3
+    thead
+      // Checkbox code works, but don't need it yet.
+      //th.checkbox-col.select-all
+        .checkbox-flat
+          input(type='checkbox' id='checkbox-all-students')
+          label.checkmark(for='checkbox-all-students')
+      th
+        .sort-buttons.small
+          span(data-i18n='teacher.sort_by')
+          span.spr :
+          button.sort-button.sort-by-name(data-i18n='general.name', value='name')
+          button.sort-button.sort-by-status(data-i18n='user.status', value='status')
+    tbody
+      - var searchTerm = view.state.get('searchTerm');
+      each student in state.get('students').search(searchTerm)
+        - var status = student.prepaidStatus()
+        tr.student-row.alternating-background
+          //td.checkbox-col.student-checkbox
+            .checkbox-flat
+              input(type='checkbox' id='checkbox-student-' + student.id, data-student-id=student.id)
+              label.checkmark(for='checkbox-student-' + student.id)
+          td.student-info-col
+            .student-info
+              div.student-name= student.broadName()
+              div.student-email.small-details= student.get('email')
+          td.status-col
+            span(data-i18n='user.status')
+            span.spr :
+            strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
+          td.enroll-col
+            if status !== 'enrolled'
+              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+            else
+              if student.prepaidType() === 'course'
+                span(data-i18n="teacher.full_license")
+              else if student.prepaidType() === 'starter_license'
+                span(data-i18n="teacher.starter_license")
+          td.revoke-col
+            if status === 'enrolled' && student.prepaidType() === 'course'
+              button.revoke-student-button.btn.btn-burgandy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)

@@ -1,0 +1,26 @@
+[
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/tokens",
+        "status": 200,
+        "response": {
+            "id": "tok_17IOHcKaReE7xLUdfKtGmLgV",
+            "card": {
+                "id": "card_17IOHcKaReE7xLUdAusILb3u"
+            },
+            "type": "card"
+        }
+    },
+    {
+        "scope": "https://api.stripe.com:443",
+        "method": "POST",
+        "path": "/v1/customers",
+        "status": 402,
+        "response": {
+            "error": {
+                "type": "card_error"
+            }
+        }
+    }
+]

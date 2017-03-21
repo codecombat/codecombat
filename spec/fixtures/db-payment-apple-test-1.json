@@ -1,0 +1,24 @@
+[
+    {
+        "scope": "https://sandbox.itunes.apple.com:443",
+        "method": "POST",
+        "path": "/verifyReceipt",
+        "status": 200,
+        "response": {
+            "receipt": {
+                "in_app": [
+                    {
+                        "quantity": "1",
+                        "product_id": "gems_5",
+                        "transaction_id": "1000000131274439"
+                    },
+                    {
+                        "quantity": "1",
+                        "product_id": "gems_10",
+                        "transaction_id": "1000000131283608"
+                    }
+                ]
+            }
+        }
+    }
+]

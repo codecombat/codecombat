@@ -7,7 +7,7 @@ class Rand
     @multiplier = 1664525
     @modulo = 4294967296 # 2**32-1
     @offset = 1013904223
-    unless @seed? and 0 <= seed < @modulo
+    unless @seed? and 0 <= @seed < @modulo
       @seed = (new Date().valueOf() * new Date().getMilliseconds()) % @modulo
 
   # sets new seed value, even handling negative numbers
@@ -30,5 +30,27 @@ class Rand
   # return a random int min <= f < max
   rand2: (min, max) =>
     min + @rand max - min
+
+  # return a random float min <= f < max
+  randf2: (min, max) =>
+    min + @randf() * (max - min)
+
+  # return a random float within range around x
+  randfRange: (x, range) =>
+    x + (-0.5 + @randf()) * range
+
+  # shuffle array in place, and also return it
+  shuffle: (arr) =>
+    return arr unless arr.length > 2
+    for i in [arr.length-1 .. 1]
+      j = Math.floor @randf() * (i + 1)
+      t = arr[j]
+      arr[j] = arr[i]
+      arr[i] = t
+    arr
+  
+  choice: (arr) =>
+    return arr[@rand arr.length]
+
 
 module.exports = Rand

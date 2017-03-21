@@ -1,0 +1,36 @@
+#campaign-editor-view
+  #left-column
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    width: 25%
+    margin-right: 1200px
+    
+    .treema-root
+      max-height: 100%
+      overflow: scroll
+
+      .completion
+        position: absolute
+        right: 0
+    
+  #right-column
+    position: absolute
+    top: 0
+    bottom: 0
+    right: 0
+    width: 75%
+
+    #campaign-view .map
+      .level:not(:hover)
+        .banner[src="/images/pages/play/level-banner-unstarted.png"]
+          display: none
+        .banner[src="/images/pages/play/level-banner-unstarted-subscriber.png"]
+          display: none
+
+  .patches-view
+    position: absolute
+    left: 20px
+    top: 20px
+    z-index: 30

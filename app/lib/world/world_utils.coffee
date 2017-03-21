@@ -72,8 +72,13 @@ module.exports.downTheChain = downTheChain = (obj, keyChain, newValue=undefined)
 module.exports.now = (if window?.performance?.now? then (-> window.performance.now()) else (-> new Date()))
 
 module.exports.consolidateThangs = consolidateThangs = (thangs) ->
+  # We can gain a performance increase by consolidating all regular walls into a minimal covering, non-intersecting set a la Gridmancer.
   debug = false
-  isStructural = (t) -> t.stateless and t.collides and t.collisionCategory is 'obstacles' and t.shape in ['box', 'sheet'] and t.restitution is 1.5 and (t.pos.x - t.width / 2 >= 0) and (t.pos.y - t.height / 2 >= 0)
+  isStructural = (t) ->
+    t.stateless and t.collides and t.collisionCategory is 'obstacles' and t.shape in ['box', 'sheet'] and  # Can only do wall-like obstacle Thangs.
+    t.spriteName isnt 'Ice Wall' and t.restitution is 1.0 and  # Fixed restitution value on 2016-03-15, but it causes discrepancies, so disabled for Kelvintaph levels.
+    /Wall/.test(t.spriteName) and  # Not useful to do Thangs that aren't actually walls because they're usually not on a grid
+    (t.pos.x - t.width / 2 >= 0) and (t.pos.y - t.height / 2 >= 0)  # Grid doesn't handle negative numbers, so don't coalesce walls below/left of 0, 0.
   structural = _.remove thangs, isStructural
   return unless structural.length
   rightmost = _.max structural, (t) -> t.pos.x + t.width / 2
@@ -92,60 +97,60 @@ module.exports.consolidateThangs = consolidateThangs = (thangs) ->
   padding = 0
   console.log 'got max width', width, 'height', height, 'left', left, 'bottom', bottom, 'of thangs', thangs.length, 'structural', structural.length if debug
   grid = new Grid structural, width, height, padding, left, bottom
-  console.log grid.toString() if debug
 
-  # Approach: start at bottom left. Go right, then up. At each occupied grid square, find the largest rectangle we can make starting at that corner, add a corresponding Thang to the grid, and unmark all occupied grid squares.
-  # Since it's not like we're going to do any of these:
-  # http://stackoverflow.com/questions/5919298/algorithm-for-finding-the-fewest-rectangles-to-cover-a-set-of-rectangles
-  # http://stackoverflow.com/questions/4701887/find-the-set-of-largest-contiguous-rectangles-to-cover-multiple-areas
   dissection = []
-  for y in grid.columns bottom, height
-    for x in grid.rows left, width
-      continue unless grid.grid[y][x].length
-      rect = largestRectangle grid, y, x, false, debug
-      vertices = rect.vertices()
-      for y2 in [vertices[0].y ... vertices[1].y]  # maybe ..?
-        for x2 in [vertices[0].x ... vertices[2].x]  # maybe ..?
-          grid.grid[y2][x2] = []
-      console.log grid.toString() if debug
-      thang = structural[dissection.length]  # grab one we already know is configured properly
-      console.error 'Hmm, our dissection has more Thangs than the original structural Thangs?', dissection.length unless thang
-      thang.width = rect.width
-      thang.height = rect.height
-      thang.pos.x = rect.x
-      thang.pos.y = rect.y
-      thang.createBodyDef()
-      dissection.push thang
+  addStructuralThang = (rect) ->
+    thang = structural[dissection.length]  # Grab one we already know is configured properly.
+    console.error 'Hmm, our dissection has more Thangs than the original structural Thangs?', dissection.length unless thang
+    thang.pos.x = rect.x
+    thang.pos.y = rect.y
+    thang.width = rect.width
+    thang.height = rect.height
+    thang.destroyBody()
+    thang.createBodyDef()
+    thang.createBody()
+    dissection.push thang
+
+  dissectRectangles grid, addStructuralThang, false, debug
+
+  # Now add the new structural thangs back to thangs and return the ones not in the dissection.
   console.log 'Turned', structural.length, 'structural Thangs into', dissection.length, 'dissecting Thangs.'
   thangs.push dissection...
   structural[dissection.length ... structural.length]
 
-module.exports.largestRectangle = largestRectangle = (grid, bottomY, leftX, wantEmpty, debug) ->
-  # If wantEmpty, then we try to cover empty rectangles.
-  # Otherwise, we try to cover occupied rectangles.
-  coveredRows = []
-  shortestCoveredRow = grid.width - leftX
-  for y in grid.columns bottomY, grid.height
-    coveredRow = 0
-    for x in grid.rows leftX, leftX + shortestCoveredRow
-      if Boolean(grid.grid[y][x].length) isnt wantEmpty
-        ++coveredRow
-      else
-        break
-    break unless coveredRow
-    coveredRows.push coveredRow
-    shortestCoveredRow = Math.min(shortestCoveredRow, coveredRow)
-  console.log 'largestRectangle() for', bottomY, leftX, 'got coveredRows', coveredRows if debug
-  [maxArea, maxAreaRows, maxAreaRowLength, shortestRow] = [0, 0, 0, 0]
-  for rowLength, rowIndex in coveredRows
-    shortestRow ||= rowLength
-    area = rowLength * (rowIndex + 1)
-    if area > maxArea
-      maxAreaRows = rowIndex + 1
-      maxAreaRowLength = shortestRow
-      maxArea = area
-    shortestRow = Math.min(rowLength, shortestRow)
-  console.log 'So largest rect has area', maxArea, 'with', maxAreaRows, 'rows of length', maxAreaRowLength if debug
-  rect = new Rectangle leftX + maxAreaRowLength / 2, bottomY + maxAreaRows / 2, maxAreaRowLength, maxAreaRows
-  console.log 'That corresponds to a rectangle', rect.toString() if debug
-  rect
+
+module.exports.dissectRectangles = dissectRectangles = (grid, rectangleCallback, wantEmpty, debug) ->
+  # Mark Maxham's fast sweeper approach: https://github.com/codecombat/codecombat/issues/1090
+  console.log grid.toString() if debug
+  for x in grid.rows grid.left, grid.left + grid.width
+    y = grid.clampColumn grid.bottom
+    while y < grid.clampColumn grid.bottom + grid.height
+      y2 = y  # Note our current y.
+      ++y2 until occ x, y2, grid, wantEmpty  # Sweep through y to expand 1xN rect.
+      if y2 > y  # If we get a hit, sweep X with that swath.
+        x2 = x + 1
+        ++x2 until occCol x2, y, y2, grid, wantEmpty
+        w = x2 - x
+        h = y2 - y
+        rect = addRect grid, x, y, w, h, wantEmpty
+        rectangleCallback rect
+        console.log grid.toString() if debug
+        y = y2
+      ++y
+
+occ = (x, y, grid, wantEmpty) ->
+  return true if y > grid.bottom + grid.height or x > grid.left + grid.width
+  console.error 'trying to check invalid coordinates', x, y, 'from grid', grid.bottom, grid.left, grid.width, grid.height unless grid.grid[y]?[x]
+  Boolean(grid.grid[y][x].length) is wantEmpty
+
+occCol = (x, y1, y2, grid, wantEmpty) ->
+  for j in [y1 ... y2]
+    if occ(x, j, grid, wantEmpty)
+      return true
+  false
+
+addRect = (grid, leftX, bottomY, width, height, wantEmpty) ->
+  for x in [leftX ... leftX + width]
+    for y in [bottomY ... bottomY + height]
+      grid.grid[y][x] = if wantEmpty then [true] else []
+  new Rectangle leftX + width / 2, bottomY + height / 2, width, height

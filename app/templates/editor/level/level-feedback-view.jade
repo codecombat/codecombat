@@ -1,0 +1,17 @@
+h2 Average Rating: #{averageRating.toFixed(2)}, #{totalRatings} ratings
+ul.user-feedback-list.list-group
+  for feedback in allFeedback
+    li.list-group-item
+      each i in Array(feedback.rating)
+        .glyphicon.glyphicon-star
+      if feedback.rating < 5
+        each i in Array(5 - feedback.rating)
+          .glyphicon.glyphicon-star-empty
+      span.spl.spr -
+      em= moment(new Date(feedback.created)).fromNow()
+      span.spl.spr -
+      a(href="/user/#{feedback.creator}")
+        strong= feedback.creatorName || 'Anonymous'
+      if feedback.review
+        span.spr :
+        span= feedback.review

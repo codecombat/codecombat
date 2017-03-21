@@ -1,9 +1,9 @@
-{hexToHSL, hslToHex} = require 'lib/utils'
+{hexToHSL, hslToHex} = require 'core/utils'
 
 module.exports = class SpriteBuilder
   constructor: (@thangType, @options) ->
     @options ?= {}
-    raw = @thangType.get('raw')
+    raw = @thangType.get('raw') or {}
     @shapeStore = raw.shapes
     @containerStore = raw.containers
     @animationStore = raw.animations
@@ -11,7 +11,7 @@ module.exports = class SpriteBuilder
 
   setOptions: (@options) ->
 
-  buildMovieClip: (animationName, movieClipArgs...) ->
+  buildMovieClip: (animationName, mode, startPosition, loops, labels) ->
     animData = @animationStore[animationName]
     unless animData
       console.error 'couldn\'t find animData from', @animationStore, 'for', animationName
@@ -22,21 +22,23 @@ module.exports = class SpriteBuilder
     _.extend locals, @buildMovieClipAnimations(animData.animations)
     _.extend locals, @buildMovieClipGraphics(animData.graphics)
     anim = new createjs.MovieClip()
-    movieClipArgs ?= []
-    labels = {}
-    labels[animationName] = 0
-    anim.initialize(
-      movieClipArgs[0] ? createjs.MovieClip.INDEPENDENT, # mode
-      movieClipArgs[1] ? 0, # start position
-      movieClipArgs[2] ? true, # loops
-      labels)
+    if not labels
+      labels = {}
+      labels[animationName] = 0
+    anim.initialize(mode ? createjs.MovieClip.INDEPENDENT, startPosition ? 0, loops ? true, labels)
     for tweenData in animData.tweens
       tween = createjs.Tween
+      stopped = false
       for func in tweenData
         args = _.cloneDeep(func.a)
         @dereferenceArgs(args, locals)
-        tween = tween[func.n](args...)
-      anim.timeline.addTween(tween)
+        if tween[func.n]
+          tween = tween[func.n](args...)
+        else
+          # If we, say, skipped a shadow get(), then the wait() may not be present
+          stopped = true
+          break
+      anim.timeline.addTween(tween) unless stopped
 
     anim.nominalBounds = new createjs.Rectangle(animData.bounds...)
     if animData.frameBounds
@@ -81,7 +83,7 @@ module.exports = class SpriteBuilder
   buildMovieClipAnimations: (localAnimations) ->
     map = {}
     for localAnimation in localAnimations
-      animation = @buildMovieClip(localAnimation.gn, localAnimation.a)
+      animation = @buildMovieClip(localAnimation.gn, localAnimation.a...)
       animation.setTransform(localAnimation.t...)
       map[localAnimation.bn] = animation
     map
@@ -100,6 +102,8 @@ module.exports = class SpriteBuilder
       shape.graphics.lf shapeData.lf...
     else if shapeData.fc?
       shape.graphics.f @colorMap[shapeKey] or shapeData.fc
+    else if shapeData.rf?
+      shape.graphics.rf shapeData.rf...
     if shapeData.ls?
       shape.graphics.ls shapeData.ls...
     else if shapeData.sc?
@@ -111,7 +115,7 @@ module.exports = class SpriteBuilder
     shape
 
   buildContainerFromStore: (containerKey) ->
-    console.error 'Yo we don\'t have no', containerKey unless containerKey
+    console.error 'Yo we don\'t have no containerKey' unless containerKey
     contData = @containerStore[containerKey]
     cont = new createjs.Container()
     cont.initialize()
@@ -119,6 +123,7 @@ module.exports = class SpriteBuilder
       if _.isString(childData)
         child = @buildShapeFromStore(childData)
       else
+        continue if not childData.gn
         child = @buildContainerFromStore(childData.gn)
         child.setTransform(childData.t...)
       cont.addChild(child)
@@ -129,6 +134,7 @@ module.exports = class SpriteBuilder
     @colorMap = {}
     colorGroups = @thangType.get('colorGroups')
     return if _.isEmpty colorGroups
+    return unless _.size @shapeStore  # We don't have the shapes loaded because we are doing a prerendered spritesheet approach
     colorConfig = @options.colorConfig
 #    colorConfig ?= {team: {hue:0.4, saturation: -0.5, lightness: -0.5}} # test config
     return if not colorConfig

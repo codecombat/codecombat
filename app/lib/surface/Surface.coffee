@@ -1,38 +1,42 @@
-CocoClass = require 'lib/CocoClass'
-path = require './path'
+CocoClass = require 'core/CocoClass'
+TrailMaster = require './TrailMaster'
 Dropper = require './Dropper'
 AudioPlayer = require 'lib/AudioPlayer'
-{me} = require 'lib/auth'
+{me} = require 'core/auth'
 Camera = require './Camera'
 CameraBorder = require './CameraBorder'
-Layer = require './Layer'
+Layer = require('./LayerAdapter')
 Letterbox = require './Letterbox'
 Dimmer = require './Dimmer'
-CastingScreen = require './CastingScreen'
+CountdownScreen = require './CountdownScreen'
 PlaybackOverScreen = require './PlaybackOverScreen'
 DebugDisplay = require './DebugDisplay'
 CoordinateDisplay = require './CoordinateDisplay'
-SpriteBoss = require './SpriteBoss'
+CoordinateGrid = require './CoordinateGrid'
+LankBoss = require './LankBoss'
 PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
+GameUIState = require 'models/GameUIState'
+
+resizeDelay = 500  # At least as much as $level-resize-transition-time.
 
 module.exports = Surface = class Surface extends CocoClass
   stage: null
 
-  layers: null
+  normalLayers: null
   surfaceLayer: null
   surfaceTextLayer: null
   screenLayer: null
-  gridLayer: null  # TODO: maybe
+  gridLayer: null
 
-  spriteBoss: null
+  lankBoss: null
 
   debugDisplay: null
   currentFrame: 0
   lastFrame: null
   totalFramesDrawn: 0
-  playing: true  # play vs. pause
+  playing: false  # play vs. pause -- match default button state in playback.jade
   dead: false  # if we kill it for some reason
   imagesLoaded: false
   worldLoaded: false
@@ -40,92 +44,666 @@ module.exports = Surface = class Surface extends CocoClass
   debug: false
 
   defaults:
-    wizards: true
     paths: true
     grid: false
     navigateToSelection: true
     choosing: false # 'point', 'region', 'ratio-region'
-    coords: true
-    playJingle: false
+    coords: null  # use world defaults, or set to false/true to override
     showInvisible: false
     frameRate: 30  # Best as a divisor of 60, like 15, 30, 60, with RAF_SYNCHED timing.
+    levelType: 'hero'
 
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
-    'level-set-playing': 'onSetPlaying'
-    'level-set-debug': 'onSetDebug'
-    'level-toggle-debug': 'onToggleDebug'
-    'level-set-grid': 'onSetGrid'
-    'level-toggle-grid': 'onToggleGrid'
-    'level-toggle-pathfinding': 'onTogglePathFinding'
-    'level-set-time': 'onSetTime'
-    'level-set-surface-camera': 'onSetCamera'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'level:set-playing': 'onSetPlaying'
+    'level:set-debug': 'onSetDebug'
+    'level:toggle-debug': 'onToggleDebug'
+    'level:toggle-pathfinding': 'onTogglePathFinding'
+    'level:set-time': 'onSetTime'
+    'camera:set-camera': 'onSetCamera'
     'level:restarted': 'onLevelRestarted'
     'god:new-world-created': 'onNewWorld'
+    'god:streaming-world-updated': 'onNewWorld'
     'tome:cast-spells': 'onCastSpells'
-    'level-set-letterbox': 'onSetLetterbox'
+    'level:set-letterbox': 'onSetLetterbox'
     'application:idle-changed': 'onIdleChanged'
     'camera:zoom-updated': 'onZoomUpdated'
+    'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
+    'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'level:flag-color-selected': 'onFlagColorSelected'
+    'tome:manual-cast': 'onManualCast'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
-    'ctrl+g, ⌘+g': 'onToggleGrid'
     'ctrl+o, ⌘+o': 'onTogglePathFinding'
 
-  # external functions
 
-  constructor: (@world, @canvas, givenOptions) ->
+
+  #- Initialization
+
+  constructor: (@world, @normalCanvas, @webGLCanvas, givenOptions) ->
     super()
-    @layers = []
+    $(window).on('keydown', @onKeyEvent)
+    $(window).on('keyup', @onKeyEvent)
+    @normalLayers = []
     @options = _.clone(@defaults)
     @options = _.extend(@options, givenOptions) if givenOptions
+    @handleEvents = @options.handleEvents ? true
+    @gameUIState = @options.gameUIState or new GameUIState({
+      canDragCamera: true
+    })
+    @realTimeInputEvents = @gameUIState.get('realTimeInputEvents')
+    @listenTo(@gameUIState, 'sprite:mouse-down', @onSpriteMouseDown)
+    @onResize = _.debounce @onResize, resizeDelay
     @initEasel()
     @initAudio()
-    @onResize = _.debounce @onResize, 500
     $(window).on 'resize', @onResize
     if @world.ended
       _.defer => @setWorld @world
 
-  destroy: ->
-    @dead = true
-    @camera?.destroy()
-    createjs.Ticker.removeEventListener('tick', @tick)
-    createjs.Sound.stop()
-    layer.destroy() for layer in @layers
-    @spriteBoss.destroy()
-    @chooser?.destroy()
-    @dimmer?.destroy()
-    @castingScreen?.destroy()
-    @playbackOverScreen?.destroy()
-    @stage.clear()
-    @musicPlayer?.destroy()
-    @stage.removeAllChildren()
-    @stage.removeEventListener 'stagemousemove', @onMouseMove
-    @stage.removeEventListener 'stagemousedown', @onMouseDown
-    @stage.removeEventListener 'stagemouseup', @onMouseUp
-    @stage.removeAllEventListeners()
-    @stage.enableDOMEvents false
-    @stage.enableMouseOver 0
-    @canvas.off 'mousewheel', @onMouseWheel
-    $(window).off 'resize', @onResize
-    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
-    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
-    super()
+  initEasel: ->
+    @normalStage = new createjs.Stage(@normalCanvas[0])
+    @webGLStage = new createjs.SpriteStage(@webGLCanvas[0])
+    @normalStage.nextStage = @webGLStage
+    @camera = new Camera(@webGLCanvas, { @gameUIState, @handleEvents })
+    AudioPlayer.camera = @camera unless @options.choosing
+
+    @normalLayers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
+    @normalLayers.push @gridLayer = new Layer name: 'Grid', layerPriority: 2, transform: Layer.TRANSFORM_SURFACE, camera: @camera
+    @normalLayers.push @screenLayer = new Layer name: 'Screen', layerPriority: 3, transform: Layer.TRANSFORM_SCREEN, camera: @camera
+#    @normalLayers.push @cameraBorderLayer = new Layer name: 'Camera Border', layerPriority: 4, transform: Layer.TRANSFORM_SURFACE, camera: @camera
+#    @cameraBorderLayer.addChild @cameraBorder = new CameraBorder(bounds: @camera.bounds)
+    @normalStage.addChild (layer.container for layer in @normalLayers)...
+
+    canvasWidth = parseInt @normalCanvas.attr('width'), 10
+    canvasHeight = parseInt @normalCanvas.attr('height'), 10
+    @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
+
+    @lankBoss = new LankBoss({
+      @camera
+      @webGLStage
+      @surfaceTextLayer
+      @world
+      thangTypes: @options.thangTypes
+      choosing: @options.choosing
+      navigateToSelection: @options.navigateToSelection
+      showInvisible: @options.showInvisible
+      playerNames: if @options.levelType is 'course-ladder' then @options.playerNames else null
+      @gameUIState
+      @handleEvents
+    })
+    @countdownScreen = new CountdownScreen camera: @camera, layer: @screenLayer, showsCountdown: @world.showsCountdown
+    unless @options.levelType is 'game-dev'
+      @playbackOverScreen = new PlaybackOverScreen camera: @camera, layer: @screenLayer, playerNames: @options.playerNames
+      @normalStage.addChildAt @playbackOverScreen.dimLayer, 0  # Put this below the other layers, actually, so we can more easily read text on the screen.
+    @initCoordinates()
+    @webGLStage.enableMouseOver(10)
+    @webGLStage.addEventListener 'stagemousemove', @onMouseMove
+    @webGLStage.addEventListener 'stagemousedown', @onMouseDown
+    @webGLStage.addEventListener 'stagemouseup', @onMouseUp
+    @webGLCanvas.on 'mousewheel', @onMouseWheel
+    @hookUpChooseControls() if @options.choosing # TODO: figure this stuff out
+    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
+    createjs.Ticker.setFPS @options.frameRate
+    @onResize()
+
+  initCoordinates: ->
+    @coordinateGrid ?= new CoordinateGrid {camera: @camera, layer: @gridLayer, textLayer: @surfaceTextLayer}, @world.size()
+    @coordinateGrid.showGrid() if @world.showGrid or @options.grid
+    showCoordinates = if @options.coords? then @options.coords else @world.showCoordinates
+    @coordinateDisplay ?= new CoordinateDisplay camera: @camera, layer: @surfaceTextLayer if showCoordinates
+
+  hookUpChooseControls: ->
+    chooserOptions = stage: @webGLStage, surfaceLayer: @surfaceTextLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
+    klass = if @options.choosing is 'point' then PointChooser else RegionChooser
+    @chooser = new klass chooserOptions
+
+  initAudio: ->
+    @musicPlayer = new MusicPlayer()
+
+
+
+  #- Setting the world
 
   setWorld: (@world) ->
     @worldLoaded = true
-    @world.getFrame(Math.min(@getCurrentFrame(), @world.totalFrames - 1)).restoreState() unless @options.choosing
-    @spriteBoss.world = @world
-
+    @lankBoss.world = @world
+    @restoreWorldState() unless @options.choosing
     @showLevel()
     @updateState true if @loaded
-    # TODO: synchronize both ways of choosing whether to show coords (@world via UI System or @options via World Select modal)
-    if @world.showCoordinates and @options.coords
-      @coordinateDisplay = new CoordinateDisplay camera: @camera
-      @surfaceTextLayer.addChild @coordinateDisplay
     @onFrameChanged()
-    Backbone.Mediator.publish 'surface:world-set-up'
+
+  showLevel: ->
+    return if @destroyed
+    return if @loaded
+    @loaded = true
+    @lankBoss.createMarks()
+    @updateState true
+    @drawCurrentFrame()
+    createjs.Ticker.addEventListener 'tick', @tick
+    Backbone.Mediator.publish 'level:started', {}
+
+  #- Update loop
+
+  tick: (e) =>
+    # seems to be a bug where only one object can register with the Ticker...
+    oldFrame = @currentFrame
+    oldWorldFrame = Math.floor oldFrame
+    lastFrame = @world.frames.length - 1
+    framesDropped = 0
+    while true
+      Dropper.tick()
+      # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
+      frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
+      if frameAdvanced and @playing
+        advanceBy = @world.frameRate / @options.frameRate
+        if @fastForwardingToFrame and @currentFrame < @fastForwardingToFrame - advanceBy
+          advanceBy = Math.min(@currentFrame + advanceBy * @fastForwardingSpeed, @fastForwardingToFrame) - @currentFrame
+        else if @fastForwardingToFrame
+          @fastForwardingToFrame = @fastForwardingSpeed = null
+        @currentFrame += advanceBy
+        @currentFrame = Math.min @currentFrame, lastFrame
+      newWorldFrame = Math.floor @currentFrame
+      if Dropper.drop()
+        ++framesDropped
+      else
+        worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
+        if worldFrameAdvanced
+          # Only restore world state when it will correspond to an integer WorldFrame, not interpolated frame.
+          @restoreWorldState()
+          oldWorldFrame = newWorldFrame
+        break
+    if frameAdvanced and not worldFrameAdvanced
+      # We didn't end the above loop on an integer frame, so do the world state update.
+      @restoreWorldState()
+
+    # these are skipped for dropped frames
+    @updateState @currentFrame isnt oldFrame
+    @drawCurrentFrame e
+    @onFrameChanged()
+    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
+    mib = @webGLStage.mouseInBounds
+    if @mouseInBounds isnt mib
+      Backbone.Mediator.publish('surface:mouse-' + (if mib then 'over' else 'out'), {})
+      @mouseInBounds = mib
+      @mouseIsDown = false
+
+  restoreWorldState: ->
+    frame = @world.getFrame(@getCurrentFrame())
+    return unless frame
+    frame.restoreState()
+    current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
+    if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
+      next = Math.ceil current
+      ratio = current % 1
+      @world.frames[next].restorePartialState ratio if next > 1
+    frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
+    @lankBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
+
+  updateState: (frameChanged) ->
+    # world state must have been restored in @restoreWorldState
+    if @handleEvents
+      if @playing and @currentFrame < @world.frames.length - 1 and @heroLank and not @mouseIsDown and @camera.newTarget isnt @heroLank.sprite and @camera.target isnt @heroLank.sprite
+        @camera.zoomTo @heroLank.sprite, @camera.zoom, 750
+    @lankBoss.update frameChanged
+    @camera.updateZoom()  # Make sure to do this right after the LankBoss updates, not before, so it can properly target sprite positions.
+    @dimmer?.setSprites @lankBoss.lanks
+
+  drawCurrentFrame: (e) ->
+    ++@totalFramesDrawn
+    @normalStage.update e
+    @webGLStage.update e
+
+
+  #- Setting play/pause and progress
+
+  setProgress: (progress, scrubDuration=500) ->
+    progress = Math.max(Math.min(progress, 1), 0.0)
+
+    @fastForwardingToFrame = null
+    @scrubbing = true
+    onTweenEnd = =>
+      @scrubbingTo = null
+      @scrubbing = false
+      @scrubbingPlaybackSpeed = null
+
+    if @scrubbingTo?
+      # cut to the chase for existing tween
+      createjs.Tween.removeTweens(@)
+      @currentFrame = @scrubbingTo
+
+    @scrubbingTo = Math.round(progress * (@world.frames.length - 1))
+    @scrubbingTo = Math.max @scrubbingTo, 1
+    @scrubbingTo = Math.min @scrubbingTo, @world.frames.length - 1
+    @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
+    if scrubDuration
+      t = createjs.Tween
+        .get(@)
+        .to({currentFrame: @scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
+        .call(onTweenEnd)
+      t.addEventListener('change', @onFramesScrubbed)
+    else
+      @currentFrame = @scrubbingTo
+      @onFramesScrubbed()  # For performance, don't play these for instant transitions.
+      onTweenEnd()
+
+    return unless @loaded
+    @updateState true
+    @onFrameChanged()
+
+  onFramesScrubbed: (e) =>
+    return unless @loaded
+    if e
+      # Gotta play all the sounds when scrubbing (but not when doing an immediate transition).
+      rising = @currentFrame > @lastFrame
+      actualCurrentFrame = @currentFrame
+      tempFrame = if rising then Math.ceil(@lastFrame) else Math.floor(@lastFrame)
+      while true  # temporary fix to stop cacophony
+        break if rising and tempFrame > actualCurrentFrame
+        break if (not rising) and tempFrame < actualCurrentFrame
+        @currentFrame = tempFrame
+        frame = @world.getFrame(@getCurrentFrame())
+        frame.restoreState()
+        volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
+        lank.playSounds false, volume for lank in @lankBoss.lankArray
+        tempFrame += if rising then 1 else -1
+      @currentFrame = actualCurrentFrame
+
+    @restoreWorldState()
+    @lankBoss.update true
+    @onFrameChanged()
+
+  getCurrentFrame: ->
+    return Math.max(0, Math.min(Math.floor(@currentFrame), @world.frames.length - 1))
+
+  setPaused: (paused) ->
+    # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
+    # If pausing, though, we want to give it enough time to finish any tweens.
+    performToggle = =>
+      createjs.Ticker.setFPS if paused then 1 else @options.frameRate
+      @surfacePauseTimeout = null
+    clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
+    clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
+    @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
+    if paused
+      @surfacePauseTimeout = _.delay performToggle, 2000
+      @lankBoss.stop()
+      @trailmaster?.stop()
+      @playbackOverScreen?.show()
+    else
+      performToggle()
+      @lankBoss.play()
+      @trailmaster?.play()
+      @playbackOverScreen?.hide()
+
+
+
+  #- Changes and events that only need to happen when the frame has changed
+
+  onFrameChanged: (force) ->
+    @currentFrame = Math.min(@currentFrame, @world.frames.length - 1)
+    @debugDisplay?.updateFrame @currentFrame
+    return if @currentFrame is @lastFrame and not force
+    progress = @getProgress()
+    Backbone.Mediator.publish('surface:frame-changed',
+      selectedThang: @lankBoss.selectedLank?.thang
+      progress: progress
+      frame: @currentFrame
+      world: @world
+    )
+
+    if (not @world.indefiniteLength) and @lastFrame < @world.frames.length and @currentFrame >= @world.totalFrames - 1
+      @ended = true
+      @setPaused true
+      Backbone.Mediator.publish 'surface:playback-ended', {}
+      @updatePaths()  # TODO: this is a hack to make sure paths are on the first time the level loads
+    else if @currentFrame < @world.totalFrames and @ended
+      @ended = false
+      @setPaused false
+      Backbone.Mediator.publish 'surface:playback-restarted', {}
+
+    @lastFrame = @currentFrame
+
+  getProgress: -> @currentFrame / Math.max(1, @world.frames.length - 1)
+
+
+
+  #- Subscription callbacks
+
+  onToggleDebug: (e) ->
+    e?.preventDefault?()
+    Backbone.Mediator.publish 'level:set-debug', {debug: not @debug}
+
+  onSetDebug: (e) ->
+    return if e.debug is @debug
+    @debug = e.debug
+    if @debug and not @debugDisplay
+      @screenLayer.addChild @debugDisplay = new DebugDisplay canvasWidth: @camera.canvasWidth, canvasHeight: @camera.canvasHeight
+
+  onLevelRestarted: (e) ->
+    @setProgress 0, 0
+
+  onSetCamera: (e) ->
+    if e.thangID
+      return unless target = @lankBoss.lankFor(e.thangID)?.sprite
+    else if e.pos
+      target = @camera.worldToSurface e.pos
+    else
+      target = null
+    @camera.setBounds e.bounds if e.bounds
+#    @cameraBorder.updateBounds @camera.bounds
+    if @handleEvents
+      @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
+
+  onZoomUpdated: (e) ->
+    if @ended
+      @setPaused false
+      @surfaceZoomPauseTimeout = _.delay (=> @setPaused true), 3000
+    @zoomedIn = e.zoom > e.minZoom * 1.1
+    @updateGrabbability()
+
+  updateGrabbability: ->
+    @webGLCanvas.toggleClass 'grabbable', @zoomedIn and not @playing and not @disabled
+
+  onDisableControls: (e) ->
+    return if e.controls and not ('surface' in e.controls)
+    @setDisabled true
+    @dimmer ?= new Dimmer camera: @camera, layer: @screenLayer
+    @dimmer.setSprites @lankBoss.lanks
+
+  onEnableControls: (e) ->
+    return if e.controls and not ('surface' in e.controls)
+    @setDisabled false
+
+  onSetLetterbox: (e) ->
+    @setDisabled e.on
+
+  setDisabled: (@disabled) ->
+    @lankBoss.disabled = @disabled
+    @updateGrabbability()
+
+  onSetPlaying: (e) ->
+    @playing = (e ? {}).playing ? true
+    @setPlayingCalled = true
+    if @playing and @currentFrame >= (@world.totalFrames - 5)
+      @currentFrame = 1  # Go back to the beginning (but not frame 0, that frame is weird)
+    if @fastForwardingToFrame and not @playing
+      @fastForwardingToFrame = null
+    @updateGrabbability()
+
+  onSetTime: (e) ->
+    toFrame = @currentFrame
+    if e.time?
+      @worldLifespan = @world.frames.length / @world.frameRate
+      e.ratio = e.time / @worldLifespan
+    if e.ratio?
+      toFrame = @world.frames.length * e.ratio
+    if e.frameOffset
+      toFrame += e.frameOffset
+    if e.ratioOffset
+      toFrame += @world.frames.length * e.ratioOffset
+    unless _.isNumber(toFrame) and not _.isNaN(toFrame)
+      return console.error('set-time event', e, 'produced invalid target frame', toFrame)
+    @setProgress(toFrame / @world.frames.length, e.scrubDuration)
+
+  onCastSpells: (e) ->
+    return if e.preload
+    @setPaused false if @ended
+    @casting = true
+    @setPlayingCalled = false  # Don't overwrite playing settings if they changed by, say, scripts.
+    @frameBeforeCast = @currentFrame
+    # This is where I wanted to trigger a rewind, but it turned out to be pretty complicated, since the new world gets updated everywhere, and you don't want to rewind through that.
+    @setProgress 0, 0
+
+  onNewWorld: (event) ->
+    return unless event.world.name is @world.name
+    @onStreamingWorldUpdated event
+
+  onStreamingWorldUpdated: (event) ->
+    @casting = false
+    @lankBoss.play()
+
+    # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
+    # so only run it after the first world is created.
+    Backbone.Mediator.publish 'level:set-playing', {playing: true} unless event.firstWorld or @setPlayingCalled
+
+    @setWorld event.world
+    @onFrameChanged(true)
+    fastForwardBuffer = 2
+    if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
+      @fastForwardingToFrame = ffToFrame
+      @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
+    else if @realTime
+      buffer = if @world.indefiniteLength then 0 else @world.realTimeBufferMax
+      lag = (@world.frames.length - 1) * @world.dt - @world.age
+      intendedLag = @world.dt + buffer
+      if lag > intendedLag * 1.2
+        @fastForwardingToFrame = @world.frames.length - buffer * @world.frameRate
+        @fastForwardingSpeed = lag / intendedLag
+      else
+        @fastForwardingToFrame = @fastForwardingSpeed = null
+#    console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
+    if event.finished
+      @updatePaths()
+    else
+      @hidePaths()
+
+  onIdleChanged: (e) ->
+    @setPaused e.idle unless @ended
+
+
+
+  #- Mouse event callbacks
+
+  onMouseMove: (e) =>
+    @mouseScreenPos = {x: e.stageX, y: e.stageY}
+    return if @disabled
+    Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
+    @gameUIState.trigger('surface:stage-mouse-move', { originalEvent: e })
+
+  onMouseDown: (e) =>
+    return if @disabled
+    cap = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
+    # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
+    onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
+
+    wop = @camera.screenToWorld x: e.stageX, y: e.stageY
+    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
+    Backbone.Mediator.publish 'surface:stage-mouse-down', event
+    Backbone.Mediator.publish 'tome:focus-editor', {}
+    @gameUIState.trigger('surface:stage-mouse-down', event)
+    @mouseIsDown = true
+
+  onSpriteMouseDown: (e) =>
+    return unless @realTime
+    @realTimeInputEvents.add({
+      type: 'mousedown'
+      pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
+      time: @world.dt * @world.frames.length
+      thangID: e.sprite.thang.id
+    })
+
+  onMouseUp: (e) =>
+    return if @disabled
+    onBackground = not @webGLStage.hitTest e.stageX, e.stageY
+    event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e }
+    Backbone.Mediator.publish 'surface:stage-mouse-up', event
+    Backbone.Mediator.publish 'tome:focus-editor', {}
+    @gameUIState.trigger('surface:stage-mouse-up', event)
+    @mouseIsDown = false
+
+  onMouseWheel: (e) =>
+    # https://github.com/brandonaaron/jquery-mousewheel
+    e.preventDefault()
+    return if @disabled
+    event =
+      deltaX: e.deltaX
+      deltaY: e.deltaY
+      canvas: @webGLCanvas
+    event.screenPos = @mouseScreenPos if @mouseScreenPos
+    Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
+    @gameUIState.trigger('surface:mouse-scrolled', event)
+
+
+  #- Keyboard callbacks
+
+  onKeyEvent: (e) =>
+    return unless @realTime
+    event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
+    event.time = @world.dt * @world.frames.length
+    @realTimeInputEvents.add(event)
+
+  #- Canvas callbacks
+
+  onResize: (e) =>
+    return if @destroyed or @options.choosing
+    oldWidth = parseInt @normalCanvas.attr('width'), 10
+    oldHeight = parseInt @normalCanvas.attr('height'), 10
+    aspectRatio = oldWidth / oldHeight
+    pageWidth = $('#page-container').width() - 17  # 17px nano scroll bar
+    if application.isIPadApp
+      newWidth = 1024
+      newHeight = newWidth / aspectRatio
+    else if @options.resizeStrategy is 'wrapper-size'
+      newWidth = $('#canvas-wrapper').width()
+      newHeight = newWidth / aspectRatio
+    else if @realTime or @options.spectateGame
+      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      newWidth = Math.min pageWidth, pageHeight * aspectRatio
+      newHeight = newWidth / aspectRatio
+    else if $('#thangs-tab-view')
+      newWidth = $('#canvas-wrapper').width()
+      newHeight = newWidth / aspectRatio
+    else
+      newWidth = 0.55 * pageWidth
+      newHeight = newWidth / aspectRatio
+    return unless newWidth > 0 and newHeight > 0
+
+    #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
+    scaleFactor = 1
+    if @options.stayVisible or features.codePlay
+      availableHeight = window.innerHeight
+      availableHeight -= ($('.ad-container').outerHeight() or 0)
+      availableHeight -= ($('#game-area').outerHeight() or 0) - ($('#canvas-wrapper').outerHeight() or 0)
+      if features.codePlay
+        bannerHeight = ($('#codeplay-product-banner').height() or 0)
+        availableHeight -= bannerHeight
+        scaleFactor = availableHeight / newHeight if availableHeight < newHeight
+      scaleFactor = availableHeight / newHeight if availableHeight < newHeight
+    
+    newWidth *= scaleFactor
+    newHeight *= scaleFactor
+
+    return @updateCodePlayMargin() if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
+    return @updateCodePlayMargin() if newWidth < 200 or newHeight < 200
+    @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
+    @updateCodePlayMargin()
+    @trigger 'resize', { width: newWidth, height: newHeight }
+
+    # Cannot do this to the webGLStage because it does not use scaleX/Y.
+    # Instead the LayerAdapter scales webGL-enabled layers.
+    @webGLStage.updateViewport(@webGLCanvas[0].width, @webGLCanvas[0].height)
+    @normalStage.scaleX *= newWidth / oldWidth
+    @normalStage.scaleY *= newHeight / oldHeight
+    @camera.onResize newWidth, newHeight
+    if @options.spectateGame
+      # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
+      offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
+      @normalCanvas.css 'left', offset
+      
+  updateCodePlayMargin: ->
+    return unless features.codePlay
+    availableWidth = (window.innerWidth * .57 - 200)
+    width = @normalCanvas.attr('width')
+    margin = Math.max(availableWidth - width, 0)
+    @normalCanvas.add(@webGLCanvas).css('margin-left', margin/2)
+
+  #- Camera focus on hero
+  focusOnHero: ->
+    hadHero = @heroLank
+    @heroLank = @lankBoss.lankFor 'Hero Placeholder'
+    if me.team is 'ogres'
+      # TODO: do this for real
+      @heroLank = @lankBoss.lankFor 'Hero Placeholder 1'
+    @updatePaths() if not hadHero
+
+  #- Real-time playback
+
+  onRealTimePlaybackStarted: (e) ->
+    return if @realTime
+    @realTimeInputEvents.reset()
+    @realTime = true
+    @onResize()
+    @playing = false  # Will start when countdown is done.
+    if @heroLank
+      @previousCameraZoom = @camera.zoom
+      #@camera.zoomTo @heroLank.sprite, 2, 3000  # This makes flag placement hard, now that we're only rarely using this as a coolcam.
+
+  onRealTimePlaybackEnded: (e) ->
+    return unless @realTime
+    @realTime = false
+    @onResize()
+    _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
+    @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
+    if @handleEvents
+      if @previousCameraZoom
+        @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
+
+  onFlagColorSelected: (e) ->
+    @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)
+    e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
+
+  # Force sizing based on width for game-dev levels, so that the instructions panel doesn't obscure the game
+  onManualCast: ->
+    if @options.levelType is 'game-dev'
+      console.log "Force resize strategy"
+      @options.originalResizeStrategy = @options.resizeStrategy
+      @options.resizeStrategy = 'wrapper-size'
+
+  # Revert back to normal sizing when done playing a game-dev level
+  onStopRealTimePlayback: ->
+    if @options.levelType is 'game-dev'
+      console.log "Reset resize strategy"
+      @options.resizeStrategy = @options.originalResizeStrategy
+
+  updatePaths: ->
+    return unless @options.paths and @heroLank
+    @hidePaths()
+    return if @world.showPaths is 'never'
+    layerAdapter = @lankBoss.layerAdapters['Path']
+    @trailmaster ?= new TrailMaster @camera, layerAdapter
+    @paths = @trailmaster.generatePaths @world, @heroLank.thang
+    @paths.name = 'paths'
+    layerAdapter.addChild @paths
+
+  hidePaths: ->
+    return if not @paths
+    if @paths.parent
+      @paths.parent.removeChild @paths
+    @paths = null
+
+
+
+  #- Screenshot
+
+  screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
+    # TODO: get screenshots working again
+    # Quality doesn't work with image/png, just image/jpeg and image/webp
+    [w, h] = [@camera.canvasWidth * @camera.canvasScaleFactorX, @camera.canvasHeight * @camera.canvasScaleFactorY]
+    margin = (1 - 1 / zoom) / 2
+    @webGLStage.cache margin * w, margin * h, w / zoom, h / zoom, scale * zoom
+    imageData = @webGLStage.cacheCanvas.toDataURL(format, quality)
+    #console.log 'Screenshot with scale', scale, 'format', format, 'quality', quality, 'was', Math.floor(imageData.length / 1024), 'kB'
+    screenshot = document.createElement('img')
+    screenshot.src = imageData
+    @webGLStage.uncache()
+    imageData
+
+
+
+  #- Path finding debugging
 
   onTogglePathFinding: (e) ->
     e?.preventDefault?()
@@ -163,10 +741,10 @@ module.exports = Surface = class Surface extends CocoClass
       pos = @camera.worldToSurface {x: rect.x, y: rect.y}
       dim = @camera.worldToSurface {x: rect.width, y: rect.height}
       shape.graphics
-        .setStrokeStyle(3)
-        .beginFill('rgba(0,0,128,0.3)')
-        .beginStroke('rgba(0,0,128,0.7)')
-        .drawRect(pos.x - dim.x/2, pos.y - dim.y/2, dim.x, dim.y)
+      .setStrokeStyle(3)
+      .beginFill('rgba(0,0,128,0.3)')
+      .beginStroke('rgba(0,0,128,0.7)')
+      .drawRect(pos.x - dim.x/2, pos.y - dim.y/2, dim.x, dim.y)
       container.addChild shape
 
   addNavPathsToContainer: (graph, container) ->
@@ -179,476 +757,46 @@ module.exports = Surface = class Surface extends CocoClass
     v1 = @camera.worldToSurface v1
     v2 = @camera.worldToSurface v2
     shape.graphics
-      .setStrokeStyle(1)
-      .moveTo(v1.x, v1.y)
-      .beginStroke('rgba(128,0,0,0.4)')
-      .lineTo(v2.x, v2.y)
-      .endStroke()
+    .setStrokeStyle(1)
+    .moveTo(v1.x, v1.y)
+    .beginStroke('rgba(128,0,0,0.4)')
+    .lineTo(v2.x, v2.y)
+    .endStroke()
     container.addChild shape
 
-  setProgress: (progress, scrubDuration=500) ->
-    progress = Math.max(Math.min(progress, 1), 0.0)
 
-    @scrubbing = true
-    onTweenEnd = =>
-      @scrubbingTo = null
-      @scrubbing = false
-      @scrubbingPlaybackSpeed = null
-      @fastForwarding = false
 
-    if @scrubbingTo?
-      # cut to the chase for existing tween
-      createjs.Tween.removeTweens(@)
-      @currentFrame = @scrubbingTo
+  #- Teardown
 
-    @scrubbingTo = Math.min(Math.round(progress * @world.totalFrames), @world.totalFrames)
-    @scrubbingPlaybackSpeed = Math.sqrt(Math.abs(@scrubbingTo - @currentFrame) * @world.dt / (scrubDuration or 0.5))
-    if scrubDuration
-      t = createjs.Tween
-        .get(@)
-        .to({currentFrame: @scrubbingTo}, scrubDuration, createjs.Ease.sineInOut)
-        .call(onTweenEnd)
-      t.addEventListener('change', @onFramesScrubbed)
-    else
-      @currentFrame = @scrubbingTo
-      @onFramesScrubbed()  # For performance, don't play these for instant transitions.
-      onTweenEnd()
-
-    return unless @loaded
-    @updateState true
-    @onFrameChanged()
-
-  onFramesScrubbed: (e) =>
-    return unless @loaded
-    if e
-      # Gotta play all the sounds when scrubbing (but not when doing an immediate transition).
-      rising = @currentFrame > @lastFrame
-      actualCurrentFrame = @currentFrame
-      tempFrame = if rising then Math.ceil(@lastFrame) else Math.floor(@lastFrame)
-      while true  # temporary fix to stop cacophony
-        break if rising and tempFrame > actualCurrentFrame
-        break if (not rising) and tempFrame < actualCurrentFrame
-        @currentFrame = tempFrame
-        frame = @world.getFrame(@getCurrentFrame())
-        frame.restoreState()
-        volume = Math.max(0.05, Math.min(1, 1 / @scrubbingPlaybackSpeed))
-        sprite.playSounds false, volume for sprite in @spriteBoss.spriteArray
-        tempFrame += if rising then 1 else -1
-      @currentFrame = actualCurrentFrame
-
-    @restoreWorldState()
-    @spriteBoss.update true
-    @onFrameChanged()
-
-  getCurrentFrame: ->
-    return Math.max(0, Math.min(Math.floor(@currentFrame), @world.totalFrames - 1))
-
-  getProgress: -> @currentFrame / @world.totalFrames
-
-  onLevelRestarted: (e) ->
-    @setProgress 0, 0
-
-  onSetCamera: (e) ->
-    if e.thangID
-      return unless target = @spriteBoss.spriteFor(e.thangID)?.imageObject
-    else if e.pos
-      target = @camera.worldToSurface e.pos
-    else
-      target = null
-    @camera.setBounds e.bounds if e.bounds
-    @cameraBorder.updateBounds @camera.bounds
-    @camera.zoomTo target, e.zoom, e.duration  # TODO: SurfaceScriptModule perhaps shouldn't assign e.zoom if not set
-
-  onZoomUpdated: (e) ->
-    if @ended
-      @setPaused false
-      @surfaceZoomPauseTimeout = _.delay (=> @setPaused true), 3000
-
-  setDisabled: (@disabled) ->
-    @spriteBoss.disabled = @disabled
-
-  onDisableControls: (e) ->
-    return if e.controls and not ('surface' in e.controls)
-    @setDisabled true
-    @dimmer ?= new Dimmer camera: @camera, layer: @screenLayer
-    @dimmer.setSprites @spriteBoss.sprites
-
-  onEnableControls: (e) ->
-    return if e.controls and not ('surface' in e.controls)
-    @setDisabled false
-
-  onSetLetterbox: (e) ->
-    @setDisabled e.on
-
-  onSetPlaying: (e) ->
-    @playing = (e ? {}).playing ? true
-    @setPlayingCalled = true
-    if @playing and @currentFrame >= (@world.totalFrames - 5)
-      @currentFrame = 0
-    if @fastForwarding and not @playing
-      @setProgress @currentFrame / @world.totalFrames
-
-  onSetTime: (e) ->
-    toFrame = @currentFrame
-    if e.time?
-      @worldLifespan = @world.totalFrames / @world.frameRate
-      e.ratio = e.time / @worldLifespan
-    if e.ratio?
-      toFrame = @world.totalFrames * e.ratio
-    if e.frameOffset
-      toFrame += e.frameOffset
-    if e.ratioOffset
-      toFrame += @world.totalFrames * e.ratioOffset
-    unless _.isNumber(toFrame) and not _.isNaN(toFrame)
-      return console.error('set-time event', e, 'produced invalid target frame', toFrame)
-    @setProgress(toFrame / @world.totalFrames, e.scrubDuration)
-
-  onFrameChanged: (force) ->
-    @currentFrame = Math.min(@currentFrame, @world.totalFrames)
-    @debugDisplay?.updateFrame @currentFrame
-    return if @currentFrame is @lastFrame and not force
-    progress = @getProgress()
-    Backbone.Mediator.publish('surface:frame-changed',
-      type: 'frame-changed'
-      selectedThang: @spriteBoss.selectedSprite?.thang
-      progress: progress
-      frame: @currentFrame
-      world: @world
-    )
-
-    if @lastFrame < @world.totalFrames and @currentFrame >= @world.totalFrames - 1
-      @ended = true
-      @setPaused true
-      Backbone.Mediator.publish 'surface:playback-ended'
-    else if @currentFrame < @world.totalFrames and @ended
-      @ended = false
-      @setPaused false
-      Backbone.Mediator.publish 'surface:playback-restarted'
-
-    @lastFrame = @currentFrame
-
-  onIdleChanged: (e) ->
-    @setPaused e.idle unless @ended
-
-  setPaused: (paused) ->
-    # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
-    # If pausing, though, we want to give it enough time to finish any tweens.
-    performToggle = =>
-      createjs.Ticker.setFPS if paused then 1 else @options.frameRate
-      @surfacePauseTimeout = null
+  destroy: ->
+    @camera?.destroy()
+    createjs.Ticker.removeEventListener('tick', @tick)
+    createjs.Sound.stop()
+    layer.destroy() for layer in @normalLayers
+    @lankBoss.destroy()
+    @chooser?.destroy()
+    @dimmer?.destroy()
+    @countdownScreen?.destroy()
+    @playbackOverScreen?.destroy()
+    @coordinateDisplay?.destroy()
+    @coordinateGrid?.destroy()
+    @normalStage.clear()
+    @webGLStage.clear()
+    @musicPlayer?.destroy()
+    @trailmaster?.destroy()
+    @normalStage.removeAllChildren()
+    @webGLStage.removeAllChildren()
+    @webGLStage.removeEventListener 'stagemousemove', @onMouseMove
+    @webGLStage.removeEventListener 'stagemousedown', @onMouseDown
+    @webGLStage.removeEventListener 'stagemouseup', @onMouseUp
+    @webGLStage.removeAllEventListeners()
+    @normalStage.enableDOMEvents false
+    @webGLStage.enableDOMEvents false
+    @webGLStage.enableMouseOver 0
+    @webGLCanvas.off 'mousewheel', @onMouseWheel
+    $(window).off 'resize', @onResize
+    $(window).off('keydown', @onKeyEvent)
+    $(window).off('keyup', @onKeyEvent)
     clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
     clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
-    @surfacePauseTimeout = @surfaceZoomPauseTimeout = null
-    if paused
-      @surfacePauseTimeout = _.delay performToggle, 2000
-      @spriteBoss.stop()
-      @playbackOverScreen.show()
-    else
-      performToggle()
-      @spriteBoss.play()
-      @playbackOverScreen.hide()
-
-  onCastSpells: (e) ->
-    return if e.preload
-    @setPaused false if @ended
-    @casting = true
-    @wasPlayingWhenCastingBegan = @playing
-    Backbone.Mediator.publish 'level-set-playing', {playing: false}
-    @setPlayingCalled = false # don't overwrite playing settings if they changed by, say, scripts
-
-    if @coordinateDisplay?
-      @surfaceTextLayer.removeChild @coordinateDisplay
-      @coordinateDisplay.destroy()
-
-    createjs.Tween.removeTweens(@surfaceLayer)
-    createjs.Tween.get(@surfaceLayer).to({alpha: 0.9}, 1000, createjs.Ease.getPowOut(4.0))
-
-  onNewWorld: (event) ->
-    return unless event.world.name is @world.name
-    @casting = false
-    if @ended and not @wasPlayingWhenCastingBegan
-      @setPaused true
-    else
-      @spriteBoss.play()
-
-    # This has a tendency to break scripts that are waiting for playback to change when the level is loaded
-    # so only run it after the first world is created.
-    Backbone.Mediator.publish 'level-set-playing', {playing: @wasPlayingWhenCastingBegan} unless event.firstWorld or @setPlayingCalled
-
-    fastForwardTo = null
-    if @playing
-      fastForwardTo = Math.min event.world.firstChangedFrame, @currentFrame
-      @currentFrame = 0
-
-    createjs.Tween.removeTweens(@surfaceLayer)
-    f = =>
-      @setWorld event.world
-      @onFrameChanged(true)
-      if fastForwardTo and @playing
-        fastForwardToRatio = fastForwardTo / @world.totalFrames
-        fastForwardToTime = fastForwardTo * @world.dt
-        fastForwardSpeed = Math.max 4, fastForwardToTime / 3
-        @setProgress fastForwardToRatio, 1000 * fastForwardToTime / fastForwardSpeed
-        @fastForwarding = true
-    createjs.Tween.get(@surfaceLayer)
-      .to({alpha: 0.0}, 50)
-      .call(f)
-      .to({alpha: 1.0}, 2000, createjs.Ease.getPowOut(2.0))
-
-  # initialization
-
-  initEasel: ->
-    # takes DOM objects, not jQuery objects
-    @stage = new createjs.Stage(@canvas[0])
-    canvasWidth = parseInt @canvas.attr('width'), 10
-    canvasHeight = parseInt @canvas.attr('height'), 10
-    @camera?.destroy()
-    @camera = new Camera @canvas
-    AudioPlayer.camera = @camera
-    @layers.push @surfaceLayer = new Layer name: 'Surface', layerPriority: 0, transform: Layer.TRANSFORM_SURFACE, camera: @camera
-    @layers.push @surfaceTextLayer = new Layer name: 'Surface Text', layerPriority: 1, transform: Layer.TRANSFORM_SURFACE_TEXT, camera: @camera
-    @layers.push @screenLayer = new Layer name: 'Screen', layerPriority: 2, transform: Layer.TRANSFORM_SCREEN, camera: @camera
-    @stage.addChild @layers...
-    @surfaceLayer.addChild @cameraBorder = new CameraBorder bounds: @camera.bounds
-    @screenLayer.addChild new Letterbox canvasWidth: canvasWidth, canvasHeight: canvasHeight
-    @spriteBoss = new SpriteBoss camera: @camera, surfaceLayer: @surfaceLayer, surfaceTextLayer: @surfaceTextLayer, world: @world, thangTypes: @options.thangTypes, choosing: @options.choosing, navigateToSelection: @options.navigateToSelection, showInvisible: @options.showInvisible
-    @castingScreen ?= new CastingScreen camera: @camera, layer: @screenLayer
-    @playbackOverScreen ?= new PlaybackOverScreen camera: @camera, layer: @screenLayer
-    @stage.enableMouseOver(10)
-    @stage.addEventListener 'stagemousemove', @onMouseMove
-    @stage.addEventListener 'stagemousedown', @onMouseDown
-    @canvas[0].addEventListener 'mouseup', @onMouseUp
-    @canvas.on 'mousewheel', @onMouseWheel
-    @hookUpChooseControls() if @options.choosing
-    createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
-    createjs.Ticker.setFPS @options.frameRate
-    @onResize()
-
-  onResize: (e) =>
-    oldWidth = parseInt @canvas.attr('width'), 10
-    oldHeight = parseInt @canvas.attr('height'), 10
-    newWidth = @canvas.width()
-    newHeight = @canvas.height()
-    return unless newWidth > 0 and newHeight > 0
-    #if InstallTrigger?  # Firefox rendering performance goes down as canvas size goes up
-    #  newWidth = Math.min 924, newWidth
-    #  newHeight = Math.min 589, newHeight
-    @canvas.attr width: newWidth, height: newHeight
-    @stage.scaleX *= newWidth / oldWidth
-    @stage.scaleY *= newHeight / oldHeight
-    @camera.onResize newWidth, newHeight
-
-  showLevel: ->
-    return if @dead
-    return unless @worldLoaded
-    return if @loaded
-    @loaded = true
-    @spriteBoss.createMarks()
-    @spriteBoss.createIndieSprites @world.indieSprites, @options.wizards
-    Backbone.Mediator.publish 'registrar-echo-states'
-    @updateState true
-    @drawCurrentFrame()
-    @showGrid() if @options.grid  # TODO: pay attention to world grid setting (which we only know when world simulates)
-    createjs.Ticker.addEventListener 'tick', @tick
-    Backbone.Mediator.publish 'level:started'
-
-  createOpponentWizard: (opponent) ->
-    @spriteBoss.createOpponentWizard opponent
-
-  initAudio: ->
-    @musicPlayer = new MusicPlayer()
-
-  # grid; should probably refactor into separate class
-
-  showGrid: ->
-    return if @gridShowing()
-    unless @gridLayer
-      @gridLayer = new createjs.Container()
-      @gridShape = new createjs.Shape()
-      @gridLayer.addChild @gridShape
-      @gridLayer.z = 90019001
-      @gridLayer.mouseEnabled = false
-      @gridShape.alpha = 0.125
-      @gridShape.graphics.beginStroke 'blue'
-      gridSize = Math.round(@world.size()[0] / 20)
-      unless gridSize > 0.1
-        return console.error 'Grid size is', gridSize, 'so we can\'t draw a grid.'
-      wopStart = x: 0, y: 0
-      wopEnd = x: @world.size()[0], y: @world.size()[1]
-      supStart = @camera.worldToSurface wopStart
-      supEnd = @camera.worldToSurface wopEnd
-      wop = x: wopStart.x, y: wopStart.y
-      while wop.x < wopEnd.x
-        sup = @camera.worldToSurface wop
-        @gridShape.graphics.mt(sup.x, supStart.y).lt(sup.x, supEnd.y)
-        t = new createjs.Text(wop.x.toFixed(0), '16px Arial', 'blue')
-        t.x = sup.x - t.getMeasuredWidth() / 2
-        t.y = supStart.y - 10 - t.getMeasuredHeight() / 2
-        t.alpha = 0.75
-        @gridLayer.addChild t
-        wop.x += gridSize
-      while wop.y < wopEnd.y
-        sup = @camera.worldToSurface wop
-        @gridShape.graphics.mt(supStart.x, sup.y).lt(supEnd.x, sup.y)
-        t = new createjs.Text(wop.y.toFixed(0), '16px Arial', 'blue')
-        t.x = 10 - t.getMeasuredWidth() / 2
-        t.y = sup.y - t.getMeasuredHeight() / 2
-        t.alpha = 0.75
-        @gridLayer.addChild t
-        wop.y += gridSize
-      @gridShape.graphics.endStroke()
-      bounds = @gridLayer.getBounds()
-      return unless bounds?.width and bounds.height
-      @gridLayer.cache bounds.x, bounds.y, bounds.width, bounds.height
-    @surfaceLayer.addChild @gridLayer
-
-  hideGrid: ->
-    return unless @gridShowing()
-    @gridLayer.parent.removeChild @gridLayer
-
-  gridShowing: ->
-    @gridLayer?.parent?
-
-  onToggleGrid: (e) ->
-    # TODO: figure out a better way of managing grid / debug so it's not split across PlaybackView and Surface
-    e?.preventDefault?()
-    if @gridShowing() then @hideGrid() else @showGrid()
-    flag = $('#grid-toggle i.icon-ok')
-    flag.toggleClass 'invisible', not @gridShowing()
-
-  onSetGrid: (e) ->
-    if e.grid then @showGrid() else @hideGrid()
-
-  onToggleDebug: (e) ->
-    e?.preventDefault?()
-    Backbone.Mediator.publish 'level-set-debug', {debug: not @debug}
-
-  onSetDebug: (e) ->
-    return if e.debug is @debug
-    @debug = e.debug
-    if @debug and not @debugDisplay
-      @screenLayer.addChild @debugDisplay = new DebugDisplay canvasWidth: @camera.canvasWidth, canvasHeight: @camera.canvasHeight
-
-  # Some mouse handling callbacks
-
-  onMouseMove: (e) =>
-    @mouseScreenPos = {x: e.stageX, y: e.stageY}
-    return if @disabled
-    Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
-
-  onMouseDown: (e) =>
-    return if @disabled
-    onBackground = not @stage.hitTest e.stageX, e.stageY
-    Backbone.Mediator.publish 'surface:stage-mouse-down', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
-
-  onMouseUp: (e) =>
-    return if @disabled
-    onBackground = not @stage.hitTest e.stageX, e.stageY
-    Backbone.Mediator.publish 'surface:stage-mouse-up', onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e
-
-  onMouseWheel: (e) =>
-    # https://github.com/brandonaaron/jquery-mousewheel
-    e.preventDefault()
-    return if @disabled
-    event =
-      deltaX: e.deltaX
-      deltaY: e.deltaY
-      screenPos: @mouseScreenPos
-      canvas: @canvas
-    Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
-
-  hookUpChooseControls: ->
-    chooserOptions = stage: @stage, surfaceLayer: @surfaceLayer, camera: @camera, restrictRatio: @options.choosing is 'ratio-region'
-    klass = if @options.choosing is 'point' then PointChooser else RegionChooser
-    @chooser = new klass chooserOptions
-
-  # Main Surface update loop
-
-  tick: (e) =>
-    # seems to be a bug where only one object can register with the Ticker...
-    oldFrame = @currentFrame
-    oldWorldFrame = Math.floor oldFrame
-    lastFrame = @world.totalFrames - 1
-    while true
-      Dropper.tick()
-      @trailmaster.tick() if @trailmaster
-      # Skip some frame updates unless we're playing and not at end (or we haven't drawn much yet)
-      frameAdvanced = (@playing and @currentFrame < lastFrame) or @totalFramesDrawn < 2
-      if frameAdvanced and @playing
-        @currentFrame += @world.frameRate / @options.frameRate
-        @currentFrame = Math.min @currentFrame, lastFrame
-      newWorldFrame = Math.floor @currentFrame
-      worldFrameAdvanced = newWorldFrame isnt oldWorldFrame
-      if worldFrameAdvanced
-        # Only restore world state when it will correspond to an integer WorldFrame, not interpolated frame.
-        @restoreWorldState()
-        oldWorldFrame = newWorldFrame
-      break unless Dropper.drop()
-    if frameAdvanced and not worldFrameAdvanced
-      # We didn't end the above loop on an integer frame, so do the world state update.
-      @restoreWorldState()
-
-    # these are skipped for dropped frames
-    @updateState @currentFrame isnt oldFrame
-    @drawCurrentFrame e
-    @onFrameChanged()
-    @updatePaths() if (@totalFramesDrawn % 4) is 0 or createjs.Ticker.getMeasuredFPS() > createjs.Ticker.getFPS() - 5
-    Backbone.Mediator.publish('surface:ticked', {dt: 1 / @options.frameRate})
-    mib = @stage.mouseInBounds
-    if @mouseInBounds isnt mib
-      Backbone.Mediator.publish('surface:mouse-' + (if mib then 'over' else 'out'), {})
-      @mouseInBounds = mib
-
-  restoreWorldState: ->
-    frame = @world.getFrame(@getCurrentFrame())
-    frame.restoreState()
-    current = Math.max(0, Math.min(@currentFrame, @world.totalFrames - 1))
-    if current - Math.floor(current) > 0.01
-      next = Math.ceil current
-      ratio = current % 1
-      @world.frames[next].restorePartialState ratio if next > 1
-    frame.clearEvents() if parseInt(@currentFrame) is parseInt(@lastFrame)
-    @spriteBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
-
-  updateState: (frameChanged) ->
-    # world state must have been restored in @restoreWorldState
-    @camera.updateZoom()
-    @spriteBoss.update frameChanged unless @casting
-    @dimmer?.setSprites @spriteBoss.sprites
-
-  drawCurrentFrame: (e) ->
-    ++@totalFramesDrawn
-    @stage.update e
-
-  # paths - TODO: move to SpriteBoss? but only update on frame drawing instead of on every frame update?
-
-  updatePaths: ->
-    return unless @options.paths
-    return if @casting
-    @hidePaths()
-    selectedThang = @spriteBoss.selectedSprite?.thang
-    return if @world.showPaths is 'never'
-    return if @world.showPaths is 'paused' and @playing
-    return if @world.showPaths is 'selected' and not selectedThang
-    @trailmaster ?= new path.Trailmaster @camera
-    selectedOnly = @playing and @world.showPaths is 'selected'
-    @paths = @trailmaster.generatePaths @world, @getCurrentFrame(), selectedThang, @spriteBoss.sprites, selectedOnly
-    @paths.name = 'paths'
-    @spriteBoss.spriteLayers['Path'].addChild @paths
-
-  hidePaths: ->
-    return if not @paths
-    @paths.parent.removeChild @paths
-    @paths = null
-
-  screenshot: (scale=0.25, format='image/jpeg', quality=0.8, zoom=2) ->
-    # Quality doesn't work with image/png, just image/jpeg and image/webp
-    [w, h] = [@camera.canvasWidth, @camera.canvasHeight]
-    margin = (1 - 1 / zoom) / 2
-    @stage.cache margin * w, margin * h, w / zoom, h / zoom, scale * zoom
-    imageData = @stage.cacheCanvas.toDataURL(format, quality)
-    #console.log 'Screenshot with scale', scale, 'format', format, 'quality', quality, 'was', Math.floor(imageData.length / 1024), 'kB'
-    screenshot = document.createElement('img')
-    screenshot.src = imageData
-    @stage.uncache()
-    imageData
+    super()

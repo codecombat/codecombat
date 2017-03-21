@@ -1,0 +1,42 @@
+extends /templates/core/modal-base
+
+block modal-header-content
+  h3 Artisan Compendium
+
+block modal-body-content
+  p
+    | Welcome to the Artisan Compendium. Below you will find a series of helpful guides and tutorials for getting your levels to Master Artisan quality
+    if view.hasOwnership()
+      |, as well as a way to submit your level for official Artisan review
+    |! If you have any feedback on the Level Editor, please contact us at: 
+    a(href='mailto:artisans@codecombat.com') artisans@codecombat.com
+  div.centered-stack
+    div
+      a(href='https://github.com/codecombat/codecombat/wiki/Artisan-Home', target='_blank') Wiki Homepage
+    div
+      a(href='https://github.com/codecombat/codecombat/wiki/Artisan-How-To-Index', target='_blank') Basic How-tos
+    div
+      a(href='http://www.codecombat.com/community', target='_blank') Artisan Rankings
+  if view.hasOwnership()
+    h4 Level Submission
+    p
+      | Do you want your level to be added to the campaign? Please take a moment to fill out the questions below! Don’t worry, this isn’t a timed quiz. It is just a way for the artisans at CodeCombat HQ to get a feel for the purpose of this level. If it doesn’t quite yet meet our standards for release we will give you feedback to help polish it further!
+    .form
+      .form-group
+        label.control-label(for='credit-name') How would you like to be credited?
+        input#credit-name.form-control(name='creditName')
+      .form-group
+        label.control-label(for='level-purpose') What is the purpose of this level?
+        textarea#level-purpose.form-control(name='levelPurpose', rows=4)
+      .form-group
+        label.control-label(for='level-inspiration') What was the inspiration for the level?
+        textarea#level-inspiration.form-control(name='levelInspiration', rows=4)
+      .form-group
+        label.control-label(for='level-location') Where in the campaign do you think this level belongs?
+        textarea#level-location.form-control(name='levelLocation', rows=4)
+      
+block modal-footer-content
+  div
+    a(href='#', data-dismiss="modal", aria-hidden="true").btn Close
+    if view.hasOwnership()
+      button.btn.btn-primary#level-submit Submit

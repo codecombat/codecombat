@@ -1,10 +1,10 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 
 module.exports = class Dimmer extends CocoClass
   subscriptions:
-    'level-disable-controls': 'onDisableControls'
-    'level-enable-controls': 'onEnableControls'
-    'level-highlight-sprites': 'onHighlightSprites'
+    'level:disable-controls': 'onDisableControls'
+    'level:enable-controls': 'onEnableControls'
+    'sprite:highlight-sprites': 'onHighlightSprites'
     'sprite:speech-updated': 'onSpriteSpeechUpdated'
     'surface:frame-changed': 'onFrameChanged'
     'camera:zoom-updated': 'onZoomUpdated'
@@ -26,7 +26,6 @@ module.exports = class Dimmer extends CocoClass
   build: ->
     @dimLayer = new createjs.Container()
     @dimLayer.mouseEnabled = @dimLayer.mouseChildren = false
-    @dimLayer.layerIndex = -10
     @dimLayer.addChild @dimScreen = new createjs.Shape()
     @dimLayer.addChild @dimMask = new createjs.Shape()
     @dimScreen.graphics.beginFill('rgba(0,0,0,0.5)').rect 0, 0, @camera.canvasWidth, @camera.canvasHeight
@@ -49,7 +48,6 @@ module.exports = class Dimmer extends CocoClass
     @updateDimMask() if @on
 
   setSprites: (@sprites) ->
-    console.log
 
   dim: ->
     @on = true
@@ -66,8 +64,8 @@ module.exports = class Dimmer extends CocoClass
   updateDimMask: =>
     @dimMask.graphics.clear()
     for thangID, sprite of @sprites
-      continue unless (thangID in @highlightedThangIDs) or sprite.isTalking?() or sprite.thang?.id is 'My Wizard'
-      sup = x: sprite.imageObject.x, y: sprite.imageObject.y
+      continue unless (thangID in @highlightedThangIDs) or sprite.isTalking?()
+      sup = x: sprite.sprite.x, y: sprite.sprite.y
       cap = @camera.surfaceToCanvas sup
       r = 50 * @camera.zoom  # TODO: find better way to get the radius based on the sprite's size
       @dimMask.graphics.beginRadialGradientFill(['rgba(0,0,0,1)', 'rgba(0,0,0,0)'], [0.5, 1], cap.x, cap.y, 0, cap.x, cap.y, r).drawCircle(cap.x, cap.y, r)

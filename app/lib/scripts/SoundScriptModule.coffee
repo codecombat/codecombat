@@ -3,7 +3,7 @@ ScriptModule = require './ScriptModule'
 currentMusic = null
 standingBy = null
 
-{me} = require('lib/auth')
+{me} = require('core/auth')
 
 module.exports = class SoundScriptModule extends ScriptModule
   @neededFor: (noteGroup) ->
@@ -23,12 +23,12 @@ module.exports = class SoundScriptModule extends ScriptModule
 
   addSuppressSelectionSoundsNote: ->
     note =
-      channel: 'level-suppress-selection-sounds'
+      channel: 'level:suppress-selection-sounds'
       event: {suppress: @noteGroup.sound.suppressSelectionSounds}
     return note
 
   addMusicNote: ->
     note =
-      channel: 'level-play-music'
+      channel: 'music-player:play-music'
       event: @noteGroup.sound.music
     return note

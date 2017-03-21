@@ -1,96 +1,182 @@
+c = require 'schemas/schemas'
+
+spriteMouseEventSchema = c.object {required: ['sprite', 'thang', 'originalEvent', 'canvas']},
+  sprite: {type: 'object'}
+  thang: {type: 'object'}
+  originalEvent: {type: 'object'}
+  canvas: {type: 'object'}
+
 module.exports =  # /app/lib/surface
-  'camera-dragged':
-    {} # TODO schema
+  'camera:dragged': c.object {}
 
-  'camera-zoom-in':
-    {} # TODO schema
+  'camera:zoom-in': c.object {}
 
-  'camera-zoom-out':
-    {} # TODO schema
+  'camera:zoom-out': c.object {}
 
-  'camera-zoom-to':
-    {} # TODO schema
+  'camera:zoom-to': c.object {required: ['pos']},
+    pos: c.object {required: ['x', 'y']},
+      x: {type: 'number'}
+      y: {type: 'number'}
+    duration: {type: 'number', minimum: 0}
 
-  'camera:zoom-updated':
-    {} # TODO schema
+  'camera:zoom-updated': c.object {required: ['camera', 'zoom', 'surfaceViewport']},
+    camera: {type: 'object'}
+    zoom: {type: 'number', minimum: 0, exclusiveMinimum: true}
+    surfaceViewport: {type: 'object'}
+    minZoom: {type: 'number', minimum: 0, exclusiveMinimum: true}
 
-  'sprite:speech-updated':
-    {} # TODO schema
+  'camera:set-camera': c.object {},
+    pos: c.object {required: ['x', 'y']},
+      x: {type: 'number'}
+      y: {type: 'number'}
+    thangID: {type: 'string'}
+    zoom: {type: 'number'}
+    duration: {type: 'number', minimum: 0}
+    bounds: c.array {maxItems: 2, minItems: 2},
+      c.object {required: ['x', 'y']},
+        x: {type: 'number'}
+        y: {type: 'number'}
 
-  'dialogue-sound-completed':
-    {} # TODO schema
+  'sprite:speech-updated': c.object {required: ['sprite', 'thang']},
+    sprite: {type: 'object'}
+    thang: {type: ['object', 'null']}
+    blurb: {type: ['string', 'null', 'undefined']}
+    message: {type: 'string'}
+    mood: {type: 'string'}
+    responses: {type: ['array', 'null', 'undefined']}
+    spriteID: {type: 'string'}
+    sound: {type: ['null', 'undefined', 'object']}
 
-  'surface:gold-changed':
-    {} # TODO schema
+  'level:sprite-dialogue': c.object {required: ['spriteID', 'message']},
+    blurb: {type: ['string', 'null', 'undefined']}
+    message: {type: 'string'}
+    mood: {type: 'string'}
+    responses: {type: ['array', 'null', 'undefined']}
+    spriteID: {type: 'string'}
+    sound: {type: ['null', 'undefined', 'object']}
 
-  'surface:coordinate-selected':
-    {} # TODO schema
+  'sprite:dialogue-sound-completed': c.object {}
 
-  'surface:coordinates-shown':
-    {} # TODO schema
+  'level:sprite-clear-dialogue': c.object {}
 
-  'level-sprite-clear-dialogue':
-    {} # TODO schema
+  'surface:gold-changed': c.object {required: ['team', 'gold']},
+    team: {type: 'string'}
+    gold: {type: 'number'}
+    goldEarned: {type: 'number'}
 
-  'sprite:loaded':
-    {} # TODO schema
+  'surface:coordinate-selected': c.object {required: ['x', 'y']},
+    x: {type: 'number'}
+    y: {type: 'number'}
+    z: {type: 'number'}
 
-  'choose-point':
-    {} # TODO schema
+  'surface:coordinates-shown': c.object {}
 
-  'choose-region':
-    {} # TODO schema
+  'sprite:loaded': c.object {},
+    sprite: {type: 'object'}
 
-  'surface:new-thang-added':
-    {} # TODO schema
+  'surface:choose-point': c.object {required: ['point']},
+    point: c.object {required: ['x', 'y']},
+      x: {type: 'number'}
+      y: {type: 'number'}
+      z: {type: 'number'}
 
-  'surface:sprite-selected':
-    {} # TODO schema
+  'surface:choose-region': c.object {required: ['points']},
+    points: c.array {minItems: 2, maxItems: 2},
+      c.object {required: ['x', 'y']},
+        x: {type: 'number'}
+        y: {type: 'number'}
+        z: {type: 'number'}
 
-  'thang-began-talking':
-    {} # TODO schema
+  'surface:new-thang-added': c.object {required: ['thang', 'sprite']},
+    thang: {type: 'object'}
+    sprite: {type: 'object'}
 
-  'thang-finished-talking':
-    {} # TODO schema
+  'surface:sprite-selected': c.object {required: ['thang', 'sprite']},
+    thang: {type: ['object', 'null', 'undefined']}
+    sprite: {type: ['object', 'null', 'undefined']}
+    spellName: {type: ['string', 'null', 'undefined']}
+    originalEvent: {type: ['object', 'null', 'undefined']}
+    worldPos: {type: ['object', 'null', 'undefined']}
 
-  'surface:world-set-up':
-    {} # TODO schema
+  'sprite:thang-began-talking': c.object {},
+    thang: {type: 'object'}
 
-  'surface:frame-changed':
-    {} # TODO schema
+  'sprite:thang-finished-talking': c.object {},
+    thang: {type: 'object'}
 
-  'surface:playback-ended':
-    {} # TODO schema
+  'sprite:highlight-sprites': c.object {},
+    thangIDs: c.array {}, {type: 'string'}
+    delay: {type: ['number', 'null', 'undefined']}
 
-  'surface:playback-restarted':
-    {} # TODO schema
+  'sprite:move': c.object {required: ['spriteID', 'pos']},
+    spriteID: {type: 'string'}
+    pos: c.object {required: ['x', 'y']},
+      x: {type: 'number'}
+      y: {type: 'number'}
+      z: {type: 'number'}
+    duration: {type: 'number', minimum: 0}
 
-  'level-set-playing':
-    {} # TODO schema
+  'sprite:mouse-down': spriteMouseEventSchema
+  'sprite:clicked': spriteMouseEventSchema
+  'sprite:double-clicked': spriteMouseEventSchema
+  'sprite:dragged': spriteMouseEventSchema
+  'sprite:mouse-up': spriteMouseEventSchema
 
-  'registrar-echo-states':
-    {} # TODO schema
+  'surface:frame-changed': c.object {required: ['frame', 'world', 'progress']},
+    frame: {type: 'number', minimum: 0}
+    world: {type: 'object'}
+    progress: {type: 'number', minimum: 0, maximum: 1}
+    selectedThang: {type: ['object', 'null', 'undefined']}
 
-  'surface:mouse-moved':
-    {} # TODO schema
+  'surface:playback-ended': c.object {}
 
-  'surface:stage-mouse-down':
-    {} # TODO schema
+  'surface:playback-restarted': c.object {}
 
-  'surface:mouse-scrolled':
-    {} # TODO schema
+  'surface:mouse-moved': c.object {required: ['x', 'y']},
+    x: {type: 'number'}
+    y: {type: 'number'}
 
-  'surface:ticked':
-    {} # TODO schema
+  'surface:stage-mouse-down': c.object {required: ['onBackground', 'x', 'y', 'originalEvent']},
+    onBackground: {type: 'boolean'}
+    x: {type: 'number'}
+    y: {type: 'number'}
+    originalEvent: {type: 'object'}
+    worldPos: {type: ['object', 'null', 'undefined']}
 
-  'surface:mouse-over':
-    {} # TODO schema
+  'surface:stage-mouse-up': c.object {required: ['onBackground', 'originalEvent']},
+    onBackground: {type: 'boolean'}
+    x: {type: ['number', 'undefined']}
+    y: {type: ['number', 'undefined']}
+    originalEvent: {type: 'object'}
 
-  'surface:mouse-out':
-    {} # TODO schema
+  'surface:mouse-scrolled': c.object {required: ['deltaX', 'deltaY', 'canvas']},
+    deltaX: {type: 'number'}
+    deltaY: {type: 'number'}
+    screenPos: c.object {required: ['x', 'y']},
+      x: {type: 'number'}
+      y: {type: 'number'}
+    canvas: {type: 'object'}
 
-  'self-wizard:target-changed':
-    {} # TODO schema
+  'surface:ticked': c.object {required: ['dt']},
+    dt: {type: 'number'}
 
-  'echo-all-wizard-sprites':
-    {} # TODO schema
+  'surface:mouse-over': c.object {}
+
+  'surface:mouse-out': c.object {}
+
+  'sprite:echo-all-wizard-sprites': c.object {required: ['payload']},
+    payload: c.array {}, {type: 'object'}
+
+  'self-wizard:created': c.object {required: ['sprite']},
+    sprite: {type: 'object'}
+
+  'self-wizard:target-changed': c.object {required: ['sprite']},
+    sprite: {type: 'object'}
+
+  'surface:flag-appeared': c.object {required: ['sprite']},
+    sprite: {type: 'object'}
+
+  'surface:remove-selected-flag': c.object {}
+
+  'surface:remove-flag': c.object {required: ['color']},
+    color: {type: 'string'}

@@ -3,9 +3,9 @@ c = require './../schemas'
 module.exports = ThangComponentSchema = c.object {
   title: 'Component'
   description: 'Configuration for a Component that this Thang uses.'
-  format: 'thang-component'
+  format: 'component-reference'
   required: ['original', 'majorVersion']
-  'default':
+  default:
     majorVersion: 0
     config: {}
   links: [{rel: 'db', href: '/db/level.component/{(original)}/version/{(majorVersion)}'}]
@@ -17,5 +17,4 @@ module.exports = ThangComponentSchema = c.object {
     description: 'Which major version of the Component is being used.'
     type: 'integer'
     minimum: 0
-    default: 0
     format: 'hidden'

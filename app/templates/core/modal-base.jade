@@ -1,0 +1,33 @@
+.modal-dialog.game
+  .background-wrapper
+    .modal-content
+      block modal-header
+        .modal-header
+          if view.closeButton
+            .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
+          block modal-header-content
+            if view.options.headerContent
+              h3!= view.options.headerContent
+            else
+              h3 man bites God
+
+      block modal-body
+        .modal-body
+          block modal-body-content
+            if view.options.bodyContent
+              div!= view.options.bodyContent
+            else
+              p Man Bites God are the bad boys of the Melbourne live music and comedy scene. It is like being drowned in a bathtub of harmony.
+              img(src="http://www.manbitesgod.com/images/picturecoupleb.jpg")
+              img(src="http://www.manbitesgod.com/images/manrantb.jpg")
+
+        .modal-body.wait.secret
+          block modal-body-wait-content
+            h3 Reticulating Splines...
+          .progress.progress-striped.active
+            .progress-bar
+
+      block modal-footer
+        .modal-footer
+          block modal-footer-content
+            button.btn.btn-primary(type="button", data-dismiss="modal", aria-hidden="true", data-i18n="modal.okay") Okay

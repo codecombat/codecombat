@@ -1,0 +1,99 @@
+#systems-tab-view
+  h3
+    margin-top: 0
+    @media screen and (max-width: 800px)
+      display: none
+      
+  .toggle
+    padding: 6px 8px
+    z-index: 11
+    margin-top: 0px
+    margin-left: 2px
+  
+  .systems-container
+    position: absolute
+    top: 0
+    bottom: 40px
+
+    .editor-nano-container
+      position: relative
+      height: 90%
+      width: 250px
+      
+    .treema-root
+      position: absolute
+      bottom: 0
+      width: 250px
+      overflow: scroll
+      @media screen and (max-width: 800px)
+        z-index: 10
+        bottom: -35px
+        
+      > .treema-children > .treema-add-child
+        display: none
+      
+      .treema-children .treema-row *
+        cursor: pointer !important
+  
+  #add-system-button
+    position: absolute
+    bottom: 0
+    left: 170px
+    top: auto
+    @media screen and (max-width: 800px)
+      left: 40px
+      top: 1px
+      bottom: auto
+      padding: 8px 10px
+      
+    .text
+      display: block
+      @media screen and (max-width: 800px)
+        display: none
+    [class^='icon-']
+      display: none
+      @media screen and (max-width: 800px)
+        display: block
+
+  .edit-system-container
+    margin-left: 290px
+    position: absolute
+    right: 0
+    left: 0px
+    top: 0
+    bottom: 0
+    @media screen and (max-width: 800px)
+      margin-left: 0px
+      
+      .nav-tabs
+        margin-left: 120px
+        
+        li
+          z-index: 11
+    
+    .treema-root
+      position: absolute
+      top: 35px
+      right: 0
+      left: 0px
+      bottom: 0
+      overflow: scroll
+
+    #create-new-system-button
+      position: absolute
+      top: 0
+      right: 0
+      left: auto
+      @media screen and (max-width: 800px)
+        left: 80px
+        top: 1px
+        bottom: auto
+        padding: 8px 10px
+      .text
+        display: block
+        @media screen and (max-width: 800px)
+          display: none
+      [class^='icon-']
+        display: none
+        @media screen and (max-width: 800px)
+          display: block

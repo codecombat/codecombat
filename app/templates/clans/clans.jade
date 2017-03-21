@@ -1,0 +1,82 @@
+extends /templates/base
+
+block content
+
+  p
+    input.create-clan-name(type='text', data-i18n="[placeholder]clans.new_name", placeholder='New clan name')
+  p
+    textarea.create-clan-description(rows=2, data-i18n="[placeholder]clans.new_description", placeholder='New clan description')
+  p
+    input(type='checkbox').private-clan-checkbox
+    span.spl(data-i18n="clans.make_private") Make clan private
+    span.spl (
+    a.private-more-info(data-i18n="clans.private_preview")
+    span )
+  p
+    button.btn.btn-success.create-clan-btn(data-i18n="clans.create_clan") Create New Clan
+
+  div(role='tabpanel')
+    ul.nav.nav-tabs(role='tablist')
+      li.active(role='presentation')
+        a(href='#public-clans', aria-controls='public-clans', role='tab', data-toggle='tab', data-i18n="clans.public_clans") Public Clans
+      li(role='presentation')
+        a(href='#my-clans', aria-controls='my-clans', role='tab', data-toggle='tab', data-i18n="clans.my_clans") My Clans
+
+  .tab-content
+    .tab-pane.active#public-clans(role='tabpanel')
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th(data-i18n="clans.clan_name") Clan Name
+            th(data-i18n="play.heroes") Heroes
+            th(data-i18n="clans.chieftain") Chieftain
+            th  
+        tbody
+          if view.publicClansArray.length
+            each clan in view.publicClansArray
+              tr
+                td
+                  if clan.get('ownerID') === me.id
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                  else
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                td= clan.get('memberCount')
+                td 
+                  if view.idNameMap && view.idNameMap[clan.get('ownerID')]
+                    a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
+                  else
+                    a(href="/user/#{clan.get('ownerID')}") Anonymous
+                td
+                  if view.myClanIDs.indexOf(clan.id) < 0
+                    button.btn.btn-success.join-clan-btn(data-id="#{clan.id}", data-i18n="clans.join_clan") Join Clan
+                  else if clan.get('ownerID') !== me.id
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}", data-i18n="clans.leave_clan") Leave Clan
+
+    .tab-pane#my-clans(role='tabpanel')
+      table.table.table-striped.table-condensed
+        thead
+          tr
+            th(data-i18n="clans.clan_name") Clan Name
+            th(data-i18n="play.heroes") Heroes
+            th(data-i18n="clans.chieftain") Chieftain
+            th(data-i18n="editor.level_components_type") Type
+            th
+        tbody
+          if view.myClansArray.length
+            each clan in view.myClansArray
+              tr
+                td
+                  if clan.get('ownerID') === me.id
+                    a(href="/clans/#{clan.id}", style='font-weight:bold')= clan.get('name')
+                  else
+                    a(href="/clans/#{clan.id}")= clan.get('name')
+                td= clan.get('memberCount')
+                td 
+                  if view.idNameMap && view.idNameMap[clan.get('ownerID')]
+                    a(href="/user/#{clan.get('ownerID')}")= view.idNameMap[clan.get('ownerID')]
+                  else
+                    a(href="/user/#{clan.get('ownerID')}") Anonymous
+                td= clan.get('type')
+                td
+                  if clan.get('ownerID') !== me.id
+                    button.btn.btn-xs.btn-warning.leave-clan-btn(data-id="#{clan.id}", data-i18n="clans.leave_clan") Leave Clan

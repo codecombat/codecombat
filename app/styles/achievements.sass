@@ -1,0 +1,203 @@
+@import 'bootstrap/variables'
+
+// absolutes
+$icon-margin-scale: 0.7
+
+// control relative size
+$overall-scale: 0.7
+$bar-width: 340px
+$bar-height: 30px
+$icon-size: 200px
+$icon-image-size: 130px
+$content-width: 450px
+$content-height: 160px
+
+// just on user achievement list page
+$user-achievements-scale: 0.8
+
+.achievement-popup
+  padding: $overall-scale * 20px 0px
+  position: relative
+
+  .achievement-body
+    position: relative
+
+    .achievement-icon
+      position: absolute
+      z-index: 1000
+      width: $overall-scale * $icon-size
+      height: $overall-scale * $icon-size
+      left: $overall-scale * (-$icon-margin-scale * $icon-size)
+      top: $overall-scale * -20px
+      background-size: 100% 100% !important
+
+      .achievement-image
+        width: 100%
+        height: 100%
+        img
+          border-radius: 25%
+          position: absolute
+          margin: auto
+          top: 0
+          left: 0
+          right: 0
+          bottom: 0
+          width: $overall-scale * $icon-image-size
+
+    .achievement-content
+      background-image: url("/images/achievements/achievement_background.png")
+      position: relative
+      width: $overall-scale * $content-width
+      height: $overall-scale * $content-height
+      padding: $overall-scale * 24px $overall-scale * 30px $overall-scale * 20px $overall-scale * 60px
+      background-size: 100% 100%
+      text-align: center
+      overflow: hidden
+
+      .achievement-title
+        font-family: $headings-font-family
+        font-variant: small-caps
+        font-size: $overall-scale * 28px
+        font-weight: bold
+        padding-left: $overall-scale * -50px
+        white-space: nowrap
+        max-height: 2em
+        overflow: hidden
+        text-overflow: ellipsis
+
+      .achievement-description
+        font-size: $overall-scale * 16px
+        line-height: 1.3em
+        max-height: 2.6em
+        margin-top: auto
+        margin-bottom: 0px !important
+        white-space: normal
+        padding-left: 5px
+        overflow: hidden
+        text-overflow: ellipsis
+
+      .progress-wrapper
+        margin-left: $overall-scale * 20px
+        position: absolute
+        bottom: $overall-scale * 48px
+
+        .user-level
+          font-size: $overall-scale * 20px
+          color: white
+          position: absolute
+          left: $overall-scale * -15px
+          margin-top: $overall-scale * -8px
+          vertical-align: middle
+          z-index: 1000
+
+        > .progress-bar-wrapper
+          position: absolute
+          margin-left: $overall-scale * 17px
+          width: $overall-scale * ($bar-width - (2 * 5px) - 17px)
+          height: $overall-scale * ($bar-height - (2 * 5px))
+          z-index: 2
+
+          > .progress
+            margin-top: $overall-scale * 5px
+            border-radius: $overall-scale * 50px
+            height: $overall-scale * 14px
+
+        > .progress-bar-border
+          position: absolute
+          width: $overall-scale * $bar-width
+          height: $overall-scale * $bar-height
+          margin-top: $overall-scale * -2px
+          background: url("/images/achievements/bar_border.png") no-repeat
+          background-size: 100% 100%
+          z-index: 1
+
+    &.locked
+      .achievement-content
+        background-image: url("/images/achievements/achievement_background_locked.png")
+    &:not(.locked)
+      .achievement-content
+        background-image: url("/images/achievements/achievement_background.png")
+
+.achievement-wood
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_wood_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_wood.png") no-repeat
+
+.achievement-stone
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_stone_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_stone.png") no-repeat
+
+.achievement-silver
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_silver_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_silver.png") no-repeat
+
+.achievement-gold
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_gold_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_gold.png") no-repeat
+
+.achievement-diamond
+  &.locked
+    .achievement-icon
+      background: url("/images/achievements/border_diamond_locked.png") no-repeat
+  &:not(.locked)
+    .achievement-icon
+      background: url("/images/achievements/border_diamond.png") no-repeat
+
+.xp-bar-old
+  background-color: #680080
+
+.xp-bar-new
+  background-color: #0096ff
+
+.xp-bar-left
+  background-color: #fffbfd
+
+// Achievements page
+.achievement-category-title
+  margin-left: 20px
+  font-family: $font-family-base
+  font-weight: bold
+  color: #5a5a5a
+  text-transform: uppercase
+
+.table-layout
+  #no-achievements
+    margin-top: 40px
+
+.achievement-icon-small
+  height: 18px
+
+// Achievement Popup
+.achievement-popup-container
+  position: fixed
+  left: 100px
+  bottom: 0px
+  z-index: 9001
+  cursor: pointer
+
+.popup
+  left: -600px
+
+.user-level
+  background-image: url("/images/achievements/level-bg.png")
+  background-size: 100% 100%
+  width: $overall-scale * 38px
+  height: $overall-scale * 38px
+  line-height: $overall-scale * 38px
+  font-size: $overall-scale * 20px
+  font-family: $font-family-base

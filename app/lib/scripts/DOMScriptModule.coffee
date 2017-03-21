@@ -15,8 +15,8 @@ module.exports = class DOMScriptModule extends ScriptModule
 
   endNotes: ->
     notes = []
-    notes.push({'channel': 'end-level-highlight-dom'}) if @noteGroup.dom.highlight?
-    notes.push({'channel': 'level-enable-controls'}) if @noteGroup.dom.lock?
+    notes.push({'channel': 'level:end-highlight-dom'}) if @noteGroup.dom.highlight?
+    notes.push({'channel': 'level:enable-controls'}) if @noteGroup.dom.lock?
     return notes
 
   skipNotes: ->
@@ -28,7 +28,7 @@ module.exports = class DOMScriptModule extends ScriptModule
   highlightNote: ->
     dom = @noteGroup.dom
     note =
-      channel: 'level-highlight-dom'
+      channel: 'level:highlight-dom'
       event:
         selector: dom.highlight.target
         delay: dom.highlight.delay
@@ -41,7 +41,7 @@ module.exports = class DOMScriptModule extends ScriptModule
 
   focusNote: ->
     note =
-      channel: 'level-focus-dom'
+      channel: 'level:focus-dom'
       event:
         selector: @noteGroup.dom.focus
     note
@@ -51,7 +51,7 @@ module.exports = class DOMScriptModule extends ScriptModule
     e.showModal = @noteGroup.dom.showVictory in [true, 'Done Button And Modal']
     e.showModal = showModal if showModal?
     note =
-      channel: 'level-show-victory'
+      channel: 'level:show-victory'
       event: e
     note
 
@@ -59,8 +59,8 @@ module.exports = class DOMScriptModule extends ScriptModule
     event = {}
     lock = @noteGroup.dom.lock
     event.controls = lock if _.isArray lock  # array: subset of controls
-    channel = if lock then 'level-disable-controls' else 'level-enable-controls'
+    channel = if lock then 'level:disable-controls' else 'level:enable-controls'
     return {channel: channel, event: event}
 
   letterboxNote: ->
-    return {channel: 'level-set-letterbox', event: {on: @noteGroup.dom.letterbox}}
+    return {channel: 'level:set-letterbox', event: {on: @noteGroup.dom.letterbox}}

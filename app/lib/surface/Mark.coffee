@@ -1,4 +1,4 @@
-CocoClass = require 'lib/CocoClass'
+CocoClass = require 'core/CocoClass'
 Camera = require './Camera'
 ThangType = require 'models/ThangType'
 markThangTypes = {}
@@ -11,68 +11,97 @@ module.exports = class Mark extends CocoClass
     super()
     options ?= {}
     @name = options.name
-    @sprite = options.sprite
+    @lank = options.lank
     @camera = options.camera
     @layer = options.layer
     @thangType = options.thangType
+    @listenTo @layer, 'new-spritesheet', @onLayerMadeSpriteSheet
     console.error @toString(), 'needs a name.' unless @name
     console.error @toString(), 'needs a camera.' unless @camera
     console.error @toString(), 'needs a layer.' unless @layer
     @build()
 
   destroy: ->
-    createjs.Tween.removeTweens @mark if @mark
-    @mark?.parent?.removeChild @mark
-    @markSprite?.destroy()
-    @sprite = null
+    createjs.Tween.removeTweens @sprite if @sprite
+    @sprite?.parent?.removeChild @sprite
+    if @markLank
+      @layer.removeLank(@markLank)
+      @markLank.destroy()
+    @lank = null
     super()
 
-  toString: -> "<Mark #{@name}: Sprite #{@sprite?.thang?.id ? 'None'}>"
+  toString: -> "<Mark #{@name}: Sprite #{@lank?.thang?.id ? 'None'}>"
+
+  onLayerMadeSpriteSheet: ->
+    return unless @sprite
+    return @update() if @markLank
+    # rebuild sprite for new sprite sheet
+    @layer.removeChild @sprite
+    @sprite = null
+    @build()
+    @layer.addChild @sprite
+    @layer.updateLayerOrder()
+#    @updatePosition()
+    @update()
 
   toggle: (to) ->
+    to = !!to
     return @ if to is @on
-    return @toggleTo = to unless @mark
+    return @toggleTo = to unless @sprite
     @on = to
     delete @toggleTo
     if @on
-      @layer.addChild @mark
-      @layer.updateLayerOrder()
+      if @markLank
+        @layer.addLank(@markLank)
+      else
+        @layer.addChild @sprite
+        @layer.updateLayerOrder()
     else
-      @layer.removeChild @mark
+      if @markLank
+        @layer.removeLank(@markLank)
+      else
+        @layer.removeChild @sprite
       if @highlightTween
         @highlightDelay = @highlightTween = null
-        createjs.Tween.removeTweens @mark
-        @mark.visible = true
+        createjs.Tween.removeTweens @sprite
+        @sprite.visible = true
     @
 
-  setSprite: (sprite) ->
-    return if sprite is @sprite
-    @sprite = sprite
+  setLayer: (layer) ->
+    return if layer is @layer
+    wasOn = @on
+    @toggle false
+    @layer = layer
+    @toggle true if wasOn
+
+  setLank: (lank) ->
+    return if lank is @lank
+    @lank = lank
     @build()
     @
 
   build: ->
-    unless @mark
+    unless @sprite
       if @name is 'bounds' then @buildBounds()
       else if @name is 'shadow' then @buildShadow()
       else if @name is 'debug' then @buildDebug()
       else if @name.match(/.+(Range|Distance|Radius)$/) then @buildRadius(@name)
       else if @thangType then @buildSprite()
       else console.error 'Don\'t know how to build mark for', @name
-      @mark?.mouseEnabled = false
+      @sprite?.mouseEnabled = false
     @
 
   buildBounds: ->
-    @mark = new createjs.Container()
-    @mark.mouseChildren = false
-    style = @sprite.thang.drawsBoundsStyle
-    @drawsBoundsIndex = @sprite.thang.drawsBoundsIndex
-    return if style is 'corner-text' and @sprite.thang.world.age is 0
+    @sprite = new createjs.Container()
+    @sprite.mouseChildren = false
+    style = @lank.thang.drawsBoundsStyle
+    @drawsBoundsIndex = @lank.thang.drawsBoundsIndex
+    return if style is 'corner-text' and @lank.thang.world.age is 0
 
     # Confusingly make some semi-random colors that'll be consistent based on the drawsBoundsIndex
     colors = (128 + Math.floor(('0.'+Math.sin(3 * @drawsBoundsIndex + i).toString().substr(6)) * 128) for i in [1 ... 4])
     color = "rgba(#{colors[0]}, #{colors[1]}, #{colors[2]}, 0.5)"
-    [w, h] = [@sprite.thang.width * Camera.PPM, @sprite.thang.height * Camera.PPM * @camera.y2x]
+    [w, h] = [@lank.thang.width * Camera.PPM, @lank.thang.height * Camera.PPM * @camera.y2x]
 
     if style in ['border-text', 'corner-text']
       @drawsBoundsBorderShape = shape = new createjs.Shape()
@@ -82,57 +111,64 @@ module.exports = class Mark extends CocoClass
         shape.graphics.beginFill color.replace('0.5', '0.25')
       else
         shape.graphics.beginFill color
-      if @sprite.thang.shape in ['ellipsoid', 'disc']
+      if @lank.thang.shape in ['ellipsoid', 'disc']
         shape.drawEllipse 0, 0, w, h
       else
         shape.graphics.drawRect -w / 2, -h / 2, w, h
       shape.graphics.endStroke()
       shape.graphics.endFill()
-      @mark.addChild shape
+      @sprite.addChild shape
 
     if style is 'border-text'
       text = new createjs.Text '' + @drawsBoundsIndex, '20px Arial', color.replace('0.5', '1')
       text.regX = text.getMeasuredWidth() / 2
       text.regY = text.getMeasuredHeight() / 2
       text.shadow = new createjs.Shadow('#000000', 1, 1, 0)
-      @mark.addChild text
+      @sprite.addChild text
     else if style is 'corner-text'
-      return if @sprite.thang.world.age is 0
+      return if @lank.thang.world.age is 0
       letter = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'[@drawsBoundsIndex % 26]
       text = new createjs.Text letter, '14px Arial', '#333333'   # color.replace('0.5', '1')
       text.x = -w / 2 + 2
       text.y = -h / 2 + 2
-      @mark.addChild text
+      @sprite.addChild text
     else
-      console.warn @sprite.thang.id, 'didn\'t know how to draw bounds style:', style
+      console.warn @lank.thang.id, 'didn\'t know how to draw bounds style:', style
 
     if w > 0 and h > 0 and style is 'border-text'
-      @mark.cache -w / 2, -h / 2, w, h, 2
-    @lastWidth = @sprite.thang.width
-    @lastHeight = @sprite.thang.height
+      @sprite.cache -w / 2, -h / 2, w, h, 2
+    @lastWidth = @lank.thang.width
+    @lastHeight = @lank.thang.height
 
   buildShadow: ->
-    alpha = @sprite.thang?.alpha ? 1
-    width = (@sprite.thang?.width ? 0) + 0.5
-    height = (@sprite.thang?.height ? 0) + 0.5
+    shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
+    key = "#{shapeName}-shadow"
+    SHADOW_SIZE = 10
+    unless key in @layer.spriteSheet.getAnimations()
+      shape = new createjs.Shape()
+      shape.graphics.beginFill "rgba(0,0,0)"
+      bounds = [-SHADOW_SIZE/2, - SHADOW_SIZE/2, SHADOW_SIZE, SHADOW_SIZE]
+      if shapeName is 'ellipse'
+        shape.graphics.drawEllipse bounds...
+      else
+        shape.graphics.drawRect bounds...
+      shape.graphics.endFill()
+      @layer.addCustomGraphic(key, shape, bounds)
+    alpha = @lank.thang?.alpha ? 1
+    width = (@lank.thang?.width ? 0) + 0.5
+    height = (@lank.thang?.height ? 0) + 0.5
     longest = Math.max width, height
-    actualLongest = @sprite.thangType.get('shadow') ? longest
+    actualLongest = @lank.thangType.get('shadow') ? longest
     width = width * actualLongest / longest
     height = height * actualLongest / longest
     width *= Camera.PPM
     height *= Camera.PPM * @camera.y2x  # TODO: doesn't work with rotation
-    @mark = new createjs.Shape()
-    @mark.mouseEnabled = false
-    @mark.graphics.beginFill "rgba(0,0,0,#{alpha})"
-    if @sprite.thang.shape in ['ellipsoid', 'disc']
-      @mark.graphics.drawEllipse 0, 0, width, height
-    else
-      @mark.graphics.drawRect 0, 0, width, height
-    @mark.graphics.endFill()
-    @mark.regX = width / 2
-    @mark.regY = height / 2
-    @mark.layerIndex = 10
-    @mark.cache -1, -1, width + 2, height + 2 # not actually faster than simple ellipse draw
+    @sprite = new createjs.Sprite(@layer.spriteSheet)
+    @sprite.gotoAndStop(key)
+    @sprite.mouseEnabled = false
+    @sprite.alpha = alpha
+    @baseScaleX = @sprite.scaleX = width / (@layer.resolutionFactor * SHADOW_SIZE)
+    @baseScaleY = @sprite.scaleY = height / (@layer.resolutionFactor * SHADOW_SIZE)
 
   buildRadius: (range) ->
     alpha = 0.15
@@ -150,45 +186,65 @@ module.exports = class Mark extends CocoClass
     ]
 
     # Find the index of this range, to find the next-smallest radius
-    rangeNames = @sprite.ranges.map((range, index) ->
+    rangeNames = @lank.ranges.map((range, index) ->
       range['name']
     )
     i = rangeNames.indexOf(range)
 
-    @mark = new createjs.Shape()
+    @sprite = new createjs.Shape()
 
     fillColor = colors[range] ? extraColors[i]
-    @mark.graphics.beginFill fillColor
+    @sprite.graphics.beginFill fillColor
 
     # Draw the outer circle
-    @mark.graphics.drawCircle 0, 0, @sprite.thang[range] * Camera.PPM
+    @sprite.graphics.drawCircle 0, 0, @lank.thang[range] * Camera.PPM
 
     # Cut out the hollow part if necessary
-    if i+1 < @sprite.ranges.length
-      @mark.graphics.arc 0, 0, @sprite.ranges[i+1]['radius'], Math.PI*2, 0, true
+    if i+1 < @lank.ranges.length
+      @sprite.graphics.arc 0, 0, @lank.ranges[i+1]['radius'], Math.PI*2, 0, true
 
-    @mark.graphics.endFill()
+    @sprite.graphics.endFill()
 
     strokeColor = fillColor.replace '' + alpha, '0.75'
-    @mark.graphics.setStrokeStyle 2
-    @mark.graphics.beginStroke strokeColor
-    @mark.graphics.arc 0, 0, @sprite.thang[range] * Camera.PPM, Math.PI*2, 0, true
-    @mark.graphics.endStroke()
+    @sprite.graphics.setStrokeStyle 2
+    @sprite.graphics.beginStroke strokeColor
+    @sprite.graphics.arc 0, 0, @lank.thang[range] * Camera.PPM, Math.PI*2, 0, true
+    @sprite.graphics.endStroke()
 
     # Add perspective
-    @mark.scaleY *= @camera.y2x
+    @sprite.scaleY *= @camera.y2x
 
   buildDebug: ->
-    @mark = new createjs.Shape()
+    shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
+    key = "#{shapeName}-debug-#{@lank.thang.collisionCategory}"
+    DEBUG_SIZE = 10
+    unless key in @layer.spriteSheet.getAnimations()
+      shape = new createjs.Shape()
+      debugColor = {
+        none: 'rgba(224,255,239,0.25)'
+        ground: 'rgba(239,171,205,0.5)'
+        air: 'rgba(131,205,255,0.5)'
+        ground_and_air: 'rgba(2391,140,239,0.5)'
+        obstacles: 'rgba(88,88,88,0.5)'
+        dead: 'rgba(89,171,100,0.25)'
+      }[@lank.thang.collisionCategory] or 'rgba(171,205,239,0.5)'
+      shape.graphics.beginFill debugColor
+      bounds = [-DEBUG_SIZE / 2, -DEBUG_SIZE / 2, DEBUG_SIZE, DEBUG_SIZE]
+      if shapeName is 'ellipse'
+        shape.graphics.drawEllipse bounds...
+      else
+        shape.graphics.drawRect bounds...
+      shape.graphics.endFill()
+      @layer.addCustomGraphic(key, shape, bounds)
+
+    @sprite = new createjs.Sprite(@layer.spriteSheet)
+    @sprite.gotoAndStop(key)
     PX = 3
-    [w, h] = [Math.max(PX, @sprite.thang.width * Camera.PPM), Math.max(PX, @sprite.thang.height * Camera.PPM) * @camera.y2x]  # TODO: doesn't work with rotation
-    @mark.alpha = 0.5
-    @mark.graphics.beginFill '#abcdef'
-    if @sprite.thang.shape in ['ellipsoid', 'disc']
-      @mark.graphics.drawEllipse -w / 2, -h / 2, w, h
-    else
-      @mark.graphics.drawRect -w / 2, -h / 2, w, h
-    @mark.graphics.endFill()
+    w = Math.max(PX, @lank.thang.width  * Camera.PPM) * (@camera.y2x + (1 - @camera.y2x) * Math.abs Math.cos @lank.thang.rotation)
+    h = Math.max(PX, @lank.thang.height * Camera.PPM) * (@camera.y2x + (1 - @camera.y2x) * Math.abs Math.sin @lank.thang.rotation)
+    @sprite.scaleX = w / (@layer.resolutionFactor * DEBUG_SIZE)
+    @sprite.scaleY = h / (@layer.resolutionFactor * DEBUG_SIZE)
+    @sprite.rotation = -@lank.thang.rotation * 180 / Math.PI
 
   buildSprite: ->
     if _.isString @thangType
@@ -197,12 +253,13 @@ module.exports = class Mark extends CocoClass
       @thangType = thangType
 
     return @listenToOnce(@thangType, 'sync', @onLoadedThangType) if not @thangType.loaded
-    CocoSprite = require './CocoSprite'
+    Lank = require './Lank'
     # don't bother with making these render async for now, but maybe later for fun and more complexity of code
-    markSprite = new CocoSprite @thangType, {async: false}
-    markSprite.queueAction 'idle'
-    @mark = markSprite.imageObject
-    @markSprite = markSprite
+    markLank = new Lank @thangType
+    markLank.queueAction 'idle'
+    @sprite = markLank.sprite
+    @markLank = markLank
+    @listenTo @markLank, 'new-sprite', (@sprite) ->
 
   loadThangType: ->
     name = @thangType
@@ -211,90 +268,92 @@ module.exports = class Mark extends CocoClass
     @listenToOnce(@thangType, 'sync', @onLoadedThangType)
     @thangType.fetch()
     markThangTypes[name] = @thangType
-    window.mtt = markThangTypes
 
   onLoadedThangType: ->
     @build()
+    @update() if @markLank
     @toggle(@toggleTo) if @toggleTo?
-    Backbone.Mediator.publish 'sprite:loaded'
+    Backbone.Mediator.publish 'sprite:loaded', {sprite: @}
 
   update: (pos=null) ->
-    return false unless @on and @mark
-    return false if @sprite? and not @sprite.thangType.isFullyLoaded()
-    @mark.visible = not @hidden
+    return false unless @on and @sprite
+    return false if @lank? and not @lank.thangType.isFullyLoaded()
+    @sprite.visible = not @hidden
     @updatePosition pos
     @updateRotation()
     @updateScale()
     if @name is 'highlight' and @highlightDelay and not @highlightTween
-      @mark.visible = false
-      @highlightTween = createjs.Tween.get(@mark).to({}, @highlightDelay).call =>
-        @mark.visible = true
+      @sprite.visible = false
+      @highlightTween = createjs.Tween.get(@sprite).to({}, @highlightDelay).call =>
+        return if @destroyed
+        @sprite.visible = true
         @highlightDelay = @highlightTween = null
     @updateAlpha @alpha if @name in ['shadow', 'bounds']
     true
 
   updatePosition: (pos) ->
-    if @sprite?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
-      pos = @camera.worldToSurface x: @sprite.thang.pos.x, y: @sprite.thang.pos.y
+    if @lank?.thang and @name in ['shadow', 'debug', 'target', 'selection', 'repair']
+      pos = @camera.worldToSurface x: @lank.thang.pos.x, y: @lank.thang.pos.y
     else
-      pos ?= @sprite?.imageObject
-    @mark.x = pos.x
-    @mark.y = pos.y
+      pos ?= @lank?.sprite
+    return unless pos
+    @sprite.x = pos.x
+    @sprite.y = pos.y
     if @statusEffect or @name is 'highlight'
-      offset = @sprite.getOffset 'aboveHead'
-      @mark.x += offset.x
-      @mark.y += offset.y
-      @mark.y -= 3 if @statusEffect
+      offset = @lank.getOffset 'aboveHead'
+      @sprite.x += offset.x
+      @sprite.y += offset.y
+      @sprite.y -= 3 if @statusEffect
 
   updateAlpha: (@alpha) ->
-    return if not @mark or @name is 'debug'
+    return if not @sprite or @name is 'debug'
     if @name is 'shadow'
-      worldZ = @sprite.thang.pos.z - @sprite.thang.depth / 2 + @sprite.getBobOffset()
-      @mark.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
+      worldZ = @lank.thang.pos.z - @lank.thang.depth / 2 + @lank.getBobOffset()
+      @sprite.alpha = @alpha * 0.451 / Math.sqrt(worldZ / 2 + 1)
     else if @name is 'bounds'
-      @drawsBoundsBorderShape?.alpha = Math.floor @sprite.thang.alpha  # Stop drawing bounds as soon as alpha is reduced at all
+      @drawsBoundsBorderShape?.alpha = Math.floor @lank.thang.alpha  # Stop drawing bounds as soon as alpha is reduced at all
     else
-      @mark.alpha = @alpha
+      @sprite.alpha = @alpha
 
   updateRotation: ->
-    if @name is 'debug' or (@name is 'shadow' and @sprite.thang?.shape in ['rectangle', 'box'])
-      @mark.rotation = -@sprite.thang.rotation * 180 / Math.PI
+    if @name is 'debug' or (@name is 'shadow' and @lank.thang?.shape in ['rectangle', 'box'])
+      @sprite.rotation = -@lank.thang.rotation * 180 / Math.PI
 
   updateScale: ->
-    if @name is 'bounds' and ((@sprite.thang.width isnt @lastWidth or @sprite.thang.height isnt @lastHeight) or (@sprite.thang.drawsBoundsIndex isnt @drawsBoundsIndex))
-      oldMark = @mark
+    if @name is 'bounds' and ((@lank.thang.width isnt @lastWidth or @lank.thang.height isnt @lastHeight) or (@lank.thang.drawsBoundsIndex isnt @drawsBoundsIndex))
+      oldMark = @sprite
       @buildBounds()
-      oldMark.parent.addChild @mark
-      oldMark.parent.swapChildren oldMark, @mark
+      oldMark.parent.addChild @sprite
+      oldMark.parent.swapChildren oldMark, @sprite
       oldMark.parent.removeChild oldMark
 
-    if @markSprite?
-      @markSprite.scaleFactor = 1.2
-      @markSprite.updateScale()
+    if @markLank?
+      @markLank.scaleFactor = 1.2
+      @markLank.updateScale()
 
-    if @name is 'shadow' and thang = @sprite.thang
-      @mark.scaleX = thang.scaleFactor ? thang.scaleFactorX ? 1
-      @mark.scaleY = thang.scaleFactor ? thang.scaleFactorY ? 1
+    if @name is 'shadow' and thang = @lank.thang
+      @sprite.scaleX = @baseScaleX * (thang.scaleFactor ? thang.scaleFactorX ? 1)
+      @sprite.scaleY = @baseScaleY * (thang.scaleFactor ? thang.scaleFactorY ? 1)
 
     return unless @name in ['selection', 'target', 'repair', 'highlight']
 
-    # scale these marks to 10m (100px). Adjust based on sprite size.
+    # scale these marks to 10m (100px). Adjust based on lank size.
     factor = 0.3 # default size: 3m width, most commonly for target when pointing to a location
 
-    if @sprite?.imageObject
-      width = @sprite.imageObject.getBounds()?.width or 0
-      width /= @sprite.options.resolutionFactor
+    if @lank?.sprite
+      width = @lank.sprite.getBounds()?.width or 0
+      width /= @lank.options.resolutionFactor
       # all targets should be set to have a width of 100px, and then be scaled accordingly
       factor = width / 100 # normalize
       factor *= 1.1 # add margin
       factor = Math.max(factor, 0.3) # lower bound
-    @mark.scaleX *= factor
-    @mark.scaleY *= factor
+    @sprite.scaleX *= factor
+    @sprite.scaleY *= factor
 
     if @name in ['selection', 'target', 'repair']
-      @mark.scaleY *= @camera.y2x  # code applies perspective
+      @sprite.scaleY *= @camera.y2x  # code applies perspective
 
-  stop: -> @markSprite?.stop()
-  play: -> @markSprite?.play()
+  stop: -> @markLank?.stop()
+  play: -> @markLank?.play()
   hide: -> @hidden = true
   show: -> @hidden = false

@@ -1,0 +1,54 @@
+extends /templates/base
+
+block header
+  if view.campaign.loading
+    nav.navbar.navbar-default(role='navigation')#campaign-editor-top-nav
+      .container-fluid
+        ul.nav.navbar-nav
+          li
+            a(href="/")
+              span.glyphicon-home.glyphicon
+  else
+    nav.navbar.navbar-default(role='navigation')#campaign-editor-top-nav
+      ul.nav.navbar-nav
+        li
+          a(href="/")
+            span.glyphicon-home.glyphicon
+
+      ul.nav.navbar-nav.navbar-right
+        if me.isAdmin()
+          li#analytics-button
+            a
+              span.glyphicon-stats.glyphicon
+        if me.isAdmin()
+          li#save-button
+            a
+              span.glyphicon-floppy-disk.glyphicon
+        li.dropdown
+          a(data-toggle='dropdown')
+            span.glyphicon-chevron-down.glyphicon
+          ul.dropdown-menu
+            li.dropdown-header(data-i18n="common.actions") Actions
+            li(class=anonymous ? "disabled": "")
+              a(data-toggle="coco-modal", data-target="modal/RevertModal", data-i18n="editor.revert")#revert-button Revert
+            li(class=anonymous ? "disabled": "")
+              a(data-i18n="editor.pop_i18n")#pop-level-i18n-button Populate i18n
+            if me.isAdmin()
+              li#patches-button
+                a
+                  span.spr.glyphicon-wrench.glyphicon
+                  span(data-i18n="resources.patches") Patches
+            li.divider
+            li.dropdown-header(data-i18n="common.info") Info
+
+block outer_content
+  .outer-content
+    #left-column
+      #campaign-treema
+
+    #right-column
+      #campaign-view
+      #campaign-level-view.hidden
+      .patches-view.hidden
+
+block footer
