@@ -256,6 +256,9 @@ module.exports = class TeacherClassView extends RootView
   onClickEditClassroom: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    @promptToEdit()
+
+  promptToEdit: () ->
     classroom = @classroom
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)

@@ -194,3 +194,12 @@ module.exports = class Classroom extends CocoModel
     options.url = @url() + '/update-courses'
     options.type = 'POST'
     @fetch(options)
+
+  getSetting: (name) =>
+    settings = @get('settings') or {}
+    propInfo = Classroom.schema.properties.settings.properties
+    return settings[name] if name in Object.keys(settings)
+    if name in Object.keys(propInfo)
+      return propInfo[name].default
+
+    return false

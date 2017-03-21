@@ -33,7 +33,17 @@ _.extend ClassroomSchema.properties,
       slug: {type: 'string'}
     }
   }
+  settings: c.object {title: 'Classroom Settings', required: []}, {
+    optionsEditable: { type: 'boolean', description: 'Allow teacher to use these settings.', default: false }
+    map: { type: 'boolean', description: 'Classroom map.', default: false }
+    backToMap: { type: 'boolean', description: 'Go back to the map after victory.', default: true }
+    gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
+    xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
+    #rob: {type: 'number', description: 'Test'}
+  }
+   
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
+ClassroomSchema.properties.settings.additionalProperties = true
 
 module.exports = ClassroomSchema

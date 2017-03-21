@@ -105,6 +105,11 @@ block content
 mixin course-instance-body(courseInstance, classroom)
   - var course = view.courses.get(courseInstance.get('courseID'));
   - var stats = classroom.statsForSessions(courseInstance.sessions, course.id);
+  - var bgimg = view.getCourseWorldImage(course)
+  if classroom.getSetting('map')
+    div(style="position: relative")
+      div(style="position: absolute; left: -80px; top: -20px")
+        img(src="/images/pages/play/worlds/" + bgimg + "_small.png")
   if stats.levels.done
     .text-success
       span.glyphicon.glyphicon-ok
@@ -116,25 +121,36 @@ mixin course-instance-body(courseInstance, classroom)
       - var projectLevel = stats.levels.project;
       if arenaLevel
         - var url = view.urls.courseArenaLadder({level: view.originalLevelMap[arenaLevel.get('original')] || arenaLevel, courseInstance: courseInstance});
-        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
+        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(href=url, data-level-slug=arenaLevel.get('slug'), data-event-action="Students Play Arena")
           span(data-i18n="courses.play_arena")
       else if projectLevel
         - var url = view.urls.courseLevel({level: view.originalLevelMap[projectLevel.get('original')] || projectLevel, courseInstance: courseInstance});
-        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(data-href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
+        a.play-btn.btn.btn-forest-alt.btn-lg.m-b-1(href=url, data-level-slug=projectLevel.get('slug'), data-event-action="Students Play Project")
           span(data-i18n="courses.view_project")
       else
         a.btn.btn-default.btn-lg.m-b-1(disabled=true, data-i18n="courses.course_complete")
     else if stats.levels.next != stats.levels.first
       - var next = stats.levels.next;
-      - var url = view.urls.courseLevel({level: view.originalLevelMap[next.get('original')] || next, courseInstance: courseInstance});
-      a.play-btn.btn.btn-forest.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Continue Course")
-        span(data-i18n="common.continue")
+      - var mapurl = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
+      if classroom.getSetting('map')
+        a.play-btn.btn.btn-forest.btn-lg.m-b-1(href=mapurl, data-level-slug=next.get('slug'), data-event-action="Students Continue Course")
+          span(data-i18n="common.continue")
+      else
+        - var url = view.urls.courseLevel({level: view.originalLevelMap[next.get('original')] || next, courseInstance: courseInstance});
+        a.play-btn.btn.btn-forest.btn-lg.m-b-1(href=url, data-level-slug=next.get('slug'), data-event-action="Students Continue Course")
+         span(data-i18n="common.continue")
+
     else
       - var firstLevel = stats.levels.first;
-      - var url = view.urls.courseLevel({level: view.originalLevelMap[firstLevel.get('original')] || firstLevel, courseInstance: courseInstance});
-      a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=firstLevel.get('slug'), data-event-action="Students Start Course")
-        span(data-i18n="courses.start")
-
+      if classroom.getSetting('map')
+        - var url = view.urls.courseWorldMap({course: course, courseInstance: courseInstance});
+        a.play-btn.btn.btn-navy.btn-lg.m-b-1(href=url, data-event-action="Students Start Course")
+          span(data-i18n="courses.start")
+      else
+        - var url = view.urls.courseLevel({level: view.originalLevelMap[firstLevel.get('original')] || firstLevel, courseInstance: courseInstance, classroom: classroom});
+        a.btn.btn-navy.btn-lg.m-b-1(href=url, data-level-slug=firstLevel.get('slug'), data-event-action="Students Start Course")
+          span(data-i18n="courses.start")
+        
 
   if stats.levels.lastPlayed
     div

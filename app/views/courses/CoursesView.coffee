@@ -181,6 +181,21 @@ module.exports = class CoursesView extends RootView
       @errorMessage = "#{jqxhr.responseText}"
     @renderSelectors '#join-class-form'
 
+  getCourseWorldImage: (course) ->
+    slug = course.get('slug')
+    return 'dungeon' if slug is 'introduction-to-computer-science'
+    return 'forest' if slug is 'computer-science-2'
+    return 'forest' if slug is 'computer-science-3'
+    return 'desert' if slug is 'computer-science-4'
+    return 'mountain' if slug is 'computer-science-5'
+    return 'mountain' if slug is 'computer-science-6'
+    return 'game_dev_1' if slug is 'game-development-1'
+    return 'game_dev_2' if slug is 'game-development-2'
+    return 'web_dev_1' if slug is 'web-development-1'
+    return 'web_dev_2' if slug is 'web-development-2'
+
+    return slug
+
   onJoinClassroomSuccess: (newClassroom, data, options) ->
     @state = null
     application.tracker?.trackEvent 'Joined classroom', {

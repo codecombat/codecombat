@@ -29,6 +29,9 @@ if view.showAds()
         em.spr powered by
         img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
+    if view.shouldShow('back-to-classroom')
+      a.btn.btn-primary.under-logo(href='/play') Back to Classroom
+
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
       img.small-nav-logo.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png", title="Code Ninjas home", alt="Code Ninjas home")
@@ -72,7 +75,7 @@ if view.showAds()
             div(class="level-kind " + level.kind)= kindKey
             - var acronym = level.name.replace(/(A |The )/g, '').replace(/[^A-Z]/g, '');
             .level-acronym= acronym
-          if !level.hidden
+          if !level.hidden && !level.noFlag
             if level.replayable
               img.banner(src="/images/pages/play/level-banner-replayable.png")
             else if level.type === 'hero-ladder' || level.type === 'course-ladder'
@@ -106,7 +109,7 @@ if view.showAds()
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
-          - var showsLeaderboard = levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1);
+          - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1));
 
           div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status
@@ -134,14 +137,14 @@ if view.showAds()
               if showsLeaderboard
                 button.btn.btn-warning.btn.btn-lg.btn-illustrated.view-solutions(data-level-slug=level.slug)
                   span(data-i18n="leaderboard.scores")
-              button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+              
               if me.get('courseInstances') && me.get('courseInstances').length
                 .course-version.hidden(data-level-original=level.original)
-                  em(data-i18n="general.or")
-                  | ...
-                  br
                   button.btn.btn-primary.btn.btn-lg.btn-illustrated
-                    span(data-i18n="play.play_classroom_version") Play Classroom Version
+                    span(data-i18n="common.play") Play
+              else
+                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+
 
       for adjacentCampaign in adjacentCampaigns
         a(href=(editorMode ? "/editor/campaign/" : "/play/") + adjacentCampaign.slug)
@@ -220,26 +223,32 @@ if view.showAds()
 
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
-      button.btn.poll.hidden(data-i18n="[title]play.poll")
-      if !features.codePlay
+      if view.shouldShow('poll')
+        button.btn.poll.hidden(data-i18n="[title]play.poll")
+      if view.shouldShow('clans')
         a.btn.clans(href="/clans", data-i18n="[title]clans.clans")
-      button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
-      button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
-      button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
-      if (me.get('anonymous') === false || me.get('iosIdentifierForVendor') || isIPadApp) && !me.freeOnly()
+      if view.shouldShow('items')
+        button.btn.items(data-toggle='coco-modal', data-target='play/modal/PlayItemsModal', data-i18n="[title]play.items")
+      if view.shouldShow('heros')    
+        button.btn.heroes(data-toggle='coco-modal', data-target='play/modal/PlayHeroesModal', data-i18n="[title]play.heroes")
+      if view.shouldShow('achievements')
+        button.btn.achievements(data-toggle='coco-modal', data-target='play/modal/PlayAchievementsModal', data-i18n="[title]play.achievements")
+      if view.shouldShow('buy-gems')
         button.btn.gems(data-toggle='coco-modal', data-target='play/modal/BuyGemsModal', data-i18n="[title]play.buy_gems")
-      if !me.get('anonymous', true) && !features.codePlay
+      if !me.get('anonymous', true) && view.shouldShow('settings')
         a.btn.account(href="/account/settings", data-i18n="[title]play.settings")
       if me.get('anonymous', true)
         button.btn.settings(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="[title]nav.account")
 
   .user-status.header-font.picoctf-hide
     .user-status-line
-      if !features.noAuth
-        span.gem.gem-30
-        span#gems-count.spr= me.gems()
-        span.level-indicator(data-i18n="general.player_level")
-        span.player-level.spr= me.level()
+      if view.shouldShow('status-line')
+        if view.shouldShow('gems')
+          span.gem.gem-30
+          span#gems-count.spr= me.gems()
+        if view.shouldShow('level')
+          span.level-indicator(data-i18n="general.player_level")
+          span.player-level.spr= me.level()
         span.player-hero-icon
         if me.get('anonymous')
           span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
@@ -257,7 +266,7 @@ if view.showAds()
     .glyphicon.glyphicon-volume-down
     .glyphicon.glyphicon-volume-up
 
-  if campaign && !editorMode
+  if campaign && !editorMode && view.shouldShow('back-to-campaigns')
     button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
       .glyphicon.glyphicon-globe
 
@@ -275,7 +284,7 @@ if view.showAds()
           | /
           span= levelsTotal
     
-if campaign && !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds
+if campaign && view.shouldShow('codeplay-ads')
   a(href="https://lenovogamestate.com/pages/products/")
     - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"
     if me.isFromUk()
