@@ -15,8 +15,9 @@ get = wrap (req, res) ->
     )
     return res.send(products)
 
+  products = (p for p in products when p.name isnt 'year_subscription')
   if (req.user.get('testGroupNumber') or 0) % 2 is 0
-    products = (p for p in products when p.name isnt 'year_subscription')
+    products = (p for p in products when p.name isnt 'lifetime_subscription2')
   else
     products = (p for p in products when p.name isnt 'lifetime_subscription')
   res.send(products)
@@ -98,6 +99,11 @@ productStubs = [
   {
     name: 'lifetime_subscription'
     amount: 1000
+    gems: 42000
+  },
+  {
+    name: 'lifetime_subscription2'
+    amount: 2000
     gems: 42000
   }
 ]

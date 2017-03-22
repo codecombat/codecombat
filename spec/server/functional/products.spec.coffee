@@ -42,6 +42,17 @@ describe 'POST /db/products/:handle/purchase', ->
     payment = yield Payment.findOne()
     expect(product.get('amount')).toBe(payment.get('amount'))
 
+  it 'allows purchase of a lifetime subscription (2)', utils.wrap ->
+    @returnSuccessfulCharge()
+    url = utils.getURL('/db/products/lifetime_subscription2/purchase')
+    json = {stripe: { token: '1', timestamp: new Date() }}
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.body.stripe.free).toBe(true)
+    expect(res.statusCode).toBe(200)
+    product = yield Product.findOne({name:'lifetime_subscription2'})
+    payment = yield Payment.findOne()
+    expect(product.get('amount')).toBe(payment.get('amount'))
+
   it 'returns 402 when the charge is declined', utils.wrap ->
     @returnDeclinedCharge()
     url = utils.getURL('/db/products/lifetime_subscription/purchase')
