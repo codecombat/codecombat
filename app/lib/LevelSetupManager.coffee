@@ -140,13 +140,15 @@ module.exports = class LevelSetupManager extends CocoClass
         "inventory":{
           "eyes": "546941fda2b1f53ce794441d",
           "feet": "546d4d8e9df4a17d0d449acd",
-          "torso": "546d4a549df4a17d0d449a97",
-          "head": "546d4ca19df4a17d0d449abf",
+          "torso": "546ab15e3777d6186329286e",
+          "head": "546d39d89df4a17d0d449a17",
           "minion": "54eb5d1649fa2d5c905ddf52",
-          "neck": "54693240a2b1f53ce79443c5",
+          "neck": "54693363a2b1f53ce79443d1",
           "wrists": "54693830a2b1f53ce79443f1",
           "programming-book": "557871261ff17fef5abee3ee",
-          "left-ring": "54692d2aa2b1f53ce794438f"
+          "left-ring": "5441c35c4e9aeb727cc9711d",
+          "left-hand": "54eabcb72b7506e891ca7226",
+          "right-hand": "544d7f8d8494308424f564bf"
         }
       }
 
