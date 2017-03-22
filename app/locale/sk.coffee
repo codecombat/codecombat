@@ -407,11 +407,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     years: "rokov"
 
   play_level:
-#    directions: "Directions"
-#    edit_level: "Edit Level"
-#    explore_codecombat: "Explore CodeCombat"
-#    finished_hoc: "I'm finished with my Hour of Code"
-#    get_certificate: "Get your certificate!"
+    directions: "Inštrukcie"
+    edit_level: "Edituj level"
+    explore_codecombat: "preskúmaj CodeCombat"
+    finished_hoc: "Skončil som Hodinu kódu"
+    get_certificate: "Vezmi si cetifikát!"
     level_complete: "Ukončená úroveň"
     completed_level: "Ukončená úroveň:"
     course: "Kurz:"
@@ -1077,9 +1077,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     password_repeat: "Zopakuj, prosím, svoje heslo."
 #    file_size_limit: "(max file size: 1MB)"
 
-#  keyboard_shortcuts:
-#    keyboard_shortcuts: "Keyboard Shortcuts"
-#    space: "Space"
+  keyboard_shortcuts:
+    keyboard_shortcuts: "Klávesové skratky"
+    space: "Medzerník"
 #    enter: "Enter"
 #    press_enter: "press enter"
 #    escape: "Escape"
