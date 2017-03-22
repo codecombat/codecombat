@@ -217,7 +217,7 @@ purchaseProduct = expressWrap (req, res) ->
   productName = product?.get('name')
   if req.user.get('stripe.sponsorID')
     throw new errors.Forbidden('Sponsored subscribers may not purchase products.')
-  unless productName in ['year_subscription', 'lifetime_subscription']
+  unless productName in ['year_subscription', 'lifetime_subscription', 'lifetime_subscription2']
     throw new errors.UnprocessableEntity('Unsupported product')
   customer = yield StripeUtils.getCustomerAsync(req.user, req.body.stripe?.token or req.body.token)
   subscription = yield libUtils.findStripeSubscriptionAsync(customer.id, {subscriptionID: req.user.get('stripe')?.subscriptionID})
@@ -245,7 +245,7 @@ purchaseProduct = expressWrap (req, res) ->
       endDate = new Date(stripeInfo.free)
     endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
     stripeInfo.free = endDate.toISOString().substring(0, 10)
-  else if productName is 'lifetime_subscription'
+  else if productName in ['lifetime_subscription', 'lifetime_subscription2']
     stripeInfo.free = true
   else
     throw new Error('Unsupported product')
