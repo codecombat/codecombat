@@ -96,6 +96,16 @@ module.exports = class BasicInfoView extends CocoView
 
   onChangeName: (e) ->
     @updateAuthModalInitialValues { name: @$(e.currentTarget).val() }
+    
+    # Go through the form library so this follows the same trimming rules
+    name = forms.formToObject(@$el.find('#basic-info-form')).name
+    # Carefully remove the error for just this field
+    @$el.find('[for="username-input"] ~ .help-block.error-help-block').remove()
+    @$el.find('[for="username-input"]').closest('.form-group').removeClass('has-error')
+    if name and forms.validateEmail(name)
+      forms.setErrorToProperty(@$el, 'name', $.i18n.t('signup.name_is_email'))
+      return
+
     @checkName()
 
   checkName: ->
