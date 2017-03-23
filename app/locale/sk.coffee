@@ -708,13 +708,13 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    ball_description: "ball.squeak()"
 #    collect_pets: "Collect pets for your heroes!"
 #    each_pet: "Each pet has a unique helper ability!"
-#    upgrade_to_premium: "Become a {{subscriber}} to equip pets."
-#    play_second_kithmaze: "Play {{the_second_kithmaze}} to unlock the Wolf Pup!"
-#    the_second_kithmaze: "The Second Kithmaze"
-#    keep_playing: "Keep playing to discover the first pet!"
-#    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+    upgrade_to_premium: "{{Predplať si}} hru a zvieratká môžu byť tvoje."
+    play_second_kithmaze: "Vlčiatko získaš v úrovni {{Druhé bludisko}} !"
+    the_second_kithmaze: "Druhé bludisko"
+    keep_playing: "hraj a získaš prvé zvieratko!"
+    coming_soon: "Čoskoro"
+    now_available: "Dostupné pre predplatiteľov!"
+    subscriber: "preplatiteľ"
 
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
