@@ -1,0 +1,50 @@
+div.school-info-panel.text-left
+  .row
+    .col-xs-offset-3.col-xs-6
+      .form-group(v-bind:class="{ 'has-error': showRequired && (!phoneNumber || !validPhoneNumber) }")
+        span.control-label 
+          | {{ $t("teachers_quote.phone_number") }}
+          =" "
+          strong(v-if="showRequired && !phoneNumber") {{ $t("common.required_field") }}
+          strong(v-if="showRequired && phoneNumber && !validPhoneNumber") {{ $t("valid_phone") }}
+        input.form-control(
+          v-bind:placeholder="$t('teachers_quote.phone_number_help')"
+          v-model="phoneNumber"
+          ref='focus'
+          name="phoneNumber"
+        )
+      
+  .row
+    .col-xs-offset-3.col-xs-6
+      .form-group(v-bind:class="{ 'has-error': showRequired && !role }")
+        span.control-label 
+          | {{ $t("teachers_quote.primary_role_label") }}
+          =" "
+          strong(v-if="showRequired && !role") {{ $t("common.required_field") }}
+        select.form-control(v-model="role", name="role")
+          option(value='') {{ $t("teachers_quote.primary_role_default") }}
+          option(value="Teacher") {{ $t("courses.teacher") }}
+          option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}
+          option(value="Advisor") {{ $t("teachers_quote.advisor") }}
+          option(value="Principal") {{ $t("teachers_quote.principal") }}
+          option(value="Superintendent") {{ $t("teachers_quote.superintendent") }}
+          option(value="Parent") {{ $t("teachers_quote.parent") }}
+  
+  .row
+    .col-xs-offset-3.col-xs-6
+      .form-group(v-bind:class="{ 'has-error': showRequired && !purchaserRole }")
+        span.control-label 
+          | {{ $t("teachers_quote.purchaser_role_label") }}
+          =" "
+          strong(v-if="showRequired && !purchaserRole") {{ $t("common.required_field") }}
+        select.form-control(v-model="purchaserRole", name="purchaserRole")
+          option(value='') {{ $t("teachers_quote.purchaser_role_default") }}
+          option(value="Influence/Advocate") {{ $t("teachers_quote.influence_advocate") }}
+          option(value="Evaluate/Recommend") {{ $t("teachers_quote.evaluate_recommend") }}
+          option(value="Approve Funds") {{ $t("teachers_quote.approve_funds") }}
+          option(value="No role in purchase decisions") {{ $t("teachers_quote.no_purchaser_role") }}
+
+  // In reverse order for tabbing purposes
+  .history-nav-buttons
+    button#create-account-btn.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("common.next") }}
+    button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack") {{ $t("common.back") }}

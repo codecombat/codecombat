@@ -1,4 +1,5 @@
 userSchema = require('schemas/models/user')
+api = require('core/api')
 
 emptyUser = _.zipObject(([key, null] for key in _.keys(userSchema.properties)))
 
@@ -18,4 +19,13 @@ module.exports = {
     updateUser: (state, updates) ->
       # deep copy, since nested data may be changed, and vuex store restricts mutations
       _.assign(state, $.extend(true, {}, updates))
+      
+  actions:
+    save: ({state}, updates) ->
+      # updates this module, Backbone me, and server
+      user = _.assign({}, state, updates)
+      return api.users.put(user)
+      .then =>
+        me.set(updates) # will also call updateUser
+        return state
 }

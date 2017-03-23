@@ -159,9 +159,9 @@ module.exports =
       throw new errors.UnprocessableEntity('Requires username or email')
 
     if yield User.findByEmail(email)
-      throw new errors.Conflict('Email already taken')
+      throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
     if yield User.findByName(name)
-      throw new errors.Conflict('Username already taken')
+      throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     req.user.set({ name, email, password, anonymous: false })
     yield module.exports.finishSignup(req, res)
@@ -175,7 +175,7 @@ module.exports =
       throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, email, and name')
 
     if yield User.findByName(name)
-      throw new errors.Conflict('Username already taken')
+      throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     facebookResponse = yield facebook.fetchMe(facebookAccessToken)
     emailsMatch = email is facebookResponse.email
@@ -185,7 +185,7 @@ module.exports =
 
     user = yield User.findByEmail(email)
     if user
-      throw new errors.Conflict('Email already taken')
+      throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
 
     req.user.set({ facebookID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
@@ -199,7 +199,7 @@ module.exports =
       throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, email, and name')
 
     if yield User.findByName(name)
-      throw new errors.Conflict('Username already taken')
+      throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     gplusResponse = yield gplus.fetchMe(gplusAccessToken)
     emailsMatch = email is gplusResponse.email
@@ -210,7 +210,7 @@ module.exports =
 
     user = yield User.findByEmail(email)
     if user
-      throw new errors.Conflict('Email already taken')
+      throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
       
     req.user.set({ gplusID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
@@ -220,7 +220,7 @@ module.exports =
       yield req.user.save()
     catch e
       if e.code is 11000 # Duplicate key error
-        throw new errors.Conflict('Email already taken')
+        throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
       else
         throw e
 

@@ -24,8 +24,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
-    'premium': go('PremiumFeaturesView')
-
+    
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
@@ -139,6 +138,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'il-signup': go('account/IsraelSignupView')
 
     'legal': go('LegalView')
+    
+    'logout': 'logout'
 
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
@@ -150,6 +151,9 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true })
 
+    'premium': go('PremiumFeaturesView')
+    'Premium': go('PremiumFeaturesView')
+    
     'preview': go('HomeView')
 
     'privacy': go('PrivacyView')
@@ -352,3 +356,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   reload: ->
     document.location.reload()
+    
+  logout: ->
+    me.logout()
+    @navigate('/', { trigger: true })

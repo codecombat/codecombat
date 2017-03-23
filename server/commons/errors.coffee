@@ -27,6 +27,10 @@ errorResponseSchema = {
       type: 'string'
       description: 'Human readable descripton of the error'
     }
+    i18n: {
+      type: 'string'
+      description: 'i18n tag to get a translated human readable description of the error'
+    }
     property: {
       type: 'string'
       description: 'Property which is related to the error (conflict, validation).'

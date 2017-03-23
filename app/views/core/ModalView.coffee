@@ -16,7 +16,7 @@ module.exports = class ModalView extends CocoView
     'click [data-i18n]': 'onClickTranslatedElement'
 
   shortcuts:
-    'esc': 'hide'
+    'esc': 'onEsc'
 
   constructor: (options) ->
     @className = @className.replace ' fade', '' if options?.instant or @instant
@@ -50,6 +50,10 @@ module.exports = class ModalView extends CocoView
   showLoading: ($el) ->
     $el = @$el.find('.modal-body') unless $el
     super($el)
+
+  onEsc: ->
+    if @$el.data('bs.modal')?.options?.keyboard
+      @hide()
 
   # TODO: Combine hide/onHidden such that backbone 'hide/hidden.bs.modal' events and our 'hide/hidden' events are more 1-to-1
   # For example:

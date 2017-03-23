@@ -79,7 +79,7 @@ module.exports = class TeacherClassesView extends RootView
     'click .archive-classroom': 'onClickArchiveClassroom'
     'click .unarchive-classroom': 'onClickUnarchiveClassroom'
     'click .add-students-btn': 'onClickAddStudentsButton'
-    'click .create-classroom-btn': 'onClickCreateClassroomButton'
+    'click .create-classroom-btn': 'openNewClassroomModal'
     'click .create-teacher-btn': 'onClickCreateTeacherButton'
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
     'click .view-class-btn': 'onClickViewClassButton'
@@ -168,6 +168,9 @@ module.exports = class TeacherClassesView extends RootView
       @teacherQuestData[k].complete ||= v > 0.74 for k,v of classCompletion
       @teacherQuestData[k].best = Math.max(@teacherQuestData[k].best||0,v) for k,v of classCompletion
 
+
+    if me.isTeacher() and not @classrooms.length
+      @openNewClassroomModal()
     super()
 
   onClickEditClassroom: (e) ->
@@ -178,7 +181,7 @@ module.exports = class TeacherClassesView extends RootView
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
 
-  onClickCreateClassroomButton: (e) ->
+  openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin
     window.tracker?.trackEvent 'Teachers Classes Create New Class Started', category: 'Teachers', ['Mixpanel']
     classroom = new Classroom({ ownerID: me.id })
