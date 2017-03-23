@@ -1563,7 +1563,7 @@
     teacher_quest_add_students: "Add Students"
     teacher_quest_teach_methods: "Help your students learn how to `call methods`."
     teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, __Dungeons of Kithgard__"
-    teacher_quest_teach_methods_step2: "[Print out the Student Quick Start Guide in the Resource Hub.](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf)"
+    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
     teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
     teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
     teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."

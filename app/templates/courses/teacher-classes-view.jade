@@ -169,6 +169,7 @@ mixin teacher-quests
             h3(data-i18n="teacher.teacher_quest")
             strong.center!= view.translateWithMarkdown('teacher.teacher_quest_keep_going')
           else
+            br
             strong.center!= view.translateWithMarkdown('teacher.teacher_quest_done')
           ul
             each quest in view.teacherQuestData
