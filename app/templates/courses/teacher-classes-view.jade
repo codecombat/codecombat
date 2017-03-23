@@ -133,6 +133,8 @@ mixin archivedClassRow(classroom)
         a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
 
 mixin teacher-quests
+  - var lastComplete = null;
+  - var nextIncomplete = null;
   - var numComplete = 0;
   - var totalQuests = 0;
   each quest in view.teacherQuestData
@@ -168,8 +170,6 @@ mixin teacher-quests
             strong.center!= view.translateWithMarkdown('teacher.teacher_quest_keep_going')
           else
             strong.center!= view.translateWithMarkdown('teacher.teacher_quest_done')
-          - var lastComplete = null;
-          - var nextIncomplete = null;
           ul
             each quest in view.teacherQuestData
               if quest.complete
