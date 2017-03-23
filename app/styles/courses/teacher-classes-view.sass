@@ -128,13 +128,16 @@
     border: 1px solid gray
     margin: 20px 80px 40px 80px
     padding: 10px
+    .glyphicon
+      margin-right: 7px
     .quest-progress
       font-size: 50px
       margin: 20px 0px
     .quests-summary-col
     .quests-list-col
-      > ul
+      ul
         list-style: none
+      > ul
         padding-left: 0
         margin-left: 0
       li.quest-complete
@@ -144,15 +147,10 @@
         line-height: 14px
         > div > p
           margin-bottom: 7px
-        .quest-title::before
-          content: "☑ "
-          font-size: 200%
       li.quest-incomplete
         li
           font-size: 15px
-        .quest-title::before
-          content: "☐ "
-          font-size: 200%
+
 
     .el
       svg
