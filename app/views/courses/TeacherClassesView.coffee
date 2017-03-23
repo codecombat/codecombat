@@ -127,9 +127,7 @@ module.exports = class TeacherClassesView extends RootView
         container: dot
       })
 
-  onLoaded: ->
-    helper.calculateDots(@classrooms, @courses, @courseInstances)
-
+  calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
       continue unless classroom.get('members')?.length > 0
@@ -168,6 +166,9 @@ module.exports = class TeacherClassesView extends RootView
       @teacherQuestData[k].complete ||= v > 0.74 for k,v of classCompletion
       @teacherQuestData[k].best = Math.max(@teacherQuestData[k].best||0,v) for k,v of classCompletion
 
+  onLoaded: ->
+    helper.calculateDots(@classrooms, @courses, @courseInstances)
+    @calculateQuestCompletion()
 
     if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
@@ -179,7 +180,9 @@ module.exports = class TeacherClassesView extends RootView
     classroom = @classrooms.get(classroomID)
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
-    @listenToOnce modal, 'hide', @render
+    @listenToOnce modal, 'hide', ->
+      @calculateQuestCompletion()
+      @render()
 
   openNewClassroomModal: ->
     return unless me.id is @teacherID # Viewing page as admin
@@ -191,6 +194,7 @@ module.exports = class TeacherClassesView extends RootView
       window.tracker?.trackEvent 'Teachers Classes Create New Class Finished', category: 'Teachers', ['Mixpanel']
       @classrooms.add(modal.classroom)
       @addFreeCourseInstances()
+      @calculateQuestCompletion()
       @render()
 
   onClickCreateTeacherButton: (e) ->
@@ -207,7 +211,9 @@ module.exports = class TeacherClassesView extends RootView
     classroom = @classrooms.get(classroomID)
     modal = new InviteToClassroomModal({ classroom: classroom })
     @openModalView(modal)
-    @listenToOnce modal, 'hide', @render
+    @listenToOnce modal, 'hide', ->
+      @render()
+      @calculateQuestCompletion()
 
   onClickArchiveClassroom: (e) ->
     return unless me.id is @teacherID # Viewing page as admin

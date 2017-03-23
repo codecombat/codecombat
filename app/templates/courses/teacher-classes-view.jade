@@ -163,10 +163,10 @@ mixin teacher-quests
                   - var fullCircleStroke = 2*Math.PI*radius / 2
                   circle.bottom(r=radius,cx=radius,cy=radius)
                   circle.top(r=radius / 2,cx=radius,cy=radius,style="stroke-dasharray: #{fullCircleStroke/100*percentComplete} #{fullCircleStroke}")
-          .center Quests Complete
+          .center.completion-label(data-i18n="teacher.quests_complete")
         .col-sm-9.quests-list-col
           if numComplete != totalQuests
-            h3 Teacher Quest for Success
+            h3(data-i18n="teacher.teacher_quest")
             strong.center!= view.translateWithMarkdown('teacher.teacher_quest_keep_going')
           else
             strong.center!= view.translateWithMarkdown('teacher.teacher_quest_done')
@@ -187,6 +187,7 @@ mixin teacher-quests
                   li.quest.quest-incomplete.hide
                     +teacherQuest(quest,false)
           .div
+            span(data-i18n="teacher.refresh_to_update").refresh-help
             a.see-all-quests.btn.btn-primary.btn-small.pull-right(data-i18n="teacher.teacher_quest_more")
             a.see-less-quests.btn.btn-small.btn-primary.pull-right(data-i18n="teacher.teacher_quest_less" style="display: none")
 
