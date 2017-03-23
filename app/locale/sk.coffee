@@ -697,7 +697,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     mimic_name: "Mimik"
     mimic_description: "Mimik ti bude zbierať mince, čím navýšiš svoje financie."
     cougar_name: "Puma"
-    cougar_description: "Puma má titul PhD (Pradie hebúčko detinsky)"
+    cougar_description: "Puma má titul PhD - Pradie hebúčko detinsky"
     fox_name: "Modrá líška"
     fox_description: "Modrá líška je veľmi múdra a rada sa vyvaľuje v blate alebo v snehu."
     pugicorn_name: "Mopsorožec"
