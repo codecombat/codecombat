@@ -77,4 +77,3 @@ module.exports = class TeachersContactModal extends ModalView
         , 3000)
       error: -> @state.set({ sendingState: 'error' })
     })
-
