@@ -1,6 +1,6 @@
 mixin header(label, name)
   a.section-header.btn.btn-small.btn-illustrated.btn-warning(role="button", id="#palette-header-" + _.string.slugify(label), data-panel="#palette-tab-" + _.string.slugify(label)) #{name}
-    if label == 'api-area'
+    if label == 'api-area' || label == 'stuff-area'
       div.glyphicon.glyphicon-chevron-down(style="float: right")
     else
       div.glyphicon.glyphicon-chevron-right(style="float: right")
@@ -23,7 +23,7 @@ div.container
       div.apis.panel-collapse.collapse#palette-tab-events
 
       +header('stuff-area', 'Spawnable')
-      div.apis.panel-collapse.collapse#palette-tab-stuff-area
+      div.apis.panel-collapse.collapse.in#palette-tab-stuff-area
 
   div.right
     .closeBtn.btn.btn-illustrated.btn-danger
