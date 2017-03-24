@@ -28,6 +28,7 @@ module.exports = class CoppaDenyView extends CocoView
   onClickSendParentEmailButton: (e) ->
     e.preventDefault()
     @state.set({ parentEmailSending: true })
+    window.tracker?.trackEvent 'CreateAccountModal Student CoppaDenyView Send Clicked', category: 'Students'
     contact.sendParentSignupInstructions(@state.get('parentEmail'))
       .then =>
         @state.set({ error: false, parentEmailSent: true, parentEmailSending: false })
@@ -35,4 +36,6 @@ module.exports = class CoppaDenyView extends CocoView
         @state.set({ error: true, parentEmailSent: false, parentEmailSending: false })
 
   onClickBackButton: ->
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student CoppaDenyView Back Clicked', category: 'Students'
     @trigger 'nav-back'

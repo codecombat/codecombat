@@ -19,8 +19,12 @@ SetupAccountPanel = Vue.extend
       @saving = false
   methods:
     clickFinish: ->
+      # Make sure to add conditions if we change this to be used on non-teacher path
+      window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Finish Clicked', category: 'Teachers'
       application.router.navigate('teachers/classes', {trigger: true})
       document.location.reload()
-    clickBack: -> @$emit('back')
+    clickBack: ->
+      window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Back Clicked', category: 'Teachers'
+      @$emit('back')
 
 module.exports = SetupAccountPanel

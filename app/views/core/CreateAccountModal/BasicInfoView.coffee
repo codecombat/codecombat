@@ -176,13 +176,26 @@ module.exports = class BasicInfoView extends CocoView
       when 'teacher' then ['name', 'password', 'email', 'firstName', 'lastName']
       else ['name', 'password', 'email']
   
-  onClickBackButton: -> @trigger 'nav-back'
+  onClickBackButton: ->
+    if @signupState.get('path') is 'teacher'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Back Clicked', category: 'Teachers'
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Back Clicked', category: 'Students'
+    if @signupState.get('path') is 'individual'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Back Clicked', category: 'Individuals'
+    @trigger 'nav-back'
   
   onClickUseSuggestedNameLink: (e) ->
     @$('input[name="name"]').val(@state.get('suggestedName'))
     forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
 
   onSubmitForm: (e) ->
+    if @signupState.get('path') is 'teacher'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Clicked', category: 'Teachers'
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Clicked', category: 'Students'
+    if @signupState.get('path') is 'individual'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Clicked', category: 'Individuals'
     @state.unset('error')
     e.preventDefault()
     data = forms.formToObject(e.currentTarget)
@@ -261,6 +274,12 @@ module.exports = class BasicInfoView extends CocoView
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
       
   finishSignup: ->
+    if @signupState.get('path') is 'teacher'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Success', category: 'Teachers'
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Success', category: 'Students'
+    if @signupState.get('path') is 'individual'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Success', category: 'Individuals'
     @trigger 'signup'
 
   displayFormSubmitting: ->

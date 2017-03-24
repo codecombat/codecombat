@@ -21,11 +21,14 @@ DemographicsPanel = Vue.extend
       return @educationLevel.length or @otherEducationLevel
   methods:
     clickContinue: ->
+      # Make sure to add conditions if we change this to be used on non-teacher path
+      window.tracker?.trackEvent 'CreateAccountModal Teacher DemographicsPanel Signup Clicked', category: 'Teachers'
       requiredAttrs = _.pick(@, 'numStudents', 'numStudentsTotal', 'educationLevelComplete')
       unless _.all(requiredAttrs)
         @showRequired = true
         return
       @commitValues()
+      window.tracker?.trackEvent 'CreateAccountModal Teacher DemographicsPanel Signup Success', category: 'Teachers'
       @$emit('continue')
 
     commitValues: ->
@@ -34,6 +37,7 @@ DemographicsPanel = Vue.extend
 
     clickBack: ->
       @commitValues()
+      window.tracker?.trackEvent 'CreateAccountModal Teacher DemographicsPanel Back Clicked', category: 'Teachers'
       @$emit('back')
 
   mounted: ->
