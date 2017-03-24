@@ -34,6 +34,10 @@ block content
 
 
     .container
+      +teacher-quests
+
+    //- TODO: above or below teacher quests?
+    .container
       div#classes-nag-subview
 
       h3(data-i18n='teacher.current_classes')
@@ -127,3 +131,82 @@ mixin archivedClassRow(classroom)
     .col-xs-2
       .class-links.pull-right
         a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
+
+mixin teacher-quests
+  - var lastComplete = null;
+  - var nextIncomplete = null;
+  - var numComplete = 0;
+  - var totalQuests = 0;
+  each quest in view.teacherQuestData
+    - totalQuests++;
+    if quest.complete
+      - lastComplete = quest;
+      - numComplete++;
+    else if !nextIncomplete
+      - nextIncomplete = quest;
+  if lastComplete
+    - lastComplete.lastComplete = true;
+  if nextIncomplete
+    - nextIncomplete.nextIncomplete = true;
+  - var percentComplete = totalQuests ? Math.round(numComplete * 100.0 / totalQuests) : 0;
+  if view.prepaids.length < 1
+    .teacher-quests
+      .row
+        .col-sm-3.quests-summary-col
+          .quest-progress.center #{percentComplete}%
+          .center
+            if numComplete != totalQuests
+              .el
+                - var height = 100;
+                svg(width=height, height=height)
+                  - var radius = height / 2;
+                  - var fullCircleStroke = 2*Math.PI*radius / 2
+                  circle.bottom(r=radius,cx=radius,cy=radius)
+                  circle.top(r=radius / 2,cx=radius,cy=radius,style="stroke-dasharray: #{fullCircleStroke/100*percentComplete} #{fullCircleStroke}")
+          .center.completion-label(data-i18n="teacher.quests_complete")
+        .col-sm-9.quests-list-col
+          if numComplete != totalQuests
+            h3(data-i18n="teacher.teacher_quest")
+            strong.center!= view.translateWithMarkdown('teacher.teacher_quest_keep_going')
+          else
+            br
+            strong.center!= view.translateWithMarkdown('teacher.teacher_quest_done')
+          ul
+            each quest in view.teacherQuestData
+              if quest.complete
+                if quest.lastComplete && numComplete != totalQuests
+                  li.quest.quest-complete
+                    +teacherQuest(quest,true)
+                else
+                  li.quest.quest-complete.hide
+                    +teacherQuest(quest,true)
+              else
+                if quest.nextIncomplete
+                  li.quest.quest-incomplete
+                    +teacherQuest(quest,false)
+                else
+                  li.quest.quest-incomplete.hide
+                    +teacherQuest(quest,false)
+          .div
+            span(data-i18n="teacher.refresh_to_update").refresh-help
+            a.see-all-quests.btn.btn-primary.btn-small.pull-right(data-i18n="teacher.teacher_quest_more")
+            a.see-less-quests.btn.btn-small.btn-primary.pull-right(data-i18n="teacher.teacher_quest_less" style="display: none")
+
+mixin teacherQuest(quest,check)
+  div.quest-title
+    if check
+      span.glyphicon.glyphicon-check 
+    else
+      span.glyphicon.glyphicon-unchecked
+    span !{quest.title}
+  //[!{Math.floor(quest.best*100)}%]
+  if (quest.steps || []).length > 0
+    ul
+      each step in quest.steps || []
+        li
+          if check
+            span.glyphicon.glyphicon-check 
+          else
+            span.glyphicon.glyphicon-unchecked 
+          span !{step}
+
