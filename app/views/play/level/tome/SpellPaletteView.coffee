@@ -338,8 +338,7 @@ module.exports = class SpellPaletteView extends CocoView
     @render()
 
   onSectionHeaderClick: (e) ->
-
-    $et = @$(e.target)
+    $et = @$(e.currentTarget)
     target = @$($et.attr('data-panel'))
     isCollapsed = !target.hasClass('in')
     console.log "O", target[0], isCollapsed
