@@ -136,10 +136,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     change_hero: "更換英雄" # Go back from choose inventory to choose hero
     buy_gems: "購買寶石"
     subscription_required: "訂閱限定"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscribers_only: "訂閱者限定!"
+    subscribe_unlock: "訂閱我們來解鎖吧!"
+    subscriber_heroes: "現在訂閱就能立即解鎖英雄 Amara, Hushbaum, 以及 Hattori!"
+    subscriber_gems: "現在訂閱就能用寶石購買!"
     anonymous: "匿名玩家"
     level_difficulty: "難度"
     play_classroom_version: "遊玩教室版本" # Choose a level in campaign version that you also can play in one of your courses
@@ -150,7 +150,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     adjust_volume: "調整音量"
     campaign_multiplayer: "多人競技場"
     campaign_multiplayer_description: "…在這裡您可以和其他玩家進行對戰。"
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
+    brain_pop_done: "你剛剛用編程戰勝了巨魔! 你贏了!"
 
   code:
     if: "若是" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -203,7 +203,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     None: "無值"
 
   share_progress_modal:
-    blurb: "您正在創造偉大的旅程！告訴您的家長，您從CodeCombat學到了什麼！" # {change}
+    blurb: "您正在快速的進步當中！告訴您的家長，您從CodeCombat學到了什麼！" 
     email_invalid: "Email地址無效"
     form_blurb: "在底下輸入家長的Email，讓我們秀給他們看！"
     form_label: "Email地址"
@@ -794,7 +794,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     action_radius: "範圍"
     action_duration: "持續"
     example: "範例"
-    ex: "ex" # Abbreviation of "example"
+    ex: "範例" # Abbreviation of "example"
     current_value: "現在數值"
     default_value: "預設數值"
     parameters: "參數"
@@ -847,8 +847,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     rob_blurb: "編寫一些的程式碼"
     josh_c_title: "遊戲設計師"
     josh_c_blurb: "設計遊戲"
-    robin_title: "使用者體驗研究與設計" # {change}
-    robin_blurb: "鷹架" # {change}
+    robin_title: "產品經理" 
+    robin_blurb: "運送東西" 
     josh_title: "遊戲設計師"
     josh_blurb: "地面是熔岩"
     phoenix_title: "軟體工程師"
@@ -864,11 +864,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     jose_title: "音樂"
     jose_blurb: "放輕鬆"
     community_title: "...以及我們的開放原始碼社群"
-    community_subtitle: "超過 450 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！" # {change}
+    community_subtitle: "超過 500 位貢獻者協助打造 CodeCombat , 而且每週持續增加中！" 
     community_description_3: "CodeCombat 是一個"
     community_description_link_2: "社群專案"
-    community_description_1: "CodeCombat 是一個社群專案，由有數以百計的玩家志願來建立遊戲關卡，建構我們的程式碼來添加功能、修正 Bugs、執行測試、甚至翻譯此遊戲至超過 50 種語言。如同多數的開源社群一般，所有的員工、貢獻者們及 CodeCombat 都獲益於持續的互相分享靈感和彙整努力。CodeCombat 是建立於無數的開源專案之上，因此我們開源回饋給社群朋友，提供一個友善專案給對於原始碼有興趣的玩家來探索和實驗。任何人都可以加入 CodeCombat 社群！請查看我們的" # {change}
-    community_description_link: "貢獻者頁"
+    community_description_1: "上百位的志願玩家共同建立關卡，貢獻程式碼讓我們加入更多功能、修正錯誤、試玩關卡，並進一步將遊戲翻譯成超過 50 種語言。如同多數的開源社群一般，所有的員工、貢獻者們及 CodeCombat 都獲益於持續的互相分享靈感和彙整努力。CodeCombat 是建立於無數的開源專案之上，因此我們開源回饋給社群朋友，提供一個友善專案給對於原始碼有興趣的玩家來探索和實驗。任何人都可以加入 CodeCombat 社群！請查看我們的" 
+    community_description_link: "貢獻者專頁"
     community_description_2: "來獲得更多資訊。"
     number_contributors: "超過 450 位貢獻者奉獻他們的時間來協助本專案。"
     story_title: "我們的故事..."
@@ -966,7 +966,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     primary_role_default: "選擇主要角色"
     purchaser_role_default: "選擇買方角色"
     tech_coordinator: "技術夥伴"
-    advisor: "顧問" # {change}
+    advisor: "課程專員/顧問" 
     principal: "校長"
     superintendent: "主管"
     parent: "家長"
@@ -990,9 +990,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     please_explain: "(請註明)"
     middle_school: "中學"
     college_plus: "大學以上"
-#    referrer: "How did you hear about us?"
-#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
-    anything_else: "還有甚麼我們需要知道的嗎?"
+    referrer: "您是從哪裡得知我們的資訊呢?"
+    referrer_help: "例如：從另一位老師、會議、您的學生，或是 Code.org，等等。 "
+    anything_else: "還有甚麼想要告訴我們的嗎?"
     thanks_header: "已收到申請!"
     thanks_sub_header: "感謝您表達您的學校對於CodeCombat的興趣。"
     thanks_p: "我們不久將會與您接觸!如果需要與我們聯絡，您可以以下面方式找到我們:"
@@ -1075,7 +1075,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     saved: "修改已儲存"
     password_mismatch: "密碼不正確。"
     password_repeat: "請重複輸入您的密碼。"
-#    file_size_limit: "(max file size: 1MB)"
+    file_size_limit: "(檔案大小限制: 1MB )"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "鍵盤快捷鍵"
@@ -1317,27 +1317,27 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     current_hero: "現在使用英雄:"
     change_hero: "更換英雄"
     web_dev_language_transition: "在這個課程中所有的班級都使用 HTML / JavaScript。 已經使用Python的班級將會從額外的JavaScript介紹關卡開始以銜接內容。 已經使用JavaScript的班級將會跳過介紹關卡。"
-#    course_membership_required_to_play: "You'll need to join a course to play this level."
-#    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+    course_membership_required_to_play: "您將需要加入一個課程來遊玩此關卡。"
+    license_required_to_play: "詢問您的老師來分派一個授權碼給您，這樣您就可以繼續遊玩CodeCombat!"
 
-#  teacher:
-#    assigning_course: "Assigning course"
-#    course_solution: "Course Solution"
-#    level_overview_solutions: "Level Overview and Solutions"
-#    no_student_assigned: "No students have been assigned this course."
-#    paren_new: "(new)"
-#    teacher_dashboard: "Teacher Dashboard" # Navbar
-#    my_classes: "My Classes"
-#    courses: "Course Guides"
-#    enrollments: "Student Licenses"
-#    resources: "Resources"
-#    help: "Help"
-#    language: "Language"
-#    edit_class_settings: "edit class settings"
-#    access_restricted: "Account Update Required"
-#    teacher_account_required: "A teacher account is required to access this content."
-#    create_teacher_account: "Create Teacher Account"
-#    what_is_a_teacher_account: "What's a Teacher Account?"
+  teacher:
+    assigning_course: "派發課程中"
+    course_solution: "課程解答"
+    level_overview_solutions: "關卡總覽及解答"
+    no_student_assigned: "還沒有任何學生被分到這個課程中。"
+    paren_new: "(新的)"
+    teacher_dashboard: "老師的管理台" # Navbar
+    my_classes: "我的班級"
+    courses: "課程引導"
+    enrollments: "學生授權碼"
+    resources: "資源"
+    help: "幫助"
+    language: "語言"
+    edit_class_settings: "編輯班級設定"
+    access_restricted: "帳號升級請求"
+    teacher_account_required: "需要一個老師帳號來取得這些內容。"
+    create_teacher_account: "建立老師帳號"
+    what_is_a_teacher_account: "什麼是老師帳號?"
 #    teacher_account_explanation: "A CodeCombat Teacher account allows you to set up classrooms, monitor students’ progress as they work through courses, manage licenses and access resources to aid in your curriculum-building."
 #    current_classes: "Current Classes"
 #    archived_classes: "Archived Classes"
@@ -1819,8 +1819,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     rules: "規則"
     winners: "贏家"
     league: "聯盟"
-    red_ai: "紅隊 AI" # "Red AI Wins", at end of multiplayer match playback
-    blue_ai: "藍隊 AI" # {change}
+    red_ai: "紅隊 CPU" # "Red AI Wins", at end of multiplayer match playback
+    blue_ai: "藍隊 CPU" 
     wins: "勝利" # At end of multiplayer match playback
     humans: "紅隊" # Ladder page display team name
     ogres: "藍隊"
@@ -2050,16 +2050,16 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     advanced_web_scripting: "進階Web腳本"
     input_handling: "輸入處理"
     while_loops: "while迴圈"
-#    place_game_objects: "Place game objects"
-#    construct_mazes: "Construct mazes"
-#    create_playable_game: "Create a playable, sharable game project"
-#    alter_existing_web_pages: "Alter existing web pages"
-#    create_sharable_web_page: "Create a sharable web page"
-#    basic_input_handling: "Basic Input Handling"
-#    basic_game_ai: "Basic Game AI"
-#    basic_javascript: "Basic JavaScript"
-#    basic_event_handling: "Basic Event Handling"
-#    create_sharable_interactive_web_page: "Create a sharable interactive web page"
+    place_game_objects: "放置遊戲物件"
+    construct_mazes: "建造迷宮"
+    create_playable_game: "建立一個可玩、可分享的遊戲專案"
+    alter_existing_web_pages: "調整現有的網頁遊戲"
+    create_sharable_web_page: "建立一個可以分享的網頁"
+    basic_input_handling: "基本的輸入處理"
+    basic_game_ai: "基礎遊戲AI"
+    basic_javascript: "基礎JavaScript"
+    basic_event_handling: "基礎事件處理"
+    create_sharable_interactive_web_page: "建立一個可分享的互動式網頁"
 
   delta:
     added: "已填加"
