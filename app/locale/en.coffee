@@ -299,6 +299,7 @@
     teacher_list_resource_hub_4: "Resource Hub"
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
+    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
 
   recover:
     recover_account_title: "Recover Account"

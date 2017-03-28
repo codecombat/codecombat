@@ -10,6 +10,9 @@ form.modal-body.coppa-deny
           p.small.error
             span(data-i18n="signup.parent_email_error")
         
+        p.error(class=(state.get('dontUseOurEmailSilly') ?  '' : 'hidden'))
+          span(data-i18n="signup.dont_use_our_email_silly")
+        
         p.small.parent-email-blurb.render
           span
             != translate('signup.parent_email_blurb').replace('{{email_link}}', '<a href="mailto:team@codecombat.com">team@codecombat.com</a>')
@@ -23,7 +26,7 @@ form.modal-body.coppa-deny
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSent') || state.get('parentEmailSending'))
+    button.send-parent-email-button.btn.btn-lg.btn-navy(type='submit', disabled=state.get('parentEmailSent') || state.get('parentEmailSending') ||  state.get('dontUseOurEmailSilly'))
       if state.get('parentEmailSent')
         span(data-i18n="common.sent")
       else
