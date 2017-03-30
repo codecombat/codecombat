@@ -774,4 +774,4 @@ module.exports = class PlayLevelView extends RootView
       @setupManager.open()
 
   getLoadTrackingTag: () ->
-    @level.get 'slug'
+    @level?.get 'slug'
