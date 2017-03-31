@@ -367,7 +367,7 @@ module.exports = class SpellView extends CocoView
     @addBlockly()
 
   sizeBlocklyDiv: (targetDiv) ->
-    
+
     tomeHeight = $('#tome-view').innerHeight()
     spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
     spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
@@ -397,7 +397,7 @@ module.exports = class SpellView extends CocoView
         .blocklyZoom>image { opacity: .6; }
         .blocklyZoom>image:hover { opacity: .9; }
         .blocklyZoom>image:active { opacity: 1.0; }
-         
+
       </style>
       """
     @sizeBlocklyDiv targetDiv
@@ -412,7 +412,7 @@ module.exports = class SpellView extends CocoView
         addThing = (thing, doc) ->
           returnsValue = doc.returns? or doc.userShouldCaptureReturn? or (doc.type isnt "function")
           name = "#{thing}_#{doc.name}"
-           
+
           Blockly.JavaScript[name] = (block) ->
             parts = []
             if doc.name?
@@ -433,11 +433,11 @@ module.exports = class SpellView extends CocoView
               return [parts.join(''), Blockly.JavaScript.ORDER_NONE]
             else
               return parts.join('')
-   
+
           Blockly.Python[name] = (block) ->
             parts = []
             if doc.name?
-              parts.push "#{thing}.#{doc.name}"
+              parts.push "hero.#{doc.name}"
             else
               parts.push "#{thing}"
 
@@ -455,7 +455,7 @@ module.exports = class SpellView extends CocoView
             if returnsValue
               return [parts.join(''), Blockly.Python.ORDER_NONE]
             else
-              return parts.join('')            
+              return parts.join('')
 
           setup =
             "message0": "#{doc.name or thing} " + (doc.args or []).map((a, v) => "#{a.name}: %#{v+1}").join(" ")
@@ -475,8 +475,8 @@ module.exports = class SpellView extends CocoView
           Blockly.Blocks[name] =
             init: () ->
               @jsonInit setup
-                 
-               
+
+
 
           extraStuff.push "<block type=\"#{name}\"></block>"
         addThing thing, prop.doc
@@ -549,7 +549,7 @@ module.exports = class SpellView extends CocoView
  </xml>
        """
     prev = @ace.getValue()
-    @blockly = window.bbt = Blockly.inject targetDiv[0], 
+    @blockly = window.bbt = Blockly.inject targetDiv[0],
       toolbox: toolbox
       zoom:
         controls: true
@@ -857,7 +857,7 @@ module.exports = class SpellView extends CocoView
       # Expand it to bottom of tome if too short.
       #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
       #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
-    
+
 
   hideProblemAlert: ->
     return if @destroyed
@@ -955,7 +955,7 @@ module.exports = class SpellView extends CocoView
             callback() for callback in onSignificantChange  # Do these first
           callback() for callback in onAnyChange  # Then these
     @aceDoc.on 'change', @onCodeChangeMetaHandler
-    
+
     # RTD: Add blockly change listener.
 
     if @blockly
