@@ -444,7 +444,7 @@ module.exports = class SpellView extends CocoView
         .blocklyZoom>image { opacity: .6; }
         .blocklyZoom>image:hover { opacity: .9; }
         .blocklyZoom>image:active { opacity: 1.0; }
-         
+
       </style>
       """
     @sizeBlocklyDiv targetDiv
@@ -484,7 +484,7 @@ module.exports = class SpellView extends CocoView
           Blockly.Python[name] = (block) ->
             parts = []
             if doc.name?
-              parts.push "#{thing}.#{doc.name}"
+              parts.push "hero.#{doc.name}"
             else
               parts.push "#{thing}"
 
