@@ -47,6 +47,7 @@ module.exports =
   'hu': { nativeDescription: 'magyar', englishDescription: 'Hungarian' }
   'id': { nativeDescription: 'Bahasa Indonesia', englishDescription: 'Indonesian' }
   'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
+  'kk': { nativeDescription: 'қазақ тілі', englishDescription: 'Kazakh' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
   'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
