@@ -132,11 +132,11 @@ module.exports = class LevelSetupManager extends CocoClass
         }
       }
     
-    if @level.get('slug') is 'aleph-one'
+    if @level.get('slug') is 'tesla-tesoro'
       #Need to update this for my level
-      wizard = '52fc1460b2b91c0d5a7b6af3'
+      assassin = '566a2202e132c81f00f38c81'
       @session.set 'heroConfig', {
-        "thangType": wizard
+        "thangType": assassin
         "inventory":{
           "eyes": "546941fda2b1f53ce794441d",
           "feet": "546d4d8e9df4a17d0d449acd",  
@@ -145,17 +145,11 @@ module.exports = class LevelSetupManager extends CocoClass
           "wrists": "54693830a2b1f53ce79443f1",
           "programming-book": "557871261ff17fef5abee3ee",
           "left-ring": "5441c35c4e9aeb727cc9711d",
-          # Ranger
           "torso": "546d3d549df4a17d0d449a47",
           "head": "546d47c09df4a17d0d449a6f",
-          "left-hand": "544d96328494308424f56533",
+          "left-hand": "54eb528449fa2d5c905ddf12",
           "right-hand": "544d86318494308424f564e8"
-          # Warrior
-          #"torso": "546ab15e3777d6186329286e",
-          #"head": "546d39d89df4a17d0d449a17",
-          #"left-hand": "54eabcb72b7506e891ca7226",
-          #"right-hand": "544d7f8d8494308424f564bf"
-        }
+          }
       }
 
 
