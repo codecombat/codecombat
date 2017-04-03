@@ -381,22 +381,22 @@ module.exports = class PlayLevelView extends RootView
     else if e.level.get('slug') in ['ace-of-coders', 'elemental-wars']
       goliath = '55e1a6e876cb0948c96af9f8'
       e.session.set 'heroConfig', {"thangType":goliath,"inventory":{
-          "eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"
-        }}
+        "eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"
+      }}
     else if e.level.get('slug') in ['tesla-tesoro']
       assassin = '566a2202e132c81f00f38c81'
       e.session.set 'heroConfig', {"thangType":assassin,"inventory":{
-          "eyes": "546941fda2b1f53ce794441d",
-          "feet": "546d4d8e9df4a17d0d449acd",  
-          "minion": "54eb5d1649fa2d5c905ddf52",
-          "neck": "54693363a2b1f53ce79443d1",
-          "wrists": "54693830a2b1f53ce79443f1",
-          "programming-book": "557871261ff17fef5abee3ee",
-          "left-ring": "5441c35c4e9aeb727cc9711d",
-          "torso": "546d3d549df4a17d0d449a47",
-          "head": "546d47c09df4a17d0d449a6f",
-          "left-hand": "54eb528449fa2d5c905ddf12",
-          "right-hand": "544d86318494308424f564e8"
+        "eyes": "546941fda2b1f53ce794441d",
+        "feet": "546d4d8e9df4a17d0d449acd",  
+        "minion": "54eb5d1649fa2d5c905ddf52",
+        "neck": "54693363a2b1f53ce79443d1",
+        "wrists": "54693830a2b1f53ce79443f1",
+        "programming-book": "557871261ff17fef5abee3ee",
+        "left-ring": "5441c35c4e9aeb727cc9711d",
+        "torso": "546d3d549df4a17d0d449a47",
+        "head": "546d47c09df4a17d0d449a6f",
+        "left-hand": "54eb528449fa2d5c905ddf12",
+        "right-hand": "544d86318494308424f564e8"
       }}
     else if e.level.get('slug') is 'the-battle-of-sky-span'
       wizard = '52fc1460b2b91c0d5a7b6af3'
