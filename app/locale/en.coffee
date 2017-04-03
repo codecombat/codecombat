@@ -714,7 +714,7 @@
     fox_name: "Blue Fox"
     fox_description: "Blue foxes are very clever and love digging in the dirt and snow!"
     pugicorn_name: "Pugicorn"
-    pugicorn_description: "Pugicorns are some of the rarest creatures and cast cast spells!"
+    pugicorn_description: "Pugicorns are some of the rarest creatures and can cast spells!"
     wolf_name: "Wolf Pup"
     wolf_description: "Wolf pups excel in hunting, gathering, and playing a mean game of hide-and-seek!"
     ball_name: "Red Squeaky Ball"
