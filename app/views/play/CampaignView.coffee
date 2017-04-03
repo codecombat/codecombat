@@ -193,7 +193,7 @@ module.exports = class CampaignView extends RootView
       @maybeShowPendingAnnouncement()
 
     # Minecraft Modal:
-    @maybeShowMinecraftModal()
+    #@maybeShowMinecraftModal() # Disable for now
 
   # Minecraft Modal:
   maybeShowMinecraftModal: ->
