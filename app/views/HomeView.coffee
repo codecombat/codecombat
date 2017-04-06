@@ -53,6 +53,11 @@ module.exports = class HomeView extends RootView
       '/play?hour_of_code=true'
     else
       '/play'
+    
+    # TODO: Verify this logic fits with reality
+    if /sunburst/.test(location.pathname) and me.isAnonymous() and not me.get('sunburst')
+      me.set('referredBySunburst', true)
+      me.save()
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()

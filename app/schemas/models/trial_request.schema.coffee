@@ -14,6 +14,7 @@ _.extend TrialRequestSchema.properties,
   properties: {type: 'object', description: 'Data specific to this request.'}
   status: {type: 'string', 'enum': ['submitted', 'approved', 'denied']}
   type: {type: 'string', 'enum': ['course', 'subscription']}
+  referredBySunburst: {type: 'boolean'} # TODO: Should this go in properties instead?
 
 c.extendBasicProperties TrialRequestSchema, 'TrialRequest'
 module.exports = TrialRequestSchema

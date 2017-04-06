@@ -22,6 +22,10 @@ module.exports =
       trialRequest = database.initDoc(req, TrialRequest)
       trialRequest.set 'applicant', req.user._id
       trialRequest.set 'created', new Date()
+    # TODO: When can a user POST a trial request, and already have one? Not sure. Might affect if we overwrite referrer or not.
+    if req.user.get('referredBySunburst')
+      # Prevent the sales scripts from starting auto emails to this user
+      trialRequest.set('referredBySunburst', true)
     trialRequest.set 'status', 'submitted'
     attrs = _.pick req.body, 'properties', 'type'
     trialRequest.set 'properties', _.extend {}, trialRequest.get('properties'), attrs.properties
