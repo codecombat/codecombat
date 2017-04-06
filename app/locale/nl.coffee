@@ -64,6 +64,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     go_to_courses: "Ga naar mijn cursussen"
     want_coco: "Wil je CodeCombat op jouw school?"
 
+
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
