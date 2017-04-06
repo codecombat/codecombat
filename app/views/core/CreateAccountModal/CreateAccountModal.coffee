@@ -18,6 +18,7 @@ application  = require 'core/application'
 errors = require 'core/errors'
 utils = require 'core/utils'
 store = require('core/store')
+storage = require 'core/storage'
 
 ###
 CreateAccountModal is a wizard-style modal with several subviews, one for each
@@ -118,6 +119,8 @@ module.exports = class CreateAccountModal extends ModalView
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
           store.commit('modal/updateTrialRequestProperties', _.pick(@signupState.get('signupForm'), 'firstName', 'lastName'))
+          if storage.load('referredBySunburst')
+            store.commit('modal/updateTrialRequestProperties', {'marketingReferrer': 'sunburst'})
           @signupState.set { screen: 'teacher-signup-component' }
         else
           @signupState.set { screen: 'confirmation', accountCreated: true }

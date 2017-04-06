@@ -54,9 +54,14 @@ module.exports = class HomeView extends RootView
     else
       '/play'
 
+
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
+    if /sunburst/.test(location.pathname) and me.isAnonymous()
+      storage = require 'core/storage'
+      storage.save('referredBySunburst', true)
+      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
     super()
 
   onClickLearnMoreLink: ->
