@@ -541,6 +541,37 @@ describe 'DELETE /db/user', ->
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/1234"}
     expect(res.statusCode).toBe(401)
 
+  it 'prevents further edits to the deleted user', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    otherLogin = request.defaults({jar:request.jar()})
+    Promise.promisifyAll(otherLogin)
+    yield utils.loginUser(user, { request: otherLogin })
+    [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    expect(res.statusCode).toBe(204)
+    json = { email: 'newEmail@email.com' }
+    res = yield otherLogin.putAsync { url: getURL('/db/user/'+user.id), json }
+    expect(res.statusCode).toBe(401) # other login no longer valid
+    expect(res.body._id).not.toBe(user.id)
+    user = yield User.findById(user.id)
+    expect(user.email).toBeUndefined()
+
+  it 'allows edits to deleted users who have already made previous edits', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    otherLogin = request.defaults({jar:request.jar()})
+    Promise.promisifyAll(otherLogin)
+    yield utils.loginUser(user, { request: otherLogin })
+    [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    expect(res.statusCode).toBe(204)
+    yield user.update({ $set: { someProp: 1 }})
+    json = { email: 'newEmail@email.com' }
+    res = yield otherLogin.putAsync { url: getURL('/db/user/'+user.id), json }
+    expect(res.statusCode).toBe(200) # other login no longer valid
+    user = yield User.findById(user.id)
+    expect(user.get('email')).toBe(json.email)
+
+
 describe 'Statistics', ->
   LevelSession = require '../../../server/models/LevelSession'
   Article = require '../../../server/models/Article'
