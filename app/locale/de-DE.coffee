@@ -1317,8 +1317,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     current_hero: "Aktueller Held:"
     change_hero: "Held wechseln"
     web_dev_language_transition: "Alle Klassen für diesen Kurs programmieren in HTML / JavaScript.  Klassen, die Python verwendet haben, fangen mit gesonderten Einführungsleveln für JavaScript an, um den Übergang zu erleichtern.  Klassen, die bereits JavaScript verwenden, überspringen die Einführungslevel."
-    course_membership_required_to_play: "Du musst einen Kurs belegen, um diese Level zu spielen."
-    license_required_to_play: "Bitte deinen Lehrer Dir eine Lizenz zuzuweisen, damit Du weiter CodeCombat spielen kannst!"
+    course_membership_required_to_play: "Du musst einen Kurs belegen, um dieses Level zu spielen."
+    license_required_to_play: "Bitte deinen Lehrer, Dir eine Lizenz zuzuweisen, damit Du weiter CodeCombat spielen kannst!"
 
   teacher:
     assigning_course: "Kurs zuweisen"
@@ -1471,8 +1471,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cs4_curriculum_desc: "Umfang und Reihenfolge, Unterrichtspläne und mehr für Kurs 4."
     cs1_pairprogramming: "Paar-Programmieraktivität"
     cs1_pairprogramming_desc: "Zeige deinen Schülern eine paarweise Programmierübung. So lernen sie, besser zuzuhören und zu kommunizieren."
-    gd1: "Game-Entwicklung 1"
-    gd1_guide: "Game-Entwicklung 1 - Project Guide"
+#    gd1: "Game Development 1"
+#    gd1_guide: "Game Development 1 - Project Guide"
 #    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
     wd1: "Web Entwicklung 1"
     wd1_headlines: "Schlagzeilen & Kopfzeilen Aktivität"
