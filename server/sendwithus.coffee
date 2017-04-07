@@ -43,3 +43,4 @@ module.exports.templates =
   teacher_drip_day_4: 'tem_phWmBHqdJG4bSD4dPMCF3vVM'
   teacher_drip_day_5: 'tem_7Xh9HwxyQDrVRYTK37JgMXYF'
   teacher_drip_day_7: 'tem_SRcvbYCd9QXRDvr68qWhD66d'
+  sunburst_referrral: 'tem_MWgdKKv7JwD8c6WdbRyRSG89'

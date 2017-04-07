@@ -1,3 +1,4 @@
+config = require '../../server_config'
 utils = require '../lib/utils'
 errors = require '../commons/errors'
 wrap = require 'co-express'
@@ -7,6 +8,7 @@ mongoose = require 'mongoose'
 TrialRequest = require '../models/TrialRequest'
 User = require '../models/User'
 delighted = require '../delighted'
+sendwithus = require '../sendwithus'
 
 module.exports =
   post: wrap (req, res) ->
@@ -22,16 +24,20 @@ module.exports =
       trialRequest = database.initDoc(req, TrialRequest)
       trialRequest.set 'applicant', req.user._id
       trialRequest.set 'created', new Date()
-    # TODO: When can a user POST a trial request, and already have one? Not sure. Might affect if we overwrite referrer or not.
-    if req.user.get('referredBySunburst')
-      # Prevent the sales scripts from starting auto emails to this user
-      trialRequest.set('referredBySunburst', true)
     trialRequest.set 'status', 'submitted'
     attrs = _.pick req.body, 'properties', 'type'
     trialRequest.set 'properties', _.extend {}, trialRequest.get('properties'), attrs.properties
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
+    if trialRequest.get('properties')?.referredBy is 'sunburst'
+      context =
+        email_id: sendwithus.templates.sunburst_referrral
+        recipient:
+          address: config.sunburst.email
+        email_data:
+          trial_request: JSON.stringify(trialRequest.toJSON(), null, 2)
+      sendwithus.api.send context, _.noop
     res.status(201).send(trialRequest.toObject({req: req}))
 
   put: wrap (req, res) ->
