@@ -101,10 +101,13 @@ module.exports = class SchoolCountsView extends RootView
         delete orphanTeacherMap[teacherID]
       else if not _.isEmpty(props.country)
         country = props.country?.trim()
-        country = country[0].toUpperCase() + country.substring(1).toLowerCase()
-        country = 'Taiwan' if /台灣/ig.test(country)
-        country = 'UK' if /^uk$|united kingdom|england/ig.test(country)
-        country = 'USA' if /^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country)
+        if _.isEmpty(country)
+          country = 'unknown'
+        else
+          country = country[0].toUpperCase() + country.substring(1).toLowerCase()
+          country = 'Taiwan' if /台灣/ig.test(country)
+          country = 'UK' if /^uk$|united kingdom|england/ig.test(country)
+          country = 'USA' if /^u\.s\.?(\.a)?\.?$|^us$|america|united states|usa/ig.test(country)
         state = props.state ? 'unknown'
         if country is 'USA'
           stateName = utils.usStateCodes.sanitizeStateName(state)

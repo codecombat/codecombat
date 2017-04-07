@@ -131,6 +131,28 @@ module.exports = class LevelSetupManager extends CocoClass
           "left-ring": "54692d2aa2b1f53ce794438f"
         }
       }
+    
+    if @level.get('slug') is 'tesla-tesoro'
+      #Need to update this for my level
+      assassin = '566a2202e132c81f00f38c81'
+      @session.set 'heroConfig', {
+        "thangType": assassin
+        "inventory":{
+          "eyes": "546941fda2b1f53ce794441d",
+          "feet": "546d4d8e9df4a17d0d449acd",  
+          "minion": "54eb5d1649fa2d5c905ddf52",
+          "neck": "54693363a2b1f53ce79443d1",
+          "wrists": "54693830a2b1f53ce79443f1",
+          "programming-book": "557871261ff17fef5abee3ee",
+          "left-ring": "5441c35c4e9aeb727cc9711d",
+          "torso": "546d3d549df4a17d0d449a47",
+          "head": "546d47c09df4a17d0d449a6f",
+          "left-hand": "54eb528449fa2d5c905ddf12",
+          "right-hand": "544d86318494308424f564e8"
+          }
+      }
+
+
       @onInventoryModalPlayClicked()
       return
     if @level.get('slug') is 'assembly-speed'
