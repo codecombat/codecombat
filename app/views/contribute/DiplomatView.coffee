@@ -61,6 +61,7 @@ require("locale/et")
 require("locale/hr")
 require("locale/mi")
 require("locale/haw")
+require("locale/kk")
 
 module.exports = class DiplomatView extends ContributeClassView
   id: 'diplomat-view'
@@ -149,4 +150,5 @@ module.exports = class DiplomatView extends ContributeClassView
     hr: []             # hrvatski jezik, Croatian
     mi: []             # te reo Māori, Māori
     haw: []            # ʻŌlelo Hawaiʻi, Hawaiian
+    kk: []            # қазақ тілі, Kazakh
     fil: ['Celestz'] #Like This?

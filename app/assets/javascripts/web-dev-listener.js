@@ -20,6 +20,7 @@ var createFailed;
 var allowedOrigins = [
     /^https?:\/\/(.*\.)?codecombat\.com$/,
     /^https?:\/\/localhost:3000$/,
+    /^https?:\/\/coco\.code\.ninja$/,
     /^https?:\/\/.*codecombat-staging-codecombat\.runnableapp\.com$/,
 ];
 

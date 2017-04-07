@@ -46,6 +46,7 @@ module.exports = class BuyGemsModal extends ModalView
     if countrySpecificProduct = @products.findWhere { name: "#{me.get('country')}_basic_subscription" }
       @basicProduct = countrySpecificProduct
     @lifetimeProduct = @products.findWhere { name: 'lifetime_subscription' }
+    @lifetimeProduct ?= @products.findWhere { name: 'lifetime_subscription2' }
     @products.reset @products.filter (product) -> _.string.startsWith(product.get('name'), 'gems_')
     super()
 

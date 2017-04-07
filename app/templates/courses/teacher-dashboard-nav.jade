@@ -12,6 +12,7 @@
         span.navbar-brand.text-h4(data-i18n='teacher.teacher_dashboard')
       #teacher-dashboard-nav-collapse.collapse.navbar-collapse
         ul.nav.navbar-nav
+          // NOTE: Update Close.io email templates if these labels are changed!
           li(class= path.indexOf('/teachers/classes') === 0 ? 'active' : '')
             a(href='/teachers/classes')
               small.label(data-i18n='teacher.my_classes')

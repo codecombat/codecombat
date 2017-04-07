@@ -30,7 +30,7 @@ module.exports = class TeachersContactModal extends ModalView
     trialRequest = @trialRequests.first()
     props = trialRequest?.get('properties') or {}
     name = if props.firstName and props.lastName then "#{props.firstName} #{props.lastName}" else me.get('name') ? ''
-    email = props.email or me.get('email') or ''
+    email = me.get('email') or props.email or ''
     message = """
         Hi CodeCombat! I want to learn more about the Classroom experience and get licenses so that my students can access Computer Science 2 and on.
 
@@ -77,4 +77,3 @@ module.exports = class TeachersContactModal extends ModalView
         , 3000)
       error: -> @state.set({ sendingState: 'error' })
     })
-

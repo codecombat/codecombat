@@ -16,6 +16,13 @@ module.exports.setup = (app) ->
     createMailContent req, fromAddress, (subject, content) ->
       if (req.body.licensesNeeded or req.user.isTeacher()) and subject.indexOf('Level Load Error:') < 0
         closeIO.getSalesContactEmail fromAddress, (err, salesContactEmail, userID, leadID) ->
+          if not leadID
+            log.debug "No close.io lead found for #{fromAddress}; sending license request via sendwithus"
+            createSendWithUsLicenseRequestContext req, fromAddress, salesContactEmail, subject, content, (err, context) ->
+              sendwithus.api.send context, (err, result) ->
+                log.error "Error sending license request form email via sendwithus: #{err.message or err}" if err
+                req.user.update({$set: { enrollmentRequestSent: true }}).exec(_.noop)
+            return res.end()
           return log.error("Error getting sales contact for #{fromAddress}: #{err.message or err}") if err
           closeIO.sendMail fromAddress, subject, content, salesContactEmail, leadID, (err) ->
             return log.error("Error sending contact form email via Close.io: #{err.message or err}") if err
@@ -55,6 +62,22 @@ createMailContent = (req, fromAddress, done) ->
   if req.body.browser
     content += "\n#{req.body.browser} - #{req.body.screenSize}"
   done(subject, content)
+
+createSendWithUsLicenseRequestContext = (req, fromAddress, salesContactEmail, subject, content, done) ->
+  user = req.user
+  context =
+    email_id: sendwithus.templates.plain_text_email
+    recipient:
+      address: salesContactEmail
+    sender:
+      address: config.mail.username
+      reply_to: fromAddress
+      name: user.get('name')
+    email_data:
+      subject: subject
+      content: content
+      contentHTML: content.replace /\n/g, '\n<br>'
+  return done(null, context)
 
 createSendWithUsContext = (req, fromAddress, subject, content, done) ->
   user = req.user
