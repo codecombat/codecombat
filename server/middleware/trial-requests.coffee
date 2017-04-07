@@ -32,7 +32,7 @@ module.exports =
     trialRequest = yield trialRequest.save()
     if trialRequest.get('properties')?.referredBy is 'sunburst'
       context =
-        email_id: sendwithus.templates.sunburst_referrral
+        email_id: sendwithus.templates.sunburst_referral
         recipient:
           address: config.sunburst.email
         email_data:
