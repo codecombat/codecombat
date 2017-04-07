@@ -136,7 +136,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     change_hero: "Held wechseln" # Go back from choose inventory to choose hero
     buy_gems: "Edelsteine kaufen"
     subscription_required: "Abonnement benötigt"
-#    subscribers_only: "Subscribers Only!"
+    subscribers_only: "Nur Abonnenten!"
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
