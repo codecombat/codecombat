@@ -36,7 +36,7 @@ module.exports =
         recipient:
           address: config.sunburst.email
         email_data:
-          trial_request: JSON.stringify(trialRequest.toJSON(), null, 2)
+          trial_request: trialRequest.toJSON()
       sendwithus.api.send context, _.noop
     res.status(201).send(trialRequest.toObject({req: req}))
 
