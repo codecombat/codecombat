@@ -19,6 +19,7 @@ module.exports = TeacherSignupStoreModule = {
       numStudentsTotal: ''
       notes: ''
       referrer: ''
+      marketingReferrer: ''
       educationLevel: []
       otherEducationLevel: false
       otherEducationLevelExplanation: ''

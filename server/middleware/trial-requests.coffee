@@ -30,7 +30,7 @@ module.exports =
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
-    if trialRequest.get('properties')?.referredBy is 'sunburst'
+    if trialRequest.get('properties')?.marketingReferrer is 'sunburst'
       context =
         email_id: sendwithus.templates.sunburst_referral
         recipient:
