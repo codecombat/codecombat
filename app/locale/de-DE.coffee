@@ -618,7 +618,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement" # {change}
     premium_pricing_prefix: "Hol dir Premium für nur"
-    premium_pricing_suffix: "und werde Master-Coder."
+    premium_pricing_suffix: "und werde Master Coder."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
     free: "Kostenlos"
     month: "Monat"
@@ -2166,7 +2166,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   code_play_create_account_modal:
     title: "DU HAST ES GESCHAFFT!" # This section is only needed in US, UK, Mexico, India, and Germany
-    body: "Du bist nun auf dem besten Weg, ein Meisterprogrammierer zu werden. Melde dich an und erhalte zusätzliche <strong>100 EDELSTEINE</strong> sowie die Chance, <strong>2.500 € UND ANDERE PREISE VON LENOVO ZU GEWINNEN</strong>."
+    body: "Du bist nun auf dem besten Weg, ein Master Coder zu werden. Melde dich an und erhalte zusätzliche <strong>100 EDELSTEINE</strong> sowie die Chance, <strong>2.500 € UND ANDERE PREISE VON LENOVO ZU GEWINNEN</strong>."
     sign_up: "MELDE DICH AN UND PROGRAMMIERE WEITER ▶"
     victory_sign_up_poke: "ERSTELLE EIN KOSTENLOSES KONTO, UM DEINEN CODE ZU SPEICHERN UND EINE CHANCE AUF DEN GEWINN VON PREISEN ZU HABEN!"
     victory_sign_up: "MELDE DICH AN FÜR EINE CHANCE AUF DEN <strong>GEWINN VON 2.500 €</strong>"
