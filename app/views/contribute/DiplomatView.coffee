@@ -96,7 +96,7 @@ module.exports = class DiplomatView extends ContributeClassView
     'en-US': []        # English (US), English (US)
     'en-GB': []        # English (UK), English (UK)
     ru: ['EagleTA', 'ImmortalJoker', 'Mr A', 'Shpionus', 'a1ip', 'fess89', 'iulianR', 'kerradus', 'kisik21', 'nixel', 'ser-storchak', 'CatSkald']             # русский язык, Russian
-    'de-DE': ['Anon', 'Dirk', 'HiroP0', 'bahuma20', 'bkimminich', 'djsmith85', 'dkundel', 'domenukk', 'faabsen', 'Zeldaretter','joca16']        # Deutsch (Deutschland), German (Germany)
+    'de-DE': ['Anon', 'Dirk', 'HiroP0', 'bahuma20', 'bkimminich', 'djsmith85', 'dkundel', 'domenukk', 'faabsen', 'Zeldaretter', 'joca16']        # Deutsch (Deutschland), German (Germany)
     'de-AT': ['djsmith85']        # Deutsch (Österreich), German (Austria)
     'de-CH': ['greyhusky']        # Deutsch (Schweiz), German (Switzerland)
     'es-419': ['2xG', 'Federico Tomas', 'Jesús Ruppel', 'Mariano Luzza', 'Matthew Burt']       # español (América Latina), Spanish (Latin America)
