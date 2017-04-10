@@ -33,24 +33,19 @@ module.exports = class TeacherCourseSolutionView extends RootView
       return '' if l isnt @language
       a
 
-  getText: (thang, what) ->
-    if thang.i18n
-      if i18n.lng() in Object.keys(thang.i18n)
-        return thang.i18n[i18n.lng()][what]
-    return thang[what]
 
   onLoaded: ->
-    @listenTo me, 'change:preferredLanguage', @refreshData
-    @refreshData()
+    @listenTo me, 'change:preferredLanguage', @updateLevelData
+    @updateLevelData()
 
-  refreshData: ->
+  updateLevelData: ->
     for level in @levels?.models
       articles = level.get('documentation')?.specificArticles
       if articles
         guide = articles.filter((x) => x.name == "Overview").pop()
-        level.set 'guide', marked(@hideWrongLanguage(@getText(guide, 'body'))) if guide
+        level.set 'guide', marked(@hideWrongLanguage(utils.i18n(guide, 'body'))) if guide
         intro = articles.filter((x) => x.name == "Intro").pop()
-        level.set 'intro', marked(@hideWrongLanguage(@getText(intro, 'body'))) if intro
+        level.set 'intro', marked(@hideWrongLanguage(utils.i18n(intro, 'body'))) if intro
       heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
       comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
       programmableMethod = comp?.config.programmableMethods.plan
