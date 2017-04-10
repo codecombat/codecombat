@@ -64,7 +64,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     go_to_courses: "Ga naar mijn cursussen"
     want_coco: "Wil je CodeCombat op jouw school?"
 
-
   nav:
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
@@ -289,6 +288,18 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sso_connected: "Succesvol verbonden met:"
     select_your_starting_hero: "Kies Je Eerste Held:"
     you_can_always_change_your_hero_later: "Je kan altijd nog van held veranderen."
+#    finish: "Finish"
+#    teacher_ready_to_create_class: "You're ready to create your first class!"
+#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
+#    teacher_list_create_class: "On the next screen you will be able to create a new class."
+#    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
+#    teacher_list_resource_hub_1: "Check out the"
+#    teacher_list_resource_hub_2: "Course Guides"
+#    teacher_list_resource_hub_3: "for solutions to every level, and the"
+#    teacher_list_resource_hub_4: "Resource Hub"
+#    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
+#    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
+#    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
 
   recover:
     recover_account_title: "Herstel Account"
@@ -307,6 +318,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     back: "Terug" # When used as an action verb, like "Navigate backward"
     coming_soon: "Binnenkort!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
+#    next: "Next"
     default_code: "Standaard Code"
     loading: "Bezig met laden..."
     overview: "Overzicht"
@@ -332,6 +344,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
+#    valid_phone: "Enter a valid phone number."
 
   general:
     and: "en"
@@ -977,8 +990,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     approve_funds: "Budget toewijzen"
     no_purchaser_role: "Geen rol in besluitvorming"
     district_label: "Regio"
+#    district_name: "District Name"
     district_na: "Vul NVT in als het niet van toepassing is"
     organization_label: "Schoolnaam" # {change}
+#    school_name: "School Name"
     city: "Stad"
     state: "Provincie"
     country: "Land"
@@ -1450,6 +1465,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cs2: "Computer Science 2"
     cs3: "Computer Science 3"
     cs4: "Computer Science 4"
+#    cs5: "Computer Science 5"
     cs1_syntax_python: "Cursus 1 Python Syntax Gids"
     cs1_syntax_python_desc: "Spiekbriefje met referenties naar vaakgebruikte Python syntax die studenten zullen leren in de Computer Science Introductie."
     cs1_syntax_javascript: "Cursus 1 JavaScript Syntax Gids"
@@ -1470,6 +1486,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     cs3_curriculum_desc: "Cursus 3: leertraject, lesplannen, activiteiten en meer."
     cs4_curriculum: "Informatica 4 - Curriculum Gids"
     cs4_curriculum_desc: "Cursus 4: leertraject, lesplannen, activiteiten en meer."
+#    cs5_curriculum_js: "Computer Science 5 - Curriculum Guide (JavaScript)"
+#    cs5_curriculum_desc_js: "Scope and sequence, lesson plans, activities and more for Course 5 classes using JavaScript."
+#    cs5_curriculum_py: "Computer Science 5 - Curriculum Guide (Python)"
+#    cs5_curriculum_desc_py: "Scope and sequence, lesson plans, activities and more for Course 5 classes using Python."
     cs1_pairprogramming: "Programmeer-activiteit voor duo's."
     cs1_pairprogramming_desc: "Laat leerlingen kennismaken met een activiteit voor duo's, wat hen helpt betere luisteraars te worden en effectiver te communiceren."
     gd1: "Game Ontwikkeling 1"
@@ -1543,6 +1563,35 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     choose_course: "Kies Cursus"
     choose_instructions: "Selecteer een cursus uit de dropdown die je wilt toewijzen en klik dan op “Toewijzen aan geselecteerde leerlingen”."
     push_projects: "We raden aan om Web Ontwikkeling 1 of Game Ontwikkeling 1 toe te wijzen nadat leerlingen klaar zijn met Introductie tot Computer Wetenschap! Zie onze {{resource_hub}} voor meer details over deze cursussen."
+#    teacher_quest: "Teacher's Quest for Success"
+#    quests_complete: "Quests Complete"
+#    teacher_quest_create_classroom: "Create Classroom"
+#    teacher_quest_add_students: "Add Students"
+#    teacher_quest_teach_methods: "Help your students learn how to `call methods`."
+#    teacher_quest_teach_methods_step1: "Get 75% of at least one class through the first level, __Dungeons of Kithgard__"
+#    teacher_quest_teach_methods_step2: "Print out the [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in the Resource Hub."
+#    teacher_quest_teach_strings: "Don't string your students along, teach them `strings`."
+#    teacher_quest_teach_strings_step1: "Get 75% of at least one class through __True Names__"
+#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+#    teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
+#    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
+#    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
+#    teacher_quest_teach_variables: "Vary it up with `variables`."
+#    teacher_quest_teach_variables_step1: "Get 75% of at least one class through __Known Enemy__."
+#    teacher_quest_teach_variables_step2: "Encourage collaboration by using the [Pair Programming Activity](/teachers/resources/pair-programming)."
+#    teacher_quest_kithgard_gates_100: "Escape the Kithgard Gates with your class."
+#    teacher_quest_kithgard_gates_100_step1: "Get 75% of at least one class through __Kithgard Gates__."
+#    teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
+#    teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
+#    teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to __Wakka Maul__."
+#    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Resource Hub](/teachers/resources) for tips on how to run a successful arena day."
+#    teacher_quest_reach_gamedev: "Explore new worlds!"
+#    teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
+#    teacher_quest_done: "Want your students to learn even more code? Get in touch with our [school specialists](mailto:schools@codecombat.com) today!"
+#    teacher_quest_keep_going: "Keep going! Here's what you can do next:"
+#    teacher_quest_more: "See all quests"
+#    teacher_quest_less: "See fewer quests"
+#    refresh_to_update: "(refresh the page to see updates)"
 
   sharing:
     game: "Spel"
@@ -2171,3 +2220,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    sign_up: "Sign up & keep coding ▶"
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
+
+#  server_error:
+#    email_taken: "Email already taken"
+#    username_taken: "Username already taken"
