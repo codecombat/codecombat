@@ -25,7 +25,6 @@ OAuthProviderSchema.methods.lookupAccessToken = co.wrap (accessToken) ->
   if @get('strictSSL')?
     options.strictSSL = @get('strictSSL')
   [res, body] = yield request.getAsync(options)
-  log.info "User Lookup Res: #{res.statusCode} #{JSON.stringify(res.body, null, '\t')}"
   if res.statusCode >= 400
     return null
   return body
@@ -51,7 +50,6 @@ OAuthProviderSchema.methods.getTokenWithCode = co.wrap (code) ->
   if @get('strictSSL')?
     options.strictSSL = @get('strictSSL')
   res = yield requestAsync(options)
-  log.info "OAuth Token Res: #{res.statusCode} #{JSON.stringify(res.body, null, '\t')}"
   if res.statusCode >= 400
     return null
   return res.body
