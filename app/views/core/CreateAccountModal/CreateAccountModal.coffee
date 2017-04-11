@@ -18,6 +18,7 @@ application  = require 'core/application'
 errors = require 'core/errors'
 utils = require 'core/utils'
 store = require('core/store')
+storage = require 'core/storage'
 
 ###
 CreateAccountModal is a wizard-style modal with several subviews, one for each
@@ -86,9 +87,13 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @insertSubView(new ChooseAccountTypeView()),
       'choose-path': (path) ->
         if path is 'teacher'
-          window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers', ['Mixpanel']
+          window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers' # This is a legacy event name
           @signupState.set { path, screen: 'basic-info' }
         else
+          if path is 'student'
+            window.tracker?.trackEvent 'CreateAccountModal Student Path Clicked', category: 'Students'
+          if path is 'individual'
+            window.tracker?.trackEvent 'CreateAccountModal Individual Path Clicked', category: 'Individuals'
           @signupState.set { path, screen: 'segment-check' }
 
     @listenTo @insertSubView(new SegmentCheckView({ @signupState })),
@@ -114,6 +119,8 @@ module.exports = class CreateAccountModal extends ModalView
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
           store.commit('modal/updateTrialRequestProperties', _.pick(@signupState.get('signupForm'), 'firstName', 'lastName'))
+          if storage.load('referredBySunburst')
+            store.commit('modal/updateTrialRequestProperties', {'marketingReferrer': 'sunburst'})
           @signupState.set { screen: 'teacher-signup-component' }
         else
           @signupState.set { screen: 'confirmation', accountCreated: true }

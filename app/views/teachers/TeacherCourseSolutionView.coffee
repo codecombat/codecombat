@@ -33,20 +33,25 @@ module.exports = class TeacherCourseSolutionView extends RootView
       return '' if l isnt @language
       a
 
+
   onLoaded: ->
+    @listenTo me, 'change:preferredLanguage', @updateLevelData
+    @updateLevelData()
+
+  updateLevelData: ->
     for level in @levels?.models
       articles = level.get('documentation')?.specificArticles
       if articles
         guide = articles.filter((x) => x.name == "Overview").pop()
-        level.set 'guide', marked(@hideWrongLanguage(guide.body)) if guide
+        level.set 'guide', marked(@hideWrongLanguage(utils.i18n(guide, 'body'))) if guide
         intro = articles.filter((x) => x.name == "Intro").pop()
-        level.set 'intro', marked(@hideWrongLanguage(intro.body)) if intro
+        level.set 'intro', marked(@hideWrongLanguage(utils.i18n(intro, 'body'))) if intro
       heroPlaceholder = level.get('thangs').filter((x) => x.id == 'Hero Placeholder').pop()
       comp = heroPlaceholder?.components.filter((x) => x.original.toString() == '524b7b5a7fc0f6d51900000e' ).pop()
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
         try
-          translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(programmableMethod.context)
+          translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(@getText(programmableMethod, 'context'))
         catch e
           console.error('Broken solution for level:', level.get('name'))
           continue
@@ -56,7 +61,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
         level.set 'begin', finalDefaultCode
         solution = _.find(programmableMethod.solutions, (x) => x.language is (level.get('primerLanguage') or @language))
         try
-          solutionText = _.template(solution?.source)(programmableMethod.context)
+          solutionText = _.template(solution?.source)(@getText(programmableMethod, 'context'))
         catch error
           solutionText = solution?.source
           console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error

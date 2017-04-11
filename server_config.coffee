@@ -133,6 +133,9 @@ config.snowplow =
 
 config.buildInfo = { sha: 'dev' }
 
+config.sunburst =
+  email: process.env.COCO_SUNBURST_EMAIL or ''
+
 if fs.existsSync path.join(__dirname, '.build_info.json')
   config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
 
