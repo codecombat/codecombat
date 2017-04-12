@@ -121,7 +121,7 @@ OutcomesReportComponent = Vue.extend
     classrooms: (classrooms) ->
       for classroom in classrooms
         if _.isUndefined(@isClassroomSelected[classroom._id])
-          Vue.set(@isClassroomSelected, classroom._id, true)
+          Vue.set(@isClassroomSelected, classroom._id, not classroom.archived)
     courses: (courses) ->
       for course in courses
         if _.isUndefined(@isCourseSelected[course._id])
