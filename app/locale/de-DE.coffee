@@ -294,7 +294,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_list_create_class: "Auf der nächsten Seite kannst du eine neue Klasse erstellen."
     teacher_list_add_students: "Füge Schüler zur Klassen hinzu, indem du auf Klasse anzeigen klickst und ihnen den Klassencode oder die URL schickst. Du kannst auch Schüler via E-Mail einladen, wenn Sie E-Mail-Adressen haben." 
     teacher_list_resource_hub_1: "Beachte auch"
-                                 "Check out the"
     teacher_list_resource_hub_2: "Kursanleitungen"
     teacher_list_resource_hub_3: "mit Lösungen für alle Level und den"
     teacher_list_resource_hub_4: "Resource Hub"
