@@ -17,6 +17,16 @@ module.exports = class OutcomesReportResultView extends RootView
 
     @courses = @options.courses.map (course) =>
       _.merge course, {completion: @options.courseCompletion[course._id].completion}
+
+    # Reorder CS2 in front of WD1/GD1 if it's more completed, to account for us changing the order around.
+    cs1 = _.find @courses, {slug: 'introduction-to-computer-science'}
+    cs2 = _.find @courses, {slug: 'computer-science-2'}
+    gd1 = _.find @courses, {slug: 'game-development-1'}
+    wd1 = _.find @courses, {slug: 'web-development-1'}
+
+    if cs2?.completion > _.max([gd1?.completion, wd1?.completion])
+      @courses.splice(@courses.indexOf(cs2), 1)
+      @courses.splice(_.max([@courses.indexOf(cs1), 0]) + 1, 0, cs2)
     super()
 
   onClickBackButton: ->

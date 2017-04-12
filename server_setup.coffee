@@ -75,17 +75,20 @@ setupErrorMiddleware = (app) ->
 
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
+        console.log err.stack if err.stack and config.TRACE_ROUTES
         return res.status(err.code).send(err.toJSON())
 
       if err.status and 400 <= err.status < 500
-        res.status(err.status).send("Error #{err.status}")
-        return
+        console.log err.stack if err.stack and config.TRACE_ROUTES
+        return res.status(err.status).send("Error #{err.status}")
       
       if err.name is 'CastError' and err.kind is 'ObjectId'
+        console.log err.stack if err.stack and config.TRACE_ROUTES
         newError = new errors.UnprocessableEntity('Invalid id provided')
         return res.status(422).send(newError.toJSON())
 
       res.status(err.status ? 500).send(error: "Something went wrong!")
+      console.log err.stack if err.stack and config.TRACE_ROUTES
       message = "Express error: #{req.method} #{req.path}: #{err.message} \n #{err.stack}"
       log.error "#{message}, stack: #{err.stack}"
       if global.testing
@@ -235,6 +238,18 @@ setupFeaturesMiddleware = (app) ->
       
     next()
 
+# When config.TRACE_ROUTES is set, this logs a stack trace every time an endpoint sends a response.
+# It's great for finding where a mystery endpoint is!
+# The same is done for errors in the error-handling middleware.
+setupHandlerTraceMiddleware = (app) ->
+  app.use (req, res, next) ->
+    oldSend = res.send
+    res.send = ->
+      result = oldSend.apply(@, arguments)
+      console.trace()
+      return result
+    next()
+
 setupSecureMiddleware = (app) ->
   # Cannot use express request `secure` property in production, due to
   # cluster setup.
@@ -257,6 +272,7 @@ setupAPIDocs = (app) ->
   app.use('/api-docs', swaggerUi.setup(swaggerDoc))
 
 exports.setupMiddleware = (app) ->
+  setupHandlerTraceMiddleware app if config.TRACE_ROUTES
   setupSecureMiddleware app
   setupPerfMonMiddleware app
 
