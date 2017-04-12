@@ -40,7 +40,6 @@ OutcomesReportComponent = Vue.extend
     schoolName: null
     schoolAddress: null
     trialRequest: null
-    startDate: null
     classrooms: null
     courses: null
     courseInstances: []
@@ -48,8 +47,12 @@ OutcomesReportComponent = Vue.extend
     isClassroomSelected: {}
     isCourseSelected: {}
     endDate: moment(new Date()).format('MMM D, YYYY')
+    earliestSessionDate: new Date()
+    earliestClassroomDate: new Date()
     insightsMarkdown: ""
   computed:
+    startDate: ->
+      moment(_.max([@earliestSessionDate, @earliestClassroomDate])).format('MMM D, YYYY')
     sessions: ->
       _.flatten(@classrooms.map (c) -> c.sessions)
     selectedSessions: ->
@@ -117,7 +120,7 @@ OutcomesReportComponent = Vue.extend
       @schoolName ?= trialRequest?.properties.nces_name
       @schoolName ?= trialRequest?.properties.school
       @schoolName ?= trialRequest?.properties.organization
-      @startDate = moment(new Date(trialRequest?.created)).format('MMM D, YYYY')
+      @earliestClassroomDate = new Date(trialRequest?.created)
     classrooms: (classrooms) ->
       for classroom in classrooms
         if _.isUndefined(@isClassroomSelected[classroom._id])
@@ -241,6 +244,10 @@ OutcomesReportComponent = Vue.extend
                   Object.freeze(sessions)
                   Object.freeze(session) for session in sessions
                   Vue.set classroom, 'sessions', sessions
+                  return classroom
+              .then (classrooms) =>
+                @earliestSessionDate = _.min _.map classrooms, (classroom) ->
+                  _.min _.map classroom.sessions, (s) -> new Date(s.created)
             Promise.all([
               @fetchCourseInstances(teacher).then (courseInstances) =>
                 @courseInstances = courseInstances
