@@ -33,7 +33,7 @@ OutcomesReportComponent = Vue.extend
   template: require('templates/admin/outcomes-report-view')()
   data: ->
     accountManager: me.toJSON()
-    teacherEmail: ''
+    teacherEmail: utils.getQueryVariable('email')
     teacher: null
     teacherFullName: null
     accountManagerFullName: null
