@@ -51,7 +51,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       programmableMethod = comp?.config.programmableMethods.plan
       if programmableMethod
         try
-          translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(@getText(programmableMethod, 'context'))
+          translatedDefaultCode = _.template(programmableMethod.languages[level.get('primerLanguage') or @language] or programmableMethod.source)(utils.i18n(programmableMethod, 'context'))
         catch e
           console.error('Broken solution for level:', level.get('name'))
           continue
@@ -61,7 +61,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
         level.set 'begin', finalDefaultCode
         solution = _.find(programmableMethod.solutions, (x) => x.language is (level.get('primerLanguage') or @language))
         try
-          solutionText = _.template(solution?.source)(@getText(programmableMethod, 'context'))
+          solutionText = _.template(solution?.source)(utils.i18n(programmableMethod, 'context'))
         catch error
           solutionText = solution?.source
           console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
