@@ -13,8 +13,6 @@ Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
 require('vendor/co')
-require('vendor/vue')
-require('vendor/vuex')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 
