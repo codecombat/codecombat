@@ -46,7 +46,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     get_started_subtitle: "Erstellen Sie eine Klasse, fügen Sie Schüler hinzu und verfolgen Sie ihren Fortschritt während sie Informatik lernen."
     request_demo: "Demo anfragen"
     setup_a_class: "Eine Klasse erstellen"
-    have_an_account: "Haben Sie bereits einen Account?" # {change}
+    have_an_account: "Account vorhanden?"
     logged_in_as: "Sie sind zurzeit eingeloggt als"
     computer_science: "Informatikkurse für alle Altersgruppen"
     show_me_lesson_time: "Zeig mir die vorgeschlagene Stundenzeit für:"
@@ -54,7 +54,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     ffa: "Kostenlos für alle Schüler"
     lesson_time: "Lektionszeit:"
     coming_soon: "Coming soon!"
-    courses_available_in: "Kurse sind verfügbar in JavaScript, Python, und Java (coming soon!)" # {change}
+    courses_available_in: "Kurse sind verfügbar in JavaScript und Python. Web-Entwicklungs-Kurse mit HTML, CSS, jQuery, and Bootstrap"
     boast: "Bietet Rätsel die komplex genug sind um Spieler und Programmiere zu faszinieren."
     winning: "Eine gewinnbringende Kombination aus RPG-Gameplay und Programmierhausaufgaben die aufgeht und kindgerechte Bildung berechtigterweise unterhaltsam macht."
     run_class: "Alles was man braucht um einen Informatikkurs in der Schule zu geben, ohne dass man Hintergrundwissen braucht."
@@ -144,7 +144,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     level_difficulty: "Schwierigkeit: "
     play_classroom_version: "Spiele die Klassenraum-Version" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Anfängerkampagne"
-    awaiting_levels_adventurer_prefix: "Wir veröffentlichen fünf Levels pro Woche." # {change}
+    awaiting_levels_adventurer_prefix: "Wir veröffentlichen jede Woche neue Level"
     awaiting_levels_adventurer: "Registriere dich als ein Abenteurer"
     awaiting_levels_adventurer_suffix: "sei der Erste, der neue Levels spielt."
     adjust_volume: "Lautstärke anpassen"
@@ -203,7 +203,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     None: "Nicht"
 
   share_progress_modal:
-    blurb: "Du machst dich gut! Sag deinen Eltern wie viel du mit CodeCombat gelernt hast." # {change}
+    blurb: "Du machst dich gut! Sag deinen Eltern wie viel du mit CodeCombat gelernt hast."
     email_invalid: "Diese Email-Adresse ist leider ungültig."
     form_blurb: "Schreibe hier ihre Emailadresse rein und wir werden es ihnen zeigen."
     form_label: "Email-Adresse"
@@ -228,7 +228,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     create_student_header: "Studentenkonto erstellen"
     create_teacher_header: "Lehrerkonto erstellen"
     create_individual_header: "Einzelkonto erstellen"
-    email_announcements: "Erhalte Benachrichtigungen per Email" # {change}
+    email_announcements: "Erhalte Benachrichtigungen über neue Level und Features per Email"
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
     log_in: "mit Passwort einloggen"
@@ -457,7 +457,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_title_suffix: " Abgeschlossen"
     victory_sign_up: "Melde Dich an, um Fortschritte zu speichern."
     victory_sign_up_poke: "Möchtest du Neuigkeiten per Mail erhalten? Erstelle einen kostenlosen Account und wir halten Dich auf dem Laufenden."
-    victory_rate_the_level: "Bewerte das Level: " # {change}
+    victory_rate_the_level: "Spaßfaktor des Levels?: "
     victory_return_to_ladder: "Zurück zur Rangliste"
     victory_saving_progress: "Fortschritt speichern"
     victory_go_home: "Geh auf die Startseite"
@@ -476,7 +476,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_cast_button_running: "Wird ausgeführt"
     tome_cast_button_ran: "Wurde ausgeführt"
     tome_submit_button: "Absenden"
-    tome_reload_method: "Original Code für diese Methode neu laden" # {change}
+    tome_reload_method: "Ursprünglichen Code laden zum Neustart" 
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
@@ -498,7 +498,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     infinite_loop_reset_level: "Level zurücksetzen"
     infinite_loop_comment_out: "Meinen Code auskommentieren"
     tip_toggle_play: "Wechsel zwischen Play und Pause mit Strg+P."
-    tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]" # {change}
+    tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]" # {change} OK! 
     tip_guide_exists: "Klicke auf die Anleitung am oberen Ende der Seite für nützliche Informationen."
     tip_open_source: "CodeCombat ist 100% quelloffen!"
     tip_tell_friends: "Gefällt dir CodeCombat? Dann erzähl es deinen Freunden!"
@@ -630,7 +630,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Verbessere deine Fähigkeiten mit einem CodeCombat Abonnement" # {change}
+    comparison_blurb: "Werde Master Coder und bestelle das <b>Premium-Abonnent</b>!"
     premium_pricing_prefix: "Hol dir Premium für nur"
     premium_pricing_suffix: "und werde Master Coder."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
@@ -662,12 +662,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     parents_blurb3: "Kein Risiko: 100% Geld zurück Garantie, und 1-Klick Abokündigung."
     payment_methods: "Zahlungsarten"
     payment_methods_title: "Akzeptierte Zahlungsarten"
-    payment_methods_blurb1: "Momentan akzeptieren wir nur Kreditkarten und Alipay." # {change}
+    payment_methods_blurb1: "Momentan akzeptieren wir nur Kreditkarten und Alipay. Du kannst auch per PayPal {{three_month_price}} US$ an nick@codecombat.com mit deiner Account-E-mail im Memo senden um drei Monate' zu abonnieren, oder ${{year_price}} für ein Jahr"
     payment_methods_blurb2: "Wenn Sie auf eine andere Art zahlen wollen, bitte kontaktieren Sie"
     sale_button: "Angebot!"
-    sale_button_title: "Spare ${{discount}} beim Kauf eines Jahresabonnements" # {change}
+    sale_button_title: "Spare ${{discount}} beim Kauf eines Jahresabonnements"
     stripe_description: "Monatsabo"
-    stripe_description_year_sale: "Jahresabonnement (${{discount}} Angebot)" # {change}
+    stripe_description_year_sale: "Jahresabonnement (${{discount}} Rabatt)"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
     personal_sub: "Persönliches Abonnement" # Accounts Subscription View below
@@ -735,21 +735,21 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     master_coder: "Schließe jetzt ein Abbonent ab und werde Master Coder!"
     subscribe_now: "Abonniere heute"
     hero_blurb_1: "Du bekommst Zugang zu __premiumHeroesCount__ extrastarken Helden nur für Abonnenten! Nutze die Macht von Okar Stompfoot, die tödliche Präzision von Naria von Blatt oder beschwöre \"hinreißende\" Skelette mit Nalfar Cryptor."
-    hero_blurb_2: "Prämium-Krieger erschließen beeindruckende Kampfkünste wie Kampf-Schrei, Stampfen oder Feinde-Wirbeln. Oder spiele als Waldläufer und nutze Tarntechnik, Messer und Borgen. Werde ein wahrer Programmier-Zauberer und entfessele Ur-, Nekromantie- oder Elementar-Magie!"
+    hero_blurb_2: "Premium-Krieger erschließen beeindruckende Kampfkünste wie Kampf-Schrei, Stampfen oder Feinde-Wirbeln. Oder spiele als Waldläufer und nutze Tarntechnik, Messer und Borgen. Werde ein wahrer Programmier-Zauberer und entfessele Ur-, Nekromantie- oder Elementar-Magie!"
     hero_caption: "Spannende neue Helden!"
     pet_blurb_1: "Lieblingstiere sind nicht nur hinreißend, sie stellen auch ganz neue Funktionen und Methoden zur Verfügung. Der Babygreif fliegt über Hindernisse, der Wolfswelpe kann Zaubertränke holen und der Puma kann sprechen!"
     pet_blurb_2: "Sammle alle und entdecke ihre einzigartigen Fähigkeiten"
     pet_caption: "Lieblingstiere für deine Helden!"
     game_dev_blurb: "Lerne, wie man Spiele mit Scripten steuert und erstelle neue Level, die du mit deinen Freunden teilen kannst! Plaziere die Gegenstände, die du willst, schreibe Programme für die Logik und das Verhalten der Einheiten und beobachte, ob Deine Freunde das Level schaffen können."
     game_dev_caption: "Gestalte Spiele für deine Freunde!"
-    everything_in_premium: "Das alles erhälst du als CodeCombat Prämium-Abonnent:"
+    everything_in_premium: "Das alles erhälst du als CodeCombat Premium-Abonnent:"
     list_gems: "Du erhälst jeden Monat Bonus-Edelsteine um Ausrüstung, Tiere und Helden zu kaufen."
     list_levels: "Du erhälst Zugang zu __premiumLevelsCount__ weiteren Leveln"
     list_heroes: "Schalte exklusive Helden frei, beispielsweise Waldläufer- und Zauberer-Klassen"
     list_game_dev: "Erstelle Spiele und teile sie mit Freunden"
     list_web_dev: "Erstelle Webseiten und interaktive Apps"
     list_items: "Rüste Dich mit Dingen aus, die nur für Abonnenten verfügbar sind, wie zum Beispiel Lieblingstieren"
-    list_support: "Erhalte Prämium-Support der Dir hilft, Fehler in kompliziertem Code zu finden"
+    list_support: "Erhalte Premium-Support der Dir hilft, Fehler in kompliziertem Code zu finden"
     list_clans: "Gründe private Clans um deine Freunde einzuladen und führe eine Gruppen-Rangliste"
 
   choose_hero:
@@ -844,8 +844,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     story_link: "Geschichte"
     press_link: "Presse"
     mission_title: "Unsere Mission: Programmieren jedem Schüler auf der Erde zugänglich zu machen."
-    mission_description_1: "<strong>Programmieren ist Magie</strong>. Es ist die Fähigkeit Dinge aus purer Vorstellungskraft zu erschaffen. Wir starteten CodeCombat um Lernen dieses Gefühl der Zauberkraft in ihren Fingerspitzen zu geben während sie <strong>getippten Code</strong> benutzen." # {change}
-    mission_description_2: "Wie sich herausstellt, können sie dadurch auch schneller lernen. Sehr viel schneller.  Es ist mehr wie eine Unterhaltung als das Lesen einer Bedienungsanleitung. Wir wollen diese Unterhaltung in jede Schule zu <strong>jedem Schüler</strong> bringen, weil jeder die Chance haben sollte die Magie des Programmierens zu erlernen." # {change}
+    mission_description_1: "<strong>Programmieren ist Magie</strong>. Es ist die Fähigkeit Dinge aus purer Vorstellungskraft zu erschaffen. Wir haben CodeCombat gegründet, um Lernenden dieses Gefühl zu geben während sie <strong>getippten Code</strong> benutzen."
+    mission_description_2: "Wie sich herausstellt, können sie dadurch auch schneller lernen. Sehr viel schneller - wie eine Unterhaltung und nicht wie das Lesen einer Anleitung. Wir wollen diese Unterhaltung in jede Schule zu <strong>jedem Schüler</strong> bringen, weil jeder die Magie des Programmierens erlernen können sollte."
     team_title: "Triff das CodeCombat Team"
     team_values: "Wir legen Wert auf einen offenen und respektvollen Dialog, wo die besten Ideen gewinnen. Unsere Entscheidungen basieren auf Benutzerforschung und unser Fortschritt richtet sich danach ihnen handfeste Resultate zu liefern. Jeder packt mit an von unserem Geschäftsführer bis hin zu unseren  Github-Unterstützern, weil wir Wert auf Zuwachs und Lernen in unserem Team legen."
     nick_title: "Mitbegründer, Geschäftsführer"
@@ -861,8 +861,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     rob_blurb: "Programmiert Zeug und Dinge"
     josh_c_title: "Game Designer"
     josh_c_blurb: "Designt Spieler"
-    robin_title: "Nutzererfahrung Design & Forschung" # {change}
-    robin_blurb: "Das Gerüst" # {change}
+    robin_title: "Produktmanager"
+    robin_blurb: "Verschickt Dinge"
     josh_title: "Game Designer"
     josh_blurb: "Boden ist Lava"
     phoenix_title: "Software-Ingenieur"
@@ -878,10 +878,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     jose_title: "Musik"
     jose_blurb: "Taking Off"
     community_title: "...und unsere Open-Source Community"
-    community_subtitle: "Mehr als 450 Unterstützer haben dabei geholfen CodeCombat zu erstellen, und es werden jede Woche mehr!" # {change}
+    community_subtitle: "Mehr als 500 Unterstützer haben mitgeholfen, CodeCombat zu erstellen, und es werden jede Woche mehr!"
     community_description_3: "CodeCombat ist ein"
     community_description_link_2: "Gemeinschaftsprojekt"
-    community_description_1: "CodeCombat ist ein Communityprojekt, mit hunderten von Spielern die freiwillig Level erstellen, neue Features zum Quellcode beditragen, Bugs beheben, testen und sogar das Spiel in bisher mehr als 50 Sprachen übersetzen. Angestellte, Unterstützer und die Seite profitieren vom Teilen von Ideen und von den gemeinsamen Anstrengungen, so wie die Open-Source-Community im Allgemeinen. Die Seite basiert auf mehreren Open Source Projekten und wir sind Open-Source um der Community etwas zurückzugeben und neugierigen Spielern ein familiäres Projekt zum entdecken und experimentieren verfügbar zu machen. Jeder kann der CodeCombat-Community beitreten! Schau auf unserer" # {change}
+    community_description_1: "mit hunderten von Spielern, die freiwillig Level erstellen, neue Features zum Quellcode beditragen, Bugs beheben, testen und sogar das Spiel in bisher mehr als 50 Sprachen übersetzen. Angestellte, Unterstützer und die Seite profitieren vom Teilen von Ideen und von den gemeinsamen Anstrengungen, so wie die Open-Source-Community im Allgemeinen. Die Seite basiert auf mehreren Open Source Projekten und wir sind Open-Source um der Community etwas zurückzugeben und neugierigen Spielern ein bereits bekanntes Projekt zum entdecken und experimentieren verfügbar zu machen. Jeder kann der CodeCombat-Community beitreten! Schau auf unserer" # {change}
     community_description_link: " Mitwirken Seite"
     community_description_2: "für weitere Informationen vorbei."
     number_contributors: "Mehr als 450 Unterstützer haben ihre Zeit und Hilfe für dieses Projekt zur Verfügung gestellt."
@@ -893,8 +893,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     story_statistic_2a: "Wir wurden in über 50 Sprachen übersetzt — unsere Spieler kommen aus mehr als"
     story_statistic_2b: "200 Staaten"
     story_statistic_3a: "Zusammen haben sie mehr als"
-    story_statistic_3b: "1 Milliarde Zeilen Code geschrieben"
-    story_statistic_3c: "in sechs verschiedenen Programmiersprachen geschrieben" # {change}
+    story_statistic_3b: "1 Milliarde Zeilen Code geschrieben,"
+    story_statistic_3c: "in verschiedensten Programmiersprachen"
     story_long_way_1: "Obwohl wir einen langen Weg gegangen sind..."
     story_sketch_caption: "Nick's allererste Skizze zeigt ein Programmierspiel in Aktion."
     story_long_way_2: "haben wir noch viel zu tun bevor unser Auftrag abgeschlossen ist, also..."
@@ -980,7 +980,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     primary_role_default: "Primäre Rolle auswählen"
     purchaser_role_default: "Käuferrolle auswählen"
     tech_coordinator: "Technologie-Koordinator"
-    advisor: "Berater" # {change}
+    advisor: "Lehrplan-Spezialist/Berater" 
     principal: "Direktor"
     superintendent: "Leiter"
     parent: "Elternteil"
@@ -992,7 +992,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     district_label: "Bezirk"
     district_name: "Bezirksname"
     district_na: "Falls nicht zutreffend, gib n. v. ein"
-    organization_label: "Schule" # {change}
+    organization_label: "Schule" # 
     school_name: "Schulname"
     city: "Stadt"
     state: "Bundesland"
@@ -1011,7 +1011,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     anything_else: "Weitere Dinge die wir wissen sollten?"
     thanks_header: "Anforderung erhalten!" 
     thanks_sub_header: "Vielen Dank für dein Interesse an CodeCombat für deine Schule."
-    thanks_p: "Wir melden uns bald. Fragen? Schreiben Sie uns eine Email:" # {change}
+    thanks_p: "Wir melden uns bald. Fragen? Schreibe uns eine Email:" 
     back_to_classes: "Zurück zu den Klassen"
     finish_signup: "Schließe die Einrichtung deines Lehrerkontos ab:"
     finish_signup_p: "Erstelle ein Konto, um eine Klasse einzurichten, deine Schüler hinzuzufügen und ihre Fortschritte zu beobachten, während sie Computerwissenschaften lernen."
@@ -1068,7 +1068,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     manage_subscription: "Klicken Sie hier um ihr Abo zu verwalten."
     new_password: "Neues Passwort"
     new_password_verify: "Passwort verifizieren"
-    type_in_email: "Email eingeben um das Löschen des Accounts zu bestätigen" # {change}
+    type_in_email: "Email oder Benutzername eingeben um das Löschen des Accounts zu bestätigen"
     type_in_email_progress: "Gib zum Bestätigen deine Email ein."
     type_in_password: "Gib dein Passwort ebenfalls ein."
     email_subscriptions: "Email Abonnements"
@@ -1207,8 +1207,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     concepts: "Konzepten"
     play_time: "Spielzeit:"
     completed: "Abgeschlossen:"
-    enter_emails: "Schüler-Emails eingeben zum hinzufügen, eine Adresse pro Zeile" # {change}
-    send_invites: "Einladung senden" # {change}
+    enter_emails: "E-mail-Adressem durch Komma oder Zeilenumbruch trennen"
+    send_invites: "Schüler einladen"
     number_programming_students: "Anzahl an Programmierschülern"
     number_total_students: "Gesamtzahl der Schüler in Schule/Bezirk"
     enroll: "Einschreiben"
@@ -1221,7 +1221,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     back_classrooms: "Zurück zu meinem Klassenraum"
     back_courses: "Zurück zu meinen Kursen"
     edit_details: "Klassendetails bearbeiten"
-    purchase_enrollments: "Einschreibungen kaufen" # {change}
+    purchase_enrollments: "Kaufe Schüler-Lizenzen"
     remove_student: "Schüler entfernen"
     assign: "Zuordnen"
     to_assign: "um bezahlte Kurse zuzuordnen."
@@ -1237,13 +1237,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     play_now_learn_2: "while-Schleifen um nervtötende Rätsel zu lösen"
     play_now_learn_3: "Strings & Variablen um Aktionen anzupassen"
     play_now_learn_4: "Wie man einen Oger besiegt (wichtige Lebensfähigkeit!)"
-    welcome_to_page: "Willkomen auf deine Kurseseite!" # {change}
+    welcome_to_page: "Mein Schüler-Dashboard"
     my_classes: "Meine Klassen"
     class_added: "Klasse erfolgreich hinzugefügt!"
-    view_levels: "Level betrachten" # {change}
+    view_levels: "Alle Level der Klasse betrachten"
     join_class: "Einer Klasse beitreten"
     join_class_2: "In Klasse einschreiben"
-    ask_teacher_for_code: "Frag deine Lehrkraft ob ihr einen CodeCombat Klassencode habt! Wenn dem so ist, gib ihn hier ein:"
+    ask_teacher_for_code: "Frag deine Lehrkraft ob ihr einen CodeCombat Klassencode habt! Gib ihn hier ein:"
     enter_c_code: "<Klassencode hier eingeben>"
     join: "Beitreten"
     joining: "Der Klasse beitreten"
@@ -1251,11 +1251,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     play_arena: "Arena spielen"
     view_project: "Projekt anzeigen"
     start: "Start"
-    last_level: "Letzter Level" # {change}
+    last_level: "Zuletzt gespieltes Level"
     not_you: "Nicht du?"
     continue_playing: "Weiterspielen"
-    option1_header: "Option 1: Lade Schüler via Email ein" # {change}
-    option1_body: "Schülern wird automatisch eine Einladung gesendet, der Klasse beizutreten, dazu müssen sie einen Account mit Benutzernamer und Passwort erstellen." # {change}
+    option1_header: "Lade Schüler via Email ein"
+    option1_body: "Hinweis: Schüler, die über keine E-Mail-Adresse verfügen geben beim Anlegen des Schüler-Zugangs ihren eindeutigen Klassen-Code ein. E-Mails sind optional."
     remove_student1: "Schüler entfernen"
     are_you_sure: "Sind Sie sicher, dass sie diesen Schüler von ihrer Klasse entfernen wollen?"
     remove_description1: "Der Schüler wird den Zugang zu dem Klassenraum und zu den zugewiesenen Klassen verlieren. Der Spielfortschritt geht NICHT verloren, und der Schüler kann zu jeder Zeit wieder in die Klasse eingschrieben werden."
@@ -1782,7 +1782,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     scribe_introduction_url_mozilla: "Mozilla Developer Network"
     scribe_introduction_suf: " erstellt hat. Wenn deine Idee von Spaß ist, das Konzept des Programmierens in Markdown zu Datei zu bringen, dann ist dies deine Klasse."
     scribe_attribute_1: "Ein Händchen für Worte ist eigentlich alles was du brauchst. Nicht nur in Grammatik und Rechtschreibung, sondern die Fähigkeit, komplexe und komplizierte Ideen anderen zu vermitteln."
-    contact_us_url: "Kontaktiere uns" # {change}
+    contact_us_url: "Kontaktiere uns"
     scribe_join_description: "erzähle uns ein bisschen über dich, deine Erfahrung mit der Programmierung und über welche Themen du schreiben möchtest. Wir werden von dort aus gehen!"
     scribe_subscribe_desc: "Erhalte Emails über Ankündigungen zu schreibenden Artikeln."
     diplomat_introduction_pref: "Also wenn es eines gibt, was wir gelernt haben vom "
@@ -1943,7 +1943,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   account_prepaid:
     purchase_code: "Einen Abocode kaufen"
-    purchase_code1: "Abocodes können eingelöst werden um Premiumabozeit zu einem oder mehreren CodeCombataccounts hinzuzufügen." # {change}
+    purchase_code1: "Abocodes können eingelöst werden um Premiumabozeit zu einem oder mehreren CodeCombat-Einzelkonten hinzuzufügen."
     purchase_code2: "Jeder CodeCombataccount kann nur einen einzigen Abocode auf einmal einlösen."
     purchase_code3: "Abocodes-Monate werden an das Ende der existierenden Abozeit des Accounts hinzugefügt."
     purchase_code4: "Abonnement-Codes sind für Konten, die die Heimversion von CodeCombat spielen. Sie können nicht anstatt einer Schülerlizenz für die Klassenzimmer-Version benutzt werden."
@@ -1967,21 +1967,21 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   loading_error:
     could_not_load: "Fehler beim Laden vom Server"
-    connection_failure: "Verbindung fehlgeschlagen." # {change}
+    connection_failure: "Verbindung fehlgeschlagen."
     connection_failure_desc: "Es sieht so aus, als wärest du nicht mit dem Internet verbunden! Überprüfe deine Netzwerkverbindung und lade die Seite neu."
     login_required: "Login benötigt"
     login_required_desc: "Du musst eingeloggt sein um auf diese Seite zuzugreifen."
     unauthorized: "Du musst angemeldet sein. Hast du Cookies ausgeschaltet?"
-    forbidden: "Sie haben nicht die nötigen Berechtigungen." # {change}
+    forbidden: "Unzulässig"
     forbidden_desc: "Oh nein, hier ist nichts was wir dir zeigen können! Stelle sicher, dass du mit dem korrekten Account angemeldet bist oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!"
-    not_found: "Nicht gefunden." # {change}
+    not_found: "Nicht gefunden"
     not_found_desc: "Hm, hier ist nichts. Schaue dir einige der folgenden Links an um zurück zum Programmieren zu kommen!"
     not_allowed: "Methode nicht erlaubt."
-    timeout: "Server timeout." # {change}
+    timeout: "Server timeout"
     conflict: "Ressourcen Konflikt."
     bad_input: "Falsche Eingabe."
     server_error: "Server Fehler."
-    unknown: "Unbekannter Fehler." # {change}
+    unknown: "Unbekannter Fehler"
     error: "FEHLER"
     general_desc: "Irgendwas lief schief und es ist wahrscheinlich unsere Schuld. Versuche etwas zu warten und die Seite neu zu laden, oder besuche einen der folgenden Links um zurück zum Programmieren zu kommen!"
 
