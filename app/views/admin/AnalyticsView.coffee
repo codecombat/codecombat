@@ -612,8 +612,35 @@ module.exports = class AnalyticsView extends RootView
         showYScale: true
         pointRadius: pointRadius
 
-    # Build campaign MAU KPI line
     if @activeUsers?.length > 0
+      # Build classroom MAU KPI line
+      eventDayDataMap = {}
+      for entry in @activeUsers
+        day = entry.day
+        for event, count of entry.events
+          if event.indexOf('MAU classroom') >= 0
+            eventDayDataMap['MAU classroom'] ?= {}
+            eventDayDataMap['MAU classroom'][day] ?= 0
+            eventDayDataMap['MAU classroom'][day] += count
+
+      classroomData = []
+      for event, entry of eventDayDataMap
+        for day, count of entry
+          classroomData.push day: day, value: count / 1000
+      classroomData.reverse()
+
+      points = @createLineChartPoints(days, classroomData)
+      chartLines.push
+        points: points
+        description: 'Classroom Monthly Active Users (in thousands)'
+        lineColor: 'red'
+        strokeWidth: 1
+        min: 0
+        max: _.max(points, 'y').y
+        showYScale: true
+        pointRadius: pointRadius
+
+      # Build campaign MAU KPI line
       eventDayDataMap = {}
       for entry in @activeUsers
         day = entry.day
@@ -639,6 +666,10 @@ module.exports = class AnalyticsView extends RootView
         max: _.max(points, 'y').y
         showYScale: true
         pointRadius: pointRadius
+
+      # Use same max for classroom/campaign MAUs
+      chartLines[chartLines.length - 1].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max)
+      chartLines[chartLines.length - 2].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max)
 
       # Update previous year maxes if necessary
       if chartLines.length is 6
