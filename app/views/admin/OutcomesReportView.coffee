@@ -46,13 +46,12 @@ OutcomesReportComponent = Vue.extend
     dataReady: false
     isClassroomSelected: {}
     isCourseSelected: {}
+    startDate: null
     endDate: moment(new Date()).format('MMM D, YYYY')
     earliestSessionDate: new Date()
     earliestClassroomDate: new Date()
     insightsMarkdown: ""
   computed:
-    startDate: ->
-      moment(_.max([@earliestSessionDate, @earliestClassroomDate])).format('MMM D, YYYY')
     sessions: ->
       _.flatten(@classrooms.map (c) -> c.sessions)
     selectedSessions: ->
@@ -260,7 +259,8 @@ OutcomesReportComponent = Vue.extend
               @courses = utils.sortCourses(courseIDs.map (courseID) =>
                 indexedCourses[courseID]
               )
-          ])
+          ]).then (trialRequests, classrooms) =>
+            @startDate = moment(_.max([@earliestSessionDate, @earliestClassroomDate])).format('MMM D, YYYY')
     
     fetchCompleteUser: (data) ->
       new Promise (accept, reject) ->
