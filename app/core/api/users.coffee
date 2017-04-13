@@ -37,4 +37,10 @@ module.exports = {
       method: 'PUT'
       json: user
     }))
+    
+  resetProgress: (options={}) ->
+    store = require('core/store')
+    fetchJson(@url(store.state.me._id, 'reset_progress'), _.assign({}, options, {
+      method: 'POST'
+    }))
 }
