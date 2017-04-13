@@ -1213,3 +1213,83 @@ describe 'POST /db/user/:userID/request-verify-email', ->
     expect(mailChimp.api.put).toHaveBeenCalled()
     user = yield User.findById(@user.id)
     expect(user.get('emailVerified')).toBe(true)
+
+    
+describe 'POST /db/user/:userId/reset_progress', ->
+  it 'clears the user\'s level sessions, earned achievements and various user settings', utils.wrap ->
+    userSettings = {
+      points: 10,
+      stats: { gamesCompleted: 10 }
+      earned: { gems: 10, levels: ['1234'] },
+      purchased: { items: ['abcd'] }
+      spent: 10
+      heroConfig: {thangType: 'qwerty'}
+    }
+    
+    user = yield utils.initUser(userSettings)
+    otherUser = yield utils.initUser(userSettings)
+
+    yield utils.loginUser(otherUser)
+    otherSession = yield utils.makeLevelSession({}, {creator:otherUser})
+    otherEarnedAchievement = new EarnedAchievement({ user: otherUser.id })
+    yield otherEarnedAchievement.save()
+    
+    yield utils.loginUser(user)
+    session = yield utils.makeLevelSession({}, {creator:user})
+    earnedAchievement = new EarnedAchievement({ user: user.id })
+    yield earnedAchievement.save()
+
+    url = utils.getUrl("/db/user/#{user.id}/reset_progress")
+    [res] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(200)
+    
+    stillExist = yield [
+      LevelSession.findById(session.id)
+      EarnedAchievement.findById(earnedAchievement.id)
+    ]
+    expect(_.any(stillExist)).toBe(false)
+    
+    othersStillExist = yield [
+      LevelSession.findById(otherSession.id)
+      EarnedAchievement.findById(otherEarnedAchievement.id)
+    ]
+    expect(_.all(othersStillExist)).toBe(true) # did not delete other user stuff
+    
+    user = yield User.findById(user.id).lean()
+    expect(user.points).toBe(0)
+    expect(user.stats.gamesCompleted).toBe(0)
+    expect(user.earned.gems).toBe(0)
+    expect(user.earned.levels).toDeepEqual([])
+    expect(user.purchased.items).toDeepEqual([])
+    expect(user.spent).toBe(0)
+    expect(user.heroConfig).toBeUndefined()
+    
+    otherUser = yield User.findById(otherUser.id).lean()
+    expect(otherUser.points).toBe(10)
+    
+  it 'allows anonymous users to reset their progress', utils.wrap ->
+    user = yield utils.becomeAnonymous()
+    url = utils.getUrl("/db/user/#{user.id}/reset_progress")
+    [res, body] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(200)
+    
+  it 'returns 403 for other users', utils.wrap ->
+    user1 = yield utils.initUser()
+    user2 = yield utils.initUser()
+    yield utils.loginUser(user1)
+    url = utils.getUrl("/db/user/#{user2.id}/reset_progress")
+    [res] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(403)
+    
+  it 'returns 403 for admins', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    url = utils.getUrl("/db/user/#{admin.id}/reset_progress")
+    [res] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(403)
+    
+  it 'returns 401 for non-logged in users', utils.wrap ->
+    yield utils.logout()
+    url = utils.getUrl("/db/user/12345/reset_progress")
+    [res] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(401)

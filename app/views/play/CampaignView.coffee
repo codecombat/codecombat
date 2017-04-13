@@ -26,6 +26,7 @@ AnnouncementModal = require 'views/play/modal/AnnouncementModal'
 codePlay = require('lib/code-play')
 MineModal = require 'views/core/MineModal' # Minecraft modal
 CodePlayCreateAccountModal = require 'views/play/modal/CodePlayCreateAccountModal'
+api = require 'core/api'
 
 require 'game-libraries'
 
@@ -67,6 +68,8 @@ module.exports = class CampaignView extends RootView
     'mouseleave .portals': 'onMouseLeavePortals'
     'mousemove .portals': 'onMouseMovePortals'
     'click .poll': 'showPoll'
+    'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
+    
   shortcuts:
     'shift+s': 'onShiftS'
 
@@ -1002,3 +1005,6 @@ module.exports = class CampaignView extends RootView
       me.save()
       window.tracker?.trackEvent 'Show announcement modal', label: latest
       @openModalView new AnnouncementModal({announcementId: latest})
+
+  onClickBrainPopReplayButton: ->
+    api.users.resetProgress().then(=> document.location.reload())

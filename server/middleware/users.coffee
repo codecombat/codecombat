@@ -17,6 +17,7 @@ facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
 Achievement = require '../models/Achievement'
+UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
 log = require 'winston'
 LocalMongo = require '../../app/lib/LocalMongo'
@@ -405,3 +406,34 @@ module.exports =
     ids = rows.map (r) -> mongoose.Types.ObjectId(r.mongoid)
     connection.end()
     return ids    
+
+  resetProgress: wrap (req, res) ->
+    unless req.user
+      throw new errors.Unauthorized()
+    if req.params.handle isnt req.user.id
+      throw new errors.Forbidden('Users may only delete themselves')
+    if req.user.isAdmin()
+      throw new errors.Forbidden('Admins cannot reset progress') # as a precaution
+    yield [
+      LevelSession.remove({creator: req.user.id})
+      EarnedAchievement.remove({user: req.user.id})
+      UserPollsRecord.remove({user: req.user.id}) # so that gems can be re-awarded
+      req.user.update({
+        $set: {
+          points: 0,
+          'stats.gamesCompleted': 0,
+          'stats.concepts': {},
+          'earned.gems': 0,
+          'earned.levels': [],
+          'earned.items': [],
+          'earned.heroes': [],
+          'purchased.items': [],
+          'purchased.heroes': [],
+          spent: 0
+        }
+        $unset: {
+          'heroConfig': ''
+        }
+      })
+    ]
+    return res.send(200)

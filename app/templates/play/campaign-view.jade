@@ -37,7 +37,14 @@ if view.showAds()
     .map
       if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
         #brain-pop-done-banner-wrapper
-          #brain-pop-done-banner(data-i18n="play.brain_pop_done")
+          #brain-pop-done-banner
+            img(src="/images/pages/play/Victory_Pose.png")
+            p
+              strong(data-i18n="play.brain_pop_done")
+            p
+              span(data-i18n="play.brain_pop_challenge")
+            p
+              button#brain-pop-replay-btn.btn.btn-success.btn-illustrated.btn-lg(data-i18n="play.replay")
       .gradient.horizontal-gradient.top-gradient
       .gradient.vertical-gradient.right-gradient
       .gradient.horizontal-gradient.bottom-gradient
