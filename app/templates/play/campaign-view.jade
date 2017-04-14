@@ -30,7 +30,7 @@ if view.showAds()
         img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
     if view.shouldShow('back-to-classroom')
-      a.btn.btn-primary.under-logo(href='/play') Back to Classroom
+      a.btn.btn-primary.under-logo(href='/play', data-i18n="play.back_to_classroom")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -255,7 +255,10 @@ if view.showAds()
           button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
           button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
         else
-          a(href="/account").player-name.spr= me.get('name')
+          if me.get('role') == "student"
+            a(href="/play").player-name.spr= me.get('name')
+          else
+            a(href="/account").player-name.spr= me.get('name')
           if !features.codePlay
             button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
           if me.isPremium()

@@ -39,7 +39,6 @@ _.extend ClassroomSchema.properties,
     backToMap: { type: 'boolean', description: 'Go back to the map after victory.', default: true }
     gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
-    #rob: {type: 'number', description: 'Test'}
   }
    
 

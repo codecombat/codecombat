@@ -129,14 +129,11 @@ module.exports = class CampaignView extends RootView
 
     if @getQueryVariable('course-instance')?
       @courseLevelsFake = {}
-      console.log "Cascade Load", @getQueryVariable('course-instance')
       @courseInstanceID = @getQueryVariable('course-instance')
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
       jqxhr = @courseInstance.fetch()
       @supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then).then(=>
-        console.log("LoadeD", c: @courseInstance.get('classroomID'), d: @courseInstance.get('courseID'))
-        
         courseID = @courseInstance.get('courseID')
         
         @course = new Course(_id: courseID)
@@ -168,13 +165,11 @@ module.exports = class CampaignView extends RootView
 
           @listenToOnce @courseLevels, 'sync', =>
             existing = @campaign.get('levels')
-            console.log "Sync", existing
             for k,v of @courseLevels.toArray()
               idx = v.get('original')
               @courseLevelsFake[idx] = existing[idx]
               @courseLevelsFake[idx].courseIdx = parseInt(k)
               @courseLevelsFake[idx].requiresSubscription = false
-            console.log "Fake is ", @courseLevelsFake
 
       )
 
@@ -1087,7 +1082,10 @@ module.exports = class CampaignView extends RootView
     @campaign?.get('levels')
 
   applyCourseLogicToLevels: (orderedLevels) ->
-    nextSlug = @courseStats.levels.next.get('slug')
+    nextSlug = @courseStats.levels.next?.get('slug')
+    nextSlug ?= @courseStats.levels.first.get('slug')
+    return unless nextSlug
+
     courseOrder = _.sortBy orderedLevels, 'courseIdx'
     found = false
     for level, levelIndex in courseOrder
@@ -1096,7 +1094,6 @@ module.exports = class CampaignView extends RootView
       level.disabled = false
 
       if level.slug is nextSlug
-        console.log "Next for you is #{level.name}", level
         level.locked = false
         level.hidden = level.locked
         level.color = 'rgb(255, 80, 60)'
