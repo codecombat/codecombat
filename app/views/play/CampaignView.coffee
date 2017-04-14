@@ -462,7 +462,7 @@ module.exports = class CampaignView extends RootView
       return me.getCampaignAdsGroup() is 'leaderboard-ads'
     false
 
-  annotateLevels: (orderedLevels) =>
+  annotateLevels: (orderedLevels) ->
     return if @course?
   
     for level, levelIndex in orderedLevels
@@ -542,7 +542,7 @@ module.exports = class CampaignView extends RootView
     leaderboardModal = new LeaderboardModal supermodel: @supermodel, levelSlug: levelSlug
     @openModalView leaderboardModal
 
-  determineNextLevel: (orderedLevels) =>
+  determineNextLevel: (orderedLevels) ->
     if @courseStats?
       @applyCourseLogicToLevels(orderedLevels)
       return true
