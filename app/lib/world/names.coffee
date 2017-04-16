@@ -982,3 +982,10 @@ module.exports.thangNames = thangNames =
     # Male
     'Alejandro'
   ]
+  "Orge Smasher":[
+    "Lennen"
+    "Tanker"
+    "Stomper"
+    "Smasher"
+    "Awesomator"
+    ]
