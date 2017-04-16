@@ -518,7 +518,7 @@
     tip_great_responsibility: "With great coding skill comes great debug responsibility."
     tip_munchkin: "If you don't eat your vegetables, a munchkin will come after you while you're asleep."
     tip_binary: "There are only 10 types of people in the world: those who understand binary, and those who don't."
-    tip_commitment_yoda: "A programmer must have the deepest commitment, the most serious mind. ~ Yoda"
+    tip_commitment_yoda: "The deepest commitment, the most serious mind a programmer must have . ~ Yoda"
     tip_no_try: "Do. Or do not. There is no try. - Yoda"
     tip_patience: "Patience you must have, young Padawan. - Yoda"
     tip_documented_bug: "A documented bug is not a bug; it is a feature."
