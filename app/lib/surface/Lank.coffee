@@ -597,7 +597,7 @@ module.exports = Lank = class Lank extends CocoClass
 
     if @isMissile and @thang.action is 'die'
       @marks.shadow?.hide()
-    mark.update() for name, mark of @marks
+    mark?.update() for name, mark of @marks
     #@thang.effectNames = ['warcry', 'confuse', 'control', 'curse', 'fear', 'poison', 'paralyze', 'regen', 'sleep', 'slow', 'haste']
     @updateEffectMarks() if @thang?.effectNames?.length or @previousEffectNames?.length
 
