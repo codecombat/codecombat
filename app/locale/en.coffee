@@ -153,6 +153,7 @@
     brain_pop_done: "You’ve defeated the Ogres with code! You win!"
     brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
     replay: "Replay"
+    back_to_classroom: "Back to Classroom"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)

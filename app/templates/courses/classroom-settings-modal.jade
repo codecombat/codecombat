@@ -59,6 +59,18 @@ block modal-body-content
             option(value=i)= i
           option(value="18" data-i18n="courses.student_age_range_older")
 
+    if view.classroom.getSetting('optionsEditable') || me.isAdmin()
+      .form-group
+        label Student Experience Options
+        - var settings = view.schema.properties.settings.properties
+        for opt,name in settings
+          if name != "optionsEditable" || me.isAdmin()
+          .form-group
+            div.checkbox
+              input(type="checkbox", id="settings_"+name, name="settings/"+name, checked=view.classroom.getSetting(name))
+              label(for="settings_" + name)
+                span= opt.description
+    
 block modal-footer-content
   .text-center
     if view.classroom.isNew()

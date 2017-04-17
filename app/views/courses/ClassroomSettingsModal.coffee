@@ -7,6 +7,7 @@ errors = require 'core/errors'
 module.exports = class ClassroomSettingsModal extends ModalView
   id: 'classroom-settings-modal'
   template: template
+  schema: require 'schemas/models/classroom.schema'
 
   events:
     'click #save-settings-btn': 'onSubmitForm'
@@ -32,6 +33,20 @@ module.exports = class ClassroomSettingsModal extends ModalView
     else
       forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'))
       return
+    
+    settings = @classroom.get('settings') or {}
+    mayTweak = settings?.optionsEditable or me.isAdmin()
+    for k in Object.keys(attrs)
+      if /^settings\//.test(k)
+        val = (attrs[k].length > 0)
+        key = k.substring(9)
+        if val isnt @classroom.getSetting key
+          settings[key] = val
+        delete attrs[k]
+
+    if mayTweak
+      attrs.settings = settings
+    
     @classroom.set(attrs)
     schemaErrors = @classroom.getValidationErrors()
     if schemaErrors

@@ -11,6 +11,7 @@ module.exports = class ProgressView extends CocoView
   events:
     'click #done-btn': 'onClickDoneButton'
     'click #next-level-btn': 'onClickNextLevelButton'
+    'click #map-btn': 'onClickMapButton'
     'click #ladder-btn': 'onClickLadderButton'
     'click #share-level-btn': 'onClickShareLevelButton'
 
@@ -33,6 +34,9 @@ module.exports = class ProgressView extends CocoView
 
   onClickNextLevelButton: ->
     @trigger 'next-level'
+
+  onClickMapButton: ->
+    @trigger 'to-map'
 
   onClickLadderButton: ->
     @trigger 'ladder'

@@ -212,7 +212,7 @@ putClassroomMember = wrap (req, res) ->
   if not (code and userId)
     throw new errors.UnprocessableEntity('code and userId required.')
 
-  if classroom.get('code') isnt code
+  if classroom.get('code') isnt code.toLowerCase()
     throw new errors.UnprocessableEntity('code is incorrect.')
 
   user = yield User.findBySlugOrId(userId)

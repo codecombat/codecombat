@@ -52,7 +52,9 @@ module.exports = class ControlBarView extends CocoView
       @supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then).then(=>
         @classroom = new Classroom(_id: @courseInstance.get('classroomID'))
+        @course = new Course(_id: @courseInstance.get('courseID'))
         @supermodel.trackRequest @classroom.fetch()
+        @supermodel.trackRequest @course.fetch()
       )
     else if @courseID
       @course = new Course(_id: @courseID)
@@ -107,15 +109,25 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
     else if @level.isType('course') or @courseID
-      @homeLink = '/students'
-      @homeViewClass = 'views/courses/CoursesView'
-      if @courseID
-        @homeLink += "/#{@courseID}"
-        @homeViewArgs.push @courseID
-        @homeViewClass = 'views/courses/CourseDetailsView'
+      if @classroom?.getSetting('map')
+        @homeLink = "/play"
+        if @course?
+          @homeLink += "/#{@course.get('campaignID')}"
+          @homeViewArgs.push @course.get('campaignID')
         if @courseInstanceID
-          @homeLink += "/#{@courseInstanceID}"
-          @homeViewArgs.push @courseInstanceID
+          @homeLink += "?course-instance=#{@courseInstanceID}"
+          
+        @homeViewClass = 'views/play/CampaignView'
+      else
+        @homeLink = '/students'
+        @homeViewClass = 'views/courses/CoursesView'
+        if @courseID
+          @homeLink += "/#{@courseID}"
+          @homeViewArgs.push @courseID
+          @homeViewClass = 'views/courses/CourseDetailsView'
+          if @courseInstanceID
+            @homeLink += "/#{@courseInstanceID}"
+            @homeViewArgs.push @courseInstanceID
     else if @level.isType('hero', 'hero-coop', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'

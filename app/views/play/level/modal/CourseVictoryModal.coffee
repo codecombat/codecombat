@@ -75,6 +75,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     progressView.once 'done', @onDone, @
     progressView.once 'next-level', @onNextLevel, @
+    progressView.once 'to-map', @onToMap, @
     progressView.once 'ladder', @onLadder, @
     for view in @views
       view.on 'continue', @onViewContinue, @
@@ -105,6 +106,10 @@ module.exports = class CourseVictoryModal extends ModalView
     else
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
       link += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    application.router.navigate(link, {trigger: true})
+
+  onToMap: ->
+    link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
