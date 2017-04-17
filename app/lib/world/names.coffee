@@ -377,6 +377,7 @@ module.exports.thangNames = thangNames =
     # Male
     'Blackjack'
     'Kha\'Zix'
+    'Kikarii'
     'Ritic'
     'Rengar'
     'Shade'
@@ -416,6 +417,7 @@ module.exports.thangNames = thangNames =
     'Clare'
     'Erica'
     'Gemma'
+    'In-sha'
     'Ivy'
     'Jensen'
     'Katniss'
