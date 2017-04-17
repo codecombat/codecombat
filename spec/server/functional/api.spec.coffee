@@ -576,6 +576,12 @@ describe 'PUT /api/classrooms/:handle/members', ->
     expect(res.body.code).toBeUndefined()
     expect(res.body.codeCamel).toBeUndefined()
     done()
+    
+  it 'is case insensitive for the code', utils.wrap ->
+    url = utils.getURL("/api/classrooms/#{@classroom.id}/members")
+    json = { code: @classroom.get('code').toUpperCase(), userId: @student.id }
+    [res, body] = yield request.putAsync { url, auth: @client.auth, json }
+    expect(res.statusCode).toBe(200)
 
   it 'accepts user handles', utils.wrap (done) ->
     url = utils.getURL("/api/classrooms/#{@classroom.id}/members")
