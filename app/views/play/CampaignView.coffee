@@ -1125,7 +1125,7 @@ module.exports = class CampaignView extends RootView
     if features.codePlay and what in ['clans', 'settings']
       return false
 
-    if what is 'stauts-line' and !features.noAuth
+    if features.noAuth and what is 'status-line'
       return false
 
     if what is 'codeplay-ads'
