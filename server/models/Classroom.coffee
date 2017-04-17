@@ -23,6 +23,7 @@ ClassroomSchema.statics.editableProperties = [
   'ageRangeMin'
   'ageRangeMax'
   'archived'
+  'settings'
 ]
 ClassroomSchema.statics.postEditableProperties = []
 

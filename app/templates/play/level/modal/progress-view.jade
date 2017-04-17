@@ -73,7 +73,10 @@
         if view.level.get('type') === 'course-ladder'
           button#ladder-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase Ladder
       .col-sm-5
-        if !view.nextLevel.isNew()
-          button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
+        if view.classroom.getSetting('backToMap') && view.classroom.getSetting('map')
+          button#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg(data-i18n='play_level.done')
         else
-          button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')
+          if !view.nextLevel.isNew()
+            button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
+          else
+            button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')

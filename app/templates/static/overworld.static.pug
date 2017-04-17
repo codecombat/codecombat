@@ -3,6 +3,7 @@ block begin
   - viewName = 'play/CampaignView'
 
 block content
+  - view.shouldShow = function() { return false; }
   - campaigns = {}
   - campaigns.dungeon = {attributes: {fullName: 'Kithgard Dungeon'}}
   - campaigns.dungeon.get = function(p) { return this.attributes[p]; }

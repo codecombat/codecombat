@@ -212,6 +212,10 @@ mixin studentRow(student)
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
         span(data-i18n='teacher.edit')
+    if view.classroom.getSetting('gems')
+      td
+        span.gem.gem-20
+        span(style="font-size: 20px; line-height: 10px")= student.gems()
     td.latest-level-col.small
       div
         i
