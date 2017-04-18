@@ -19,6 +19,8 @@ module.exports = class InvoicesView extends RootView
     super(options)
     @amount = utils.getQueryVariable('a', 0)
     @description = utils.getQueryVariable('d', '')
+    # adding @currency 2.17.2016
+    @currency = utils.getQueryVariable('c', 'USD') # added 2.17.2016
 
   onPayButton: ->
     @description = $('#description').val()
@@ -41,6 +43,7 @@ module.exports = class InvoicesView extends RootView
     @timestampForPurchase = new Date().getTime()
     stripeHandler.open
       amount: @amount
+      currency: @currency  # added 2.17.2016
       description: @description
       bitcoin: true
       alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'
@@ -48,6 +51,7 @@ module.exports = class InvoicesView extends RootView
   onStripeReceivedToken: (e) ->
     data = {
       amount: @amount
+      currency: @currency # added 2.17.2016
       description: @description
       stripe: {
         token: e.token.id
@@ -62,12 +66,14 @@ module.exports = class InvoicesView extends RootView
     jqxhr.done =>
       application.tracker?.trackEvent 'Finished invoice payment',
         amount: @amount
+        currency: @currency # added 2.17.2016
         description: @description
 
       # Show success UI
       @state = 'invoice_paid'
       @stateMessage = "$#{(@amount / 100).toFixed(2)} " + $.t('account_invoices.success')
       @amount = 0
+      @currency = '' # added 2.17.2016
       @description = ''
       @render()
 
