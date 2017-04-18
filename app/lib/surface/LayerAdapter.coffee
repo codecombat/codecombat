@@ -105,7 +105,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
           --bz
     if az is bz
       return 0 unless aPos and bPos
-      return (bPos.y - aPos.y) or (bPos.x - aPos.x)
+      return (bPos.y - aPos.y) or (aPos.z - bPos.z) or (bPos.x - aPos.x)
     return az - bz
 
   #- Zoom updating
