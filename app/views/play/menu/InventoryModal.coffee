@@ -20,7 +20,7 @@ module.exports = class InventoryModal extends ModalView
   template: template
   slots: ['head', 'eyes', 'neck', 'torso', 'wrists', 'gloves', 'left-ring', 'right-ring', 'right-hand', 'left-hand', 'waist', 'feet', 'programming-book', 'pet', 'minion', 'flag']  #, 'misc-0', 'misc-1']  # TODO: bring in misc slot(s) again when we have space
   ringSlots: ['left-ring', 'right-ring']
-  closesOnClickOutside: false # because draggable somehow triggers hide when you don't drag onto a draggable
+  closesOnClickOutside: false # because draggable, somehow triggers hide when you don't drag onto a draggable
 
   events:
     'click .item-slot': 'onItemSlotClick'
