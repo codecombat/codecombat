@@ -15,23 +15,45 @@ block content
       tr
         th(data-i18n="account.purchased")
         th(data-i18n="account.paid_on")
-        th(data-i18n="account.service")
         th(data-i18n="account.price")
         th(data-i18n="account.gems")
       for payment in view.payments.models
-        - var service = payment.get('service')
+        - var service = payment.get('service') || '';
+        - var productID = payment.get('productID');
+        - var prepaidID = payment.get('prepaidID');
+        - console.log(prepaidID, view.prepaidMap[prepaidID])
         tr
-          if payment.get('productID') === 'custom'
+          if view.prepaidMap[prepaidID]
+            case view.prepaidMap[prepaidID].get('type')
+              when 'subscription'
+                td(data-i18n='subscribe.stripe_description')
+              when 'terminal_subscription'
+                if view.prepaidMap[prepaidID].get('description')
+                  td= view.prepaidMap[prepaidID].get('description')
+                else
+                  td(data-i18n='subscribe.stripe_description')
+              when 'course'
+                td(data-i18n='special_offer.course_prefix')
+              when 'starter_license'
+                td(data-i18n='special_offer.student_starter_license')
+              default
+                td
+          else if productID === 'custom'
             td= payment.get('description')
-          else if payment.get('productID')
+          else if productID
             td(data-i18n='account.gems')
+          else if parseInt(payment.get('gems')) === 42000
+            if typeof(me.get('stripe').free) === 'boolean'
+              if me.get('stripe').customerID
+                td(data-i18n='subscribe.lifetime')
+              else
+                td(data-i18n='subscribe.free_subscription')
+            else
+              td(data-i18n='subscribe.year_subscription')
+          else if service.toLowerCase() === 'paypal'
+            td(data-i18n='subscribe.stripe_description')
           else
             td(data-i18n='subscribe.stripe_description')
           td= moment(payment.getCreationDate()).format('l')
-          if service === 'ios'
-            td(data-i18n="account.service_apple")
-            td= payment.get('ios').localPrice
-          else
-            td(data-i18n="account.service_web")
-            td $#{(payment.get('amount')/100).toFixed(2)}
-          td= payment.get('gems') || '-'
+          td $#{(payment.get('amount') / 100).toFixed(2)}
+          td= payment.get('gems') || 'n/a'

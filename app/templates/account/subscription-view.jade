@@ -107,7 +107,10 @@ block content
 
         else
           if view.personalSub.free === true
-            div(data-i18n="subscribe.currently_free")
+            if view.personalSub.lifetimeSub
+              div(data-i18n="subscribe.lifetime")
+            else
+              div(data-i18n="subscribe.currently_free")
           else if typeof view.personalSub.free === 'string'
             if new Date() < new Date(view.personalSub.free)
               div
