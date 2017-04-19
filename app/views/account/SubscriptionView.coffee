@@ -255,6 +255,7 @@ class PersonalSub
       @supermodel.loadCollection(payments, 'payments', {cache: false})
 
     else if stripeInfo.free
+      @lifetimeSub = true if stripeInfo.customerID
       @free = stripeInfo.free
       delete @state
       render()
