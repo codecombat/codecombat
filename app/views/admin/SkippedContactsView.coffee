@@ -90,8 +90,10 @@ SkippedContactInfo =
 SkippedContactsComponent = Vue.extend
   template: require('templates/admin/skipped-contacts/skipped-contacts-view')()
   data: ->
-    sortOrder: 'date (ascending)'
+    sortOrder: 'date (descending)'
     showArchived: false
+    showTrialRequestContacts: true
+    showZenProspectContacts: true
   computed:
     _.assign({},
       Vuex.mapState('page', ['skippedContacts', 'users']),
@@ -111,6 +113,11 @@ SkippedContactsComponent = Vue.extend
           else
             return state.skippedContacts
     )
+  methods:
+    isContactShown: (contact) ->
+      (@showArchived or not contact.archived) and
+        ((@showTrialRequestContacts and contact.trialRequest) or
+         (@showZenProspectContacts and contact.zpContact))
   components:
     'skipped-contact-info': SkippedContactInfo
     'flat-layout': FlatLayout

@@ -3,8 +3,16 @@ flat-layout
     div
       label
         input(type="checkbox" v-model="showArchived")
-        | Show archived users
+        | Show archived contacts
         | ({{ numArchivedUsers }} / {{ skippedContacts.length }})
+    div
+      label
+        input(type="checkbox" v-model="showTrialRequestContacts")
+        | Show contacts with trial requests
+    div
+      label
+        input(type="checkbox" v-model="showZenProspectContacts")
+        | Show contacts from ZenProspect
     div.pull-right(v-if="skippedContacts.length === 0")
       | Loading trial requests...
     div.pull-right(v-if="Object.keys(users).length < skippedContacts.length")
@@ -28,7 +36,7 @@ flat-layout
     ol.skipped-contacts
       li( is="skipped-contact-info",
           v-for="skippedContact in sortedContacts",
-          v-if="showArchived || !skippedContact.archived",
+          v-if="isContactShown(skippedContact)",
           :key="skippedContact._id",
           :skippedContact="skippedContact",
           :user="users[skippedContact._id]")
