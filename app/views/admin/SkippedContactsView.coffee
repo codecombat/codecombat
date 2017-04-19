@@ -19,7 +19,7 @@ SkippedContactInfo =
       # TODO: Figure out how to make this less redundant with that script
       noteData = ""
       @skippedContact
-      if @skippedContact.trialRequest.properties
+      if @skippedContact.trialRequest?.properties
         props = @skippedContact.trialRequest.properties
         if (props.name)
           noteData += "#{props.name}\n"
@@ -54,6 +54,7 @@ SkippedContactInfo =
         noteData += "coco_numStudents: #{skippedContact.numStudents}\n"
       return noteData
 
+    # Optional TODO: Reconcile where these kinds of model-y calculations should go (API? the view?)
     queryString: ->
       if @skippedContact.trialRequest
         trialRequest = @skippedContact.trialRequest
@@ -63,6 +64,14 @@ SkippedContactInfo =
           query = "custom.demo_nces_id:\"#{trialRequest.properties.nces_school_id}\""
         else if (trialRequest.properties.nces_district_id)
           query = "custom.demo_nces_district_id:\"#{trialRequest.properties.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\""
+        return query
+      if @skippedContact.zpContact
+        zpContact = @skippedContact.zpContact
+        query = "name:\"#{zpContact.organization}\""
+        if (zpContact.nces_school_id)
+          query = "custom.demo_nces_id:\"#{zpContact.nces_school_id}\""
+        else if (zpContact.nces_district_id)
+          query = "custom.demo_nces_district_id:\"#{zpContact.nces_district_id}\" custom.demo_nces_id:\"\" custom.demo_nces_name:\"\""
         return query
 
     queryURL: ->
@@ -90,11 +99,11 @@ SkippedContactsComponent = Vue.extend
       sortedContacts: (state) ->
         switch state.sortOrder
           when 'date (ascending)'
-            return _(state.skippedContacts).sortBy((s) -> s.trialRequest.created).value()
+            return _(state.skippedContacts).sortBy((s) -> s.dateCreated).value()
           when 'date (descending)'
-            return _(state.skippedContacts).sortBy((s) -> s.trialRequest.created).reverse().value()
+            return _(state.skippedContacts).sortBy((s) -> s.dateCreated).reverse().value()
           when 'email'
-            return _(state.skippedContacts).sortBy((s) -> s.trialRequest.properties.email).value()
+            return _(state.skippedContacts).sortBy((s) -> s.trialRequest?.properties?.email).value()
           when 'archived'
             return _(state.skippedContacts).sortBy((s) -> !!s.archived).reverse().value()
           when 'unarchived'
@@ -110,7 +119,7 @@ SkippedContactsComponent = Vue.extend
       skippedContacts = yield api.skippedContacts.fetchAll()
       @$store.commit('page/loadContacts', skippedContacts)
       yield skippedContacts.map co.wrap (skippedContact) =>
-        userHandle = skippedContact.trialRequest.applicant
+        userHandle = skippedContact.trialRequest?.applicant
         return unless userHandle
         user = yield api.users.getByHandle(userHandle)
         @$store.commit('page/addUser', { skippedContact , user })
