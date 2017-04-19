@@ -49,7 +49,7 @@
               span.glyphicon.glyphicon-info-sign.spr
               span(data-i18n="inventory.should_equip")
             
-            if itemGroups.subscriberItems.models.length
+            if itemGroups.subscriberItems.models.length && !me.freeOnly()
               h4#restricted-description Subscriber Only
               for item in itemGroups.subscriberItems.models
                 if selectedHeroClass && item.classes.indexOf(selectedHeroClass) > -1
