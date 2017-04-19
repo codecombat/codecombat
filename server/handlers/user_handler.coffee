@@ -110,6 +110,15 @@ UserHandler = class UserHandler extends Handler
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
       
+      emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
+      if not emailRegex.test(req.body.email) and emailRegex.test(user.get('email'))
+        # Don't let them remove their email address if it's there already
+        # TODO: Send a response that the user can actually see! Mimic schema error?
+        if not user.get('role')
+          return callback({ res: { message: 'Individual accounts must have a valid email address', code: 422}, code: 422 })
+        if user.get('role') is 'teacher'
+          return callback({ res: { message: 'Teacher accounts must have a valid email address', code: 422}, code: 422 })
+
       # handle unsetting email
       if req.body.email is ''
         user.set('email', req.body.email)
