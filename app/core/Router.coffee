@@ -29,7 +29,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
     'account/payments': go('account/PaymentsView')
-    'account/subscription': go('account/SubscriptionView')
+    'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true })
     'account/invoices': go('account/InvoicesView')
     'account/prepaid': go('account/PrepaidView')
 
