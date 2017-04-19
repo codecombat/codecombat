@@ -10,7 +10,7 @@ block content
       a(href="/account", data-i18n="nav.account")
     li.active(data-i18n="account.payments")
 
-  if view.payments.size()
+  if view.prepaidMap
     table.table.table-striped
       tr
         th(data-i18n="account.purchased")
@@ -21,9 +21,8 @@ block content
         - var service = payment.get('service') || '';
         - var productID = payment.get('productID');
         - var prepaidID = payment.get('prepaidID');
-        - console.log(prepaidID, view.prepaidMap[prepaidID])
         tr
-          if view.prepaidMap[prepaidID]
+          if prepaidID && view.prepaidMap[prepaidID]
             case view.prepaidMap[prepaidID].get('type')
               when 'subscription'
                 td(data-i18n='subscribe.stripe_description')
@@ -55,5 +54,5 @@ block content
           else
             td(data-i18n='subscribe.stripe_description')
           td= moment(payment.getCreationDate()).format('l')
-          td $#{(payment.get('amount') / 100).toFixed(2)}
+          td $#{(payment.get('amount') || 0 / 100).toFixed(2)}
           td= payment.get('gems') || 'n/a'

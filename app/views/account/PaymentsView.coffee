@@ -15,8 +15,6 @@ module.exports = class PaymentsView extends RootView
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
   onLoaded: ->
-    console.log @payments, @prepaids
     @prepaidMap = _.zipObject(_.map(@prepaids.models, (m) => m.id), @prepaids.models)
-    console.log @prepaidMap
     @reload?()
     super()
