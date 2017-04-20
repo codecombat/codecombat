@@ -126,8 +126,12 @@ watchForErrors = ->
 
   # Promise error handling
   window.addEventListener("unhandledrejection", (err) ->
-    err.promise.catch (e) ->
-      message = "#{e.message}<br>Check the JS console for more."
+    if err.promise
+      err.promise.catch (e) ->
+        message = "#{e.message}<br>Check the JS console for more."
+        showError(message)
+    else
+      message = "#{err.message or err}<br>Check the JS console for more."
       showError(message)
   )
 
