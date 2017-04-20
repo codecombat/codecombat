@@ -124,13 +124,6 @@ describe '/db/user, editing stripe property', ->
         expect(res.statusCode).toBe 401
         done()
 
-  it 'denies username-only users trying to subscribe', utils.wrap (done) ->
-    user = yield utils.initUser({ email: undefined,  })
-    yield utils.loginUser(user)
-    [res, body] = yield request.putAsync(getURL("/db/user/#{user.id}"), { headers, json: { stripe: { planID: 'basic', token: '12345' } } })
-    expect(res.statusCode).toBe(403)
-    done()
-
   #- shared data between tests
   joeData = null
   firstSubscriptionID = null
@@ -997,5 +990,3 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     expect((yield User.findById(@sponsor.id)).get('stripe').recipients.length).toBe(1)
     expect((yield User.findById(@recipient1.id)).get('stripe')).toBeUndefined()
     expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
-
-    

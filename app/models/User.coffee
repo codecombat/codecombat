@@ -429,7 +429,11 @@ module.exports = class User extends CocoModel
     stripe.planID = 'basic'
     stripe.token = token.id
     @set({stripe})
-    return me.patch({headers: {'X-Change-Plan': 'true'}})
+    return me.patch({headers: {'X-Change-Plan': 'true'}}).then =>
+      unless utils.isValidEmail(@get('email'))
+        @set({email: token.email})
+        me.patch()
+      return Promise.resolve()
 
   unsubscribe: ->
     stripe = _.clone(@get('stripe') ? {})
