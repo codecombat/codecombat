@@ -5,8 +5,8 @@ module.exports = class Payments extends CocoCollection
   model: Payment
   url: '/db/payment'
 
-  fetchByCreator: (creatorID, opts) ->
+  fetchByRecipient: (recipientId, opts) ->
     opts ?= {}
     opts.data ?= {}
-    opts.data.creator = creatorID
+    opts.data.recipient = recipientId
     @fetch opts

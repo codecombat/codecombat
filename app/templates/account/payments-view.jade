@@ -27,10 +27,7 @@ block content
               when 'subscription'
                 td(data-i18n="subscribe.stripe_description")
               when 'terminal_subscription'
-                if view.prepaidMap[prepaidID].get('description')
-                  td= view.prepaidMap[prepaidID].get('description')
-                else
-                  td(data-i18n="subscribe.stripe_description")
+                td(data-i18n="subscribe.stripe_description")
               when 'course'
                 td(data-i18n="special_offer.course_prefix")
               when 'starter_license'
@@ -41,7 +38,7 @@ block content
             td= payment.get('description')
           else if productID
             td(data-i18n="account.gems")
-          else if parseInt(payment.get('gems')) === 42000
+          else if me.get('stripe').free != null
             if typeof(me.get('stripe').free) === 'boolean'
               if me.get('stripe').customerID
                 td(data-i18n="subscribe.lifetime")

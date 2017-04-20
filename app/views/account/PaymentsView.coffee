@@ -10,9 +10,9 @@ module.exports = class PaymentsView extends RootView
 
   initialize: ->
     @payments = new Payments()
-    @supermodel.trackRequest @payments.fetchByCreator(me.id)
+    @supermodel.trackRequest @payments.fetchByRecipient(me.id)
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchByCreator(me.id, {data: {allTypes: true}})
 
   onLoaded: ->
     @prepaidMap = _.zipObject(_.map(@prepaids.models, (m) => m.id), @prepaids.models)

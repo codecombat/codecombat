@@ -19,7 +19,7 @@ describe 'POST /db/prepaid', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     done()
-  
+
   it 'creates a new prepaid for type "course"', utils.wrap (done) ->
     user = yield utils.initUser()
     [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
@@ -32,7 +32,7 @@ describe 'POST /db/prepaid', ->
     expect(prepaid.get('creator').equals(user._id)).toBe(true)
     expect(prepaid.get('code')).toBeDefined()
     done()
-    
+
   it 'does not work for non-admins', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -42,7 +42,7 @@ describe 'POST /db/prepaid', ->
     }})
     expect(res.statusCode).toBe(403)
     done()
-    
+
   it 'accepts start and end dates', utils.wrap (done) ->
     user = yield utils.initUser()
     [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
@@ -57,8 +57,33 @@ describe 'POST /db/prepaid', ->
     expect(prepaid.get('startDate')).toBeDefined()
     expect(prepaid.get('endDate')).toBeDefined()
     done()
-    
-    
+
+describe 'GET /db/prepaid', ->
+  beforeEach utils.wrap (done) ->
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+    prepaid = new Prepaid({creator: @user.id, type: 'course'})
+    yield prepaid.save()
+    prepaid = new Prepaid({creator: @user.id, type: 'starter_license'})
+    yield prepaid.save()
+    prepaid = new Prepaid({creator: @user.id, type: 'terminal_subscription'})
+    yield prepaid.save()
+    prepaid = new Prepaid({creator: @user.id, type: 'subscription'})
+    yield prepaid.save()
+    done()
+
+  describe 'when creator param', ->
+    it 'returns only course and starter_license prepaids for creator', utils.wrap (done) ->
+      [res, body] = yield request.getAsync({url: getURL("/db/prepaid?creator=#{@user.id}"), json: true})
+      expect(body.length).toEqual(2)
+      done()
+
+  describe 'when creator and allTypes=true', ->
+    it 'returns all for creator', utils.wrap (done) ->
+      [res, body] = yield request.getAsync({url: getURL("/db/prepaid?creator=#{@user.id}&allTypes=true"), json: true})
+      expect(body.length).toEqual(4)
+      done()
+
 describe 'GET /db/prepaid/:handle', ->
   it 'populates startDate and endDate with default values', utils.wrap (done) ->
     prepaid = new Prepaid({type: 'course' })
@@ -67,10 +92,9 @@ describe 'GET /db/prepaid/:handle', ->
     expect(body.endDate).toBe(Prepaid.DEFAULT_END_DATE)
     expect(body.startDate).toBe(Prepaid.DEFAULT_START_DATE)
     done()
-  
 
 describe 'POST /db/prepaid/:handle/redeemers', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([Course, CourseInstance, Payment, Prepaid, User])
     @teacher = yield utils.initUser({role: 'teacher'})
@@ -142,7 +166,7 @@ describe 'POST /db/prepaid/:handle/redeemers', ->
     student = yield User.findById(@student.id)
     expect(student.get('coursePrepaid')._id.equals(@prepaid._id)).toBe(true)
     done()
-    
+
   it 'updates the user if their license is expired', utils.wrap (done) ->
     yield utils.loginUser(@admin)
     prepaid = yield utils.makePrepaid({
@@ -269,7 +293,7 @@ describe 'DELETE /db/prepaid/:handle/redeemers', ->
     expect(student.get('coursePrepaid')).toBeUndefined()
     expect(student.get('coursePrepaidID')).toBeUndefined()
     done()
-    
+
   it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
     otherTeacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(otherTeacher)
@@ -282,7 +306,7 @@ describe 'DELETE /db/prepaid/:handle/redeemers', ->
     [res, body] = yield request.delAsync {uri: @url, json: { userID: otherStudent.id } }
     expect(res.statusCode).toBe(422)
     done()
-    
+
   it 'returns 403 if the prepaid is a starter license', utils.wrap ->
     yield @prepaid.update({$set: {type: 'starter_license'}})
     [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
@@ -301,7 +325,7 @@ describe 'GET /db/prepaid?creator=:id', ->
     yield @unmigratedPrepaid.update({$unset: { endDate: '', startDate: '' }})
     yield utils.loginUser(@teacher)
     done()
-    
+
   it 'return all prepaids for the creator', utils.wrap (done) ->
     url = getURL("/db/prepaid?creator=#{@teacher.id}")
     [res, body] = yield request.getAsync({uri: url, json: true})
@@ -314,20 +338,20 @@ describe 'GET /db/prepaid?creator=:id', ->
         fail('All prepaids should have start and end dates')
     expect(res.body[0]._id).toBe(@prepaid.id)
     done()
-    
+
   it 'returns 403 if the user tries to view another user\'s prepaids', utils.wrap (done) ->
-    anotherUser = yield utils.initUser() 
+    anotherUser = yield utils.initUser()
     url = getURL("/db/prepaid?creator=#{anotherUser.id}")
     [res, body] = yield request.getAsync({uri: url, json: true})
     expect(res.statusCode).toBe(403)
     done()
 
-    
+
 describe '/db/prepaid', ->
   beforeEach utils.wrap (done) ->
     yield utils.populateProducts()
     done()
-  
+
   prepaidURL = getURL('/db/prepaid')
 
   headers = {'X-Change-Plan': 'true'}
@@ -514,7 +538,7 @@ describe '/db/prepaid', ->
 
   describe 'Purchase terminal_subscription', ->
     afterEach nockUtils.teardownNock
-    
+
     it 'Anonymous submits a prepaid purchase', (done) ->
       nockUtils.setupNock 'db-prepaid-purchase-term-sub-test-1.json', (err, nockDone) ->
         stripe.tokens.create {
@@ -697,7 +721,7 @@ describe '/db/prepaid', ->
   # TODO: Move redeem subscription prepaid code tests to subscription tests file
   describe 'Subscription redeem tests', ->
     afterEach nockUtils.teardownNock
-    
+
     it 'Creator can redeeem a prepaid code', (done) ->
       nockUtils.setupNock 'db-sub-redeem-test-1.json', (err, nockDone) ->
         loginJoe (joe) ->
@@ -709,7 +733,7 @@ describe '/db/prepaid', ->
           # joe has a stripe subscription, so test if the months are added to the end of it.
           stripe.customers.retrieve joeData.stripe.customerID, (err, customer) =>
             expect(err).toBeNull()
-  
+
             findStripeSubscription customer.id, subscriptionID: joeData.stripe?.subscriptionID, (err, subscription) =>
               if subscription
                 stripeSubscriptionPeriodEndDate = new moment(subscription.current_period_end * 1000)
@@ -808,14 +832,14 @@ describe '/db/prepaid', ->
 
       user = yield utils.initUser()
       yield utils.loginUser(user)
-      
+
       codeRedeemers = 50
       codeMonths = 3
       redeemers = 51
-      
+
       purchasePrepaidAsync = Promise.promisify(purchasePrepaid, {multiArgs: true})
       [res, prepaid] = yield purchasePrepaidAsync('terminal_subscription', months: codeMonths, codeRedeemers, token.id)
-      
+
       expect(prepaid).toBeDefined()
       expect(prepaid.code).toBeDefined()
 
@@ -828,17 +852,17 @@ describe '/db/prepaid', ->
         thread.user = yield utils.initUser()
         yield utils.loginUser(thread.user, {request: thread.request})
         threads.push(thread)
-    
+
       # Spawn all requests at once!
       requests = []
-      options = { 
+      options = {
         url: getURL('/db/subscription/-/subscribe_prepaid')
         json: { ppc: prepaid.code }
       }
       for thread in threads
         requests.push(thread.request.postAsync(options))
-        
-      # Wait until all requests finish, make sure all but one succeeded 
+
+      # Wait until all requests finish, make sure all but one succeeded
       responses = yield requests
       redeemed = _.size(_.where(responses, {statusCode: 200}))
       errors = _.size(_.where(responses, {statusCode: 403}))
