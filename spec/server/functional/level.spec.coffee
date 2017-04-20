@@ -376,3 +376,30 @@ describe 'POST /db/level/:handle/patch', ->
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
     done()
+
+describe 'DELETE /db/level/:handle/i18n-coverage', ->
+  it 'removes the i18nCoverage property from the level', utils.wrap ->
+    level = yield utils.makeLevel({
+      i18nCoverage: []
+    })
+    level = yield Level.findById(level.id)
+    expect(level.get('i18nCoverage')).toDeepEqual([])
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    url = utils.getURL("/db/level/#{level.id}/i18n-coverage")
+    [res] = yield request.delAsync({url, json: true})
+    expect(res.statusCode).toBe(200)
+    level = yield Level.findById(level.id)
+    expect(level.get('i18nCoverage')).toBeUndefined()
+
+  it 'returns 403 unless you are an admin or artisan', utils.wrap ->
+    level = yield utils.makeLevel()
+    
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+
+    url = utils.getURL("/db/level/#{level.id}/i18n-coverage")
+    [res] = yield request.delAsync({url, json: true})
+    expect(res.statusCode).toBe(403)

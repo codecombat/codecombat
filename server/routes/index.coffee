@@ -55,6 +55,7 @@ module.exports.setup = (app) ->
   app.delete('/db/achievement/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.delete(Achievement))
   app.get('/db/achievement/names', mw.named.names(Achievement))
   app.post('/db/achievement/names', mw.named.names(Achievement))
+  app.delete('/db/achievement/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Achievement))
   app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
   app.post('/db/achievement/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Achievement, 'achievement'))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
@@ -87,6 +88,7 @@ module.exports.setup = (app) ->
   Campaign = require '../models/Campaign'
   app.post('/db/campaign', mw.auth.checkHasPermission(['admin']), mw.rest.post(Campaign))
   app.get('/db/campaign', mw.campaigns.fetchByType, mw.rest.get(Campaign))
+  app.delete('/db/campaign/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Campaign))
   app.get('/db/campaign/names', mw.named.names(Campaign))
   app.post('/db/campaign/names', mw.named.names(Campaign))
   app.get('/db/campaign/:handle', mw.rest.getByHandle(Campaign))
@@ -121,6 +123,7 @@ module.exports.setup = (app) ->
 
   Course = require '../models/Course'
   app.get('/db/course', mw.courses.get(Course))
+  app.delete('/db/course/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Course))
   app.get('/db/course/names', mw.named.names(Course))
   app.post('/db/course/names', mw.named.names(Course))
   app.put('/db/course/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.put(Course))
@@ -144,6 +147,7 @@ module.exports.setup = (app) ->
   Level = require '../models/Level'
   app.post('/db/level/names', mw.named.names(Level))
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
+  app.delete('/db/level/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Level))
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
   app.post('/db/level/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Level, 'level'))
   app.get('/db/level/:handle/patches', mw.patchable.patches(Level))
@@ -151,6 +155,7 @@ module.exports.setup = (app) ->
   app.get('/db/level/:handle/version/?(:version)?', mw.versions.getLatestVersion(Level))
 
   LevelComponent = require '../models/LevelComponent'
+  app.delete('/db/level.component/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(LevelComponent))
   app.post('/db/level.component/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelComponent, 'level_component'))
   app.get('/db/level.component/:handle/patches', mw.patchable.patches(LevelComponent))
   
@@ -185,6 +190,7 @@ module.exports.setup = (app) ->
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
 
   Poll = require '../models/Poll'
+  app.delete('/db/poll/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Poll))
   app.post('/db/poll/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Poll, 'poll'))
   app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
 
@@ -203,6 +209,7 @@ module.exports.setup = (app) ->
   app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)
 
   ThangType = require '../models/ThangType'
+  app.delete('/db/thang.type/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(ThangType))
   app.post('/db/thang.type/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(ThangType, 'thang_type'))
   app.get('/db/thang.type/:handle/patches', mw.patchable.patches(ThangType))
 
