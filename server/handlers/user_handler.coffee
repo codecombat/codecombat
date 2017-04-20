@@ -116,7 +116,7 @@ UserHandler = class UserHandler extends Handler
         # TODO: Send a response that the user can actually see! Mimic schema error?
         if not user.get('role')
           return callback({ res: { message: 'Individual accounts must have a valid email address', code: 422}, code: 422 })
-        if user.get('role') is 'teacher'
+        if user.isTeacher()
           return callback({ res: { message: 'Teacher accounts must have a valid email address', code: 422}, code: 422 })
 
       # handle unsetting email

@@ -30,9 +30,7 @@ subscribeUser = co.wrap (req, user) ->
   if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
     throw new errors.Unauthorized('You must be signed in to subscribe.')
 
-  if not req.user.get('email')
-    throw new errors.Forbidden('Your account needs an email address to subscribe.')
-
+  # NOTE: This token is really a stripe token *id*
   { token, prepaidCode } = req.body.stripe
   { customerID } = (user.get('stripe') or {})
   if not (token or customerID or prepaidCode)
