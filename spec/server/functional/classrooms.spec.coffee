@@ -14,6 +14,7 @@ Campaign = require '../../../server/models/Campaign'
 LevelSession = require '../../../server/models/LevelSession'
 Level = require '../../../server/models/Level'
 mongoose = require 'mongoose'
+subscriptions = require '../../../server/middleware/subscriptions'
 
 classroomsURL = getURL('/db/classroom')
 
@@ -353,7 +354,7 @@ describe 'PUT /db/classroom/:handle', ->
     expect(body.name).toBe('New Name!')
     expect(body.description).toBe('New Description')
     done()
-    
+
   it 'is not allowed if you are just a member', utils.wrap (done) ->
     student = yield utils.initUser()
     yield utils.loginUser(student)
@@ -386,7 +387,8 @@ describe 'POST /db/classroom/-/members', ->
     @student = yield utils.initUser()
     done()
 
-  it 'adds the signed in user to the classroom and any free courses and sets role to student', utils.wrap (done) ->
+  it 'adds the signed in user to the classroom and any free courses and sets role to student and unsubscribes', utils.wrap (done) ->
+    spyOn(subscriptions, 'unsubscribeUser').and.returnValue(Promise.resolve());
     yield utils.loginUser(@student)
     url = getURL("/db/classroom/anything-here/members")
     [res, body] = yield request.postAsync { uri: url, json: { code: @classroom.get('code') } }
@@ -394,6 +396,7 @@ describe 'POST /db/classroom/-/members', ->
     classroom = yield Classroom.findById(@classroom.id)
     expect(classroom.get('members').length).toBe(1)
     expect(classroom.get('members')?[0]?.equals(@student._id)).toBe(true)
+    expect(subscriptions.unsubscribeUser).toHaveBeenCalled()
     student = yield User.findById(@student.id)
     if student.get('role') isnt 'student'
       fail('student role should be "student"')
@@ -425,7 +428,6 @@ describe 'POST /db/classroom/-/members', ->
     [res, body] = yield request.postAsync { uri: getURL("/db/classroom/-/members"), json: { code: @classroom.get('code') } }
     expect(res.statusCode).toBe(401)
     done()
-
 
 describe 'DELETE /db/classroom/:id/members', ->
 
@@ -712,13 +714,13 @@ describe 'GET /db/classroom/:handle/update-courses', ->
 
       admin = yield utils.initAdmin()
       teacher = yield utils.initUser({role: 'teacher'})
-  
+
       # make a single course
       yield utils.loginUser(admin)
       levels = yield _.times(3, -> utils.makeLevel())
       firstCampaign = yield utils.makeCampaign({}, {levels: [levels[0]]})
       yield utils.makeCourse({releasePhase: 'released'}, {campaign: firstCampaign})
-  
+
       # make a classroom, make sure it has the one course
       yield utils.loginUser(teacher)
       data = { name: 'Classroom 2' }
@@ -726,11 +728,11 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(1)
       expect(classroom.get('courses')[0].levels.length).toBe(1)
-      
+
       # make a second course
       yield utils.loginUser(admin)
       yield utils.makeCourse({releasePhase: 'released'}, {campaign: yield utils.makeCampaign({}, {levels: [levels[1]]})})
-      
+
       # add level to first course
       campaignSchema = require '../../../app/schemas/models/campaign.schema'
       campaignLevelProperties = _.keys(campaignSchema.properties.levels.additionalProperties.properties)
@@ -738,11 +740,11 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       campaignLevels = _.clone(firstCampaign.get('levels'))
       campaignLevels[levelAdding.get('original').valueOf()] = _.pick levelAdding.toObject(), campaignLevelProperties
       yield firstCampaign.update({$set: {levels: campaignLevels}})
-  
+
       # make sure classroom still has one course
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(1)
-  
+
       # update with addNewCoursesOnly, make sure second course is added but first keeps the same # of levels
       yield utils.loginUser(teacher)
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: { addNewCoursesOnly:true } }
