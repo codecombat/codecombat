@@ -93,7 +93,8 @@ setupErrorMiddleware = (app) ->
       log.error "#{message}, stack: #{err.stack}"
       if global.testing
         console.log "#{message}, stack: #{err.stack}"
-      slack.sendSlackMessage(message, ['ops'], {papertrail: true})
+      unless message.indexOf('card was declined') >= 0
+        slack.sendSlackMessage(message, ['ops'], {papertrail: true})
     else
       next(err)
 
