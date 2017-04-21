@@ -19,6 +19,7 @@ TrialRequest = require '../models/TrialRequest'
 sendwithus = require '../sendwithus'
 co = require 'co'
 delighted = require '../delighted'
+subscriptions = require './subscriptions'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
@@ -286,6 +287,9 @@ module.exports =
     freeCourseInstanceIDs = (courseInstance._id for courseInstance in freeCourseInstances)
     yield CourseInstance.update({_id: {$in: freeCourseInstanceIDs}}, { $addToSet: { members: req.user._id }})
     yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: freeCourseInstanceIDs } } })
+
+    yield subscriptions.unsubscribeUser(req, req.user, false)
+
     res.send(classroom.toObject({req: req}))
 
   setStudentPassword: wrap (req, res, next) ->

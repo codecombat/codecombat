@@ -1316,6 +1316,7 @@
     update_account_students_can3: "Compete against classmates in arenas"
     update_account_students_can4: "Access new student-only features as we release them"
     update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
+    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Remain a Student"
     update_account_update_student: "Update to Student"
     need_a_class_code: "You'll need a Class Code for the class you're joining:"

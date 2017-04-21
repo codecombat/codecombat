@@ -423,11 +423,18 @@ module.exports = class User extends CocoModel
     options.url = '/db/user/-/send_one_time_email'
     options.method = 'POST'
     return $.ajax(options)
-    
+
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})
     stripe.planID = 'basic'
     stripe.token = token.id
+    @set({stripe})
+    return me.patch({headers: {'X-Change-Plan': 'true'}})
+
+  unsubscribe: ->
+    stripe = _.clone(@get('stripe') ? {})
+    return unless stripe.planID
+    delete stripe.planID
     @set({stripe})
     return me.patch({headers: {'X-Change-Plan': 'true'}})
 

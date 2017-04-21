@@ -195,8 +195,7 @@ updateUser = co.wrap (req, user, customer, subscription, increment) ->
 
   yield user.save()
 
-
-unsubscribeUser = co.wrap (req, user) ->
+unsubscribeUser = co.wrap (req, user, updateReqBody=true) ->
   stripeInfo = _.cloneDeep(user.get('stripe') ? {})
   try
     yield stripe.customers.cancelSubscription(stripeInfo.customerID, stripeInfo.subscriptionID, { at_period_end: true })
@@ -205,9 +204,8 @@ unsubscribeUser = co.wrap (req, user) ->
       throw e
   delete stripeInfo.planID
   user.set('stripe', stripeInfo)
-  req.body.stripe = stripeInfo
+  req.body.stripe = stripeInfo if updateReqBody
   yield user.save()
-
 
 purchaseProduct = expressWrap (req, res) ->
   product = yield database.getDocFromHandle(req, Product)
