@@ -1083,7 +1083,7 @@ module.exports = class CampaignView extends RootView
 
   applyCourseLogicToLevels: (orderedLevels) ->
     nextSlug = @courseStats.levels.next?.get('slug')
-    nextSlug ?= @courseStats.levels.first.get('slug')
+    nextSlug ?= @courseStats.levels.first?.get('slug')
     return unless nextSlug
 
     courseOrder = _.sortBy orderedLevels, 'courseIdx'

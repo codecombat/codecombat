@@ -68,14 +68,14 @@ module.exports =
       return res.status(200).send(prepaid.toObject({req: req}))
 
     yield prepaid.redeem(user)
-      
+
     # return prepaid with new redeemer added locally
     redeemers = _.clone(prepaid.get('redeemers') or [])
     redeemers.push({ date: new Date(), userID: user._id })
     prepaid.set('redeemers', redeemers)
     res.status(201).send(prepaid.toObject({req: req}))
-    
-    
+
+
   revoke: wrap (req, res) ->
     if not req.user?.isTeacher()
       throw new errors.Forbidden('Must be a teacher to use enrollments')
@@ -116,7 +116,6 @@ module.exports =
     prepaid.set('redeemers', _.filter(prepaid.get('redeemers') or [], (obj) -> not obj.userID.equals(user._id)))
     res.status(200).send(prepaid.toObject({req: req}))
 
-    
   fetchByCreator: wrap (req, res, next) ->
     creator = req.query.creator
     return next() if not creator
@@ -129,8 +128,8 @@ module.exports =
     q = {
       _id: { $gt: cutoffID }
       creator: mongoose.Types.ObjectId(creator)
-      type: { $in: ['course', 'starter_license'] }
     }
+    q.type = { $in: ['course', 'starter_license'] } unless req.query.allTypes
 
     prepaids = yield Prepaid.find(q)
     res.send((prepaid.toObject({req: req}) for prepaid in prepaids))
@@ -240,7 +239,7 @@ module.exports =
           schoolPrepaidsMap[school].push prepaid
 
     res.send({prepaidActivityMap, schoolPrepaidsMap})
-  
+
   # Separate endpoint from legacy prepaid purchase handler
   purchaseStarterLicenses: wrap (req, res) ->
     if req.body.type not in ['starter_license']
@@ -263,7 +262,7 @@ module.exports =
 
     if maxRedeemers + alreadyOwnedStarterLicenseCount > Prepaid.MAX_STARTER_LICENSES
       throw new errors.Forbidden('You cannot own more than 75 starter licenses.')
-    
+
     if not (token or creator.isAdmin())
       throw new errors.UnprocessableEntity('Missing required Stripe token')
 

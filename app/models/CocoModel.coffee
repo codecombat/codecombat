@@ -456,6 +456,11 @@ class CocoModel extends Backbone.Model
     # language codes that are covered for every i18n object are fully covered
     overallCoverage = _.intersection(langCodeArrays...)
     @set('i18nCoverage', overallCoverage)
+    
+  deleteI18NCoverage: (options={}) ->
+    options.url = options.url = @url() + '/i18n-coverage'
+    options.type = 'DELETE'
+    return $.ajax(options)
 
   saveNewMinorVersion: (attrs, options={}) ->
     options.url = @url() + '/new-version'

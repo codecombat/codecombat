@@ -26,6 +26,7 @@ module.exports =
   rest: require './rest'
   skippedContacts: require './skipped-contacts'
   subscriptions: require './subscriptions'
+  translations: require './translations'
   trialRequests: require './trial-requests'
   users: require './users'
   versions: require './versions'

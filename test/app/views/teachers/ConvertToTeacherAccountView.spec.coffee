@@ -133,6 +133,7 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
 
   describe 'submitting the form', ->
     beforeEach ->
+      spyOn(me, 'unsubscribe')
       view.$el.find('#request-form').trigger('change') # to confirm navigating away isn't prevented
       _.last(view.trialRequests.fakeRequests).respondWith({ status: 200, responseText: JSON.stringify('[]') })
       form = view.$('form')
@@ -161,13 +162,21 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       args = application.router.navigate.calls.argsFor(0)
       expect(args[0]).toBe('/teachers/classes')
 
-     it 'sets a teacher role', ->
+    it 'sets a teacher role', ->
       request = _.last(view.trialRequest.fakeRequests)
       request.respondWith({
         status: 201
         responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
       })
       expect(me.get('role')).toBe(successForm.role.toLowerCase())
+
+    it 'unsubscribes user', ->
+      request = _.last(view.trialRequest.fakeRequests)
+      request.respondWith({
+        status: 201
+        responseText: JSON.stringify(_.extend({_id:'fraghlarghl'}, JSON.parse(request.params)))
+      })
+      expect(me.unsubscribe).toHaveBeenCalled()
 
   describe 'submitting the form without school', ->
     beforeEach ->
