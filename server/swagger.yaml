@@ -131,6 +131,11 @@ paths:
       description: Returns a `User`.
       parameters:
         - $ref: '#/parameters/handlePathParameter'
+        - name: includePlayTime
+          in: query
+          description: "Set to non-empty string to include stats.playTime in response"
+          required: false
+          type: string
       responses:
         "200":
           description: 'The requested user'
@@ -458,6 +463,9 @@ definitions:
             type: object
             additionalProperties:
               type: number
+          playTime:
+            type: number
+            description: 'Included only when specifically requested on the endpoint'
       oAuthIdentities:
         type: array
         items:
