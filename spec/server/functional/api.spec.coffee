@@ -144,6 +144,25 @@ describe 'GET /api/users/:handle', ->
 
     done()
     
+  it 'returns playtime if query param `includePlayTime` is truthy', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @client = yield utils.makeAPIClient()
+    @user = yield utils.initUser({
+      clientCreator: @client._id
+      oAuthIdentities: [{ provider: '1', id: '2' }] # these are included in search for efficiency
+      dateCreated: new Date(2016,1,15)
+      country: 'united-states'
+    })
+
+    @session1 = yield utils.makeLevelSession({playtime: 30}, {creator: @user})
+
+    @url = utils.getUrl("/api/users/#{@user.id}")
+    qs = { includePlayTime: '1' }
+    [res] = yield request.getAsync({ @url, json: true, auth: @client.auth, qs })
+    expect(res.statusCode).toBe(200)
+    expect(res.body.stats.playTime).toBe(30)
+    
     
 describe 'GET /api/users/:handle/classrooms', ->
   

@@ -85,7 +85,17 @@ getUser = wrap (req, res) ->
   unless exception or req.client.hasControlOfUser(user)
     throw new errors.Forbidden('Must have created the user.')
 
-  res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
+  obj = user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true})
+  
+  if req.query.includePlayTime
+    result = yield LevelSession.aggregate()
+      .match({creator: user.id})
+      .group({_id: '1', playTime: {$sum: "$playtime"}})
+      .exec()
+    obj.stats ?= {}
+    obj.stats.playTime = result[0].playTime
+  
+  res.send(obj)
 
 
 getUserLookupByIsraelId = wrap (req, res) ->
