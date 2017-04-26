@@ -856,17 +856,23 @@ module.exports = class CampaignView extends RootView
     storage.save("loaded-menu-music", true) unless @probablyCachedMusic
 
   checkForCourseOption: (levelOriginal) ->
-    return unless me.get('courseInstances')?.length
-    @courseOptionsChecked ?= {}
-    return if @courseOptionsChecked[levelOriginal]
-    @courseOptionsChecked[levelOriginal] = true
-    courseInstances = new CocoCollection [], url: "/db/course_instance/-/find_by_level/#{levelOriginal}", model: CourseInstance
-    courseInstances.comparator = (ci) -> return -(ci.get('members') ? []).length
-    @supermodel.loadCollection courseInstances, 'course_instances'
-    @listenToOnce courseInstances, 'sync', =>
-      return if @destroyed
-      return unless courseInstance = courseInstances.models[0]
+    showButton = (courseInstance) =>
       @$el.find(".course-version[data-level-original='#{levelOriginal}']").removeClass('hidden').data('course-id': courseInstance.get('courseID'), 'course-instance-id': courseInstance.id)
+
+    if @courseInstance?
+      showButton @courseInstance
+    else
+      return unless me.get('courseInstances')?.length
+      @courseOptionsChecked ?= {}
+      return if @courseOptionsChecked[levelOriginal]
+      @courseOptionsChecked[levelOriginal] = true
+      courseInstances = new CocoCollection [], url: "/db/course_instance/-/find_by_level/#{levelOriginal}", model: CourseInstance
+      courseInstances.comparator = (ci) -> return -(ci.get('members') ? []).length
+      @supermodel.loadCollection courseInstances, 'course_instances'
+      @listenToOnce courseInstances, 'sync', =>
+        return if @destroyed
+        return unless courseInstance = courseInstances.models[0]
+        showButton courseInstance
 
   preloadTopHeroes: ->
     return if window.serverConfig.picoCTF
