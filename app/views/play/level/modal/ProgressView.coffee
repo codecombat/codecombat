@@ -18,7 +18,7 @@ module.exports = class ProgressView extends CocoView
   initialize: (options) ->
     @level = options.level
     @course = options.course
-    @classroom = options.classroom
+    @classroom = options.classroom #not guaranteed to exist (eg. when teacher is playing)
     @nextLevel = options.nextLevel
     @levelSessions = options.levelSessions
     @session = options.session
