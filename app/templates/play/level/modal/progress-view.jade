@@ -73,7 +73,7 @@
         if view.level.get('type') === 'course-ladder'
           button#ladder-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase Ladder
       .col-sm-5
-        if view.classroom.getSetting('backToMap') && view.classroom.getSetting('map')
+        if view.classroom && view.classroom.getSetting('backToMap') && view.classroom.getSetting('map')
           button#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg(data-i18n='play_level.done')
         else
           if !view.nextLevel.isNew()
