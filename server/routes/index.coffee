@@ -98,6 +98,8 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/:handle/patches', mw.patchable.patches(Campaign))
   app.post('/db/campaign/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Campaign, 'campaign'))
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
+  app.post('/db/campaign/:handle/watchers', mw.patchable.joinWatchers(Campaign))
+  app.delete('/db/campaign/:handle/watchers', mw.patchable.leaveWatchers(Campaign))
 
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)
