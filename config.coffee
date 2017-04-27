@@ -277,7 +277,7 @@ while dirStack.length
     if stat.isDirectory()
       dirStack.push(fullPath)
     else
-      if _.str.endsWith(file, '.coffee')
+      if _.str.endsWith(file, '.coffee') or _.str.endsWith(file, '.js')
         coffeeFiles.push(fullPath)
       else if _.str.endsWith(file, '.jade')
         jadeFiles.push(fullPath)
