@@ -127,6 +127,7 @@ module.exports = class Classroom extends CocoModel
     lastPlayedNumber = null
     playtime = 0
     levels = []
+    console.log("hi")
     for level, index in courseLevels.models
       levelsTotal++ unless level.get('practice')
       complete = false

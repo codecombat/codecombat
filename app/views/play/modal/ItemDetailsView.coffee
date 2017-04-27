@@ -10,7 +10,7 @@ module.exports = class ItemDetailsView extends CocoView
   id: "item-details-view"
   template: template
 
-  constructor: ->
+  constructor: (@options) ->
     super(arguments...)
     @propDocs = {}
     @spellDocs = {}

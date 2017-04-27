@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/menu/inventory-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -47,7 +48,7 @@ module.exports = class InventoryModal extends ModalView
 
   #- Setup
 
-  initialize: (options) ->
+  initialize: (@options) ->
     @onScrollUnequipped = _.throttle(_.bind(@onScrollUnequipped, @), 200)
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
@@ -76,7 +77,10 @@ module.exports = class InventoryModal extends ModalView
       programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
       item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
     @itemsProgrammablePropertiesConfigured = true
-    @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
+    if @options.courseInstanceID
+      @equipment = me.get('heroConfig')?.inventory or @options.equipment or @options.session?.get('heroConfig')?.inventory or {}
+    else
+      @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
     @itemGroups = {}
@@ -181,7 +185,7 @@ module.exports = class InventoryModal extends ModalView
     @setUpDraggableEventsForAvailableEquipment()
     @setUpDraggableEventsForEquippedArea()
     @delegateEvents()
-    @itemDetailsView = new ItemDetailsView()
+    @itemDetailsView = new ItemDetailsView courseID: @options.courseID, courseInstanceID: @options.courseInstanceID
     @insertSubView(@itemDetailsView)
     @requireLevelEquipment()
     @$el.find('.nano').nanoScroller({alwaysVisible: true})
@@ -337,6 +341,7 @@ module.exports = class InventoryModal extends ModalView
     @onSelectionChanged()
     @onEquipmentChanged()
 
+
   unequipSelectedItem: ->
     slotEl = @getSelectedSlot()
     @clearSelection()
@@ -435,6 +440,7 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
+    return {} if @options.courseInstanceID?
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
@@ -455,6 +461,7 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
+    return {} if @options.courseInstanceID?
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
@@ -638,7 +645,10 @@ module.exports = class InventoryModal extends ModalView
 
   askToBuyGems: (unlockButton) ->
     @$el.find('.unlock-button').popover 'destroy'
-    popoverTemplate = buyGemsPromptTemplate {}
+    if @options.courseInstanceID
+      popoverTemplate = earnGemsPromptTemplate {}
+    else
+      popoverTemplate = buyGemsPromptTemplate {}
     unlockButton.popover(
       animation: true
       trigger: 'manual'
@@ -695,6 +705,10 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
+    if @options.courseInstanceID
+      @updateConfig(() ->
+        return
+      , true)
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()

@@ -12,23 +12,25 @@
 
         img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
 
-        for stat in stats
-          div(class="stat-row big-font" + (/^en/.test(me.get('preferredLanguage')) && stat.matchedShortName ? " short-name" : ""))
-            div.stat-label= stat.name
-            div.stat= stat.display
-          img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
+        if !view.options.courseID
+          for stat in stats
+            div(class="stat-row big-font" + (/^en/.test(me.get('preferredLanguage')) && stat.matchedShortName ? " short-name" : ""))
+              div.stat-label= stat.name
+              div.stat= stat.display
+            img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
 
         if item.description
           .item-description= item.description
 
-        if props.length
-          #skills
-            h3.big-font(data-i18n="play.skills_granted")
-            for prop in props
-              p
-                strong= prop.name
-                span.spr :
-                span!= prop.description
+        if !view.options.courseID
+          if props.length
+            #skills
+              h3.big-font(data-i18n="play.skills_granted")
+              for prop in props
+                p
+                  strong= prop.name
+                  span.spr :
+                  span!= prop.description
 
         if item.comingSoon
           .text-center

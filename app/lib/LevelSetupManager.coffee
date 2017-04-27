@@ -152,7 +152,6 @@ module.exports = class LevelSetupManager extends CocoClass
           }
       }
 
-
       @onInventoryModalPlayClicked()
       return
     if @level.get('slug') is 'assembly-speed'
@@ -163,8 +162,8 @@ module.exports = class LevelSetupManager extends CocoClass
     if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
-    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID, courseID: @options.courseID})
+    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level, courseInstanceID: @options.courseInstanceID, courseID: @options.courseID})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
     @heroesModal.destroy = @inventoryModal.destroy = _.noop
@@ -219,8 +218,10 @@ module.exports = class LevelSetupManager extends CocoClass
     PlayLevelView = 'views/play/level/PlayLevelView'
     LadderView = 'views/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
-    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
-    route += "?codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}?"
+    route += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    if @options.courseID? and @options.courseInstanceID?
+      route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
       viewArgs: [{supermodel: @supermodel}, @options.levelID]

@@ -242,27 +242,25 @@ if view.showAds()
 
   .user-status.header-font.picoctf-hide
     .user-status-line
-      if view.shouldShow('status-line')
-        if view.shouldShow('gems')
-          span.gem.gem-30
-          span#gems-count.spr= me.gems()
-        if view.shouldShow('level')
-          span.level-indicator(data-i18n="general.player_level")
-          span.player-level.spr= me.level()
-        span.player-hero-icon
-        if me.get('anonymous')
-          span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
-          button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
-          button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+      span.gem.gem-30
+      span#gems-count.spr= me.gems() + " / " + (me.gems() + me.get('spent'))
+      if view.shouldShow('level')
+        span.level-indicator(data-i18n="general.player_level")
+        span.player-level.spr= me.level()
+      span.player-hero-icon
+      if me.get('anonymous')
+        span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
+        button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
+        button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
+      else
+        if me.isStudent()
+          a(href="/play").player-name.spr= me.get('name')
         else
-          if me.isStudent()
-            a(href="/play").player-name.spr= me.get('name')
-          else
-            a(href="/account").player-name.spr= me.get('name')
-          if !features.codePlay
-            button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
-          if me.isPremium()
-            button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
+          a(href="/account").player-name.spr= me.get('name')
+        if !features.codePlay && !me.isStudent()
+          button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
+        if me.isPremium()
+          button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact
 
   button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#volume-button(data-i18n="[title]play.adjust_volume", title="Adjust volume")
     .glyphicon.glyphicon-volume-off
