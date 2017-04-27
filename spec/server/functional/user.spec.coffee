@@ -113,7 +113,7 @@ describe 'PUT /db/user', ->
   it 'returns 422 for invalid data', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
-    email = _.times(50, -> 'farghlarghl').join('')
+    email = _.times(50, -> 'farghlarghl').join('') + '@example.com'
     json = { _id: user.id, email }
     [res] = yield request.putAsync utils.getUrl('/db/user'), { json }
     expect(res.statusCode).toBe(422)
@@ -218,21 +218,35 @@ describe 'PUT /db/user', ->
     [res, body] = yield request.putAsync { uri: url, json: { role: 'student' }}
     expect(body.role).toBe('advisor')
 
-  it 'returns 422 if both email and name would be unset for a registered user', utils.wrap ->
-    user = yield utils.initUser()
+  it 'returns 422 if both email and name would be unset for a student', utils.wrap ->
+    user = yield utils.initUser({ role: 'student' })
     yield utils.loginUser(user)
     [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '', name: '' }}
     expect(body.code).toBe(422)
     expect(body.message).toEqual('User needs a username or email address')
     
-  it 'allows unsetting email, even when there\'s a user with email and emailLower set to empty string', utils.wrap ->
+  it 'allows unsetting email on student accounts, even when there\'s a user with email and emailLower set to empty string', utils.wrap ->
     invalidUser = yield utils.initUser()
     yield invalidUser.update({$set: {email: '', emailLower: ''}})
-    user = yield utils.initUser()
+    user = yield utils.initUser({role: 'student'})
     yield utils.loginUser(user)
     [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '' }}
     expect(res.statusCode).toBe(200)
     expect(res.body.email).toBeUndefined()
+
+  it 'does not allow unsetting email on individual accounts accounts', utils.wrap ->
+    user = yield utils.initUser({ email: 'email@example.com' })
+    yield utils.loginUser(user)
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: undefined }}
+    expect(res.statusCode).toBe(422)
+    expect(res.body.email).toBeUndefined()
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '' }}
+    expect(res.statusCode).toBe(422)
+    expect(res.body.email).toBeUndefined()
+    [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: 'invalidemail' }}
+    expect(res.statusCode).toBe(422)
+    expect(res.body.email).toBeUndefined()
+    expect((yield User.findById(user.id)).get('email')).toBe('email@example.com')
 
   it 'allows unsetting name, even when there\'s a user with name and nameLower set to empty string', utils.wrap ->
     invalidUser = yield utils.initUser()
@@ -896,7 +910,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 #    url = getURL("/db/user/#{user.id}/signup-with-facebook")
 #    json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
 #    [res, body] = yield request.postAsync({url, json})
-#    expect(res.statusCode).toBe(409)    
+#    expect(res.statusCode).toBe(409)
 
     
 describe 'POST /db/user/:handle/signup-with-gplus', ->

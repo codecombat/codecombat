@@ -632,6 +632,9 @@ usStateCodes =
     }
   )()
 
+emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
+isValidEmail = (email) ->
+  emailRegex.test(email?.trim().toLowerCase())
 
 module.exports = {
   aceEditModes
@@ -678,4 +681,5 @@ module.exports = {
   userAgent
   petThangIDs
   premiumContent
+  isValidEmail
 }
