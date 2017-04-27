@@ -768,10 +768,7 @@ module.exports = class CampaignView extends RootView
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
   onClickCourseVersion: (e) ->
-    levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
     courseID = $(e.target).parents('.course-version').data 'course-id'
-    courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
-    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
     levelElement = $(e.target).parents('.level-info-container')
     @startLevel levelElement, courseID, @getQueryVariable('course-instance')
 
@@ -781,7 +778,7 @@ module.exports = class CampaignView extends RootView
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
     @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session, courseID: courseID, courseInstanceID: courseInstanceID
     unless @setupManager?.navigatingToPlay
-      @$levelInfo.find('.level-info, .progress').toggleClass('hide')
+      @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
       @listenToOnce @setupManager, 'open', ->
         @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
         @$levelInfo?.hide()
@@ -1134,10 +1131,21 @@ module.exports = class CampaignView extends RootView
     if what is 'codeplay-ads'
       return !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds && me.get('role') isnt 'student'
 
-    if what in ['level', 'xp']
+    if what in ['status-line']
       return true unless isStudent
       return false unless @classroom?
+      return @classroom.getSetting('gems') || @classroom.getSetting('xp')
+
+    if what in ['gems']
+      return true unless isStudent
+      return false unless @classroom?
+      return @classroom.getSetting('gems')
+
+    if what in ['level', 'xp']   
+      return true unless isStudent    
+      return false unless @classroom?   
       return @classroom.getSetting('xp')
+
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans', 'poll', 'buy-gems']
       return !isStudent

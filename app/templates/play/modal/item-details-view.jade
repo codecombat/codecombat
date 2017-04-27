@@ -12,7 +12,7 @@
 
         img.hr(src="/images/pages/play/modal/hr.png", draggable="false")
 
-        if !view.options.courseID
+        if !me.isStudent()
           for stat in stats
             div(class="stat-row big-font" + (/^en/.test(me.get('preferredLanguage')) && stat.matchedShortName ? " short-name" : ""))
               div.stat-label= stat.name
@@ -22,7 +22,7 @@
         if item.description
           .item-description= item.description
 
-        if !view.options.courseID
+        if !me.isStudent()
           if props.length
             #skills
               h3.big-font(data-i18n="play.skills_granted")

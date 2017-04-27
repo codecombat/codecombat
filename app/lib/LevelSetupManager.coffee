@@ -152,6 +152,7 @@ module.exports = class LevelSetupManager extends CocoClass
           }
       }
 
+
       @onInventoryModalPlayClicked()
       return
     if @level.get('slug') is 'assembly-speed'
@@ -162,8 +163,8 @@ module.exports = class LevelSetupManager extends CocoClass
     if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
-    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero, courseInstanceID: @options.courseInstanceID, courseID: @options.courseID})
-    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level, courseInstanceID: @options.courseInstanceID, courseID: @options.courseID})
+    @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
+    @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
     @inventoryModalDestroy = @inventoryModal.destroy
     @heroesModal.destroy = @inventoryModal.destroy = _.noop
@@ -186,6 +187,7 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroSlugs = @level.get 'allowedHeroes'
       unless _.find(allowedHeroSlugs, (slug) -> ThangType.heroes[slug] is me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
+    firstModal = @inventoryModal if me.isStudent()
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
 
