@@ -9,6 +9,9 @@ div.container
     div.nano-content.panel-group#spell-palette-api-bar
       if view.level.get('type') == 'web-dev'
         +header('api-area', 'HTML')
+      else if me.get('preferredLanguage') == 'zh-HANS'
+        // Hack it for now
+        +header('api-area', '函数')
       else
         +header('api-area', 'Methods')
       div.apis.panel-collapse.collapse.in#palette-tab-api-area
