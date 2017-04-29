@@ -117,7 +117,7 @@ module.exports = class Problem
     tx /Line (\d+): /, 'line_no'
     tx /TypeError: /, 'type_error'
     tx /ReferenceError: /, 'reference_error'
-    tx /([a-zA-Z.]+) is not a function/, 'x_not_a_function'
+    tx /`([a-zA-Z.]+)` is not a function/, 'x_not_a_function'
     tx /Look out for capitalization: `([a-zA-Z.]+)` should be `([a-zA-Z.]+)`./, 'capitalization_issues'
     tx /Look out for spelling issues: did you mean `([a-zA-Z.]+)` instead of `([a-zA-Z.]+)`\?/, 'capitalization_issues'
     tx /Empty ([a-zA-Z]+ statement). Put 4 spaces in front of statements inside the ([a-zA-Z]+ statement)\./, 'py_empty_block'

@@ -2229,3 +2229,17 @@
   server_error:
     email_taken: 'Email already taken'
     username_taken: 'Username already taken'
+
+esper:
+    line_no: "Line $1: "
+    x_not_a_function: "`$1` is not a function"
+    type_error: "TypeError: "
+    reference_error: "ReferenceError: "
+    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
+
+  
