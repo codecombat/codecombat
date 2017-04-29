@@ -17,6 +17,8 @@ module.exports = class Problem
       { @level, @range, @message, @hint, @userInfo } = @aetherProblem
       { @row, @column: col } = @aetherProblem.range?[0] or {}
       @createdBy = 'aether'
+      @message = @translate @message
+      @hint = @translate @hint
     else
       unless userCodeHasChangedSinceLastCast
         @annotation = @buildAnnotationFromWebDevError(error)
@@ -102,3 +104,23 @@ module.exports = class Problem
       @ace.getSession().removeMarker @lineMarkerRange.id
       @lineMarkerRange.start.detach()
       @lineMarkerRange.end.detach()
+
+  translate: (msg) ->
+    tx = (regex, key) -> 
+      ki = "esper.#{key}"
+      key = $.i18n.t(ki)
+      return if key is ki
+      msg = msg.replace regex, key
+
+    msg = msg.replace /([A-Za-z]+Error:) \1/, '$1'
+    return msg if me.get('preferredLanguage', true) in ['en', 'en-US']
+    tx /Line (\d+): /, 'line_no'
+    tx /TypeError: /, 'type_error'
+    tx /ReferenceError: /, 'reference_error'
+    tx /([a-zA-Z.]+) is not a function/, 'x_not_a_function'
+    tx /Look out for capitalization: `([a-zA-Z.]+)` should be `([a-zA-Z.]+)`./, 'capitalization_issues'
+    tx /Look out for spelling issues: did you mean `([a-zA-Z.]+)` instead of `([a-zA-Z.]+)`\?/, 'capitalization_issues'
+    tx /Empty ([a-zA-Z]+ statement). Put 4 spaces in front of statements inside the ([a-zA-Z]+ statement)\./, 'py_empty_block'
+    tx /Unmatched `(.)`.  Every opening `(.)` needs a closing `(.)` to match it./, 'unmatched_token'
+    tx /Unterminated string. Add a matching `"` at the end of your string./, 'unterminated_string'
+    msg

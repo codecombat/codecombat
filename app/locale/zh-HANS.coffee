@@ -2214,6 +2214,18 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     november: "十一月"
     december: "十二月"
 
+  esper:
+    line_no: "第$1行: "
+    x_not_a_function: "`$1` 不是一个函数"
+    type_error: "拼写错误："
+    reference_error: "名字错误："
+    spelling_issues: "请注意拼写错误：你指的是`$1`而不是`$2`, 对吗？"
+    capitalization_issues: "请注意大小写：`$1` 应该改成 `$2`？"
+    py_empty_block: "空变量。在$1的语句中，加入4个空格。"
+    fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`\'s"
+    unmatched_token: "非匹配`$1`。每一个开放的`$2`都需要一个`$3`配对。"
+    unterminated_string: "未终止字符串，在字符串末加上另外一个`\"`。"
+
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
 #    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
