@@ -37,7 +37,11 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
-
+    if e.mood is "debrief"
+      if e.sprite.thangType.get('poseImage')?
+        @$el.find(".dialogue-bubble").append($("<img/>").addClass("embiggen").attr("src", "/file/" + e.sprite.thangType.get('poseImage')))
+      else
+        @$el.find(".dialogue-bubble").append(e.sprite.thangType.getPortraitImage({})[0])
     window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}
 
   onDialogueSoundCompleted: ->
@@ -53,7 +57,8 @@ module.exports = class LevelDialogueView extends CocoView
     message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
-    @bubble.removeClass(@lastMood) if @lastMood
+    @$el.removeClass(@lastMood) if @lastMood
+    @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')
     group = $('<div class="enter secret"></div>')

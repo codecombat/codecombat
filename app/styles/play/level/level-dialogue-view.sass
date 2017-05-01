@@ -2,16 +2,17 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/play/variables"
 
+#other
 #level-dialogue-view
   +keyframes(speakingPulse)
     from
-      @include box-shadow(0px 0px 8px #333)
+      filter: drop-shadow(0px 0px 8px #333)
       color: white
     50%
-      @include box-shadow(0px 0px 35px skyblue)
+      filter: drop-shadow(0px 0px 35px skyblue)
       color: skyblue
     to
-      @include box-shadow(0px 0px 8px #333)
+      filter: drop-shadow(0px 0px 8px #333)
       color: white
 
   width: 417px
@@ -25,6 +26,7 @@
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
   z-index: 2
+
 
   &.active
     display: block
@@ -94,6 +96,41 @@
 
       button
         margin-left: 10px
+
+  &.debrief
+    z-index: 11
+    color: red
+    position: absolute
+    left: 50vw
+    transform: translateX(-50%)
+    width: 100vw
+    max-width: 1024px
+    background-color: orange
+    background: initial
+    .bubble
+      border: initial
+      line-height: initial
+      padding: 64px
+      font-size: x-large
+      @media (min-width: $screen-md-min)
+        font-size: xx-large
+      img
+        float: left
+        height: 192px
+        margin-top: -60px
+        margin-left: -20px
+        padding-right: 20px
+      img.embiggen
+        height: 128px
+        margin-top: -20px
+        margin-left: calc(-20px * 2)
+        @media (min-width: $screen-md-min)
+          height: 25%
+          margin-top: calc(-60px * 2)
+          margin-left: calc(-20px * 2)
+      .enter
+        margin-bottom: 8px
+        margin-right: 32px
 
 body.ipad #level-dialogue-view
   left: auto
