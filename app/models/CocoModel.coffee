@@ -1,6 +1,7 @@
 storage = require 'core/storage'
 deltasLib = require 'core/deltas'
 locale = require 'locale/locale'
+utils = require 'core/utils'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -76,6 +77,9 @@ class CocoModel extends Backbone.Model
   getCreationDate: -> new Date(parseInt(@id.slice(0,8), 16)*1000)
 
   getNormalizedURL: -> "#{@urlRoot}/#{@id}"
+
+  getTranslatedName: ->
+    utils.i18n(@attributes, 'name')
 
   attributesWithDefaults: undefined
 
@@ -379,7 +383,7 @@ class CocoModel extends Backbone.Model
 
   getURL: ->
     return if _.isString @url then @url else @url()
-    
+
   makePatch: ->
     Patch = require 'models/Patch'
     target = {
@@ -390,10 +394,10 @@ class CocoModel extends Backbone.Model
     if @get('original')
       target.original = @get('original')
       target.version = @get('version')
-      
+
     return new Patch({
       delta: @getDelta()
-      target 
+      target
     })
 
   @pollAchievements: ->
@@ -456,7 +460,7 @@ class CocoModel extends Backbone.Model
     # language codes that are covered for every i18n object are fully covered
     overallCoverage = _.intersection(langCodeArrays...)
     @set('i18nCoverage', overallCoverage)
-    
+
   deleteI18NCoverage: (options={}) ->
     options.url = options.url = @url() + '/i18n-coverage'
     options.type = 'DELETE'
@@ -482,11 +486,11 @@ class CocoModel extends Backbone.Model
     options.url = @urlRoot + '/' + (@get('original') or @id) + '/patches'
     patches.fetch(options)
     return patches
-    
+
   stringify: -> return JSON.stringify(@toJSON())
 
   wait: (event) -> new Promise((resolve) => @once(event, resolve))
-  
+
   fetchLatestVersion: (original, options={}) ->
     options.url = _.result(@, 'urlRoot') + '/' + original + '/version'
     @fetch(options)

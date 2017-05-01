@@ -109,6 +109,9 @@
         "build/java.js",
         "build/html.js"
       ]
+    },
+    "moment": {
+      "main": "min/moment-with-langs.min.js"
     }
   },
   "devDependencies": {

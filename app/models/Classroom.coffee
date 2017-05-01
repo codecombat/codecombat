@@ -77,6 +77,7 @@ module.exports = class Classroom extends CocoModel
 
   getLevels: (options={}) ->
     # options: courseID, withoutLadderLevels, projectLevels
+    # TODO: find a way to get the i18n in here so that level names can be translated (Courses don't include in their denormalized copy of levels)
     Levels = require 'collections/Levels'
     courses = @get('courses')
     return new Levels() unless courses

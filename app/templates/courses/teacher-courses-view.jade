@@ -67,7 +67,7 @@ block content
                               | .
                             = " "
                             span
-                              = level.get('name').replace('Course: ', '')
+                              = i18n(level.attributes, 'name').replace('Course: ', '')
               a.play-level-button.btn.btn-lg.btn-primary
                 span(data-i18n="courses.play_level")
             .clearfix
