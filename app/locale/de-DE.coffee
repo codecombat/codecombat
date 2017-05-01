@@ -1471,8 +1471,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cs1_syntax_javascript: "Kurs 1: JavaScript-Syntaxanleitung"
     cs1_syntax_javascript_desc: "Spickzettel mit Referenzen auf die gängige JavaScript-Syntax, die die Schüler in „Einführung in die Informatik“ lernen."
     coming_soon: "Weitere Anleitungen kommen bald!"
-engineering_cycle_worksheet: "Arbeitsblatt zur Softwareentwicklung (Engineering Cycle Worksheet) " #pdf  English
-    engineering_cycle_worksheet_desc: "Benutze dieses Arbeitsblatt, um den Schülern die Grundlagen des technischen Planungskreislaufs nahezubringen: Einschätzen, Entwerfen, Umsetzen und Fehler beheben. Das ausgefüllte Beispielarbeitsblatt kann dir als Orientierungshilfe dienen."
+    engineering_cycle_worksheet: "Arbeitsblatt zur Softwareentwicklung (Engineering Cycle Worksheet)" #pdf  English
+    engineering_cycle_worksheet_desc: "Benutze dieses Arbeitsblatt, um den Schülern systematische Programmentwicklung nahezubringen: Problemdefinition, Lösungsentwurf, Umsetzun und Fehlerbehebung. Das ausgefüllte Beispielarbeitsblatt kann dir als Orientierungshilfe dienen."
     engineering_cycle_worksheet_link: "Beispiel anzeigen"
     progress_journal: "Fortschrittstagebuch"
     progress_journal_desc: "Halte deine Schüler an, ihren Fortschritt mithilfe eines Fortschrittstagebuchs aufzuzeichnen."
