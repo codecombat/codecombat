@@ -1,4 +1,5 @@
 Levels = require 'collections/Levels'
+utils = require 'core/utils'
 
 module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
@@ -48,7 +49,7 @@ module.exports =
             students.get(id)
           levelNumber = classroom.getLevelNumber(level.get('original'), levelIndex + 1)
           return {
-            courseName: course.get('name')
+            courseName: utils.i18n(course.attributes, 'name')
             courseNumber: courseIndex + 1
             levelNumber
             levelName: level.get('name')
@@ -79,27 +80,27 @@ module.exports =
             students.get(id)
           levelNumber = classroom.getLevelNumber(level.get('original'), levelIndex + 1)
           return {
-            courseName: course.get('name')
+            courseName: utils.i18n(course.attributes, 'name')
             courseNumber: courseIndex + 1
             levelNumber
             levelName: level.get('name')
             users: users
           }
     null
-    
+
   calculateConceptsCovered: (classrooms, courses, campaigns, courseInstances, students) ->
     # Loop through all level/user combination and record
     #   whether they've started, and completed, each concept
     conceptData = {}
     for classroom in classrooms.models
       conceptData[classroom.id] = {}
-      
+
       for course, courseIndex in courses.models
         levels = classroom.getLevels({courseID: course.id})
-        
+
         for level in levels.models
           levelID = level.get('original')
-          
+
           for concept in level.get('concepts')
             unless conceptData[classroom.id][concept]
               conceptData[classroom.id][concept] = { completed: true, started: false }
@@ -108,7 +109,7 @@ module.exports =
             for userID in classroom.get('members')
               sessions = _.filter classroom.sessions.models, (session) ->
                 session.get('creator') is userID and session.get('level').original is levelID
-              
+
               if _.size(sessions) is 0 # haven't gotten to this level yet, but might have completed others before
                 for concept in level.get('concepts')
                   conceptData[classroom.id][concept].completed = false
@@ -119,19 +120,19 @@ module.exports =
                 for concept in level.get('concepts')
                   conceptData[classroom.id][concept].completed = false
     conceptData
-      
+
   calculateAllProgress: (classrooms, courses, courseInstances, students) ->
     # Loop through all combinations and record:
     #   Completeness for each student/course
     #   Completeness for each student/level
     #   Completeness for each class/course (across all students)
     #   Completeness for each class/level (across all students)
-    
+
     # class -> course
     #   class -> course -> student
     #   class -> course -> level
     #     class -> course -> level -> student
-    
+
     progressData = {}
     for classroom in classrooms.models
       progressData[classroom.id] = {}
@@ -165,7 +166,7 @@ module.exports =
             courseProgress[levelID][userID] = { completed: true, started: false } # These don't matter, will always be set
             sessions = _.filter sessionsForLevel, (session) ->
               session.get('creator') is userID
-            
+
             courseProgress[levelID][userID].session = _.find(sessions, (s) -> s.completed()) or _.first(sessions)
 
             if _.size(sessions) is 0 # haven't gotten to this level yet, but might have completed others before
@@ -177,7 +178,7 @@ module.exports =
               courseProgress[levelID].completed = false unless isPractice
               courseProgress[levelID][userID].started = false
               courseProgress[levelID][userID].completed = false
-              
+
             if _.size(sessions) > 0 # have gotten to the level and at least started it
               courseProgress.started = true unless isPractice
               courseProgress[userID].started = true unless isPractice
@@ -186,7 +187,7 @@ module.exports =
               dates = _.map(sessions, (s) -> new Date(s.get('changed')))
               courseProgress[levelID][userID].lastPlayed = new Date(Math.max(dates...))
               courseProgress[levelID].numStarted += 1
-            
+
             if _.find(sessions, (s) -> s.completed()) # have finished this level
               courseProgress.completed &&= true unless isPractice #no-op
               courseProgress[userID].completed &&= true unless isPractice #no-op
@@ -208,13 +209,13 @@ module.exports =
               courseProgress[levelID][userID].completed = false
               courseProgress[levelID].dateFirstCompleted = null
               courseProgress[levelID][userID].dateFirstCompleted = null
-              
+
           if isPractice and courseProgress and not courseProgress[levelID].started
             courseProgress[levelID].completed = false # edge for practice levels, not considered complete if never started either
 
     _.assign(progressData, progressMixin)
     return progressData
-  
+
   courseLabelsArray: (courses) ->
     labels = []
     courseLabelIndexes = CS: 0, GD: 0, WD: 0
