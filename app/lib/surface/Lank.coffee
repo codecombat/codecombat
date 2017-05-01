@@ -6,6 +6,7 @@ Label = require './Label'
 AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
+utils = require 'core/utils'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =
@@ -765,7 +766,8 @@ module.exports = Lank = class Lank extends CocoClass
 
   playSound: (sound, withDelay=true, volume=1.0) ->
     if _.isString sound
-      sound = @thangType.get('soundTriggers')?[sound]
+      soundTriggers = utils.i18n @thangType.attributes, 'soundTriggers'
+      sound = soundTriggers?[sound]
     if _.isArray sound
       sound = sound[Math.floor Math.random() * sound.length]
     return null unless sound

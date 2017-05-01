@@ -240,7 +240,8 @@ module.exports = class PlayHeroesModal extends ModalView
   playSelectionSound: (hero) ->
     return if @$el.hasClass 'secret'
     @currentSoundInstance?.stop()
-    return unless sounds = hero.get('soundTriggers')?.selected
+    return unless soundTriggers = utils.i18n hero.attributes, 'soundTriggers'
+    return unless sounds = soundTriggers.selected
     return unless sound = sounds[Math.floor Math.random() * sounds.length]
     name = AudioPlayer.nameForSoundReference sound
     AudioPlayer.preloadSoundReference sound
