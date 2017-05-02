@@ -332,7 +332,7 @@ module.exports = class CampaignView extends RootView
       for campaign in @campaigns.models when campaign.get('slug') isnt 'auditions'
         context.campaigns[campaign.get('slug')] = campaign
         if @sessions?.loaded
-          levels = _.values($.extend true, {}, @getLevels() ? {})
+          levels = _.values($.extend true, {}, campaign.get('levels') ? {})
           if me.level() < 12 and campaign.get('slug') is 'dungeon' and not @editorMode
             reject = if me.getFourthLevelGroup() is 'signs-and-portents' then 'forgetful-gemsmith' else 'signs-and-portents'
             levels = _.reject levels, slug: reject

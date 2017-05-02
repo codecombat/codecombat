@@ -2230,7 +2230,7 @@
     email_taken: 'Email already taken'
     username_taken: 'Username already taken'
 
-esper:
+  esper:
     line_no: "Line $1: "
     x_not_a_function: "`$1` is not a function"
     type_error: "TypeError: "
