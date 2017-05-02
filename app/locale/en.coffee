@@ -1445,7 +1445,11 @@
     changed: "Changed"
     available_credits: "Available Licenses"
     pending_credits: "Pending Licenses"
-    credits: "licenses"
+    empty_credits: "Exhausted Licenses"
+    license_remaining: "license remaining"
+    licenses_remaining: "licenses remaining"
+    one_license_used: "1 license has been used"
+    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "starter licenses"
     start_date: "start date:"
     end_date: "end date:"
@@ -1601,6 +1605,22 @@
     teacher_quest_more: "See all quests"
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
+  
+  share_licenses:
+    share_licenses: "Share Licenses"
+    shared_by: "Shared By:"
+    add_teacher_label: "Enter exact teacher email:"
+    add_teacher_button: "Add Teacher"
+    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+    already_shared: "You've already shared these licenses with that teacher."
+    teachers_using_these: "Teachers who can access these licenses:"
+    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+    you: "(you)"
+    one_license_used: "(1 license used)"
+    licenses_used: "(__licensesUsed__ licenses used)"
+    more_info: "More info"
 
   sharing:
     game: "Game"
@@ -2245,5 +2265,3 @@
     fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
     unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
     unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
-
-  

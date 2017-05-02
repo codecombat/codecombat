@@ -30,3 +30,6 @@ module.exports = class Prepaids extends CocoCollection
     opts.data ?= {}
     opts.data.creator = creatorID
     @fetch opts
+  
+  fetchMineAndShared: ->
+    @fetchByCreator(me.id, { data: {includeShared: true} })

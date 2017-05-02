@@ -124,6 +124,9 @@ module.exports = class RootView extends CocoView
 
     if title = @getTitle() then title += ' | CodeCombat'
     else title = 'CodeCombat - Learn how to code by playing a game'
+    
+    if localStorage?.showViewNames
+      title = @constructor.name
 
     $('title').text(title)
 

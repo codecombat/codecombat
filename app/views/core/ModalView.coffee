@@ -46,6 +46,12 @@ module.exports = class ModalView extends CocoView
     # This makes sure if you press enter right after opening the players guide,
     # it doesn't just reopen the modal.
     $(document.activeElement).blur()
+    
+    if localStorage?.showViewNames
+      title = @constructor.name
+      setTimeout ->
+        $('title').text(title)
+      , 500
 
   showLoading: ($el) ->
     $el = @$el.find('.modal-body') unless $el
