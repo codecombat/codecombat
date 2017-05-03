@@ -6,6 +6,7 @@ moment = require 'moment'
 log = require 'winston'
 os = require 'os'
 _ = require 'lodash'
+util = require 'util'
 c = new chalk.constructor enabled: true
 
 exports.init = () ->
