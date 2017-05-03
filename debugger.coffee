@@ -41,7 +41,8 @@ exports.init = () ->
         cluster.worker.send 'debuger:pong'
 
 colorWord = (word) ->
-  return c.green(word) if word in ['listening', 'online']
+  return c.green(word) if word in ['listening', 'online', 'connected']
+  return c.red(word) if word in ['destoryed']
   return word
 
 exports.createREPL = (socket) ->
@@ -61,6 +62,7 @@ exports.createREPL = (socket) ->
     listWorkersCommand =
       help: 'List current workers'
       action: () ->
+        server.outputStream.write "#{c.underline("Active Workers")}:\n"
         for id, worker of cluster.workers
           server.outputStream.write [
             "#{c.cyan(worker.id)}:",
@@ -83,7 +85,6 @@ exports.createREPL = (socket) ->
           server.outputStream.write "#{c.red('Error!')} Unknown worker `#{c.red(id)}`\n"
           server.displayPrompt()
           return
-        server.outputStream.write "Transfering...\n"
         worker.send("debugger:repl", socket)
 
     server.defineCommand 'enter', enterCommand
@@ -109,6 +110,7 @@ exports.createREPL = (socket) ->
     help: 'Show some information from the operating system.'
     action: () ->
       server.outputStream.write [
+        "#{c.underline("OS Information")}:"
         "#{os.hostname()} - #{os.platform()} #{os.arch()} #{os.release()}",
         "CPU   : #{os.cpus()[0].model}",
         "Load  : #{os.loadavg().join(', ')}",
@@ -129,6 +131,35 @@ exports.createREPL = (socket) ->
       server.displayPrompt()
 
   server.defineCommand 'meminfo', memInfoCommand
+
+  server.defineCommand 'handles',
+    help: 'List active handles',
+    action: () ->
+      server.outputStream.write "#{c.underline("Active Handles")}:\n"
+      for k, handle of process._getActiveHandles()
+        if handle instanceof net.Socket
+          state = 'connected'
+          state = 'connecting' if handle.connecting 
+          state = 'destoryed' if handle.destoryed
+          server.outputStream.write "#{c.magenta('Socket')} #{c.bold(handle.remoteFamily or handle._type)} "
+          if handle.localAddress? or handle.localPort?
+            server.outputStream.write "#{handle.localAddress}:#{handle.localPort} -> #{handle.remoteAddress}:#{handle.remotePort} "
+          server.outputStream.write "#{colorWord(state)} [R:#{c.red(handle.bytesRead)} / W:#{c.green(handle.bytesWritten)}]\n"
+          #unless handle.remoteFamily?
+          #  server.outputStream.write util.inspect(handle)
+
+        else if handle instanceof net.Server
+          addr = handle.address()
+          server.outputStream.write "#{c.yellow('Listening Socket')} #{c.bold(addr.family)} #{addr.address}:#{addr.port}\n"
+        else if handle.constructor.name is "ChildProcess"
+          server.outputStream.write "#{c.cyan('Child Process')} [pid: #{handle.pid}] #{handle.spawnargs.join(' ')}\n"
+        else if handle.constructor.name is "Pipe"
+          server.outputStream.write "#{c.green('Pipe')} #{handle.type} [fd: #{handle.fd}]\n"
+        else
+          server.outputStream.write "-> Unknown Type #{handle}: #{util.inspect(handle)}\n"
+
+      server.displayPrompt()
+
   server.context.log = require('winston')
   server.context.print = () -> server.outputStream.write Array.prototype.join.call(arguments, "\t") + "\n"
   server
