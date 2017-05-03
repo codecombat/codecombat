@@ -150,7 +150,7 @@ exports.createREPL = (socket) ->
 
         else if handle instanceof net.Server
           addr = handle.address()
-          server.outputStream.write "#{c.yellow('Listening Socket')} #{c.bold(addr.family)} #{addr.address}:#{addr.port}\n"
+          server.outputStream.write "#{c.yellow('Listening Socket')} #{c.bold(addr?.family)} #{addr?.address}:#{addr?.port}\n"
         else if handle.constructor.name is "ChildProcess"
           server.outputStream.write "#{c.cyan('Child Process')} [pid: #{handle.pid}] #{handle.spawnargs.join(' ')}\n"
         else if handle.constructor.name is "Pipe"
