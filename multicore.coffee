@@ -1,5 +1,6 @@
 cluster = require 'cluster'
 numCPUs = require('os').cpus().length
+numCPUs = parseInt(process.env.COCO_CORES) if process.env.COCO_CORES
 
 deaths = [
   'Killed by a soldier ant.'
@@ -69,6 +70,10 @@ deaths = [
   'Turned to slime by a cockatrice egg.'
 ]
 
+
+if process.env.COCO_DEBUG_PORT?
+  require('./debugger').init()
+
 if cluster.isMaster
   for i in [0...numCPUs]
     cluster.fork()
@@ -81,8 +86,11 @@ if cluster.isMaster
     catch error
       console.log "Couldn't send Slack message on server death:", error
     cluster.fork()
+
 else
   require('coffee-script')
   require('coffee-script/register')
   server = require('./server')
-  server.startServer()
+  app = server.startServer()
+  cluster.worker.app = app
+
