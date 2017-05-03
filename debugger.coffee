@@ -42,7 +42,7 @@ exports.init = () ->
 
 colorWord = (word) ->
   return c.green(word) if word in ['listening', 'online', 'connected']
-  return c.red(word) if word in ['destoryed']
+  return c.red(word) if word in ['destroyed']
   return word
 
 exports.createREPL = (socket) ->
@@ -140,7 +140,7 @@ exports.createREPL = (socket) ->
         if handle instanceof net.Socket
           state = 'connected'
           state = 'connecting' if handle.connecting 
-          state = 'destoryed' if handle.destoryed
+          state = 'destroyed' if handle.destroyed
           server.outputStream.write "#{c.magenta('Socket')} #{c.bold(handle.remoteFamily or handle._type)} "
           if handle.localAddress? or handle.localPort?
             server.outputStream.write "#{handle.localAddress}:#{handle.localPort} -> #{handle.remoteAddress}:#{handle.remotePort} "
