@@ -605,7 +605,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     required_purchase_title: "Benötigt"
     available_item: "Verfügbar"
     restricted_title: "Eingeschränkt"
-    should_equip: "Doppelklicken um Ausrüstung zu wählen)"
+    should_equip: "Doppelklicken um Ausrüstung zu wählen"
     equipped: "(ausgewählt)"
     locked: "(gesperrt)"
     restricted: "(In diesem Level nicht verfügbar)"
