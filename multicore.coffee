@@ -91,6 +91,7 @@ else
   require('coffee-script')
   require('coffee-script/register')
   server = require('./server')
-  app = server.startServer()
+  {app, httpServer} = server.startServer()
   cluster.worker.app = app
+  cluster.worker.httpServer = httpServer
 

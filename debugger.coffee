@@ -6,6 +6,7 @@ moment = require 'moment'
 log = require 'winston'
 os = require 'os'
 _ = require 'lodash'
+c = new chalk.constructor enabled: true
 
 exports.init = () ->
   return unless process.env.COCO_DEBUG_PORT?
@@ -40,14 +41,15 @@ exports.init = () ->
         cluster.worker.send 'debuger:pong'
 
 colorWord = (word) ->
-  return chalk.green(word) if word in ['listening', 'online']
+  return c.green(word) if word in ['listening', 'online']
   return word
 
 exports.createREPL = (socket) ->
   return unless socket
   name = if cluster.isMaster then "master" else "worker #{cluster.worker.id}"
+
   server = repl.start
-    prompt: "#{chalk.yellow('Co')}#{chalk.grey('Co')} #{chalk.cyan(name)}> "
+    prompt: "#{c.yellow('Co')}#{c.grey('Co')} #{c.cyan(name)}> "
     input: socket
     output: socket
     terminal: true
@@ -61,10 +63,10 @@ exports.createREPL = (socket) ->
       action: () ->
         for id, worker of cluster.workers
           server.outputStream.write [
-            "#{chalk.cyan(worker.id)}:",
+            "#{c.cyan(worker.id)}:",
             colorWord(worker.state),
             "[PID: #{worker.process.pid}]",
-            "[Up: #{chalk.cyan(moment(worker.created).fromNow(true))}]"
+            "[Up: #{c.cyan(moment(worker.created).fromNow(true))}]"
             "\n"
           ].join(" ")
 
@@ -78,7 +80,7 @@ exports.createREPL = (socket) ->
       action: (id) ->
         worker = _.find cluster.workers, (x) -> x.id is parseInt(id)
         unless worker?
-          server.outputStream.write "#{chalk.red('Error!')} Unknon worker `#{chalk.red(id)}`"
+          server.outputStream.write "#{c.red('Error!')} Unknown worker `#{c.red(id)}`\n"
           server.displayPrompt()
           return
         server.outputStream.write "Transfering...\n"
@@ -90,6 +92,7 @@ exports.createREPL = (socket) ->
   else
     server.context.worker = cluster.worker
     server.context.app = cluster.worker.app
+    server.context.httpServer = cluster.worker.httpServer
     mongoose = require 'mongoose'
     server.context.mongoose = mongoose
     server.context.models = mongoose.models
@@ -122,9 +125,10 @@ exports.createREPL = (socket) ->
     action: () ->
       mem = process.memoryUsage()
       for k,v of mem
-        server.outputStream.write "#{chalk.cyan(k)}: #{Math.ceil(v/1024/1024)}mb\n"
+        server.outputStream.write "#{c.cyan(k)}: #{Math.ceil(v/1024/1024)}mb\n"
       server.displayPrompt()
 
   server.defineCommand 'meminfo', memInfoCommand
   server.context.log = require('winston')
+  server.context.print = () -> server.outputStream.write Array.prototype.join.call(arguments, "\t") + "\n"
   server
