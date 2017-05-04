@@ -11,6 +11,7 @@ ace = require 'ace'
 utils = require 'core/utils'
 Aether = require 'aether'
 require 'vendor/aether-python'
+require 'esper'
 
 unless typeof esper is 'undefined'
   realm = new esper().realm
@@ -71,8 +72,10 @@ module.exports = class StudentSolutionsView extends RootView
         @solutions[hash] ?= []
         @solutions[hash].push session
 
+      oneOffs = 0
       tallyFn = (result, value, key) =>
-        return result if value is 1
+        return result if value is 1 and oneOffs > 40
+        oneOffs += 1 if value is 1
         result[value] ?= []
         result[value].push key
         result
