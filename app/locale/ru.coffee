@@ -451,7 +451,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     reload_title: "Перезагрузить код полностью?"
     reload_really: "Вы уверены, что хотите начать уровень сначала?"
     reload_confirm: "Перезагрузить всё"
-    test_level: "Тестовый уровень"
+    test_level: "Проверить уровень"
     victory: "Победа"
     victory_title_prefix: "Уровень "
     victory_title_suffix: " пройден"
