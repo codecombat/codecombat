@@ -631,6 +631,10 @@
     purchase: "Purchase"
     purchased: "Purchased"
 
+  earn_gems:
+    prompt_title: "Not Enough Gems"
+    prompt_body: "Keep playing to earn more!"
+
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!"

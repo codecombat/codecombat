@@ -187,6 +187,7 @@ module.exports = class LevelSetupManager extends CocoClass
     else if allowedHeroSlugs = @level.get 'allowedHeroes'
       unless _.find(allowedHeroSlugs, (slug) -> ThangType.heroes[slug] is me.get('heroConfig')?.thangType)
         firstModal = @heroesModal
+    firstModal = @inventoryModal if me.isStudent()
     lastHeroesEarned = me.get('earned')?.heroes ? []
     lastHeroesPurchased = me.get('purchased')?.heroes ? []
 
@@ -219,8 +220,10 @@ module.exports = class LevelSetupManager extends CocoClass
     PlayLevelView = 'views/play/level/PlayLevelView'
     LadderView = 'views/ladder/LadderView'
     viewClass = if @options.levelPath is 'ladder' then LadderView else PlayLevelView
-    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}"
-    route += "?codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    route = "/play/#{@options.levelPath || 'level'}/#{@options.levelID}?"
+    route += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    if @options.courseID? and @options.courseInstanceID?
+      route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
       viewArgs: [{supermodel: @supermodel}, @options.levelID]
