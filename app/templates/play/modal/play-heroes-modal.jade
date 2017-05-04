@@ -88,7 +88,7 @@
           #locked-hero-explanation
             h2(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscribe_unlock' : 'play.subscribers_only')
             span.spr.subscribers(data-i18n=visibleHero.unlockBySubscribing ? 'play.subscriber_heroes' : 'play.subscriber_gems')
-          button.btn.subscribe-button#subscribe-hero-button
+          button.btn.subscribe-button#subscribe-hero-button(data-hero-slug=visibleHero.get('slug'))
             span.spr(data-i18n="subscribe.subscribe_title") Subscribe
   
         else if visibleHero.loaded
