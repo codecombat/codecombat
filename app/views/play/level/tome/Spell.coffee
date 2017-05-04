@@ -83,6 +83,11 @@ module.exports = class Spell
     # Translate comments chosen spoken language.
     return unless @commentContext
     context = $.extend true, {}, @commentContext
+
+    if @language is 'lua'
+      for k,v of context
+        context[k] = v.replace /\b([a-zA-Z]+)\.([a-zA-Z_]+\()/, '$1:$2'
+
     if @commentI18N
       spokenLanguage = me.get 'preferredLanguage'
       while spokenLanguage
