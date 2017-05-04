@@ -463,7 +463,8 @@ module.exports = class InventoryModal extends ModalView
       restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
       for slot in item.getAllowedSlots()
         requiredPropertiesNotOnThisItem = _.without(@requiredPropertiesPerSlot[slot], item.programmableProperties...)
-        continue if 'cleave' in requiredPropertiesNotOnThisItem and 'Warrior' not in item.getAllowedHeroClasses()
+        # Let Rangers/Wizards use class specific weapon in 'cleave' levelsm, if it's not restricted
+        continue if 'cleave' in requiredPropertiesNotOnThisItem and 'Warrior' not in item.getAllowedHeroClasses() and not restrictedPropertiesOnThisItem.length
         if restrictedPropertiesOnThisItem.length or requiredPropertiesNotOnThisItem.length
           restrictedGear[slot] ?= []
           restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
