@@ -138,7 +138,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subscription_required: "Требуется подписка"
     subscribers_only: "Только для подписчиков!"
     subscribe_unlock: "Подписаться для разблокировки!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_heroes: "подпишитесь сегодня чтобы сразу получить Амаруб Хашбаума и Хатори!"
     subscriber_gems: "Подпишитесь сегодня, чтобы купить этого героя за самоцветы!"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
@@ -288,8 +288,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sso_connected: "Успешно подключились с помощью:"
     select_your_starting_hero: "Выберите своего первого героя:"
     you_can_always_change_your_hero_later: "Вы в любое время сможете поменять героя."
-#    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
+    finish: "закончить"
+    teacher_ready_to_create_class "Вы готовы создать вой первый класс!"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
@@ -344,7 +344,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
-    valid_phone: "Введите действуюший "
+    valid_phone: "Введите действуюший телефонный номер"
 
   general:
     and: "и"
