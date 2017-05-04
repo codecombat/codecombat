@@ -117,6 +117,7 @@ module.exports = class Classroom extends CocoModel
     arena = @getLadderLevel(courseID)
     project = @getProjectLevel(courseID)
     courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true})
+    #courseLevelsWithLadder = @getLevels({courseID: courseID, withoutLadderLevels: false})
     levelSessionMap = {}
     levelSessionMap[session.get('level').original] = session for session in sessions
     currentIndex = -1
@@ -154,6 +155,7 @@ module.exports = class Classroom extends CocoModel
       needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes'))
       nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     nextLevel = courseLevels.models[nextIndex]
+    nextLevel = arena if levelsLeft is 0
     nextLevel ?= _.find courseLevels.models, (level) -> not levelSessionMap[level.get('original')]?.get('state')?.complete
 
     stats =

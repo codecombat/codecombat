@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/menu/inventory-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -76,7 +77,10 @@ module.exports = class InventoryModal extends ModalView
       programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
       item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
     @itemsProgrammablePropertiesConfigured = true
-    @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
+    if me.isStudent()
+      @equipment = me.get('heroConfig')?.inventory or {}
+    else
+      @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
     @itemGroups = {}
@@ -102,7 +106,7 @@ module.exports = class InventoryModal extends ModalView
     # sort into one of the five groups
     locked = not me.ownsItem item.get('original')
 
-    subscriber = (not me.isPremium()) and item.get('subscriber')
+    subscriber = (not me.isStudent()) and (not me.isPremium()) and item.get('subscriber')
     restrictedGear = @calculateRestrictedGearPerSlot()
     allRestrictedGear = _.flatten(_.values(restrictedGear))
     restricted = item.get('original') in allRestrictedGear
@@ -435,6 +439,7 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
+    return {} if me.isStudent()
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
@@ -455,6 +460,7 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
+    return {} if me.isStudent()
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
@@ -638,7 +644,10 @@ module.exports = class InventoryModal extends ModalView
 
   askToBuyGems: (unlockButton) ->
     @$el.find('.unlock-button').popover 'destroy'
-    popoverTemplate = buyGemsPromptTemplate {}
+    if me.isStudent()
+      popoverTemplate = earnGemsPromptTemplate {}
+    else
+      popoverTemplate = buyGemsPromptTemplate {}
     unlockButton.popover(
       animation: true
       trigger: 'manual'
@@ -695,6 +704,7 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
+    @updateConfig (() -> return), true if me.isStudent()  # Save the player's heroConfig if they're a student, whenever they change gear.
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()

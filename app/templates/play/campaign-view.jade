@@ -259,7 +259,7 @@ if view.showAds()
             a(href="/play").player-name.spr= me.get('name')
           else
             a(href="/account").player-name.spr= me.get('name')
-          if !features.codePlay
+          if !features.codePlay && !me.isStudent()
             button#logout-button.btn.btn-illustrated.btn-warning(data-i18n="login.log_out") Log Out
           if me.isPremium()
             button.btn.btn-illustrated.btn-primary(data-i18n="nav.contact", data-toggle="coco-modal", data-target="core/ContactModal") Contact

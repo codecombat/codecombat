@@ -142,34 +142,30 @@ module.exports = class CampaignView extends RootView
           classroomID = @courseInstance.get('classroomID')
           @classroom = new Classroom(_id: classroomID)
           @supermodel.trackRequest @classroom.fetch()
-          @courseInstance.sessions = new CocoCollection([], {
-            url: @courseInstance.url() + '/my-course-level-sessions',
-            model: LevelSession
-          })
-          @courseInstance.sessions.comparator = 'changed'
-          @courseLevels = new Levels()
-          @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
-            data: { project: 'concepts,practice,primerLanguage,type,slug,name,original,description,shareable,i18n' }
-          })
-          @supermodel.loadCollection(@courseInstance.sessions, { 
-            data: { project: 'state.complete,level.original,playtime,changed' }
-          })
-          
           @listenToOnce @classroom, 'sync', =>
             if me.get('role') is 'student' and not @classroom.getSetting('map')
               application.router.redirectHome()
-
-          @listenToOnce @courseInstance.sessions, 'sync', =>
-            @courseStats = @classroom.statsForSessions(@courseInstance.sessions, @course.id)
-          
-
-          @listenToOnce @courseLevels, 'sync', =>
-            existing = @campaign.get('levels')
-            for k,v of @courseLevels.toArray()
-              idx = v.get('original')
-              @courseLevelsFake[idx] = existing[idx]
-              @courseLevelsFake[idx].courseIdx = parseInt(k)
-              @courseLevelsFake[idx].requiresSubscription = false
+            @courseInstance.sessions = new CocoCollection([], {
+              url: @courseInstance.url() + '/my-course-level-sessions',
+              model: LevelSession
+            })
+            @supermodel.loadCollection(@courseInstance.sessions, {
+              data: { project: 'state.complete,level.original,playtime,changed' }
+            })
+            @courseInstance.sessions.comparator = 'changed'
+            @listenToOnce @courseInstance.sessions, 'sync', =>
+              @courseStats = @classroom.statsForSessions(@courseInstance.sessions, @course.id)
+            @courseLevels = new Levels()
+            @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
+              data: { project: 'concepts,practice,primerLanguage,type,slug,name,original,description,shareable,i18n' }
+            })
+            @listenToOnce @courseLevels, 'sync', =>
+              existing = @campaign.get('levels')
+              for k,v of @courseLevels.toArray()
+                idx = v.get('original')
+                @courseLevelsFake[idx] = existing[idx]
+                @courseLevelsFake[idx].courseIdx = parseInt(k)
+                @courseLevelsFake[idx].requiresSubscription = false
 
       )
 
@@ -772,19 +768,17 @@ module.exports = class CampaignView extends RootView
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
   onClickCourseVersion: (e) ->
-    levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
     courseID = $(e.target).parents('.course-version').data 'course-id'
-    courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
-    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
-    Backbone.Mediator.publish 'router:navigate', route: url
+    levelElement = $(e.target).parents('.level-info-container')
+    @startLevel levelElement, courseID, @getQueryVariable('course-instance')
 
-  startLevel: (levelElement) ->
+  startLevel: (levelElement, courseID, courseInstanceID) ->
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session, courseID: courseID, courseInstanceID: courseInstanceID
     unless @setupManager?.navigatingToPlay
-      @$levelInfo.find('.level-info, .progress').toggleClass('hide')
+      @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
       @listenToOnce @setupManager, 'open', ->
         @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
         @$levelInfo?.hide()
@@ -1147,9 +1141,9 @@ module.exports = class CampaignView extends RootView
       return false unless @classroom?
       return @classroom.getSetting('gems')
 
-    if what in ['level', 'xp']
-      return true unless isStudent
-      return false unless @classroom?
+    if what in ['level', 'xp']   
+      return true unless isStudent    
+      return false unless @classroom?   
       return @classroom.getSetting('xp')
 
 
