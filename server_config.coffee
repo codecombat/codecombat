@@ -1,6 +1,13 @@
 fs = require 'fs'
 path = require 'path'
+os = require 'os'
+cluster = require 'cluster'
+
 config = {}
+
+config.clusterID = "#{os.hostname()}"
+if cluster.worker?
+ config.clusterID += "/#{cluster.worker.id}" 
 
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
