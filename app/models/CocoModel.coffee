@@ -462,7 +462,7 @@ class CocoModel extends Backbone.Model
     @set('i18nCoverage', overallCoverage)
 
   deleteI18NCoverage: (options={}) ->
-    options.url = options.url = @url() + '/i18n-coverage'
+    options.url = @url() + '/i18n-coverage'
     options.type = 'DELETE'
     return $.ajax(options)
 
