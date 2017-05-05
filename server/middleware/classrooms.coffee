@@ -205,7 +205,7 @@ module.exports =
     query = {$and: [
       {_id: {$gte: utils.objectIdFromTimestamp(startDay + "T00:00:00.000Z")}}
       {'level.original': {$in: levelOriginals}}
-      {heroConfig: {$exists: false}}
+      { isForClassroom: true }
       {'state.complete': true}
       ]}
     query.$and.push({_id: {$lt: utils.objectIdFromTimestamp(endDay + "T00:00:00.000Z")}}) if endDay
