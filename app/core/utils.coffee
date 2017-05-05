@@ -125,8 +125,18 @@ courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
 
 petThangIDs = [
-  '578d320d15e2501f00a585bd',
-  '5744e3683af6bf590cd27371'
+  '578d320d15e2501f00a585bd' # Wolf Pup
+  '5744e3683af6bf590cd27371' # Cougar
+  '5786a472a6c64135009238d3' # Raven
+  '577d5d4dab818b210046b3bf' # Pugicorn
+  '58c74b7c3d4a3d2900d43b7e' # Brown Rat
+  '58c7614a62cc3a1f00442240' # Yetibab
+  '58a262520b43652f00dad75e' # Phoenix
+  '57869cf7bd31c14400834028' # Frog
+  '578691f9bd31c1440083251d' # Polar Bear Cub
+  '58a2712b0b43652f00dae5a4' # Blue Fox
+  '58c737140ca7852e005deb8a' # Mimic
+  '57586f0a22179b2800efda37' # Baby Griffin
 ]
 
 premiumContent =
