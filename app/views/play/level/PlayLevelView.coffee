@@ -88,6 +88,12 @@ module.exports = class PlayLevelView extends RootView
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
+    'click': 'onClick'
+    
+  onClick: ->
+    # workaround to get users out of permanent idle status
+    if application.userIsIdle
+      application.idleTracker.onVisible()
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
