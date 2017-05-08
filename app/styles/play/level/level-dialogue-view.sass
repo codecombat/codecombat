@@ -32,6 +32,12 @@
     display: block
     bottom: -20px
 
+  &.debrief
+    bottom: -300px
+
+  &.active.debrief
+    bottom: -65px;
+
   &.speaking
     .dialogue-area
       .bubble
@@ -105,15 +111,17 @@
     transform: translateX(-50%)
     width: 100vw
     max-width: 1024px
+    max-height: 270px
     background-color: orange
     background: initial
     .bubble
       border: initial
       line-height: initial
       padding: 64px
-      font-size: x-large
+      font-size: medium
+      height: 195px
       @media (min-width: $screen-md-min)
-        font-size: xx-large
+        font-size: large
       img
         float: left
         height: 192px
