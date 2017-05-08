@@ -138,7 +138,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     subscription_required: "Требуется подписка"
     subscribers_only: "Только для подписчиков!"
     subscribe_unlock: "Подписаться для разблокировки!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_heroes: "Подпишитесь сегодня чтобы сразу получить Амару, Хашбаум и Хатори!"
     subscriber_gems: "Подпишитесь сегодня, чтобы купить этого героя за самоцветы!"
     anonymous: "Неизвестный игрок"
     level_difficulty: "Сложность: "
@@ -288,8 +288,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sso_connected: "Успешно подключились с помощью:"
     select_your_starting_hero: "Выберите своего первого героя:"
     you_can_always_change_your_hero_later: "Вы в любое время сможете поменять героя."
-#    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
+    finish: "закончить"
+    teacher_ready_to_create_class: "Вы готовы создать свой первый класс!"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
@@ -344,7 +344,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     submit_changes: "Отослать изменения"
     save_changes: "Сохранить изменения"
     required_field: "обязательное поле"
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Введите действуюший телефонный номер"
 
   general:
     and: "и"
@@ -700,7 +700,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     support_part2: "support@codecombat.com"
     support_part3: ", если у вас есть вопросы."
 
-#  announcement:
+  announcement:
 #    cuddly_companions: "Cuddly Companions!"
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
@@ -727,8 +727,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+    now_available: "Сейчас доступны подписчикам"
+    subscriber: "подписчик"
 
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
@@ -993,7 +993,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    district_name: "District Name"
     district_na: "Введите N/A если не применимо"
     organization_label: "Школа"
-#    school_name: "School Name"
+    school_name: "Название школы"
     city: "Город"
     state: "Область"
     country: "Страна"

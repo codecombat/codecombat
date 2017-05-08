@@ -85,7 +85,7 @@
     "method-override": "^2.3.7",
     "moment": "~2.5.0",
     "mongodb": "^2.0.28",
-    "mongoose": "4.5.3",
+    "mongoose": "^4.5.3",
     "mongoose-cache": "https://github.com/nwinter/mongoose-cache/tarball/master",
     "morgan": "^1.7.0",
     "mysql": "^2.11.1",
