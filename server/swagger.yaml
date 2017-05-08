@@ -327,7 +327,7 @@ paths:
           schema:
             $ref: '#/definitions/ClassroomResponse'
         
-  /classrooms/{classroomHandle}/course/{courseHandle}/enrolled:
+  /classrooms/{classroomHandle}/courses/{courseHandle}/enrolled:
     put:
       tags:
         - classrooms
