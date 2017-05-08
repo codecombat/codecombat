@@ -42,6 +42,12 @@ module.exports =
     throw new errors.NotFound('No user with that G+ ID') unless user
     res.status(200).send(user.toObject({req: req}))
 
+  fetchByIsraelId: wrap (req, res, next) ->
+    israelId = req.query.israelId
+    return next() unless israelId
+    users = yield User.find({israelId}).limit(1).select('_id').lean()
+    res.status(200).send(users)
+
   fetchByFacebookID: wrap (req, res, next) ->
     fbID = req.query.facebookID
     fbAT = req.query.facebookAccessToken

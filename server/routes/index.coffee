@@ -31,6 +31,7 @@ module.exports.setup = (app) ->
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
   app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
   app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
+  app.post('/auth/login-israel', mw.auth.loginByIsraelId, mw.auth.afterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)
@@ -171,7 +172,7 @@ module.exports.setup = (app) ->
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
   app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
-  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.adminSearch)
+  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.fetchByIsraelId, mw.users.adminSearch)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)

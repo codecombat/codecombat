@@ -212,6 +212,15 @@ module.exports =
 
     next()
 
+  loginByIsraelId: wrap (req, res, next) ->
+    { israelId } = req.body
+    user = yield User.findOne({ israelId })
+    if not user
+      throw new errors.NotFound('No user with this id found')
+    req.logInAsync = Promise.promisify(req.logIn)
+    yield req.logInAsync(user)
+    next()
+
   redirectOnError: wrap (err, req, res, next) ->
     { errorRedirect } = req.query
     return next(err) unless errorRedirect

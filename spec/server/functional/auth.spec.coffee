@@ -324,6 +324,18 @@ describe 'POST /auth/login-gplus', ->
     [res, body] = yield request.postAsync url, { json: { gplusID: '1234', gplusAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(404)
     done()
+
+    
+describe 'POST /auth/login-israel', ->
+  it 'logs the user in by id given', utils.wrap ->
+    user = yield utils.initUser({ israelId: '12345' })
+    yield utils.loginUser(user)
+    [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json: { israelId: '12345' }})
+    expect(res.statusCode).toBe(200)
+    expect(res.body._id).toBe(user.id)
+    
+    [res] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
+    expect(res.body._id).toBe(user.id)
     
     
 describe 'GET /auth/login-clever', ->

@@ -519,7 +519,7 @@ UserSchema.statics.editableProperties = [
   'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
 ]
 
-UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP', 'israelId']
 UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', 'jobProfileNotes']
 
 UserSchema.set('toObject', {

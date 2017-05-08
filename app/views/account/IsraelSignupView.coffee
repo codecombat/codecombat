@@ -5,6 +5,7 @@ errors = require 'core/errors'
 utils = require 'core/utils'
 User = require 'models/User'
 State = require 'models/State'
+api = require 'core/api'
 
 class AbortError extends Error
 
@@ -61,19 +62,27 @@ module.exports = class IsraelSignupView extends RootView
     else if email and not forms.validateEmail(email)
       @state.set({fatalError: 'invalid-email', loading: false})
       
-    else if not email
-      @state.set({loading: false})
-      
     else
-      User.checkEmailExists(email)
-      .then ({exists}) =>
-        @state.set({loading: false})
-        if exists
-          @state.set({fatalError: 'email-exists'})
-          
+      api.users.getByIsraelId(israelId)
+      .then (users) =>
+        if _.size(users) > 0
+          return api.auth.loginByIsraelId(israelId)
+          .then =>
+            application.router.navigate('/play', { trigger: true })
+            document.location.reload()
+        else
+          Promise.resolve()
+          .then =>
+            if email
+              return User.checkEmailExists(email)
+              .then ({exists}) =>
+                if exists
+                  @state.set({fatalError: 'email-exists'})
+          .then =>
+            @state.set({loading: false})
       .catch =>
         @state.set({fatalError: $.i18n.t('loading_error.unknown'), loading: false})
-        
+
     @listenTo(@state, 'change', _.debounce(@render))
 
   getRenderData: ->

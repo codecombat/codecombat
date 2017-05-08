@@ -504,6 +504,14 @@ describe 'GET /db/user', ->
         expect(guy._id).toBe sam.get('_id').toHexString()
         expect(guy.name).toBe sam.get 'name'
         done()
+        
+  describe 'with ?israelId', ->
+    it 'returns a list of matching users with just "_id"', utils.wrap ->
+      user = yield utils.initUser({ israelId: 'abcd' })
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=abcd"), json: true })
+      expect(res.statusCode).toBe(200)
+      expect(res.body.length).toBe(1)
+      expect(res.body[0]).toDeepEqual({ _id: user.id })
 
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
@@ -519,6 +527,13 @@ describe 'GET /db/user/:handle', ->
     expect(res.statusCode).toBe(200)
     expect(res.body.coursePrepaid._id).toBe(user.get('coursePrepaidID').toString())
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
+    
+  it 'does not include israelId property', utils.wrap ->
+    user = yield utils.initUser({ israelId: '1234' })
+    yield utils.loginUser(user)
+    [res, body] = yield request.getAsync({url: getURL("/db/user/#{user.id}"), json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.israelId).toBeUndefined()
     
 
 describe 'DELETE /db/user', ->

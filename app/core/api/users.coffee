@@ -5,6 +5,9 @@ module.exports = {
   
   getByHandle: (handle, options) ->
     fetchJson("/db/user/#{handle}", options)
+    
+  getByIsraelId: (israelId, options) ->
+    fetchJson('/db/user', _.assign({}, options, { data: { israelId } }))
 
   signupWithPassword: ({userId, name, email, password}, options={}) ->
     fetchJson(@url(userId, 'signup-with-password'), _.assign({}, options, {
