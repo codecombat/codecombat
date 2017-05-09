@@ -61,7 +61,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    goto_classes: "Go to My Classes"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-   go_to_courses: "Ir a mis cursos"
+    go_to_courses: "Ir a mis cursos"
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
@@ -152,7 +152,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 
-  code:
+#  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
 #    else: "else"
 #    elif: "else if"
