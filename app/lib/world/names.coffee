@@ -3,6 +3,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Alali'
     'Anabel'
+    'Babaga'
     'Delma'
     'Dosha'
     'Gurzunn'
