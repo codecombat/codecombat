@@ -2,7 +2,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
   new_home:
     slogan: "بهترین بازی برای یاد گرفتن برنامه نویسی"
 #    classroom_edition: "Classroom Edition:"
-#    learn_to_code: "Learn to code:"
+    learn_to_code: "کد نوشتن را یاد بگیرید:"
     play_now: "بازی کنید"
     im_a_teacher: "من یک معلم هستم"
     im_a_student: "من یک دانش آموز هستم"
@@ -76,7 +76,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     home: "خانه"
     contribute: "همکاری"
     legal: "موارد قانونی"
-#    privacy: "Privacy"
+    privacy: "حریم خصوصی"
     about: "درباره"
     contact: "تماس "
     twitter_follow: "دنبال کردن"
@@ -87,14 +87,14 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    twitter: "Twitter"
 #    create_a_class: "Create a Class"
 #    other: "Other"
-#    learn_to_code: "Learn to Code!"
+    learn_to_code: "کد نوشتن را یاد بگیرید!"
 #    toggle_nav: "Toggle navigation"
 #    jobs: "Jobs"
-#    schools: "Schools"
+    schools: "مدرسه ها"
 #    get_involved: "Get Involved"
 #    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
+    support: "پشتیبانی"
+    faqs: "سوالات متداول"
 #    help_pref: "Need help? Email"
 #    help_suff: "and we'll get in touch!"
 #    resource_hub: "Resource Hub"
@@ -108,11 +108,11 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 
   diplomat_suggestion:
     title: "کمک به ترجمه کمبت کد!" # This shows up when a player switches to a non-English language using the language selector.
-    sub_heading: "ما توانایی زبان شما را نیاز داریم"
-    pitch_body: "ما کمبت کد را به زبان انگلیسی توسعه داده ایم اما بازیکنانی از سراسر دنیا داریم. خیلی از آنها دوست داند به فارسی بازیکنند اما انگلیسی صحبت نکنند, پس اگر به هر دو زبان میتوانید صحبت کنید, پس لطفاً به عنوان دیپلمات ثبت نامکنید و مارا در ترجمه بازی و تمام مراحل به فارسی یاری نمایید."
-    missing_translations: "تا زمانی که به مشغول ترجمه به فارسی هستیم , شما انگلیسی مشاهده میکنید بدون ترجمه فارسی."
+    sub_heading: "ما به توانایی زبان شما نیازمندیم"
+    pitch_body: "ما کمبت کد را به زبان انگلیسی توسعه داده ایم اما بازیکنانی از سراسر دنیا داریم. خیلی از آنها دوست داند به فارسی بازیکنند اما انگلیسی صحبت نمی کنند, پس اگر به هر دو زبان میتوانید صحبت کنید, لطفاً به عنوان دیپلمات ثبت نام کنید و مارا در ترجمه بازی و تمامی مراحل به فارسی یاری نمایید."
+    missing_translations: "تا زمانی که مشغول به ترجمه فارسی هستیم , شما متنها را به انگلیسی مشاهده میکنید بدون ترجمه فارسی."
     learn_more: "بیشتر درباره دیپلمات بودن بیاموزید"
-    subscribe_as_diplomat: "به عنوان یک دیپلمات تعقیبمان کنید"
+    subscribe_as_diplomat: "به عنوان یک دیپلمات دنبالمان کنید"
 
   play:
 #    play_as: "Play As" # Ladder page
@@ -122,11 +122,11 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    hours_played: "hours played" # Hover over a level on /play
 #    items: "Items" # Tooltip on item shop button from /play
 #    unlock: "Unlock" # For purchasing items and heroes
-#    confirm: "Confirm"
+    confirm: "تایید"
 #    owned: "Owned" # For items you own
-#    locked: "Locked"
+    locked: "قفل شده"
 #    purchasable: "Purchasable" # For a hero you unlocked but haven't purchased
-#    available: "Available"
+    available: "موجود"
 #    skills_granted: "Skills Granted" # Property documentation details
 #    heroes: "Heroes" # Tooltip on hero shop button from /play
 #    achievements: "Achievements" # Tooltip on achievement list button from /play
@@ -140,8 +140,8 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
-#    anonymous: "Anonymous Player"
-    level_difficulty: "سختی: "
+    anonymous: "بازیکن ناشناس"
+    level_difficulty: "سطح سختی: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "کمپین تازه کارها"
 #    awaiting_levels_adventurer_prefix: "We release new levels every week."
@@ -216,7 +216,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     log_in: "ورود"
 #    logging_in: "Logging In"
     log_out: "خروج"
-#    forgot_password: "Forgot your password?"
+    forgot_password: "رمز عبور خود را فراموش کرده اید؟ "
 #    authenticate_gplus: "Authenticate Google"
 #    load_profile: "Load Google Profile"
 #    finishing: "Finishing"
@@ -234,8 +234,8 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
     log_in: "ورود به وسیله رمز عبور"
 #    required: "You need to log in before you can go that way."
 #    login_switch: "Already have an account?"
-#    school_name: "School Name and City"
-#    optional: "optional"
+    school_name: "نام مدرسه و شهر"
+    optional: "اختیاری"
 #    school_name_placeholder: "Example High School, Springfield, IL"
 #    connected_gplus_header: "You've successfully connected with Google+!"
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
@@ -322,22 +322,22 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    default_code: "Default Code"
     loading: "...در حال بارگذاری"
 #    overview: "Overview"
-#    solution: "Solution"
-#    intro: "Intro"
+    solution: "راه حل"
+    intro: "مقدمه"
     saving: "...در حال ذخیره سازی"
     sending: "...در حال ارسال"
-#    send: "Send"
-#    sent: "Sent"
+    send: "ارسال"
+    sent: "ارسال شده"
     cancel: "لغو"
     save: "ذخیره "
-#    publish: "Publish"
-#    create: "Create"
+    publish: "انتشار"
+    create: "ایجاد کردن"
 #    fork: "Fork"
     play: "سطوح" # When used as an action verb, like "Play next level"
-#    retry: "Retry"
+    retry: "سعی دوباره"
 #    actions: "Actions"
-#    info: "Info"
-#    help: "Help"
+    info: "اطلاعات"
+    help: "کمک"
 #    watch: "Watch"
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
@@ -753,10 +753,10 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
 
 #  choose_hero:
-#    choose_hero: "Choose Your Hero"
+    choose_hero: "قهرمان خود را انتخاب کنید"
 #    programming_language: "Programming Language"
 #    programming_language_description: "Which programming language do you want to use?"
-#    default: "Default"
+    default: "پیشفرض"
 #    experimental: "Experimental"
 #    python_blurb: "Simple yet powerful, great for beginners and experts."
 #    javascript_blurb: "The language of the web. (Not the same as Java.)"
@@ -2198,21 +2198,21 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    oreilly: "ebook of your choice"
 
 #  calendar:
-#    year: "Year"
-#    day: "Day"
-#    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
-#    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+    year: "سال"
+    day: "روز"
+    month: "ماه"
+    january: "ژانویه"
+    february: "فبریه"
+    march: "مارس"
+    april: "آوریل"
+    may: "می"
+    june: "ژوئن"
+    july: "جولای"
+    august: "اوت"
+    september: "سپتامبر"
+    october: "اکتبر"
+    november: "نوامبر"
+    december: "دسامبر"
 
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
@@ -2222,5 +2222,5 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+    email_taken: "این ایمیل قبلا گرفته شده"
+    username_taken: "این نام کاربری قبلا گرفته شده "
