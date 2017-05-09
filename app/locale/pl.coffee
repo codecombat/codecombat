@@ -151,6 +151,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     campaign_multiplayer: "Kampania dla wielu graczy"
     campaign_multiplayer_description: "... w której konkurujesz z innymi graczami."
     brain_pop_done: "Pokonałeś ogry kodem! Wygrałeś!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "jeżeli" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     purchase: "Kup"
     purchased: "Zakupiono"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Zostań mistrzem kodowania - zapisz się do <b>Premium</b> już dziś!"
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     will_be_cancelled: "Zostanie anulowana"
     currently_free: "Obecnie posiadasz darmową subskrypcję"
     currently_free_until: "Twoja obecna subskrypcja wygaśnie"
+#    free_subscription: "Free subscription"
     was_free_until: "Twoja obecna darmowa subskrypcja wygaśnie"
 #    managed_subs: "Managed Subscriptions"
     subscribing: "Zapisywanie do subskrypcji..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     update_account_students_can3: "Rywalizować z innymi uczniami z klasy w arenach"
     update_account_students_can4: "Dostęp do funkcji tylko dla uczniów w momencie ich udostępnienia przez nas"
     update_account_students_warning: "Uwaga: Nie będziesz mógł zarządzać klasami, które do tej pory posiadasz, oraz tworzyć nowych."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Pozostań uczniem"
     update_account_update_student: "Zostań uczniem"
     need_a_class_code: "Wpisz kod klasy do której chcesz dołączyć:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   server_error:
     email_taken: "Email jest już w użyciu"
     username_taken: "Nazwa użytkownika jest już w użyciu"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
