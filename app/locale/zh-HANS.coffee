@@ -151,6 +151,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里您可以与其他玩家进行代码肉搏战。"
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     will_be_cancelled: "将被取消"
     currently_free: "您目前有一个免费订阅"
     currently_free_until: "您目前有一个订阅，直到"
+#    free_subscription: "Free subscription"
     was_free_until: "您有过一个免费订阅，直到"
     managed_subs: "管理订阅"
     subscribing: "订阅中..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     update_account_students_can3: "与同学一决高下"
     update_account_students_can4: "推出学生专用功能时获得使用权"
     update_account_students_warning: "警告：你将不能再创建新班级或管理已创建的班级"
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "保持学生身份"
     update_account_update_student: "升级为学生账号"
     need_a_class_code: "您需要拥有以下班级的班级码："
@@ -2214,18 +2223,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     november: "十一月"
     december: "十二月"
 
-  esper:
-    line_no: "第$1行: "
-    x_not_a_function: "`$1` 不是一个函数"
-    type_error: "拼写错误："
-    reference_error: "参考错误："
-    spelling_issues: "请注意拼写错误：你指的是`$1`而不是`$2`, 对吗？"
-    capitalization_issues: "请注意大小写：`$1` 应该改成 `$2`？"
-    py_empty_block: "空变量。在$1的语句中，加入4个空格。"
-    fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`\'s"
-    unmatched_token: "非匹配`$1`。每一个开放的`$2`都需要一个`$3`配对。"
-    unterminated_string: "未终止字符串，在字符串末加上另外一个`\"`。"
-
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
 #    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
@@ -2236,3 +2233,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+  esper:
+    line_no: "第$1行: "
+    x_not_a_function: "`$1` 不是一个函数"
+    type_error: "拼写错误："
+    reference_error: "参考错误："
+    spelling_issues: "请注意拼写错误：你指的是`$1`而不是`$2`, 对吗？"
+    capitalization_issues: "请注意大小写：`$1` 应该改成 `$2`？"
+    py_empty_block: "空变量。在$1的语句中，加入4个空格。"
+    fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`'s"
+    unmatched_token: "非匹配`$1`。每一个开放的`$2`都需要一个`$3`配对。"
+    unterminated_string: "未终止字符串，在字符串末加上另外一个`\"`。"

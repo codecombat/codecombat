@@ -151,6 +151,9 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     campaign_multiplayer: "Moninpeli Areenat"
     campaign_multiplayer_description: "... joissa mittaat ohjelmointitaitosi toisia pelaajia vastaan."
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Teroita kykyjäsi CodeCombat kuukausitilauksella!" # {change}
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     will_be_cancelled: "Peruutus astuu voimaan"
     currently_free: "Sinulla on tällähetkellä ilmainen tilaus"
     currently_free_until: "Tilauksesi on voimassa"
+#    free_subscription: "Free subscription"
     was_free_until: "Ilmainen tilauksesi päättyi"
     managed_subs: "Hallinnoidut tilaukset"
     subscribing: "Tilausta käsitellään..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
     update_account_students_can3: "Taistella luokkakavereita vastaan areenoilla"
     update_account_students_can4: "Käyttää uusia vain oppilaille toimintoja kun julkaisemme ne"
     update_account_students_warning: "Varoitus: Et voi hallita luokkia jotka olet luonut tai luoda uusia luokkia."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Pysy Oppilaaana"
     update_account_update_student: "Päivitä Tili Oppilaaksi"
 #    need_a_class_code: "You'll need a Class Code for the class you're joining:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "suomi", englishDescription: "Finnish", tran
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

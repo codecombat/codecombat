@@ -8,8 +8,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     im_a_student: "Ich bin ein Schüler"
     learn_more: "Mehr lernen"
     classroom_in_a_box: "Ein Klassenraum in-einer-Box um Informatik zu lehren."
-    codecombat_is: "CodeCombat ist eine Plattform für <strong>Schüler</strong>, um Informatik zu lernen während sie ein echtes Spiel spielen." 
-    our_courses: "Unsere Kurse wurden genau getestet um im <strong>Klassenraum</strong> zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung." 
+    codecombat_is: "CodeCombat ist eine Plattform für <strong>Schüler</strong>, um Informatik zu lernen während sie ein echtes Spiel spielen."
+    our_courses: "Unsere Kurse wurden genau getestet um im <strong>Klassenraum</strong> zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung."
     top_screenshots_hint: "Schüler schreiben Code und ihre Veränderungen werden in Echtzeit sichtbar"
     designed_with: "Designed um Lehrkräften zu helfen"
     real_code: "Getippte Programme"
@@ -151,6 +151,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_multiplayer: "Mehrspieler-Abenteuer"
     campaign_multiplayer_description: "... in der du Kopf-an-Kopf gegen andere Spieler programmierst."
     brain_pop_done: "Programmierter Sieg über die Oger!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "wenn" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -289,7 +292,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     select_your_starting_hero: "Wähle deinen Anfangshelden:"
     you_can_always_change_your_hero_later: "Du kannst ihn später jederzeit wechseln."
     finish: "Abschließen"
-    teacher_ready_to_create_class:  "Erstelle jetzt deine erste Klasse!" #"You're ready to create your first class!"
+    teacher_ready_to_create_class: "Erstelle jetzt deine erste Klasse!"
     teacher_students_can_start_now: "Gleich können deine Schüler mit dem ersten Kurs, Einführung in die Informatik, beginnen."
     teacher_list_create_class: "Auf der nächsten Seite kannst du eine neue Klasse erstellen."
     teacher_list_add_students: "Füge Schüler zur Klassen hinzu, indem du auf Klasse anzeigen klickst und ihnen den Klassencode oder die URL schickst. Du kannst auch Schüler per E-Mail einladen, wenn Sie E-Mail-Adressen haben."
@@ -343,7 +346,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     submit_patch: "Patch einreichen"
     submit_changes: "Änderungen einreichen"
     save_changes: "Änderungen speichern"
-    required_field: "Pflichtfeld" #war benötigte Felder
+    required_field: "Pflichtfeld"
     valid_phone: "Gib eine gültige Telefonnummer an."
 
   general:
@@ -476,7 +479,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     tome_cast_button_running: "Wird ausgeführt"
     tome_cast_button_ran: "Wurde ausgeführt"
     tome_submit_button: "Absenden"
-    tome_reload_method: "Ursprünglichen Code laden zum Neustart" 
+    tome_reload_method: "Ursprünglichen Code laden zum Neustart"
     tome_available_spells: "Verfügbare Zauber"
     tome_your_skills: "Deine Fähigkeiten"
     hints: "Tipps"
@@ -498,7 +501,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     infinite_loop_reset_level: "Level zurücksetzen"
     infinite_loop_comment_out: "Meinen Code auskommentieren"
     tip_toggle_play: "Wechsel zwischen Play und Pause mit Strg+P."
-    tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]" # {change} OK! 
+    tip_scrub_shortcut: "Spule vor und zurück mit Strg+[ und Strg+]" # {change}
     tip_guide_exists: "Klicke auf die Anleitung am oberen Ende der Seite für nützliche Informationen."
     tip_open_source: "CodeCombat ist 100% quelloffen!"
     tip_tell_friends: "Gefällt dir CodeCombat? Dann erzähl es deinen Freunden!"
@@ -609,7 +612,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     equipped: "(ausgewählt)"
     locked: "(gesperrt)"
     restricted: "(In diesem Level nicht verfügbar)"
-    equip: "Wähle" 
+    equip: "Wähle"
     unequip: "Ablegen"
 
   buy_gems:
@@ -627,6 +630,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     buy_premium: "Kaufe Premium"
     purchase: "Kauf"
     purchased: "Gekauft"
+
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     will_be_cancelled: "Läuft ab am"
     currently_free: "Du hast aktuell ein kostenloses Abonnement"
     currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum"
+#    free_subscription: "Free subscription"
     was_free_until: "Du hattest ein kostenloses Abonnement bis zum"
     managed_subs: "Verwaltete Abonnements"
     subscribing: "Abonniere..."
@@ -990,7 +998,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     approve_funds: "Mittelfreigabe"
     no_purchaser_role: "Keine Rolle bei Kaufentscheidungen"
     district_label: "Bezirk"
-    district_name: "Schulträger" #Gemeinde
+    district_name: "Schulträger"
     district_na: "Falls nicht zutreffend, gib N/A ein"
     organization_label: "Schule"
     school_name: "Schulname"
@@ -1009,9 +1017,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     referrer: "Wie hast du von uns erfahren?"
     referrer_help: "Zum Beispiel: von einem anderen Lehrer, auf einer Konferenz, von deinen Schülern, Code.org, etc."
     anything_else: "Weitere Dinge die wir wissen sollten?"
-    thanks_header: "Anforderung erhalten!" 
+    thanks_header: "Anforderung erhalten!"
     thanks_sub_header: "Vielen Dank für dein Interesse an CodeCombat für deine Schule."
-    thanks_p: "Wir melden uns bald. Fragen? Schreibe uns eine Email:" 
+    thanks_p: "Wir melden uns bald. Fragen? Schreibe uns eine Email:"
     back_to_classes: "Zurück zu den Klassen"
     finish_signup: "Schließe die Einrichtung deines Lehrerkontos ab:"
     finish_signup_p: "Erstelle ein Konto, um eine Klasse einzurichten, deine Schüler hinzuzufügen und ihre Fortschritte zu verfolgen."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     update_account_students_can3: "Sich in Arenen mit Mitschülern messen"
     update_account_students_can4: "Zugriff auf aktuelle Scülerfunktionen erhalten, sobald wir sie veröffentlichen."
     update_account_students_warning: "Warnung: Du wirst keine Möglichkeit mehr haben, zuvor von dir erstellte Klassen zu verwalten oder neue zu erstellen."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Schüler bleiben"
     update_account_update_student: "In Schülerkonto umwandeln"
     need_a_class_code: "Du brauchst einen Klassencode für die Klasse, der du beitrittst:"
@@ -1471,7 +1480,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     cs1_syntax_javascript: "Kurs 1: JavaScript-Syntaxanleitung"
     cs1_syntax_javascript_desc: "Spickzettel mit Referenzen auf die gängige JavaScript-Syntax, die die Schüler in „Einführung in die Informatik“ lernen."
     coming_soon: "Weitere Anleitungen kommen bald!"
-    engineering_cycle_worksheet: "Arbeitsblatt zur Softwareentwicklung (Engineering Cycle Worksheet)" #pdf  English
+    engineering_cycle_worksheet: "Arbeitsblatt zur Softwareentwicklung (Engineering Cycle Worksheet)"
     engineering_cycle_worksheet_desc: "Benutze dieses Arbeitsblatt, um den Schülern systematische Programmentwicklung nahezubringen: Problemdefinition, Lösungsentwurf, Umsetzun und Fehlerbehebung. Das ausgefüllte Beispielarbeitsblatt kann dir als Orientierungshilfe dienen."
     engineering_cycle_worksheet_link: "Beispiel anzeigen"
     progress_journal: "Fortschrittstagebuch"
@@ -1563,17 +1572,17 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     choose_course: "Kursauswahl"
     choose_instructions: "Wähle den Kurs vom Dropdown-Menu aus, den du zuweisen möchstest, und klicke auf “Ausgewählten Schülern zuweisen”"
     push_projects: "Wir empfehlen, Web-Entwicklung 1 oder Spiele-Entwicklung 1 zuzuweisen, nachdem die Schüler “Einführung in die Informatik” beendet haben! Weitere Informationen über diese Kurse unter {{resource_hub}}."
-    teacher_quest: "Schritte zum Lehrerfolg" #"Teacher's Quest for Success"
+    teacher_quest: "Schritte zum Lehrerfolg"
     quests_complete: "erreicht"
     teacher_quest_create_classroom: "Klasse erstellen"
     teacher_quest_add_students: "Studenten hinzufügen"
     teacher_quest_teach_methods: "Hilf den Schülern, `Methodenaufrufe zu lernen`."
     teacher_quest_teach_methods_step1: "Bringe 75% mindestens einer Klasse durch das erste Level, __Dungeons of Kithgard__"
     teacher_quest_teach_methods_step2: "Drucke die [Student Quick Start Guide](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) im Resource Hub aus."
-    teacher_quest_teach_strings: "Zeige deinen Schülern, wie Zeichenketten gehen."#"Don't string your students along, teach them `strings`."
+    teacher_quest_teach_strings: "Zeige deinen Schülern, wie Zeichenketten gehen."
     teacher_quest_teach_strings_step1: "Bringe 75% mindestens einer Klasse durch  __True Names__"
     teacher_quest_teach_strings_step2: "Benutze den Teacher Level Selector auf der [Kurs-Handbücher](/teachers/courses) Seite für eine Vorschauf auf __True Names__."
-    teacher_quest_teach_loops: "`Schleifen` für die Schüler" #"Keep your students in the loop about `loops`."
+    teacher_quest_teach_loops: "`Schleifen` für die Schüler"
     teacher_quest_teach_loops_step1: "Bringe 75% mindestens einer Klasse durch __Fire Dancing__."
     teacher_quest_teach_loops_step2: "Nutze __Loops Activity__ im [CS1 Curriculum guide](/teachers/resources/cs1) um diese Konzept zu vertiefen."
     teacher_quest_teach_variables: "Variationen durch  `Variablen`."
@@ -1943,7 +1952,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   account_prepaid:
     purchase_code: "Einen Abocode kaufen"
-    purchase_code1: "Abocodes können eingelöst werden um Premiumabozeit zu einem oder mehreren CodeCombat-Einzelkonten hinzuzufügen."
+    purchase_code1: "Abocodes können eingelöst werden um Premiumabozeit zu einem oder mehreren CodeCombat-Einzelkonten hinzuzufügen." #
     purchase_code2: "Jeder CodeCombataccount kann nur einen einzigen Abocode auf einmal einlösen."
     purchase_code3: "Abocodes-Monate werden an das Ende der existierenden Abozeit des Accounts hinzugefügt."
     purchase_code4: "Abonnement-Codes sind für Konten, die die Heimversion von CodeCombat spielen. Sie können nicht anstatt einer Schülerlizenz für die Klassenzimmer-Version benutzt werden."
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   server_error:
     email_taken: "Diese E-Mail wird bereits verwendet"
     username_taken: "Benutzername ist bereits vergeben"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

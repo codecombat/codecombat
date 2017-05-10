@@ -151,6 +151,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     campaign_multiplayer: "Aréna pre viacerých hráčov"
     campaign_multiplayer_description: "... v ktorej si zmeriaš svoje programátorské sily proti ostatným hráčom."
     brain_pop_done: "Svojim kódom si porazil ogrov. Vyhral si!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "ak" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     purchase: "Kúpiť"
     purchased: "Kúpené"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !" # {change}
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     will_be_cancelled: "Končí"
     currently_free: "Nemáš platené predplatné"
     currently_free_until: "Tvoje predplatné trvá do"
+#    free_subscription: "Free subscription"
     was_free_until: "Máš predplatné zdarma do"
     managed_subs: "Riadené predplatné"
     subscribing: "Prihlasujem na predplatné..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    update_account_students_can3: "Compete against classmates in arenas"
 #    update_account_students_can4: "Access new student-only features as we release them"
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
 #    need_a_class_code: "You'll need a Class Code for the class you're joining:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

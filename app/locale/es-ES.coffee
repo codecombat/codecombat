@@ -7,9 +7,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     im_a_teacher: "Soy un profesor"
     im_a_student: "Soy un alumno"
     learn_more: "Aprende más"
-#    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
+    classroom_in_a_box: "Una clase todo en uno para enseñar informática."
     codecombat_is: "CodeCombat es una plataforma <strong>para que los estudiantes</strong> aprendan ciencia de la computación mientras juegan a un juego real."
-#    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+    our_courses: "Nuestros cursos han sido especialmente diseñados para <strong> ser lo mejor del aula</strong>, incluso con profesores con poca o nula preparación en programación."
     top_screenshots_hint: "Los estudiantes escriben código y ven sus cambios en tiempo real."
     designed_with: "Diseñado pensando en los profesores"
     real_code: "Real, escribe código"
@@ -37,7 +37,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     conventional: "contra los métodos convencionales de evaluación, la diferencia es clara: los juegos son mejores ayudando a los alumnos a retener conocimiento, concentrarse y"
     perform_at_higher_level: "desempeñarse a un nivel mas alto de ejecución."
 #    feedback: "Games also provide real-time feedback that allows students to adjust their solution path and understand concepts more holistically, instead of being limited to just “correct” or “incorrect” answers."
-#    real_game: "A real game, played with real coding."
+    real_game: "Un juego real, jugado con código de verdad."
 #    great_game: "A great game is more than just badges and achievements - it’s about a player’s journey, well-designed puzzles, and the ability to tackle challenges with agency and confidence."
 #    agency: "CodeCombat is a game that gives players that agency and confidence with our robust typed code engine, which helps beginner and advanced students alike write proper, valid code."
 #    request_demo_title: "Get your students started today!"
@@ -45,7 +45,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    get_started_title: "Set up your class today"
 #    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
     request_demo: "Pide una demostración"
-#    setup_a_class: "Set Up a Class"
+    setup_a_class: "Configurar una clase"
     have_an_account: "¿Tienes una cuenta?"
 #    logged_in_as: "You are currently logged in as"
 #    computer_science: "Computer science courses for all ages"
@@ -61,7 +61,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    goto_classes: "Go to My Classes"
 #    view_profile: "View My Profile"
 #    view_progress: "View Progress"
-#    go_to_courses: "Go to My Courses"
+    go_to_courses: "Ir a mis cursos"
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
@@ -76,12 +76,12 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     home: "Inicio"
     contribute: "Colaborar"
     legal: "Legalidad"
-#    privacy: "Privacy"
+    privacy: "Privacidad"
     about: "Sobre nosotros"
     contact: "Contacta"
     twitter_follow: "Síguenos en Twitter"
-#    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
+    my_classrooms: "Mis Clases"
+    my_courses: "Mis Cursos"
     careers: "Carreras"
     facebook: "Facebook"
     twitter: "Twitter"
@@ -136,8 +136,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     change_hero: "Seleccionar Heroe" # Go back from choose inventory to choose hero
     buy_gems: "Comprar Joyas"
     subscription_required: "Suscripción requerida"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
+    subscribers_only: "¡Solo para suscriptores!"
+    subscribe_unlock: "¡Subscríbete para desbloquearlos!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Jugador Anonimo"
@@ -151,6 +151,9 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "¡Mejora tus habilidades con una suscripción a CodeCombat!" # {change}
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     will_be_cancelled: "Será cancelado el"
     currently_free: "Actualmente tienes una suscripción gratuita"
     currently_free_until: "Actualmente tienes una suscripción hasta el"
+#    free_subscription: "Free subscription"
     was_free_until: "Tenías una suscripción gratuita hasta el"
     managed_subs: "Suscripciones administradas"
     subscribing: "Suscribiendo..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    update_account_students_can3: "Compete against classmates in arenas"
 #    update_account_students_can4: "Access new student-only features as we release them"
 #    update_account_students_warning: "Warning: You will not be able to manage any classes that you have previously created or create new classes."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
 #    update_account_remain_student: "Remain a Student"
 #    update_account_update_student: "Update to Student"
 #    need_a_class_code: "You'll need a Class Code for the class you're joining:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

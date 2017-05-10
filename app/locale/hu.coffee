@@ -151,6 +151,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     campaign_multiplayer: "Multiplayer Arénák"
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!" # {change}
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     will_be_cancelled: "Törlés dátuma"
     currently_free: "Jelenleg ingyenes előfizetéssel rendelkezel"
     currently_free_until: "Jelenlegi előfizetésed lejárati dátuma"
+#    free_subscription: "Free subscription"
     was_free_until: "Ingyenes előfizetésed lejárati dátuma"
     managed_subs: "Kezelt előfizetések"
     subscribing: "Előfizetés folyamatban"
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     update_account_students_can3: "Megküzdhetnek az osztálytársaikkal az arénában"
     update_account_students_can4: "Hozzáférhetnek az új tanulói funkciókhoz, amint azok elérhetővé válnak"
     update_account_students_warning: "Figyelem! A továbbiakban nem kezelheted az általad létrehozott osztályokat, és nem hozhatsz létre újakat."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Tanuló szeretnék maradni"
     update_account_update_student: "Frissítés tanulói fiókra"
     need_a_class_code: "Ehhez az osztályhoz csak osztálykóddal csatlakozhatsz:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

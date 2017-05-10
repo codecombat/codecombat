@@ -151,6 +151,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     campaign_multiplayer: "Multiplayer Arena's"
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
     brain_pop_done: "Je hebt de ogres verslagen met code! Jij wint!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchase: "Koop"
     purchased: "Gekocht"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!" # {change}
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     will_be_cancelled: "Wordt gestopt op"
     currently_free: "Je hebt momenteel een gratis account"
     currently_free_until: "Je inschrijving loopt tot"
+#    free_subscription: "Free subscription"
     was_free_until: "Je hebt een gratis inschrijving tot"
     managed_subs: "beheerde inschrijving"
     subscribing: "Inschrijven..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     update_account_students_can3: "Strijd tegen klasgenoten in arena's"
     update_account_students_can4: "Krijg toegang tot nieuwe functies alleen voor leerlingen"
     update_account_students_warning: "Waarschuwing: Je zal geen klassen die je hebt aangemaakt meer kunnen beheren of nieuwe klassen kunnen aanmaken."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Blijf Leerling"
     update_account_update_student: "Update naar Leerling"
     need_a_class_code: "Je hebt een Klas Code nodig om deel te nemen aan deze klas:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
