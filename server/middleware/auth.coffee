@@ -213,6 +213,8 @@ module.exports =
     next()
 
   loginByIsraelId: wrap (req, res, next) ->
+    unless req.features.israel
+      throw new errors.Forbidden('May not use israelId login outside of Israel')
     { israelId } = req.body
     user = yield User.findOne({ israelId })
     if not user

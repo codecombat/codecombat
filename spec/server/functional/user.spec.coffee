@@ -527,17 +527,22 @@ describe 'GET /db/user', ->
         done()
         
   describe 'with ?israelId', ->
-    it 'returns a list of matching users with just "_id"', utils.wrap ->
+    headers = { host: 'il.codecombat.com' }
+    it 'returns the matching user', utils.wrap ->
       user = yield utils.initUser({ israelId: 'abcd' })
-      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=abcd"), json: true })
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=abcd"), json: true, headers })
       expect(res.statusCode).toBe(200)
-      expect(res.body.length).toBe(1)
-      expect(res.body[0]).toDeepEqual({ _id: user.id })
+      expect(res.body._id).toBe(user.id)
+      expect(res.body.israelId).toBeUndefined() # make sure this is not included
 
-  # TODO Ruben should be able to fetch other users but probably with restricted data access
-  # Add to the test case above an extra data check
-
-#  xit 'can fetch another user with restricted fields'
+    it 'returns 403 if not on Israel domain', utils.wrap ->
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=abcd"), json: true })
+      expect(res.statusCode).toBe(403)
+      
+    it 'returns nothing if the user is not found', utils.wrap ->
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=dne"), json: true, headers })
+      expect(res.body).toBeFalsy()
+      expect(res.statusCode).toBe(200)
   
   
 describe 'GET /db/user/:handle', ->

@@ -43,10 +43,12 @@ module.exports =
     res.status(200).send(user.toObject({req: req}))
 
   fetchByIsraelId: wrap (req, res, next) ->
+    unless req.features.israel
+      throw new errors.Forbidden('May not use israelId lookup outside of Israel')
     israelId = req.query.israelId
     return next() unless israelId
-    users = yield User.find({israelId}).limit(1).select('_id').lean()
-    res.status(200).send(users)
+    user = yield User.findOne({israelId})
+    res.status(200).send(if user then user.toObject({req}) else null)
 
   fetchByFacebookID: wrap (req, res, next) ->
     fbID = req.query.facebookID

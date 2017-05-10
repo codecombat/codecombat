@@ -64,8 +64,8 @@ module.exports = class IsraelSignupView extends RootView
       
     else
       api.users.getByIsraelId(israelId)
-      .then (users) =>
-        if _.size(users) > 0
+      .then (user) =>
+        if user
           return api.auth.loginByIsraelId(israelId)
           .then =>
             application.router.navigate('/play', { trigger: true })
