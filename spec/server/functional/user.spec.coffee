@@ -265,6 +265,27 @@ describe 'PUT /db/user', ->
     expect(res.statusCode).toBe(200)
     expect(res.body.name).toBe('A new name')
     
+    
+describe 'PUT /db/user/:handle/israel-id', ->
+  it 'successfully returns 200 if you are anonymous and in Israel, 403 otherwise', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    url = utils.getUrl("/db/user/#{user.id}/israel-id")
+    json = { israelId: '302945' }
+    headers = { host: 'il.codecombat.com' }
+    [res] = yield request.putAsync({ url, json, headers })
+    expect(res.statusCode).toBe(403)
+    
+    user = yield utils.becomeAnonymous()
+    url = utils.getUrl("/db/user/#{user.id}/israel-id")
+    [res] = yield request.putAsync({ url, json })
+    expect(res.statusCode).toBe(403)
+
+    [res] = yield request.putAsync({ url, json, headers })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(user.id)
+    expect(user.get('israelId')).toBe(json.israelId)
+    
 
 describe 'PUT /db/user/-/become-student', ->
   beforeEach utils.wrap ->

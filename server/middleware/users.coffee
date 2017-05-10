@@ -291,6 +291,19 @@ module.exports =
     user.set('role', undefined)
     return res.status(200).send(user.toObject({req: req}))
 
+
+  putIsraelId: wrap (req, res) ->
+    israelId = req.body.israelId
+    if not israelId
+      throw new errors.UnprocessableEntity('israelId not provided')
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('Must be anonymous to set israelId')
+    unless req.features.israel
+      throw new errors.Forbidden('Cannot set israelId outside of Israel')
+    yield req.user.update({$set: {israelId}})
+    req.user.set({israelId})
+    return res.status(200).send(req.user.toObject({req: req}))
+
     
   checkForNewAchievement: wrap (req, res) ->
     user = req.user

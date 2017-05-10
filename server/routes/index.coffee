@@ -183,6 +183,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
   app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
   app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
+  app.put('/db/user/:handle/israel-id', mw.auth.checkHasUser(), mw.users.putIsraelId)
   app.post('/db/user/:handle/reset_progress', mw.users.resetProgress)
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)

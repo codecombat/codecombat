@@ -41,6 +41,12 @@ module.exports = {
       json: user
     }))
     
+  putIsraelId: ({israelId, userId}, options={}) ->
+    fetchJson(@url(userId, 'israel-id'), _.assign({}, options, {
+      method: 'PUT'
+      json: { israelId }
+    }))
+    
   resetProgress: (options={}) ->
     store = require('core/store')
     fetchJson(@url(store.state.me._id, 'reset_progress'), _.assign({}, options, {

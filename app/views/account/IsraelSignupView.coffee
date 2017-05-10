@@ -130,9 +130,12 @@ module.exports = class IsraelSignupView extends RootView
       # Save new user settings, particularly properties handed in
       school = _.pick(queryParams, 'state', 'city', 'district')
       school.name = queryParams.school if queryParams.school
-      me.set(_.pick(queryParams, 'firstName', 'lastName', 'israelId'))
+      me.set(_.pick(queryParams, 'firstName', 'lastName'))
       me.set({school})
       return me.save()
+      
+    .then =>
+      return api.users.putIsraelId({ userId: me.id, israelId: queryParams.israelId })
         
     .then =>
       # sign up
