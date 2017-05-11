@@ -8,7 +8,7 @@ get = wrap (req, res) ->
   unless _.size(products) or config.isProduction
     products = productStubs
 
-  if req.features.china
+  if req.features.china or req.features.israel
     products = _.filter(products, (product) ->
       return true if product.name is 'lifetime_subscription'
       product.name.indexOf('subscription') is -1
