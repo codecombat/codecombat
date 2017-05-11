@@ -9,6 +9,7 @@
   border-image: url(/images/level/popover_border_background.png) 16 12 fill round
   border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
+  @include user-select(initial)
 
   .close-hint-btn
     position: absolute
@@ -43,9 +44,12 @@
   pre
     box-sizing: content-box 
     padding: 0
+    @include user-select(none)
     .ace_content
       .ace_marker-layer
         .ace_bracket
+          display: none
+        .ace_selection
           display: none
       .ace_cursor-layer
         .ace_cursor

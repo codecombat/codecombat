@@ -672,10 +672,10 @@ module.exports = class AnalyticsView extends RootView
       chartLines[chartLines.length - 2].max = Math.max(chartLines[chartLines.length - 1].max, chartLines[chartLines.length - 2].max)
 
       # Update previous year maxes if necessary
-      if chartLines.length is 6
+      if chartLines.length is 7
         chartLines[0].max = chartLines[3].max
         chartLines[1].max = chartLines[4].max
-        chartLines[2].max = chartLines[5].max
+        chartLines[2].max = chartLines[6].max
 
   updateActiveClassesChartData: ->
     @activeClassesChartLines90 = []
