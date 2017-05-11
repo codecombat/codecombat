@@ -105,7 +105,7 @@ config.mongoQueue =
 config.salt = process.env.COCO_SALT or 'pepper'
 config.cookie_secret = process.env.COCO_COOKIE_SECRET or 'chips ahoy'
 
-config.isProduction = config.mongo.host isnt 'localhost'
+config.isProduction = config.mongo.host isnt 'localhost' or config.mongo.mongoose_replica_string isnt ''
 
 # Domains (without subdomain prefix, with port number) for main hostname (usually codecombat.com)
 # and unsafe web-dev iFrame content (usually codecombatprojects.com).
