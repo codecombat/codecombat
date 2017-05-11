@@ -397,6 +397,7 @@ describe 'POST /db/classroom/-/members', ->
     expect(classroom.get('members').length).toBe(1)
     expect(classroom.get('members')?[0]?.equals(@student._id)).toBe(true)
     expect(subscriptions.unsubscribeUser).toHaveBeenCalled()
+    expect(@student.get('activity')?.joinClassroom?.count).toBe(1)
     student = yield User.findById(@student.id)
     if student.get('role') isnt 'student'
       fail('student role should be "student"')

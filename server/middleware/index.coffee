@@ -7,6 +7,7 @@ module.exports =
   classrooms: require './classrooms'
   apiClients: require './api-clients'
   campaigns: require './campaigns'
+  cron: require './cron'
   codelogs: require './codelogs'
   contact: require './contact'
   courseInstances: require './course-instances'

@@ -238,6 +238,10 @@ module.exports =
     database.validateDoc(classroom)
     classroom = yield classroom.save()
     yield delighted.checkTriggerClassroomCreated(req.user)
+
+    activity = req.user.trackActivity 'createClassroom', 1
+    yield req.user.update {activity: activity}
+
     res.status(201).send(classroom.toObject({req: req}))
 
   updateCourses: wrap (req, res) ->
@@ -287,6 +291,9 @@ module.exports =
     freeCourseInstanceIDs = (courseInstance._id for courseInstance in freeCourseInstances)
     yield CourseInstance.update({_id: {$in: freeCourseInstanceIDs}}, { $addToSet: { members: req.user._id }})
     yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: freeCourseInstanceIDs } } })
+
+    activity = req.user.trackActivity 'joinClassroom', 1
+    yield req.user.update {activity: activity}
 
     yield subscriptions.unsubscribeUser(req, req.user, false)
 
