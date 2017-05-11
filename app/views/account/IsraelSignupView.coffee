@@ -45,6 +45,7 @@ module.exports = class IsraelSignupView extends RootView
         'city'
         'state'
         'district'
+        'usertype'
       )
       name: ''
       password: ''
@@ -68,8 +69,7 @@ module.exports = class IsraelSignupView extends RootView
         if user
           return api.auth.loginByIsraelId(israelId)
           .then =>
-            application.router.navigate('/play', { trigger: true })
-            document.location.reload()
+            @redirectAfterAuth()
         else
           Promise.resolve()
           .then =>
@@ -104,6 +104,14 @@ module.exports = class IsraelSignupView extends RootView
     @$('#create-account-btn').text($.i18n.t('login.sign_up')).attr('disabled', false)
     @$('input').attr('disabled', false)
     
+  redirectAfterAuth: ->
+    url = '/play'
+    url = '/students' if me.isStudent()
+    url = '/teachers/classes' if me.isTeacher()
+    
+    application.router.navigate(url)
+    document.location.reload()
+    
   onSubmitForm: (e) ->
     
     # validate form with schema
@@ -131,6 +139,8 @@ module.exports = class IsraelSignupView extends RootView
       school = _.pick(queryParams, 'state', 'city', 'district')
       school.name = queryParams.school if queryParams.school
       me.set(_.pick(queryParams, 'firstName', 'lastName'))
+      me.set('role', 'teacher') if queryParams.usertype is 'T'
+      me.set('role', 'student') if queryParams.usertype is 'S'
       me.set({school})
       return me.save()
       
@@ -146,8 +156,14 @@ module.exports = class IsraelSignupView extends RootView
       )
       
     .then =>
-      # successful signup
-      application.router.navigate('/play', { trigger: true })
+      if me.isTeacher()
+        return api.classrooms.post({
+          name: me.broadName()
+          aceConfig: { language: 'python' }
+        })
+      
+    .then =>
+      @redirectAfterAuth()
       
     .catch (e) =>
       # if we threw the AbortError, the error was handled
