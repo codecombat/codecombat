@@ -117,7 +117,7 @@ setupExpressMiddleware = (app) ->
   
   app.use('/', express.static(path.join(public_path, 'templates', 'static')))
 
-  if config.buildInfo.sha isnt 'dev' and config.isProduction
+  if config.buildInfo.sha isnt 'dev'
     app.use("/#{config.buildInfo.sha}", express.static(public_path, maxAge: '1y'))
   else
     app.use('/dev', express.static(public_path, maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
