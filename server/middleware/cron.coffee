@@ -2,17 +2,22 @@
 
 errors = require '../commons/errors'
 wrap = require 'co-express'
+co = require 'co'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
 request = require 'request'
 User = require '../models/User'
 LevelSession = require '../models/LevelSession'
 Classroom = require '../models/Classroom'
+IsraelRegistration = require '../models/IsraelRegistration'
+IsraelSolution = require '../models/IsraelSolution'
 utils = require '../lib/utils'
 mongoose = require 'mongoose'
 sendwithus = require '../sendwithus'
 config = require '../../server_config'
 querystring = require 'querystring'
+async = require 'async'
+useragent = require 'express-useragent'
 
 module.exports =
   checkCronAuth: (req, res, next) ->
@@ -23,20 +28,9 @@ module.exports =
       return next new errors.Unauthorized('Only an admin or the specified Cron handler may perform that action.')
     next()
 
-  getTeachers: wrap (req, res, next) ->
-    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    teacherRoles = ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
-    users = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('lastIP').lean()
-    for user in users
-      if ip = user.lastIP
-        user.geo = geoip.lookup(ip)
-        if country = user.geo?.country
-          user.geo.countryName = countryList.getName(country)
-    res.status(200).send(users)
-
   aggregateIsraelData: wrap (req, res, next) ->
     debugging = req.user?.isAdmin()
-    unless debugging or req.features.israel  # TODO: remove debugging pass before committing
+    unless req.features.israel
       throw new errors.Forbidden('Do not aggregate Israel data outside of Israel')
     # Query based on user.dateCreated to take advantage of index, refine by user.activity.join/createClassroom.first to find real new users - will miss any users who registered too long after creation
     userDateCreatedInterval =   14 * 24 * 60 * 60 * 1000
@@ -46,23 +40,21 @@ module.exports =
     aggregationInterval =                  5 * 60 * 1000
     # Add some buffer time to make sure we don't miss anything between windows
     aggregationInterval +=                     30 * 1000
-    userDateCreatedInterval *= 0.02 if debugging
-    sessionDateCreatedInterval *= 0.02 if debugging
-    #aggregationInterval *= 20 if debugging
-    aggregationInterval *= 0.02 if debugging
     userDateCreatedStartTime = new Date(new Date() - userDateCreatedInterval)
     sessionDateCreatedStartTime = new Date(new Date() - sessionDateCreatedInterval)
     lastAggregationStartTime = new Date(new Date() - aggregationInterval)
+    limit = if debugging then 20 else 0
 
-    # First, get all the sessions that havve changed during the aggregation interval
+    # First, get all the sessions that have changed during the aggregation interval
     sessionQuery =
       _id: {$gte: utils.objectIdFromTimestamp(sessionDateCreatedStartTime.getTime())}
       changed: {$gte: lastAggregationStartTime}
-    sessionSelect = 'changed creator created browser level levelID dateFirstCompleted team state.complete state.difficulty code totalScore'
-    recentSessions = yield LevelSession.find(sessionQuery).select(sessionSelect).lean()
+      'state.complete': true
+    sessionSelect = 'changed creator created browser level levelID dateFirstCompleted team state.complete state.difficulty code totalScore browser'
+    recentSessions = yield LevelSession.find(sessionQuery).select(sessionSelect).limit(limit).lean()
 
     # Get all the users for those sessions, or those who first joined or created a classroom during the aggregation interval
-    userIds = (mongoose.Types.ObjectId(session.creator) for session in recentSessions)
+    userIds = _.uniq (mongoose.Types.ObjectId(session.creator) for session in recentSessions)
     userQuery =
       anonymous: false
       $or: [
@@ -72,7 +64,7 @@ module.exports =
       ]
     userQuery.israelId = {$exists: true} unless debugging
     userSelect = 'dateCreated israelId stats.gamesCompleted activity.joinClassroom.first activity.createClassroom.first role lastIP'
-    users = yield User.find(userQuery).select(userSelect).lean()
+    users = yield User.find(userQuery).select(userSelect).limit(limit).lean()
 
     # Get all the sessions for any new users
     newUserIds = (user._id + '' for user in users when user.activity?.joinClassroom?.first >= lastAggregationStartTime or user.activity?.createClassroom?.first >= lastAggregationStartTime)
@@ -87,15 +79,17 @@ module.exports =
     classroomQuery =
       $or: [
         {members: {$in: userIds}}
-        {ownerId: {$in: userIds}}
+        {ownerID: {$in: userIds}}
       ]
-    classroomSelect = 'members ownerId code'
+    classroomSelect = 'members ownerID code'
     classrooms = yield Classroom.find(classroomQuery).select(classroomSelect).lean()
 
     # Prepare all registrations we might need to upsert
     registrations = []
     for user in users
-      classroom = _.find classrooms, (classroom) -> (user._id + '') in (member + '' for member in classroom.members)
+      classroom = _.find classrooms, (classroom) ->
+        (classroom.ownerID + '' is user._id + '') or
+        (user._id + '') in (member + '' for member in classroom.members)
       continue unless classroom
       user.classCode = classroom.code
       registrations.push
@@ -106,20 +100,20 @@ module.exports =
           usercodeil: user.israelId
           usertype: if user.role is 'student' then 'S' else 'T'
           classcode: classroom.code
-    console.log 'registrations!', registrations
 
     # Prepare all solutions we might need to upsert
     solutions = []
     for session in sessions
       user = _.find users, (user) -> user._id + '' is session.creator
-      continue unless user and user.classCode and session.state?.complete
+      continue unless user and user.classCode
       code = (if session.team is 'ogres' then session.code['hero-placeholder-1']?.plan else session.code['hero-placeholder']?.plan) ? ''
-      challengeId = session.levelID + (if session.team is 'ogres' then '-blue' else '')
+      challengeId = session.level.original + (if session.team is 'ogres' then '-blue' else '')
       challengeName = session.levelID + (if session.team is 'ogres' then ' (blue)' else '')
-      score = Math.max session.totalScore ? 1, session.state?.difficulty ? 1
+      score = Math.round(Math.max 1, ((session.totalScore or 0) - 20) / 2, (session.state?.difficulty or 0) * 3)
+      device = if session.browser then session.browser.name + (if not session.browser.desktop then ' mobile' else '') else null
       solutions.push
         provider: 'CodeCombat'
-        date: session.dateFirstCompleted or session.changed  # TODO: created? changed?
+        date: session.created
         user:
           userid: user._id
           usercodeil: user.israelId
@@ -137,57 +131,15 @@ module.exports =
           endtime: session.dateFirstCompleted or session.changed
         info:
           ip: user.lastIP
-          sessionkey: session._id  # TODO: what is this?
-          #device: "ipad"  # TODO: need this?
-          #os: "win10"  # TODO: need this?
-          country: "israel"
-    console.log 'solutions!', solutions
+          sessionkey: session._id  # How to find cookie session? Need it?
+          device: device
+          os: session.browser?.platform
+          country: 'israel'
 
-    # TODO: actually upsert these somewhere
+    # TODO: figure out out to make this work with async to run, say, 5 in parallel
+    for registration in registrations
+      yield IsraelRegistration.findOneAndUpdate {'user.userid': registration.user.userid}, registration, upsert: true
+    for solution in solutions
+      yield IsraelSolution.findOneAndUpdate {'solution.id': solution.solution.id}, solution, upsert: true
+
     res.status(200).send({message: "Upserted #{registrations.length} registrations and #{solutions.length} solutions."})
-
-
-
-
-###
-registrations = [{
-    "provider" :"code combat",
-    "date" : "2016-11-24T10:28:25.641",
-    "user" : {
-        "userid" : "5836b747ac6a4f2300489123",
-        "usercodeil" : "100998987",  # user's israelId
-        "usertype" : "T"       # S = Student , T  = Teacher
-        "classcode" : "A57YRT" # First class code created, or joined, depending on type
-        "createddate" : "2016-11-24T10:28" # same as date, but less precision
-      }
-}]
-
-solutions = [{
-    "provider" :"code combat",
-    "date" : "2016-11-24T10:28:25.641",
-    "user" : {
-        "userid" : "5836b747ac6a4f2300489123",
-        "usercodeil" : "100998987",
-        "usertype" : "S"       # S = Student , T  = Teacher
-        "classcode" : "A57YRT"
-    },
-    "solution" : {
-        "id" : "5836b747ac6a4f2300489123",
-        "createddate" : "2016-11-24T10:28:25.641",
-        "solutionstring" = "step 10 .......", # the raw code
-        "challengeid" = "100", # CHECKING, but think level original, appended with the team string for arena level sessions, perhaps "-humans"
-        "challengename" = "challenge 100", # CHECKING
-        "challengeorder" = 1, # CHECKING
-        "score" : 2
-        "starttime" : "2016-11-24T10:28:25.641" # session created
-        "endtime" :  "2016-11-24T10:28:25.641" # dateFirstCompleted
-    },
-    "info" : {
-        "ip" : "192.234.17.1",
-        "sessionkey" : "5836b747ac6a4f2300489194" ,
-        "device" : "ipad",
-        "os" : "win10",
-        "country" : "israel"
-     }
-}]
-###

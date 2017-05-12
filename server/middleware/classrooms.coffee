@@ -27,7 +27,7 @@ module.exports =
     return next() unless req.query.hasOwnProperty('code')
     classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(RegExp(' ', 'g') , '') }).select('name ownerID aceConfig')
     if not classroom
-      log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
+      #log.debug("classrooms.fetchByCode: Couldn't find Classroom with code: #{code}")
       throw new errors.NotFound('Classroom not found.')
     classroom = classroom.toObject()
     # Tack on the teacher's name for display to the user
