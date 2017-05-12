@@ -151,9 +151,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_multiplayer: "Mehrspieler-Abenteuer"
     campaign_multiplayer_description: "... in der du Kopf-an-Kopf gegen andere Spieler programmierst."
     brain_pop_done: "Programmierter Sieg über die Oger!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_challenge: "Fordere dich selbst heraus und spiele noch einmal mit einer anderen Programmiersprache!"
+    replay: "Neu spielen"
+    back_to_classroom: "Zurück zum Klassenraum"
 
   code:
     if: "wenn" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -631,9 +631,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     purchase: "Kauf"
     purchased: "Gekauft"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Zuwenig Edelsteine"
+    prompt_body: "Spiele weiter und verdiene mehr!"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -683,7 +683,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     will_be_cancelled: "Läuft ab am"
     currently_free: "Du hast aktuell ein kostenloses Abonnement"
     currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum"
-#    free_subscription: "Free subscription"
+    free_subscription: "Kostenloses Abonnement"
     was_free_until: "Du hattest ein kostenloses Abonnement bis zum"
     managed_subs: "Verwaltete Abonnements"
     subscribing: "Abonniere..."
@@ -1320,7 +1320,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     update_account_students_can3: "Sich in Arenen mit Mitschülern messen"
     update_account_students_can4: "Zugriff auf aktuelle Scülerfunktionen erhalten, sobald wir sie veröffentlichen."
     update_account_students_warning: "Warnung: Du wirst keine Möglichkeit mehr haben, zuvor von dir erstellte Klassen zu verwalten oder neue zu erstellen."
-#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
+    unsubscribe_warning: "Warnung: Dein Monats-Abonnement wird beendet werden."                      
     update_account_remain_student: "Schüler bleiben"
     update_account_update_student: "In Schülerkonto umwandeln"
     need_a_class_code: "Du brauchst einen Klassencode für die Klasse, der du beitrittst:"
