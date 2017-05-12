@@ -631,9 +631,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     purchase: "Купить"
     purchased: "Куплено"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Не достаточно самоцветов"
+    prompt_body: "Продолжайте играть чтобы заработать ещё!"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Премиум"
@@ -683,7 +683,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     will_be_cancelled: "Будет отменена"
     currently_free: "Сейчас у вас бесплатная подписка"
     currently_free_until: "Сейчас у вас бесплатная подписка до"
-#    free_subscription: "Free subscription"
+    free_subscription: "Бесплатная подписка"
     was_free_until: "У вас была бесплатная подписка до"
     managed_subs: "Управляемые подписки"
     subscribing: "Подписываемся..."
@@ -1609,14 +1609,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unavailable: "Обмен ссылками недоступен в предварительном просмотре учителя."
     share_game: "Поделиться этой Игрой"
     share_web: "Поделиться этой Веб-страницей"
-#    victory_share_prefix: "Share this link to invite your friends & family to"
-#    victory_share_game: "play your game level"
-#    victory_share_web: "view your webpage"
+    victory_share_prefix: "Поделитесь этой ссылкой чтобы ваша семья и ваши друзья смогли"#"Share this link to invite your friends & family to"
+    victory_share_game: "посмотреть на ваш уровень"
+    victory_share_web: "посмотреть на ваш вебсайт"
     victory_share_suffix: "."
-#    victory_course_share_prefix: "This link will let your friends & family"
-#    victory_course_share_game: "play the game"
-#    victory_course_share_web: "view the webpage"
-#    victory_course_share_suffix: "you just created."
+    victory_course_share_prefix: "Этот линк позволит вашим друзьям и вашей семье"#"This link will let your friends & family"
+    victory_course_share_game: "увидеть ваш уровень"
+    victory_course_share_web: "увидеть ваш вебсайт"
+    victory_course_share_suffix: "который вы сейчас создали."
     copy_url: "Копировать URL"
 
   game_dev:
@@ -2222,13 +2222,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     october: "октябрь"
     november: "ноябрь"
     december: "декабрь"
-
-#  code_play_create_account_modal:
-#    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
-#    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
-#    sign_up: "Sign up & keep coding ▶"
-#    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
-#    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
   server_error:
     email_taken: "Данный емейл уже занят"
