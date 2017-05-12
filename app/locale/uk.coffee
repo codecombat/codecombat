@@ -151,6 +151,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
     brain_pop_done: "Ви перемогли Оґрів за допомогою коду! Ви виграли!"
+#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
+#    replay: "Replay"
+#    back_to_classroom: "Back to Classroom"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -628,6 +631,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     purchase: "Купити"
     purchased: "Куплено"
 
+#  earn_gems:
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
+
   subscribe:
     subscribe_modal_title: "CodeCombat Преміум"
     comparison_blurb: "Стань майстром програмування - підпишись на <strong>Преміум</strong> сьогодні!"
@@ -676,6 +683,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     will_be_cancelled: "Буде скасовано"
     currently_free: "Зараз у Вас безкоштовний абонемент"
     currently_free_until: "Зараз у Вас безкоштовний абонемент до "
+#    free_subscription: "Free subscription"
     was_free_until: "У Вас був безкоштовний абонемент до "
     managed_subs: "Керовані абонементи"
     subscribing: "Передплата..."
@@ -1312,6 +1320,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     update_account_students_can3: "Змагайтеся з однокласниками на аренах"
     update_account_students_can4: "Отримувати доступ до нового учнівського функціоналу як тільки ми випускаємо його"
     update_account_students_warning: "УВАГА: Ви не зможете створювати нових та керувати жодним з існуючих класів, які ви раніше створили."
+#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
     update_account_remain_student: "Залишитися учнем"
     update_account_update_student: "Оновити до акаунту учня"
     need_a_class_code: "Вам буде потрібен Код Класу для класу, до якого ви долучаєтесь:"
@@ -2224,3 +2233,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #  server_error:
 #    email_taken: "Email already taken"
 #    username_taken: "Username already taken"
+
+#  esper:
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

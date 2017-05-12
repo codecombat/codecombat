@@ -11,12 +11,22 @@ style.
   }
 
   body {
-        user-select: none;
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        -o-user-select: none;
+    user-select: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    -o-user-select: none;
   } 
+
+  @media print {
+    a[href]:after {
+      content:none
+    }
+    a[href] {
+      color: #0b63bc !important;
+      text-decoration: underline;
+    }
+  }
 
 div.style-flat
   div.menu

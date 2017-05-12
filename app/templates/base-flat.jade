@@ -115,6 +115,8 @@ mixin accountLinks
                   a(href="/legal", data-i18n="nav.legal")
                 li
                   a(href="/privacy", data-i18n="nav.privacy")
+                if features.china
+                  li 京ICP备16061132号
 
             if !me.isStudent()
               .col-sm-3
