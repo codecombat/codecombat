@@ -151,9 +151,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     campaign_multiplayer: "Mehrspieler-Abenteuer"
     campaign_multiplayer_description: "... in der du Kopf-an-Kopf gegen andere Spieler programmierst."
     brain_pop_done: "Programmierter Sieg über die Oger!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_challenge: "Fordere dich selbst heraus und spiele noch einmal mit einer anderen Programmiersprache!"
+    replay: "Neu spielen"
+    back_to_classroom: "Zurück zum Klassenraum"
 
   code:
     if: "wenn" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -631,9 +631,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     purchase: "Kauf"
     purchased: "Gekauft"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Zuwenig Edelsteine"
+    prompt_body: "Spiele weiter und verdiene mehr!"
 
   subscribe:
     subscribe_modal_title: "CodeCombat Premium"
@@ -683,7 +683,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     will_be_cancelled: "Läuft ab am"
     currently_free: "Du hast aktuell ein kostenloses Abonnement"
     currently_free_until: "Du hast aktuell ein kostenloses Abonnement bis zum"
-#    free_subscription: "Free subscription"
+    free_subscription: "Kostenloses Abonnement"
     was_free_until: "Du hattest ein kostenloses Abonnement bis zum"
     managed_subs: "Verwaltete Abonnements"
     subscribing: "Abonniere..."
@@ -1320,7 +1320,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     update_account_students_can3: "Sich in Arenen mit Mitschülern messen"
     update_account_students_can4: "Zugriff auf aktuelle Scülerfunktionen erhalten, sobald wir sie veröffentlichen."
     update_account_students_warning: "Warnung: Du wirst keine Möglichkeit mehr haben, zuvor von dir erstellte Klassen zu verwalten oder neue zu erstellen."
-#    unsubscribe_warning: "Warning: You will be unsubscribed from your monthly subscription."
+    unsubscribe_warning: "Warnung: Dein Monats-Abonnement wird beendet werden."
     update_account_remain_student: "Schüler bleiben"
     update_account_update_student: "In Schülerkonto umwandeln"
     need_a_class_code: "Du brauchst einen Klassencode für die Klasse, der du beitrittst:"
@@ -2234,14 +2234,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     email_taken: "Diese E-Mail wird bereits verwendet"
     username_taken: "Benutzername ist bereits vergeben"
 
-#  esper:
-#    line_no: "Line $1: "
-#    x_not_a_function: "`$1` is not a function"
-#    type_error: "TypeError: "
-#    reference_error: "ReferenceError: "
-#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
-#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
-#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
-#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
-#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
-#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
+  esper:
+    line_no: "Zeile $1: " 
+    x_not_a_function: "`$1` ist keine Funktion."
+    type_error: "TypFehler: "
+    reference_error: "BezugsFehler: "
+    spelling_issues: "Achte auf die Schreibweise: meintest du `$1` anstelle von `$2`?"
+    capitalization_issues: "Achte auf Groß-/Kleinschreibung: `$1` sollte `$2` heißen."
+    py_empty_block: "Leeres $1. Schreibe 4 Leerzeichen vor allen Anweisungen innerhalb des $2."
+    fx_missing_paren: "Wenn du `$1` als Funktion verwenden möchtest, dann brauchst du `()`."
+    unmatched_token: "`$1` ohne Gegenpart.  Jede öffnende `$2` benötigt eine zugehörige schließende `$3`."
+    unterminated_string: "String ohne Abschluss. Füge ein ein `\"` am Ende deiner Zeichenkette hinzu."
