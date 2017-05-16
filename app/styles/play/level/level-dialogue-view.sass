@@ -5,13 +5,13 @@
 #level-dialogue-view
   +keyframes(speakingPulse)
     from
-      @include box-shadow(0px 0px 8px #333)
+      filter: drop-shadow(0px 0px 8px #333)
       color: white
     50%
-      @include box-shadow(0px 0px 35px skyblue)
+      filter: drop-shadow(0px 0px 35px skyblue)
       color: skyblue
     to
-      @include box-shadow(0px 0px 8px #333)
+      filter: drop-shadow(0px 0px 8px #333)
       color: white
 
   width: 417px
@@ -29,6 +29,12 @@
   &.active
     display: block
     bottom: -20px
+
+  &.debrief
+    bottom: -300px
+
+  &.active.debrief
+    bottom: -65px;
 
   &.speaking
     .dialogue-area
@@ -94,6 +100,39 @@
 
       button
         margin-left: 10px
+  
+  &.debrief
+    z-index: 11
+    width: 100vw
+    max-width: 1024px
+    position: absolute
+    left: 50vw
+    transform: translateX(-50%)
+    img:not(.embiggen)
+      position: absolute
+      width: 20%
+      bottom: 25%
+      filter: drop-shadow(8px 8px 8px black)
+      left: 2.5%
+    .embiggen
+      position: absolute
+      left: 0
+      width: 25%
+      bottom: 0
+      filter: drop-shadow(8px 8px 8px black)
+    .bubble
+      border: initial
+      width: 75%
+      height: 66.66%
+      right: 16px
+      position: absolute
+      top: 50%
+      transform: translateY(-66.66%)
+      padding: 64px !important
+    @media (max-width: 800px)
+      height: 50%
+      .bubble > p
+        margin-top: -32px
 
 body.ipad #level-dialogue-view
   left: auto

@@ -148,6 +148,7 @@ _.extend LevelSessionSchema.properties,
       additionalProperties:
         type: 'string'
         format: 'code'
+        maxLength: 1024*128
 
   codeLogs:
     type: 'array'

@@ -23,6 +23,7 @@ module.exports.createLineChart = (containerSelector, chartLines, containerWidth)
   yAxisWidth = 40
   containerWidth = $(containerSelector).width() unless containerWidth
   containerHeight = $(containerSelector).height()
+  leftKeyWidth = 0
 
   yScaleCount = 0
   yScaleCount++ for line in chartLines when line.showYScale
@@ -72,7 +73,7 @@ module.exports.createLineChart = (containerSelector, chartLines, containerWidth)
 
     if line.showYScale
       # y-Axis
-      lineColor = if yScaleCount > 1 then line.lineColor else 'black' 
+      lineColor = if yScaleCount > 1 then line.lineColor else 'black'
       yAxisRange = d3.scale.linear().range([height, 0]).domain([line.min, line.max])
       yAxis = d3.svg.axis()
         .scale(yRange)
@@ -90,19 +91,23 @@ module.exports.createLineChart = (containerSelector, chartLines, containerWidth)
       currentYScale++
 
     # Key
+    currentKeyLine = Math.floor currentLine / 2
+    currentKeyXOffset = margin + (if currentLine % 2 then Math.max(leftKeyWidth + margin + 40, containerWidth / 2) else 0)
+    currentKeyYOffset = margin + height + xAxisHeight + keyHeight * currentKeyLine
     svg.append("line")
-      .attr("x1", margin)
-      .attr("y1", margin + height + xAxisHeight + keyHeight * currentLine + keyHeight / 2)
-      .attr("x2", margin + 40)
-      .attr("y2", margin + height + xAxisHeight + keyHeight * currentLine + keyHeight / 2)
+      .attr("x1", currentKeyXOffset)
+      .attr("y1", currentKeyYOffset + keyHeight / 2)
+      .attr("x2", currentKeyXOffset + 40)
+      .attr("y2", currentKeyYOffset + keyHeight / 2)
       .attr("stroke", line.lineColor)
       .attr("class", "key-line")
-    svg.append("text")
-      .attr("x", margin + 40 + 10)
-      .attr("y", margin + height + xAxisHeight + keyHeight * currentLine + (keyHeight + 10) / 2)
+    what = svg.append("text")
+      .attr("x", currentKeyXOffset + 40 + 10)
+      .attr("y", currentKeyYOffset + (keyHeight + 10) / 2)
       .attr("fill", line.lineColor)
       .attr("class", "key-text")
       .text(line.description)
+      .each((d, i) -> if currentLine % 2 is 0 then leftKeyWidth = Math.max(leftKeyWidth, @getComputedTextLength()))
 
     pointRadius = line.pointRadius ? 2
     # Path and points
