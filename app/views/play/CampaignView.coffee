@@ -73,6 +73,7 @@ module.exports = class CampaignView extends RootView
     'mousemove .portals': 'onMouseMovePortals'
     'click .poll': 'showPoll'
     'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
+    'click .premium': 'onClickPremiumButton'
     
   shortcuts:
     'shift+s': 'onShiftS'
@@ -993,6 +994,9 @@ module.exports = class CampaignView extends RootView
     pollModal.on 'vote-updated', ->
       $pollButton.removeClass('highlighted').tooltip 'hide'
 
+  onClickPremiumButton: (e) ->
+    @openModalView new SubscribeModal()
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'campaignview premium button'
 
   getLoadTrackingTag: () ->
     @campaign?.get?('slug') or 'overworld'
@@ -1146,15 +1150,14 @@ module.exports = class CampaignView extends RootView
       return false unless @classroom?   
       return @classroom.getSetting('xp')
 
-
-    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans', 'poll', 'buy-gems']
+    if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans', 'poll']
       return !isStudent
 
     if what in ['back-to-classroom']
       return isStudent
 
-    if what in 'buy-gems'
-      return (me.get('anonymous') is false || me.get('iosIdentifierForVendor') || isIPadApp) && !me.freeOnly() 
+    if what in ['buy-gems', 'premium']
+      return not (me.get('iosIdentifierForVendor') || application.isIPadApp) && !me.freeOnly() && !isStudent
 
     return true
 
