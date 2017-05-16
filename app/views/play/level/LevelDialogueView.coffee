@@ -35,7 +35,9 @@ module.exports = class LevelDialogueView extends CocoView
   shouldSkipDialogue: (mood) ->
     return false if me.isAdmin()
     return true if mood is 'alarm'
-    return true if mood is 'debrief' and me.get('testGroupNumber') % 2 is 1 # Odd test groups do not see narrative
+    if mood is 'debrief'
+      switch me.get('testGroupNumber') % 8
+        when 4, 5, 6, 7 then return true # First 4 test groups do not see 'debrief'-type boxes 
     return false
 
   onSpriteDialogue: (e) ->
@@ -57,6 +59,8 @@ module.exports = class LevelDialogueView extends CocoView
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
     $('body').removeClass('dialogue-view-active')
+    @$el.find('img').remove()
+    @$el.removeClass(@lastMood) if @lastMood
 
   setMessage: (message, mood, responses) ->
     message = marked message
