@@ -44,6 +44,7 @@ module.exports = class I18NEditLevelView extends I18NEditModelView
     # sprite dialogues
     for script, scriptIndex in @model.get('scripts') ? []
       for noteGroup, noteGroupIndex in script.noteChain ? []
+        continue unless noteGroup
         for spriteCommand, spriteCommandIndex in noteGroup.sprites ? []
           pathPrefix = ['scripts', scriptIndex, 'noteChain', noteGroupIndex, 'sprites', spriteCommandIndex, 'say']
 
