@@ -32,16 +32,23 @@ module.exports = class LevelDialogueView extends CocoView
       @openModalView new PlayItemsModal supermodel: @supermodal
       e.stopPropagation()
 
+  shouldSkipDialogue: (mood) ->
+    return false if me.isAdmin()
+    return true if mood is 'alarm'
+    return true if mood is 'debrief' and me.get('testGroupNumber') % 2 is 1 # Odd test groups do not see narrative
+    return false
+
   onSpriteDialogue: (e) ->
     return unless e.message
+    return Backbone.Mediator.publish('script:end-current-script', {}) if @shouldSkipDialogue(e.mood)
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
-    if e.mood is "debrief"
+    if e.mood is 'debrief'
       if e.sprite.thangType.get('poseImage')?
-        @$el.find(".dialogue-bubble").append($("<img/>").addClass("embiggen").attr("src", "/file/" + e.sprite.thangType.get('poseImage')))
+        @$el.find('.dialogue-area').append($('<img/>').addClass('embiggen').attr('src', '/file/' + e.sprite.thangType.get('poseImage')))
       else
-        @$el.find(".dialogue-bubble").append(e.sprite.thangType.getPortraitImage({})[0])
+        @$el.find('.dialogue-area').append($('<img/>').attr('src', e.sprite.thangType.getPortraitURL()))
     window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}
 
   onDialogueSoundCompleted: ->
@@ -58,6 +65,7 @@ module.exports = class LevelDialogueView extends CocoView
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
     @$el.removeClass(@lastMood) if @lastMood
+    @$el.find('img').remove()
     @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')

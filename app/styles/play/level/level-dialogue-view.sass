@@ -2,7 +2,6 @@
 @import "app/styles/bootstrap/variables"
 @import "app/styles/play/variables"
 
-#other
 #level-dialogue-view
   +keyframes(speakingPulse)
     from
@@ -26,7 +25,6 @@
   // Bounce in
   @include transition(1s cubic-bezier(.17,.89,.42,1.36))
   z-index: 2
-
 
   &.active
     display: block
@@ -102,43 +100,39 @@
 
       button
         margin-left: 10px
-
+  
   &.debrief
     z-index: 11
-    color: red
+    width: 100vw
+    max-width: 1024px
     position: absolute
     left: 50vw
     transform: translateX(-50%)
-    width: 100vw
-    max-width: 1024px
-    max-height: 270px
-    background-color: orange
-    background: initial
+    img:not(.embiggen)
+      position: absolute
+      width: 20%
+      bottom: 25%
+      filter: drop-shadow(8px 8px 8px black)
+      left: 2.5%
+    .embiggen
+      position: absolute
+      left: 0
+      width: 25%
+      bottom: 0
+      filter: drop-shadow(8px 8px 8px black)
     .bubble
       border: initial
-      line-height: initial
-      padding: 64px
-      font-size: medium
-      height: 195px
-      @media (min-width: $screen-md-min)
-        font-size: large
-      img
-        float: left
-        height: 192px
-        margin-top: -60px
-        margin-left: -20px
-        padding-right: 20px
-      img.embiggen
-        height: 128px
-        margin-top: -20px
-        margin-left: calc(-20px * 2)
-        @media (min-width: $screen-md-min)
-          height: 25%
-          margin-top: calc(-60px * 2)
-          margin-left: calc(-20px * 2)
-      .enter
-        margin-bottom: 8px
-        margin-right: 32px
+      width: 75%
+      height: 66.66%
+      right: 16px
+      position: absolute
+      top: 50%
+      transform: translateY(-66.66%)
+      padding: 64px !important
+    @media (max-width: 800px)
+      height: 50%
+      .bubble > p
+        margin-top: -32px
 
 body.ipad #level-dialogue-view
   left: auto
