@@ -32,12 +32,25 @@ module.exports = class LevelDialogueView extends CocoView
       @openModalView new PlayItemsModal supermodel: @supermodal
       e.stopPropagation()
 
+  shouldSkipDialogue: (mood) ->
+    return false if me.isAdmin()
+    return true if mood is 'alarm'
+    if mood is 'debrief'
+      switch me.get('testGroupNumber') % 8
+        when 4, 5, 6, 7 then return true # First 4 test groups do not see 'debrief'-type boxes 
+    return false
+
   onSpriteDialogue: (e) ->
     return unless e.message
+    return Backbone.Mediator.publish('script:end-current-script', {}) if @shouldSkipDialogue(e.mood)
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
-
+    if e.mood is 'debrief'
+      if e.sprite.thangType.get('poseImage')?
+        @$el.find('.dialogue-area').append($('<img/>').addClass('embiggen').attr('src', '/file/' + e.sprite.thangType.get('poseImage')))
+      else
+        @$el.find('.dialogue-area').append($('<img/>').attr('src', e.sprite.thangType.getPortraitURL()))
     window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}
 
   onDialogueSoundCompleted: ->
@@ -46,6 +59,8 @@ module.exports = class LevelDialogueView extends CocoView
   onSpriteClearDialogue: ->
     @$el.removeClass 'active speaking'
     $('body').removeClass('dialogue-view-active')
+    @$el.find('img').remove()
+    @$el.removeClass(@lastMood) if @lastMood
 
   setMessage: (message, mood, responses) ->
     message = marked message
@@ -53,7 +68,9 @@ module.exports = class LevelDialogueView extends CocoView
     message = message.replace /&lt;i class=&#39;(.+?)&#39;&gt;&lt;\/i&gt;/, "<i class='$1'></i>"
     clearInterval(@messageInterval) if @messageInterval
     @bubble = $('.dialogue-bubble', @$el)
-    @bubble.removeClass(@lastMood) if @lastMood
+    @$el.removeClass(@lastMood) if @lastMood
+    @$el.find('img').remove()
+    @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')
     group = $('<div class="enter secret"></div>')
