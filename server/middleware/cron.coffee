@@ -11,6 +11,8 @@ LevelSession = require '../models/LevelSession'
 Classroom = require '../models/Classroom'
 IsraelRegistration = require '../models/IsraelRegistration'
 IsraelSolution = require '../models/IsraelSolution'
+Course = require '../models/Course'
+Campaign = require '../models/Campaign'
 utils = require '../lib/utils'
 mongoose = require 'mongoose'
 sendwithus = require '../sendwithus'
@@ -18,6 +20,21 @@ config = require '../../server_config'
 querystring = require 'querystring'
 async = require 'async'
 useragent = require 'express-useragent'
+
+
+# Is it better to copy these here or import them from app/core/utils?
+courseOrdering = (mongoose.Types.ObjectId(id) for id in [
+  '560f1a9f22961295f9427742'  # INTRODUCTION_TO_COMPUTER_SCIENCE
+  '5789587aad86a6efb573701e'  # GAME_DEVELOPMENT_1
+  '5789587aad86a6efb573701f'  # WEB_DEVELOPMENT_1
+  '5632661322961295f9428638'  # COMPUTER_SCIENCE_2
+  '57b621e7ad86a6efb5737e64'  # GAME_DEVELOPMENT_2
+  '5789587aad86a6efb5737020'  # WEB_DEVELOPMENT_2
+  '56462f935afde0c6fd30fc8c'  # COMPUTER_SCIENCE_3
+  '56462f935afde0c6fd30fc8d'  # COMPUTER_SCIENCE_4
+  '569ed916efa72b0ced971447'  # COMPUTER_SCIENCE_5
+  '5817d673e85d1220db624ca4'  # COMPUTER_SCIENCE_6
+])
 
 module.exports =
   checkCronAuth: (req, res, next) ->
@@ -84,6 +101,17 @@ module.exports =
     classroomSelect = 'members ownerID code'
     classrooms = yield Classroom.find(classroomQuery).select(classroomSelect).lean()
 
+    if sessions.length
+      courses = yield Course.find({_id: {$in: courseOrdering}}).select('campaignID').lean()
+      campaignOrdering = (_.find(courses, (course) -> course._id + '' is courseId + '')?.campaignID for courseId in courseOrdering)
+      campaigns = yield Campaign.find({_id: {$in: campaignOrdering}}).select('levels').lean()
+      campaigns = (_.find(campaigns, (campaign) -> campaign._id + '' is campaignId + '') for campaignId in campaignOrdering)
+      levelOrdering = {}
+      levelIndex = 0
+      for campaign in campaigns
+        for levelOriginal in Object.keys campaign.levels
+          levelOrdering[levelOriginal] = levelIndex++
+
     # Prepare all registrations we might need to upsert
     registrations = []
     for user in users
@@ -109,6 +137,7 @@ module.exports =
       code = (if session.team is 'ogres' then session.code['hero-placeholder-1']?.plan else session.code['hero-placeholder']?.plan) ? ''
       challengeId = session.level.original + (if session.team is 'ogres' then '-blue' else '')
       challengeName = session.levelID + (if session.team is 'ogres' then ' (blue)' else '')
+      challengeOrder = levelOrdering[session.level.original]
       score = Math.round(Math.max 1, ((session.totalScore or 0) - 20) / 2, (session.state?.difficulty or 0) * 3)
       device = if session.browser then session.browser.name + (if not session.browser.desktop then ' mobile' else '') else null
       solutions.push
@@ -125,7 +154,7 @@ module.exports =
           solutionstring: code
           challengeid: challengeId
           challengename: challengeName
-          challengeorder: 1  # TODO: what is this?
+          challengeorder: challengeOrder
           score: score
           starttime: session.created
           endtime: session.dateFirstCompleted or session.changed
