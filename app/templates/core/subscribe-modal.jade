@@ -36,12 +36,22 @@
                 
           hr
           
+          mixin price(name, p)
+            - var origPrice = p.priceStringNoSymbol()
+            - var salePrice = p.adjustedPriceStringNoSymbol()
+            if origPrice == salePrice
+              .price(data-i18n=name, data-i18n-options={price:origPrice})
+            else
+              div
+                span.old-price(data-i18n=name, data-i18n-options={price:origPrice})
+                span.price(data-i18n=name, data-i18n-options={price:salePrice})
+
           .row
             - var secondRowClass = '.col-xs-5'
             if view.basicProduct
               .col-xs-5.option-col.col-xs-offset-1
                 .option-header.text-center(data-i18n="subscribe.stripe_description")
-                .price(data-i18n="subscribe.month_price", data-i18n-options={price:view.basicProduct.priceStringNoSymbol()})
+                +price("subscribe.month_price", view.basicProduct)
                 button.btn.btn-lg.btn-illustrated.purchase-button Subscribe Now
               
             else
@@ -50,13 +60,13 @@
             if view.lifetimeProduct
               .option-col(class=secondRowClass)
                 .option-header.text-center(data-i18n="subscribe.lifetime")
-                .price(data-i18n="subscribe.lifetime_price", data-i18n-options={price:view.lifetimeProduct.priceStringNoSymbol()})
+                +price("subscribe.lifetime_price", view.lifetimeProduct)
                 button.btn.btn-lg.btn-illustrated.lifetime-button Buy Now
             
             if view.yearProduct
               .option-col(class=secondRowClass)
                 .option-header.text-center(data-i18n="subscribe.year_subscription")
-                .price(data-i18n="subscribe.year_price", data-i18n-options={price: view.yearProduct.priceStringNoSymbol()})
+                +price("subscribe.year_price",view.yearProduct)
                 button.btn.btn-lg.btn-illustrated.sale-button Buy Now
 
         p 

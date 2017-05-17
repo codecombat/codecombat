@@ -228,7 +228,14 @@ purchaseProduct = expressWrap (req, res) ->
     description: req.body.description
   }
 
-  charge = yield StripeUtils.createChargeAsync(req.user, product.get('amount'), metadata)
+  amount = product.get('amount')
+  if req.body.coupon?
+    coupon = _.find product.get('coupons'), ((x) -> x.code is req.body.coupon)
+    if not coupon?
+      throw new errors.NotFound('Coupon not found')
+    amount = coupon.amount
+
+  charge = yield StripeUtils.createChargeAsync(req.user, amount, metadata)
   payment = yield StripeUtils.createPaymentAsync(req.user, charge, {})
 
   # Add terminal subscription to User with extensions for existing subscriptions
