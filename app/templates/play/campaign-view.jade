@@ -223,6 +223,8 @@ if view.showAds()
 
   .game-controls.header-font.picoctf-hide
     if !(features.picoCtf || features.brainPop)
+      if view.shouldShow('premium')
+        button.btn.premium(data-i18n="[title]subscribe.subscribe_modal_title")
       if view.shouldShow('poll')
         button.btn.poll.hidden(data-i18n="[title]play.poll")
       if view.shouldShow('clans')

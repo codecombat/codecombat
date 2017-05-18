@@ -483,6 +483,7 @@ $gameControlMargin: 30px
         margin-left: $gameControlMargin
         @media only screen and (max-height: 650px)
           margin-left: 0
+
       width: $gameControlSize
       height: $gameControlSize
 
@@ -520,7 +521,6 @@ $gameControlMargin: 30px
       &.achievements
         background-position: (-3 * $gameControlSize) 0px
       &.account
-        //background-position: (-4 * $gameControlSize) 0px
         background-position: (-5 * $gameControlSize) 0px
       &.settings
         background-position: (-5 * $gameControlSize) 0px
@@ -528,6 +528,19 @@ $gameControlMargin: 30px
         background-position: (-6 * $gameControlSize) 0px
       &.poll
         background-position: (-4 * $gameControlSize) 0px
+      &.premium
+        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        transform: scale(1.31) translateY(-5px) translateX(-6px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
 
     .tooltip
       font-size: 24px
