@@ -234,6 +234,7 @@ purchaseProduct = expressWrap (req, res) ->
     if not coupon?
       throw new errors.NotFound('Coupon not found')
     amount = coupon.amount
+    metadata.couponCode = coupon.code
 
   charge = yield StripeUtils.createChargeAsync(req.user, amount, metadata)
   payment = yield StripeUtils.createPaymentAsync(req.user, charge, {})

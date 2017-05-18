@@ -4,11 +4,7 @@ utils = require 'core/utils'
 
 module.exports = class Products extends CocoCollection
   model: Product
-  url: () ->
-    if utils.getQueryVariable('coupon')
-      "/db/products?coupon=#{utils.getQueryVariable('coupon')}"
-    else
-      '/db/products'
+  url: '/db/products'
   
   getByName: (name) -> @findWhere { name: name }
 

@@ -14,12 +14,10 @@ module.exports = class PremiumFeaturesView extends RootView
 
   constructor: (options={}) ->
     super(options)
-    console.log "Queing"
-    setTimeout =>
-      if utils.getQueryVariable('pop')?
-        @openSubscriptionModal()
-    , 0
     
+  afterInsert: () ->
+    super()
+    @openSubscriptionModal()
 
   openSubscriptionModal: ->
     @openModalView new SubscribeModal()

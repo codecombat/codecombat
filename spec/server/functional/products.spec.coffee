@@ -15,15 +15,13 @@ describe 'GET /db/products', ->
 
   it 'shouldnt leak coupon code information', utils.wrap ->
       url = utils.getURL('/db/products/')
-      [res, body] = yield request.getAsync({url})
-      doc = JSON.parse(body)
+      [res, doc] = yield request.getAsync({url, json: true})
       ls2 = _.find doc, ((x) -> /lifetime/.test x.name)
       expect(ls2.coupons).toEqual([])
 
   it 'should accept the coupon code QS', utils.wrap ->
       url = utils.getURL('/db/products/')
-      [res, body] = yield request.getAsync(url: url + '?coupon=c1')
-      doc = JSON.parse(body)
+      [res, doc] = yield request.getAsync(url: url + '?coupon=c1', json: true)
       ls2 = _.find doc, ((x) -> /lifetime/.test x.name)
       expect(ls2.coupons[0].amount).toBe(10)
       expect(ls2.coupons.length).toBe(1)
@@ -85,6 +83,8 @@ describe 'POST /db/products/:handle/purchase', ->
     product = yield Product.findOne({name:'lifetime_subscription'})
     payment = yield Payment.findOne()
     expect(product.get('coupons')[0].amount).toBe(payment.get('amount'))
+    metadata = stripe.charges.create.calls.argsFor(0)[0].metadata
+    expect(metadata.couponCode).toBe('c1')
 
   it 'blocks purchase of a lifetime subscription with an invalid coupon', utils.wrap ->
     @returnSuccessfulCharge()
