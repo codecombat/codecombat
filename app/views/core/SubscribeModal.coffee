@@ -30,7 +30,10 @@ module.exports = class SubscribeModal extends ModalView
       @onLoaded()
     else
       @products = new Products()
-      @supermodel.loadCollection(@products, 'products')
+      data = {}
+      if utils.getQueryVariable('coupon')?
+        data.coupon = utils.getQueryVariable('coupon')
+      @supermodel.trackRequest @products.fetch {data}
     @trackTimeVisible({ trackViewLifecycle: true })
 
   onLoaded: ->

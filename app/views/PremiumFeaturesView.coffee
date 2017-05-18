@@ -12,7 +12,17 @@ module.exports = class PremiumFeaturesView extends RootView
   events:
     'click .buy': 'onClickBuy'
 
-  onClickBuy: (e) ->
+  constructor: (options={}) ->
+    super(options)
+    
+  afterInsert: () ->
+    super()
+    @openSubscriptionModal()
+
+  openSubscriptionModal: ->
     @openModalView new SubscribeModal()
+
+  onClickBuy: (e) ->
+    @openSubscriptionModal()
     buttonLocation = $(e.currentTarget).data('button-location')
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: "get premium view #{buttonLocation}"
