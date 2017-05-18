@@ -2,6 +2,7 @@ Product = require '../models/Product'
 errors = require '../commons/errors'
 config = require '../../server_config'
 wrap = require 'co-express'
+_ = require 'lodash'
 
 get = wrap (req, res) ->
   products = yield Product.find().lean()
@@ -20,6 +21,11 @@ get = wrap (req, res) ->
     products = (p for p in products when p.name isnt 'lifetime_subscription2')
   else
     products = (p for p in products when p.name isnt 'lifetime_subscription')
+
+  for p in products
+    if p.coupons?
+      p.coupons = _.filter p.coupons, ((c) -> c.code is req.query.coupon)
+
   res.send(products)
 
 ###
@@ -100,11 +106,13 @@ productStubs = [
     name: 'lifetime_subscription'
     amount: 1000
     gems: 42000
+    coupons: [{code: 'c1', amount: 10}, {code: 'c2', amount: 99}]
   },
   {
     name: 'lifetime_subscription2'
     amount: 2000
     gems: 42000
+    coupons: [{code: 'c1', amount: 10}, {code: 'c2', amount: 99}]
   }
 ]
 

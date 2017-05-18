@@ -1,5 +1,6 @@
 CocoCollection = require './CocoCollection'
 Product = require 'models/Product'
+utils = require 'core/utils'
 
 module.exports = class Products extends CocoCollection
   model: Product
