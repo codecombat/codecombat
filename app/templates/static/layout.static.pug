@@ -41,6 +41,25 @@ html(lang='en')
       if(features.codePlay) { ga('create', 'UA-80597440-3', {name: 'codeplay'}); }
 
     script(type='text/javascript').
+      // Helper.World for Israel pilot
+      if(features.israel) {
+        var _hw = _hw || {};
+        _hw.protocol = window.location.protocol == 'file:' ? 'http:' : window.location.protocol;
+        _hw.source = _hw.protocol + '//helper.world/';
+        _hw.skillID = 'c4ea28a95ed34412870afa07f98c6dfb';
+        _hw.clientID = 'unknown';
+        _hw.recording = false;
+        (function() {
+        var vmb = document.createElement('script');
+        vmb.type = 'text/javascript';
+        vmb.async = false; vmb.charset='utf-8';
+        vmb.src = _hw.source + 'client.js';
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(vmb, s);
+        })();
+      }
+
+    script(type='text/javascript').
       ;(function(p,l,o,w,i,n,g){if(!p[i]){p.GlobalSnowplowNamespace=p.GlobalSnowplowNamespace||[];
       p.GlobalSnowplowNamespace.push(i);p[i]=function(){(p[i].q=p[i].q||[]).push(arguments)
       };p[i].q=p[i].q||[];n=l.createElement(o);g=l.getElementsByTagName(o)[0];n.async=1;
