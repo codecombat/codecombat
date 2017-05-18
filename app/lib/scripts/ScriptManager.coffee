@@ -41,7 +41,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
 
   constructor: (options) ->
     super(options)
-    @originalScripts = options.scripts
+    @originalScripts = @filterScripts(options.scripts)
     @session = options.session
     @levelID = options.levelID
     @debugScripts = application.isIPadApp or CocoView.getQueryVariable 'dev'
@@ -49,13 +49,22 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @addScriptSubscriptions()
     @beginTicking()
 
-  setScripts: (@originalScripts) ->
+  setScripts: (newScripts) ->
+    @originalScripts = @filterScripts(newScripts)
     @quiet = true
     @initProperties()
     @loadFromSession()
     @quiet = false
     @addScriptSubscriptions()
     @run()
+
+  filterScripts: (scripts) ->
+    _.filter scripts, (script) ->
+      return true if me.isAdmin()
+      return true unless script.id in ['Intro Dialogue', 'Failure Dialogue',  'Success Dialogue']
+      return false unless serverConfig.enableNarrative?
+      return false if (me.get('testGroupNumber') % 8) < 4 # Groups 0-3 dont see narrative
+      true
 
   initProperties: ->
     @endAll({force:true}) if @scriptInProgress
