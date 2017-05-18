@@ -29,9 +29,9 @@ module.exports = class CastButtonView extends CocoView
     @castShortcut = '⇧↵'
     @updateReplayabilityInterval = setInterval @updateReplayability, 1000
     @observing = options.session.get('creator') isnt me.id
-    # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a 
-    # mirror level is added to 
-    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro'] 
+    # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a
+    # mirror level is added to
+    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro']
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
 
@@ -68,7 +68,7 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
   onCastButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {}
+    Backbone.Mediator.publish 'tome:manual-cast', {cinematic: true}
 
   onCastRealTimeButtonClick: (e) ->
     if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0

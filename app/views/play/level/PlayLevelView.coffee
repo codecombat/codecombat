@@ -80,16 +80,19 @@ module.exports = class PlayLevelView extends RootView
     'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
 
   events:
     'click #level-done-button': 'onDonePressed'
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+    'click #stop-cinematic-playback-button': -> Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
     'click': 'onClick'
-    
+
   onClick: ->
     # workaround to get users out of permanent idle status
     if application.userIsIdle
@@ -393,7 +396,7 @@ module.exports = class PlayLevelView extends RootView
       assassin = '566a2202e132c81f00f38c81'
       e.session.set 'heroConfig', {"thangType":assassin,"inventory":{
         "eyes": "546941fda2b1f53ce794441d",
-        "feet": "546d4d8e9df4a17d0d449acd",  
+        "feet": "546d4d8e9df4a17d0d449acd",
         "minion": "54eb5d1649fa2d5c905ddf52",
         "neck": "54693363a2b1f53ce79443d1",
         "wrists": "54693830a2b1f53ce79443f1",
@@ -608,8 +611,10 @@ module.exports = class PlayLevelView extends RootView
     e.preventDefault()
 
   onEscapePressed: (e) ->
-    return unless @$el.hasClass 'real-time'
-    Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+    if @$el.hasClass 'real-time'
+      Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+    else if @$el.hasClass 'cinematic'
+      Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
@@ -752,6 +757,16 @@ module.exports = class PlayLevelView extends RootView
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
+
+  # Cinematice playback
+  onCinematicPlaybackStarted: (e) ->
+    @$el.addClass('cinematic').focus()
+    @onWindowResize()
+
+  onCinematicPlaybackEnded: (e) ->
+    return unless @$el.hasClass 'cinematic'
+    @$el.removeClass 'cinematic'
+    @onWindowResize()
 
   onSubmissionComplete: =>
     return if @destroyed

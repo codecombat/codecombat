@@ -96,9 +96,15 @@ module.exports =
 
   'playback:stop-real-time-playback': c.object {}
 
+  'playback:stop-cinematic-playback': c.object {}
+
   'playback:real-time-playback-started': c.object {}
 
   'playback:real-time-playback-ended': c.object {}
+
+  'playback:cinematic-playback-started': c.object {}
+
+  'playback:cinematic-playback-ended': c.object {}
 
   'playback:ended-changed': c.object {required: ['ended']},
     ended: {type: 'boolean'}

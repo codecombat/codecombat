@@ -596,8 +596,9 @@ module.exports = class SpellView extends CocoView
     # @addAutocompleteSnippets()
     @highlightCurrentLine()
 
-  cast: (preload=false, realTime=false, justBegin=false) ->
-    Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin }
+  cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin, cinematic }
+    $('#cinematic-code-display code').hide()  # TODO: put somewhere more efficient
 
   notifySpellChanged: =>
     return if @destroyed
@@ -679,7 +680,7 @@ module.exports = class SpellView extends CocoView
 
   onManualCast: (e) ->
     cast = @$el.parent().length
-    @recompile cast, e.realTime
+    @recompile cast, e.realTime, e.cinematic
     @focus() if cast
     if @options.level.isType('web-dev')
       @sourceAtLastCast = @getSource()
@@ -695,13 +696,13 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @updateLines()
 
-  recompile: (cast=true, realTime=false) ->
+  recompile: (cast=true, realTime=false, cinematic=false) ->
     hasChanged = @spell.source isnt @getSource()
     if hasChanged
       @spell.transpile @getSource()
       @updateAether true, false
     if cast  #and (hasChanged or realTime)  # just always cast now
-      @cast(false, realTime)
+      @cast(false, realTime, false, cinematic)
     if hasChanged
       @notifySpellChanged()
 
@@ -1115,6 +1116,7 @@ module.exports = class SpellView extends CocoView
       markerRange.start.detach()
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
+      utils.replaceText $('#cinematic-code-display code'), ''  # TODO: only do when necessary
     @markerRanges = []
     for row in [0 ... @aceSession.getLength()]
       unless executedRows[row]
@@ -1156,6 +1158,8 @@ module.exports = class SpellView extends CocoView
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
+        highlightedCode = @getSource().slice start.ofs, end.ofs
+        utils.replaceText $('#cinematic-code-display code').show(), highlightedCode  # TODO: only do when necessary
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 

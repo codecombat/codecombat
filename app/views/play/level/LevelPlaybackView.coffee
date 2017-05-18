@@ -20,7 +20,9 @@ module.exports = class LevelPlaybackView extends CocoView
     'level:set-letterbox': 'onSetLetterbox'
     'tome:cast-spells': 'onTomeCast'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
+    'playback:stop-cinematic-playback': 'onStopCinematicPlayback'
 
   events:
     'click #music-button': 'onToggleMusic'
@@ -94,7 +96,7 @@ module.exports = class LevelPlaybackView extends CocoView
     @$el.find('#music-button').toggleClass('music-on', me.get('music'))
 
   onSetLetterbox: (e) ->
-    return if @realTime
+    return if @realTime or @cinematic
     @togglePlaybackControls !e.on
     @disabled = e.on
 
@@ -103,11 +105,14 @@ module.exports = class LevelPlaybackView extends CocoView
     buttons.css 'visibility', if to then 'visible' else 'hidden'
 
   onTomeCast: (e) ->
-    return unless e.realTime
-    @realTime = true
-    @togglePlaybackControls false
-    Backbone.Mediator.publish 'playback:real-time-playback-started', {}
-    @playSound 'real-time-playback-start'
+    if e.realTime
+      @realTime = true
+      @togglePlaybackControls false
+      Backbone.Mediator.publish 'playback:real-time-playback-started', {}
+      @playSound 'real-time-playback-start'
+    else if e.cinematic
+      @cinematic = true
+      Backbone.Mediator.publish 'playback:cinematic-playback-started', {}
 
   onWindowResize: (s...) =>
     @barWidth = $('.progress', @$el).width()
@@ -137,7 +142,7 @@ module.exports = class LevelPlaybackView extends CocoView
       @$el.addClass 'controls-disabled'
 
   onEnableControls: (e) ->
-    return if @realTime
+    return if @realTime or @cinematic
     if not e.controls or ('playback' in e.controls)
       @disabled = false
       $('button', @$el).removeClass('disabled')
@@ -247,8 +252,9 @@ module.exports = class LevelPlaybackView extends CocoView
     wasEnded = playButton.hasClass('ended')
     if @worldCompletelyLoaded and progress >= 0.99 and @lastProgress < 0.99
       playButton.removeClass('playing').removeClass('paused').addClass('ended')
-      Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime
+      Backbone.Mediator.publish 'level:set-letterbox', on: false if @realTime or @cinematic
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
+      Backbone.Mediator.publish 'playback:cinematic-playback-ended', {} if @cinematic
     if progress < 0.99 and @lastProgress >= 0.99
       playButton.removeClass('ended')
       playButton.addClass(if @playing then 'playing' else 'paused')
@@ -262,9 +268,17 @@ module.exports = class LevelPlaybackView extends CocoView
     @togglePlaybackControls true
     @playSound 'real-time-playback-end'
 
+  onCinematicPlaybackEnded: (e) ->
+    @cinematic = false
+    @togglePlaybackControls true
+
   onStopRealTimePlayback: (e) ->
     Backbone.Mediator.publish 'level:set-letterbox', on: false
     Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
+
+  onStopCinematicPlayback: (e) ->
+    Backbone.Mediator.publish 'level:set-letterbox', on: false
+    Backbone.Mediator.publish 'playback:cinematic-playback-ended', {}
 
   # to refactor
 

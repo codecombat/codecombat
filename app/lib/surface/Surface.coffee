@@ -19,7 +19,7 @@ RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
 GameUIState = require 'models/GameUIState'
 
-resizeDelay = 500  # At least as much as $level-resize-transition-time.
+resizeDelay = 1  # At least as much as $level-resize-transition-time.
 
 module.exports = Surface = class Surface extends CocoClass
   stage: null
@@ -71,6 +71,8 @@ module.exports = Surface = class Surface extends CocoClass
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
     'tome:manual-cast': 'onManualCast'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
@@ -569,8 +571,10 @@ module.exports = Surface = class Surface extends CocoClass
     else if @options.resizeStrategy is 'wrapper-size'
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
-    else if @realTime or @options.spectateGame
-      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+    else if @realTime or @cinematic or @options.spectateGame
+      pageHeight = window.innerHeight - $('#playback-view').outerHeight()
+      if @realTime
+        pageHeight -= $('#control-bar-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
     else if $('#thangs-tab-view')
@@ -592,7 +596,7 @@ module.exports = Surface = class Surface extends CocoClass
         availableHeight -= bannerHeight
         scaleFactor = availableHeight / newHeight if availableHeight < newHeight
       scaleFactor = availableHeight / newHeight if availableHeight < newHeight
-    
+
     newWidth *= scaleFactor
     newHeight *= scaleFactor
 
@@ -612,7 +616,7 @@ module.exports = Surface = class Surface extends CocoClass
       # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
       offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
       @normalCanvas.css 'left', offset
-      
+
   updateCodePlayMargin: ->
     return unless features.codePlay
     availableWidth = (window.innerWidth * .57 - 200)
@@ -650,6 +654,21 @@ module.exports = Surface = class Surface extends CocoClass
     if @handleEvents
       if @previousCameraZoom
         @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
+
+  #- Cinematic playback
+  onCinematicPlaybackStarted: (e) ->
+    return if @cinematic
+    @cinematic = true
+    @onResize()
+    if @heroLank
+      @previousCameraZoom = @camera.zoom
+      @camera.zoomTo @heroLank.sprite, Math.min(@camera.zoom * 2, 3), 3000
+
+  onCinematicPlaybackEnded: (e) ->
+    return unless @cinematic
+    @cinematic = false
+    @onResize()
+    _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
 
   onFlagColorSelected: (e) ->
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)
