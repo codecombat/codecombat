@@ -107,6 +107,9 @@ module.exports = class IsraelSignupView extends RootView
   redirectAfterAuth: ->
     url = '/play'
     url = '/students' if me.isStudent()
+
+    # NOTE: creating the CourseInstance for CS1 is dependent on this redirect.
+    # If this is changed, will need to update classroom creation to make sure it still happens.
     url = '/teachers/classes' if me.isTeacher()
     
     application.router.navigate(url)

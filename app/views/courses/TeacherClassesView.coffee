@@ -172,6 +172,7 @@ module.exports = class TeacherClassesView extends RootView
 
     if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
+    @addFreeCourseInstances() # make sure this happens
     super()
 
   onClickEditClassroom: (e) ->
