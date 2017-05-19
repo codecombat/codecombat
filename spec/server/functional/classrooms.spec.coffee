@@ -749,6 +749,7 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       yield utils.loginUser(teacher)
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: { addNewCoursesOnly:true } }
       expect(body.courses.length).toBe(2)
+      expect(body.courses[0].levels.length).toBe(1)
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(2)
       expect(classroom.get('courses')[0].levels.length).toBe(1)
@@ -756,6 +757,7 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       # update without addNewCoursesOnly, make sure first course still updates
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
       expect(body.courses.length).toBe(2)
+      expect(body.courses[0].levels.length).toBe(2)
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(2)
       expect(classroom.get('courses')[0].levels.length).toBe(2)
