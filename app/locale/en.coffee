@@ -597,6 +597,7 @@
     day: "Today"
     week: "This Week"
     all: "All-Time"
+    latest: "Latest"
     time: "Time"
     damage_taken: "Damage Taken"
     damage_dealt: "Damage Dealt"
@@ -2245,5 +2246,3 @@
     fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
     unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
     unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
-
-  
