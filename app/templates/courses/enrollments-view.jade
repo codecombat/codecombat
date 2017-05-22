@@ -52,7 +52,8 @@ block content
       h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
       - var available = view.state.get('prepaidGroups').available
       - var pending = view.state.get('prepaidGroups').pending
-      - var anyPrepaids = available || pending
+      - var empty = view.state.get('prepaidGroups').empty
+      - var anyPrepaids = available || pending ||  empty
       
       .text-center.m-t-3
         span.glyphicon.glyphicon-question-sign
@@ -66,15 +67,22 @@ block content
               h5.m-b-1(data-i18n="teacher.available_credits")
               .row
                 for prepaid in available
-                  .col-sm-4.col-xs-6
+                  .prepaid-card-container.col-sm-4.col-xs-6
                     +prepaidCard(prepaid)
 
             if _.size(pending) > 0
               h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
               .row
                 for prepaid in pending
-                  .col-sm-4.col-xs-6
+                  .prepaid-card-container.col-sm-4.col-xs-6
                     +prepaidCard(prepaid, 'pending-prepaid-card')
+
+            if _.size(empty) > 0
+              h5.m-b-1(data-i18n="teacher.empty_credits")
+              .row
+                for prepaid in empty
+                  .prepaid-card-container.col-sm-4.col-xs-6
+                    +prepaidCard(prepaid, 'empty-prepaid-card')
 
           #actions-col.col-md-3
             +addCredits
@@ -85,14 +93,20 @@ block content
             +addCredits
 
 mixin prepaidCard(prepaid, className)
-  .prepaid-card.bg-navy.text-center.m-b-2.p-a-2(class=className)
+  .prepaid-card.bg-navy.text-center.p-a-2(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
     if prepaid.get('type') === 'starter_license'
       div(data-i18n="teacher.starter_licenses")
     else
-      div(data-i18n="teacher.credits")
+      div(data-i18n="teacher.licenses_remaining")
+    div.m-t-1
+      i.small-details
+        if prepaid.usedSpots() === 1
+          = translate('teacher.one_license_used')
+        else
+          = translate('teacher.num_licenses_used', {numLicensesUsed: prepaid.usedSpots()})
     hr
-    em.small-details
+    i.small-details
       .pull-left(data-i18n="teacher.start_date")
       .pull-right= moment(prepaid.get('startDate')).utc().format('l')
       .clearfix
@@ -100,7 +114,16 @@ mixin prepaidCard(prepaid, className)
       .pull-left(data-i18n="teacher.end_date")
       .pull-right= moment(prepaid.get('endDate')).utc().format('l')
       .clearfix
-
+  if prepaid.get('type') === 'course'
+    .share-details.small-details.m-b-2
+      if prepaid.get('creator') === me.id
+        a.share-licenses-link(data-prepaid-id=prepaid.id)
+          span(data-i18n="share_licenses.share_licenses")
+      else if !prepaid.creator.loading
+        span(data-i18n="share_licenses.shared_by")
+        = " "
+        a(href="mailto:" + prepaid.creator.get('email'))
+          span= prepaid.creator.broadName()
 
 mixin addCredits
   .text-center.m-b-3.m-t-3

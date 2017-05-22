@@ -260,6 +260,9 @@ module.exports = class User extends CocoModel
     courseID = course.id or course
     # NOTE: Full licenses implicitly include all courses
     return !includedCourseIDs or courseID in includedCourseIDs
+  
+  fetchCreatorOfPrepaid: (prepaid) ->
+    @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
 
   # Function meant for "me"
 

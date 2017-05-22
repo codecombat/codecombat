@@ -5,6 +5,7 @@ utils = require 'core/utils'
 
 template = require 'templates/teachers/course-nag'
 
+# Shows up if you have prepaids but haven't enrolled any students
 module.exports = class CourseNagSubview extends CocoView
   id: 'classes-nag-subview'
   template: template
@@ -14,7 +15,7 @@ module.exports = class CourseNagSubview extends CocoView
   initialize: (options) ->
     super(options)
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @listenTo @prepaids, 'sync', @gotPrepaids
     @shown = false
 
@@ -30,8 +31,7 @@ module.exports = class CourseNagSubview extends CocoView
     # Group prepaids into (I)gnored (U)sed (E)mpty
     unusedPrepaids = @prepaids.groupBy (p) ->
       return 'I' if p.status() in ["expired", "pending"]
-      return 'U' if p.get('exhausted') is true
-      return 'U' if p.get('redeemers')?.length isnt 0
+      return 'U' if p.hasBeenUsedByTeacher(me.id)
       return 'E'
     
     @shown = unusedPrepaids.E? and not unusedPrepaids.U?

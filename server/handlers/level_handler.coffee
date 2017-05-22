@@ -374,6 +374,8 @@ LevelHandler = class LevelHandler extends Handler
       'state.topScores.score': -1
 
     select = ['state.topScores', 'creatorName', 'creator', 'codeLanguage', 'heroConfig']
+    if req.user.isAdmin()
+      select.push 'code'
 
     query = Session
       .find(query)

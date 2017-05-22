@@ -94,7 +94,7 @@ module.exports = class TeacherClassView extends RootView
     @sortedCourses = []
 
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
 
     @students = new Users()
     @classroom.sessions = new LevelSessions()
