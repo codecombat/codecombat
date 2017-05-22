@@ -79,7 +79,6 @@ block modal-body-content
             for hero in rewards.heroes
               - var hero = thangTypes[hero];
               .reward-panel.hero(data-hero-thang-type=hero.get('original'))
-                .subscribe-text(data-i18n="play.subscribers_only")
                 .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                   img(src=hero.getPortraitURL())
                 if animate
@@ -90,17 +89,26 @@ block modal-body-content
           if rewards.items
             for item in rewards.items
               - var item = thangTypes[item];
-              if item.get('subscriber') && me.freeOnly()
-                - continue
-              .reward-panel.item(data-item-thang-type=item.get('original'))
-                if item.get('subscriber')
-                  .subscribe-text(data-i18n="play.subscribers_only")
-                .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                  img(src=item.getPortraitURL())
-                if animate
-                  .reward-text(data-i18n="play_level.victory_new_item") New Item
-                else
-                  .reward-text= i18n(item.attributes, 'name')
+              if item.get('subscriber') 
+                if me.freeOnly()
+                  - continue
+                .reward-panel.item.premium(data-item-thang-type=item.get('original'))
+                  .reward-border
+                  .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                    img(src=item.getPortraitURL())
+                  if animate
+                    .reward-text(data-i18n="play_level.victory_new_item") New Item
+                  else
+                    .reward-text= i18n(item.attributes, 'name')
+              else
+               .reward-panel.item(data-item-thang-type=item.get('original'))
+                  .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
+                    img(src=item.getPortraitURL())
+                  if animate
+                    .reward-text(data-i18n="play_level.victory_new_item") New Item
+                  else
+                    .reward-text= i18n(item.attributes, 'name')
+
 
 block modal-footer-content
   #totals
