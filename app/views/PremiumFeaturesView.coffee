@@ -17,7 +17,8 @@ module.exports = class PremiumFeaturesView extends RootView
     
   afterInsert: () ->
     super()
-    @openSubscriptionModal()
+    if utils.getQueryVariable('pop')?
+      @openSubscriptionModal()
 
   openSubscriptionModal: ->
     @openModalView new SubscribeModal()
