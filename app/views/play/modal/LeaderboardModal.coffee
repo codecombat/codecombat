@@ -8,7 +8,7 @@ module.exports = class LeaderboardModal extends ModalView
   id: 'leaderboard-modal'
   template: template
   instant: true
-  timespans: ['day', 'week', 'all']
+  timespans: ['latest', 'all']
 
   subscriptions: {}
 

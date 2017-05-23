@@ -597,6 +597,7 @@
     day: "Today"
     week: "This Week"
     all: "All-Time"
+    latest: "Latest"
     time: "Time"
     damage_taken: "Damage Taken"
     damage_dealt: "Damage Dealt"
