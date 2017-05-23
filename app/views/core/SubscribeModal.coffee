@@ -1,5 +1,4 @@
 ModalView = require 'views/core/ModalView'
-template = require 'templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 CreateAccountModal = require 'views/core/CreateAccountModal'
@@ -7,7 +6,6 @@ Products = require 'collections/Products'
 
 module.exports = class SubscribeModal extends ModalView
   id: 'subscribe-modal'
-  template: template
   plain: true
   closesOnClickOutside: false
   planID: 'basic'
@@ -22,6 +20,12 @@ module.exports = class SubscribeModal extends ModalView
     'click .lifetime-button': 'onClickLifetimeButton'
 
   constructor: (options={}) ->
+    switch options.context
+      when 'gems' then @template = require 'templates/core/subscribe-contexts/gems'
+      when 'heroes' then @template = require 'templates/core/subscribe-contexts/heroes'
+      when 'campaign' then @template = require 'templates/core/subscribe-contexts/campaign'
+      when 'premium-level' then @template = require 'templates/core/subscribe-contexts/premium-level'
+      else @template = require 'templates/core/subscribe-modal'
     super(options)
     @state = 'standby'
     if options.products

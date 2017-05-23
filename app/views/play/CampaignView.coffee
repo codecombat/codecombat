@@ -995,7 +995,7 @@ module.exports = class CampaignView extends RootView
       $pollButton.removeClass('highlighted').tooltip 'hide'
 
   onClickPremiumButton: (e) ->
-    @openModalView new SubscribeModal()
+    @openModalView new SubscribeModal({ context: 'campaign' })
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'campaignview premium button'
 
   getLoadTrackingTag: () ->

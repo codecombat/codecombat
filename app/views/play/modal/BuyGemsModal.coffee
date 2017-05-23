@@ -135,5 +135,5 @@ module.exports = class BuyGemsModal extends ModalView
     @hide()
 
   onClickStartSubscription: (e) ->
-    @openModalView new SubscribeModal()
+    @openModalView new SubscribeModal({ context: 'gems' })
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'buy gems modal'

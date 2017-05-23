@@ -325,7 +325,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
   onSubscribeButtonClicked: (e) ->
     return @askToSignUp() if me.get('anonymous')
-    @openModalView new SubscribeModal()
+    @openModalView new SubscribeModal({ context: 'heroes' })
     console.log $(e.target).data('heroSlug')
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
