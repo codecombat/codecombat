@@ -47,6 +47,7 @@ block modal-body-content
     table.table.table-condensed
       tr
         th ID
+        th Shared by
         th Type
         th Start
         th End
@@ -54,6 +55,13 @@ block modal-body-content
       for prepaid in view.prepaids.models
         tr
           td= prepaid.id
+          td
+            if prepaid.creator
+              if prepaid.creator.id !== view.user.id
+                a.user-link(data-user-id=prepaid.creator.id)
+                  = prepaid.creator.get('name')
+              else
+                | -
           td= prepaid.get('type')
           td
             if prepaid.get('startDate')
