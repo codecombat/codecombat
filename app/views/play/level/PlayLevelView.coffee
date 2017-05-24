@@ -89,7 +89,7 @@ module.exports = class PlayLevelView extends RootView
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
     'click': 'onClick'
-    
+
   onClick: ->
     # workaround to get users out of permanent idle status
     if application.userIsIdle
@@ -393,7 +393,7 @@ module.exports = class PlayLevelView extends RootView
       assassin = '566a2202e132c81f00f38c81'
       e.session.set 'heroConfig', {"thangType":assassin,"inventory":{
         "eyes": "546941fda2b1f53ce794441d",
-        "feet": "546d4d8e9df4a17d0d449acd",  
+        "feet": "546d4d8e9df4a17d0d449acd",
         "minion": "54eb5d1649fa2d5c905ddf52",
         "neck": "54693363a2b1f53ce79443d1",
         "wrists": "54693830a2b1f53ce79443f1",
@@ -725,6 +725,7 @@ module.exports = class PlayLevelView extends RootView
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
     finishedLoading = @world.frames.length is @world.totalFrames
+    @realTimePlaybackWaitingForFrames = false
     if finishedLoading
       @lastWorldFramesLoaded = 0
       if @waitingForSubmissionComplete
@@ -742,13 +743,14 @@ module.exports = class PlayLevelView extends RootView
     @$el.addClass('real-time').focus()
     @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
     @onWindowResize()
+    @realTimePlaybackWaitingForFrames = true
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'
     @$('#how-to-play-game-dev-panel').addClass('hide') if @level.isType('game-dev')
     @$el.removeClass 'real-time'
     @onWindowResize()
-    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing
+    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing and not @realTimePlaybackWaitingForFrames
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
