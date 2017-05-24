@@ -25,6 +25,26 @@ cutoffDate = new Date(2015,11,11)
 cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate / 1000).toString(16)+'0000000000000000')
 
 module.exports =
+  
+  postForIsraelPilot: wrap (req, res, next) ->
+    unless req.body.forIsrael and req.user
+      return next()
+      
+    unless req.features.israel
+      throw new errors.Forbidden('May only post pilot licenses in Israel')
+      
+    prepaid = new Prepaid({
+      creator: req.user.id
+      maxRedeemers: 100
+      type: 'course'
+      startDate: new Date('2017-05-01').toISOString()
+      endDate: new Date('2017-08-01').toISOString()
+    })
+    database.validateDoc(prepaid)
+    yield prepaid.save()
+    res.status(201).send(prepaid.toObject())
+    
+  
   # Create a prepaid manually (as an admin)
   post: wrap (req, res) ->
     validTypes = ['course', 'starter_license']

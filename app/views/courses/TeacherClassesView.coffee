@@ -248,7 +248,7 @@ module.exports = class TeacherClassesView extends RootView
     # non-free courses are generated when the teacher first adds a student to them
     for classroom in @classrooms.models
       for course in @courses.models
-        continue if not course.get('free')
+        continue unless course.get('free') or features.israel
         courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
         if not courseInstance
           courseInstance = new CourseInstance({

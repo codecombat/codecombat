@@ -15,6 +15,7 @@ parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
 User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
+Prepaid = require '../models/Prepaid'
 TrialRequest = require '../models/TrialRequest'
 sendwithus = require '../sendwithus'
 co = require 'co'
@@ -282,15 +283,22 @@ module.exports =
     if not req.user.get('role')
       req.user.set('role', 'student')
       yield req.user.save()
+      
+    # for Israel pilot only, join any prepaids associated with the teacher
+    if req.features.israel and not req.user.get('coursePrepaid')
+      prepaid = yield Prepaid.findOne({ creator: classroom.get('ownerID'), type: 'course' })
+      if prepaid
+        yield prepaid.redeem(req.user, classroom.get('ownerID'))
 
-    # join any course instances for free courses in the classroom
+    # join any course instances for free courses in the classroom (or all courses if for Israel pilot)
     courseIDs = (course._id for course in classroom.get('courses'))
-    courses = yield Course.find({_id: {$in: courseIDs}, free: true})
-    freeCourseIDs = (course._id for course in courses)
-    freeCourseInstances = yield CourseInstance.find({ classroomID: classroom._id, courseID: {$in: freeCourseIDs} }).select('_id')
-    freeCourseInstanceIDs = (courseInstance._id for courseInstance in freeCourseInstances)
-    yield CourseInstance.update({_id: {$in: freeCourseInstanceIDs}}, { $addToSet: { members: req.user._id }})
-    yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: freeCourseInstanceIDs } } })
+    unless req.features.israel
+      courses = yield Course.find({_id: {$in: courseIDs}, free: true})
+      courseIDs = (course._id for course in courses)
+    courseInstances = yield CourseInstance.find({ classroomID: classroom._id, courseID: {$in: courseIDs} }).select('_id')
+    courseInstanceIDs = (courseInstance._id for courseInstance in courseInstances)
+    yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
+    yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
 
     activity = req.user.trackActivity 'joinClassroom', 1
     yield req.user.update {activity: activity}

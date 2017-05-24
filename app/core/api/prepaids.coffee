@@ -11,4 +11,10 @@ module.exports = {
 
   fetchJoiners: ({ prepaidID }, options={}) ->
     fetchJson(@url(prepaidID, 'joiners'))
+    
+  postForIsraelPilot: (options={}) ->
+    fetchJson('/db/prepaid', _.assign {}, options, {
+      method: 'POST'
+      json: { forIsrael: 'true' }
+    })
 }

@@ -164,6 +164,8 @@ module.exports = class IsraelSignupView extends RootView
           name: me.broadName()
           aceConfig: { language: 'python' }
         })
+        .then(api.prepaids.postForIsraelPilot())
+        
       
     .then =>
       @redirectAfterAuth()
