@@ -150,10 +150,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     adjust_volume: "音量を調整する"
     campaign_multiplayer: "マルチプレイ・アリーナ"
     campaign_multiplayer_description: "コーディングで他のプレイヤーに対して格闘しましょう"
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_done: "勝利！コードでオーガを倒した！"
+    brain_pop_challenge: "違うプログラミング言語での再挑戦で自分自身にチャレンジ!"
+    replay: "リプレイ"
+    back_to_classroom: "クラスルームに戻る"
 
   code:
     if: "もし" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -320,8 +320,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
   common:
     back: "戻る" # When used as an action verb, like "Navigate backward"
     coming_soon: "近日公開!"
-    continue: "次へ" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    continue: "続ける" # When used as an action verb, like "Continue forward"
+    next: "次へ"
     default_code: "元のコード"
     loading: "ロード中"
     overview: "あらすじ"
@@ -347,7 +347,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     submit_changes: "変更を送信"
     save_changes: "変更を保存"
     required_field: "記入漏れ" # {change}
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "認証された電話番号で入る."
 
   general:
     and: "と"
@@ -627,13 +627,13 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     prompt_button: "ショップに入る"
     recovered: "前のジェム購入をリカバリーしました。ページを更新してください。"
     price: "x{{gems}} / 月"
-#    buy_premium: "Buy Premium"
-#    purchase: "Purchase"
-#    purchased: "Purchased"
+    buy_premium: "プラチナを購入"
+    purchase: "購入"
+    purchased: "購入完了"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "ジェムが足りません"
+    prompt_body: "プレイを続けてさらに稼ごう！"
 
   subscribe:
     subscribe_modal_title: "CodeCombatプレミアム"
@@ -878,9 +878,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     elliot_title: "パートナーシップマネージャー"
     elliot_blurb: "読心術者"
     lisa_title: "市場開発代表" # {change}
-#    lisa_blurb: "A gritty one"
+    lisa_blurb: "荒々しい"
     sean_title: "地域部長"
-#    liz_title: "Territory Manager"
+    liz_title: "地域部長"
     retrostyle_title: "イラスト"
     retrostyle_blurb: "レトロスタイルのゲーム"
     jose_title: "ミュージック"
@@ -1099,7 +1099,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     saved: "変更しました"
     password_mismatch: "パスワードが違います"
     password_repeat: "もう一度パスワードを入力してください"
-#    file_size_limit: "(max file size: 1MB)"
+    file_size_limit: "(最大ファイルサイズ: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "キーボードショートカット"
