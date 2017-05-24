@@ -166,6 +166,7 @@ module.exports.setup = (app) ->
 
   LevelSession = require '../models/LevelSession'
   app.post('/queue/scoring', mw.levelSessions.submitToLadder) # TODO: Rename to /db/level_session/:handle/submit-to-ladder
+  app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
@@ -201,11 +202,14 @@ module.exports.setup = (app) ->
   app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
 
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
+  app.get('/db/prepaid/:handle/creator', mw.prepaids.fetchCreator)
+  app.get('/db/prepaid/:handle/joiners', mw.prepaids.fetchJoiners)
   app.get('/db/prepaid/-/active-school-licenses', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchoolLicenses)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
   app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
+  app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)
   app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
 
   app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)

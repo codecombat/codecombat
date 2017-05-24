@@ -363,17 +363,25 @@ LevelHandler = class LevelHandler extends Handler
       'level.original': levelOriginal
       'state.topScores.type': scoreType
     now = new Date()
-    if timespan is 'day'
+    if timespan is 'latest'
+      query['state.topScores.date'] = $lte: now.toISOString()
+    else if timespan is 'day'
+      # TODO: remove this old timeframe support after new latest/all version is deployed
       since = new Date now - 1 * 86400 * 1000
+      query['state.topScores.date'] = $gt: since.toISOString()
     else if timespan is 'week'
+      # TODO: remove this old timeframe support after new latest/all version is deployed
       since = new Date now - 7 * 86400 * 1000
-    if since
       query['state.topScores.date'] = $gt: since.toISOString()
 
-    sort =
-      'state.topScores.score': -1
+    if timespan is 'all'
+      sort = 'state.topScores.score': -1
+    else
+      sort = 'state.topScores.date': -1
 
     select = ['state.topScores', 'creatorName', 'creator', 'codeLanguage', 'heroConfig']
+    if req.user.isAdmin()
+      select.push 'code'
 
     query = Session
       .find(query)

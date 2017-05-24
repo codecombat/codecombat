@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 Classrooms = require 'collections/Classrooms'
 State = require 'models/State'
+User = require 'models/User'
 Prepaids = require 'collections/Prepaids'
 template = require 'templates/courses/enrollments-view'
 Users = require 'collections/Users'
@@ -9,6 +10,7 @@ HowToEnrollModal = require 'views/teachers/HowToEnrollModal'
 TeachersContactModal = require 'views/teachers/TeachersContactModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 utils = require 'core/utils'
+ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
 
 {
   STARTER_LICENSE_COURSE_IDS
@@ -23,6 +25,7 @@ module.exports = class EnrollmentsView extends RootView
     'click #enroll-students-btn': 'onClickEnrollStudentsButton'
     'click #how-to-enroll-link': 'onClickHowToEnrollLink'
     'click #contact-us-btn': 'onClickContactUsButton'
+    'click .share-licenses-link': 'onClickShareLicensesLink'
 
   getTitle: -> return $.i18n.t('teacher.enrollments')
   
@@ -59,7 +62,13 @@ module.exports = class EnrollmentsView extends RootView
     @listenToOnce @classrooms, 'sync', @onceClassroomsSync
     @supermodel.trackRequest @classrooms.fetchMine()
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @listenTo @prepaids, 'sync', ->
+      @prepaids.each (prepaid) =>
+        prepaid.creator = new User()
+        # We never need this information if the user would be `me`
+        if prepaid.get('creator') isnt me.id
+          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
     @debouncedRender = _.debounce @render, 0
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
@@ -135,3 +144,11 @@ module.exports = class EnrollmentsView extends RootView
     modal.once 'hidden', =>
       @prepaids.add(modal.prepaids.models, { merge: true })
       @debouncedRender() # Because one changed model does not a collection update make
+
+  onClickShareLicensesLink: (e) ->
+    prepaidID = $(e.currentTarget).data('prepaidId')
+    @shareLicensesModal = new ShareLicensesModal({prepaid: @prepaids.get(prepaidID)})
+    @shareLicensesModal.on 'setJoiners', (prepaidID, joiners) =>
+      prepaid = @prepaids.get(prepaidID)
+      prepaid.set({ joiners })
+    @openModalView(@shareLicensesModal)

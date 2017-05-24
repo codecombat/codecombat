@@ -544,6 +544,94 @@ describe 'GET /db/user', ->
       expect(res.body).toBeFalsy()
       expect(res.statusCode).toBe(200)
   
+describe 'GET /db/user?email=:email', ->
+  beforeEach utils.wrap ->
+    yield Promise.promisify(clearModels)([User])
+    @admin = yield utils.initAdmin()
+    @teacher1 = yield utils.initUser({ role: 'teacher' })
+    @teacher2 = yield utils.initUser({
+      role: 'teacher'
+      email: 'teacher2@example.com'
+      firstName: 'first'
+      lastName: 'last'
+    })
+    @user = yield utils.initUser({
+      email: 'user@example.com'
+      firstName: 'user_first'
+    })
+
+  describe 'when user is a teacher', ->
+    beforeEach utils.wrap ->
+      yield utils.loginUser(@teacher1)
+
+    describe 'and email matches a teacher', ->
+      beforeEach utils.wrap ->
+        @email = 'teacher2@example.com'
+        @url = getURL("/db/user?email=#{@email}")
+
+      it 'returns the user with username, full name, and email', utils.wrap ->
+        [res, body] = yield request.getAsync({ url: @url, json: true })
+        expect(res.statusCode).toBe(200)
+        expect(body.email).toBe(@teacher2.get('email'))
+        expect(body.name).toBe(@teacher2.get('name'))
+        expect(body.firstName).toBe(@teacher2.get('firstName'))
+        expect(body.lastName).toBe(@teacher2.get('lastName'))
+        expect(body.passwordHash).toBeUndefined()
+
+    describe 'and email matches a non-teacher', ->
+      beforeEach utils.wrap ->
+        @email = 'user@example.com'
+        @url = getURL("/db/user?email=#{@email}")
+
+      it 'returns 403', utils.wrap ->
+        [res, body] = yield request.getAsync({ url: @url, json: true })
+        expect(res.statusCode).toBe(403)
+
+    describe "and email doesn't match any users", ->
+      beforeEach utils.wrap ->
+        @email = 'nobody@example.com'
+        @url = getURL("/db/user?email=#{@email}")
+
+      it 'returns 404', utils.wrap ->
+        [res, body] = yield request.getAsync({ url: @url, json: true })
+        expect(res.statusCode).toBe(404)
+
+  describe 'when user is an admin', ->
+    beforeEach utils.wrap ->
+      yield utils.loginUser(@admin)
+
+    describe 'and email matches a user', ->
+      beforeEach utils.wrap ->
+        @email = 'user@example.com'
+        @url = getURL("/db/user?email=#{@email}")
+
+      it 'returns the user with private attributes', utils.wrap ->
+        [res, body] = yield request.getAsync({ url: @url, json: true })
+        expect(res.statusCode).toBe(200)
+        expect(body.role).toBe(@user.get('role'))
+        expect(body.email).toBe(@user.get('email'))
+        expect(body.name).toBe(@user.get('name'))
+        expect(body.firstName).toBe(@user.get('firstName'))
+        expect(body.permissions).toEqual(@user.get('permissions'))
+
+    describe "and email doesn't match any users", ->
+      beforeEach utils.wrap ->
+        @email = 'nobody@example.com'
+        @url = getURL("/db/user?email=#{@email}")
+
+      it 'returns 404', utils.wrap ->
+        [res, body] = yield request.getAsync({ url: @url, json: true })
+        expect(res.statusCode).toBe(404)
+
+  describe 'when user is not a teacher nor an admin', ->
+    beforeEach utils.wrap ->
+      yield utils.loginUser(@user)
+      @email = 'whatever'
+      @url = getURL("/db/user?email=#{@email}")
+
+    it 'returns 403', utils.wrap ->
+      [res, body] = yield request.getAsync({ url: @url, json: true })
+      expect(res.statusCode).toBe(403)
   
 describe 'GET /db/user/:handle', ->
   it 'populates coursePrepaid from coursePrepaidID', utils.wrap ->

@@ -11,6 +11,7 @@ PrepaidSchema = new mongoose.Schema {
 }, {strict: false, minimize: false,read:config.mongo.readpref}
 PrepaidSchema.index({code: 1}, { unique: true })
 PrepaidSchema.index({'redeemers.userID': 1})
+PrepaidSchema.index({'joiners.userID': 1}, {sparse: true})
 PrepaidSchema.index({owner: 1, endDate: 1}, { sparse: true })
 
 PrepaidSchema.statics.DEFAULT_START_DATE = new Date(2016,4,15).toISOString()
@@ -43,6 +44,9 @@ PrepaidSchema.methods.canReplaceUserPrepaid = (otherPrepaid) ->
     return true
   return false
 
+PrepaidSchema.methods.canBeUsedBy = (userID) ->
+  @get('creator').equals(userID) or _.find(@get('joiners'), (joiner) -> joiner.userID.equals(userID) )
+
 PrepaidSchema.pre('save', (next) ->
   @set('exhausted', @get('maxRedeemers') <= _.size(@get('redeemers')))
   if not @get('code')
@@ -61,7 +65,7 @@ PrepaidSchema.post 'init', (doc) ->
     if not @get('endDate')
       @set('endDate', Prepaid.DEFAULT_END_DATE)
       
-PrepaidSchema.methods.redeem = co.wrap (user) ->
+PrepaidSchema.methods.redeem = co.wrap (user, teacherID) ->
   if @get('endDate') and new Date(@get('endDate')) < new Date()
     throw new errors.Forbidden('This prepaid is expired')
   
@@ -85,7 +89,7 @@ PrepaidSchema.methods.redeem = co.wrap (user) ->
     if redeemer.userID.equals(user._id)
       throw new errors.Forbidden('User already redeemed')
 
-  newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: user._id } }}
+  newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: user._id, teacherID: teacherID } }}
   result = yield Prepaid.update(
     {
       _id: @_id,

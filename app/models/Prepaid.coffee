@@ -10,6 +10,9 @@ module.exports = class Prepaid extends CocoModel
   openSpots: ->
     return @get('maxRedeemers') - @get('redeemers')?.length if @get('redeemers')?
     @get('maxRedeemers')
+  
+  usedSpots: ->
+    _.size(@get('redeemers'))
 
   userHasRedeemed: (userID) ->
     for redeemer in @get('redeemers')
@@ -57,3 +60,8 @@ module.exports = class Prepaid extends CocoModel
     options.data ?= {}
     options.data.userID = user.id or user
     @fetch(options)
+
+  hasBeenUsedByTeacher: (userID) ->
+    if @get('creator') is userID and _.detect(@get('redeemers'), { teacherID: undefined })
+      return true
+    _.detect(@get('redeemers'), { teacherID: userID })

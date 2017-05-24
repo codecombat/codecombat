@@ -3,19 +3,20 @@ wrap = require 'co-express'
 LevelSession = require '../models/LevelSession'
 Level = require '../models/Level'
 CourseInstance = require('../models/CourseInstance')
+mongoose = require 'mongoose'
 
 
 submitToLadder = wrap (req, res) ->
   requestSessionID = req.body.session
   courseInstanceId = req.body.courseInstanceId
-  
+
   if (not req.user) or req.user.isAnonymous()
     throw new errors.Unauthorized()
 
   session = yield LevelSession.findOne({_id: requestSessionID}).select('code leagues codeLanguage creator level')
   if not session
     throw new errors.NotFound('Session not found.')
-    
+
   unless req.user?.isAdmin()
     userHasPermissionToSubmitCode = session.get('creator') is req.user?.id
     unless userHasPermissionToSubmitCode
@@ -43,7 +44,7 @@ submitToLadder = wrap (req, res) ->
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to save them as strings.
   currentLeagueIds = (session.get('leagues') or []).map((l) -> l.leagueID)
   leagueIDs = _.unique(leagueIDs.concat(currentLeagueIds))
-  
+
   if courseInstanceId and not _.contains(leagueIDs, courseInstanceId)
     courseInstance = yield CourseInstance.findById(courseInstanceId)
     if not courseInstance
@@ -51,7 +52,7 @@ submitToLadder = wrap (req, res) ->
     if not courseInstance.isMember(req.user._id)
       throw new errors.Forbidden('Not assigned this course in this classroom')
     leagueIDs.push(courseInstance.id)
-  
+
   newLeagues = []
   for leagueID in leagueIDs
     league = _.clone(_.find(session.get('leagues'), leagueID: leagueID) ? leagueID: leagueID)
@@ -68,7 +69,15 @@ submitToLadder = wrap (req, res) ->
   yield LevelSession.update {_id: session._id}, sessionUpdateObject
   session.set(sessionUpdateObject)
   res.send(session.toObject({req}))
-  
+
+unsetScores = wrap (req, res) ->
+  sessionID = req.body.session
+  unless sessionID
+    throw new errors.UnprocessableEntity('No session provided.')
+  yield LevelSession.update {_id: mongoose.Types.ObjectId(sessionID)}, {$unset: {'state.topScores': 1}}
+  res.send 200
+
 module.exports = {
   submitToLadder
+  unsetScores
 }

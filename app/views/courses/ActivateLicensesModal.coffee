@@ -34,7 +34,7 @@ module.exports = class ActivateLicensesModal extends ModalView
     @users.comparator = (user) -> user.broadName().toLowerCase()
     @prepaids = new Prepaids()
     @prepaids.comparator = 'endDate' # use prepaids in order of expiration
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @classrooms = new Classrooms()
     @supermodel.trackRequest @classrooms.fetchMine({
       data: {archived: false}

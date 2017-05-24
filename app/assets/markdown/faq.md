@@ -26,6 +26,7 @@
 * [Is there a limit to how many students I can add in Introduction to Computer Science?](#is-there-a-limit-to-how-many-students-i-can-add-in-introduction-to-computer-science-)
 * [How do I reset my student's password?](#how-do-i-reset-my-student-s-password-)
 * [How do I transfer a license from one student to another?](#how-do-i-transfer-a-license-from-one-student-to-another-)
+* [How do I share licenses to other teachers in my organization?](#how-do-i-share-licenses-to-other-teachers-in-my-organization-)
 
 
 ### What is CodeCombat?
@@ -137,5 +138,12 @@ If your student has verified their email, they will need to use the 'Forgot your
 ### How do I transfer a license from one student to another?
 
 A Full License can be removed from a student at any time before the license expires, and assigned to another student. To do so, go to that student's class, click the "License Status" tab, and click "Revoke License" from the student you wish to revoke the license from. This student will not be able to play any new levels that require a license (they will still be able to access any levels they've already started). The license will be available to assign to another student (the license expiration date will remain the same) -- see the [Student Licenses](https://codecombat.com/teachers/licenses) page for all of your available licenses.
+
+### How do I share licenses to other teachers in my organization?
+If you have Full Licenses, you can share access to them with other teachers in your organization. Navigate to the [Student Licenses tab](/teachers/licenses), then click the "Share Licenses" link below any group of licenses. This will popup a dialog that allows you to add teachers to the shared licenses.
+
+You can only add teachers in your organization that have already created a Teacher Account ([here's how](/teachers/resources/getting-started)). Once a teacher has been added to a shared license pool, they have the ability to use any of the licenses you've shared.
+
+When a license has been used, it is not available to be used by another teacher until that teacher revokes the license from the student (see [How to Transfer a License](#how-do-i-transfer-a-license-from-one-student-to-another-)).
 
 [Back to Top](#frequently-asked-questions)

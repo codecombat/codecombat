@@ -9,6 +9,9 @@ module.exports = {
   getByIsraelId: (israelId, options) ->
     fetchJson('/db/user', _.assign({}, options, { data: { israelId } }))
 
+  getByEmail: (email, options={}) ->
+    fetchJson("/db/user", _.merge {}, options, { data: { email } })
+
   signupWithPassword: ({userId, name, email, password}, options={}) ->
     fetchJson(@url(userId, 'signup-with-password'), _.assign({}, options, {
       method: 'POST'

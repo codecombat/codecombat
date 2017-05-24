@@ -18,6 +18,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click .update-classroom-btn': 'onClickUpdateClassroomButton'
     'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
+    'click .user-link': 'onClickUserLink'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -25,7 +26,12 @@ module.exports = class AdministerUserModal extends ModalView
     @coupons = new StripeCoupons()
     @supermodel.trackRequest @coupons.fetch({cache: false})
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle)
+    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle, { data: {includeShared: true} })
+    @listenTo @prepaids, 'sync', =>
+      @prepaids.each (prepaid) =>
+        if prepaid.loaded and not prepaid.creator
+          prepaid.creator = new User()
+          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
     @classrooms = new Classrooms()
     @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
     
@@ -87,7 +93,7 @@ module.exports = class AdministerUserModal extends ModalView
       button.remove()
     .catch (e) =>
       button.attr('disabled', false).text('Destudent')
-      noty { 
+      noty {
         text: e.message or e.responseJSON?.message or e.responseText or 'Unknown Error'
         type: 'error'
       }
@@ -128,3 +134,7 @@ module.exports = class AdministerUserModal extends ModalView
         @renderSelectors('#classroom-table')
       .catch ->
         noty({text: 'Failed to update classroom courses.', type: 'error'})
+
+  onClickUserLink: (e) ->
+    userID = $(e.target).data('user-id')
+    @openModalView new AdministerUserModal({}, userID) if userID

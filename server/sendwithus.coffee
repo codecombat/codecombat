@@ -44,3 +44,4 @@ module.exports.templates =
   teacher_drip_day_5: 'tem_7Xh9HwxyQDrVRYTK37JgMXYF'
   teacher_drip_day_7: 'tem_SRcvbYCd9QXRDvr68qWhD66d'
   sunburst_referral: 'tem_MWgdKKv7JwD8c6WdbRyRSG89'
+  share_licenses_joiner: 'tem_7brGYfbJpYkx3qHXx33Yb8xQ'

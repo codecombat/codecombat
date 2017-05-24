@@ -73,7 +73,7 @@ module.exports = class CampaignView extends RootView
     'mousemove .portals': 'onMouseMovePortals'
     'click .poll': 'showPoll'
     'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
-    'click .premium': 'onClickPremiumButton'
+    'click .premium-menu-icon': 'onClickPremiumButton'
     
   shortcuts:
     'shift+s': 'onShiftS'
