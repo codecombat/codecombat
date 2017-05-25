@@ -120,6 +120,12 @@ module.exports = class SubscribeModal extends ModalView
       return unless jqxhr # in case of cancellations
       @onSubscriptionError(jqxhr, 'Failed to finish subscription purchase')
 
+  makePurchaseOps: ->
+    out = {data: {}}
+    if utils.getQueryVariable('coupon')?
+      out.data.coupon = utils.getQueryVariable('coupon')
+    out
+
   onClickSaleButton: ->
     @playSound 'menu-button-click'
     return @openModalView new CreateAccountModal() if me.get('anonymous')
@@ -136,7 +142,7 @@ module.exports = class SubscribeModal extends ModalView
       @state = 'purchasing'
       @render()
       # Purchasing a year
-      return Promise.resolve(@yearProduct.purchase(token))
+      return Promise.resolve(@yearProduct.purchase(token, @makePurchaseOps()))
     .then (response) =>
       application.tracker?.trackEvent 'Finished 1 year subscription purchase', value: @purchasedAmount
       me.set 'stripe', response?.stripe if response?.stripe?
@@ -159,7 +165,7 @@ module.exports = class SubscribeModal extends ModalView
       @state = 'purchasing'
       @render()
       # Purchasing a year
-      return Promise.resolve(@lifetimeProduct.purchase(token))
+      return Promise.resolve(@lifetimeProduct.purchase(token, @makePurchaseOps()))
     .then (response) =>
       application.tracker?.trackEvent 'Finish Lifetime Purchase', value: @purchasedAmount
       me.set 'stripe', response?.stripe if response?.stripe?
