@@ -13,6 +13,12 @@ module.exports = class ProductModel extends CocoModel
       amt = @get('coupons')[0].amount
     (amt / 100).toFixed(2)
 
+  adjustedPrice: ->
+    amt = @get('amount')
+    if @get('coupons')? and @get('coupons').length > 0
+      amt = @get('coupons')[0].amount
+    amt
+
   purchase: (token, options={}) ->
     options.url = _.result(@, 'url') + '/purchase'
     options.method = 'POST'
