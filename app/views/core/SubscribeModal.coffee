@@ -103,7 +103,7 @@ module.exports = class SubscribeModal extends ModalView
     application.tracker?.trackEvent 'Started subscription purchase'
     options = @stripeOptions {
       description: $.i18n.t('subscribe.stripe_description')
-      amount: @basicProduct.get('amount')
+      amount: @basicProduct.adjustedPrice()
     }
     
     @purchasedAmount = options.amount
@@ -128,7 +128,7 @@ module.exports = class SubscribeModal extends ModalView
     discountString = (discount/100).toFixed(2)
     options = @stripeOptions {
       description: $.i18n.t('subscribe.stripe_description_year_sale').replace('{{discount}}', discountString)
-      amount: @yearProduct.get('amount')
+      amount: @yearProduct.adjustedPrice()
     }
     @purchasedAmount = options.amount
     stripeHandler.makeNewInstance().openAsync(options)
@@ -151,7 +151,7 @@ module.exports = class SubscribeModal extends ModalView
     application.tracker?.trackEvent 'Start Lifetime Purchase'
     options = @stripeOptions {
       description: $.i18n.t('subscribe.lifetime')
-      amount: @lifetimeProduct.get('amount')
+      amount: @lifetimeProduct.adjustedPrice()
     }
     @purchasedAmount = options.amount
     stripeHandler.makeNewInstance().openAsync(options)
