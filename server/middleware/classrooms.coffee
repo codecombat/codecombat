@@ -130,7 +130,7 @@ module.exports =
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
     dbqs = []
-    select = 'state.complete level creator playtime changed created dateFirstCompleted submitted'
+    select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published'
     for member in members
       $or = []
       for courseID in memberCoursesMap[member.toHexString()] ? []

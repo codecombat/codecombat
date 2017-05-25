@@ -3,6 +3,14 @@ LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
 ThangType = require './ThangType'
 
+# Pure functions for use in Vue
+# First argument is always a raw Level.attributes
+# Accessible via eg. `Level.isProject(levelObj)`
+LevelLib = {
+  isProject: (level) ->
+    return level.shareable is 'project'
+}
+
 module.exports = class Level extends CocoModel
   @className: 'Level'
   @schema: require 'schemas/models/level'
@@ -263,8 +271,7 @@ module.exports = class Level extends CocoModel
   isLadder: ->
     return @get('type')?.indexOf('ladder') > -1
 
-  isProject: ->
-    return @get('shareable') is 'project'
+  isProject: -> Level.isProject(@attributes)
 
   isType: (types...) ->
     return @get('type', true) in types
@@ -298,3 +305,5 @@ module.exports = class Level extends CocoModel
       catch e
         console.error "Problem with template and solution comments for", @get('slug'), e
     sampleCode
+
+_.assign(Level, LevelLib)

@@ -98,3 +98,34 @@ describe 'CourseVictoryModal', ->
         expect(application.router.navigate).toHaveBeenCalled()
 
     it '(demo)', -> jasmine.demoModal(modal)
+
+  describe 'given a project level', ->
+    modal = null
+
+    beforeEach (done) ->
+      options = makeViewOptions()
+      @session = options.session
+
+      # make the level not have a next level
+      level = options.level
+      level.unset('nextLevel')
+      delete options.nextLevel
+      # make it a project level
+      level.set('shareable', 'project')
+      
+      modal = new CourseVictoryModal(options)
+      handleRequests(modal)
+      nextLevelRequest.respondWith({status: 404, responseText: '{}'})
+      _.defer done
+
+    describe 'its CourseVictoryModal', ->
+      it 'has a publish button which sets session.published to true', (done) ->
+        spyOn(application.router, 'navigate')
+        button = modal.$el.find('#publish-btn')
+        expect(button.length).toBe(1)
+        modal.onPublish().then =>
+          expect(application.router.navigate).toHaveBeenCalled()
+          done()
+        modal.session.fakeRequests[0]?.respondWith({ status: 200, responseText: '{}' })
+
+    it '(demo)', -> jasmine.demoModal(modal)
