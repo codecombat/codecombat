@@ -105,7 +105,7 @@ setupExpressMiddleware = (app) ->
     app.use compression filter: (req, res) ->
       return false if req.headers.host is 'codecombat.com'  # CloudFlare will gzip it for us on codecombat.com
       compressible res.getHeader('Content-Type')
-  else if not global.testing
+  else if not global.testing or config.TRACE_ROUTES
     morgan.format('dev', developmentLogging)
     app.use(morgan('dev'))
 
