@@ -145,19 +145,19 @@ module.exports = class AccountSettingsView extends CocoView
           text: "Deleting account failed with error code #{jqXHR.status}"
           type: 'error'
           layout: 'topCenter'
-      url: "/db/user/#{@user.id}"
+      url: "/db/user/#{me.id}"
 
   resetProgress: ->
     $.ajax
       type: 'POST'
-      success: =>
+      success: ->
         noty
           timeout: 5000
           text: 'Your progress is gone.'
           type: 'success'
           layout: 'topCenter'
         localStorage.clear()
-        @user.fetch cache: false
+        me.fetch cache: false
         _.delay (-> window.location.reload()), 1000
       error: (jqXHR, status, error) ->
         console.error jqXHR
@@ -166,7 +166,7 @@ module.exports = class AccountSettingsView extends CocoView
           text: "Resetting progress failed with error code #{jqXHR.status}"
           type: 'error'
           layout: 'topCenter'
-      url: "/db/user/#{@user.id}/reset_progress"
+      url: "/db/user/#{me.id}/reset_progress"
 
   onClickProfilePhotoPanelBody: (e) ->
     return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
