@@ -24,9 +24,9 @@ block header
         li
           a(href="#editor-level-settings-tab-view", data-toggle="tab", data-i18n="play.settings") Settings
         li
-          a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="editor.level_tab_components")#components-tab Components
+          a(href="#editor-level-components-tab-view", data-toggle="tab", data-i18n="resources.components")#components-tab Components
         li
-          a(href="#systems-tab-view", data-toggle="tab", data-i18n="editor.level_tab_systems") Systems
+          a(href="#systems-tab-view", data-toggle="tab", data-i18n="resources.systems") Systems
         li
           a(href="#editor-level-tasks-tab-view", data-toggle="tab", data-i18n="editor.level_tab_tasks")#tasks-tab= "Tasks" + " " + view.getTaskCompletionRatio()
         li
@@ -36,7 +36,7 @@ block header
             if patches && patches.length
               span.badge= patches.length
         li
-          a(href="#related-achievements-view", data-toggle="tab", data-i18n="user.achievements_title") Achievements
+          a(href="#related-achievements-view", data-toggle="tab", data-i18n="play.achievements") Achievements
         li
           a(href="#editor-level-documentation", data-toggle="tab", data-i18n="editor.level_tab_docs") Documentation
         li

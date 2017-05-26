@@ -69,8 +69,8 @@ block content
                         span(data-i18n='sharing.webpage')
             td
               if view.userLevelStateMap[me.id]
-                div= view.userLevelStateMap[me.id][level.get('original')]
-            td #{level.get('practice') ? 'practice' : 'required'}
+                div(data-i18n="clans." + levelStatus + "_1")= levelStatus
+            td #{level.get('practice') ? $.i18n.t('courses.practice') : $.i18n.t('courses.required')}
             td #{levelNumber}. #{i18n(level.attributes, 'name').replace('Course: ', '')}
             td
               if view.levelConceptMap[level.get('original')]
@@ -81,6 +81,6 @@ block content
               - passedLastCompletedLevel = true
             if !level.get('practice')
               if view.userLevelStateMap[me.id]
-                - previousLevelCompleted = view.userLevelStateMap[me.id][level.get('original')] === 'complete'
+                - previousLevelCompleted = levelStatus === 'complete'
               else
                 - previousLevelCompleted = false
