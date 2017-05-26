@@ -445,6 +445,13 @@ module.exports = class User extends CocoModel
     @set({stripe})
     return me.patch({headers: {'X-Change-Plan': 'true'}})
 
+  unsubscribe: ->
+    stripe = _.clone(@get('stripe') ? {})
+    return unless stripe.planID
+    delete stripe.planID
+    @set({stripe})
+    return me.patch({headers: {'X-Change-Plan': 'true'}})
+
   unsubscribeRecipient: (id, options={}) ->
     options.url = _.result(@, 'url') + "/stripe/recipients/#{id}"
     options.method = 'DELETE'
