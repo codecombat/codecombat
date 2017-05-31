@@ -106,7 +106,8 @@ module.exports = class Problem
       @lineMarkerRange.end.detach()
 
   translate: (msg) ->
-    tx = (regex, key) -> 
+    return msg unless msg
+    tx = (regex, key) ->
       ki = "esper.#{key}"
       key = $.i18n.t(ki)
       return if key is ki
