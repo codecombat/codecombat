@@ -1125,7 +1125,8 @@ module.exports = class CampaignView extends RootView
 
   shouldShow: (what) ->
     isStudent = me.get('role') in ['student']
-
+    isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
+    
     if features.codePlay and what in ['clans', 'settings']
       return false
 
@@ -1156,8 +1157,11 @@ module.exports = class CampaignView extends RootView
     if what in ['back-to-classroom']
       return isStudent
 
-    if what in ['buy-gems', 'premium']
-      return not (me.get('iosIdentifierForVendor') || application.isIPadApp) && !me.freeOnly() && !isStudent
+    if what in ['buy-gems']
+      return not (isIOS or me.freeOnly() or isStudent)
+
+    if what in ['premium']
+      return not (me.isPremium() or isIOS or me.freeOnly() or isStudent)
 
     return true
 
