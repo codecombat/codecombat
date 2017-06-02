@@ -1,0 +1,39 @@
+.content#minigame-content
+  .header
+    h1 Conditional Minigame Prototype
+
+  .controls
+
+  .properties
+    p Properties: {{pet.name}}
+    ul
+      li(v-for="(val, key) in pet")
+        code {{key}}
+        = ": "
+        code {{JSON.stringify(val)}}
+
+
+  .conditional
+    p 
+      button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") If 
+      code {{property}} {{operator}} {{JSON.stringify(value)}}
+      br
+      button.btn.btn-danger.btn-lg(v-on:click="playerAnswered('else', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") Else
+
+
+  .choice
+
+  .result
+    span(v-if="answeredCorrectly == true") Correct!
+    span(v-else-if="answeredCorrectly == false") Nope!
+    span(v-else) Select an Answer
+
+  .timer
+    p(v-if="gameOver") Game Over!
+    p(v-else-if="nextRoundStart") Next Round Starts In: {{Math.ceil(secondsUntilNextRound)}}
+    .progress-outer(v-else)
+      .progress-inner(v-bind:style="{ width: ((roundEndAt - age)/roundEndAt)*100 +'%'}")
+
+  .score
+    ul
+      li Correct Answers: {{score.correct}} out of {{score.total}}

@@ -141,6 +141,8 @@ module.exports = class CocoRouter extends Backbone.Router
     
     'logout': 'logout'
 
+    'minigames/conditionals': go('minigames/ConditionalMinigameView')
+
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
     'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
     'play/ladder/:levelID': go('ladder/LadderView')
