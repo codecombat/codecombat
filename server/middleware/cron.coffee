@@ -115,19 +115,24 @@ module.exports =
     # Prepare all registrations we might need to upsert
     registrations = []
     for user in users
-      classroom = _.find classrooms, (classroom) ->
+      userClassrooms = _.filter classrooms, (classroom) ->
         (classroom.ownerID + '' is user._id + '') or
         (user._id + '') in (member + '' for member in classroom.members)
-      continue unless classroom
-      user.classCode = classroom.code
-      registrations.push
-        provider: 'CodeCombat'
-        date: user.dateCreated
-        user:
-          userid: user._id
-          usercodeil: user.israelId
-          usertype: if user.role is 'student' then 'S' else 'T'
-          classcode: classroom.code
+      for classroom, classroomIndex in userClassrooms
+        user.classCode = classroom.code  # Tag student users with a classCode for any solutions we might need to upsert
+        userId = user._id
+        if classroomIndex > 0
+          userId += '-' + classroom.code  # Add another registration for each extra class beyond the first the teacher has made, differentiating key based on code
+        registrations.push
+          provider: 'CodeCombat'
+          date: user.dateCreated
+          user:
+            userid: userId
+            usercodeil: user.israelId
+            usertype: if user.role is 'student' then 'S' else 'T'
+            classcode: classroom.code
+        if user.role is 'student'
+          break  # Don't provide multiple registrations if students are in multiple classes
 
     # Prepare all solutions we might need to upsert
     solutions = []
