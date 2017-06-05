@@ -57,6 +57,8 @@ module.exports =
     aggregationInterval =                  5 * 60 * 1000
     # Add some buffer time to make sure we don't miss anything between windows
     aggregationInterval +=                     30 * 1000
+    if req.query.aggregationInterval
+      aggregationInterval = parseInt(req.query.aggregationInterval)
     userDateCreatedStartTime = new Date(new Date() - userDateCreatedInterval)
     sessionDateCreatedStartTime = new Date(new Date() - sessionDateCreatedInterval)
     lastAggregationStartTime = new Date(new Date() - aggregationInterval)
