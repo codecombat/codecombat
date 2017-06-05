@@ -17,6 +17,7 @@ cache:
     - $HOME/.npm
     - node_modules
     - bower_components
+    - public
 before_install:
   - export COCO_TRAVIS_TEST=1
   - npm install -g npm@4.6.1
