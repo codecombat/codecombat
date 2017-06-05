@@ -712,8 +712,7 @@
   announcement: 
     now_available: "Now available for subscribers!"
     subscriber: "subscriber"
-    # Pet Announcement Modal
-    cuddly_companions: "Cuddly Companions!"
+    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
     kindling_name: "Kindling Elemental"
     kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
     griffin_name: "Baby Griffin"
@@ -739,8 +738,7 @@
     the_second_kithmaze: "The Second Kithmaze"
     keep_playing: "Keep playing to discover the first pet!"
     coming_soon: "Coming soon"
-    # Ritic Announcement Modal
-    ritic: "Ritic the Cold"
+    ritic: "Ritic the Cold" # Ritic Announcement Modal
     ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
     ice_block: "A block of ice"
     ice_description: "There appears to be something trapped inside..."

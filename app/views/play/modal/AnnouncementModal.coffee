@@ -16,6 +16,12 @@ module.exports = class AnnouncementModal extends ModalView
     'click #close-modal': 'hide'
     'click .purchase-button': 'onClickPurchaseButton'
     'click .close-button': 'hide'
+    'mouseover .has-tooltip': 'displayTooltip'
+    'mousemove .has-tooltip': 'displayTooltip'
+    'mouseout .has-tooltip': 'hideTooltip'
+
+    'click .ability-icon': 'onClickAbilityIcon'
+    'click .ritic-block': 'onClickRiticBlock'
 
   constructor: (options={}) ->
     options.announcementId ?= 1
@@ -41,77 +47,56 @@ module.exports = class AnnouncementModal extends ModalView
           $(randomItem).removeClass('wiggle')
         , 1000)
     , 1000)
-    $(".pet-image").on('mouseover', (e) =>
-      @displayTooltip(e)
-    )
-    $(".pet-image").on('mousemove', (e) =>
-      @displayTooltip(e)
-    )
-    $(".pet-image").on('mouseout', (e) =>
-      @hideTooltip()
-    )
 
-    $(".has-tooltip").on('mouseover', (e) =>
-      @displayTooltip(e)
-    )
-    $(".has-tooltip").on('mousemove', (e) =>
-      @displayTooltip(e)
-    )
-    $(".has-tooltip").on('mouseout', (e) =>
-      @hideTooltip()
-    )
+  onClickAbilityIcon: (e) ->
+    $(".gif-video").hide()
+    $("#" + $(e.currentTarget).data("gif") + "-gif").show()
 
-    $(".ability-icon").on('click', (e) =>
-      $(".gif-video").hide()
-      $("#" + $(e.currentTarget).data("gif") + "-gif").show()
-    )
-    $(".ritic-block").on('click', (e) =>
-      elem = $(e.currentTarget)
-
-      spawnSomeShards = (num) ->
-        for i in [0...num]
-          img = $("<img>").attr("src", "/images/pages/play/modal/announcement/ritic/shard#{Math.floor(1 + Math.random() * 6)}.png").addClass("shard")
-          left = Math.floor(25 + 50 * Math.random())
-          top =  Math.floor(75 - 30 * Math.random())
-          img.css({left: left + "%", top: top + "%"})
-          img.css("transform", "rotate(0deg)")
-          $("#ice-chamber").append(img)
-          randNum = Math.random() * Math.PI * 2
-          img.animate({
-            opacity: 0,
-            left: (left + Math.cos(randNum) * 100) + "%",
-            top: (top + Math.sin(randNum) * 100) + "%"},
-            740 + Math.random() * 2000, () ->
-              $(this).remove()
-          )
-          img.css("transform", "rotate(#{-360 + Math.floor(Math.random() * 360 * 2)}deg)")
-      if elem.hasClass('ritic-block-1')
-        elem.removeClass('ritic-block-1')
-        elem.addClass('ritic-block-2')
-        $("#clear-block").hide()
-        $("#chipped-block").show()
-        spawnSomeShards(2)
-      else if elem.hasClass('ritic-block-2')
-        elem.removeClass('ritic-block-2')
-        $("#chipped-block").hide()
-        $("#shattered-block").show()
-        $("#shattered-block").css("opacity", 1)
-        elem.addClass('ritic-block-3')
-        spawnSomeShards(10)
-      else if elem.hasClass('ritic-block-3')
-        elem.removeClass('ritic-block-3')
-        $("#shattered-block").css("opacity", 0)
-        $("#ritic-image").addClass("breathing")
-        $("#ritic-image").css("cursor", "default")
-        $("#ritic-image").data("name", "announcement.ritic")
-        $("#ritic-image").data("description", "announcement.ritic_description")
-        @hideTooltip()
-        $(".highlight").each((i, elem) ->
-          $(this).show()
-          $(this).css("animation","highlight#{if i % 2 then '-reverse' else ''}-anim #{5 + i}s linear infinite")
+  onClickRiticBlock: (e) ->
+    elem = $(e.currentTarget)
+    spawnSomeShards = (num) ->
+      for i in [0...num]
+        img = $("<img>").attr("src", "/images/pages/play/modal/announcement/ritic/shard#{Math.floor(1 + Math.random() * 6)}.png").addClass("shard")
+        left = Math.floor(25 + 50 * Math.random())
+        top =  Math.floor(75 - 30 * Math.random())
+        img.css({left: left + "%", top: top + "%"})
+        img.css("transform", "rotate(0deg)")
+        $("#ice-chamber").append(img)
+        randNum = Math.random() * Math.PI * 2
+        img.animate({
+          opacity: 0,
+          left: (left + Math.cos(randNum) * 100) + "%",
+          top: (top + Math.sin(randNum) * 100) + "%"},
+          740 + Math.random() * 2000, () ->
+            $(this).remove()
         )
-        spawnSomeShards(25)
-    )
+        img.css("transform", "rotate(#{-360 + Math.floor(Math.random() * 360 * 2)}deg)")
+    if elem.hasClass('ritic-block-1')
+      elem.removeClass('ritic-block-1')
+      elem.addClass('ritic-block-2')
+      $("#clear-block").hide()
+      $("#chipped-block").show()
+      spawnSomeShards(2)
+    else if elem.hasClass('ritic-block-2')
+      elem.removeClass('ritic-block-2')
+      $("#chipped-block").hide()
+      $("#shattered-block").show()
+      $("#shattered-block").css("opacity", 1)
+      elem.addClass('ritic-block-3')
+      spawnSomeShards(10)
+    else if elem.hasClass('ritic-block-3')
+      elem.removeClass('ritic-block-3')
+      $("#shattered-block").css("opacity", 0)
+      $("#ritic-image").addClass("breathing")
+      $("#ritic-image").css("cursor", "default")
+      $("#ritic-image").data("name", "announcement.ritic")
+      $("#ritic-image").data("description", "announcement.ritic_description")
+      @hideTooltip()
+      $(".highlight").each((i, elem) ->
+        $(this).show()
+        $(this).css("animation","highlight#{if i % 2 then '-reverse' else ''}-anim #{5 + i}s linear infinite")
+      )
+      spawnSomeShards(25)
 
   displayTooltip: (e) ->
     if $(e.currentTarget).data("name")?
