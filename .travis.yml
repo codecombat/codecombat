@@ -18,7 +18,7 @@ cache:
     - bower_components
 before_install:
   - export COCO_TRAVIS_TEST=1
-  - npm install -g npm@latest
+  - npm install -g npm@3.x
 before_script:
   - npm update
   - export DISPLAY=:99.0

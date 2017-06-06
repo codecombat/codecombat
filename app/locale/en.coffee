@@ -709,8 +709,10 @@
     support_part2: "support@codecombat.com"
     support_part3: "if you have any questions."
 
-  announcement:
-    cuddly_companions: "Cuddly Companions!"
+  announcement: 
+    now_available: "Now available for subscribers!"
+    subscriber: "subscriber"
+    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
     kindling_name: "Kindling Elemental"
     kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
     griffin_name: "Baby Griffin"
@@ -736,8 +738,18 @@
     the_second_kithmaze: "The Second Kithmaze"
     keep_playing: "Keep playing to discover the first pet!"
     coming_soon: "Coming soon"
-    now_available: "Now available for subscribers!"
-    subscriber: "subscriber"
+    ritic: "Ritic the Cold" # Ritic Announcement Modal
+    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+    ice_block: "A block of ice"
+    ice_description: "There appears to be something trapped inside..."
+    blink_name: "Blink"
+    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+    shadowStep_name: "Shadowstep"
+    shadowStep_description: "A master assassin knows how to walk between the shadows."
+    tornado_name: "Tornado"
+    tornado_description: "It is good to have a reset button when one's cover is blown." 
+    wallOfDarkness_name: "Wall of Darkness"
+    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
