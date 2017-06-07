@@ -99,17 +99,6 @@
     "modernizr": {
       "main": "modernizr.js"
     },
-    "aether": {
-      "main": [
-        "build/aether.js",
-        "build/coffeescript.js",
-        "build/javascript.js",
-        "build/lua.js",
-        "build/python.js",
-        "build/java.js",
-        "build/html.js"
-      ]
-    },
     "moment": {
       "main": "min/moment-with-locales.min.js"
     }
