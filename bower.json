@@ -30,8 +30,6 @@
     "i18next": "https://github.com/nwinter/i18next.git",
     "marked": "~0.3.0",
     "moment": "~2.19.0",
-    "ace-builds": "ajaxorg/ace-builds#ba3b91e04a5aa559d56ac70964f9054baa0f4caf",
-    "aether": "~0.5.21",
     "underscore.string": "~2.3.3",
     "d3": "~3.4.4",
     "jsondiffpatch": "^0.2.3",
@@ -98,17 +96,6 @@
     },
     "modernizr": {
       "main": "modernizr.js"
-    },
-    "aether": {
-      "main": [
-        "build/aether.js",
-        "build/coffeescript.js",
-        "build/javascript.js",
-        "build/lua.js",
-        "build/python.js",
-        "build/java.js",
-        "build/html.js"
-      ]
     },
     "moment": {
       "main": "min/moment-with-locales.min.js"
