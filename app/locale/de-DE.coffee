@@ -676,6 +676,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sale_button_title: "Spare ${{discount}} beim Kauf eines Jahresabonnements"
     stripe_description: "Monatsabo"
     stripe_description_year_sale: "Jahresabonnement (${{discount}} Rabatt)"
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
     personal_sub: "Persönliches Abonnement" # Accounts Subscription View below
@@ -710,7 +711,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     support_part3: "wenn du Fragen hast."
 
   announcement:
-    cuddly_companions: "Flauschige Begleiter!"
+    now_available: "Jetzt verfügbar für Abonnenten!"
+    subscriber: "Abonnent"
+    cuddly_companions: "Flauschige Begleiter!" # Pet Announcement Modal
     kindling_name: "Entflammter Elementar"
     kindling_description: "Entflammte Elementare wollen dir nur nachts etwas Wärme geben. Und tagsüber. Eigentlich die ganze Zeit, genaugenommen."
     griffin_name: "Babygreif"
@@ -736,8 +739,18 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     the_second_kithmaze: "Das zweite Kith Labyrinth"
     keep_playing: "Spiele weiter um dein erstes Lieblingstier zu entdecken!"
     coming_soon: "Bald erhältlich!"
-    now_available: "Jetzt verfügbar für Abonnenten!"
-    subscriber: "Abonnent"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Werde<br>CodeCombat<br>Abonnent" # Fit into the banner on the /features page
@@ -1238,6 +1251,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher: "Lehrer"
     arena: "Arena"
     available_levels: "Verfügbare Level"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Abenteurer, willkomen zu den Kursen!"
     ready_to_play: "Bereit zum Spielen?"
     start_new_game: "Starten Sie ein neues Spiel"
@@ -1450,7 +1467,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     license_remaining: "Lizenz übrig"
     licenses_remaining: "Lizenzen übrig"
     one_license_used: "1 Lizenz wurde verwendet"
-    num_licenses_used: "__numLicensesUsed__ Lizenzen wurden verwendet" 
+    num_licenses_used: "__numLicensesUsed__ Lizenzen wurden verwendet"
     starter_licenses: "Starterlizenzen"
     start_date: "Startdatum:"
     end_date: "Enddatum:"
@@ -1606,7 +1623,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_quest_more: "Alle Schritte anzeigen"
     teacher_quest_less: "Weniger Schritte anzeigen"
     refresh_to_update: "(Seite aktualisieren)"
-  
+
   share_licenses:
     share_licenses: "Gemeinsam genutzte Lizenzen"
     shared_by: "Bereitgestellt von:"
@@ -2256,7 +2273,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     username_taken: "Benutzername ist bereits vergeben"
 
   esper:
-    line_no: "Zeile $1: " 
+    line_no: "Zeile $1: "
     x_not_a_function: "`$1` ist keine Funktion."
     type_error: "TypFehler: "
     reference_error: "BezugsFehler: "

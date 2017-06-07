@@ -597,6 +597,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     day: "Сьогодні"
     week: "Цього тижня"
     all: "За увесь час"
+#    latest: "Latest"
     time: "Час"
     damage_taken: "Пошкоджень отримано"
     damage_dealt: "Пошкоджень нанесено"
@@ -675,6 +676,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sale_button_title: "Збережіть {{discount}}$ при покупці абонементу на 1 рік"
     stripe_description: "Щомісячний абонемент"
     stripe_description_year_sale: "1 рік підписки ({{discount}}$ знижка)"
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
     personal_sub: "Особистий абонемент" # Accounts Subscription View below
@@ -709,7 +711,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     support_part3: "якщо у вас є які-небудь питання."
 
 #  announcement:
-#    cuddly_companions: "Cuddly Companions!"
+#    now_available: "Now available for subscribers!"
+#    subscriber: "subscriber"
+#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
 #    griffin_name: "Baby Griffin"
@@ -735,8 +739,18 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Отримайте<br>CodeCombat<br>Преміум" # Fit into the banner on the /features page
@@ -1237,6 +1251,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     teacher: "Вчитель"
     arena: "Арена"
     available_levels: "Доступні рівні"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Шукачі пригод, ласкаво просимо до курсів!"
     ready_to_play: "Готові грати?"
     start_new_game: "Розпочати нову гру"
@@ -1445,7 +1463,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     changed: "Змінено"
     available_credits: "Доступні ліцензії"
     pending_credits: "Ліцензії в очікуванні"
-    credits: "ліцензій"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "початкові ліцензії"
     start_date: "дата початку:"
     end_date: "дата закінчення:"
@@ -1601,6 +1623,22 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "Гра"
