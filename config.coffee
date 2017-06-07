@@ -54,6 +54,7 @@ exports.config =
           pattern: /\A\Z/
         afterBrunch: [
           "coffee scripts/minify.coffee",
+          "sh copy.sh"
         ]
     fast:
       onCompile: (files) -> console.log "I feel the need, the need... for speed."
@@ -227,6 +228,9 @@ exports.config =
   framework: 'backbone'
 
   plugins:
+    afterBrunch: [
+      "sh copy.sh"
+    ]
     coffeelint:
       pattern: /^app\/.*\.coffee$/
       options:

@@ -32,7 +32,6 @@
     "firepad": "~0.1.2",
     "marked": "~0.3.0",
     "moment": "~2.5.0",
-    "aether": "~0.5.21",
     "underscore.string": "~2.3.3",
     "d3": "~3.4.4",
     "jsondiffpatch": "^0.2.3",
@@ -98,17 +97,6 @@
     },
     "modernizr": {
       "main": "modernizr.js"
-    },
-    "aether": {
-      "main": [
-        "build/aether.js",
-        "build/coffeescript.js",
-        "build/javascript.js",
-        "build/lua.js",
-        "build/python.js",
-        "build/java.js",
-        "build/html.js"
-      ]
     },
     "moment": {
       "main": "min/moment-with-langs.min.js"
