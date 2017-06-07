@@ -448,7 +448,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     running: "Andando..."
     success: "¡Éxito!"
     incomplete: "Incompleto"
-    timed_out: "Se te acabó el tiempo"
+    timed_out: "Acabó el tiempo"
     failing: "Fallando"
     reload: "Recargar"
     reload_title: "¿Recargar Todo el Código?"
