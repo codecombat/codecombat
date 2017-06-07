@@ -23,6 +23,8 @@ module.exports = class CocoRouter extends Backbone.Router
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
       return @routeDirectly('HomeView', [])
 
+    'l': go('l/my')
+
     'about': go('AboutView')
     
     'account': go('account/MainAccountView')

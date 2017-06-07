@@ -52,7 +52,7 @@ fileGet = (req, res) ->
         return res.end()
 
       res.setHeader('Content-Type', filedata.contentType)
-      res.setHeader('Last-Modified', filedata.uploadDate)
+      # res.setHeader('Last-Modified', filedata.uploadDate)
       res.setHeader('Cache-Control', 'public')
       readstream.pipe(res)
       handleStreamEnd(res, res)
