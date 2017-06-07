@@ -15,8 +15,9 @@
       div.paper-area(style="position: relative;")
         .img
           block image
-        .nfo
-          block info
+        if showNfo
+          .nfo
+            block info
       #item-tooltip(style="position: absolute;display: none;width: 256px;")
         div#pet-name(style="font-size: large; text-align: center") hello world
         br
