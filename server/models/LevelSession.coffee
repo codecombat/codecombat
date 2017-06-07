@@ -112,7 +112,7 @@ if config.mongo.level_session_replica_string?
     if error
       log.error "Couldn't connect to session mongo!", error
     else
-      log.info "Connected to seperate level session server with string", config.mongo.level_session_replica_string
+      log.info "Connected to separate level session server with string", config.mongo.level_session_replica_string
 else
   levelSessionMongo = mongoose
 

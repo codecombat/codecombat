@@ -55,7 +55,6 @@ module.exports.routes =
     'routes/mail'
     'routes/sprites'
     'routes/queue'
-    'routes/stacklead'
     'routes/stripe'
   ]
 

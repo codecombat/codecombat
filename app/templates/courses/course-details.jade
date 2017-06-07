@@ -69,8 +69,11 @@ block content
                         span(data-i18n='sharing.webpage')
             td
               if view.userLevelStateMap[me.id]
-                div= view.userLevelStateMap[me.id][level.get('original')]
-            td #{level.get('practice') ? 'practice' : 'required'}
+                div(data-i18n="courses." + view.userLevelStateMap[me.id][level.get('original')])
+            if level.get('practice')
+              td(data-i18n="courses.practice")
+            else
+              td(data-i18n="courses.required")
             td #{levelNumber}. #{i18n(level.attributes, 'name').replace('Course: ', '')}
             td
               if view.levelConceptMap[level.get('original')]

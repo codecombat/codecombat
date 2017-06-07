@@ -676,6 +676,7 @@
     sale_button_title: "Save $21 when you purchase a 1 year subscription"
     stripe_description: "Monthly Subscription"
     stripe_description_year_sale: "1 Year Subscription (${{discount}} discount)"
+    buy_now: "Buy Now"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."
     personal_sub: "Personal Subscription"  # Accounts Subscription View below
@@ -709,7 +710,7 @@
     support_part2: "support@codecombat.com"
     support_part3: "if you have any questions."
 
-  announcement: 
+  announcement:
     now_available: "Now available for subscribers!"
     subscriber: "subscriber"
     cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
@@ -747,7 +748,7 @@
     shadowStep_name: "Shadowstep"
     shadowStep_description: "A master assassin knows how to walk between the shadows."
     tornado_name: "Tornado"
-    tornado_description: "It is good to have a reset button when one's cover is blown." 
+    tornado_description: "It is good to have a reset button when one's cover is blown."
     wallOfDarkness_name: "Wall of Darkness"
     wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
@@ -1250,6 +1251,10 @@
     teacher: "Teacher"
     arena: "Arena"
     available_levels: "Available Levels"
+    started: "started"
+    complete: "complete"
+    practice: "practice"
+    required: "required"
     welcome_to_courses: "Adventurers, welcome to Courses!"
     ready_to_play: "Ready to play?"
     start_new_game: "Start New Game"
@@ -1618,7 +1623,7 @@
     teacher_quest_more: "See all quests"
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
-  
+
   share_licenses:
     share_licenses: "Share Licenses"
     shared_by: "Shared By:"

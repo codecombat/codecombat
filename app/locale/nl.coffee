@@ -597,6 +597,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     day: "Vandaag"
     week: "Deze week"
     all: "Altijd"
+#    latest: "Latest"
     time: "tijd"
     damage_taken: "Schade ontvangen"
     damage_dealt: "Schade uitgedeeld"
@@ -675,6 +676,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sale_button_title: "Bespaar €{{discount}} bij aankoop van een 1-jarig abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
     stripe_description_year_sale: "1-jarig abonnement (€{{discount}} korting)" # {change}
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
     personal_sub: "Persoonlijk abonnement" # Accounts Subscription View below
@@ -709,7 +711,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     support_part3: "als je vragen hebt."
 
   announcement:
-    cuddly_companions: "Knuffelige vriendjes!"
+    now_available: "Nu beschikbaar voor abonnees!"
+    subscriber: "abonnee"
+    cuddly_companions: "Knuffelige vriendjes!" # Pet Announcement Modal
     kindling_name: "Vurig Element"
     kindling_description: "Een vurig element wil je 's nachts warm houden. En overdag. Altijd eigenlijk."
     griffin_name: "Baby Griffin"
@@ -735,8 +739,18 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     the_second_kithmaze: "Het Tweede Kithhof"
     keep_playing: "Blijf spelen om het eerste huisdier te ontdekken!"
     coming_soon: "Komt binnenkort"
-    now_available: "Nu beschikbaar voor abonnees!"
-    subscriber: "abonnee"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -1237,6 +1251,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher: "Leerkracht"
     arena: "Arena"
     available_levels: "Beschikbare Levels"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Avonturiers, Welkom bij de cursus!"
     ready_to_play: "Klaar om te spelen?"
     start_new_game: "Start Nieuw spel"
@@ -1445,7 +1463,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     changed: "Veranderd"
     available_credits: "Beschikbare licenties"
     pending_credits: "Aangevraagde licenties"
-    credits: "licenties"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "starterslicenties"
     start_date: "startdatum:"
     end_date: "einddatum:"
@@ -1601,6 +1623,22 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "Spel"
@@ -2231,17 +2269,17 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-    email_taken: "E-mail al bezet"
-    username_taken: "Gebruikersnaam al bezet"
+#    email_taken: "Email already taken"
+#    username_taken: "Username already taken"
 
 #  esper:
-    line_no: "Regel $1: "
-    x_not_a_function: "`$1` is geen functie"
-    type_error: "TypeError: "
-    reference_error: "VerwijzingsError: "
-    spelling_issues: "Let goed op spelling: bedoelde je `$1` in plaats van `$2`?"
-    capitalization_issues: "Let op hoofdletters: `$1` moet zijn `$2`."
-    py_empty_block: "Leeg $1. Zet vier spaties voor je code in de $2."
-    fx_missing_paren: "Als je `$1` als functie wilt aanroepen, heb je `()`'s nodig"
-    unmatched_token: "Afwijkende `$1`.  Iedere openings- `$2` heeft een bijpassende sluitings- `$3` nodig."
-    unterminated_string: "Onafgeronde string. Voeg een bijpassende `\"` toe aan het einde van de string."
+#    line_no: "Line $1: "
+#    x_not_a_function: "`$1` is not a function"
+#    type_error: "TypeError: "
+#    reference_error: "ReferenceError: "
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2."
+#    fx_missing_paren: "If you want to call `$1` as function, you need `()`'s"
+#    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
+#    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

@@ -52,7 +52,7 @@
               .col-xs-5.option-col.col-xs-offset-1
                 .option-header.text-center(data-i18n="subscribe.stripe_description")
                 +price("subscribe.month_price", view.basicProduct)
-                button.btn.btn-lg.btn-illustrated.purchase-button Subscribe Now
+                button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="premium_features.subscribe_now")
               
             else
               - var secondRowClass = '.col-xs-12'
@@ -61,13 +61,13 @@
               .option-col(class=secondRowClass)
                 .option-header.text-center(data-i18n="subscribe.lifetime")
                 +price("subscribe.lifetime_price", view.lifetimeProduct)
-                button.btn.btn-lg.btn-illustrated.lifetime-button Buy Now
+                button.btn.btn-lg.btn-illustrated.lifetime-button(data-i18n="subscribe.buy_now")
             
             if view.yearProduct
               .option-col(class=secondRowClass)
                 .option-header.text-center(data-i18n="subscribe.year_subscription")
                 +price("subscribe.year_price",view.yearProduct)
-                button.btn.btn-lg.btn-illustrated.sale-button Buy Now
+                button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="subscribe.buy_now")
 
         p 
           span(data-i18n="subscribe.kids_message_1")

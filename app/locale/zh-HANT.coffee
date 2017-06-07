@@ -597,6 +597,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     day: "今天"
     week: "這週"
     all: "全部紀錄"
+#    latest: "Latest"
     time: "時間"
     damage_taken: "遭受的傷害"
     damage_dealt: "造成的傷害"
@@ -675,6 +676,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sale_button_title: "年費訂閱能節省 ${{discount}} 的費用"
     stripe_description: "每月訂閱"
     stripe_description_year_sale: "年費訂閱 (${{discount}} 優惠)" # {change}
+#    buy_now: "Buy Now"
     subscription_required_to_play: "您將需要訂閱來開啟這關。"
     unlock_help_videos: "訂閱後才可以解鎖教學影片喔！。"
     personal_sub: "個人訂閱" # Accounts Subscription View below
@@ -709,7 +711,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    support_part3: "if you have any questions."
 
 #  announcement:
-#    cuddly_companions: "Cuddly Companions!"
+#    now_available: "Now available for subscribers!"
+#    subscriber: "subscriber"
+#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
 #    griffin_name: "Baby Griffin"
@@ -735,8 +739,18 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -1237,6 +1251,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     teacher: "老師"
     arena: "競技場"
     available_levels: "可進入的關卡"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "冒險者們，歡迎來到課程之中!"
     ready_to_play: "準備好開始遊玩了嗎?"
     start_new_game: "開始一個新的遊戲"
@@ -1445,7 +1463,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     changed: "已更改"
     available_credits: "可用的註冊碼"
     pending_credits: "等待中的註冊碼"
-    credits: "註冊碼"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "起始註冊碼"
     start_date: "開始日期:"
     end_date: "結束日期:"
@@ -1601,6 +1623,22 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "遊戲"
