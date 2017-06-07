@@ -1,0 +1,7 @@
+-c
+-r mocha
+-r coffee-script/register
+--no-timeouts
+stub-chai-to-jasmine.js
+spec/aether/*.coffee
+
