@@ -856,35 +856,35 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     mission_description_2: "Como resultado, isso os permite aprender mais rápido também. MUITO mais rápido. É como conversar ao invés de ler um manual. Nós queremos trazer essa conversa para todas escolas e para <strong>todos estudantes</strong>, porque todos deveriam ter a chance de aprender a mágica da programação."
     team_title: "Conheça o time do CodeCombat"
     team_values: "Valorizamos o diálogo aberto e respeitoso, onde a melhor ideia ganha. Nossas decisões são fundamentadas na pesquisa de clientes e nosso processo está focado na entrega de resultados tangíveis para eles. Todos põem a mão na massa, do nosso CEO aos nossos colaboradores no GitHub, porque valorizamos o crescimento e a aprendizagem em nossa equipe."
-    nick_title: "Cofundador" # {change}
+    nick_title: "Cofundador, CEO" # {change}
     nick_blurb: "Guru Motivacional"
-    matt_title: "Cofundador" # {change}
-    cat_title: "Chefe Artesão" # {change}
-    cat_blurb: "Corta-vento"
-    scott_title: "Cofundador" # {change}
+    matt_title: "Cofundador, CTO" # {change}
+    cat_title: "Designer de Jogos" # {change}
+    cat_blurb: "Airbender"
+    scott_title: "Cofundado, Engenheiro de Software" # {change}
     scott_blurb: "O Sensato"
-#    maka_title: "Customer Advocate"
-#    maka_blurb: "Storyteller"
-    rob_title: "Engenheiro Compilador" # {change}
-    rob_blurb: "Os paranauês dos códigos"
-    josh_c_title: "Game Designer"
-    josh_c_blurb: "Desenha jogos"
-    robin_title: "UX Design & Pesquisa" # {change}
-#    robin_blurb: "Ships things"
-    josh_title: "Game Designer"
-    josh_blurb: "O chão vai tremer"
-#    phoenix_title: "Software Engineer"
-#    nolan_title: "Territory Manager"
-#    elliot_title: "Partnership Manager"
-#    elliot_blurb: "Mindreader"
-#    lisa_title: "School Specialist"
-#    lisa_blurb: "A gritty one"
-#    sean_title: "Territory Manager"
-#    liz_title: "Territory Manager"
+    maka_title: "Defensor dos Clientes"
+    maka_blurb: "Contador de Histórias"
+    rob_title: "Engenheiro de Software" # {change}
+    rob_blurb: "Programa muitas coisas"
+    josh_c_title: "Designer de Jogos"
+    josh_c_blurb: "Projeta Jogos"
+    robin_title: "Gerente de Produto" # {change}
+    robin_blurb: "Envia as coisas"
+    josh_title: "Designer de Jogos"
+    josh_blurb: "O chão é larva"
+    phoenix_title: "Engenheira de Software"
+    nolan_title: "Gerente de Território"
+    elliot_title: "Gerente de Parceria"
+    elliot_blurb: "Leitor de Mentes"
+    lisa_title: "Pedagoga"
+    lisa_blurb: "A Decidida"
+    sean_title: "Gerente de Território"
+    liz_title: "Gerente de Território"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
     jose_title: "Músico"
-    jose_blurb: "Sou descolado"
+    jose_blurb: "Descolado"
     community_title: "... e nossa comunidade open-source"
     community_subtitle: "Mais de 500 colaboradores ajudaram a construir o CodeCombat, com mais se juntando toda semana!"
     community_description_3: "O CodeCombat é um "
