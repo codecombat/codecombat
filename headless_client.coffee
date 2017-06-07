@@ -103,7 +103,7 @@ GLOBAL.$ = GLOBAL.jQuery = require headlessClientPath + 'jQlone'
 $._debug = options.debug
 $._server = server
 
-do (setupLodash = this) ->
+do (@setupLodash = this) ->
   GLOBAL._ = require 'lodash'
   _.str = require 'underscore.string'
   _.string = _.str
