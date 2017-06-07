@@ -102,7 +102,7 @@ exports.config =
           regJoin('^bower_components/backbone')
           regJoin('^app/lib/scripts/PerfTester')
         ]
-        'javascripts/app/lib.js': regJoin('^app/lib')
+        'javascripts/app/lib.js': regJoin('^app/lib/(?!(aether/))')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
         'javascripts/app/views/courses.js': regJoin('^app/views/courses')
@@ -143,14 +143,14 @@ exports.config =
         # TODO: move this to assets/lib since we're not really joining anything here?
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
-        'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
+        #'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
         'javascripts/esper.js': 'bower_components/esper.js/esper.js'
-        'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
-        'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
-        'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
-        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
-        'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
-        'javascripts/app/vendor/aether-html.js': 'bower_components/aether/build/html.js'
+        #'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
+        #'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
+        #'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
+        #'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
+        #'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
+        #'javascripts/app/vendor/aether-html.js': 'bower_components/aether/build/html.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
@@ -194,7 +194,7 @@ exports.config =
           # Validated Backbone Mediator dependencies
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing
-          'bower_components/aether/build/aether.js'
+          #'bower_components/aether/build/aether.js'
           'bower_components/esper.js/esper.js'
           'bower_components/fastclick/lib/fastclick.js'
           'bower_components/d3/d3.min.js'
