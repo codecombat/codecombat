@@ -676,7 +676,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     sale_button_title: "Economize ${{discount}} quando você adquirir a assinatura de 1 ano" # {change}
     stripe_description: "Inscrição Mensal"
     stripe_description_year_sale: "Assinatura de 1 Ano (${{discount}} de desconto" # {change}
-#    buy_now: "Buy Now"
+    buy_now: "Compre Agora"
     subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
     unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
     personal_sub: "Inscrição individual" # Accounts Subscription View below
