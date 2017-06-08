@@ -458,7 +458,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     victory: "Vitória"
     victory_title_prefix: " Vitória "
     victory_title_suffix: " Completado!"
-    victory_sign_up: "Assine para receber atualizações"
+    victory_sign_up: "Assine para salvar progresso"
     victory_sign_up_poke: "Quer receber as últimas novidades por email? Crie uma conta grátis e nós o manteremos informado!"
     victory_rate_the_level: "Avalie o estágio: " # {change}
     victory_return_to_ladder: "Retornar para a progressão"
