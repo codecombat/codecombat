@@ -41,17 +41,17 @@ catch (e) {
     process.exit(0)
   }
   else {
+    console.log("Error occurred. Coverage report may still have been generated.");
     throw e;
   }
-}
-
-// Cleanup
-if(!process.env.COCO_TRAVIS_TEST) {
-  console.log('Coverage report generated. Deleting converted files...')
-  for (file of convertedFiles) {
-    fs.unlinkSync(file)
+} finally {
+  // Cleanup
+  if(!process.env.COCO_TRAVIS_TEST) {
+    console.log('Coverage report generated. Deleting converted files...')
+    for (file of convertedFiles) {
+      fs.unlinkSync(file)
+    }
   }
-}
-  
 
-console.log('Done.')
+  console.log('Done.')
+}
