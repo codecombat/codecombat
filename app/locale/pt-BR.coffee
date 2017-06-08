@@ -752,7 +752,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 #    wallOfDarkness_name: "Wall of Darkness"
 #    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
-#  premium_features:
+  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
     subscribe_now: "Assine Agora"
