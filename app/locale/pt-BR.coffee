@@ -875,7 +875,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     matt_title: "Cofundador, CTO" # {change}
     cat_title: "Designer de Jogos" # {change}
     cat_blurb: "Airbender"
-    scott_title: "Cofundado, Engenheiro de Software" # {change}
+    scott_title: "Cofundado, Eng. de Software" # {change}
     scott_blurb: "O Sensato"
     maka_title: "Defensor dos Clientes"
     maka_blurb: "Contador de Histórias"
