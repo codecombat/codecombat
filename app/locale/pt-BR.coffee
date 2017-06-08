@@ -231,7 +231,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     create_student_header: "Criar conta de Aluno"
     create_teacher_header: "Criar conta de Professor"
     create_individual_header: "Criar conta Individual"
-    email_announcements: "Receber notícias por email sobre novas fases e características do CodeCombat." # {change}
+    email_announcements: " Receber notícias por email sobre novas fases e características do CodeCombat." # {change}
     creating: "Criando uma nova conta..."
     sign_up: "Criar conta"
     log_in: "Entre com a senha"
