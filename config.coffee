@@ -53,8 +53,8 @@ exports.config =
         coffeelint:
           pattern: /\A\Z/
         afterBrunch: [
-          "coffee scripts/minify.coffee",
-          "sh copy.sh"
+          "sh copy.sh",
+          "coffee scripts/minify.coffee"
         ]
     fast:
       onCompile: (files) -> console.log "I feel the need, the need... for speed."
