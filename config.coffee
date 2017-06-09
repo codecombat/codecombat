@@ -53,7 +53,7 @@ exports.config =
         coffeelint:
           pattern: /\A\Z/
         afterBrunch: [
-          "coffee scripts/setup-aether.coffee && ls public/javascripts && coffee scripts/minify.coffee"
+          "coffee scripts/setup-aether.coffee && coffee scripts/minify.coffee"
         ]
     fast:
       onCompile: (files) -> console.log "I feel the need, the need... for speed."
