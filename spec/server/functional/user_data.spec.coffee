@@ -2,7 +2,7 @@ User = require '../../../server/models/User'
 request = require '../request'
 utils = require '../utils'
 geoip = require '@basicer/geoip-lite'
-esper = require '../../../bower_components/esper.js/esper.modern.js'
+esper = require '../../../bower_components/esper.js/esper-modern.js'
 
 describe 'GET /user-data', ->
   beforeEach utils.wrap ->

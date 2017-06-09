@@ -66,7 +66,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
         indirecteval = eval
         indirecteval "'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"
         console.log "Modern javascript detected, aw yeah!"
-        uri = "/javascripts/esper.modern.js"
+        uri = "/javascripts/esper-modern.js"
       catch e
         console.log "Legacy javascript detected, falling back...", e.message
         uri = "/javascripts/esper.js"

@@ -29,7 +29,7 @@ jobs = _.map files, (file) ->
 		fpath = path.join(root, file)
 		dpath = path.join(dest, file)
 		smArgs = []
-		if /esper.modern.js/.test fpath
+		if /esper-modern.js/.test fpath
 			console.log "Skipping #{fpath} due to blacklist"
 			return fs.copy fpath, dpath, cb2
  
