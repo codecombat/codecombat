@@ -57,6 +57,7 @@ module.exports.createUserCodeProblem = (options) ->
   p.hint = config.hint or options.hint or ''  # Additional details about error message (sentence)
   p.range = options.range  # Like [{ofs: 305, row: 15, col: 15}, {ofs: 312, row: 15, col: 22}], or null
   p.userInfo = options.userInfo ? {}  # Record extra information with the error here
+  p.extra = options.extra ? {}  # Extras for translations
   p
 
 
@@ -137,16 +138,12 @@ extractTranspileErrorDetails = (options) ->
         options.range = [start, end]
 
         switch error.extra.kind
-          when 'DAG_MISS', 'STATEMENT_EOF' 
+          when 'DAG_MISS', 'STATEMENT_EOF'
             options.message = 'Unexpected token'
           when 'CLASSIFY'
             if error.extra.value == "'"
               options.message = "Unterminated string constant"
-
-        console.log "Extra", error.extra
-        options.extra = error.extra if error.extra
-        console.log "Outexpected Error", options
-
+  
     when 'iota'
       null
 
@@ -156,6 +153,9 @@ extractTranspileErrorDetails = (options) ->
       options.hint = error.message
     else
       console.warn "Unhandled UserCodeProblem reporter", options.reporter
+
+  # Pass along details necessary for translating messages
+  options.extra = error.extra if error.extra
 
   options.hint = options.hint or error.hint or getTranspileHint options.message, errorContext, languageID, options.aether.raw, options.range, options.aether.options?.simpleLoops
   options
@@ -267,6 +267,11 @@ extractRuntimeErrorDetails = (options) ->
       options.message = options.message.replace /^Line \d+/, (match, n) -> "Line #{lineNumber}"
     else
       options.message = "Line #{lineNumber}: #{options.message}"
+
+  # Pass along details necessary for translating messages
+  # NOTE: Esper.js assigns these directly onto the object in ErrorValue.js around line 88
+  options.extra = _.pick(error, ['targetName', 'line', 'candidates', 'when', 'ident', 'strict', 'prop'])
+  options.extra.kind = error.code # Skulpty uses 'kind' instead of 'code'
 
 getRuntimeHint = (options) ->
   code = options.aether.raw or ''
