@@ -53,7 +53,7 @@ exports.config =
         coffeelint:
           pattern: /\A\Z/
         afterBrunch: [
-          "sh copy.sh",
+          "coffee scripts/setup-aether.coffee",
           "coffee scripts/minify.coffee"
         ]
     fast:
@@ -229,7 +229,7 @@ exports.config =
 
   plugins:
     afterBrunch: [
-      "sh copy.sh"
+      "coffee scripts/setup-aether.coffee"
     ]
     coffeelint:
       pattern: /^app\/.*\.coffee$/
