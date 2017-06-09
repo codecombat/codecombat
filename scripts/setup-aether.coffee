@@ -42,3 +42,8 @@ webpack aether_webpack_config, (err, stats) ->
     console.log err
   else
     console.log "Packed aether!"
+    console.log "STATS BEGIN"
+    console.log stats
+    console.log "STATS END\nErrors:"
+    console.log stats.compilation.errors
+    console.log JSON.stringify(stats.compilation.errors, null, '\t')
