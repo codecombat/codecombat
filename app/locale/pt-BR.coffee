@@ -51,7 +51,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     computer_science: "Cursos de ciência da computação para todas as idades"
     show_me_lesson_time: "Mostre-me a estimativa de tempo para:"
     curriculum: "Total de horas curriculares:"
-    ffa: "Gratuito para todos os estudantes"
+    ffa: "Grátis para estudantes"
     lesson_time: "Tempo da lição:"
     coming_soon: "Em breve!"
     courses_available_in: "Os cursos estão disponíveis em JavaScript, Python e Java (em breve!)" # {change}
