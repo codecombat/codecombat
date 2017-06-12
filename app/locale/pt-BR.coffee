@@ -2145,7 +2145,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     advanced_html: "HTML Avançado"
     advanced_css: "CSS Avançado"
     advanced_web_scripting: "Web Script Avançado"
-    input_handling: "Tratamento de entrada"
+    input_handling: "Manipulação de entrada"
     while_loops: "Loops while" # {change}
     place_game_objects: "Usar objetos do jogo"
     construct_mazes: "Construir labirintos"
