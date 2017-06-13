@@ -465,22 +465,6 @@ describe 'DELETE /db/prepaid/:handle/redeemers', ->
     expect(student.get('coursePrepaid')).toBeUndefined()
     done()
 
-  it 'works if the user has not migrated from coursePrepaidID to coursePrepaid', utils.wrap (done) ->
-    yield @student.update({
-      $set: { coursePrepaidID: @prepaid._id }
-      $unset: { coursePrepaid: '' }
-    })
-    yield @student.save()
-    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
-    expect(body.redeemers.length).toBe(0)
-    expect(res.statusCode).toBe(200)
-    prepaid = yield Prepaid.findById(body._id)
-    expect(prepaid.get('redeemers').length).toBe(0)
-    student = yield User.findById(@student.id)
-    expect(student.get('coursePrepaid')).toBeUndefined()
-    expect(student.get('coursePrepaidID')).toBeUndefined()
-    done()
-
   it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
     otherTeacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(otherTeacher)
