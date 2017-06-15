@@ -360,6 +360,7 @@ module.exports = {
   subscribeUser
   unsubscribeUser
   unsubscribeRecipientEndpoint
+  unsubscribeRecipientAsync
   purchaseProduct
   checkForCoupon
   checkForExistingSubscription

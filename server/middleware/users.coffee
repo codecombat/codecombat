@@ -74,9 +74,43 @@ module.exports =
     else
       throw new errors.Forbidden('Only admins and teachers can search by email')
 
-  removeFromClassrooms: wrap (req, res, next) ->
-    yield req.user.removeFromClassrooms()
-    next()
+  delete: wrap (req, res, userID) ->
+    middleware = require '../middleware' # Require here to prevent failed circular definition
+    userToDelete = yield database.getDocFromHandle(req, User)
+    if not userToDelete
+      throw new errors.NotFound('User not found.')
+    unless req.user?.isAdmin() or req.user?._id.equals(userToDelete._id)
+      throw new errors.Forbidden("Can't delete this user.")
+
+    yield userToDelete.removeFromClassrooms()
+    
+    # Delete personal subscription
+    if userToDelete.get('stripe.subscriptionID')
+      yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
+    
+    # Delete recipient subscription
+    sponsorID = userToDelete.get('stripe.sponsorID')
+    if sponsorID
+      sponsor = yield User.findById(sponsorID)
+      if not sponsor
+        throw new errors.UnprocessableEntity("Couldn't find subscription sponsor #{userToDelete.get('stripe.sponsorID')} of user #{userToDelete._id} to delete")
+      sponsorObject = sponsor.toObject()
+      sponsorObject.stripe.unsubscribeEmail = userToDelete.get('email')
+      yield middleware.subscriptions.unsubscribeRecipientAsync(req, res, sponsor, userToDelete)
+    
+    # Delete all the user's attributes
+    obj = userToDelete.toObject()
+    for prop, val of obj
+      userToDelete.set(prop, undefined) unless prop is '_id'
+    userToDelete.set('dateDeleted', new Date())
+    userToDelete.set('deleted', true)
+
+    # Hack to get saving of Users to work. Probably should replace these props with strings
+    # so that validation doesn't get hung up on Date objects in the documents.
+    delete obj.dateCreated
+    
+    yield userToDelete.save()
+    res.status(204).send()
 
   remainTeacher: wrap (req, res, next) ->
     yield req.user.removeFromClassrooms()
@@ -445,3 +479,4 @@ module.exports =
       })
     ]
     return res.send(200)
+    
