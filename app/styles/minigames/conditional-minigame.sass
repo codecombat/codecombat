@@ -1,29 +1,75 @@
 @import "app/styles/style-flat-variables"
 
 #minigame-content
-  div.properties,
-  div.conditional,
-  div.result,
-  div.timer,
-  div.score
-    margin: 20px
 
-  .progress-outer
-    width: 50%
-    margin: 10px 2%
-    padding: 3px
+  min-height: 100vh;
+
+  div.game-progress
+    padding-left: 100px
+    padding-bottom: 10px
+    div
+      margin-left: 20px
+      text-align: center
+      display: inline-block
+      width: 40px
+    img
+      height: 40px
+      width: 40px
+
+  div.path
+    position: relative;
+    background-color: #aaffaa;
+    height: 400px;
+    width: 900px;
+
+    .pet
+      position: absolute;
+
+    .if-conditional
+      font-size: 150%
+      position: absolute
+      left: 350px
+      top: 20px
+
+    .else-conditional
+      font-size: 150%
+      position: absolute
+      left: 350px
+      top: 200px
+
+
+    .choice
+      position: absolute
+      right: 10px
+
+      button
+        width: 100px
+        height: 100px
+        font-size: 40px
+      &.if-path
+        top: 20px
+      &.else-path
+        top: 200px
+
+      img.answer-image
+        width: 100px
+        height: 100px
+
+    div.properties
+      position: absolute
+      bottom: 10px
+      left: 10px
+
+      ul
+        padding-left: 10px
+      li
+        list-style-type: none
+
+  .score
+    width: 900px
     text-align: center
-    background-color: #f4f4f4
-    border: 1px solid #dcdcdc
-    color: #fff
-    border-radius: 20px
 
-  .progress-inner
-    min-width: 1%
-    white-space: nowrap
-    overflow: hidden
-    padding: 5px
-    border-radius: 20px
-    background-color: #0E4C60
+    button
+      margin-left: 10px
 
 

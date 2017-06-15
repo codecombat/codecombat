@@ -3,15 +3,18 @@ RootComponent = require 'views/core/RootComponent'
 # template = require 'templates/base-flat'
 
 pets = [
-  { name: 'Raven', canFly: true, hasFur: false, color: 'black' }
-  { name: 'Wolf', canFly: false, hasFur: true, color: 'grey' }
+  { name: 'Raven', canFly: true, hasFur: false, color: 'black', imageSrc: '/images/pages/minigames/conditionals/raven.png'}
+  { name: 'Wolf', canFly: false, hasFur: true, color: 'grey', imageSrc: '/images/pages/minigames/conditionals/wolf.png' }
 ]
+
+ogreImageSrc = '/images/pages/minigames/conditionals/ogre.png'
+gemImageSrc = '/images/pages/minigames/conditionals/gem.png'
 
 petProperties = {}
 
 for pet in pets
   for key in _.keys(pet)
-    continue if key is 'name'
+    continue if key in ['name', 'imageSrc']
     petProperties[key] ?= []
     petProperties[key].push(pet[key])
     petProperties[key] =  _.unique(petProperties[key])
@@ -28,11 +31,10 @@ ConditionalMinigameComponent = Vue.extend
     value: null
     pet: {}
     answeredCorrectly: null
+    answer: ''
     intervalID: null
     roundStartTime: null
-    roundEndTime: null
     nextRoundStart: null
-    secondsUntilNextRound: 0
     age: null
     lastTick: null
     score: {
@@ -40,7 +42,24 @@ ConditionalMinigameComponent = Vue.extend
       correct: 0
       incorrect: 0
     }
+    rounds: []
     gameOver: false
+    maxRounds: 10
+  }
+  computed: {
+    animalTop: -> if @answer is 'else' then '200px' else '10px'
+    animalLeft: -> 
+      roundPercent = @age / @roundEndAt
+      if @answer
+        return '650px'
+      else if roundPercent > 1
+        return '25%'
+      else
+        roundPercent*25 +'%'
+    ifAnswerImage: -> if @correctAnswer is 'if' then gemImageSrc else ogreImageSrc
+    elseAnswerImage: -> if @correctAnswer is 'else' then gemImageSrc else ogreImageSrc
+    correctAnswer: -> if @pet[@property] is @value then 'if' else 'else'
+
   }
   methods: {
     setupRound: ->
@@ -48,17 +67,17 @@ ConditionalMinigameComponent = Vue.extend
       @value = _.sample(petProperties[@property])
       @pet = _.sample(pets)
       @answeredCorrectly = null
+      @answer = ''
       @roundStartTime = moment()
       @roundEndAt = baseRoundTime
       @age = 0
       @nextRoundStart = null
-      @secondsUntilNextRound = 0
       @dt = 0
-      @gameOver = false
 
     playerAnswered: (answer, event) ->
       return if @nextRoundStart
-      @answeredCorrectly = (answer is 'if') == (@pet[@property] is @value)
+      @answer = answer
+      @answeredCorrectly = answer is @correctAnswer
       @doAnswer @answeredCorrectly
 
     doAnswer: (correct=false) ->
@@ -67,9 +86,13 @@ ConditionalMinigameComponent = Vue.extend
         @score.correct++
       else
         @score.incorrect++
-      @nextRoundStart = @age + 3
-      @secondsUntilNextRound = 3
+      @nextRoundStart = @age + 1
+      @rounds.push  { correct: correct, imgSrc: if correct then gemImageSrc else ogreImageSrc } 
+      @playSound correct
 
+    playSound: (correct) ->
+      sound = if correct then @$refs.gemSound else @$refs.ogreSound
+      sound.play()
 
     startGameLoop: ->
       return if @intervalID
@@ -85,7 +108,7 @@ ConditionalMinigameComponent = Vue.extend
       @age = moment().diff(@roundStartTime) / 1000
 
       if @nextRoundStart
-        if @score.total >= 10
+        if @score.total >= @maxRounds
           # For now, end the game after 10 rounds.
           @endGame()
         if @age > @nextRoundStart
@@ -93,17 +116,22 @@ ConditionalMinigameComponent = Vue.extend
       else if @age > @roundEndAt
         @doAnswer(false) unless @answeredCorrectly
 
-      @secondsUntilNextRound = Math.max(0, @secondsUntilNextRound - @dt)
       @lastTick = moment()
 
     endGame: ->
       @stopGameLoop()
       @gameOver = true
 
+    startGame: ->
+      @setupRound()
+      @gameOver = false
+      @rounds = []
+      @score = { total: 0, correct: 0, incorrect: 0 }
+      @startGameLoop()
+
   }
   created: ->
-    @setupRound()
-    @startGameLoop()
+    @startGame()
 
 module.exports = class ConditionalMinigameView extends RootComponent
   id: 'conditional-minigame-view'

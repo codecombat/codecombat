@@ -1,39 +1,41 @@
 .content#minigame-content
+  audio(src='/sounds/pages/minigames/conditionals/gem_pickup.mp3' ref="gemSound")
+  audio(src='/sounds/pages/minigames/conditionals/ogre_munchkin_raah.mp3' ref="ogreSound")
+
   .header
     h1 Conditional Minigame Prototype
 
-  .controls
+  .game-progress
+    div(v-for="round in rounds")
+      img(v-bind:src="round.imgSrc")
+    div(v-for="r in maxRounds - rounds.length")
+      span x
 
-  .properties
-    p Properties: {{pet.name}}
-    ul
-      li(v-for="(val, key) in pet")
-        code {{key}}
-        = ": "
-        code {{JSON.stringify(val)}}
+  .path
+    .pet(v-bind:style="{ top: animalTop, left: animalLeft }")
+      img.pet-image(v-bind:src="pet.imageSrc")
+    .if-conditional
+      code if {{property}} {{operator}} {{JSON.stringify(value)}}
+    .else-conditional
+      code else
+    .choice.if-path
+      //- button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") ?
+
+      button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-if="!answer && !nextRoundStart") ?
+      img.answer-image(v-bind:src="ifAnswerImage" v-else)
+
+    .choice.else-path
+      button.btn.btn-danger.btn-lg(v-on:click="playerAnswered('else', $event)" v-if="!answer && !nextRoundStart") ?
+      img.answer-image(v-bind:src="elseAnswerImage" v-else)
+
+    .properties
+      ul
+        li(v-for="(val, key) in pet" v-if="key != 'imageSrc'")
+          code {{key}}
+          = ": "
+          code {{JSON.stringify(val)}}
 
 
-  .conditional
-    p 
-      button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") If 
-      code {{property}} {{operator}} {{JSON.stringify(value)}}
-      br
-      button.btn.btn-danger.btn-lg(v-on:click="playerAnswered('else', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") Else
-
-
-  .choice
-
-  .result
-    span(v-if="answeredCorrectly == true") Correct!
-    span(v-else-if="answeredCorrectly == false") Nope!
-    span(v-else) Select an Answer
-
-  .timer
-    p(v-if="gameOver") Game Over!
-    p(v-else-if="nextRoundStart") Next Round Starts In: {{Math.ceil(secondsUntilNextRound)}}
-    .progress-outer(v-else)
-      .progress-inner(v-bind:style="{ width: ((roundEndAt - age)/roundEndAt)*100 +'%'}")
-
-  .score
-    ul
-      li Correct Answers: {{score.correct}} out of {{score.total}}
+  .score(v-if="gameOver")
+    h3 You got {{score.correct}} correct out of {{score.total}}!
+      button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play Again!
