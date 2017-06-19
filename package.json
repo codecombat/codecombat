@@ -77,6 +77,7 @@
     "express-useragent": "^1.0.4",
     "graceful-fs": "~2.0.1",
     "gridfs-stream": "~1.1.1",
+    "intercom-client": "^2.8.8",
     "json-brunch": "^1.5.4",
     "jsondiffpatch": "^0.2.3",
     "lodash": "~2.4.1",
