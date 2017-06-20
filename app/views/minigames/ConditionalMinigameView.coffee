@@ -5,6 +5,10 @@ RootComponent = require 'views/core/RootComponent'
 pets = [
   { name: 'Raven', canFly: true, hasFur: false, color: 'black', imageSrc: '/images/pages/minigames/conditionals/raven.png'}
   { name: 'Wolf', canFly: false, hasFur: true, color: 'grey', imageSrc: '/images/pages/minigames/conditionals/wolf.png' }
+  { name: 'Fox', canFly: false, hasFur: true, color: 'blue', imageSrc: '/images/pages/minigames/conditionals/fox.png' }
+  { name: 'Bear', canFly: false, hasFur: true, color: 'white', imageSrc: '/images/pages/minigames/conditionals/bear.png' }
+  { name: 'Rat', canFly: false, hasFur: true, color: 'brown', imageSrc: '/images/pages/minigames/conditionals/rat.jpg' }
+  { name: 'Dog', canFly: false, hasFur: true, color: 'tan', imageSrc: '/images/pages/minigames/conditionals/dog.png' }
 ]
 
 ogreImageSrc = '/images/pages/minigames/conditionals/ogre.png'
