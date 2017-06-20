@@ -30,6 +30,7 @@ baseRoundTime = 10
 ConditionalMinigameComponent = Vue.extend
   template: require('templates/minigames/conditional-minigame-component')()
   data: -> {
+    intro: true
     property: ''
     operator: '=='
     value: null
@@ -127,6 +128,7 @@ ConditionalMinigameComponent = Vue.extend
       @gameOver = true
 
     startGame: ->
+      @intro = false
       @setupRound()
       @gameOver = false
       @rounds = []
@@ -135,7 +137,11 @@ ConditionalMinigameComponent = Vue.extend
 
   }
   created: ->
-    @startGame()
+    @intro = true
+    @property = _.sample(_.keys(petProperties))
+    @value = _.sample(petProperties[@property])
+    @pet = _.sample(pets)
+
 
 module.exports = class ConditionalMinigameView extends RootComponent
   id: 'conditional-minigame-view'

@@ -11,7 +11,24 @@
     div(v-for="r in maxRounds - rounds.length")
       span x
 
+  .intro(v-if="intro")
+    h2  Help the lost pets find their way out of the forest!
+
+    p A 
+      strong conditional statement 
+      | is a branch in the path your code takes.
+    p The path the code chooses to take depends on whether or not the condition is true.
+    p If it is true, the code takes the "if" path.
+    p Otherwise, the code takes the "else" path.
+    button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play!
+
   .path
+    .intro(v-if="intro")
+      span#intro-if Click this button if the conditional is TRUE:
+      span#intro-else Click this button if the conditional is FALSE:
+      span#intro-conditional This is the conditional:
+      span#intro-properties Properties of the pet:
+
     .pet(v-bind:style="{ top: animalTop, left: animalLeft }")
       img.pet-image(v-bind:src="pet.imageSrc")
     .if-conditional
