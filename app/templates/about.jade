@@ -104,17 +104,6 @@ block content
               small(data-i18n="about.maka_blurb")
 
           li
-            a(href="http://basicer.com/" rel="external")
-              .profile-pic
-                img(src="/images/pages/about/team-avatars/rob-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/rob-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="http://basicer.com/" rel="external") Rob Blanckaert
-              small(data-i18n="about.rob_title")
-              small(data-i18n="about.rob_blurb")
-
-          li
             .profile-pic
               img(src="/images/pages/about/team-avatars/josh-avatar.png").img-thumbnail.avatar
               img(src="/images/pages/about/team-headshots/josh-headshot.png").img-thumbnail.headshot
@@ -317,10 +306,28 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
                 li.small(data-i18n="about.jobs_benefit_7")
+          //- .col-sm-6.col-md-5.col-lg-4
+          //-   .job-listing
+          //-     h5 (No Open Roles)
+          //-     p.small Check back later for updates on new positions at CodeCombat.
+          .col-sm-6.col-md-5.col-lg-4
+            .job-listing
+              h5 Senior Frontend Engineer
+                .text-center
+                  small.label
+                    | San Francisco • Full-time
+                p.small Come help us build a next generation HTML5 coding game, and drive frontend engineering excellence across the team!
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/dba99f8f-d7db-43ca-a6d4-514dca22ba9e" rel="external")
+                 span(data-i18n="about.learn_more")
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 (No Open Roles)
-              p.small Check back later for updates on new positions at CodeCombat.
+              h5 Senior Backend Engineer
+                .text-center
+                  small.label
+                    | San Francisco • Full-time
+                p.small Come use your extensive backend experience to ensure our servers always provide the answer, and drive backend engineering excellence across the team!
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/e53fba8b-132f-48c4-989d-fce6fbc3f23f" rel="external")
+                 span(data-i18n="about.learn_more")
           .col-sm-6.col-md-5.col-lg-4
             .job-listing
               h5(data-i18n="about.jobs_custom_title")
