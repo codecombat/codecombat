@@ -39,7 +39,8 @@ block content
           else if productID
             td(data-i18n="account.gems")
           else if me.get('stripe').free != null
-            if typeof(me.get('stripe').free) === 'boolean'
+            - var purchaseDate = new Date(payment.get('created'));
+            if typeof(me.get('stripe').free) === 'boolean' && purchaseDate > new Date(2017, 0, 1)
               if me.get('stripe').customerID
                 td(data-i18n="subscribe.lifetime")
               else
