@@ -136,10 +136,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     buy_gems: "购买宝石"
     subscription_required: "需订阅"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscribers_only: "仅限订阅者！"
+    subscribe_unlock: "订阅以解锁！"
+    subscriber_heroes: "现在订阅立刻解锁Amara、Hushbaum和Hattori！"
+    subscriber_gems: "现在订阅以用宝石购买此英雄！"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
     play_classroom_version: "玩课堂模式" # Choose a level in campaign version that you also can play in one of your courses
@@ -150,10 +150,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     adjust_volume: "音量调节"
     campaign_multiplayer: "多人竞技场"
     campaign_multiplayer_description: "……在这里您可以与其他玩家进行代码肉搏战。"
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_done: "你已用代码击败食人妖！你赢了！"
+    brain_pop_challenge: "挑战自我，用另一门编程语言再玩一次！"
+    replay: "重放"
+    back_to_classroom: "回到课堂"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -291,8 +291,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sso_connected: "成功与以下账号连接："
     select_your_starting_hero: "选择你的起始英雄："
     you_can_always_change_your_hero_later: "之后你可以随时更换英雄。"
-#    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
+    finish: "完成"
+    teacher_ready_to_create_class: "你已经可以创建你的第一个课堂！"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
@@ -321,7 +321,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     back: "返回" # When used as an action verb, like "Navigate backward"
     coming_soon: "敬请期待！"
     continue: "继续" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "下一个"
     default_code: "默认代码"
     loading: "读取中……"
     overview: "概览"
@@ -347,7 +347,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit_changes: "提交更新"
     save_changes: "保存更新"
     required_field: "必填" # {change}
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "请输入一个有效的电话号码。"
 
   general:
     and: "与"
@@ -403,9 +403,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     last_name: "名"
     last_initial: "（姓）首大写字母"
     username: "用户名"
-#    contact_us: "Contact Us"
-#    close_window: "Close Window"
-#    learn_more: "Learn More"
+    contact_us: "联系我们"
+    close_window: "关闭窗口"
+    learn_more: "了解更多"
 
   units:
     second: "秒"
