@@ -49,6 +49,7 @@ block modal-body-content
         th ID
         th Shared by
         th Type
+        th Issued
         th Start
         th End
         th Used
@@ -63,12 +64,13 @@ block modal-body-content
               else
                 | -
           td= prepaid.get('type')
+          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
           td
             if prepaid.get('startDate')
-              = moment(prepaid.get('startDate')).utc().format('lll')
+              = moment(prepaid.get('startDate')).utc().format('l')
           td
             if prepaid.get('endDate')
-              = moment(prepaid.get('endDate')).utc().format('lll')
+              = moment(prepaid.get('endDate')).utc().format('l')
           td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
 
   h3 Stripe Benefit
