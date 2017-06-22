@@ -495,7 +495,7 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
       photoURL = document?.get('photoURL')
-      if photoURL and false
+      if photoURL
         photoURL = "/file/#{photoURL}"
       else
         photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
@@ -673,7 +673,7 @@ UserHandler = class UserHandler extends Handler
     # emailHash is used by gravatar
     hash = crypto.createHash('md5')
     if user.get('email')
-      hash.update(_.trim(user.get('email')).toUpperCase())
+      hash.update(_.trim(user.get('email')).toLowerCase())
     else
       hash.update(user.get('_id') + '')
     hash.digest('hex')
