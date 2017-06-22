@@ -26,14 +26,13 @@ module.exports = class User extends CocoModel
     return emailName if emailName
     return 'Anonymous'
 
-  getPhotoURL: (size=80, useJobProfilePhoto=false, useEmployerPageAvatar=false) ->
-    photoURL = if useJobProfilePhoto then @get('jobProfile')?.photoURL else null
-    photoURL ||= @get('photoURL')
-    if photoURL
+  getPhotoURL: (size=80) ->
+    photoURL = @get('photoURL')
+    if photoURL and false
       prefix = if photoURL.search(/\?/) is -1 then '?' else '&'
       return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
       return "/file/#{photoURL}#{prefix}s=#{size}"
-    return "/db/user/#{@id}/avatar?s=#{size}&employerPageAvatar=#{useEmployerPageAvatar}"
+    return "/db/user/#{@id}/avatar?s=#{size}"
 
   getRequestVerificationEmailURL: ->
     @url() + "/request-verify-email"
@@ -147,11 +146,11 @@ module.exports = class User extends CocoModel
     myHeroClasses = []
     myHeroClasses.push heroClass for heroClass, heroSlugs of ThangType.heroClasses when _.intersection(myHeroSlugs, heroSlugs).length
     myHeroClasses
-    
+
   validate: ->
     errors = super()
     if errors and @_revertAttributes
-      
+
       # Do not return errors if they were all present when last marked to revert.
       # This is so that if a user has an invalid property, that does not prevent
       # them from editing their settings.
@@ -220,7 +219,7 @@ module.exports = class User extends CocoModel
     return true if me.isAdmin()
     return true if me.hasSubscription()
     return false
-    
+
   isForeverPremium: ->
     return @get('stripe')?.free is true
 
@@ -260,7 +259,7 @@ module.exports = class User extends CocoModel
     courseID = course.id or course
     # NOTE: Full licenses implicitly include all courses
     return !includedCourseIDs or courseID in includedCourseIDs
-  
+
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
 
@@ -415,7 +414,7 @@ module.exports = class User extends CocoModel
   isFromIndia: -> @get('country') is 'india'
   setToGerman: -> _.string.startsWith((@get('preferredLanguage') or ''), 'de')
   setToSpanish: -> _.string.startsWith((@get('preferredLanguage') or ''), 'es')
-  
+
   freeOnly: ->
     return features.freeOnly and not me.isPremium()
 
