@@ -127,7 +127,7 @@ SkippedContactsComponent = Vue.extend
     'flat-layout': FlatLayout
   created: co.wrap ->
     try
-      skippedContacts = yield api.skippedContacts.fetchAll()
+      skippedContacts = yield api.skippedContacts.getAll()
       @$store.commit('page/loadContacts', skippedContacts)
       yield skippedContacts.map co.wrap (skippedContact) =>
         userHandle = skippedContact.trialRequest?.applicant

@@ -166,6 +166,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
+    'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
     'teachers': redirect('/teachers/classes')
@@ -274,7 +275,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @activateTab()
     @didOpenView view
 
-  mergeView: (view) ->   
+  mergeView: (view) ->
     unless view.mergeWithPrerendered?
       return @openView(view)
 
