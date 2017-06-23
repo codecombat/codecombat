@@ -48,7 +48,7 @@ co(function*() {
   // Get all levels which are shareable.
   const Level = require('../../server/models/Level');
   var levels = yield Level.find(
-    {shareable: 'project', slug: 'palimpsest'},
+    {shareable: 'project', slug: {$exists: true}},
     {original: 1, name: 1, type: 1}
   )
   
@@ -69,7 +69,7 @@ co(function*() {
     },
     'dateFirstCompleted': {$exists: true}
   };
-    const sessionCursor = LevelSession.find(sessionQuery).sort('-_id').cursor()
+  const sessionCursor = LevelSession.find(sessionQuery).sort('-_id').cursor()
   const levelSessionViews = {};
   while(true) {
     const levelSession = yield sessionCursor.next()
@@ -79,7 +79,7 @@ co(function*() {
       views: 0,
       cutoff: moment(levelSession.get('dateFirstCompleted')).add(waitWindow, 'days')
     }
-      if(true) { //_.size(levelSessionViews) % 200 === 0) {
+    if(_.size(levelSessionViews) % 200 === 0) {
       console.log('...', _.size(levelSessionViews))
     }
   }
@@ -121,7 +121,7 @@ co(function*() {
     bestProjects.push({views: levelSessionViews[sessionId].views, sessionId: sessionId});
   }
   bestProjects = _.sortBy(bestProjects, function(project) { return -project.views; });
-  console.log(bestProjects.slice(0, 50));
+  console.log("Best projects:", bestProjects.slice(0, 50));
 
   mongoose.disconnect();
   analyticsDb.close();
