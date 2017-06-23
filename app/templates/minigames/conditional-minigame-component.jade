@@ -1,58 +1,75 @@
 .content#minigame-content
-  audio(src='/sounds/pages/minigames/conditionals/gem_pickup.mp3' ref="gemSound")
-  audio(src='/sounds/pages/minigames/conditionals/ogre_munchkin_raah.mp3' ref="ogreSound")
 
-  .header
-    h1 Conditional Minigame Prototype
+  .left-column
+    audio(src='/sounds/pages/minigames/conditionals/gem_pickup.mp3' ref="gemSound")
+    audio(src='/sounds/pages/minigames/conditionals/ogre_munchkin_raah.mp3' ref="ogreSound")
 
-  .game-progress
-    div(v-for="round in rounds")
-      img(v-bind:src="round.imgSrc")
-    div(v-for="r in maxRounds - rounds.length")
-      span x
+    .header.text-center
+      h1 Pet Dilemma!
 
-  .intro(v-if="intro")
-    h2  Help the lost pets find their way out of the forest!
-
-    p A 
-      strong conditional statement 
-      | is a branch in the path your code takes.
-    p The path the code chooses to take depends on whether or not the condition is true.
-    p If it is true, the code takes the "if" path.
-    p Otherwise, the code takes the "else" path.
-    button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play!
-
-  .path
-    .intro(v-if="intro")
-      span#intro-if Click this button if the conditional is TRUE:
-      span#intro-else Click this button if the conditional is FALSE:
-      span#intro-conditional This is the conditional:
-      span#intro-properties Properties of the pet:
-
-    .pet(v-bind:style="{ top: animalTop, left: animalLeft }")
-      img.pet-image(v-bind:src="pet.imageSrc")
-    .if-conditional
-      code if {{property}} {{operator}} {{JSON.stringify(value)}}
-    .else-conditional
-      code else
-    .choice.if-path
-      //- button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") ?
-
-      button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-if="!answer && !nextRoundStart") ?
-      img.answer-image(v-bind:src="ifAnswerImage" v-else)
-
-    .choice.else-path
-      button.btn.btn-danger.btn-lg(v-on:click="playerAnswered('else', $event)" v-if="!answer && !nextRoundStart") ?
-      img.answer-image(v-bind:src="elseAnswerImage" v-else)
-
-    .properties
-      ul
-        li(v-for="(val, key) in pet" v-if="key != 'imageSrc'")
-          code {{key}}
-          = ": "
-          code {{JSON.stringify(val)}}
+    .game-progress
+      div(v-for="round in rounds")
+        img(v-bind:src="round.imgSrc")
+      div(v-for="r in maxRounds - rounds.length")
+        span x
 
 
-  .score(v-if="gameOver")
-    h3 You got {{score.correct}} correct out of {{score.total}}!
-      button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play Again!
+    .path
+      .intro(v-if="intro")
+        div.help#intro-if 
+          | Click this button if the conditional is TRUE
+          =" "
+          span.glyphicon.glyphicon-arrow-right
+        div.help#intro-else 
+          | Click this button if the conditional is FALSE
+          =" "
+          span.glyphicon.glyphicon-arrow-right
+        div.help#intro-conditional 
+          | This is the conditional 
+          =" "
+          span.glyphicon.glyphicon-arrow-right
+        div.help#intro-properties
+          //- span.glyphicon.glyphicon-arrow-down
+          //- =" "
+          | Properties of the pet
+
+      .pet(v-bind:style="{ top: animalTop, left: animalLeft }")
+        img.pet-image(v-bind:src="pet.imageSrc")
+      .if-conditional
+        code if {{property}} {{operator}} {{JSON.stringify(value)}}
+      .else-conditional
+        code else
+      .choice.if-path
+        //- button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") ?
+
+        button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-if="!answer && !nextRoundStart") ?
+        img.answer-image(v-bind:src="ifAnswerImage" v-else)
+
+      .choice.else-path
+        button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('else', $event)" v-if="!answer && !nextRoundStart") ?
+        img.answer-image(v-bind:src="elseAnswerImage" v-else)
+
+      .properties
+        ul
+          li(v-for="(val, key) in pet" v-if="key != 'imageSrc'")
+            code {{key}}
+            = ": "
+            code {{JSON.stringify(val)}}
+
+
+    .score(v-if="gameOver")
+      h3 You got {{score.correct}} correct out of {{score.total}}!
+        button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play Again!
+
+  .right-column
+    .intro
+      h2  Help the lost pets find their way out of the forest!
+
+      p A 
+        strong conditional statement 
+        | is a branch in the path your code takes.
+      p The path the code chooses to take depends on whether or not the condition is true.
+      p If it is true, the code takes the "if" path.
+      p Otherwise, the code takes the "else" path.
+      button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play!
+

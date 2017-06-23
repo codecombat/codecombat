@@ -4,18 +4,32 @@
 
   min-height: 100vh
 
-  div.intro
+  .left-column
     width: 900px
-    text-align: center
+
+  .right-column
+    position: absolute
+    left: 900px
+    top: 0px
+    width: 400px
+    padding: 10px
+    margin-top: 60px
+    text-align: left
+
+
+  div.intro
 
     h2
       font-weight: bold
 
-    span
+    .help
       background-color: red
       color: white
+      // border: 2px solid white
+      padding: 2px 10px
+      border-radius: 10px
       position: absolute
-      box-shadow: 10px 10px 11px 0px rgba(0,0,0,0.75)
+      // box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75)
 
     #intro-if
       top: 75px
@@ -24,10 +38,10 @@
       top: 280px
       right: 120px
     #intro-conditional
-      top: 21px
-      left: 145px
+      top: 20px
+      left: 120px
     #intro-properties
-      top: 228px
+      top: 220px
       left: 5px
 
   div.game-progress
@@ -75,6 +89,10 @@
         width: 100px
         height: 100px
         font-size: 40px
+        box-shadow: 10px 10px 10px 0px rgba(0,0,0,0.75)
+        border: 2px solid black
+        // border-radius: 10px
+
       &.if-path
         top: 15px
       &.else-path
@@ -89,6 +107,8 @@
       left: 10px
 
       ul
+        background-color: white
+        border-radius: 2px
         padding-left: 10px
       li
         list-style-type: none
