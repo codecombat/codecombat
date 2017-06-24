@@ -908,6 +908,8 @@
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
     jose_blurb: "Taking Off"
+    bryukh_title: "Game Designer"
+    bryukh_blurb: "Constructs puzzles"
     community_title: "...and our open-source community"
     community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
     community_description_3: "CodeCombat is a"
