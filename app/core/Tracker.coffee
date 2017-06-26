@@ -68,7 +68,10 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    for userTrait in ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    if me.isTeacher()
+      traitsToReport.push('firstName', 'lastName')
+    for userTrait in traitsToReport
       traits[userTrait] ?= me.get(userTrait) if me.get(userTrait)?
     if me.isTeacher()
       traits.teacher = true
