@@ -89,19 +89,10 @@ block modal-body-content
           if rewards.items
             for item in rewards.items
               - var item = thangTypes[item];
-              if item.get('subscriber') 
-                if me.freeOnly()
-                  - continue
-                .reward-panel.item.premium(data-item-thang-type=item.get('original'))
-                  .reward-border
-                  .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
-                    img(src=item.getPortraitURL())
-                  if animate
-                    .reward-text(data-i18n="play_level.victory_new_item") New Item
-                  else
-                    .reward-text= i18n(item.attributes, 'name')
-              else
-               .reward-panel.item(data-item-thang-type=item.get('original'))
+              unless item.get('subscriber') && me.freeOnly()
+                .reward-panel.item(data-item-thang-type=item.get('original'), class=item.get('subscriber') ? 'premium' : '')
+                  if item.get('subscriber')
+                    .reward-border
                   .reward-image-container(class=animate ? 'pending-reward-image' : 'show')
                     img(src=item.getPortraitURL())
                   if animate
