@@ -40,6 +40,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'terrains'
     'prerenderedSpriteSheetData'
     'restricted'
+    'releasePhase'
   ]
 
   hasAccess: (req) ->

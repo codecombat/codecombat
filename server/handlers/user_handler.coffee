@@ -289,62 +289,6 @@ UserHandler = class UserHandler extends Handler
       return req.user?._id.equals(document._id)
     return true
 
-  delete: (req, res, userID) ->
-    # Instead of just deleting the User object, we should remove all the properties except for _id
-    # And add a `deleted: true` property
-    @getDocumentForIdOrSlug userID, (err, user) => # Check first
-      return @sendDatabaseError res, err if err
-      return @sendNotFoundError res unless user
-      return @sendForbiddenError res unless @hasAccessToDocument(req, user)
-
-      # Delete subscriptions attached to this user first
-      # TODO: check sponsored subscriptions (stripe.recipients)
-      checkPersonalSubscription = (user, done) =>
-        try
-          return done() unless user.get('stripe')?.subscriptionID?
-          SubscriptionHandler.unsubscribeUser {body: user.toObject()}, user, (err) =>
-            log.error("User delete check personal sub " + err) if err
-            done()
-        catch error
-          log.error("User delete check personal sub " + error)
-          done()
-      checkRecipientSubscription = (user, done) =>
-        try
-          return done() unless sponsorID = user.get('stripe')?.sponsorID
-          User.findById sponsorID, (err, sponsor) =>
-            if err
-              log.error("User delete check recipient sub " + err)
-              return done()
-            unless sponsor
-              log.error("User delete check recipient sub no sponsor #{user.get('stripe').sponsorID}")
-              return done()
-            sponsorObject = sponsor.toObject()
-            sponsorObject.stripe.unsubscribeEmail = user.get('email')
-            SubscriptionHandler.unsubscribeRecipient {body: sponsorObject}, sponsor, (err) =>
-              log.error("User delete check recipient sub " + err) if err
-              done()
-        catch error
-          log.error("User delete check recipient sub " + error)
-          done()
-      deleteSubscriptions = (user, done) =>
-        checkPersonalSubscription user, (err) =>
-          checkRecipientSubscription user, done
-
-      deleteSubscriptions user, =>
-        obj = user.toObject()
-        for prop, val of obj
-          user.set(prop, undefined) unless prop is '_id'
-        user.set('dateDeleted', new Date())
-        user.set('deleted', true)
-
-        # Hack to get saving of Users to work. Probably should replace these props with strings
-        # so that validation doesn't get hung up on Date objects in the documents.
-        delete obj.dateCreated
-
-        user.save (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendNoContent res
-
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'

@@ -336,6 +336,7 @@ UserSchema.methods.sendWelcomeEmail = ->
     email_data:
       name: @broadName()
       verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+      teacher: @isTeacher()
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
 

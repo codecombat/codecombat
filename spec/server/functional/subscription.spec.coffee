@@ -445,13 +445,16 @@ describe 'Subscriptions', ->
                 expect(err).toBeNull()
                 customerID = user1.get('stripe').customerID
                 subscriptionID = user1.get('stripe').subscriptionID
-                request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+                stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
                   expect(err).toBeNull()
-                  stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                  expect(subscription?.cancel_at_period_end).toEqual(false)
+                  request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
                     expect(err).toBeNull()
-                    expect(subscription?.cancel_at_period_end).toEqual(true)
-                    nockDone()
-                    done()
+                    stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                      expect(err).toBeNull()
+                      expect(subscription?.cancel_at_period_end).toEqual(true)
+                      nockDone()
+                      done()
 
     it 'User subscribes, deletes themselves, subscription ends', (done) ->
       nockUtils.setupNock 'sub-test-03.json', (err, nockDone) ->
@@ -903,7 +906,6 @@ describe 'Subscriptions', ->
                           nockDone()
                           done()
 
-                
   describe 'Countries', ->
     it 'Brazil users get Brazil coupon', (done) ->
       nockUtils.setupNock 'sub-test-41.json', (err, nockDone) ->
@@ -950,10 +952,10 @@ describe 'Subscriptions', ->
 
 
 describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
-  
+
   beforeEach utils.wrap ->
     yield utils.clearModels([User])
-    
+
     @recipient1 = yield utils.initUser()
     @recipient2 = yield utils.initUser()
     @sponsor = yield utils.initUser({

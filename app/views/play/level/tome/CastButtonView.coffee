@@ -34,6 +34,9 @@ module.exports = class CastButtonView extends CocoView
     @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro'] 
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
+    # Show publish CourseVictoryModal if they've already published
+    if options.session.get('published')
+      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
 
   destroy: ->
     clearInterval @updateReplayabilityInterval

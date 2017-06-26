@@ -119,9 +119,10 @@ module.exports = class PollModal extends ModalView
       _.delay (=>
         return if @destroyed
         earned = me.get('earned') ? {}
+        earned.gems ?= 0
         earned.gems += randomGems
         me.set 'earned', earned
-        me.trigger 'change:earned'
+        me.trigger 'change:earned', me, earned
       ), 1200
 
 

@@ -609,7 +609,7 @@ describe 'GET /db/user/:handle', ->
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
     
 
-describe 'DELETE /db/user', ->
+describe 'DELETE /db/user/:handle', ->
   it 'can delete a user', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -643,6 +643,13 @@ describe 'DELETE /db/user', ->
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/1234"}
     expect(res.statusCode).toBe(401)
 
+  it 'returns 403 if another non-admin user', utils.wrap ->
+    user = yield utils.initUser()
+    user2 = yield utils.initUser()
+    yield utils.loginUser(user2)
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    expect(res.statusCode).toBe(403)
+
   it 'prevents further edits to the deleted user', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -672,7 +679,59 @@ describe 'DELETE /db/user', ->
     expect(res.statusCode).toBe(200) # other login no longer valid
     user = yield User.findById(user.id)
     expect(user.get('email')).toBe(json.email)
+  
+  describe 'when the user is the recipient of a subscription', ->
+    beforeEach utils.wrap ->
+      yield utils.clearModels([User])
+      @recipient1 = yield utils.initUser()
+      @recipient2 = yield utils.initUser()
+      @sponsor = yield utils.initUser({
+        stripe: {
+          customerID: 'a'
+          sponsorSubscriptionID: '1'
+          recipients: [
+            {
+              userID: @recipient1.id
+              subscriptionID: '2'
+              couponID: 'free'
+            }
+            {
+              userID: @recipient2.id
+              subscriptionID: '3'
+              couponID: 'free'
+            }
+          ]
+        }
+      })
+      yield @recipient1.update({$set: {stripe: {sponsorID: @sponsor.id}}})
+      yield @recipient2.update({$set: {stripe: {sponsorID: @sponsor.id}}})
+      yield utils.populateProducts()
+      spyOn(stripe.customers, 'cancelSubscription').and.callFake (cId, sId, cb) -> cb(null)
+      spyOn(stripe.customers, 'updateSubscription').and.callFake (cId, sId, opts, cb) -> cb(null)
+    
+    it 'unsubscribes the user', utils.wrap ->
+      yield utils.loginUser(@recipient1)
+      [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{@recipient1.id}"}
+      expect(res.statusCode).toBe(204)
+      expect(stripe.customers.cancelSubscription).toHaveBeenCalled()
+      expect(stripe.customers.updateSubscription).toHaveBeenCalled()
+      expect((yield User.findById(@sponsor.id)).get('stripe').recipients.length).toBe(1)
+      expect((yield User.findById(@recipient1.id)).get('stripe')).toBeUndefined()
+      expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
 
+    describe 'when the sponsor id is incorrect', ->
+      beforeEach utils.wrap ->
+        admin = yield utils.initAdmin()
+        yield utils.loginUser(admin)
+        # Set it to another valid ID that isn't the sponsor's ID
+        yield @recipient1.update({ $set: {stripe: {sponsorID: new ObjectId()}} })
+
+      it 'returns 422', utils.wrap ->
+        yield utils.loginUser(@recipient1)
+        [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{@recipient1.id}"}
+        expect(res.statusCode).toBe(422)
+        expect(stripe.customers.cancelSubscription).not.toHaveBeenCalled()
+        expect(stripe.customers.updateSubscription).not.toHaveBeenCalled()
 
 describe 'Statistics', ->
   LevelSession = require '../../../server/models/LevelSession'

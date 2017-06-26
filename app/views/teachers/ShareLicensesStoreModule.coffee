@@ -46,7 +46,7 @@ module.exports = ShareLicensesStoreModule =
         commit('setPrepaid', prepaid)
     addTeacher: ({ commit, state }, email) ->
       return if _.isEmpty(email)
-      api.users.getByEmail(email).then (user) =>
+      api.users.getByEmail({ email }).then (user) =>
         api.prepaids.addJoiner({prepaidID: state._prepaid._id, userID: user._id}).then =>
           commit('addTeacher', user)
       .catch (error) =>
