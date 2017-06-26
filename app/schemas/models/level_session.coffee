@@ -306,6 +306,11 @@ _.extend LevelSessionSchema.properties,
     title: 'Is For Classroom'
     description: 'The level session was created for a user inside a course'
 
+  published:
+    type: 'boolean'
+    title: 'Published to Project Gallery'
+    description: 'Project was published to the Project Gallery for peer students to see'
+
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
 c.extendBasicProperties LevelSessionSchema, 'level.session'

@@ -79,7 +79,7 @@ module.exports = TeacherSignupStoreModule = {
       .then =>
         signupForm = _.omit(state.signupForm, (attr) -> attr is '')
         ssoAttrs = _.omit(state.ssoAttrs, (attr) -> attr is '')
-        attrs = _.assign({}, signupForm, ssoAttrs, { userId: rootState.me._id })
+        attrs = _.assign({}, signupForm, ssoAttrs, { userID: rootState.me._id })
         if state.ssoUsed is 'gplus'
           return api.users.signupWithGPlus(attrs)
         else if state.ssoUsed is 'facebook'
