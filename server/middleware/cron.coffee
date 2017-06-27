@@ -19,6 +19,7 @@ sendwithus = require '../sendwithus'
 config = require '../../server_config'
 querystring = require 'querystring'
 async = require 'async'
+Promise.promisifyAll(async)
 useragent = require 'express-useragent'
 
 
@@ -57,8 +58,10 @@ module.exports =
     aggregationInterval =                  5 * 60 * 1000
     # Add some buffer time to make sure we don't miss anything between windows
     aggregationInterval +=                     30 * 1000
-    if req.query.aggregationInterval
-      aggregationInterval = parseInt(req.query.aggregationInterval)
+    if req.query.expandWindows
+      aggregationInterval = parseInt(req.query.expandWindows)
+      sessionDateCreatedInterval += aggregationInterval
+      userDateCreatedInterval += aggregationInterval
     userDateCreatedStartTime = new Date(new Date() - userDateCreatedInterval)
     sessionDateCreatedStartTime = new Date(new Date() - sessionDateCreatedInterval)
     lastAggregationStartTime = new Date(new Date() - aggregationInterval)
@@ -73,7 +76,11 @@ module.exports =
     recentSessions = yield LevelSession.find(sessionQuery).select(sessionSelect).limit(limit).lean()
 
     # Get all the users for those sessions, or those who first joined or created a classroom during the aggregation interval
-    userIds = _.uniq (mongoose.Types.ObjectId(session.creator) for session in recentSessions)
+    userIds = _(recentSessions)
+      .map((session) -> session.creator)
+      .uniq()
+      .map((creator) -> mongoose.Types.ObjectId(creator))
+      .value()
     userQuery =
       anonymous: false
       $or: [
@@ -172,10 +179,19 @@ module.exports =
           os: session.browser?.platform
           country: 'israel'
 
-    # TODO: figure out out to make this work with async to run, say, 5 in parallel
-    for registration in registrations
-      yield IsraelRegistration.findOneAndUpdate {'user.userid': registration.user.userid}, registration, upsert: true
-    for solution in solutions
-      yield IsraelSolution.findOneAndUpdate {'solution.id': solution.solution.id}, solution, upsert: true
+    done = 0
+    yield async.eachLimitAsync registrations, 10, (registration, cb) ->
+      IsraelRegistration.findOneAndUpdate({'user.userid': registration.user.userid}, registration, {upsert: true}, (err, result) ->
+        done += 1
+#        console.log(registration.user.userid, done, 'registrations out of', registrations.length, err)
+        cb(err)
+      )
+    done = 0
+    yield async.eachLimitAsync solutions, 10, (solution, cb) ->
+      IsraelSolution.findOneAndUpdate({'solution.id': solution.solution.id}, solution, {upsert: true}, (err, result) ->
+        done += 1
+#        console.log(solution.solution.id, done, 'solutions out of', solutions.length, err)
+        cb(err)
+      )      
 
     res.status(200).send({message: "Upserted #{registrations.length} registrations and #{solutions.length} solutions."})
