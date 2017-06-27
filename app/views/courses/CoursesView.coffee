@@ -12,6 +12,8 @@ CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
+Courses = require 'collections/Courses'
+CourseInstances = require 'collections/CourseInstances'
 LevelSession = require 'models/LevelSession'
 Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
@@ -41,7 +43,7 @@ module.exports = class CoursesView extends RootView
   initialize: ->
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
-    @courseInstances.comparator = (ci) -> return ci.get('classroomID') + ci.get('courseID')
+    @courseInstances.comparator = (ci) -> return ci.get('classroomID') + utils.orderedCourseIDs.indexOf ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, { cache: false })
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom})
@@ -50,8 +52,9 @@ module.exports = class CoursesView extends RootView
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
-    @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @supermodel.loadCollection(@courses)
+    @courses = new Courses()
+    @courses.fetch()
+    @supermodel.trackCollection(@courses)
     @originalLevelMap = {}
     @urls = require('core/urls')
 

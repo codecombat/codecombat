@@ -173,7 +173,7 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   return emails[newName]?.enabled
 
 UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower')
-  
+
 UserSchema.methods.updateServiceSettings = co.wrap ->
   return unless isProduction or GLOBAL.testing
   return if @updatedMailChimp
@@ -186,16 +186,16 @@ UserSchema.methods.updateServiceSettings = co.wrap ->
   newsSubsChanged = not _.isEqual(@get('emails'), @startingEmails)
   if @emailChanged() or newsSubsChanged
     yield @updateMailChimp()
-    
+
 
 UserSchema.methods.updateMailChimp = co.wrap ->
-  
+
   # construct interests object for MailChimp
   interests = {}
   for interest in mailChimp.interests
     interests[interest.mailChimpId] = @isEmailSubscriptionEnabled(interest.property)
   anyInterests = _.any(_.values(interests))
-  
+
   # grab the email this user has registered on MailChimp
   { email: mailChimpEmail } = @get('mailChimp') or {}
   mailChimpEmail = mailChimpEmail.toLowerCase() if mailChimpEmail
@@ -316,11 +316,20 @@ UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @save (err) -> done?(err)
 
 UserSchema.statics.unconflictName = unconflictName = (name, done) ->
-  User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
+  slug = _.str.slugify(name)
+  if slug
+    query = {slug: slug}
+  else
+    # For un-sluggable names (like Chinese usernames), check based on nameLower
+    query = {nameLower: name.toLowerCase()}
+  User.findOne query, (err, otherUser) ->
     return done err if err?
     return done null, name unless otherUser
-    suffix = _.random(0, 9) + ''
-    unconflictName name + suffix, done
+    nameWithSuffix = name + _.random(0, 9)
+    while _.str.slugify(nameWithSuffix).length < 4
+      # Skip suggesting really short ones to save queries (they probably wouldn't work)
+      nameWithSuffix += _.random(0, 9)
+    unconflictName nameWithSuffix, done
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
@@ -506,7 +515,7 @@ UserSchema.methods.verificationCode = (timestamp) ->
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
-  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'country',
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID',
   'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
   'coursePrepaid', 'coursePrepaidID', 'lastAnnouncementSeen'
 ]
