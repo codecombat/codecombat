@@ -42,11 +42,11 @@
       .choice.if-path
         //- button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-bind:class="{ disabled: nextRoundStart || gameOver }") ?
 
-        button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-if="!answer && !nextRoundStart") ?
+        button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('if', $event)" v-if="!answer && !nextRoundStart" v-bind:class="{ disabled: nextRoundStart || gameOver || intro}") ?
         img.answer-image(v-bind:src="ifAnswerImage" v-else)
 
       .choice.else-path
-        button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('else', $event)" v-if="!answer && !nextRoundStart") ?
+        button.btn.btn-primary.btn-lg(v-on:click="playerAnswered('else', $event)" v-if="!answer && !nextRoundStart" v-bind:class="{ disabled: nextRoundStart || gameOver || intro}") ?
         img.answer-image(v-bind:src="elseAnswerImage" v-else)
 
       .properties
@@ -71,5 +71,5 @@
       p The path the code chooses to take depends on whether or not the condition is true.
       p If it is true, the code takes the "if" path.
       p Otherwise, the code takes the "else" path.
-      button.btn.btn-primary.btn-lg(v-on:click="startGame()") Play!
+      button.btn.btn-primary.btn-lg(v-on:click="startGame()" v-if="intro") Play!
 
