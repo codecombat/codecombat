@@ -109,25 +109,14 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push leagueID
         @homeLink += "/#{leagueType}/#{leagueID}"
     else if @level.isType('course') or @courseID
-      if @classroom?.getSetting('map')
-        @homeLink = "/play"
-        if @course?
-          @homeLink += "/#{@course.get('campaignID')}"
-          @homeViewArgs.push @course.get('campaignID')
-        if @courseInstanceID
-          @homeLink += "?course-instance=#{@courseInstanceID}"
-          
-        @homeViewClass = 'views/play/CampaignView'
-      else
-        @homeLink = '/students'
-        @homeViewClass = 'views/courses/CoursesView'
-        if @courseID
-          @homeLink += "/#{@courseID}"
-          @homeViewArgs.push @courseID
-          @homeViewClass = 'views/courses/CourseDetailsView'
-          if @courseInstanceID
-            @homeLink += "/#{@courseInstanceID}"
-            @homeViewArgs.push @courseInstanceID
+      @homeLink = "/play"
+      if @course?
+        @homeLink += "/#{@course.get('campaignID')}"
+        @homeViewArgs.push @course.get('campaignID')
+      if @courseInstanceID
+        @homeLink += "?course-instance=#{@courseInstanceID}"
+        
+      @homeViewClass = 'views/play/CampaignView'
     else if @level.isType('hero', 'hero-coop', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @homeLink = '/play'
       @homeViewClass = 'views/play/CampaignView'

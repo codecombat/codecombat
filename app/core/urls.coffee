@@ -15,7 +15,7 @@ module.exports =
     url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
     url
 
-  courseWorldMap: ({course, courseInstance, classroom}) ->
+  courseWorldMap: ({course, courseInstance}) ->
     "/play/#{course.get('campaignID')}?course-instance=#{courseInstance.id}"
 
   courseProjectGallery: ({courseInstance}) ->
