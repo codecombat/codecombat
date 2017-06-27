@@ -173,7 +173,7 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   return emails[newName]?.enabled
 
 UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower')
-  
+
 UserSchema.methods.updateServiceSettings = co.wrap ->
   return unless isProduction or GLOBAL.testing
   return if @updatedMailChimp
@@ -186,16 +186,16 @@ UserSchema.methods.updateServiceSettings = co.wrap ->
   newsSubsChanged = not _.isEqual(@get('emails'), @startingEmails)
   if @emailChanged() or newsSubsChanged
     yield @updateMailChimp()
-    
+
 
 UserSchema.methods.updateMailChimp = co.wrap ->
-  
+
   # construct interests object for MailChimp
   interests = {}
   for interest in mailChimp.interests
     interests[interest.mailChimpId] = @isEmailSubscriptionEnabled(interest.property)
   anyInterests = _.any(_.values(interests))
-  
+
   # grab the email this user has registered on MailChimp
   { email: mailChimpEmail } = @get('mailChimp') or {}
   mailChimpEmail = mailChimpEmail.toLowerCase() if mailChimpEmail
@@ -506,7 +506,7 @@ UserSchema.methods.verificationCode = (timestamp) ->
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
-  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'country',
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID',
   'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
   'coursePrepaid', 'coursePrepaidID', 'lastAnnouncementSeen'
 ]
