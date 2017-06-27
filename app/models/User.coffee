@@ -27,11 +27,6 @@ module.exports = class User extends CocoModel
     return 'Anonymous'
 
   getPhotoURL: (size=80) ->
-    photoURL = @get('photoURL')
-    if photoURL
-      prefix = if photoURL.search(/\?/) is -1 then '?' else '&'
-      return "#{photoURL}#{prefix}s=#{size}" if photoURL.search('http') isnt -1  # legacy
-      return "/file/#{photoURL}#{prefix}s=#{size}"
     return "/db/user/#{@id}/avatar?s=#{size}"
 
   getRequestVerificationEmailURL: ->

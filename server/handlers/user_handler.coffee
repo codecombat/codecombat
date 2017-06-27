@@ -497,9 +497,9 @@ UserHandler = class UserHandler extends Handler
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
-      else
-        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
-      res.redirect photoURL
+      fallback = photoURL or req.query.fallback
+      combinedPhotoURL = @buildGravatarURL document, req.query.s, fallback
+      res.redirect combinedPhotoURL
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
