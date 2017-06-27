@@ -149,6 +149,23 @@
       .reward-image-container
         left: 33px
 
+    &.hero
+      background: url("/images/pages/play/level/modal/reward_plate_wide_premium.png")
+
+      .reward-image-container
+        height: 49px
+
+    &.item.premium
+      background: none
+
+      .reward-border
+        height: 100%
+        background: url("/images/pages/play/level/modal/reward_plate_wide_premium.png")
+
+      .reward-image-container
+        top: -77px
+        left: 36px
+
     &.animating
       @include scale(1.5)
       z-index: 2
@@ -238,13 +255,13 @@
   .gems .pulse
     @include animation(rewardPulse 0.25s infinite)
 
-    
+
   //- Footer
 
   #lenovo-link
     width: 100%
     padding-top: 20px
-    
+
   #sweepstakes-entry
     height: 60px
     display: inline-block
@@ -343,7 +360,7 @@
     #share-level-input
       font-size: 12px
       margin-top: 8px
-  
+
     #share-level-btn
       width: 100%
       margin-top: 7px
@@ -402,7 +419,7 @@
     text-align: center
     text-transform: uppercase
     font-size: 24.5px
-    font-family: $headings-font-family    
+    font-family: $headings-font-family
     line-height: 20px
     border-style: solid
     border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
