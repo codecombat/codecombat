@@ -79,6 +79,10 @@ block content
                       - var course = view.courses.get(courseInstance.get('courseID'));
                       h6
                         span.spr= i18n(course.attributes, 'name')
+                        small
+                          a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_levels")
+                          if view.courseInstanceHasProject(courseInstance)
+                            a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 

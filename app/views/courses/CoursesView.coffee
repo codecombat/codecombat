@@ -35,6 +35,7 @@ module.exports = class CoursesView extends RootView
     'submit #join-class-form': 'onSubmitJoinClassForm'
     'click .play-btn': 'onClickPlay'
     'click .view-class-btn': 'onClickViewClass'
+    'click .view-levels-btn': 'onClickViewLevels'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
 
   getTitle: -> return $.i18n.t('courses.students')
@@ -219,6 +220,15 @@ module.exports = class CoursesView extends RootView
     classroomID = $(e.target).data('classroom-id')
     window.tracker?.trackEvent 'Students View Class', category: 'Students', classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/#{classroomID}", { trigger: true })
+
+  onClickViewLevels: (e) ->
+    courseID = $(e.target).data('course-id')
+    courseInstanceID = $(e.target).data('courseinstance-id')
+    window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
+    course = @courses.get(courseID)
+    courseInstance = @courseInstances.get(courseInstanceID)
+    levelsUrl = @urls.courseWorldMap({course, courseInstance})
+    application.router.navigate(levelsUrl, { trigger: true })
 
   onClickViewProjectGalleryLink: (e) ->
     courseID = $(e.target).data('course-id')

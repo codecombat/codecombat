@@ -1103,12 +1103,12 @@ module.exports = class CampaignView extends RootView
         level.hidden = false
         level.next = true
         found = true
+      else if playerState in ['started', 'complete']
+        level.hidden = false
+        level.locked = false
       else
         if level.practice
-          if playerState in ['started', 'complete']
-            level.hidden = false
-            level.locked = false
-          else if prev?.next
+          if prev?.next
             level.hidden = !prev?.practice
             level.locked = true
           else if prev

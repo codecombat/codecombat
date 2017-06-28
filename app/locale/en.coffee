@@ -430,7 +430,6 @@
     explore_codecombat: "Explore CodeCombat"
     finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "Get your certificate!"
-    ladder: "Ladder"
     level_complete: "Level Complete"
     completed_level: "Completed Level:"
     course: "Course:"
