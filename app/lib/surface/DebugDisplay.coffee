@@ -30,7 +30,7 @@ module.exports = class DebugDisplay extends createjs.Container
     @addChild @frameText = new createjs.Text '...', '20px Arial', '#FFF'
     @frameText.name = 'frame text'
     @frameText.x = @canvasWidth - 50
-    @frameText.y = @canvasHeight - 25
+    @frameText.y = @canvasHeight - 45
     @frameText.alpha = 0.5
 
   updateFrame: (currentFrame) ->
