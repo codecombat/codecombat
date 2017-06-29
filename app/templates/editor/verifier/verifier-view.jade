@@ -67,14 +67,14 @@ block content
           if !test.goals
             h2.test-running= test.level.get('name')
               small= ' in ' + test.language + ''
-          else if test.isSuccessful()
+          else if test.isSuccessful(view.careAboutFrames)
             h2.test-success= test.level.get('name')
               small= ' in ' + test.language + ''
           else
             h2.test-failed= test.level.get('name')
               small= ' in ' + test.language + ''
 
-          div.row(class=(test.isSuccessful() && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
+          div.row(class=(test.isSuccessful(view.careAboutFrames) && id > 1 ? 'collapse' : 'collapse in'), id='verifier-test-' + id)
             div.col-xs-8
               if test.solution
                 pre.solution #{test.solution.source}
@@ -118,6 +118,6 @@ block content
                   div.test-failed ✘ #{test.simulationFrameRate.toFixed(1)} FPS
 
         else
-          h1 Loading Level...
+          h1 Loading Level... #{test.levelID}
 
         // TODO: show last frame hash

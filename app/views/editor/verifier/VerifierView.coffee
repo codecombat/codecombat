@@ -69,6 +69,7 @@ module.exports = class VerifierView extends RootView
     @cores = @$("#cores").val()|0
     for campaign, campaignInfo of @levelsByCampaign
       if @$("#campaign-#{campaign}-checkbox").is(':checked')
+        campaignInfo.checked = true
         for level in campaignInfo.levels
           @levelIDs.push level unless level in @levelIDs
       else
