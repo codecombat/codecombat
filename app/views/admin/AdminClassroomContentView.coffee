@@ -7,18 +7,32 @@ module.exports = class AdminClassroomContentView extends RootView
 
   initialize: ->
     return super() unless me.isAdmin()
-    @fetchData()
+    @minSessionCount = utils.getQueryVariable('minSessionCount', 50)
+    @maxDays = utils.getQueryVariable('maxDays', 20)
+    @maxPlaytimePerlevel = utils.getQueryVariable('maxPlaytimePerLevel', 60 * 60 * 1)
+    @minAge = utils.getQueryVariable('minAge')
+    @maxAge = utils.getQueryVariable('maxAge')
+    if @minAge or @maxAge
+      @loadingMessage = "Fetching students between #{@minAge ? '?'} and #{@maxAge ? '?'}.."
+      url = "/db/users/-/by-age?"
+      url += "minAge=#{@minAge}&" if @minAge
+      url += "maxAge=#{@maxAge}&" if @maxAge
+      Promise.resolve($.get(url))
+      .then (results) =>
+        @fetchData(results)
+    else
+      @fetchData()
     super()
 
-  fetchData: ->
+  fetchData: (userIds) ->
     # Fetch playtime data for released courses
     # Makes a bunch of small fetches per course and per day to avoid gateway timeouts
-    @minSessionCount = 50
-    @maxDays = 20
     @loadingMessage = "Loading.."
     courseLevelPlaytimesMap = {}
     courseLevelTotalPlaytimeMap = {}
     levelPracticeMap = {}
+    userIdMap = {}
+    userIdMap[id] = true for id in (userIds or [])
     getMoreLevelSessions = (courseIDs, startOffset, endOffset) =>
       return if @destroyed
       @loadingMessage = "Fetching data for #{courseIDs.length} courses for #{endOffset ? 0}/#{@maxDays} days ago.."
@@ -33,8 +47,7 @@ module.exports = class AdminClassroomContentView extends RootView
       promises = []
       for courseID in courseIDs
         url = "/db/classroom/-/playtimes?sessionLimit=#{@minSessionCount * 100}&courseID=#{courseID}&startDay=#{encodeURIComponent(startDay)}"
-        if endDay
-          url += "&endDay=#{encodeURIComponent(endDay)}"
+        url += "&endDay=#{encodeURIComponent(endDay)}" if endDay
         promises.push(Promise.resolve($.get(url)))
       Promise.all(promises)
       .then (results) =>
@@ -52,8 +65,9 @@ module.exports = class AdminClassroomContentView extends RootView
             levelPracticeMap[levelPlaytime.levelOriginal] = true if levelPlaytime.practice
           for session in levelSessions
             continue unless session.playtime?
+            continue if userIds and not userIdMap[session.creator]
             courseLevelTotalPlaytimeMap[courseID][session.level.original].count++
-            courseLevelTotalPlaytimeMap[courseID][session.level.original].total += session.playtime ? 0
+            courseLevelTotalPlaytimeMap[courseID][session.level.original].total += Math.min(session.playtime ? 0, @maxPlaytimePerlevel)
         # console.log 'courseLevelTotalPlaytimeMap', courseLevelTotalPlaytimeMap
 
         for courseID, totalPlaytimes of courseLevelTotalPlaytimeMap when courseID in courseIDs

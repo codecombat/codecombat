@@ -175,6 +175,7 @@ module.exports.setup = (app) ->
   app.delete('/db/user/:handle', mw.auth.checkLoggedIn(), mw.users.delete)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.adminSearch)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
+  app.get('/db/users/-/by-age', mw.auth.checkHasPermission(['admin']), mw.users.fetchByAge)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
