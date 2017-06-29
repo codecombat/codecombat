@@ -60,7 +60,7 @@ block content
           .pull-right
             - var last = test.level.get('slug') + view.linksQueryString
             a.btn.btn-primary(href="/editor/verifier/" + last) Focus
-            a.btn.btn-success(href="/play/level/" + last) Play
+            a.btn.btn-success(href="/play/level/" + last + "?codeLanguage=" + test.language) Play
             a.btn.btn-warning(href="/editor/level/" + last) Edit
             a.btn.btn-default(data-target='#verifier-test-' + id, data-toggle="collapse") Toggle
 
