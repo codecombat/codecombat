@@ -65,6 +65,7 @@
     want_coco: "Want CodeCombat at your school?"
 
   nav:
+    map: "Map"
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
     courses: "Courses"
@@ -424,6 +425,7 @@
     years: "years"
 
   play_level:
+    back_to_map: "Back to Map"
     directions: "Directions"
     edit_level: "Edit Level"
     explore_codecombat: "Explore CodeCombat"
@@ -1091,7 +1093,7 @@
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email"
     wrong_password: "Wrong Password"
-    upload_picture: "Upload a picture"
+    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
@@ -1124,7 +1126,6 @@
     saved: "Changes Saved"
     password_mismatch: "Password does not match."
     password_repeat: "Please repeat your password."
-    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Keyboard Shortcuts"

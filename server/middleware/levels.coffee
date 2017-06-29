@@ -1,5 +1,6 @@
 mongoose = require 'mongoose'
 wrap = require 'co-express'
+co = require 'co'
 errors = require '../commons/errors'
 Level = require '../models/Level'
 LevelSession = require '../models/LevelSession'
@@ -7,8 +8,10 @@ Prepaid = require '../models/Prepaid'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
 Course = require '../models/Course'
+User = require '../models/User'
 database = require '../commons/database'
 codePlay = require '../../app/lib/code-play'
+log = require 'winston'
 
 module.exports =
   upsertSession: wrap (req, res) ->
@@ -126,5 +129,38 @@ module.exports =
 
     attrs.isForClassroom = course?
     session = new LevelSession(attrs)
+    if classroom # Potentially set intercom trigger flag on teacher
+      teacher = yield User.findOne({ _id: classroom.get('ownerID') })
+      reportLevelStarted({teacher, level})
     yield session.save()
     res.status(201).send(session.toObject({req: req}))
+
+# Notes on the teacher object that the relevant intercom trigger should be activated.
+reportLevelStarted = co.wrap ({teacher, level}) ->
+  intercom = require('../lib/intercom')
+  if level.get('slug') is 'wakka-maul'
+    yield teacher.update({ $set: { "studentMilestones.studentStartedWakkaMaul": true } })
+    update = {
+      user_id: teacher.get('_id') + '',
+      email: teacher.get('email'),
+      custom_attributes:
+        studentStartedWakkaMaul: true
+    }
+  if level.get('slug') is 'a-mayhem-of-munchkins'
+    yield teacher.update({ $set: { "studentMilestones.studentStartedMayhemOfMunchkins": true } })
+    update = {
+      user_id: teacher.get('_id') + '',
+      email: teacher.get('email'),
+      custom_attributes:
+        studentStartedMayhemOfMunchkins: true
+    }
+  if update
+    tries = 0
+    while tries < 100
+      tries += 1
+      try
+        yield intercom.users.create update
+        return
+      catch e
+        yield new Promise (accept, reject) -> setTimeout(accept, 1000)
+    log.error "Couldn't update intercom for user #{teacher.get('email')} in 100 tries"
