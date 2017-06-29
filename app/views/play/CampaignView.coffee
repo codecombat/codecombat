@@ -226,7 +226,7 @@ module.exports = class CampaignView extends RootView
     @render()
     @checkForUnearnedAchievements()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
-    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
+    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon' or @courseStats?
     if not me.get('hourOfCode') and @terrain
       if features.codePlay
         if me.get('anonymous') and me.get('lastLevel') is 'true-names' and me.level() < 5
@@ -1123,6 +1123,8 @@ module.exports = class CampaignView extends RootView
 
       level.color = 'rgb(193, 193, 193)' if level.locked
       level.noFlag = !level.next
+      level.unlocksHero = false
+      level.unlocksItem = false
       prev = level
     return true
 
