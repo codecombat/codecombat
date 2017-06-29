@@ -17,13 +17,13 @@ module.exports.setup = (app) ->
 
 fileDelete = (req, res) ->
   return errors.forbidden(res) unless req.user
-  
+
   if req.body._id
     query = { _id: mongoose.Types.ObjectId(req.body._id) }
   else
     query = parsePathIntoQuery(req.path)
     return errors.badInput(res) if not query.filename
-    
+
   Grid.gfs.collection('media').findOne query, (err, filedata) =>
     return errors.notFound(res) if not filedata
     return errors.forbidden(res) unless userCanEditFile(req.user, filedata)
@@ -101,8 +101,7 @@ filePost = wrap (req, res) ->
   hasSource = options.url or options.postName or options.b64png
   # TODO : give tv4.error  to badInput
   unless req.user?.hasPermission('artisan')
-    unless new RegExp("^db/user/#{req.user.id}$").test(req.body.path)
-      throw new errors.UnprocessableEntity("Bad file path: #{req.user.id}")
+    throw new errors.UnprocessableEntity("Bad file path: #{req.user.id}")
   return errors.badInput(res) if (not valid) or (not hasSource)
   return yield saveURL(req, res) if options.url
   return savePNG(req, res) if options.b64png

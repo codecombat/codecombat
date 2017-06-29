@@ -51,7 +51,7 @@ UserHandler = class UserHandler extends Handler
 
   validateDocumentInput: (input, req) ->
     res = super(input)
-    
+
     if res.errors and req
       mapper = (error) -> [error.code.toString(),error.dataPath,error.schemaPath].join(':')
       originalErrors = _.map(req.originalErrors, mapper)
@@ -59,7 +59,7 @@ UserHandler = class UserHandler extends Handler
       newErrors = _.difference(currentErrors, originalErrors)
       if _.size(newErrors) is 0
         return { valid: true }
-    
+
     return res
 
   formatEntity: (req, document, publicOnly=false) =>
@@ -109,7 +109,7 @@ UserHandler = class UserHandler extends Handler
     # Email setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
-      
+
       emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
       if not emailRegex.test(req.body.email) and emailRegex.test(user.get('email'))
         # Don't let them remove their email address if it's there already
@@ -123,7 +123,7 @@ UserHandler = class UserHandler extends Handler
       if req.body.email is ''
         user.set('email', req.body.email)
         return callback(null, req, user)
-        
+
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
       User.findOne({emailLower: emailLower}).exec (err, otherUser) ->
@@ -145,11 +145,11 @@ UserHandler = class UserHandler extends Handler
     # Name setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.name?
-      
+
       if req.body.name is ''
         user.set('name', req.body.name)
         return callback(null, req, user)
-      
+
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
@@ -497,11 +497,9 @@ UserHandler = class UserHandler extends Handler
       photoURL = document?.get('photoURL')
       if photoURL
         photoURL = "/file/#{photoURL}"
-      else if req.query.employerPageAvatar is "true"
-        photoURL = @buildGravatarURL document, req.query.s, "/images/pages/employer/anon_user.png"
-      else
-        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
-      res.redirect photoURL
+      fallback = photoURL or req.query.fallback
+      combinedPhotoURL = @buildGravatarURL document, req.query.s, fallback
+      res.redirect combinedPhotoURL
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
@@ -666,6 +664,7 @@ UserHandler = class UserHandler extends Handler
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
+    fallback ?= "/file/db/thang.type/#{thang}/portrait.png" if thang = user.get('heroConfig')?.thangType
     fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
     fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
     "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
