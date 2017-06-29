@@ -65,6 +65,7 @@
     want_coco: "Want CodeCombat at your school?"
 
   nav:
+    map: "Map"
     play: "Levels"  # The top nav bar entry where players choose which levels to play
     community: "Community"
     courses: "Courses"
@@ -424,6 +425,7 @@
     years: "years"
 
   play_level:
+    back_to_map: "Back to Map"
     directions: "Directions"
     edit_level: "Edit Level"
     explore_codecombat: "Explore CodeCombat"

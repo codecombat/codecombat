@@ -103,21 +103,20 @@
         
     .row
       .col-sm-5.col-sm-offset-2
-        // TODO: Add rest of campaign functionality
         if view.level.isProject()
           button#keep-editing-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(data-i18n="play_level.keep_editing" data-dismiss="modal")
         else if view.level.get('type') === 'course-ladder'
           button#ladder-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(data-i18n="general.ladder")
+        else if !view.nextLevel.isNew() && view.classroom
+          button#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.back_to_map')
       .col-sm-5
         if view.level.isProject()
           if view.session.get('published')
             button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="play_level.view_gallery")
           else
             button#publish-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n="common.publish")
-        else if view.classroom && view.classroom.getSetting('backToMap') && view.classroom.getSetting('map')
-          button#map-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg(data-i18n='play_level.done')
         else
           if !view.nextLevel.isNew()
-            button#next-level-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
+            button#next-level-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n='play_level.next_level')
           else
-            button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')          
+            button#done-btn.btn.btn-illustrated.btn-primary.btn-block.btn-lg.text-uppercase(data-i18n='play_level.done')

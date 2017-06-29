@@ -114,6 +114,7 @@ module.exports = class CourseVictoryModal extends ModalView
     application.router.navigate(link, {trigger: true})
 
   onToMap: ->
+    window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
     link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
