@@ -147,7 +147,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     awaiting_levels_adventurer_prefix: "Liberamos nuevos niveles cada semana."
     awaiting_levels_adventurer: "Regístrate como Aventurero"
     awaiting_levels_adventurer_suffix: "para ser el primero en jugar nuevos niveles."
-    adjust_volume: "Ajustar volúmen"
+    adjust_volume: "Ajustar volumen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que tu código se enfrentará al de otros jugadores."
     brain_pop_done: "¡Has derrotado a los Ogres mediante código! ¡Tú ganas!"
@@ -189,7 +189,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     ">": "es mayor que"
     ">=": "es mayor o igual que"
     "<": "es menor que"
-   "<=": "es menor o igual que"
+    "<=": "es menor o igual que"
     "*": "multiplicado por"
     "/": "dividido por"
     "+": "sumar"
@@ -811,8 +811,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     restricted_to_certain_heroes: "Solo ciertos héroes pueden jugar este nivel."
 
   skill_docs:
-#    function: "function" # skill types
-#    method: "method"
+    function: "función" # skill types
+    method: "método"
 #    snippet: "snippet"
 #    number: "number"
 #    array: "array"
