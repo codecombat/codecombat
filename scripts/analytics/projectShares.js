@@ -2,8 +2,8 @@
 // Output Hints style a/b test results in csv format
 
 if (process.argv.length !== 5) {
-  log("Usage: node <script> <mongo connection Url> <mongo connection Url analytics> <mongo connection Url level sessions>");
-  log("Include ?readPreference=secondary in connection URLs");
+  console.log("Usage: node <script> <mongo connection Url> <mongo connection Url analytics> <mongo connection Url level sessions>");
+  console.log("Include ?readPreference=secondary in connection URLs");
   process.exit();
 }
 
@@ -29,10 +29,10 @@ const co = require('co');
 const moment = require('moment');
 const LevelSession = require('../../server/models/LevelSession');
 
-const startDay = "2017-01-18";
-const sessionWindow = 7; // days
+const startDay = "2017-02-18";
+const sessionWindow = 180; // days
 const sessionEndDay = moment(startDay).add(sessionWindow, 'days').toDate()
-const waitWindow = 4 // days
+const waitWindow = 180; // days
 const eventEndDay = moment(startDay).add(sessionWindow + waitWindow, 'days').toDate()
 console.log('\nDates: ', {startDay, sessionEndDay, eventEndDay})
 if(moment(eventEndDay).isAfter(moment())) {
@@ -115,6 +115,13 @@ co(function*() {
     }
   }
   console.log("RESULT: ", (totalViews / _.size(levelSessionViews)).toFixed(3), 'views per completed shareable project.')
+
+  var bestProjects = [];
+  for(var sessionId in levelSessionViews) {
+    bestProjects.push({views: levelSessionViews[sessionId].views, sessionId: sessionId});
+  }
+  bestProjects = _.sortBy(bestProjects, function(project) { return -project.views; });
+  console.log("Best projects:", bestProjects.slice(0, 50));
 
   mongoose.disconnect();
   analyticsDb.close();

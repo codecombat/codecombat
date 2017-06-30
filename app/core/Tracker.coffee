@@ -2,14 +2,12 @@
 SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
+loadSegmentIo = require('core/services/segment')
 
 debugAnalytics = false
 targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker extends CocoClass
-  subscriptions:
-    'application:service-loaded': 'onServiceLoaded'
-
   constructor: ->
     super()
     if window.tracker
@@ -20,6 +18,8 @@ module.exports = class Tracker extends CocoClass
     @supermodel = new SuperModel()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get 'role'
+    if me.isTeacher() and @isProduction and not application.testing
+      @updateIntercomRegularly()
 
   enableInspectletJS: (levelSlug) ->
     # InspectletJS loading is delayed and targeting specific levels for more focused investigations
@@ -68,7 +68,10 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    for userTrait in ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    if me.isTeacher()
+      traitsToReport.push('firstName', 'lastName')
+    for userTrait in traitsToReport
       traits[userTrait] ?= me.get(userTrait) if me.get(userTrait)?
     if me.isTeacher()
       traits.teacher = true
@@ -76,7 +79,7 @@ module.exports = class Tracker extends CocoClass
 
     console.log 'Would identify', me.id, traits if debugAnalytics
     @trackEventInternal('Identify', {id: me.id, traits}) unless me?.isAdmin() and @isProduction
-    return unless @isProduction and not me.isAdmin()
+    return unless @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
 
     # Errorception
     # https://errorception.com/docs/meta
@@ -219,15 +222,30 @@ module.exports = class Tracker extends CocoClass
     return unless me and @isProduction and not me.isAdmin()
     ga? 'send', 'timing', category, variable, duration, label
 
+  updateIntercomRegularly: ->
+    timesChecked = 0
+    updateIntercom = =>
+      # Check for new Intercom messages!
+      # Intercom only allows 10 updates for free per page refresh; then 1 per 30min
+      # https://developers.intercom.com/docs/intercom-javascript#section-intercomupdate
+      window.Intercom?('update')
+      timesChecked += 1
+      timeUntilNext = (if timesChecked < 10 then 5*60*1000 else 30*60*1000)
+      setTimeout(updateIntercom, timeUntilNext)
+    setTimeout(updateIntercom, 5*60*1000)
+
   updateRole: ->
     return if me.isAdmin()
     return unless me.isTeacher()
-    return require('core/services/segment')() unless @segmentLoaded
-    @identify()
+    loadSegmentIo()
+    .then =>
+      @segmentLoaded = true
+      @identify()
     #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.
     # TODO: record any events and pageviews that have built up before we knew we were a teacher.
 
-  onServiceLoaded: (e) ->
-    return unless e.service is 'segment'
-    @segmentLoaded = true
-    @updateRole()
+  updateTrialRequestData: (attrs) ->
+    loadSegmentIo()
+    .then =>
+      @segmentLoaded = true
+      @identify(attrs)

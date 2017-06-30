@@ -30,7 +30,7 @@ if view.showAds()
         img(src="/images/pages/base/logo.png", title="Powered by CodeCombat - Learn how to code by playing a game ", alt="Powered by CodeCombat")
 
     if view.shouldShow('back-to-classroom')
-      a.btn.btn-primary.under-logo(href='/play', data-i18n="play.back_to_classroom")
+      a.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase.under-logo(href='/play', data-i18n="play.back_to_classroom")
 
   if serverConfig.codeNinjas
     a(href="https://code.ninja")
@@ -55,14 +55,19 @@ if view.showAds()
       .map-background(alt="", draggable="false")
 
       each level in levels
-        - if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
+        if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
           - continue;
+        - var levelNumber = '';
+        if view.shouldShow('back-to-classroom')
+          - levelNumber = campaign.getLevelNumber(level.original, '');
+          if (levelNumber)
+            - levelNumber += '. ';
         div(
           style="left: #{level.position.x}%; bottom: #{level.position.y}%; background-color: #{level.color}",
           class="level" + (level.next ? " next" : "") + (level.disabled ? " disabled" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""),
           data-level-slug=level.slug,
           data-level-original=level.original,
-          title=i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : '')
+          title=levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : ""))
         )
           if level.unlocksHero && (!level.purchasedHero || editorMode) && (level.hidden || levelStatusMap[level.slug] === 'complete')
             img.hero-portrait(src="/file/db/thang.type/#{level.unlocksHero}/portrait.png")
@@ -113,7 +118,7 @@ if view.showAds()
 
           div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status
-            h3= i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : ""))
+            h3= levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")))
             - var description = i18n(level, 'description') || level.description || ""
             .level-description!= marked(description, {sanitize: !picoCTF})
             if level.disabled

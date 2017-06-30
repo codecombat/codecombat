@@ -316,11 +316,20 @@ UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @save (err) -> done?(err)
 
 UserSchema.statics.unconflictName = unconflictName = (name, done) ->
-  User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
+  slug = _.str.slugify(name)
+  if slug
+    query = {slug: slug}
+  else
+    # For un-sluggable names (like Chinese usernames), check based on nameLower
+    query = {nameLower: name.toLowerCase()}
+  User.findOne query, (err, otherUser) ->
     return done err if err?
     return done null, name unless otherUser
-    suffix = _.random(0, 9) + ''
-    unconflictName name + suffix, done
+    nameWithSuffix = name + _.random(0, 9)
+    while _.str.slugify(nameWithSuffix).length < 4
+      # Skip suggesting really short ones to save queries (they probably wouldn't work)
+      nameWithSuffix += _.random(0, 9)
+    unconflictName nameWithSuffix, done
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
