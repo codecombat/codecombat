@@ -153,7 +153,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     brain_pop_done: "Você derrotou os Ogres programando! Você venceu!"
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    back_to_classroom: "Voltar para Turma"
 
   code:
     if: "se" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
