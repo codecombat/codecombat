@@ -859,8 +859,49 @@ describe 'Statistics', ->
       expect(err).toBeNull()
 
       done()
+
       
-      
+describe 'GET /db/user/:handle/level.sessions', ->
+  url = getURL('/db/level.session/')
+  session =
+    permissions: simplePermissions
+
+  beforeEach utils.wrap ->
+    yield utils.clearModels([LevelSession, User])
+    @user = yield utils.initUser()
+    session = new LevelSession({
+      permissions: simplePermissions,
+      creator: @user.id
+    })
+    yield session.save()
+    yield utils.loginUser(@user)
+
+  it 'gets a user\'s level sessions by id', utils.wrap ->
+    [res] = yield request.getAsync {
+      url: getURL("/db/user/#{@user.id}/level.sessions")
+      json: true
+    }
+    expect(res.statusCode).toBe 200
+    sessions = res.body
+    expect(sessions.length).toBe 1
+
+  it 'gets a user\'s level sessions by slug', utils.wrap ->
+    [res] = yield request.getAsync {
+      url: getURL("/db/user/#{@user.get('slug')}/level.sessions")
+      json: true
+    }
+    expect(res.statusCode).toBe 200
+    sessions = res.body
+    expect(sessions.length).toBe 1
+
+  it 'GET /db/user/<IDorSLUG>/level.sessions returns 404 if user not found', utils.wrap ->
+    [res] = yield request.getAsync {
+      url: getURL("/db/user/misterschtroumpf/level.sessions")
+      json: true
+    }
+    expect(res.statusCode).toBe 404
+
+
 describe 'POST /db/user/:handle/signup-with-password', ->
   
   beforeEach utils.wrap ->
