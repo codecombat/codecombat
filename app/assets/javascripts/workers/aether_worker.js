@@ -19,7 +19,8 @@ var languagesImported = {};
 
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
-  if (language === 'html') return;
+  if (language === 'html') return; // WebDev levels have their own special handling with the iFrame
+  if (language === 'javascript') return; // Integrated Aether/Esper setup no longer requires a plugin for JS
   importScripts("/javascripts/app/vendor/aether-" + language + ".js");
   languagesImported[language] = true;
 };

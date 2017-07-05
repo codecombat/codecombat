@@ -268,7 +268,7 @@ module.exports = class LevelLoader extends CocoClass
     codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
     resources = []
     for codeLanguage in codeLanguages
-      continue if codeLanguage in ['clojure', 'io']
+      continue if codeLanguage in ['clojure', 'io', 'javascript']
       do (codeLanguage) => # Prevents looped variables from being reassigned when async callbacks happen
         languageModuleResource = @supermodel.addSomethingResource "language_module_#{codeLanguage}"
         resources.push(languageModuleResource)
