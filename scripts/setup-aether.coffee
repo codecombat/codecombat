@@ -33,7 +33,7 @@ aether_webpack_config =
     ]
   resolve:
     extensions: [".coffee", ".json", ".js"]
-  externals: 
+  externals:
     'esper.js': 'esper',
     'lodash': '_',
     'source-map': 'SourceMap'
@@ -43,7 +43,7 @@ aether_webpack_config =
 
 
 webpack aether_webpack_config, (err, stats) ->
-  if err 
+  if err
     console.log err
   else
     console.log "Packed aether!"
