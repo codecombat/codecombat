@@ -4,6 +4,7 @@ LevelSession = require '../models/LevelSession'
 Level = require '../models/Level'
 CourseInstance = require('../models/CourseInstance')
 mongoose = require 'mongoose'
+database = require '../commons/database'
 
 
 submitToLadder = wrap (req, res) ->
@@ -70,14 +71,43 @@ submitToLadder = wrap (req, res) ->
   session.set(sessionUpdateObject)
   res.send(session.toObject({req}))
 
+
 unsetScores = wrap (req, res) ->
   sessionID = req.body.session
   unless sessionID
     throw new errors.UnprocessableEntity('No session provided.')
   yield LevelSession.update {_id: mongoose.Types.ObjectId(sessionID)}, {$unset: {'state.topScores': 1}}
   res.send 200
+  
+  
+putKeyValueDb = wrap (req, res) ->
+  key = req.params.key
+    
+  session = yield database.getDocFromHandle(req, LevelSession)
+  if not session
+    throw new errors.NotFound('Session not found.')
+    
+  sessionDb = session.get('keyValueDb')
+  if not sessionDb
+    level = yield Level.findCurrentVersion(session.get('level.original'), 'type')
+    if level.get('type') isnt 'game-dev'
+      throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key) 
+    throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+    
+  value = req.body
+  unless _.any([_.isString(value), _.isNumber(value), _.isNull(value), _.isBoolean(value)])
+    throw new errors.UnprocessableEntity('Values may only be strings, numbers, booleans, or null')
+    
+  if _.isString(value) and value.length > 1024
+    throw new errors.UnprocessableEntity('Strings may not be over one kilobyte')
+    
+  yield session.update({ $set: { "keyValueDb.#{key}": value }})
+  res.send(value)
+  
 
 module.exports = {
+  putKeyValueDb
   submitToLadder
   unsetScores
 }

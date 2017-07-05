@@ -117,3 +117,78 @@ describe 'POST /db/level.session/:handle/submit-to-ladder AND POST /queue/scorin
     expect(res.statusCode).toBe(200)
     expect(res.body.leagues[0].leagueID).toBe(@courseInstance.id)
     expect(res.body.leagues.length).toBe(1)
+
+    
+describe 'PUT /db/level.session/:handle/key-value-db/:key', ->
+  
+  beforeEach utils.wrap ->
+    @player = yield utils.initUser()
+    @player2 = yield utils.initUser()
+    @level = yield utils.makeLevel({ type: 'game-dev' })
+    @session = yield utils.makeLevelSession({}, { @level, creator: @player })
+    yield utils.loginUser(@player2)
+    
+  it 'upserts and updates the value to the session keyValueDb', utils.wrap ->
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo")
+    [res] = yield request.putAsync({ @url, json: 'bar' })
+    expect(res.statusCode).toBe(200)
+    session = yield LevelSession.findById(@session.id)
+    expect(session.get('keyValueDb')).toEqual({ foo: 'bar' })
+    
+    # make sure we can still edit the session afterward
+    [res] = yield request.putAsync({
+      url: utils.getUrl("/db/level.session/#{@session.id}")
+      json: session.toObject()
+    })
+    expect(res.statusCode).toBe(200)
+  
+  it 'returns 404 if the session does not exist', utils.wrap ->
+    @url = utils.getUrl("/db/level.session/dne/key-value-db/foo")
+    [res] = yield request.putAsync({ @url })
+    expect(res.statusCode).toBe(404)
+  
+  it 'returns 422 if the level is not of type game-dev', utils.wrap ->
+    yield @level.update({$set: { type: 'something-else' }})
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo")
+    [res] = yield request.putAsync({ @url, json: 'bar' })
+    expect(res.statusCode).toBe(422)
+  
+  it 'returns 422 if the value is an object, array, or undefined', utils.wrap ->
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo")
+    [res] = yield request.putAsync({ @url, json: [] })
+    expect(res.statusCode).toBe(422)
+
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo")
+    [res] = yield request.putAsync({ @url, json: {} })
+    expect(res.statusCode).toBe(422)
+
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo")
+    [res] = yield request.putAsync({ @url, json: undefined })
+    expect(res.statusCode).toBe(422)
+    
+  it 'returns 422 if the value is a string of length > 1kb', utils.wrap ->
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo")
+    [res] = yield request.putAsync({ @url, json: _.times(1025, '1').join('') })
+    expect(res.statusCode).toBe(422)
+    
+  it 'returns 422 if you try to add more than 100 keys', utils.wrap ->
+    keyValueDb = {}
+    _.times(99, (i) -> keyValueDb[i] = '')
+    yield @session.update({ $set: { keyValueDb }})
+    
+    # add 100th key, should work
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/hundredth")
+    [res] = yield request.putAsync({ @url, json: 'bar' })
+    expect(res.statusCode).toBe(200)
+    
+    # add 101st key, should not work
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/101")
+    [res] = yield request.putAsync({ @url, json: 'bar' })
+    expect(res.statusCode).toBe(422)
+
+    # change existing key, should work
+    @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/hundredth")
+    [res] = yield request.putAsync({ @url, json: 'foo' })
+    expect(res.statusCode).toBe(200)
+
+    

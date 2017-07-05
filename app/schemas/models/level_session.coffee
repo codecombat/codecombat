@@ -310,6 +310,11 @@ _.extend LevelSessionSchema.properties,
     type: 'boolean'
     title: 'Published to Project Gallery'
     description: 'Project was published to the Project Gallery for peer students to see'
+    
+  keyValueDb:
+    type: 'object'
+    title: 'Key Value DB'
+    description: 'Simplified key-value database for game-dev levels'
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 
