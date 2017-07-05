@@ -268,11 +268,15 @@ module.exports = class LevelLoader extends CocoClass
     codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
     resources = []
     for codeLanguage in codeLanguages
-      continue if codeLanguage in ['clojure', 'io']
-      do (codeLanguage) => # Prevents looped variables from being reassigned when async callbacks happen
-        languageModuleResource = @supermodel.addSomethingResource "language_module_#{codeLanguage}"
-        resources.push(languageModuleResource)
-        loadAetherLanguage(codeLanguage).then (aetherLang) =>
+      # Integrated Aether/Esper setup no longer requires a plugin for JS
+      # Clojure and Io aren't supported, but are still in the list
+      continue if codeLanguage in ['clojure', 'io', 'javascript']
+      do (codeLanguage) =>
+        modulePath = "vendor/aether-#{codeLanguage}"
+        return unless application.moduleLoader?.load modulePath
+        languageModuleResource = @supermodel.addSomethingResource 'language_module'
+        onModuleLoaded = (e) ->
+          return unless e.id is modulePath
           languageModuleResource.markLoaded()
     return resources
 
