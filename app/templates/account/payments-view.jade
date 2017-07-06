@@ -37,7 +37,12 @@ block content
           else if productID === 'custom'
             td= payment.get('description')
           else if productID
-            td(data-i18n="account.gems")
+            if _.string.startsWith(productID, 'lifetime_subscription')
+              td(data-i18n="subscribe.lifetime")
+            else if _.string.startsWith(productID, 'year_subscription')
+              td(data-i18n="subscribe.year_subscription")
+            else
+              td(data-i18n="account.gems")
           else if me.get('stripe').free != null
             - var purchaseDate = new Date(payment.get('created'));
             if typeof(me.get('stripe').free) === 'boolean' && purchaseDate > new Date(2017, 0, 1) && payment.get('gems') > 9000

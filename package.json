@@ -95,6 +95,7 @@
     "node-statsd": "^0.1.1",
     "passport": "0.1.x",
     "passport-local": "0.1.x",
+    "paypal-rest-sdk": "^1.7.1",
     "pug": "^0.1.0",
     "redis": "",
     "request": "^2.69.0",

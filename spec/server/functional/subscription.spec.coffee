@@ -16,6 +16,7 @@ moment = require 'moment'
 middleware = require '../../../server/middleware'
 errors = require '../../../server/commons/errors'
 winston = require 'winston'
+paypal = require '../../../server/lib/paypal'
 
 subPrice = 100
 subGems = 3500
@@ -723,11 +724,12 @@ describe 'Subscriptions', ->
     purchaseYearSaleUrl = null
     beforeEach utils.wrap (done) ->
       yield utils.populateProducts()
-      product = yield Product.findOne({name: 'year_subscription'})
-      purchaseYearSaleUrl = getURL("/db/products/#{product.id}/purchase")
+      @product = yield Product.findOne({name: 'year_subscription'})
+      purchaseYearSaleUrl = getURL("/db/products/#{@product.id}/purchase")
       done()
 
     it 'year_sale', (done) ->
+      product = @product
       nockUtils.setupNock 'sub-test-35.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -755,6 +757,7 @@ describe 'Subscriptions', ->
                   expect(err).toBeNull()
                   expect(payment).toBeTruthy()
                   expect(payment.get('gems')).toEqual(subGems*12)
+                  expect(payment.get('productID')).toBe(product.get('name'))
                   nockDone()
                   done()
 
@@ -992,3 +995,95 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     expect((yield User.findById(@sponsor.id)).get('stripe').recipients.length).toBe(1)
     expect((yield User.findById(@recipient1.id)).get('stripe')).toBeUndefined()
     expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
+
+    
+describe 'POST /db/products/:handle/purchase', ->
+  it 'accepts PayPal payments', utils.wrap ->
+    # TODO: figure out how to create test payments through PayPal API, set this up with fixtures through Nock
+    
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    yield utils.populateProducts()
+    product = yield Product.findOne({ name: 'lifetime_subscription2' })
+    amount = product.get('amount')
+    url = utils.getUrl("/db/products/#{product.id}/purchase")
+    json = { service: 'paypal', paymentID: "PAY-74521676DM528663SLFT63RA", payerID: 'VUR529XNB59XY' }
+
+    payPalResponse = {
+      "id": "PAY-03466",
+      "intent": "sale",
+      "state": "approved",
+      "cart": "3J885",
+      "payer": {
+        "payment_method": "paypal",
+        "status": "VERIFIED",
+        "payer_info": {
+          "email": user.get('email'),
+          "first_name": "test",
+          "last_name": "buyer",
+          "payer_id": "VUR529XNB59XY",
+          "shipping_address": {
+            "recipient_name": "test buyer",
+            "line1": "1 Main St",
+            "city": "San Jose",
+            "state": "CA",
+            "postal_code": "95131",
+            "country_code": "US"
+          },
+          "country_code": "US"
+        }
+      },
+      "transactions": [
+        {
+          "amount": {
+            "total": (amount/100).toFixed(2),
+            "currency": "USD",
+            "details": {}
+          },
+          "payee": {
+            "merchant_id": "7R5CJJ",
+            "email": "payments@codecombat.com"
+          },
+          "description": "Lifetime Subscription",
+          "item_list": {
+            "items": [
+              {
+                "name": "lifetime_subscription2",
+                "sku": product.id,
+                "price": (amount/100).toFixed(2),
+                "currency": "USD",
+                "quantity": 1
+              }
+            ],
+            "shipping_address": {
+              "recipient_name": "test buyer",
+              "line1": "1 Main St",
+              "city": "San Jose",
+              "state": "CA",
+              "postal_code": "95131",
+              "country_code": "US"
+            }
+          },
+          "related_resources": [] # bunch more info in here
+        }
+      ],
+      "create_time": "2017-07-13T22:35:45Z",
+      "links": [
+        {
+          "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-034662230Y592723RLFT7LLA",
+          "rel": "self",
+          "method": "GET"
+        }
+      ],
+      "httpStatusCode": 200
+    }
+    spyOn(paypal.payment, 'executeAsync').and.returnValue(Promise.resolve(payPalResponse))
+    
+    [res] = yield request.postAsync({ url, json })
+    expect(res.statusCode).toBe(200)
+    payment = yield Payment.findOne({"payPal.id":"PAY-03466"})
+    expect(payment).toBeDefined()
+    expect(payment.get('productID')).toBe(product.get('name'))
+    expect(payment.get('payPal.id')).toBe(payPalResponse.id)
+    user = yield User.findById(user.id)
+    expect(user.get('stripe.free')).toBe(true)

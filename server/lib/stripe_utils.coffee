@@ -69,7 +69,7 @@ module.exports =
             @logError(user, "Customer retrieve error: #{JSON.stringify(err)}")
             return done(err)
           done(err, customer)
-    else
+    else if token
       newCustomer = {
         card: token
         email: user.get('email')
@@ -87,6 +87,8 @@ module.exports =
             @logError(user, 'Stripe customer id save db error. '+err)
             return done(err)
           done(err, customer)
+    else
+      done(null, null)
 
   cancelSubscriptionImmediately: (user, subscription, done) ->
     return done() unless user and subscription
