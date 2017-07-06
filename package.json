@@ -41,6 +41,8 @@
     "dev": "webpack --watch",
     "dev-container": "DEV_CONTAINER=1 webpack --watch",
     "multicore": "coffee multicore.coffee",
+    "jasmine": "jasmine",
+    "jasmine-aether": "jasmine -- spec/aether/**/*spec*",
     "proxy": "COCO_PROXY='true' nodemon",
     "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json"
