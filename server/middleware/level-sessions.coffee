@@ -103,10 +103,42 @@ putKeyValueDb = wrap (req, res) ->
     throw new errors.UnprocessableEntity('Strings may not be over one kilobyte')
     
   yield session.update({ $set: { "keyValueDb.#{key}": value }})
-  res.send(value)
+  res.status(200).json(value)
   
+incrementKeyValueDb = wrap (req, res) ->
+  key = req.params.key
+
+  session = yield database.getDocFromHandle(req, LevelSession)
+  if not session
+    throw new errors.NotFound('Session not found.')
+
+  sessionDb = session.get('keyValueDb')
+  if not sessionDb
+    level = yield Level.findCurrentVersion(session.get('level.original'), 'type')
+    if level.get('type') isnt 'game-dev'
+      throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key) 
+    throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+
+  value = req.body
+  unless _.isNumber(value)
+    throw new errors.UnprocessableEntity('Value must be a number')
+
+  currentValue = sessionDb?[key]
+  if _.isNumber(currentValue)
+    update = { $inc: { }}
+    update.$inc['keyValueDb.'+key] = value
+    yield session.update(update)
+    res.status(200).json(value+currentValue)
+  else
+    update = { $set: {}}
+    update.$set['keyValueDb.'+key] = value
+    yield session.update(update)
+    res.status(200).json(value)
+
 
 module.exports = {
+  incrementKeyValueDb
   putKeyValueDb
   submitToLadder
   unsetScores
