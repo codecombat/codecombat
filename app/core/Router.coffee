@@ -181,6 +181,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': redirect('/teachers/demo')
     'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
