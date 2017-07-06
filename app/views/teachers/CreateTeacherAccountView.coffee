@@ -259,6 +259,9 @@ module.exports = class CreateTeacherAccountView extends RootView
     .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })
       application.router.reload()
+      
+    .then =>
+      @trigger 'on-trial-request-submit-complete'
 
 
 
