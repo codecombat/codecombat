@@ -1,0 +1,126 @@
+extends /templates/base-flat
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+  .container
+
+    .content
+      h1(id="apcsp_section") AP Computer Science Principles
+      ul
+        li
+          a(href="https://s3.amazonaws.com/files.codecombat.com/docs/resources/APComputerSciencePrinciplesSyllabus.pdf")
+            span AP CS Principles Syllabus
+          p Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class.
+        li
+          div Unit 1: Creative Technology
+            p
+              | Computational Thinking Practices: P1, P2, P4
+              br
+              | Learning Objectives: 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.5, 1.3.1, 7.1.1, 7.2.1
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1d, CR2a, CR2g
+              br
+              i Activities coming soon!
+
+        li
+          div Unit 2: Computational Thinking
+            p 
+              | Computational Thinking Practices: P2, P3, P5, P6
+              br
+              | Learning Objectives: 1.2.4, 2.1.1, 2.1.2, 2.2.1, 2.3.1, 2.3.2
+              br
+              | Curricular Requirements: CR1b, CR1c, CR1f, CR2a, CR2b
+              br
+              a(href="/teachers/resources/apcsp-binary-sequences")
+                span Unit 2 Activity: Binary Sequences
+
+        li
+          div Unit 3: Algorithms
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 2.2.1, 2.2.2, 2.3.1, 2.3.2, 4.1.1, 4.1.2, 4.2.1, 4.2.2, 4.2.3, 4.2.4, 5.1.2, 5.1.3
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
+              br
+              a(href="/teachers/resources/apcsp-hitchhikers-guide")
+                span Unit 3 Activity: Algorithms
+
+        li
+          div Unit 4: Programming
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 2.2.1, 2.2.2, 2.2.3, 4.1.1, 4.1.2, 5.1.2, 5.1.3, 5.2.1, 5.3.1, 5.4.1, 5.5.1
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1f, CR2b, CR2d, CR2e
+              br
+              a(href="/teachers/resources/apcsp-getting-abstract")
+                span Unit 4 Activity: Abstractions
+
+        li
+          div Unit 5: The Internet
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 1.1.1, 1.2.2, 1.2.3, 1.2.4, 2.3.1, 3.3.1, 6.1.1, 6.2.1, 6.2.2, 6.3.1, 7.5.1, 7.5.2
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1d, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2f, CR2g
+              br
+              a(href="/teachers/resources/apcsp-internet-simulation")
+                span Unit 5 Activity: The Internet
+
+        li
+          div Unit 6: Data
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.3.1, 2.3.1, 3.1.1, 3.1.2, 3.1.3, 3.2.1, 3.2.2, 3.3.1, 7.2.1
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2g
+              br
+              a(href="/teachers/resources/apcsp-data-project") 
+              span Unit 6 Activity: Introduction to Data
+              br
+              a(href="/teachers/resources/apcsp-big-data")
+                span Unit 6 Activity: Big Data
+
+        li
+          div Unit 7: Personal & Global Impact
+            p 
+              | Computational Thinking Practices: P1, P2, P4, P5
+              br
+              | Learning Objectives: 1.2.2, 1.2.3, 7.1.1, 7.1.2, 7.2.1, 7.3.1, 7.4.1, 7.5.1, 7.5.2
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1d, CR1e, CR1f, CR2a, CR2g
+              br
+              a(href="/teachers/resources/apcsp-personal-and-global-impact")
+                span Unit 7 Activity: Personal & Global Impact
+
+        li
+          div Unit 8: Performance Tasks
+            p 
+              | Curricular Requirements: CR3, CR4
+            p
+              i Activities coming soon!
+
+        li
+          div Unit 9: AP Review
+          p
+            i Coming soon!
+
+        li
+          div Unit 10: Post-AP
+          p
+            i Coming soon!
+
+        li
+          a(href="/teachers/resources/pair-programming")
+            span(data-i18n="teacher.cs1_pairprogramming")
+          p(data-i18n="teacher.cs1_pairprogramming_desc")
+        li
+          a(href="/teachers/resources/gd1-5day")
+            span(data-i18n="teacher.gd1_guide")
+          p(data-i18n="teacher.gd1_guide_desc")
