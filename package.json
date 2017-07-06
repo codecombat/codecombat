@@ -41,6 +41,7 @@
     "jasmine-node": "jasmine-node",
     "multicore": "coffee multicore.coffee",
     "jasmine": "jasmine",
+    "jasmine-aether": "jasmine -- spec/aether/**/*spec*",
     "proxy": "COCO_PROXY='true' nodemon",
     "coverage": "node ./bin/coverage.js"
   },
