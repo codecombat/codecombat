@@ -701,86 +701,82 @@ describe 'Statistics', ->
   ThangType = require '../../../server/models/ThangType'
   User = require '../../../server/models/User'
   UserHandler = require '../../../server/handlers/user_handler'
-
-  it 'keeps track of games completed', (done) ->
+  
+  beforeEach utils.wrap ->
     session = new LevelSession
       name: 'Beat Gandalf'
       permissions: simplePermissions
       state: complete: true
 
-    unittest.getNormalJoe (joe) ->
-      expect(joe.get 'stats.gamesCompleted').toBeUndefined()
+    @user = yield utils.initUser()
+    expect(@user.get 'stats.gamesCompleted').toBeUndefined()
+    session.set 'creator', @user.get 'id'
+    yield session.save()
+    yield new Promise((resolve) -> setTimeout(resolve, 100)) # give time for update to happen
 
-      session.set 'creator', joe.get 'id'
-      session.save (err) ->
+  it 'keeps track of games completed', utils.wrap ->
+    user = yield User.findById(@user.id)
+    expect(user.get 'stats.gamesCompleted').toBe 1
+    
+  it 'recalculates games completed', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    user = yield User.findByIdAndUpdate(@user.get('id'), {$unset:'stats.gamesCompleted': ''}, {new: true})
+    expect(user.get 'stats.gamesCompleted').toBeUndefined()
+    UserHandler.statRecalculators.gamesCompleted ->
+      User.findById user.get('id'), (err, user) ->
         expect(err).toBeNull()
+        expect(user.get 'stats.gamesCompleted').toBe 1
+        done()
 
-        f = ->
-          User.findById joe.get('id'), (err, guy) ->
-            expect(err).toBeNull()
-            expect(guy.get 'id').toBe joe.get 'id'
-            expect(guy.get 'stats.gamesCompleted').toBe 1
-            done()
-
-        setTimeout f, 100
-
-  it 'recalculates games completed', (done) ->
-    unittest.getNormalJoe (joe) ->
-      loginAdmin ->
-        User.findByIdAndUpdate joe.get('id'), {$unset:'stats.gamesCompleted': ''}, {new: true}, (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get 'stats.gamesCompleted').toBeUndefined()
-
-          UserHandler.statRecalculators.gamesCompleted ->
-            User.findById joe.get('id'), (err, guy) ->
-              expect(err).toBeNull()
-              expect(guy.get 'stats.gamesCompleted').toBe 1
-              done()
-
-  it 'keeps track of article edits', (done) ->
+  it 'keeps track of article edits', utils.wrap ->
     article =
       name: 'My very first'
       body: 'I don\'t have much to say I\'m afraid'
     url = getURL('/db/article')
 
-    loginAdmin (carl) ->
-      expect(carl.get User.statsMapping.edits.article).toBeUndefined()
-      article.creator = carl.get 'id'
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
 
-      # Create major version 0.0
-      request.post {uri:url, json: article}, (err, res, body) ->
+    expect(admin.get User.statsMapping.edits.article).toBeUndefined()
+    article.creator = admin.get 'id'
+
+    [res] = yield request.postAsync {uri:url, json: article}
+    expect(res.statusCode).toBe 201
+    article = res.body
+
+    guy = yield User.findById admin.get('id')
+    expect(guy.get User.statsMapping.edits.article).toBe 1
+
+    # Create minor version 0.1
+    newVersionURL = "#{url}/#{article._id}/new-version"
+    [res] = yield request.postAsync {uri:newVersionURL, json: article}
+
+    guy = yield User.findById admin.get('id')
+    expect(guy.get User.statsMapping.edits.article).toBe 2
+
+  it 'recalculates article edits', utils.wrap (done) ->
+    article =
+      name: 'Second article'
+      body: '...'
+    url = getURL('/db/article')
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    
+    [res] = yield request.postAsync {uri:url, json: article}
+    expect(res.statusCode).toBe 201
+
+    guy = yield User.findByIdAndUpdate(admin.get('id'), {$unset:'stats.articleEdits': ''}, {new: true})
+    expect(guy.get User.statsMapping.edits.article).toBeUndefined()
+
+    UserHandler.statRecalculators.articleEdits ->
+      User.findById admin.get('id'), (err, guy) ->
         expect(err).toBeNull()
-        expect(res.statusCode).toBe 201
-        article = body
+        expect(guy.get User.statsMapping.edits.article).toBe 1
+        done()
 
-        User.findById carl.get('id'), (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get User.statsMapping.edits.article).toBe 1
-
-          # Create minor version 0.1
-          newVersionURL = "#{url}/#{article._id}/new-version"
-          request.post {uri:newVersionURL, json: article}, (err, res, body) ->
-            expect(err).toBeNull()
-
-            User.findById carl.get('id'), (err, guy) ->
-              expect(err).toBeNull()
-              expect(guy.get User.statsMapping.edits.article).toBe 2
-
-              done()
-
-  it 'recalculates article edits', (done) ->
-    loginAdmin (carl) ->
-      User.findByIdAndUpdate carl.get('id'), {$unset:'stats.articleEdits': ''}, {new: true}, (err, guy) ->
-        expect(err).toBeNull()
-        expect(guy.get User.statsMapping.edits.article).toBeUndefined()
-
-        UserHandler.statRecalculators.articleEdits ->
-          User.findById carl.get('id'), (err, guy) ->
-            expect(err).toBeNull()
-            expect(guy.get User.statsMapping.edits.article).toBe 2
-            done()
-
-  it 'keeps track of level edits', (done) ->
+  it 'keeps track of and recalculates level edits', utils.wrap (done) ->
     level = new Level
       name: "King's Peak 3"
       description: 'Climb a mountain.'
@@ -788,36 +784,23 @@ describe 'Statistics', ->
       scripts: []
       thangs: []
 
-    loginAdmin (carl) ->
-      expect(carl.get User.statsMapping.edits.level).toBeUndefined()
-      level.creator = carl.get 'id'
-      level.save (err) ->
-        expect(err).toBeNull()
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
 
-        User.findById carl.get('id'), (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get 'id').toBe carl.get 'id'
-          expect(guy.get User.statsMapping.edits.level).toBe 1
+    expect(admin.get User.statsMapping.edits.level).toBeUndefined()
+    level.creator = admin.get 'id'
+    yield level.save()
+    guy = yield User.findById admin.get('id')
+    expect(guy.get User.statsMapping.edits.level).toBe 1
 
-          done()
+    guy = yield User.findByIdAndUpdate(admin.get('id'), {$unset:'stats.levelEdits':''}, {new: true})
+    expect(guy.get User.statsMapping.edits.level).toBeUndefined()
 
-  it 'recalculates level edits', (done) ->
-    unittest.getAdmin (jose) ->
-      User.findByIdAndUpdate jose.get('id'), {$unset:'stats.levelEdits':''}, {new: true}, (err, guy) ->
-        expect(err).toBeNull()
-        expect(guy.get User.statsMapping.edits.level).toBeUndefined()
+    UserHandler.statRecalculators.levelEdits ->
+      User.findById admin.get('id'), (err, guy) ->
+        expect(guy.get User.statsMapping.edits.level).toBe 1
+        done()
 
-        UserHandler.statRecalculators.levelEdits ->
-          User.findById jose.get('id'), (err, guy) ->
-            expect(err).toBeNull()
-            expect(guy.get User.statsMapping.edits.level).toBe 1
-            done()
-
-  it 'cleans up', (done) ->
-    clearModels [LevelSession, Article, Level, LevelSystem, LevelComponent, ThangType], (err) ->
-      expect(err).toBeNull()
-
-      done()
 
       
 describe 'GET /db/user/:handle/level.sessions', ->
