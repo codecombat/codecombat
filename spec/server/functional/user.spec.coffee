@@ -20,80 +20,22 @@ mongoose = require 'mongoose'
 
 describe 'POST /db/user', ->
 
-  createAnonNameUser = (name, done)->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        req = request.post({ url: getURL('/db/user'), json: {name}}, (err, response) ->
-          expect(response.statusCode).toBe(200)
-          request.get { url: getURL('/auth/whoami'), json: true }, (request, response, body) ->
-            expect(body.anonymous).toBeTruthy()
-            expect(body.name).toEqual(name)
-            done()
-        )
+  beforeEach utils.wrap ->
+    yield utils.clearModels [User]
+        
+  it 'converts the password into a hash', utils.wrap ->
+    yield utils.becomeAnonymous()
+    email = 'some-name@email.com'
+    password = 'food'
+    [res] = yield request.postAsync({ url: utils.getURL('/db/user'), json: {email, password}})
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(res.body._id)
+    expect(user).toBeTruthy()
+    expect(user.get('password')).toBeUndefined()
+    expect(user.get('passwordHash')[..5] in ['31dc3d', '948c7e']).toBeTruthy()
+    expect(user.get('permissions')).toBeUndefined()
 
-  it 'preparing test : clears the db first', (done) ->
-    clearModels [User], (err) ->
-      throw err if err
-      done()
-
-  it 'converts the password into a hash', (done) ->
-    unittest.getNormalJoe (user) ->
-      expect(user).toBeTruthy()
-      expect(user.get('password')).toBeUndefined()
-      expect(user?.get('passwordHash')).not.toBeUndefined()
-      if user?.get('passwordHash')?
-        expect(user.get('passwordHash')[..5] in ['31dc3d', '948c7e']).toBeTruthy()
-        expect(user.get('permissions').length).toBe(0)
-      done()
-
-  it 'serves the user through /db/user/id', (done) ->
-    unittest.getNormalJoe (user) ->
-      utils.becomeAnonymous().then ->
-        url = getURL(urlUser+'/'+user._id)
-        request.get url, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          user = JSON.parse(body)
-          expect(user.name).toBe('Joe')  # Anyone should be served the username.
-          expect(user.email).toBeUndefined()  # Shouldn't be available to just anyone.
-          expect(user.passwordHash).toBeUndefined()
-          done()
-
-  it 'creates admins based on passwords', (done) ->
-    request.post getURL('/auth/logout'), ->
-      unittest.getAdmin (user) ->
-        expect(user).not.toBeUndefined()
-        if user
-          expect(user.get('permissions').length).toBe(1)
-          expect(user.get('permissions')[0]).toBe('admin')
-        done()
-
-  it 'does not return the full user object for regular users.', (done) ->
-    loginJoe ->
-      unittest.getAdmin (user) ->
-
-        url = getURL(urlUser+'/'+user._id)
-        request.get url, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          user = JSON.parse(body)
-          expect(user.email).toBeUndefined()
-          expect(user.passwordHash).toBeUndefined()
-          done()
-
-  it 'should allow setting anonymous user name', (done) ->
-    createAnonNameUser('Jim', done)
-
-  it 'should allow multiple anonymous users with same name', (done) ->
-    createAnonNameUser('Jim', done)
-
-  it 'should allow setting existing user name to anonymous user', (done) ->
-    req = request.post({url: getURL('/db/user'), json: {email: 'new@user.com', password: 'new'}}, (err, response, body) ->
-      expect(response.statusCode).toBe(200)
-      request.get getURL('/auth/whoami'), (request, response, body) ->
-        res = JSON.parse(response.body)
-        expect(res.anonymous).toBeFalsy()
-        createAnonNameUser 'Jim', done
-    )
-
+    
 describe 'PUT /db/user', ->
 
   it 'returns 422 when no data is provided', utils.wrap ->
@@ -264,6 +206,18 @@ describe 'PUT /db/user', ->
     [res] = yield request.putAsync { uri: getURL('/db/user/'+invalidUser.id), json: { name: 'A new name' }}
     expect(res.statusCode).toBe(200)
     expect(res.body.name).toBe('A new name')
+
+  it 'allows multiple anonymous users to have the same name, even with signed up users', utils.wrap ->
+    name = 'Bob'
+    yield utils.initUser({name}) # make an existing user
+
+    user1 = yield utils.becomeAnonymous()
+    [res] = yield request.putAsync { url: utils.getUrl("/db/user/#{user1.id}"), json: { name }}
+    expect(res.statusCode).toBe(200)
+
+    user2 = yield utils.becomeAnonymous()
+    [res] = yield request.putAsync { url: utils.getUrl("/db/user/#{user2.id}"), json: { name }}
+    expect(res.statusCode).toBe(200)
     
 
 describe 'PUT /db/user/-/become-student', ->
@@ -451,14 +405,9 @@ describe 'PUT /db/user/-/remain-teacher', ->
 
 describe 'GET /db/user', ->
 
-  it 'logs in as admin', (done) ->
-    json = {
-      username: 'admin@afc.com'
-      password: '80yqxpb38j'
-    }
-    request.post { url: getURL('/auth/login'), json }, (error, response) ->
-      expect(response.statusCode).toBe(200)
-      done()
+  it 'logs in as admin', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
 
   it 'get schema', (done) ->
     request.get {uri: getURL(urlUser+'/schema')}, (err, res, body) ->
@@ -607,7 +556,17 @@ describe 'GET /db/user/:handle', ->
     expect(res.statusCode).toBe(200)
     expect(res.body.coursePrepaid._id).toBe(user.get('coursePrepaidID').toString())
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
-    
+
+  it 'looks up the user by id', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.becomeAnonymous()
+    url = utils.getURL("/db/user/#{user.id}")
+    [res] = yield request.getAsync({url, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.name).toBe(user.get('name'))  # Anyone should be served the username.
+    expect(res.body.email).toBeUndefined()  # Shouldn't be available to anonymous users.
+    expect(res.body.passwordHash).toBeUndefined()
+
 
 describe 'DELETE /db/user/:handle', ->
   it 'can delete a user', utils.wrap ->
