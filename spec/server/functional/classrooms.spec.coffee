@@ -110,6 +110,8 @@ describe 'POST /db/classroom', ->
     paredLevelA = _.pick(@levelA.toObject(), 'name', 'original', 'type', 'slug')
     paredLevelA.campaignIndex = 0
     campaignJSON.levels[@levelA.get('original').toString()] = paredLevelA
+    for levelOriginal, level of campaignJSON.levels
+      level.position = { x: 10*level.campaignIndex, y: 10*level.campaignIndex }
 
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSON})
     @campaign = yield Campaign.findById(res.body._id)
@@ -126,6 +128,7 @@ describe 'POST /db/classroom', ->
     expect(res.body.name).toBe('Classroom 1')
     expect(res.body.members.length).toBe(0)
     expect(res.body.ownerID).toBe(teacher.id)
+    expect(res.body.courses[0].levels[0].position).toBeDefined()
     done()
 
   it 'returns 401 for anonymous users', utils.wrap (done) ->
