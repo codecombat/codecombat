@@ -162,9 +162,11 @@ module.exports = class CampaignView extends RootView
               existing = @campaign.get('levels')
               for k,v of @courseLevels.toArray()
                 idx = v.get('original')
-                @courseLevelsFake[idx] = existing[idx]
-                @courseLevelsFake[idx].courseIdx = parseInt(k)
-                @courseLevelsFake[idx].requiresSubscription = false
+                if existing[idx]
+                  # TODO: handle case where old versioned level no longer exists in campaign. Just ignoring for now, order will be wrong and that level won't show.
+                  @courseLevelsFake[idx] = existing[idx]
+                  @courseLevelsFake[idx].courseIdx = parseInt(k)
+                  @courseLevelsFake[idx].requiresSubscription = false
 
       )
 
@@ -1163,4 +1165,3 @@ module.exports = class CampaignView extends RootView
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudent)
 
     return true
-
