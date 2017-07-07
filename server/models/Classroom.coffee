@@ -72,7 +72,16 @@ ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin}) ->
     for level in levels
       continue if classLanguage and level.primerLanguage is classLanguage
       levelData = { original: mongoose.Types.ObjectId(level.original) }
-      _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'primerLanguage', 'shareable'))
+      _.extend(levelData, _.pick(level, 
+        'type',
+        'slug',
+        'name', 
+        'practice', 
+        'practiceThresholdMinutes',
+        'primerLanguage',
+        'shareable',
+        'position'
+      ))
       courseData.levels.push(levelData)
     coursesData.push(courseData)
   coursesData

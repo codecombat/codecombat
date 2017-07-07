@@ -160,14 +160,39 @@ module.exports = class CampaignView extends RootView
             })
             @listenToOnce @courseLevels, 'sync', =>
               existing = @campaign.get('levels')
-              for k,v of @courseLevels.toArray()
+              courseLevels = @courseLevels.toArray()
+              for k,v of courseLevels
                 idx = v.get('original')
-                if existing[idx]
-                  # TODO: handle case where old versioned level no longer exists in campaign. Just ignoring for now, order will be wrong and that level won't show.
+                if not existing[idx]
+                  # a level which has been removed from the campaign but is saved in the course
+                  @courseLevelsFake[idx] = v.toJSON()
+                else
                   @courseLevelsFake[idx] = existing[idx]
-                  @courseLevelsFake[idx].courseIdx = parseInt(k)
-                  @courseLevelsFake[idx].requiresSubscription = false
+                @courseLevelsFake[idx].courseIdx = parseInt(k)
+                @courseLevelsFake[idx].requiresSubscription = false
 
+              # Fill in missing positions, for courses which have levels that no longer exist in campaigns
+              for k,v of courseLevels
+                k = parseInt(k)
+                idx = v.get('original')
+                if not @courseLevelsFake[idx].position
+                  prevLevel = courseLevels[k-1]
+                  nextLevel = courseLevels[k+1]
+                  if prevLevel && nextLevel
+                    prevIdx = prevLevel.get('original')
+                    nextIdx = nextLevel.get('original')
+                    prevPosition = @courseLevelsFake[prevIdx].position
+                    nextPosition = @courseLevelsFake[nextIdx].position
+                  if prevPosition && nextPosition
+                    # split the diff between the previous, next levels
+                    @courseLevelsFake[idx].position = {
+                      x: (prevPosition.x + nextPosition.x)/2
+                      y: (prevPosition.y + nextPosition.y)/2
+                    }
+                  else
+                    # otherwise just line them up along the bottom
+                    x = 10 + (k / courseLevels.length) * 80
+                    @courseLevelsFake[idx].position = { x, y: 10 }
       )
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
