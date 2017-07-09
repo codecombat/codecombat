@@ -327,6 +327,7 @@
     loading: "Loading..."
     overview: "Overview"
     solution: "Solution"
+    table_of_contents: "Table of Contents"
     intro: "Intro"
     saving: "Saving..."
     sending: "Sending..."
