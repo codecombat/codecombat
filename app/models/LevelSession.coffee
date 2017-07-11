@@ -1,4 +1,5 @@
 CocoModel = require './CocoModel'
+api = require('core/api')
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -114,3 +115,25 @@ module.exports = class LevelSession extends CocoModel
     for league in @get('leagues')
       return true if league.leagueID is leagueId
     return false
+
+  updateKeyValueDb: (keyValueDb) ->
+    oldDb = @get('keyValueDb') ? {}
+    @originalKeyValueDb ?= oldDb
+    @set('keyValueDb', keyValueDb) if _.size keyValueDb
+
+  saveKeyValueDb: ->
+    keyValueDb = @get('keyValueDb') ? {}
+    return unless @originalKeyValueDb
+    for key, value of keyValueDb
+      oldValue = @originalKeyValueDb[key]
+      if not oldValue or typeof(oldValue) is 'string' or typeof(value) is 'string'
+        api.levelSessions.setKeyValue({ sessionID: @id, key, value})
+      else if typeof(oldValue) is 'number' and typeof(value) is 'number'
+        increment = value - oldValue
+        api.levelSessions.incrementKeyValue({ sessionID: @id, key, value: increment})
+
+    @set('keyValueDb', keyValueDb) if _.size keyValueDb
+    delete @originalKeyValueDb
+
+
+

@@ -737,6 +737,7 @@ module.exports = class PlayLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
+    @session.updateKeyValueDb(e.keyValueDb) if @level.isType('game-dev')
 
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
@@ -750,6 +751,7 @@ module.exports = class PlayLevelView extends RootView
     @$('#how-to-play-game-dev-panel').addClass('hide') if @level.isType('game-dev')
     @$el.removeClass 'real-time'
     @onWindowResize()
+    @session.saveKeyValueDb() if @level.isType('game-dev')
     if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing and not @realTimePlaybackWaitingForFrames
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else

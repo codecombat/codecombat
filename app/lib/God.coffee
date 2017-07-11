@@ -73,9 +73,9 @@ module.exports = class God extends CocoClass
     @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
-    @createWorld e.spells, e.preload, e.realTime, e.justBegin
+    @createWorld e.spells, e.preload, e.realTime, e.justBegin, e.keyValueDb
 
-  createWorld: (spells, preload, realTime, justBegin) ->
+  createWorld: (spells, preload, realTime, justBegin, keyValueDb) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -111,6 +111,7 @@ module.exports = class God extends CocoClass
       realTime
       justBegin
       indefiniteLength: @indefiniteLength and realTime
+      keyValueDb
     }
     @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
