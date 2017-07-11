@@ -30,16 +30,16 @@
       position: absolute
 
     #intro-if
-      top: 75px
+      top: 172px
       right: 120px
     #intro-else
-      top: 280px
+      top: 410px
       right: 120px
     #intro-conditional
-      top: 20px
+      top: 96px
       left: 120px
     #intro-properties
-      top: 220px
+      top: 420px
       left: 5px
 
   div.game-progress
@@ -50,18 +50,48 @@
       text-align: center
       display: inline-block
       width: 40px
+      height: 40px
     img
       height: 40px
       width: 40px
 
+  @keyframes wigglyWobblyAnim
+    10%, 90%
+      transform: translate3d(-1px, 0, 0)
+    20%, 80%
+      transform: translate3d(2px, 0, 0)
+    30%, 50%, 70%
+      transform: translate3d(-4px, 0, 0)
+    40%, 60%
+      transform: translate3d(4px, 0, 0)
+
+  @keyframes fooAnim
+    0% 
+      transform: translateX(-100%)
+    100%
+       transform: translateY(100%)
+
+
+  div.path.exploded
+    animation: wigglyWobblyAnim 1s cubic-bezier(.36,.07,.19,.97) infinite both
+    // animation: wigglyWobblyAnim 1s linear infinite both
+    transform: translate3d(0, 0, 0)
+    backface-visibility: hidden
+    // perspective: 1000px
+
   div.path
     position: relative
     background-color: #aaffaa
-    height: 400px
+    height: 600px
     width: 900px
-    background-image: url("/images/pages/minigames/conditionals/forked-path.png")
+    background-image: url("/images/pages/minigames/conditionals/forked-path.jpg")
     background-size: 110% 100%
     background-position: top 2px left -91px
+
+    .trap
+      position: absolute
+      top: 280px
+      left: 280px
 
     .pet
       position: absolute
@@ -73,13 +103,13 @@
       font-size: 150%
       position: absolute
       left: 350px
-      top: 20px
+      top: 95px
 
     .else-conditional
       font-size: 150%
       position: absolute
       left: 350px
-      top: 200px
+      top: 322px
 
 
     .choice
@@ -95,9 +125,9 @@
         // border-radius: 10px
 
       &.if-path
-        top: 15px
+        top: 106px
       &.else-path
-        top: 219px
+        top: 345px
 
       img.answer-image
         height: 100px

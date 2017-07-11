@@ -13,6 +13,7 @@ pets = [
 
 ogreImageSrc = '/images/pages/minigames/conditionals/ogre.png'
 gemImageSrc = '/images/pages/minigames/conditionals/gem.png'
+trapImageSrc = '/images/pages/minigames/conditionals/fire_trap.png'
 
 petProperties = {}
 
@@ -50,9 +51,16 @@ ConditionalMinigameComponent = Vue.extend
     rounds: []
     gameOver: false
     maxRounds: 10
+    trapImageSrc: trapImageSrc
+    exploded: false
   }
   computed: {
-    animalTop: -> if @answer is 'else' then '200px' else '10px'
+    animalTop: ->
+      if @answer is 'if'
+        return '60px'
+      if @answer is 'else'
+        return '300px'
+      return '200px'
     animalLeft: -> 
       roundPercent = @age / @roundEndAt
       if @answer
@@ -78,6 +86,7 @@ ConditionalMinigameComponent = Vue.extend
       @age = 0
       @nextRoundStart = null
       @dt = 0
+      @exploded = false
 
     playerAnswered: (answer, event) ->
       return if @nextRoundStart
@@ -92,11 +101,13 @@ ConditionalMinigameComponent = Vue.extend
       else
         @score.incorrect++
       @nextRoundStart = @age + 1
-      @rounds.push  { correct: correct, imgSrc: if correct then gemImageSrc else ogreImageSrc } 
+      imgSrc = if correct then gemImageSrc else (if @answer is '' then trapImageSrc else ogreImageSrc)
+      @exploded = (not correct and @answer is '')
+      @rounds.push  { correct: correct, imgSrc: imgSrc } 
       @playSound correct
 
     playSound: (correct) ->
-      sound = if correct then @$refs.gemSound else @$refs.ogreSound
+      sound = if correct then @$refs.gemSound else (if @answer is '' then @$refs.trapSound else @$refs.ogreSound)
       sound.play()
 
     startGameLoop: ->

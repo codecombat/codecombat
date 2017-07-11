@@ -3,6 +3,7 @@
   .left-column
     audio(src='/sounds/pages/minigames/conditionals/gem_pickup.mp3' ref="gemSound")
     audio(src='/sounds/pages/minigames/conditionals/ogre_munchkin_raah.mp3' ref="ogreSound")
+    audio(src='/sounds/pages/minigames/conditionals/firetrap_die.mp3' ref="trapSound")
 
     .header.text-center
       h1 Pet Dilemma!
@@ -14,7 +15,7 @@
         span x
 
 
-    .path
+    .path(v-bind:class="{ exploded: exploded }")
       .intro(v-if="intro")
         div.help#intro-if 
           | Click this button if the conditional is TRUE
@@ -33,6 +34,8 @@
           //- =" "
           | Properties of the pet
 
+      .trap
+        img.trap-image(v-bind:src="trapImageSrc")
       .pet(v-bind:style="{ top: animalTop, left: animalLeft }")
         img.pet-image(v-bind:src="pet.imageSrc")
       .if-conditional
