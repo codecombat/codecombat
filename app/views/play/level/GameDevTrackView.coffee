@@ -19,10 +19,18 @@ module.exports = class GameDevTrackView extends CocoView
     @listings = {}
     for key, thangState of e.thangStateMap
       trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
-      continue if trackedPropNamesIndex is -1
-      trackedPropNames = thangState.props[trackedPropNamesIndex]
-      for name in trackedPropNames
-        propIndex = thangState.trackedPropertyKeys.indexOf name
+      unless trackedPropNamesIndex is -1
+        trackedPropNames = thangState.props[trackedPropNamesIndex]
+        for name in trackedPropNames
+          propIndex = thangState.trackedPropertyKeys.indexOf name
+          continue if propIndex is -1
+          @listings[name] = thangState.props[propIndex]
+      continue unless key is 'Hero Placeholder'
+      trackedObjNamesIndex = thangState.trackedPropertyKeys.indexOf 'objTrackedProperties'
+      continue if trackedObjNamesIndex is -1
+      trackedObjNames = thangState.props[trackedObjNamesIndex]
+      for name in trackedObjNames
+        propIndex = thangState.trackedPropertyKeys.indexOf('__' + name)
         continue if propIndex is -1
         @listings[name] = thangState.props[propIndex]
     unless _.isEqual(@listings, {})
@@ -47,10 +55,10 @@ module.exports = class GameDevTrackView extends CocoView
       return Math.round(val * 100) / 100
     return val
 
-iconObj = {
-  'pos':'🎯',
-  'defeated': '☠',
-  'gold':'💰',
-  'time':'⏳',
+iconObj =
+  'pos':'🎯'
+  'defeated': '☠'
+  'gold':'💰'
+  'time':'⏳'
   'score': '🎶'
-}
+  'plays': '⚽'
