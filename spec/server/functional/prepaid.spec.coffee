@@ -100,7 +100,7 @@ describe 'GET /db/prepaid/:handle/creator', ->
   describe 'when the prepaid ID is wrong', ->
     beforeEach utils.wrap (done) ->
       yield utils.loginUser(@creator)
-      @url = getURL("/db/prepaid/#{@prepaid.id}a/creator")
+      @url = getURL("/db/prepaid/123456789012345678901234/creator")
       done()
 
     it 'returns a NotFound error', utils.wrap (done) ->
@@ -565,7 +565,7 @@ describe 'POST /db/prepaid/:handle/joiners', ->
     done()
 
   it 'returns 404 if prepaid is not found', utils.wrap (done) ->
-    @url = getURL("/db/prepaid/#{@prepaid.id}a/joiners")
+    @url = getURL("/db/prepaid/123456789012345678901234/joiners")
     [res, body] = yield request.postAsync {uri: @url, json: { userID: @joiner.id } }
     expect(res.statusCode).toBe(404)
     done()

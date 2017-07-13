@@ -18,6 +18,7 @@ module.exports =
     difficulty: {type: 'integer'}
     god: {type: 'object'}
     justBegin: {type: 'boolean'}
+    keyValueDb: {type: 'object'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}

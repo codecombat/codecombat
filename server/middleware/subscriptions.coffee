@@ -206,8 +206,10 @@ unsubscribeUser = co.wrap (req, user, updateReqBody=true) ->
   yield user.save()
 
 purchaseProduct = expressWrap (req, res) ->
-  product = yield database.getDocFromHandle(req, Product)
-  product ?= yield Product.findOne({name: req.params.handle})
+  if database.isID(req.params.handle)
+    product = yield Product.findById(req.params.handle)
+  else
+    product = yield Product.findOne({name: req.params.handle})
   if not product
     throw new errors.NotFound('Product not found')
   productName = product?.get('name')

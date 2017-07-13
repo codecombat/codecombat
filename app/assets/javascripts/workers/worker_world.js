@@ -391,6 +391,7 @@ self.runWorld = function runWorld(args) {
     self.world.realTime = args.realTime;
     self.world.indefiniteLength = args.indefiniteLength;
     self.world.justBegin = args.justBegin;
+    self.world.keyValueDb = args.keyValueDb;
     self.goalManager = new GoalManager(self.world);
     self.goalManager.setGoals(args.goals);
     self.goalManager.setCode(args.userCodeMap);
