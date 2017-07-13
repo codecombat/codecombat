@@ -234,6 +234,12 @@ module.exports = Surface = class Surface extends CocoClass
     frame = @world.getFrame(@getCurrentFrame())
     return unless frame
     frame.restoreState()
+
+    if @options.levelType is 'game-dev'
+      Backbone.Mediator.publish('surface:ui-tracked-properties-changed',
+        thangStateMap: frame.thangStateMap
+      )
+
     current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
     if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
       next = Math.ceil current
