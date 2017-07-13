@@ -143,7 +143,7 @@ describe 'PUT /db/level.session/:handle/key-value-db/:key', ->
     expect(res.statusCode).toBe(200)
   
   it 'returns 404 if the session does not exist', utils.wrap ->
-    @url = utils.getUrl("/db/level.session/dne/key-value-db/foo")
+    @url = utils.getUrl("/db/level.session/123456789012345678901234/key-value-db/foo")
     [res] = yield request.putAsync({ @url })
     expect(res.statusCode).toBe(404)
   
@@ -227,7 +227,7 @@ describe 'POST /db/level.session/:handle/key-value-db/:key/increment', ->
     expect(session.get('keyValueDb')).toEqual({ foo: 4 })
     
   it 'returns 404 if the session does not exist', utils.wrap ->
-    @url = utils.getUrl("/db/level.session/dne/key-value-db/foo/increment")
+    @url = utils.getUrl("/db/level.session/123456789012345678901234/key-value-db/foo/increment")
     [res] = yield request.postAsync({ @url })
     expect(res.statusCode).toBe(404)
   
@@ -261,4 +261,9 @@ describe 'POST /db/level.session/:handle/key-value-db/:key/increment', ->
     @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/hundredth/increment")
     [res] = yield request.postAsync({ @url, json: 2 })
     expect(res.statusCode).toBe(200)
+    
+  it 'works with an invalid session id', utils.wrap ->
+    url = utils.getUrl('/db/level.session/A%20Fake%20Session%20ID/key-value-db/fire-trap/increment')
+    [res] = yield request.postAsync({ url, json: 2 })
+    expect(res.statusCode).toBe(422)
 

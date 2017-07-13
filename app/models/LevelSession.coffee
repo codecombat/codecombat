@@ -124,6 +124,7 @@ module.exports = class LevelSession extends CocoModel
   saveKeyValueDb: ->
     keyValueDb = @get('keyValueDb') ? {}
     return unless @originalKeyValueDb
+    return if @isFake()
     for key, value of keyValueDb
       oldValue = @originalKeyValueDb[key]
       if not oldValue or typeof(oldValue) is 'string' or typeof(value) is 'string'
