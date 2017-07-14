@@ -677,6 +677,8 @@ module.exports = class AnalyticsView extends RootView
         chartLines[1].max = chartLines[4].max
         chartLines[2].max = chartLines[6].max
 
+      chartLines.reverse()  # X-axis is based off first one, first one might be previous year, so cheaply make sure first one is this year
+
   updateActiveClassesChartData: ->
     @activeClassesChartLines90 = []
     @activeClassesChartLines365 = []
