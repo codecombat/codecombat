@@ -62,3 +62,7 @@ iconObj =
   'time':'⏳'
   'score': '🎶'
   'plays': '⚽'
+  'fire-spewer': '🔥'
+  'fire-trap': '💥'
+  'ogre': '😈'
+  'victory': '🎆'

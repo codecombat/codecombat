@@ -317,6 +317,8 @@ _.extend UserSchema.properties,
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
+    
+    # TODO: move `free` out of stripe, it's independent 
     free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 

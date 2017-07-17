@@ -345,7 +345,7 @@ module.exports = nativeDescription: "فارسی", englishDescription: "Persian",
 #    unwatch: "Unwatch"
 #    submit_patch: "Submit Patch"
 #    submit_changes: "Submit Changes"
-#    save_changes: "Save Changes"
+#    save_changes: "ذخیره ی تغییرات"
 #    required_field: "required"
 #    valid_phone: "Enter a valid phone number."
 

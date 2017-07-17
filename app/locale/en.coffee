@@ -320,6 +320,7 @@
 
   common:
     back: "Back" # When used as an action verb, like "Navigate backward"
+    go_back: "Go Back"
     coming_soon: "Coming soon!"
     continue: "Continue"  # When used as an action verb, like "Continue forward"
     next: "Next"
@@ -721,6 +722,12 @@
     support_part1: "Need help with payment options? Email"
     support_part2: "support@codecombat.com"
     support_part3: "if you have any questions."
+    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+    you_will_be_charged: "You will be charged $__priceString__ one time."
+    choose_payment_method: "Choose Payment Method"
+    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
     now_available: "Now available for subscribers!"
