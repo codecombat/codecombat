@@ -1510,7 +1510,7 @@
     select_all: "Select All"
     project: "Project"
     project_gallery: "Project Gallery"
-    view_project: "View Project" # {change}
+    view_project: "View Project"
     unpublished: "(unpublished)"
     view_arena_ladder: "View Arena Ladder"
     resource_hub: "Resource Hub"

@@ -65,6 +65,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     want_coco: "Wil je CodeCombat op jouw school?"
 
   nav:
+#    map: "Map"
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     courses: "Lessen"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   common:
     back: "Terug" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Binnenkort!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     loading: "Bezig met laden..."
     overview: "Overzicht"
     solution: "Oplossing"
+#    table_of_contents: "Table of Contents"
     intro: "Intro"
     saving: "Opslaan..."
     sending: "Verzenden..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     years: "jaren"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "Instructies"
     edit_level: "Edit Level"
     explore_codecombat: "Verken CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tip_good_idea: "De beste manier om tot een goed idee te komen, is door veel ideeën te hebben. - Linus Pauling"
     tip_programming_not_about_computers: "Informatica draait net zoveel om computers, als astronomie draait om telescopen. - Edsger Dijkstra"
     tip_mulan: "Geloof dat je het kan, dan kan je het . - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Gemaakt door {{name}}"
@@ -709,6 +722,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     support_part1: "Hulp nodig met betalingsopties? Email"
     support_part2: "support@codecombat.com"
     support_part3: "als je vragen hebt."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
     now_available: "Nu beschikbaar voor abonnees!"
@@ -899,6 +918,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
     jose_blurb: "Opstijgen"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
@@ -1080,7 +1101,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     delete_account_tab: "Verwijder je Account"
     wrong_email: "Verkeerd e-mailadres"
     wrong_password: "Verkeerd wachtwoord"
-    upload_picture: "Je afbeelding opsturen"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Verwijder dit account voor altijd"
     reset_progress_tab: "Reset Alle Voortgang"
     reset_your_progress: "Verwijder alle voortgang en start opnieuw"
@@ -1113,7 +1134,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     saved: "Aanpassingen Opgeslagen"
     password_mismatch: "Het wachtwoord komt niet overeen."
     password_repeat: "Herhaal je wachtwoord."
-    file_size_limit: "(max bestandsgrootte: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Toetsenboord sneltoetsen"
@@ -1241,6 +1261,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     switch_to: "Verander naar"
     greetings: "Groeten"
     back_classrooms: "terug naar mijn klaslokalen"
+#    back_classroom: "Back to classroom"
     back_courses: "Terug naar mijn cursussen"
     edit_details: "bewerk klasgegevens"
     purchase_enrollments: "Koop inschrijvingen" # {change}
@@ -1267,6 +1288,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     my_classes: "Mijn klassen" # {change}
     class_added: "Klas succesvol toegevoegd!"
     view_levels: "bekijk levels" # {change}
+#    view_project_gallery: "view my classmates' projects"
     join_class: "doe mee met een klas"
     join_class_2: "Deelnemen"
     ask_teacher_for_code: "Vraag je juf/meester of je een CodeCombat klassencode hebt! Als dat zo is, vul die dan hieronder in:"
@@ -1362,6 +1384,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
     license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
     assigning_course: "Cursus toewijzen"
@@ -1482,7 +1509,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     status_enrolled: "Verloopt op {{date}}"
     select_all: "Selecteer Alles"
     project: "Project"
-    view_student_project: "Bekijk Leerling Project"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
     view_arena_ladder: "Bekijk Arena Stand"
     resource_hub: "Hulpmiddelen"
     getting_started: "Aan de Slag"
@@ -1623,6 +1652,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

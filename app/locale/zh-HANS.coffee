@@ -65,6 +65,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     want_coco: "想把 CodeCombat 带到您的学校？"
 
   nav:
+#    map: "Map"
     play: "关卡选择" # The top nav bar entry where players choose which levels to play
     community: "社区"
     courses: "课程"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   common:
     back: "返回" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "敬请期待！"
     continue: "继续" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     loading: "读取中……"
     overview: "概览"
     solution: "解法"
+#    table_of_contents: "Table of Contents"
     intro: "简介"
     saving: "保存中……"
     sending: "发送中……"
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
+#    back_to_map: "Back to Map"
 #    directions: "Directions"
 #    edit_level: "Edit Level"
 #    explore_codecombat: "Explore CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_good_idea: "想到一个好主意的最佳方法是想到一堆主意。 - 莱纳斯·卡尔·鲍林"
     tip_programming_not_about_computers: "计算机科学就是有关计算机的，正如天文学就是有关望远镜的。 - 艾兹格·迪杰斯特拉"
     tip_mulan: "相信你能行，你就能做到。 - 迪士尼《花木兰》"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "由 {{name}} 创建"
@@ -709,6 +722,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -765,7 +784,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
 #    game_dev_caption: "Design your own games to challenge your friends!"
 #    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
 #    list_levels: "Gain access to __premiumLevelsCount__ more levels"
 #    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
 #    list_game_dev: "Make and share games with friends"
@@ -899,6 +918,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
     jose_blurb: "放轻松"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...以及我们的开源社区"
     community_subtitle: "超过 450 个志愿者帮助我们建设 CodeCombat，每周都有新成员加入！" # {change}
     community_description_3: "CodeCombat 是一个"
@@ -1080,7 +1101,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     delete_account_tab: "删除账户"
     wrong_email: "邮箱地址错误"
     wrong_password: "密码错误"
-    upload_picture: "上传一张图片"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "永久删除账户"
     reset_progress_tab: "重置所有进度"
     reset_your_progress: "清除记录并重新开始"
@@ -1113,7 +1134,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     saved: "更改已保存"
     password_mismatch: "密码不匹配。"
     password_repeat: "请重新键入密码。"
-#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "快捷键"
@@ -1241,6 +1261,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     switch_to: "切换到"
     greetings: "欢迎!"
     back_classrooms: "回到我的教室"
+#    back_classroom: "Back to classroom"
     back_courses: "回到我的课程"
     edit_details: "编辑课程详情"
     purchase_enrollments: "购买学生许可"
@@ -1267,6 +1288,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     my_classes: "我的课程" # {change}
     class_added: "成功添加课程！"
     view_levels: "浏览关卡" # {change}
+#    view_project_gallery: "view my classmates' projects"
     join_class: "加入课程"
     join_class_2: "加入班级"
     ask_teacher_for_code: "从你的老师领取CodeCombat课程码！领取后请在下方输入："
@@ -1362,6 +1384,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     web_dev_language_transition: "在本课中，所有的编程语言都是使用HTML和JavaScript编写。之前使用Python语言学习的班级会有额外的JavaScript编程介绍关卡来过渡。已经选择JavaScript编程语言的班级将会跳过这些介绍关卡。 "
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1482,7 +1509,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     status_enrolled: "在 {{date}} 过期"
     select_all: "全选"
     project: "项目"
-    view_student_project: "查看学生项目"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
     view_arena_ladder: "查看竞技场天梯"
     resource_hub: "资源中心"
     getting_started: "入门"
@@ -1623,6 +1652,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
