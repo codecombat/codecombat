@@ -241,7 +241,7 @@ module.exports = class BasicInfoView extends CocoView
         return
       
       # Use signup method
-      window.tracker?.identify()
+      window.tracker?.identify() unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
       switch @signupState.get('ssoUsed')
         when 'gplus'
           { email, gplusID } = @signupState.get('ssoAttrs')

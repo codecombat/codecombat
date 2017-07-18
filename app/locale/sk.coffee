@@ -65,6 +65,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     want_coco: "Chceš CodeCombat na svojej škole?"
 
   nav:
+#    map: "Map"
     play: "Hraj" # The top nav bar entry where players choose which levels to play
     community: "Komunita"
     courses: "Kurzy"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
   common:
     back: "Späť" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Čoskoro!"
     continue: "Pokračovať" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     loading: "Načítava sa..."
     overview: "Prehľad"
     solution: "Riešenie"
+#    table_of_contents: "Table of Contents"
     intro: "Intro"
     saving: "Ukladá sa..."
     sending: "Odosiela sa..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     years: "rokov"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "Inštrukcie"
     edit_level: "Edituj level"
     explore_codecombat: "preskúmaj CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     tip_good_idea: "Najlepším spôsobom ako mať dobrý nápad, je mať veľa dobrých nápadov. - Linus Pauling"
     tip_programming_not_about_computers: "Veda o počítačoch je o počítačoch v tej miere ako je astronómia o teleskopoch. - Edsger Dijkstra"
     tip_mulan: "Ver, že môžeš a potom budeš aj chcieť. - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Vytvoril{{name}}"
@@ -709,6 +722,12 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     support_part1: "Potrebuješ pomoc s predplatným? Napíš email na"
     support_part2: "support@codecombat.com"
     support_part3: ",ak máš nejakú otázku."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
     now_available: "Dostupné pre predplatiteľov!"
@@ -899,6 +918,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     retrostyle_blurb: "Retro hry"
     jose_title: "Hudba"
     jose_blurb: "Vzlet"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...a naša komunita open-source"
     community_subtitle: "Vyše  500 spolupracovníkov pomohlo s tvorbou CodeCombatu. Každý týždeň pribúdajú ďalší."
     community_description_3: "CodeCombat je"
@@ -1080,7 +1101,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     delete_account_tab: "Zruš svoj účet"
     wrong_email: "Nesprávny email"
     wrong_password: "Chybné heslo"
-    upload_picture: "Nahraj obrázok"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Vymaž natrvalo tento účet"
     reset_progress_tab: "Vymaž všetok postup"
     reset_your_progress: "Vymaž všetok postup a začni znovu"
@@ -1113,7 +1134,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     saved: "Zmeny uložené"
     password_mismatch: "Heslá nesedia."
     password_repeat: "Zopakuj, prosím, svoje heslo."
-    file_size_limit: "(max veľkosť súboru: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Klávesové skratky"
@@ -1241,6 +1261,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    switch_to: "Switch To"
 #    greetings: "Greetings!"
 #    back_classrooms: "Back to my classrooms"
+#    back_classroom: "Back to classroom"
 #    back_courses: "Back to my courses"
 #    edit_details: "Edit class details"
 #    purchase_enrollments: "Purchase Student Licenses"
@@ -1267,6 +1288,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
 #    view_levels: "view all levels in course"
+#    view_project_gallery: "view my classmates' projects"
 #    join_class: "Join A Class"
 #    join_class_2: "Join class"
 #    ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
@@ -1362,6 +1384,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1482,7 +1509,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    status_enrolled: "Expires on {{date}}"
 #    select_all: "Select All"
 #    project: "Project"
-#    view_student_project: "View Student Project"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project"
+#    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
 #    getting_started: "Getting Started"
@@ -1623,6 +1652,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

@@ -60,7 +60,7 @@ makeButton = (options) ->
       return actions.payment.get().then((payment) ->
         onPaymentComplete(payment)
       )
-  }, options.payPalOptions), buttonContainerID);
+  }, options.payPalOptions), buttonContainerID)
 
 module.exports = {
   loadPayPal

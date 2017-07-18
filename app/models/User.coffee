@@ -18,6 +18,8 @@ UserLib = {
     [emailName, emailDomain] = user.email?.split('@') or []
     return emailName if emailName
     return 'Anonymous'
+  isSmokeTestUser: (user) ->
+    return /@example.com/.test(user.email) or /smoketest/.test(user.email) or /@codecombat.com/.test(user.email)
 }
 
 module.exports = class User extends CocoModel
@@ -30,7 +32,7 @@ module.exports = class User extends CocoModel
   isArtisan: -> 'artisan' in @get('permissions', true)
   isInGodMode: -> 'godmode' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
-  isSmokeTestUser: -> /@example.com/.test(@get('email')) or /^smoketest/.test(@get('email'))
+  isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
 

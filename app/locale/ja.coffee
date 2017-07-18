@@ -65,6 +65,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
+#    map: "Map"
     play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play
     community: "コミュニティー"
     courses: "コース"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   common:
     back: "戻る" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "近日公開!"
     continue: "続ける" # When used as an action verb, like "Continue forward"
     next: "次へ"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     loading: "ロード中"
     overview: "あらすじ"
     solution: "回答"
+#    table_of_contents: "Table of Contents"
     intro: "はじめに"
     saving: "セーブ中..."
     sending: "送信中..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     years: "年"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "使用法"
     edit_level: "編集レベル"
     explore_codecombat: "CodeCombatを探検"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_good_idea: "優れたアイディアを得る最善の方法は、多くのアイディアを得ることだ。 - ライナス・ポーリング"
     tip_programming_not_about_computers: "天文学が望遠鏡に関する学問でないのと同様に、計算機科学はコンピュータに関する学問ではない。 - エドガー・ダイクストラ"
     tip_mulan: "できると信じていれば、できる。 - ムーラン"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "作成者：{{name}}"
@@ -709,6 +722,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -765,7 +784,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
 #    game_dev_caption: "Design your own games to challenge your friends!"
 #    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
 #    list_levels: "Gain access to __premiumLevelsCount__ more levels"
 #    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
 #    list_game_dev: "Make and share games with friends"
@@ -899,6 +918,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     retrostyle_blurb: "レトロスタイルのゲーム"
     jose_title: "ミュージック"
     jose_blurb: "テークオフ"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
 #    community_title: "...and our open-source community"
 #    community_subtitle: "Over 500 contributors have helped build CodeCombat, with more joining every week!"
 #    community_description_3: "CodeCombat is a"
@@ -1080,7 +1101,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     delete_account_tab: "アカウントの削除"
     wrong_email: "間違ったメールアドレス"
     wrong_password: "間違ったパスワード"
-    upload_picture: "画像をアップロード"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "アカウントを完全削除する"
     reset_progress_tab: "すべての進捗をリセットする"
     reset_your_progress: "すべての進捗をリセットしやり直す"
@@ -1113,7 +1134,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     saved: "変更しました"
     password_mismatch: "パスワードが違います"
     password_repeat: "もう一度パスワードを入力してください"
-    file_size_limit: "(最大ファイルサイズ: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "キーボードショートカット"
@@ -1241,6 +1261,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    switch_to: "Switch To"
 #    greetings: "Greetings!"
 #    back_classrooms: "Back to my classrooms"
+#    back_classroom: "Back to classroom"
 #    back_courses: "Back to my courses"
 #    edit_details: "Edit class details"
 #    purchase_enrollments: "Purchase Student Licenses"
@@ -1267,6 +1288,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    my_classes: "Current Classes"
 #    class_added: "Class successfully added!"
 #    view_levels: "view all levels in course"
+#    view_project_gallery: "view my classmates' projects"
 #    join_class: "Join A Class"
 #    join_class_2: "Join class"
 #    ask_teacher_for_code: "Ask your teacher if you have a CodeCombat class code! If so, enter it below:"
@@ -1362,6 +1384,11 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
 #  teacher:
 #    assigning_course: "Assigning course"
@@ -1482,7 +1509,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    status_enrolled: "Expires on {{date}}"
 #    select_all: "Select All"
 #    project: "Project"
-#    view_student_project: "View Student Project"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project"
+#    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
 #    getting_started: "Getting Started"
@@ -1623,6 +1652,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

@@ -65,6 +65,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     want_coco: "Szeretnéd kipróbálni a CodeCombatot az iskoládban?"
 
   nav:
+#    map: "Map"
     play: "Játék" # The top nav bar entry where players choose which levels to play
     community: "Közösség"
     courses: "Kurzusok"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   common:
     back: "Vissza" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Hamarosan!"
     continue: "Folytasd" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     loading: "Töltés..."
     overview: "Áttekintés"
     solution: "Megoldás"
+#    table_of_contents: "Table of Contents"
     intro: "Bevezető"
     saving: "Mentés..."
     sending: "Küldés..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     years: "évek"
 
   play_level:
+#    back_to_map: "Back to Map"
 #    directions: "Directions"
 #    edit_level: "Edit Level"
 #    explore_codecombat: "Explore CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     tip_good_idea: "Ahhoz, hogy legyen egy jó ötleted, a legjobb módszer, ha rengeteg ötleted van. - Linus Pauling"
     tip_programming_not_about_computers: "A számítástechnika csak annyiban szól a számítógépekről, mint a csillagászat a távcsövekről. - Edsger Dijkstra"
     tip_mulan: "Először hidd el, hogy képes vagy rá, aztán majd az leszel. - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Készítette: {{name}}"
@@ -709,6 +722,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -765,7 +784,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
 #    game_dev_caption: "Design your own games to challenge your friends!"
 #    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
 #    list_levels: "Gain access to __premiumLevelsCount__ more levels"
 #    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
 #    list_game_dev: "Make and share games with friends"
@@ -899,6 +918,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Zene"
     jose_blurb: "Szárnyra kapok"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...és a nyílt támogatói közösségünk"
     community_subtitle: "Eddig több mint 450 támogató járult hozzá a CodeCombat építéséhez, és minden héten egyre többen csatlakoznak!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1080,7 +1101,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     delete_account_tab: "Fiók törlése"
     wrong_email: "Rossz e-mail-cím"
     wrong_password: "Hibás jelszó"
-    upload_picture: "Tölts föl egy képet"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Fiók végleges törlése"
     reset_progress_tab: "Eredmények törlése"
     reset_your_progress: "Törli az össze eredményed. Tiszta lappal kezdhetsz újra."
@@ -1113,7 +1134,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     saved: "Változtatások elmentve"
     password_mismatch: "A jelszavak nem egyeznek."
     password_repeat: "Kérlek ismételd meg a jelszavadat"
-#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Billentyűparancsok"
@@ -1241,6 +1261,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     switch_to: "Váltás a következőre:"
     greetings: "Üdvözlünk!"
     back_classrooms: "Vissza a saját osztályokhoz"
+#    back_classroom: "Back to classroom"
     back_courses: "Vissza a saját kurzusokhoz"
     edit_details: "Osztály részletes adatainak szerkesztése"
     purchase_enrollments: "Tanulói licencek vásárlása"
@@ -1267,6 +1288,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     my_classes: "Jelenlegi osztályok"
     class_added: "Az osztály létrehozása sikeresen megtörtént."
     view_levels: "a kurzus összes pályájának megtekintése"
+#    view_project_gallery: "view my classmates' projects"
     join_class: "Csatlakozás egy osztályhoz"
     join_class_2: "Osztályhoz csatlakozás"
     ask_teacher_for_code: "Kérd el a CodeCombat osztály kódját a tanárodtól! Ha megvan, írd be ide:"
@@ -1362,6 +1384,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1482,7 +1509,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     status_enrolled: "Lejár: {{date}}"
     select_all: "Összes kiválasztása"
 #    project: "Project"
-#    view_student_project: "View Student Project"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
 #    getting_started: "Getting Started"
@@ -1623,6 +1652,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

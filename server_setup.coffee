@@ -72,6 +72,8 @@ setupErrorMiddleware = (app) ->
         err = new errors.UnprocessableEntity(err.response)
       if err.code is 409 and err.response
         err = new errors.Conflict(err.response)
+      if err.name is 'MongoError' and err.message.indexOf('timed out')
+        err = new errors.GatewayTimeout('MongoDB timeout error.')
 
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
@@ -89,12 +91,12 @@ setupErrorMiddleware = (app) ->
 
       res.status(err.status ? 500).send(error: "Something went wrong!")
       console.log err.stack if err.stack and config.TRACE_ROUTES
-      message = "Express error: #{req.method} #{req.path}: #{err.message} \n #{err.stack}"
-      log.error "#{message}, stack: #{err.stack}"
+      message = "Express error: \"#{req.method} #{req.path}\": #{err.stack}"
+      log.error message
       if global.testing
-        console.log "#{message}, stack: #{err.stack}"
+        console.log message
       unless message.indexOf('card was declined') >= 0
-        slack.sendSlackMessage(message, ['ops'], {papertrail: true})
+        slack.sendSlackMessage("Express error: \"#{req.method} #{req.path}\": #{err.message}", ['ops'], {papertrail: true})
     else
       next(err)
 

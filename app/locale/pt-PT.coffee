@@ -65,6 +65,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     want_coco: "Queres o CodeCombat na tua escola?"
 
   nav:
+#    map: "Map"
     play: "Níveis" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
     courses: "Cursos"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   common:
     back: "Voltar" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Brevemente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     loading: "A Carregar..."
     overview: "Visão Geral"
     solution: "Solução"
+#    table_of_contents: "Table of Contents"
     intro: "Introdução"
     saving: "A Guardar..."
     sending: "A Enviar..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     years: "anos"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "Direções"
     edit_level: "Editar Nível"
     explore_codecombat: "Explorar o CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
 #    tip_mulan: "Believe you can, then you will. - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Criado por {{name}}"
@@ -709,6 +722,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     support_part1: "Precisas de ajuda com as opções de pagamento? Envia um e-mail para"
     support_part2: "support@codecombat.com"
     support_part3: "se tiveres alguma questão."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -765,7 +784,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
 #    game_dev_caption: "Design your own games to challenge your friends!"
 #    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
 #    list_levels: "Gain access to __premiumLevelsCount__ more levels"
 #    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
 #    list_game_dev: "Make and share games with friends"
@@ -899,6 +918,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrostyle_blurb: "'RetroStyle Games'"
     jose_title: "Música"
     jose_blurb: "'Taking Off'"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...e a nossa comunidade open source"
     community_subtitle: "Mais de 500 contribuidores ajudaram a construir o CodeCombat, com mais a se juntarem todas as semanas!"
     community_description_3: "O CodeCombat é um"
@@ -1080,7 +1101,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     delete_account_tab: "Elimina a Tua Conta"
     wrong_email: "E-mail Errado"
     wrong_password: "Palavra-passe Errada"
-    upload_picture: "Anexar uma fotografia"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Elimina esta conta permanentemente"
     reset_progress_tab: "Reiniciar Todo o Progresso"
     reset_your_progress: "Limpar todo o teu progresso e começar de novo"
@@ -1113,7 +1134,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     saved: "Alterações Guardadas"
     password_mismatch: "As palavras-passe não coincidem."
     password_repeat: "Por favor repete a tua palavra-passe."
-    file_size_limit: "(tamanho máximo do ficheiro: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atalhos de Teclado"
@@ -1241,6 +1261,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    switch_to: "Switch To"
 #    greetings: "Greetings!"
     back_classrooms: "Voltar às minhas turmas"
+#    back_classroom: "Back to classroom"
     back_courses: "Voltar aos meus cursos"
 #    edit_details: "Edit class details"
 #    purchase_enrollments: "Purchase Student Licenses"
@@ -1267,6 +1288,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     my_classes: "Turmas Atuais"
     class_added: "Turma adicionada com sucesso!"
     view_levels: "ver todos os níveis do curso"
+#    view_project_gallery: "view my classmates' projects"
     join_class: "Entrar Numa Turma"
     join_class_2: "Entrar na turma"
     ask_teacher_for_code: "Pergunta ao teu professor se tens um código de turma do CodeCombat! Se tiveres, introdu-lo abaixo:"
@@ -1362,6 +1384,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "Precisas de te juntar a um curso para jogares este nível."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1482,7 +1509,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    status_enrolled: "Expires on {{date}}"
     select_all: "Selecionar Todos"
     project: "Projeto"
-    view_student_project: "Ver Projeto do Estudante"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
     resource_hub: "Centro de Recursos"
 #    getting_started: "Getting Started"
@@ -1623,6 +1652,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
