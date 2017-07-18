@@ -712,7 +712,7 @@ describe 'GET /db/classroom/:handle/update-courses', ->
     done()
 
   describe 'addNewCoursesOnly', ->
-    it 'only adds new courses, but leaves existing courses intact', utils.wrap (done) ->
+    it 'only adds new courses, but leaves existing courses intact', utils.wrap ->
       yield utils.clearModels [User, Classroom, Course, Level, Campaign]
 
       admin = yield utils.initAdmin()
@@ -722,7 +722,7 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       yield utils.loginUser(admin)
       levels = yield _.times(3, -> utils.makeLevel())
       firstCampaign = yield utils.makeCampaign({}, {levels: [levels[0]]})
-      yield utils.makeCourse({releasePhase: 'released'}, {campaign: firstCampaign})
+      firstCourse = yield utils.makeCourse({releasePhase: 'released'}, {campaign: firstCampaign})
 
       # make a classroom, make sure it has the one course
       yield utils.loginUser(teacher)
@@ -752,16 +752,19 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       yield utils.loginUser(teacher)
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: { addNewCoursesOnly:true } }
       expect(body.courses.length).toBe(2)
-      expect(body.courses[0].levels.length).toBe(1)
+      course = _.find(body.courses, {_id: firstCourse.id})
+      expect(course.levels.length).toBe(1)
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(2)
-      expect(classroom.get('courses')[0].levels.length).toBe(1)
+      course = _.find(classroom.get('courses'), (course) => course._id.equals(firstCourse._id))
+      expect(course.levels.length).toBe(1)
 
       # update without addNewCoursesOnly, make sure first course still updates
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
       expect(body.courses.length).toBe(2)
-      expect(body.courses[0].levels.length).toBe(2)
+      course = _.find(body.courses, {_id: firstCourse.id})
+      expect(course.levels.length).toBe(2)
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(2)
-      expect(classroom.get('courses')[0].levels.length).toBe(2)
-      done()
+      course = _.find(classroom.get('courses'), (course) => course._id.equals(firstCourse._id))
+      expect(course.levels.length).toBe(2)
