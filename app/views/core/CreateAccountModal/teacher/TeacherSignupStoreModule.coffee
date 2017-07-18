@@ -3,6 +3,7 @@ DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_s
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
 require('core/services/segment')()
+User = require('models/User')
 
 module.exports = TeacherSignupStoreModule = {
   namespaced: true
@@ -83,7 +84,7 @@ module.exports = TeacherSignupStoreModule = {
         trialRequestIntercomData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
         trialRequestIntercomData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
         trialRequestIntercomData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
-        application.tracker.updateTrialRequestData trialRequestIntercomData
+        application.tracker.updateTrialRequestData trialRequestIntercomData unless User.isSmokeTestUser({ email: state.signupForm.email })
 
       .then =>
         signupForm = _.omit(state.signupForm, (attr) -> attr is '')
