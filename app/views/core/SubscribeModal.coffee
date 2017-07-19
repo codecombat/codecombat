@@ -170,6 +170,9 @@ module.exports = class SubscribeModal extends ModalView
     @render()
   
   onClickLifetimeButton: ->
+    unless @reportedLifetimeClick
+      application.tracker?.trackEvent 'SubscribeModal Lifetime Button Click'
+      @reportedLifetimeClick = true
     @state = 'choosing-payment-method'
     @selectedProduct = @lifetimeProduct
     @render()
