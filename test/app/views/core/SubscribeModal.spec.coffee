@@ -247,7 +247,7 @@ describe 'SubscribeModal', ->
           yield @payPalButton.click()
           expect(@modal.hide).toHaveBeenCalled()
           expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
+            [ "SubscribeModal Lifetime Button Click", "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
 
       describe 'when using Stripe', ->
         it 'calls hide()', wrapJasmine ->
@@ -256,7 +256,7 @@ describe 'SubscribeModal', ->
           yield @modal.onClickStripeButton()
           expect(@modal.hide).toHaveBeenCalled()
           expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
+            [ "SubscribeModal Lifetime Button Click", "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
 
     describe 'when the purchase response is 402', ->
       beforeEach ->
@@ -268,7 +268,7 @@ describe 'SubscribeModal', ->
           yield @modal.onClickStripeButton()
           expect(@modal.state).toBe('declined')
           expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
+            [ "SubscribeModal Lifetime Button Click", "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
 
     describe 'when the purchase response is 422', ->
       beforeEach ->
@@ -280,4 +280,4 @@ describe 'SubscribeModal', ->
           yield @payPalButton.click()
           expect(@modal.state).toBe('error')
           expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
+            [ "SubscribeModal Lifetime Button Click", "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
