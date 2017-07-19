@@ -335,6 +335,7 @@ UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
 UserSchema.methods.sendWelcomeEmail = ->
   return if not @get('email')
+  return if core_utils.isSmokeTestEmail(@get('email'))
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =

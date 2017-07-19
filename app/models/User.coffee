@@ -18,8 +18,7 @@ UserLib = {
     [emailName, emailDomain] = user.email?.split('@') or []
     return emailName if emailName
     return 'Anonymous'
-  isSmokeTestUser: (user) ->
-    return /@example.com/.test(user.email) or /smoketest/.test(user.email) or /@codecombat.com/.test(user.email)
+  isSmokeTestUser: (user) -> utils.isSmokeTestEmail(user.email)
 }
 
 module.exports = class User extends CocoModel

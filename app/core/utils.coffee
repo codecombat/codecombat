@@ -230,6 +230,9 @@ getByPath = (target, path) ->
 
 isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
+isSmokeTestEmail = (email) ->
+  /@example.com/.test(email) or /smoketest/.test(email) or /@codecombat.com/.test(email)
+
 round = _.curry (digits, n) ->
   n = +n.toFixed(digits)
 
@@ -676,6 +679,7 @@ module.exports = {
   initializeACE
   injectCSS
   isID
+  isSmokeTestEmail
   keepDoingUntil
   kindaEqual
   needsPractice

@@ -161,6 +161,10 @@ module.exports = class CampaignView extends RootView
             @listenToOnce @courseLevels, 'sync', =>
               existing = @campaign.get('levels')
               courseLevels = @courseLevels.toArray()
+              classroomCourse = _.find(currentView.classroom.get('courses'), {_id:currentView.course.id})
+              levelPositions = {}
+              for level in classroomCourse.levels
+                levelPositions[level.original] = level.position if level.position
               for k,v of courseLevels
                 idx = v.get('original')
                 if not existing[idx]
@@ -168,6 +172,9 @@ module.exports = class CampaignView extends RootView
                   @courseLevelsFake[idx] = v.toJSON()
                 else
                   @courseLevelsFake[idx] = existing[idx]
+                  # carry over positions stored in course, if there are any
+                  if levelPositions[idx]
+                    @courseLevelsFake[idx].position = levelPositions[idx]
                 @courseLevelsFake[idx].courseIdx = parseInt(k)
                 @courseLevelsFake[idx].requiresSubscription = false
 
