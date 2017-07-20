@@ -148,7 +148,7 @@ module.exports = class EnrollmentsView extends RootView
 
   onClickShareLicensesLink: (e) ->
     prepaidID = $(e.currentTarget).data('prepaidId')
-    @shareLicensesModal = new VueModalWrapper(ShareLicensesModal, {prepaid: @prepaids.get(prepaidID)})
+    @shareLicensesModal = new ShareLicensesModal({prepaid: @prepaids.get(prepaidID)})
     @shareLicensesModal.on 'setJoiners', (prepaidID, joiners) =>
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
