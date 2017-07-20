@@ -2308,7 +2308,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reference_error: "参考错误："
     spelling_issues: "请注意拼写错误：你指的是`$1`而不是`$2`, 对吗？"
     capitalization_issues: "请注意大小写：`$1` 应该改成 `$2`？"
-    py_empty_block: "空变量。在$1的语句中，加入4个空格。"
+    # py_empty_block: "空变量。在$1的语句中，加入4个空格。" # {change}
     fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`'s"
     unmatched_token: "非匹配`$1`。每一个开放的`$2`都需要一个`$3`配对。"
     unterminated_string: "未终止字符串，在字符串末加上另外一个`\"`。"
