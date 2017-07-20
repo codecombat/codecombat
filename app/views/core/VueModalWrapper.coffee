@@ -8,7 +8,6 @@ module.exports = (WrappedComponentClass) ->
     template: require 'templates/core/vue-modal-wrapper'
     initialize: (@propsData) ->
       @listeners = []
-      @constructor.name = WrappedComponentClass.name
     afterRender: ->
       super()
       target = @$el.find('#vue-modal-wrapper')

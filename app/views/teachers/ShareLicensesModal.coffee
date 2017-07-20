@@ -33,5 +33,5 @@ ShareLicensesComponent = Vue.extend
     @$store.commit('modal/clearData')
     @$store.unregisterModule('modal')
 
-VueModalWrapper = require('views/core/VueModalWrapper')
-module.exports = VueModalWrapper(ShareLicensesComponent)
+VueWrapper = require('views/core/VueWrapper')
+module.exports = VueWrapper.Modal(ShareLicensesComponent)

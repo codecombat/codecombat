@@ -11,7 +11,7 @@ TeachersContactModal = require 'views/teachers/TeachersContactModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 utils = require 'core/utils'
 ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
-VueModalWrapper = require 'views/core/VueModalWrapper'
+VueWrapper = require 'views/core/VueWrapper'
 
 {
   STARTER_LICENSE_COURSE_IDS
@@ -21,6 +21,7 @@ VueModalWrapper = require 'views/core/VueModalWrapper'
 module.exports = class EnrollmentsView extends RootView
   id: 'enrollments-view'
   template: template
+  retainSubviews: true
 
   events:
     'click #enroll-students-btn': 'onClickEnrollStudentsButton'
@@ -82,6 +83,12 @@ module.exports = class EnrollmentsView extends RootView
       @state.set({ shouldUpsell })
       if shouldUpsell
         application.tracker?.trackEvent 'Starter License Upsell: Banner Viewed', {price: @state.get('centsPerStudent'), seats: @state.get('quantityToBuy')}
+    
+    # NOTE: Doing `new VueWrapper.Component(SimpleVueComponent)` gets the wrong order of operations!
+    SimpleVueComponent = VueWrapper.Component(require 'views/core/SimpleVueComponent')
+    @simpleVueComponent1 = new SimpleVueComponent({ label: 'yay' })
+    @simpleVueComponent2 = new SimpleVueComponent({ label: 'another!' })
+    null
 
   getStarterLicenseCourseList: ->
     return if !@courses.loaded
@@ -153,3 +160,7 @@ module.exports = class EnrollmentsView extends RootView
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
     @openModalView(@shareLicensesModal)
+
+  afterRender: ->
+    @insertSubView(@simpleVueComponent1, $('.subvue-1'))
+    @insertSubView(@simpleVueComponent2, $('.subvue-2'))

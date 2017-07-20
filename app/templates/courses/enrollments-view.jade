@@ -4,6 +4,9 @@ block page_nav
   include ./teacher-dashboard-nav.jade
 
 block content
+  .subvue-1
+  hr
+  .subvue-2
   if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
     .container
       .access-restricted.container.text-center.m-y-3
