@@ -10,6 +10,7 @@ module.exports = (WrappedComponentClass) ->
       @listeners = []
       @constructor.name = WrappedComponentClass.name
     afterRender: ->
+      super()
       target = @$el.find('#vue-modal-wrapper')
       if @component
         target.replaceWith(@component.$el)
@@ -21,10 +22,15 @@ module.exports = (WrappedComponentClass) ->
         })
         for listener in @listeners
           @setupListener(listener)
-    on: (eventName, callback) ->
-      @listeners.push({ eventName, callback })
-      if @component
-        @setupListener({ eventName, callback })
     setupListener: (listener) ->
       @component.$on listener.eventName, () =>
         listener.callback(arguments...)
+    on: (eventName, callback) ->
+      super(arguments...) # fall back to Backbone events, eg 'hidden'
+      # Allow `.on` to be called before component exists by queing up listeners
+      @listeners.push({ eventName, callback })
+      if @component
+        @setupListener({ eventName, callback })
+    destroy: ->
+      @component.$destroy()
+      super()
