@@ -14,7 +14,6 @@ module.exports = (WrappedComponentClass) ->
       if @component
         target.replaceWith(@component.$el)
       else
-        console.log @propsData
         @component = new WrappedComponentClass({
           el: target[0]
           store
