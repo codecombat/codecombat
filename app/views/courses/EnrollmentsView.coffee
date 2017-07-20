@@ -11,6 +11,7 @@ TeachersContactModal = require 'views/teachers/TeachersContactModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 utils = require 'core/utils'
 ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
+VueModalWrapper = require 'views/core/VueModalWrapper'
 
 {
   STARTER_LICENSE_COURSE_IDS
@@ -147,7 +148,7 @@ module.exports = class EnrollmentsView extends RootView
 
   onClickShareLicensesLink: (e) ->
     prepaidID = $(e.currentTarget).data('prepaidId')
-    @shareLicensesModal = new ShareLicensesModal({prepaid: @prepaids.get(prepaidID)})
+    @shareLicensesModal = new VueModalWrapper(ShareLicensesModal, {prepaid: @prepaids.get(prepaidID)})
     @shareLicensesModal.on 'setJoiners', (prepaidID, joiners) =>
       prepaid = @prepaids.get(prepaidID)
       prepaid.set({ joiners })
