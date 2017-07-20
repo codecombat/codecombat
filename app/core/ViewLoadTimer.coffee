@@ -24,6 +24,7 @@ class ViewLoadTimer
       while views.length
         subView = views.pop()
         views = views.concat(_.values(subView.subviews))
+        # TODO: Include Vue data loading in page load times
         if not subView.supermodel.finished()
           networkPromises.push(subView.supermodel.finishLoading())
     console.log 'Network promises:', networkPromises.length if VIEW_LOAD_LOG
