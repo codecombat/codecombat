@@ -34,7 +34,7 @@ makeWrapperForClass = (ParentClass) ->
         if @vueComponent
           @setupListener({ eventName, callback })
       destroy: ->
-        @vueComponent.$destroy()
+        @vueComponent?.$destroy?()
         super()
 
 module.exports = VueWrapper = {
