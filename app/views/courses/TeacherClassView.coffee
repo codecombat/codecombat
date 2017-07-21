@@ -10,6 +10,8 @@ EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
+VueWrapper = require 'views/core/VueWrapper'
+CompletenessInfo = VueWrapper.Component(require('views/courses/components/CompletenessInfo'))
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -137,7 +139,7 @@ module.exports = class TeacherClassView extends RootView
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
-
+  
   attachMediatorEvents: () ->
     # Model/Collection events
     @listenTo @classroom, 'sync change update', ->
@@ -205,6 +207,10 @@ module.exports = class TeacherClassView extends RootView
         container: dot
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
+
+    @completenessInfo = new CompletenessInfo(_.pick(@state.attributes, 'latestCompleteLevel', 'earliestIncompleteLevel'))
+    @insertSubView(@completenessInfo, @$('.completeness-info'))
+    null
 
   calculateProgressAndLevels: ->
     return unless @supermodel.progress is 1

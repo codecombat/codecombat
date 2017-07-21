@@ -1,0 +1,23 @@
+mixin inlineUserList(users)
+  div(v-if="users")
+    ul.inline-student-list.small
+      li(v-for="student in students")
+        span.inline-student-name
+          {{ student.broadName() }}
+
+.completeness-info
+  h4.m-b-2
+    &nbsp;
+  div(v-if="earliestIncompleteLevel")
+    div.small-details
+      span(data-i18n='teacher.earliest_incomplete')
+      span :
+    long-level-name(:levelData="earliestIncompleteLevel")
+    inline-user-list(:users="earliestIncompleteLevel.users")
+
+  div(v-if="latestCompleteLevel")
+    div.small-details.m-t-3
+      span(data-i18n='teacher.latest_complete')
+      span :
+    long-level-name(:levelData="latestCompleteLevel")
+    inline-user-list(:users="latestCompleteLevel.users")

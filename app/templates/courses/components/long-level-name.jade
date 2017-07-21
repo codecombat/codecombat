@@ -1,0 +1,7 @@
+div(v-if="levelData")
+  div.level-name
+    span {{ levelData.courseName + ': ' }}
+    span(data-i18n='play_level.level')
+    span.spl {{ levelData.levelNumber }}
+div(v-else)
+  div.level-name(data-i18n='teacher.not_applicable')

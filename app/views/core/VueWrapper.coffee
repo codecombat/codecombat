@@ -17,6 +17,8 @@ makeWrapperForClass = (ParentClass) ->
         if @vueComponent
           target.replaceWith(@vueComponent.$el)
         else
+          # TODO: Figure out why it's inserting an extra blank div in the DOM above the actual component's div
+          # TODO: Figure out how to prevent doubling up of container elements (for insertSubView) and component root elements (for Vue itself)
           @vueComponent = new WrappedComponentClass({
             el: target[0]
             store

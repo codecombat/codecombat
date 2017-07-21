@@ -85,22 +85,8 @@ block content
           //-         b.concept(class=state.get('completed') ? 'forest' : 'gold')
           //-           span(data-i18n='concepts.'+name)
 
-        .completeness-info.col-md-4
-          h4.m-b-2
-            &nbsp;
-          if state.get('earliestIncompleteLevel')
-            div.small-details
-              span(data-i18n='teacher.earliest_incomplete')
-              span :
-            +longLevelName(state.get('earliestIncompleteLevel'))
-            +inlineUserList(state.get('earliestIncompleteLevel').users)
-
-          if state.get('latestCompleteLevel')
-            div.small-details.m-t-3
-              span(data-i18n='teacher.latest_complete')
-              span :
-            +longLevelName(state.get('latestCompleteLevel'))
-            +inlineUserList(state.get('latestCompleteLevel').users)
+        .col-md-4
+          .completeness-info
 
         .adding-students.col-md-5
           h4.m-b-2
@@ -156,14 +142,6 @@ mixin longLevelName(data)
       span.spl= data.levelNumber
   else
     div.level-name(data-i18n='teacher.not_applicable')
-
-mixin inlineUserList(users)
-  if users
-    ul.inline-student-list.small
-      each student in users
-        li
-          span.inline-student-name
-            = student.broadName()
 
 mixin addStudentsButton
   .add-students

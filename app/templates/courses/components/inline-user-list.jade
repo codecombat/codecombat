@@ -1,0 +1,5 @@
+div(v-if="users")
+  ul.inline-student-list.small
+    li(v-for="student in users")
+      span.inline-student-name
+        {{ student.broadName() }}
