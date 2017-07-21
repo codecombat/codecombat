@@ -162,5 +162,6 @@ module.exports = class EnrollmentsView extends RootView
     @openModalView(@shareLicensesModal)
 
   afterRender: ->
+    super(arguments...)
     @insertSubView(@simpleVueComponent1, $('.subvue-1'))
     @insertSubView(@simpleVueComponent2, $('.subvue-2'))

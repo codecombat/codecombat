@@ -6,19 +6,16 @@ store = require('core/store')
 makeWrapperForClass = (ParentClass) ->
   return (WrappedComponentClass) ->
     class VueWrapper extends ParentClass
-      # id: 'vue-modal-wrapper'
-      template: require 'templates/core/vue-component-wrapper'
+      template: -> '<div></div>'
       initialize: (@propsData) ->
         @id = WrappedComponentClass.id ? null
         @listeners = []
       afterRender: ->
         super()
-        target = @$el.find('.vue-component-wrapper')
+        target = @$el
         if @vueComponent
           target.replaceWith(@vueComponent.$el)
         else
-          # TODO: Figure out why it's inserting an extra blank div in the DOM above the actual component's div
-          # TODO: Figure out how to prevent doubling up of container elements (for insertSubView) and component root elements (for Vue itself)
           @vueComponent = new WrappedComponentClass({
             el: target[0]
             store
