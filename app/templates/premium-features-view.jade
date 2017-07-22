@@ -13,9 +13,12 @@ block content
       br
       .col-sm-12.center-text
         h3(data-i18n="premium_features.master_coder")
-      .col-sm-2.col-sm-offset-5
+      .col-sm-2.col-sm-offset-5.center-text
         br
         button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='top')
+        if !me.isAnonymous()
+          .continue-playing
+            a(href='/play', data-i18n="courses.continue_playing")
 
   .container
     .row.feature-row.bottom-offset-72
