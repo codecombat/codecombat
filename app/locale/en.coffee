@@ -688,7 +688,6 @@
     sale_button: "Sale!"
     sale_button_title: "Save $21 when you purchase a 1 year subscription"
     stripe_description: "Monthly Subscription"
-    stripe_description_year_sale: "1 Year Subscription (${{discount}} discount)"
     buy_now: "Buy Now"
     subscription_required_to_play: "You'll need a subscription to play this level."
     unlock_help_videos: "Subscribe to unlock all video tutorials."

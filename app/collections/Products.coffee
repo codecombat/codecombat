@@ -13,3 +13,9 @@ module.exports = class Products extends CocoCollection
       return countrySpecificProduct
     else
       return @findWhere { name: 'basic_subscription' }
+
+  getLifetimeSubscriptionForUser: (user) ->
+    if countrySpecificProduct = @findWhere { name: "#{user?.get('country')}_lifetime_subscription" }
+      return countrySpecificProduct
+    else
+      return @findWhere { name: 'lifetime_subscription' }
