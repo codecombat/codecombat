@@ -13,9 +13,18 @@ block content
       br
       .col-sm-12.center-text
         h3(data-i18n="premium_features.master_coder")
-      .col-sm-2.col-sm-offset-5
-        br
-        button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='top')
+      if !me.hasSubscription()
+        .col-sm-2.col-sm-offset-5.center-text
+          br
+          button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='top')
+      else
+        .col-sm-12.center-text
+          br
+          div(data-i18n="subscribe.premium_already_subscribed")
+      .col-sm-12.center-text
+        if !me.isAnonymous()
+          .continue-playing
+            a(href='/play', data-i18n="courses.continue_playing")
 
   .container
     .row.feature-row.bottom-offset-72
@@ -67,8 +76,9 @@ block content
   .container
     .row
       .col-sm-2.col-sm-offset-5
-        br
-        button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='bottom')
+        if !me.hasSubscription()
+          br
+          button.btn.btn-forest.btn-block.btn-lg.buy(data-i18n="premium_features.subscribe_now", data-button-location='bottom')
 
   #jumbotron.bottom-jumbo
     #bottom-gradient-blend
