@@ -76,11 +76,11 @@ makeFakePayPalButton = (options) ->
 
 
 describe 'SubscribeModal', ->
-  
+
   tokenSuccess = Promise.resolve({token: {id:'1234'}})
   tokenError = Promise.reject(new Error('Stripe is upset'))
   tokenError.catch(_.noop) # shush, Chrome
-  
+
   beforeEach ->
     @openAsync = jasmine.createSpy()
     spyOn(stripeHandler, 'makeNewInstance').and.returnValue({ @openAsync })
@@ -95,7 +95,7 @@ describe 'SubscribeModal', ->
       options = @openAsync.calls.argsFor(0)[0]
       expect(options.alipayReusable).toBeDefined()
       expect(options.alipay).toBeDefined()
-  
+
   it 'lifetime demo', ->
     modal = new SubscribeModal({products: new Products(productListNoYear)})
     modal.render()
@@ -107,7 +107,7 @@ describe 'SubscribeModal', ->
     modal.render()
     jasmine.demoModal(modal)
     modal.stopListening()
-  
+
   it 'payment processor selection demo', ->
     modal = new SubscribeModal({products: new Products(productListNoYear)})
     modal.state = 'choosing-payment-method'
@@ -123,7 +123,7 @@ describe 'SubscribeModal', ->
       @modal = new SubscribeModal({products: new Products(productListNoLifetime)})
       @modal.render()
       jasmine.demoModal(@modal)
-    
+
     describe 'when the subscription succeeds', ->
       beforeEach ->
         @subscribeRequest.andReturn({status: 200, responseText: '{}'})
@@ -157,7 +157,7 @@ describe 'SubscribeModal', ->
         expect(@modal.state).toBe('unknown_error')
         expect(@getTrackerEventNames()).toDeepEqual(
           ["Started subscription purchase", "Failed to finish subscription purchase"])
-        
+
     describe 'when stripe errors out, or some other runtime error happens', ->
       beforeEach ->
         @openAsync.and.returnValue(tokenError)
@@ -167,65 +167,10 @@ describe 'SubscribeModal', ->
         yield @modal.onClickPurchaseButton()
         expect(@modal.state).toBe('unknown_error')
         expect(@modal.stateMessage).toBe('Unknown Error')
-        
+
         expect(@getTrackerEventNames()).toDeepEqual(
           ["Started subscription purchase", "Failed to finish subscription purchase"])
         expect(console.error).toHaveBeenCalled()
-        
-  describe 'onClickSaleButton()', ->
-    beforeEach ->
-      me.set({_id: '1234'})
-      @purchaseRequest = jasmine.Ajax.stubRequest('/db/products/2/purchase')
-      @modal = new SubscribeModal({products: new Products(productListNoLifetime)})
-      @modal.render()
-      jasmine.demoModal(@modal)
-      @openAsync.and.returnValue(tokenSuccess)
-    
-    describe 'when the purchase succeeds', ->
-      beforeEach ->
-        @purchaseRequest.andReturn({status: 200, responseText: '{}'})
-
-      describe 'when using PayPal', ->
-        it 'calls hide()', wrapJasmine ->
-          spyOn(@modal, 'hide')
-          @modal.onClickSaleButton()
-          yield @payPalButton.click()
-          expect(@modal.hide).toHaveBeenCalled()
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Started 1 year subscription purchase", "Finished 1 year subscription purchase" ])
-
-      describe 'when using Stripe', ->
-        it 'calls hide()', wrapJasmine ->
-          spyOn(@modal, 'hide')
-          @modal.onClickSaleButton()
-          yield @modal.onClickStripeButton()
-          expect(@modal.hide).toHaveBeenCalled()
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Started 1 year subscription purchase", "Finished 1 year subscription purchase" ])
-
-    describe 'when the purchase response is 402', ->
-      beforeEach ->
-        @purchaseRequest.andReturn({status: 402, responseText: '{}'})
-      
-      describe 'when using Stripe', ->
-        it 'shows state "declined"', wrapJasmine ->
-          @modal.onClickSaleButton()
-          yield @modal.onClickStripeButton()
-          expect(@modal.state).toBe('declined')
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Started 1 year subscription purchase", "Failed to finish 1 year subscription purchase" ])
-
-    describe 'when the purchase response is 422', ->
-      beforeEach ->
-        @purchaseRequest.andReturn({status: 422, responseText: '{"i18n": "subscribe.paypal_payment_error"}'})
-      
-      describe 'when using PayPal', ->
-        it 'shows state "error"', wrapJasmine ->
-          @modal.onClickSaleButton()
-          yield @payPalButton.click()
-          expect(@modal.state).toBe('error')
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Started 1 year subscription purchase", "Failed to finish 1 year subscription purchase" ])
 
   describe 'onClickLifetimeButton()', ->
     beforeEach ->
@@ -239,7 +184,7 @@ describe 'SubscribeModal', ->
     describe 'when the purchase succeeds', ->
       beforeEach ->
         @purchaseRequest.andReturn({status: 200, responseText: '{}'})
-      
+
       describe 'when using PayPal', ->
         it 'calls hide()', wrapJasmine ->
           spyOn(@modal, 'hide')
