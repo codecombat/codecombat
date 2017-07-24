@@ -760,6 +760,7 @@ describe 'Subscriptions', ->
                   nockDone()
                   done()
 
+    # TODO: Is the behavior being tested here correct? Seems like one shouldn't be able (or need) to buy a lifetime sub when stripe.free is already true.
     it 'lifetime sub when stripe.free === true', (done) ->
       nockUtils.setupNock 'sub-test-36.json', (err, nockDone) ->
         stripe.tokens.create {
