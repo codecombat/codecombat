@@ -37,9 +37,9 @@ block content
           else if productID === 'custom'
             td= payment.get('description')
           else if productID
-            if _.string.startsWith(productID, 'lifetime_subscription')
+            if /lifetime_subscription$/.test(productID)
               td(data-i18n="subscribe.lifetime")
-            else if _.string.startsWith(productID, 'year_subscription')
+            else if /year_subscription$/.test(productID)
               td(data-i18n="subscribe.year_subscription")
             else
               td(data-i18n="account.gems")

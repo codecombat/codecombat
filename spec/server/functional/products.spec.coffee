@@ -16,7 +16,7 @@ describe 'GET /db/products', ->
   it 'shouldnt leak coupon code information', utils.wrap ->
       url = utils.getURL('/db/products/')
       [res, doc] = yield request.getAsync({url, json: true})
-      ls2 = _.find doc, ((x) -> x.name is 'lifetime_subscription')
+      ls2 = _.find doc, ((x) -> /lifetime_subscription$/.test x.name)
       expect(ls2.coupons).toEqual([])
 
   it 'should accept the coupon code QS', utils.wrap ->
