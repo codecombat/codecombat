@@ -136,17 +136,17 @@ describe '/db/user, editing stripe property', ->
       @json = user.toObject()
       @json.stripe = { planID: 'basic' }
       @url = userURL
-    
+
     describe 'when subscriptions.subscribeUser throws a NetworkError subclass', ->
       beforeEach ->
         spyOn(middleware.subscriptions, 'subscribeUser')
         .and.returnValue(Promise.reject(new errors.Forbidden('Forbidden!')))
-  
+
       it 'returns the thrown network error', utils.wrap ->
         [res, body] = yield request.putAsync { @url, @json, headers }
         expect(res.statusCode).toBe(403)
         expect(res.body).toBe('Forbidden!')
-        
+
     describe 'when subscriptions.subscribeUser returns a legacy error object', ->
       beforeEach ->
         spyOn(middleware.subscriptions, 'subscribeUser')
@@ -169,7 +169,7 @@ describe '/db/user, editing stripe property', ->
         expect(res.statusCode).toBe(402)
         expect(res.body).toBe('Card declined')
         expect(winston.warn).not.toHaveBeenCalled()
-        
+
     describe 'when subscriptions.subscribeUser returns a runtime error', ->
       beforeEach ->
         spyOn(middleware.subscriptions, 'subscribeUser')
@@ -221,7 +221,7 @@ describe '/db/user, editing stripe property', ->
         expect(res.statusCode).toBe(500)
         expect(res.body).toBe('Subscription error.')
         expect(winston.warn).toHaveBeenCalled()
-    
+
 
   it 'returns client error when a token fails to charge', (done) ->
     nockUtils.setupNock 'db-user-sub-test-1.json', (err, nockDone) ->
@@ -720,15 +720,16 @@ describe 'Subscriptions', ->
 
   describe 'APIs', ->
     # TODO: Refactor these tests to be use yield, be independent of one another, and move to products.spec.coffee
+    # TODO: year tests converted to lifetime, but should be reviewed for usefulness
     subscriptionURL = getURL('/db/subscription')
-    purchaseYearSaleUrl = null
+    purchaseLifetimeUrl = null
     beforeEach utils.wrap (done) ->
       yield utils.populateProducts()
-      @product = yield Product.findOne({name: 'year_subscription'})
-      purchaseYearSaleUrl = getURL("/db/products/#{@product.id}/purchase")
+      @product = yield Product.findOne({name: 'lifetime_subscription'})
+      purchaseLifetimeUrl = getURL("/db/products/#{@product.id}/purchase")
       done()
 
-    it 'year_sale', (done) ->
+    it 'lifetime sub', (done) ->
       product = @product
       nockUtils.setupNock 'sub-test-35.json', (err, nockDone) ->
         stripe.tokens.create {
@@ -740,7 +741,7 @@ describe 'Subscriptions', ->
               stripe:
                 token: token.id
                 timestamp: new Date()
-            request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+            request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
               expect(err).toBeNull()
               expect(res.statusCode).toBe(200)
               User.findById user1.id, (err, user1) ->
@@ -748,9 +749,7 @@ describe 'Subscriptions', ->
                 stripeInfo = user1.get('stripe')
                 expect(stripeInfo).toBeDefined()
                 return done() unless stripeInfo
-                endDate = new Date()
-                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.free).toEqual(true)
                 expect(stripeInfo.customerID).toBeDefined()
                 expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                 Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -761,7 +760,8 @@ describe 'Subscriptions', ->
                   nockDone()
                   done()
 
-    it 'year_sale when stripe.free === true', (done) ->
+    # TODO: Is the behavior being tested here correct? Seems like one shouldn't be able (or need) to buy a lifetime sub when stripe.free is already true.
+    it 'lifetime sub when stripe.free === true', (done) ->
       nockUtils.setupNock 'sub-test-36.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -775,7 +775,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -783,9 +783,7 @@ describe 'Subscriptions', ->
                   stripeInfo = user1.get('stripe')
                   expect(stripeInfo).toBeDefined()
                   return done() unless stripeInfo
-                  endDate = new Date()
-                  endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                  expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                  expect(stripeInfo.free).toEqual(true)
                   expect(stripeInfo.customerID).toBeDefined()
                   expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -795,7 +793,7 @@ describe 'Subscriptions', ->
                     nockDone()
                     done()
 
-    it 'year_sale when stripe.free < today', (done) ->
+    it 'lifetime sub when stripe.free < today', (done) ->
       nockUtils.setupNock 'sub-test-37.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -811,7 +809,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -819,9 +817,7 @@ describe 'Subscriptions', ->
                   stripeInfo = user1.get('stripe')
                   expect(stripeInfo).toBeDefined()
                   return done() unless stripeInfo
-                  endDate = new Date()
-                  endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                  expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                  expect(stripeInfo.free).toEqual(true)
                   expect(stripeInfo.customerID).toBeDefined()
                   expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -831,7 +827,7 @@ describe 'Subscriptions', ->
                     nockDone()
                     done()
 
-    it 'year_sale when stripe.free > today', (done) ->
+    it 'lifetime sub when stripe.free > today', (done) ->
       nockUtils.setupNock 'sub-test-38.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -847,7 +843,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -855,10 +851,7 @@ describe 'Subscriptions', ->
                   stripeInfo = user1.get('stripe')
                   expect(stripeInfo).toBeDefined()
                   return done() unless stripeInfo
-                  endDate = new Date()
-                  endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                  endDate.setUTCDate(endDate.getUTCDate() + 5)
-                  expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                  expect(stripeInfo.free).toEqual(true)
                   expect(stripeInfo.customerID).toBeDefined()
                   expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -868,7 +861,7 @@ describe 'Subscriptions', ->
                     nockDone()
                     done()
 
-    it 'year_sale with monthly sub', (done) ->
+    it 'lifetime sub with monthly sub', (done) ->
       nockUtils.setupNock 'sub-test-39.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -889,7 +882,7 @@ describe 'Subscriptions', ->
                       stripe:
                         token: token.id
                         timestamp: new Date()
-                    request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+                    request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                       expect(err).toBeNull()
                       expect(res.statusCode).toBe(200)
                       User.findById user1.id, (err, user1) ->
@@ -897,9 +890,7 @@ describe 'Subscriptions', ->
                         stripeInfo = user1.get('stripe')
                         expect(stripeInfo).toBeDefined()
                         return done() unless stripeInfo
-                        endDate = stripeSubscriptionPeriodEndDate
-                        endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                        expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                        expect(stripeInfo.free).toEqual(true)
                         expect(stripeInfo.customerID).toBeDefined()
                         expect(user1.get('purchased')?.gems).toEqual(subGems+subGems*12)
                         Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -984,7 +975,7 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     yield utils.populateProducts()
     spyOn(stripe.customers, 'cancelSubscription').and.callFake (cId, sId, cb) -> cb(null)
     spyOn(stripe.customers, 'updateSubscription').and.callFake (cId, sId, opts, cb) -> cb(null)
-    
+
   it 'unsubscribes the given recipient', utils.wrap ->
     yield utils.loginUser(@sponsor)
     url = utils.getURL("/db/user/#{@sponsor.id}/stripe/recipients/#{@recipient1.id}")
@@ -996,15 +987,15 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     expect((yield User.findById(@recipient1.id)).get('stripe')).toBeUndefined()
     expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
 
-    
+
 describe 'POST /db/products/:handle/purchase', ->
   it 'accepts PayPal payments', utils.wrap ->
     # TODO: figure out how to create test payments through PayPal API, set this up with fixtures through Nock
-    
+
     user = yield utils.initUser()
     yield utils.loginUser(user)
     yield utils.populateProducts()
-    product = yield Product.findOne({ name: 'lifetime_subscription2' })
+    product = yield Product.findOne({ name: 'lifetime_subscription' })
     amount = product.get('amount')
     url = utils.getUrl("/db/products/#{product.id}/purchase")
     json = { service: 'paypal', paymentID: "PAY-74521676DM528663SLFT63RA", payerID: 'VUR529XNB59XY' }
@@ -1048,7 +1039,7 @@ describe 'POST /db/products/:handle/purchase', ->
           "item_list": {
             "items": [
               {
-                "name": "lifetime_subscription2",
+                "name": "lifetime_subscription",
                 "sku": product.id,
                 "price": (amount/100).toFixed(2),
                 "currency": "USD",
@@ -1078,7 +1069,7 @@ describe 'POST /db/products/:handle/purchase', ->
       "httpStatusCode": 200
     }
     spyOn(paypal.payment, 'executeAsync').and.returnValue(Promise.resolve(payPalResponse))
-    
+
     [res] = yield request.postAsync({ url, json })
     expect(res.statusCode).toBe(200)
     payment = yield Payment.findOne({"payPal.id":"PAY-03466"})

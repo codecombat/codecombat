@@ -13,6 +13,7 @@ exports.features =
 exports.me =
   isStudent: () -> false
   isAnonymous: () -> @get('anonymous')
+  hasSubscription: () -> false
   isTeacher: () -> false
   isAdmin: () -> false
   level: () -> 1
