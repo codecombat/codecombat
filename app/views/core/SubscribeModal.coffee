@@ -43,7 +43,6 @@ module.exports = class SubscribeModal extends ModalView
   onLoaded: ->
     @basicProduct = @products.getBasicSubscriptionForUser(me)
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
-    console.log('onLoaded', @basicProduct, @lifetimeProduct)
     super()
 
   getRenderData: ->

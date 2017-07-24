@@ -720,7 +720,7 @@ describe 'Subscriptions', ->
 
   describe 'APIs', ->
     # TODO: Refactor these tests to be use yield, be independent of one another, and move to products.spec.coffee
-    # TODO: year tests converted to lifetime, but should be reviewed for usefullness
+    # TODO: year tests converted to lifetime, but should be reviewed for usefulness
     subscriptionURL = getURL('/db/subscription')
     purchaseLifetimeUrl = null
     beforeEach utils.wrap (done) ->
