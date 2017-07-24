@@ -23,7 +23,7 @@ module.exports = class CocoRouter extends Backbone.Router
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
       unless me.isAnonymous() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
         delete window.alreadyLoadedView
-        return @routeDirectly('PremiumFeaturesView', [])
+        return @navigate "/premium", {trigger: true, replace: true}
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
