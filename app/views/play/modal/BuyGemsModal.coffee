@@ -42,10 +42,8 @@ module.exports = class BuyGemsModal extends ModalView
     @trackTimeVisible({ trackViewLifecycle: true })
 
   onLoaded: ->
-    @basicProduct = @products.findWhere { name: 'basic_subscription' }
-    if countrySpecificProduct = @products.findWhere { name: "#{me.get('country')}_basic_subscription" }
-      @basicProduct = countrySpecificProduct
-    @lifetimeProduct = @products.findWhere { name: 'lifetime_subscription' }
+    @basicProduct = @products.getBasicSubscriptionForUser(me)
+    @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     @products.reset @products.filter (product) -> _.string.startsWith(product.get('name'), 'gems_')
     super()
 
