@@ -5,13 +5,14 @@
 #game-dev-track-view
   position: absolute
   display: none
-  transition: right 1s, opacity 0.125s
+  transition: right 0.25s, opacity 0.125s, z-index 1s
   &:not(playback-float-right)
     right: calc(43% + 10px + #{$api-bar-width})
+    z-index: 6
   &.playback-float-right
     right: calc(20% + 10px)
+    z-index: 10
   top: 60px
-  z-index: 10
 
   border: 16px solid black
   border-image: url(/images/pages/play/level-info-background.png) fill 20 stretch
