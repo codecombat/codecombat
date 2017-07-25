@@ -2,7 +2,7 @@ CocoView = require 'views/core/CocoView'
 ModalView = require 'views/core/ModalView'
 store = require('core/store')
 
-# Given a Vue modal class, generates a backbone-wrapped class
+# Given a Vue modal/component class, generates a backbone-wrapped class
 makeWrapperForClass = (ParentClass) ->
   return (WrappedComponentClass) ->
     class VueWrapper extends ParentClass
