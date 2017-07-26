@@ -494,10 +494,7 @@ UserHandler = class UserHandler extends Handler
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
-      photoURL = document?.get('photoURL')
-      if photoURL
-        photoURL = "/file/#{photoURL}"
-      fallback = photoURL or req.query.fallback
+      fallback = req.query.fallback
       combinedPhotoURL = @buildGravatarURL document, req.query.s, fallback
       res.redirect combinedPhotoURL
       res.end()
