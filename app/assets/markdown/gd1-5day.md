@@ -17,7 +17,7 @@ In Game Development 1, students will learn how to think about games and game des
 
 ### Setup
 1. Navigate to the class page.
-2. Select students that you want to assign Game Development 1 to.
+2. Select students to whom you want to assign Game Development 1.
 3. Select Game Development 1 from the Bulk-Assign dropdown, then click “Assign”.
 4. Students will be able to see Game Development 1 from their student dashboard.
 
@@ -563,7 +563,7 @@ This level introduces the `db.add(key, value)` command. Until now, every time a 
 #### Playing the Level
 
 - At the bottom of the code for this level is some complicated code you haven't learned about yet. We define a **function** called `onVictory` and then assign that function as a **handler** for the `"victory"` event.
-- Don't worry if this is confusing! It's a preview of what students will learn in Game Dev 2. For now, just put your `db.add(game, "defeated")` code insiide the `onVictory` function, where the comments tell you to!
+- Don't worry if this is confusing! It's a preview of what students will learn in Game Dev 2. For now, just put your `db.add(game, "defeated")` code inside the `onVictory` function, where the comments tell you to!
 
 #### Reflection
 
@@ -586,7 +586,7 @@ Every game should, at least:
 2. Add one or more goals for the player to complete.
 3. Use some combination of obstacles, enemies, collectables, and other pieces to create a fun challenge for the player.
 
-The students can use the `db.add` command to track how many people have played their game, and the `game.defeated` property is also available, if they want to track how many enemies have been defeated by their players! In the Game Dev 2 course, students will learn how to react to events as they occur in the game, and will be able to use the database to track even more interesting statistics about their games.
+In addition, students can use the `db.add` command to track how many people have played their game. They can also use the `game.defeated` property if they want to track how many enemies have been defeated by their players in total! In the Game Dev 2 course, students will learn how to react to events as they occur in the game, and will be able to use the database to track even more interesting statistics about their games.
 
 Students should go through the following steps to create their games:
 
@@ -638,6 +638,3 @@ Encourage the students to share links to their final projects with family and fr
 We'd love to hear about your best projects! Feel free to email us at team@codecombat.com with a link, or better yet, tweet us [@CodeCombat](https://twitter.com/CodeCombat)
 
 ---
-
-
-
