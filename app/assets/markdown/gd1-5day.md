@@ -1,4 +1,4 @@
-###### Last updated: 03/20/2017
+###### Last updated: 07/25/2017
 
 ##### Lesson Plans
 # Game Development 1 Course Guide
@@ -17,7 +17,7 @@ In Game Development 1, students will learn how to think about games and game des
 
 ### Setup
 1. Navigate to the class page.
-2. Select students that you want to assign Game Development 1 to.
+2. Select students to whom you want to assign Game Development 1.
 3. Select Game Development 1 from the Bulk-Assign dropdown, then click “Assign”.
 4. Students will be able to see Game Development 1 from their student dashboard.
 
@@ -159,22 +159,12 @@ This level focuses on our first basic **goal**: movement.
 - `x` and `y` are *numbers*, representing the location of the goal on the level map.
 - A movement goal is represented on the map by a red X mark. The X mark will disappear when the player has moved the hero to that spot on the map.
 - There will be more goal types in future Game Development 1 levels.
-- In Game Development 2, students will learn to customize goals with parameters.
 
 #### Reflection
 - New commands:
     - `addMoveGoalXY`
 - New spawnables:
     - `"captain"`
-
-## Day 2
-
-### Review
-- Last time we learned how to:
-    - Spawn game PIECES with `spawnXY`.
-    - Spawn the player's hero with `spawnHeroXY`.
-    - The player can move the hero by clicking on the map.
-    - Add a movement GOAL with `addMoveGoalXY`.
 
 
 ### Level 4: "A-maze-ing"
@@ -214,6 +204,7 @@ Create a simple gem collecting game using using the `addCollectGoal` command.
 - New spawnable:
     - `"gem"`
 
+
 ### Level 6: "Vorpal Mouse"
 
 #### Discussion
@@ -221,7 +212,9 @@ Create a simple gem collecting game using using the `addCollectGoal` command.
 This level introduces three new MECHANICS:
 
 **Mechanic #2: Click an ENEMY to attack!**
+
 **Mechanic #3: Enemies will attack if they see the hero.**
+
 **Mechanic #4: Some pieces block "line of sight".**
 
 This level also uses two new goal types, but we'll go into those more in the next level.
@@ -233,7 +226,7 @@ This level also uses two new goal types, but we'll go into those more in the nex
     - New spawnable types: `"munchkin"` and `"guardian"`
     - Munchkins are enemies!
         - Enemies are types of game pieces that the hero can attack.
-        - In Game Development 1, enemies come with simple mechanics. They will attack if they see the hero.
+        - In Game Development 1, enemies come with simple behavior (mechanics) already attached to them. They will attack if they see the hero.
         - Notice how the two "munchkin"s near the bottom of the map can't see the hero at first.
     - We used `spawnXY` to create a maze of `"forest"` pieces. The `"forest"` pieces block the **line-of-sight** between the `"munchkin"`s and the `"guardian"`.
 
@@ -247,6 +240,15 @@ This level also uses two new goal types, but we'll go into those more in the nex
     - `"munchkin"`
     - `"guardian"`
 
+## Day 2
+
+### Review
+- Last time we learned how to:
+    - Spawn game PIECES with `spawnXY`.
+    - Spawn the player's hero with `spawnHeroXY`.
+    - The player can move the hero by clicking on the map.
+    - Add a GOAL with `addMoveGoalXY` and `addCollectGoal`
+
 ### Level 7: "Crushing It"
 
 #### Discussion
@@ -254,6 +256,7 @@ This level also uses two new goal types, but we'll go into those more in the nex
 This level focuses on two new GOAL types:
 
 **Goal #3: Defeat the enemies.**
+
 **Goal #4: Survive until other goals are complete.**
 
 Goal #4 is a little different from other goals. Move, collect, and defeat goals are all actions that the player must complete to win. Survive flips this - it will cause the player to lose and end the game if the hero is defeated.
@@ -291,6 +294,139 @@ This level adds new spawnable pieces, with new mechanics attached to them.
     - `"fire-trap"`
     - `"potion-small"`
 
+### Level 9: "Army Training"
+
+#### Discussion
+
+This level adds new spawnable units.
+- "thrower"s, are enemies with a ranged spear-throwing attack.
+- "soldier"s are allies to the player, with a melee attack.
+- "archer"s are allies with ranged attacks.
+
+#### Reflection
+
+- New spawnables:
+    - `"thrower"`
+    - `"soldier"`
+    - `"archer"`
+
+
+### Level 10: "Ranger Danger"
+
+#### Discussion
+
+When making your own games, finding the right balance between allies and enemies can take some experimentation.
+
+- Ranged units typically do more damage, but have less health.
+- "soldier"s are stronger than munchkins, but slower.
+- Later, students will be able to modify the stats of the player and units.
+
+#### Playing the Level
+
+- There is no hero in this level.
+- The level code starts out with too many soldiers and not enough archers to defeat the giant Ogre Brawler.
+- The student should replace two of the "soldier"s with "archer"s, then click the "Test Level" button to see how the battle plays out!
+- In this level, it's okay if some of your allies are defeated, as long as the ogre is defeated.
+
+#### Reflection
+
+- Sometimes it takes a bit of trial and error to find the right **game balance**.
+
+### Level 11: "Hedge Magic"
+
+
+#### Discussion
+
+This level introduces the `"duelist"` hero and the `game.spawnMaze(seed)` command.
+
+- Building an entire maze out of `"forest"` pieces can take a while, so we've given you a command to generate a random maze.
+- The seed parameter can be any number. It is called a "seed" because it initializes the randomness used to create the maze. If you change the seed, the generated maze will change.
+- Experiment with putting different numbers as arguments to the spawnMaze command until you find a maze you like! For example:
+    - `game.spawnMaze(42)`
+    - `game.spawnMaze(1337)`
+
+#### Reflection
+
+- New command:
+    - `spawnMaze(seed)
+
+### Level 12: Forest Incursion
+
+#### Discussion
+
+Game objects have **properties**. Properties are like variables that are specific to that particular object. This level also introduces the `"goaliath"` hero.
+
+- In this level, we learn about three properties of units.
+- `maxSpeed` is a number representing how fast a unit can move.
+- `maxHealth` is a number representing how much health a unit starts with.
+- `attackDamage` is a number representing how much damage the unit does in a single attack.
+- Changing the properties of the hero or other units can dramatically affect the game balance.
+- Properties are commonly accessed using a dot `.` between the object and the property, like: `object.propertyName`
+- Notice that all the game commands are properties of the `game` object, and you access those commands using the same dot notation!
+
+#### Playing the Level
+
+- Notice that the sample code saves the result of the `spawnHeroXY` command in the `hero` variable.
+- This way, students can use the `hero` variable to modify the hero's properties, like we do with `hero.maxSpeed = 25`, which assigns a value of `25` to the `maxSpeed` property of the `hero` object.
+- Changing unit properties is a special super power the students have in Game Development levels. They are restricted from directly modifying most unit properties in the CS course levels!
+
+#### Reflection
+
+- New spawnables
+    - `"goliath"`
+- New unit properties
+    - `maxSpeed`
+    - `maxHealth`
+    - `attackDamage`
+
+
+### Level 13: Throwing Fire
+
+#### Discussion
+
+In Game Dev 1 levels, some objects have **mechanics** that can be configured by changing the values of their properties.
+
+- This level introduces the `"fire-spewer"` spawnable. 
+- Students can use the `direction` property of a `"fire-spewer`" to configure it to shoot fire in a `"vertical"` (up and down) direction or a `"horizontal"` (left and right) direction.
+- In Game Dev 2, students will learn how to give game objects custom mechanics, but they need to complete Computer Science 2 before they can do that.  For now we have provided some configurable mechanics to make things a bit simpler.
+
+#### Playing the Level
+
+- Notice that the sample code assigns the result of the `spawnXY` command to a variable, so that later code can access the properties of the spawned object.
+- The `direction` property can only be set to a **string**, either `"horizontal"` or `"vertical"`.
+
+#### Reflection
+
+- New configurable game object
+    - `"fire-spewer"`
+        - `direction` property
+
+### Level 14: Them Bones
+
+#### Discussion
+
+This level introduces the `"generator"`, `"skeleton"`, and `"lightstone"` spawnables, as well as the `"champion"` hero.
+
+- A `"generator"` spawns a `"skeleton"` unit every `5` seconds.
+- Units have different teams. Human units see ogre units as enemies, and ogre units see human units as enemies. 
+- `"skeleton"`s are neutral, so they will attack both ogres and humans!
+- `"skeleton"`s are afraid of `"lightstone"`s. When the player carries a lightstone, the skeletons will stay away!
+- `"generator"`s can be configured to spawn different types of units, which we will see in future levels.
+
+#### Playing the Level
+
+- The generator will continue to spawn skeletons until it is destroyed.
+- Use the lightstone to keep the skeletons away, giving you time to destroy the generator.
+- The lightstone doesn't last forever, so use it wisely!
+
+#### Reflection
+
+- New spawnables:
+    - `"generator"`
+    - `"skeleton"`
+    - `"lightstone"`
+    - `"champion"`
+
 ## Day 3
 
 ### Review
@@ -312,30 +448,133 @@ What types of spawnable pieces are available?
     - `"chest"`
 - Enemies:
     - `"munchkin"`
+    - `"thrower"`
+    - `"skeleton"`
 - Heroes:
     - `"knight"`
     - `"captain"`
     - `"guardian"`
     - `"samurai"`
+    - `"duelist"`
+    - `"goliath"`
+    - `"champion"`
+- Allies
+    - `"soldier"`
+    - `"archer"`
 - Misc:
     - `"fire-trap"`
     - `"potion-small"`
+    - `"fire-spewer"`
+    - `"generator"`
+    - `"lightstone"`
 
-### Level 9: "Hedge Magic"
+Remember, students can see properties of these spawnable objects by clicking on them in the Spawnable section of the middle pane of the game window.
 
-This level introduces the `"duelist"` hero and the `game.spawnMaze(n)` command.
+### Level 15: Behavior Driven Development
 
-- Building an entire maze out of `"forest"` pieces can take a while, so we've given you a command to generate a random maze.
-- Experiment with putting different numbers as arguments to the spawnMaze command until you find a maze you like! For example:
-    - `game.spawnMaze(42)`
-    - `game.spawnMaze(1337)`
+#### Discussion
+
+This level introduces the `"ogre"` spawnable, as well as the unit property `behavior`, which allows students to modify the mechanics attached to a unit, and make them behave differently.
+
+- All units (allies and enemies) can be configured with different **mechanics** using the `behavior` property.
+- The `behavior` property must be assigned a **string**, which can be one of the following:
+    - `"AttacksNearest"` configures the unit to attack its nearest enemy.
+    - `"Scampers"` configures the unit to move around randomly.
+    - `"Defends"` configures the unit to stay in place and attack any enemy that comes within range.
+- In Game Dev 2, students will learn to customize units' behavior in more complex ways.
+
+#### Playing the Level
 
 
-### Level 10: "Tabula Rasa"
+- This level is a little trickier than most to win - just like a real game might be!
+- One strategy is to use the lightstones to drive the skeletons away from one ogre, and lure the ogre away from the others, back to where your archer ally is waiting to help you defeat the ogre. This takes some careful movement of your hero to achieve.
+- Be sure to drink a health potion when your health is low!
+- It may take a few tries to beat the game - don't give up!
+- If you're really stuck, you can always give your hero more `attackDamage` to make things easier.
 
-####The FINAL PROJECT!
+#### Reflection
 
-This level is a blank slate. To pass the level, the only requirements are to spawn a hero, and add a goal - but really, that's only the beginning.
+- New spawnable:
+    - `"ogre"`
+- New unit property:
+    - `behavior`
+
+
+### Level 16: Time To Live
+
+#### Discussion
+
+This level introduces using an argument to configure a timed survival goal, and configuring a generator to spawn `"munchkin"`s.
+
+- Previously, students used `addSurviveGoal()` with no argument (nothing between the parenthesis). This means the player must survive until all other goals are met.
+- Now, the students can use `addSurviveGoal(seconds)` to configure a goal that succeeds as long as the hero survives for a given number of seconds.
+- The argument `seconds` must be a number, such as `addSurviveGoal(20)` for `20` seconds.
+- `"generator"`s have a property named `spawnType`, which can be set to a string of any type of spawnable unit.
+
+#### Playing the Level
+
+- Be sure to configure the generator and hero as instructed in the sample code's comments, or the goals will not be met.
+
+#### Reflection
+
+- New goal configuration:
+    - `addSurviveGoal(seconds)`
+
+- New generator configuration:
+    - `spawnType`
+
+### Level 17: Seeing Is Believing
+
+#### Discussion
+
+This level introduces UI elements, allowing the game to show interesting information to the player. It also introduces the `game.time` property.
+
+- Students can use the `ui.track(object, propertyName)` command to show information to the player.
+- The `object` argument is an object you want to show the property of, like `game`.
+- The `propertyName` argument is a **string** that is the same as the name of a property to show, like `"time"`.
+- So, to show the `game.time` property, students should use `ui.track(game, "time")`.
+- The `game.defeated` property is a special helper property in this level to make things simpler. In Game Dev 2, the students will learn to track how many enemies are defeated themselves.
+
+#### Playing the Level
+
+- Don't destroy the generators until you have defeated at least 10 munchkins!
+
+#### Reflection
+
+- New command:
+    - `ui.track`
+
+- New property:
+    - `game.time`
+
+
+### Level 18: Persistence Pays
+
+#### Discussion
+
+This level introduces the `db.add(key, value)` command. Until now, every time a student loads and plays a level, the game is reset. In real games, programmers use databases like Amazon DynamoDB to store **persistent** information, which is tracked between plays of the game, even by different players.
+
+- `db.add` takes two arguments, a `key` and a `value`.
+- The `key` is a string, which is used like a variable, it's a name in the database to store the `value` under.
+- The `value`, for `db.add`, is a number. 
+- The `db.add` command increments, or adds to, the existing value stored under the `key`. So if the student called `db.add("plays", 1)` twice, the value stored at the `"plays"` key in the database would be `2`.
+- Later levels will show how to store other types of data in the database.
+
+#### Playing the Level
+
+- At the bottom of the code for this level is some complicated code you haven't learned about yet. We define a **function** called `onVictory` and then assign that function as a **handler** for the `"victory"` event.
+- Don't worry if this is confusing! It's a preview of what students will learn in Game Dev 2. For now, just put your `db.add(game, "defeated")` code inside the `onVictory` function, where the comments tell you to!
+
+#### Reflection
+
+- New command:
+    - `db.add`
+
+### Level 19: "Tabula Rasa"
+
+#### The FINAL PROJECT!
+
+This level is a blank slate. To pass the level, the only requirements are to spawn a hero, and add a goal - but really, that's only the beginning. Encourage the students to get creative with all the techniques they've learned throughout the course!
 
 There is a new "GAME" button above the code editor window. Clicking GAME loads the shareable version of the student's game, and provides a link that the student can give out to their friends.
 
@@ -346,6 +585,8 @@ Every game should, at least:
 1. Spawn a hero for the player to control.
 2. Add one or more goals for the player to complete.
 3. Use some combination of obstacles, enemies, collectables, and other pieces to create a fun challenge for the player.
+
+In addition, students can use the `db.add` command to track how many people have played their game. They can also use the `game.defeated` property if they want to track how many enemies have been defeated by their players in total! In the Game Dev 2 course, students will learn how to react to events as they occur in the game, and will be able to use the database to track even more interesting statistics about their games.
 
 Students should go through the following steps to create their games:
 
@@ -397,6 +638,3 @@ Encourage the students to share links to their final projects with family and fr
 We'd love to hear about your best projects! Feel free to email us at team@codecombat.com with a link, or better yet, tweet us [@CodeCombat](https://twitter.com/CodeCombat)
 
 ---
-
-
-

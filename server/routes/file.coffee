@@ -44,6 +44,11 @@ fileGet = (req, res) ->
         res.end()
 
   else # it's a single file
+    # TODO: remove all files that start with db/user. This is a soft stop to make sure it doesn't affect anything.
+    if _.startsWith(query['metadata.path'], 'db/user')
+      res.status(404)
+      return res.end()
+      
     Grid.gfs.collection('media').findOne query, (err, filedata) =>
       return errors.notFound(res) if not filedata
       readstream = Grid.gfs.createReadStream({_id: filedata._id, root: 'media'})
