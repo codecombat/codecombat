@@ -17,7 +17,7 @@ module.exports = class Tracker extends CocoClass
     @trackReferrers()
     @supermodel = new SuperModel()
     @identify() # Needs supermodel to exist first
-    @updateRole() if me.get 'role' and not me.isSmokeTestUser()
+    @updateRole() if me.get('role') and not me.isSmokeTestUser()
     if me.isTeacher() and @isProduction and not application.testing and not me.isSmokeTestUser()
       @updateIntercomRegularly()
 
