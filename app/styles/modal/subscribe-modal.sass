@@ -80,12 +80,19 @@
     width: 684px
     background: #d4c9b1
     border: 3px solid black
+    display: flex
+    flex-direction: column
+    justify-content: space-between
     
-    .benefits-header
+    .benefits-header, .big-text
       font-weight: bold
       font-size: 20px
       margin: 10px 0
-      
+    
+    ul, .med-text
+      font-size: 16px
+      font-weight: bold
+    
     table
       width: 100%
       margin: 20px 0
@@ -94,8 +101,6 @@
     ul
       list-style: none
       padding: 0
-      font-size: 16px
-      font-weight: bold
       
       li::before
         content: "• "
@@ -257,9 +262,9 @@
       padding: 2px 0 0 2px
       color: white
 
-  //- Sale button
+  //- Lifetime button
 
-  .sale-button, .lifetime-button
+  .lifetime-button
     font-size: 24px
     line-height: 30px
     border-style: solid
@@ -273,6 +278,18 @@
 
     span
       pointer-events: none
+  
+  // Payment method selection screen
+  .payment-selection-screen
+    .big-text:first-child
+      color: black
+    
+    #paypal-button-container
+      // Prevent jitter
+      height: 45px
+      width: 276px
+      display: block
+      margin: 0 auto 10px auto
 
   .email-parent-form
     .email_invalid

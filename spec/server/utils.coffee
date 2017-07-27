@@ -251,8 +251,9 @@ module.exports = mw =
     }, data)
     if not data.levels
       data.levels = {}
-      for level in sources?.levels or []
+      for level, i in sources?.levels or []
         data.levels[level.get('original').valueOf()] = _.pick level.toObject(), campaignLevelProperties
+        data.levels[level.get('original').valueOf()].position = {x: i, y: i}
 
     if not data.adjacentCampaigns
       data.adjacentCampaigns = {}

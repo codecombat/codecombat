@@ -117,7 +117,6 @@ module.exports = class Classroom extends CocoModel
     arena = @getLadderLevel(courseID)
     project = @getProjectLevel(courseID)
     courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true})
-    #courseLevelsWithLadder = @getLevels({courseID: courseID, withoutLadderLevels: false})
     levelSessionMap = {}
     levelSessionMap[session.get('level').original] = session for session in sessions
     currentIndex = -1

@@ -143,6 +143,7 @@ module.exports.setup = (app) ->
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
   app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
+  app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
 
   app.get('/cron/aggregate-israel-data', mw.cron.checkCronAuth, mw.cron.aggregateIsraelData)
 
@@ -167,6 +168,9 @@ module.exports.setup = (app) ->
   LevelSession = require '../models/LevelSession'
   app.post('/queue/scoring', mw.levelSessions.submitToLadder) # TODO: Rename to /db/level_session/:handle/submit-to-ladder
   app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
+  app.put('/db/level.session/:handle/key-value-db/:key', mw.auth.checkLoggedIn(), mw.levelSessions.putKeyValueDb)
+  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.auth.checkLoggedIn(), mw.levelSessions.incrementKeyValueDb)
+
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
@@ -174,9 +178,10 @@ module.exports.setup = (app) ->
 
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
-  app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
+  app.delete('/db/user/:handle', mw.auth.checkLoggedIn(), mw.users.delete)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.fetchByIsraelId, mw.users.adminSearch)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
+  app.get('/db/users/-/by-age', mw.auth.checkHasPermission(['admin']), mw.users.fetchByAge)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)

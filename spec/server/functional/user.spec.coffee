@@ -20,80 +20,22 @@ mongoose = require 'mongoose'
 
 describe 'POST /db/user', ->
 
-  createAnonNameUser = (name, done)->
-    request.post getURL('/auth/logout'), ->
-      request.get getURL('/auth/whoami'), ->
-        req = request.post({ url: getURL('/db/user'), json: {name}}, (err, response) ->
-          expect(response.statusCode).toBe(200)
-          request.get { url: getURL('/auth/whoami'), json: true }, (request, response, body) ->
-            expect(body.anonymous).toBeTruthy()
-            expect(body.name).toEqual(name)
-            done()
-        )
+  beforeEach utils.wrap ->
+    yield utils.clearModels [User]
+        
+  it 'converts the password into a hash', utils.wrap ->
+    yield utils.becomeAnonymous()
+    email = 'some-name@email.com'
+    password = 'food'
+    [res] = yield request.postAsync({ url: utils.getURL('/db/user'), json: {email, password}})
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(res.body._id)
+    expect(user).toBeTruthy()
+    expect(user.get('password')).toBeUndefined()
+    expect(user.get('passwordHash')[..5] in ['31dc3d', '948c7e']).toBeTruthy()
+    expect(user.get('permissions')).toBeUndefined()
 
-  it 'preparing test : clears the db first', (done) ->
-    clearModels [User], (err) ->
-      throw err if err
-      done()
-
-  it 'converts the password into a hash', (done) ->
-    unittest.getNormalJoe (user) ->
-      expect(user).toBeTruthy()
-      expect(user.get('password')).toBeUndefined()
-      expect(user?.get('passwordHash')).not.toBeUndefined()
-      if user?.get('passwordHash')?
-        expect(user.get('passwordHash')[..5] in ['31dc3d', '948c7e']).toBeTruthy()
-        expect(user.get('permissions').length).toBe(0)
-      done()
-
-  it 'serves the user through /db/user/id', (done) ->
-    unittest.getNormalJoe (user) ->
-      utils.becomeAnonymous().then ->
-        url = getURL(urlUser+'/'+user._id)
-        request.get url, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          user = JSON.parse(body)
-          expect(user.name).toBe('Joe')  # Anyone should be served the username.
-          expect(user.email).toBeUndefined()  # Shouldn't be available to just anyone.
-          expect(user.passwordHash).toBeUndefined()
-          done()
-
-  it 'creates admins based on passwords', (done) ->
-    request.post getURL('/auth/logout'), ->
-      unittest.getAdmin (user) ->
-        expect(user).not.toBeUndefined()
-        if user
-          expect(user.get('permissions').length).toBe(1)
-          expect(user.get('permissions')[0]).toBe('admin')
-        done()
-
-  it 'does not return the full user object for regular users.', (done) ->
-    loginJoe ->
-      unittest.getAdmin (user) ->
-
-        url = getURL(urlUser+'/'+user._id)
-        request.get url, (err, res, body) ->
-          expect(res.statusCode).toBe(200)
-          user = JSON.parse(body)
-          expect(user.email).toBeUndefined()
-          expect(user.passwordHash).toBeUndefined()
-          done()
-
-  it 'should allow setting anonymous user name', (done) ->
-    createAnonNameUser('Jim', done)
-
-  it 'should allow multiple anonymous users with same name', (done) ->
-    createAnonNameUser('Jim', done)
-
-  it 'should allow setting existing user name to anonymous user', (done) ->
-    req = request.post({url: getURL('/db/user'), json: {email: 'new@user.com', password: 'new'}}, (err, response, body) ->
-      expect(response.statusCode).toBe(200)
-      request.get getURL('/auth/whoami'), (request, response, body) ->
-        res = JSON.parse(response.body)
-        expect(res.anonymous).toBeFalsy()
-        createAnonNameUser 'Jim', done
-    )
-
+    
 describe 'PUT /db/user', ->
 
   it 'returns 422 when no data is provided', utils.wrap ->
@@ -264,6 +206,18 @@ describe 'PUT /db/user', ->
     [res] = yield request.putAsync { uri: getURL('/db/user/'+invalidUser.id), json: { name: 'A new name' }}
     expect(res.statusCode).toBe(200)
     expect(res.body.name).toBe('A new name')
+
+  it 'allows multiple anonymous users to have the same name, even with signed up users', utils.wrap ->
+    name = 'Bob'
+    yield utils.initUser({name}) # make an existing user
+
+    user1 = yield utils.becomeAnonymous()
+    [res] = yield request.putAsync { url: utils.getUrl("/db/user/#{user1.id}"), json: { name }}
+    expect(res.statusCode).toBe(200)
+
+    user2 = yield utils.becomeAnonymous()
+    [res] = yield request.putAsync { url: utils.getUrl("/db/user/#{user2.id}"), json: { name }}
+    expect(res.statusCode).toBe(200)
     
     
 describe 'PUT /db/user/:handle/israel-id', ->
@@ -472,14 +426,9 @@ describe 'PUT /db/user/-/remain-teacher', ->
 
 describe 'GET /db/user', ->
 
-  it 'logs in as admin', (done) ->
-    json = {
-      username: 'admin@afc.com'
-      password: '80yqxpb38j'
-    }
-    request.post { url: getURL('/auth/login'), json }, (error, response) ->
-      expect(response.statusCode).toBe(200)
-      done()
+  it 'logs in as admin', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
 
   it 'get schema', (done) ->
     request.get {uri: getURL(urlUser+'/schema')}, (err, res, body) ->
@@ -650,7 +599,18 @@ describe 'GET /db/user/:handle', ->
     expect(res.body.israelId).toBeUndefined()
     
 
-describe 'DELETE /db/user', ->
+  it 'looks up the user by id', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.becomeAnonymous()
+    url = utils.getURL("/db/user/#{user.id}")
+    [res] = yield request.getAsync({url, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.name).toBe(user.get('name'))  # Anyone should be served the username.
+    expect(res.body.email).toBeUndefined()  # Shouldn't be available to anonymous users.
+    expect(res.body.passwordHash).toBeUndefined()
+
+
+describe 'DELETE /db/user/:handle', ->
   it 'can delete a user', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -684,6 +644,13 @@ describe 'DELETE /db/user', ->
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/1234"}
     expect(res.statusCode).toBe(401)
 
+  it 'returns 403 if another non-admin user', utils.wrap ->
+    user = yield utils.initUser()
+    user2 = yield utils.initUser()
+    yield utils.loginUser(user2)
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    expect(res.statusCode).toBe(403)
+
   it 'prevents further edits to the deleted user', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -713,7 +680,59 @@ describe 'DELETE /db/user', ->
     expect(res.statusCode).toBe(200) # other login no longer valid
     user = yield User.findById(user.id)
     expect(user.get('email')).toBe(json.email)
+  
+  describe 'when the user is the recipient of a subscription', ->
+    beforeEach utils.wrap ->
+      yield utils.clearModels([User])
+      @recipient1 = yield utils.initUser()
+      @recipient2 = yield utils.initUser()
+      @sponsor = yield utils.initUser({
+        stripe: {
+          customerID: 'a'
+          sponsorSubscriptionID: '1'
+          recipients: [
+            {
+              userID: @recipient1.id
+              subscriptionID: '2'
+              couponID: 'free'
+            }
+            {
+              userID: @recipient2.id
+              subscriptionID: '3'
+              couponID: 'free'
+            }
+          ]
+        }
+      })
+      yield @recipient1.update({$set: {stripe: {sponsorID: @sponsor.id}}})
+      yield @recipient2.update({$set: {stripe: {sponsorID: @sponsor.id}}})
+      yield utils.populateProducts()
+      spyOn(stripe.customers, 'cancelSubscription').and.callFake (cId, sId, cb) -> cb(null)
+      spyOn(stripe.customers, 'updateSubscription').and.callFake (cId, sId, opts, cb) -> cb(null)
+    
+    it 'unsubscribes the user', utils.wrap ->
+      yield utils.loginUser(@recipient1)
+      [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{@recipient1.id}"}
+      expect(res.statusCode).toBe(204)
+      expect(stripe.customers.cancelSubscription).toHaveBeenCalled()
+      expect(stripe.customers.updateSubscription).toHaveBeenCalled()
+      expect((yield User.findById(@sponsor.id)).get('stripe').recipients.length).toBe(1)
+      expect((yield User.findById(@recipient1.id)).get('stripe')).toBeUndefined()
+      expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
 
+    describe 'when the sponsor id is incorrect', ->
+      beforeEach utils.wrap ->
+        admin = yield utils.initAdmin()
+        yield utils.loginUser(admin)
+        # Set it to another valid ID that isn't the sponsor's ID
+        yield @recipient1.update({ $set: {stripe: {sponsorID: new ObjectId()}} })
+
+      it 'returns 422', utils.wrap ->
+        yield utils.loginUser(@recipient1)
+        [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{@recipient1.id}"}
+        expect(res.statusCode).toBe(422)
+        expect(stripe.customers.cancelSubscription).not.toHaveBeenCalled()
+        expect(stripe.customers.updateSubscription).not.toHaveBeenCalled()
 
 describe 'Statistics', ->
   LevelSession = require '../../../server/models/LevelSession'
@@ -724,86 +743,82 @@ describe 'Statistics', ->
   ThangType = require '../../../server/models/ThangType'
   User = require '../../../server/models/User'
   UserHandler = require '../../../server/handlers/user_handler'
-
-  it 'keeps track of games completed', (done) ->
+  
+  beforeEach utils.wrap ->
     session = new LevelSession
       name: 'Beat Gandalf'
       permissions: simplePermissions
       state: complete: true
 
-    unittest.getNormalJoe (joe) ->
-      expect(joe.get 'stats.gamesCompleted').toBeUndefined()
+    @user = yield utils.initUser()
+    expect(@user.get 'stats.gamesCompleted').toBeUndefined()
+    session.set 'creator', @user.get 'id'
+    yield session.save()
+    yield new Promise((resolve) -> setTimeout(resolve, 100)) # give time for update to happen
 
-      session.set 'creator', joe.get 'id'
-      session.save (err) ->
+  it 'keeps track of games completed', utils.wrap ->
+    user = yield User.findById(@user.id)
+    expect(user.get 'stats.gamesCompleted').toBe 1
+    
+  it 'recalculates games completed', utils.wrap (done) ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    user = yield User.findByIdAndUpdate(@user.get('id'), {$unset:'stats.gamesCompleted': ''}, {new: true})
+    expect(user.get 'stats.gamesCompleted').toBeUndefined()
+    UserHandler.statRecalculators.gamesCompleted ->
+      User.findById user.get('id'), (err, user) ->
         expect(err).toBeNull()
+        expect(user.get 'stats.gamesCompleted').toBe 1
+        done()
 
-        f = ->
-          User.findById joe.get('id'), (err, guy) ->
-            expect(err).toBeNull()
-            expect(guy.get 'id').toBe joe.get 'id'
-            expect(guy.get 'stats.gamesCompleted').toBe 1
-            done()
-
-        setTimeout f, 100
-
-  it 'recalculates games completed', (done) ->
-    unittest.getNormalJoe (joe) ->
-      loginAdmin ->
-        User.findByIdAndUpdate joe.get('id'), {$unset:'stats.gamesCompleted': ''}, {new: true}, (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get 'stats.gamesCompleted').toBeUndefined()
-
-          UserHandler.statRecalculators.gamesCompleted ->
-            User.findById joe.get('id'), (err, guy) ->
-              expect(err).toBeNull()
-              expect(guy.get 'stats.gamesCompleted').toBe 1
-              done()
-
-  it 'keeps track of article edits', (done) ->
+  it 'keeps track of article edits', utils.wrap ->
     article =
       name: 'My very first'
       body: 'I don\'t have much to say I\'m afraid'
     url = getURL('/db/article')
 
-    loginAdmin (carl) ->
-      expect(carl.get User.statsMapping.edits.article).toBeUndefined()
-      article.creator = carl.get 'id'
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
 
-      # Create major version 0.0
-      request.post {uri:url, json: article}, (err, res, body) ->
+    expect(admin.get User.statsMapping.edits.article).toBeUndefined()
+    article.creator = admin.get 'id'
+
+    [res] = yield request.postAsync {uri:url, json: article}
+    expect(res.statusCode).toBe 201
+    article = res.body
+
+    guy = yield User.findById admin.get('id')
+    expect(guy.get User.statsMapping.edits.article).toBe 1
+
+    # Create minor version 0.1
+    newVersionURL = "#{url}/#{article._id}/new-version"
+    [res] = yield request.postAsync {uri:newVersionURL, json: article}
+
+    guy = yield User.findById admin.get('id')
+    expect(guy.get User.statsMapping.edits.article).toBe 2
+
+  it 'recalculates article edits', utils.wrap (done) ->
+    article =
+      name: 'Second article'
+      body: '...'
+    url = getURL('/db/article')
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    
+    [res] = yield request.postAsync {uri:url, json: article}
+    expect(res.statusCode).toBe 201
+
+    guy = yield User.findByIdAndUpdate(admin.get('id'), {$unset:'stats.articleEdits': ''}, {new: true})
+    expect(guy.get User.statsMapping.edits.article).toBeUndefined()
+
+    UserHandler.statRecalculators.articleEdits ->
+      User.findById admin.get('id'), (err, guy) ->
         expect(err).toBeNull()
-        expect(res.statusCode).toBe 201
-        article = body
+        expect(guy.get User.statsMapping.edits.article).toBe 1
+        done()
 
-        User.findById carl.get('id'), (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get User.statsMapping.edits.article).toBe 1
-
-          # Create minor version 0.1
-          newVersionURL = "#{url}/#{article._id}/new-version"
-          request.post {uri:newVersionURL, json: article}, (err, res, body) ->
-            expect(err).toBeNull()
-
-            User.findById carl.get('id'), (err, guy) ->
-              expect(err).toBeNull()
-              expect(guy.get User.statsMapping.edits.article).toBe 2
-
-              done()
-
-  it 'recalculates article edits', (done) ->
-    loginAdmin (carl) ->
-      User.findByIdAndUpdate carl.get('id'), {$unset:'stats.articleEdits': ''}, {new: true}, (err, guy) ->
-        expect(err).toBeNull()
-        expect(guy.get User.statsMapping.edits.article).toBeUndefined()
-
-        UserHandler.statRecalculators.articleEdits ->
-          User.findById carl.get('id'), (err, guy) ->
-            expect(err).toBeNull()
-            expect(guy.get User.statsMapping.edits.article).toBe 2
-            done()
-
-  it 'keeps track of level edits', (done) ->
+  it 'keeps track of and recalculates level edits', utils.wrap (done) ->
     level = new Level
       name: "King's Peak 3"
       description: 'Climb a mountain.'
@@ -811,38 +826,66 @@ describe 'Statistics', ->
       scripts: []
       thangs: []
 
-    loginAdmin (carl) ->
-      expect(carl.get User.statsMapping.edits.level).toBeUndefined()
-      level.creator = carl.get 'id'
-      level.save (err) ->
-        expect(err).toBeNull()
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
 
-        User.findById carl.get('id'), (err, guy) ->
-          expect(err).toBeNull()
-          expect(guy.get 'id').toBe carl.get 'id'
-          expect(guy.get User.statsMapping.edits.level).toBe 1
+    expect(admin.get User.statsMapping.edits.level).toBeUndefined()
+    level.creator = admin.get 'id'
+    yield level.save()
+    guy = yield User.findById admin.get('id')
+    expect(guy.get User.statsMapping.edits.level).toBe 1
 
-          done()
+    guy = yield User.findByIdAndUpdate(admin.get('id'), {$unset:'stats.levelEdits':''}, {new: true})
+    expect(guy.get User.statsMapping.edits.level).toBeUndefined()
 
-  it 'recalculates level edits', (done) ->
-    unittest.getAdmin (jose) ->
-      User.findByIdAndUpdate jose.get('id'), {$unset:'stats.levelEdits':''}, {new: true}, (err, guy) ->
-        expect(err).toBeNull()
-        expect(guy.get User.statsMapping.edits.level).toBeUndefined()
+    UserHandler.statRecalculators.levelEdits ->
+      User.findById admin.get('id'), (err, guy) ->
+        expect(guy.get User.statsMapping.edits.level).toBe 1
+        done()
 
-        UserHandler.statRecalculators.levelEdits ->
-          User.findById jose.get('id'), (err, guy) ->
-            expect(err).toBeNull()
-            expect(guy.get User.statsMapping.edits.level).toBe 1
-            done()
 
-  it 'cleans up', (done) ->
-    clearModels [LevelSession, Article, Level, LevelSystem, LevelComponent, ThangType], (err) ->
-      expect(err).toBeNull()
-
-      done()
       
-      
+describe 'GET /db/user/:handle/level.sessions', ->
+  url = getURL('/db/level.session/')
+  session =
+    permissions: simplePermissions
+
+  beforeEach utils.wrap ->
+    yield utils.clearModels([LevelSession, User])
+    @user = yield utils.initUser()
+    session = new LevelSession({
+      permissions: simplePermissions,
+      creator: @user.id
+    })
+    yield session.save()
+    yield utils.loginUser(@user)
+
+  it 'gets a user\'s level sessions by id', utils.wrap ->
+    [res] = yield request.getAsync {
+      url: getURL("/db/user/#{@user.id}/level.sessions")
+      json: true
+    }
+    expect(res.statusCode).toBe 200
+    sessions = res.body
+    expect(sessions.length).toBe 1
+
+  it 'gets a user\'s level sessions by slug', utils.wrap ->
+    [res] = yield request.getAsync {
+      url: getURL("/db/user/#{@user.get('slug')}/level.sessions")
+      json: true
+    }
+    expect(res.statusCode).toBe 200
+    sessions = res.body
+    expect(sessions.length).toBe 1
+
+  it 'GET /db/user/<IDorSLUG>/level.sessions returns 404 if user not found', utils.wrap ->
+    [res] = yield request.getAsync {
+      url: getURL("/db/user/misterschtroumpf/level.sessions")
+      json: true
+    }
+    expect(res.statusCode).toBe 404
+
+
 describe 'POST /db/user/:handle/signup-with-password', ->
   
   beforeEach utils.wrap ->

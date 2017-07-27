@@ -74,7 +74,7 @@ module.exports = class CampaignView extends RootView
     'click .poll': 'showPoll'
     'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
     'click .premium-menu-icon': 'onClickPremiumButton'
-    
+
   shortcuts:
     'shift+s': 'onShiftS'
 
@@ -136,7 +136,7 @@ module.exports = class CampaignView extends RootView
       @supermodel.trackRequest(jqxhr)
       new Promise(jqxhr.then).then(=>
         courseID = @courseInstance.get('courseID')
-        
+
         @course = new Course(_id: courseID)
         @supermodel.trackRequest @course.fetch()
         if @courseInstance.get('classroomID')
@@ -144,8 +144,6 @@ module.exports = class CampaignView extends RootView
           @classroom = new Classroom(_id: classroomID)
           @supermodel.trackRequest @classroom.fetch()
           @listenToOnce @classroom, 'sync', =>
-            if me.get('role') is 'student' and not @classroom.getSetting('map')
-              application.router.redirectHome()
             @courseInstance.sessions = new CocoCollection([], {
               url: @courseInstance.url() + '/my-course-level-sessions',
               model: LevelSession
@@ -162,12 +160,46 @@ module.exports = class CampaignView extends RootView
             })
             @listenToOnce @courseLevels, 'sync', =>
               existing = @campaign.get('levels')
-              for k,v of @courseLevels.toArray()
+              courseLevels = @courseLevels.toArray()
+              classroomCourse = _.find(currentView.classroom.get('courses'), {_id:currentView.course.id})
+              levelPositions = {}
+              for level in classroomCourse.levels
+                levelPositions[level.original] = level.position if level.position
+              for k,v of courseLevels
                 idx = v.get('original')
-                @courseLevelsFake[idx] = existing[idx]
+                if not existing[idx]
+                  # a level which has been removed from the campaign but is saved in the course
+                  @courseLevelsFake[idx] = v.toJSON()
+                else
+                  @courseLevelsFake[idx] = existing[idx]
+                  # carry over positions stored in course, if there are any
+                  if levelPositions[idx]
+                    @courseLevelsFake[idx].position = levelPositions[idx]
                 @courseLevelsFake[idx].courseIdx = parseInt(k)
                 @courseLevelsFake[idx].requiresSubscription = false
 
+              # Fill in missing positions, for courses which have levels that no longer exist in campaigns
+              for k,v of courseLevels
+                k = parseInt(k)
+                idx = v.get('original')
+                if not @courseLevelsFake[idx].position
+                  prevLevel = courseLevels[k-1]
+                  nextLevel = courseLevels[k+1]
+                  if prevLevel && nextLevel
+                    prevIdx = prevLevel.get('original')
+                    nextIdx = nextLevel.get('original')
+                    prevPosition = @courseLevelsFake[prevIdx].position
+                    nextPosition = @courseLevelsFake[nextIdx].position
+                  if prevPosition && nextPosition
+                    # split the diff between the previous, next levels
+                    @courseLevelsFake[idx].position = {
+                      x: (prevPosition.x + nextPosition.x)/2
+                      y: (prevPosition.y + nextPosition.y)/2
+                    }
+                  else
+                    # otherwise just line them up along the bottom
+                    x = 10 + (k / courseLevels.length) * 80
+                    @courseLevelsFake[idx].position = { x, y: 10 }
       )
 
     @listenToOnce @campaign, 'sync', @getLevelPlayCounts
@@ -228,7 +260,7 @@ module.exports = class CampaignView extends RootView
     @render()
     @checkForUnearnedAchievements()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
-    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon'
+    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon' or @courseStats?
     if not me.get('hourOfCode') and @terrain
       if features.codePlay
         if me.get('anonymous') and me.get('lastLevel') is 'true-names' and me.level() < 5
@@ -461,7 +493,7 @@ module.exports = class CampaignView extends RootView
 
   annotateLevels: (orderedLevels) ->
     return if @course?
-  
+
     for level, levelIndex in orderedLevels
       level.position ?= { x: 10, y: 10 }
       level.locked = not me.ownsLevel(level.original)
@@ -487,7 +519,7 @@ module.exports = class CampaignView extends RootView
       level.unlocksItem = _.find(level.rewards, 'item')?.item
       level.unlocksPet = utils.petThangIDs.indexOf(level.unlocksItem) isnt -1
 
-      if @classroom? and not @classroom.getSetting('drop-items')
+      if @classroom?
         level.unlocksItem = false
         level.unlocksPet = false
 
@@ -769,15 +801,17 @@ module.exports = class CampaignView extends RootView
       window.tracker?.trackEvent 'Clicked Start Level', category: 'World Map', levelID: levelSlug
 
   onClickCourseVersion: (e) ->
+    levelSlug = $(e.target).parents('.level-info-container').data 'level-slug'
     courseID = $(e.target).parents('.course-version').data 'course-id'
-    levelElement = $(e.target).parents('.level-info-container')
-    @startLevel levelElement, courseID, @getQueryVariable('course-instance')
+    courseInstanceID = $(e.target).parents('.course-version').data 'course-instance-id'
+    url = "/play/level/#{levelSlug}?course=#{courseID}&course-instance=#{courseInstanceID}"
+    Backbone.Mediator.publish 'router:navigate', route: url
 
-  startLevel: (levelElement, courseID, courseInstanceID) ->
+  startLevel: (levelElement) ->
     @setupManager?.destroy()
     levelSlug = levelElement.data 'level-slug'
     session = @preloadedSession if @preloadedSession?.loaded and @preloadedSession.levelSlug is levelSlug
-    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session, courseID: courseID, courseInstanceID: courseInstanceID
+    @setupManager = new LevelSetupManager supermodel: @supermodel, levelID: levelSlug, levelPath: levelElement.data('level-path'), levelName: levelElement.data('level-name'), hadEverChosenHero: @hadEverChosenHero, parent: @, session: session
     unless @setupManager?.navigatingToPlay
       @$levelInfo?.find('.level-info, .progress').toggleClass('hide')
       @listenToOnce @setupManager, 'open', ->
@@ -1092,6 +1126,7 @@ module.exports = class CampaignView extends RootView
 
     courseOrder = _.sortBy orderedLevels, 'courseIdx'
     found = false
+    prev = null
     for level, levelIndex in courseOrder
       playerState = @levelStatusMap[level.slug]
       level.color = 'rgb(255, 80, 60)'
@@ -1099,34 +1134,38 @@ module.exports = class CampaignView extends RootView
 
       if level.slug is nextSlug
         level.locked = false
-        level.hidden = level.locked
-        level.color = 'rgb(255, 80, 60)'
+        level.hidden = false
         level.next = true
         found = true
+      else if playerState in ['started', 'complete']
+        level.hidden = false
+        level.locked = false
       else
         if level.practice
-          if playerState not in ['started', 'complete']
+          if prev?.next
+            level.hidden = !prev?.practice
+            level.locked = true
+          else if prev
+            level.hidden = prev.hidden
+            level.locked = prev.locked
+          else
             level.hidden = true
             level.locked = true
-          else
-            level.hidden = false
-            level.locked = false
-        else if found
-          level.locked = true
-          level.hidden = false
         else
-          level.locked = false
+          level.locked = found
           level.hidden = false
 
-      #level.hidden = level.locked
       level.color = 'rgb(193, 193, 193)' if level.locked
-      level.noFlag = level.locked
+      level.noFlag = !level.next
+      level.unlocksHero = false
+      level.unlocksItem = false
+      prev = level
     return true
 
   shouldShow: (what) ->
     isStudent = me.get('role') in ['student']
     isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
-    
+
     if features.codePlay and what in ['clans', 'settings']
       return false
 
@@ -1137,19 +1176,13 @@ module.exports = class CampaignView extends RootView
       return !me.finishedAnyLevels() && serverConfig.showCodePlayAds && !features.noAds && me.get('role') isnt 'student'
 
     if what in ['status-line']
-      return true unless isStudent
-      return false unless @classroom?
-      return @classroom.getSetting('gems') || @classroom.getSetting('xp')
+      return !isStudent
 
     if what in ['gems']
-      return true unless isStudent
-      return false unless @classroom?
-      return @classroom.getSetting('gems')
+      return !isStudent
 
-    if what in ['level', 'xp']   
-      return true unless isStudent    
-      return false unless @classroom?   
-      return @classroom.getSetting('xp')
+    if what in ['level', 'xp']
+      return !isStudent
 
     if what in ['settings', 'leaderboard', 'back-to-campaigns', 'poll', 'items', 'heros', 'achievements', 'clans', 'poll']
       return !isStudent
@@ -1164,4 +1197,3 @@ module.exports = class CampaignView extends RootView
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudent)
 
     return true
-

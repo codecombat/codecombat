@@ -167,11 +167,13 @@ module.exports =
     handleName = options.handleName or 'handle'
     handle = req.params[handleName]
     if not handle
-      return done(new errors.UnprocessableEntity('No handle provided.'))
+      throw new errors.UnprocessableEntity('No handle provided.')
     if @isID(handle)
       dbq.findOne({ _id: handle })
-    else
+    else if Model.schema.uses_coco_names
       dbq.findOne({ slug: handle })
+    else
+      throw new errors.UnprocessableEntity('Handle must be an ID.')
       
     if options.select
       dbq.select(options.select)

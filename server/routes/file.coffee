@@ -17,13 +17,13 @@ module.exports.setup = (app) ->
 
 fileDelete = (req, res) ->
   return errors.forbidden(res) unless req.user
-  
+
   if req.body._id
     query = { _id: mongoose.Types.ObjectId(req.body._id) }
   else
     query = parsePathIntoQuery(req.path)
     return errors.badInput(res) if not query.filename
-    
+
   Grid.gfs.collection('media').findOne query, (err, filedata) =>
     return errors.notFound(res) if not filedata
     return errors.forbidden(res) unless userCanEditFile(req.user, filedata)
@@ -44,6 +44,11 @@ fileGet = (req, res) ->
         res.end()
 
   else # it's a single file
+    # TODO: remove all files that start with db/user. This is a soft stop to make sure it doesn't affect anything.
+    if _.startsWith(query['metadata.path'], 'db/user')
+      res.status(404)
+      return res.end()
+      
     Grid.gfs.collection('media').findOne query, (err, filedata) =>
       return errors.notFound(res) if not filedata
       readstream = Grid.gfs.createReadStream({_id: filedata._id, root: 'media'})
@@ -101,8 +106,7 @@ filePost = wrap (req, res) ->
   hasSource = options.url or options.postName or options.b64png
   # TODO : give tv4.error  to badInput
   unless req.user?.hasPermission('artisan')
-    unless new RegExp("^db/user/#{req.user.id}$").test(req.body.path)
-      throw new errors.UnprocessableEntity("Bad file path: #{req.user.id}")
+    throw new errors.UnprocessableEntity("Bad file path: #{req.user.id}")
   return errors.badInput(res) if (not valid) or (not hasSource)
   return yield saveURL(req, res) if options.url
   return savePNG(req, res) if options.b64png

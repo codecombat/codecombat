@@ -116,7 +116,7 @@ module.exports = class MainAdminView extends RootView
       result = ("
       <tr data-user-id='#{user._id}'>
         <td><code>#{user._id}</code></td>
-        <td>#{_.escape(user.name or 'Anonymous')}</td>
+        <td><img src='/db/user/#{user._id}/avatar?s=18' class='avatar'> #{_.escape(user.name or 'Anonymous')}</td>
         <td>#{_.escape(user.email)}</td>
         <td>
           <button class='user-spy-button'>Spy</button>

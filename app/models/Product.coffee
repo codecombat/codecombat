@@ -19,12 +19,29 @@ module.exports = class ProductModel extends CocoModel
       amt = @get('coupons')[0].amount
     amt
 
+  translateName: ->
+    if /year_subscription/.test @get('name')
+      return i18n.translate('subscribe.year_subscription')
+    if /lifetime_subscription/.test @get('name')
+      return i18n.translate('subscribe.lifetime')
+    @get('name')
+
+  # Send the Stripe token
   purchase: (token, options={}) ->
     options.url = _.result(@, 'url') + '/purchase'
     options.method = 'POST'
     options.data ?= {}
-    options.data.token = token.id
+    options.data.token = token?.id
     options.data.timestamp = new Date().getTime()
     options.data = JSON.stringify(options.data)
     options.contentType = 'application/json'
     return $.ajax(options)
+
+  purchaseWithPayPal: (payment, options) ->
+    @purchase(undefined, _.merge({
+      data:
+        service: 'paypal'
+        paymentID: payment.id
+        payerID: payment.payer.payer_info.payer_id
+    }, options))
+    

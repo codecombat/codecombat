@@ -50,6 +50,8 @@ require('../server/common'); // Make sure global testing functions are set up
 // Ignore Stripe/Nocking erroring
 console.error = function() {
   try {
+    if(arguments[1].type === 'StripeInvalidRequest')
+      return;
     if(arguments[1].stack.indexOf('An error occurred with our connection to Stripe') > -1)
       return;
   }

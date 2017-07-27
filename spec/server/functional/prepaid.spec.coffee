@@ -100,7 +100,7 @@ describe 'GET /db/prepaid/:handle/creator', ->
   describe 'when the prepaid ID is wrong', ->
     beforeEach utils.wrap (done) ->
       yield utils.loginUser(@creator)
-      @url = getURL("/db/prepaid/#{@prepaid.id}a/creator")
+      @url = getURL("/db/prepaid/123456789012345678901234/creator")
       done()
 
     it 'returns a NotFound error', utils.wrap (done) ->
@@ -465,22 +465,6 @@ describe 'DELETE /db/prepaid/:handle/redeemers', ->
     expect(student.get('coursePrepaid')).toBeUndefined()
     done()
 
-  it 'works if the user has not migrated from coursePrepaidID to coursePrepaid', utils.wrap (done) ->
-    yield @student.update({
-      $set: { coursePrepaidID: @prepaid._id }
-      $unset: { coursePrepaid: '' }
-    })
-    yield @student.save()
-    [res, body] = yield request.delAsync {uri: @url, json: { userID: @student.id } }
-    expect(body.redeemers.length).toBe(0)
-    expect(res.statusCode).toBe(200)
-    prepaid = yield Prepaid.findById(body._id)
-    expect(prepaid.get('redeemers').length).toBe(0)
-    student = yield User.findById(@student.id)
-    expect(student.get('coursePrepaid')).toBeUndefined()
-    expect(student.get('coursePrepaidID')).toBeUndefined()
-    done()
-
   it 'returns 403 unless the user is the "creator"', utils.wrap (done) ->
     otherTeacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(otherTeacher)
@@ -581,7 +565,7 @@ describe 'POST /db/prepaid/:handle/joiners', ->
     done()
 
   it 'returns 404 if prepaid is not found', utils.wrap (done) ->
-    @url = getURL("/db/prepaid/#{@prepaid.id}a/joiners")
+    @url = getURL("/db/prepaid/123456789012345678901234/joiners")
     [res, body] = yield request.postAsync {uri: @url, json: { userID: @joiner.id } }
     expect(res.statusCode).toBe(404)
     done()

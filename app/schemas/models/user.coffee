@@ -317,6 +317,8 @@ _.extend UserSchema.properties,
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
+    
+    # TODO: move `free` out of stripe, it's independent 
     free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
@@ -379,6 +381,13 @@ _.extend UserSchema.properties,
   lastAnnouncementSeen:
     type: 'number'
     description: 'The highed announcement modal index displayed to the user.'
+  studentMilestones:
+    type: 'object'
+    description: "Flags for whether a teacher's students have reached a given level. Used for Intercom campaigns."
+    properties: {
+      studentStartedWakkaMaul: { type: 'boolean', description: "One of a teacher's students has reached Wakka Maul" }
+      studentStartedMayhemOfMunchkins: { type: 'boolean', description: "One of a teacher's students has started A Mayhem of Munchkins" }
+    }
 
 c.extendBasicProperties UserSchema, 'user'
 

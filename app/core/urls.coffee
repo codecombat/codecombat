@@ -1,4 +1,7 @@
 module.exports =
+  projectGallery: ({ courseInstanceID }) ->
+    return "/students/project-gallery/#{courseInstanceID}"
+
   playDevLevel: ({level, session, course}) ->
     shareURL = "#{window.location.origin}/play/#{level.get('type')}-level/#{level.get('slug')}/#{session.id}"
     shareURL += "?course=#{course.id}" if course
@@ -12,5 +15,8 @@ module.exports =
     url += "&codeLanguage=#{level.get('primerLanguage')}" if level.get('primerLanguage')
     url
 
-  courseWorldMap: ({course, courseInstance, classroom}) ->
+  courseWorldMap: ({course, courseInstance}) ->
     "/play/#{course.get('campaignID')}?course-instance=#{courseInstance.id}"
+
+  courseProjectGallery: ({courseInstance}) ->
+    "/students/project-gallery/#{courseInstance.id}"

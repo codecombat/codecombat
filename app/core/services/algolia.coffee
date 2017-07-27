@@ -1,4 +1,4 @@
-client = algoliasearch("JJM5H2CHJR", "50382fc2f7fa69c67e8233ace7cd7c4c")
+client = algoliasearch("JJM5H2CHJR", "83e56b128e93aff5f0e69d6730270ce4")
 
 module.exports = 
   client: client

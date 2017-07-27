@@ -65,6 +65,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     want_coco: "Chcesz używać CodeCombat w swojej szkole?"
 
   nav:
+#    map: "Map"
     play: "Poziomy" # The top nav bar entry where players choose which levels to play
     community: "Społeczność"
     courses: "Kursy"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
   common:
     back: "Wstecz" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Dostępne wkrótce!"
     continue: "Dalej" # When used as an action verb, like "Continue forward"
     next: "Następny"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     loading: "Ładowanie..."
     overview: "Przegląd"
     solution: "Rozwiązanie"
+#    table_of_contents: "Table of Contents"
     intro: "Wprowadzenie"
     saving: "Zapisywanie..."
     sending: "Wysyłanie..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     years: "lat"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "Kierunki"
     edit_level: "Edytuj poziom"
     explore_codecombat: "Przeglądaj CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     tip_good_idea: "Najlepszym sposobem na dobry pomysł jest wiele pomysłów. - Linus Pauling"
     tip_programming_not_about_computers: "Informatyka ma tyle samo wspólnego z komputerami, co astronomia ma z teleskopami. - Edsger Dijkstra"
     tip_mulan: "Jeśli potrafisz o czymś marzyć, to potrafisz także tego dokonać. - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Stworzone przez {{name}}"
@@ -597,6 +610,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     day: "Dziś"
     week: "W tym tygodniu"
     all: "Zawsze"
+#    latest: "Latest"
     time: "Czas"
     damage_taken: "Obrażenia otrzymane"
     damage_dealt: "Obrażenia zadane"
@@ -675,6 +689,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     sale_button_title: "Zaoszczędź $21 kupując roczną subskrypcję"
     stripe_description: "Miesięczna subskrypcja"
     stripe_description_year_sale: "Roczna subskrypcja (zniżka ${{discount}})"
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Żeby zagrać w ten poziom musisz posiadać subskrypcję."
     unlock_help_videos: "Subskrybuj, aby odblokować wszystkie wideo tutoriale."
     personal_sub: "Osobista subskrypcja" # Accounts Subscription View below
@@ -707,9 +722,17 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     support_part1: "Potrzebujesz pomocy? Jeśli masz jakieś pytania, to napisz do nas na"
     support_part2: "support@codecombat.com"
     support_part3: "."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
-    cuddly_companions: "Milusi towarzysze!"
+    now_available: "Dostępne dla subskrybentów!"
+    subscriber: "subskrybentem"
+    cuddly_companions: "Milusi towarzysze!" # Pet Announcement Modal
     kindling_name: "Żywioł Ognia"
     kindling_description: "Żywioły ognia chcą tylko, żeby było ci ciepło w nocy. I za dnia. W sumie, to cały czas."
     griffin_name: "Mały Gryf"
@@ -735,8 +758,18 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     the_second_kithmaze: "Drugi Labirynt Kith"
     keep_playing: "Kontynuuj grę, aby móc odblokować pierwszego zwierzaka!"
     coming_soon: "Wkrótce"
-    now_available: "Dostępne dla subskrybentów!"
-    subscriber: "subskrybentem"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Kup<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -885,6 +918,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Muzyka"
     jose_blurb: "Odnosi sukces"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...oraz nasza społeczność 'open-source'"
     community_subtitle: "Ponad 500 kontrybutorów pomogło stworzyć CodeCombat i liczba ta cały czas rośnie!"
     community_description_3: "CodeCombat jest "
@@ -1066,7 +1101,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     delete_account_tab: "Usuń swoje konto"
     wrong_email: "Błędny e-mail"
     wrong_password: "Błędne hasło"
-    upload_picture: "Wgraj zdjęcie"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Usuń to konto całkowicie"
     reset_progress_tab: "Zresetuj cały postęp"
     reset_your_progress: "Usuń cały postęp w grze i zacznij od początku"
@@ -1099,7 +1134,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     saved: "Zmiany zapisane"
     password_mismatch: "Hasła różnią się od siebie"
     password_repeat: "Powtórz swoje hasło."
-    file_size_limit: "(maks. rozmiar pliku: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Skróty klawiszowe"
@@ -1227,6 +1261,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     switch_to: "Przełącz na"
     greetings: "Witamy!"
     back_classrooms: "Wróć do moich klas"
+#    back_classroom: "Back to classroom"
     back_courses: "Wróć do moich kursów"
     edit_details: "Edytuj detale klasy"
     purchase_enrollments: "Kup licencje dla studentów"
@@ -1237,6 +1272,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     teacher: "Nauczyciel"
     arena: "Arena"
     available_levels: "Dostępne poziomy"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Witamy w kursach podróżniku!"
     ready_to_play: "Gotów, by zagrać?"
     start_new_game: "Rozpocznij nową grę"
@@ -1249,6 +1288,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     my_classes: "Moje klasy"
     class_added: "Udało się dodać klasę!"
     view_levels: "zobacz wszystkie poziomy kursu"
+#    view_project_gallery: "view my classmates' projects"
     join_class: "Dołącz do klasy"
     join_class_2: "Dołącz do klasy"
     ask_teacher_for_code: "Poproś nauczyciela o kod klasy z CodeCombat! Jeśli już go masz, wpisz go poniżej:"
@@ -1344,6 +1384,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     web_dev_language_transition: "Wszystkie klasy będą używać HTML / JavaScript w tym kursie.  Klasy, które wcześniej uczyły sie Pythona, będą miały kilka dodatkowych lekcji z JavaScriptu, aby ułatwić przestawienie się na nowy język.  Klasy, które używały JavaScriptu rozpoczną grę bez tych lekcji."
     course_membership_required_to_play: "Musisz dołączyć do kursu, aby móc grać w ten poziom."
     license_required_to_play: "Poproś nauczyciela o przydzielenie ci licencji, abyś mógł kontynuować rozgrywkę w CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
     assigning_course: "Przydziel kurs"
@@ -1445,7 +1490,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     changed: "Zmieniono"
     available_credits: "Dostępne licencje"
     pending_credits: "Oczekujące licencje"
-    credits: "licencje"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "licencje startowe"
     start_date: "data rozpoczęcia:"
     end_date: "data zakonczenia:"
@@ -1460,7 +1509,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     status_enrolled: "Licencja wygaśnie {{date}}"
     select_all: "Wybierz wszystko"
     project: "Project"
-    view_student_project: "Pokaż projekt ucznia"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
     view_arena_ladder: "Pokaż drabinkę areny"
     resource_hub: "Baza wiedzy"
     getting_started: "Wprowadzenie"
@@ -1601,6 +1652,23 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     teacher_quest_more: "Pokaż wszystkie zadania"
     teacher_quest_less: "Pokaż mniej zadań"
     refresh_to_update: "(odśwież stronę, żeby zobaczyć aktualizację)"
+#    view_project_gallery: "View Project Gallery"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "Gra"

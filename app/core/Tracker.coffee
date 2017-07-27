@@ -2,14 +2,12 @@
 SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
+loadSegmentIo = require('core/services/segment')
 
 debugAnalytics = false
 targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker extends CocoClass
-  subscriptions:
-    'application:service-loaded': 'onServiceLoaded'
-
   constructor: ->
     super()
     if window.tracker
@@ -19,7 +17,9 @@ module.exports = class Tracker extends CocoClass
     @trackReferrers()
     @supermodel = new SuperModel()
     @identify() # Needs supermodel to exist first
-    @updateRole() if me.get 'role'
+    @updateRole() if me.get('role') and not me.isSmokeTestUser()
+    if me.isTeacher() and @isProduction and not application.testing and not me.isSmokeTestUser()
+      @updateIntercomRegularly()
 
   enableInspectletJS: (levelSlug) ->
     # InspectletJS loading is delayed and targeting specific levels for more focused investigations
@@ -68,13 +68,17 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
 
-    for userTrait in ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
+    if me.isTeacher()
+      traitsToReport.push('firstName', 'lastName')
+    for userTrait in traitsToReport
       traits[userTrait] ?= me.get(userTrait) if me.get(userTrait)?
     if me.isTeacher()
       traits.teacher = true
     traits.host = document.location.host
 
     console.log 'Would identify', me.id, traits if debugAnalytics
+    return if me.isSmokeTestUser()
     @trackEventInternal('Identify', {id: me.id, traits}) unless me?.isAdmin() and @isProduction
     return unless @isProduction and not me.isAdmin()
 
@@ -104,8 +108,8 @@ module.exports = class Tracker extends CocoClass
     name = Backbone.history.getFragment()
     url = "/#{name}"
     console.log "Would track analytics pageview: #{url} Mixpanel=#{includeMixpanel(name)}" if debugAnalytics
-    @trackEventInternal 'Pageview', url: name, href: window.location.href unless me?.isAdmin() and @isProduction
-    return unless @isProduction and not me.isAdmin()
+    @trackEventInternal 'Pageview', url: name, href: window.location.href unless me?.isAdmin() and @isProduction or me.isSmokeTestUser()
+    return unless @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
 
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
@@ -125,7 +129,7 @@ module.exports = class Tracker extends CocoClass
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
-    return unless me and @isProduction and not me.isAdmin()
+    return unless me and @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
 
     @trackEventInternal action, _.cloneDeep properties
     @trackSnowplow action, _.cloneDeep properties
@@ -160,7 +164,7 @@ module.exports = class Tracker extends CocoClass
       analytics?.track action, {}, options
 
   trackSnowplow: (event, properties) =>
-
+    return if me.isSmokeTestUser()
     return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
@@ -191,6 +195,7 @@ module.exports = class Tracker extends CocoClass
       data: properties
 
   trackEventInternal: (event, properties) =>
+    return if me.isSmokeTestUser()
     return unless @supermodel?
     # Skipping heavily logged actions we don't use internally
     return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load']
@@ -216,18 +221,35 @@ module.exports = class Tracker extends CocoClass
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings
     return console.warn "Duration #{duration} invalid for trackTiming call." unless duration >= 0 and duration < 60 * 60 * 1000
     console.log 'Would track timing event:', arguments if debugAnalytics
-    return unless me and @isProduction and not me.isAdmin()
+    return unless me and @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
     ga? 'send', 'timing', category, variable, duration, label
 
+  updateIntercomRegularly: ->
+    return if me.isSmokeTestUser()
+    timesChecked = 0
+    updateIntercom = =>
+      # Check for new Intercom messages!
+      # Intercom only allows 10 updates for free per page refresh; then 1 per 30min
+      # https://developers.intercom.com/docs/intercom-javascript#section-intercomupdate
+      window.Intercom?('update')
+      timesChecked += 1
+      timeUntilNext = (if timesChecked < 10 then 5*60*1000 else 30*60*1000)
+      setTimeout(updateIntercom, timeUntilNext)
+    setTimeout(updateIntercom, 5*60*1000)
+
   updateRole: ->
-    return if me.isAdmin()
+    return if me.isAdmin() or me.isSmokeTestUser()
     return unless me.isTeacher()
-    return require('core/services/segment')() unless @segmentLoaded
-    @identify()
+    loadSegmentIo()
+    .then =>
+      @segmentLoaded = true
+      @identify()
     #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.
     # TODO: record any events and pageviews that have built up before we knew we were a teacher.
 
-  onServiceLoaded: (e) ->
-    return unless e.service is 'segment'
-    @segmentLoaded = true
-    @updateRole()
+  updateTrialRequestData: (attrs) ->
+    return if me.isSmokeTestUser()
+    loadSegmentIo()
+    .then =>
+      @segmentLoaded = true
+      @identify(attrs)

@@ -65,6 +65,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     want_coco: "Хотите CodeCombat в вашей школе?"
 
   nav:
+#    map: "Map"
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     courses: "Курсы"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   common:
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Скоро!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     loading: "Загрузка..."
     overview: "Обзор"
     solution: "Решение"
+#    table_of_contents: "Table of Contents"
     intro: "Введение"
     saving: "Сохранение..."
     sending: "Отправка..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     years: "года (лет)"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "Направления"
     edit_level: "Редактировать Уровень"
     explore_codecombat: "Исследовать CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_good_idea: "Лучший способ найти хорошую идею – иметь множество идей. - Линус Полинг"
     tip_programming_not_about_computers: "Информационные технологии – это настолько же про компьютеры, как астрономия – про телескопы. - Эдсгер Дейкстра"
     tip_mulan: "Верь, что сможешь, тогда получится. - Мулан"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Создано {{name}}"
@@ -597,6 +610,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     day: "Сегодня"
     week: "На этой неделе"
     all: "За всё время"
+#    latest: "Latest"
     time: "Время"
     damage_taken: "Получено повреждений"
     damage_dealt: "Нанесено повреждений"
@@ -675,6 +689,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sale_button_title: "Сэкономьте ${{discount}} при приобретении годовой подписки" # {change}
     stripe_description: "Месячная подписка"
     stripe_description_year_sale: "Годовая подписка (${{discount}} скидка)" # {change}
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Чтобы пройти этот уровень, нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
     personal_sub: "Личная подписка" # Accounts Subscription View below
@@ -707,9 +722,17 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     support_part1: "Нужна помощь по способах оплаты? Напишите на"
     support_part2: "support@codecombat.com"
     support_part3: ", если у вас есть вопросы."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
-#    cuddly_companions: "Cuddly Companions!"
+    now_available: "Сейчас доступны подписчикам"
+    subscriber: "подписчик"
+#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
 #    griffin_name: "Baby Griffin"
@@ -735,8 +758,18 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-    now_available: "Сейчас доступны подписчикам"
-    subscriber: "подписчик"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
@@ -751,7 +784,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
     game_dev_caption: "Проектируй собственные игры, чтобы бросить вызов своим друзьям!"
     everything_in_premium: "Всё, что вы получите в CodeCombat Премиум:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
     list_levels: "Получи доступ к __premiumLevelsCount__ дополнительным уровням"
     list_heroes: "Разблокируй эксклюзивных героев, включая класы рейнджера и волшебника"
     list_game_dev: "Создавай и делись играми с друзьями"
@@ -885,6 +918,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музыка"
     jose_blurb: "На взлёт"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...и наше open-source сообщество"
     community_subtitle: "Более 500 авторов помогли создать CodeCombat, и новые присоединяются к нам каждую неделю!"
     community_description_3: "CodeCombat – это"
@@ -1066,7 +1101,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     delete_account_tab: "Удалить ваш аккаунт"
     wrong_email: "Неверный e-mail"
     wrong_password: "Неверный пароль"
-    upload_picture: "Загрузить изображение"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Удалить этот аккаунт навсегда"
     reset_progress_tab: "Сбросить весь прогресс"
     reset_your_progress: "Сбросить весь прогресс и начать заново"
@@ -1099,7 +1134,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     saved: "Изменения сохранены"
     password_mismatch: "Пароли не совпадают."
     password_repeat: "Пожалуйста, повторите пароль."
-    file_size_limit: "(максимальный размер файла: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Горячие клавиши"
@@ -1227,6 +1261,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     switch_to: "Переключить на"
     greetings: "Поздравления!"
     back_classrooms: "Назад к моим классам"
+#    back_classroom: "Back to classroom"
     back_courses: "Назад к моим курсам"
     edit_details: "Редактировать описание класса"
     purchase_enrollments: "Купить лицензии учеников"
@@ -1237,6 +1272,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     teacher: "Учитель"
     arena: "Арена"
     available_levels: "Доступные уровни"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Искатели приключений, добро пожаловать на курсы!"
     ready_to_play: "Готовы приступить к игре?"
     start_new_game: "Начать новую игру"
@@ -1249,6 +1288,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     my_classes: "Мои классы"
     class_added: "Класс успешно добавлен!"
     view_levels: "посмотреть все уровни курса"
+#    view_project_gallery: "view my classmates' projects"
     join_class: "Присоединиться к классу"
     join_class_2: "Присоединиться к классу"
     ask_teacher_for_code: "Спросите у вашего учителя код класса для CodeCombat! Введите его ниже:"
@@ -1344,6 +1384,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "You'll need to join a course to play this level."
     license_required_to_play: "Попроси своего учителя назначить тебе лицензию для продолжения игры на CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
     assigning_course: "Назначаем курс"
@@ -1445,7 +1490,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     changed: "Изменено"
     available_credits: "Доступные лицензии"
 #    pending_credits: "Pending Licenses"
-    credits: "лицензии"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
 #    starter_licenses: "starter licenses"
     start_date: "дата начала:"
     end_date: "дата конца:"
@@ -1460,7 +1509,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     status_enrolled: "Срок действия истекает {{date}}"
     select_all: "Выбрать всё"
     project: "Проект"
-#    view_student_project: "View Student Project"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
 #    getting_started: "Getting Started"
@@ -1601,6 +1652,23 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "Игра"

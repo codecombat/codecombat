@@ -12,7 +12,7 @@
 ###
   
 fetchWrapper = (url, options={}) ->
-  if options.json
+  unless _.isUndefined(options.json)
     options.headers ?= {}
     options.headers['content-type'] = 'application/json'
     options.body = JSON.stringify(options.json)

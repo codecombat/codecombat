@@ -51,7 +51,7 @@ UserHandler = class UserHandler extends Handler
 
   validateDocumentInput: (input, req) ->
     res = super(input)
-    
+
     if res.errors and req
       mapper = (error) -> [error.code.toString(),error.dataPath,error.schemaPath].join(':')
       originalErrors = _.map(req.originalErrors, mapper)
@@ -59,7 +59,7 @@ UserHandler = class UserHandler extends Handler
       newErrors = _.difference(currentErrors, originalErrors)
       if _.size(newErrors) is 0
         return { valid: true }
-    
+
     return res
 
   formatEntity: (req, document, publicOnly=false) =>
@@ -109,7 +109,7 @@ UserHandler = class UserHandler extends Handler
     # Email setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
-      
+
       emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
       if not emailRegex.test(req.body.email) and emailRegex.test(user.get('email'))
         # Don't let them remove their email address if it's there already
@@ -123,7 +123,7 @@ UserHandler = class UserHandler extends Handler
       if req.body.email is ''
         user.set('email', req.body.email)
         return callback(null, req, user)
-        
+
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
       User.findOne({emailLower: emailLower}).exec (err, otherUser) ->
@@ -145,11 +145,11 @@ UserHandler = class UserHandler extends Handler
     # Name setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.name?
-      
+
       if req.body.name is ''
         user.set('name', req.body.name)
         return callback(null, req, user)
-      
+
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
@@ -288,62 +288,6 @@ UserHandler = class UserHandler extends Handler
       return true if req.user?.isAdmin()
       return req.user?._id.equals(document._id)
     return true
-
-  delete: (req, res, userID) ->
-    # Instead of just deleting the User object, we should remove all the properties except for _id
-    # And add a `deleted: true` property
-    @getDocumentForIdOrSlug userID, (err, user) => # Check first
-      return @sendDatabaseError res, err if err
-      return @sendNotFoundError res unless user
-      return @sendForbiddenError res unless @hasAccessToDocument(req, user)
-
-      # Delete subscriptions attached to this user first
-      # TODO: check sponsored subscriptions (stripe.recipients)
-      checkPersonalSubscription = (user, done) =>
-        try
-          return done() unless user.get('stripe')?.subscriptionID?
-          SubscriptionHandler.unsubscribeUser {body: user.toObject()}, user, (err) =>
-            log.error("User delete check personal sub " + err) if err
-            done()
-        catch error
-          log.error("User delete check personal sub " + error)
-          done()
-      checkRecipientSubscription = (user, done) =>
-        try
-          return done() unless sponsorID = user.get('stripe')?.sponsorID
-          User.findById sponsorID, (err, sponsor) =>
-            if err
-              log.error("User delete check recipient sub " + err)
-              return done()
-            unless sponsor
-              log.error("User delete check recipient sub no sponsor #{user.get('stripe').sponsorID}")
-              return done()
-            sponsorObject = sponsor.toObject()
-            sponsorObject.stripe.unsubscribeEmail = user.get('email')
-            SubscriptionHandler.unsubscribeRecipient {body: sponsorObject}, sponsor, (err) =>
-              log.error("User delete check recipient sub " + err) if err
-              done()
-        catch error
-          log.error("User delete check recipient sub " + error)
-          done()
-      deleteSubscriptions = (user, done) =>
-        checkPersonalSubscription user, (err) =>
-          checkRecipientSubscription user, done
-
-      deleteSubscriptions user, =>
-        obj = user.toObject()
-        for prop, val of obj
-          user.set(prop, undefined) unless prop is '_id'
-        user.set('dateDeleted', new Date())
-        user.set('deleted', true)
-
-        # Hack to get saving of Users to work. Probably should replace these props with strings
-        # so that validation doesn't get hung up on Date objects in the documents.
-        delete obj.dateCreated
-
-        user.save (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendNoContent res
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
@@ -550,14 +494,9 @@ UserHandler = class UserHandler extends Handler
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
-      photoURL = document?.get('photoURL')
-      if photoURL
-        photoURL = "/file/#{photoURL}"
-      else if req.query.employerPageAvatar is "true"
-        photoURL = @buildGravatarURL document, req.query.s, "/images/pages/employer/anon_user.png"
-      else
-        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
-      res.redirect photoURL
+      fallback = req.query.fallback
+      combinedPhotoURL = @buildGravatarURL document, req.query.s, fallback
+      res.redirect combinedPhotoURL
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
@@ -722,9 +661,10 @@ UserHandler = class UserHandler extends Handler
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
+    fallback ?= "/file/db/thang.type/#{thang}/portrait.png" if thang = user.get('heroConfig')?.thangType
     fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
     fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
-    "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
+    "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar

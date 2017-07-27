@@ -65,6 +65,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     want_coco: "想要在您的學校進行CodeCombat嗎？"
 
   nav:
+#    map: "Map"
     play: "返回地圖" # The top nav bar entry where players choose which levels to play
     community: "社群"
     courses: "課程"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   common:
     back: "上一步" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "即將公布！"
     continue: "下一步" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     loading: "載入中…"
     overview: "總覽"
     solution: "解決方法"
+#    table_of_contents: "Table of Contents"
     intro: "簡介"
     saving: "儲存中…"
     sending: "發送中…"
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     years: "年"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "目標方向"
     edit_level: "編輯關卡"
     explore_codecombat: "瀏覽 CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     tip_good_idea: "找到好點子最好的方法是先找到一大堆點子。 - Linus Pauling"
     tip_programming_not_about_computers: "電腦科學之於電腦不外乎於望遠鏡之於天文學。 - Edsger Dijkstra"
     tip_mulan: "相信你可以做到，然後你就會做到。 - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "由{{name}}創建"
@@ -597,6 +610,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     day: "今天"
     week: "這週"
     all: "全部紀錄"
+#    latest: "Latest"
     time: "時間"
     damage_taken: "遭受的傷害"
     damage_dealt: "造成的傷害"
@@ -675,6 +689,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sale_button_title: "年費訂閱能節省 ${{discount}} 的費用"
     stripe_description: "每月訂閱"
     stripe_description_year_sale: "年費訂閱 (${{discount}} 優惠)" # {change}
+#    buy_now: "Buy Now"
     subscription_required_to_play: "您將需要訂閱來開啟這關。"
     unlock_help_videos: "訂閱後才可以解鎖教學影片喔！。"
     personal_sub: "個人訂閱" # Accounts Subscription View below
@@ -707,9 +722,17 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
-#    cuddly_companions: "Cuddly Companions!"
+#    now_available: "Now available for subscribers!"
+#    subscriber: "subscriber"
+#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
 #    griffin_name: "Baby Griffin"
@@ -735,8 +758,18 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -751,7 +784,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
 #    game_dev_caption: "Design your own games to challenge your friends!"
 #    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
 #    list_levels: "Gain access to __premiumLevelsCount__ more levels"
 #    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
 #    list_game_dev: "Make and share games with friends"
@@ -885,6 +918,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     retrostyle_blurb: "復古風格的遊戲"
     jose_title: "音樂"
     jose_blurb: "放輕鬆"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...以及我們的開放原始碼社群"
     community_subtitle: "超過 500 位貢獻者協助建立 CodeCombat , 而且每週持續增加中！"
     community_description_3: "CodeCombat 是一個"
@@ -1066,7 +1101,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     delete_account_tab: "刪除您的帳戶"
     wrong_email: "錯誤的Email"
     wrong_password: "密碼錯誤"
-    upload_picture: "上傳圖片"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "永久性的刪除帳戶"
     reset_progress_tab: "重置所有進度"
     reset_your_progress: "清除您的所有進度並重新開始"
@@ -1099,7 +1134,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     saved: "修改已儲存"
     password_mismatch: "密碼不正確。"
     password_repeat: "請重複輸入您的密碼。"
-    file_size_limit: "(檔案大小限制: 1MB )"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "鍵盤快捷鍵"
@@ -1227,6 +1261,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     switch_to: "切換至"
     greetings: "您好!"
     back_classrooms: "回到我的教室"
+#    back_classroom: "Back to classroom"
     back_courses: "回到我的課程"
     edit_details: "編輯班級資訊"
     purchase_enrollments: "購買學生註冊碼"
@@ -1237,6 +1272,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     teacher: "老師"
     arena: "競技場"
     available_levels: "可進入的關卡"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "冒險者們，歡迎來到課程之中!"
     ready_to_play: "準備好開始遊玩了嗎?"
     start_new_game: "開始一個新的遊戲"
@@ -1249,6 +1288,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     my_classes: "現在的教室"
     class_added: "您已經成功的加入一個教室!"
     view_levels: "觀看課程中的所有關卡"
+#    view_project_gallery: "view my classmates' projects"
     join_class: "加入一個班級"
     join_class_2: "加入班級"
     ask_teacher_for_code: "詢問您的老師是否有一個您的CodeCombat教室代碼! 如果有的話，輸入在後方:"
@@ -1344,6 +1384,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     web_dev_language_transition: "在這個課程中所有的班級都使用 HTML / JavaScript。 已經使用Python的班級將會從額外的JavaScript介紹關卡開始以銜接內容。 已經使用JavaScript的班級將會跳過介紹關卡。"
     course_membership_required_to_play: "您需要加入一個課程來遊玩此關卡。"
     license_required_to_play: "詢問您的老師來分派一個授權碼給您，這樣您就可以繼續遊玩CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
     assigning_course: "派發課程中"
@@ -1445,7 +1490,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     changed: "已更改"
     available_credits: "可用的註冊碼"
     pending_credits: "等待中的註冊碼"
-    credits: "註冊碼"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "起始註冊碼"
     start_date: "開始日期:"
     end_date: "結束日期:"
@@ -1460,7 +1509,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     status_enrolled: "在 {{date}} 後過期"
     select_all: "全選"
     project: "專案"
-    view_student_project: "觀看學生專案"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
     view_arena_ladder: "觀看競技場天梯"
     resource_hub: "Resource Hub"
     getting_started: "開始吧"
@@ -1601,6 +1652,23 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "遊戲"

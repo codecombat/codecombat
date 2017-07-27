@@ -21,10 +21,13 @@ module.exports = class CocoRouter extends Backbone.Router
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       if utils.getQueryVariable 'hour_of_code'
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
+      unless me.isAnonymous() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
+        delete window.alreadyLoadedView
+        return @navigate "/premium", {trigger: true, replace: true}
       return @routeDirectly('HomeView', [])
 
     'about': go('AboutView')
-    
+
     'account': go('account/MainAccountView')
     'account/settings': go('account/AccountSettingsRootView')
     'account/unsubscribe': go('account/UnsubscribeView')
@@ -138,7 +141,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'il-signup': go('account/IsraelSignupView')
 
     'legal': go('LegalView')
-    
+
     'logout': 'logout'
 
     'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
@@ -153,7 +156,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'premium': go('PremiumFeaturesView')
     'Premium': go('PremiumFeaturesView')
-    
+
     'preview': go('HomeView')
 
     'privacy': go('PrivacyView')
@@ -161,11 +164,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')
-    
+
     'sunburst': go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
+    'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
     'teachers': redirect('/teachers/classes')
@@ -180,6 +184,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
     'teachers/quote': redirect('/teachers/demo')
     'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
+    'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
     'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
@@ -252,7 +257,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     @viewLoad.setView(view)
     @viewLoad.record()
-    
+
   redirectHome: ->
     delete window.alreadyLoadedView
     homeUrl = switch
@@ -274,7 +279,7 @@ module.exports = class CocoRouter extends Backbone.Router
     @activateTab()
     @didOpenView view
 
-  mergeView: (view) ->   
+  mergeView: (view) ->
     unless view.mergeWithPrerendered?
       return @openView(view)
 
@@ -358,7 +363,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
   reload: ->
     document.location.reload()
-    
+
   logout: ->
     me.logout()
     @navigate('/', { trigger: true })

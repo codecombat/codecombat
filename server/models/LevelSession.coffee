@@ -88,7 +88,7 @@ LevelSessionSchema.statics.editableProperties = ['players', 'code', 'codeLanguag
                                                  'levelName', 'creatorName', 'levelID',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
                                                  'unsubscribed', 'playtime', 'heroConfig', 'team',
-                                                 'browser']
+                                                 'browser', 'published']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
 LevelSessionSchema.set('toObject', {
@@ -112,7 +112,7 @@ if config.mongo.level_session_replica_string?
     if error
       log.error "Couldn't connect to session mongo!", error
     else
-      log.info "Connected to seperate level session server with string", config.mongo.level_session_replica_string
+      log.info "Connected to separate level session server with string", config.mongo.level_session_replica_string
 else
   levelSessionMongo = mongoose
 

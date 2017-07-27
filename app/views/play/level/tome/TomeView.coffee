@@ -176,7 +176,8 @@ module.exports = class TomeView extends CocoView
       submissionCount: sessionState.submissionCount ? 0,
       flagHistory: sessionState.flagHistory ? [],
       god: @options.god,
-      fixedSeed: @options.fixedSeed
+      fixedSeed: @options.fixedSeed,
+      keyValueDb: @options.session.get('keyValueDb') ? {}
     }
 
   onClick: (e) ->

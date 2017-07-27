@@ -32,6 +32,9 @@ flat-layout
           | archived
         option(value="unarchived")
           | unarchived
+    div
+      | Search by email address (including archived):
+      input(v-model.trim="searchInput" placeholder="user@example.com")
   
     ol.skipped-contacts
       li( is="skipped-contact-info",

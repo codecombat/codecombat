@@ -47,10 +47,10 @@ module.exports = class ActivateLicensesModal extends ModalView
     
     @listenTo @state, 'change', @render
     @listenTo @state.get('selectedUsers'), 'change add remove reset', ->
-      @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
+      @updateVisibleSelectedUsers()
       @render()
     @listenTo @users, 'change add remove reset', ->
-      @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
+      @updateVisibleSelectedUsers()
       @render()
     @listenTo @prepaids, 'sync add remove', ->
       @state.set {
@@ -92,6 +92,9 @@ module.exports = class ActivateLicensesModal extends ModalView
     usersToRedeem = @state.get('visibleSelectedUsers')
     @redeemUsers(usersToRedeem)
 
+  updateVisibleSelectedUsers: ->
+    @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
+
   redeemUsers: (usersToRedeem) ->
     if not usersToRedeem.size()
       @finishRedeemUsers()
@@ -104,6 +107,8 @@ module.exports = class ActivateLicensesModal extends ModalView
       success: (prepaid) =>
         user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
         usersToRedeem.remove(user)
+        @state.get('selectedUsers').remove(user)
+        @updateVisibleSelectedUsers()
         # pct = 100 * (usersToRedeem.originalSize - usersToRedeem.size() / usersToRedeem.originalSize)
         # @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")
         application.tracker?.trackEvent 'Enroll modal finished enroll student', category: 'Courses', userID: user.id

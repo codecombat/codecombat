@@ -284,7 +284,7 @@ describe 'CreateTeacherAccountView', ->
             request = jasmine.Ajax.requests.mostRecent()
             expect(request.url).toBe('/db/user/1234/signup-with-password')
             request.respondWith({ status: 201, responseText: '{}' })
-            _.defer done
+            view.once 'on-trial-request-submit-complete', done
         
         it 'redirects to "/teachers/courses"', ->
           expect(application.router.navigate).toHaveBeenCalled()

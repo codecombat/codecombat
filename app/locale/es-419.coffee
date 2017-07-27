@@ -65,6 +65,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     want_coco: "¿Quisiera CodeCombat en su escuela?"
 
   nav:
+#    map: "Map"
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
     courses: "Cursos"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 
   common:
     back: "Volver" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
 #    coming_soon: "Coming soon!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     loading: "Cargando..."
 #    overview: "Overview"
 #    solution: "Solution"
+#    table_of_contents: "Table of Contents"
 #    intro: "Intro"
     saving: "Guardando..."
     sending: "Enviando..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     years: "años"
 
   play_level:
+#    back_to_map: "Back to Map"
 #    directions: "Directions"
 #    edit_level: "Edit Level"
 #    explore_codecombat: "Explore CodeCombat"
@@ -448,7 +452,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     running: "Andando..."
     success: "¡Éxito!"
     incomplete: "Incompleto"
-    timed_out: "Se te acabó el tiempo"
+    timed_out: "Acabó el tiempo"
     failing: "Fallando"
     reload: "Recargar"
     reload_title: "¿Recargar Todo el Código?"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     tip_good_idea: "La mejor forma de tener una buena idea es tener un montón de ideas. - Linus Pauling"
     tip_programming_not_about_computers: "En las Ciencias de la Computación no es más acerca de computadoras que la astronomía acerca de telescopios. - Edsger Dijkstra"
     tip_mulan: "Si crees que puedes, entonces lo harás. - Mulan"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
 #  play_game_dev_level:
 #    created_by: "Created by {{name}}"
@@ -597,6 +610,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     day: "Hoy"
     week: "Esta Semana"
     all: "Siempre"
+#    latest: "Latest"
     time: "Tiempo"
     damage_taken: "Daño Recibido"
     damage_dealt: "Daño Infligido"
@@ -675,6 +689,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     sale_button_title: "Ahorre $21 al adquirir una suscripción por 1 año"
     stripe_description: "Suscripción Mensual"
     stripe_description_year_sale: "Suscripción por 1 año (${{discount}} de descuento)"
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Necesitas una suscripción para jugar este nivel."
     unlock_help_videos: "Suscríbete para desbloquear todos los video tutoriales."
     personal_sub: "Suscripción Personal" # Accounts Subscription View below
@@ -707,9 +722,17 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
-#    cuddly_companions: "Cuddly Companions!"
+#    now_available: "Now available for subscribers!"
+#    subscriber: "subscriber"
+#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
 #    griffin_name: "Baby Griffin"
@@ -735,8 +758,18 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
@@ -751,7 +784,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
 #    game_dev_caption: "Design your own games to challenge your friends!"
 #    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems every month to buy gear, pets, and heroes"
+#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
 #    list_levels: "Gain access to __premiumLevelsCount__ more levels"
 #    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
 #    list_game_dev: "Make and share games with friends"
@@ -885,6 +918,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     retrostyle_blurb: "Juegos con estilo Retro"
     jose_title: "Música"
     jose_blurb: "Despegar"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...y nuestra comunidad open-source"
     community_subtitle: "¡Más de 450 contribuidores que ayudaron a contruir CodeCombat, y más uniendose cada semana!" # {change}
 #    community_description_3: "CodeCombat is a"
@@ -1066,7 +1101,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     delete_account_tab: "Borra tu cuenta"
     wrong_email: "Mail Incorrecto"
     wrong_password: "Contraseña incorrecta"
-    upload_picture: "Sube una imagen"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Borrar esta cuenta permanentemente"
     reset_progress_tab: "Reiniciar Todo Progreso"
     reset_your_progress: "Limpiar todo tu progreso y comenzar de nuevo"
@@ -1099,7 +1134,6 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     saved: "Cambios Guardados"
     password_mismatch: "La contraseña no coincide."
     password_repeat: "Por favor repita su contraseña."
-#    file_size_limit: "(max file size: 1MB)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Atajos de teclado"
@@ -1227,6 +1261,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     switch_to: "Cambiar a"
     greetings: "Saludos!"
     back_classrooms: "Volver a mis aulas"
+#    back_classroom: "Back to classroom"
     back_courses: "Volver a mis cursos"
     edit_details: "Editar detallesde clase"
     purchase_enrollments: "Comprar Matrículas" # {change}
@@ -1237,6 +1272,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     teacher: "Maestro"
     arena: "Arena"
     available_levels: "Niveles Disponibles"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Aventureros, Bienvenidos a los Cursos!"
     ready_to_play: "Estas listo?"
     start_new_game: "Iniciar un Nuevo Juego"
@@ -1249,6 +1288,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     my_classes: "Mis Clases" # {change}
     class_added: "Clase añadida satisfactoriamente!"
     view_levels: "ver niveles" # {change}
+#    view_project_gallery: "view my classmates' projects"
     join_class: "Unirse a clase"
 #    join_class_2: "Join class"
     ask_teacher_for_code: "Preguntalé a tu profesor si tu tienes un código de CodeCombat! Si lo tiene, ingresalo debajo:"
@@ -1344,6 +1384,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1445,7 +1490,11 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    changed: "Changed"
 #    available_credits: "Available Licenses"
 #    pending_credits: "Pending Licenses"
-#    credits: "licenses"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
@@ -1460,7 +1509,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    status_enrolled: "Expires on {{date}}"
 #    select_all: "Select All"
 #    project: "Project"
-#    view_student_project: "View Student Project"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project"
+#    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
 #    getting_started: "Getting Started"
@@ -1601,6 +1652,23 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
 #  sharing:
 #    game: "Game"

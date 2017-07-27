@@ -106,6 +106,7 @@ Application = {
       #resPostPath: '/languages/add/__lng__/__ns__'
     }, (t) =>
       @router = new Router()
+      @userIsIdle = false
       onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
       @idleTracker = new Idle
         onAway: onIdleChanged true

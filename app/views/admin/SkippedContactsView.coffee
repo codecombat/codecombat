@@ -94,6 +94,7 @@ SkippedContactsComponent = Vue.extend
     showArchived: false
     showTrialRequestContacts: true
     showZenProspectContacts: true
+    searchInput: ''
   computed:
     _.assign({},
       Vuex.mapState('page', ['skippedContacts', 'users']),
@@ -115,15 +116,18 @@ SkippedContactsComponent = Vue.extend
     )
   methods:
     isContactShown: (contact) ->
+      return @matchesFilter(contact) if not _.isEmpty(@searchInput)
       (@showArchived or not contact.archived) and
         ((@showTrialRequestContacts and contact.trialRequest) or
          (@showZenProspectContacts and contact.zpContact))
+    matchesFilter: (contact) ->
+      _.contains(contact.email, @searchInput)
   components:
     'skipped-contact-info': SkippedContactInfo
     'flat-layout': FlatLayout
   created: co.wrap ->
     try
-      skippedContacts = yield api.skippedContacts.fetchAll()
+      skippedContacts = yield api.skippedContacts.getAll()
       @$store.commit('page/loadContacts', skippedContacts)
       yield skippedContacts.map co.wrap (skippedContact) =>
         userHandle = skippedContact.trialRequest?.applicant

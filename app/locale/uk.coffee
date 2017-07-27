@@ -65,6 +65,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     want_coco: "Хочете CodeCombat у вашій школі?"
 
   nav:
+#    map: "Map"
     play: "Грати" # The top nav bar entry where players choose which levels to play
     community: "Спільнота"
     courses: "Курси"
@@ -319,6 +320,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   common:
     back: "Назад" # When used as an action verb, like "Navigate backward"
+#    go_back: "Go Back"
     coming_soon: "Очікуйте скоро!"
     continue: "Вперед" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -326,6 +328,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     loading: "Завантаження..."
     overview: "Огляд"
     solution: "Рішення"
+#    table_of_contents: "Table of Contents"
     intro: "Вступ"
     saving: "Збереження..."
     sending: "Надсилання..."
@@ -424,6 +427,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     years: "років"
 
   play_level:
+#    back_to_map: "Back to Map"
     directions: "Напрямки"
     edit_level: "Редагувати рівень"
     explore_codecombat: "Дослідити CodeCombat"
@@ -565,6 +569,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_good_idea: "Якщо ви хочете мати хорошу ідею - ви повинні мати багато ідей. - Лайнус Полінг"
     tip_programming_not_about_computers: "Комп'ютерна наука є наукою про комп'ютери не більше, аніж астрономія — наукою про телескопи. - Едсгер Дейкстра"
     tip_mulan: "Вір, що ти можеш, і тоді у тебе вийде. - Мулан"
+#    project_complete: "Project Complete!"
+#    share_this_project: "Share this project with friends or family:"
+#    ready_to_share: "Ready to publish your project?"
+#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
+#    already_published_prefix: "Your changes have been published to the class gallery."
+#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
 
   play_game_dev_level:
     created_by: "Створив: {{name}}"
@@ -597,6 +610,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     day: "Сьогодні"
     week: "Цього тижня"
     all: "За увесь час"
+#    latest: "Latest"
     time: "Час"
     damage_taken: "Пошкоджень отримано"
     damage_dealt: "Пошкоджень нанесено"
@@ -675,6 +689,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sale_button_title: "Збережіть {{discount}}$ при покупці абонементу на 1 рік"
     stripe_description: "Щомісячний абонемент"
     stripe_description_year_sale: "1 рік підписки ({{discount}}$ знижка)"
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
     personal_sub: "Особистий абонемент" # Accounts Subscription View below
@@ -707,9 +722,17 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     support_part1: "Потрібна допомога з опціями оплати? Напишіть на"
     support_part2: "support@codecombat.com"
     support_part3: "якщо у вас є які-небудь питання."
+#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
+#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    choose_payment_method: "Choose Payment Method"
+#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
-#    cuddly_companions: "Cuddly Companions!"
+#    now_available: "Now available for subscribers!"
+#    subscriber: "subscriber"
+#    cuddly_companions: "Cuddly Companions!" # Pet Announcement Modal
 #    kindling_name: "Kindling Elemental"
 #    kindling_description: "Kindling Elementals just want to keep you warm at night. And during the day. All the time, really."
 #    griffin_name: "Baby Griffin"
@@ -735,8 +758,18 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    the_second_kithmaze: "The Second Kithmaze"
 #    keep_playing: "Keep playing to discover the first pet!"
 #    coming_soon: "Coming soon"
-#    now_available: "Now available for subscribers!"
-#    subscriber: "subscriber"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Отримайте<br>CodeCombat<br>Преміум" # Fit into the banner on the /features page
@@ -885,6 +918,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
     jose_blurb: "Hа зліт"
+#    bryukh_title: "Game Designer"
+#    bryukh_blurb: "Constructs puzzles"
     community_title: "...і наша open-source спільнота"
     community_subtitle: "Більше 500 помічників допомогли створити CodeCombat, і кожного тижня приєднуються нові!"
     community_description_3: "CodeCombat - це"
@@ -1066,7 +1101,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     delete_account_tab: "Вилучити свій акаунт"
     wrong_email: "Невірний email"
     wrong_password: "Невірний пароль"
-    upload_picture: "Відвантажити зображення"
+#    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Вилучити цей акаунт назовсім"
     reset_progress_tab: "Скинути увесь поступ"
     reset_your_progress: "Скинути увесь поступ і почати заново"
@@ -1099,7 +1134,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     saved: "Зміни збережено"
     password_mismatch: "Паролі не збігаються."
     password_repeat: "Будь ласка, повторіть пароль."
-    file_size_limit: "(максимальний розмір файлу: 1МБ)"
 
   keyboard_shortcuts:
     keyboard_shortcuts: "Клавіатурні скорочення"
@@ -1227,6 +1261,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     switch_to: "Переключитись на"
     greetings: "Вітання!"
     back_classrooms: "Повернутись до моїх класів"
+#    back_classroom: "Back to classroom"
     back_courses: "Повернутись до моїх курсів"
     edit_details: "Редагувати деталі класу"
     purchase_enrollments: "Придбати учнівські ліцензії"
@@ -1237,6 +1272,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     teacher: "Вчитель"
     arena: "Арена"
     available_levels: "Доступні рівні"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
     welcome_to_courses: "Шукачі пригод, ласкаво просимо до курсів!"
     ready_to_play: "Готові грати?"
     start_new_game: "Розпочати нову гру"
@@ -1249,6 +1288,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     my_classes: "Поточні класи"
     class_added: "Клас успішно додано!"
     view_levels: "переглянути всі рівні курсу"
+#    view_project_gallery: "view my classmates' projects"
     join_class: "Приєднайтесь до класу"
     join_class_2: "Приєднайтесь до класу"
     ask_teacher_for_code: "Запитайте у вашого вчителя, чи є у вас код класу CodeCombat! Якщо так, введіть його нижче:"
@@ -1344,6 +1384,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     web_dev_language_transition: "Програма HTML/JavaScript для всіх класів для цього курсу. Класи, що використовували Python, розпочнуть з додаткових вступних рівнів JavaScript, щоб полегшити перехід. Для класів, що вже використовують JavaScript, вступні рівні буде пропущено."
     course_membership_required_to_play: "Вам потрібно приєднатись до курсу щоб зіграти в цей рівень."
     license_required_to_play: "Попроси свого вчителя призначити тобі ліцензію для продовження гри на CodeCombat!"
+
+#  project_gallery:
+#    no_projects_published: "Be the first to publish a project in this course!"
+#    view_project: "View Project"
+#    edit_project: "Edit Project"
 
   teacher:
     assigning_course: "Призначення курсу"
@@ -1445,7 +1490,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     changed: "Змінено"
     available_credits: "Доступні ліцензії"
     pending_credits: "Ліцензії в очікуванні"
-    credits: "ліцензій"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
     starter_licenses: "початкові ліцензії"
     start_date: "дата початку:"
     end_date: "дата закінчення:"
@@ -1460,7 +1509,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     status_enrolled: "Термін дії закінчиться {{date}}"
     select_all: "Обрати все"
     project: "Проект"
-    view_student_project: "Переглянути проект учня"
+#    project_gallery: "Project Gallery"
+#    view_project: "View Project" # {change}
+#    unpublished: "(unpublished)"
     view_arena_ladder: "Переглянути рейтинг арени"
     resource_hub: "Хаб ресурсів"
     getting_started: "Початок роботи"
@@ -1601,6 +1652,23 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
   sharing:
     game: "Гра"
