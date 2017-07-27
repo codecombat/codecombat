@@ -399,10 +399,13 @@ module.exports =
     projection = name: 1, email: 1, dateCreated: 1, role: 1
 
     search = adminSearch
-    query = email: {$exists: true}, $or: [
-      {emailLower: search.toLowerCase()}
-      {nameLower: search.toLowerCase()}
-    ]
+    query = {
+      anonymous: false,
+      $or: [
+        {emailLower: search.toLowerCase()}
+        {nameLower: search.toLowerCase()}
+      ]
+    }
     query.$or.push {_id: mongoose.Types.ObjectId(search)} if utils.isID search
 
     if req.query.role?
