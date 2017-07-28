@@ -152,15 +152,15 @@ block content
 
         a(name="revenueHomeMrr")
         h1 Home MRR
-        .small MRR = yearly subs + monthly subs + terminal subs + gems
-        .small Yearly sub purchase values not spread across timeframe.
+        .small MRR = lifetime subs + monthly subs + terminal subs + gems
+        .small Lifetime sub purchase values not spread across timeframe.
         .small Terminal sub purchase values not spread across timeframe.
         table.table.table-striped.table-condensed
           tr
             th Month
             th Gems
             th Monthly subs
-            th Yearly subs
+            th Lifetime subs
             th MRR
           each revenue, month in view.monthMrrMap
             tr
@@ -359,7 +359,7 @@ block content
 
       .tab-pane#tab_campaign
         h3 Home Daily Active Users 90 days
-        .small Paid user: had monthly or yearly sub on given day
+        .small Paid user: had monthly or lifetime sub on given day
         .small Free user: not paid
         .campaign-daily-active-users-chart-90.line-chart-container
 
