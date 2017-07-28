@@ -3,6 +3,31 @@ template = require 'templates/base-flat'
 require('vendor/co')
 api = require 'core/api'
 FlatLayout = require 'core/components/FlatLayout'
+store = require('core/store')
+
+storeModule = -> {
+  namespaced: true
+  state:
+    skippedContacts: []
+    users: {}
+  actions:
+    archiveContact: ({ commit, state }, {skippedContact, archived}) ->
+      newContact = _.assign({}, skippedContact, {archived})
+      api.skippedContacts.put(newContact).then ->
+        commit('archiveContact', {skippedContact, archived})
+  mutations:
+    archiveContact: (state, { skippedContact, archived }) ->
+      index = _.findIndex(state.skippedContacts, (s) -> s._id is skippedContact._id)
+      oldContact = state.skippedContacts[index]
+      Vue.set(state.skippedContacts, index, _.assign({}, oldContact, { archived }))
+    addUser: (state, { skippedContact, user }) ->
+      Vue.set(state.users, skippedContact._id, user)
+    loadContacts: (state, skippedContacts) ->
+      state.skippedContacts = skippedContacts
+  getters:
+    numArchivedUsers: (state) ->
+      _.countBy(state.skippedContacts, (contact) -> contact.archived)[true]
+}
 
 SkippedContactInfo =
   template: require('templates/admin/skipped-contacts/skipped-contact-info')()
@@ -88,6 +113,7 @@ SkippedContactInfo =
       # @$emit('archiveContact', @skippedContact, archived)
 
 SkippedContactsComponent = Vue.extend
+  name: "skipped-contacts-view"
   template: require('templates/admin/skipped-contacts/skipped-contacts-view')()
   data: ->
     sortOrder: 'date (descending)'
@@ -126,43 +152,21 @@ SkippedContactsComponent = Vue.extend
     'skipped-contact-info': SkippedContactInfo
     'flat-layout': FlatLayout
   created: co.wrap ->
+    store.registerModule('page', storeModule()) # TODO: Bring back automatic registering/unregistering for RootComponents?
     try
       skippedContacts = yield api.skippedContacts.getAll()
       @$store.commit('page/loadContacts', skippedContacts)
       yield skippedContacts.map co.wrap (skippedContact) =>
         userHandle = skippedContact.trialRequest?.applicant
+        return
         return unless userHandle
         user = yield api.users.getByHandle(userHandle)
         @$store.commit('page/addUser', { skippedContact , user })
     catch e
       @$store.commit('addPageError', e)
+  destroyed: ->
+    store.unregisterModule('page')
+    @$store = silentStore
 
-store = require('core/store')
-
-module.exports = class SkippedContactsView extends RootComponent
-  id: 'skipped-contacts-view'
-  template: template
-  VueComponent: SkippedContactsComponent
-  vuexModule: -> {
-    namespaced: true
-    state:
-      skippedContacts: []
-      users: {}
-    actions:
-      archiveContact: ({ commit, state }, {skippedContact, archived}) ->
-        newContact = _.assign({}, skippedContact, {archived})
-        api.skippedContacts.put(newContact).then ->
-          commit('archiveContact', {skippedContact, archived})
-    mutations:
-      archiveContact: (state, { skippedContact, archived }) ->
-        index = _.findIndex(state.skippedContacts, (s) -> s._id is skippedContact._id)
-        oldContact = state.skippedContacts[index]
-        Vue.set(state.skippedContacts, index, _.assign({}, oldContact, { archived }))
-      addUser: (state, { skippedContact, user }) ->
-        Vue.set(state.users, skippedContact._id, user)
-      loadContacts: (state, skippedContacts) ->
-        state.skippedContacts = skippedContacts
-    getters:
-      numArchivedUsers: (state) ->
-        _.countBy(state.skippedContacts, (contact) -> contact.archived)[true]
-  }
+VueWrapper = require('views/core/VueWrapper')
+module.exports = VueWrapper.RootComponent(SkippedContactsComponent)
