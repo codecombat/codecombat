@@ -12,7 +12,8 @@ makeWrapperForClass = (ParentClass) ->
         @listeners = []
       afterRender: ->
         super()
-        target = @$el
+        # Modals get attached one layer higher than usual other views, and we don't want to clobber the .modal layer
+        target = if ParentClass is ModalView then @$el.find('div') else @$el
         if @vueComponent
           target.replaceWith(@vueComponent.$el)
         else
