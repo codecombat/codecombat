@@ -5,7 +5,7 @@ module.exports = {
     fetchJson('/db/classroom', _.assign({}, options, {
       method: 'POST',
       json: classroom
-    })),
+    }))
     
   get: ({ classroomID }, options={}) ->
     fetchJson("/db/classroom/#{classroomID}", options)
