@@ -389,7 +389,8 @@ describe 'TeacherClassView', ->
           expect(request.url).toBe("/db/course_instance/#{@courseInstance.id}/members")
           expect(request.method).toBe('POST')
 
-        it 'shows a noty if POSTing students fails', (done) ->
+        # TODO: Flaky
+        xit 'shows a noty if POSTing students fails', (done) ->
           @notySpy.and.callFake(done)
           expect(@courseInstance.fakeRequests.length).toBe(1)
           request = @courseInstance.fakeRequests[0]
