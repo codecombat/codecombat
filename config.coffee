@@ -92,7 +92,7 @@ exports.config =
 
         #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
         'javascripts/whole-app.js': if TRAVIS then [
-          regJoin('^app')
+          regJoin('^app/(?!lib/aether/)')
         ] else []
 
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
