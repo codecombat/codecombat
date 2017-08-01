@@ -14,6 +14,7 @@ module.exports = class ActivateLicensesModal extends ModalView
 
   events:
     'change input[type="checkbox"][name="user"]': 'updateSelectedStudents'
+    'change .select-all-users-checkbox': 'toggleSelectAllStudents'
     'change select.classroom-select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
     'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
@@ -73,7 +74,29 @@ module.exports = class ActivateLicensesModal extends ModalView
       @state.get('selectedUsers').remove(user.id)
     else
       @state.get('selectedUsers').add(user)
+    @$(".select-all-users-checkbox").prop('checked', @areAllSelected())
     # @render() # TODO: Have @state automatically listen to children's change events?
+
+  enrolledUsers: ->
+    @users.filter((user) -> user.isEnrolled())
+
+  unenrolledUsers: ->
+    @users.filter((user) -> not user.isEnrolled())
+
+  areAllSelected: ->
+    return _.all(@unenrolledUsers(), (user) => @state.get('selectedUsers').get(user.id))
+
+  toggleSelectAllStudents: (e) ->
+    if @areAllSelected()
+      @unenrolledUsers().forEach (user, index) =>
+        if @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', false)
+          @state.get('selectedUsers').remove(user.id)
+    else
+      @unenrolledUsers().forEach (user, index) =>
+        if not @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
+          @state.get('selectedUsers').add(user)
   
   replaceStudentList: (e) ->
     selectedClassroomID = $(e.currentTarget).val()
