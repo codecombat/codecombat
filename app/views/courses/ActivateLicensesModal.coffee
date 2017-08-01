@@ -45,10 +45,11 @@ module.exports = class ActivateLicensesModal extends ModalView
           @supermodel.trackRequests(jqxhrs)
       })
     
-    @listenTo @state, 'change', @render
+    @listenTo @state, 'change', ->
+      @renderSelectors('#submit-form-area')
     @listenTo @state.get('selectedUsers'), 'change add remove reset', ->
       @updateVisibleSelectedUsers()
-      @render()
+      @renderSelectors('#submit-form-area')
     @listenTo @users, 'change add remove reset', ->
       @updateVisibleSelectedUsers()
       @render()
@@ -68,8 +69,8 @@ module.exports = class ActivateLicensesModal extends ModalView
   updateSelectedStudents: (e) ->
     userID = $(e.currentTarget).data('user-id')
     user = @users.get(userID)
-    if @state.get('selectedUsers').contains(user)
-      @state.get('selectedUsers').remove(user)
+    if @state.get('selectedUsers').findWhere({ _id: user.id })
+      @state.get('selectedUsers').remove(user.id)
     else
       @state.get('selectedUsers').add(user)
     # @render() # TODO: Have @state automatically listen to children's change events?
