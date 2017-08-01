@@ -383,16 +383,16 @@ describe 'TeacherClassView', ->
           @view.assignCourse(@courseInstance.get('courseID'), @students.pluck('_id').slice(2, 4))
           @view.wait('begin-assign-course').then(done)
 
-        # TODO: Flaky
-        xit 'adds students to the course instances', ->
-          request = jasmine.Ajax.requests.mostRecent()
+        it 'adds students to the course instances', ->
+          expect(@courseInstance.fakeRequests.length).toBe(1)
+          request = @courseInstance.fakeRequests[0]
           expect(request.url).toBe("/db/course_instance/#{@courseInstance.id}/members")
           expect(request.method).toBe('POST')
 
-        # TODO: Flaky
-        xit 'shows a noty if POSTing students fails', (done) ->
+        it 'shows a noty if POSTing students fails', (done) ->
           @notySpy.and.callFake(done)
-          request = jasmine.Ajax.requests.mostRecent()
+          expect(@courseInstance.fakeRequests.length).toBe(1)
+          request = @courseInstance.fakeRequests[0]
           request.respondWith({
             status: 500,
             responseText: JSON.stringify({ message: "Internal Server Error" })
