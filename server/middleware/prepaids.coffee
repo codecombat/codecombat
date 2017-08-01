@@ -35,10 +35,10 @@ module.exports =
       
     prepaid = new Prepaid({
       creator: req.user.id
-      maxRedeemers: 100
+      maxRedeemers: 1000
       type: 'course'
-      startDate: new Date('2017-05-01').toISOString()
-      endDate: new Date('2017-08-01').toISOString()
+      startDate: new Date('2017-08-01').toISOString()
+      endDate: new Date('2018-08-01').toISOString()
     })
     database.validateDoc(prepaid)
     yield prepaid.save()
