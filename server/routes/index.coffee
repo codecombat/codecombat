@@ -201,6 +201,8 @@ module.exports.setup = (app) ->
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
 
+  app.get('/db/payments/-/all', mw.auth.checkHasPermission(['admin']), mw.payments.all)
+
   Poll = require '../models/Poll'
   app.delete('/db/poll/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Poll))
   app.post('/db/poll/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Poll, 'poll'))
