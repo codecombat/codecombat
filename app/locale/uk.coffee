@@ -597,7 +597,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     auth_tab: "Вийти"
     inventory_caption: "Екіпіруйте свого героя"
     choose_hero_caption: "Оберіть героя, мову"
-    save_load_caption: "... та перегляньте історію"
     options_caption: "Налаштування параметрів"
     guide_caption: "Документація та поради"
     multiplayer_caption: "Гра з друзями!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Преміум"
     comparison_blurb: "Стань майстром програмування - підпишись на <strong>Преміум</strong> сьогодні!"
     premium_pricing_prefix: "Отримайте Преміум всього за"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sale_button: "Розпродаж!"
     sale_button_title: "Збережіть {{discount}}$ при покупці абонементу на 1 рік"
     stripe_description: "Щомісячний абонемент"
-    stripe_description_year_sale: "1 рік підписки ({{discount}}$ знижка)"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
     unlock_help_videos: "Підпишіться, щоб відкрити усі навчальні відео."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
     hero_caption: "Нові вражаючі герої!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     select_all: "Обрати все"
     project: "Проект"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Переглянути рейтинг арени"
     resource_hub: "Хаб ресурсів"

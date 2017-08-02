@@ -597,7 +597,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     auth_tab: "Inschrijven"
     inventory_caption: "Kies de uitrusting van je held"
     choose_hero_caption: "Kies held, taal"
-    save_load_caption: "... en bekijk de geschiedenis"
     options_caption: "Instellingen"
     guide_caption: "Documenten en tips"
     multiplayer_caption: "Speel met vrienden!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!" # {change}
     premium_pricing_prefix: "Neem Premium voor maar"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sale_button: "Koop"
     sale_button_title: "Bespaar €{{discount}} bij aankoop van een 1-jarig abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
-    stripe_description_year_sale: "1-jarig abonnement (€{{discount}} korting)" # {change}
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
     unlock_help_videos: "Abonneer om toegang te krijgen tot alle instructievideos."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     hero_blurb_1: "Krijg toegang tot __premiumHeroesCount__ supersterke helden, alleen voor abonnees! Gebruik de epische kracht van Okar Stompfoot, de dodelijke precisie van Naria of the Leaf, of roep \"schattige\" skeletten op met Nalfar Cryptor."
     hero_blurb_2: "Premium helden hebben ongelofelijke vecht skills zoals Warcry, Stomp, en Hurl Enemy. Of, speel als Ranger met pijl en boog, werpmessen en vallen! Test je vaardigheden als echte codeermeester en gebruik een arsenaal vam Primordial, Necromantic og Elemental magie!"
     hero_caption: "Spannende nieuwe helden!"
-    pet_blurb_1: "Huisdieren zijn niet alleen schattige maatjes, ze hebben ook unieke functies en methoden. De Baby Griffin kan over obstakels heen vliegen om de held te helpen, de Wolf Pup kan potions halen en de Cougar kan praten!"
+    pet_blurb_1: "Huisdieren zijn niet alleen schattige maatjes, ze hebben ook unieke functies en methoden. De Baby Griffin kan over obstakels heen vliegen om de held te helpen, de Wolf Pup kan potions halen en de Cougar kan praten!" # {change}
     pet_blurb_2: "Verzamel alle huisdieren om hun unieke vaardigheden te ontdekken!"
     pet_caption: "Adopteer huisdieren om je held gezelschap te houden!"
     game_dev_blurb: "Leer games programmeren en bouw nieuwe levels om met je vrienden te delen! Plaats de items die je wil, schrijf code voor het gedrag van verschillende units en kijk of je vrienden je level kunnen verslaan!"
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_all: "Selecteer Alles"
     project: "Project"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Bekijk Arena Stand"
     resource_hub: "Hulpmiddelen"

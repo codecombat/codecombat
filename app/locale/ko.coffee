@@ -597,7 +597,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     auth_tab: "가입하기"
     inventory_caption: "장비 장착"
     choose_hero_caption: "영웅 및 언어 선택 "
-    save_load_caption: "... 그리고 기록보기"
     options_caption: "설정들을 바꾸기"
     guide_caption: "문서들과 팁들"
     multiplayer_caption: "친구들과 플레이 하세요!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "코드컴뱃을 구독하셔서 당신의 스킬을 날카롭게하십시오!" # {change}
 #    premium_pricing_prefix: "Get Premium for just"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     sale_button: "판매!"
     sale_button_title: "1년 구독권을 구매하면 $21가 절약됩니다."
     stripe_description: "월간 구독"
-    stripe_description_year_sale: "1 년 구독시 (${{discount}} 할인)"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "당신은 아마 이 레벨을 플레이하려면 구독이 필요합니다."
     unlock_help_videos: "모든 비디오 튜토리얼의 잠금을 해제하려면 구독 ."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -1565,7 +1564,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
 #    wd2: "Web Development 2"
 #    wd2_jquery_syntax: "jQuery Functions Syntax Guide"
-#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in in Web Development 2."
+#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
 #    wd2_quizlet_worksheet_instructions: "View instructions & examples"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."
