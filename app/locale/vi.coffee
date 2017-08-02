@@ -597,7 +597,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     auth_tab: "Đăng kí"
     inventory_caption: "Trang bị cho nhân vật của bạn"
     choose_hero_caption: "Chọn tướng, ngôn ngữ"
-    save_load_caption: "... và xem lịch sử"
     options_caption: "Cài đặt tùy chỉnh"
     guide_caption: "Tài liệu và hướng dẫn"
     multiplayer_caption: "Chơi với bạn!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Tăng cường kĩ năng bằng cách mua gói dịch vụ nâng cao của CodeCombat!" # {change}
 #    premium_pricing_prefix: "Get Premium for just"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
     sale_button: "Ưu đãi!"
     sale_button_title: "Tiết kiệm $21 khi mua gói dịch vụ 1 năm"
     stripe_description: "Gói dịch vụ tháng"
-    stripe_description_year_sale: "Gói dịch vụ năm (giảm giá (${{discount}})"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Bạn cần mua gói dịch vụ để được chơi cấp độ này."
     unlock_help_videos: "Subscribe để mở tất cả các video hướng dẫn."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -1565,7 +1564,7 @@ module.exports = nativeDescription: "Tiếng Việt", englishDescription: "Vietn
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
 #    wd2: "Web Development 2"
 #    wd2_jquery_syntax: "jQuery Functions Syntax Guide"
-#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in in Web Development 2."
+#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
 #    wd2_quizlet_worksheet_instructions: "View instructions & examples"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."

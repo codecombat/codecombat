@@ -36,7 +36,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     compared: "בהשוואה"
     conventional: "לשיטות הערכה קונבנציונליות, נהנות מיתרון ברור: משחקים עוזרים לתלמידים טוב יותר לשמור על ידע, להתרכז"
     perform_at_higher_level: "ולהגיע להישגים גבוהים יותר"
-    feedback: """בנוסף, משחקים מספקים משוב בזמן אמת, שמאפשר לתלמידים לשנות בהתאם את הדרך שלהם אל הפתרון ולקבל הבנה הוליסטית יותר של עקרונות, במקום להגביל את התלמידים לתשובות "נכון" או "לא נכון"."""
+    feedback: "בנוסף, משחקים מספקים משוב בזמן אמת, שמאפשר לתלמידים לשנות בהתאם את הדרך שלהם אל הפתרון ולקבל הבנה הוליסטית יותר של עקרונות, במקום להגביל את התלמידים לתשובות \"נכון\" או \"לא נכון\"."
     real_game: "חוויית משחק אמיתית, דרך קידוד אמיתי."
     great_game: "משחק מצוין הוא יותר מאשר מדליות והישגים - הוא מסע שהשחקן עובד, פאזלים בנויים היטב והיכולת להתמודד עם הישגים מתוך העצמה וביטחון עצמי."
     agency: "CodeCombat הוא משחק שמעצים תלמידים ומעניק להם ביטחון באמצעות המנוע המקיף שלנו לקידוד בהקלדה, אשר עוזר לתלמידים מתחילים ומתקדמים כאחד, עם קוד נכון ותקין."
@@ -50,23 +50,23 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     logged_in_as: "אתה מחובר כעת בתור"
     computer_science: "קורסים במדעי המחשב לכל הגילאים"
     show_me_lesson_time: "הצג הערכות זמן שיעור עבור:"
-    curriculum: """סה"כ שעות בתכנית לימודים:"""
-    ffa: """בחינם לכל התלמידים"""
+    curriculum: "סה\"כ שעות בתכנית לימודים:"
+    ffa: "בחינם לכל התלמידים"
     lesson_time: "זמן שיעור:"
     coming_soon: "עוד בקרוב!"
     courses_available_in: "זמינים קורסים ב-JavaScript וב-Python. קורסים בפיתוח אינטרנט משתמשים ב-HTML,‏ CSS,‏ jQuery ו-Bootstrap."
     boast: "כולל חידות ברמת מורכבות מספיקה כדי לרתק חובבי משחקים ומקודדים כאחד."
     winning: "שילוב מנצח של משחק תפקידים ושיעורי בית בתכנות, שמצליח להפוך תכנית לימודים שמתאימה לילדים למהנה באמת."
-    run_class:"כל מה שנחוץ לכם כדי לנהל כיתה למדעי המחשב בבית הספר שלכם כבר היום, ללא צורך ברקע במדעי המחשב."
+    run_class: "כל מה שנחוץ לכם כדי לנהל כיתה למדעי המחשב בבית הספר שלכם כבר היום, ללא צורך ברקע במדעי המחשב."
     goto_classes: "עבור אל הכיתות שלי"
     view_profile: "הצג את הפרופיל שלי"
     view_progress: "הצג התקדמות"
     go_to_courses: "עבור לקורסים שלי"
     want_coco: "רוצים את CodeCombat אצלכם בבית הספר?"
-  
+
   nav:
     map: "מפה"
-    play: "שלבים"  # הערך של סרגל הניווט העליון, אשר בו השחקנים בוחרים באילו שלבים לשחק
+    play: "שלבים" # The top nav bar entry where players choose which levels to play
     community: "קהילה"
     courses: "קורסים"
     blog: "בלוג"
@@ -103,38 +103,38 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   modal:
     close: "סגור"
     okay: "אישור"
-  
+
   not_found:
     page_not_found: "הדף לא נמצא"
-  
+
   diplomat_suggestion:
-    title: "עזרו לתרגם את CodeCombat!"  # מופיע כאשר השחקן עובר לשפה שאינה אנגלית באמצעות בורר השפות.
+    title: "עזרו לתרגם את CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "אנו זקוקים לכישורי השפה שלכם"
     pitch_body: "אנו מפתחים את CodeCombat בשפה האנגלית, אך כבר יש לנו שחקנים בכל העולם. רבים מהם רוצים לשחק בשפה {English} אך אינם דוברים אנגלית. לכן, אם אתם דוברים את שתי השפות, אנא שקלו להירשם בתור דיפלומט ולעזור לתרגם את אתר האינטרנט ואת כל השלבים של CodeCombat לשפה {English}."
     missing_translations: "עד שנצליח לתרגם הכול לשפה {English}, יופיע בפניכם תוכן באנגלית כאשר השפה {English} אינה זמינה."
     learn_more: "למידע נוסף על הצטרפות כדיפלומט"
     subscribe_as_diplomat: "הירשם כמנוי דיפלומט"
-  
+
   play:
-    play_as: "שחק בתור"  # דף הטבלה
-    compete: "תחרות!" # דף פרטי קורס
-    spectate: "מצב קהל"  # דף הטבלה
-    players: "שחקנים"  # רחף מעל לשלב ב-/play
-    hours_played: "שעות משחק"  # רחף מעל לשלב ב-/play
-    items: "פריטים"  # Tooltip on item shop button from /play
-    unlock: "פתח"  # For purchasing items and heroes
+    play_as: "שחק בתור" # Ladder page
+    compete: "תחרות!" # Course details page
+    spectate: "מצב קהל" # Ladder page
+    players: "שחקנים" # Hover over a level on /play
+    hours_played: "שעות משחק" # Hover over a level on /play
+    items: "פריטים" # Tooltip on item shop button from /play
+    unlock: "פתח" # For purchasing items and heroes
     confirm: "אשר"
-    owned: "שלי"  # For items you own
+    owned: "שלי" # For items you own
     locked: "נעול"
-    purchasable: "לקנייה"  # עבור גיבור שפתחת אך טרם רכשת
+    purchasable: "לקנייה" # For a hero you unlocked but haven't purchased
     available: "זמין"
-    skills_granted: "מיומנויות מתקבלות"  # פרטים לתיעוד מאפיין
-    heroes: "גיבורים"  # תיאור כלי בלחצן חנות הגיבורים מ-/play
-    achievements: "הישגים"  # תיאור כלי ללחצן רשימת ההישגים מ-/play
-    settings: "הגדרות"  # תיאור כלי ללחצן ההגדרות מ-/play
-    poll: "סקר"  # תיאור כלי ללחצן הסקר מ-/play
-    next: "הבא"  # עבור מבחירת גיבור לבחירת ציוד לפני שתשחק שלב
-    change_hero: "החלף גיבור"  # חזרה מבחירת הציוד לבחירת הגיבור
+    skills_granted: "מיומנויות מתקבלות" # Property documentation details
+    heroes: "גיבורים" # Tooltip on hero shop button from /play
+    achievements: "הישגים" # Tooltip on achievement list button from /play
+    settings: "הגדרות" # Tooltip on settings button from /play
+    poll: "סקר" # Tooltip on poll button from /play
+    next: "הבא" # Go from choose hero to choose inventory before playing a level
+    change_hero: "החלף גיבור" # Go back from choose inventory to choose hero
     buy_gems: "קנה אבני חן"
     subscription_required: "נדרש מנוי"
     subscribers_only: "למנויים בלבד!"
@@ -143,7 +143,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscriber_gems: "הירשם כמנוי היום כדי לקנות גיבור זה עם אבני חן!"
     anonymous: "שחקן אנונימי"
     level_difficulty: "רמת קושי: "
-    play_classroom_version: "שחק בגרסה הכיתתית"  # בחר שלב בגרסת המערכה, שבאפשרותך לשחק גם באחד הקורסים שלך
+    play_classroom_version: "שחק בגרסה הכיתתית" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "מערכה למתחילים"
     awaiting_levels_adventurer_prefix: "אנו משחררים שלבים חדשים מדי שבוע."
     awaiting_levels_adventurer: "הרשמה כהרפתקן"
@@ -155,9 +155,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     brain_pop_challenge: "כדי לאתגר את עצמכם, שחקו שוב באמצעות שפת תכנות אחרת!"
     replay: "הילוך חוזר"
     back_to_classroom: "בחזרה לכיתה"
-  
+
   code:
-    if: "אם"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+    if: "אם" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "אחרת"
     elif: "אחרת אם"
     while: "כל עוד"
@@ -182,7 +182,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     "&&": "וכן"
     not: "לא"
     "!": "לא"
-    "=": "הקצה" # For this section, conjugate it like it's the verb part of a sentence when possible
+    "=": "הקצה"
     "==": "שווה"
     "===": "זהה"
     "!=": "לא שווה"
@@ -205,7 +205,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     null: "ריק"
     nil: "ערך אפס"
     None: "ללא"
-  
+
   share_progress_modal:
     blurb: "אתם מתקדמים נהדר! ספרו להורה שלכם כמה למדתם עם CodeCombat."
     email_invalid: "כתובת דואר אלקטרוני לא חוקית."
@@ -213,7 +213,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     form_label: "כתובת דואר אלקטרוני"
     placeholder: "כתובת דואר אלקטרוני"
     title: "כל הכבוד, חניכים"
-  
+
   login:
     sign_up: "יצירת חשבון"
     email_or_username: "דואר אלקטרוני או שם משתמש"
@@ -227,7 +227,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     sign_in_with_facebook: "כניסה באמצעות Facebook"
     sign_in_with_gplus: "כניסה באמצעות Google"
     signup_switch: "רוצים ליצור חשבון?"
-  
+
   signup:
     create_student_header: "יצירת חשבון תלמיד"
     create_teacher_header: "יצירת חשבון מורה"
@@ -296,7 +296,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_ready_to_create_class: "אתם מוכנים ליצירת הכיתה הראשונה שלכם!"
     teacher_students_can_start_now: "התלמידים שלכם מיד יוכלו להתחיל ולשחק בקורס הראשון, 'מבוא למדעי המחשב'."
     teacher_list_create_class: "במסך הבא תוכלו ליצור כיתה חדשה."
-    teacher_list_add_students: """כדי להוסיף תלמידים לכיתה, לחצו על הקישור 'הצג כיתה', ולאחר מכן שלחו אל התלמידים את קוד הכיתה או כתובת ה-URL. תוכלו גם להזמין אותם בדואר אלקטרוני, אם יש להם כתובות דוא"ל."""
+    teacher_list_add_students: "כדי להוסיף תלמידים לכיתה, לחצו על הקישור 'הצג כיתה', ולאחר מכן שלחו אל התלמידים את קוד הכיתה או כתובת ה-URL. תוכלו גם להזמין אותם בדואר אלקטרוני, אם יש להם כתובות דוא\"ל."
     teacher_list_resource_hub_1: "בואו לעיין"
     teacher_list_resource_hub_2: "במדריכים לקורס"
     teacher_list_resource_hub_3: "כדי למצוא פתרונות לכל שלב, וכן"
@@ -304,12 +304,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_list_resource_hub_5: "כדי למצוא מדריכים לתכנית לימודים, פעילויות ועוד!"
     teacher_additional_questions: "זה הכול! לשאלות ולקבלת עזרה נוספת, נא לפנות אל __supportEmail__."
     dont_use_our_email_silly: "אל תכתבו כאן את הכתובת שלנו! כתבו את כתובת הדואר האלקטרוני של ההורה."
-  
+
   recover:
     recover_account_title: "שחזור חשבון"
     send_password: "שלח סיסמת שחזור"
     recovery_sent: "הודעת שחזור נשלחה."
-  
+
   items:
     primary: "ראשי"
     secondary: "משני"
@@ -317,12 +317,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     accessories: "אביזרים"
     misc: "שונות"
     books: "ספרים"
-  
+
   common:
     back: "חזור" # When used as an action verb, like "Navigate backward"
     go_back: "חזרה"
     coming_soon: "בקרוב!"
-    continue: "המשך"  # When used as an action verb, like "Continue forward"
+    continue: "המשך" # When used as an action verb, like "Continue forward"
     next: "הבא"
     default_code: "קוד ברירת מחדל"
     loading: "טוען..."
@@ -339,7 +339,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     publish: "פרסם"
     create: "צור"
     fork: "פיצול"
-    play: "שחק"  # When used as an action verb, like "Play next level"
+    play: "שחק" # When used as an action verb, like "Play next level"
     retry: "נסה שוב"
     actions: "פעולות"
     info: "מידע"
@@ -351,7 +351,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     save_changes: "שמור שינויים"
     required_field: "חובה"
     valid_phone: "נא להזין ספר טלפון חוקי."
-  
+
   general:
     and: "וכן"
     name: "שם"
@@ -398,7 +398,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     medium: "בינוני"
     hard: "קשה"
     player: "שחקן"
-    player_level: "דרגה"  # Like player level 5, not like level: Dungeons of Kithgard
+    player_level: "דרגה" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "לוחם"
     ranger: "סייר"
     wizard: "קוסם"
@@ -409,7 +409,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     contact_us: "צור קשר"
     close_window: "סגור חלון"
     learn_more: "מידע נוסף"
-  
+
   units:
     second: "שנייה"
     seconds: "שניות"
@@ -425,7 +425,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     months: "חודשים"
     year: "שנה"
     years: "שנים"
-  
+
   play_level:
     back_to_map: "בחזרה למפה"
     directions: "הנחיות"
@@ -442,8 +442,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     languages: "שפות"
     programming_language: "שפת תכנות"
     show_menu: "הצג תפריט משחק"
-    home: "בית"  # Not used any more, will be removed soon.
-    level: "דרגה"  # Like "דרגה: המבוכים של קיתגארד"
+    home: "בית" # Not used any more, will be removed soon.
+    level: "דרגה" # Like "Level: Dungeons of Kithgard"
     skip: "דלג"
     game_menu: "תפריט משחק"
     restart: "הפעל מחדש"
@@ -471,7 +471,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_review: "ספרו לנו עוד!"
     victory_review_placeholder: "איך היה השלב הזה?"
     victory_hour_of_code_done: "סיימתם?"
-    victory_hour_of_code_done_yes: 'סיימתי את "שעת הקוד™" שלי!'
+    victory_hour_of_code_done_yes: "סיימתי את \"שעת הקוד™\" שלי!"
     victory_experience_gained: "נקודות ניסיון שקיבלתם"
     victory_gems_gained: "אבני חן שהשגתם"
     victory_new_item: "פריט חדש"
@@ -524,7 +524,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tip_munchkin: "אם לא תאכל ירקות, יבוא לתפוס אותך ננס כשתלך לישון."
     tip_binary: "בעולם יש רק עשרה סוגי אנשים: אלה שמבינים בינארי, ואלה שלא."
     tip_commitment_yoda: "מתכנת צריך מסירות עמוקה ורצינות גמורה. ~ יודה"
-    tip_no_try: 'עשה. או אל תעשה. אין "לנסות". - יודה'
+    tip_no_try: "עשה. או אל תעשה. אין \"לנסות\". - יודה"
     tip_patience: "אתה להיות סבלני חייב, פאדאוואן הצעיר. - יודה"
     tip_documented_bug: "באג עם תיעוד הוא לא באג; הוא פיצ'ר."
     tip_impossible: "דברים תמיד נראים בלתי-אפשריים, עד שעושים אותם. - נלסון מנדלה"
@@ -578,14 +578,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     view_gallery: "הצג גלריה"
     project_published_noty: "השלב שלכם פורסם!"
     keep_editing: "המשך בעריכה"
-  
+
   play_game_dev_level:
     created_by: "נוצר על-ידי {{name}}"
     restart: "התחל שלב מחדש"
     play: "שחקו בשלב"
     play_more_codecombat: "שחקו עוד CodeCombat"
     default_student_instructions: "לחצו כדי לשלוט בגיבור שלכם ולנצח במשחק!"
-  
+
   game_menu:
     inventory_tab: "ציוד"
     save_load_tab: "שמור/טען"
@@ -597,12 +597,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     auth_tab: "הרשמה"
     inventory_caption: "ציידו את הגיבור"
     choose_hero_caption: "בחרו גיבור, שפה"
-    save_load_caption: "... וצפו בהיסטוריה"
     options_caption: "קבעו הגדרות"
     guide_caption: "מסמכים ועצות"
     multiplayer_caption: "שחקו עם חברים!"
     auth_caption: "שמרו את התקדמותכם."
-  
+
   leaderboard:
     view_other_solutions: "הצג טבלאות מובילים"
     scores: "נקודות"
@@ -616,7 +615,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     damage_dealt: "נזק שנגרם"
     difficulty: "רמת קושי"
     gold_collected: "זהב שנאסף"
-  
+
   inventory:
     equipped_item: "ציוד נוכחי"
     required_purchase_title: "נדרש"
@@ -628,7 +627,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     restricted: "(מוגבל בשלב הזה)"
     equip: "צייד"
     unequip: "הסר"
-  
+
   buy_gems:
     few_gems: "כמה אבני חן"
     pile_gems: "ערימת אבני חן"
@@ -644,22 +643,22 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     buy_premium: "קנה פרימיום"
     purchase: "רכישה"
     purchased: "נרכש"
-  
+
   earn_gems:
     prompt_title: "אין מספיק אבני חן"
     prompt_body: "המשיכו לשחק כדי להשיג עוד!"
-  
+
   subscribe:
     premium_already_subscribed: "אתם כבר רשומים למנוי פרימיום!"
     subscribe_modal_title: "CodeCombat פרימיום"
     comparison_blurb: "הפכו לאשפי קוד - הירשמו היום למנוי <b>פרימיום</b>!"
     premium_pricing_prefix: "קנו מנוי פרימיום במחיר"
     premium_pricing_suffix: "בלבד, והפכו לאשפי קוד."
-    premium: "פרימיום"  # Make sure the following feature translations don't go onto two lines
+    premium: "פרימיום" # Make sure the following feature translations don't go onto two lines
     free: "חינם"
     month: "חודש"
     must_be_logged: " יש להתחבר תחילה. נא ליצור חשבון או להתחבר מהתפריט שלמעלה."
-    subscribe_title: "צור מנוי"  # Actually used in subscribe buttons, too
+    subscribe_title: "צור מנוי" # Actually used in subscribe buttons, too
     unsubscribe: "בטל מנוי"
     confirm_unsubscribe: "אשר ביטול מנוי"
     never_mind: "לא חשוב, אני עדיין אוהב אותך"
@@ -692,7 +691,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     buy_now: "קנה כעת"
     subscription_required_to_play: "נדרש מנוי כדי לשחק בשלב זה."
     unlock_help_videos: "הירשמו כמנוי כדי לפתוח את כל ההדרכות בווידאו."
-    personal_sub: "מנוי אישי"  # Accounts Subscription View below
+    personal_sub: "מנוי אישי" # Accounts Subscription View below
     loading_info: "טוען פרטי מנוי..."
     managed_by: "מנוהל על-ידי"
     will_be_cancelled: "יבוטל ב:"
@@ -728,7 +727,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     choose_payment_method: "בחר שיטת תשלום"
     pay_with_credit_card_or_bitcoin: "תשלום באמצעות כרטיס אשראי/ביטקוין"
     paypal_payment_error: "נתקלנו בשגיאה בחיוב דרך PayPal."
-  
+
   announcement:
     now_available: "כעת זמין למנויים!"
     subscriber: "מנוי"
@@ -742,7 +741,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     mimic_name: "חקיין"
     mimic_description: "חקיינים יכולים לאסוף עבורכם מטבעות. שימו אותם על מטבעות כדי להגדיל את כמות הזהב שלכם."
     cougar_name: "פומה"
-    cougar_description: 'לפומה יש תואר ד"ר (דברים רכים).'
+    cougar_description: "לפומה יש תואר ד\"ר (דברים רכים)."
     fox_name: "שועל כחול"
     fox_description: "השועלים הכחולים פקחים ביותר, ואוהבים לחפור באדמה ובשלג!"
     pugicorn_name: "פאגקרן"
@@ -770,7 +769,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     tornado_description: "טוב שיש לחצן איפוס, ברגע שתופסים אותך."
     wallOfDarkness_name: "קיר חושך"
     wallOfDarkness_description: "הסתתרו מאחורי קיר צללים, כדי לחמוק מעיניים סקרניות."
-  
+
   premium_features:
     get_premium: "מנוי<br>CodeCombat<br>פרימיום" # Fit into the banner on the /features page
     master_coder: "הירשמו עוד היום כדי להפוך לאשפי תכנות!"
@@ -792,7 +791,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     list_items: "הצטיידו בפריטי פרימיום בלעדיים, כגון חיות מחמד"
     list_support: "קבלו תמיכת פרימיום, שתעזור לכם לאתר באגים בקודים מסובכים"
     list_clans: "צרו שבטים פרטיים, כדי להזמין חברים ולהתחרות בטבלה של קבוצות מובילות"
-  
+
   choose_hero:
     choose_hero: "בחרו גיבור"
     programming_language: "שפת תכנות"
@@ -809,13 +808,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     weapons_warrior: "חרבות - טווח קצר, ללא קסם"
     weapons_ranger: "קשתות צלב, תותחים, טווח ארוך, ללא קסם"
     weapons_wizard: "שרביטים, מטות - טווח ארוך, קסם"
-    attack: "נזק"  # Can also translate as "התקפה"
+    attack: "נזק" # Can also translate as "Attack"
     health: "בריאות"
     speed: "מהירות"
     regeneration: "התחדשות"
-    range: "טווח"  # As in "attack or visual range"
-    blocks: "חוסם"  # As in "this shield blocks this much damage"
-    backstab: "דקירה מאחור"  # As in "this dagger does this much backstab damage"
+    range: "טווח" # As in "attack or visual range"
+    blocks: "חוסם" # As in "this shield blocks this much damage"
+    backstab: "דקירה מאחור" # As in "this dagger does this much backstab damage"
     skills: "מיומנויות"
     attack_1: "גורם"
     attack_2: "מתוך"
@@ -825,10 +824,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     health_3: "בריאות שריון נקובה."
     speed_1: "נע במהירות"
     speed_2: "מטר לשנייה."
-    available_for_purchase: "זמין לרכישה"  # Shows up when you have unlocked, but not purchased, a hero in the hero store
-    level_to_unlock: "שלב לפתיחה:"  # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    available_for_purchase: "זמין לרכישה" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "שלב לפתיחה:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "רק גיבורים מסוימים יכולים לשחק בשלב זה."
-  
+
   skill_docs:
     function: "פונקציה" # skill types
     method: "מתודה"
@@ -836,8 +835,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     number: "מספר"
     array: "מערך"
     object: "אובייקט"
-    string:  "מחרוזת"
-    writable: "ניתן לכתיבה"  # Hover over "attack" in Your Skills while playing a level to see most of this
+    string: "מחרוזת"
+    writable: "ניתן לכתיבה" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "לקריאה בלבד"
     action: "פעולה"
     spell: "לחש"
@@ -849,7 +848,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     action_radius: "רדיוס"
     action_duration: "משך זמן"
     example: "דוגמה"
-    ex: "לדוגמה"  # Abbreviation of "example"
+    ex: "לדוגמה" # Abbreviation of "example"
     current_value: "ערך נוכחי"
     default_value: "ערך ברירת מחדל"
     parameters: "פרמטרים"
@@ -857,13 +856,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     optional_parameters: "פרמטרים אופציונליים"
     returns: "מחזיר"
     granted_by: "מתקבל מ:"
-  
+
   save_load:
     granularity_saved_games: "נשמר"
     granularity_change_history: "היסטוריה"
-  
+
   options:
-    general_options: "אפשרויות כלליות"  # Check out the Options tab in the Game Menu while playing a level
+    general_options: "אפשרויות כלליות" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "עוצמת קול"
     music_label: "מוזיקה"
     music_description: "להפעלה/כיבוי של המוזיקה."
@@ -876,9 +875,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     editor_config_indentguides_description: "מציג קווים אנכיים, להצגה ברורה יותר של ההזחה."
     editor_config_behaviors_label: "אופני פעולה חכמים"
     editor_config_behaviors_description: "משלים באופן אוטומטי סוגריים מרובים, סוגריים מסולסלים ומירכאות."
-  
+
   about:
-    main_title:"אם אתם רוצים ללמוד איך לתכנת, עליכם לכתוב (הרבה) קוד."
+    main_title: "אם אתם רוצים ללמוד איך לתכנת, עליכם לכתוב (הרבה) קוד."
     main_description: "המשימה שלנו ב-CodeCombat היא לוודא שאתם עושים זאת עם חיוך על הפנים."
     mission_link: "המשימה"
     team_link: "הצוות"
@@ -888,8 +887,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     mission_description_1: "<strong>תכנות זה קסם</strong>. הוא היכולת ליצור דברים מתוך הדמיון עצמו. הקמנו את CodeCombat כדי להעניק ללומדים תחושה של כוחות קסם בקצות אצבעותיהם, דרך השימוש ב<strong>קוד מוקלד</strong>."
     mission_description_2: "מסתבר שזה גם מאפשר להם ללמוד מהר יותר. הרבה יותר מהר. זה דומה לניהול של שיחה, במקום קריאה של ספר הדרכה. אנו רוצים להביא את השיחה הזאת אל כל מוסד לימוד ואל <strong>כל תלמיד</strong>, משום שלכולם מגיעה הזדמנות ללמוד את הקסם שבתכנות."
     team_title: "הכירו את הצוות של CodeCombat"
-    team_values: """    חשוב לנו שיח פתוח ומכבד, שבו הרעיונות הטובים ביותר מנצחים. ההחלטות שלנו מבוססות על חקר לקוחות, ותהליך העבודה שלנו מתמקד באספקה של תוצאות מוחשיות עבורם. כולם מעורבים בתהליך, מהמנכ\"ל ועד לתורמים שלנו ב-GitHub, משום שאצלנו בצוות נותנים חשיבות לצמיחה וללימוד."""
-    nick_title: """מייסד-שותף, מנכ"ל"""
+    team_values: "    חשוב לנו שיח פתוח ומכבד, שבו הרעיונות הטובים ביותר מנצחים. ההחלטות שלנו מבוססות על חקר לקוחות, ותהליך העבודה שלנו מתמקד באספקה של תוצאות מוחשיות עבורם. כולם מעורבים בתהליך, מהמנכ\"ל ועד לתורמים שלנו ב-GitHub, משום שאצלנו בצוות נותנים חשיבות לצמיחה וללימוד."
+    nick_title: "מייסד-שותף, מנכ\"ל"
     nick_blurb: "גורו מוטיבציה"
     matt_title: "מייסד-שותף, מנהל טכנולוגיה ראשי"
     cat_title: "מעצבת משחק"
@@ -942,7 +941,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     story_sketch_caption: "הסקיצה הראשונה של ניק, שמתארת משחק תכנות בפעולה."
     story_long_way_2: "אנחנו עוד צריכים לעשות הרבה כדי להשיג את המשימה שלנו, אז..."
     jobs_title: "בואו לעבוד אתנו ולעזור לכתוב את ההיסטוריה של CodeCombat!"
-    jobs_subtitle: """לא מוצאים משהו שמתאים לכם, אבל רוצים לשמור על קשר? ראו תחת "יצירה משלך"."""
+    jobs_subtitle: "לא מוצאים משהו שמתאים לכם, אבל רוצים לשמור על קשר? ראו תחת \"יצירה משלך\"."
     jobs_benefits: "הטבות עובדים"
     jobs_benefit_4: "חופשות ללא הגבלה"
     jobs_benefit_5: "התפתחות מקצועית והמשך תמיכה בהשכלה - ספרים ומשחקים בחינם!"
@@ -968,10 +967,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     download_all: "הורד הכול"
     previous: "הקודם"
     location_title: "אנו יושבים בלב סן פרנסיסקו:"
-  
+
   teachers:
     licenses_needed: "רישיונות נדרשים"
-  
+
   special_offer:
     special_offer: "הצעה מיוחדת"
     project_based_title: "קורסים מבוססי-פרויקט"
@@ -988,7 +987,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     starter_licenses_can_be_used: "באמצעות רישיונות למתחילים, ניתן להקצות קורסים נוספים מיד לאחר הרכישה."
     pay_now: "שלם כעת"
     we_accept_all_major_credit_cards: "אנו מקבלים את כל כרטיסי האשראי הנפוצים."
-    cs2_description: """ממשיך ובונה על היסוד מ'מבוא למדעי המחשב', ומתעמק בפסוקי "אם", בפונקציות, באירועים ועוד."""
+    cs2_description: "ממשיך ובונה על היסוד מ'מבוא למדעי המחשב', ומתעמק בפסוקי \"אם\", בפונקציות, באירועים ועוד."
     wd1_description: "מציג את עקרונות הבסיס של HTML ו-CSS תוך לימוד של מיומנויות הנחוצות לתלמידים לבניית דף האינטרנט הראשון שלהם."
     gd1_description: "משתמש בתחביר שכבר מוכר לתלמידים, כדי להראות להם כיצד לבנות ולשתף שלבי משחק מתפקדים משל עצמם."
     see_an_example_project: "צפו בפרויקט לדוגמה"
@@ -1012,7 +1011,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     courses_suffix: ""
     course_prefix: "קורס"
     course_suffix: ""
-  
+
   teachers_quote:
     subtitle: "התלמידים שלכם יוכלו להתחיל תוך פחות משעה אחת. תוכלו <strong>ליצור כיתה, להוסיף תלמידים ולעקוב אחר ההתקדמות שלהם</strong> בלימודי מדעי המחשב."
     email_exists: "כבר קיים משתמש עם כתובת דואר אלקטרוני זו."
@@ -1038,7 +1037,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     organization_label: "מוסד לימודים"
     school_name: "שם מוסד הלימודים"
     city: "עיר"
-    state: """מדינה (אם בארה"ב)"""
+    state: "מדינה (אם בארה\"ב)"
     country: "ארץ"
     num_students_help: "עם כמה תלמידים, לדעתכם, אתם צפויים להשתמש ב-CodeCombat?"
     num_students_default: "בחרו טווח"
@@ -1066,7 +1065,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_account_subtitle: "קבלו גישה לכלים המיועדים למורים בלבד, לצורך השימוש ב-CodeCombat בכיתה.  <strong>הקימו כיתה</strong>, הוסיפו תלמידים, <strong>ועקבו אחר ההתקדמות שלהם</strong>!"
     convert_account_title: "עדכון לחשבון מורה"
     not: "לא"
-  
+
   versions:
     save_version_title: "שמור גרסה חדשה"
     new_major_version: "גרסה ראשית חדשה"
@@ -1076,7 +1075,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     cla_suffix: "."
     cla_agree: "אני מסכים"
     owner_approve: "על אחד האחראים לאשר זאת לפני שהשינויים שלך יהיו גלויים."
-  
+
   contact:
     contact_us: "צרו קשר עם CodeCombat"
     welcome: "אנו שמחים לשמוע מכם! השתמשו בטופס זה כדי לשלוח לנו הודעה בדואר אלקטרוני. "
@@ -1092,7 +1091,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     screenshot_included: "צילום מסך מצורף."
     where_reply: "היכן כדאי לנו להשיב?"
     send: "שלח משוב"
-  
+
   account_settings:
     title: "הגדרות חשבון"
     not_logged_in: "כדי לשנות את ההגדרות, התחברו או צרו חשבון."
@@ -1134,7 +1133,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     saved: "השינויים נשמרו"
     password_mismatch: "הסיסמה אינה תואמת."
     password_repeat: "נא להזין שוב את סיסמתכם."
-  
+
   keyboard_shortcuts:
     keyboard_shortcuts: "קיצורי מקשים"
     space: "Space"
@@ -1155,7 +1154,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     toggle_pathfinding: "שינוי מצב של פריסת מציאת מסלול."
     beautify: "כתבו קוד אלגנטי יותר באמצעות עיצוב מתוקנן."
     maximize_editor: "הגדלה/כיווץ של עורך הקוד."
-  
+
   community:
     main_title: "קהילת CodeCombat"
     introduction: "בואו ללמוד להלן כיצד תוכלו לקחת חלק וכדי להחליט מה נשמע הכי כיף לכם. אנו מצפים לעבוד אתכם!"
@@ -1169,12 +1168,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     social_github: "בואו לעיין בכל הקוד שלנו ב-GitHub"
     social_blog: "קראו את הבלוג של CodeCombat ב-Sett"
     social_discource: "הצטרפו לדיון בפורום ה-Discourse שלנו"
-    social_facebook: """תנו ל-CodeCombat "לייק" ב-Facebook"""
+    social_facebook: "תנו ל-CodeCombat \"לייק\" ב-Facebook"
     social_twitter: "עקבו אחרי CodeCombat ב-Twitter"
     social_gplus: "הצטרפו ל-CodeCombat ב-Google+‎"
     social_slack: "שוחחו עמנו בצ'אט בערוץ ה-Slack הציבורי של CodeCombat"
     contribute_to_the_project: "תרמו לפרויקט"
-    
+
   clans:
     clan: "שבט"
     clans: "שבטים"
@@ -1233,18 +1232,18 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     track_concepts7: "נדרשת הזמנה"
     track_concepts8: "כדי להצטרף"
     private_require_sub: "נדרש מנוי כדי ליצור שבטים פרטיים או להצטרף אליהם."
-  
+
   courses:
     create_new_class: "יצירת כיתה חדשה"
     unnamed_class: "כיתה ללא שם"
     edit_settings1: "עריכת הגדרות כיתה"
     add_students: "הוסף תלמידים"
     stats: "סטטיסטיקה"
-    total_students: """סה"כ תלמידים:"""
+    total_students: "סה\"כ תלמידים:"
     average_time: "זמן משחק ממוצע בשלב:"
-    total_time: """סה"כ זמן משחק:"""
+    total_time: "סה\"כ זמן משחק:"
     average_levels: "שלבים שהושלמו בממוצע:"
-    total_levels: """סה"כ שלבים שהושלמו:"""
+    total_levels: "סה\"כ שלבים שהושלמו:"
     students: "תלמידים"
     concepts: "עקרונות"
     play_time: "זמן משחק:"
@@ -1252,7 +1251,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     enter_emails: "יש להפריד בין כתובות דואר אלקטרוני באמצעות מעבר שורה או פסיק"
     send_invites: "הזמן תלמידים"
     number_programming_students: "מספר תלמידי התכנות"
-    number_total_students: 'סה"כ תלמידים בבית הספר/מחוז'
+    number_total_students: "סה\"כ תלמידים בבית הספר/מחוז"
     enroll: "הרשמה"
     enroll_paid: "הרשמת תלמידים בקורסים בתשלום"
     get_enrollments: "קבל רישיונות נוספים"
@@ -1384,12 +1383,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     web_dev_language_transition: "עבור קורס זה, כל הכיתות מתכנתות ב-HTML/JavaScript.  כיתות שכבר משתמשות ב-Python יתחילו עם כמה שלבי מבוא נוספים ב-JavaScript כדי להקל על המעבר.  כיתות שכבר משתמשות ב-JavaScript ידלגו על שלבי המבוא."
     course_membership_required_to_play: "כדי לשחק בשלב זה, יש להצטרף לקורס."
     license_required_to_play: "בקשו מהמורה להקצות לכם רישיון, כדי שתוכלו להמשיך ולשחק ב-CodeCombat!"
-  
+
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
     view_project: "הצג פרויקט"
     edit_project: "עריכת פרויקט"
-  
+
   teacher:
     assigning_course: "מקצה קורס"
     course_solution: "פתרון קורס"
@@ -1422,9 +1421,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_new_class: "יצירת כיתה חדשה"
     class_overview: "סקירת כיתה כללית" # View Class page
     avg_playtime: "זמן משחק ממוצע בשלב"
-    total_playtime: """סה"כ זמן משחק"""
+    total_playtime: "סה\"כ זמן משחק"
     avg_completed: "שלבים שהושלמו בממוצע"
-    total_completed: """סה"כ שלבים שהושלמו"""
+    total_completed: "סה\"כ שלבים שהושלמו"
     created: "נוצר"
     concepts_covered: "עקרונות לכיסוי"
     earliest_incomplete: "השלב המוקדם ביותר שלא הושלם"
@@ -1595,9 +1594,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     starter_license: "רישיון למתחילים"
     trial: "ניסיון"
     hoc_welcome: "שבוע לימוד-מדעי-המחשב שמח"
-    hoc_intro: 'לרשות הכיתה שלכם זמינות שלוש דרכים להשתתפות ב"שעת הקוד" עם CodeCombat'
+    hoc_intro: "לרשות הכיתה שלכם זמינות שלוש דרכים להשתתפות ב\"שעת הקוד\" עם CodeCombat"
     hoc_self_led: "משחק בהנחיה עצמית"
-    hoc_self_led_desc: 'לרשות הכיתה שלכם זמינות שלוש דרכים להשתתפות ב"שעת הקוד" עם CodeCombat'
+    hoc_self_led_desc: "לרשות הכיתה שלכם זמינות שלוש דרכים להשתתפות ב\"שעת הקוד\" עם CodeCombat"
     hoc_game_dev: "פיתוח משחקים"
     hoc_and: "וכן"
     hoc_programming: "תכנות ב-JavaScript/Python"
@@ -1653,7 +1652,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_quest_less: "לראות פחות מסעות"
     refresh_to_update: "(רעננו את הדף כדי לראות עדכונים)"
     view_project_gallery: "הצג גלריית פרויקט"
-  
+
   share_licenses:
     share_licenses: "שיתוף רישיונות"
     shared_by: "משותף על-ידי:"
@@ -1669,7 +1668,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     one_license_used: "(רישיון אחד בשימוש)"
     licenses_used: "(__licensesUsed__ רישיונות בשימוש)"
     more_info: "מידע נוסף"
-  
+
   sharing:
     game: "משחק"
     webpage: "דף אינטרנט"
@@ -1686,10 +1685,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_course_share_web: "לצפות בדף האינטרנט"
     victory_course_share_suffix: "שיצרתם כעת."
     copy_url: "העתק כתובת URL"
-  
+
   game_dev:
     creator: "יוצר"
-  
+
   web_dev:
     image_gallery_title: "גלריית תמונות"
     select_an_image: "בחרו את התמונה שבה תרצו להשתמש"
@@ -1704,7 +1703,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     copy: "העתק"
     paste: "הדבק"
     back_to_editing: "בחזרה לעריכה"
-  
+
   classes:
     archmage_title: "קוסם-על"
     archmage_title_description: "(מקודד)"
@@ -1725,7 +1724,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     ambassador_title_description: "(תמיכה)"
     ambassador_summary: "רסנו את משתמשי הפורום שלנו, וספקו הכוונה עבור אלה שיש להם שאלות. השגרירים שלנו מייצגים את CodeCombat מול העולם."
     teacher_title: "מורה"
-  
+
   editor:
     main_title: "עורכי CodeCombat"
     article_title: "עורך מאמרים"
@@ -1811,14 +1810,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     clear_storage: "נקו שינויים מקומיים שלכם"
     add_system_title: "הוספת מערכות לשלב"
     done_adding: "ההוספה הסתיימה"
-  
+
   article:
     edit_btn_preview: "תצוגה מקדימה"
     edit_article_title: "עריכת מאמר"
-  
+
   polls:
     priority: "עדיפות"
-  
+
   contribute:
     page_title: "תרומה"
     intro_blurb: "CodeCombat בנוי מ-100% קוד פתוח! מאות שחקנים מסורים כבר עזרו לנו להביא את המשחק לרמתו הנוכחית. הצטרפו אלינו, כדי לכתוב את הפרק הבא במסע של CodeCombat ללמד את העולם איך לקודד!"
@@ -1831,7 +1830,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     archmage_attribute_2: "ניסיון מסוים בתכנות ויזמה אישית. אנו נעזור לכם בהכוונה הראשונית, אך לא נוכל להקדיש זמן רב בהכשרתכם."
     how_to_join: "כיצד להצטרף"
     join_desc_1: "כל אחד יכול לעזור! בואו לראות את ה-"
-    join_desc_2: """שלנו "כדי להתחיל, וסמנו את התיבה למטה כדי לסמן את עצמכם בתור קוסמי-על אמיצים ולקבל בדואר אלקטרוני חדשות עדכניות. רוצים לשוחח בצ'אט על מה שכדאי לעשות כעת או כדי להיות יותר מעורבים?"""
+    join_desc_2: "שלנו \"כדי להתחיל, וסמנו את התיבה למטה כדי לסמן את עצמכם בתור קוסמי-על אמיצים ולקבל בדואר אלקטרוני חדשות עדכניות. רוצים לשוחח בצ'אט על מה שכדאי לעשות כעת או כדי להיות יותר מעורבים?"
     join_desc_3: ", או חפשו אותנו ב"
     join_desc_4: "ואנו נתקדם משם!"
     join_url_email: "כתבו לנו בדואר אלקטרוני"
@@ -1887,7 +1886,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     brave_adventurers: "ההרפתקנים האמיצים:"
     translating_diplomats: "הדיפלומטים המתרגמים:"
     helpful_ambassadors: "השגרירים המועילים:"
-  
+
   ladder:
     my_matches: "המשחקים שלי"
     simulate: "הדמיה"
@@ -1946,12 +1945,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     rules: "כללים"
     winners: "הזוכים"
     league: "ליגה"
-    red_ai: "CPU אדום"  # "AI אדום ניצח", at end of multiplayer match playback
+    red_ai: "CPU אדום" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "CPU כחול"
-    wins: "ניצח"  # At end of multiplayer match playback
-    humans: "אדום"  # Ladder page display team name
+    wins: "ניצח" # At end of multiplayer match playback
+    humans: "אדום" # Ladder page display team name
     ogres: "כחול"
-  
+
   user:
     stats: "סטטיסטיקה"
     singleplayer_title: "שלבים לשחקן יחיד"
@@ -1967,7 +1966,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     favorite_prefix: "השפה המועדפת היא "
     favorite_postfix: "."
     not_member_of_clans: "עדיין לא חבר בשום שבטים."
-  
+
   achievements:
     last_earned: "הושג לאחרונה"
     amount_achieved: "כמות"
@@ -1979,7 +1978,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     left_xp_prefix: ""
     left_xp_infix: " עד דרגה "
     left_xp_postfix: ""
-  
+
   account:
     payments: "תשלומים"
     prepaid_codes: "קודים בתשלום מראש"
@@ -2007,7 +2006,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     verifying_email: "מאמת כתובת דואר אלקטרוני..."
     successfully_verified: "וידאתם בהצלחה את כתובת הדואר האלקטרוני!"
     verify_error: "אירעה בעיה כלשהי בעת אימות כתובת הדואר האלקטרוני :("
-  
+
   account_invoices:
     amount: "סכום ב-USD"
     declined: "הכרטיס נדחה"
@@ -2017,7 +2016,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     purchasing: "מבצע רכישה..."
     retrying: "אירעה שגיאה בשרת, מנסה שוב."
     success: "התשלום בוצע בהצלחה. תודה!"
-  
+
   account_prepaid:
     purchase_code: "רכישת קוד מנוי"
     purchase_code1: "ניתן לממש קודי מנוי כדי להוסיף זמן מנוי פרימיום לחשבון אחד או יותר עבור הגרסה הביתית של CodeCombat." #
@@ -2027,7 +2026,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     purchase_code5: "למידע נוסף על רישיונות תלמיד, נא לפנות אל"
     users: "משתמשים"
     months: "חודשים"
-    purchase_total: 'סה"כ'
+    purchase_total: "סה\"כ"
     purchase_button: "שלח רכישה"
     your_codes: "הקודים שלכם"
     redeem_codes: "מימוש קוד מנוי"
@@ -2041,7 +2040,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     you_can1: "באפשרותך"
     you_can2: "לרכוש קוד בתשלום מראש"
     you_can3: "אשר ניתן להחיל על חשבונך או לתת למשתמשים אחרים."
-  
+
   loading_error:
     could_not_load: "אירעה שגיאה בטעינה מהשרת"
     connection_failure: "ההתחברות נכשלה"
@@ -2061,7 +2060,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unknown: "שגיאה לא ידועה"
     error: "שגיאה"
     general_desc: "משהו השתבש, וזה כנראה באשמתנו. נסו להמתין מעט ולאחר מכן לרענן את הדף. לחלופין, בקרו באחד הקישורים שלהלן כדי לחזור לתכנות!"
-  
+
   resources:
     level: "שלב"
     patch: "תיקון"
@@ -2072,7 +2071,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     components: "רכיבים"
     hero: "גיבור"
     campaigns: "מערכות"
-  
+
   concepts:
     advanced_css_rules: "כללי CSS מתקדמים"
     advanced_css_selectors: "בוררי CSS מתקדמים"
@@ -2163,7 +2162,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     while_loops_simple: "לולאות 'כל עוד'"
     while_loops_nested: "לולאות 'כל עוד' מקוננות"
     xy_coordinates: "קואורדינטות קרטזיות"
-    advanced_strings: "מחרוזות מתקדמות"  # Rest of concepts are deprecated
+    advanced_strings: "מחרוזות מתקדמות" # Rest of concepts are deprecated
     algorithms: "אלגוריתמים"
     boolean_logic: "לוגיקה בוליאנית"
     basic_html: "HTML בסיסי"
@@ -2187,7 +2186,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     basic_javascript: "JavaScript בסיסי"
     basic_event_handling: "טיפול בסיסי באירועים"
     create_sharable_interactive_web_page: "יצירת דף אינטרנט אינטראקטיבי שניתן לשתף"
-  
+
   delta:
     added: "נוסף"
     modified: "השתנה"
@@ -2197,7 +2196,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     text_diff: "הבדל טקסט"
     merge_conflict_with: "מזג התנגשות עם"
     no_changes: "ללא שינויים"
-  
+
   legal:
     page_title: "משפטי"
     opensource_intro: "CodeCombat בנוי כולו מקוד פתוח."
@@ -2253,9 +2252,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     canonical: "הגרסה באנגלית של מסמך זה היא הגרסה הקובעת והקנונית. במקרה של אי התאמות כלשהן בין התרגומים, יגבר המסמך באנגלית."
     third_party_title: "שירותי צד שלישי"
     third_party_description: "CodeCombat משתמש בשירותי הצד השלישי שלהלן (בין השאר):"
-  
+
   ladder_prizes:
-    title: "פרסי טורניר"  # This section was for an old tournament and doesn't need new translations now.
+    title: "פרסי טורניר" # This section was for an old tournament and doesn't need new translations now.
     blurb_1: "פרסים אלה יוענקו לפי"
     blurb_2: "חוקי הטורניר"
     blurb_3: "לשחקנים האנושיים והענקיים המובילים."
@@ -2273,7 +2272,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     one_month_discount: "30% הנחה: בחרו Rails או HTML"
     license: "רישיון"
     oreilly: "ספר אלקטרוני לבחירתכם"
-  
+
   calendar:
     year: "שנה"
     day: "יום"
@@ -2290,18 +2289,18 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     october: "אוקטובר"
     november: "נובמבר"
     december: "דצמבר"
-  
+
   code_play_create_account_modal:
-    title: "הצלחתם!"  # This section is only needed in US, UK, Mexico, India, and Germany
+    title: "הצלחתם!" # This section is only needed in US, UK, Mexico, India, and Germany
     body: "כעת תוכלו לצאת לדרך להפיכה לאשפי קידוד. הירשמו כדי לקבל <strong>100 אבני חן</strong> נוספות, ותזכו גם בהזדמנות <strong>לזכות ב-$2,500 ובפרסים נוספים של Lenovo</strong>."
     sign_up: "הירשמו והמשיכו לקודד ▶"
     victory_sign_up_poke: "צרו חשבון בחינם כדי לשמור את הקוד שלכם, וקבלו הזדמנות לזכות בפרסים!"
     victory_sign_up: "הירשמו כדי לקבל הזדמנות לזכות ב-<strong>$2,500</strong>"
-  
+
   server_error:
-    email_taken: 'כתובת הדואר האלקטרוני תפוסה'
-    username_taken: 'שם המשתמש כבר תפוס'
-  
+    email_taken: "כתובת הדואר האלקטרוני תפוסה"
+    username_taken: "שם המשתמש כבר תפוס"
+
   esper:
     line_no: "שורה $1: "
     x_not_a_function: "'$1' אינו פונקציה"

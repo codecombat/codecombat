@@ -597,7 +597,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     auth_tab: "Registruj sa"
     inventory_caption: "Vystroj svojho hrdinu"
     choose_hero_caption: "Zvoľ hrdinu,jazyk"
-    save_load_caption: "... a zobraz históriu"
     options_caption: "Uprav nastavenia"
     guide_caption: "Dokumenty a tipy"
     multiplayer_caption: "Hraj s priateľmi!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !" # {change}
     premium_pricing_prefix: "Získaj verziu  Premium iba za"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sale_button: "Kúp!"
     sale_button_title: "Objednaj si ročné predplatné a ušetri 21$"
     stripe_description: "Mesačné predplatné"
-    stripe_description_year_sale: "Ročné predplatné (zľava ${{discount}})"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Potrebuješ predplatné, ak chceš hrať túto úroveň."
     unlock_help_videos: "Predplať si Codecombat a získaj prístup ku videonávodom."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     hero_blurb_1: "Získaj prístup ku  __premiumHeroesCount__  hrdinom, dostupným iba predplatiteľom! Spoznaj neuveriteľnú silu of Okara Duponohu, smrteľnú presnosť Listovej Narie alebo vyvolaj  \"rozkošné\" kostry s Nalfarom Kryptákom."
     hero_blurb_2: "Schopnosti prémiových hrdinov: bojový pokrik, dupanie a hodenie nepriteľom. Môžeš hrať aj ako strelec, čo ti umožní používať luky, pušky, môžeš hádzať nožom a výbušninami. Môžeš to skúsiť aj ako mág a využívaj rôzne druhy mágie."
     hero_caption: "Vrušujúci noví hrdinovia!"
-    pet_blurb_1: "Zvieratká nepredstavujú len rozkošných spoločníkov, ale prinášajú aj unikátnu funkcionalitu a metódy. Grifko dokáže lietať ponad prekážky, vĺčatko dokáže prinášať elixíry a puma vie rozprávať!"
+    pet_blurb_1: "Zvieratká nepredstavujú len rozkošných spoločníkov, ale prinášajú aj unikátnu funkcionalitu a metódy. Grifko dokáže lietať ponad prekážky, vĺčatko dokáže prinášať elixíry a puma vie rozprávať!" # {change}
     pet_blurb_2: "Získaj všetky zvieratká a odhaľ ich jedinečné schopnosti!"
     pet_caption: "Adoptuj pre svojho hrdinu zvieratká!"
     game_dev_blurb: "Nauč sa programovať nové levely, ktoré zdieľaj so svojimi priateľmi. Vyber si predmety, ktoré potrebuješ, napíš kód  a sleduj, či dokážu tvoji priatelia prejsť vytvoreným levelom."
@@ -1565,7 +1564,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
 #    wd2: "Web Development 2"
 #    wd2_jquery_syntax: "jQuery Functions Syntax Guide"
-#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in in Web Development 2."
+#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
 #    wd2_quizlet_worksheet_instructions: "View instructions & examples"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."
