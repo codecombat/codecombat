@@ -597,7 +597,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     auth_tab: "Registrieren"
     inventory_caption: "Rüste deinen Helden aus"
     choose_hero_caption: "Wähle Helden, Sprache"
-    save_load_caption: "... und schaue dir die Historie an"
     options_caption: "konfiguriere Einstellungen"
     guide_caption: "Handbuch und Tipps"
     multiplayer_caption: "Spiele mit Freunden!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_body: "Spiele weiter und verdiene mehr!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Werde Master Coder und bestelle das <b>Premium-Abonnent</b>!"
     premium_pricing_prefix: "Hol dir Premium für nur"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sale_button: "Angebot!"
     sale_button_title: "Spare ${{discount}} beim Kauf eines Jahresabonnements"
     stripe_description: "Monatsabo"
-    stripe_description_year_sale: "Jahresabonnement (${{discount}} Rabatt)"
     buy_now: "Bestellen"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     hero_blurb_1: "Du bekommst Zugang zu __premiumHeroesCount__ extrastarken Helden nur für Abonnenten! Nutze die Macht von Okar Stompfoot, die tödliche Präzision von Naria von Blatt oder beschwöre \"hinreißende\" Skelette mit Nalfar Cryptor."
     hero_blurb_2: "Premium-Krieger erschließen beeindruckende Kampfkünste wie Kampf-Schrei, Stampfen oder Feinde-Wirbeln. Oder spiele als Waldläufer und nutze Tarntechnik, Messer und Borgen. Werde ein wahrer Programmier-Zauberer und entfessele Ur-, Nekromantie- oder Elementar-Magie!"
     hero_caption: "Spannende neue Helden!"
-    pet_blurb_1: "Lieblingstiere sind nicht nur hinreißend, sie stellen auch ganz neue Funktionen und Methoden zur Verfügung. Der Babygreif fliegt über Hindernisse, der Wolfswelpe kann Zaubertränke holen und der Puma kann sprechen!"
+    pet_blurb_1: "Lieblingstiere sind nicht nur hinreißend, sie stellen auch ganz neue Funktionen und Methoden zur Verfügung. Der Babygreif fliegt über Hindernisse, der Wolfswelpe kann Zaubertränke holen und der Puma kann sprechen!" # {change}
     pet_blurb_2: "Sammle alle und entdecke ihre einzigartigen Fähigkeiten"
     pet_caption: "Lieblingstiere für deine Helden!"
     game_dev_blurb: "Lerne, wie man Spiele mit Scripten steuert und erstelle neue Level, die du mit deinen Freunden teilen kannst! Plaziere die Gegenstände, die du willst, schreibe Programme für die Logik und das Verhalten der Einheiten und beobachte, ob deine Freunde das Level schaffen können."
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     select_all: "Alle auswählen"
     project: "Projekt"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Arenarangliste anzeigen"
     resource_hub: "Resource Hub"

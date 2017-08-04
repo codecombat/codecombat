@@ -597,7 +597,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     auth_tab: "Zarejestruj się"
     inventory_caption: "Wyposaż swojego bohatera"
     choose_hero_caption: "Wybierz bohatera, język"
-    save_load_caption: "... i przejrzyj historię"
     options_caption: "Ustaw opcje"
     guide_caption: "Dokumenty i wskazówki"
     multiplayer_caption: "Graj ze znajomymi!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     prompt_body: "Graj dalej, a zdobędziesz ich więcej!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Zostań mistrzem kodowania - zapisz się do <b>Premium</b> już dziś!"
     premium_pricing_prefix: "Zdobądź Premium za jedyne"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     sale_button: "Wyprzedaż!"
     sale_button_title: "Zaoszczędź $21 kupując roczną subskrypcję"
     stripe_description: "Miesięczna subskrypcja"
-    stripe_description_year_sale: "Roczna subskrypcja (zniżka ${{discount}})"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Żeby zagrać w ten poziom musisz posiadać subskrypcję."
     unlock_help_videos: "Subskrybuj, aby odblokować wszystkie wideo tutoriale."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     hero_blurb_1: "Zdobędziesz dostęp do __premiumHeroesCount__ super wypasionych, nowych bohaterów! Ujarzmij nieograniczoną moc Okara Tupistopy, zabójczą precyzję Narii Liść, albo wezwij \"urocze\" szkielety wraz z Nalfarem Cryptorem."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
     hero_caption: "Nowi ekscytujący bohaterowie!"
-    pet_blurb_1: "Zwierzaki nie są tylko uroczymi towarzyszami, zapewniają także unikatowe umiejętności. Mały Gryf może przelatywać nad przeszkodami pomoagając bohaterowi, Szczenię Wilka umie przynosić lekarstwa, a Puma potrafi mówić!"
+    pet_blurb_1: "Zwierzaki nie są tylko uroczymi towarzyszami, zapewniają także unikatowe umiejętności. Mały Gryf może przelatywać nad przeszkodami pomoagając bohaterowi, Szczenię Wilka umie przynosić lekarstwa, a Puma potrafi mówić!" # {change}
     pet_blurb_2: "Zbierz wszystkie zwierzaki i poznaj ich unikalne zdolności!"
     pet_caption: "Przygarnij zwierzaka do towarzystwa!"
     game_dev_blurb: "Naucz się pisania gier i stwórz poziomy, którymi później możesz podzielić się ze znajomymi! Umieszczaj jakie chcesz przedmioty, pisz kod, który odpowiedzialny będzie za zachowanie się przeciwników i sprawdź, czy twoim kolegom uda się pokonać twój poziom"
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     select_all: "Wybierz wszystko"
     project: "Project"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Pokaż drabinkę areny"
     resource_hub: "Baza wiedzy"
@@ -1565,7 +1564,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
     wd2: "Tworzenie stron 2"
 #    wd2_jquery_syntax: "jQuery Functions Syntax Guide"
-#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in in Web Development 2."
+#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
     wd2_quizlet_worksheet_instructions: "Pokaż instrukcje i przykłady"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."

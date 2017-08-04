@@ -14,8 +14,9 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
   constructor: ->
     super()
-    @loaded = {}    
+    @loaded = {}
     @loaded[f] = true for f in window.require.list()
+    @loadPromises = {}
     #Load the locales present in app.js
     locale.update()
 
@@ -77,14 +78,23 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       src: "/#{window.serverConfig.buildInfo.sha}#{uri}"
       type: createjs.LoadQueue.JAVASCRIPT
     })
+    
+    resolveLoadPromise = null
+    loadPromise = new Promise (resolve, reject) =>
+      resolveLoadPromise = resolve # So we can resolve it from the outside in onFileLoad
+    loadPromise.resolve = resolveLoadPromise
+    @loadPromises[path] ?= loadPromise
     return true
 
-  loadLanguage: (langCode='en-US') ->  
-    loading = @load("locale/#{langCode}")
+  loadLanguage: (langCode='en-US') ->
+    @load("locale/#{langCode}")
     firstBit = langCode[...2]
-    return loading if firstBit is langCode
-    return loading unless locale[firstBit]?
-    return @load("locale/#{firstBit}", false) or loading
+    if (firstBit isnt langCode) and locale[firstBit]?
+      @load("locale/#{firstBit}", false)
+    return Promise.all([
+      @loadPromises["locale/#{langCode}"]
+      @loadPromises["locale/#{firstBit}"]
+    ])
 
   onFileLoad: (e) =>
     # load dependencies if it's not a vendor library
@@ -126,13 +136,14 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
       @trigger 'load-complete'
       
     @trigger 'loaded', e.item
+    @loadPromises[e.item.id]?.resolve(e.item)
     
     @updateProgress()
     
   updateProgress: ->
     return if @queue.progress < @lastShownProgress
     $('#module-load-progress .progress-bar').css('width', (100*@queue.progress)+'%')
-    if @queue.progress is 1 
+    if @queue.progress is 1
       $('#module-load-progress').css('opacity', 0)
 
   parseDependencies: (raw) ->
@@ -166,9 +177,8 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     else
       parts = name.split('/')
     for part in parts
-      if part is '..' 
+      if part is '..'
         results.pop()
       else if (part isnt '.' and part isnt '')
         results.push(part)
     return results.join('/')
-

@@ -8,6 +8,8 @@ libUtils = require '../../../server/lib/utils'
 
 describe 'GET /db/products', ->
   beforeEach utils.wrap ->
+    # TODO: Clear Products, to make this test not dependent on dev db
+    #       Also, make other tests not break when you do that.
     yield utils.clearModels([User, Payment])
     yield utils.populateProducts()
     @user = yield utils.initUser()

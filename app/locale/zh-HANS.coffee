@@ -597,7 +597,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     auth_tab: "注册"
     inventory_caption: "装备您的英雄"
     choose_hero_caption: "选择英雄和语言"
-    save_load_caption: "... 观看历史"
     options_caption: "确认设置"
     guide_caption: "文档和提示"
     multiplayer_caption: "与您的朋友一起玩!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
 #    premium_pricing_prefix: "Get Premium for just"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sale_button: "促销"
     sale_button_title: "年费订阅能节省 ${{discount}} 的费用"
     stripe_description: "每月订阅"
-    stripe_description_year_sale: "年费订阅 (优惠 ${{discount}})"
     buy_now: "立即购买"
     subscription_required_to_play: "订阅后才可开始本关"
     unlock_help_videos: "订阅后才可以解锁视频教学哦！"
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     hero_blurb_1: "订阅后可使用 __premiumHeroesCount__ 个超级英雄,利用Okar Stompfoot不可阻挡的力量,叶之Naria的致命精度,或Nalfar Cryptor的\"可爱\"骷髅!"
     hero_blurb_2: "高级战士可解锁惊人的武术技能，如Warcry、Stomp和Hurl Enemy。 或者玩游侠,使用隐形和弓箭、飞刀、陷阱！尝试用你的技能作为一个真正的编码教学，释放一个强大的原力，死灵或元素魔法阵列！"
     hero_caption: "令人兴奋的新英雄!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
     pet_blurb_2: "收集所有的宠物,发现它们独特的能力!"
     pet_caption: "领养宠物陪伴你的英雄!"
     game_dev_blurb: "学习游戏脚本并建立新的关卡,与您的朋友分享! 放置你想要的项目,编写单位逻辑和行为代码,看看你的朋友是否可以击败关卡!"
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     select_all: "全选"
     project: "项目"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
     view_arena_ladder: "查看竞技场天梯"
     resource_hub: "资源中心"
@@ -1565,7 +1564,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
 #    wd2: "Web Development 2"
 #    wd2_jquery_syntax: "jQuery Functions Syntax Guide"
-#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in in Web Development 2."
+#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
 #    wd2_quizlet_worksheet_instructions: "View instructions & examples"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."
@@ -2309,7 +2308,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     reference_error: "参考错误："
     spelling_issues: "请注意拼写错误：你指的是`$1`而不是`$2`, 对吗？"
     capitalization_issues: "请注意大小写：`$1` 应该改成 `$2`？"
-    py_empty_block: "空变量。在$1的语句中，加入4个空格。"
+    # py_empty_block: "空变量。在$1的语句中，加入4个空格。" # {change}
     fx_missing_paren: "如果你需要把`$1` 称为函数，你需要加`()`'s"
     unmatched_token: "非匹配`$1`。每一个开放的`$2`都需要一个`$3`配对。"
     unterminated_string: "未终止字符串，在字符串末加上另外一个`\"`。"

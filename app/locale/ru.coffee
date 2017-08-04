@@ -597,7 +597,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     auth_tab: "Зарегистрироваться"
     inventory_caption: "Одень своего героя"
     choose_hero_caption: "Выбери героя, язык"
-    save_load_caption: "... и посмотри историю"
     options_caption: "Выбор настроек"
     guide_caption: "Документы и советы"
     multiplayer_caption: "Играй с друзьями!"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Премиум"
     comparison_blurb: "Стань мастером програмирования - подпишись на <b>Премиум</b> сегодня!"
     premium_pricing_prefix: "Получите Премиум всего лишь за"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sale_button: "Распродажа!"
     sale_button_title: "Сэкономьте ${{discount}} при приобретении годовой подписки" # {change}
     stripe_description: "Месячная подписка"
-    stripe_description_year_sale: "Годовая подписка (${{discount}} скидка)" # {change}
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Чтобы пройти этот уровень, нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
     hero_caption: "Новые захватывающие герои!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     select_all: "Выбрать всё"
     project: "Проект"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
@@ -1565,7 +1564,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    wd1_css_syntax_desc: "One-page reference for the CSS and Style syntax students will learn in Web Development 1."
     wd2: "Веб-разработка 2"
     wd2_jquery_syntax: "Руководство по синтаксису функций jQuery"
-#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in in Web Development 2."
+#    wd2_jquery_syntax_desc: "One-page reference for the jQuery functions students will learn in Web Development 2."
 #    wd2_quizlet_worksheet: "Quizlet Planning Worksheet"
 #    wd2_quizlet_worksheet_instructions: "View instructions & examples"
 #    wd2_quizlet_worksheet_desc: "Before your students build their personality quiz project at the end of Web Development 2, they should plan out their quiz questions, outcomes and responses using this worksheet. Teachers can distribute the instructions and examples for students to refer to."

@@ -597,7 +597,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     auth_tab: "註冊"
     inventory_caption: "裝備您的英雄"
     choose_hero_caption: "選擇英雄，語言"
-    save_load_caption: "…觀看歷史紀錄"
     options_caption: "設置設定"
     guide_caption: "文件與小提示"
     multiplayer_caption: "跟朋友一起玩！"
@@ -650,6 +649,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "訂閱 CodeCombat 來磨練您的技巧！" # {change}
 #    premium_pricing_prefix: "Get Premium for just"
@@ -688,7 +688,6 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     sale_button: "促銷！"
     sale_button_title: "年費訂閱能節省 ${{discount}} 的費用"
     stripe_description: "每月訂閱"
-    stripe_description_year_sale: "年費訂閱 (${{discount}} 優惠)" # {change}
 #    buy_now: "Buy Now"
     subscription_required_to_play: "您將需要訂閱來開啟這關。"
     unlock_help_videos: "訂閱後才可以解鎖教學影片喔！。"
@@ -778,7 +777,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
 #    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffin can fly over obstacles while helping the hero, the Wolf Pup can fetch potions, and the Cougar can speak!"
+#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
 #    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
 #    pet_caption: "Adopt pets to accompany your hero!"
 #    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
@@ -1510,7 +1509,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     select_all: "全選"
     project: "專案"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project" # {change}
+#    view_project: "View Project"
 #    unpublished: "(unpublished)"
     view_arena_ladder: "觀看競技場天梯"
     resource_hub: "Resource Hub"
