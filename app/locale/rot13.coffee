@@ -2303,9 +2303,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   esper:
     line_no: "Yvar $1: "
+    uncaught: "Hapnhtug $1" # $1 jvyy or na reebe glcr, rt "Hapnhtug FlagnkReebe"
     reference_error: "ErsreraprReebe: "
     argument_error: "NethzragReebe: "
     type_error: "GlcrReebe: "
+    syntax_error: "FlagnkReebe: "
     error: "Reebe: "
     x_not_a_function: "$1 vf abg n shapgvba"
     x_not_defined: "$1 vf abg qrsvarq"
@@ -2361,6 +2363,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     error_use_the_variable: "Hfr gur inevnoyr anzr yvxr `$1` vafgrnq bs n fgevat yvxr `$2`"
     indentation_unindent_does_not: "Vaqragngvba havaqrag qbrf abg zngpu nal bhgre vaqragngvba yriry"
     unclosed_paren_in_function_arguments: "Hapybfrq $1 va shapgvba nethzragf."
+    unexpected_end_of_input: "Harkcrpgrq raq bs vachg"
     there_is_no_enemy: "Gurer vf ab `$1`. Hfr `$2` svefg." # Uvagf fgneg urer
     try_herofindnearestenemy: "Gel `$1`"
     there_is_no_function: "Gurer vf ab shapgvba `$1`, ohg `$2` unf n zrgubq `$3`."

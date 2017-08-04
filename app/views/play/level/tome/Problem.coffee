@@ -17,8 +17,6 @@ module.exports = class Problem
       { @level, @range, @message, @hint, @userInfo } = @aetherProblem
       { @row, @column: col } = @aetherProblem.range?[0] or {}
       @createdBy = 'aether'
-      @message = @translate @message
-      @hint = @translate @hint
     else
       unless userCodeHasChangedSinceLastCast
         @annotation = @buildAnnotationFromWebDevError(error)
@@ -37,7 +35,9 @@ module.exports = class Problem
       @userInfo = undefined
       @createdBy = 'web-dev-iframe'
       # TODO: Include runtime/transpile error types depending on something?
-
+    
+    @message = @translate(@message)
+    @hint = @translate(@hint)
     # TODO: get ACE screen line, too, for positioning, since any multiline "lines" will mess up positioning
     Backbone.Mediator.publish("problem:problem-created", line: @annotation.row, text: @annotation.text) if application.isIPadApp
 
@@ -50,18 +50,19 @@ module.exports = class Problem
     @userCodeProblem.off() if @userCodeProblem
 
   buildAnnotationFromWebDevError: (error) ->
+    translatedErrorMessage = @translate(error.message)
     {
       row: error.line
       column: error.column
-      raw: error.message
-      text: error.message
+      raw: translatedErrorMessage
+      text: translatedErrorMessage
       type: 'error'
       createdBy: 'web-dev-iframe'
     }
 
   buildAnnotationFromAetherProblem: (aetherProblem) ->
     return unless aetherProblem.range
-    text = aetherProblem.message.replace /^Line \d+: /, ''
+    text = @translate(aetherProblem.message.replace /^Line \d+: /, '')
     start = aetherProblem.range[0]
     {
       row: start.row,
@@ -125,38 +126,25 @@ module.exports = class Problem
     
     # Separately handle line number and error type prefixes
     en = require('locale/en').translation
-    lineNumberPart = ''
-    if /Line \d+: /.test(msg)
-      lineNumber = msg.match(/Line (\d+): /)[1]
-      msg = msg.replace(/Line \d+: /, '')
-      lineNumberPart = $.i18n.t("esper.line_no").replace('$1', lineNumber)
-    
-    errorNamePart = ''
-    for translationKey in ['reference_error', 'argument_error', 'type_error', 'error']
-      errorString = en.esper[translationKey]
-      if msg.startsWith(errorString)
-        msg = msg.replace(errorString, '')
-        errorNamePart = $.i18n.t("esper.#{translationKey}")
-        break
-
-    applyReplacementTranslation = (regex, key) =>
+    applyReplacementTranslation = (text, regex, key) =>
       fullKey = "esper.#{key}"
       replacementTemplate = $.i18n.t(fullKey)
       return if replacementTemplate is fullKey
       # This carries over any capture groups from the regex into $N placeholders in the template string
-      replaced = msg.replace regex, replacementTemplate
-      if replaced isnt msg
+      replaced = text.replace regex, replacementTemplate
+      if replaced isnt text
         return [replaced.replace(/``/g, '`'), true]
-      return [msg, false]
+      return [text, false]
 
-    # Automatically generate and apply replacements based on entries in locale file
-    translationKeys = Object.keys(en.esper)
-    originalMessage = msg
-    for translationKey in translationKeys when translationKey not in ['line_no', 'reference_error', 'argument_error', 'type_error', 'error']
-      englishString = en.esper[translationKey]
-      regex = @makeTranslationRegex(englishString)
-      [msg, didTranslate] = applyReplacementTranslation regex, translationKey
-      break if didTranslate
-      null
+    # These need to be applied in this order, before the main text is translated
+    prefixKeys = ['line_no', 'uncaught', 'reference_error', 'argument_error', 'type_error', 'syntax_error', 'error']
 
-    lineNumberPart + errorNamePart + msg
+    for keySet in [prefixKeys, Object.keys(_.omit(en.esper), prefixKeys)]
+      for translationKey in keySet
+        englishString = en.esper[translationKey]
+        regex = @makeTranslationRegex(englishString)
+        [msg, didTranslate] = applyReplacementTranslation msg, regex, translationKey
+        break if didTranslate and keySet isnt prefixKeys
+        null
+
+    msg
