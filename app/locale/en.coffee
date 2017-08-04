@@ -340,6 +340,7 @@
     create: "Create"
     fork: "Fork"
     play: "Play"  # When used as an action verb, like "Play next level"
+    subscribe_to_play: "Subscribe to Play"
     retry: "Retry"
     actions: "Actions"
     info: "Info"

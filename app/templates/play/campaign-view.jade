@@ -148,7 +148,10 @@ if view.showAds()
                   button.btn.btn-primary.btn.btn-lg.btn-block.btn-illustrated
                     span(data-i18n="common.play") Play
               else
-                button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
+                if view.levelNeedsSubscription(level)
+                  button.btn.btn-primary.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.subscribe_to_play") Subscribe to Play
+                else
+                  button.btn.btn-success.btn.btn-lg.btn-illustrated.start-level(data-i18n="common.play") Play
 
 
       for adjacentCampaign in adjacentCampaigns

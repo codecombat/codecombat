@@ -786,15 +786,18 @@ module.exports = class CampaignView extends RootView
     levelOriginal = levelElement.data('level-original')
     @trigger 'level-double-clicked', levelOriginal
 
+  levelNeedsSubscription: (level) ->
+    requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
+    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug] or (features.codePlay and codePlay.canPlay(level.slug))
+    return requiresSubscription and not canPlayAnyway
+    
   onClickStartLevel: (e) ->
     levelElement = $(e.target).parents('.level-info-container')
     levelSlug = levelElement.data('level-slug')
     levelOriginal = levelElement.data('level-original')
     level = _.find _.values(@getLevels()), slug: levelSlug
 
-    requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug] or (features.codePlay and codePlay.canPlay(level.slug))
-    if requiresSubscription and not canPlayAnyway
+    if @levelNeedsSubscription(level)
       @promptForSubscription levelSlug, 'map level clicked'
     else
       @startLevel levelElement
