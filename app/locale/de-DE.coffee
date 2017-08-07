@@ -2365,7 +2365,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     there_is_no_enemy: "Hier ist kein `$1`. Verwende zuerst `$2`." # Hints start here
     try_herofindnearestenemy: "Versuche `$1`"
     there_is_no_function: "Es gibt keine Funktion `$1`, aber `$2` hat eine Methode namens `$3`."
-    attacks_argument_enemy_has: "`$1` hat ein Problem mit argument."
+    attacks_argument_enemy_has: "`$1` hat ein Problem mit Argument `$2`."
     is_there_an_enemy: "Gibt es schon einen Feind mit Sichtverbindung?"
     target_is_null_is: "Ziel ist $1. Gibt es immer ein Ziel, das angegriffen werden kann? (Verwende $2?)"
     hero_has_no_method: "`$1` hat keine Methode `$2`."
