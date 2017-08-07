@@ -340,6 +340,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     create: "Perngr"
     fork: "Sbex"
     play: "Cynl"  # Jura hfrq nf na npgvba ireo, yvxr "Cynl arkg yriry"
+    subscribe_to_play: "Fhofpevor gb Cynl"
     retry: "Ergel"
     actions: "Npgvbaf"
     info: "Vasb"
