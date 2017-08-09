@@ -213,6 +213,7 @@ module.exports.setup = (app) ->
   app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
   app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)
+  app.put('/db/prepaid/:handle', mw.auth.checkHasPermission(['admin']), mw.prepaids.put)
   app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
 
   app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)

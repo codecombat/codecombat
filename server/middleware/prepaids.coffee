@@ -48,6 +48,37 @@ module.exports =
       yield delighted.checkTriggerPrepaidAdded user, req.body.type
     res.status(201).send(prepaid.toObject())
 
+  # Update a prepaid manually (as an admin)
+  put: wrap (req, res) ->
+    validTypes = ['course', 'starter_license']
+    unless req.body.type in validTypes
+      throw new errors.UnprocessableEntity("Prepaid type must be one of: #{validTypes}.")
+      # TODO: deprecate or refactor other prepaid types
+
+    if req.body.creator
+      user = yield User.search(req.body.creator)
+      if not user
+        throw new errors.NotFound('User not found')
+      req.body.creator = user.id
+    
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+
+    console.log prepaid.toObject()
+    prepaid.set 'startDate', req.body.startDate
+    prepaid.set 'endDate', req.body.endDate
+
+    database.validateDoc(prepaid)
+    console.log prepaid.toObject()
+    oldCreator = prepaid.creator
+    console.log req.body.creator is oldCreator+''
+    console.log typeof req.body.creator, typeof (oldCreator+'')
+    console.log typeof req.body.creator, typeof (oldCreator+'')
+    yield prepaid.save()
+    console.log prepaid.toObject()
+    if req.body.creator isnt (oldCreator+'')
+      yield delighted.checkTriggerPrepaidAdded user, req.body.type
+    res.status(201).send(prepaid.toObject())
+
 
   redeem: wrap (req, res) ->
     if not req.user?.isTeacher()

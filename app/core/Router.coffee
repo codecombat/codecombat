@@ -51,6 +51,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/base': go('admin/BaseView')
     'admin/demo-requests': go('admin/DemoRequestsView')
     'admin/trial-requests': go('admin/TrialRequestsView')
+    'admin/prepaids': go('admin/PrepaidsAdminView')
     'admin/user-code-problems': go('admin/UserCodeProblemsView')
     'admin/pending-patches': go('admin/PendingPatchesView')
     'admin/codelogs': go('admin/CodeLogsView')

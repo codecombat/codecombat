@@ -1,0 +1,29 @@
+// DNT
+flat-layout
+  .container
+    form(action="")
+      label
+        | Prepaid ID:
+        input(v-model="searchInput")
+        button(@click.prevent="searchForPrepaid")
+          | Search
+    .prepaid(v-for="prepaid in prepaids")
+      ul
+        li
+          | id: {{ prepaid._id }}
+        li
+          | creator: {{ prepaid.creator }}
+        li
+          ="startDate: "
+          input(v-model="prepaid.startDate")
+          =" "
+          | {{ formatDate(prepaid.startDate) }}
+        li
+          ="endDate: "
+          input(v-model="prepaid.endDate")
+          =" "
+          | {{ formatDate(prepaid.endDate) }}
+        li
+          button(@click.prevent="savePrepaid(prepaid)")
+            | Save prepaid
+          {{ savedStatus[prepaid._id] }}
