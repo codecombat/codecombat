@@ -55,7 +55,9 @@ block modal-body-content
         th Used
       for prepaid in view.prepaids.models
         tr
-          td= prepaid.id
+          td
+            a(href='/admin/prepaids?prepaidID=' + prepaid.id)
+              =prepaid.id
           td
             if prepaid.creator
               if prepaid.creator.id !== view.user.id

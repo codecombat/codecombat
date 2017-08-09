@@ -7,7 +7,7 @@ flat-layout
         input(v-model="searchInput")
         button(@click.prevent="searchForPrepaid")
           | Search
-    .prepaid(v-for="prepaid in prepaids")
+    .prepaid
       ul
         li
           | id: {{ prepaid._id }}
@@ -26,4 +26,5 @@ flat-layout
         li
           button(@click.prevent="savePrepaid(prepaid)")
             | Save prepaid
-          {{ savedStatus[prepaid._id] }}
+          transition(name="flash")
+            span(v-if="savedStatus") {{ savedStatus }}
