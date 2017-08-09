@@ -5,7 +5,7 @@ forms = require 'core/forms'
 store = require('core/store')
 ShareLicensesStoreModule = require('./ShareLicensesStoreModule')
 
-ShareLicensesComponent = Vue.extend
+ShareLicensesModal = Vue.extend
   # name: 'share-licenses-modal'
   template: require('templates/teachers/share-licenses-modal')()
   storeModule: ShareLicensesStoreModule
@@ -34,4 +34,4 @@ ShareLicensesComponent = Vue.extend
     @$store.unregisterModule('modal')
 
 VueWrapper = require('views/core/VueWrapper')
-module.exports = VueWrapper.Modal(ShareLicensesComponent)
+module.exports = VueWrapper.Modal(ShareLicensesModal)
