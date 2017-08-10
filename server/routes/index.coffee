@@ -12,6 +12,7 @@ module.exports.setup = (app) ->
 
   app.put('/api/classrooms/:handle/members', mw.api.putClassroomMember)
   app.put('/api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', mw.api.putClassroomCourseEnrolled)
+  app.get('/api/classrooms/:classroomHandle/members/:memberHandle/sessions', mw.api.getClassroomMemberSessions)
 
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
