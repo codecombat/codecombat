@@ -1520,3 +1520,170 @@ describe 'POST /paypal/webhook', ->
             payments = yield Payment.find({'payPal.id': @paymentEventData.resource.id}).lean()
             expect(payments?.length).toEqual(1)
 
+  describe 'when BILLING.SUBSCRIPTION.CANCELLED event', ->
+    beforeEach utils.wrap ->
+      @paymentEventData = {
+        "id": "WH-6TD369808N914414D-1YJ376786E892292F",
+        "create_time": "2016-04-28T11:53:10Z",
+        "resource_type": "Agreement",
+        "event_type": "BILLING.SUBSCRIPTION.CANCELLED",
+        "summary": "A billing subscription was cancelled",
+        "resource": {
+          "shipping_address": {
+            "recipient_name": "Cool Buyer",
+            "line1": "3rd st",
+            "line2": "cool",
+            "city": "San Jose",
+            "state": "CA",
+            "postal_code": "95112",
+            "country_code": "US"
+          },
+          "id": "I-PE7JWXKGVN0R",
+          "plan": {
+            "curr_code": "USD",
+            "links": [],
+            "payment_definitions": [
+              {
+                "type": "TRIAL",
+                "frequency": "Month",
+                "frequency_interval": "1",
+                "amount": {
+                  "value": "5.00"
+                },
+                "cycles": "5",
+                "charge_models": [
+                  {
+                    "type": "TAX",
+                    "amount": {
+                      "value": "1.00"
+                    }
+                  },
+                  {
+                    "type": "SHIPPING",
+                    "amount": {
+                      "value": "1.00"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "REGULAR",
+                "frequency": "Month",
+                "frequency_interval": "1",
+                "amount": {
+                  "value": "10.00"
+                },
+                "cycles": "15",
+                "charge_models": [
+                  {
+                    "type": "TAX",
+                    "amount": {
+                      "value": "2.00"
+                    }
+                  },
+                  {
+                    "type": "SHIPPING",
+                    "amount": {
+                      "value": "1.00"
+                    }
+                  }
+                ]
+              }
+            ],
+            "merchant_preferences": {
+              "setup_fee": {
+                "value": "0.00"
+              },
+              "auto_bill_amount": "YES",
+              "max_fail_attempts": "21"
+            }
+          },
+          "payer": {
+            "payment_method": "paypal",
+            "status": "verified",
+            "payer_info": {
+              "email": "coolbuyer@example.com",
+              "first_name": "Cool",
+              "last_name": "Buyer",
+              "payer_id": "XLHKRXRA4H7QY",
+              "shipping_address": {
+                "recipient_name": "Cool Buyer",
+                "line1": "3rd st",
+                "line2": "cool",
+                "city": "San Jose",
+                "state": "CA",
+                "postal_code": "95112",
+                "country_code": "US"
+              }
+            }
+          },
+          "description": "update desc",
+          "agreement_details": {
+            "outstanding_balance": {
+              "value": "0.00"
+            },
+            "num_cycles_remaining": "5",
+            "num_cycles_completed": "0",
+            "last_payment_date": "2016-04-28T11:29:54Z",
+            "last_payment_amount": {
+              "value": "1.00"
+            },
+            "final_payment_due_date": "2017-11-30T10:00:00Z",
+            "failed_payment_count": "0"
+          },
+          "state": "Cancelled",
+          "links": [
+            {
+              "href": "https://api.paypal.com/v1/payments/billing-agreements/I-PE7JWXKGVN0R",
+              "rel": "self",
+              "method": "GET"
+            }
+          ],
+          "start_date": "2016-04-30T07:00:00Z"
+        },
+        "links": [
+          {
+            "href": "https://api.paypal.com/v1/notifications/webhooks-events/WH-6TD369808N914414D-1YJ376786E892292F",
+            "rel": "self",
+            "method": "GET",
+            "encType": "application/json"
+          },
+          {
+            "href": "https://api.paypal.com/v1/notifications/webhooks-events/WH-6TD369808N914414D-1YJ376786E892292F/resend",
+            "rel": "resend",
+            "method": "POST",
+            "encType": "application/json"
+          }
+        ],
+        "event_version": "1.0"
+      }
+
+    describe 'when incomplete', ->
+      it 'returns 200 and incomplete message', utils.wrap ->
+        @paymentEventData.resource.state = 'incomplete'
+        url = getURL('/paypal/webhook')
+        [res, body] = yield request.postAsync({ uri: url, json: {event_type: "BILLING.SUBSCRIPTION.CANCELLED"}})
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual("PayPal webhook subscription cancellation, no billing agreement given for #{@paymentEventData.event_type} #{JSON.stringify({event_type: "BILLING.SUBSCRIPTION.CANCELLED"})}")
+
+    describe 'when no user with billing agreement', ->
+      it 'returns 200 and no user message', utils.wrap ->
+        url = getURL('/paypal/webhook')
+        [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual("PayPal webhook subscription cancellation, no billing agreement for #{@paymentEventData.resource.id}")
+
+    describe 'when user with billing agreement', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.initUser()
+        yield utils.loginUser(@user)
+        @user.set('payPal.billingAgreementID', @paymentEventData.resource.id)
+        yield @user.save()
+
+      it 'unsubscribes user and returns 200', utils.wrap ->
+        url = getURL('/paypal/webhook')
+        [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+        expect(res.statusCode).toEqual(200)
+        user = yield User.findById @user.id
+        expect(user.get('payPal.billingAgreementID')).not.toBeDefined()
+        expect(user.hasSubscription()).not.toBeTruthy()
