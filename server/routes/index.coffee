@@ -217,6 +217,9 @@ module.exports.setup = (app) ->
 
   app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)
   app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
+  app.post('/db/products/:handle/paypal/create-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.createPayPalBillingAgreement)
+  app.post('/db/products/-/paypal/execute-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.executePayPalBillingAgreement)
+  app.post('/db/products/-/paypal/cancel-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.cancelPayPalBillingAgreement)
 
   app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
   app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)

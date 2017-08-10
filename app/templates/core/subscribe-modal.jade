@@ -53,6 +53,8 @@
                 .option-header.text-center(data-i18n="subscribe.stripe_description")
                 +price("subscribe.month_price", view.basicProduct)
                 button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="premium_features.subscribe_now")
+                if view.basicProduct.isRegionalSubscription()
+                  .small(data-i18n="premium_features.paypal_redirect")
 
             else
               - var secondRowClass = '.col-xs-12'

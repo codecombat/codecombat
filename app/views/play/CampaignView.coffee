@@ -31,6 +31,7 @@ Classroom = require 'models/Classroom'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Levels = require 'collections/Levels'
+payPal = require('core/services/paypal')
 
 require 'game-libraries'
 
@@ -94,6 +95,16 @@ module.exports = class CampaignView extends RootView
       me.patch()
       pixelCode = if @terrain is 'game-dev-hoc' then 'code_combat_gamedev' else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
+    else if location.pathname is '/paypal/subscribe_callback'
+      @paypalPaymentToken = utils.getQueryVariable 'token'
+      Promise.resolve(payPal.executeBillingAgreement(@paypalPaymentToken))
+      .then (billingAgreement) =>
+        value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?[0].amount?.value ? 0) * 100)
+        application.tracker?.trackEvent 'Finished subscription purchase', { value, service: 'paypal' }
+        noty({text: $.i18n.t('subscribe.confirmation'), layout: 'topCenter', timeout: 8000})
+        me.fetch(cache: false, success: => @render?())
+      .catch (err) =>
+        console.error(err)
 
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     shouldReturnToGameDevHoc = @terrain is 'game-dev-hoc'

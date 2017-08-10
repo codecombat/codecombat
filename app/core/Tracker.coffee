@@ -4,7 +4,7 @@ utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 loadSegmentIo = require('core/services/segment')
 
-debugAnalytics = false
+debugAnalytics = true
 targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker extends CocoClass

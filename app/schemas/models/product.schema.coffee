@@ -18,6 +18,7 @@ module.exports = ProductSchema = {
         }
       }
     }
+    payPalBillingPlanID: { type: 'string' }
   }
 }
 

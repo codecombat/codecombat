@@ -126,6 +126,25 @@ module.exports = class SubscribeModal extends ModalView
     return unless @basicProduct
     @playSound 'menu-button-click'
     return @openModalView new CreateAccountModal() if me.get('anonymous')
+    if @basicProduct.isRegionalSubscription()
+      @startPayPalSubscribe()
+    else
+      @startStripeSubscribe()
+
+  startPayPalSubscribe: ->
+    application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
+    $('.purchase-button').addClass("disabled")
+    $('.purchase-button').html($.i18n.t('common.processing'))
+    Promise.resolve(payPal.createBillingAgreement(@basicProduct.id))
+    .then (redirectUrl) =>
+      application.tracker?.trackEvent 'Continue subscription purchase', { service: 'paypal', redirectUrl }
+      window.location = redirectUrl
+    .catch (jqxhr) =>
+      $('.purchase-button').removeClass("disabled")
+      $('.purchase-button').html($.i18n.t('premium_features.subscribe_now'))
+      @onSubscriptionError(jqxhr)
+
+  startStripeSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
     options = @stripeOptions {
       description: $.i18n.t('subscribe.stripe_description')

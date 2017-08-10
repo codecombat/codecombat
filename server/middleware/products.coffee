@@ -68,6 +68,7 @@ productStubs = [
     amount: 100
     gems: 3500
     planID: 'basic'
+    payPalBillingPlanID: 'P-23R58281B73475317X2K7B4A'
   }
 
   {
@@ -97,6 +98,7 @@ productStubs = [
     amount: 0
     gems: 1500
     planID: 'basic'
+    payPalBillingPlanID: 'P-2KP02511G2731913DX2K4IKA'
   }
 
   {
