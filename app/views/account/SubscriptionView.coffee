@@ -293,12 +293,15 @@ class PersonalSub
         try
           @monthsSubscribed = (x for x in payments.models when not x.get('productID')).length
           lastPayment = _.last(_.sortBy(_.filter(payments.models, (p) -> /basic_subscription/ig.test(p.get('productID'))), (p) -> p.get('created')))
-          @nextPaymentDate = new Date(lastPayment.get('created'))
-          @nextPaymentDate.setUTCMonth(@nextPaymentDate.getUTCMonth() + 1)
-          @cost = "$#{(lastPayment.get('amount')/100).toFixed(2)}"
-          render()
+          if lastPayment
+            @nextPaymentDate = new Date(lastPayment.get('created'))
+            @nextPaymentDate.setUTCMonth(@nextPaymentDate.getUTCMonth() + 1)
+            @cost = "$#{(lastPayment.get('amount')/100).toFixed(2)}"
+            render()
+          else
+            console.error("No subscription payments found!")
         catch err
-          console.err(JSON.stringify(err))
+          console.error(JSON.stringify(err))
       @supermodel.loadCollection(payments, 'payments', {cache: false})
     else
       delete @state
