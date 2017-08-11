@@ -976,7 +976,7 @@
     project_based_title: "Project-Based Courses"
     project_based_description: "Web and Game Development courses feature shareable final projects."
     great_for_clubs_title: "Great for clubs and electives"
-    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #{change}
     low_price_title: "Just __starterLicensePrice__ per student"
     low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
     three_great_courses: "Three great courses included in the Starter License:"
