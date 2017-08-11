@@ -1,0 +1,719 @@
+var fs = require('fs');
+var cp = require('child_process');
+
+var testTheTests = false;
+var insideAether = true;
+
+try {
+	require("../aether.js")
+} catch ( e ) {
+	insideAether = false;
+}
+
+xdescribe('Java Milestones', function() {
+
+if ( false ) {
+	var x = describe;
+	describe = function( ) { }
+	var fdescribe = x
+} else {
+	var fdescribe = describe;
+}
+
+if ( !insideAether ) {
+	var escodegen = require('escodegen');
+	var cashew = require('../../cashew.js');
+	var evaluateJS =function (type, body, extra) {
+		var buffer = "";
+		cashew.___JavaRuntime.functions.print = function(what) {
+			buffer += what + "\n";
+		}
+		var code = [
+			'import  java.util.*;',
+			'public class MyClass {',
+			'	' + extra.join("\n\t"),
+			'	public static ' + type + ' output() {',
+			'		' + body.join("\n\t\t"),
+			'	}',
+			'}'
+		];
+		var Cashew = cashew.Cashew;
+		var parsedAST = Cashew(code.join("\n"));
+		var js = escodegen.generate(parsedAST);
+		js = "(function(___JavaRuntime){" + js + "return MyClass.output();})(cashew.___JavaRuntime);";
+		var out = eval(js);
+		return buffer + out;
+	}
+} else {
+	var Aether = require('../aether.js');
+	var cashew = require('cashew-js');
+	var evaluateJS = function (type, body, extra) {
+		buffer = "";
+		var a = new Aether({language: 'java'});
+		cashew.___JavaRuntime.functions.print = function(what) {
+			buffer += what + "\n";
+		}
+		var code = [
+			'import  java.util.*;',
+			'public class MyClass {',
+			'	' + extra.join("\n\t"),
+			'	public static ' + type + ' output() {',
+			'		' + body.join("\n\t\t"),
+			'	}',
+			'}'
+		];
+		a.className = "MyClass";
+		a.staticCall = "output";
+		a.transpile(code.join("\n"));
+		var out = a.run();
+		//console.log(code.join("\n"), out);
+		return buffer + out;
+	}
+}
+
+function evaluateJava(type, body, extra) {
+	var code = [
+		'import java.util.*;',
+		'public class MyClass {',
+		'	' + extra.join("\n\t"),
+		'	public static ' + type + ' output() {',
+		'		' + body.join("\n\t\t"),
+		'	}',
+		'	public static void main(String[] args) {',
+		'		System.out.print(output());',
+		'	}',
+		'}'
+	];
+	//console.log(code.join("\n"));
+	if ( fs.existsSync('MyClass.java') ) fs.unlinkSync('MyClass.java');
+	if ( fs.existsSync('MyClass.class') ) fs.unlinkSync('MyClass.class');
+	fs.writeFileSync('MyClass.java', code.join("\n"));
+	cp.execSync('javac MyClass.java');
+	var out = cp.execSync('java MyClass');
+	return out.toString();
+
+	
+}
+
+function ct(desc, type, code, extra, expected) {
+	if ( expected == undefined ) {
+		expected = extra;
+		extra = [];
+	}
+
+	it(desc, function() {
+		if ( testTheTests ) {
+			var test = evaluateJava(type, code, extra).toString();
+		} else {
+			var test = evaluateJS(type, code, extra).toString();
+		}
+		expect(test).not.toBeNull();
+		expect(test).toEqual(expected);
+		//console.log(desc, test,"\t",expected);
+	});
+}
+
+function cts(type, code, expected) {
+	ct(code, type, [code], expected);
+}
+
+function structureIf(cond, expected) {
+	ct(cond, 'String', [
+		'if (' + cond + ' ) return "Positive";',
+		'return "Negitive";'
+	], expected);
+}
+
+
+
+describe('JAVAM - 05 - primative types', function() {
+	cts('int', 'return 1000;', '1000');
+	cts('String', 'return "Hello World";', 'Hello World');
+	cts('boolean', 'return true;', 'true');
+	cts('double', 'return 3.14159;', '3.14159');
+});
+
+describe('JAVAM - 05 - assignment', function() {
+	ct('int', 'int', ['int x = 10;', 'return x;'], '10')
+	ct('String', 'String', ['String str = "Four score and seven years ago.";', 'return str;'], 'Four score and seven years ago.')
+	ct('boolean', 'boolean', ['boolean truthyness = true;', 'return truthyness;'], 'true')
+	ct('double', 'double', ['double roar = 17.76;', 'return roar;'], '17.76')
+});
+
+describe('JAVAM - 05 - logical operators', function() {
+	cts('boolean', 'return true && true;', 'true');
+	cts('boolean', 'return true && false;', 'false');
+	cts('boolean', 'return false && true;', 'false');
+	cts('boolean', 'return false && false;', 'false');
+	cts('boolean', 'return true || true;', 'true');
+	cts('boolean', 'return true || false;', 'true');
+	cts('boolean', 'return false || true;', 'true');
+	cts('boolean', 'return false || false;', 'false');
+});
+
+describe('JAVAM - 05 - math operators', function() {
+	ct('addition', 'int', ['return 2+2;'], '4');
+	ct('easy int division', 'int', ['return 6/2;'], '3');
+	ct('round-down int division', 'int', ['return 5/2;'], '2');
+	ct('double division', 'double', ['return 5.0/2;'], '2.5');
+
+	cts('int', 'return 2+2*3;', '8');
+	cts('int', 'return 7%3;', '1');
+	cts('int', 'return -7%3;', '-1');
+	cts('int', 'return -7%-3;', '-1');
+	cts('int', 'return 7%-3;', '1');
+});
+
+describe('JAVAM - 05 - string concatenation', function() {
+	ct('simple', 'String', ['return "Hello" + " " + "World";'], 'Hello World');
+});
+
+describe('JAVAM - 05 - if statements', function() {
+	structureIf('true', 'Positive');
+	structureIf('false', 'Negitive');
+	structureIf('true && false', 'Negitive');
+});
+
+describe('JAVAM - 05 - for loops', function() {
+	ct('Add 0..5', 'int', [
+		'int sum = 0;',
+		'for ( int i = 0; i < 6; ++i ) {',
+		'	sum += i;',
+		'}',
+		'return sum;'
+	],"" + (1+2+3+4+5))
+
+	ct('No init', 'int', [
+		'int sum = 0;',
+		'for ( ; sum < 123; sum = sum * 2 ) {',
+		'	sum = sum + 1;',
+		'}',
+		'return sum;'
+	],"126")
+
+	ct('break', 'int', [
+		'int sum = 0;',
+		'for ( int i = 0; i < 10; ++i ) {',
+		'	sum = sum + 1;',
+		'	break;',
+		'}',
+		'return sum;'
+	],"1")
+
+});
+
+describe('JAVAM - 05 - while loops', function() {
+	ct('Add 0..5', 'int', [
+		'int sum = 0;',
+		'int i = 0;',
+		'while ( i < 6 ) {',
+		'	sum += i;',
+		'	i = i + 1;',
+		'}',
+		'return sum;'
+	],"" + (1+2+3+4+5));
+
+	ct('break', 'int', [
+		'int sum = 0;',
+		'int i = 1;',
+		'while ( i < 6 ) {',
+		'	sum += i;',
+		'	i = i + 1;',
+		'	break;',
+		'}',
+		'return sum;'
+	],"1");
+
+	ct('continue', 'int', [
+		'int sum = 0;',
+		'int i = 0;',
+		'while ( i < 6 ) {',
+		'	i = i + 1;',
+		'	if ( i % 2 == 1 ) continue;',
+		'	sum += i;',
+		'}',
+		'return sum;'
+	],"" + (2+4+6));
+
+});
+
+describe('JAVAM - 05 - SystemOut', function() {
+	cts('boolean', 'System.out.println("Hello!"); return true;', "Hello!\ntrue");
+	cts('boolean', 'System.out.println(10); return true;', "10\ntrue");
+	cts('boolean', 'System.out.print("Hello!"); return true;', "Hello!true");
+});
+
+describe('JAVAM - 07 - class definition', function() {
+
+
+});
+
+describe('JAVAM - 07 - 2d arrays', function() {
+	ct('simple', 'int', [
+		'int[][] multi = new int[5][10];',
+		'multi[0] = new int[10];',
+		'multi[1] = new int[10];',
+		'multi[2] = new int[10];',
+		'multi[3] = new int[10];',
+		'multi[4] = new int[10];',
+		'multi[1][4] = 3;',
+		'return multi[1][4];'
+	], "3");
+
+	ct('initial matrix', 'String', [
+		'int[][] multi = new int[][] {',
+		'	{ 1, 0, 0, 0, 0, 0, 0, 0, 9, 0 },',
+		'	{ 0, 2, 7, 0, 0, 0, 0, 8, 0, 0 },',
+		'	{ 0, 0, 3, 0, 0, 0, 7, 0, 0, 0 },',
+		'	{ 0, 0, 0, 4, 0, 6, 0, 0, 0, 0 },',
+		'	{ 0, 0, 0, 0, 5, 0, 0, 0, 0, 0 }',
+		'};',
+		'return "-> " + multi[1][2] + " " + multi[4][4];'
+	], '-> 7 5');
+
+});
+
+describe('JAVAM - 07 - ternary operator', function() {
+	cts('String', 'return true ? "A" : "B";', "A");
+	cts('String', 'return false ? "A" : "B";', "B");
+	cts('String', 'return 2+2 == 4 ? "A" : "B";', "A");
+	cts('String', 'return 2+2 == 5 ? "A" : "B";', "B");
+});
+
+describe('JAVAM - 07 - switch', function() {
+	ct('basic switch', 'String', [
+		'int x = 3;',
+		'switch ( x ) {',
+		'	case 1: return "No";',
+		'	case 2: return "No";',
+		'	case 3: return "Yes";',
+		'	case 4: return "No";',
+		'   default: return "No";',
+		'}'
+	], "Yes");
+
+	ct('fall though switch', 'String', [
+		'int x = 3;',
+		'switch ( x ) {',
+		'	case 1: ',
+		'	case 2: return "No";',
+		'	case 3: ',
+		'	case 4: return "Yes";',
+		'   default: return "No";',
+		'}'
+	], "Yes");
+
+	ct('default switch', 'String', [
+		'int x = 8;',
+		'switch ( x ) {',
+		'	case 1: return "No";',
+		'	case 2: return "No";',
+		'	case 3: return "No";',
+		'	case 4: return "No";',
+		'   default: return "Yes";',
+		'}'
+	], "Yes");
+
+	ct('case into default switch', 'String', [
+		'int x = 4;',
+		'switch ( x ) {',
+		'	case 1: ',
+		'	case 2: ',
+		'	case 3: return "No";',
+		'	case 4:',
+		'   default: return "Yes";',
+		'}'
+	], "Yes");
+
+	ct('breaking switch', 'String', [
+		'int x = 1;',
+		'switch ( x ) {',
+		'	case 1: ',
+		'	case 2: ',
+		'	case 3: break;',
+		'	case 4:',
+		'   default: return "No";',
+		'}',
+		'return "Yes";'
+	], "Yes");
+
+	ct('keep falling', 'String', [
+		'int x = 2;',
+		'String r = "";',
+		'switch ( x ) {',
+		'	case 1: r += "No";',
+		'	case 2: r += "A";',
+		'	case 3: r += "B";',
+		'	case 4: r += "C";',
+		'   default: return r + "Yes";',
+		'}'
+	], "ABCYes");
+
+});
+
+describe('JAVAM - 07 - complex assignment', function() {
+	ct('+= (int)', 'int', ['int x = 7;','x += 2;','return x;'], '9');
+	ct('-= (int)', 'int', ['int x = 7;','x -= 2;','return x;'], '5');
+	ct('*= (int)', 'int', ['int x = 7;','x *= 2;','return x;'], '14');
+	ct('/= (int)', 'int', ['int x = 7;','x /= 2;','return x;'], '3');	
+	ct('%= (int)', 'int', ['int x = 7;','x %= 2;','return x;'], '1');	
+
+	ct('+= (int v)', 'int', ['int x = 7;','int y = 5;', 'x += y;','return x;'], '12');
+	ct('*= (int v)', 'int', ['int x = 7;','int y = 5;', 'x *= y;','return x;'], '35');
+	ct('/= (int v)', 'int', ['int x = 7;','int y = 5;', 'x /= y;','return x;'], '1');
+	ct('/= (d,i v)', 'double', ['double x = 7;','int y = 2;', 'x /= y;','return x;'], '3.5');
+
+});
+
+
+describe('JAVAM - 07 - increment', function() {
+	ct('++x (int)', 'int', ['int x = 7;','++x;','return x;'], '8');
+	ct('--x (int)', 'int', ['int x = 7;','--x;','return x;'], '6');
+	ct('x++ (int)', 'int', ['int x = 7;','x++;','return x;'], '8');
+	ct('x-- (int)', 'int', ['int x = 7;','x--;','return x;'], '6');
+
+	ct('++x (double)', 'double', ['double x = 7.5;','++x;','return x;'], '8.5');
+	ct('--x (double)', 'double', ['double x = 7.5;','--x;','return x;'], '6.5');
+	ct('x++ (double)', 'double', ['double x = 7.5;','x++;','return x;'], '8.5');
+	ct('x-- (double)', 'double', ['double x = 7.5;','x--;','return x;'], '6.5');
+
+});
+
+
+describe('JAVAM - 07 - bitwise operators', function() {
+	cts('int', 'return 20<<3;', '160');
+	cts('int', 'return 20>>3;', '2');
+	cts('int', 'return -20<<3;', '-160');	
+	cts('int', 'return 20<<-3;', '-2147483648');	
+	cts('int', 'return 20>>-3;', '0');	
+	cts('int', 'return ~20;', '-21');
+});
+
+describe('JAVAM - 07 - complex if statements', function() {
+	structureIf('2+2 == 4', 'Positive');
+	structureIf('2+2 == 5', 'Negitive');
+	structureIf('2+2 != 4', 'Negitive');
+	structureIf('2+2 != 5', 'Positive');
+});
+
+describe('JAVAM - 07 - braceless if', function() {
+	ct('braceless', 'String',[
+		'if ( 1 == 2 ) return "Wrong";',
+		'else return "Right";'
+	], 'Right')
+});
+
+describe('JAVAM - 07 - instance/static variables', function() {
+	var modifiers = ['public', 'private', ''];
+	for ( var o in modifiers ) {
+		var m = modifiers[o];
+		ct(m + ' static int', 'int',[
+			'return x;'
+		],[
+			m + ' static int x = 10;'
+		], '10')
+	}
+	
+
+});
+
+describe('JAVAM - 07 - static class method invocation', function() {
+	ct('simple method', 'String', [
+		'return getString();'
+	],[
+		'public static String getString() {',
+		'	return "A String";',
+		'}'
+	], "A String");
+});
+
+// Testable methods from Apendix a
+describe('JAVAM - 09 - String class', function () {
+	var extra = [
+		'public static int x(int o) {',
+		'	if ( o == 0 ) return 0;',
+		'	else if ( o > 0 ) return 1;',
+		'	else return -1;',
+		'}'
+	]
+	ct('compareTo', 'int', ['return x("Apple".compareTo("Boat"));'], extra, '-1');
+	ct('compareTo', 'int', ['return x("Boat".compareTo("Boat"));'], extra, '0');
+	ct('compareTo', 'int', ['return x("apple".compareTo("Boat"));'], extra, '1');
+	ct('compareTo', 'int', ['return x("apple".compareToIgnoreCase("Boat"));'], extra, '-1');
+	cts('int', 'String s = "capital"; return s.length();', '7');
+	cts('int', 'return "capital".length();', '7');
+	cts('int', 'return "".length();', '0');
+	cts('int', 'String s = "hello"; return s.length();', '5');
+	cts('String', 'return "capital".substring(3);', 'ital');
+	cts('String', 'return "capital".substring(2,4);', 'pi');
+	cts('int', 'return "capital".indexOf("it");', '3');
+	cts('int', 'return "capital".indexOf("rob");', '-1');
+})
+
+describe('JAVAM - 09 - operator overloading', function() {
+	var methods = [
+		'public static int multi(int x) { return 1; }',
+		'public static int multi(double x) { return 2; }',
+		'public static int multi(int x, double y) { return 3; }',
+		'public static double multi(double x, int y) { return 4; }',
+		'public static double three(int x) { return x * 2; }',
+		'public static double three(double x) { return x * 3; }',
+		'public static double three(double x, int y) { return x * 4; }',		
+	]
+
+	ct('1', 'int', ['return multi(2);'], methods, '1');
+	ct('2', 'int', ['return multi(2.0);'], methods, '2');
+	ct('3', 'int', ['return multi(2, 2.0);'], methods, '3');
+	ct('4', 'double', ['return 16 / multi((double) 1, 2);'], methods, '4.0');
+	ct('5',' double', ['return three(7);'], methods, '14.0');
+	ct('6',' double', ['return three(7, 2);'], methods, '28.0');
+});
+
+
+
+describe('JAVAM - 09 - Constructors ', function() {
+	var extra = [
+		'private int x = 1;',
+		'public MyClass(int y) {',
+		'	super();',
+		'	x = y * 2;',
+		'}',
+		'public MyClass() { super(); }',
+		'public int z() { return x; }',
+		'public int w(int x) { return x; }'
+	];
+	ct('1', 'int', ['return new MyClass().z();'], extra, '1');
+	ct('2', 'int', ['return new MyClass(2).z();'], extra, '4');
+	ct('3', 'int', ['return new MyClass().w(5);'], extra, '5');
+	ct('4', 'int', ['return new MyClass(2).w(6);'], extra, '6');
+});
+
+describe('JAVAM - 09 - Object as SuperClass ', function() {
+	ct('equals', 'int', [
+		'MyClass c = new MyClass();',
+		'if ( c.equals(c) ) return 1;',
+		'return 0;',
+	], '1')
+	ct('equals', 'int', [
+		'MyClass c = new MyClass();',
+		'if ( c.equals(new MyClass()) ) return 1;',
+		'return 0;',
+	], '0')
+	ct('equals', 'String', [
+		'return new MyClass().toString();'
+	], [
+		'public String toString() {',
+		'return "!" + super.toString().substring(0, 7);',
+		'}',
+	],'!MyClass')
+});
+
+describe('JAVAM - 09 - Autoboxing ', function() {
+	var extra = [
+		'public static int a(Integer i) {', 
+		'	return 2 * i.intValue();',
+		'}',
+		'public static int a(Object o) {',
+		'	Integer i = (Integer) o;',
+		'	return 3 * i.intValue();', 
+		'}',
+		'public static int b(Object o) {',
+		'	Integer i = (Integer) o;',
+		'	return 5 * i.intValue();', 
+		'}',
+		'public static String c(Object o) {',
+		'	return o.toString();',
+		'}',
+		'public static double d(Double i) {', 
+		'	return 2 * i.intValue();',
+		'}',
+		'public static double d(Object o) {',
+		'	Double d = (Double) o;',
+		'	return 3 * d.intValue();', 
+		'}',
+		'public static double e(Object o) {',
+		'	Double d = (Double) o;',
+		'	return 3 * d.intValue();', 
+		'}',
+	];
+	ct('intValue', 'int', ['return a(10);'], extra, '20');
+	ct('intValue', 'int', ['return a((Object)10);'], extra, '30');
+	ct('intValueCasting', 'int', ['return b(20);'], extra, '100');
+	ct('intString', 'String', ['return c(8);'], extra, '8');
+
+	ct('doubleValue', 'double', ['return d(10.0);'], extra, '20.0');
+	ct('doubleValue', 'double', ['return d((Object)10.0);'], extra, '30.0');
+	ct('doubleValueCasting', 'double', ['return e(20.0);'], extra, '60.0');
+	ct('doubleString', 'String', ['return c(8.0);'], extra, '8.0');
+
+});
+
+
+
+describe('JAVAM - 09 - Scoping ', function() {
+	var extra = [
+		'public static int x = -100;'
+	];
+	ct('findStaticVariable', 'int', ['return x;'], extra, '-100');
+	ct('findLocal', 'int', [
+		'int x = 10;',
+		'return x;'
+	], extra, '10');
+	ct('findStaticWithClassName', 'int', [
+		'int x = 10;',
+		'x++;',
+		'return MyClass.x;'
+	], extra, '-100');
+	ct('forDoesntClobberStatic', 'int', [
+		'int c = 0;',
+		'for ( int x = 0; x < 10; ++x ) {',
+		'	++c;',
+		'}',
+		'return x;'
+	], extra, '-100');
+	ct('forClobbersStaicInScope', 'int', [
+		'int c = 0;',
+		'for ( int x = 0; x < 10; ++x ) {',
+		'	return x;',
+		'}',
+		'return -200;'
+	], extra, '0');
+});
+
+describe('JAVAM - 09 - Type Chaining', function() {
+	var extra = [
+		'public static int a(double c) { return (int)(7.0*c); }',
+		'public static String a(int x) { return "Hello" + x; }',
+		'public static double a(String x) { return 8.0 * x.length(); }'
+	];
+
+	ct('1a', 'int', ['return a(1.0);' ], extra, '7');
+	ct('1b', 'String', ['return a(1);' ], extra, 'Hello1');
+	ct('1c', 'double', ['return a("rob");' ], extra, '24.0');
+	ct('1d', 'String', ['return a("rob".length());' ], extra, 'Hello3');
+
+	ct('2a', 'String', ['return a(a(1.0));' ], extra, 'Hello7');
+	ct('2b', 'double', ['return a(a(1));' ], extra, '48.0');
+	ct('2c', 'int', ['return a(a("rob"));' ], extra, '168');
+	ct('2d', 'double', ['return a(a("rob".length()));' ], extra, '48.0');
+
+	ct('3a', 'double', ['return a(a(a(1.0)));' ], extra, '48.0');
+	ct('3b', 'int', ['return a(a(a(1)));' ], extra, '336');
+	ct('3c', 'String', ['return a(a(a("rob")));' ], extra, 'Hello168');
+	ct('3d', 'int', ['return a(a(a("rob".length())));' ], extra, '336');
+
+});
+
+describe('JAVAM - 09 - Math', function() {
+	ct('abs', 'int', ['return Math.abs(10);'], '10');
+	ct('abs', 'int', ['return Math.abs(-10);'], '10');
+	ct('pow', 'double', ['return Math.pow(2,8);'], '256.0');
+	ct('pow', 'double', ['return Math.pow(16,0.5);'], '4.0');
+	ct('sqrt', 'double', ['return Math.sqrt(16);'], '4.0');
+	ct('sqrt', 'double', ['return Math.sqrt(-4);'], 'NaN');
+	ct('random', 'int', ['return (int)Math.random();'], '0');
+});
+
+describe('JAVAM - 09 - List', function() {
+	function w(l) {
+		return [
+		'List<Integer> list = new ArrayList<Integer>();',
+		'list.add(8);', //0
+		'list.add(6);', //1
+		'list.add(7);', //2
+		'list.add(5);', //3
+		'list.add(3);', //4
+		'list.add(0);', //5
+		'list.add(9);', //6
+		].concat(l);
+	}
+
+	ct('size', 'int', w([
+		'return list.size();'
+	]), '7');
+
+	ct('get', 'int', w([
+		'return list.get(3);'
+	]), '5');
+
+	ct('set', 'int', w([
+		'return list.set(0,20);'
+	]), '8');
+
+	ct('set', 'int', w([
+		'list.set(0,20);',
+		'return list.get(0);'
+	]), '20');
+
+	ct('remove a', 'int', w([
+		'return list.remove(5);'
+	]), '0');
+
+	ct('remove b', 'int', w([
+		'list.remove(3);',
+		'return list.size();',
+	]), '6');
+
+	ct('remove c', 'int', w([
+		'list.remove(3);',
+		'return list.get(3);',
+	]), '3');
+
+	ct('remove d', 'int', w([
+		'list.remove(3);',
+		'return list.get(1);',
+	]), '6');
+
+	ct('remove e', 'int', w([
+		'list.remove(3);',
+		'return list.get(5);',
+	]), '9');
+})
+
+describe('JAVAM - 09 - For Each', function() {
+	ct('from array', 'int', [
+		'int[] nums = {8, 6, 7, 5, 3, 0, 9};',
+		'int sum = 0;',
+		'for ( int n : nums ) {',
+		'	sum += n;',
+		'}',
+		'return sum;'
+	], '38');
+
+	ct('from list<Integer> unboxing', 'int', [
+		'List<Integer> list = new ArrayList<Integer>();',
+		'list.add(8);',
+		'list.add(6);',
+		'list.add(7);',
+		'list.add(5);',
+		'list.add(3);',
+		'list.add(0);',
+		'list.add(9);',
+		'int sum = 0;',
+		'for ( int n : list ) {',
+		'	sum += n;',
+		'}',
+		'return sum;'
+	], '38');
+
+	ct('from list<Integer> no-unboxing', 'int', [
+		'List<Integer> list = new ArrayList<Integer>();',
+		'list.add(new Integer(8));',
+		'list.add(new Integer(6));',
+		'list.add(new Integer(7));',
+		'list.add(new Integer(5));',
+		'list.add(new Integer(3));',
+		'list.add(new Integer(0));',
+		'list.add(new Integer(9));',
+		'int sum = 0;',
+		'for ( Integer n : list ) {',
+		'	sum += n.intValue();',
+		'}',
+		'return sum;'
+	], '38');
+
+});
+
+
+
+});

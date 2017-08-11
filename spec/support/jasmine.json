@@ -1,8 +1,9 @@
 {
+  "_comment": "Aether tests are excluded by default; run separately with `npm run jasmine-aether`",
   "spec_dir": "spec",
   "spec_files": [
-    "**/*[sS]pec.js",
-    "**/*[sS]pec.coffee"
+    "server/**/*[sS]pec.js",
+    "server/**/*[sS]pec.coffee"
   ],
   "helpers": [
     "helpers/**/*.js"

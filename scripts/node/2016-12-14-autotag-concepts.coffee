@@ -7,7 +7,7 @@ require('coffee-script/register');
 _ = require 'lodash'
 str = require 'underscore.string'
 concepts = require '../../app/schemas/concepts'
-esper = require '../../bower_components/esper.js/esper.modern.js'
+esper = require '../../bower_components/esper.js/esper-modern.js'
 
 getSolutions = (level) ->
   return [] unless hero = _.find (level.get("thangs") ? []), id: 'Hero Placeholder'

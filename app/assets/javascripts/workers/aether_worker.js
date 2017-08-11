@@ -7,10 +7,10 @@ try {
   //Detect very modern javascript support.
   (0,eval("'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"));
   console.log("Modern javascript detected, aw yeah!");
-  self.importScripts('/javascripts/esper.modern.js');  
+  self.importScripts('/javascripts/esper-modern.js');  
 } catch (e) {
   console.log("Legacy javascript detected, falling back...", e.message);
-  self.importScripts('/javascripts/esper.js');  
+  self.importScripts('/javascripts/esper.js');
 }
 
 //console.log("Aether Tome worker has finished importing scripts.");
@@ -19,7 +19,8 @@ var languagesImported = {};
 
 var ensureLanguageImported = function(language) {
   if (languagesImported[language]) return;
-  if (language === 'html') return;
+  if (language === 'html') return; // WebDev levels have their own special handling with the iFrame
+  if (language === 'javascript') return; // Integrated Aether/Esper setup no longer requires a plugin for JS
   importScripts("/javascripts/app/vendor/aether-" + language + ".js");
   languagesImported[language] = true;
 };
@@ -113,4 +114,4 @@ self.addEventListener('message', function(e) {
         var returnObject = {"message":message, "function":"none"};
         self.postMessage(JSON.stringify(returnObject));
     }
-}, false); 
+}, false);

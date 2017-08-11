@@ -53,7 +53,7 @@ exports.config =
         coffeelint:
           pattern: /\A\Z/
         afterBrunch: [
-          "coffee scripts/minify.coffee",
+          "coffee scripts/setup-aether.coffee && coffee scripts/minify.coffee"
         ]
     fast:
       onCompile: (files) -> console.log "I feel the need, the need... for speed."
@@ -92,7 +92,7 @@ exports.config =
 
         #- Karma is a bit more tricky to get to work. For now just dump everything into one file so it doesn't need to load anything through ModuleLoader.
         'javascripts/whole-app.js': if TRAVIS then [
-          regJoin('^app')
+          regJoin('^app/(?!lib/aether/)')
         ] else []
 
         #- Wads. Groups of modules by folder which are loaded as a group when needed.
@@ -102,7 +102,7 @@ exports.config =
           regJoin('^bower_components/backbone')
           regJoin('^app/lib/scripts/PerfTester')
         ]
-        'javascripts/app/lib.js': regJoin('^app/lib')
+        'javascripts/app/lib.js': regJoin('^app/lib/(?!(aether/))')
         'javascripts/app/views/play.js': regJoin('^app/views/play')
         'javascripts/app/views/editor.js': regJoin('^app/views/editor')
         'javascripts/app/views/courses.js': regJoin('^app/views/courses')
@@ -143,14 +143,14 @@ exports.config =
         # TODO: move this to assets/lib since we're not really joining anything here?
         'javascripts/box2d.js': regJoin('^vendor/scripts/Box2dWeb-2.1.a.3')
         'javascripts/lodash.js': regJoin('^bower_components/lodash/dist/lodash.js')
-        'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
+        #'javascripts/aether.js': regJoin('^bower_components/aether/build/aether.js')
         'javascripts/esper.js': 'bower_components/esper.js/esper.js'
-        'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
-        'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
-        'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
-        'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
-        'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
-        'javascripts/app/vendor/aether-html.js': 'bower_components/aether/build/html.js'
+        #'javascripts/app/vendor/aether-coffeescript.js': 'bower_components/aether/build/coffeescript.js'
+        #'javascripts/app/vendor/aether-javascript.js': 'bower_components/aether/build/javascript.js'
+        #'javascripts/app/vendor/aether-lua.js': 'bower_components/aether/build/lua.js'
+        #'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
+        #'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
+        #'javascripts/app/vendor/aether-html.js': 'bower_components/aether/build/html.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')
@@ -194,7 +194,7 @@ exports.config =
           # Validated Backbone Mediator dependencies
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing
-          'bower_components/aether/build/aether.js'
+          #'bower_components/aether/build/aether.js'
           'bower_components/esper.js/esper.js'
           'bower_components/fastclick/lib/fastclick.js'
           'bower_components/d3/d3.min.js'
@@ -227,6 +227,9 @@ exports.config =
   framework: 'backbone'
 
   plugins:
+    afterBrunch: [
+      "coffee scripts/setup-aether.coffee"
+    ]
     coffeelint:
       pattern: /^app\/.*\.coffee$/
       options:
@@ -246,7 +249,7 @@ exports.config =
       copyTo:
         'lib/ace': ['node_modules/ace-builds/src-min-noconflict/*']
         'fonts': ['bower_components/openSansCondensed/!(*bower.json)', 'bower_components/openSans/!(*bower.json)', 'bower_components/font-awesome/fonts/*']
-        'javascripts': ['bower_components/esper.js/esper.modern.js']
+        'javascripts': ['bower_components/esper.js/esper-modern.js']
     autoReload:
       delay: 1000
     static:
@@ -307,6 +310,6 @@ console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade
 
 if process.env.GIT_SHA
   info =
-    sha: process.env.GIT_SHA 
+    sha: process.env.GIT_SHA
   fs.writeFile '.build_info.json', JSON.stringify info, null, '  '
   console.log( "Wrote build information file");
