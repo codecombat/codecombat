@@ -351,15 +351,11 @@ UserSchema.methods.sendWelcomeEmail = ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
 
 UserSchema.methods.hasSubscription = ->
-  if payPal = @get('payPal')
-    return payPal.billingAgreementID
-  else if stripeObject = @get('stripe')
-    return true if stripeObject.sponsorID
-    return true if stripeObject.subscriptionID
-    return true if stripeObject.free is true
-    return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
-  false
-
+  return false unless stripeObject = @get('stripe')
+  return true if stripeObject.sponsorID
+  return true if stripeObject.subscriptionID
+  return true if stripeObject.free is true
+  return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
 
 UserSchema.methods.isPremium = ->
   return true if @isInGodMode()

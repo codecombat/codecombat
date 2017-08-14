@@ -127,13 +127,13 @@ module.exports = class AnalyticsView extends RootView
 
         revenueGroupFromPayment = (payment) ->
           product = payment.productID or payment.service
-          if payment.productID is 'lifetime_subscription'
+          if payment.productID is 'lifetime_subcription'
             product = "usa lifetime"
           else if /_lifetime_subscription/.test(payment.productID)
             product = "intl lifetime"
-          else if payment.productID is 'basic_subscription'
+          else if payment.productID is 'basic_subcription'
             product = "usa monthly"
-          else if /_basic_subscription/.test(payment.productID)
+          else if /_basic_subcription/.test(payment.productID)
             product = "intl monthly"
           else if /gems/.test(payment.productID)
             product = "gems"

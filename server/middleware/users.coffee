@@ -107,8 +107,6 @@ module.exports =
     # Delete personal subscription
     if userToDelete.get('stripe.subscriptionID')
       yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
-    if userToDelete.get('payPal.billingAgreementID')
-      yield middleware.subscriptions.cancelPayPalBillingAgreementInternal(req)
 
     # Delete recipient subscription
     sponsorID = userToDelete.get('stripe.sponsorID')
@@ -503,5 +501,5 @@ module.exports =
         }
       })
     ]
-    return res.sendStatus(200)
+    return res.send(200)
 

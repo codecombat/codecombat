@@ -53,7 +53,6 @@ module.exports.routes =
     'routes/github'
     'routes/languages'
     'routes/mail'
-    'routes/paypal'
     'routes/sprites'
     'routes/queue'
     'routes/stripe'
