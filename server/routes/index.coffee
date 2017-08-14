@@ -221,7 +221,6 @@ module.exports.setup = (app) ->
   Product = require '../models/Product'
   app.post('/db/products/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Product, 'product'))
   app.get('/db/products/:handle/patches', mw.patchable.patches(Product))
-
   app.get('/db/products/:handle', mw.rest.getByHandle(Product))
   app.put('/db/products/:handle', mw.auth.checkHasUser(), mw.rest.put(Product))
   app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)

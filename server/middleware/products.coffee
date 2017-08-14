@@ -18,6 +18,7 @@ get = wrap (req, res) ->
 
   # Remove old unsupported subscription products
   products = _.filter products, (p) -> p.name not in ['year_subscription', 'lifetime_subscription2']
+  products = _.filter(products, (p) -> p.i18nCoverage?) if req.query.view is 'i18n-coverage'
 
   for p in products
     if p.coupons?

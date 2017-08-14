@@ -3,6 +3,7 @@ template = require 'templates/i18n/i18n-home-view'
 CocoCollection = require 'collections/CocoCollection'
 Courses = require 'collections/Courses'
 Products = require 'collections/Products'
+Product = require 'models/Product'
 
 LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
@@ -41,7 +42,7 @@ module.exports = class I18NHomeView extends RootView
     @campaigns = new CocoCollection([], { url: '/db/campaign?view=i18n-coverage', project: project, model: Campaign })
     @polls = new CocoCollection([], { url: '/db/poll?view=i18n-coverage', project: project, model: Poll })
     @courses = new Courses()
-    @products = new Products()
+    @products = new CocoCollection([], { url: '/db/products?view=i18n-coverage', project: project, model: Product })
 
     for c in [@thangTypes, @components, @levels, @achievements, @campaigns, @polls, @courses, @products]
       c.skip = 0

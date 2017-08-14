@@ -3,6 +3,7 @@ config = require '../../server_config'
 co = require 'co'
 ProductSchema = new mongoose.Schema({}, {strict: false,read:config.mongo.readpref})
 plugins = require '../plugins/plugins'
+jsonSchema = require '../../app/schemas/models/product.schema'
 
 ProductSchema.index({name: 1}, {name: 'name index'})
 
@@ -17,6 +18,8 @@ ProductSchema.statics.findBasicSubscriptionForUser = co.wrap (user) ->
       return countrySpecificProduct
   product = yield @findOne {name: basicProductName}
   return product
+
+ProductSchema.statics.jsonSchema = jsonSchema
 
 ProductSchema.statics.editableProperties = [
   'i18n',
