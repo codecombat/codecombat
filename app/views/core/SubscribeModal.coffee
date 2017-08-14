@@ -1,3 +1,4 @@
+api = require 'core/api'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
@@ -126,6 +127,29 @@ module.exports = class SubscribeModal extends ModalView
     return unless @basicProduct
     @playSound 'menu-button-click'
     return @openModalView new CreateAccountModal() if me.get('anonymous')
+    if @basicProduct.isRegionalSubscription()
+      @startPayPalSubscribe()
+    else
+      @startStripeSubscribe()
+
+  startPayPalSubscribe: ->
+    application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
+    $('.purchase-button').addClass("disabled")
+    $('.purchase-button').html($.i18n.t('common.processing'))
+    api.users.createBillingAgreement({userID: me.id, productID: @basicProduct.id})
+    .then (billingAgreement) =>
+      for link in billingAgreement.links
+        if link.rel is 'approval_url'
+          application.tracker?.trackEvent 'Continue subscription purchase', { service: 'paypal', redirectUrl: link.href }
+          window.location = link.href
+          return
+      throw new Error("PayPal billing agreement has no redirect link #{JSON.stringify(billingAgreement)}")
+    .catch (jqxhr) =>
+      $('.purchase-button').removeClass("disabled")
+      $('.purchase-button').html($.i18n.t('premium_features.subscribe_now'))
+      @onSubscriptionError(jqxhr)
+
+  startStripeSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'stripe' }
     options = @stripeOptions {
       description: $.i18n.t('subscribe.stripe_description')

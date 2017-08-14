@@ -230,6 +230,8 @@ getByPath = (target, path) ->
 
 isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
+isRegionalSubscription = (name) -> /_basic_subscription/.test(name)
+
 isSmokeTestEmail = (email) ->
   /@example.com/.test(email) or /smoketest/.test(email) or /@codecombat.com/.test(email)
 
@@ -679,6 +681,7 @@ module.exports = {
   initializeACE
   injectCSS
   isID
+  isRegionalSubscription
   isSmokeTestEmail
   keepDoingUntil
   kindaEqual
