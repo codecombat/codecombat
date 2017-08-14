@@ -1,10 +1,11 @@
 subscriptions = require '../../../server/middleware/subscriptions'
-Product = require '../../../server/models/Product'
 utils = require '../utils'
 
 describe 'checkForCoupon', ->
-  it 'normally calls checkForExistingSubscription without a defined couponID', utils.wrap ->
+  beforeEach utils.wrap ->
     yield utils.populateProducts()
+  
+  it 'normally calls checkForExistingSubscription without a defined couponID', utils.wrap ->
     req = {}
     user = yield utils.initUser({country: 'united-states'})
     customer = {}
@@ -18,8 +19,6 @@ describe 'checkForCoupon', ->
     expect(couponID).toBeUndefined()
     
   it 'adds country coupons if the user is from a country with a country-specific basic product', utils.wrap ->
-    # TODO: yield utils.populateProducts() only yields two products when all tests run
-    yield Product({name: 'brazil_basic_subscription'}).save()
     req = {}
     user = yield utils.initUser({country: 'brazil'})
     customer = {}

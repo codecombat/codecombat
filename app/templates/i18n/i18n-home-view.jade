@@ -26,7 +26,7 @@ block content
 
         tr
           td
-            a(href=model.i18nURLBase+(model.get('slug') || model.id))= model.get('displayName') || model.get('name')
+            a(href=model.i18nURLBase+model.get('slug'))= model.get('name')
           td= translatedName
           td= model.constructor.className
           td(class=model.specificallyCovered ? 'success' : 'danger')= model.specificallyCovered ? 'Yes' : 'No'

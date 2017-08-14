@@ -88,7 +88,7 @@ if __name__ == '__main__':
                     convertedGroupA += 1
                     # TODO: is our distinct_id correct?  We hit this at least once.
                     # if item['Finished gem purchase'] > 1:
-                    #     print "User multiple subscription purchases?"
+                    #     print "User multiple subcription purchases?"
                     #     print item
                 elif item['Started purchase'] > 0:
                     started += 1

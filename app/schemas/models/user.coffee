@@ -311,13 +311,6 @@ _.extend UserSchema.properties,
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
 
-  payPal: c.object {}, {
-    payerID: { type: 'string' }
-    billingAgreementID: { type: 'string', description: 'Set if user has PayPal monthly subscription' }
-    subscribeDate: c.date()
-    cancelDate: c.date()
-  }
-
   stripe: c.object {}, {
     customerID: { type: 'string' }
     planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }

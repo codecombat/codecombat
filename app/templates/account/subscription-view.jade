@@ -104,10 +104,6 @@ block content
                 tr
                   th(data-i18n="account.card")
                   td= view.personalSub.card
-            if view.personalSub.service
-              tr
-                th(data-i18n="account.service")
-                td= view.personalSub.service
 
         else
           if view.personalSub.free === true
@@ -133,8 +129,8 @@ block content
           span.spr(data-i18n="account_prepaid.you_can1")
           a(href="/account/prepaid", data-i18n="account_prepaid.you_can2")
           span.spl(data-i18n="account_prepaid.you_can3")
-
     //- Sponsored Subscriptions
+
     .panel.panel-default
       .panel-heading
         h3(data-i18n="subscribe.managed_subs")

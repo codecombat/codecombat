@@ -9,7 +9,6 @@ patchables = [
   'level_component'
   'level_system' 
   'poll'
-  'product'
   'thang_type'
 ]
 
