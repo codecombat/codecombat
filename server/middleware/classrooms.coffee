@@ -113,34 +113,13 @@ module.exports =
     classroom = yield database.getDocFromHandle(req, Classroom)
     throw new errors.NotFound('Classroom not found.') if not classroom
     throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
-    courseLevelsMap = {}
-    codeLanguage = classroom.get('aceConfig.language')
-    for course in classroom.get('courses') ? []
-      courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) ->
-        {'level.original':l.original?.toHexString(), codeLanguage: l.primerLanguage or codeLanguage}
-      )
-    courseInstances = yield CourseInstance.find({classroomID: classroom._id}).select('_id courseID members').lean()
-    memberCoursesMap = {}
-    for courseInstance in courseInstances
-      for userID in courseInstance.members ? []
-        memberCoursesMap[userID.toHexString()] ?= []
-        memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
+
     memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
     memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     members = classroom.get('members') or []
     members = members.slice(memberSkip, memberSkip + memberLimit)
-    dbqs = []
-    select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published'
-    for member in members
-      $or = []
-      for courseID in memberCoursesMap[member.toHexString()] ? []
-        for subQuery in courseLevelsMap[courseID.toHexString()] ? []
-          $or.push(_.assign({creator: member.toHexString()}, subQuery))
-      if $or.length
-        query = { $or }
-        dbqs.push(LevelSession.find(query).select(select).lean().exec())
-    results = yield dbqs
-    sessions = _.flatten(results)
+
+    sessions = yield classroom.fetchSessionsForMembers(members)
     res.status(200).send(sessions)
 
   fetchMembers: wrap (req, res, next) ->

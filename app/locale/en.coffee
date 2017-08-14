@@ -9,7 +9,8 @@
     learn_more: "Learn more"
     classroom_in_a_box: "A classroom in-a-box for teaching computer science."
     codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
-    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even by teachers with little to no prior programming experience."
+    our_courses: "Our courses have been specifically playtested <strong>to excel in the classroom</strong>, even for teachers with little to no prior programming experience."
+    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Students write code and see their changes update in real-time"
     designed_with: "Designed with teachers in mind"
     real_code: "Real, typed code"
@@ -327,6 +328,7 @@
     default_code: "Default Code"
     loading: "Loading..."
     overview: "Overview"
+    processing: "Processing..."
     solution: "Solution"
     table_of_contents: "Table of Contents"
     intro: "Intro"
@@ -649,6 +651,7 @@
     prompt_body: "Keep playing to earn more!"
 
   subscribe:
+    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
     premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!"
@@ -721,9 +724,10 @@
     support_part1: "Need help with payment options? Email"
     support_part2: "support@codecombat.com"
     support_part3: "if you have any questions."
+    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
     you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-    you_will_be_charged: "You will be charged $__priceString__ one time."
+    you_will_be_charged: "You will be charged $__priceString__" # {change}
     choose_payment_method: "Choose Payment Method"
     pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
     paypal_payment_error: "We encountered an error while charging PayPal."
@@ -773,6 +777,7 @@
   premium_features:
     get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Become a Master Coder by subscribing today!"
+    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Subscribe Now"
     hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
     hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -976,7 +981,7 @@
     project_based_title: "Project-Based Courses"
     project_based_description: "Web and Game Development courses feature shareable final projects."
     great_for_clubs_title: "Great for clubs and electives"
-    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #{change}
     low_price_title: "Just __starterLicensePrice__ per student"
     low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
     three_great_courses: "Three great courses included in the Starter License:"

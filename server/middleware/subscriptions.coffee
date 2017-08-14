@@ -10,10 +10,11 @@ Product = require '../models/Product'
 Payment = require '../models/Payment'
 User = require '../models/User'
 database = require '../commons/database'
-{ getSponsoredSubsAmount } = require '../../app/core/utils'
+{ getSponsoredSubsAmount, isRegionalSubscription } = require '../../app/core/utils'
 StripeUtils = require '../lib/stripe_utils'
 slack = require '../slack'
 paypal = require '../lib/paypal'
+{isProduction} = require '../../server_config'
 
 subscribeWithPrepaidCode = expressWrap (req, res) ->
   { ppc } = req.body
@@ -31,6 +32,8 @@ subscribeWithPrepaidCode = expressWrap (req, res) ->
 subscribeUser = co.wrap (req, user) ->
   if (not req.user) or req.user.isAnonymous() or user.isAnonymous()
     throw new errors.Unauthorized('You must be signed in to subscribe.')
+  if user.get('payPal.billingAgreementID')
+    throw new errors.Forbidden('You already have a PayPal subscription.')
 
   # NOTE: This token is really a stripe token *id*
   { token, prepaidCode } = req.body.stripe
@@ -220,6 +223,9 @@ purchaseProduct = expressWrap (req, res) ->
   unless /lifetime_subscription$/.test productName
     throw new errors.UnprocessableEntity('Unsupported product')
 
+  if req.user.get('payPal.billingAgreementID')
+    throw new errors.Forbidden('You already have a PayPal subscription.')
+
   # if there user already has a subscription, cancel it and find the date it ends
   customer = yield StripeUtils.getCustomerAsync(req.user, req.body.stripe?.token or req.body.token)
   if customer
@@ -227,7 +233,7 @@ purchaseProduct = expressWrap (req, res) ->
   if subscription
     stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
     yield StripeUtils.cancelSubscriptionImmediatelyAsync(req.user, subscription)
-  
+
   paymentType = req.body.service or 'stripe'
   gems = product.get('gems')
   if paymentType is 'stripe'
@@ -239,7 +245,7 @@ purchaseProduct = expressWrap (req, res) ->
       description: req.body.description
       productID: product.get('name')
     }
-  
+
     amount = product.get('amount')
     if req.body.coupon?
       coupon = _.find product.get('coupons'), ((x) -> x.code is req.body.coupon)
@@ -247,10 +253,10 @@ purchaseProduct = expressWrap (req, res) ->
         throw new errors.NotFound('Coupon not found')
       amount = coupon.amount
       metadata.couponCode = coupon.code
-  
+
     charge = yield StripeUtils.createChargeAsync(req.user, amount, metadata)
     payment = yield StripeUtils.createPaymentAsync(req.user, charge, {productID: product.get('name')})
-    
+
   else if paymentType is 'paypal'
     { payerID, paymentID } = req.body
     amount = product.get('amount')
@@ -282,7 +288,7 @@ purchaseProduct = expressWrap (req, res) ->
       productID: product.get('name')
     })
     yield payment.save()
-      
+
   else
     throw new errors.UnprocessableEntity('Unsupported payment provider')
 
@@ -317,6 +323,84 @@ purchaseProduct = expressWrap (req, res) ->
     SubscriptionHandler.logSubscriptionError(req.user, "#{productName} sale Slack tower msg error: #{JSON.stringify(error)}")
   res.send(req.user.toObject({req}))
 
+createPayPalBillingAgreement = expressWrap (req, res) ->
+  if (not req.user) or req.user.isAnonymous()
+    throw new errors.Unauthorized('You must be signed in to create a PayPal billing agreeement.')
+  throw new errors.Forbidden('Already subscribed.') if req.user.hasSubscription()
+  product = yield Product.findById(req.body.productID)
+  throw new errors.NotFound('Product not found') unless product
+  planId = product.get('payPalBillingPlanID')
+  throw new errors.UnprocessableEntity("No PayPal billing plan for product #{product.id}") unless planId
+
+  try
+    name = product.get('displayName')
+    name = "[TEST agreement] #{name}" unless isProduction
+    description = product.get('displayDescription')
+    description = "[TEST agreeement] #{description}" unless isProduction
+    # Date creation from paypal node lib example: https://github.com/paypal/PayPal-node-SDK/blob/master/samples/subscription/billing_agreements/create.js
+    isoDate = new Date()
+    isoDate.setSeconds(isoDate.getSeconds() + 4)
+    billingAgreementAttributes = {
+        name
+        description
+        "start_date": isoDate,
+        "plan": {
+            "id": planId
+        },
+        "payer": {
+            "payment_method": 'paypal'
+        }
+    }
+    billingAgreement = yield paypal.billingAgreement.createAsync(billingAgreementAttributes)
+    return res.status(201).send(billingAgreement)
+  catch e
+    log.error 'PayPal create billing agreement error:', JSON.stringify(e, null, '\t')
+    throw new errors.UnprocessableEntity('PayPal create billing agreement failed', {i18n: 'subscribe.paypal_payment_error'})
+
+executePayPalBillingAgreement = expressWrap (req, res) ->
+  # NOTE: internal payment saved in paypal webhook, not here
+  if (not req.user) or req.user.isAnonymous()
+    throw new errors.Unauthorized('You must be signed in to execute a PayPal billing agreeement.')
+  throw new errors.Forbidden('Already subscribed.') if req.user.hasSubscription()
+  throw new errors.NotFound('PayPal executed billing agreement token required.') unless req.body.token
+
+  try
+    billingAgreement = yield paypal.billingAgreement.executeAsync(req.body.token, {})
+    userPayPalData = _.clone(req.user.get('payPal'))
+    userPayPalData ?= {}
+    if userPayPalData.payerID and userPayPalData.payerID isnt billingAgreement.payer.payer_info.payer_id
+      log.warning "New payerID for #{req.user.id}, #{userPayPalData.payerID} => #{billingAgreement.payer.payer_info.payer_id}"
+    userPayPalData.billingAgreementID = billingAgreement.id
+    userPayPalData.payerID = billingAgreement.payer.payer_info.payer_id
+    userPayPalData.subscribeDate = new Date()
+    req.user.set('payPal', userPayPalData)
+    yield req.user.save()
+    return res.send(billingAgreement)
+  catch e
+    log.error 'PayPal execute billing agreement error:', JSON.stringify(e, null, '\t')
+    throw new errors.UnprocessableEntity('PayPal execute billing agreement failed', {i18n: 'subscribe.paypal_payment_error'})
+
+cancelPayPalBillingAgreement = expressWrap (req, res) ->
+  yield module.exports.cancelPayPalBillingAgreementInternal req
+  res.sendStatus(204)
+
+cancelPayPalBillingAgreementInternal = co.wrap (req) ->
+  if (not req.user) or req.user.isAnonymous()
+    throw new errors.Unauthorized('You must be signed in to cancel a PayPal billing agreeement.')
+  throw new errors.Forbidden('Already subscribed.') unless req.user.hasSubscription()
+
+  try
+    billingAgreementID = req.body.billingAgreementID ? req.user.get('payPal')?.billingAgreementID
+    throw new errors.UnprocessableEntity('No PayPal billing agreement') unless billingAgreementID
+    yield paypal.billingAgreement.cancelAsync(billingAgreementID, {"note": "Canceling CodeCombat Premium Subscription"})
+    userPayPalData = _.clone(req.user.get('payPal') ? {})
+    delete userPayPalData.billingAgreementID
+    userPayPalData.cancelDate = new Date()
+    req.user.set('payPal', userPayPalData)
+    yield req.user.save()
+  catch e
+    log.error 'PayPal cancel billing agreement error:', JSON.stringify(e, null, '\t')
+    throw new errors.UnprocessableEntity('PayPal cancel billing agreement failed', {i18n: 'subscribe.paypal_payment_error'})
 
 # TODO: Delete all 'unsubscribeRecipient' code when managed subscriptions are no more
 unsubscribeRecipientEndpoint = expressWrap (req, res) ->
@@ -409,6 +493,10 @@ module.exports = {
   unsubscribeRecipientEndpoint
   unsubscribeRecipientAsync
   purchaseProduct
+  createPayPalBillingAgreement
+  executePayPalBillingAgreement
+  cancelPayPalBillingAgreement
+  cancelPayPalBillingAgreementInternal
   checkForCoupon
   checkForExistingSubscription
 }
