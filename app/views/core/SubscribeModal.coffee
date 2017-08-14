@@ -1,3 +1,4 @@
+api = require 'core/api'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/subscribe-modal'
 stripeHandler = require 'core/services/stripe'
@@ -135,10 +136,14 @@ module.exports = class SubscribeModal extends ModalView
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
     $('.purchase-button').addClass("disabled")
     $('.purchase-button').html($.i18n.t('common.processing'))
-    Promise.resolve(payPal.createBillingAgreement(@basicProduct.id))
-    .then (redirectUrl) =>
-      application.tracker?.trackEvent 'Continue subscription purchase', { service: 'paypal', redirectUrl }
-      window.location = redirectUrl
+    api.users.createBillingAgreement({userID: me.id, productID: @basicProduct.id})
+    .then (billingAgreement) =>
+      for link in billingAgreement.links
+        if link.rel is 'approval_url'
+          application.tracker?.trackEvent 'Continue subscription purchase', { service: 'paypal', redirectUrl: link.href }
+          window.location = link.href
+          return
+      throw new Error("PayPal billing agreement has no redirect link #{JSON.stringify(billingAgreement)}")
     .catch (jqxhr) =>
       $('.purchase-button').removeClass("disabled")
       $('.purchase-button').html($.i18n.t('premium_features.subscribe_now'))

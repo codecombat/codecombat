@@ -95,9 +95,8 @@ module.exports = class CampaignView extends RootView
       me.patch()
       pixelCode = if @terrain is 'game-dev-hoc' then 'code_combat_gamedev' else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
-    else if location.pathname is '/paypal/subscribe_callback'
-      @paypalPaymentToken = utils.getQueryVariable 'token'
-      Promise.resolve(payPal.executeBillingAgreement(@paypalPaymentToken))
+    else if location.pathname is '/paypal/subscribe-callback'
+      api.users.executeBillingAgreement({userID: me.id, token: utils.getQueryVariable('token')})
       .then (billingAgreement) =>
         value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?[0].amount?.value ? 0) * 100)
         application.tracker?.trackEvent 'Finished subscription purchase', { value, service: 'paypal' }

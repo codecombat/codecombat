@@ -327,21 +327,19 @@ createPayPalBillingAgreement = expressWrap (req, res) ->
   if (not req.user) or req.user.isAnonymous()
     throw new errors.Unauthorized('You must be signed in to create a PayPal billing agreeement.')
   throw new errors.Forbidden('Already subscribed.') if req.user.hasSubscription()
-  product = yield Product.findById(req.params.handle)
+  product = yield Product.findById(req.body.productID)
   throw new errors.NotFound('Product not found') unless product
   planId = product.get('payPalBillingPlanID')
   throw new errors.UnprocessableEntity("No PayPal billing plan for product #{product.id}") unless planId
 
   try
-    # TODO: i18n name and description
-    name = "CodeCombat Premium Subscription"
+    name = product.get('displayName')
     name = "[TEST agreement] #{name}" unless isProduction
-    description = "A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!"
+    description = product.get('displayDescription')
     description = "[TEST agreeement] #{description}" unless isProduction
     # Date creation from paypal node lib example: https://github.com/paypal/PayPal-node-SDK/blob/master/samples/subscription/billing_agreements/create.js
     isoDate = new Date()
     isoDate.setSeconds(isoDate.getSeconds() + 4)
-    isoDate.toISOString().slice(0, 19) + 'Z'
     billingAgreementAttributes = {
         name
         description

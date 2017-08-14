@@ -62,38 +62,7 @@ makeButton = (options) ->
       )
   }, options.payPalOptions), buttonContainerID)
 
-createBillingAgreement = (productId) ->
-  options = {}
-  options.url = "/db/products/#{productId}/paypal/create-billing-agreement"
-  options.method = 'POST'
-  $.ajax(options)
-  .then (response) =>
-    unless response.links
-      throw new Error("Unable to create PayPal billing agreement #{JSON.stringify(response)}")
-    for link in response.links
-      if link.rel is 'approval_url'
-        return link.href
-
-executeBillingAgreement = (token) ->
-  options = {}
-  options.url = '/db/products/-/paypal/execute-billing-agreement'
-  options.method = 'POST'
-  options.data ?= {}
-  options.data.token = token
-  $.ajax(options)
-
-cancelBillingAgreement = (billingAgreementID) ->
-  options = {}
-  options.url = '/db/products/-/paypal/cancel-billing-agreement'
-  options.method = 'POST'
-  options.data ?= {}
-  options.data.billingAgreementID = billingAgreementID
-  $.ajax(options)
-
 module.exports = {
   loadPayPal
   makeButton
-  createBillingAgreement
-  executeBillingAgreement
-  cancelBillingAgreement
 }

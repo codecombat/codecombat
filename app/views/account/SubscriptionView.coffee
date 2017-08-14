@@ -9,6 +9,7 @@ Payment = require 'models/Payment'
 stripeHandler = require 'core/services/stripe'
 User = require 'models/User'
 utils = require 'core/utils'
+api = require 'core/api'
 
 # TODO: Link to sponsor id /user/userID instead of plain text name
 # TODO: Link to sponsor email instead of plain text email
@@ -183,7 +184,7 @@ class PersonalSub
           document.location.reload()
         me.patch({headers: {'X-Change-Plan': 'true'}})
       else if payPalInfo?.billingAgreementID
-        Promise.resolve(payPal.cancelBillingAgreement(payPalInfo?.billingAgreementID))
+        api.users.cancelBillingAgreement({userID, billingAgreementID: payPalInfo?.billingAgreementID})
         .then (response) =>
           window.tracker?.trackEvent 'Unsubscribe End', message: message
           document.location.reload()
