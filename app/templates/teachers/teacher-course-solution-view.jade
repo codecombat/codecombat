@@ -25,12 +25,17 @@ block content
         h1 #{i18n(view.course.attributes, 'name')}
         h3 #{view.prettyLanguage}
         i= i18n(view.course.attributes, 'description')
-      br
-      br
+    br
 
     if view.levels
+      h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
-        h2.page-break-before ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+        .small
+          a(href="##{view.levelNumberMap[level.get('original')]}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+      br
+
+      each level, index in view.levels.models
+        h2.page-break-before(id=view.levelNumberMap[level.get('original')]) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div

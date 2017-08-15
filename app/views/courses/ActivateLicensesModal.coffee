@@ -14,6 +14,7 @@ module.exports = class ActivateLicensesModal extends ModalView
 
   events:
     'change input[type="checkbox"][name="user"]': 'updateSelectedStudents'
+    'change .select-all-users-checkbox': 'toggleSelectAllStudents'
     'change select.classroom-select': 'replaceStudentList'
     'submit form': 'onSubmitForm'
     'click #get-more-licenses-btn': 'onClickGetMoreLicensesButton'
@@ -45,12 +46,13 @@ module.exports = class ActivateLicensesModal extends ModalView
           @supermodel.trackRequests(jqxhrs)
       })
     
-    @listenTo @state, 'change', @render
+    @listenTo @state, 'change', ->
+      @renderSelectors('#submit-form-area')
     @listenTo @state.get('selectedUsers'), 'change add remove reset', ->
-      @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
-      @render()
+      @updateVisibleSelectedUsers()
+      @renderSelectors('#submit-form-area')
     @listenTo @users, 'change add remove reset', ->
-      @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
+      @updateVisibleSelectedUsers()
       @render()
     @listenTo @prepaids, 'sync add remove', ->
       @state.set {
@@ -68,11 +70,33 @@ module.exports = class ActivateLicensesModal extends ModalView
   updateSelectedStudents: (e) ->
     userID = $(e.currentTarget).data('user-id')
     user = @users.get(userID)
-    if @state.get('selectedUsers').contains(user)
-      @state.get('selectedUsers').remove(user)
+    if @state.get('selectedUsers').findWhere({ _id: user.id })
+      @state.get('selectedUsers').remove(user.id)
     else
       @state.get('selectedUsers').add(user)
+    @$(".select-all-users-checkbox").prop('checked', @areAllSelected())
     # @render() # TODO: Have @state automatically listen to children's change events?
+
+  enrolledUsers: ->
+    @users.filter((user) -> user.isEnrolled())
+
+  unenrolledUsers: ->
+    @users.filter((user) -> not user.isEnrolled())
+
+  areAllSelected: ->
+    return _.all(@unenrolledUsers(), (user) => @state.get('selectedUsers').get(user.id))
+
+  toggleSelectAllStudents: (e) ->
+    if @areAllSelected()
+      @unenrolledUsers().forEach (user, index) =>
+        if @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', false)
+          @state.get('selectedUsers').remove(user.id)
+    else
+      @unenrolledUsers().forEach (user, index) =>
+        if not @state.get('selectedUsers').findWhere({ _id: user.id })
+          @$("[type='checkbox'][data-user-id='#{user.id}']").prop('checked', true)
+          @state.get('selectedUsers').add(user)
   
   replaceStudentList: (e) ->
     selectedClassroomID = $(e.currentTarget).val()
@@ -92,6 +116,9 @@ module.exports = class ActivateLicensesModal extends ModalView
     usersToRedeem = @state.get('visibleSelectedUsers')
     @redeemUsers(usersToRedeem)
 
+  updateVisibleSelectedUsers: ->
+    @state.set { visibleSelectedUsers: new Users(@state.get('selectedUsers').filter (u) => @users.get(u)) }
+
   redeemUsers: (usersToRedeem) ->
     if not usersToRedeem.size()
       @finishRedeemUsers()
@@ -104,6 +131,8 @@ module.exports = class ActivateLicensesModal extends ModalView
       success: (prepaid) =>
         user.set('coursePrepaid', prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs'))
         usersToRedeem.remove(user)
+        @state.get('selectedUsers').remove(user)
+        @updateVisibleSelectedUsers()
         # pct = 100 * (usersToRedeem.originalSize - usersToRedeem.size() / usersToRedeem.originalSize)
         # @$('#progress-area .progress-bar').css('width', "#{pct.toFixed(1)}%")
         application.tracker?.trackEvent 'Enroll modal finished enroll student', category: 'Courses', userID: user.id

@@ -72,7 +72,16 @@ ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin}) ->
     for level in levels
       continue if classLanguage and level.primerLanguage is classLanguage
       levelData = { original: mongoose.Types.ObjectId(level.original) }
-      _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'primerLanguage', 'shareable'))
+      _.extend(levelData, _.pick(level, 
+        'type',
+        'slug',
+        'name', 
+        'practice', 
+        'practiceThresholdMinutes',
+        'primerLanguage',
+        'shareable',
+        'position'
+      ))
       courseData.levels.push(levelData)
     coursesData.push(courseData)
   coursesData
@@ -131,6 +140,35 @@ ClassroomSchema.methods.addMember = (user) ->
   members.push user._id
   @set('members', members)
   return @update(update)
+  
+ClassroomSchema.methods.fetchSessionsForMembers = co.wrap (members) ->
+  CourseInstance = require('./CourseInstance')
+  LevelSession = require('./LevelSession')
+  
+  courseLevelsMap = {}
+  codeLanguage = @get('aceConfig.language')
+  for course in @get('courses') ? []
+    courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) ->
+      {'level.original':l.original?.toHexString(), codeLanguage: l.primerLanguage or codeLanguage}
+    )
+  courseInstances = yield CourseInstance.find({classroomID: @_id}).select('_id courseID members').lean()
+  memberCoursesMap = {}
+  for courseInstance in courseInstances
+    for userID in courseInstance.members ? []
+      memberCoursesMap[userID.toHexString()] ?= []
+      memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
+  dbqs = []
+  select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published'
+  for member in members
+    $or = []
+    for courseID in memberCoursesMap[member.toHexString()] ? []
+      for subQuery in courseLevelsMap[courseID.toHexString()] ? []
+        $or.push(_.assign({creator: member.toHexString()}, subQuery))
+    if $or.length
+      query = { $or }
+      dbqs.push(LevelSession.find(query).select(select).lean().exec())
+  results = yield dbqs
+  return _.flatten(results)
 
 ClassroomSchema.statics.jsonSchema = jsonSchema
 

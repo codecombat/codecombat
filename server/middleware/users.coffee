@@ -28,6 +28,26 @@ CLASubmission = require '../models/CLASubmission'
 Prepaid = require '../models/Prepaid'
 
 module.exports =
+  fetchByAge: wrap (req, res, next) ->
+    # Uses classroom ageRangeMin/Max fields to restrict age
+    throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    minAge = parseInt(req.query.minAge) if req.query.minAge
+    maxAge = parseInt(req.query.maxAge) if req.query.maxAge
+    if minAge?
+      whereStatement = "parseInt(this.ageRangeMin) >= #{minAge}"
+      if maxAge?
+        whereStatement += "&& parseInt(this.ageRangeMax) <= #{maxAge}"
+    else if maxAge?
+      whereStatement = "parseInt(this.ageRangeMax) <= #{maxAge}"
+    else
+      throw new errors.UnprocessableEntity("minAge or maxAge required.")
+    classrooms = yield Classroom.find({$and: [{ageRangeMin: {$exists: true}}, {ageRangeMax: {$exists: true}}, {$where: whereStatement}]}, {members: 1}).lean()
+    userIds = []
+    for c in classrooms
+      for id in c.members
+        userIds.push(id.toString())
+    res.status(200).send(userIds)
+
   fetchByGPlusID: wrap (req, res, next) ->
     gpID = req.query.gplusID
     gpAT = req.query.gplusAccessToken
@@ -51,13 +71,13 @@ module.exports =
     facebookResponse = yield facebook.fetchMe(fbAT)
     idsMatch = fbID is facebookResponse.id
     throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
-    
+
     dbq = User.find()
     dbq.select(parse.getProjectFromReq(req))
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user
     res.status(200).send(user.toObject({req: req}))
-  
+
   fetchByEmail: wrap (req, res, next) ->
     email = req.query.email
     return next() unless email
@@ -74,9 +94,43 @@ module.exports =
     else
       throw new errors.Forbidden('Only admins and teachers can search by email')
 
-  removeFromClassrooms: wrap (req, res, next) ->
-    yield req.user.removeFromClassrooms()
-    next()
+  delete: wrap (req, res, userID) ->
+    middleware = require '../middleware' # Require here to prevent failed circular definition
+    userToDelete = yield database.getDocFromHandle(req, User)
+    if not userToDelete
+      throw new errors.NotFound('User not found.')
+    unless req.user?.isAdmin() or req.user?._id.equals(userToDelete._id)
+      throw new errors.Forbidden("Can't delete this user.")
+
+    yield userToDelete.removeFromClassrooms()
+
+    # Delete personal subscription
+    if userToDelete.get('stripe.subscriptionID')
+      yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
+
+    # Delete recipient subscription
+    sponsorID = userToDelete.get('stripe.sponsorID')
+    if sponsorID
+      sponsor = yield User.findById(sponsorID)
+      if not sponsor
+        throw new errors.UnprocessableEntity("Couldn't find subscription sponsor #{userToDelete.get('stripe.sponsorID')} of user #{userToDelete._id} to delete")
+      sponsorObject = sponsor.toObject()
+      sponsorObject.stripe.unsubscribeEmail = userToDelete.get('email')
+      yield middleware.subscriptions.unsubscribeRecipientAsync(req, res, sponsor, userToDelete)
+
+    # Delete all the user's attributes
+    obj = userToDelete.toObject()
+    for prop, val of obj
+      userToDelete.set(prop, undefined) unless prop is '_id'
+    userToDelete.set('dateDeleted', new Date())
+    userToDelete.set('deleted', true)
+
+    # Hack to get saving of Users to work. Probably should replace these props with strings
+    # so that validation doesn't get hung up on Date objects in the documents.
+    delete obj.dateCreated
+
+    yield userToDelete.save()
+    res.status(204).send()
 
   remainTeacher: wrap (req, res, next) ->
     yield req.user.removeFromClassrooms()
@@ -220,10 +274,10 @@ module.exports =
     user = yield User.findByEmail(email)
     if user
       throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
-      
+
     req.user.set({ gplusID, email, name, anonymous: false })
     yield module.exports.finishSignup(req, res)
-    
+
   finishSignup: co.wrap (req, res) ->
     try
       yield req.user.save()
@@ -234,7 +288,7 @@ module.exports =
         throw e
 
     # post-successful account signup tasks
-    
+
     req.user.sendWelcomeEmail()
 
     # If person A creates a trial request without creating an account, then person B uses that computer
@@ -249,23 +303,23 @@ module.exports =
       if emailLower and emailLower isnt req.user.get('emailLower')
         log.warn('User submitted trial request and created account with different emails. Disassociating trial request.')
         yield trialRequest.update({$unset: {applicant: ''}})
-        
+
     res.status(200).send(req.user.toObject({req: req}))
-    
+
   destudent: wrap (req, res) ->
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     if not user.isStudent()
       return res.status(200).send(user.toObject({req: req}))
-      
+
     yield Classroom.update(
       { members: user._id },
       { $pull: {members: user._id} },
       { multi: true }
     )
-    
+
     yield CourseInstance.update(
       { members: user._id },
       { $pull: {members: user._id} },
@@ -293,20 +347,20 @@ module.exports =
     user.set('role', undefined)
     return res.status(200).send(user.toObject({req: req}))
 
-    
+
   checkForNewAchievement: wrap (req, res) ->
     user = req.user
     lastAchievementChecked = user.get('lastAchievementChecked') or user._id.getTimestamp().toISOString()
     checkTimestamp = new Date().toISOString()
     achievement = yield Achievement.findOne({ updated: { $gt: lastAchievementChecked }}).sort({updated:1})
-    
+
     if not achievement
       userUpdate = { 'lastAchievementChecked': checkTimestamp }
       yield user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
 
     userUpdate = { 'lastAchievementChecked': achievement.get('updated') }
-      
+
     query = achievement.get('query')
     collection = achievement.get('collection')
     if collection is 'users'
@@ -319,9 +373,9 @@ module.exports =
     else
       yield user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
-      
+
     trigger = _.find(triggers, (trigger) -> LocalMongo.matchesQuery(trigger.toObject(), query))
-    
+
     if not trigger
       yield user.update({$set: userUpdate}).exec()
       return res.send(userUpdate)
@@ -332,11 +386,11 @@ module.exports =
     user = yield User.findById(user.id).select({points: 1, earned: 1})
     return res.send(_.assign({}, userUpdate, user.toObject()))
 
-    
+
   adminSearch: wrap (req, res, next) ->
     { adminSearch } = req.query
     return next() unless adminSearch
-    
+
     unless req.user
       throw new errors.Unauthorized()
     unless req.user.isAdmin()
@@ -345,10 +399,13 @@ module.exports =
     projection = name: 1, email: 1, dateCreated: 1, role: 1
 
     search = adminSearch
-    query = email: {$exists: true}, $or: [
-      {emailLower: search.toLowerCase()}
-      {nameLower: search.toLowerCase()}
-    ]
+    query = {
+      anonymous: false,
+      $or: [
+        {emailLower: search.toLowerCase()}
+        {nameLower: search.toLowerCase()}
+      ]
+    }
     query.$or.push {_id: mongoose.Types.ObjectId(search)} if utils.isID search
 
     if req.query.role?
@@ -371,7 +428,7 @@ module.exports =
         )
         sphinxIds = yield Promise.any([module.exports.sphinxSearch(req, adminSearch), timeout])
         sphinxUsers = yield User.find({_id: {$in: sphinxIds}}).select(projection)
-  
+
         sortedSphinxUsers = _.filter _.map sphinxIds, (id) => _.find(sphinxUsers, (u) -> u._id.equals(id))
         users = users.concat(sortedSphinxUsers)
       catch e
@@ -381,19 +438,19 @@ module.exports =
       searchParts = search.split(/[.+@]/)
       if searchParts.length > 1
         users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).select(projection))
-        
+
     users = _.uniq(users, false, (u) -> u.id)
-    
+
     res.send(users)
-    
-    
+
+
   sphinxSearch: co.wrap (req, search) ->
     mysql = require('mysql');
     connection = mysql.createConnection
       host: config.sphinxServer
       port: 9306
     connection.connect()
-    
+
     q = search
     params = []
     filters = []
@@ -403,11 +460,11 @@ module.exports =
     else
       params.push q
       filters.push 'MATCH(?)'
-    
+
     if req.query.role?
       params.push req.query.role
       filters.push 'role = ?'
-    
+
     mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE #{filters.join(' AND ')}  LIMIT 100;"
     connection.queryAsync = Promise.promisify(connection.query, {multiArgs:true})
     [rows, fields] = yield connection.queryAsync(mysqlq, params)
@@ -445,3 +502,4 @@ module.exports =
       })
     ]
     return res.send(200)
+

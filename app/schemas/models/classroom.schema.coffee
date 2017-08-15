@@ -31,6 +31,7 @@ _.extend ClassroomSchema.properties,
       original: c.objectId()
       name: {type: 'string'}
       slug: {type: 'string'}
+      position: c.point2d()
     }
   }
   settings: c.object {title: 'Classroom Settings', required: []}, {

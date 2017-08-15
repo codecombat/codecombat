@@ -212,10 +212,6 @@ mixin studentRow(student)
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
         span(data-i18n='teacher.edit')
-    if view.classroom.getSetting('gems')
-      td
-        span.gem.gem-20
-        span(style="font-size: 20px; line-height: 10px")= student.gems()
     td.latest-level-col.small
       div
         i
@@ -354,9 +350,9 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
   - link = null;
   - labelText = levelNumber;
+  - var course = view.state.get('selectedCourse');
+  - var courseInstance = course && view.classroom ? view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id }) : null;
   if level.isLadder()
-    - var course = view.state.get('selectedCourse');
-    - var courseInstance = course && view.classroom ? view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id }) : null;
     if courseInstance
       - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
       - labelText = translate('teacher.view_arena_ladder');
@@ -364,7 +360,9 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
       - labelText = translate('courses.arena');
     - dotClass = 'navy progress-dot-lg';
   else if level.isProject()
-    - labelText = translate('teacher.project')
+    if courseInstance
+      - link = view.urls.courseProjectGallery({courseInstance: courseInstance})
+    - labelText = translate('teacher.view_project_gallery')
     - dotClass += ' progress-dot-lg';
   else if level.get('practice')
     if !(progress.completed || progress.started)
@@ -398,8 +396,10 @@ mixin studentLevelProgressDot(progress, level, levelNumber)
   else if level.isProject()
     if progress.started
       - link = view.urls.playDevLevel({level: level, session: progress.session, course: view.state.get('selectedCourse')});
-      - labelText = translate('teacher.view_student_project');
-      - dotClass = 'navy';
+      - labelText = translate('teacher.view_project');
+      if progress.completed && !progress.session.get('published')
+        - labelText += " " + translate('teacher.unpublished')
+      - dotClass = progress.completed ? 'navy' : (progress.started ? 'gold' : '');
     else
       - labelText = translate('teacher.project');
     - dotClass += ' progress-dot-lg';

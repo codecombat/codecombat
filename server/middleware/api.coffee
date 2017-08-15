@@ -299,6 +299,29 @@ putClassroomCourseEnrolled = wrap (req, res) ->
   res.send(classroom.toObject({req, includeEnrolled: courseInstances}))
 
 
+getClassroomMemberSessions = wrap (req, res, next) ->
+  classroom = yield database.getDocFromHandle(req, Classroom, { handleName: 'classroomHandle' })
+  if not classroom
+    throw new errors.NotFound('Classroom not found.')
+
+  clientHasControlOfOwner = yield User.count({_id: classroom.get('ownerID'), clientCreator: req.client._id})
+  if not clientHasControlOfOwner
+    throw new errors.Forbidden('Must have created the user who created this classroom to perform this action.')
+
+  member = yield database.getDocFromHandle(req, User, { handleName: 'memberHandle' })
+  memberStrings = classroom.get('members').map((memberId) => memberId + '')
+  unless member and member.id in memberStrings
+    throw new errors.NotFound('Member id not found in classroom.')
+    
+  unless req.client.hasControlOfUser(member)
+    throw new errors.Forbidden('Must have created the member to perform this action.')
+
+  sessions = yield classroom.fetchSessionsForMembers([member._id])
+    
+  # Return member sessions for assigned courses
+  res.status(200).send(sessions)
+
+
 getUserClassrooms = wrap (req, res) ->
   user = yield database.getDocFromHandle(req, User)
   if not user
@@ -370,5 +393,6 @@ module.exports = {
   putUserLicense
   putClassroomMember
   putClassroomCourseEnrolled
+  getClassroomMemberSessions
   getPlayTimeStats
 }

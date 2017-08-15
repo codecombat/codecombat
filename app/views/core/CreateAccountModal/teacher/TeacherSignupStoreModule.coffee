@@ -2,6 +2,8 @@ api = require 'core/api'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students'])
 ncesData = _.zipObject(['nces_'+key, ''] for key in SCHOOL_NCES_KEYS)
+require('core/services/segment')()
+User = require('models/User')
 
 module.exports = TeacherSignupStoreModule = {
   namespaced: true
@@ -77,9 +79,17 @@ module.exports = TeacherSignupStoreModule = {
         })
       
       .then =>
+        trialRequestIntercomData = _.pick state.trialRequestProperties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+        trialRequestIntercomData.educationLevel_elementary = _.contains state.trialRequestProperties.educationLevel, "Elementary"
+        trialRequestIntercomData.educationLevel_middle = _.contains state.trialRequestProperties.educationLevel, "Middle"
+        trialRequestIntercomData.educationLevel_high = _.contains state.trialRequestProperties.educationLevel, "High"
+        trialRequestIntercomData.educationLevel_college = _.contains state.trialRequestProperties.educationLevel, "College+"
+        application.tracker.updateTrialRequestData trialRequestIntercomData unless User.isSmokeTestUser({ email: state.signupForm.email })
+
+      .then =>
         signupForm = _.omit(state.signupForm, (attr) -> attr is '')
         ssoAttrs = _.omit(state.ssoAttrs, (attr) -> attr is '')
-        attrs = _.assign({}, signupForm, ssoAttrs, { userId: rootState.me._id })
+        attrs = _.assign({}, signupForm, ssoAttrs, { userID: rootState.me._id })
         if state.ssoUsed is 'gplus'
           return api.users.signupWithGPlus(attrs)
         else if state.ssoUsed is 'facebook'

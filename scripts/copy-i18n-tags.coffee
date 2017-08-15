@@ -2,6 +2,9 @@ fs = require 'fs'
 path = require 'path'
 en = require('../app/locale/en').translation
 
+# Generate rot13 locale
+require('./generateRot13Locale.coffee')
+
 enSource = fs.readFileSync(path.join(__dirname, '../app/locale/en.coffee'), encoding='utf8')
 commentsMap = {}
 
@@ -25,7 +28,7 @@ for section in splitByCategories
       commentsMap[category][comment[1]] = comment[2]
 
 dir = fs.readdirSync 'app/locale'
-for file in dir when not (file in ['locale.coffee', 'en.coffee'])
+for file in dir when not (file in ['locale.coffee', 'en.coffee', 'rot13.coffee'])
   fileSource = fs.readFileSync 'app/locale/' + file, encoding='utf8'
   contents = require('../app/locale/' + file)
   categories = contents.translation

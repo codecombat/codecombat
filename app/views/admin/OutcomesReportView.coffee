@@ -274,9 +274,6 @@ OutcomesReportComponent = Vue.extend
       new Promise (accept, reject) ->
         trialRequests = new TrialRequests()
         trialRequests.fetchByApplicant(teacher._id).then (data) ->
-          if data.length is 0
-            noty text: "WARNING: No trial request found for that user!", type: 'error'
-            return reject("WARNING: No trial request found for that user!")
           return accept(data)
         , (error) ->
           return reject(error) if error

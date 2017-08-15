@@ -121,29 +121,78 @@ module.exports = class AnalyticsView extends RootView
     }, 0).load()
 
     @supermodel.addRequestResource({
-      url: '/db/analytics_perday/-/recurring_revenue'
-      method: 'POST'
+      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID'
+      method: 'GET'
       success: (data) =>
-        # Amounts in cents, 'DRR yearly subs', 'DRR monthly subs'
+
+        revenueGroupFromPayment = (payment) ->
+          product = payment.productID or payment.service
+          if payment.productID is 'lifetime_subcription'
+            product = "usa lifetime"
+          else if /_lifetime_subscription/.test(payment.productID)
+            product = "intl lifetime"
+          else if payment.productID is 'basic_subcription'
+            product = "usa monthly"
+          else if /_basic_subcription/.test(payment.productID)
+            product = "intl monthly"
+          else if /gems/.test(payment.productID)
+            product = "gems"
+          else if payment.prepaidID
+            if price % 9.99 is 0
+              product = "usa monthly"
+            else
+              # NOTE: assumed to be classroom starter licenses
+              product = 'classroom'
+          else if payment.service is 'stripe' && (price is 399 || price is 400)
+            product = "intl monthly"
+          else if payment.service is 'stripe' && (price is 999 || price is 799)
+            product = "usa monthly"
+          else if price is 9900 || price >= 5999 && payment.gems is 42000
+            product = "usa lifetime"
+          else if price is 0
+            product = "free"
+          else if payment.service is 'stripe' && price is 599 && payment.gems is 3500
+            product = 'intl monthly'
+          else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
+            product = "intl lifetime"
+          else if payment.service is 'paypal' && payment.gems is 10500 && price is 2997
+            product = "usa monthly"
+
+          product = payment.service if product is 'custom'
+          product ?= "unknown"
+
+          product = 'gems' if product is 'ios'
+          # product = 'usa lifetime' if product is 'stripe'
+          product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal']
+
+          return product
 
         # Organize data by day, then group
         groupMap = {}
         dayGroupCountMap = {}
-        for dailyRevenue in data
-          dayGroupCountMap[dailyRevenue.day] ?= {}
-          dayGroupCountMap[dailyRevenue.day]['DRR Total'] = 0
-          for group, val of dailyRevenue.groups
-            groupMap[group] = true
-            dayGroupCountMap[dailyRevenue.day][group] = val
-            dayGroupCountMap[dailyRevenue.day]['DRR Total'] += val
+        for payment in data
+          if !payment.created
+            day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
+          else
+            day = payment.created.substring(0, 10)
+          continue if day is new Date().toISOString().substring(0, 10)
+          price = parseInt(payment.amount)
+          dayGroupCountMap[day] ?= {'DRR Total': 0}
+          dayGroupCountMap[day]['DRR Total'] ?= 0
+          group = revenueGroupFromPayment(payment)
+          continue if group in ['free', 'classroom', 'unknown']
+          group = 'DRR ' + group
+          groupMap[group] = true
+          dayGroupCountMap[day][group] ?= 0
+          dayGroupCountMap[day][group] += price
+          dayGroupCountMap[day]['DRR Total'] += price
         @revenueGroups = Object.keys(groupMap)
         @revenueGroups.push 'DRR Total'
 
         # Build list of recurring revenue entries, where each entry is a day of individual group values
         @revenue = []
         for day of dayGroupCountMap
-          dashedDay = "#{day.substring(0, 4)}-#{day.substring(4, 6)}-#{day.substring(6, 8)}"
-          data = day: dashedDay, groups: []
+          data = {day, groups: []}
           for group in @revenueGroups
             data.groups.push(dayGroupCountMap[day][group] ? 0)
           @revenue.push data
@@ -180,12 +229,11 @@ module.exports = class AnalyticsView extends RootView
           for group, i in @revenueGroups
             if group is 'DRR gems'
               @monthMrrMap[month].gems += revenue.groups[i]
-            else if group is 'DRR monthly subs'
+            else if group in ['DRR usa monthly', 'DRR intl monthly']
               @monthMrrMap[month].monthly += revenue.groups[i]
-            else if group is 'DRR yearly subs'
+            else if group in ['DRR usa lifetime', 'DRR intl lifetime']
               @monthMrrMap[month].yearly += revenue.groups[i]
-            if group in ['DRR gems', 'DRR monthly subs', 'DRR yearly subs']
-              @monthMrrMap[month].total += revenue.groups[i]
+            @monthMrrMap[month].total += revenue.groups['DRR Total']
 
         @updateAllKPIChartData()
         @updateRevenueChartData()
@@ -479,13 +527,11 @@ module.exports = class AnalyticsView extends RootView
       currentMrr = 0
       currentMonthlyValues = []
       for i in [@revenue.length - 1..0] when i >= 0
-        entry = @revenue[i]
-        monthlySubAmount = entry.groups[@revenueGroups.indexOf('DRR monthly subs')] ? 0
-        yearlySubAmount = entry.groups[@revenueGroups.indexOf('DRR yearly subs')] ? 0
-        currentMonthlyValues.push monthlySubAmount + yearlySubAmount
-        currentMrr += monthlySubAmount + yearlySubAmount
+        total = @revenue[i].groups[@revenueGroups.indexOf('DRR Total')]
+        currentMonthlyValues.push total
+        currentMrr += total
         currentMrr -= currentMonthlyValues.shift() while currentMonthlyValues.length > daysInMonth
-        @dayMrrMap[entry.day] = currentMrr if currentMonthlyValues.length is daysInMonth
+        @dayMrrMap[@revenue[i].day] = currentMrr if currentMonthlyValues.length is daysInMonth
 
     @kpiRecentChartLines = []
     @kpiChartLines = []
@@ -676,6 +722,8 @@ module.exports = class AnalyticsView extends RootView
         chartLines[0].max = chartLines[3].max
         chartLines[1].max = chartLines[4].max
         chartLines[2].max = chartLines[6].max
+
+      chartLines.reverse()  # X-axis is based off first one, first one might be previous year, so cheaply make sure first one is this year
 
   updateActiveClassesChartData: ->
     @activeClassesChartLines90 = []

@@ -7,11 +7,13 @@ SubscriptionHandler = require('../handlers/subscription_handler')
 Promise = require('bluebird')
 libUtils = require('../lib/utils')
 Product = require '../models/Product'
+Payment = require '../models/Payment'
 User = require '../models/User'
 database = require '../commons/database'
 { getSponsoredSubsAmount } = require '../../app/core/utils'
 StripeUtils = require '../lib/stripe_utils'
 slack = require '../slack'
+paypal = require '../lib/paypal'
 
 subscribeWithPrepaidCode = expressWrap (req, res) ->
   { ppc } = req.body
@@ -206,38 +208,83 @@ unsubscribeUser = co.wrap (req, user, updateReqBody=true) ->
   yield user.save()
 
 purchaseProduct = expressWrap (req, res) ->
-  product = yield database.getDocFromHandle(req, Product)
-  product ?= yield Product.findOne({name: req.params.handle})
+  if database.isID(req.params.handle)
+    product = yield Product.findById(req.params.handle)
+  else
+    product = yield Product.findOne({name: req.params.handle})
   if not product
     throw new errors.NotFound('Product not found')
   productName = product?.get('name')
   if req.user.get('stripe.sponsorID')
     throw new errors.Forbidden('Sponsored subscribers may not purchase products.')
-  unless productName in ['year_subscription', 'lifetime_subscription', 'lifetime_subscription2']
+  unless /lifetime_subscription$/.test productName
     throw new errors.UnprocessableEntity('Unsupported product')
+
+  # if there user already has a subscription, cancel it and find the date it ends
   customer = yield StripeUtils.getCustomerAsync(req.user, req.body.stripe?.token or req.body.token)
-  subscription = yield libUtils.findStripeSubscriptionAsync(customer.id, {subscriptionID: req.user.get('stripe')?.subscriptionID})
-  stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000) if subscription
-  yield StripeUtils.cancelSubscriptionImmediatelyAsync(req.user, subscription)
+  if customer
+    subscription = yield libUtils.findStripeSubscriptionAsync(customer.id, {subscriptionID: req.user.get('stripe')?.subscriptionID})
+  if subscription
+    stripeSubscriptionPeriodEndDate = new Date(subscription.current_period_end * 1000)
+    yield StripeUtils.cancelSubscriptionImmediatelyAsync(req.user, subscription)
+  
+  paymentType = req.body.service or 'stripe'
+  gems = product.get('gems')
+  if paymentType is 'stripe'
+    metadata = {
+      type: req.body.type
+      userID: req.user.id
+      gems
+      timestamp: parseInt(req.body.stripe?.timestamp or req.body.timestamp)
+      description: req.body.description
+      productID: product.get('name')
+    }
+  
+    amount = product.get('amount')
+    if req.body.coupon?
+      coupon = _.find product.get('coupons'), ((x) -> x.code is req.body.coupon)
+      if not coupon?
+        throw new errors.NotFound('Coupon not found')
+      amount = coupon.amount
+      metadata.couponCode = coupon.code
+  
+    charge = yield StripeUtils.createChargeAsync(req.user, amount, metadata)
+    payment = yield StripeUtils.createPaymentAsync(req.user, charge, {productID: product.get('name')})
+    
+  else if paymentType is 'paypal'
+    { payerID, paymentID } = req.body
+    amount = product.get('amount')
+    unless payerID and paymentID
+      throw new errors.UnprocessableEntity('Must provide payerID and paymentID for PayPal purchases')
+    execute_payment_json = {
+      "payer_id": payerID,
+      "transactions": [{
+        "amount": {
+          "currency": "USD",
+          "total": (amount/100).toFixed(2)
+        }
+      }]
+    }
+    try
+      payPalPayment = yield paypal.payment.executeAsync(paymentID, execute_payment_json)
+    catch e
+      log.error 'PayPal payment error:', JSON.stringify(e, null, '\t')
+      throw new errors.UnprocessableEntity('PayPal Payment failed', {i18n: 'subscribe.paypal_payment_error'})
 
-  metadata = {
-    type: req.body.type
-    userID: req.user.id
-    gems: product.get('gems')
-    timestamp: parseInt(req.body.stripe?.timestamp or req.body.timestamp)
-    description: req.body.description
-  }
-
-  amount = product.get('amount')
-  if req.body.coupon?
-    coupon = _.find product.get('coupons'), ((x) -> x.code is req.body.coupon)
-    if not coupon?
-      throw new errors.NotFound('Coupon not found')
-    amount = coupon.amount
-    metadata.couponCode = coupon.code
-
-  charge = yield StripeUtils.createChargeAsync(req.user, amount, metadata)
-  payment = yield StripeUtils.createPaymentAsync(req.user, charge, {})
+    payment = new Payment({
+      purchaser: req.user._id
+      recipient: req.user._id
+      created: new Date().toISOString()
+      service: 'paypal'
+      amount
+      gems,
+      payPal: payPalPayment
+      productID: product.get('name')
+    })
+    yield payment.save()
+      
+  else
+    throw new errors.UnprocessableEntity('Unsupported payment provider')
 
   # Add terminal subscription to User with extensions for existing subscriptions
   stripeInfo = _.cloneDeep(req.user.get('stripe') ? {})
@@ -249,7 +296,7 @@ purchaseProduct = expressWrap (req, res) ->
       endDate = new Date(stripeInfo.free)
     endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
     stripeInfo.free = endDate.toISOString().substring(0, 10)
-  else if productName in ['lifetime_subscription', 'lifetime_subscription2']
+  else if /lifetime_subscription$/.test productName
     stripeInfo.free = true
   else
     throw new Error('Unsupported product')
@@ -259,7 +306,7 @@ purchaseProduct = expressWrap (req, res) ->
   purchased = _.clone(req.user.get('purchased'))
   purchased ?= {}
   purchased.gems ?= 0
-  purchased.gems += parseInt(charge.metadata.gems) if charge.metadata.gems
+  purchased.gems += gems if gems
   req.user.set('purchased', purchased)
 
   yield req.user.save()
@@ -360,6 +407,7 @@ module.exports = {
   subscribeUser
   unsubscribeUser
   unsubscribeRecipientEndpoint
+  unsubscribeRecipientAsync
   purchaseProduct
   checkForCoupon
   checkForExistingSubscription

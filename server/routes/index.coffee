@@ -12,6 +12,7 @@ module.exports.setup = (app) ->
 
   app.put('/api/classrooms/:handle/members', mw.api.putClassroomMember)
   app.put('/api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', mw.api.putClassroomCourseEnrolled)
+  app.get('/api/classrooms/:classroomHandle/members/:memberHandle/sessions', mw.api.getClassroomMemberSessions)
 
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
@@ -142,6 +143,7 @@ module.exports.setup = (app) ->
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
   app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
+  app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
 
   EarnedAchievement = require '../models/EarnedAchievement'
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
@@ -164,6 +166,9 @@ module.exports.setup = (app) ->
   LevelSession = require '../models/LevelSession'
   app.post('/queue/scoring', mw.levelSessions.submitToLadder) # TODO: Rename to /db/level_session/:handle/submit-to-ladder
   app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
+  app.put('/db/level.session/:handle/key-value-db/:key', mw.auth.checkLoggedIn(), mw.levelSessions.putKeyValueDb)
+  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.auth.checkLoggedIn(), mw.levelSessions.incrementKeyValueDb)
+
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
@@ -171,9 +176,10 @@ module.exports.setup = (app) ->
 
   app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
 
-  app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
+  app.delete('/db/user/:handle', mw.auth.checkLoggedIn(), mw.users.delete)
   app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.adminSearch)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
+  app.get('/db/users/-/by-age', mw.auth.checkHasPermission(['admin']), mw.users.fetchByAge)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
   app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
@@ -191,6 +197,8 @@ module.exports.setup = (app) ->
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
+
+  app.get('/db/payments/-/all', mw.auth.checkHasPermission(['admin']), mw.payments.all)
 
   Poll = require '../models/Poll'
   app.delete('/db/poll/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Poll))

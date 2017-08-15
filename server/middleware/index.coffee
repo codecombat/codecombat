@@ -21,6 +21,7 @@ module.exports =
   named: require './named'
   patchable: require './patchable'
   patches: require './patches'
+  payments: require './payments'
   products: require './products'
   prepaids: require './prepaids'
   rest: require './rest'

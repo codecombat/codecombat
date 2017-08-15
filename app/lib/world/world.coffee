@@ -406,7 +406,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     serializedFlagHistory = (_.omit(_.clone(flag), 'processed') for flag in @flagHistory)
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag, keyValueDb: @keyValueDb}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -513,7 +513,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag, w.keyValueDb] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag, o.keyValueDb]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()

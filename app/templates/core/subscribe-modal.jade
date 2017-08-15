@@ -16,8 +16,8 @@
 
       div.paper-area
         div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
-          
-            
+
+
         .container-fluid
           .row
             .col-xs-5.feature-col.col-xs-offset-1
@@ -26,16 +26,16 @@
                 if view.basicProduct
                   li(data-i18n="subscribe.feature_gems", data-i18n-options={gems:view.basicProduct.get('gems')})
                 li(data-i18n="subscribe.feature_heroes")
-              
-              
+
+
             .col-xs-5.feature-col
               ul
                 li(data-i18n="subscribe.feature_games")
                 li(data-i18n="subscribe.feature_websites")
                 li(data-i18n="subscribe.feature_items")
-                
+
           hr
-          
+
           mixin price(name, p)
             - var origPrice = p.priceStringNoSymbol()
             - var salePrice = p.adjustedPriceStringNoSymbol()
@@ -53,33 +53,31 @@
                 .option-header.text-center(data-i18n="subscribe.stripe_description")
                 +price("subscribe.month_price", view.basicProduct)
                 button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="premium_features.subscribe_now")
-              
+
             else
               - var secondRowClass = '.col-xs-12'
-                
+
             if view.lifetimeProduct
               .option-col(class=secondRowClass)
                 .option-header.text-center(data-i18n="subscribe.lifetime")
                 +price("subscribe.lifetime_price", view.lifetimeProduct)
-                button.btn.btn-lg.btn-illustrated.lifetime-button(data-i18n="subscribe.buy_now")
-            
-            if view.yearProduct
-              .option-col(class=secondRowClass)
-                .option-header.text-center(data-i18n="subscribe.year_subscription")
-                +price("subscribe.year_price",view.yearProduct)
-                button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="subscribe.buy_now")
+                if view.paymentProcessor === 'PayPal'
+                  #paypal-button-container
+                else
+                  button.stripe-lifetime-button.btn.btn-lg.btn-illustrated(data-i18n="subscribe.buy_now")
 
-        p 
-          span(data-i18n="subscribe.kids_message_1")
-          =" "
-          a.parent-link(data-i18n="subscribe.kids_message_2")
-          
-        p
-          span(data-i18n="subscribe.support_part1")
-          =" "
-          a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
-          =" "
-          span(data-i18n="subscribe.support_part3")
+        div
+          p
+            span(data-i18n="subscribe.kids_message_1")
+            =" "
+            a.parent-link(data-i18n="subscribe.kids_message_2")
+
+          p
+            span(data-i18n="subscribe.support_part1")
+            =" "
+            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+            =" "
+            span(data-i18n="subscribe.support_part3")
 
 
 
@@ -89,6 +87,12 @@
           span(data-i18n="buy_gems.declined")
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
+
+      if view.state === 'error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p= view.stateMessage
 
       if view.state === 'unknown_error'
         #error-alert.alert.alert-danger.alert-dismissible

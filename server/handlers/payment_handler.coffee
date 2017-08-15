@@ -366,7 +366,7 @@ PaymentHandler = class PaymentHandler extends Handler
           return @sendDatabaseError(res, err)
 
         [payments, charges] = results
-        recordedChargeIDs = (p.get('stripe').chargeID for p in payments)
+        recordedChargeIDs = (p.get('stripe').chargeID for p in payments when p.get('stripe'))
         for charge in charges
           continue unless charge.paid
           continue if charge.invoice # filter out subscription charges

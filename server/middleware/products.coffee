@@ -16,11 +16,8 @@ get = wrap (req, res) ->
     )
     return res.send(products)
 
-  products = (p for p in products when p.name isnt 'year_subscription')
-  if (req.user.get('testGroupNumber') or 0) % 2 is 0
-    products = (p for p in products when p.name isnt 'lifetime_subscription2')
-  else
-    products = (p for p in products when p.name isnt 'lifetime_subscription')
+  # Remove old unsupported subscription products
+  products = _.filter products, (p) -> p.name not in ['year_subscription', 'lifetime_subscription2']
 
   for p in products
     if p.coupons?
@@ -101,18 +98,25 @@ productStubs = [
     gems: 1500
     planID: 'basic'
   }
-  
+
   {
     name: 'lifetime_subscription'
     amount: 1000
     gems: 42000
     coupons: [{code: 'c1', amount: 10}, {code: 'c2', amount: 99}]
-  },
+  }
+
   {
     name: 'lifetime_subscription2'
     amount: 2000
     gems: 42000
     coupons: [{code: 'c1', amount: 10}, {code: 'c2', amount: 99}]
+  }
+
+  {
+    name: 'brazil_lifetime_subscription'
+    amount: 1001
+    gems: 42000
   }
 ]
 

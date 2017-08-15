@@ -14,13 +14,11 @@ module.exports = class AccountSettingsView extends CocoView
     'change .panel input': 'onChangePanelInput'
     'change #name-input': 'onChangeNameInput'
     'click #toggle-all-btn': 'onClickToggleAllButton'
-    'click #profile-photo-panel-body': 'onClickProfilePhotoPanelBody'
     'click #delete-account-btn': 'onClickDeleteAccountButton'
     'click #reset-progress-btn': 'onClickResetProgressButton'
     'click .resend-verification-email': 'onClickResendVerificationEmail'
 
   initialize: ->
-    require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     @uploadFilePath = "db/user/#{me.id}"
     @user = new User({_id: me.id})
     @supermodel.trackRequest(@user.fetch()) # use separate, fresh User object instead of `me`
@@ -51,10 +49,6 @@ module.exports = class AccountSettingsView extends CocoView
       else
         @suggestedName = newName
         forms.setErrorToProperty @$el, 'name', "That name is taken! How about #{newName}?", true
-
-  onPictureChanged: (e) =>
-    @trigger 'inputChanged', e
-    @$el.find('.gravatar-fallback').toggle not @user.get 'photoURL'
 
   onClickDeleteAccountButton: (e) ->
     @validateCredentialsForDestruction @$el.find('#delete-account-form'), =>
@@ -168,33 +162,6 @@ module.exports = class AccountSettingsView extends CocoView
           layout: 'topCenter'
       url: "/db/user/#{@user.id}/reset_progress"
 
-  onClickProfilePhotoPanelBody: (e) ->
-    return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
-    photoContainer = @$el.find('.profile-photo')
-    onSaving = =>
-      photoContainer.addClass('saving')
-    onSaved = (uploadingPath) =>
-      @$el.find('#photoURL').val(uploadingPath)
-      @$el.find('#photoURL').trigger('change') # cause for some reason editing the value doesn't trigger the jquery event
-      @user.set('photoURL', uploadingPath)
-      photoContainer.removeClass('saving').attr('src', @user.getPhotoURL(photoContainer.width()))
-    filepicker.pick {mimetypes: 'image/*', maxSize: Math.pow(2, 10*2)}, @onImageChosen(onSaving, onSaved)
-
-  formatImagePostData: (inkBlob) ->
-    url: inkBlob.url, filename: inkBlob.filename, mimetype: inkBlob.mimetype, path: @uploadFilePath, force: true
-
-  onImageChosen: (onSaving, onSaved) ->
-    (inkBlob) =>
-      onSaving()
-      uploadingPath = [@uploadFilePath, inkBlob.filename].join('/')
-      data = @formatImagePostData(inkBlob)
-      success = @onImageUploaded(onSaved, uploadingPath)
-      $.ajax '/file', type: 'POST', data: data, success: success
-
-  onImageUploaded: (onSaved, uploadingPath) ->
-    (e) =>
-      onSaved uploadingPath
-
 
   #- Misc
 
@@ -271,8 +238,6 @@ module.exports = class AccountSettingsView extends CocoView
     @user.set 'email', @$el.find('#email').val()
     for emailName, enabled of @getSubscriptions()
       @user.setEmailSubscription emailName, enabled
-
-    @user.set('photoURL', @$el.find('#photoURL').val())
 
     permissions = []
 
