@@ -289,6 +289,13 @@ purchaseProduct = expressWrap (req, res) ->
     })
     yield payment.save()
 
+    if payerID = payPalPayment?.payer?.payer_info?.payer_id
+      userPayPalData = _.clone(req.user.get('payPal'))
+      userPayPalData ?= {}
+      userPayPalData.payerID = payerID
+      req.user.set('payPal', userPayPalData)
+      yield req.user.save()
+
   else
     throw new errors.UnprocessableEntity('Unsupported payment provider')
 

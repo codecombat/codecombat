@@ -1107,6 +1107,7 @@ describe 'POST /db/products/:handle/purchase', ->
         expect(payment.get('payPal.id')).toBe(payPalResponse.id)
         user = yield User.findById(@user.id)
         expect(user.get('stripe.free')).toBe(true)
+        expect(user.get('payPal').payerID).toEqual(payPalResponse.payer.payer_info.payer_id)
 
 describe 'POST /db/user/:handle/paypal', ->
   describe '/create-billing-agreement', ->
@@ -1417,111 +1418,190 @@ describe 'POST /paypal/webhook', ->
       expect(res.body).toEqual('PayPal webhook unknown event UNKNOWN.EVENT')
 
   describe 'when PAYMENT.SALE.COMPLETED event', ->
-    beforeEach utils.wrap ->
-      @paymentEventData = {
-        "id":"WH-7UE28022AT424841V-9DJ65866TC5772327",
-        "event_version":"1.0",
-        "create_time":"2017-08-07T23:33:37.176Z",
-        "resource_type":"sale",
-        "event_type":"PAYMENT.SALE.COMPLETED",
-        "summary":"Payment completed for $ 0.99 USD",
-        "resource":{
-            "id":"3C172741YC758734U",
-            "state":"completed",
-            "amount":{
-              "total":"0.99",
-              "currency":"USD",
-              "details":{
 
-              }
-            },
-            "payment_mode":"INSTANT_TRANSFER",
-            "protection_eligibility":"ELIGIBLE",
-            "protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
-            "transaction_fee":{
-              "value":"0.02",
-              "currency":"USD"
-            },
-            "billing_agreement_id":"I-H3HN1PXG1SEV",
-            "create_time":"2017-08-07T23:33:10Z",
-            "update_time":"2017-08-07T23:33:10Z",
-            "links":[
+    describe 'when billing agreement payment', ->
+      beforeEach utils.wrap ->
+        @paymentEventData = {
+          "id":"WH-7UE28022AT424841V-9DJ65866TC5772327",
+          "event_version":"1.0",
+          "create_time":"2017-08-07T23:33:37.176Z",
+          "resource_type":"sale",
+          "event_type":"PAYMENT.SALE.COMPLETED",
+          "summary":"Payment completed for $ 0.99 USD",
+          "resource":{
+              "id":"3C172741YC758734U",
+              "state":"completed",
+              "amount":{
+                "total":"0.99",
+                "currency":"USD",
+                "details":{
+
+                }
+              },
+              "payment_mode":"INSTANT_TRANSFER",
+              "protection_eligibility":"ELIGIBLE",
+              "protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
+              "transaction_fee":{
+                "value":"0.02",
+                "currency":"USD"
+              },
+              "billing_agreement_id":"I-H3HN1PXG1SEV",
+              "create_time":"2017-08-07T23:33:10Z",
+              "update_time":"2017-08-07T23:33:10Z",
+              "links":[
+                {
+                    "href":"https://api.sandbox.paypal.com/v1/payments/sale/3C172741YC758734U",
+                    "rel":"self",
+                    "method":"GET"
+                },
+                {
+                    "href":"https://api.sandbox.paypal.com/v1/payments/sale/3C172741YC758734U/refund",
+                    "rel":"refund",
+                    "method":"POST"
+                }
+              ]
+          },
+          "links":[
               {
-                  "href":"https://api.sandbox.paypal.com/v1/payments/sale/3C172741YC758734U",
-                  "rel":"self",
-                  "method":"GET"
+                "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7UE28022AT424841V-9DJ65866TC5772327",
+                "rel":"self",
+                "method":"GET"
               },
               {
-                  "href":"https://api.sandbox.paypal.com/v1/payments/sale/3C172741YC758734U/refund",
-                  "rel":"refund",
-                  "method":"POST"
+                "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7UE28022AT424841V-9DJ65866TC5772327/resend",
+                "rel":"resend",
+                "method":"POST"
               }
-            ]
-        },
-        "links":[
-            {
-              "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7UE28022AT424841V-9DJ65866TC5772327",
-              "rel":"self",
-              "method":"GET"
-            },
-            {
-              "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7UE28022AT424841V-9DJ65866TC5772327/resend",
-              "rel":"resend",
-              "method":"POST"
-            }
-        ]
-      }
+          ]
+        }
 
-    describe 'when incomplete', ->
+      describe 'when incomplete', ->
 
-      it 'returns 200 and incomplete message', utils.wrap ->
-        @paymentEventData.resource.state = 'incomplete'
-        url = getURL('/paypal/webhook')
-        [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
-        expect(res.statusCode).toEqual(200)
-        expect(res.body).toEqual("PayPal webhook payment incomplete state: #{@paymentEventData.resource.id} #{@paymentEventData.resource.state}")
-
-    describe 'when no user with billing agreement', ->
-
-      it 'returns 200 and no user message', utils.wrap ->
-        url = getURL('/paypal/webhook')
-        [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
-        expect(res.statusCode).toEqual(200)
-        expect(res.body).toEqual("PayPal webhook payment no user found: #{@paymentEventData.resource.id} #{@paymentEventData.resource.billing_agreement_id}")
-
-    describe 'when user with billing agreement', ->
-      beforeEach utils.wrap ->
-        @user = yield utils.initUser()
-        yield utils.loginUser(@user)
-        @user.set('payPal.billingAgreementID', @paymentEventData.resource.billing_agreement_id)
-        yield @user.save()
-
-      xdescribe 'when no basic_subscription product for user', ->
-        beforeEach utils.wrap ->
-          # TODO: populateProducts runs once, so this could mess with following tests.
-          yield utils.clearModels([Product])
-
-        it 'returns 200 and unexpected sub message', utils.wrap ->
+        it 'returns 200 and incomplete message', utils.wrap ->
+          @paymentEventData.resource.state = 'incomplete'
           url = getURL('/paypal/webhook')
           [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
           expect(res.statusCode).toEqual(200)
-          expect(res.body).toEqual("PayPal webhook unexpected sub for user: #{@user.id} undefined")
+          expect(res.body).toEqual("PayPal webhook payment incomplete state: #{@paymentEventData.resource.id} #{@paymentEventData.resource.state}")
 
-      describe 'when basic_subscription product exists for user', ->
+      describe 'when no user with billing agreement', ->
+
+        it 'returns 200 and no user message', utils.wrap ->
+          url = getURL('/paypal/webhook')
+          [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+          expect(res.statusCode).toEqual(200)
+          expect(res.body).toEqual("PayPal webhook payment no user found: #{@paymentEventData.resource.id} #{@paymentEventData.resource.billing_agreement_id}")
+
+      describe 'when user with billing agreement', ->
         beforeEach utils.wrap ->
-          yield Product({name: 'basic_subscription'}).save()
+          @user = yield utils.initUser()
+          yield utils.loginUser(@user)
+          @user.set('payPal.billingAgreementID', @paymentEventData.resource.billing_agreement_id)
+          yield @user.save()
 
-        describe 'when no previous payment recorded', ->
+        xdescribe 'when no basic_subscription product for user', ->
           beforeEach utils.wrap ->
-            yield utils.clearModels([Payment])
+            # TODO: populateProducts runs once, so this could mess with following tests.
+            yield utils.clearModels([Product])
 
-          it 'creates a new payment', utils.wrap ->
+          it 'returns 200 and unexpected sub message', utils.wrap ->
             url = getURL('/paypal/webhook')
             [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
             expect(res.statusCode).toEqual(200)
-            payment = yield Payment.findOne({'payPal.id': @paymentEventData.resource.id})
-            expect(payment).toBeTruthy()
-            expect(payment.get('purchaser')).toEqual(@user.id)
+            expect(res.body).toEqual("PayPal webhook unexpected sub for user: #{@user.id} undefined")
+
+        describe 'when basic_subscription product exists for user', ->
+          beforeEach utils.wrap ->
+            yield Product({name: 'basic_subscription'}).save()
+
+          describe 'when no previous payment recorded', ->
+            beforeEach utils.wrap ->
+              yield utils.clearModels([Payment])
+
+            it 'creates a new payment', utils.wrap ->
+              url = getURL('/paypal/webhook')
+              [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+              expect(res.statusCode).toEqual(200)
+              payment = yield Payment.findOne({'payPalSale.id': @paymentEventData.resource.id})
+              expect(payment).toBeTruthy()
+              expect(payment.get('purchaser').toString()).toEqual(@user.id)
+
+          describe 'when previous payment already recorded', ->
+            beforeEach utils.wrap ->
+              yield utils.clearModels([Payment])
+              yield Payment({'payPalSale.id': @paymentEventData.resource.id}).save()
+              payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+              expect(payments?.length).toEqual(1)
+
+            it 'does not create a new payment', utils.wrap ->
+              url = getURL('/paypal/webhook')
+              [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+              expect(res.statusCode).toEqual(200)
+              expect(res.body).toEqual("Payment already recorded for #{@paymentEventData.resource.id}")
+              payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+              expect(payments?.length).toEqual(1)
+
+    describe 'when one-time payment', ->
+      beforeEach utils.wrap ->
+        @paymentEventData = {  
+          "id":"WH-2F340401K2447050T-05S10847KL147081J",
+          "event_version":"1.0",
+          "create_time":"2017-08-15T18:47:07.999Z",
+          "resource_type":"sale",
+          "event_type":"PAYMENT.SALE.COMPLETED",
+          "summary":"Payment completed for $ 39.99 USD",
+          "resource":{  
+              "id":"4GR82413UU781962A",
+              "state":"completed",
+              "amount":{  
+                "total":"0.39",
+                "currency":"USD",
+                "details":{  
+                    "subtotal":"0.39"
+                }
+              },
+              "payment_mode":"INSTANT_TRANSFER",
+              "protection_eligibility":"ELIGIBLE",
+              "protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
+              "transaction_fee":{  
+                "value":"1.46",
+                "currency":"USD"
+              },
+              "invoice_number":"",
+              "parent_payment":"PAY-54J24618W17939059LGJUC2Q",
+              "create_time":"2017-08-15T18:46:29Z",
+              "update_time":"2017-08-15T18:46:29Z",
+              "links":[  
+                {  
+                    "href":"https://api.sandbox.paypal.com/v1/payments/sale/4GR82413UU781962A",
+                    "rel":"self",
+                    "method":"GET"
+                },
+                {  
+                    "href":"https://api.sandbox.paypal.com/v1/payments/sale/4GR82413UU781962A/refund",
+                    "rel":"refund",
+                    "method":"POST"
+                },
+                {  
+                    "href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-54J24618W17939059LGJUC2Q",
+                    "rel":"parent_payment",
+                    "method":"GET"
+                }
+              ]
+          },
+          "links":[  
+              {  
+                "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2F340401K2447050T-05S10847KL147081J",
+                "rel":"self",
+                "method":"GET"
+              },
+              {  
+                "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2F340401K2447050T-05S10847KL147081J/resend",
+                "rel":"resend",
+                "method":"POST"
+              }
+          ]
+        }
 
         describe 'when previous payment already recorded', ->
           beforeEach utils.wrap ->
@@ -1537,6 +1617,18 @@ describe 'POST /paypal/webhook', ->
             expect(res.body).toEqual("Payment already recorded for #{@paymentEventData.resource.id}")
             payments = yield Payment.find({'payPal.id': @paymentEventData.resource.id}).lean()
             expect(payments?.length).toEqual(1)
+
+        describe 'when no previous payment recorded', ->
+          beforeEach utils.wrap ->
+            yield utils.clearModels([Payment])
+
+          it 'creates a new payment', utils.wrap ->
+            url = getURL('/paypal/webhook')
+            [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+            expect(res.statusCode).toEqual(200)
+            payment = yield Payment.findOne({'payPal.id': @paymentEventData.resource.id})
+            expect(payment).toBeTruthy()
+            expect(payment.get('purchaser')).toEqual(@user.id)
 
   describe 'when BILLING.SUBSCRIPTION.CANCELLED event', ->
     beforeEach utils.wrap ->

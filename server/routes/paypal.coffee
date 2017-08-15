@@ -2,6 +2,7 @@ errors = require '../commons/errors'
 co = require 'co'
 expressWrap = require 'co-express'
 log = require 'winston'
+paypal = require '../lib/paypal'
 Payment = require '../models/Payment'
 Product = require '../models/Product'
 User = require '../models/User'
@@ -21,16 +22,68 @@ module.exports.setup = (app) ->
       return res.status(500).send()
 
   handlePaymentSucceeded = co.wrap (req, res) ->
-    payPalPayment = req.body.resource
-    unless payPalPayment?.state is 'completed'
-      log.error "PayPal webhook payment incomplete state: #{payPalPayment?.id} #{payPalPayment?.state}"
-      return res.status(200).send("PayPal webhook payment incomplete state: #{payPalPayment?.id} #{payPalPayment?.state}")
+    payPalSalePayment = req.body.resource
+    unless payPalSalePayment?.state is 'completed'
+      log.error "PayPal webhook payment incomplete state: #{payPalSalePayment?.id} #{payPalSalePayment?.state}"
+      return res.status(200).send("PayPal webhook payment incomplete state: #{payPalSalePayment?.id} #{payPalSalePayment?.state}")
 
-    billingAgreementID = payPalPayment.billing_agreement_id
+    if payPalSalePayment.parent_payment
+      return yield handleFullPaymentSucceeded(req, res, payPalSalePayment.parent_payment)
+    else if payPalSalePayment.billing_agreement_id
+      return yield handleBillingAgreementPaymentSucceeded(req, res, payPalSalePayment)
+
+    log.warning "PayPal webhook unrecognized sale payment #{JSON.stringify(payPalSalePayment)}"
+    return res.status(200).send("PayPal webhook unrecognized sale payment #{JSON.stringify(payPalSalePayment)}")
+
+  handleFullPaymentSucceeded = co.wrap (req, res, paymentID) ->
+    # One-time purchases (e.g. lifetime)
+
+    # Check for existing payment
+    payment = yield Payment.findOne({'payPal.id': paymentID})
+    return res.status(200).send("Payment already recorded for #{paymentID}") if payment
+
+    payPalFullPayment = yield paypal.payment.getAsync(paymentID)
+
+    payerID = payPalFullPayment?.payer?.payer_info?.payer_id
+    unless payerID
+      log.error "PayPal webhook payment no payerID found for #{payPalFullPayment.id}"
+      return res.status(200).send("PayPal webhook payment no payerID found for #{payPalFullPayment.id}")
+
+    user = yield User.findOne({'payPal.payerID': payerID})
+    unless user
+      log.error "PayPal webhook payment no user found: #{payPalFullPayment.id} #{payerID}"
+      return res.status(200).send("PayPal webhook payment no user found: #{payPalFullPayment.id} #{payerID}")
+
+    # Assumes one transaction
+    amount = Math.round(parseFloat(payPalFullPayment.transactions[0].amount.total) * 100)
+
+    payment = new Payment({
+      purchaser: user.get('_id')
+      recipient: user.get('_id')
+      created: new Date().toISOString()
+      service: 'paypal'
+      amount
+      payPal: payPalFullPayment
+      productID
+    })
+    yield payment.save()
+
+    return res.status(200).send()
+
+  handleBillingAgreementPaymentSucceeded = co.wrap (req, res, payPalSalePayment) ->
+    # Recurring purchases (e.g. monthly subs)
+    # No full payments via parent_payment property
+    # Assumes only called for basic_subscription product currently
+
+    # Check for existing payment
+    payment = yield Payment.findOne({'payPalSale.id': payPalSalePayment.id})
+    return res.status(200).send("Payment already recorded for #{payPalSalePayment.id}") if payment
+
+    billingAgreementID = payPalSalePayment.billing_agreement_id
     user = yield User.findOne({'payPal.billingAgreementID': billingAgreementID})
     unless user
-      log.error "PayPal webhook payment no user found: #{payPalPayment.id} #{billingAgreementID}"
-      return res.status(200).send("PayPal webhook payment no user found: #{payPalPayment.id} #{billingAgreementID}")
+      log.error "PayPal webhook payment no user found: #{payPalSalePayment.id} #{billingAgreementID}"
+      return res.status(200).send("PayPal webhook payment no user found: #{payPalSalePayment.id} #{billingAgreementID}")
 
     basicSubProduct = yield Product.findBasicSubscriptionForUser(user)
     productID = basicSubProduct?.get('name')
@@ -38,24 +91,21 @@ module.exports.setup = (app) ->
       log.error "PayPal webhook unexpected sub for user: #{user.id} #{productID}"
       return res.status(200).send("PayPal webhook unexpected sub for user: #{user.id} #{productID}")
 
-    amount = Math.round(parseFloat(payPalPayment.amount.total) * 100)
-
-    # Check for existing payment
-    payment = yield Payment.findOne({'payPal.id': payPalPayment.id})
-    return res.status(200).send("Payment already recorded for #{payPalPayment.id}") if payment
+    amount = Math.round(parseFloat(payPalSalePayment.amount.total) * 100)
 
     payment = new Payment({
-      purchaser: user.id
-      recipient: user.id
+      purchaser: user.get('_id')
+      recipient: user.get('_id')
       created: new Date().toISOString()
       service: 'paypal'
       amount
-      payPal: payPalPayment
+      payPalSale: payPalSalePayment
       productID
     })
     yield payment.save()
 
     return res.status(200).send()
+
 
   handleSubscriptionCancelled = co.wrap (req, res) ->
     billingAgreement = req.body?.resource

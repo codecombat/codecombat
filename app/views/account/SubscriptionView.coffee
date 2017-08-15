@@ -184,7 +184,7 @@ class PersonalSub
           document.location.reload()
         me.patch({headers: {'X-Change-Plan': 'true'}})
       else if payPalInfo?.billingAgreementID
-        api.users.cancelBillingAgreement({userID, billingAgreementID: payPalInfo?.billingAgreementID})
+        api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
         .then (response) =>
           window.tracker?.trackEvent 'Unsubscribe End', message: message
           document.location.reload()
