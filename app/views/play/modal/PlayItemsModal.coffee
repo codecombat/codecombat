@@ -146,6 +146,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onItemClicked: (e) ->
     return if $(e.target).closest('.unlock-button').length
+    return if @destroyed
     @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
     wasSelected = itemEl.hasClass('selected')
