@@ -2,6 +2,7 @@ errors = require '../commons/errors'
 co = require 'co'
 expressWrap = require 'co-express'
 log = require 'winston'
+mongoose = require 'mongoose'
 paypal = require '../lib/paypal'
 Payment = require '../models/Payment'
 Product = require '../models/Product'
@@ -54,8 +55,17 @@ module.exports.setup = (app) ->
       log.error "PayPal webhook payment no user found: #{payPalFullPayment.id} #{payerID}"
       return res.status(200).send("PayPal webhook payment no user found: #{payPalFullPayment.id} #{payerID}")
 
-    # Assumes one transaction
+    # Assumes one transaction and item
+    productID = payPalFullPayment.transactions?[0]?.item_list?.items?[0]?.sku
+    unless productID
+      log.error "PayPal webhook no product for #{payPalFullPayment.id}"
+      return res.status(200).send("PayPal webhook no product for #{payPalFullPayment.id}")
+    product = yield Product.findOne({_id: mongoose.Types.ObjectId(productID)})
+    unless product
+      log.error "PayPal webhook no product for #{productID}"
+      return res.status(200).send("PayPal webhook no product for #{productID}")
     amount = Math.round(parseFloat(payPalFullPayment.transactions[0].amount.total) * 100)
+    gems = product.get('gems')
 
     payment = new Payment({
       purchaser: user.get('_id')
@@ -63,6 +73,7 @@ module.exports.setup = (app) ->
       created: new Date().toISOString()
       service: 'paypal'
       amount
+      gems
       payPal: payPalFullPayment
       productID
     })
@@ -92,6 +103,7 @@ module.exports.setup = (app) ->
       return res.status(200).send("PayPal webhook unexpected sub for user: #{user.id} #{productID}")
 
     amount = Math.round(parseFloat(payPalSalePayment.amount.total) * 100)
+    gems = basicSubProduct.get('gems')
 
     payment = new Payment({
       purchaser: user.get('_id')
@@ -99,6 +111,7 @@ module.exports.setup = (app) ->
       created: new Date().toISOString()
       service: 'paypal'
       amount
+      gems
       payPalSale: payPalSalePayment
       productID
     })

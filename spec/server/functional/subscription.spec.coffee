@@ -1543,27 +1543,27 @@ describe 'POST /paypal/webhook', ->
 
     describe 'when one-time payment', ->
       beforeEach utils.wrap ->
-        @paymentEventData = {  
+        @paymentEventData = {
           "id":"WH-2F340401K2447050T-05S10847KL147081J",
           "event_version":"1.0",
           "create_time":"2017-08-15T18:47:07.999Z",
           "resource_type":"sale",
           "event_type":"PAYMENT.SALE.COMPLETED",
           "summary":"Payment completed for $ 39.99 USD",
-          "resource":{  
+          "resource":{
               "id":"4GR82413UU781962A",
               "state":"completed",
-              "amount":{  
+              "amount":{
                 "total":"0.39",
                 "currency":"USD",
-                "details":{  
+                "details":{
                     "subtotal":"0.39"
                 }
               },
               "payment_mode":"INSTANT_TRANSFER",
               "protection_eligibility":"ELIGIBLE",
               "protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
-              "transaction_fee":{  
+              "transaction_fee":{
                 "value":"1.46",
                 "currency":"USD"
               },
@@ -1571,31 +1571,31 @@ describe 'POST /paypal/webhook', ->
               "parent_payment":"PAY-54J24618W17939059LGJUC2Q",
               "create_time":"2017-08-15T18:46:29Z",
               "update_time":"2017-08-15T18:46:29Z",
-              "links":[  
-                {  
+              "links":[
+                {
                     "href":"https://api.sandbox.paypal.com/v1/payments/sale/4GR82413UU781962A",
                     "rel":"self",
                     "method":"GET"
                 },
-                {  
+                {
                     "href":"https://api.sandbox.paypal.com/v1/payments/sale/4GR82413UU781962A/refund",
                     "rel":"refund",
                     "method":"POST"
                 },
-                {  
+                {
                     "href":"https://api.sandbox.paypal.com/v1/payments/payment/PAY-54J24618W17939059LGJUC2Q",
                     "rel":"parent_payment",
                     "method":"GET"
                 }
               ]
           },
-          "links":[  
-              {  
+          "links":[
+              {
                 "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2F340401K2447050T-05S10847KL147081J",
                 "rel":"self",
                 "method":"GET"
               },
-              {  
+              {
                 "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-2F340401K2447050T-05S10847KL147081J/resend",
                 "rel":"resend",
                 "method":"POST"
@@ -1603,32 +1603,82 @@ describe 'POST /paypal/webhook', ->
           ]
         }
 
-        describe 'when previous payment already recorded', ->
-          beforeEach utils.wrap ->
-            yield utils.clearModels([Payment])
-            yield Payment({'payPal.id': @paymentEventData.resource.id}).save()
-            payments = yield Payment.find({'payPal.id': @paymentEventData.resource.id}).lean()
-            expect(payments?.length).toEqual(1)
+        @payPalResponse = {
+          "id" : "PAY-54J24618W17939059LGJUC2Q",
+          "intent" : "sale",
+          "state" : "approved",
+          "cart" : "6C2575520A263924D",
+          "payer" : {
+            "payment_method" : "paypal",
+            "status" : "VERIFIED",
+            "payer_info" : {
+              "payer_id" : "U7YWW8LPA8M7G",
+              "country_code" : "US"
+              }
+          },
+          "transactions" : [
+            {
+              "item_list" : {
+                "items" : [
+                  {
+                    "quantity" : 1,
+                    "currency" : "USD",
+                    "price" : "0.39",
+                    "sku" : "5973671cad86a6efb5744f2a",
+                    "name" : "Lifetime Subscription"
+                  }
+                ]
+              },
+              "description" : "Lifetime Subscription",
+              "amount" : {
+                "currency" : "USD",
+                "total" : "0.39"
+                }
+            }
+          ],
+        }
 
-          it 'does not create a new payment', utils.wrap ->
-            url = getURL('/paypal/webhook')
-            [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
-            expect(res.statusCode).toEqual(200)
-            expect(res.body).toEqual("Payment already recorded for #{@paymentEventData.resource.id}")
-            payments = yield Payment.find({'payPal.id': @paymentEventData.resource.id}).lean()
-            expect(payments?.length).toEqual(1)
+      describe 'when previous payment already recorded', ->
+        beforeEach utils.wrap ->
+          yield utils.clearModels([Payment])
+          yield Payment({'payPal.id': @paymentEventData.resource.parent_payment}).save()
+          payments = yield Payment.find({'payPal.id': @paymentEventData.resource.parent_payment}).lean()
+          expect(payments?.length).toEqual(1)
 
-        describe 'when no previous payment recorded', ->
-          beforeEach utils.wrap ->
-            yield utils.clearModels([Payment])
+        it 'does not create a new payment', utils.wrap ->
+          url = getURL('/paypal/webhook')
+          [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+          expect(res.statusCode).toEqual(200)
+          expect(res.body).toEqual("Payment already recorded for #{@paymentEventData.resource.parent_payment}")
+          payments = yield Payment.find({'payPal.id': @paymentEventData.resource.parent_payment}).lean()
+          expect(payments?.length).toEqual(1)
 
-          it 'creates a new payment', utils.wrap ->
-            url = getURL('/paypal/webhook')
-            [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
-            expect(res.statusCode).toEqual(200)
-            payment = yield Payment.findOne({'payPal.id': @paymentEventData.resource.id})
-            expect(payment).toBeTruthy()
-            expect(payment.get('purchaser')).toEqual(@user.id)
+      describe 'when no previous payment recorded and lifetime purchased', ->
+        beforeEach utils.wrap ->
+          yield utils.clearModels([Payment])
+          @user = yield utils.initUser()
+          yield utils.loginUser(@user)
+          @user.set('payPal.payerID', @payPalResponse.payer.payer_info.payer_id)
+          yield @user.save()
+          product = new Product({
+            _id: @payPalResponse.transactions?[0]?.item_list?.items?[0]?.sku
+            gems: 4444
+            })
+          yield product.save()
+
+        it 'creates a new payment', utils.wrap ->
+          spyOn(paypal.payment, 'getAsync').and.returnValue(Promise.resolve(@payPalResponse))
+          url = getURL('/paypal/webhook')
+          [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+          expect(res.statusCode).toEqual(200)
+          # console.log res.body
+          expect(res.body).not.toBeDefined()
+          # payment = yield Payment.findOne({'payPal.id': @paymentEventData.resource.id})
+          payment = yield Payment.findOne()
+          # console.log payment
+          expect(payment).toBeTruthy()
+          expect(payment.get('purchaser').toString()).toEqual(@user.id)
+          expect(payment.get('gems')).toEqual(4444)
 
   describe 'when BILLING.SUBSCRIPTION.CANCELLED event', ->
     beforeEach utils.wrap ->

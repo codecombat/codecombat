@@ -96,7 +96,8 @@ module.exports = class CampaignView extends RootView
       pixelCode = if @terrain is 'game-dev-hoc' then 'code_combat_gamedev' else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if location.pathname is '/paypal/subscribe-callback'
-      api.users.executeBillingAgreement({userID: me.id, token: utils.getQueryVariable('token')})
+      @payPalToken = utils.getQueryVariable('token')
+      api.users.executeBillingAgreement({userID: me.id, token: @payPalToken})
       .then (billingAgreement) =>
         value = Math.round(parseFloat(billingAgreement?.plan?.payment_definitions?[0].amount?.value ? 0) * 100)
         application.tracker?.trackEvent 'Finished subscription purchase', { value, service: 'paypal' }
@@ -1111,6 +1112,7 @@ module.exports = class CampaignView extends RootView
 
   maybeShowPendingAnnouncement: () ->
     return false if me.freeOnly() # TODO: handle announcements that can be shown to free only servers
+    return false if @payPalToken
     latest = window.serverConfig.latestAnnouncement
     myLatest = me.get('lastAnnouncementSeen')
     return unless typeof latest is 'number'
