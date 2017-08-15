@@ -597,6 +597,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     day: "Dnes"
     week: "Tento týždeň"
     all: "Celkovo"
+#    latest: "Latest"
     time: "Time"
     damage_taken: "obdržanej újmy"
     damage_dealt: "spôsobenej újmy"
@@ -675,6 +676,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sale_button_title: "Objednaj si ročné predplatné a ušetri 21$"
     stripe_description: "Mesačné predplatné"
     stripe_description_year_sale: "Ročné predplatné (zľava ${{discount}})"
+#    buy_now: "Buy Now"
     subscription_required_to_play: "Potrebuješ predplatné, ak chceš hrať túto úroveň."
     unlock_help_videos: "Predplať si Codecombat a získaj prístup ku videonávodom."
     personal_sub: "Predplatné" # Accounts Subscription View below
@@ -709,7 +711,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     support_part3: ",ak máš nejakú otázku."
 
   announcement:
-    cuddly_companions: "Prítulní spoločníci"
+    now_available: "Dostupné pre predplatiteľov!"
+    subscriber: "preplatiteľ"
+    cuddly_companions: "Prítulní spoločníci" # Pet Announcement Modal
     kindling_name: "Malí spoločníci"
     kindling_description: "Malí spoločníci ťa zohrejú v noci a aj cez deň. Vždy, naozaj."
     griffin_name: "Okrídlené levíča"
@@ -735,8 +739,18 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     the_second_kithmaze: "Druhé bludisko"
     keep_playing: "hraj a získaš prvé zvieratko!"
     coming_soon: "Čoskoro"
-    now_available: "Dostupné pre predplatiteľov!"
-    subscriber: "preplatiteľ"
+#    ritic: "Ritic the Cold" # Ritic Announcement Modal
+#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
+#    ice_block: "A block of ice"
+#    ice_description: "There appears to be something trapped inside..."
+#    blink_name: "Blink"
+#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
+#    shadowStep_name: "Shadowstep"
+#    shadowStep_description: "A master assassin knows how to walk between the shadows."
+#    tornado_name: "Tornado"
+#    tornado_description: "It is good to have a reset button when one's cover is blown."
+#    wallOfDarkness_name: "Wall of Darkness"
+#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
 
   premium_features:
     get_premium: "Staň sa preplatiteľom hry <br>CodeCombat<br>" # Fit into the banner on the /features page
@@ -1237,6 +1251,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    teacher: "Teacher"
 #    arena: "Arena"
 #    available_levels: "Available Levels"
+#    started: "started"
+#    complete: "complete"
+#    practice: "practice"
+#    required: "required"
 #    welcome_to_courses: "Adventurers, welcome to Courses!"
 #    ready_to_play: "Ready to play?"
 #    start_new_game: "Start New Game"
@@ -1445,7 +1463,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    changed: "Changed"
 #    available_credits: "Available Licenses"
 #    pending_credits: "Pending Licenses"
-#    credits: "licenses"
+#    empty_credits: "Exhausted Licenses"
+#    license_remaining: "license remaining"
+#    licenses_remaining: "licenses remaining"
+#    one_license_used: "1 license has been used"
+#    num_licenses_used: "__numLicensesUsed__ licenses have been used"
 #    starter_licenses: "starter licenses"
 #    start_date: "start date:"
 #    end_date: "end date:"
@@ -1601,6 +1623,22 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    teacher_quest_more: "See all quests"
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
+
+#  share_licenses:
+#    share_licenses: "Share Licenses"
+#    shared_by: "Shared By:"
+#    add_teacher_label: "Enter exact teacher email:"
+#    add_teacher_button: "Add Teacher"
+#    subheader: "You can make your licenses available to other teachers in your organization. Each license can only be used for one student at a time."
+#    teacher_not_found: "Teacher not found. Please make sure this teacher has already created a Teacher Account."
+#    teacher_not_valid: "This is not a valid Teacher Account. Only teacher accounts can share licenses."
+#    already_shared: "You've already shared these licenses with that teacher."
+#    teachers_using_these: "Teachers who can access these licenses:"
+#    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
+#    you: "(you)"
+#    one_license_used: "(1 license used)"
+#    licenses_used: "(__licensesUsed__ licenses used)"
+#    more_info: "More info"
 
 #  sharing:
 #    game: "Game"

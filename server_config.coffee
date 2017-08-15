@@ -7,7 +7,7 @@ config = {}
 
 config.clusterID = "#{os.hostname()}"
 if cluster.worker?
- config.clusterID += "/#{cluster.worker.id}" 
+ config.clusterID += "/#{cluster.worker.id}"
 
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
@@ -41,7 +41,7 @@ else
 
 if process.env.COCO_MONGO_LS_REPLICA_STRING?
   config.mongo.level_session_replica_string = process.env.COCO_MONGO_LS_REPLICA_STRING
-  
+
 if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
   config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
 
@@ -76,7 +76,6 @@ config.mail =
   mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
-  stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
@@ -130,7 +129,7 @@ if process.env.COCO_STATSD_HOST
     host: process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
-    
+
 config.snowplow =
   user: process.env.COCO_SNOWPLOW_USER or 'user'
   database: process.env.COCO_SNOWPLOW_DATABASE or 'database'

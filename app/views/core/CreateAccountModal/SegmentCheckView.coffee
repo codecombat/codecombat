@@ -26,8 +26,8 @@ module.exports = class SegmentCheckView extends CocoView
       @renderSelectors('.render')
       @trigger 'special-render'
     )
-    
-  getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode') 
+
+  getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
   onInputClassCode: ->
     @classroom = new Classroom()
@@ -35,11 +35,11 @@ module.exports = class SegmentCheckView extends CocoView
     classCode = @getClassCode()
     @signupState.set { classCode }, { silent: true }
     @checkClassCodeDebounced()
-    
+
   checkClassCode: ->
     return if @destroyed
     classCode = @getClassCode()
-    
+
     @fetchClassByCode(classCode)
     .then (classroom) =>
       return if @destroyed or @getClassCode() isnt classCode
@@ -51,20 +51,20 @@ module.exports = class SegmentCheckView extends CocoView
         @state.set { classCodeValid: false, segmentCheckValid: false }
     .catch (error) ->
       throw error
-      
+
   onInputBirthday: ->
     { birthdayYear, birthdayMonth, birthdayDay } = forms.formToObject(@$('form'))
     birthday = new Date Date.UTC(birthdayYear, birthdayMonth - 1, birthdayDay)
     @signupState.set { birthdayYear, birthdayMonth, birthdayDay, birthday }, { silent: true }
     unless _.isNaN(birthday.getTime())
       forms.clearFormAlerts(@$el)
-    
+
   onSubmitSegmentCheck: (e) ->
     e.preventDefault()
-    
+
     if @signupState.get('path') is 'student'
       @$('.class-code-input').attr('disabled', true)
-    
+
       @fetchClassByCode(@getClassCode())
       .then (classroom) =>
         return if @destroyed
@@ -77,11 +77,12 @@ module.exports = class SegmentCheckView extends CocoView
           @state.set { classCodeValid: false, segmentCheckValid: false }
       .catch (error) ->
         throw error
-        
+
     else if @signupState.get('path') is 'individual'
       if _.isNaN(@signupState.get('birthday').getTime())
         forms.clearFormAlerts(@$el)
-        forms.setErrorToProperty @$el, 'birthdayDay', 'Required'
+        requiredMessage = _.string.titleize $.i18n.t('common.required_field')
+        forms.setErrorToProperty @$el, 'birthdayDay', requiredMessage
       else
         age = (new Date().getTime() - @signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
         if age > 13
@@ -92,7 +93,7 @@ module.exports = class SegmentCheckView extends CocoView
   fetchClassByCode: (classCode) ->
     if not classCode
       return Promise.resolve()
-      
+
     new Promise((resolve, reject) ->
       new Classroom().fetchByCode(classCode, {
         success: resolve
@@ -103,4 +104,3 @@ module.exports = class SegmentCheckView extends CocoView
             reject(jqxhr.responseJSON)
       })
     )
-  
