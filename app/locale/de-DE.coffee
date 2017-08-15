@@ -676,7 +676,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     sale_button_title: "Spare ${{discount}} beim Kauf eines Jahresabonnements"
     stripe_description: "Monatsabo"
     stripe_description_year_sale: "Jahresabonnement (${{discount}} Rabatt)"
-#    buy_now: "Buy Now"
+    buy_now: "Bestellen"
     subscription_required_to_play: "Leider musst du ein Abo haben, um dieses Level spielen zu können."
     unlock_help_videos: "Abonniere, um alle Videoanleitungen freizuschalten."
     personal_sub: "Persönliches Abonnement" # Accounts Subscription View below
@@ -739,19 +739,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     the_second_kithmaze: "Das zweite Kith Labyrinth"
     keep_playing: "Spiele weiter um dein erstes Lieblingstier zu entdecken!"
     coming_soon: "Bald erhältlich!"
-#    ritic: "Ritic the Cold" # Ritic Announcement Modal
-#    ritic_description: "Ritic the Cold. Trapped in Kelvintaph Glacier for countless ages, finally free and ready to tend to the ogres that imprisoned him."
-#    ice_block: "A block of ice"
-#    ice_description: "There appears to be something trapped inside..."
-#    blink_name: "Blink"
-#    blink_description: "Ritic disappears and reappears in a blink of an eye, leaving nothing but a shadow."
-#    shadowStep_name: "Shadowstep"
-#    shadowStep_description: "A master assassin knows how to walk between the shadows."
-#    tornado_name: "Tornado"
-#    tornado_description: "It is good to have a reset button when one's cover is blown."
-#    wallOfDarkness_name: "Wall of Darkness"
-#    wallOfDarkness_description: "Hide behind a wall of shadows to prevent the gaze of prying eyes."
-
+    ritic: "Ritic der Kalte" # Ritic Announcement Modal
+    ritic_description: "Ritic der Kalte. Lange eingeschlossen im Kelvintaph Gletscher, endlich frei und bereit, sich den Ogern anzunehmen, die ihn gefangen setzen."
+    ice_block: "Ein Eisblock"
+    ice_description: "Da scheint etwas eingeschlossen zu sein..." 
+    blink_name: "Blinzel"
+    blink_description: "Ritic erscheint und verschwindet in einem Wimpernschlag und lässt nur seinen Schatten zurück"
+    shadowStep_name: "Schattenschrit"
+    shadowStep_description: "Ein Meister-Assassine weiß, wie man sich zwischen den Schatten bewegt."
+    tornado_name: "Tornado"
+    tornado_description: "Man sollte einen Reset-Knopf haben, wenn die Tarnung auffliegt."
+    wallOfDarkness_name: "Schattenwand"
+    wallOfDarkness_description: "Verbirg dich hinter der Schattenwand vor neugierigen Augen."
+    
   premium_features:
     get_premium: "Werde<br>CodeCombat<br>Abonnent" # Fit into the banner on the /features page
     master_coder: "Schließe jetzt ein Abbonent ab und werde Master Coder!"
