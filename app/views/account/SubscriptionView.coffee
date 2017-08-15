@@ -3,12 +3,13 @@ template = require 'templates/account/subscription-view'
 CocoCollection = require 'collections/CocoCollection'
 Products = require 'collections/Products'
 Product = require 'models/Product'
-
+payPal = require('core/services/paypal')
 SubscribeModal = require 'views/core/SubscribeModal'
 Payment = require 'models/Payment'
 stripeHandler = require 'core/services/stripe'
 User = require 'models/User'
 utils = require 'core/utils'
+api = require 'core/api'
 
 # TODO: Link to sponsor id /user/userID instead of plain text name
 # TODO: Link to sponsor email instead of plain text email
@@ -82,7 +83,7 @@ module.exports = class SubscriptionView extends RootView
 
   onClickConfirmEndSubscription: (e) ->
     message = @$el.find('.unsubscribe-feedback textarea').val().trim()
-    @personalSub.unsubscribe(message)
+    @personalSub.unsubscribe(message, => @render?())
 
   # Sponsored subscriptions
 
@@ -171,94 +172,138 @@ class PersonalSub
       render()
     me.patch({headers: {'X-Change-Plan': 'true'}})
 
-  unsubscribe: (message) ->
-    removeStripe = =>
+  unsubscribe: (message, render) ->
+    removeSub = =>
+      payPalInfo = me.get('payPal')
       stripeInfo = _.clone(me.get('stripe'))
-      delete stripeInfo.planID
-      me.set('stripe', stripeInfo)
-      me.once 'sync', ->
-        window.tracker?.trackEvent 'Unsubscribe End', message: message
-        document.location.reload()
-      me.patch({headers: {'X-Change-Plan': 'true'}})
+      if stripeInfo
+        delete stripeInfo.planID
+        me.set('stripe', stripeInfo)
+        me.once 'sync', ->
+          window.tracker?.trackEvent 'Unsubscribe End', message: message
+          document.location.reload()
+        me.patch({headers: {'X-Change-Plan': 'true'}})
+      else if payPalInfo?.billingAgreementID
+        api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
+        .then (response) =>
+          window.tracker?.trackEvent 'Unsubscribe End', message: message
+          document.location.reload()
+        .catch (jqxhr) =>
+          console.error('PayPal unsubscribe', jqxhr)
+
+      else
+        console.error "Tried to unsubscribe without PayPal or Stripe user info."
+        @state = 'unknown_error'
+        @stateMessage = "You do not appear to be subscribed."
+        render()
     if message
       $.post '/contact', message: message, subject: 'Cancellation', (response) ->
-        removeStripe()
+        removeSub()
     else
-      removeStripe()
+      removeSub()
 
   update: (render) ->
-    return unless stripeInfo = me.get('stripe')
+    stripeInfo = me.get('stripe')
+    payPalInfo = me.get('payPal')
+    return unless stripeInfo or payPalInfo
 
     @state = 'loading'
 
-    if stripeInfo.sponsorID
-      @sponsor = true
-      onSubSponsorSuccess = (sponsorInfo) =>
-        @sponsorEmail = sponsorInfo.email
-        @sponsorName = sponsorInfo.name
-        @sponsorID = stripeInfo.sponsorID
-        if sponsorInfo.subscription.cancel_at_period_end
-          @endDate = new Date(sponsorInfo.subscription.current_period_end * 1000)
+    if stripeInfo
+      if stripeInfo.sponsorID
+        @sponsor = true
+        onSubSponsorSuccess = (sponsorInfo) =>
+          @sponsorEmail = sponsorInfo.email
+          @sponsorName = sponsorInfo.name
+          @sponsorID = stripeInfo.sponsorID
+          if sponsorInfo.subscription.cancel_at_period_end
+            @endDate = new Date(sponsorInfo.subscription.current_period_end * 1000)
+          delete @state
+          render()
+        @supermodel.addRequestResource('sub_sponsor', {
+          url: '/db/user/-/sub_sponsor'
+          method: 'POST'
+          success: onSubSponsorSuccess
+        }, 0).load()
+
+      else if stripeInfo.prepaidCode
+        @usingPrepaidCode = true
         delete @state
         render()
-      @supermodel.addRequestResource('sub_sponsor', {
-        url: '/db/user/-/sub_sponsor'
-        method: 'POST'
-        success: onSubSponsorSuccess
-      }, 0).load()
 
-    else if stripeInfo.prepaidCode
-      @usingPrepaidCode = true
-      delete @state
-      render()
+      else if stripeInfo.subscriptionID
+        @self = true
+        @active = me.isPremium()
+        @subscribed = stripeInfo.planID?
 
-    else if stripeInfo.subscriptionID
+        options = { cache: false, url: "/db/user/#{me.id}/stripe" }
+        options.success = (info) =>
+          if card = info.card
+            @card = "#{card.brand}: x#{card.last4}"
+          if sub = info.subscription
+            periodEnd = new Date((sub.trial_end or sub.current_period_end) * 1000)
+            if sub.cancel_at_period_end
+              @activeUntil = periodEnd
+            else if sub.discount?.coupon?.id isnt 'free'
+              @nextPaymentDate = periodEnd
+              # NOTE: This checks the product list for one that corresponds to their
+              #   country. This will not work for "free" or "halfsies" because there
+              #   are not products that correspond to those.
+              # NOTE: This does NOT use the "amount" of the coupon in this client side calculation
+              #   (those should be kept up to date on the server)
+              # TODO: Calculate and return the true price on the server side, and use that as a source of truth
+              if sub.discount?.coupon?.id
+                productName = "#{sub.discount?.coupon?.id}_basic_subscription"
+              else
+                productName = "basic_subscription"
+              product = _.findWhere(@supermodel.getModels(Product), (m) -> m.get('name') is productName)
+              if product
+                @cost = "$#{(product.get('amount')/100).toFixed(2)}"
+              else
+                @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
+          else
+            console.error "Could not find personal subscription #{me.get('stripe')?.customerID} #{me.get('stripe')?.subscriptionID}"
+          delete @state
+          render()
+        @supermodel.addRequestResource('personal_payment_info', options).load()
+
+        payments = new CocoCollection([], { url: '/db/payment', model: Payment, comparator:'_id' })
+        payments.once 'sync', ->
+          @monthsSubscribed = (x for x in payments.models when not x.get('productID')).length
+          render()
+        @supermodel.loadCollection(payments, 'payments', {cache: false})
+
+      else if stripeInfo.free
+        @free = stripeInfo.free
+        delete @state
+        render()
+
+      else
+        delete @state
+        render()
+
+    else if payPalInfo?.billingAgreementID
       @self = true
-      @active = me.isPremium()
-      @subscribed = stripeInfo.planID?
-
-      options = { cache: false, url: "/db/user/#{me.id}/stripe" }
-      options.success = (info) =>
-        if card = info.card
-          @card = "#{card.brand}: x#{card.last4}"
-        if sub = info.subscription
-          periodEnd = new Date((sub.trial_end or sub.current_period_end) * 1000)
-          if sub.cancel_at_period_end
-            @activeUntil = periodEnd
-          else if sub.discount?.coupon?.id isnt 'free'
-            @nextPaymentDate = periodEnd
-            # NOTE: This checks the product list for one that corresponds to their
-            #   country. This will not work for "free" or "halfsies" because there
-            #   are not products that correspond to those.
-            # NOTE: This does NOT use the "amount" of the coupon in this client side calculation
-            #   (those should be kept up to date on the server)
-            # TODO: Calculate and return the true price on the server side, and use that as a source of truth
-            if sub.discount?.coupon?.id
-              productName = "#{sub.discount?.coupon?.id}_basic_subscription"
-            else
-              productName = "basic_subscription"
-            product = _.findWhere(@supermodel.getModels(Product), (m) -> m.get('name') is productName)
-            if product
-              @cost = "$#{(product.get('amount')/100).toFixed(2)}"
-            else
-              @cost = "$#{(sub.plan.amount/100).toFixed(2)}"
-        else
-          console.error "Could not find personal subscription #{me.get('stripe')?.customerID} #{me.get('stripe')?.subscriptionID}"
-        delete @state
-        render()
-      @supermodel.addRequestResource('personal_payment_info', options).load()
-
-      payments = new CocoCollection([], { url: '/db/payment', model: Payment, comparator:'_id' })
-      payments.once 'sync', ->
-        @monthsSubscribed = (x for x in payments.models when not x.get('productID')).length
-        render()
-      @supermodel.loadCollection(payments, 'payments', {cache: false})
-
-    else if stripeInfo.free
-      @free = stripeInfo.free
+      @active = true
+      @subscribed = true
+      @service = "PayPal"
       delete @state
       render()
-
+      payments = new CocoCollection([], { url: '/db/payment', model: Payment, comparator:'_id' })
+      payments.once 'sync', =>
+        try
+          @monthsSubscribed = (x for x in payments.models when not x.get('productID')).length
+          lastPayment = _.last(_.sortBy(_.filter(payments.models, (p) -> /basic_subscription/ig.test(p.get('productID'))), (p) -> p.get('created')))
+          if lastPayment
+            @nextPaymentDate = new Date(lastPayment.get('created'))
+            @nextPaymentDate.setUTCMonth(@nextPaymentDate.getUTCMonth() + 1)
+            @cost = "$#{(lastPayment.get('amount')/100).toFixed(2)}"
+            render()
+          else
+            console.error("No subscription payments found!")
+        catch err
+          console.error(JSON.stringify(err))
+      @supermodel.loadCollection(payments, 'payments', {cache: false})
     else
       delete @state
       render()

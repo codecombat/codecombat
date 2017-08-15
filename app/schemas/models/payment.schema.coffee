@@ -30,6 +30,10 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
     title: 'PayPal Payment Data',
     description: 'The payment object as received from PayPal' 
   }
+  payPalSale: { 
+    title: 'PayPal Payment Sale Data',
+    description: 'The payment sale object as received from PayPal' 
+  }
 })
 
 c.extendBasicProperties(PaymentSchema, 'payment')
