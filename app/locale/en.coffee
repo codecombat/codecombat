@@ -55,7 +55,7 @@
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
     coming_soon: "More coming soon!"
-    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, jQuery, and Bootstrap."
+    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery." # {change}
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class:"Everything you need to run a computer science class in your school today, no CS background required."
