@@ -906,11 +906,7 @@
     community_description_1: " com centenas de jogadores que se voluntariam para criar níveis, contribuem para o nosso código para adicionar recursos, corrigir bugs, testam o jogo e até mesmo traduzir o jogo em até 50 idiomas até agora. Funcionários, colaboradores e o site ganham compartilhando ideias e compartilhando esforços, assim como a comunidade open source em geral. O site é construído em vários projetos open source, e nós somos open source para dar a comunidade e fornecer aos jogadores curiosos um projeto familiar para explorar e experimentar. Qualquer um pode se juntar à comunidade CodeCombat! Confira nossa "
     community_description_link: "página de contribuições"
     community_description_2: "para mais informação."
-<<<<<<< HEAD
     number_contributors: "Mais de 450 colaboradores deram o seu apoio e tempo a este projeto."
-=======
-    number_contributors: "Over 450 contributors have lent their support and time to this project. = Mais de 450 colaboradores deram o seu apoio e tempo a este projeto."
->>>>>>> 05ddae23c... Fixing localization issues. (#4378)
     story_title: "Nosso história até agora"
     story_subtitle: "Desde 2013, o CodeCombat cresceu de um mero conjunto de esboços para um jogo vivo e próspero."
 #    story_statistic_1a: "5,000,000+"
@@ -926,11 +922,7 @@
     story_long_way_2: "ainda temos muito o que fazer antes de completar a nossa missão, então ..."
     jobs_title: "Venha trabalhar conosco e ajudar a escrever a história do CodeCombat!"
     jobs_subtitle: "Não se encaixa em nenhum, mas está interessado em manter contato? Veja a listagem “Crie o seu”."
-<<<<<<< HEAD
     jobs_benefits: "Benefícios do Funcionário"
-=======
-    jobs_benefits: "Benefícios do empregado"
->>>>>>> 05ddae23c... Fixing localization issues. (#4378)
     jobs_benefit_4: "Férias ilimitadas"
     jobs_benefit_5: "Desenvolvimento profissional e apoio à educação continuada - livros e jogos gratuitos!"
     jobs_benefit_6: "Apoio médico"
