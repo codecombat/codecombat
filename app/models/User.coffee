@@ -212,11 +212,14 @@ module.exports = class User extends CocoModel
     return me.get('testGroupNumber') % numVideos
 
   hasSubscription: ->
-    return false unless stripe = @get('stripe')
-    return true if stripe.sponsorID
-    return true if stripe.subscriptionID
-    return true if stripe.free is true
-    return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+    if payPal = @get('payPal')
+      return payPal.billingAgreementID
+    else if stripe = @get('stripe')
+      return true if stripe.sponsorID
+      return true if stripe.subscriptionID
+      return true if stripe.free is true
+      return true if _.isString(stripe.free) and new Date() < new Date(stripe.free)
+    false
 
   isPremium: ->
     return true if me.isInGodMode()

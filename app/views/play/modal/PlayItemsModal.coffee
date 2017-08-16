@@ -4,6 +4,7 @@ buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
@@ -50,6 +51,7 @@ module.exports = class PlayItemsModal extends ModalView
     'click .item': 'onItemClicked'
     'shown.bs.tab': 'onTabClicked'
     'click .unlock-button': 'onUnlockButtonClicked'
+    'click .subscribe-button': 'onSubscribeButtonClicked'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
@@ -74,6 +76,7 @@ module.exports = class PlayItemsModal extends ModalView
       'description'
       'i18n'
       'heroClass'
+      'subscriber'
     ]
 
     itemFetcher = new CocoCollection([], { url: '/db/thang.type?view=items', project: project, model: ThangType })
@@ -143,6 +146,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onItemClicked: (e) ->
     return if $(e.target).closest('.unlock-button').length
+    return if @destroyed
     @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
     wasSelected = itemEl.hasClass('selected')
@@ -238,6 +242,9 @@ module.exports = class PlayItemsModal extends ModalView
       button.addClass('confirm').text($.i18n.t('play.confirm'))
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
+
+  onSubscribeButtonClicked: (e) ->
+    @openModalView new SubscribeModal()
 
   askToSignUp: ->
     createAccountModal = new CreateAccountModal supermodel: @supermodel

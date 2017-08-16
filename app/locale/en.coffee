@@ -55,7 +55,7 @@
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
     coming_soon: "More coming soon!"
-    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, jQuery, and Bootstrap."
+    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery." # {change}
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class:"Everything you need to run a computer science class in your school today, no CS background required."
@@ -328,6 +328,7 @@
     default_code: "Default Code"
     loading: "Loading..."
     overview: "Overview"
+    processing: "Processing..."
     solution: "Solution"
     table_of_contents: "Table of Contents"
     intro: "Intro"
@@ -650,6 +651,7 @@
     prompt_body: "Keep playing to earn more!"
 
   subscribe:
+    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
     premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Become a Master Coder - subscribe to <b>Premium</b> today!"
@@ -722,9 +724,10 @@
     support_part1: "Need help with payment options? Email"
     support_part2: "support@codecombat.com"
     support_part3: "if you have any questions."
+    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
     you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-    you_will_be_charged: "You will be charged $__priceString__ one time."
+    you_will_be_charged: "You will be charged $__priceString__" # {change}
     choose_payment_method: "Choose Payment Method"
     pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
     paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +777,7 @@
   premium_features:
     get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Become a Master Coder by subscribing today!"
+    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Subscribe Now"
     hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
     hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
