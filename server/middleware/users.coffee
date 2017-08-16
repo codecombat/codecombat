@@ -406,6 +406,7 @@ module.exports =
       $or: [
         {emailLower: search.toLowerCase()}
         {nameLower: search.toLowerCase()}
+        {slug: _.str.slugify(search)}
       ]
     }
     query.$or.push {_id: mongoose.Types.ObjectId(search)} if utils.isID search
