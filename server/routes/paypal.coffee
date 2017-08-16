@@ -28,58 +28,14 @@ module.exports.setup = (app) ->
       log.error "PayPal webhook payment incomplete state: #{payPalSalePayment?.id} #{payPalSalePayment?.state}"
       return res.status(200).send("PayPal webhook payment incomplete state: #{payPalSalePayment?.id} #{payPalSalePayment?.state}")
 
-    if payPalSalePayment.parent_payment
-      return yield handleFullPaymentSucceeded(req, res, payPalSalePayment.parent_payment)
-    else if payPalSalePayment.billing_agreement_id
+    if payPalSalePayment.billing_agreement_id
       return yield handleBillingAgreementPaymentSucceeded(req, res, payPalSalePayment)
+    else if payPalSalePayment.parent_payment
+      # One-time full payments not handled here (e.g. lifetime subscriptions)
+      return res.status(200).send()
 
     log.warning "PayPal webhook unrecognized sale payment #{JSON.stringify(payPalSalePayment)}"
     return res.status(200).send("PayPal webhook unrecognized sale payment #{JSON.stringify(payPalSalePayment)}")
-
-  handleFullPaymentSucceeded = co.wrap (req, res, paymentID) ->
-    # One-time purchases (e.g. lifetime)
-
-    # Check for existing payment
-    payment = yield Payment.findOne({'payPal.id': paymentID})
-    return res.status(200).send("Payment already recorded for #{paymentID}") if payment
-
-    payPalFullPayment = yield paypal.payment.getAsync(paymentID)
-
-    payerID = payPalFullPayment?.payer?.payer_info?.payer_id
-    unless payerID
-      log.error "PayPal webhook payment no payerID found for #{payPalFullPayment.id}"
-      return res.status(200).send("PayPal webhook payment no payerID found for #{payPalFullPayment.id}")
-
-    user = yield User.findOne({'payPal.payerID': payerID})
-    unless user
-      log.error "PayPal webhook payment no user found: #{payPalFullPayment.id} #{payerID}"
-      return res.status(200).send("PayPal webhook payment no user found: #{payPalFullPayment.id} #{payerID}")
-
-    # Assumes one transaction and item
-    productID = payPalFullPayment.transactions?[0]?.item_list?.items?[0]?.sku
-    unless productID
-      log.error "PayPal webhook no product for #{payPalFullPayment.id}"
-      return res.status(200).send("PayPal webhook no product for #{payPalFullPayment.id}")
-    product = yield Product.findOne({_id: mongoose.Types.ObjectId(productID)})
-    unless product
-      log.error "PayPal webhook no product for #{productID}"
-      return res.status(200).send("PayPal webhook no product for #{productID}")
-    amount = Math.round(parseFloat(payPalFullPayment.transactions[0].amount.total) * 100)
-    gems = product.get('gems')
-
-    payment = new Payment({
-      purchaser: user.get('_id')
-      recipient: user.get('_id')
-      created: new Date().toISOString()
-      service: 'paypal'
-      amount
-      gems
-      payPal: payPalFullPayment
-      productID
-    })
-    yield payment.save()
-
-    return res.status(200).send()
 
   handleBillingAgreementPaymentSucceeded = co.wrap (req, res, payPalSalePayment) ->
     # Recurring purchases (e.g. monthly subs)
