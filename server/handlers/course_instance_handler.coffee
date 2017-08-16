@@ -36,7 +36,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     return @getLevelSessionsAPI(req, res, args[0]) if args[1] is 'level_sessions'
     return @removeMember(req, res, args[0]) if req.method is 'DELETE' and args[1] is 'members'
     return @getMembersAPI(req, res, args[0]) if args[1] is 'members'
-    return @inviteStudents(req, res, args[0]) if relationship is 'invite_students'
+    return @inviteStudents(req, res, args[0]) if relationship is 'invite_students' # TODO: Remove? Seems to be replaced
     return @redeemPrepaidCodeAPI(req, res) if args[1] is 'redeem_prepaid'
     return @findByLevel(req, res, args[2]) if args[1] is 'find_by_level'
     super arguments...

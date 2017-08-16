@@ -338,6 +338,7 @@ UserSchema.methods.sendWelcomeEmail = ->
   return if core_utils.isSmokeTestEmail(@get('email'))
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
+  host = @get('createdOnHost') || 'codecombat.com'
   data =
     email_id: if @isStudent() then welcome_email_student else welcome_email_user
     recipient:
@@ -345,7 +346,7 @@ UserSchema.methods.sendWelcomeEmail = ->
       name: @broadName()
     email_data:
       name: @broadName()
-      verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+      verify_link: "http://#{host}/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
       teacher: @isTeacher()
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
