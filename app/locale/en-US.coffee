@@ -279,7 +279,7 @@ module.exports = nativeDescription: "English (US)", englishDescription: "English
 #    ask_teacher_1: "Ask your teacher for your Class Code."
 #    ask_teacher_2: "Not part of a class? Create an "
 #    ask_teacher_3: "Individual Account"
-#    ask_teacher_4: " instead."
+#    ask_teacher_4: " ao invés."
 #    about_to_join: "You're about to join:"
 #    enter_parent_email: "Enter your parent’s email address:"
 #    parent_email_error: "Something went wrong when trying to send the email. Check the email address and try again."
