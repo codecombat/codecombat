@@ -25,12 +25,17 @@ block content
         h1 #{i18n(view.course.attributes, 'name')}
         h3 #{view.prettyLanguage}
         i= i18n(view.course.attributes, 'description')
-      br
-      br
+    br
 
     if view.levels
+      h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
-        h2.page-break-before ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+        .small
+          a(href="##{view.levelNumberMap[level.get('original')]}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+      br
+
+      each level, index in view.levels.models
+        h2.page-break-before(id=view.levelNumberMap[level.get('original')]) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div
@@ -42,7 +47,8 @@ block content
               i(data-i18n="common.coming_soon")
           h4.text-center(data-i18n="common.default_code")
           if level.get('begin')
-            pre!= level.get('begin')
+            pre
+              code= level.get('begin')
           else
             .text-center
               i(data-i18n="common.coming_soon")
@@ -58,7 +64,8 @@ block content
             span= level.get('name')
             span.spl(data-i18n="common.solution")
           if level.get('solution')
-            pre!= level.get('solution')
+            pre
+              code= level.get('solution')
           else
             .text-center
               i(data-i18n="common.coming_soon")

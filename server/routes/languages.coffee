@@ -11,7 +11,7 @@ module.exports.setup = (app) ->
 
   app.all '/languages', (req, res) ->
     # Now that these are in the client, not sure when we would use this, but hey
-    return errors.badMethod(res, ['GET']) if req.route.method isnt 'get'
+    return errors.badMethod(res, ['GET']) if req.method isnt 'GET'
     res.send(languages)
     return res.end()
 
@@ -45,11 +45,8 @@ languageAliases =
   'zh-hant-mo': 'zh-HANT'
 
 
-module.exports.languageCodeFromAcceptedLanguages = languageCodeFromAcceptedLanguages = (acceptedLanguages) ->
-  for lang in acceptedLanguages ? []
-    code = languageAliases[lang.toLowerCase()]
-    return code if code
-    codeIndex = _.indexOf languageCodesLower, lang
-    if codeIndex isnt -1
-      return languageCodes[codeIndex]
-  return 'en-US'
+module.exports.languageCodeFromRequest = languageCodeFromRequest = (req) ->
+  possibleCodes = _.without _.keys(locale).concat(_.keys(languageAliases)), 'update'
+  code = req.acceptsLanguages(possibleCodes) or 'en-US'
+  code = languageAliases[code.toLowerCase()] or code
+  code

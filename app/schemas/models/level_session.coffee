@@ -148,6 +148,7 @@ _.extend LevelSessionSchema.properties,
       additionalProperties:
         type: 'string'
         format: 'code'
+        maxLength: 1024*128
 
   codeLogs:
     type: 'array'
@@ -158,7 +159,7 @@ _.extend LevelSessionSchema.properties,
   playtime:
     type: 'number'
     title: 'Playtime'
-    description: 'The total playtime on this session'
+    description: 'The total playtime on this session in seconds'
 
   teamSpells:
     type: 'object'
@@ -299,6 +300,21 @@ _.extend LevelSessionSchema.properties,
         leagueID: {type: 'string', description: 'The _id of a Clan or CourseInstance the user belongs to.'}
         stats: c.object {description: 'Multiplayer match statistics corresponding to this entry in the league.'}
         lastOpponentSubmitDate: c.date {description: 'The submitDate of the last league session we selected to play against (for playing through league opponents in order).'}
+
+  isForClassroom:
+    type: 'boolean'
+    title: 'Is For Classroom'
+    description: 'The level session was created for a user inside a course'
+
+  published:
+    type: 'boolean'
+    title: 'Published to Project Gallery'
+    description: 'Project was published to the Project Gallery for peer students to see'
+    
+  keyValueDb:
+    type: 'object'
+    title: 'Key Value DB'
+    description: 'Simplified key-value database for game-dev levels'
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

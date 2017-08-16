@@ -13,9 +13,10 @@ module.exports = class ModalView extends CocoView
     'click a': 'toggleModal'
     'click button': 'toggleModal'
     'click li': 'toggleModal'
+    'click [data-i18n]': 'onClickTranslatedElement'
 
   shortcuts:
-    'esc': 'hide'
+    'esc': 'onEsc'
 
   constructor: (options) ->
     @className = @className.replace ' fade', '' if options?.instant or @instant
@@ -45,10 +46,20 @@ module.exports = class ModalView extends CocoView
     # This makes sure if you press enter right after opening the players guide,
     # it doesn't just reopen the modal.
     $(document.activeElement).blur()
+    
+    if localStorage?.showViewNames
+      title = @constructor.name
+      setTimeout ->
+        $('title').text(title)
+      , 500
 
   showLoading: ($el) ->
     $el = @$el.find('.modal-body') unless $el
     super($el)
+
+  onEsc: ->
+    if @$el.data('bs.modal')?.options?.keyboard
+      @hide()
 
   # TODO: Combine hide/onHidden such that backbone 'hide/hidden.bs.modal' events and our 'hide/hidden' events are more 1-to-1
   # For example:

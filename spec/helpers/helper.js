@@ -3,6 +3,14 @@ var _ = require('lodash');
 require('coffee-script');
 require('coffee-script/register');
 
+var oldIt = global.it;
+global.it = function(description, testFn) {
+  if(testFn.constructor.name === 'GeneratorFunction'){
+    throw(Error("You didn't wrap a generator function! Do it like this: it 'does a thing', utils.wrap (done) ->"))
+  }
+  oldIt.apply(jasmine.getEnv(), arguments)
+}
+
 // Various assurances that in running tests, we don't accidentally run them
 // on the production DB.
 
@@ -42,6 +50,8 @@ require('../server/common'); // Make sure global testing functions are set up
 // Ignore Stripe/Nocking erroring
 console.error = function() {
   try {
+    if(arguments[1].type === 'StripeInvalidRequest')
+      return;
     if(arguments[1].stack.indexOf('An error occurred with our connection to Stripe') > -1)
       return;
   }
@@ -58,12 +68,27 @@ if (process.argv.indexOf('--with-test-names') > -1) {
   })
 }
 
+// TODO: Share this between client and server tests
+customMatchers = {
+  toDeepEqual: function (util, customEqualityTesters) {
+    return {
+      compare: function (actual, expected) {
+        pass = _.isEqual(actual, expected)
+        message = `Expected ${JSON.stringify(actual, null, '\t')} to DEEP EQUAL ${JSON.stringify(expected, null, '\t')}`
+        return {pass, message}
+      }
+    }
+  }
+}
+
 var initialized = false;
 beforeEach(function(done) {
+  jasmine.addMatchers(customMatchers);
   if (initialized) {
     return done();
   }
   console.log('/spec/helpers/helper.js - Initializing spec environment...');
+  var User = require('../../server/models/User');
 
   var async = require('async');
   async.series([
@@ -74,17 +99,15 @@ beforeEach(function(done) {
     },
     function(cb) {
       // 5. Check actual database
-      var User = require('../../server/models/User');
       User.find({}).count(function(err, count) {
         // For this to serve as a line of defense against testing with the
-        // production DB, tests must be run with 
+        // production DB, tests must be run with
         expect(err).toBeNull();
         expect(count).toBeLessThan(100);
         if(err || count >= 100) {
           // the only way to be sure we don't keep going with the tests
           process.exit(1);
         }
-        GLOBAL.mc.lists.subscribe = _.noop;
         cb()
       });
     },
@@ -97,7 +120,13 @@ beforeEach(function(done) {
       });
     },
     function(cb) {
-      // Initialize products
+      // Make sure User schemas are created
+      // TODO: Ensure all models are fully indexed before starting tests
+      User.on('index', cb)
+    },
+    function(cb) {
+      // Initially added to init products... but don't need that anymore. Shouldn't need this, either,
+      // but all the tests break if I remove it. TODO: Remove this without breaking tests.
       var utils = require('../server/utils');
       request = require('../server/request');
       utils.initUser()
@@ -107,15 +136,6 @@ beforeEach(function(done) {
         .then(function () {
           cb()
         });
-    },    
-    function(cb) {
-      // Initialize products
-      request = require('../server/request');
-      request.get(getURL('/db/products'), function(err, res, body) {
-        expect(err).toBe(null);
-        expect(res.statusCode).toBe(200);
-        cb(err);
-      });
     }
   ],
   function(err) {

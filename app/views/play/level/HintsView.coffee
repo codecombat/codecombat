@@ -1,5 +1,6 @@
 CocoView = require 'views/core/CocoView'
 State = require 'models/State'
+ace = require 'ace'
 utils = require 'core/utils'
 
 module.exports = class HintsView extends CocoView
@@ -39,6 +40,15 @@ module.exports = class HintsView extends CocoView
     @$el.toggleClass('hide', @hintsState.get('hidden'))
     super()
     @playSound 'game-menu-open'
+    @$('a').attr 'target', '_blank'
+    codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
+
+    oldEditor.destroy() for oldEditor in @aceEditors ? []
+    @aceEditors = []
+    aceEditors = @aceEditors
+    @$el.find('pre:has(code[class*="lang-"])').each ->
+      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditors.push aceEditor
 
   getProcessedHint: ->
     language = @session.get('codeLanguage')
@@ -58,14 +68,14 @@ module.exports = class HintsView extends CocoView
     @state.set({ hintsTitle, hint: @hintsState.getHint(index) })
 
   onClickNextButton: ->
-    window.tracker?.trackEvent 'Hints Next Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), ['Mixpanel']
+    window.tracker?.trackEvent 'Hints Next Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), []
     max = @hintsState.get('total') - 1
     @state.set('hintIndex', Math.min(@state.get('hintIndex') + 1, max))
     @playSound 'menu-button-click'
     @updateHintTimer()
 
   onClickPreviousButton: ->
-    window.tracker?.trackEvent 'Hints Previous Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), ['Mixpanel']
+    window.tracker?.trackEvent 'Hints Previous Clicked', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: @state.get('hintIndex'), []
     @state.set('hintIndex', Math.max(@state.get('hintIndex') - 1, 0))
     @playSound 'menu-button-click'
     @updateHintTimer()
@@ -89,7 +99,7 @@ module.exports = class HintsView extends CocoView
     hintsViewTime[hintIndex]++
     hintsUsed = @state.get('hintsUsed')
     if hintsViewTime[hintIndex] > @hintUsedThresholdSeconds and not hintsUsed[hintIndex]
-      window.tracker?.trackEvent 'Hint Used', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: hintIndex, ['Mixpanel']
+      window.tracker?.trackEvent 'Hint Used', category: 'Students', levelSlug: @level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, hintCurrent: hintIndex, []
       hintsUsed[hintIndex] = true
       @state.set('hintsUsed', hintsUsed)
       clearInterval(@timerIntervalID)

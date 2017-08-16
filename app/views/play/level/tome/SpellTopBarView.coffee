@@ -40,6 +40,7 @@ module.exports = class SpellTopBarView extends CocoView
   afterRender: ->
     super()
     @attachTransitionEventListener()
+    @$('[data-toggle="popover"]').popover()
 
   onDisableControls: (e) -> @toggleControls e, false
   onEnableControls: (e) -> @toggleControls e, true
@@ -50,10 +51,13 @@ module.exports = class SpellTopBarView extends CocoView
   onClickHintsButton: ->
     return unless @hintsState?
     @hintsState.set('hidden', not @hintsState.get('hidden'))
-    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, ['Mixpanel']
+    window.tracker?.trackEvent 'Hints Clicked', category: 'Students', levelSlug: @options.level.get('slug'), hintCount: @hintsState.get('hints')?.length ? 0, []
 
   onCodeReload: (e) ->
-    @openModalView new ReloadLevelModal()
+    if key.shift
+      Backbone.Mediator.publish 'level:restart', {}
+    else
+      @openModalView new ReloadLevelModal()
 
   onBeautifyClick: (e) ->
     return unless @controlsEnabled

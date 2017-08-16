@@ -7,6 +7,8 @@ Courses = require 'collections/Courses'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
+CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+application.moduleLoader.load('vendor/vimeo-player-js')
 
 #  TODO: auto margin feature paragraphs
 
@@ -16,6 +18,7 @@ module.exports = class HomeView extends RootView
   template: template
 
   events:
+    'click .open-video-btn': 'onClickOpenVideoButton'
     'click .play-btn': 'onClickPlayButton'
     'change #school-level-dropdown': 'onChangeSchoolLevelDropdown'
     'click .student-btn': 'onClickStudentButton'
@@ -28,6 +31,7 @@ module.exports = class HomeView extends RootView
     'click .logout-btn': 'logoutAccount'
     'click .profile-btn': 'onClickViewProfile'
     'click .setup-class-btn': 'onClickSetupClass'
+    'click .my-classes-btn': 'onClickMyClassesButton'
     'click .resource-btn': 'onClickResourceButton'
 
   shortcuts:
@@ -44,20 +48,32 @@ module.exports = class HomeView extends RootView
       @trialRequests.fetchOwn()
       @supermodel.loadCollection(@trialRequests)
 
-    isHourOfCodeWeek = false  # Temporary: default to /hoc flow during the main event week
-    if isHourOfCodeWeek and (@isNewPlayer() or (me.isStudent() and me.isAnonymous()))
-      # Go/return straight to playing single-player HoC course on Play click
-      @playURL = '/hoc?go=true'
-    else if me.isStudent()
-      # Save players who might be in a classroom from getting into the campaign
-      @playURL = '/students'
+    isHourOfCodeWeek = false  # Temporary: default to hourOfCode flow during the main event week
+    @playURL = if me.isStudent()
+      '/students'
+    else if isHourOfCodeWeek
+      '/play?hour_of_code=true'
     else
-      @playURL = '/play'
+      '/play'
 
   onLoaded: ->
     @trialRequest = @trialRequests.first() if @trialRequests?.size()
     @isTeacherWithDemo = @trialRequest and @trialRequest.get('status') in ['approved', 'submitted']
+    if /sunburst/.test(location.pathname) and me.isAnonymous()
+      storage = require 'core/storage'
+      storage.save('referredBySunburst', true)
+      @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
     super()
+
+  onClickOpenVideoButton: (event) ->
+    unless @$('#screenshot-lightbox').data('bs.modal')?.isShown
+      event.preventDefault()
+      # Modal opening happens automatically from bootstrap
+      @$('#screenshot-carousel').carousel($(event.currentTarget).data("index"))
+    @vimeoPlayer.play()
+
+  onCloseLightbox: ->
+    @vimeoPlayer.pause()
 
   onClickLearnMoreLink: ->
     window.tracker?.trackEvent 'Homepage Click Learn More', category: 'Homepage', []
@@ -82,41 +98,55 @@ module.exports = class HomeView extends RootView
 
   onClickStudentButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    @render?() if document.location.href.search('/home#create-account-student') isnt -1
+    @openModalView(new CreateAccountModal({startOnPath: 'student'}))
 
   onClickTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    if me.isTeacher()
-      application.router.navigate('/teachers', { trigger: true })
-    else
-      application.router.navigate('/teachers/signup', { trigger: true })
+    @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
 
   onClickViewProfile: (e) ->
+    e.preventDefault()
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    application.router.navigate("/user/#{me.getSlugOrID()}", { trigger: true })
+
+  onClickMyClassesButton: (e) ->
+    e.preventDefault()
+    window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   onClickResourceButton: (e) ->
+    e.preventDefault()
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
-    application.router.navigate('/teachers/resources', { trigger: true })
 
   afterRender: ->
+    application.moduleLoader.loadPromises['vendor/vimeo-player-js'].then =>
+      @vimeoPlayer = new Vimeo.Player(@$('.vimeo-player')[0])
     @onChangeSchoolLevelDropdown()
-    @$('#screenshot-lightbox').modal()
-    @$('#screenshot-carousel').carousel({
-      interval: 0
-      keyboard: false
-    })
+    @$('#screenshot-lightbox')
+      .modal()
+      .on 'hide.bs.modal', (e)=>
+        @vimeoPlayer.pause()
+      .on 'shown.bs.modal', (e)=>
+        if @$('.video-carousel-item').hasClass('active')
+          @vimeoPlayer.play()
+    @$('#screenshot-carousel')
+      .carousel({
+        interval: 0
+        keyboard: false
+      })
+      .on 'slide.bs.carousel', (e) =>
+        if not $(e.relatedTarget).hasClass('.video-carousel-item')
+          @vimeoPlayer.pause()
     $(window).on 'resize', @fitToPage
     @fitToPage()
     setTimeout(@fitToPage, 0)
     if me.isAnonymous()
-      CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
       if document.location.hash is '#create-account'
         @openModalView(new CreateAccountModal())
       if document.location.hash is '#create-account-individual'
         @openModalView(new CreateAccountModal({startOnPath: 'individual'}))
       if document.location.hash is '#create-account-student'
         @openModalView(new CreateAccountModal({startOnPath: 'student'}))
+      if document.location.hash is '#create-account-teacher'
+        @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
     super()
 
   destroy: ->
@@ -131,12 +161,10 @@ module.exports = class HomeView extends RootView
     levels =
       elementary:
         'introduction-to-computer-science': '2-4'
-        'game-dev-1': '2-3'
-        'web-dev-1': '2-3'
         'game-development-1': '2-3'
         'web-development-1': '2-3'
         'game-development-2': '2-3'
-        'web-development-3': '2-3'
+        'web-development-2': '2-3'
         'computer-science-6': '24-30'
         'computer-science-7': '30-40'
         'computer-science-8': '30-40'
@@ -144,8 +172,6 @@ module.exports = class HomeView extends RootView
         total: '150-215 hours (about two and a half years)'
       middle:
         'introduction-to-computer-science': '1-3'
-        'game-dev-1': '1-3'
-        'web-dev-1': '1-3'
         'game-development-1': '1-3'
         'web-development-1': '1-3'
         'game-development-2': '1-3'
@@ -157,8 +183,6 @@ module.exports = class HomeView extends RootView
         total: '75-100 hours (about one and a half years)'
       high:
         'introduction-to-computer-science': '1'
-        'game-dev-1': '1-2'
-        'web-dev-1': '1-2'
         'game-development-1': '1-2'
         'web-development-1': '1-2'
         'game-development-2': '1-2'
@@ -175,9 +199,6 @@ module.exports = class HomeView extends RootView
       $(@).find('.course-duration .course-hours').text duration
       $(@).find('.course-duration .unit').text($.i18n.t(if duration is '1' then 'units.hour' else 'units.hours'))
     @$el.find('#semester-duration').text levels[level].total
-
-  isNewPlayer: ->
-    not me.get('stats')?.gamesCompleted and not me.get('heroConfig')
 
   onRightPressed: (event) ->
     # Special handling, otherwise after you click the control, keyboard presses move the slide twice
@@ -212,3 +233,6 @@ module.exports = class HomeView extends RootView
     newOffset = parseInt(target.css('height') || 0) + adjustment
     newOffset = Math.min(Math.max(0, newOffset), 170)
     target.css(height: "#{newOffset}px")
+
+  mergeWithPrerendered: (el) ->
+    true

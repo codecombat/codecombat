@@ -1,20 +1,35 @@
 wrap = require 'co-express'
+co = require 'co'
 errors = require '../commons/errors'
 database = require '../commons/database'
 mongoose = require 'mongoose'
+Promise = require 'bluebird'
+Classroom = require '../models/Classroom'
 LevelSession = require '../models/LevelSession'
 Prepaid = require '../models/Prepaid'
+Product = require '../models/Product'
+Promise = require 'bluebird'
 TrialRequest = require '../models/TrialRequest'
 User = require '../models/User'
+StripeUtils = require '../lib/stripe_utils'
+Promise.promisifyAll(StripeUtils)
+moment = require 'moment'
+slack = require '../slack'
+delighted = require '../delighted'
+sendwithus = require '../sendwithus'
+
+{ STARTER_LICENSE_COURSE_IDS } = require '../../app/core/constants'
+{formatDollarValue} = require '../../app/core/utils'
 
 cutoffDate = new Date(2015,11,11)
-cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate/1000).toString(16)+'0000000000000000')
+cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate / 1000).toString(16)+'0000000000000000')
 
 module.exports =
+  # Create a prepaid manually (as an admin)
   post: wrap (req, res) ->
-    validTypes = ['course']
+    validTypes = ['course', 'starter_license']
     unless req.body.type in validTypes
-      throw new errors.UnprocessableEntity("type must be on of: #{validTypes}.")
+      throw new errors.UnprocessableEntity("Prepaid type must be one of: #{validTypes}.")
       # TODO: deprecate or refactor other prepaid types
 
     if req.body.creator
@@ -29,6 +44,8 @@ module.exports =
     prepaid.set('redeemers', [])
     database.validateDoc(prepaid)
     yield prepaid.save()
+    if req.body.creator
+      yield delighted.checkTriggerPrepaidAdded user, req.body.type
     res.status(201).send(prepaid.toObject())
 
 
@@ -40,55 +57,143 @@ module.exports =
     if not prepaid
       throw new errors.NotFound('Prepaid not found.')
 
-    if prepaid._id.getTimestamp().getTime() < cutoffDate.getTime()
-      throw new errors.Forbidden('Cannot redeem from prepaids older than November 11, 2015')
-    unless prepaid.get('creator').equals(req.user._id)
+    user = yield User.findById(req.body?.userID)
+    if not user
+      throw new errors.NotFound('User not found.')
+
+    unless prepaid.canBeUsedBy(req.user._id)
       throw new errors.Forbidden('You may not redeem licenses from this prepaid')
-    if prepaid.get('redeemers')? and _.size(prepaid.get('redeemers')) >= prepaid.get('maxRedeemers')
-      throw new errors.Forbidden('This prepaid is exhausted')
+    unless prepaid.get('type') in ['course', 'starter_license']
+      throw new errors.Forbidden('This prepaid is not of type "course" or "starter_license"')
+    unless prepaid.canReplaceUserPrepaid(user.get('coursePrepaid'))
+      return res.status(200).send(prepaid.toObject({req: req}))
+
+    yield prepaid.redeem(user, req.user._id)
+
+    # return prepaid with new redeemer added locally
+    redeemers = _.clone(prepaid.get('redeemers') or [])
+    redeemers.push({ date: new Date(), userID: user._id, teacherID: req.user._id })
+    prepaid.set('redeemers', redeemers)
+    res.status(201).send(prepaid.toObject({req: req}))
+
+
+  revoke: wrap (req, res) ->
+    if not req.user?.isTeacher()
+      throw new errors.Forbidden('Must be a teacher to use enrollments')
+
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+    if not prepaid
+      throw new errors.NotFound('Prepaid not found.')
+
+    unless prepaid.canBeUsedBy(req.user._id)
+      throw new errors.Forbidden('You may not revoke enrollments you do not own.')
     unless prepaid.get('type') is 'course'
-      throw new errors.Forbidden('This prepaid is not of type "course"')
+      throw new errors.Forbidden('This prepaid is not of type "course".')
     if prepaid.get('endDate') and new Date(prepaid.get('endDate')) < new Date()
-      throw new errors.Forbidden('This prepaid is expired')
+      throw new errors.Forbidden('This prepaid is expired.')
 
     user = yield User.findById(req.body?.userID)
     if not user
       throw new errors.NotFound('User not found.')
 
-    if user.isEnrolled()
-      return res.status(200).send(prepaid.toObject({req: req}))
-    if user.isTeacher()
-      throw new errors.Forbidden('Teachers may not be enrolled')
+    if not user.isEnrolled()
+      throw new errors.UnprocessableEntity('User to revoke must be enrolled first.')
+    if not _.any(prepaid.get('redeemers'), (obj) -> obj.userID.equals(user._id))
+      throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments')
 
     query =
       _id: prepaid._id
-      'redeemers.userID': { $ne: user._id }
-      $where: "this.maxRedeemers > 0 && (!this.redeemers || this.redeemers.length < #{prepaid.get('maxRedeemers')})"
-    update = { $push: { redeemers : { date: new Date(), userID: user._id } }}
+      'redeemers.userID': { $eq: user._id }
+    update = { $pull: { redeemers : { userID: user._id } }}
     result = yield Prepaid.update(query, update)
     if result.nModified is 0
-      console.error("Prepaid redeem error: [#{req.user.get('slug')} (#{req.user._id})] 'POST prepaid redeemer lost race on maxRedeemers'")
-      throw new errors.Forbidden('This prepaid is exhausted')
+      @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
+      throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments (race)')
 
-    update = {
-      $set: {
-        coursePrepaid: {
-          _id: prepaid._id
-          startDate: prepaid.get('startDate')
-          endDate: prepaid.get('endDate')
-        }
-      }
-    }
-    if not user.get('role')
-      update.$set.role = 'student'
-    yield user.update(update)
+    user.set('coursePrepaid', undefined)
+    yield user.save()
 
     # return prepaid with new redeemer added locally
-    redeemers = _.clone(prepaid.get('redeemers') or [])
-    redeemers.push({ date: new Date(), userID: user._id })
-    prepaid.set('redeemers', redeemers)
-    res.status(201).send(prepaid.toObject({req: req}))
+    prepaid.set('redeemers', _.filter(prepaid.get('redeemers') or [], (obj) -> not obj.userID.equals(user._id)))
+    res.status(200).send(prepaid.toObject({req: req}))
 
+  # Add teachers to a Shared License
+  addJoiner: wrap (req, res) ->
+    if not req.user?.isTeacher()
+      throw new errors.Forbidden('Must be a teacher to share licenses')
+
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+    if not prepaid
+      throw new errors.NotFound('Prepaid not found.')
+
+    unless prepaid.get('creator').equals(req.user._id)
+      throw new errors.Forbidden('You may not share licenses you do not own.')
+    unless prepaid.get('type') is 'course'
+      throw new errors.Forbidden('This prepaid is not of type "course".')
+
+    if _.find(prepaid.get('joiners'), (joiner) -> joiner.userID.equals(req.body?.userID)) or req.body?.userID is req.user.id
+      throw new errors.UnprocessableEntity("You've already shared these licenses with that teacher.", { i18n: 'share_licenses.already_shared' })
+
+    joiner = yield User.findById(req.body?.userID)
+    if not joiner
+      throw new errors.NotFound('User not found.')
+
+    if not joiner.isTeacher()
+      throw new errors.UnprocessableEntity('User to share with must be a Teacher.', { i181: 'share_licenses.teacher_not_valid' })
+    
+    query =
+      _id: prepaid._id
+    update = { $addToSet: { joiners : { userID: joiner._id } }}
+    result = yield Prepaid.update(query, update)
+    
+    context =
+      email_id: sendwithus.templates.share_licenses_joiner
+      recipient:
+        address: joiner.get('email')
+        name: joiner.broadName()
+      email_data:
+        joiner_email: joiner.get('email')
+        creator_email: req.user.get('email')
+        creator_name: req.user.broadName()
+    sendwithus.api.send context, (err, result) ->
+    
+    res.status(201).send(prepaid.toObject({req}))
+  
+  fetchJoiners: wrap (req, res) ->
+    if not req.user?.isTeacher()
+      throw new errors.Forbidden('Must be a teacher to fetch joiners for a license.')
+  
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+    if not prepaid
+      throw new errors.NotFound('Prepaid not found.')
+  
+    unless prepaid.get('creator').equals(req.user._id)
+      throw new errors.Forbidden('You may not fetch the joiners of a license you do not own.')
+    unless prepaid.get('type') is 'course'
+      throw new errors.Forbidden('This prepaid is not of type "course".')
+  
+    joinerIDs = (prepaid.get('joiners') or []).map((j)->j.userID)
+  
+    joiners = (yield joinerIDs.map (id) ->
+      User.findById(id)
+    ).map (user) ->
+      _.pick(user.toObject(), ['_id', 'email', 'name', 'firstName', 'lastName'])
+    
+    res.status(200).send(joiners)
+  
+  fetchCreator: wrap (req, res) ->
+    unless req.user
+      throw new errors.Unauthorized()
+    unless req.user.isAdmin() or req.user.isTeacher()
+      throw new errors.Forbidden()
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+    unless prepaid
+      throw new errors.NotFound('No prepaid with that ID found')
+    unless prepaid.canBeUsedBy(req.user._id) or req.user.isAdmin()
+      throw new errors.Forbidden('You can only look up the owner of prepaids that have been shared with you.')
+    creator = yield User.findOne({ _id: prepaid.get('creator') })
+    res.status(200).send(_.pick(creator.toObject(), ['_id', 'email', 'name', 'firstName', 'lastName']))
+  
   fetchByCreator: wrap (req, res, next) ->
     creator = req.query.creator
     return next() if not creator
@@ -101,14 +206,87 @@ module.exports =
     q = {
       _id: { $gt: cutoffID }
       creator: mongoose.Types.ObjectId(creator)
-      type: 'course'
     }
+    if req.query.includeShared
+      q = {
+        _id: { $gt: cutoffID }
+        $or: [
+          { creator: mongoose.Types.ObjectId(creator) }
+          { "joiners.userID": mongoose.Types.ObjectId(creator) }
+        ]
+      }
+    q.type = { $in: ['course', 'starter_license'] } unless req.query.allTypes
 
     prepaids = yield Prepaid.find(q)
     res.send((prepaid.toObject({req: req}) for prepaid in prepaids))
 
-  fetchActiveSchools: wrap (req, res) ->
+  fetchActiveSchoolLicenses: wrap (req, res) ->
     unless req.user.isAdmin() or creator is req.user.id
+      throw new errors.Forbidden('Must be logged in as given creator')
+    licenseEndMonths = parseInt(req.query?.licenseEndMonths or 6)
+    latestEndDate = new Date()
+    latestEndDate.setUTCMonth(latestEndDate.getUTCMonth() + licenseEndMonths)
+    query = {$and: [{type: 'course'}, {endDate: {$gt: new Date().toISOString()}}, {endDate: {$lt: latestEndDate.toISOString()}}, {$where: 'this.redeemers && this.redeemers.length > 0'}, {creator: {$exists: true}}]}
+    # query.$and.push({creator: mongoose.Types.ObjectId('5553886d4366a784056d81eb')})
+    prepaids = yield Prepaid.find(query, {creator: 1, startDate: 1, endDate: 1, maxRedeemers: 1, redeemers: 1}).lean()
+    console.log new Date().toISOString(), 'prepaids', prepaids.length
+    teacherIds = []
+    teacherIds.push(prepaid.creator) for prepaid in prepaids
+    teachers = yield User.find({_id: {$in: teacherIds}}, {_id: 1, permissions: 1, name: 1, emailLower: 1}).lean()
+    adminMap = {}
+    adminMap[teacher._id.toString()] = true for teacher in teachers when 'admin' in (teacher.permissions or [])
+    # console.log 'admins found', Object.keys(adminMap).length
+    teacherIds = _.reject(teacherIds, (id) -> adminMap[id.toString()])
+    teachers = _.reject(teachers, (t) -> adminMap[t._id.toString()])
+    studentPrepaidMap = {}
+    for prepaid in prepaids when not adminMap[prepaid.creator.toString()]
+      studentPrepaidMap[student.userID.toString()] = true for student in prepaid.redeemers or []
+    console.log new Date().toISOString(), 'teacherIds', teacherIds.length
+    console.log new Date().toISOString(), 'prepaids', prepaids.length
+    console.log new Date().toISOString(), 'studentPrepaidMap', Object.keys(studentPrepaidMap).length
+
+    # TODO: exclude more students that aren't in a classroom + have a license?
+    classrooms = yield Classroom.find({ownerID: {$in: teacherIds}}, {name: 1, ownerID: 1, members: 1, courses: 1}).lean()
+    levelOriginalStringsMap = {}
+    for classroom in classrooms
+      for course in classroom.courses
+        for level in course.levels
+          levelOriginalStringsMap[level.original.toString()] = true
+    # LevelSession has a creator/level index, which isn't the same as creator/'level.original'
+    levels = ({original, majorVersion: 0} for original of levelOriginalStringsMap)
+    console.log new Date().toISOString(), 'classrooms', classrooms.length
+    console.log new Date().toISOString(), 'levels', levels.length
+
+    studentIds = []
+    for classroom in classrooms
+      for studentId in classroom.members when studentPrepaidMap[studentId.toString()]
+        studentIds.push(studentId.toString())
+    studentIds = _.uniq(studentIds)
+    console.log new Date().toISOString(), 'students', studentIds.length
+
+    # batchSize of 40-50 for 12mos seems to be the sweet spot for perf in dev env
+    batchSize = Math.round(studentIds.length / 40);
+    levelSessionPromises = []
+    i = 0
+    while i * batchSize < studentIds.length
+      start = i * batchSize
+      end = Math.min(i * batchSize + batchSize, studentIds.length)
+      # console.log new Date().toISOString(), 'getting batch', i, start, end, studentIds.length
+      levelSessionPromises.push(LevelSession.find({creator: {$in: studentIds.slice(start, end)}, level: {$in: levels}}, {changed: 1, creator: 1, 'state.complete': 1, 'level.original': 1}).lean())
+      i++
+    levelSessions = []
+    Promise.all levelSessionPromises
+    .then (results) =>
+      console.log new Date().toISOString(), 'processing levelSessions..'
+      levelSessions = results[0]
+      for i in [1...results.length]
+        for levelSession in results[i]
+          levelSessions.push(levelSession)
+      console.log new Date().toISOString(), 'levelSessions', levelSessions.length
+      res.status(200).send({classrooms, levelSessions, prepaids, teachers})
+
+  fetchActiveSchools: wrap (req, res) ->
+    unless req.user.isAdmin()
       throw new errors.Forbidden('Must be logged in as given creator')
     prepaids = yield Prepaid.find({type: 'course'}, {creator: 1, properties: 1, startDate: 1, endDate: 1, maxRedeemers: 1, redeemers: 1}).lean()
     userPrepaidsMap = {}
@@ -119,9 +297,13 @@ module.exports =
     for prepaid in prepaids
       continue if new Date(prepaid.endDate ? prepaid.properties?.endDate ? '2000') < today
       continue if new Date(prepaid.endDate) < new Date(prepaid.startDate)
+      continue unless prepaid.creator
       userPrepaidsMap[prepaid.creator.valueOf()] ?= []
       userPrepaidsMap[prepaid.creator.valueOf()].push(prepaid)
+      # NOTE: May not correctly account for shared licenses
       userIDs.push prepaid.creator
+      for joiner in prepaid.joiners ? []
+        userIDs.push joiner.userID + ''
       for redeemer in prepaid.redeemers ? []
         redeemerIDs.push redeemer.userID + ""
         redeemerPrepaidMap[redeemer.userID + ""] = prepaid._id.valueOf()
@@ -146,3 +328,87 @@ module.exports =
           schoolPrepaidsMap[school].push prepaid
 
     res.send({prepaidActivityMap, schoolPrepaidsMap})
+
+  # Separate endpoint from legacy prepaid purchase handler
+  purchaseStarterLicenses: wrap (req, res) ->
+    if req.body.type not in ['starter_license']
+      throw new errors.Forbidden("License type invalid: #{req.body.type}")
+
+    creator = req.user
+    maxRedeemers = parseInt(req.body.maxRedeemers)
+    months = parseInt(req.body.months)
+    token = req.body.stripe?.token
+    timestamp = req.body.stripe?.timestamp
+
+    if isNaN(maxRedeemers) or maxRedeemers < 1
+      throw new errors.UnprocessableEntity("Invalid number of licenses to buy: #{maxRedeemers}")
+
+    alreadyOwnedStarterLicenses = yield Prepaid.find({
+      creator: creator._id
+      type: 'starter_license'
+    }).exec()
+    alreadyOwnedStarterLicenseCount = alreadyOwnedStarterLicenses.map((prepaid) -> prepaid.get('maxRedeemers')).reduce(((a,b) -> a+b), 0)
+
+    if maxRedeemers + alreadyOwnedStarterLicenseCount > Prepaid.MAX_STARTER_LICENSES
+      throw new errors.Forbidden('You cannot own more than 75 starter licenses.')
+
+    if not (token or creator.isAdmin())
+      throw new errors.UnprocessableEntity('Missing required Stripe token')
+
+    if creator.isAdmin()
+      yield createStarterLicense({ creator: creator.id, maxRedeemers })
+      res.status(200).send(prepaid)
+
+    else
+      product = yield Product.findOne({ name: 'starter_license' })
+
+      try
+        customer = yield StripeUtils.getCustomerAsync(creator, token)
+      catch e
+        logError(creator, "Stripe getCustomer error: #{JSON.stringify(err)}")
+      metadata =
+        type: 'starter_license'
+        userID: creator.id
+        timestamp: parseInt(timestamp)
+        maxRedeemers: maxRedeemers
+        productID: "prepaid starter_license"
+
+      totalAmount = maxRedeemers * product.get('amount')
+      try
+        charge = yield StripeUtils.createChargeAsync(creator, totalAmount, metadata)
+        prepaid = yield createStarterLicense({ creator: creator.id, maxRedeemers })
+        payment = yield StripeUtils.createPaymentAsync(creator, charge, {prepaidID: prepaid._id})
+        msg = "#{creator.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for starter_license prepaid redeemers=#{maxRedeemers}"
+        slack.sendSlackMessage msg, ['tower']
+        res.status(200).send(prepaid)
+      catch err
+        logError(creator, "getCustomer error: #{JSON.stringify(err)}")
+        throw(err)
+
+createStarterLicense = co.wrap ({ creator, maxRedeemers }) ->
+  yield createPrepaid({
+    creator: creator
+    type: 'starter_license'
+    maxRedeemers, properties: {}
+    startDate: moment().toISOString()
+    endDate: moment().add(6, 'months').toISOString()
+    includedCourseIDs: STARTER_LICENSE_COURSE_IDS
+  })
+
+createPrepaid = co.wrap ({ creator, type, maxRedeemers, properties, startDate, endDate, includedCourseIDs }) ->
+  options =
+    creator: creator
+    type: type
+    code: yield Prepaid.generateNewCodeAsync()
+    maxRedeemers: parseInt(maxRedeemers)
+    properties: properties
+    redeemers: []
+    startDate: startDate
+    endDate: endDate
+    includedCourseIDs: includedCourseIDs
+  prepaid = new Prepaid(options)
+  yield prepaid.save()
+  return prepaid
+
+logError = (user, msg) ->
+  console.warn("Prepaid Error: [#{user.get('slug')} (#{user.id})] '#{msg}'")

@@ -1,3 +1,4 @@
+errors = require '../commons/errors'
 Payment = require './../models/Payment'
 Prepaid = require '../models/Prepaid'
 Product = require '../models/Product'
@@ -12,7 +13,7 @@ config = require '../../server_config'
 request = require 'request'
 async = require 'async'
 apple_utils = require '../lib/apple_utils'
-
+{formatDollarValue} = require '../../app/core/utils'
 
 PaymentHandler = class PaymentHandler extends Handler
   modelClass: Payment
@@ -44,39 +45,41 @@ PaymentHandler = class PaymentHandler extends Handler
     payment
 
   getSchoolSalesAPI: (req, res, code) ->
-    return @sendUnauthorizedError(res) unless req.user?.isAdmin()
-    userIDs = [];
-    Payment.find({}, {amount: 1, created: 1, description: 1, prepaidID: 1, productID: 1, purchaser: 1, service: 1}).exec (err, payments) =>
+    return @sendForbiddenError(res) unless req.user?.isAdmin()
+
+    Payment.find({}, {amount: 1, created: 1, description: 1, prepaidID: 1, productID: 1, purchaser: 1, service: 1}).lean().exec (err, payments) =>
       return @sendDatabaseError(res, err) if err
+      userIDs = [];
       schoolSales = []
       prepaidIDs = []
       prepaidPaymentMap = {}
       for payment in payments
-        continue unless payment.get('amount')? and payment.get('amount') > 0
-        unless created = payment.get('created')
-          created = payment.get('_id').getTimestamp()
-        description = payment.get('description') ? ''
-        if prepaidID = payment.get('prepaidID')
+        continue unless payment.amount > 0
+        unless created = payment.created
+          paymentID = mongoose.Types.ObjectId(payment._id)
+          created = paymentID.getTimestamp()
+        description = payment.description ? ''
+        if prepaidID = payment.prepaidID
           unless prepaidPaymentMap[prepaidID.valueOf()]
-            prepaidPaymentMap[prepaidID.valueOf()] = {_id: payment.get('_id').valueOf(), amount: payment.get('amount'), created: created, description: description, userID: payment.get('purchaser').valueOf(), prepaidID: prepaidID.valueOf()}
+            prepaidPaymentMap[prepaidID.valueOf()] = {_id: payment._id, amount: payment.amount, created: created, description: description, userID: payment.purchaser, prepaidID: prepaidID}
             prepaidIDs.push(prepaidID)
-            userIDs.push(payment.get('purchaser'))
-        else if payment.get('productID') is 'custom' or payment.get('service') is 'external' or payment.get('service') is 'invoice'
-          schoolSales.push({_id: payment.get('_id').valueOf(), amount: payment.get('amount'), created: created, description: description, userID: payment.get('purchaser').valueOf()})
-          userIDs.push(payment.get('purchaser'))
+            userIDs.push(payment.purchaser)
+        else if payment.productID is 'custom' or payment.service is 'external' or payment.service is 'invoice'
+          schoolSales.push({_id: payment._id, amount: payment.amount, created: created, description: description, userID: payment.purchaser})
+          userIDs.push(payment.purchaser)
 
-      Prepaid.find({$and: [{_id: {$in: prepaidIDs}}, {type: 'course'}]}, {_id: 1}).exec (err, prepaids) =>
+      Prepaid.find({$and: [{_id: {$in: prepaidIDs}}, {type: 'course'}]}, {_id: 1}).lean().exec (err, prepaids) =>
         return @sendDatabaseError(res, err) if err
         for prepaid in prepaids
-          schoolSales.push(prepaidPaymentMap[prepaid.get('_id').valueOf()])
+          schoolSales.push(prepaidPaymentMap[prepaid._id])
 
-        User.find({_id: {$in: userIDs}}).exec (err, users) =>
+        User.find({_id: {$in: userIDs}}).lean().exec (err, users) =>
           return @sendDatabaseError(res, err) if err
           userMap = {}
           for user in users
-            userMap[user.get('_id').valueOf()] = user
+            userMap[user._id] = user
           for schoolSale in schoolSales
-            schoolSale.user = userMap[schoolSale.userID]?.toObject()
+            schoolSale.user = userMap[schoolSale.userID]
 
           @sendSuccess(res, schoolSales)
 
@@ -277,7 +280,7 @@ PaymentHandler = class PaymentHandler extends Handler
     )
 
   chargeStripe: (req, res, product) ->
-    amount = parseInt product.get('amount') ? req.body.amount
+    amount = parseInt(product.get('amount') ? req.body.amount)
     return @sendError(res, 400, "Invalid amount.") if isNaN(amount)
 
     stripe.charges.create({
@@ -289,7 +292,7 @@ PaymentHandler = class PaymentHandler extends Handler
         userID: req.user._id + ''
         gems: product.get('gems')
         timestamp: parseInt(req.body.stripe?.timestamp)
-        description: req.body.description
+        description: req.body.description ? product.get('name')
       }
       receipt_email: req.user.get('email')
       statement_descriptor: 'CODECOMBAT.COM'
@@ -363,7 +366,7 @@ PaymentHandler = class PaymentHandler extends Handler
           return @sendDatabaseError(res, err)
 
         [payments, charges] = results
-        recordedChargeIDs = (p.get('stripe').chargeID for p in payments)
+        recordedChargeIDs = (p.get('stripe').chargeID for p in payments when p.get('stripe'))
         for charge in charges
           continue unless charge.paid
           continue if charge.invoice # filter out subscription charges
@@ -408,7 +411,7 @@ PaymentHandler = class PaymentHandler extends Handler
 
   sendPaymentSlackMessage: (options) ->
     try
-      message = "#{options.user?.get('emailLower')} paid #{options.payment?.get('amount')} for #{options.payment.get('description') or '???, no payment description!'}"
+      message = "#{options.user?.get('emailLower')} paid #{formatDollarValue(options.payment?.get('amount') / 100)} for #{options.payment.get('description') or '???, no payment description!'}"
       slack.sendSlackMessage message, ['tower']
     catch e
       log.error "Couldn't send Slack message on payment because of error: #{e}"

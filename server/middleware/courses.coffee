@@ -30,7 +30,7 @@ module.exports =
 
     levelOriginals = (mongoose.Types.ObjectId(levelID) for levelID in sortedLevelIDs)
     query = { original: { $in: levelOriginals }, slug: { $exists: true }}
-    select = {documentation: 1, intro: 1, name: 1, original: 1, practice: 1, slug: 1, thangs: 1, i18n: 1}
+    select = {documentation: 1, intro: 1, name: 1, original: 1, practice: 1, slug: 1, thangs: 1, i18n: 1, primerLanguage: 1}
     levels = yield Level.find(query).select(select).lean()
     levels.sort((a, b) -> sortedLevelIDs.indexOf(a.original + '') - sortedLevelIDs.indexOf(b.original + ''))
     res.status(200).send(levels)

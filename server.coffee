@@ -12,15 +12,14 @@ serverSetup = require './server_setup'
 
 module.exports.startServer = (done) ->
   app = createAndConfigureApp()
-  http.createServer(app).listen app.get('port'), -> done?()
+  httpServer = http.createServer(app).listen app.get('port'), -> done?()
   log.info('Express SSL server listening on port ' + app.get('port'))
-  app
+  {app, httpServer}
 
-createAndConfigureApp = ->
+createAndConfigureApp = module.exports.createAndConfigureApp = ->
   serverSetup.setupLogging()
   serverSetup.connectToDatabase()
-  serverSetup.setupMailchimp()
-
+  
   app = express()
   serverSetup.setExpressConfigurationOptions app
   serverSetup.setupMiddleware app

@@ -2,12 +2,14 @@ RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
 helper = require 'lib/coursesHelper'
+utils = require 'core/utils'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 ActivateLicensesModal = require 'views/courses/ActivateLicensesModal'
 EditStudentModal = require 'views/teachers/EditStudentModal'
 RemoveStudentModal = require 'views/courses/RemoveStudentModal'
 CoursesNotAssignedModal = require './CoursesNotAssignedModal'
+CourseNagSubview = require 'views/teachers/CourseNagSubview'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -21,6 +23,8 @@ Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
+
+{ STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
 module.exports = class TeacherClassView extends RootView
   id: 'teacher-class-view'
@@ -39,6 +43,7 @@ module.exports = class TeacherClassView extends RootView
     'click .remove-student-link': 'onClickRemoveStudentLink'
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
+    'click .revoke-student-button': 'onClickRevokeStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
@@ -70,9 +75,12 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
-    @singleStudentCourseProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-course'
-    @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
-    @allStudentsLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-all-students-single-level'
+    # wrap templates so they translate when called
+    translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
+    @singleStudentCourseProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
+    @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
+    @allStudentsLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-all-students-single-level'), translateTemplateText)
+
     @urls = require('core/urls')
 
     @debouncedRender = _.debounce @render
@@ -86,15 +94,14 @@ module.exports = class TeacherClassView extends RootView
     @sortedCourses = []
 
     @prepaids = new Prepaids()
-    @prepaids.comparator = 'endDate' # use prepaids in order of expiration
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
 
     @students = new Users()
+    @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
       jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
       @supermodel.trackRequests jqxhrs
 
-      @classroom.sessions = new LevelSessions()
       requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
       @supermodel.trackRequests(requests)
 
@@ -139,6 +146,10 @@ module.exports = class TeacherClassView extends RootView
         classCode: classCode
         joinURL: document.location.origin + "/students?_cc=" + classCode
       }
+      @sortedCourses = @classroom.getSortedCourses()
+      @availableCourseMap = {}
+      @availableCourseMap[course._id] = true for course in @sortedCourses
+      @debouncedRender()
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
       @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
@@ -167,7 +178,9 @@ module.exports = class TeacherClassView extends RootView
     null
 
   onLoaded: ->
-    @sortedCourses = @classroom.getSortedCourses()
+    # Get latest courses for student assignment dropdowns
+    @latestReleasedCourses = if me.isAdmin() then @courses.models else @courses.where({releasePhase: 'released'})
+    @latestReleasedCourses = utils.sortCourses(@latestReleasedCourses)
     @removeDeletedStudents() # TODO: Move this to mediator listeners? For both classroom and students?
     @calculateProgressAndLevels()
 
@@ -183,6 +196,8 @@ module.exports = class TeacherClassView extends RootView
 
   afterRender: ->
     super(arguments...)
+    @courseNagSubview = new CourseNagSubview()
+    @insertSubView(@courseNagSubview)
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -234,23 +249,30 @@ module.exports = class TeacherClassView extends RootView
     @tryCopy()
 
   onClickUnarchive: ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+    @promptToEdit()
+
+  promptToEdit: () ->
     classroom = @classroom
     modal = new ClassroomSettingsModal({ classroom: classroom })
     @openModalView(modal)
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -265,6 +287,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
@@ -272,6 +295,7 @@ module.exports = class TeacherClassView extends RootView
 
   removeDeletedStudents: () ->
     return unless @classroom.loaded and @students.loaded
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
@@ -300,6 +324,7 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
 
   onClickEnrollStudentButton: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
@@ -307,6 +332,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', (enrolledUsers) =>
@@ -320,22 +346,24 @@ module.exports = class TeacherClassView extends RootView
     # TODO: Does not yield .csv download on Safari, and instead opens a new tab with the .csv contents
     window.tracker?.trackEvent 'Teachers Class Export CSV', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     courseLabels = ""
-    courseOrder = []
-    courses = (@courses.get(c._id) for c in @classroom.get('courses'))
-    courseLabelsArray = helper.courseLabelsArray courses
+    courses = (@courses.get(c._id) for c in @sortedCourses)
+    courseLabelsArray = helper.courseLabelsArray(courses)
     for course, index in courses
-      courseLabels += "#{courseLabelsArray[index]} Playtime,"
-      courseOrder.push(course.id)
-    csvContent = "data:text/csv;charset=utf-8,Username,Email,Total Playtime,#{courseLabels}Concepts\n"
-    levelCourseMap = {}
+      courseLabels += "#{courseLabelsArray[index]} Levels,#{courseLabelsArray[index]} Playtime,"
+    csvContent = "Name,Username,Email,Total Levels,Total Playtime,#{courseLabels}Concepts\n"
+    levelCourseIdMap = {}
+    levelPracticeMap = {}
     language = @classroom.get('aceConfig')?.language
-    for trimCourse in @classroom.get('courses')
+    for trimCourse in @classroom.getSortedCourses()
       for trimLevel in trimCourse.levels
         continue if language and trimLevel.primerLanguage is language
-        levelCourseMap[trimLevel.original] = @courses.get(trimCourse._id)
+        if trimLevel.practice
+          levelPracticeMap[trimLevel.original] = true
+          continue
+        levelCourseIdMap[trimLevel.original] = trimCourse._id
     for student in @students.models
       concepts = []
-      for trimCourse in @classroom.get('courses')
+      for trimCourse in @classroom.getSortedCourses()
         course = @courses.get(trimCourse._id)
         instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
         if instance and instance.hasMember(student)
@@ -345,37 +373,45 @@ module.exports = class TeacherClassView extends RootView
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
       conceptsString = _.map(concepts, (c) -> $.i18n.t("concepts." + c)).join(', ')
-      coursePlaytimeMap = {}
+      courseCountsMap = {}
+      levels = 0
       playtime = 0
-      for session in @classroom.sessions.models when session.get('creator') is student.id
+      for session in @classroom.sessions.models
+        continue unless session.get('creator') is student.id
+        continue unless session.get('state')?.complete
+        continue if levelPracticeMap[session.get('level')?.original]
+        levels++
         playtime += session.get('playtime') or 0
-        if courseID = levelCourseMap[session.get('level')?.original]?.id
-          coursePlaytimeMap[courseID] ?= 0
-          coursePlaytimeMap[courseID] += session.get('playtime') or 0
+        if courseID = levelCourseIdMap[session.get('level')?.original]
+          courseCountsMap[courseID] ?= {levels: 0, playtime: 0}
+          courseCountsMap[courseID].levels++
+          courseCountsMap[courseID].playtime += session.get('playtime') or 0
       playtimeString = if playtime is 0 then "0" else moment.duration(playtime, 'seconds').humanize()
-      for course in courses
-        coursePlaytimeMap[course.id] ?= 0
-      coursePlaytimes = []
-      for courseID, playtime of coursePlaytimeMap
-        coursePlaytimes.push
-          courseID: courseID
-          playtime: playtime
-      coursePlaytimes.sort (a, b) ->
-        return -1 if courseOrder.indexOf(a.courseID) < courseOrder.indexOf(b.courseID)
-        return 0 if courseOrder.indexOf(a.courseID) is courseOrder.indexOf(b.courseID)
-        return 1
-      coursePlaytimesString = ""
-      for coursePlaytime, index in coursePlaytimes
-        if coursePlaytime.playtime is 0
-          coursePlaytimesString += "0,"
+      for course in @sortedCourses
+        courseCountsMap[course._id] ?= {levels: 0, playtime: 0}
+      courseCounts = []
+      for course in @sortedCourses
+        courseID = course._id
+        data = courseCountsMap[courseID]
+        courseCounts.push
+          id: courseID
+          levels: data.levels
+          playtime: data.playtime
+      utils.sortCourses(courseCounts)
+      courseCountsString = ""
+      for counts, index in courseCounts
+        courseCountsString += "#{counts.levels},"
+        if counts.playtime is 0
+          courseCountsString += "0,"
         else
-          coursePlaytimesString += "#{moment.duration(coursePlaytime.playtime, 'seconds').humanize()},"
-      csvContent += "#{student.get('name')},#{student.get('email') or ''},#{playtimeString},#{coursePlaytimesString}\"#{conceptsString}\"\n"
+          courseCountsString += "#{moment.duration(counts.playtime, 'seconds').humanize()},"
+      csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
-    encodedUri = encodeURI(csvContent)
-    window.open(encodedUri)
+    file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
+    saveAs(file, 'CodeCombat.csv')
 
   onClickAssignStudentButton: (e) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -384,6 +420,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     assigningToNobody = selectedIDs.length is 0
@@ -393,11 +430,13 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
-    
+
     return Promise.resolve()
+    # Find or make the necessary course instances
     .then =>
       courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
       if not courseInstance
@@ -410,47 +449,64 @@ module.exports = class TeacherClassView extends RootView
         courseInstance.notyErrors = false # handling manually
         @courseInstances.add(courseInstance)
         return courseInstance.save()
-        
+
+    # Automatically apply licenses to students if necessary
     .then =>
-      availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available')
+      # Find the prepaids and users we're acting on (for both starter and full license cases)
+      availablePrepaids = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.includesCourse(courseID))
       unenrolledStudents = _(members)
         .map((userID) => @students.get(userID))
-        .filter((user) => user.prepaidStatus() isnt 'enrolled')
+        .filter((user) => not user.isEnrolled() or not user.prepaidIncludesCourse(courseID))
         .value()
       totalSpotsAvailable = _.reduce(prepaid.openSpots() for prepaid in availablePrepaids, (val, total) -> val + total) or 0
-      if totalSpotsAvailable < _.size(unenrolledStudents)
+
+      canAssignCourses = totalSpotsAvailable >= _.size(unenrolledStudents)
+      if not canAssignCourses
+        # These ones just matter for display
+        availableFullLicenses = @prepaids.filter((prepaid) -> prepaid.status() is 'available' and prepaid.get('type') is 'course')
+        numStudentsWithoutFullLicenses = _(members)
+          .map((userID) => @students.get(userID))
+          .filter((user) => user.prepaidType() isnt 'course' or not user.isEnrolled())
+          .size()
+        numFullLicensesAvailable = _.reduce(prepaid.openSpots() for prepaid in availableFullLicenses, (val, total) -> val + total) or 0
         modal = new CoursesNotAssignedModal({
           selected: members.length
-          totalSpotsAvailable
-          unenrolledStudents: _.size(unenrolledStudents)
+          numStudentsWithoutFullLicenses
+          numFullLicensesAvailable
+          courseID
         })
         @openModalView(modal)
         error = new Error('Not enough licenses available')
         error.handled = true
         throw error
-        
+
       numberEnrolled = _.size(unenrolledStudents)
       remainingSpots = totalSpotsAvailable - numberEnrolled
-      
+
       requests = []
+
       for prepaid in availablePrepaids
         for i in _.range(prepaid.openSpots())
           break unless _.size(unenrolledStudents) > 0
           user = unenrolledStudents.shift()
           requests.push(prepaid.redeem(user))
-      
-      @trigger 'begin-redeem-for-assign-course' 
+
+      @trigger 'begin-redeem-for-assign-course'
       return $.when(requests...)
 
+    # Add the students to the course instances
     .then =>
       # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
       # end up returning the final result of all those requests together.
-      @prepaids.fetchByCreator(me.id) 
-      
+      @prepaids.fetchByCreator(me.id)
+      @students.fetchForClassroom(@classroom, removeDeleted: true)
+
       @trigger 'begin-assign-course'
       if members.length
+        noty text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true
         return courseInstance.addMembers(members)
-      
+
+    # Show a success/errror notification
     .then =>
       course = @courses.get(courseID)
       lines = [
@@ -468,14 +524,35 @@ module.exports = class TeacherClassView extends RootView
           .replace('{{remainingSpots}}', remainingSpots)
         )
       noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
-    
+
+      # TODO: refresh existing student progress. student may have progress from outside current classroom, and the course may have been updated upon assignment
+      @calculateProgressAndLevels()
+      @classroom.fetch()
+
     .catch (e) =>
       # TODO: Use this handling for errors site-wide?
       return if e.handled
-      throw e if e instanceof Error and application.testing
-      text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown') 
+      throw e if e instanceof Error and not application.isProduction()
+      text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
+  onClickRevokeStudentButton: (e) ->
+    button = $(e.currentTarget)
+    userID = button.data('user-id')
+    user = @students.get(userID)
+    s = $.i18n.t('teacher.revoke_confirm').replace('{{student_name}}', user.broadName())
+    return unless confirm(s)
+    prepaid = user.makeCoursePrepaid()
+    button.text($.i18n.t('teacher.revoking'))
+    prepaid.revoke(user, {
+      success: =>
+        user.unset('coursePrepaid')
+      error: (prepaid, jqxhr) =>
+        msg = jqxhr.responseJSON.message
+        noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+      complete: => @render()
+    })
+    
   onClickSelectAll: (e) ->
     e.preventDefault()
     checkboxStates = _.clone @state.get('checkboxStates')

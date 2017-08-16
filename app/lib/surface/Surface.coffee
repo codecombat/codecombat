@@ -72,6 +72,8 @@ module.exports = Surface = class Surface extends CocoClass
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
+    'tome:manual-cast': 'onManualCast'
+    'playback:stop-real-time-playback': 'onStopRealTimePlayback'
 
   shortcuts:
     'ctrl+\\, ⌘+\\': 'onToggleDebug'
@@ -232,6 +234,12 @@ module.exports = Surface = class Surface extends CocoClass
     frame = @world.getFrame(@getCurrentFrame())
     return unless frame
     frame.restoreState()
+
+    if @options.levelType is 'game-dev'
+      Backbone.Mediator.publish('surface:ui-tracked-properties-changed',
+        thangStateMap: frame.thangStateMap
+      )
+
     current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
     if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
       next = Math.ceil current
@@ -474,10 +482,11 @@ module.exports = Surface = class Surface extends CocoClass
       @fastForwardingToFrame = ffToFrame
       @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
+      buffer = if @world.indefiniteLength then 0 else @world.realTimeBufferMax
       lag = (@world.frames.length - 1) * @world.dt - @world.age
-      intendedLag = @world.realTimeBufferMax + @world.dt
+      intendedLag = @world.dt + buffer
       if lag > intendedLag * 1.2
-        @fastForwardingToFrame = @world.frames.length - @world.realTimeBufferMax * @world.frameRate
+        @fastForwardingToFrame = @world.frames.length - buffer * @world.frameRate
         @fastForwardingSpeed = lag / intendedLag
       else
         @fastForwardingToFrame = @fastForwardingSpeed = null
@@ -542,10 +551,10 @@ module.exports = Surface = class Surface extends CocoClass
     event.screenPos = @mouseScreenPos if @mouseScreenPos
     Backbone.Mediator.publish 'surface:mouse-scrolled', event unless @disabled
     @gameUIState.trigger('surface:mouse-scrolled', event)
-    
-    
+
+
   #- Keyboard callbacks
-  
+
   onKeyEvent: (e) =>
     return unless @realTime
     event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
@@ -567,7 +576,7 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = $('#canvas-wrapper').width()
       newHeight = newWidth / aspectRatio
     else if @realTime or @options.spectateGame
-      pageHeight = $('#page-container').height() - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
     else if $('#thangs-tab-view')
@@ -580,17 +589,23 @@ module.exports = Surface = class Surface extends CocoClass
 
     #scaleFactor = if application.isIPadApp then 2 else 1  # Retina
     scaleFactor = 1
-    if @options.stayVisible
+    if @options.stayVisible or features.codePlay
       availableHeight = window.innerHeight
-      availableHeight -= $('.ad-container').outerHeight()
-      availableHeight -= $('#game-area').outerHeight() - $('#canvas-wrapper').outerHeight()
+      availableHeight -= ($('.ad-container').outerHeight() or 0)
+      availableHeight -= ($('#game-area').outerHeight() or 0) - ($('#canvas-wrapper').outerHeight() or 0)
+      if features.codePlay
+        bannerHeight = ($('#codeplay-product-banner').height() or 0)
+        availableHeight -= bannerHeight
+        scaleFactor = availableHeight / newHeight if availableHeight < newHeight
       scaleFactor = availableHeight / newHeight if availableHeight < newHeight
+    
     newWidth *= scaleFactor
     newHeight *= scaleFactor
 
-    return if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
-    return if newWidth < 200 or newHeight < 200
+    return @updateCodePlayMargin() if newWidth is oldWidth and newHeight is oldHeight and not @options.spectateGame
+    return @updateCodePlayMargin() if newWidth < 200 or newHeight < 200
     @normalCanvas.add(@webGLCanvas).attr width: newWidth, height: newHeight
+    @updateCodePlayMargin()
     @trigger 'resize', { width: newWidth, height: newHeight }
 
     # Cannot do this to the webGLStage because it does not use scaleX/Y.
@@ -603,6 +618,13 @@ module.exports = Surface = class Surface extends CocoClass
       # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
       offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
       @normalCanvas.css 'left', offset
+      
+  updateCodePlayMargin: ->
+    return unless features.codePlay
+    availableWidth = (window.innerWidth * .57 - 200)
+    width = @normalCanvas.attr('width')
+    margin = Math.max(availableWidth - width, 0)
+    @normalCanvas.add(@webGLCanvas).css('margin-left', margin/2)
 
   #- Camera focus on hero
   focusOnHero: ->
@@ -639,7 +661,18 @@ module.exports = Surface = class Surface extends CocoClass
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)
     e.pos = @camera.screenToWorld @mouseScreenPos if @mouseScreenPos
 
+  # Force sizing based on width for game-dev levels, so that the instructions panel doesn't obscure the game
+  onManualCast: ->
+    if @options.levelType is 'game-dev'
+      console.log "Force resize strategy"
+      @options.originalResizeStrategy = @options.resizeStrategy
+      @options.resizeStrategy = 'wrapper-size'
 
+  # Revert back to normal sizing when done playing a game-dev level
+  onStopRealTimePlayback: ->
+    if @options.levelType is 'game-dev'
+      console.log "Reset resize strategy"
+      @options.resizeStrategy = @options.originalResizeStrategy
 
   updatePaths: ->
     return unless @options.paths and @heroLank

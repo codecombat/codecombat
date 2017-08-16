@@ -8,94 +8,94 @@
 
     else
       img#subscribe-background(src="/images/pages/play/modal/subscribe-background-blank.png")
-      img.subscribe-image(src="/images/pages/play/modal/subscribe-heroes.png")
 
-      h1(data-i18n="subscribe.subscribe_title") Subscribe
+      h1(data-i18n="subscribe.subscribe_modal_title")
 
       div#close-modal
         span.glyphicon.glyphicon-remove
 
-      div.comparison-blurb(data-i18n="subscribe.comparison_blurb")
-      table.table.table-condensed.table-bordered.comparison-table
-        thead
-          tr
-            th
-            if !me.isOnPremiumServer()
-              th.free-cell(data-i18n="subscribe.free")
-            th
-              //- TODO: find a better way to localize price
-              if view.basicProduct
-                span $#{(view.basicProduct.get('amount') / 100)}/
-                span(data-i18n="subscribe.month")
-              else
-                span '...'
-        tbody
-          tr
-            td.feature-description
-              span(data-i18n="subscribe.feature1", data-i18n-options='{"levelsCount": ' + view.i18nData.levelsCount + ', "worldsCount": ' + view.i18nData.worldsCount + '}')
-            if !me.isOnPremiumServer()
-              td.center-ok.free-cell
-                span.glyphicon.glyphicon-ok
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature2", data-i18n-options='{"heroesCount": ' + view.i18nData.heroesCount + '}')
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="subscribe.feature3", data-i18n-options='{"bonusLevelsCount": ' + view.i18nData.bonusLevelsCount + '}')
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description.gem-amount
-              span(data-i18n="[html]subscribe.feature4")
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="[html]subscribe.feature7")
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          tr
-            td.feature-description
-              span(data-i18n="subscribe.feature6")
-            if !me.isOnPremiumServer()
-              td.free-cell
-            td.center-ok
-              span.glyphicon.glyphicon-ok
-          if me.getCampaignAdsGroup() === 'leaderboard-ads'
-            tr
-              td.feature-description
-                span(data-i18n="[html]subscribe.feature8")
-              if !me.isOnPremiumServer()
-                td.free-cell
-              td.center-ok
-                span.glyphicon.glyphicon-ok
-      #parents-info(data-i18n="subscribe.parents")
-      #payment-methods-info(data-i18n="subscribe.payment_methods")
+      div.paper-area
+        div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
 
-      .subscribe-actions
-        if !me.isOnPremiumServer()
-          button.btn.btn-lg.btn-illustrated.parent-button(data-i18n="subscribe.parent_button")
-        if view.yearProduct
-          button.btn.btn-lg.btn-illustrated.sale-button(data-i18n="[title]subscribe.sale_button_title subscribe.sale_button")
-        button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="subscribe.subscribe_title")
+
+        .container-fluid
+          .row
+            .col-xs-5.feature-col.col-xs-offset-1
+              ul
+                li(data-i18n="subscribe.feature_levels" data-i18n-options={premiumLevelsCount:view.i18nData.premiumLevelsCount})
+                if view.basicProduct
+                  li(data-i18n="subscribe.feature_gems", data-i18n-options={gems:view.basicProduct.get('gems')})
+                li(data-i18n="subscribe.feature_heroes")
+
+
+            .col-xs-5.feature-col
+              ul
+                li(data-i18n="subscribe.feature_games")
+                li(data-i18n="subscribe.feature_websites")
+                li(data-i18n="subscribe.feature_items")
+
+          hr
+
+          mixin price(name, p)
+            - var origPrice = p.priceStringNoSymbol()
+            - var salePrice = p.adjustedPriceStringNoSymbol()
+            if origPrice == salePrice
+              .price(data-i18n=name, data-i18n-options={price:origPrice})
+            else
+              div
+                span.old-price(data-i18n=name, data-i18n-options={price:origPrice})
+                span.price(data-i18n=name, data-i18n-options={price:salePrice})
+
+          .row
+            - var secondRowClass = '.col-xs-5'
+            if view.basicProduct
+              .col-xs-5.option-col.col-xs-offset-1
+                .option-header.text-center(data-i18n="subscribe.stripe_description")
+                +price("subscribe.month_price", view.basicProduct)
+                button.btn.btn-lg.btn-illustrated.purchase-button(data-i18n="premium_features.subscribe_now")
+                if view.basicProduct.isRegionalSubscription()
+                  //- Warn about PayPal redirect, which is only used for regional subscriptions
+                  .small(data-i18n="premium_features.paypal_redirect")
+
+            else
+              - var secondRowClass = '.col-xs-12'
+
+            if view.lifetimeProduct
+              .option-col(class=secondRowClass)
+                .option-header.text-center(data-i18n="subscribe.lifetime")
+                +price("subscribe.lifetime_price", view.lifetimeProduct)
+                if view.paymentProcessor === 'PayPal'
+                  #paypal-button-container
+                else
+                  button.stripe-lifetime-button.btn.btn-lg.btn-illustrated(data-i18n="subscribe.buy_now")
+
+        div
+          p
+            span(data-i18n="subscribe.kids_message_1")
+            =" "
+            a.parent-link(data-i18n="subscribe.kids_message_2")
+
+          p
+            span(data-i18n="subscribe.support_part1")
+            =" "
+            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+            =" "
+            span(data-i18n="subscribe.support_part3")
+
+
+
 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
           span(data-i18n="buy_gems.declined")
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
+
+      if view.state === 'error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p= view.stateMessage
 
       if view.state === 'unknown_error'
         #error-alert.alert.alert-danger.alert-dismissible
@@ -104,7 +104,7 @@
           p(data-i18n="loading_error.unknown")
           p= view.stateMessage
 
-    .parent-button-popover-content.hidden
+    .parent-link-popover-content.hidden
       .email-parent-form
         p(data-i18n="subscribe.parent_email_description")
         form
@@ -115,4 +115,4 @@
           button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
       .email-parent-complete
         p(data-i18n="subscribe.parent_email_sent")
-        button.btn(type='button', onclick="$('.parent-button').popover('hide');", data-i18n="modal.close")
+        button.btn(type='button', onclick="$('.parent-link').popover('hide');", data-i18n="modal.close")

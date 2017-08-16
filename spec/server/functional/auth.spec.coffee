@@ -6,14 +6,20 @@ Promise = require 'bluebird'
 nock = require 'nock'
 request = require '../request'
 sendwithus = require '../../../server/sendwithus'
+mongoose = require 'mongoose'
 LevelSession = require '../../../server/models/LevelSession'
+OAuthProvider = require '../../../server/models/OAuthProvider'
+config = require '../../../server_config'
+querystring = require 'querystring'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
 
 describe 'GET /auth/whoami', ->
   it 'returns 200', utils.wrap (done) ->
-    [res, body] = yield request.getAsync(getURL('/auth/whoami'))
+    yield utils.logout()
+    [res, body] = yield request.getAsync(getURL('/auth/whoami'), {json: true})
+    expect(res.body.createdOnHost).toBeTruthy()
     expect(res.statusCode).toBe(200)
     done()
 
@@ -251,6 +257,8 @@ describe 'GET /auth/name', ->
 describe 'POST /auth/login-facebook', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
+    fields = ['email', 'first_name', 'last_name', 'gender'].join(',')
+    @facebookRequest = nock('https://graph.facebook.com').get('/v2.8/me').query({access_token: 'abcd', fields})
     done()
     
   afterEach -> 
@@ -258,7 +266,7 @@ describe 'POST /auth/login-facebook', ->
   
   url = getURL('/auth/login-facebook')
   it 'takes facebookID and facebookAccessToken and logs the user in', utils.wrap (done) ->
-    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    @facebookRequest.reply(200, { id: '1234' })
     yield new User({name: 'someone', facebookID: '1234'}).save()
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(200)
@@ -270,14 +278,14 @@ describe 'POST /auth/login-facebook', ->
     done()
   
   it 'returns 422 if the token is invalid', utils.wrap (done) ->
-    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(400, {})
+    @facebookRequest.reply(400, {})
     yield new User({name: 'someone', facebookID: '1234'}).save()
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(422)
     done()
   
   it 'returns 404 if the user does not already exist', utils.wrap (done) ->
-    nock('https://graph.facebook.com').get('/me').query({access_token: 'abcd'}).reply(200, { id: '1234' })
+    @facebookRequest.reply(200, { id: '1234' })
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(404)
     done()
@@ -316,7 +324,163 @@ describe 'POST /auth/login-gplus', ->
     [res, body] = yield request.postAsync url, { json: { gplusID: '1234', gplusAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(404)
     done()
-          
+    
+    
+describe 'GET /auth/login-clever', ->
+  originalCleverConfig = null 
+  
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    originalCleverConfig = config.clever
+    config.clever = { client_id: 'x', client_secret: 'y' }
+    @tokenRequest = nock('https://clever.com').post('/oauth/tokens')
+    @tokenSuccessResponse = { access_token: 'abc' }
+    @meRequest = nock('https://api.clever.com').get('/me')
+    @meSuccessResponse = { data: { type: 'student', id: 'xyz' } }
+    @lookupRequest = nock("https://api.clever.com").get("/v1.1/#{@meSuccessResponse.data.type}s/#{@meSuccessResponse.data.id}")
+    @lookupSuccessResponse = { data: { name: { first: 'first', last: 'last' }, email: 'clever@email.com' }}
+    @url = utils.getURL("/auth/login-clever")
+    @qs = { code: 'code', scope: 'all' }
+    done()
+    
+  afterEach ->
+    config.clever = originalCleverConfig
+
+  it 'creates and logs the user in, and redirects to "/students" if they are a student', utils.wrap (done) ->
+    @tokenRequest.reply(200, @tokenSuccessResponse)
+    @meRequest.reply(200, @meSuccessResponse)
+    @lookupRequest.reply(200, @lookupSuccessResponse)
+    [res, body] = yield request.getAsync({ @url, @qs, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
+    expect(body.lastName).toBe('last')
+    expect(body.firstName).toBe('first')
+    expect(body.role).toBe('student')
+    expect(body.cleverID).toBe('xyz')
+    expect(body.email).toBe('clever@email.com')
+    
+    userID = body._id
+    userCount = yield User.count()
+    
+    # make sure another user is not created
+    yield utils.logout()
+    @tokenRequest.reply(200, @tokenSuccessResponse)
+    @meRequest.reply(200, @meSuccessResponse)
+    @lookupRequest.reply(200, @lookupSuccessResponse)
+    [res, body] = yield request.getAsync({ @url, @qs, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
+    expect(body._id).toBe(userID)
+    expect(yield User.count()).toBe(userCount)
+    done()
+    
+  it 'redirects to the teacher dashboard if they are a teacher', utils.wrap (done) ->
+    @tokenRequest.reply(200, @tokenSuccessResponse)
+    @meRequest.reply(200, { data: { type: 'teacher', id: 'xyz' } })
+    @lookupRequest = nock("https://api.clever.com").get("/v1.1/teachers/xyz")
+    @lookupRequest.reply(200, @lookupSuccessResponse)
+    [res, body] = yield request.getAsync({ @url, @qs, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/teachers/classes')
+    done()
+
+
+describe 'GET /auth/login-o-auth', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    @provider = new OAuthProvider({
+      lookupUrlTemplate: 'https://oauth.provider/user?t=<%= accessToken %>'
+      tokenUrl: 'https://oauth.provider/oauth2/token'
+    })
+    @provider.save()
+    @user = yield utils.initUser({oAuthIdentities: [{provider: @provider._id, id: 'abcd'}]})
+    @providerNock = nock('https://oauth.provider')
+    @providerLookupRequest = @providerNock.get('/user?t=1234')
+    @url = utils.getURL("/auth/login-o-auth")
+    @qs = { provider: @provider.id, accessToken: '1234' }
+    done()
+
+  it 'logs the user in, and redirects to "/play" if they are a "Home" version user', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/play')
+    [res, body] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
+    expect(res.body._id).toBe(@user.id)
+    done()
+
+  it 'redirects to the given "redirect" GET query argument', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    @qs.redirect = '/some/arbitrary/url?test=ing'
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe(@qs.redirect)
+    done()
+
+  it 'logs the user in, and redirects to an arbitrary url if the provider specifies', utils.wrap (done) ->
+    redirectAfterLogin = 'https://somewhere-else.com/'
+    yield @provider.update({$set: {redirectAfterLogin}})
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe(redirectAfterLogin)
+    done()
+
+  it 'redirects the user to "/students" if their role is "student"', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    yield @user.update({$set: {role:'student'}})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/students')
+    done()
+
+  it 'redirects the user to "/teachers/classes" if their role is anything but "student"', utils.wrap (done) ->
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    yield @user.update({$set: {role:'teacher'}})
+    [res, body] = yield request.getAsync({ @url, @qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    expect(res.headers.location).toBe('/teachers/classes')
+    done()
+    
+  it 'can take a code and do a token lookup', utils.wrap (done) ->
+    @providerNock.get('/oauth2/token').reply(200, {access_token: '1234'})
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    qs =  { provider: @provider.id, code: 'xyzzy' }
+    [res, body] = yield request.getAsync({ @url, qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(302)
+    done()
+
+  it 'returns 422 if "provider" and "accessToken" are not provided', utils.wrap (done) ->
+    qs = {}
+    [res, body] = yield request.getAsync({ @url, qs })
+    expect(res.statusCode).toBe(422)
+    done()
+
+  it 'returns 404 if the provider is not found', utils.wrap (done) ->
+    qs = { provider: new mongoose.Types.ObjectId() + '', accessToken: '1234' }
+    [res, body] = yield request.getAsync({ @url, qs })
+    expect(res.statusCode).toBe(404)
+    done()
+
+  it 'returns 422 if the token lookup fails', utils.wrap (done) ->
+    @providerNock.get('/oauth2/token').reply(400, {access_token: '1234'})
+    qs =  { provider: @provider.id, code: 'xyzzy' }
+    [res, body] = yield request.getAsync({ @url, qs, json:true, followRedirect:false })
+    expect(res.statusCode).toBe(422)
+    done()
+    
+  it 'redirects the user on error when errorRedirect param is provided', utils.wrap (done) ->
+    errorRedirect = 'http://source.com/error-happened'
+    [res, body] = yield request.getAsync({ @url, qs: { errorRedirect }, followRedirect: false })
+    expect(res.statusCode).toBe(302)
+    expect(_.startsWith(res.headers.location, errorRedirect)).toBe(true)
+    qs = querystring.parse(_.last(res.headers.location.split('?')))
+    expect(qs.code).toBe('422')
+    done()
+
       
 describe 'POST /auth/spy', ->
   beforeEach utils.wrap (done) ->

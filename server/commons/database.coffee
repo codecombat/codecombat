@@ -6,6 +6,7 @@ mongooseCache = require 'mongoose-cache'
 errors = require '../commons/errors'
 Promise = require 'bluebird'
 _ = require 'lodash'
+co = require 'co'
 
 module.exports =
   isID: (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
@@ -100,6 +101,7 @@ module.exports =
         for r in results.results ? results
           obj = r.obj ? r
           continue if obj in matchedObjects  # TODO: probably need a better equality check
+          continue if obj.get('restricted') and not req.user?.isAdmin() and not (obj.get('restricted') is 'code-play' and req.features.codePlay)
           matchedObjects.push obj
         filters.pop()  # doesn't matter which one
         unless filters.length
@@ -120,7 +122,7 @@ module.exports =
 
 
   assignBody: (req, doc, options={}) ->
-    if _.isEmpty(req.body)
+    if not req.body
       throw new errors.UnprocessableEntity('No input')
       
     if not doc.schema.statics.editableProperties
@@ -160,28 +162,31 @@ module.exports =
       throw new errors.UnprocessableEntity('JSON-schema validation failed', { validationErrors: result.errors })
 
 
-  getDocFromHandle: Promise.promisify (req, Model, options, done) ->
-    if _.isFunction(options)
-      done = options
-      options = {}
-
+  getDocFromHandle: co.wrap (req, Model, options={}) ->
     dbq = Model.find()
-    handle = req.params.handle
+    handleName = options.handleName or 'handle'
+    handle = req.params[handleName]
     if not handle
-      return done(new errors.UnprocessableEntity('No handle provided.'))
+      throw new errors.UnprocessableEntity('No handle provided.')
     if @isID(handle)
       dbq.findOne({ _id: handle })
-    else
+    else if Model.schema.uses_coco_names
       dbq.findOne({ slug: handle })
+    else
+      throw new errors.UnprocessableEntity('Handle must be an ID.')
       
     if options.select
       dbq.select(options.select)
 
-    dbq.exec(done)
+    doc = yield dbq.exec()
+    if options.getLatest and Model.schema.uses_coco_versions and doc and not doc.get('version.isLatestMajor')
+      original = doc.get('original')
+      doc = yield Model.findOne({original}).sort({ 'version.major': -1, 'version.minor': -1 })
+    return doc
 
 
   hasAccessToDocument: (req, doc, method) ->
-    method = method or req.method
+    method = method or req.method.toLowerCase()
     return true if req.user?.isAdmin()
 
     if doc.schema.uses_coco_translation_coverage and method in ['post', 'put']

@@ -1,8 +1,12 @@
 log = require 'winston'
 Payment = require '../models/Payment'
-PaymentHandler = require '../handlers/payment_handler'
+Promise = require 'bluebird'
+config = require '../../server_config'
+errors = require '../commons/errors'
 
 module.exports =
+  api: require('stripe')(config.stripe.secretKey)
+  
   logError: (user, msg) ->
     log.error "Stripe Utils Error: #{user.get('slug')} (#{user._id}): '#{msg}'"
 
@@ -17,11 +21,14 @@ module.exports =
       statement_descriptor: 'CODECOMBAT.COM'
     stripe.charges.create options, (err, charge) =>
       if err
+        if err?.message.indexOf('declined')
+          return done(new errors.PaymentRequired('Card declined'))
         @logError(user, "Charge create error: #{JSON.stringify(err)}")
         return done(err)
       done(err, charge)
 
   createPayment: (user, stripeCharge, extraProps, done) ->
+    PaymentHandler = require '../handlers/payment_handler' # require JIT so server models can initialize properly first
     payment = new Payment
       purchaser: user._id
       recipient: user._id
@@ -62,7 +69,7 @@ module.exports =
             @logError(user, "Customer retrieve error: #{JSON.stringify(err)}")
             return done(err)
           done(err, customer)
-    else
+    else if token
       newCustomer = {
         card: token
         email: user.get('email')
@@ -80,3 +87,18 @@ module.exports =
             @logError(user, 'Stripe customer id save db error. '+err)
             return done(err)
           done(err, customer)
+    else
+      done(null, null)
+
+  cancelSubscriptionImmediately: (user, subscription, done) ->
+    return done() unless user and subscription
+    stripe.customers.cancelSubscription subscription.customer, subscription.id, (err) ->
+      return done(err) if err
+      stripeInfo = _.cloneDeep(user.get('stripe') ? {})
+      delete stripeInfo.planID
+      delete stripeInfo.prepaidCode
+      delete stripeInfo.subscriptionID
+      user.set('stripe', stripeInfo)
+      user.save(done)
+
+Promise.promisifyAll(module.exports)

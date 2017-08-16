@@ -99,7 +99,11 @@ block content
                 h3 Pending....
 
               if test.error
-                  pre.test-faile #{test.error}
+                  pre.test-failed #{test.error}
+
+              if test.testLogs && test.testLogs.length
+                  for log in test.testLogs
+                      pre.test-failed= log
 
               if test.userCodeProblems.length
                 h4.test-failed User Code Problems

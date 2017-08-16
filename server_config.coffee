@@ -1,10 +1,19 @@
+fs = require 'fs'
+path = require 'path'
+os = require 'os'
+cluster = require 'cluster'
+
 config = {}
+
+config.clusterID = "#{os.hostname()}"
+if cluster.worker?
+ config.clusterID += "/#{cluster.worker.id}"
 
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
 
-config.chinaDomain = "cn.codecombat.com"
-config.brazilDomain = "br.codecombat.com"
+config.chinaDomain = "cn.codecombat.com;ccombat.cn;contributors.codecombat.com"
+config.brazilDomain = "br.codecombat.com;contributors.codecombat.com"
 config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env.PORT  or 3000
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =
@@ -32,7 +41,7 @@ else
 
 if process.env.COCO_MONGO_LS_REPLICA_STRING?
   config.mongo.level_session_replica_string = process.env.COCO_MONGO_LS_REPLICA_STRING
-  
+
 if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
   config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
 
@@ -46,6 +55,10 @@ config.closeIO =
 
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
+  
+config.paypal =
+  clientID: process.env.COCO_PAYPAL_CLIENT_ID or 'AcS4lYmr_NwK_TTWSJzOzTh01tVDceWDjB_N7df3vlvW4alTV_AF2rtmcaZDh0AmnTcOof9gKyLyHkm-'
+  clientSecret: process.env.COCO_PAYPAL_CLIENT_SECRET or 'EEp-AscLo_-_59jMBgrPFWUaMrI_HJEY8Mf1ESD7OJ8DSIFbKtVe1btqP2SAZXR_llP_oosvJYFWEjUZ'
 
 config.redis =
   port: process.env.COCO_REDIS_PORT or 6379
@@ -64,10 +77,9 @@ config.mail =
   supportPrimary: process.env.COCO_MAIL_SUPPORT_PRIMARY or ''
   supportPremium: process.env.COCO_MAIL_SUPPORT_PREMIUM or ''
   supportSchools: process.env.COCO_MAIL_SUPPORT_SCHOOLS or ''
-  mailchimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
-  mailchimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
+  mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
+  mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
-  stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
@@ -121,5 +133,27 @@ if process.env.COCO_STATSD_HOST
     host: process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
+
+config.snowplow =
+  user: process.env.COCO_SNOWPLOW_USER or 'user'
+  database: process.env.COCO_SNOWPLOW_DATABASE or 'database'
+  password: process.env.COCO_SNOWPLOW_PASSWORD or 'password'
+  host: process.env.COCO_SNOWPLOW_HOST or 'host'
+  port: process.env.COCO_SNOWPLOW_PORT or 1
+
+config.buildInfo = { sha: 'dev' }
+
+config.sunburst =
+  email: process.env.COCO_SUNBURST_EMAIL or ''
+
+config.intercom =
+  accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
+
+if fs.existsSync path.join(__dirname, '.build_info.json')
+  config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
+
+# This logs a stack trace every time an endpoint sends a response or throws an error.
+# It's great for finding where a mystery endpoint is!
+config.TRACE_ROUTES = process.env.TRACE_ROUTES?
 
 module.exports = config

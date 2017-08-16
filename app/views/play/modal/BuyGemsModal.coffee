@@ -39,11 +39,11 @@ module.exports = class BuyGemsModal extends ModalView
         if jqxhr.status is 201
           @state = 'recovered_charge'
           @render()
+    @trackTimeVisible({ trackViewLifecycle: true })
 
   onLoaded: ->
-    @basicProduct = @products.findWhere { name: 'basic_subscription' }
-    if countrySpecificProduct = @products.findWhere { name: "#{me.get('country')}_basic_subscription" }
-      @basicProduct = countrySpecificProduct
+    @basicProduct = @products.getBasicSubscriptionForUser(me)
+    @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     @products.reset @products.filter (product) -> _.string.startsWith(product.get('name'), 'gems_')
     super()
 

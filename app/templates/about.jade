@@ -104,26 +104,6 @@ block content
               small(data-i18n="about.maka_blurb")
 
           li
-            a(href="http://basicer.com/" rel="external")
-              .profile-pic
-                img(src="/images/pages/about/team-avatars/rob-avatar.png").img-thumbnail.avatar
-                img(src="/images/pages/about/team-headshots/rob-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name
-                a(href="http://basicer.com/" rel="external") Rob Blanckaert
-              small(data-i18n="about.rob_title")
-              small(data-i18n="about.rob_blurb")
-
-          li
-            .profile-pic
-              img(src="/images/pages/about/team-avatars/josh-avatar.png").img-thumbnail.avatar
-              img(src="/images/pages/about/team-headshots/josh-headshot.png").img-thumbnail.headshot
-            .team-bio
-              h6.label.team-name Josh Callebaut
-              small(data-i18n="about.josh_c_title")
-              small(data-i18n="about.josh_c_blurb")
-
-          li
             a(href="http://robinyang.com/" rel="external")
               .profile-pic
                 img(src="/images/pages/about/team-avatars/robin-avatar.png").img-thumbnail.avatar
@@ -168,7 +148,7 @@ block content
             .team-bio
               h6.label.team-name Lisa Wu
               small(data-i18n="about.lisa_title")
-              br
+              small(data-i18n="about.lisa_blurb")
 
           li
             .profile-pic
@@ -178,25 +158,25 @@ block content
               h6.label.team-name Sean McNulty
               small(data-i18n="about.sean_title")
               br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/liz-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/liz-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Liz Coluni
+              small(data-i18n="about.liz_title")
+              br
         ul
           // Part time / contract
           li
-            a(href="http://floor.is/lava/" rel="external")
-              img(src="/images/pages/about/josh_small.png").img-thumbnail
+            a(href="http://bryukh.com" rel="external")
+              img(src="/images/pages/about/bryukh_small.png").img-thumbnail
             .team-bio
               h6.label.team-name
-                a(href="http://floor.is/lava/" rel="external") Josh Lee
-              small(data-i18n="about.josh_title")
-              small(data-i18n="about.josh_blurb")
-
-          li
-            a(href="https://soundcloud.com/taking-off" rel="external")
-              img(src="/images/pages/about/jose_small.png").img-thumbnail
-            .team-bio
-              h6.label.team-name
-                a(href="https://soundcloud.com/taking-off" rel="external") Jose Antonini
-              small(data-i18n="about.jose_title")
-              small(data-i18n="about.jose_blurb")
+                a(href="http://bryukh.com" rel="external") Valentin Bryukhanov
+              small(data-i18n="about.bryukh_title")
+              small(data-i18n="about.bryukh_blurb")
 
           li
             a(href="http://retrostylegames.com/" rel="external")
@@ -308,18 +288,37 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
                 li.small(data-i18n="about.jobs_benefit_7")
+          //- .col-sm-6.col-md-5.col-lg-4
+          //-   .job-listing
+          //-     h5 (No Open Roles)
+          //-     p.small Check back later for updates on new positions at CodeCombat.
+          .col-sm-6.col-md-5.col-lg-4
+            .job-listing
+              h5 Senior Frontend Engineer
+                .text-center
+                  small.label
+                    | San Francisco • Full-time
+                p.small Come help us build a next generation HTML5 coding game, and drive frontend engineering excellence across the team!
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/dba99f8f-d7db-43ca-a6d4-514dca22ba9e" rel="external")
+                 span(data-i18n="about.learn_more")
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             .job-listing
-              h5 Curriculum Specialist
-              .text-center
-                small.label
-                  | San Francisco/Remote • Contract
-              p.small We're looking for an enthusiastic educator with hands-on experience teaching computer science who can help us expand our curriculum offerings. 
-              p.small This contractor will focus on empowering teachers who have little to no prior computer science knowledge with the tools to lead students through CodeCombat’s courses.
-              a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/2d157b31-0d79-4878-a1d9-e5cb2d25d656" rel="external")
-                span(data-i18n="about.learn_more")
-              //- h5 (No Open Roles)
-              //- p.small Check back later for updates on new positions at CodeCombat.
+              h5 Senior Backend Engineer
+                .text-center
+                  small.label
+                    | San Francisco • Full-time
+                p.small Come use your extensive backend experience to ensure our servers always provide the answer, and drive backend engineering excellence across the team!
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/e53fba8b-132f-48c4-989d-fce6fbc3f23f" rel="external")
+                 span(data-i18n="about.learn_more")
+          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
+            .job-listing
+              h5 Sales Development Representative
+                .text-center
+                  small.label
+                    | San Francisco • Full-time
+                p.small Bring in new leads, talk to prospects, qualify good opportunities, and drive new business with the team.
+                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/db88e6ce-8597-4461-bc62-85facea7749e" rel="external")
+                 span(data-i18n="about.learn_more")
           .col-sm-6.col-md-5.col-lg-4
             .job-listing
               h5(data-i18n="about.jobs_custom_title")
@@ -423,3 +422,22 @@ block content
             p
               b(data-i18n="about.location_title")
             iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAIGQz3OMbv5YWivScUM86-zESjEgJR2Xo&q=301+Howard+St+Suite+830,+San+Francisco,+CA+94105")
+        if me.get('preferredLanguage') == 'pt-BR'
+          .row
+            .col-sm-4.col-sm-offset-2
+              p
+                b Escritório Brasil
+              p Avenida da Integração 2022
+              p Candelária, Natal, RN, 59066-035
+              a(href="mailto:carlos@codecodecode.com.br") carlos@codecodecode.com.br
+            .col-sm-4
+              iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3969.1080995471475!2d-35.224722148315514!3d-5.840384959171702!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x7b2558268475625%3A0x593ba5a4db0f22ce!2sAv.+da+Integra%C3%A7%C3%A3o%2C+2022+-+Candel%C3%A1ria%2C+Natal+-+RN%2C+Brazil!5e0!3m2!1sen!2sus!4v1496848632651")
+        if me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE'
+          .row
+            .col-sm-4.col-sm-offset-2
+              p
+                b Nederlands Partnerkantoor
+              p Bargelaan 26, Leiden (derde verdieping)
+              a(href="mailto:jurian@codecombat.nl") jurian@codecombat.nl
+            .col-sm-4
+              iframe(width="370", height="280", frameBorder="2", src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2447.19364739596!2d4.479821952024331!3d52.16717256996879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47c5c6e906d80437%3A0xc124b9b4fd813139!2sBargelaan+26%2C+2333+CT+Leiden%2C+Netherlands!5e0!3m2!1sen!2sus!4v1496848944226")

@@ -151,10 +151,10 @@ describe 'PUT /db/achievement', ->
 describe 'GET /db/achievement', ->
   beforeEach addAllAchievements
   
-  it 'returns all achievements', ->
+  it 'returns all achievements', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
-    [res, body] = request.getAsync {uri: url}
+    [res, body] = yield request.getAsync {uri: url, json: true}
     expect(res.statusCode).toBe(200)
     expect(body.length).toBe 3
     done()
@@ -172,10 +172,10 @@ describe 'GET /db/achievement?related=:id', ->
 describe 'GET /db/achievement/:handle', ->
   beforeEach addAllAchievements
 
-  it 'returns the achievement', ->
+  it 'returns the achievement', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
-    [res, body] = request.getAsync {uri: url+'/'+@unlockable.id}
+    [res, body] = yield request.getAsync { uri: url+'/'+@unlockable.id, json: true }
     expect(res.statusCode).toBe(200)
     expect(body._id).toBe(@unlockable.id)
     done()
@@ -330,7 +330,7 @@ describe 'POST /db/earned_achievement', ->
 describe 'automatically achieving achievements', ->
   beforeEach addAllAchievements
 
-  it 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
+  xit 'happens when an object\'s properties meet achievement goals', utils.wrap (done) ->
     # load achievements on server
     @achievements = yield Achievement.loadAchievements()
     expect(@achievements.users.length).toBe(2)
@@ -342,7 +342,7 @@ describe 'automatically achieving achievements', ->
     expect(user.get('simulatedBy')).toBeFalsy()
     user.set('simulatedBy', 2)
     yield user.save()
-    yield new Promise((resolve) -> setTimeout(resolve, 100)) # give server time to apply achievement
+    yield user.achievementsEarning
     
     # check 'repeatable' achievement
     user = yield User.findById(user._id)
@@ -383,7 +383,7 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     expect(res.statusCode).toBe 403
     done()
 
-  it 'recalculates for a single achievement idempotently', utils.wrap (done) ->
+  xit 'recalculates for a single achievement idempotently', utils.wrap (done) ->
     session = new LevelSession({
       permissions: simplePermissions
       creator: @admin._id

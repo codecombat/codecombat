@@ -19,7 +19,11 @@ AchievablePlugin = (schema, options) ->
 
   # Check if an achievement has been earned
   schema.post 'save', (doc) ->
-    schema.statics.createNewEarnedAchievements doc
+    promises = schema.statics.createNewEarnedAchievements(doc)
+    if global.testing
+      # Provide a way for tests to know when achievements have been earned
+      doc.achievementsEarning ?= []
+      doc.achievementsEarning = doc.achievementsEarning.concat(promises)
 
   schema.statics.createNewEarnedAchievements = (doc, unchangedCopy) ->
     unchangedCopy ?= doc.unchangedCopy
@@ -30,6 +34,7 @@ AchievablePlugin = (schema, options) ->
 
     category = doc.constructor.collection.name
     loadedAchievements = Achievement.getLoadedAchievements()
+    promises = []
 
     if category of loadedAchievements
       #log.debug 'about to save ' + category + ', number of achievements is ' + loadedAchievements[category].length
@@ -42,6 +47,8 @@ AchievablePlugin = (schema, options) ->
           alreadyAchieved = if isNew then false else LocalMongo.matchesQuery unchangedCopy, query
           newlyAchieved = LocalMongo.matchesQuery(docObj, query)
           return unless newlyAchieved and (not alreadyAchieved or isRepeatable)
-          EarnedAchievement.createForAchievement(achievement, doc, {originalDocObj: unchangedCopy})
+          promises.push EarnedAchievement.createForAchievement(achievement, doc, {originalDocObj: unchangedCopy})
+          
+    return promises
 
 module.exports = AchievablePlugin

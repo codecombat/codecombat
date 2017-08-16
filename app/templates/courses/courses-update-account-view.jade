@@ -47,6 +47,9 @@ block content
                     li(data-i18n="courses.update_account_teachers_can3")
                     li(data-i18n="courses.update_account_teachers_can4")
                   .warning(data-i18n="courses.update_account_teachers_warning")
+                  if (me.get('stripe') || {}).planID
+                    br
+                    .warning(data-i18n="courses.unsubscribe_warning")
                 br
                 .text-center
                   if me.isTeacher()
@@ -68,6 +71,9 @@ block content
                     li(data-i18n="courses.update_account_students_can3")
                     li(data-i18n="courses.update_account_students_can4")
                   .warning(data-i18n="courses.update_account_students_warning")
+                  if (me.get('stripe') || {}).planID
+                    br
+                    .warning(data-i18n="courses.unsubscribe_warning")
                 br
                 .text-center
                   if me.isStudent()

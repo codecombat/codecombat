@@ -9,7 +9,10 @@ module.exports = class ExtrasView extends CocoView
   retainSubviews: true
 
   events:
-    'click .next-button': -> @trigger 'nav-forward'
+    'click .next-button': ->
+      if @signupState.get('path') is 'student'
+        window.tracker?.trackEvent 'CreateAccountModal Student ExtrasView Next Clicked', category: 'Students'
+      @trigger 'nav-forward'
 
   initialize: ({ @signupState } = {}) ->
-    @insertSubView(new HeroSelectView({ showCurrentHero: false }))
+    @insertSubView(new HeroSelectView({ showCurrentHero: false, createAccount: true }))

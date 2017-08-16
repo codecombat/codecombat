@@ -19,25 +19,11 @@ module.exports = class TeacherCoursesView extends RootView
     'click .guide-btn': 'onClickGuideButton'
     'click .play-level-button': 'onClickPlayLevel'
 
-  guideLinks:
-    {
-      "560f1a9f22961295f9427742":
-        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_python.pdf'
-        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_intro_javascript.pdf'
-      "5632661322961295f9428638":
-        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_python.pdf'
-        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-2_javascript.pdf'
-      "56462f935afde0c6fd30fc8c":
-        python: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_python.pdf'
-        javascript: 'http://files.codecombat.com/teacherguides/CodeCombat_TeacherGuide_course-3_javascript.pdf'
-      "56462f935afde0c6fd30fc8d": null
-      "569ed916efa72b0ced971447": null
-    }
-
   getTitle: -> return $.i18n.t('teacher.courses')
 
-  constructor: (options) ->
+  initialize: (options) ->
     super(options)
+    @utils = require 'core/utils'
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
@@ -46,13 +32,9 @@ module.exports = class TeacherCoursesView extends RootView
       @supermodel.trackRequest @courses.fetch()
     else
       @supermodel.trackRequest @courses.fetchReleased()
-    @campaigns = new Campaigns()
+    @campaigns = new Campaigns([], { forceCourseNumbering: true })
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
-    @
-
-  initialize: (options) ->
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
-    super(options)
 
   onClickGuideButton: (e) ->
     courseID = $(e.currentTarget).data('course-id')

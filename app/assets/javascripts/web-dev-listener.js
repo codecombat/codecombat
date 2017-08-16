@@ -15,10 +15,12 @@ var virtualDom;
 var virtualStyles;
 var virtualScripts;
 var goalStates;
+var createFailed;
 
 var allowedOrigins = [
     /^https?:\/\/(.*\.)?codecombat\.com$/,
     /^https?:\/\/localhost:3000$/,
+    /^https?:\/\/coco\.code\.ninja$/,
     /^https?:\/\/.*codecombat-staging-codecombat\.runnableapp\.com$/,
 ];
 
@@ -43,11 +45,15 @@ function receiveMessage(event) {
         $('body').first().on('click', checkRememberedGoals);
         break;
     case 'update':
-        if (virtualDom)
+        if (virtualDom && !createFailed)
             update(_.pick(data, 'dom', 'styles', 'scripts'));
         else
             create(_.pick(data, 'dom', 'styles', 'scripts'));
         checkGoals(data.goals, source, origin);
+        break;
+    case 'highlight-css-selector':
+        $('*').css('box-shadow', '');
+        $(data.selector).css('box-shadow', 'inset 0 0 2px 2px rgba(255, 255, 0, 1.0), 0 0 2px 2px rgba(255, 255, 0, 1.0)');
         break;
     case 'log':
         console.log(data.text);
@@ -58,16 +64,24 @@ function receiveMessage(event) {
 }
 
 function create(options) {
-    virtualDom = options.dom;
-    virtualStyles = options.styles;
-    virtualScripts = options.scripts;
-    concreteDom = deku.dom.create(virtualDom);
-    concreteStyles = deku.dom.create(virtualStyles);
-    concreteScripts = deku.dom.create(virtualScripts);
-    // TODO: :after elements don't seem to work? (:before do)
-    $('body').first().empty().append(concreteDom);
-    replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
-    replaceNodes('[for="player-scripts"]', unwrapConcreteNodes(concreteScripts));
+    try {
+        virtualDom = options.dom;
+        virtualStyles = options.styles;
+        virtualScripts = options.scripts;
+        concreteDom = deku.dom.create(virtualDom);
+        concreteStyles = deku.dom.create(virtualStyles);
+        concreteScripts = deku.dom.create(virtualScripts);
+        // TODO: :after elements don't seem to work? (:before do)
+        $('body').first().empty().append(concreteDom);
+        replaceNodes('[for="player-styles"]', unwrapConcreteNodes(concreteStyles));
+        replaceNodes('[for="player-scripts"]', unwrapConcreteNodes(concreteScripts));
+        createFailed = false;
+    } catch(e) {
+        createFailed = true;
+        $('.loading-message').addClass('hidden')
+        $('.loading-error').removeClass('hidden')
+        throw(e);
+    }
 }
 
 function unwrapConcreteNodes(wrappedNodes) {
@@ -75,16 +89,23 @@ function unwrapConcreteNodes(wrappedNodes) {
 }
 
 function replaceNodes(selector, newNodes){
-    $newNodes = $(newNodes).clone();
+    var $newNodes = $(newNodes).clone();
     $(selector + ':not(:first)').remove();
     
-    firstNode = $(selector).first();
-    $newNodes.attr('for', firstNode.attr('for'));
+    var firstNode = $(selector).first();
+    $newNodes.attr('for', firstNode.attr('for'))
     
-    newFirstNode = $newNodes[0];
-    firstNode.replaceWith(newFirstNode); // Removes newFirstNode from its array (!!)
+    // Workaround for an IE bug where style nodes created by Deku aren't read
+    // Resetting innerText strips the newlines from it
+    var recreatedNodes = $newNodes.toArray();
+    recreatedNodes.forEach(function(node){
+      node.innerHTML = node.innerHTML.trim();
+    })
 
-    $(newFirstNode).after($newNodes);
+    var newFirstNode = recreatedNodes[0];
+    firstNode.replaceWith(newFirstNode);
+    
+    $(newFirstNode).after(_.tail(recreatedNodes));
 }
 
 function update(options) {

@@ -16,6 +16,7 @@ module.exports = class LevelComponent extends CocoModel
   @MovesID: '524b7b8c7fc0f6d519000013'
   @MissileID: '524cc2593ea855e0ab000142'
   @FindsPathsID: '52872b0ead92b98561000002'
+  @AttackableID: '524b7bab7fc0f6d519000017'
   urlRoot: '/db/level.component'
   editableByArtisans: true
 

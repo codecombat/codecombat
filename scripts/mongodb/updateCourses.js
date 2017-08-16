@@ -116,6 +116,17 @@ var courses =
     duration: NumberInt(1),
     free: false,
     releasePhase: 'beta'
+  },
+  {
+    _id : ObjectId("5817d673e85d1220db624ca4"),
+    name : "Computer Science 6",
+    slug : "computer-science-6",
+    campaignID: ObjectId("56a683b9506a6936008ba424"),
+    description: "Dive deeper into more advanced algorithms, data structures, and computation.",
+    duration: NumberInt(5),
+    free: false,
+    screenshot: "/images/pages/courses/106_info.png",
+    releasePhase : 'released'
   }
 ];
 

@@ -1,5 +1,7 @@
 Backbone.Mediator.setValidationEnabled false
 app = null
+utils = require './utils'
+{ installVueI18n } = require 'locale/locale'
 
 channelSchemas =
   'auth': require 'schemas/subscriptions/auth'
@@ -23,7 +25,9 @@ definitionSchemas =
 init = ->
   return if app
   if not window.userObject._id
-    $.ajax '/auth/whoami', cache: false, success: (res) ->
+    options = { cache: false }
+    options.data = _.pick(utils.getQueryVariables(), 'preferredLanguage')
+    $.ajax('/auth/whoami', options).then (res) ->
       window.userObject = res
       init()
     return
@@ -41,6 +45,7 @@ init = ->
   Backbone.history.start({ pushState: true })
   handleNormalUrls()
   setUpMoment() # Set up i18n for moment
+  installVueI18n()
 
 module.exports.init = init
 
@@ -77,9 +82,16 @@ setUpBackboneMediator = ->
 
 setUpMoment = ->
   {me} = require 'core/auth'
-  moment.lang me.get('preferredLanguage', true), {}
+  setMomentLanguage = (lang) ->
+    lang = {
+      'zh-HANS': 'zh-cn'
+      'zh-HANT': 'zh-tw'
+    }[lang] or lang
+    moment.lang lang.toLowerCase(), {}
+    # TODO: this relies on moment having all languages baked in, which is a performance hit; should switch to loading the language module we need on demand.
+  setMomentLanguage me.get('preferredLanguage', true)
   me.on 'change:preferredLanguage', (me) ->
-    moment.lang me.get('preferredLanguage', true), {}
+    setMomentLanguage me.get('preferredLanguage', true)
 
 setupConsoleLogging = ->
   # IE9 doesn't expose console object unless debugger tools are loaded
@@ -95,18 +107,40 @@ setupConsoleLogging = ->
 
 watchForErrors = ->
   currentErrors = 0
-  window.onerror = (msg, url, line, col, error) ->
+  oldOnError = window.onerror
+
+  showError = (text) ->
     return if currentErrors >= 3
     return unless me.isAdmin() or document.location.href.search(/codecombat.com/) is -1 or document.location.href.search(/\/editor\//) isnt -1
     ++currentErrors
-    message = "Error: #{msg}<br>Check the JS console for more."
-    #msg += "\nLine: #{line}" if line?
-    #msg += "\nColumn: #{col}" if col?
-    #msg += "\nError: #{error}" if error?
-    #msg += "\nStack: #{stack}" if stack = error?.stack
     unless webkit?.messageHandlers  # Don't show these notys on iPad
-      noty text: message, layout: 'topCenter', type: 'error', killer: false, timeout: 5000, dismissQueue: true, maxVisible: 3, callback: {onClose: -> --currentErrors}
+      noty {
+        text
+        layout: 'topCenter'
+        type: 'error'
+        killer: false
+        timeout: 5000
+        dismissQueue: true
+        maxVisible: 3
+        callback: {onClose: -> --currentErrors}
+      }
+
+  window.onerror = (msg, url, line, col, error) ->
+    oldOnError.apply window, arguments if oldOnError
+    message = "Error: #{msg}<br>Check the JS console for more."
+    showError(message)
     Backbone.Mediator.publish 'application:error', message: "Line #{line} of #{url}:\n#{msg}"  # For iOS app
+
+  # Promise error handling
+  window.addEventListener("unhandledrejection", (err) ->
+    if err.promise
+      err.promise.catch (e) ->
+        message = "#{e.message}<br>Check the JS console for more."
+        showError(message)
+    else
+      message = "#{err.message or err}<br>Check the JS console for more."
+      showError(message)
+  )
 
 window.addIPadSubscription = (channel) ->
   window.iPadSubscriptions[channel] = true

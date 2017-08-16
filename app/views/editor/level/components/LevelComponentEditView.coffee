@@ -4,6 +4,8 @@ LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
+ace = require 'ace'
+
 require 'treema/treema.js'
 
 module.exports = class LevelComponentEditView extends CocoView
@@ -21,7 +23,7 @@ module.exports = class LevelComponentEditView extends CocoView
     'click #component-history-button': 'showVersionHistory'
     'click #patch-component-button': 'startPatchingComponent'
     'click #component-watch-button': 'toggleWatchComponent'
-    'click #pop-component-i18n-button': 'onPopulateI18N' 
+    'click #pop-component-i18n-button': 'onPopulateI18N'
 
   constructor: (options) ->
     super options

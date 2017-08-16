@@ -2,6 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
+ace = require 'ace'
 Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
@@ -13,6 +14,7 @@ UserCodeProblem = require 'models/UserCodeProblem'
 utils = require 'core/utils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
+TokenIterator = ace.require('ace/token_iterator').TokenIterator
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -37,7 +39,6 @@ module.exports = class SpellView extends CocoView
     'god:user-code-problem': 'onUserCodeProblem'
     'god:non-user-code-problem': 'onNonUserCodeProblem'
     'tome:manual-cast': 'onManualCast'
-    'tome:reload-code': 'onCodeReload'
     'tome:spell-changed': 'onSpellChanged'
     'level:session-will-save': 'onSessionWillSave'
     'modal:closed': 'focus'
@@ -60,8 +61,8 @@ module.exports = class SpellView extends CocoView
     'mouseout': 'onMouseOut'
 
   constructor: (options) ->
-    super options
     @supermodel = options.supermodel
+    super options
     @worker = options.worker
     @session = options.session
     @spell = options.spell
@@ -113,6 +114,8 @@ module.exports = class SpellView extends CocoView
     @ace.setShowFoldWidgets false
     @ace.setKeyboardHandler @keyBindings[aceConfig.keyBindings ? 'default']
     @ace.$blockScrolling = Infinity
+    @ace.on 'mousemove', @onAceMouseMove
+    @ace.on 'mouseout', @onAceMouseOut
     @toggleControls null, @writable
     @aceSession.selection.on 'changeCursor', @onCursorActivity
     $(@ace.container).find('.ace_gutter').on 'click mouseenter', '.ace_error, .ace_warning, .ace_info', @onAnnotationClick
@@ -129,9 +132,8 @@ module.exports = class SpellView extends CocoView
 
   createACEShortcuts: ->
     @aceCommands = aceCommands = []
-    ace = @ace
-    addCommand = (c) ->
-      ace.commands.addCommand c
+    addCommand = (c) =>
+      @ace.commands.addCommand c
       aceCommands.push c.name
     addCommand
       name: 'run-code'
@@ -627,29 +629,29 @@ module.exports = class SpellView extends CocoView
       @lastScreenLineCount = screenLineCount
       lineHeight = @ace.renderer.lineHeight or 20
       tomeHeight = $('#tome-view').innerHeight()
-      spellPaletteView = $('#spell-palette-view')
       spellTopBarHeight = $('#spell-top-bar-view').outerHeight()
       spellToolbarHeight = $('.spell-toolbar-view').outerHeight()
-      @spellPaletteHeight ?= spellPaletteView.outerHeight()  # Remember this until resize, since we change it afterward
+      @spellPaletteHeight ?= 75
       spellPaletteAllowedHeight = Math.min @spellPaletteHeight, tomeHeight / 3
       maxHeight = tomeHeight - spellTopBarHeight - spellToolbarHeight - spellPaletteAllowedHeight
+      minHeight = Math.max 8, (Math.min($("#canvas-wrapper").outerHeight(),$("#level-view").innerHeight() - 175) / lineHeight) - 2
       linesAtMaxHeight = Math.floor(maxHeight / lineHeight)
-      lines = Math.max 8, Math.min(screenLineCount + 2, linesAtMaxHeight)
+      lines = Math.max minHeight, Math.min(screenLineCount + 2, linesAtMaxHeight)
       # 2 lines buffer is nice
       @ace.setOptions minLines: lines, maxLines: lines
       # Move spell palette up, slightly overlapping us.
       newTop = 185 + lineHeight * lines
-      spellPaletteView.css('top', newTop)
+      #spellPaletteView.css('top', newTop)
       # Expand it to bottom of tome if too short.
-      newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
-      spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
+      #newHeight = Math.max @spellPaletteHeight, tomeHeight - newTop + 10
+      #spellPaletteView.css('height', newHeight) if @spellPaletteHeight isnt newHeight
 
   hideProblemAlert: ->
     return if @destroyed
     Backbone.Mediator.publish 'tome:hide-problem-alert', {}
 
   saveSpade: =>
-    return if @destroyed
+    return if @destroyed or not @spade
     spadeEvents = @spade.compile()
     # Uncomment the below line for a debug panel to display inside the level
     #@spade.debugPlay(spadeEvents)
@@ -684,13 +686,9 @@ module.exports = class SpellView extends CocoView
       @ace.setStyle 'spell-cast'
       @updateHTML create: true
 
-  onCodeReload: (e) ->
-    return unless e.spell is @spell or not e.spell
-    @reloadCode true
-    @ace.clearSelection()
-    _.delay (=> @ace?.clearSelection()), 500  # Make double sure this gets done (saw some timing issues?)
-
   reloadCode: (cast=true) ->
+    @spell.reloadCode() if cast
+    @thang = @spell.thang.thang
     @updateACEText @spell.originalSource
     @lockDefaultCode true
     @recompile cast
@@ -905,7 +903,8 @@ module.exports = class SpellView extends CocoView
     hashValue = aether.raw + aetherProblem.message
     return if hashValue of @savedProblems
     @savedProblems[hashValue] = true
-    return unless Math.random() < 0.01  # Let's only save a tiny fraction of these during HoC to reduce writes.
+    sampleRate = Math.max(1, (me.level()-2) * 2) * 0.01 # Reduce number of errors reported on earlier levels
+    return unless Math.random() < sampleRate
 
     # Save new problem
     @userCodeProblem = new UserCodeProblem()
@@ -994,6 +993,18 @@ module.exports = class SpellView extends CocoView
   onSpellChanged: (e) ->
     # TODO: Merge with updateHTML
     @spellHasChanged = true
+
+  onAceMouseOut: (e) ->
+    Backbone.Mediator.publish("web-dev:stop-hovering-line")
+
+  onAceMouseMove: (e) =>
+    return if @destroyed
+    row = e.getDocumentPosition().row
+    return if row is @lastRowHovered # Don't spam repeated messages for the same line
+    @lastRowHovered = row
+    line = @aceSession.getLine(row)
+    Backbone.Mediator.publish("web-dev:hover-line", { row: row, line })
+    null
 
   onSessionWillSave: (e) ->
     return unless @spellHasChanged and me.isAdmin()
@@ -1255,7 +1266,7 @@ module.exports = class SpellView extends CocoView
 
   onWindowResize: (e) =>
     @spellPaletteHeight = null
-    $('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
+    #$('#spell-palette-view').css 'height', 'auto'  # Let it go back to controlling its own height
     _.delay (=> @resize?()), 500 + 100  # Wait $level-resize-transition-time, plus a bit.
 
   resize: ->

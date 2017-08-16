@@ -1,12 +1,15 @@
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
+Level = require 'models/Level'
 AchievementPopup = require 'views/core/AchievementPopup'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
+
+require 'game-libraries'
 
 module.exports = class AchievementEditView extends RootView
   id: 'editor-achievement-edit-view'
@@ -22,7 +25,15 @@ module.exports = class AchievementEditView extends RootView
     super options
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
-    @supermodel.loadModel @achievement
+    @supermodel.trackRequest @achievement.fetch()
+    
+    # load level names so they're available to treema nodes
+    @listenToOnce @achievement, 'sync', ->
+      for levelOriginal in @achievement.get('rewards')?.levels ? []
+        level = new Level()
+        @supermodel.trackRequest level.fetchLatestVersion(levelOriginal, {data: {project:'name,version,original'}})
+        level.once 'sync', (level) => @supermodel.registerModel(level)
+        
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
@@ -81,8 +92,12 @@ module.exports = class AchievementEditView extends RootView
       console.error response
 
     res.success =>
-      url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
-      document.location.href = url
+      if window.achievementSavedCallback
+        # CampaignEditor is using this as a child, so let it know that we have changed something (and don't reload)
+        window.achievementSavedCallback achievement: @achievement
+      else
+        url = "/editor/achievement/#{@achievement.get('slug') or @achievement.id}"
+        document.location.href = url
 
   confirmRecalculation: (e, all=false) ->
     renderData =

@@ -9,6 +9,7 @@
   border-image: url(/images/level/popover_border_background.png) 16 12 fill round
   border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
+  @include user-select(initial)
 
   .close-hint-btn
     position: absolute
@@ -23,14 +24,14 @@
     margin-bottom: 30px
 
   .btn-area
-    margin-top: 20px
+    margin-top: 5px
 
   .hint-title
     font-size: 18px
     text-transform: uppercase
 
   .hint-body
-    height: 390px
+    height: 80%
     overflow-y: auto
     img
       width: 100%
@@ -39,3 +40,17 @@
     font-size: 18px
     margin-top: 0px
     text-transform: uppercase
+
+  pre
+    box-sizing: content-box 
+    padding: 0
+    @include user-select(none)
+    .ace_content
+      .ace_marker-layer
+        .ace_bracket
+          display: none
+        .ace_selection
+          display: none
+      .ace_cursor-layer
+        .ace_cursor
+          display: none

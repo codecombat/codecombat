@@ -1,16 +1,17 @@
 @import "app/styles/mixins"
 @import "app/styles/bootstrap/variables"
+@import "app/styles/play/variables"
 
 #control-bar-view
   $control-yellow: rgb(227, 173, 53)
   $control-yellow-highlight: rgb(243, 211, 59)
 
-  width: 55%
+  width: $game-view-width
   height: 50px
   @include box-sizing(border-box)
   overflow: visible
   position: absolute
-  z-index: 6
+  z-index: 8
   text-transform: uppercase
   font-family: $headings-font-family
   font-weight: bold
@@ -163,7 +164,7 @@
         .hamburger span.icon-bar
           background-color: $control-yellow-highlight
 
-    #level-done-button, #next-game-button, #control-bar-sign-up-button
+    #level-done-button, #next-game-button, #control-bar-sign-up-button, #version-switch-button
       top: 7px
       font-size: 13px
       height: 24px

@@ -1,4 +1,4 @@
-mail = require '../commons/mail'
+mailChimp = require '../lib/mail-chimp'
 MailSent = require '../models/MailSent'
 UserRemark = require '../models/UserRemark'
 User = require '../models/User'
@@ -9,11 +9,13 @@ LevelSession = require '../models/LevelSession'
 Level = require '../models/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
+wrap = require 'co-express'
+
 if config.isProduction and config.redis.host isnt 'localhost'
   lockManager = require '../commons/LockManager'
 
 module.exports.setup = (app) ->
-  app.all config.mail.mailchimpWebhook, handleMailchimpWebHook
+  app.all config.mail.mailChimpWebhook, handleMailChimpWebHook
   app.get '/mail/cron/ladder-update', handleLadderUpdate
   app.get '/mail/cron/next-steps', handleNextSteps
   if lockManager
@@ -690,6 +692,7 @@ handleNextSteps = (req, res) ->
 
 module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
   return log.info "Not sending next steps email to user with no email address" if not user.get('email')
+  return log.debug "Not sending next steps email to teacher based on role" if user.isTeacher()
   unless user.isEmailSubscriptionEnabled('generalNews') and user.isEmailSubscriptionEnabled('anyNotes')
     log.info "Not sending email to #{user.get('email')} #{user.get('name')} because they only want emails about #{JSON.stringify(user.get('emails'))}" if DEBUGGING
     return
@@ -736,43 +739,50 @@ module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
           secretLevelName: secretLevel.name
           secretLevelLink: "http://codecombat.com/play/level/#{secretLevel.slug}"
           levelsComplete: complete.length
-          isCoursePlayer: user.get('courseInstances')?.length > 0
+          isCoursePlayer: user.get('courseInstances')?.length > 0 # TODO: use based on role instead, as courseInstances can be unreliable
       log.info "Sending next steps email to #{context.recipient.address} with #{context.email_data.nextLevelName} next and #{context.email_data.levelsComplete} levels complete since #{daysAgo} day(s) ago." if DEBUGGING
       sendwithus.api.send context, (err, result) ->
         log.error "Error sending next steps email: #{err} with result #{result}" if err
 
 ### End Next Steps Email ###
 
-handleMailchimpWebHook = (req, res) ->
+handleMailChimpWebHook = wrap (req, res) ->
   post = req.body
 
-  unless post.type in ['unsubscribe', 'profile']
+  unless post.type in ['unsubscribe', 'profile', 'upemail']
     res.send 'Bad post type'
     return res.end()
 
-  unless post.data.email
+  email = post.data.email or post.data.old_email
+  unless email
     res.send 'No email provided'
     return res.end()
 
-  query = {'mailChimp.leid': post.data.web_id}
-  User.findOne query, (err, user) ->
-    return errors.serverError(res) if err
-    if not user
-      return errors.notFound(res)
+  if post.data.web_id
+    user = yield User.findOne { 'mailChimp.leid': post.data.web_id }
+  if not user
+    user = yield User.findOne { 'mailChimp.email': email }
 
-    handleProfileUpdate(user, post) if post.type is 'profile'
-    handleUnsubscribe(user) if post.type is 'unsubscribe'
+  if not user
+    throw new errors.NotFound('MailChimp subscriber not found')
 
-    user.updatedMailChimp = true # so as not to echo back to mailchimp
-    user.save (err) ->
-      return errors.serverError(res) if err
-      res.end('Success')
+  if not user.get('emailVerified')
+    return res.send('User email unverified')
+
+  if post.type is 'profile'
+    handleProfileUpdate(user, post)
+  else if post.type in ['unsubscribe', 'upemail']
+    handleUnsubscribe(user)
+
+  user.updatedMailChimp = true # so as not to echo back to mailchimp
+  yield user.save()
+  res.end('Success')
 
 module.exports.handleProfileUpdate = handleProfileUpdate = (user, post) ->
-  mailchimpSubs = post.data.merges.INTERESTS.split(', ')
+  mailChimpSubs = post.data.merges.INTERESTS.split(', ')
 
-  for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
-    user.setEmailSubscription emailGroup, mailchimpEmailGroup in mailchimpSubs
+  for interest in mailChimp.interests
+    user.setEmailSubscription interest.property, interest.mailChimpLabel in mailChimpSubs
 
   fname = post.data.merges.FNAME
   user.set('firstName', fname) if fname
@@ -786,5 +796,6 @@ module.exports.handleProfileUpdate = handleProfileUpdate = (user, post) ->
 
 module.exports.handleUnsubscribe = handleUnsubscribe = (user) ->
   user.set 'emailSubscriptions', []
-  for emailGroup in mail.NEWS_GROUPS
-    user.setEmailSubscription emailGroup, false
+  for interest in mailChimp.interests
+    user.setEmailSubscription interest.property, false
+  user.set 'mailChimp', undefined

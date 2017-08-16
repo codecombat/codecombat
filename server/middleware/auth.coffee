@@ -1,6 +1,7 @@
 # Middleware for both authentication and authorization
 
 errors = require '../commons/errors'
+log = require 'winston'
 wrap = require 'co-express'
 Promise = require 'bluebird'
 parse = require '../commons/parse'
@@ -12,6 +13,10 @@ authentication = require 'passport'
 sendwithus = require '../sendwithus'
 LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
+oauth = require '../lib/oauth'
+facebook = require '../lib/facebook'
+OAuthProvider = require '../models/OAuthProvider'
+querystring = require 'querystring'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -21,17 +26,17 @@ module.exports =
         return next new errors.Forbidden('You do not have permissions necessary.')
       return next new errors.Unauthorized('You must be logged in.')
     next()
-    
+
   checkLoggedIn: ->
     return (req, res, next) ->
       if (not req.user) or (req.user.isAnonymous())
         return next new errors.Unauthorized('You must be logged in.')
       next()
-    
+
   checkHasPermission: (permissions) ->
     if _.isString(permissions)
       permissions = [permissions]
-    
+
     return (req, res, next) ->
       if not req.user
         return next new errors.Unauthorized('You must be logged in.')
@@ -51,9 +56,9 @@ module.exports =
       yield user.save()
       req.logInAsync = Promise.promisify(req.logIn)
       yield req.logInAsync(user)
-      
+
     if req.query.callback
-      res.jsonp(req.user.toObject({req, publicOnly: true})) 
+      res.jsonp(req.user.toObject({req, publicOnly: true}))
     else
       res.send(req.user.toObject({req, publicOnly: false}))
     res.end()
@@ -63,10 +68,17 @@ module.exports =
     yield req.user.update {activity: activity}
     res.status(200).send(req.user.toObject({req: req}))
 
-  redirectHome: wrap (req, res, next) ->
+  redirectAfterLogin: wrap (req, res) ->
     activity = req.user.trackActivity 'login', 1
     yield req.user.update {activity: activity}
-    res.redirect '/'
+    if req.shouldRedirect
+      res.redirect req.shouldRedirect
+    else if req.user.get('role') is 'student'
+      res.redirect '/students'
+    else if req.user.get('role')
+      res.redirect '/teachers/classes'
+    else
+      res.redirect '/play'
 
   loginByGPlus: wrap (req, res, next) ->
     gpID = req.body.gplusID
@@ -104,7 +116,7 @@ module.exports =
         password: config.clever.client_secret
         sendImmediately: true
 
-    
+
     throw new errors.UnprocessableEntity('Invalid Clever OAuth Code.') unless auth.access_token
 
     [re2, userInfo] = yield request.getAsync
@@ -122,15 +134,33 @@ module.exports =
     unless lookupRes.statusCode is 200
       throw new errors.Forbidden("Couldn't look up user.  Is data sharing enabled in clever?")
 
-    
+
     user = yield User.findOne({cleverID: userInfo.data.id})
     unless user
+      email = lookup.data.email
+      if email?
+        existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+
+      if existingUserWithEmail or not email?
+        email = "#{userInfo.data.id}@clever.user"
+        existingUserWithEmail = yield User.findOne({emailLower: email.toLowerCase()})
+      if existingUserWithEmail
+        email = undefined
+
+      name = "Clever"
+      if lookup.data.name
+        name = "#{lookup.data.name?.first}#{lookup.data.name.last?.substr(0,1)}"
+
+      User.unconflictNameAsync = Promise.promisify(User.unconflictName)
+      name = yield User.unconflictNameAsync name
+
       user = new User
         anonymous: false
         role: if userInfo.data.type is 'student' then 'student' else 'teacher'
         cleverID: userInfo.data.id
         emailVerified: true
-        email: lookup.data.email
+        email: email
+        name: name
 
       user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
 
@@ -154,21 +184,44 @@ module.exports =
     fbID = req.body.facebookID
     fbAT = req.body.facebookAccessToken
     throw new errors.UnprocessableEntity('facebookID and facebookAccessToken required.') unless fbID and fbAT
-
-    url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-    [facebookRes, body] = yield request.getAsync(url, {json: true})
-    idsMatch = fbID is body.id
+    facebookPerson = yield facebook.fetchMe(fbAT)
+    idsMatch = fbID is facebookPerson.id
     throw new errors.UnprocessableEntity('Invalid Facebook Access Token.') unless idsMatch
     user = yield User.findOne({facebookID: fbID})
     throw new errors.NotFound('No user with that Facebook ID') unless user
     req.logInAsync = Promise.promisify(req.logIn)
     yield req.logInAsync(user)
     next()
-    
+
+  loginByOAuthProvider: wrap (req, res, next) ->
+    { provider: providerId, accessToken, code, redirect } = req.query
+    identity = yield oauth.getIdentityFromOAuth({providerId, accessToken, code})
+
+    user = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
+    if not user
+      throw new errors.NotFound('No user with this identity exists')
+
+    req.loginAsync = Promise.promisify(req.login)
+    yield req.loginAsync user
+
+    if redirect
+      req.shouldRedirect = redirect
+    else
+      provider = yield OAuthProvider.findById(providerId)
+      req.shouldRedirect = provider.get('redirectAfterLogin')
+
+    next()
+
+  redirectOnError: wrap (err, req, res, next) ->
+    { errorRedirect } = req.query
+    return next(err) unless errorRedirect
+    qs = querystring.stringify(err.toJSON())
+    res.redirect errorRedirect + '?' + qs
+
   spy: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to enter espionage mode') unless req.user
     throw new errors.Forbidden('You must be an admin to enter espionage mode') unless req.user.isAdmin()
-    
+
     user = req.body.user
     throw new errors.UnprocessableEntity('Specify an id, username or email to espionage.') unless user
     user = yield User.search(user)
@@ -178,11 +231,11 @@ module.exports =
     yield req.loginAsync user
     req.session.amActually = amActually.id
     res.status(200).send(user.toObject({req: req}))
-    
+
   stopSpying: wrap (req, res) ->
     throw new errors.Unauthorized('You must be logged in to leave espionage mode') unless req.user
     throw new errors.Forbidden('You must be in espionage mode to leave it') unless req.session.amActually
-    
+
     user = yield User.findById(req.session.amActually)
     delete req.session.amActually
     throw new errors.NotFound() unless user
@@ -210,10 +263,12 @@ module.exports =
         address: req.body.email
       email_data:
         tempPassword: user.get('passwordReset')
-    sendwithus.api.sendAsync = Promise.promisify(sendwithus.api.send)
-    yield sendwithus.api.sendAsync(context)
+    try
+      yield sendwithus.api.sendAsync(context)
+    catch err
+      log.error("auth/reset sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
     res.end()
-    
+
   unsubscribe: wrap (req, res) ->
     # need to grab email directly from url, in case it has "+" in it
     queryString = req.url.split('?')[1] or ''
@@ -224,7 +279,7 @@ module.exports =
       if name is 'email'
         email = value
         break
-    
+
     unless email
       throw new errors.UnprocessableEntity 'No email provided to unsubscribe.'
     email = decodeURIComponent(email)
@@ -271,7 +326,7 @@ module.exports =
     if not req.params.name
       throw new errors.UnprocessableEntity 'No name provided.'
     givenName = req.params.name
-      
+
     User.unconflictNameAsync = Promise.promisify(User.unconflictName)
     suggestedName = yield User.unconflictNameAsync givenName
     response = {
@@ -279,12 +334,12 @@ module.exports =
       suggestedName
       conflicts: givenName isnt suggestedName
     }
-    res.send 200, response
+    res.status(200).send response
 
   email: wrap (req, res) ->
     { email } = req.params
     if not email
       throw new errors.UnprocessableEntity 'No email provided.'
-    
+
     user = yield User.findByEmail(email)
-    res.send 200, { exists: user? }
+    res.status(200).send { exists: user? }

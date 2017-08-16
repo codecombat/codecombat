@@ -8,7 +8,7 @@ TeachersContactModal = require 'views/teachers/TeachersContactModal'
 
 describe 'EnrollmentsView', ->
 
-  beforeEach (done) ->
+  beforeEach ->
     me.set('anonymous', false)
     me.set('role', 'teacher')
     me.set('enrollmentRequestSent', false)
@@ -57,29 +57,55 @@ describe 'EnrollmentsView', ->
 
     jasmine.demoEl(@view.$el)
     window.view = @view
-    @view.supermodel.once 'loaded-all', done
 
-  describe '"Get Licenses" area', ->
+  describe 'For low priority leads', ->
+    beforeEach ->
+      leadPriorityRequest = jasmine.Ajax.requests.filter((r)-> r.url == '/db/user/-/lead-priority')[0]
+      leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'low' })})
+      @view.render()
+    
+    it 'shows the Starter License upsell', ->
+      expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(1)
+    
+  describe 'For low priority leads', ->
+    beforeEach ->
+      leadPriorityRequest = jasmine.Ajax.requests.filter((r)-> r.url == '/db/user/-/lead-priority')[0]
+      leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: 'high' })})
+      @view.render()
 
-    describe 'when the teacher has made contact', ->
-      beforeEach ->
-        me.set('enrollmentRequestSent', true)
-        @view.render()
+    it "doesn't show the Starter License upsell", ->
+      expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
 
-      it 'shows confirmation and a mailto link to schools@codecombat.com', ->
-        if not @view.$('#request-sent-btn').length
-          fail('Request button not found.')
-        if not @view.$('#enrollment-request-sent-blurb').length
-          fail('License request sent blurb not found.')
-        # TODO: Figure out why this fails in Travis. Seems like it's not loading en locale
-#        if not @view.$('a[href="mailto:schools@codecombat.com"]').length
-#          fail('Mailto: link not found.')
+  describe 'For no priority leads', ->
+    beforeEach ->
+      leadPriorityRequest = jasmine.Ajax.requests.filter((r)-> r.url == '/db/user/-/lead-priority')[0]
+      leadPriorityRequest.respondWith({status: 200, responseText: JSON.stringify({ priority: undefined })})
+      @view.render()
 
-  describe 'when there are no prepaids to show', ->
-    beforeEach (done) ->
-      @view.prepaids.reset([])
-      @view.updatePrepaidGroups()
-      _.defer(done)
+    it "doesn't show the Starter License upsell", ->
+      expect(@view.$('a[href="/teachers/starter-licenses"]').length).toBe(0)
+  
+    describe '"Get Licenses" area', ->
 
-    it 'fills the void with the rest of the page content', ->
-      expect(@view.$('#actions-col').length).toBe(0)
+      describe 'when the teacher has made contact', ->
+        beforeEach ->
+          me.set('enrollmentRequestSent', true)
+          @view.render()
+
+        it 'shows confirmation and a mailto link to schools@codecombat.com', ->
+          if not @view.$('#request-sent-btn').length
+            fail('Request button not found.')
+          if not @view.$('#enrollment-request-sent-blurb').length
+            fail('License request sent blurb not found.')
+          # TODO: Figure out why this fails in Travis. Seems like it's not loading en locale
+  #        if not @view.$('a[href="mailto:schools@codecombat.com"]').length
+  #          fail('Mailto: link not found.')
+
+    describe 'when there are no prepaids to show', ->
+      beforeEach (done) ->
+        @view.prepaids.reset([])
+        @view.updatePrepaidGroups()
+        _.defer(done)
+
+      it 'fills the void with the rest of the page content', ->
+        expect(@view.$('#actions-col').length).toBe(0)

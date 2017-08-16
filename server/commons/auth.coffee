@@ -7,7 +7,11 @@ errors = require '../commons/errors'
 module.exports.setup = ->
   authentication.serializeUser((user, done) -> done(null, user._id))
   authentication.deserializeUser((id, done) ->
-    User.findById(id, (err, user) -> done(err, user)))
+    User.findById(id, (err, user) ->
+      # have to be very picky about when to deny user edits to deleted users.
+      if user and user.get('deleted') and _(user.toObject()).keys().sortBy().isEqual(['_id', 'dateCreated', 'dateDeleted', 'deleted'])
+        user = null
+      done(err, user)))
 
   if config.picoCTF
     pico = require('../lib/picoctf');

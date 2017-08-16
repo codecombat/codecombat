@@ -24,7 +24,8 @@ LevelSessionSchema.index({team: 1}, {sparse: true})
 LevelSessionSchema.index({totalScore: 1}, {sparse: true})
 LevelSessionSchema.index({user: 1, changed: -1}, {name: 'last played index', sparse: true})
 LevelSessionSchema.index({levelID: 1, changed: -1}, {name: 'last played by level index', sparse: true})  # Needed for getRecentSessions for CampaignLevelView
-LevelSessionSchema.index({'level.original': 1, 'state.topScores.type': 1, 'state.topScores.date': -1, 'state.topScores.score': -1}, {name: 'top scores index', sparse: true})
+LevelSessionSchema.index({'level.original': 1, 'state.topScores.type': 1, 'state.topScores.score': -1}, {name: 'all-time top scores index', sparse: true})
+LevelSessionSchema.index({'level.original': 1, 'state.topScores.type': 1, 'state.topScores.date': -1}, {name: 'latest top scores index', sparse: true})
 LevelSessionSchema.index({submitted: 1, team: 1, level: 1, totalScore: -1}, {name: 'rank counting index', sparse: true})
 #LevelSessionSchema.index({level: 1, 'leagues.leagueID': 1, submitted: 1, team: 1, totalScore: -1}, {name: 'league rank counting index', sparse: true})  # needed for league leaderboards?
 LevelSessionSchema.index({levelID: 1, submitted: 1, team: 1}, {name: 'get all scores index', sparse: true})
@@ -87,13 +88,13 @@ LevelSessionSchema.statics.editableProperties = ['players', 'code', 'codeLanguag
                                                  'levelName', 'creatorName', 'levelID',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
                                                  'unsubscribed', 'playtime', 'heroConfig', 'team',
-                                                 'browser']
+                                                 'browser', 'published']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
 LevelSessionSchema.set('toObject', {
   transform: (doc, ret, options) ->
     req = options.req
-    return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
+    return ret unless req
 
     submittedCode = doc.get('submittedCode')
     unless req.user?.isAdmin() or req.user?.id is doc.get('creator') or ('employer' in (req.user?.get('permissions') ? [])) or not doc.get('submittedCode') # TODO: only allow leaderboard access to non-top-5 solutions
@@ -107,20 +108,18 @@ LevelSessionSchema.set('toObject', {
 })
 
 if config.mongo.level_session_replica_string?
-  levelSessionMongo = mongoose.createConnection()
-  levelSessionMongo.open config.mongo.level_session_replica_string, (error) ->
+  levelSessionMongo = mongoose.createConnection config.mongo.level_session_replica_string, (error) ->
     if error
       log.error "Couldn't connect to session mongo!", error
     else
-      log.info "Connected to seperate level session server with string", config.mongo.level_session_replica_string
+      log.info "Connected to separate level session server with string", config.mongo.level_session_replica_string
 else
   levelSessionMongo = mongoose
 
 LevelSession = levelSessionMongo.model('level.session', LevelSessionSchema, 'level.sessions')
 
 if config.mongo.level_session_aux_replica_string?
-  auxLevelSessionMongo = mongoose.createConnection()
-  auxLevelSessionMongo.open config.mongo.level_session_aux_replica_string, (error) ->
+  auxLevelSessionMongo = mongoose.createConnection config.mongo.level_session_aux_replica_string, (error) ->
     if error
       log.error "Couldn't connect to AUX session mongo!", error
     else

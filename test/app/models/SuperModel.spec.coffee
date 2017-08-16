@@ -1,6 +1,6 @@
 SuperModel = require 'models/SuperModel'
 User = require 'models/User'
-ComponentsCollection = require 'collections/ComponentsCollection'
+LevelComponents = require 'collections/LevelComponents'
 factories = require 'test/app/factories'
 
 describe 'SuperModel', ->
@@ -53,7 +53,7 @@ describe 'SuperModel', ->
 
     it 'also loads collections', ->
       s = new SuperModel()
-      c = new ComponentsCollection()
+      c = new LevelComponents()
       s.loadModel(c)
       request = jasmine.Ajax.requests.mostRecent()
       expect(request).toBeDefined()
@@ -131,11 +131,11 @@ describe 'SuperModel', ->
     it 'combines models which are fetched from multiple sources', ->
       s = new SuperModel()
 
-      c1 = new ComponentsCollection()
+      c1 = new LevelComponents()
       c1.url = '/db/level.component?v=1'
       s.loadCollection(c1, 'components')
 
-      c2 = new ComponentsCollection()
+      c2 = new LevelComponents()
       c2.url = '/db/level.component?v=2'
       s.loadCollection(c2, 'components')
 

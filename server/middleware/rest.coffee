@@ -23,7 +23,7 @@ module.exports =
     database.assignBody(req, doc)
     database.validateDoc(doc)
     doc = yield doc.save()
-    res.status(201).send(doc.toObject())
+    res.status(201).send(doc.toObject({req}))
         
   getByHandle: (Model, options={}) -> wrap (req, res) ->
     doc = yield database.getDocFromHandle(req, Model)

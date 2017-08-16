@@ -67,3 +67,85 @@ describe 'sendNextStepsEmail', ->
 
     mail.sendNextStepsEmail(user, new Date, 5)
   .pend('Breaks other tests — must be run alone')
+
+describe 'POST /mail/webhook', ->
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User])
+    @email = 'some@email.com'
+    @leid = 'german song?'
+    @user = yield utils.initUser({
+      @email
+      emailVerified: true
+      emails: {
+        generalNews: { enabled: false }
+        diplomatNews: { enabled: true }
+      }
+    })
+    yield new Promise((resolve) -> setTimeout(resolve, 100))
+    yield @user.update({$set: { mailChimp: { @leid, @email }}}) # hacky way to get around triggering post save
+    user = yield User.findById(@user.id)
+    @url = utils.getURL('/mail/webhook')
+    done()
+  
+  describe 'when getting messages of type "profile"', ->
+    json = {
+      type: 'profile'
+      data: {
+        web_id: @leid
+        merges: {
+          INTERESTS: 'Announcements, Adventurers, Artisans, Archmages'
+          LNAME: 'Smith'
+          FNAME: 'John'
+        }
+      }
+    }
+    
+    beforeEach ->
+      json.data.email = @email
+    
+    it 'updates the user with new profile data', utils.wrap (done) ->
+      [res, body] = yield request.postAsync({ @url, json })
+      user = yield User.findById(@user.id)
+      expect(user.get('emails.diplomatNews.enabled')).toBe(false)
+      expect(user.get('emails.generalNews.enabled')).toBe(true)
+      expect(user.get('emails.artisanNews.enabled')).toBe(true)
+      expect(user.get('emails.archmageNews.enabled')).toBe(true)
+      done()
+      
+    it 'does not work if the user on our side is unverified', utils.wrap (done) ->
+      yield @user.update({ $set: { emailVerified: false }})
+      [res, body] = yield request.postAsync({ @url, json })
+      user = yield User.findById(@user.id)
+      expect(user.get('emails.diplomatNews.enabled')).toBe(true)
+      expect(user.get('emails.generalNews.enabled')).toBe(false)
+      done()
+    
+  describe 'when getting messages of type "unsubscribe"', ->
+    it 'disables all subscriptions and unsets mailchimp info from the user', utils.wrap (done) ->
+      json = {
+        type: 'unsubscribe'
+        data: {
+          web_id: @leid
+          @email
+        }
+      }
+      [res, body] = yield request.postAsync({ @url, json })
+      user = yield User.findById(@user.id)
+      expect(user.get('emails.diplomatNews.enabled')).toBe(false)
+      expect(user.get('mailChimp')).toBeFalsy()
+      done()
+      
+  describe 'when getting messages of type "upemail"', ->
+    it 'disables all subscriptions and unsets mailchimp info from the user', utils.wrap (done) ->
+      json = {
+        type: 'upemail'
+        data: {
+          old_email: @email
+          new_email: 'some-new@email.com'
+        }
+      }
+      [res, body] = yield request.postAsync({ @url, json })
+      user = yield User.findById(@user.id)
+      expect(user.get('emails.diplomatNews.enabled')).toBe(false)
+      expect(user.get('mailChimp')).toBeFalsy()
+      done()

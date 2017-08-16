@@ -26,6 +26,11 @@ module.exports = class SuperModel extends Backbone.Model
       console.info "\t", resource.name, 'loaded', resource.isLoaded, resource.model
       unfinished.push resource unless resource.isLoaded
     unfinished
+    
+  numDuplicates: ->
+    # For debugging. TODO: Prevent duplicates from happening!
+    ids = (m.get('_id') for m in _.values(@models))
+    return _.size(ids) - _.size(_.unique(ids))
 
   loadModel: (model, name, fetchOptions, value=1) ->
     # Deprecating name. Handle if name is not included

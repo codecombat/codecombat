@@ -1,12 +1,37 @@
 mw = require '../middleware'
 
 module.exports.setup = (app) ->
-  
+
+  app.put('/admin/feature-mode/:featureMode', mw.admin.putFeatureMode)
+  app.delete('/admin/feature-mode', mw.admin.deleteFeatureMode)
+  app.get('/admin/calculate-lines-of-code', mw.admin.calculateLinesOfCode) # For outcomes report
+
+  app.all('/api/*', mw.api.clientAuth)
+
+  app.get('/api/auth/login-o-auth', mw.auth.loginByOAuthProvider)
+
+  app.put('/api/classrooms/:handle/members', mw.api.putClassroomMember)
+  app.put('/api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', mw.api.putClassroomCourseEnrolled)
+  app.get('/api/classrooms/:classroomHandle/members/:memberHandle/sessions', mw.api.getClassroomMemberSessions)
+
+  app.post('/api/users', mw.api.postUser)
+  app.get('/api/users/:handle', mw.api.getUser)
+  app.get('/api/users/:handle/classrooms', mw.api.getUserClassrooms)
+  app.put('/api/users/:handle/hero-config', mw.api.putUserHeroConfig)
+  app.post('/api/users/:handle/o-auth-identities', mw.api.postUserOAuthIdentity)
+  app.post('/api/users/:handle/prepaids', mw.api.putUserSubscription) # Deprecated. TODO: Remove.
+  app.put('/api/users/:handle/subscription', mw.api.putUserSubscription)
+  app.put('/api/users/:handle/license', mw.api.putUserLicense)
+  app.get('/api/user-lookup/israel-id/:israelId', mw.api.getUserLookupByIsraelId)
+  app.get('/api/user-lookup/name/:name', mw.api.getUserLookupByName)
+  app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
+
   passport = require('passport')
   app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
   app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
   app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
-  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectHome)
+  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
+  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)
@@ -22,7 +47,7 @@ module.exports.setup = (app) ->
   app.patch('/db/*', mw.auth.checkHasUser())
   app.post('/db/*', mw.auth.checkHasUser())
   app.put('/db/*', mw.auth.checkHasUser())
-  
+
   Achievement = require '../models/Achievement'
   app.get('/db/achievement', mw.achievements.fetchByRelated, mw.rest.get(Achievement))
   app.post('/db/achievement', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Achievement))
@@ -31,6 +56,7 @@ module.exports.setup = (app) ->
   app.delete('/db/achievement/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.delete(Achievement))
   app.get('/db/achievement/names', mw.named.names(Achievement))
   app.post('/db/achievement/names', mw.named.names(Achievement))
+  app.delete('/db/achievement/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Achievement))
   app.get('/db/achievement/:handle/patches', mw.patchable.patches(Achievement))
   app.post('/db/achievement/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Achievement, 'achievement'))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
@@ -53,9 +79,17 @@ module.exports.setup = (app) ->
   app.post('/db/article/:handle/watchers', mw.patchable.joinWatchers(Article))
   app.delete('/db/article/:handle/watchers', mw.patchable.leaveWatchers(Article))
 
+  Branch = require '../models/Branch'
+  app.all('/db/branches*', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']))
+  app.post('/db/branches', mw.branches.post)
+  app.get('/db/branches', mw.rest.get(Branch))
+  app.put('/db/branches/:handle', mw.branches.put)
+  app.delete('/db/branches/:handle', mw.rest.delete(Branch))
+
   Campaign = require '../models/Campaign'
   app.post('/db/campaign', mw.auth.checkHasPermission(['admin']), mw.rest.post(Campaign))
   app.get('/db/campaign', mw.campaigns.fetchByType, mw.rest.get(Campaign))
+  app.delete('/db/campaign/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Campaign))
   app.get('/db/campaign/names', mw.named.names(Campaign))
   app.post('/db/campaign/names', mw.named.names(Campaign))
   app.get('/db/campaign/:handle', mw.rest.getByHandle(Campaign))
@@ -65,6 +99,8 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/:handle/patches', mw.patchable.patches(Campaign))
   app.post('/db/campaign/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Campaign, 'campaign'))
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
+  app.post('/db/campaign/:handle/watchers', mw.patchable.joinWatchers(Campaign))
+  app.delete('/db/campaign/:handle/watchers', mw.patchable.leaveWatchers(Campaign))
 
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)
@@ -77,7 +113,12 @@ module.exports.setup = (app) ->
   app.post('/db/classroom/:anything/members', mw.auth.checkLoggedIn(), mw.classrooms.join)
   app.post('/db/classroom/:handle/update-courses', mw.classrooms.updateCourses)
   app.get('/db/classroom/:handle', mw.auth.checkLoggedIn()) # TODO: Finish migrating route, adding now so 401 is returned
+  app.get('/db/classroom/-/playtimes', mw.auth.checkHasPermission(['admin']), mw.classrooms.fetchPlaytimes)
   app.get('/db/classroom/-/users', mw.auth.checkHasPermission(['admin']), mw.classrooms.getUsers)
+
+  APIClient = require ('../models/APIClient')
+  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin']), mw.rest.post(APIClient))
+  app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin']), mw.apiClients.newSecret)
 
   CodeLog = require ('../models/CodeLog')
   app.post('/db/codelogs', mw.codelogs.post)
@@ -85,6 +126,7 @@ module.exports.setup = (app) ->
 
   Course = require '../models/Course'
   app.get('/db/course', mw.courses.get(Course))
+  app.delete('/db/course/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Course))
   app.get('/db/course/names', mw.named.names(Course))
   app.post('/db/course/names', mw.named.names(Course))
   app.put('/db/course/:handle', mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.put(Course))
@@ -100,56 +142,96 @@ module.exports.setup = (app) ->
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
-  
+  app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
+  app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
+
   EarnedAchievement = require '../models/EarnedAchievement'
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
-  
+
   Level = require '../models/Level'
   app.post('/db/level/names', mw.named.names(Level))
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
+  app.delete('/db/level/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Level))
   app.get('/db/level/:handle/session', mw.auth.checkHasUser(), mw.levels.upsertSession)
   app.post('/db/level/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Level, 'level'))
   app.get('/db/level/:handle/patches', mw.patchable.patches(Level))
-  
+  app.get('/db/level/:handle/versions', mw.versions.versions(Level))
+  app.get('/db/level/:handle/version/?(:version)?', mw.versions.getLatestVersion(Level))
+
   LevelComponent = require '../models/LevelComponent'
+  app.delete('/db/level.component/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(LevelComponent))
   app.post('/db/level.component/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelComponent, 'level_component'))
   app.get('/db/level.component/:handle/patches', mw.patchable.patches(LevelComponent))
+
+  LevelSession = require '../models/LevelSession'
+  app.post('/queue/scoring', mw.levelSessions.submitToLadder) # TODO: Rename to /db/level_session/:handle/submit-to-ladder
+  app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
+  app.put('/db/level.session/:handle/key-value-db/:key', mw.auth.checkLoggedIn(), mw.levelSessions.putKeyValueDb)
+  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.auth.checkLoggedIn(), mw.levelSessions.incrementKeyValueDb)
+
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
   app.get('/db/level.system/:handle/patches', mw.patchable.patches(LevelSystem))
 
-  app.put('/db/user/:handle', mw.users.resetEmailVerifiedFlag)
-  app.delete('/db/user/:handle', mw.users.removeFromClassrooms)
-  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID)
+  app.post('/db/subscription/-/subscribe_prepaid', mw.auth.checkLoggedIn(), mw.subscriptions.subscribeWithPrepaidCode, mw.logging.logErrors('Subscribe with prepaid code'))
+
+  app.delete('/db/user/:handle', mw.auth.checkLoggedIn(), mw.users.delete)
+  app.get('/db/user', mw.users.fetchByGPlusID, mw.users.fetchByFacebookID, mw.users.fetchByEmail, mw.users.adminSearch)
   app.put('/db/user/-/become-student', mw.users.becomeStudent)
+  app.get('/db/users/-/by-age', mw.auth.checkHasPermission(['admin']), mw.users.fetchByAge)
   app.put('/db/user/-/remain-teacher', mw.users.remainTeacher)
+  app.get('/db/user/-/lead-priority', mw.auth.checkLoggedIn(), mw.users.getLeadPriority)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
   app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
+  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
+  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
+  app.post('/db/user/:handle/paypal/create-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.createPayPalBillingAgreement)
+  app.post('/db/user/:handle/paypal/execute-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.executePayPalBillingAgreement)
+  app.post('/db/user/:handle/paypal/cancel-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.cancelPayPalBillingAgreement)
+  app.post('/db/user/:handle/reset_progress', mw.users.resetProgress)
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
-  app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
-  app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
-  app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
+  app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
-  
+
+  app.get('/db/payments/-/all', mw.auth.checkHasPermission(['admin']), mw.payments.all)
+
   Poll = require '../models/Poll'
+  app.delete('/db/poll/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(Poll))
   app.post('/db/poll/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Poll, 'poll'))
   app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
-  
+
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
+  app.get('/db/prepaid/:handle/creator', mw.prepaids.fetchCreator)
+  app.get('/db/prepaid/:handle/joiners', mw.prepaids.fetchJoiners)
+  app.get('/db/prepaid/-/active-school-licenses', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchoolLicenses)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
   app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
+  app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
+  app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)
+  app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
 
-  app.get '/db/products', require('./db/product').get
+  Product = require '../models/Product'
+  app.post('/db/products/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Product, 'product'))
+  app.get('/db/products/:handle/patches', mw.patchable.patches(Product))
+  app.get('/db/products/:handle', mw.rest.getByHandle(Product))
+  app.put('/db/products/:handle', mw.auth.checkHasUser(), mw.rest.put(Product))
+  app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)
+  app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
+
+  app.get('/db/skipped-contact', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.fetchAll)
+  app.put('/db/skipped-contact/:id', mw.auth.checkHasPermission(['admin']), mw.skippedContacts.put)
 
   ThangType = require '../models/ThangType'
+  app.delete('/db/thang.type/:handle/i18n-coverage', mw.auth.checkHasPermission(['admin', 'artisan']), mw.translations.deleteTranslationCoverage(ThangType))
   app.post('/db/thang.type/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(ThangType, 'thang_type'))
   app.get('/db/thang.type/:handle/patches', mw.patchable.patches(ThangType))
 
@@ -160,4 +242,6 @@ module.exports.setup = (app) ->
   app.put('/db/trial.request/:handle', mw.auth.checkHasPermission(['admin']), mw.trialRequests.put)
   app.get('/db/trial.request/-/users', mw.auth.checkHasPermission(['admin']), mw.trialRequests.getUsers)
 
-  app.get('/healthcheck', mw.healthcheck)  
+  app.all('/headers', mw.headers)
+
+  app.get('/healthcheck', mw.healthcheck)

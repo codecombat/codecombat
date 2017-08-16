@@ -7,6 +7,7 @@ World = require 'lib/world/world'
 CocoClass = require 'core/CocoClass'
 Angel = require 'lib/Angel'
 GameUIState = require 'models/GameUIState'
+errors = require 'core/errors'
 
 module.exports = class God extends CocoClass
   @nicks: ['Athena', 'Baldr', 'Crom', 'Dagr', 'Eris', 'Freyja', 'Great Gish', 'Hades', 'Ishtar', 'Janus', 'Khronos', 'Loki', 'Marduk', 'Negafook', 'Odin', 'Poseidon', 'Quetzalcoatl', 'Ra', 'Shiva', 'Thor', 'Umvelinqangi', 'Týr', 'Vishnu', 'Wepwawet', 'Xipe Totec', 'Yahweh', 'Zeus', '上帝', 'Tiamat', '盘古', 'Phoebe', 'Artemis', 'Osiris', '嫦娥', 'Anhur', 'Teshub', 'Enlil', 'Perkele', 'Chaos', 'Hera', 'Iris', 'Theia', 'Uranus', 'Stribog', 'Sabazios', 'Izanagi', 'Ao', 'Tāwhirimātea', 'Tengri', 'Inmar', 'Torngarsuk', 'Centzonhuitznahua', 'Hunab Ku', 'Apollo', 'Helios', 'Thoth', 'Hyperion', 'Alectrona', 'Eos', 'Mitra', 'Saranyu', 'Freyr', 'Koyash', 'Atropos', 'Clotho', 'Lachesis', 'Tyche', 'Skuld', 'Urðr', 'Verðandi', 'Camaxtli', 'Huhetotl', 'Set', 'Anu', 'Allah', 'Anshar', 'Hermes', 'Lugh', 'Brigit', 'Manannan Mac Lir', 'Persephone', 'Mercury', 'Venus', 'Mars', 'Azrael', 'He-Man', 'Anansi', 'Issek', 'Mog', 'Kos', 'Amaterasu Omikami', 'Raijin', 'Susanowo', 'Blind Io', 'The Lady', 'Offler', 'Ptah', 'Anubis', 'Ereshkigal', 'Nergal', 'Thanatos', 'Macaria', 'Angelos', 'Erebus', 'Hecate', 'Hel', 'Orcus', 'Ishtar-Deela Nakh', 'Prometheus', 'Hephaestos', 'Sekhmet', 'Ares', 'Enyo', 'Otrera', 'Pele', 'Hadúr', 'Hachiman', 'Dayisun Tngri', 'Ullr', 'Lua', 'Minerva']
@@ -72,9 +73,9 @@ module.exports = class God extends CocoClass
     @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
-    @createWorld e.spells, e.preload, e.realTime, e.justBegin
+    @createWorld e.spells, e.preload, e.realTime, e.justBegin, e.keyValueDb
 
-  createWorld: (spells, preload, realTime, justBegin) ->
+  createWorld: (spells, preload, realTime, justBegin, keyValueDb) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -110,6 +111,7 @@ module.exports = class God extends CocoClass
       realTime
       justBegin
       indefiniteLength: @indefiniteLength and realTime
+      keyValueDb
     }
     @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels
@@ -148,6 +150,7 @@ module.exports = class God extends CocoClass
   createDebugWorker: ->
     worker = new Worker '/javascripts/workers/worker_world.js'
     worker.addEventListener 'message', @onDebugWorkerMessage
+    worker.addEventListener 'error', errors.onWorkerError
     worker
 
   onDebugWorkerMessage: (event) =>

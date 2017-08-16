@@ -19,8 +19,8 @@ EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'e
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
 
 
-EarnedAchievementSchema.statics.upsertFor = (achievement, trigger, earned, user) ->
-
+EarnedAchievementSchema.statics.upsertFor = co.wrap (achievement, trigger, earned, user) ->
+  
   if achievement.get('proportionalTo') and earned
     earnedAchievementDoc = yield @createForAchievement(achievement, trigger, {previouslyEarnedAchievement: earned})
     return earnedAchievementDoc or earned
@@ -82,14 +82,16 @@ EarnedAchievementSchema.statics.createForAchievement = co.wrap (achievement, doc
     docObj = doc.toObject()
     newAmount = util.getByPath(docObj, proportionalTo) or 0
 
+    ignoreDocObj = false
     if proportionalTo is 'simulatedBy' and newAmount > 0 and not previouslyEarnedAchievement and Math.random() < 0.1
       # Because things like simulatedBy get updated with $inc and not the post-save plugin hook,
       # we (infrequently) fetch the previously earned achievement so we can really update.
       previouslyEarnedAchievement = yield EarnedAchievement.findOne({user: earnedAttrs.user, achievement: earnedAttrs.achievement})
+      ignoreDocObj = true # don't use the originalDocObj if the achievement wasn't made yet, for whatever reason 
 
     if previouslyEarnedAchievement
       originalAmount = previouslyEarnedAchievement.get('achievedAmount') or 0
-    else if originalDocObj  # This branch could get buggy if unchangedCopy tracking isn't working.
+    else if originalDocObj and not ignoreDocObj  # This branch could get buggy if unchangedCopy tracking isn't working.
       originalAmount = util.getByPath(originalDocObj, proportionalTo) or 0
     else
       originalAmount = 0

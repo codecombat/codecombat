@@ -15,6 +15,8 @@ urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
 
+require 'game-libraries'
+
 TEAM = 'humans'
 
 module.exports = class PlayGameDevLevelView extends RootView
@@ -25,6 +27,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     'god:new-world-created': 'onNewWorld'
 
   events:
+    'click #edit-level-btn': 'onEditLevelButton'
     'click #play-btn': 'onClickPlayButton'
     'click #copy-url-btn': 'onClickCopyURLButton'
     'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
@@ -34,6 +37,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       loading: true
       progress: 0
       creatorString: ''
+      isOwner: false
     })
 
     @supermodel.on 'update-progress', (progress) =>
@@ -42,6 +46,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @session = new LevelSession()
     @gameUIState = new GameUIState()
     @courseID = @getQueryVariable 'course'
+    @courseInstanceID = @getQueryVariable 'course-instance'
     @god = new God({ @gameUIState, indefiniteLength: true })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
     @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
@@ -97,6 +102,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         goalNames
         shareURL
         creatorString: $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
+        isOwner: me.id is @session.get('creator')
       })
       @eventProperties = {
         category: 'Play GameDev Level'
@@ -111,6 +117,16 @@ module.exports = class PlayGameDevLevelView extends RootView
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
+
+  onEditLevelButton: ->
+    viewClass = 'views/play/level/PlayLevelView'
+    route = "/play/level/#{@level.get('slug')}"
+    if @courseID and @courseInstanceID
+      route += "?course=#{@courseID}&course-instance=#{@courseInstanceID}"
+    Backbone.Mediator.publish 'router:navigate', {
+      route, viewClass
+      viewArgs: [{}, @levelID]
+    }
 
   onClickPlayButton: ->
     @god.createWorld(@spells, false, true)

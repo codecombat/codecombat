@@ -17,7 +17,7 @@ _.extend CourseInstanceSchema.properties,
   prepaidID: c.objectId() # deprecated
   aceConfig:
     language: {type: 'string', 'enum': ['python', 'javascript']}
-  hourOfCode: { type: 'boolean' }
+  hourOfCode: { type: 'boolean', description: 'Deprecated, do not use.' }
 
 c.extendBasicProperties CourseInstanceSchema, 'CourseInstance'
 

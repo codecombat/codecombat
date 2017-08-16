@@ -1,17 +1,17 @@
 if completed
-  span.small-details(data-i18n='teacher.complete')
+  span.small-details(data-i18n='clans.complete_2')
     | Complete
 else if started
   .fraction-students.small-details
     = levelsCompleted
     | /
     = levelsTotal
-    span.spl(data-i18n='teacher.levels')
+    span.spl(data-i18n='nav.play')
       | Levels
   .percent-students.small-details
     = Math.floor(levelsCompleted / levelsTotal * 100)
     | %
-    span.spl(data-i18n='teacher.complete')
+    span.spl(data-i18n='clans.complete_2')
       | Complete
 else
   span.small-details(data-i18n='teacher.assigned')

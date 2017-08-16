@@ -1,0 +1,188 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#mine-modal
+  .modal-dialog
+    margin: 60px auto 0 auto
+    padding: 0
+    width: 746px
+    height: 520px
+    background: none
+
+  li
+    margin-bottom: 16px
+
+  //- Header
+  h1
+    position: absolute
+    left: 155px
+    top: 25px
+    margin: 0
+    width: 410px
+    text-align: center
+    color: rgb(254,188,68)
+    font-size: 38px
+    text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
+    font-variant: normal
+    text-transform: uppercase
+  //- Close modal button
+
+
+  #image-content
+    position: absolute
+    left: 0%
+    width: 50%
+    height: 100%
+
+    #pickaxe
+      position: absolute
+      top: 33%
+      left: 50%
+      transform: translateX(-50%) translateY(-50%) scale(1.25)
+      filter: drop-shadow(0 0 16px white)
+
+    #hands
+      width: 150%
+      left: 50%
+      transform: translateX(-50%)
+      bottom: -55%
+      position: absolute
+      filter: drop-shadow(0 0 8px black)
+
+  #close-modal
+    position: absolute
+    left: 568px
+    top: 17px
+    width: 60px
+    height: 60px
+    color: white
+    text-align: center
+    font-size: 30px
+    padding-top: 15px
+    cursor: pointer
+    @include rotate(-3deg)
+
+    &:hover
+      color: yellow
+
+  #info-text, #capacity-text
+    font-size: large
+    div
+      margin: 6px
+
+  #capacity-text
+    display: none
+
+    #notify-me-form
+      position: absolute
+      bottom: 90px
+      width: 100%
+
+      #notify-me-check
+        cursor: pointer
+
+
+  #button-container
+    position: absolute
+    bottom: 8px
+    width: 100%
+    text-align: center
+
+    #submit-button
+      display: none
+      width: 256px
+
+      .no-text-transform
+        text-transform: none
+
+    #buy-now-button
+      width: 256px
+
+  .sale-button
+    width: 100%
+    font-size: 24px
+    line-height: 30px
+    border-style: solid
+    border-image: url(/images/common/button-background-success-active.png) 14 20 20 20 fill round
+    &:hover
+      border-image: url(/images/common/button-background-success-inactive.png) 14 20 20 20 fill round
+    &:active
+      border-image: url(/images/common/button-background-success-pressed.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+    filter: drop-shadow(4px 4px 8px black)
+
+    span
+      pointer-events: none
+
+  .purchase-button
+    flex-grow: 1
+    font-size: 24px
+    line-height: 30px
+    border-style: solid
+    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+    border-width: 14px 20px 20px 20px
+    color: darken(white, 5%)
+
+    span
+      pointer-events: none
+
+    &:hover
+      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+    &:active
+      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+      padding: 2px 0 0 2px
+      color: white
+
+  #mine-details
+    text-align: center
+    width: 625px
+    height: 325px
+    position: absolute
+    left: 60px
+    top: 140px
+    border-style: solid
+    border-image: url('/images/pages/play/level-info-background.png') 14 20 20 20 fill stretch
+    border-width: 14px 20px 20px 20px
+    display: none
+  #text-content
+    position: absolute
+    left: 50%
+    width: calc(50% - 16px)
+    height: calc(100% - 16px)
+    padding: 8px
+    background-color: rgba(0, 0, 0, 0.625)
+    border-radius: 8px
+    margin: 8px
+    color: white
+
+    #details-header
+      font-size: large
+      font-weight: bold
+      text-transform: uppercase
+      color: white
+      text-align: center
+
+  #mine-info
+    position: absolute
+    right: -20px
+    top: 480px
+    width: 256px
+
+  #modal-background
+    position: absolute
+    top: -61px
+    left: 0px
+
+  #mine-content
+    width: 685px
+    height: 385px
+    position: absolute
+    left: 30px
+    top: 110px
+    overflow: hidden
+    background-image: url('/images/minecraft/bans.jpg')
+    border-radius: 8px
+    background-size: cover
+    background-position: 50% 75%

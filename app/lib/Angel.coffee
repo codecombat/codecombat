@@ -6,6 +6,7 @@ World = require 'lib/world/world'
 CocoClass = require 'core/CocoClass'
 GoalManager = require 'lib/world/GoalManager'
 {sendContactMessage} = require 'core/contact'
+errors = require 'core/errors'
 
 reportedLoadErrorAlready = false
 
@@ -155,7 +156,7 @@ module.exports = class Angel extends CocoClass
     eventType = if finished then 'new-world-created' else 'streaming-world-updated'
     if finished
       @shared.world = world
-    @publishGodEvent eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame, finished: finished
+    @publishGodEvent eventType, world: world, firstWorld: @shared.firstWorld, goalStates: goalStates, team: me.team, firstChangedFrame: firstChangedFrame, finished: finished, keyValueDb: world.keyValueDb
     if finished
       for scriptNote in @shared.world.scriptNotes
         Backbone.Mediator.publish scriptNote.channel, scriptNote.event
@@ -266,6 +267,7 @@ module.exports = class Angel extends CocoClass
     return if @worker
     @say 'Hiring worker.'
     @worker = new Worker @shared.workerCode
+    @worker.addEventListener 'error', errors.onWorkerError
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
 

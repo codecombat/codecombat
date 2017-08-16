@@ -11,6 +11,15 @@ EarnedAchievement = require 'models/EarnedAchievement'
 ThangType = require 'models/ThangType'
 Users = require 'collections/Users'
 Prepaid = require 'models/Prepaid'
+LevelComponent = require 'models/LevelComponent'
+LevelSystem = require 'models/LevelSystem'
+
+makeVersion = -> {
+  major: 0
+  minor: 0
+  isLatestMajor: true
+  isLatestMinor: true
+}
 
 module.exports = {
 
@@ -49,11 +58,7 @@ module.exports = {
       name: _.string.humanize(_id)
       slug: _.string.dasherize(_id)
       original: _id+'_original'
-      version:
-        major: 0
-        minor: 0
-        isLatestMajor: true
-        isLatestMinor: true
+      version: makeVersion()
     }, attrs)
     return new Level(attrs)
   
@@ -68,7 +73,7 @@ module.exports = {
     }, attrs)
     
     if sources.prepaid and not attrs.coursePrepaid
-      attrs.coursePrepaid = sources.prepaid.pick('_id', 'startDate', 'endDate')
+      attrs.coursePrepaid = sources.prepaid.pick('_id', 'startDate', 'endDate', 'type', 'includedCourseIDs')
     
     return new User(attrs)
   
@@ -94,7 +99,7 @@ module.exports = {
       break if not courseAttrs
       course ?= @makeCourse()
       levels ?= new Levels()
-      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type') for level in levels.models)
+      courseAttrs.levels = (level.pick('_id', 'slug', 'name', 'original', 'primerLanguage', 'type', 'practice') for level in levels.models)
   
     # populate members
     if not attrs.members
@@ -109,6 +114,7 @@ module.exports = {
     attrs = _.extend({}, {
       level:
         original: level.get('original'),
+        majorVersion: 1
       creator: creator.id,
     }, attrs)
     attrs.level.primerLanguage = level.get('primerLanguage') if level.get('primerLanguage')
@@ -164,6 +170,8 @@ module.exports = {
     attrs = _.extend({}, {
       _id
       name: _.string.humanize(_id)
+      version: makeVersion()
+      original: _id
     }, attrs)
     return new ThangType(attrs)
     
@@ -207,5 +215,30 @@ module.exports = {
         district: 'Green District'
       }
     }, attrs)
+    
+  makeLevelComponent: (attrs, sources={}) ->
+    _id = _.uniqueId('level_component_')
+    attrs = _.extend({}, {
+      _id
+      system: 'action'
+      codeLanguage: 'coffeescript'
+      name: _.uniqueId('Level Component ')
+      version: makeVersion()
+      original: _id
+    }, attrs)
+    return new LevelComponent(attrs)
+
+  makeLevelSystem: (attrs, sources={}) ->
+    _id = _.uniqueId('level_system_')
+    attrs = _.extend({}, {
+      _id
+      codeLanguage: 'coffeescript'
+      name: _.uniqueId('Level System ')
+      version: makeVersion()
+      original: _id
+    }, attrs)
+    return new LevelSystem(attrs)
+      
+    
 }
   

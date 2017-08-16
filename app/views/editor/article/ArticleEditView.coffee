@@ -7,6 +7,8 @@ PatchesView = require 'views/editor/PatchesView'
 require 'views/modal/RevertModal'
 require 'treema/treema.js'
 
+require 'game-libraries'
+
 module.exports = class ArticleEditView extends RootView
   id: 'editor-article-edit-view'
   template: template

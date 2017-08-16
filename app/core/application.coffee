@@ -6,6 +6,7 @@ locale = require 'locale/locale'
 {me} = require 'core/auth'
 Tracker = require 'core/Tracker'
 CocoModel = require 'models/CocoModel'
+api = require 'core/api'
 
 marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 
@@ -46,8 +47,21 @@ console.debug ?= console.log  # Needed for IE10 and earlier
 
 Application = {
   initialize: ->
+#    if features.codePlay and me.isAnonymous()
+#      document.location.href = '//lenovogamestate.com/login/'
+    
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
+    Vue.config.devtools = not @isProduction()
+
+    # propagate changes from global 'me' User to 'me' vuex module
+    store = require('core/store')
+    me.on('change', ->
+      store.commit('me/updateUser', me.changedAttributes())
+    )
+    store.commit('me/updateUser', me.attributes)
+    store.commit('updateFeatures', features)
+
     @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
     $('body').addClass 'ipad' if @isIPadApp
     $('body').addClass 'picoctf' if window.serverConfig.picoCTF
@@ -95,6 +109,7 @@ Application = {
       #resPostPath: '/languages/add/__lng__/__ns__'
     }, (t) =>
       @router = new Router()
+      @userIsIdle = false
       onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
       @idleTracker = new Idle
         onAway: onIdleChanged true
@@ -113,6 +128,17 @@ Application = {
     daysSince = moment.duration(new Date() - startFrom).asDays()
     if daysSince > 1
       me.checkForNewAchievement().then => @checkForNewAchievement()
+      
+  featureMode: {
+    useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
+    useCodePlay: -> api.admin.setFeatureMode('code-play').then(-> document.location.reload())
+    usePicoCtf: -> api.admin.setFeatureMode('pico-ctf').then(-> document.location.reload())
+    useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
+    clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
+  }
+      
+  loadedStaticPage: window.alreadyLoadedView?
+  
 }
 
 module.exports = Application

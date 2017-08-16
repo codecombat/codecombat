@@ -15,6 +15,12 @@
   background-size: 100% 100%
   z-index: 2
 
+  #codeplay-powered-by-banner
+    width: 350px
+    position: relative
+    z-index: 1
+    top: 15px
+
   .hinge
     position: absolute
     top: 0
@@ -40,8 +46,11 @@
   
   .btn.btn-small
     margin-top: 15px
-    margin-right: 1.3vw
+    margin-right: 0.8vw
     font-size: 18px
+    
+    &.reload-code
+      margin-right: 1.3vw
 
     .glyphicon
       font-size: 16px
@@ -54,6 +63,7 @@
     position: absolute
     right: 0px
     top: 0px
+    z-index: 3
 
   .reload-code
     float: right

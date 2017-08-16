@@ -13,43 +13,36 @@ module.exports = class LevelTasksView extends RootView
     'change .searchInput': 'processLevels'
 
   excludedCampaigns = [
-    'picoctf', 'auditions'
+    'picoctf', 'auditions','dungeon-branching-test', 'forest-branching-test', 'desert-branching-test'
   ]
 
-  levels: {}
-  processedLevels: {}
-
   initialize: () ->
-    @processLevels = _.debounce(@processLevels, 250)
-    
-    @campaigns = new Campaigns()
-    @listenTo(@campaigns, 'sync', @onCampaignsLoaded)
-    @supermodel.trackRequest(@campaigns.fetch(
-      data:
-        project: 'name,slug,levels,tasks'
-    ))
-
-  onCampaignsLoaded: (campCollection) ->
     @levels = {}
-    for campaign in campCollection.models
-      campaignSlug = campaign.get 'slug'
-      continue if campaignSlug in excludedCampaigns
-      levels = campaign.get 'levels'
-      for key, level of levels
-        levelSlug = level.slug
+    @campaigns = new Campaigns()
+    @supermodel.trackRequest(@campaigns.fetchCampaignsAndRelatedLevels({ excludes: excludedCampaigns }))
+
+  onLoaded: ->
+    for campaign in @campaigns.models
+      for level in campaign.levels.models
+        levelSlug = level.get('slug')
         @levels[levelSlug] = level
     @processLevels()
+    super()
+
 
   processLevels: () ->
     @processedLevels = {}
     for key, level of @levels
-      continue unless ///#{$('#name-search')[0].value}///i.test level.name
-      filteredTasks = level.tasks.filter (elem) ->  
+      tasks = level.get('tasks')
+      name = level.get('name')
+      continue if @processedLevels[key]
+      continue unless ///#{$('#name-search')[0].value}///i.test name
+      filteredTasks = (tasks ? []).filter (elem) ->
         # Similar case-insensitive search of input vs description (name).
         return ///#{$('#desc-search')[0].value}///i.test elem.name
       @processedLevels[key] = {
         tasks: filteredTasks
-        name: level.name
+        name: name
       }
     @renderSelectors '#level-table'
 

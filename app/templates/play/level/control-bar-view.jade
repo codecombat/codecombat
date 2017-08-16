@@ -7,7 +7,7 @@
 .levels-link-area
   a.levels-link(href=homeLink || "/")
     .glyphicon.glyphicon-play
-    span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.play")).home-text
+    span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
 
 .level-name-area-container
   .level-name-area
@@ -34,5 +34,14 @@
   if !observing
     button.btn.btn-xs.btn-primary.banner#level-done-button(data-i18n="play_level.done") Done
 
-  if me.get('anonymous')
+  if me.get('anonymous') && !features.noAuth
     button.btn.btn-xs.btn-primary.banner#control-bar-sign-up-button(data-toggle='coco-modal', data-target='core/CreateAccountModal', data-i18n="signup.sign_up")
+
+  if me.isAdmin()
+    - var otherVersion = view.course ? 'Home' : 'Classroom'
+    button.btn.btn-xs.btn-inverse.banner#version-switch-button
+      span= otherVersion
+      span= ' '
+      span.code-language-selector(data-code-language='javascript') JS
+      span= ' | '
+      span.code-language-selector(data-code-language='python') PY

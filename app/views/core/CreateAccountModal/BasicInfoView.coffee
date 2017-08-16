@@ -96,6 +96,16 @@ module.exports = class BasicInfoView extends CocoView
 
   onChangeName: (e) ->
     @updateAuthModalInitialValues { name: @$(e.currentTarget).val() }
+    
+    # Go through the form library so this follows the same trimming rules
+    name = forms.formToObject(@$el.find('#basic-info-form')).name
+    # Carefully remove the error for just this field
+    @$el.find('[for="username-input"] ~ .help-block.error-help-block').remove()
+    @$el.find('[for="username-input"]').closest('.form-group').removeClass('has-error')
+    if name and forms.validateEmail(name)
+      forms.setErrorToProperty(@$el, 'name', $.i18n.t('signup.name_is_email'))
+      return
+
     @checkName()
 
   checkName: ->
@@ -161,15 +171,31 @@ module.exports = class BasicInfoView extends CocoView
       email: User.schema.properties.email
       name: User.schema.properties.name
       password: User.schema.properties.password
-    required: ['name', 'password'].concat (if @signupState.get('path') is 'student' then ['firstName', 'lastName'] else ['email'])
+    required: switch @signupState.get('path')
+      when 'student' then ['name', 'password', 'firstName', 'lastName']
+      when 'teacher' then ['name', 'password', 'email', 'firstName', 'lastName']
+      else ['name', 'password', 'email']
   
-  onClickBackButton: -> @trigger 'nav-back'
+  onClickBackButton: ->
+    if @signupState.get('path') is 'teacher'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Back Clicked', category: 'Teachers'
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Back Clicked', category: 'Students'
+    if @signupState.get('path') is 'individual'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Back Clicked', category: 'Individuals'
+    @trigger 'nav-back'
   
   onClickUseSuggestedNameLink: (e) ->
     @$('input[name="name"]').val(@state.get('suggestedName'))
     forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
 
   onSubmitForm: (e) ->
+    if @signupState.get('path') is 'teacher'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Clicked', category: 'Teachers'
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Clicked', category: 'Students'
+    if @signupState.get('path') is 'individual'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Clicked', category: 'Individuals'
     @state.unset('error')
     e.preventDefault()
     data = forms.formToObject(e.currentTarget)
@@ -205,8 +231,17 @@ module.exports = class BasicInfoView extends CocoView
       return new Promise(jqxhr.then)
     
     .then =>
+      
+      # Don't sign up, kick to TeacherComponent instead
+      if @signupState.get('path') is 'teacher'
+        @signupState.set({
+          signupForm: _.pick(forms.formToObject(@$el), 'firstName', 'lastName', 'email', 'name', 'password', 'subscribe')
+        })
+        @trigger 'signup'
+        return
+      
       # Use signup method
-      window.tracker?.identify()
+      window.tracker?.identify() unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
       switch @signupState.get('ssoUsed')
         when 'gplus'
           { email, gplusID } = @signupState.get('ssoAttrs')
@@ -239,6 +274,12 @@ module.exports = class BasicInfoView extends CocoView
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
       
   finishSignup: ->
+    if @signupState.get('path') is 'teacher'
+      window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Success', category: 'Teachers'
+    if @signupState.get('path') is 'student'
+      window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Success', category: 'Students'
+    if @signupState.get('path') is 'individual'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Success', category: 'Individuals'
     @trigger 'signup'
 
   displayFormSubmitting: ->

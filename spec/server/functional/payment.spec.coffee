@@ -5,8 +5,9 @@ require '../common'
 nockUtils = require '../nock-utils'
 User = require '../../../server/models/User'
 Payment = require '../../../server/models/Payment'
+Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
-
+utils = require '../utils'
 
 describe '/db/payment', ->
   paymentURL = getURL('/db/payment')
@@ -482,4 +483,32 @@ describe '/db/payment', ->
               nockDone()
               done()
         )
-        
+
+  describe '/db/payment/-/school_sales', ->
+    beforeEach utils.wrap (done) ->
+      yield utils.clearModels([Payment, Prepaid, User])
+      @user = yield utils.initUser()
+      @admin = yield utils.initAdmin()
+      yield utils.loginUser(@admin)
+      @prepaid = yield utils.makePrepaid({ creator: @user._id })
+      @url = getURL("/db/payment/-/school_sales")
+      done()
+
+    it 'returns payments linked to prepaids', utils.wrap (done) ->
+      payment = yield utils.makePayment({ purchaser: @user._id, prepaidID: @prepaid._id, amount: 100})
+      [res, body] = yield request.getAsync {uri: @url, json: true}
+      expect(res.statusCode).toEqual(200)
+      expect(body.length).toEqual(1)
+      expect(body[0]._id).toEqual(payment._id.toString())
+      expect(body[0].prepaidID).toEqual(@prepaid._id.toString())
+      expect(body[0].userID).toEqual(@user._id.toString())
+      done()
+
+    it 'returns payments linked to custom product', utils.wrap (done) ->
+      payment = yield utils.makePayment({ purchaser: @user._id, productID: 'custom', amount: 100})
+      [res, body] = yield request.getAsync {uri: @url, json: true}
+      expect(res.statusCode).toEqual(200)
+      expect(body.length).toEqual(1)
+      expect(body[0]._id).toEqual(payment._id.toString())
+      expect(body[0].userID).toEqual(@user._id.toString())
+      done()

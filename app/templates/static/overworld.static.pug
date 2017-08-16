@@ -1,0 +1,32 @@
+extends mock.static.pug
+block begin
+  - viewName = 'play/CampaignView'
+
+block content
+  - view.shouldShow = function() { return false; }
+  - campaigns = {}
+  - campaigns.dungeon = {attributes: {fullName: 'Kithgard Dungeon'}}
+  - campaigns.dungeon.get = function(p) { return this.attributes[p]; }
+
+  - campaigns.forest = {attributes: {fullName: 'Backwoods Forest'}, locked: true}
+  - campaigns.forest.get = function(p) { return this.attributes[p]; }
+
+  - campaigns.desert = {attributes: {fullName: 'Sarven Desert'}, locked: true}
+  - campaigns.desert.get = function(p) { return this.attributes[p]; }
+
+
+  - campaigns['campaign-game-dev-1'] = {attributes: {fullName: 'Game Development 1'}, locked: true}
+  - campaigns['campaign-game-dev-1'].get = function(p) { return this.attributes[p]; }
+  - campaigns['campaign-web-dev-1'] = {attributes: {fullName: 'Web Development 1'}, locked: true}
+  - campaigns['campaign-web-dev-1'].get = function(p) { return this.attributes[p]; }
+
+  - campaigns['campaign-game-dev-2'] = {attributes: {fullName: 'Game Development 2'}, locked: true}
+  - campaigns['campaign-game-dev-2'].get = function(p) { return this.attributes[p]; }
+  - campaigns['campaign-web-dev-2'] = {attributes: {fullName: 'Web Development 2'}, locked: true}
+  - campaigns['campaign-web-dev-2'].get = function(p) { return this.attributes[p]; }
+
+
+  - levels = []
+  #page-container
+    #campaign-view
+      include /templates/play/campaign-view.jade

@@ -158,7 +158,10 @@ module.exports = class World
     timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     timeLoaded = @frames.length * @dt * 1000
     timeBuffered = timeLoaded - timeSinceStart
-    timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
+    if @indefiniteLength
+      return timeBuffered > 0
+    else
+      return timeBuffered > REAL_TIME_BUFFER_MAX * @realTimeSpeedFactor
 
   shouldUpdateRealTimePlayback: (t) ->
     return false unless @realTime
@@ -166,7 +169,10 @@ module.exports = class World
     timeLoaded = @frames.length * @dt * 1000
     timeSinceStart = (t - @worldLoadStartTime) * @realTimeSpeedFactor
     remainingBuffer = @lastRealTimeUpdate * 1000 - timeSinceStart
-    remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
+    if @indefiniteLength
+      return remainingBuffer <= 0
+    else
+      return remainingBuffer < REAL_TIME_BUFFER_MIN * @realTimeSpeedFactor
 
   shouldContinueLoading: (t1, loadProgressCallback, skipDeferredLoading, continueLaterFn) ->
     t2 = now()
@@ -203,7 +209,12 @@ module.exports = class World
     if skipDeferredLoading
       continueLaterFn()
     else
-      delay = if shouldDelayRealTimeSimulation then REAL_TIME_BUFFERED_WAIT_INTERVAL else 0
+      delay = 0
+      if shouldDelayRealTimeSimulation
+        if @indefiniteLength
+          delay = 1000 / 30
+        else
+          delay = REAL_TIME_BUFFERED_WAIT_INTERVAL
       setTimeout continueLaterFn, delay
     false
 
@@ -395,7 +406,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     serializedFlagHistory = (_.omit(_.clone(flag), 'processed') for flag in @flagHistory)
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag, keyValueDb: @keyValueDb}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -502,7 +513,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag, w.keyValueDb] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag, o.keyValueDb]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()

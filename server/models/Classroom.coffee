@@ -2,10 +2,11 @@ mongoose = require 'mongoose'
 log = require 'winston'
 config = require '../../server_config'
 plugins = require '../plugins/plugins'
-User = require './User'
 jsonSchema = require '../../app/schemas/models/classroom.schema.coffee'
 utils = require '../lib/utils'
 co = require 'co'
+Campaign = require './Campaign'
+Course = require './Course'
 
 ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
@@ -22,6 +23,7 @@ ClassroomSchema.statics.editableProperties = [
   'ageRangeMin'
   'ageRangeMax'
   'archived'
+  'settings'
 ]
 ClassroomSchema.statics.postEditableProperties = []
 
@@ -44,22 +46,144 @@ ClassroomSchema.pre('save', (next) ->
     next()
 )
 
-
 ClassroomSchema.methods.isOwner = (userID) ->
   return userID.equals(@get('ownerID'))
 
 ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
 
+ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin}) ->
+  # Helper function for generating the latest version of courses
+  isAdmin ?= false
+  query = {}
+  query = {releasePhase: 'released'} unless isAdmin
+  courses = yield Course.find(query)
+  courses = Course.sortCourses courses
+  campaigns = yield Campaign.find({_id: {$in: (course.get('campaignID') for course in courses)}})
+  campaignMap = {}
+  for campaign in campaigns
+    campaignMap[campaign.id] = campaign
+  classLanguage = @get('aceConfig')?.language
+  coursesData = []
+  for course in courses
+    courseData = { _id: course._id, levels: [] }
+    campaign = campaignMap[course.get('campaignID').toString()]
+    levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
+    for level in levels
+      continue if classLanguage and level.primerLanguage is classLanguage
+      levelData = { original: mongoose.Types.ObjectId(level.original) }
+      _.extend(levelData, _.pick(level, 
+        'type',
+        'slug',
+        'name', 
+        'practice', 
+        'practiceThresholdMinutes',
+        'primerLanguage',
+        'shareable',
+        'position'
+      ))
+      courseData.levels.push(levelData)
+    coursesData.push(courseData)
+  coursesData
+
+ClassroomSchema.methods.generateCourseData = co.wrap ({courseId}) ->
+  # Helper function for generating the latest version of a course
+  course = yield Course.findById(courseId)
+  campaign = yield Campaign.findById({_id: course.get('campaignID')})
+  classLanguage = @get('aceConfig')?.language
+  courseData = { _id: course._id, levels: [] }
+  levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
+  for level in levels
+    continue if classLanguage and level.primerLanguage is classLanguage
+    levelData = { original: mongoose.Types.ObjectId(level.original) }
+    _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'primerLanguage', 'shareable'))
+    courseData.levels.push(levelData)
+  courseData
+
+ClassroomSchema.methods.setUpdatedCourse = co.wrap ({courseId}) ->
+  # Update existing or add missing course
+  latestCourse = yield @generateCourseData({courseId})
+  updatedCourses = _.clone(@get('courses') or [])
+  existingIndex = _.findIndex(updatedCourses, (c) -> c._id.equals(courseId))
+  oldCourseCount = updatedCourses.length
+  oldLevelCount = 0
+  newLevelCount = latestCourse.levels?.length ? 0
+  if existingIndex >= 0
+    oldLevelCount = updatedCourses[existingIndex].levels?.length ? 0
+    updatedCourses.splice(existingIndex, 1, latestCourse)
+  else
+    # TODO: does this need to be inserted in order?
+    updatedCourses.push(latestCourse)
+  newCourseCount = updatedCourses.length
+  @set('courses', updatedCourses)
+  {oldCourseCount, newCourseCount, oldLevelCount, newLevelCount}
+
+ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly}) ->
+  # Add missing courses, and update existing courses if addNewCoursesOnly=false
+  isAdmin ?= false
+  addNewCoursesOnly ?= true
+  coursesData = yield @generateCoursesData({isAdmin})
+  if addNewCoursesOnly
+    newestCoursesData = coursesData
+    coursesData = @get('courses') or []
+    existingCourseIds = _(coursesData).pluck('_id').map((id) -> id + '').value()
+    existingCourseMap = _.zipObject(existingCourseIds, coursesData)
+    coursesData = _.map(newestCoursesData, (newCourseData) -> existingCourseMap[newCourseData._id+''] or newCourseData)
+  @set('courses', coursesData)
+  
+ClassroomSchema.methods.addMember = (user) ->
+  # fires update, and adds to this local copy, or resolves immediately if the user is already part of the classroom
+  members = _.clone(@get('members'))
+  if _.any(members, (memberID) -> memberID.equals(user._id))
+    return Promise.resolve()
+  update = { $push: { members : user._id }}
+  members.push user._id
+  @set('members', members)
+  return @update(update)
+  
+ClassroomSchema.methods.fetchSessionsForMembers = co.wrap (members) ->
+  CourseInstance = require('./CourseInstance')
+  LevelSession = require('./LevelSession')
+  
+  courseLevelsMap = {}
+  codeLanguage = @get('aceConfig.language')
+  for course in @get('courses') ? []
+    courseLevelsMap[course._id.toHexString()] = _.map(course.levels, (l) ->
+      {'level.original':l.original?.toHexString(), codeLanguage: l.primerLanguage or codeLanguage}
+    )
+  courseInstances = yield CourseInstance.find({classroomID: @_id}).select('_id courseID members').lean()
+  memberCoursesMap = {}
+  for courseInstance in courseInstances
+    for userID in courseInstance.members ? []
+      memberCoursesMap[userID.toHexString()] ?= []
+      memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
+  dbqs = []
+  select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published'
+  for member in members
+    $or = []
+    for courseID in memberCoursesMap[member.toHexString()] ? []
+      for subQuery in courseLevelsMap[courseID.toHexString()] ? []
+        $or.push(_.assign({creator: member.toHexString()}, subQuery))
+    if $or.length
+      query = { $or }
+      dbqs.push(LevelSession.find(query).select(select).lean().exec())
+  results = yield dbqs
+  return _.flatten(results)
+
 ClassroomSchema.statics.jsonSchema = jsonSchema
 
 ClassroomSchema.set('toObject', {
   transform: (doc, ret, options) ->
-    return ret unless options.req
-    user = options.req.user
-    unless user and (user.isAdmin() or user._id.equals(doc.get('ownerID')))
-      delete ret.code
-      delete ret.codeCamel
+    if options.req
+      user = options.req.user
+      unless user?.isAdmin() or user?._id.equals(doc.get('ownerID'))
+        delete ret.code
+        delete ret.codeCamel
+    if options.includeEnrolled
+      courseInstances = options.includeEnrolled
+      for course in ret.courses
+        courseInstance = _.find(courseInstances, (ci) -> ci.get('courseID').equals(course._id))
+        course.enrolled = courseInstance?.get('members') ? []
     return ret
 })
 

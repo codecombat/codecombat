@@ -1,17 +1,17 @@
 .modal-body
   .modal-body-content
-    
+
     h4.m-y-1(data-i18n="signup.account_created")
-    
-    .text-center.m-y-1
+
+    .confirm_container.text-center.m-y-1
       if view.signupState.get('path') === 'student'
         p(data-i18n="signup.confirm_student_blurb")
-        
+
       else
         p(data-i18n="signup.confirm_individual_blurb")
-      
+
     .signup-info-box-wrapper
-      .text-burgandy(data-i18n="signup.write_this_down")
+      .text-burgundy(data-i18n="signup.write_this_down")
       .signup-info-box.text-center
         if me.get('name')
           h4

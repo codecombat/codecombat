@@ -18,6 +18,7 @@ module.exports =
     difficulty: {type: 'integer'}
     god: {type: 'object'}
     justBegin: {type: 'boolean'}
+    keyValueDb: {type: 'object'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
@@ -40,9 +41,6 @@ module.exports =
     spellID: {type: 'string'}
     variableChain: c.array {}, {type: 'string'}
     frame: {type: 'integer', minimum: 0}
-
-  'tome:reload-code': c.object {title: 'Reload Code', description: 'Published when you reset a spell to its original source', required: []},
-    spell: {type: 'object'}
 
   'tome:palette-cleared': c.object {title: 'Palette Cleared', description: 'Published when the spell palette is about to be cleared and recreated.'},
     thangID: {type: 'string'}

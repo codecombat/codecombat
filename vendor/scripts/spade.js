@@ -1,5 +1,7 @@
 var Spade = function Spade() {
 	this.stack = [];
+	this.playback = [];
+	this.speed = 1;
 }
 Spade.prototype = {
 	track: function(_elem) {
@@ -129,29 +131,60 @@ Spade.prototype = {
 		}
 		return compiledStack;
 	},
-	play: function(_stack, _elem) {
+	renderTime: function(_stack, _elem, _t) {
+		if(_stack.length === 0) {
+			console.warn("SPADE: No events to play.");
+			return
+		}
+		var tTime = _stack[_stack.length - 1].timestamp;
+		//var destinedIndex = Math.floor(_stack.length * _t);
+		var result = _stack[0].difContent;
+		for(var i = 1; i < _stack.length; i++) {
+			if(_t * tTime < _stack[i].timestamp) {
+				break;
+			}
+			var tEvent = _stack[i];
+			var oVal = result;
+			if(tEvent.difFIndex !== null && tEvent.difEIndex !== null) {
+				result = oVal.substring(0, tEvent.difFIndex) + tEvent.difContent + oVal.substring(oVal.length - tEvent.difEIndex, oVal.length);
+			}
+		}
+		var returnObject = {
+			result: result
+		};
+		if(tEvent) {
+			returnObject["selFIndex"] = tEvent.selFIndex;
+			returnObject["selEIndex"] = tEvent.selEIndex;		}
+		return returnObject
+	},
+	play: function(_stack, _elem, _t) {
+		_t = _t || 0;
 		if(_stack.length === 0) {
 			console.warn("SPADE: No events to play.")
 			return
 		}
 		if(_elem.setValue) {
-			_elem.setValue(_stack[0].difContent);
+			_elem.setValue(this.renderTime(_stack, _elem, _t).result);
 		} else {
-			_elem.value = _stack[0].difContent
+			_elem.value = this.renderTime(_stack, _elem, _t).result
 		}
 		_stack = _stack.slice();
 		_stack.shift();
 		var curTime, dTime;
-		var elapsedTime = 0;
+		var tTime = _stack[_stack.length - 1].timestamp;
+		var elapsedTime = _t * tTime;
+		this.elapsedTime = elapsedTime;
 		var prevTime = (new Date()).getTime();
-		var playbackInterval = setInterval(function() {
+		this.playback = playbackInterval = setInterval(function() {
+			//console.log(this);
 			curTime = (new Date()).getTime();
 			dTime = curTime - prevTime;
-			dTime *= 1;	//Multiply for faster/slower playback speeds.
+			dTime *= this.speed;	//Multiply for faster/slower playback speeds.
 			elapsedTime += dTime;
 			var tArray = _stack.filter(function(_event) {
 				return ((_event.timestamp) >= (elapsedTime - dTime)) && ((_event.timestamp) < (elapsedTime));
 			});
+			this.elapsedTime = elapsedTime;
 			for(var i = 0; i < tArray.length; i++) {
 				var tEvent = tArray[i];
 				var oVal = null;
@@ -167,11 +200,10 @@ Spade.prototype = {
 						_elem.value = oVal.substring(0, tEvent.difFIndex) + tEvent.difContent + oVal.substring(oVal.length - tEvent.difEIndex, oVal.length)
 					}
 				}
+
 				if(_elem.selection && _elem.selection.moveCursorToPosition) {
-					//Maybe this will work someday
 					_elem.selection.moveCursorToPosition(tEvent.selFIndex);
 					_elem.selection.setSelectionAnchor(tEvent.selEIndex.row, tEvent.selEIndex.column);
-					_elem.selection.selectTo(tEvent.selFIndex.row, tEvent.selFIndex.column);
 				} else {
 					//Likewise
 					_elem.focus();
@@ -182,7 +214,7 @@ Spade.prototype = {
 				clearInterval(playbackInterval);
 			}
 			prevTime = curTime;
-		}, 10);
+		}.bind(this), 10);
 	},
 	debugPlay: function(_stack) {
 		var area = document.createElement('textarea');

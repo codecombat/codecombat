@@ -1,5 +1,6 @@
-#language imports
 Language = require './languages'
+concepts = require './concepts'
+
 # schema helper methods
 
 me = module.exports
@@ -241,39 +242,4 @@ me.task = me.object {title: 'Task', description: 'A task to be completed', forma
   name: {title: 'Name', description: 'What must be done?', type: 'string'}
   complete: {title: 'Complete', description: 'Whether this task is done.', type: 'boolean', format: 'checkbox'}
 
-me.concept = me.shortString enum: [
-    'advanced_strings'
-    'algorithms'
-    'arguments'
-    'arithmetic'
-    'arrays'
-    'basic_syntax'
-    'boolean_logic'
-    'break_statements'
-    'classes'
-    'continue_statements'
-    'for_loops'
-    'functions'
-    'graphics'
-    'if_statements'
-    'input_handling'
-    'math_operations'
-    'object_literals'
-    'parameters'
-    'strings'
-    'variables'
-    'vectors'
-    'while_loops'
-    'recursion'
-    'basic_html'
-    'basic_css'
-    'basic_web_scripting'
-    'intermediate_html'
-    'intermediate_css'
-    'intermediate_web_scripting'
-    'advanced_html'
-    'advanced_css'
-    'advanced_web_scripting'
-    'jquery'
-    'bootstrap'
-  ]
+me.concept = {type: 'string', enum: (concept.concept for concept in concepts), format: 'concept'}

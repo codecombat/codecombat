@@ -5,13 +5,18 @@ extends /templates/core/modal-base-flat
 block modal-header-content
   .pull-right
     if view.user.isStudent()
-      button#destudent-btn.btn.btn-burgandy Destudent
+      button#destudent-btn.btn.btn-burgundy Destudent
     if view.user.isTeacher()
-      button#deteacher-btn.btn.btn-burgandy Deteacher
+      button#deteacher-btn.btn.btn-burgundy Deteacher
   
   h3 Administer User
   h4 #{view.user.get('name') || 'Unnamed'} / #{view.user.get('email')}
   span= view.user.id
+  if view.user.get('cleverID')
+    br
+    b Clever ID:
+    =" "
+    span= view.user.get('cleverID')
 
 block modal-body-content
 
@@ -42,20 +47,30 @@ block modal-body-content
     table.table.table-condensed
       tr
         th ID
+        th Shared by
         th Type
+        th Issued
         th Start
         th End
         th Used
       for prepaid in view.prepaids.models
         tr
           td= prepaid.id
+          td
+            if prepaid.creator
+              if prepaid.creator.id !== view.user.id
+                a.user-link(data-user-id=prepaid.creator.id)
+                  = prepaid.creator.get('name')
+              else
+                | -
           td= prepaid.get('type')
+          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
           td
             if prepaid.get('startDate')
-              = moment(prepaid.get('startDate')).utc().format('lll')
+              = moment(prepaid.get('startDate')).utc().format('l')
           td
             if prepaid.get('endDate')
-              = moment(prepaid.get('endDate')).utc().format('lll')
+              = moment(prepaid.get('endDate')).utc().format('l')
           td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
 
   h3 Stripe Benefit
@@ -88,13 +103,19 @@ block modal-body-content
     table#classroom-table.table
       tr
         th Name
-        th # Levels
+        th Lang
+        th # Levels / Courses
         th
       for classroom in view.classrooms.models
         tr
-          td= classroom.get('name')
-          td= classroom.getLevels().size()
           td
-            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update
+            = classroom.get('name')
+            if classroom.get('archived')
+              i.spl.text-muted (archived)
+          td= classroom.capitalLanguage
+          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+          td
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
 
 block modal-footer

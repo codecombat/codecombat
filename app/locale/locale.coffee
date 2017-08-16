@@ -6,9 +6,11 @@
 module.exports =
   update: ->
     # localesLoaded = (s for s in window.require.list() when _.string.startsWith(s, 'locale/'))
+    # store = require('core/store')
     # for path in localesLoaded
     #   continue if path is 'locale/locale'
     #   code = path.replace('locale/', '')
+    #   store.commit('addLocaleLoaded', code)
     #   @[code] = require(path)
 
   'en': require('./en')
@@ -68,7 +70,6 @@ module.exports =
   'vi': require('./vi')
   'zh-WUU-HANS': require('./zh-WUU-HANS')
   'zh-WUU-HANT': require('./zh-WUU-HANT')
-
 
   # 'en': { nativeDescription: 'English', englishDescription: 'English' }
   # 'en-US': { nativeDescription: 'English (US)', englishDescription: 'English (US)' }

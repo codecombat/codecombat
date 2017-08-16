@@ -1,0 +1,124 @@
+@import app/styles/bootstrap/variables
+@import app/styles/mixins
+@import app/styles/style-flat-variables
+
+#premium-features-view
+  overflow: hidden
+
+  .burgundy
+    background-color: $burgundy
+  .forest
+    background-color: $forest
+  .navy
+    background-color: $navy
+
+  // Forced style tweaks for edge cases
+  .center-text
+    text-align: center !important
+  .top-offset-200
+    margin-top: 200px !important
+  .bottom-offset-72
+    margin-bottom: 72px !important
+  .force-right-265
+    right: 265px !important
+  .force-width-265
+    width: 265px !important
+
+  #bannerImg
+    position: absolute
+    left: 50%
+    transform: translateX(-50%)
+    height: 600px
+    margin-top: -50px
+    filter: drop-shadow(4px 4px 8px black)
+    pointer-events: none
+
+  .feature-row
+    height: 256px
+    margin: 64px
+
+    .feature-text
+    .left-text
+      text-align: left
+    .right-text
+      text-align: right
+
+  .void
+    height: 256px
+    width: 2000px
+    position: absolute
+    overflow: hidden
+
+    .void-text
+      position: absolute
+      width: 256px
+      padding: 30px 40px
+      h2
+        color: white
+
+    .void-text-left
+      right: 0
+    .void-text-right
+      left: 0
+
+    .void-image
+      position: absolute
+    .void-image-left
+      right: 256px
+    .void-image-right
+      left: 256px
+
+    #heroes-void-image
+      top: -50px
+      width: 375px
+      height: 375px
+      -moz-transform: scaleX(-1)
+      -o-transform: scaleX(-1)
+      -webkit-transform: scaleX(-1)
+      transform: scaleX(-1)
+
+    #pets-void-image
+      top: 10px
+      width: 275px
+      height: 275px
+    #game-dev-void-image
+      top: -32px
+      width: 512px
+      height: 512px
+
+  .void-left
+    right: 0
+  .void-right
+    left: 0
+
+  #jumbotron
+    background-color: $navy
+    background-size: cover
+    background-position: center center
+    background-repeat: no-repeat
+    height: 512px
+
+    h1
+      color: white
+      font-size: 28pt
+      line-height: 36pt
+      text-align: center
+      filter: drop-shadow(2px 2px 4px black)
+
+  #bottom-gradient-blend
+    background: linear-gradient(to top, rgba(0,0,0,0) 12.5%, rgba(255, 255, 255, 1))
+    width: 100%
+    height: 100%
+    left: 0
+    top: 0
+
+  .top-jumbo
+    background-image: url('/images/pages/features/bg2.png')
+
+  .bottom-jumbo
+    background-image: url('/images/pages/home/character_jumbotron.png')
+    margin-top: 50px
+    margin-bottom: -75px
+
+  .continue-playing
+    margin-top: 10px

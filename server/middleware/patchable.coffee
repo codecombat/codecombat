@@ -21,14 +21,18 @@ module.exports =
     dbq.skip(parse.getSkipFromReq(req))
     dbq.select(parse.getProjectFromReq(req))
 
-    doc = yield database.getDocFromHandle(req, Model, {_id: 1})
-    if not doc
-      throw new errors.NotFound('Patchable document not found')
-      
+    id = req.params.handle
+    if not database.isID(id)
+      # handle slug
+      doc = yield database.getDocFromHandle(req, Model, {_id: 1})
+      if not doc
+        throw new errors.NotFound('Patchable document not found')
+      id = (doc.get('original') or doc.id) + ''
+
     query =
       $or: [
-        {'target.original': doc.id }
-        {'target.original': doc._id }
+        {'target.original': id+''}
+        {'target.original': mongoose.Types.ObjectId(id)}
       ]
     if req.query.status
       query.status = req.query.status
@@ -65,12 +69,16 @@ module.exports =
     res.status(200).send(doc)
 
     
-  postPatch: _.curry wrap (Model, collectionName, req, res) ->
+  postPatch: (Model, collectionName) -> wrap (req, res) ->
     # handle either "POST /db/<collection>/:handle/patch" or "POST /db/patch" with target included in body
+    # Tried currying the function, but it didn't play nice with the generator function.
     if req.params.handle
-      target = yield database.getDocFromHandle(req, Model)
+      target = yield database.getDocFromHandle(req, Model, {getLatest:true})
     else if req.body.target?.id
       target = yield Model.findById(req.body.target.id)
+      if Model.schema.uses_coco_versions and target and not target.get('version.isLatestMajor')
+        original = target.get('original')
+        target = yield Model.findOne({original}).sort({ 'version.major': -1, 'version.minor': -1 })
     if not target
       throw new errors.NotFound('Target not found.')
 
@@ -84,9 +92,13 @@ module.exports =
       return value if value instanceof Date
       return undefined
     )
+    if _.isEmpty(originalDelta)
+      throw new errors.UnprocessableEntity('Delta given is empty.')
     jsondiffpatch.patch(newTargetAttrs, originalDelta)
     normalizedDelta = jsondiffpatch.diff(originalTarget, newTargetAttrs)
     normalizedDelta = _.pick(normalizedDelta, _.keys(originalDelta))
+    if _.isEmpty(normalizedDelta)
+      throw new errors.UnprocessableEntity('Normalized delta is empty.')
 
     # decide whether the patch should be auto-accepted, or left 'pending' for an admin or artisan to review
     reasonNotAutoAccepted = undefined
@@ -120,7 +132,7 @@ module.exports =
       patchTarget = {
         collection: collectionName
         id: target._id
-        original: target._id
+        original: target.get('original')
         version: _.pick(target.get('version'), 'major', 'minor')
       }
     else

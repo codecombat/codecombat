@@ -17,7 +17,7 @@ module.exports.simulatorIsTooOld = (req, res) ->
   return false if clientSimulator?.version >= SIMULATOR_VERSION
   message = "Old simulator version #{clientSimulator?.version}, need to clear cache and get version #{SIMULATOR_VERSION}."
   log.debug "400: #{message}"
-  res.send 400, message
+  res.status(400).send message
   res.end()
   true
 

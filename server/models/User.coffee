@@ -2,7 +2,6 @@ mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
 {salt, isProduction} = require '../../server_config'
-mail = require '../commons/mail'
 log = require 'winston'
 plugins = require '../plugins/plugins'
 AnalyticsUsersActive = require './AnalyticsUsersActive'
@@ -11,9 +10,12 @@ languages = require '../routes/languages'
 _ = require 'lodash'
 errors = require '../commons/errors'
 Promise = require 'bluebird'
+co = require 'co'
+core_utils = require '../../app/core/utils'
+mailChimp = require '../lib/mail-chimp'
 
 config = require '../../server_config'
-stripe = require('stripe')(config.stripe.secretKey)
+stripe = require('../lib/stripe_utils').api
 
 sendwithus = require '../sendwithus'
 
@@ -29,20 +31,19 @@ UserSchema.index({'facebookID': 1}, {sparse: true})
 UserSchema.index({'gplusID': 1}, {sparse: true})
 UserSchema.index({'cleverID': 1}, {sparse: true})
 UserSchema.index({'iosIdentifierForVendor': 1}, {name: 'iOS identifier for vendor', sparse: true, unique: true})
-UserSchema.index({'mailChimp.leid': 1}, {sparse: true})
+UserSchema.index({'mailChimp.leid': 1}, {sparse: true}) # deprecated
+UserSchema.index({'mailChimp.email': 1}, {sparse: true})
 UserSchema.index({'nameLower': 1}, {sparse: true, name: 'nameLower_1'})
 UserSchema.index({'simulatedBy': 1})
 UserSchema.index({'slug': 1}, {name: 'slug index', sparse: true, unique: true})
+UserSchema.index({'israelId': 1}, {name: 'israelId index', sparse: true, unique: true})
 UserSchema.index({'stripe.subscriptionID': 1}, {unique: true, sparse: true})
 UserSchema.index({'siteref': 1}, {name: 'siteref index', sparse: true})
 UserSchema.index({'schoolName': 1}, {name: 'schoolName index', sparse: true})
 UserSchema.index({'country': 1}, {name: 'country index', sparse: true})
 UserSchema.index({'role': 1}, {name: 'role index', sparse: true})
 UserSchema.index({'coursePrepaid._id': 1}, {name: 'course prepaid id index', sparse: true})
-
-UserSchema.post('init', ->
-  @set('anonymous', false) if @get('email')
-)
+UserSchema.index({'oAuthIdentities.provider': 1, 'oAuthIdentities.id': 1}, {name: 'oauth identities index', unique: true, sparse: true})
 
 UserSchema.methods.broadName = ->
   return '(deleted)' if @get('deleted')
@@ -61,7 +62,7 @@ UserSchema.methods.isInGodMode = ->
 UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
-  
+
 UserSchema.methods.hasPermission = (neededPermissions) ->
   permissions = @get('permissions') or []
   if _.contains(permissions, 'admin')
@@ -88,7 +89,7 @@ UserSchema.methods.isStudent = ->
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
-  
+
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(
@@ -110,7 +111,7 @@ UserSchema.methods.trackActivity = (activityName, increment) ->
   activity[activityName].last = now
   @set 'activity', activity
   activity
-  
+
 UserSchema.statics.search = (term, done) ->
   utils = require '../lib/utils'
   if utils.isID(term)
@@ -119,14 +120,17 @@ UserSchema.statics.search = (term, done) ->
     term = term.toLowerCase()
     query = $or: [{nameLower: term}, {emailLower: term}]
   return User.findOne(query).exec(done)
-  
+
 UserSchema.statics.findByEmail = (email, done=_.noop) ->
-  emailLower = email.toLowerCase()
+  emailLower = email?.toLowerCase()
+  return Promise.resolve(null) if _.isEmpty(emailLower)
   User.findOne({emailLower: emailLower}).exec(done)
 
 UserSchema.statics.findByName = (name, done=_.noop) ->
-  nameLower = name.toLowerCase()
-  User.findOne({nameLower: nameLower}).exec(done)
+  nameLower = name?.toLowerCase()
+  slug = _.str.slugify(name)
+  return Promise.resolve(null) if _.isEmpty(nameLower) and _.isEmpty(slug)
+  User.findOne({$or: [{nameLower}, {slug}]}).exec(done)
 
 emailNameMap =
   generalNews: 'announcement'
@@ -150,7 +154,6 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   newSubs[newName] ?= {}
   newSubs[newName].enabled = enabled
   @set('emails', newSubs)
-  @newsSubsChanged = true if newName in mail.NEWS_GROUPS
 
 UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
@@ -169,53 +172,75 @@ UserSchema.methods.isEmailSubscriptionEnabled = (newName) ->
   _.defaults emails, _.cloneDeep(jsonschema.properties.emails.default)
   return emails[newName]?.enabled
 
-UserSchema.statics.updateServiceSettings = (doc, callback) ->
-  return callback?() unless isProduction or GLOBAL.testing
-  return callback?() if doc.updatedMailChimp
-  return callback?() unless doc.get('email')
-  return callback?() unless doc.get('dateCreated')
-  accountAgeMinutes = (new Date().getTime() - doc.get('dateCreated').getTime?() ? 0) / 1000 / 60
-  return callback?() unless accountAgeMinutes > 30 or GLOBAL.testing
-  existingProps = doc.get('mailChimp')
-  emailChanged = (not existingProps) or existingProps?.email isnt doc.get('email')
+UserSchema.methods.emailChanged = -> @originalEmail isnt @get('emailLower')
 
-  if emailChanged and customerID = doc.get('stripe')?.customerID
+UserSchema.methods.updateServiceSettings = co.wrap ->
+  return unless isProduction or GLOBAL.testing
+  return if @updatedMailChimp
+  if @emailChanged() and customerID = @get('stripe')?.customerID
     unless stripe?.customers
       console.error('Oh my god, Stripe is not imported correctly-how could we have done this (again)?')
-    stripe?.customers?.update customerID, {email:doc.get('email')}, (err, customer) ->
+    stripe?.customers?.update customerID, {email:@get('email')}, (err, customer) ->
       console.error('Error updating stripe customer...', err) if err
 
-  return callback?() unless emailChanged or doc.newsSubsChanged
+  newsSubsChanged = not _.isEqual(@get('emails'), @startingEmails)
+  if @emailChanged() or newsSubsChanged
+    yield @updateMailChimp()
 
-  newGroups = []
-  for [mailchimpEmailGroup, emailGroup] in _.zip(mail.MAILCHIMP_GROUPS, mail.NEWS_GROUPS)
-    newGroups.push(mailchimpEmailGroup) if doc.isEmailSubscriptionEnabled(emailGroup)
 
-  if (not existingProps) and newGroups.length is 0
-    return callback?() # don't add totally unsubscribed people to the list
+UserSchema.methods.updateMailChimp = co.wrap ->
 
-  params = {}
-  params.id = mail.MAILCHIMP_LIST_ID
-  params.email = if existingProps then {leid: existingProps.leid} else {email: doc.get('email')}
-  params.merge_vars = {
-    groupings: [{id: mail.MAILCHIMP_GROUP_ID, groups: newGroups}]
-    'new-email': doc.get('email')
+  # construct interests object for MailChimp
+  interests = {}
+  for interest in mailChimp.interests
+    interests[interest.mailChimpId] = @isEmailSubscriptionEnabled(interest.property)
+  anyInterests = _.any(_.values(interests))
+
+  # grab the email this user has registered on MailChimp
+  { email: mailChimpEmail } = @get('mailChimp') or {}
+  mailChimpEmail = mailChimpEmail.toLowerCase() if mailChimpEmail
+
+  # don't do anything for people who are unsubscribed and never were subscribed
+  return unless mailChimpEmail or anyInterests
+
+  # if user's email does not match their mailChimp email, unsubscribe the old email
+  if mailChimpEmail and mailChimpEmail isnt @get('emailLower')
+    body = {
+      email_address: mailChimpEmail
+      status: 'unsubscribed'
+    }
+    yield mailChimp.api.put(mailChimp.makeSubscriberUrl(mailChimpEmail), body)
+    yield @update({$unset: {'mailChimp':''}})
+    mailChimpEmail = null # from here on, have logic treat this as a new subscriber addition
+
+  # need an email to subscribe!
+  email = @get('emailLower')
+  return unless email
+
+  # check if email is verified here or there
+  emailVerified = @get('emailVerified')
+  if mailChimpEmail and not emailVerified
+    try
+      subscriber = yield mailChimp.api.get(mailChimp.makeSubscriberUrl(mailChimpEmail))
+      if subscriber.status is 'subscribed'
+        emailVerified = true
+    catch e
+      console.log 'failed to get mailchimp status', e
+
+  # don't add new users unless their email is verified
+  return unless emailVerified or mailChimpEmail
+
+  body = {
+    interests
+    email_address: email
+    status: if anyInterests and emailVerified then 'subscribed' else 'unsubscribed'
+    merge_fields:
+      FNAME: @get('firstName')
+      LNAME: @get('lastName')
   }
-  params.update_existing = true
+  yield mailChimp.api.put(mailChimp.makeSubscriberUrl(email), body)
+  yield @update({$set: {mailChimp: {email}}})
 
-  onSuccess = (data) ->
-    data.email = doc.get('email')  # Make sure that we don't spam opt-in emails even if MailChimp doesn't update the email it gets in this object until they have confirmed.
-    doc.set('mailChimp', data)
-    doc.updatedMailChimp = true
-    doc.save()
-    callback?()
-
-  onFailure = (error) ->
-    log.error 'failed to subscribe', error, callback?
-    doc.updatedMailChimp = true
-    callback?()
-
-  mc?.lists.subscribe params, onSuccess, onFailure
 
 UserSchema.statics.statsMapping =
   edits:
@@ -260,7 +285,7 @@ UserSchema.statics.statsMapping =
     'campaign': 'stats.campaignMiscPatches'
     'poll': 'stats.pollMiscPatches'
     'course': 'stats.courseMiscPatches'
-    
+
 # TODO: Migrate from incrementStat to incrementStatAsync
 UserSchema.statics.incrementStatAsync = Promise.promisify (id, statName, options={}, done) ->
   # A shim over @incrementStat, providing a Promise interface
@@ -291,16 +316,26 @@ UserSchema.methods.incrementStat = (statName, done, inc=1) ->
   @save (err) -> done?(err)
 
 UserSchema.statics.unconflictName = unconflictName = (name, done) ->
-  User.findOne {slug: _.str.slugify(name)}, (err, otherUser) ->
+  slug = _.str.slugify(name)
+  if slug
+    query = {slug: slug}
+  else
+    # For un-sluggable names (like Chinese usernames), check based on nameLower
+    query = {nameLower: name.toLowerCase()}
+  User.findOne query, (err, otherUser) ->
     return done err if err?
     return done null, name unless otherUser
-    suffix = _.random(0, 9) + ''
-    unconflictName name + suffix, done
+    nameWithSuffix = name + _.random(0, 9)
+    while _.str.slugify(nameWithSuffix).length < 4
+      # Skip suggesting really short ones to save queries (they probably wouldn't work)
+      nameWithSuffix += _.random(0, 9)
+    unconflictName nameWithSuffix, done
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
 UserSchema.methods.sendWelcomeEmail = ->
   return if not @get('email')
+  return if core_utils.isSmokeTestEmail(@get('email'))
   { welcome_email_student, welcome_email_user } = sendwithus.templates
   timestamp = (new Date).getTime()
   data =
@@ -311,15 +346,20 @@ UserSchema.methods.sendWelcomeEmail = ->
     email_data:
       name: @broadName()
       verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+      teacher: @isTeacher()
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
 
 UserSchema.methods.hasSubscription = ->
-  return false unless stripeObject = @get('stripe')
-  return true if stripeObject.sponsorID
-  return true if stripeObject.subscriptionID
-  return true if stripeObject.free is true
-  return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
+  if payPal = @get('payPal')
+    return payPal.billingAgreementID
+  else if stripeObject = @get('stripe')
+    return true if stripeObject.sponsorID
+    return true if stripeObject.subscriptionID
+    return true if stripeObject.free is true
+    return true if _.isString(stripeObject.free) and new Date() < new Date(stripeObject.free)
+  false
+
 
 UserSchema.methods.isPremium = ->
   return true if @isInGodMode()
@@ -329,11 +369,6 @@ UserSchema.methods.isPremium = ->
 
 UserSchema.methods.isOnPremiumServer = ->
   return true if @get('country') in ['brazil']
-  return true if @get('country') in ['china'] and (@isPremium() or @get('stripe'))
-  return false
-
-UserSchema.methods.isOnFreeOnlyServer = ->
-  return true if @get('country') in ['china'] and not (@isPremium() or @get('stripe'))
   return false
 
 UserSchema.methods.level = ->
@@ -347,6 +382,30 @@ UserSchema.methods.isEnrolled = ->
   return false unless coursePrepaid
   return true unless coursePrepaid.endDate
   return coursePrepaid.endDate > new Date().toISOString()
+
+UserSchema.methods.prepaidType = ->
+  # TODO: remove once legacy prepaidIDs are migrated to objects
+  return undefined unless @get('coursePrepaid') or @get('coursePrepaidID')
+  # NOTE: Default type is 'course' if no type is marked on the user's copy
+  return @get('coursePrepaid')?.type or 'course'
+
+UserSchema.methods.prepaidIncludesCourse = (course) ->
+  # TODO: Migrate legacy prepaids that just use coursePrepaidID
+  return false if not (@get('coursePrepaid') or @get('coursePrepaidID'))
+  includedCourseIDs = @get('coursePrepaid')?.includedCourseIDs
+  return true if !includedCourseIDs # NOTE: Full licenses implicitly include all courses
+  courseID = course.id or course
+  return courseID.toString() in includedCourseIDs.map((id)->id.toString())
+
+UserSchema.methods.hasLogInMethod = ->
+  return true if _.any([
+    @get('facebookID')
+    @get('gplusID')
+    @get('githubID')
+    @get('cleverID')
+    _.size(@get('oAuthIdentities'))
+    @get('passwordHash')
+  ])
 
 UserSchema.statics.saveActiveUser = (id, event, done=null) ->
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
@@ -400,12 +459,12 @@ UserSchema.pre('save', (next) ->
       filter = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,63}$/i  # https://news.ycombinator.com/item?id=5763990
       if filter.test(name)
         return next(new errors.UnprocessableEntity('Username may not be an email'))
-  
+
     @set('nameLower', name.toLowerCase())
   else
     @set('name', undefined)
     @set('nameLower', undefined)
-  
+
   if _.isEmpty(@get('firstName'))
     @set('firstName', undefined)
   if _.isEmpty(@get('lastName'))
@@ -418,17 +477,25 @@ UserSchema.pre('save', (next) ->
   if @get('password')
     @set('passwordHash', User.hashPassword(pwd))
     @set('password', undefined)
+
+  if @hasLogInMethod() and @get('anonymous')
+    @set('anonymous', false)
+
   next()
 )
 
-UserSchema.post 'save', (doc) ->
-  doc.newsSubsChanged = not _.isEqual(_.pick(doc.get('emails'), mail.NEWS_GROUPS), _.pick(doc.startingEmails, mail.NEWS_GROUPS))
-  UserSchema.statics.updateServiceSettings(doc)
+UserSchema.post 'save', co.wrap ->
+  try
+    yield @updateServiceSettings()
+  catch e
+    console.error 'User Post Save Error:', e.stack
 
-  
-UserSchema.post 'init', (doc) ->
-  doc.wasTeacher = doc.isTeacher()
-  doc.startingEmails = _.cloneDeep(doc.get('emails'))
+
+UserSchema.post 'init', ->
+  @set('anonymous', false) if @get('email') # TODO: Remove once User handler waterfall-signup system is removed, and we make sure all signup methods set anonymous to false
+  @originalEmail = @get('emailLower')
+  @wasTeacher = @isTeacher()
+  @startingEmails = _.cloneDeep(@get('emails'))
   if @get('coursePrepaidID') and not @get('coursePrepaid')
     Prepaid = require './Prepaid'
     @set('coursePrepaid', {
@@ -453,8 +520,9 @@ UserSchema.methods.verificationCode = (timestamp) ->
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
   'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
-  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID', 'chinaVersion', 'country',
-  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent'
+  'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID',
+  'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
+  'coursePrepaid', 'coursePrepaidID', 'lastAnnouncementSeen'
 ]
 UserSchema.statics.jsonSchema = jsonschema
 UserSchema.statics.editableProperties = [
@@ -463,7 +531,7 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent'
+  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
@@ -472,7 +540,7 @@ UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', '
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->
     req = options.req
-    return ret unless req # TODO: Make deleting properties the default, but the consequences are far reaching
+    return ret unless req
     publicOnly = options.publicOnly
     delete ret[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(doc._id) or req.session.amActually is doc.id))
@@ -493,16 +561,39 @@ UserSchema.statics.makeNew = (req) ->
     newID = _.pad((User.idCounter++).toString(16), 24, '0')
     user.set('_id', newID)
   user.set 'testGroupNumber', Math.floor(Math.random() * 256)  # also in app/core/auth
-  lang = languages.languageCodeFromAcceptedLanguages req.acceptedLanguages
+  lang = languages.languageCodeFromRequest req
+  { preferredLanguage } = req.query
+  if preferredLanguage and _.contains(languages.languageCodes, preferredLanguage)
+    user.set({ preferredLanguage })
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
   user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
   user.set 'country', req.country if req.country
+  user.set 'createdOnHost', req.headers.host
   user
 
 
 UserSchema.plugin plugins.NamedPlugin
+
+UserSchema.virtual('subscription').get ->
+  subscription = {
+    active: @hasSubscription()
+  }
+
+  { free } = @get('stripe') ? {}
+  if _.isString(free)
+    subscription.ends = new Date(free).toISOString()
+
+  return subscription
+
+UserSchema.virtual('license').get ->
+  license = {
+    active: @isEnrolled()
+  }
+  { endDate } = @get('coursePrepaid') ? {}
+  license.ends = endDate if endDate
+  return license
 
 module.exports = User = mongoose.model('User', UserSchema)
 User.idCounter = 0

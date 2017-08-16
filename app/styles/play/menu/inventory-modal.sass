@@ -498,6 +498,27 @@ $itemSlotGridHeight: 51px
       background: rgb(84,128,44)
       color: white
 
+    #subscriber-item-viewed
+      flex-grow: 1
+      height: 55px
+      line-height: 10px
+      border-style: solid
+      border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
+      border-width: 14px 20px 20px 20px
+      color: darken(white, 5%)
+      background-color: black
+
+      span
+        pointer-events: none
+
+      &:hover
+        border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
+
+      &:active
+        border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
+        padding: 2px 0 0 2px
+        color: white
+
   //- Paper doll positioning
 
   #hero-image, #hero-image-head, #hero-image-hair, #hero-image-thumb
@@ -613,6 +634,9 @@ $itemSlotGridHeight: 51px
 
       &.male
         left: -16px
+
+    &.pet
+      z-index: 20
 
 body[lang='ja'], body[lang^='zh'], body[lang='ca'], body[lang^='es'], body[lang^='pt'], body[lang='ro'], body[lang='fi'], body[lang='sv'], body[lang='uk'], body[lang='vi'], body[lang='cz']
   #inventory-modal #unequipped .item button

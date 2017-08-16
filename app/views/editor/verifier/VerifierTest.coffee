@@ -13,7 +13,7 @@ module.exports = class VerifierTest extends CocoClass
     # TODO: listen to the progress report from Angel to show a simulation progress bar (maybe even out of the number of frames we actually know it'll take)
     @supermodel ?= new SuperModel()
 
-    if utils.getQueryVariable('dev')
+    if utils.getQueryVariable('dev') or @options.devMode
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
 
@@ -34,7 +34,7 @@ module.exports = class VerifierTest extends CocoClass
     unless @solution
       @error = 'No solution present...'
       @state = 'no-solution'
-      @updateCallback? state: 'no-solution'
+      @updateCallback? test: @, state: 'no-solution'
       return
     me.team = @team = 'humans'
     @setupGod()
@@ -79,7 +79,18 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
     @god.createWorld @session.generateSpellsObject()
-    @updateCallback? state: 'running'
+    @state = 'running'
+    @reportResults()
+
+  extractTestLogs: ->
+    @testLogs = []
+    for log in @god?.angelsShare?.busyAngels?[0]?.allLogs ? []
+      continue if log.indexOf('[TEST]') is -1
+      @testLogs.push log.replace /\|.*?\| \[TEST\] /, ''
+    @testLogs
+
+  reportResults: ->
+    @updateCallback? test: @, state: @state, testLogs: @extractTestLogs()
 
   processSingleGameResults: (e) ->
     @goals = e.goalStates
@@ -87,12 +98,12 @@ module.exports = class VerifierTest extends CocoClass
     @lastFrameHash = e.lastFrameHash
     @simulationFrameRate = e.simulationFrameRate
     @state = 'complete'
-    @updateCallback? state: @state
+    @reportResults()
     @scheduleCleanup()
 
-  isSuccessful: () ->
+  isSuccessful: (careAboutFrames=true) ->
     return false unless @solution?
-    return false unless @frames == @solution.frameCount or @options.dontCareAboutFrames
+    return false unless @frames == @solution.frameCount or not careAboutFrames
     return false if @simulationFrameRate < 30
     if @goals and @solution.goals
       for k of @goals
@@ -103,19 +114,19 @@ module.exports = class VerifierTest extends CocoClass
   onUserCodeProblem: (e) ->
     console.warn "Found user code problem:", e
     @userCodeProblems.push e.problem
-    @updateCallback? state: @state
+    @reportResults()
 
   onNonUserCodeProblem: (e) ->
     console.error "Found non-user-code problem:", e
     @error = "Failed due to non-user-code problem: #{JSON.stringify(e)}"
     @state = 'error'
-    @updateCallback? state: @state
+    @reportResults()
     @scheduleCleanup()
 
   fail: (e) ->
     @error = 'Failed due to infinite loop.'
     @state = 'error'
-    @updateCallback? state: @state
+    @reportResults()
     @scheduleCleanup()
 
   scheduleCleanup: ->

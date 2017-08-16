@@ -14,7 +14,7 @@ form#basic-info-form.modal-body
 
     .hr-text.m-y-3
       hr
-      span(data-i18n="common.continue")
+      span(data-i18n="common.next")
 
     .form-container
       input.hidden(name="email" value=view.signupState.get('email'))
@@ -24,14 +24,14 @@ form#basic-info-form.modal-body
             label.control-label(for="username-input")
               span(data-i18n="general.username")
           .col-xs-5.col-xs-offset-3
-            input.form-control.input-lg#username-input(name="name")
+            input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name)
           .col-xs-4.name-check
             - var checkNameState = view.state.get('checkNameState');
             if checkNameState === 'checking'
               span.small(data-i18n="signup.checking")
             if checkNameState === 'exists'
               span.small
-                span.text-burgandy.glyphicon.glyphicon-remove-circle
+                span.text-burgundy.glyphicon.glyphicon-remove-circle
                 =" "
                 span= view.state.get('suggestedNameText')
             if checkNameState === 'available'
@@ -45,13 +45,17 @@ form#basic-info-form.modal-body
           .col-xs-7.col-xs-offset-3
             .checkbox
               label
-                input#subscribe-input(type="checkbox" checked="checked" name="subscribe")
+                input#subscribe-input(type="checkbox" checked="checked" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
                 span(data-i18n="signup.email_announcements")
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
-    button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="login.sign_up")
+    if view.signupState.get('path') === 'teacher'
+      button.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.next")
+    else
+      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="login.sign_up")
 
     button.back-button.btn.btn-lg.btn-navy-alt(type='button')
       span(data-i18n="common.back")

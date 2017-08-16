@@ -29,8 +29,9 @@ module.exports = class ThangType extends CocoModel
     'master-wizard': ''
     duelist: '57588f09046caf2e0012ed41'
     champion: '575848b522179b2800efbfbf'
+    'code-ninja': '58192d484954d56144a7062f'
   @heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   @items:
@@ -39,6 +40,7 @@ module.exports = class ThangType extends CocoModel
   building: {}
   editableByArtisans: true
   @defaultActions: ['idle', 'die', 'move', 'attack', 'trick', 'cast']
+  @heroConfigStats: {}  # Build a cache of these for quickly determining hero/item loadout aggregate stats
 
   initialize: ->
     super()
@@ -242,27 +244,32 @@ module.exports = class ThangType extends CocoModel
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
   getHeroShortName: ->
+    # TODO: Eventually nice to move this into ThangType so it can be translated like the rest
     map = {
-      "Assassin": "Ritic"
-      "Captain": "Anya"
-      "Champion": "Ida"
-      "Master Wizard": "Usara"
-      "Duelist": "Alejandro"
-      "Forest Archer": "Naria"
-      "Goliath": "Okar"
-      "Guardian": "Illia"
-      "Knight": "Tharin"
-      "Librarian": "Hushbaum"
-      "Necromancer": "Nalfar"
-      "Ninja": "Amara"
-      "Pixie": "Zana"
-      "Potion Master": "Omarn"
-      "Raider": "Arryn"
-      "Samurai": "Hattori"
-      "Sorcerer": "Pender"
-      "Trapper": "Senick"
+      'Assassin': {'en-US': 'Ritic'}
+      'Captain': {'en-US': 'Anya', 'zh-HANS': '安雅'}
+      'Champion': {'en-US': 'Ida'}
+      'Master Wizard': {'en-US': 'Usara'}
+      'Duelist': {'en-US': 'Alejandro'}
+      'Forest Archer': {'en-US': 'Naria'}
+      'Goliath': {'en-US': 'Okar'}
+      'Guardian': {'en-US': 'Illia'}
+      'Knight': {'en-US': 'Tharin', 'zh-HANS': '坦林'}
+      'Librarian': {'en-US': 'Hushbaum'}
+      'Necromancer': {'en-US': 'Nalfar'}
+      'Ninja': {'en-US': 'Amara'}
+      'Pixie': {'en-US': 'Zana'}
+      'Potion Master': {'en-US': 'Omarn'}
+      'Raider': {'en-US': 'Arryn'}
+      'Samurai': {'en-US': 'Hattori'}
+      'Ian Elliott': {'en-US': 'Hattori'}
+      'Sorcerer': {'en-US': 'Pender'}
+      'Trapper': {'en-US': 'Senick'}
+      'Code Ninja': {'en-US': 'Code Ninja'}
     }
-    map[@get('name')]
+    name = map[@get('name')]
+    return translated if translated = name?[me.get('preferredLanguage', true)]
+    return name?['en-US']
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
@@ -542,6 +549,8 @@ module.exports = class ThangType extends CocoModel
     next = false if action.loops is false
     return next
 
+  noRawData: -> not @get('raw')
+
   initPrerenderedSpriteSheets: ->
     return if @prerenderedSpriteSheets or not data = @get('prerenderedSpriteSheetData')
     # creates a collection of prerendered sprite sheets
@@ -549,6 +558,8 @@ module.exports = class ThangType extends CocoModel
 
   getPrerenderedSpriteSheet: (colorConfig, defaultSpriteType) ->
     return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
     spriteType = @get('spriteType') or defaultSpriteType
     @prerenderedSpriteSheets.find (pss) ->
       return false if pss.get('spriteType') isnt spriteType
@@ -559,14 +570,79 @@ module.exports = class ThangType extends CocoModel
 
   getPrerenderedSpriteSheetToLoad: ->
     return unless @prerenderedSpriteSheets
+    if @noRawData()
+      return @prerenderedSpriteSheets.first() # there can only be one
     @prerenderedSpriteSheets.find (pss) -> pss.needToLoad and not pss.loadedImage
+
+  onLoaded: ->
+    super()
+    return if ThangType.heroConfigStats[@get('original')]
+    # Cache certain component properties for quickly determining hero/item loadout aggregate stats
+    components = @get('components') or []
+    return unless components.length
+    return if not @get('gems')? and (
+      (@project and not /gems/.test(@project)) or
+      (/project/.test(@getURL()) and not /gems/.test(@getURL())) or
+      (@collection?.project and not /gems/.test(@collection?.project)) or
+      (/project/.test(@collection?.getURL()) and not /gems/.test(@collection?.getURL()))
+    )
+    stats = gems: @get('gems') or 0
+    if itemConfig = _.find(components, original: LevelComponent.ItemID)?.config
+      stats.kind = 'item'
+      stats.speed = speed if speed = itemConfig.stats?.maxSpeed?.addend
+      stats.health = health if health = itemConfig.stats?.maxHealth?.addend
+      if attacksConfig = _.find(components, original: LevelComponent.AttacksID)?.config
+        stats.attack = (attacksConfig.attackDamage ? 3) / (attacksConfig.cooldown ? 1)
+      ThangType.heroConfigStats[@get('original')] = stats
+    else if equipsConfig = _.find(components, original: LevelComponent.EquipsID)?.config
+      stats.kind = 'hero'
+      stats.attackMultiplier = equipsConfig.attackDamageFactor ? 1
+      stats.healthMultiplier = equipsConfig.maxHealthFactor ? 1
+      if movesConfig = _.find(components, original: LevelComponent.MovesID)?.config
+        stats.speed = movesConfig.maxSpeed ? 3.6
+      if attackableConfig = _.find(components, original: LevelComponent.AttackableID)?.config
+        stats.baseHealth = attackableConfig.maxHealth ? 11
+      ThangType.heroConfigStats[@get('original')] = stats
+    null
+
+  @calculateStatsForHeroConfig: (heroConfig, callback) ->
+    # Load enough information from the ThangTypes involved in a hero configuration to show various stats the hero will have.
+    # We don't rely on any supermodel caches, because this ThangType projection is useless anywhere else.
+    thisHeroConfigStats = {}
+    heroOriginal = heroConfig.thangType ? ThangType.heroes.captain
+    for original in _.values(heroConfig.inventory).concat [heroOriginal]
+      thisHeroConfigStats[original] = ThangType.heroConfigStats[original] or 'loading'
+    for original, stats of thisHeroConfigStats when stats is 'loading'
+      url = "/db/thang.type/#{original}/version?project=original,components,gems"
+      tt = new ThangType().setURL url
+      do (tt) =>
+        tt.on 'sync', =>
+          thisHeroConfigStats[tt.get('original')] = ThangType.heroConfigStats[tt.get('original')]
+          tt.off 'sync'
+          tt.destroy()
+          @formatStatsForHeroConfig thisHeroConfigStats, callback
+      tt.fetch()
+    @formatStatsForHeroConfig thisHeroConfigStats, callback
+
+  @formatStatsForHeroConfig: (heroConfigStats, callback) ->
+    heroConfigStatValues = _.values heroConfigStats
+    return if 'loading' in heroConfigStatValues
+    heroStats = _.find heroConfigStatValues, kind: 'hero'
+    totals = {health: heroStats.baseHealth ? 11, speed: 0, gems: 0}
+    for stats in heroConfigStatValues
+      totals.gems += stats.gems if stats.gems
+      totals.health += stats.health * (heroStats.healthMultiplier or 1) if stats.health
+      totals.attack = stats.attack * (heroStats.attackMultiplier or 1) if stats.attack
+      totals.speed += stats.speed if stats.speed
+    callback totals
 
 
 class PrerenderedSpriteSheet extends CocoModel
   @className: 'PrerenderedSpriteSheet'
 
   loadImage: ->
-    return false if @loadingImage or @loadedImage
+    return true if @loadingImage
+    return false if @loadedImage
     return false unless imageURL = @get('image')
     @image = $("<img src='/file/#{imageURL}' />")
     @loadingImage = true

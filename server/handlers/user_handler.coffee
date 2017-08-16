@@ -26,6 +26,8 @@ sendwithus = require '../sendwithus'
 Prepaid = require '../models/Prepaid'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
+facebook = require '../lib/facebook'
+middleware = require '../middleware'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 candidateProperties = [
@@ -47,6 +49,19 @@ UserHandler = class UserHandler extends Handler
         props = _.without props, 'role'
     props
 
+  validateDocumentInput: (input, req) ->
+    res = super(input)
+
+    if res.errors and req
+      mapper = (error) -> [error.code.toString(),error.dataPath,error.schemaPath].join(':')
+      originalErrors = _.map(req.originalErrors, mapper)
+      currentErrors = _.map(res.errors, mapper)
+      newErrors = _.difference(currentErrors, originalErrors)
+      if _.size(newErrors) is 0
+        return { valid: true }
+
+    return res
+
   formatEntity: (req, document, publicOnly=false) =>
     # TODO: Delete. This function is duplicated in server User model toObject transform.
     return null unless document?
@@ -59,20 +74,23 @@ UserHandler = class UserHandler extends Handler
     return obj
 
   waterfallFunctions: [
+    (req, user, callback) ->
+      tv4 = require('tv4').tv4
+      res = tv4.validateMultiple(user.toObject(), User.jsonSchema)
+      req.originalErrors = res.errors
+      callback(null, req, user)
+
     # FB access token checking
     # Check the email is the same as FB reports
+    # TODO: Remove deprecated signups on RequestQuoteView, then these waterfall functions
     (req, user, callback) ->
       fbID = req.query.facebookID
       fbAT = req.query.facebookAccessToken
       return callback(null, req, user) unless fbID and fbAT
-      url = "https://graph.facebook.com/me?access_token=#{fbAT}"
-      request(url, (err, response, body) ->
-        log.warn "Error grabbing FB token: #{err}" if err
-        body = JSON.parse(body)
+      facebook.fetchMe(fbAT).catch(callback).then (body) ->
         emailsMatch = req.body.email is body.email
         return callback(res: 'Invalid Facebook Access Token.', code: 422) unless emailsMatch
         callback(null, req, user)
-      )
 
     # GPlus access token checking
     (req, user, callback) ->
@@ -91,6 +109,21 @@ UserHandler = class UserHandler extends Handler
     # Email setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.email?
+
+      emailRegex = /[A-z0-9._%+-]+@[A-z0-9.-]+\.[A-z]{2,63}/
+      if not emailRegex.test(req.body.email) and emailRegex.test(user.get('email'))
+        # Don't let them remove their email address if it's there already
+        # TODO: Send a response that the user can actually see! Mimic schema error?
+        if not user.get('role')
+          return callback({ res: { message: 'Individual accounts must have a valid email address', code: 422}, code: 422 })
+        if user.isTeacher()
+          return callback({ res: { message: 'Teacher accounts must have a valid email address', code: 422}, code: 422 })
+
+      # handle unsetting email
+      if req.body.email is ''
+        user.set('email', req.body.email)
+        return callback(null, req, user)
+
       emailLower = req.body.email.toLowerCase()
       return callback(null, req, user) if emailLower is user.get('emailLower')
       User.findOne({emailLower: emailLower}).exec (err, otherUser) ->
@@ -106,11 +139,17 @@ UserHandler = class UserHandler extends Handler
         r = {message: 'is already used by another account', property: 'email', code: 409}
         return callback({res: r, code: 409}) if otherUser
         user.set('email', req.body.email)
+        user.set('emailVerified', false)
         callback(null, req, user)
 
     # Name setting
     (req, user, callback) ->
       return callback(null, req, user) unless req.body.name?
+
+      if req.body.name is ''
+        user.set('name', req.body.name)
+        return callback(null, req, user)
+
       nameLower = req.body.name?.toLowerCase()
       return callback(null, req, user) unless nameLower?
       return callback(null, req, user) if user.get 'anonymous' # anonymous users can have any name
@@ -126,35 +165,35 @@ UserHandler = class UserHandler extends Handler
 
     # Subscription setting
     (req, user, callback) ->
-      # TODO: Make subscribe vs. unsubscribe explicit.  This property dance is confusing.
       return callback(null, req, user) unless req.headers['x-change-plan'] # ensure only saves that are targeted at changing the subscription actually affect the subscription
       return callback(null, req, user) unless req.body.stripe
-      finishSubscription = (hasPlan, wantsPlan) ->
-        return callback(null, req, user) if hasPlan is wantsPlan
-        if wantsPlan and not hasPlan
-          SubscriptionHandler.subscribeUser(req, user, (err) ->
-            return callback(err) if err
-            return callback(null, req, user)
-          )
-        else if hasPlan and not wantsPlan
-          SubscriptionHandler.unsubscribeUser(req, user, (err) ->
-            return callback(err) if err
-            return callback(null, req, user)
-          )
-      if req.body.stripe.subscribeEmails?
-        SubscriptionHandler.subscribeUser(req, user, (err) ->
-          return callback(err) if err
-          return callback(null, req, user)
+      wantsPlan = req.body.stripe.planID?
+      hasPlan = user.get('stripe')?.planID? and not req.body.stripe.prepaidCode?
+      return callback(null, req, user) if hasPlan is wantsPlan
+      if wantsPlan and not hasPlan
+        middleware.subscriptions.subscribeUser(req, user)
+        .then(-> callback(null, req, user))
+        .catch((err) ->
+          if err instanceof errors.NetworkError
+            return callback({res: err.message, code: err.code})
+          if err.res and err.code
+            return callback(err)
+          if err.message.indexOf('declined') > -1
+            return callback({res: 'Card declined', code: 402})
+          SubscriptionHandler.logSubscriptionError(user, 'Subscribe error: '+(err.stack or err.type or err.message))
+          callback({res: 'Subscription error.', code: 500})
         )
-      else if req.body.stripe.unsubscribeEmail?
-        SubscriptionHandler.unsubscribeUser(req, user, (err) ->
-          return callback(err) if err
-          return callback(null, req, user)
+      else if hasPlan and not wantsPlan
+        middleware.subscriptions.unsubscribeUser(req, user)
+        .then(-> callback(null, req, user))
+        .catch((err) ->
+          if err instanceof errors.NetworkError
+            return callback({res: err.message, code: err.code})
+          if err.res and err.code
+            return callback(err)
+          SubscriptionHandler.logSubscriptionError(user, 'Unsubscribe error: '+(err.stack or err.type or err.message))
+          callback({res: 'Subscription error.', code: 500})
         )
-      else
-        wantsPlan = req.body.stripe.planID?
-        hasPlan = user.get('stripe')?.planID? and not req.body.stripe.prepaidCode?
-        finishSubscription hasPlan, wantsPlan
 
     # Discount setting
     (req, user, callback) ->
@@ -245,66 +284,10 @@ UserHandler = class UserHandler extends Handler
     @put(req, res)
 
   hasAccessToDocument: (req, document) ->
-    if req.route.method in ['put', 'post', 'patch', 'delete']
+    if req.method.toLowerCase() in ['put', 'post', 'patch', 'delete']
       return true if req.user?.isAdmin()
       return req.user?._id.equals(document._id)
     return true
-
-  delete: (req, res, userID) ->
-    # Instead of just deleting the User object, we should remove all the properties except for _id
-    # And add a `deleted: true` property
-    @getDocumentForIdOrSlug userID, (err, user) => # Check first
-      return @sendDatabaseError res, err if err
-      return @sendNotFoundError res unless user
-      return @sendForbiddenError res unless @hasAccessToDocument(req, user)
-
-      # Delete subscriptions attached to this user first
-      # TODO: check sponsored subscriptions (stripe.recipients)
-      checkPersonalSubscription = (user, done) =>
-        try
-          return done() unless user.get('stripe')?.subscriptionID?
-          SubscriptionHandler.unsubscribeUser {body: user.toObject()}, user, (err) =>
-            log.error("User delete check personal sub " + err) if err
-            done()
-        catch error
-          log.error("User delete check personal sub " + error)
-          done()
-      checkRecipientSubscription = (user, done) =>
-        try
-          return done() unless sponsorID = user.get('stripe')?.sponsorID
-          User.findById sponsorID, (err, sponsor) =>
-            if err
-              log.error("User delete check recipient sub " + err)
-              return done()
-            unless sponsor
-              log.error("User delete check recipient sub no sponsor #{user.get('stripe').sponsorID}")
-              return done()
-            sponsorObject = sponsor.toObject()
-            sponsorObject.stripe.unsubscribeEmail = user.get('email')
-            SubscriptionHandler.unsubscribeRecipient {body: sponsorObject}, sponsor, (err) =>
-              log.error("User delete check recipient sub " + err) if err
-              done()
-        catch error
-          log.error("User delete check recipient sub " + error)
-          done()
-      deleteSubscriptions = (user, done) =>
-        checkPersonalSubscription user, (err) =>
-          checkRecipientSubscription user, done
-
-      deleteSubscriptions user, =>
-        obj = user.toObject()
-        for prop, val of obj
-          user.set(prop, undefined) unless prop is '_id'
-        user.set('dateDeleted', new Date())
-        user.set('deleted', true)
-
-        # Hack to get saving of Users to work. Probably should replace these props with strings
-        # so that validation doesn't get hung up on Date objects in the documents.
-        delete obj.dateCreated
-
-        user.save (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendNoContent res
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
@@ -327,7 +310,6 @@ UserHandler = class UserHandler extends Handler
     return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
     return @getRemark(req, res, args[0]) if args[1] is 'remark'
-    return @searchForUser(req, res) if args[1] is 'admin_search'
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
@@ -345,9 +327,9 @@ UserHandler = class UserHandler extends Handler
       stripe.customers.retrieve customerID, (err, customer) =>
         return @sendDatabaseError(res, err) if err
         info = card: customer.sources?.data?[0]
-        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (subscription) =>
+        findStripeSubscription customerID, subscriptionID: user.get('stripe').subscriptionID, (err, subscription) =>
           info.subscription = subscription
-          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (subscription) =>
+          findStripeSubscription customerID, subscriptionID: user.get('stripe').sponsorSubscriptionID, (err, subscription) =>
             info.sponsorSubscription = subscription
             @sendSuccess(res, JSON.stringify(info, null, '\t'))
 
@@ -401,7 +383,7 @@ UserHandler = class UserHandler extends Handler
         name: sponsor.get('name')
 
       # Get recipient subscription info
-      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (subscription) =>
+      findStripeSubscription sponsor.get('stripe')?.customerID, userID: req.user.id, (err, subscription) =>
         info.subscription = subscription
         @sendDatabaseError(res, 'No sponsored subscription found') unless info.subscription?
         @sendSuccess(res, info)
@@ -477,11 +459,11 @@ UserHandler = class UserHandler extends Handler
         {schoolName: {$exists: true}},
         {schoolName: {$ne: ''}}
         ]}
-    User.find(query, {schoolName: 1}).exec (err, documents) =>
+    User.find(query, {schoolName: 1}).lean().exec (err, documents) =>
       return @sendDatabaseError(res, err) if err
       schoolCountMap = {}
       for doc in documents
-        schoolName = doc.get('schoolName')
+        schoolName = doc.schoolName
         schoolCountMap[schoolName] ?= 0;
         schoolCountMap[schoolName]++;
       schoolCounts = []
@@ -489,7 +471,6 @@ UserHandler = class UserHandler extends Handler
         continue unless count >= minCount
         schoolCounts.push schoolName: schoolName, count: count
       @sendSuccess(res, schoolCounts)
-
   agreeToCLA: (req, res) ->
     return @sendForbiddenError(res) unless req.user
     doc =
@@ -506,7 +487,6 @@ UserHandler = class UserHandler extends Handler
         req.user.save (err) =>
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
-          slack.sendSlackMessage "#{req.body.githubUsername or req.user.get('name')} just signed the CLA.", ['dev-feed']
 
   avatar: (req, res, id) ->
     if not isID(id)
@@ -514,14 +494,9 @@ UserHandler = class UserHandler extends Handler
     @modelClass.findById(id).exec (err, document) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res) unless document
-      photoURL = document?.get('photoURL')
-      if photoURL
-        photoURL = "/file/#{photoURL}"
-      else if req.query.employerPageAvatar is "true"
-        photoURL = @buildGravatarURL document, req.query.s, "/images/pages/employer/anon_user.png"
-      else
-        photoURL = @buildGravatarURL document, req.query.s, req.query.fallback
-      res.redirect photoURL
+      fallback = req.query.fallback
+      combinedPhotoURL = @buildGravatarURL document, req.query.s, fallback
+      res.redirect combinedPhotoURL
       res.end()
 
   getLevelSessionsForEmployer: (req, res, userID) ->
@@ -686,9 +661,10 @@ UserHandler = class UserHandler extends Handler
 
   buildGravatarURL: (user, size, fallback) ->
     emailHash = @buildEmailHash user
+    fallback ?= "/file/db/thang.type/#{thang}/portrait.png" if thang = user.get('heroConfig')?.thangType
     fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
     fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
-    "https://www.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{fallback}"
+    "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
 
   buildEmailHash: (user) ->
     # emailHash is used by gravatar
@@ -710,49 +686,6 @@ UserHandler = class UserHandler extends Handler
       return @sendDatabaseError res, err if err
       return @sendNotFoundError res unless remark?
       @sendSuccess res, remark
-
-  searchForUser: (req, res) ->
-    return mongoSearchForUser(req,res) unless config.sphinxServer
-    mysql = require('mysql');
-    connection = mysql.createConnection
-      host: config.sphinxServer
-      port: 9306
-    connection.connect()
-
-    q = req.body.search
-    if isID q
-      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE mongoid = ? LIMIT 100;"
-    else
-      mysqlq = "SELECT *, WEIGHT() as skey FROM user WHERE MATCH(?)  LIMIT 100;"
-
-    connection.query mysqlq, [q], (err, rows, fields) =>
-      return @sendDatabaseError res, err if err
-      ids = rows.map (r) -> r.mongoid
-      User.find({_id: {$in: ids}}).select({name: 1, email: 1, dateCreated: 1}).lean().exec (err, users) =>
-        return @sendDatabaseError res, err if err
-        out = _.filter _.map ids, (id) => _.find(users, (u) -> String(u._id) is id)
-        console.log(out)
-        @sendSuccess res, out
-    connection.end()
-
-
-  mongoSearchForUser: (req, res) ->
-    # TODO: also somehow search the CLAs to find a match amongst those fields and to find GitHub ids
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    search = req.body.search
-    query = email: {$exists: true}, $or: [
-      {emailLower: search}
-      {nameLower: search}
-    ]
-    query.$or.push {_id: mongoose.Types.ObjectId(search) if isID search}
-    if search.length > 5
-      searchParts = search.split(/[.+@]/)
-      if searchParts.length > 1
-        query.$or.push {emailLower: {$regex: '^' + searchParts[0]}}
-    projection = name: 1, email: 1, dateCreated: 1
-    User.find(query).select(projection).lean().exec (err, users) =>
-      return @sendDatabaseError res, err if err
-      @sendSuccess res, users
 
   resetProgress: (req, res, userID) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'

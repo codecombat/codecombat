@@ -4,11 +4,16 @@ block content
 
   .form-horizontal
     form#espionage-form.form-group
-      label.control-label.col-sm-2(for="espionage-name-or-email") Espionage
-      .col-sm-4
-        input.form-control#espionage-name-or-email(placeholder="Email, username or id", type="text")
-      .col-sm-1
-        button.btn.btn-primary.btn-large#enter-espionage-mode 007
+      if !me.isAdmin()
+        .col-sm-2
+        .col-sm-4
+        .col-sm-1
+      else
+        label.control-label.col-sm-2(for="espionage-name-or-email") Espionage
+        .col-sm-4
+          input.form-control#espionage-name-or-email(placeholder="Email, username or id", type="text")
+        .col-sm-1
+          button.btn.btn-primary.btn-large#enter-espionage-mode 007
       label.control-label.col-sm-5(for="espionage-name-or-email")
         em you are currently #{me.get('name') || '(no username)'} at #{me.get('email') || '(no email)'}
         if view.amActually
@@ -16,30 +21,47 @@ block content
           em but you are actually #{view.amActually.get('name') || '(no username)'} at #{view.amActually.get('email') || '(no email)'}
           br
           button#stop-spying-btn.btn.btn-xs Stop Spying
-    form#user-search-form.form-group
-      label.control-label.col-sm-2(for="user-search") User Search
-      .col-sm-4
-        input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
-      .col-sm-1
-        button.btn.btn-primary.btn-large#user-search-button  Search
-  #user-search-result
-
-
-  h3 Admin Views
-
-  h4 Entities
-
-  ul
-    li
-      a(href="/admin/trial-requests") Trial Requests
-    li
-      a(href="/admin/user-code-problems") User Code Problems List
-    li
-      a(href="/admin/users") Users
-
+        if view.featureMode
+          br
+          em and you are viewing feature mode "#{view.featureMode}"
+          =" "
+          button#clear-feature-mode-btn.btn.btn-sm Clear Feature Mode
   if me.isAdmin()
+    .form-horizontal
+      form#user-search-form.form-group
+        label.control-label.col-sm-2(for="user-search") User Search
+        .col-sm-4
+          input.form-control#user-search(placeholder="Email, username, name, whatever", type="text")
+          a.search-help-toggle(href="#") (search help)
+          .search-help
+            h4 Search Syntax
+            ul
+              li use <code>role:teacher</code> to limit a search by role
+              li By default parts of the search are matched exactly.
+              li <code>*</code> can be used as a wildcard character (ex. '<code>rob*@gmail.com</code>')
+              li Avoid special charaters and puncuation.  Consider replacing them with <code>*</code> in searches.
+              li
+                a(href='http://sphinxsearch.com/docs/latest/extended-syntax.html') Complete Syntax Guide
+        .col-sm-1
+          button.btn.btn-primary.btn-large#user-search-button  Search
+    #user-search-result
+
+  if !me.isAdmin()
+    div.text-center You must be logged in as an admin to view this page.
+  else
+    h4 Entities
+    ul
+      li
+        a(href="/admin/trial-requests") Trial Requests
+      li
+        a(href="/admin/user-code-problems") User Code Problems
+
     h4 Analytics
     ul
+      li
+        a(href="/admin/classrooms-progress?licenseEndMonths=12") Classroom Progress vs. Available Content
+      li
+        a(href="/admin/classroom-content") Amount of Classroom Content
       li
         a(href="/admin/classroom-levels") Classroom Levels
       li
@@ -54,18 +76,21 @@ block content
       li
         a(href="/admin/analytics/subscriptions") Subscriptions
       li
-        a(href="/admin/demo-requests") Teacher Demo Requests 
+        a(href="/admin/demo-requests") Teacher Demo Requests
 
-  h4 Other
-  ul
-    li
-      a(href="/admin/base") Base (for debugging base.jade)
-    li
-      a(href="/admin/clas") CLAs
-    li
-      a(href="/admin/pending-patches") Patches
-      
-  if me.isAdmin()
+    h4 Other
+    ul
+      li
+        a(href="/admin/outcomes-report") Outcomes report
+      li
+        a(href="/admin/base") Base (for debugging base.jade)
+      li
+        a(href="/admin/clas") CLAs
+      li
+        a(href="/admin/pending-patches") Patches
+      li
+        a(href="/admin/skipped-contacts") Sales — Contacts skipped by sales automation scripts
+
     hr
     h3 Prepaids
     a.btn.btn-secondary#create-free-sub-btn Create Free Subscription Link
@@ -83,10 +108,10 @@ block content
       a#terminal-create.btn.btn-default Create Terminal Subscription Code
 
 
-  hr
+    hr
 
-  h3 Achievements
-  p This is just some stuff for temporary achievement testing. Should be replaced by a demo system.
+    h3 Achievements
+    p This is just some stuff for temporary achievement testing. Should be replaced by a demo system.
 
-  input#increment-field(type="text")
-  a.btn.btn-secondary#increment-button(href="#") Increment
+    input#increment-field(type="text")
+    a.btn.btn-secondary#increment-button(href="#") Increment

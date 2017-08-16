@@ -56,16 +56,15 @@ else
                 span.spr= '.'
                 // TODO: show better summary states, like active, subscribed, free, and active until.
                 a(href="/account/subscription", data-i18n="account_settings.manage_subscription")
-                
-    
+
       .panel.panel-default
         .panel-heading
           .panel-title(data-i18n="account_settings.picture_tab")
         #profile-photo-panel-body.panel-body
           img.profile-photo(src=me.getPhotoURL(230), draggable="false")
-          input#photoURL(type="hidden", value=me.get('photoURL')||'')
-          button#upload-photo-button.btn.form-control.btn-primary(data-i18n="account_settings.upload_picture")
-    
+          .text-center
+            a(href="https://gravatar.com/", data-i18n="account_settings.use_gravatar")
+
       .panel.panel-default
         .panel-heading
           .panel-title(data-i18n="general.password")

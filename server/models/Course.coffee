@@ -6,6 +6,8 @@ jsonSchema = require '../../app/schemas/models/course.schema'
 
 CourseSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
+CourseSchema.index({releasePhase: 1}, {name: 'releasePhase index'})
+
 CourseSchema.plugin plugins.NamedPlugin
 CourseSchema.plugin plugins.SearchablePlugin, {searchable: ['name', 'description']}
 CourseSchema.plugin(plugins.TranslationCoveragePlugin)

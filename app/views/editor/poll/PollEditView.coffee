@@ -3,10 +3,12 @@ template = require 'templates/editor/poll/poll-edit-view'
 Poll = require 'models/Poll'
 UserPollsRecord = require 'models/UserPollsRecord'
 PollModal = require 'views/play/modal/PollModal'
-ConfirmModal = require 'views/editor/modal/ConfirmModal'
+ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 app = require 'core/application'
+
+require 'game-libraries'
 
 module.exports = class PollEditView extends RootView
   id: 'editor-poll-edit-view'
@@ -45,7 +47,7 @@ module.exports = class PollEditView extends RootView
       @treema.set('/', @poll.attributes)
 
   buildTreema: ->
-    return if @treema? or (not @poll.loaded)
+    return if @treema? or (not @poll.loaded) or (not me.isAdmin())
     data = $.extend(true, {}, @poll.attributes)
     options =
       data: data

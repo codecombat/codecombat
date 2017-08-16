@@ -13,7 +13,6 @@ TaskLog = require './../models/ScoringTask'
 scoringUtils = require './scoring/scoringUtils'
 getTwoGames = require './scoring/getTwoGames'
 recordTwoGames = require './scoring/recordTwoGames'
-createNewTask = require './scoring/createNewTask'
 dispatchTaskToConsumer = require './scoring/dispatchTaskToConsumer'
 processTaskResult = require './scoring/processTaskResult'
 
@@ -41,6 +40,5 @@ module.exports.addPairwiseTaskToQueueFromRequest = (req, res) ->
 
 module.exports.getTwoGames = getTwoGames
 module.exports.recordTwoGames = recordTwoGames
-module.exports.createNewTask = createNewTask
 module.exports.dispatchTaskToConsumer = dispatchTaskToConsumer
 module.exports.processTaskResult = processTaskResult

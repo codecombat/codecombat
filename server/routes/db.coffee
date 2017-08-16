@@ -23,23 +23,23 @@ module.exports.setup = (app) ->
   bindHandler = (name, module) ->
     routeHandler = (req, res) ->
       res.setHeader('Content-Type', 'application/json')
-
       parts = req.path[4..].split('/')
-
       
-      if (not req.user) and req.route.method isnt 'get'
+      if (not req.user) and req.method isnt 'GET'
         return errors.unauthorized(res, 'Must have an identity to do anything with the db. Do you have cookies enabled?')
 
       try
         handler = require('../' + name)
+        method = req.method.toLowerCase()
         return handler.getLatestVersion(req, res, parts[1], parts[3]) if parts[2] is 'version'
+        return handler.toFile(req, res, parts[1], parts[3]) if parts[2] is 'toFile'
         return handler.versions(req, res, parts[1]) if parts[2] is 'versions'
         return handler.files(req, res, parts[1]) if parts[2] is 'files'
-        return handler.getNamesByIDs(req, res) if req.route.method in ['get', 'post'] and parts[1] is 'names'
+        return handler.getNamesByIDs(req, res) if method in ['get', 'post'] and parts[1] is 'names'
         return handler.getByRelationship(req, res, parts[1..]...) if parts.length > 2
-        return handler.getById(req, res, parts[1]) if req.route.method is 'get' and parts[1]?
-        return handler.patch(req, res, parts[1]) if req.route.method is 'patch' and parts[1]?
-        handler[req.route.method](req, res, parts[1..]...)
+        return handler.getById(req, res, parts[1]) if method is 'get' and parts[1]?
+        return handler.patch(req, res, parts[1]) if method is 'patch' and parts[1]?
+        handler[method](req, res, parts[1..]...)
       catch error
         errorMessage = "Error trying db method #{req?.route?.method} route #{parts} from #{name}: #{error}"
         if req.user?
@@ -53,8 +53,8 @@ module.exports.setup = (app) ->
           slack.sendSlackMessage errorMessage, ['ops'], papertrail: true
         errors.notFound(res, "Route #{req?.path} not found.")
     
-    app.all '/db/' + moduleName + '/*', routeHandler
     app.all '/db/' + moduleName, routeHandler
+    app.all '/db/' + moduleName + '/*', routeHandler
 
   app.get '/db/:module/schema', (req, res) ->
     res.setHeader('Content-Type', 'application/json')
@@ -72,7 +72,7 @@ module.exports.setup = (app) ->
 
 getSchema = (req, res, moduleName) ->
   try
-    name = moduleName.replace '.', '_'
+    name = moduleName.replace /[^a-z_-]/gi, '_'
     schema = require('../../app/schemas/models/' + name)
 
     res.send(JSON.stringify(schema, null, '\t'))

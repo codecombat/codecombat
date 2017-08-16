@@ -25,7 +25,7 @@ block content
       | #{i18n(view.course.attributes, 'name')}
       if view.courseComplete
         span.spl -
-        span.spl(data-i18n='courses.complete')
+        span.spl(data-i18n='clans.complete_2')
         span !
 
     p
@@ -61,7 +61,7 @@ block content
                   - var levelOriginal = level.get('original');
                   - var session = view.levelSessions.find(function(session) { return session.get('level').original === levelOriginal });
                   if session
-                    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + session.id + '?course=' + view.courseID;
+                    - var url = '/play/' + level.get('type') + '-level/' + level.get('slug') + '/' + session.id + '?course=' + view.courseID + '&course-instance=' + view.courseInstanceID;
                     a.btn.btn-gold.btn-view-project-level(href=url)
                       if level.isType('game-dev')
                         span(data-i18n='sharing.game')
@@ -69,8 +69,11 @@ block content
                         span(data-i18n='sharing.webpage')
             td
               if view.userLevelStateMap[me.id]
-                div= view.userLevelStateMap[me.id][level.get('original')]
-            td #{level.get('practice') ? 'practice' : 'required'}
+                div(data-i18n="courses." + view.userLevelStateMap[me.id][level.get('original')])
+            if level.get('practice')
+              td(data-i18n="courses.practice")
+            else
+              td(data-i18n="courses.required")
             td #{levelNumber}. #{i18n(level.attributes, 'name').replace('Course: ', '')}
             td
               if view.levelConceptMap[level.get('original')]

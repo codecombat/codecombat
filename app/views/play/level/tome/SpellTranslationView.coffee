@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 LevelComponent = require 'models/LevelComponent'
 template = require 'templates/play/level/tome/spell_translation'
+ace = require 'ace'
 Range = ace.require('ace/range').Range
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 utils = require 'core/utils'
@@ -16,7 +17,6 @@ module.exports = class SpellTranslationView extends CocoView
   constructor: (options) ->
     super options
     @ace = options.ace
-    @supermodel = options.supermodel
     
     levelComponents = @supermodel.getModels LevelComponent
     @componentTranslations = levelComponents.reduce((acc, lc) ->

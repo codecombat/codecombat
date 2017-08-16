@@ -2,6 +2,7 @@
 User = require 'models/User'
 storage = require 'core/storage'
 BEEN_HERE_BEFORE_KEY = 'beenHereBefore'
+{ getQueryVariable } = require('core/utils')
 
 init = ->
   module.exports.me = window.me = new User(window.userObject) # inserted into main.html
@@ -11,11 +12,16 @@ init = ->
     # Assign testGroupNumber to returning visitors; new ones in server/routes/auth
     me.set 'testGroupNumber', Math.floor(Math.random() * 256)
     me.patch()
+  preferredLanguage = getQueryVariable('preferredLanguage')
+  if me and features.codePlay and preferredLanguage
+    me.set('preferredLanguage', preferredLanguage)
+    me.save()
 
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 
 module.exports.logoutUser = ->
   # TODO: Refactor to use User.logout
+  return if features.codePlay
   FB?.logout?()
   callback = ->
     location = _.result(currentView, 'logoutRedirectURL')

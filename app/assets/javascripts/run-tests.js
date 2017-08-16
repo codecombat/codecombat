@@ -3,8 +3,10 @@
 
 
 window.userObject = {_id:'1'};
-window.serverConfig  = {picoCTF: false, production: false};
+window.serverConfig  = {picoCTF: false, production: false, buildInfo: { sha: 'dev' }};
 window.StripeCheckout = {configure: function (){}};
+window.features = { freeOnly: false }
+window.serverSession = {};
 initialize = require('core/initialize');
 initialize.init();
 application.testing = true;

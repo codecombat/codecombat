@@ -23,6 +23,10 @@ module.exports = class VerifierView extends RootView
     @problem = 0
     @testCount = 0
 
+    if utils.getQueryVariable('dev')
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
+
     defaultCores = 2
     @cores = Math.max(window.navigator.hardwareConcurrency, defaultCores)
     @careAboutFrames = true
@@ -37,7 +41,7 @@ module.exports = class VerifierView extends RootView
       @supermodel.trackRequest @campaigns.fetch(data: {project: 'slug,type,levels'})
       @campaigns.comparator = (m) ->
         ['intro', 'course-2', 'course-3', 'course-4', 'course-5', 'course-6', 'course-8',
-         'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano'].indexOf(m.get('slug'))
+         'dungeon', 'forest', 'desert', 'mountain', 'glacier', 'volcano', 'campaign-game-dev-1', 'campaign-game-dev-2', 'campaign-game-dev-3'].indexOf(m.get('slug'))
 
   onLoaded: ->
     super()
@@ -48,10 +52,10 @@ module.exports = class VerifierView extends RootView
 
   filterCampaigns: ->
     @levelsByCampaign = {}
-    for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero'] and campaign.get('slug') isnt 'picoctf'
-      @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: true}
+    for campaign in @campaigns.models when campaign.get('type') in ['course', 'hero'] and campaign.get('slug') not in ['picoctf', 'game-dev-1', 'game-dev-2', 'game-dev-3', 'web-dev-1', 'web-dev-2', 'web-dev-3', 'campaign-web-dev-1', 'campaign-web-dev-2', 'campaign-web-dev-3']
+      @levelsByCampaign[campaign.get('slug')] ?= {levels: [], checked: campaign.get('slug') in ['intro']}
       campaignInfo = @levelsByCampaign[campaign.get('slug')]
-      for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'game-dev', 'web-dev']  # Would use isType, but it's not a Level model
+      for levelID, level of campaign.get('levels') when level.type not in ['hero-ladder', 'course-ladder', 'web-dev']  # Would use isType, but it's not a Level model
         campaignInfo.levels.push level.slug
 
   filterCodeLanguages: ->
@@ -124,7 +128,7 @@ module.exports = class VerifierView extends RootView
             @update(e)
             if e.state in ['complete', 'error', 'no-solution']
               if e.state is 'complete'
-                if test.isSuccessful()
+                if test.isSuccessful(@careAboutFrames)
                   ++@passed
                 else
                   ++@failed
@@ -134,7 +138,7 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language, {dontCareAboutFrames: not @careAboutFrames}
+          , chunkSupermodel, task.language, {}
           @tests.unshift test
           @render()
         , => @render()

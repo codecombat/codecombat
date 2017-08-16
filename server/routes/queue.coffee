@@ -31,8 +31,6 @@ module.exports.setup = (app) ->
         handler.dispatchTaskToConsumer req, res
       else if isHTTPMethodPut req
         handler.processTaskResult req, res
-      else if isHTTPMethodPost req
-        handler.createNewTask req, res 
       else
         sendMethodNotSupportedError req, res
     catch error
@@ -50,11 +48,11 @@ getQueueNameFromPath = (path) ->
 
 loadQueueHandler = (queueName) -> require ('../queues/' + queueName)
 
-isHTTPMethodGet = (req) -> return req.route.method is 'get'
+isHTTPMethodGet = (req) -> return req.method is 'GET'
 
-isHTTPMethodPost = (req) -> return req.route.method is 'post'
+isHTTPMethodPost = (req) -> return req.method is 'POST'
 
-isHTTPMethodPut = (req) -> return req.route.method is 'put'
+isHTTPMethodPut = (req) -> return req.method is 'PUT'
 
 sendMethodNotSupportedError = (req, res) -> errors.badMethod(res, ['GET', 'POST', 'PUT'], 'Queues do not support the HTTP method used.' )
 

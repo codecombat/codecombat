@@ -1,5 +1,6 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/level/modal/picoctf-victory-modal'
+Level = require 'models/Level'
 
 module.exports = class PicoCTFVictoryModal extends ModalView
   id: 'picoctf-victory-modal'

@@ -25,18 +25,21 @@ module.exports = class MainAdminView extends RootView
     'click #stop-spying-btn': 'onClickStopSpyingButton'
     'click #increment-button': 'incrementUserAttribute'
     'click .user-spy-button': 'onClickUserSpyButton'
+    'click .teacher-dashboard-button': 'onClickTeacherDashboardButton'
     'click #user-search-result': 'onClickUserSearchResult'
     'click #create-free-sub-btn': 'onClickFreeSubLink'
     'click #terminal-create': 'onClickTerminalSubLink'
     'click .classroom-progress-csv': 'onClickExportProgress'
+    'click #clear-feature-mode-btn': 'onClickClearFeatureModeButton'
 
   getTitle: -> return $.i18n.t('account_settings.admin')
 
   initialize: ->
-    if window.amActually
-      @amActually = new User({_id: window.amActually})
+    if window.serverSession.amActually
+      @amActually = new User({_id: window.serverSession.amActually})
       @amActually.fetch()
       @supermodel.trackModel(@amActually)
+    @featureMode = window.serverSession.featureMode
     super()
 
   onClickStopSpyingButton: ->
@@ -48,6 +51,10 @@ module.exports = class MainAdminView extends RootView
         forms.enableSubmit(button)
         errors.showNotyNetworkError(arguments...)
     })
+
+  onClickClearFeatureModeButton: (e) ->
+    e.preventDefault()
+    application.featureMode.clear()
 
   onSubmitEspionageForm: (e) ->
     e.preventDefault()
@@ -73,16 +80,32 @@ module.exports = class MainAdminView extends RootView
         errors.showNotyNetworkError(arguments...)
     })
 
+  onClickTeacherDashboardButton: (e) ->
+    e.stopPropagation()
+    userID = $(e.target).closest('tr').data('user-id')
+    button = $(e.currentTarget)
+    forms.disableSubmit(button)
+    url = "/teachers/classes?teacherID=#{userID}"
+    application.router.navigate(url, { trigger: true })
+
   onSubmitUserSearchForm: (e) ->
     e.preventDefault()
     searchValue = @$el.find('#user-search').val()
     return if searchValue is @lastUserSearchValue
     return @onSearchRequestSuccess [] unless @lastUserSearchValue = searchValue.toLowerCase()
     forms.disableSubmit(@$('#user-search-button'))
+    q = @lastUserSearchValue
+    role = undefined
+    q = q.replace /role:([^ ]+)/, (dummy, m1) ->
+      role = m1
+      return ''
+
+    data = {adminSearch: q}
+    data.role = role if role?
     $.ajax
-      type: 'POST',
-      url: '/db/user/-/admin_search'
-      data: {search: @lastUserSearchValue}
+      type: 'GET',
+      url: '/db/user'
+      data: data
       success: @onSearchRequestSuccess
       error: @onSearchRequestFailure
 
@@ -90,7 +113,16 @@ module.exports = class MainAdminView extends RootView
     forms.enableSubmit(@$('#user-search-button'))
     result = ''
     if users.length
-      result = ("<tr data-user-id='#{user._id}'><td><code>#{user._id}</code></td><td>#{_.escape(user.name or 'Anonymous')}</td><td>#{_.escape(user.email)}</td><td><button class='user-spy-button'>Spy</button></td></tr>" for user in users)
+      result = ("
+      <tr data-user-id='#{user._id}'>
+        <td><code>#{user._id}</code></td>
+        <td><img src='/db/user/#{user._id}/avatar?s=18' class='avatar'> #{_.escape(user.name or 'Anonymous')}</td>
+        <td>#{_.escape(user.email)}</td>
+        <td>
+          <button class='user-spy-button'>Spy</button>
+          #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
+        </td>
+      </tr>" for user in users)
       result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#user-search-result').html(result)
 
@@ -148,6 +180,11 @@ module.exports = class MainAdminView extends RootView
     options.error = (model, response, options) =>
       console.error 'Failed to create prepaid', response
     @supermodel.addRequestResource('create_prepaid', options, 0).load()
+
+  afterRender: ->
+    super()
+    @$el.find('.search-help-toggle').click () =>
+      @$el.find('.search-help').toggle()
 
   onClickExportProgress: ->
     $('.classroom-progress-csv').prop('disabled', true)

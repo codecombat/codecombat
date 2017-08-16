@@ -1,3 +1,6 @@
+require 'aether'
+require 'esper'
+
 utils = require 'core/utils'
 
 Aether.addGlobal 'Vector', require './world/vector'

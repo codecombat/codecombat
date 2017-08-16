@@ -18,7 +18,7 @@
             span.glyphicon(class="glyphicon-"+iconMap[submenu])
             - var i18nKey = 'game_menu.' + submenu.replace('-', '_');
             span(data-i18n='[title]' + i18nKey + '_caption;' + i18nKey + '_tab')
-      if me.get('anonymous')
+      if me.get('anonymous') && !features.noAuth
         li.auth-tab(data-toggle='coco-modal', data-target="core/CreateAccountModal")
           a(data-toggle='coco-modal', data-target="core/CreateAccountModal")
             span.glyphicon.glyphicon-pencil

@@ -34,6 +34,7 @@ LevelPlaybackView = require './LevelPlaybackView'
 GoalsView = require './LevelGoalsView'
 LevelFlagsView = require './LevelFlagsView'
 GoldView = require './LevelGoldView'
+GameDevTrackView = require './GameDevTrackView'
 DuelStatsView = require './DuelStatsView'
 VictoryModal = require './modal/VictoryModal'
 HeroVictoryModal = require './modal/HeroVictoryModal'
@@ -45,6 +46,9 @@ ContactModal = require 'views/core/ContactModal'
 HintsView = require './HintsView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
+SpellPaletteView = require './tome/SpellPaletteView'
+
+require 'game-libraries'
 
 PROFILE_ME = false
 
@@ -85,6 +89,12 @@ module.exports = class PlayLevelView extends RootView
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
+    'click': 'onClick'
+
+  onClick: ->
+    # workaround to get users out of permanent idle status
+    if application.userIsIdle
+      application.idleTracker.onVisible()
 
   shortcuts:
     'ctrl+s': 'onCtrlS'
@@ -107,6 +117,7 @@ module.exports = class PlayLevelView extends RootView
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
 
+    $('flying-focus').remove() #Causes problems, so yank it out for play view.
     $(window).on 'resize', @onWindowResize
 
     application.tracker?.enableInspectletJS(@levelID)
@@ -134,7 +145,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = supermodel: @supermodel, levelID: @levelID, sessionID: @sessionID, opponentSessionID: @opponentSessionID, team: @getQueryVariable('team'), observing: @observing, courseID: @courseID
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
@@ -143,6 +154,9 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     return if @destroyed
+    if (me.isStudent() or me.isTeacher()) and not @courseID and not e.level.isType('course-ladder')
+      return _.defer -> application.router.redirectHome()
+
     unless e.level.isType('web-dev')
       @god = new God({
         @gameUIState
@@ -173,6 +187,10 @@ module.exports = class PlayLevelView extends RootView
     c = super()
     c.world = @world
     c
+
+  toggleSpellPalette: ->
+    @$el.toggleClass 'no-api'
+    $(window).trigger 'resize'
 
   afterRender: ->
     super()
@@ -274,13 +292,26 @@ module.exports = class PlayLevelView extends RootView
     @goalManager = new GoalManager(@world, @level.get('goals'), @team)
     @god?.setGoalManager @goalManager
 
+  updateGoals: (goals) ->
+    @level.set 'goals', goals
+    @goalManager.destroy()
+    @initGoalManager()
+
+  updateSpellPalette: (thang, spell) ->
+    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
+    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
+    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @session.get('codeLanguage'), session: @session, level: @level, courseID: @courseID, courseInstanceID: @courseInstanceID, useHero }
+    #@spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
+
+
   insertSubviews: ->
-    @hintsState = new HintsState({ hidden: true }, { @session, @level })
-    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
+    @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
+    @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
-    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul'] unless @level.isType('web-dev')
+    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul'] unless @level.isType('web-dev') or @level.isType('game-dev')
+    @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
@@ -318,9 +349,66 @@ module.exports = class PlayLevelView extends RootView
       if e.session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
         sorcerer = '53e126a4e06b897606d38bef'
       e.session.set 'heroConfig', {"thangType":sorcerer,"inventory":{"misc-0":"53e2396a53457600003e3f0f","programming-book":"546e266e9df4a17d0d449be5","minion":"54eb5dbc49fa2d5c905ddf56","feet":"53e214f153457600003e3eab","right-hand":"54eab7f52b7506e891ca7202","left-hand":"5463758f3839c6e02811d30f","wrists":"54693797a2b1f53ce79443e9","gloves":"5469425ca2b1f53ce7944421","torso":"546d4a549df4a17d0d449a97","neck":"54693274a2b1f53ce79443c9","eyes":"546941fda2b1f53ce794441d","head":"546d4ca19df4a17d0d449abf"}}
+    # TODO: Remove post-KR
+    else if e.level.get('slug') is 'the-gauntlet-kr'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
+      e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
+        "feet":"53e237bf53457600003e3f05",
+        "head":"546d38269df4a17d0d4499ff",
+        "eyes":"53e238df53457600003e3f0b",
+        "torso":"53e22eac53457600003e3efc",
+        "right-hand":"53e218d853457600003e3ebe",
+        "programming-book":"53e4108204c00d4607a89f78"
+      }}
+    else if e.level.get('slug') is 'woodland-cleaver-kr'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
+      e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
+        "eyes": "53e238df53457600003e3f0b",
+        "head": "546d38269df4a17d0d4499ff",
+        "torso": "545d3f0b2d03e700001b5a5d",
+        "right-hand": "544d7d1f8494308424f564a3",
+        "wrists": "53e2396a53457600003e3f0f",
+        "programming-book": "546e25d99df4a17d0d449be1",
+        "left-hand": "544c310ae0017993fce214bf"
+      }}
+    else if e.level.get('slug') is 'crossroads-kr'
+      lightseeker = '583d2cca6ffa3e65d170f29f'
+      e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
+        "wrists": "53e2396a53457600003e3f0f",
+        "eyes": "53e2167653457600003e3eb3",
+        "feet": "546d4d589df4a17d0d449ac9",
+        "left-hand": "544d7bb88494308424f56493",
+        "right-hand": "54694ba3a2b1f53ce794444d",
+        "waist": "5437002a7beba4a82024a97d",
+        "programming-book": "546e25d99df4a17d0d449be1",
+        "gloves": "5469425ca2b1f53ce7944421",
+        "head": "546d390b9df4a17d0d449a0b",
+        "torso": "546aaf1b3777d6186329285e",
+        "neck": "54693140a2b1f53ce79443bc"
+      }}
     else if e.level.get('slug') in ['ace-of-coders', 'elemental-wars']
       goliath = '55e1a6e876cb0948c96af9f8'
-      e.session.set 'heroConfig', {"thangType":goliath,"inventory":{"eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"}}
+      e.session.set 'heroConfig', {"thangType":goliath,"inventory":{
+        "eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"
+      }}
+    else if e.level.get('slug') in ['tesla-tesoro']
+      assassin = '566a2202e132c81f00f38c81'
+      e.session.set 'heroConfig', {"thangType":assassin,"inventory":{
+        "eyes": "546941fda2b1f53ce794441d",
+        "feet": "546d4d8e9df4a17d0d449acd",
+        "minion": "54eb5d1649fa2d5c905ddf52",
+        "neck": "54693363a2b1f53ce79443d1",
+        "wrists": "54693830a2b1f53ce79443f1",
+        "programming-book": "557871261ff17fef5abee3ee",
+        "left-ring": "5441c35c4e9aeb727cc9711d",
+        "torso": "546d3d549df4a17d0d449a47",
+        "head": "546d47c09df4a17d0d449a6f",
+        "left-hand": "54eb528449fa2d5c905ddf12",
+        "right-hand": "544d86318494308424f564e8"
+      }}
+    else if e.level.get('slug') is 'the-battle-of-sky-span'
+      wizard = '52fc1460b2b91c0d5a7b6af3'
+      e.session.set 'heroConfig', {"thangType":wizard,"inventory":{}}
     else if e.level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
@@ -328,6 +416,8 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
       @setupManager.open()
+
+
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
@@ -374,6 +464,9 @@ module.exports = class PlayLevelView extends RootView
     bounds = [{x: worldBounds.left, y: worldBounds.top}, {x: worldBounds.right, y: worldBounds.bottom}]
     @surface.camera.setBounds(bounds)
     @surface.camera.zoomTo({x: 0, y: 0}, 0.1, 0)
+    @listenTo @surface, 'resize', ({ height }) ->
+      @$('#stop-real-time-playback-button').css({ top: height - 30 })
+      @$('#how-to-play-game-dev-panel').css({ height })
 
   findPlayerNames: ->
     return {} unless @level.isType('ladder', 'hero-ladder', 'course-ladder')
@@ -388,7 +481,7 @@ module.exports = class PlayLevelView extends RootView
     return unless @surface? or @webSurface?
     @loadingView.showReady()
     @trackLevelLoadEnd()
-    if window.currentModal and not window.currentModal.destroyed and window.currentModal.constructor isnt VictoryModal
+    if window.currentModal and not window.currentModal.destroyed and [VictoryModal, CourseVictoryModal].indexOf(window.currentModal.constructor) is -1
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface?.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
@@ -522,9 +615,13 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
+    if isReload
+      # Make sure to share any models we loaded that the parent didn't, like hero equipment, in case the parent relodaed
+      e.supermodel.registerModel model for url, model of @supermodel.models when not e.supermodel.models[url]
     @setLevel e.level, e.supermodel
     if isReload
       @scriptManager.setScripts(e.level.get('scripts'))
+      @updateGoals e.level.get('goals')
       Backbone.Mediator.publish 'tome:cast-spell', {}  # a bit hacky
 
   onLevelReloadThangType: (e) ->
@@ -566,6 +663,7 @@ module.exports = class PlayLevelView extends RootView
         label: @level.get('name')
         levelID: @levelID
         ls: @session?.get('_id')
+        playtime: @session?.get('playtime')
       application.tracker?.trackTiming victoryTime, 'Level Victory Time', @levelID, @levelID
 
   showVictory: (options={}) ->
@@ -602,6 +700,9 @@ module.exports = class PlayLevelView extends RootView
   onFocusDom: (e) -> $(e.selector).focus()
 
   onContactClicked: (e) ->
+    if me.isStudent()
+      console.error("Student clicked contact modal.")
+      return
     Backbone.Mediator.publish 'level:contact-button-pressed', {}
     @openModalView contactModal = new ContactModal levelID: @level.get('slug') or @level.id, courseID: @courseID, courseInstanceID: @courseInstanceID
     screenshot = @surface.screenshot(1, 'image/png', 1.0, 1)
@@ -626,6 +727,7 @@ module.exports = class PlayLevelView extends RootView
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
     finishedLoading = @world.frames.length is @world.totalFrames
+    @realTimePlaybackWaitingForFrames = false
     if finishedLoading
       @lastWorldFramesLoaded = 0
       if @waitingForSubmissionComplete
@@ -637,19 +739,22 @@ module.exports = class PlayLevelView extends RootView
       continue unless thangType = _.find thangTypes, (m) -> m.get('name') is spriteName
       continue unless sound = AudioPlayer.soundForDialogue message, thangType.get('soundTriggers')
       AudioPlayer.preloadSoundReference sound
+    @session.updateKeyValueDb(e.keyValueDb) if @level.isType('game-dev')
 
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
     @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
     @onWindowResize()
+    @realTimePlaybackWaitingForFrames = true
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'
     @$('#how-to-play-game-dev-panel').addClass('hide') if @level.isType('game-dev')
     @$el.removeClass 'real-time'
     @onWindowResize()
-    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing
+    @session.saveKeyValueDb() if @level.isType('game-dev')
+    if @world.frames.length is @world.totalFrames and not @surface.countdownScreen?.showing and not @realTimePlaybackWaitingForFrames
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
@@ -698,3 +803,6 @@ module.exports = class PlayLevelView extends RootView
       @setupManager?.destroy()
       @setupManager = new LevelSetupManager({supermodel: @supermodel, level: @level, levelID: @levelID, parent: @, session: @session, hadEverChosenHero: true})
       @setupManager.open()
+
+  getLoadTrackingTag: () ->
+    @level?.get 'slug'

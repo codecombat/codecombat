@@ -24,6 +24,7 @@ template = require 'templates/play/level/tome/tome'
 Spell = require './Spell'
 SpellPaletteView = require './SpellPaletteView'
 CastButtonView = require './CastButtonView'
+utils = require 'core/utils'
 
 module.exports = class TomeView extends CocoView
   id: 'tome-view'
@@ -42,6 +43,11 @@ module.exports = class TomeView extends CocoView
 
   events:
     'click': 'onClick'
+
+  constructor: (options) ->
+    super options
+    unless options.god or options.level.get('type') is 'web-dev'
+      console.error "TomeView created with no God!"
 
   afterRender: ->
     super()
@@ -123,6 +129,7 @@ module.exports = class TomeView extends CocoView
           level: @options.level
           god: @options.god
           courseID: @options.courseID
+          courseInstanceID: @options.courseInstanceID
 
     for thangID, spellKeys of @thangSpells
       thang = @fakeProgrammableThang ? world.getThangByID thangID
@@ -159,6 +166,7 @@ module.exports = class TomeView extends CocoView
     difficulty = sessionState.difficulty ? 0
     if @options.observing
       difficulty = Math.max 0, difficulty - 1  # Show the difficulty they won, not the next one.
+    Backbone.Mediator.publish 'level:set-playing', {playing: false}
     Backbone.Mediator.publish 'tome:cast-spells', {
       @spells,
       preload,
@@ -168,7 +176,8 @@ module.exports = class TomeView extends CocoView
       submissionCount: sessionState.submissionCount ? 0,
       flagHistory: sessionState.flagHistory ? [],
       god: @options.god,
-      fixedSeed: @options.fixedSeed
+      fixedSeed: @options.fixedSeed,
+      keyValueDb: @options.session.get('keyValueDb') ? {}
     }
 
   onClick: (e) ->
@@ -191,10 +200,7 @@ module.exports = class TomeView extends CocoView
     @spellView?.setThang thang
 
   updateSpellPalette: (thang, spell) ->
-    return unless thang and @spellPaletteView?.thang isnt thang and (thang.programmableProperties or thang.apiProperties or thang.programmableHTMLProperties)
-    useHero = /hero/.test(spell.getSource()) or not /(self[\.\:]|this\.|\@)/.test(spell.getSource())
-    @spellPaletteView = @insertSubView new SpellPaletteView { thang, @supermodel, programmable: spell?.canRead(), language: spell?.language ? @options.session.get('codeLanguage'), session: @options.session, level: @options.level, courseID: @options.courseID, courseInstanceID: @options.courseInstanceID, useHero }
-    @spellPaletteView.toggleControls {}, spell.view.controlsEnabled if spell?.view   # TODO: know when palette should have been disabled but didn't exist
+    @options.playLevelView.updateSpellPalette thang, spell
 
   spellFor: (thang, spellName) ->
     return null unless thang?.isProgrammable
@@ -208,6 +214,9 @@ module.exports = class TomeView extends CocoView
     spell
 
   reloadAllCode: ->
+    if utils.getQueryVariable 'dev'
+      @options.playLevelView.spellPaletteView.destroy()
+      @updateSpellPalette @spellView.thang, @spellView.spell
     spell.view.reloadCode false for spellKey, spell of @spells when spell.view and (spell.team is me.team or (spell.team in ['common', 'neutral', null]))
     @cast false, false
 

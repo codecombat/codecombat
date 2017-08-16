@@ -3,6 +3,14 @@ LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
 ThangType = require './ThangType'
 
+# Pure functions for use in Vue
+# First argument is always a raw Level.attributes
+# Accessible via eg. `Level.isProject(levelObj)`
+LevelLib = {
+  isProject: (level) ->
+    return level.shareable is 'project'
+}
+
 module.exports = class Level extends CocoModel
   @className: 'Level'
   @schema: require 'schemas/models/level'
@@ -36,7 +44,7 @@ module.exports = class Level extends CocoModel
       if tmap[tt.get('original')] or
         (tt.get('kind') isnt 'Hero' and tt.get('kind')? and tt.get('components') and not tt.notInLevel) or
         (tt.get('kind') is 'Hero' and (@isType('course', 'course-ladder', 'game-dev') or tt.get('original') in sessionHeroes))
-          o.thangTypes.push (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')))
+          o.thangTypes.push (original: tt.get('original'), name: tt.get('name'), components: $.extend(true, [], tt.get('components')), kind: tt.get('kind'))
     @sortThangComponents o.thangTypes, o.levelComponents, 'ThangType'
     @fillInDefaultComponentConfiguration o.thangTypes, o.levelComponents
 
@@ -148,7 +156,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless
+    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF
       heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
@@ -264,8 +272,7 @@ module.exports = class Level extends CocoModel
   isLadder: ->
     return @get('type')?.indexOf('ladder') > -1
 
-  isProject: ->
-    return @get('shareable') is 'project'
+  isProject: -> Level.isProject(@attributes)
 
   isType: (types...) ->
     return @get('type', true) in types
@@ -279,11 +286,25 @@ module.exports = class Level extends CocoModel
 
   getSolutions: ->
     return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
-    return [] unless config = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config
-    solutions = _.cloneDeep config.programmableMethods.plan.solutions ? []
+    return [] unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+    solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
       try
-        solution.source = _.template(solution.source)(config?.programmableMethods?.plan.context)
+        solution.source = _.template(solution.source)(plan.context)
       catch e
         console.error "Problem with template and solution comments for", @get('slug'), e
     solutions
+
+  getSampleCode: ->
+    return {} unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
+    return {} unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+    sampleCode = _.cloneDeep plan.languages ? {}
+    sampleCode.javascript = plan.source
+    for language, code of sampleCode
+      try
+        sampleCode[language] = _.template(code)(plan.context)
+      catch e
+        console.error "Problem with template and solution comments for", @get('slug'), e
+    sampleCode
+
+_.assign(Level, LevelLib)

@@ -236,7 +236,10 @@ module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends Treem
     super(arguments...)
     @getThangTypes()
     unless ThangTypeNode.thangTypesCollection.loaded
-      ThangTypeNode.thangTypesCollection.once('sync', @refreshDisplay, @)
+      f = -> 
+        @refreshDisplay() unless @isEditing()
+        @getThangTypes()
+      ThangTypeNode.thangTypesCollection.once('sync', f, @)
 
   buildValueForDisplay: (valEl, data) ->
     @buildValueForDisplaySimply(valEl, @getCurrentThangType() or '')
@@ -245,9 +248,12 @@ module.exports.ThangTypeNode = ThangTypeNode = class ThangTypeNode extends Treem
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
     input = valEl.find 'input'
-    if @constructor.thangTypes
-      source = (thangType.name for thangType in @constructor.thangTypes when @filterThangType thangType)
-      input.autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
+    source = (req, res) =>
+      { term } = req
+      term = term.toLowerCase()
+      return res([]) unless @constructor.thangTypes
+      return res(thangType.name for thangType in @constructor.thangTypes when _.string.contains(thangType.name.toLowerCase(), term))
+    input.autocomplete(source: source, minLength: 0, delay: 0, autoFocus: true)
     input.val(@getCurrentThangType() or '')
     valEl
 

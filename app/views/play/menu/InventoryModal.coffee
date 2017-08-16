@@ -1,6 +1,7 @@
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/menu/inventory-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
+earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'
@@ -10,6 +11,7 @@ ItemDetailsView = require 'views/play/modal/ItemDetailsView'
 Purchase = require 'models/Purchase'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 hasGoneFullScreenOnce = false
 
@@ -33,6 +35,7 @@ module.exports = class InventoryModal extends ModalView
     'click .unlock-button': 'onUnlockButtonClicked'
     'click #equip-item-viewed': 'onClickEquipItemViewed'
     'click #unequip-item-viewed': 'onClickUnequipItemViewed'
+    'click #subscriber-item-viewed': 'onClickSubscribeItemViewed'
     'click #close-modal': 'hide'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click': 'onClickedSomewhere'
@@ -63,13 +66,21 @@ module.exports = class InventoryModal extends ModalView
       'description'
       'heroClass'
       'i18n'
+      'subscriber'
     ]
     @supermodel.loadCollection(@items, 'items')
     @equipment = {}  # Assign for real when we have loaded the session and items.
 
   onItemsLoaded: ->
-    item.notInLevel = true for item in @items.models
-    @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
+    for item in @items.models
+      item.notInLevel = true
+      programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
+      item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
+    @itemsProgrammablePropertiesConfigured = true
+    if me.isStudent()
+      @equipment = me.get('heroConfig')?.inventory or {}
+    else
+      @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
     @equipment = $.extend true, {}, @equipment
     @requireLevelEquipment()
     @itemGroups = {}
@@ -77,6 +88,7 @@ module.exports = class InventoryModal extends ModalView
     @itemGroups.availableItems = new Backbone.Collection()
     @itemGroups.restrictedItems = new Backbone.Collection()
     @itemGroups.lockedItems = new Backbone.Collection()
+    @itemGroups.subscriberItems = new Backbone.Collection()
     itemGroup.comparator = ((m) -> m.get('tier') ? m.get('gems')) for itemGroup in _.values @itemGroups
 
     equipped = _.values(@equipment)
@@ -91,25 +103,26 @@ module.exports = class InventoryModal extends ModalView
       item.classes.push heroClass
     item.classes.push 'equipped' if item.get('original') in equipped
 
-    # sort into one of the four groups
-    locked = not (item.get('original') in me.items())
-    #locked = false if me.get('slug') is 'nick'
+    # sort into one of the five groups
+    locked = not me.ownsItem item.get('original')
 
-    allRestrictedGear = _.flatten(_.values(@options.level.get('restrictedGear') ? {}))
+    subscriber = (not me.isStudent()) and (not me.isPremium()) and item.get('subscriber')
+    restrictedGear = @calculateRestrictedGearPerSlot()
+    allRestrictedGear = _.flatten(_.values(restrictedGear))
     restricted = item.get('original') in allRestrictedGear
 
     # TODO: make this re-use result of computation of updateLevelRequiredItems, which we can only do after heroClass is ready...
     requiredToPurchase = false
-    if requiredGear = @options.level.get('requiredGear')
-      inCampaignView = $('#campaign-view').length
-      unless gearSlugs[item.get('original')] is 'tarnished-bronze-breastplate' and inCampaignView and @options.level.get('slug') is 'the-raised-sword'
-        for slot in item.getAllowedSlots()
-          continue unless requiredItems = requiredGear[slot]
-          continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear and slot not in @ringSlots
-          # Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
-          if item.get('original') is requiredItems[0] and not _.find(requiredItems, (requiredItem) -> me.ownsItem requiredItem)
-            requiredToPurchase = true
-            break
+    inCampaignView = $('#campaign-view').length
+    unless gearSlugs[item.get('original')] is 'tarnished-bronze-breastplate' and inCampaignView and @options.level.get('slug') is 'the-raised-sword'
+      requiredGear = @calculateRequiredGearPerSlot()
+      for slot in item.getAllowedSlots()
+        continue unless requiredItems = requiredGear[slot]
+        continue if @equipment[slot] and @equipment[slot] not in allRestrictedGear and slot not in @ringSlots
+        # Point out that they must buy it if they haven't bought any of the required items for that slot, and it's the first one.
+        if item.get('original') is requiredItems[0] and not _.find(requiredItems, (requiredItem) -> me.ownsItem requiredItem)
+          requiredToPurchase = true
+          break
 
     if requiredToPurchase and locked and not item.get('gems')
       # Either one of two things has happened:
@@ -136,6 +149,9 @@ module.exports = class InventoryModal extends ModalView
     else if restricted
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
+    else if subscriber
+      @itemGroups.subscriberItems.add(item)
+      item.classes.push 'subscriber'
     else
       @itemGroups.availableItems.add(item)
 
@@ -263,7 +279,7 @@ module.exports = class InventoryModal extends ModalView
 
   onUnequippedItemDoubleClick: (e) ->
     itemEl = $(e.target).closest('.item')
-    return if itemEl.hasClass('locked') or itemEl.hasClass('restricted')
+    return if itemEl.hasClass('locked') or itemEl.hasClass('restricted') or itemEl.hasClass('subscriber')
     @equipSelectedItem()
     @justDoubleClicked = true
     _.defer => @justDoubleClicked = false
@@ -280,6 +296,10 @@ module.exports = class InventoryModal extends ModalView
     @justClickedEquipItemButton = true
     _.defer => @justClickedEquipItemButton = false
 
+  onClickSubscribeItemViewed: (e) ->
+    return @askToSignUp() if me.get('anonymous')
+    @openModalView new SubscribeModal()
+
   #- Select/equip higher-level, all encompassing methods the callbacks all use
 
   selectItemSlot: (slotEl) ->
@@ -293,7 +313,7 @@ module.exports = class InventoryModal extends ModalView
   selectUnequippedItem: (itemEl) ->
     @clearSelection()
     itemEl.addClass('active')
-    showExtra = if itemEl.hasClass('restricted') then 'restricted' else if not itemEl.hasClass('locked') then 'equip' else ''
+    showExtra = if itemEl.hasClass('restricted') then 'restricted' else if itemEl.hasClass('subscriber') then 'subscriber' else if not itemEl.hasClass('locked') then 'equip' else ''
     @showItemDetails(@items.get(itemEl.data('item-id')), showExtra)
     @onSelectionChanged()
 
@@ -325,7 +345,7 @@ module.exports = class InventoryModal extends ModalView
     slotEl = @getSelectedSlot()
     @clearSelection()
     itemEl = @unequipItemFromSlot(slotEl)
-    return unless itemEl
+    return unless itemEl?.length
     itemEl.addClass('active')
     slotEl.effect('transfer', to: itemEl, duration: 500, easing: 'easeOutCubic')
     selectedSlotItemID = itemEl.data('item-id')
@@ -396,7 +416,7 @@ module.exports = class InventoryModal extends ModalView
 
   requireLevelEquipment: ->
     # This is called frequently to make sure the player isn't using any restricted items and knows she must equip any required items.
-    return unless @inserted
+    return unless @inserted and @itemsProgrammablePropertiesConfigured
     equipment = if @supermodel.finished() then @getCurrentEquipmentConfig() else @equipment  # Make sure we're using latest equipment.
     hadRequired = @remainingRequiredEquipment?.length
     @remainingRequiredEquipment = []
@@ -418,8 +438,47 @@ module.exports = class InventoryModal extends ModalView
         @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
         delete equipment[slot]
 
+  calculateRequiredGearPerSlot: ->
+    return {} if me.isStudent()
+    return @requiredGearPerSlot if @requiredGearPerSlot
+    requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
+    requiredProperties = @options.level.get('requiredProperties') ? []
+    restrictedProperties = @options.level.get('restrictedProperties') ? []
+    requiredPropertiesPerSlot = {}
+    for item in @items.models
+      requiredPropertiesOnThisItem = _.intersection(item.programmableProperties, requiredProperties)
+      restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
+      continue unless requiredPropertiesOnThisItem.length and not restrictedPropertiesOnThisItem.length
+      for slot in item.getAllowedSlots()
+        continue if slot isnt 'right-hand' and _.isEqual requiredPropertiesOnThisItem, ['buildXY']  # Don't require things like caltrops belt
+        requiredGear[slot] ?= []
+        requiredGear[slot].push(item.get('original')) unless item.get('original') in requiredGear[slot]
+        requiredPropertiesPerSlot[slot] ?= []
+        requiredPropertiesPerSlot[slot].push(prop) for prop in requiredPropertiesOnThisItem when prop not in requiredPropertiesPerSlot[slot]
+    @requiredPropertiesPerSlot = requiredPropertiesPerSlot
+    @requiredGearPerSlot = requiredGear
+    @requiredGearPerSlot
+
+  calculateRestrictedGearPerSlot: ->
+    return {} if me.isStudent()
+    return @restrictedGearPerSlot if @restrictedGearPerSlot
+    @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
+    restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
+    restrictedProperties = @options.level.get('restrictedProperties') ? []
+    for item in @items.models
+      restrictedPropertiesOnThisItem = _.intersection(item.programmableProperties, restrictedProperties)
+      for slot in item.getAllowedSlots()
+        requiredPropertiesNotOnThisItem = _.without(@requiredPropertiesPerSlot[slot], item.programmableProperties...)
+        # Let Rangers/Wizards use class specific weapon in 'cleave' levelsm, if it's not restricted
+        continue if 'cleave' in requiredPropertiesNotOnThisItem and 'Warrior' not in item.getAllowedHeroClasses() and not restrictedPropertiesOnThisItem.length
+        if restrictedPropertiesOnThisItem.length or requiredPropertiesNotOnThisItem.length
+          restrictedGear[slot] ?= []
+          restrictedGear[slot].push(item.get('original')) unless item.get('original') in restrictedGear[slot]
+    @restrictedGearPerSlot = restrictedGear
+    @restrictedGearPerSlot
+
   unequipLevelRestrictedItems: (equipment) ->
-    return unless restrictedGear = @options.level.get 'restrictedGear'
+    restrictedGear = @calculateRestrictedGearPerSlot()
     for slot, items of restrictedGear
       for item in items
         equipped = equipment[slot]
@@ -427,11 +486,11 @@ module.exports = class InventoryModal extends ModalView
           console.log 'Unequipping restricted item', equipped, 'for', slot, 'before level', @options.level.get('slug')
           @unequipItemFromSlot @$el.find(".item-slot[data-slot='#{slot}']")
           delete equipment[slot]
+    null
 
   updateLevelRequiredItems: (equipment) ->
-    return unless requiredGear = @options.level.get 'requiredGear'
     return unless heroClass = @selectedHero?.get 'heroClass'
-
+    requiredGear = @calculateRequiredGearPerSlot()
     for slot, items of requiredGear when items.length
       if slot in @ringSlots
         validSlots = @ringSlots
@@ -450,6 +509,7 @@ module.exports = class InventoryModal extends ModalView
       continue unless items.length  # If the required items are for another class, then let's not be finicky.
 
       # We will point out the last (best) element that they own and can use, otherwise the first (cheapest).
+      items = _.sortBy items, (item) => @items.findWhere(original: item).get('tier') ? 9001
       bestOwnedItem = _.findLast items, (item) -> me.ownsItem item
       item = bestOwnedItem ? items[0]
 
@@ -462,8 +522,15 @@ module.exports = class InventoryModal extends ModalView
       itemModel = @items.findWhere {original: item}
       availableSlotSelector = "#unequipped .item[data-item-id='#{itemModel.id}']"
       @highlightElement availableSlotSelector, delay: 500, sides: ['right'], rotation: Math.PI / 2
-      @$el.find(availableSlotSelector).addClass 'should-equip'
+      $itemEl = @$el.find(availableSlotSelector).addClass 'should-equip'
       @$el.find("#equipped div[data-slot='#{slot}']").addClass 'should-equip'
+      if itemOffsetTop = $itemEl[0]?.offsetTop
+        itemOffsetBottom = itemOffsetTop + $itemEl.outerHeight(true)
+        parentHeight = $itemEl.parent().height()
+        if itemOffsetBottom > $itemEl.parent().scrollTop() + parentHeight
+          $itemEl.parent().scrollTop itemOffsetBottom - parentHeight
+        else if itemOffsetTop < $itemEl.parent().scrollTop()
+          $itemEl.parent().scrollTop itemOffsetTop
       @remainingRequiredEquipment.push slot: slot, item: item
     null
 
@@ -538,7 +605,7 @@ module.exports = class InventoryModal extends ModalView
     affordable = item.affordable
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless me.isOnFreeOnlyServer()
+      @askToBuyGems button unless me.freeOnly()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)
@@ -579,7 +646,10 @@ module.exports = class InventoryModal extends ModalView
 
   askToBuyGems: (unlockButton) ->
     @$el.find('.unlock-button').popover 'destroy'
-    popoverTemplate = buyGemsPromptTemplate {}
+    if me.isStudent()
+      popoverTemplate = earnGemsPromptTemplate {}
+    else
+      popoverTemplate = buyGemsPromptTemplate {}
     unlockButton.popover(
       animation: true
       trigger: 'manual'
@@ -636,6 +706,7 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
+    @updateConfig (() -> return), true if me.isStudent()  # Save the player's heroConfig if they're a student, whenever they change gear.
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()
@@ -644,7 +715,9 @@ module.exports = class InventoryModal extends ModalView
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
     gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
     didAdd = false
-    if slot is 'gloves'
+    if slot is 'pet'
+      imageKeys = ["pet"]
+    else if slot is 'gloves'
       if heroClass is 'Ranger'
         imageKeys = ["#{gender}#{heroClass}", "#{gender}#{heroClass}Thumb"]
       else
@@ -676,7 +749,7 @@ module.exports = class InventoryModal extends ModalView
 
 
 heroGenders =
-  male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist']
+  male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist', 'code-ninja']
   female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'master-wizard', 'champion']
 
 gear =

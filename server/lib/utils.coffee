@@ -3,6 +3,7 @@ log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'
 _ = require 'lodash'
+Promise = require 'bluebird'
 
 module.exports = utils =
   # TODO: Remove, use commons/database.isID instead
@@ -27,8 +28,8 @@ module.exports = utils =
 
   findStripeSubscription: (customerID, options, done) ->
     # Grabs latest subscription (e.g. in case of a resubscribe)
-    return done() unless customerID?
-    return done() unless options.subscriptionID? or options.userID?
+    return done(null, null) unless customerID?
+    return done(null, null) unless options.subscriptionID? or options.userID?
     # Some prepaid tests were calling this in such a way that stripe wasn't defined.
     stripe = require('stripe')(config.stripe.secretKey) unless stripe
 
@@ -40,8 +41,8 @@ module.exports = utils =
       options = limit: 100
       options.starting_after = starting_after if starting_after
       stripe.customers.listSubscriptions customerID, options, (err, subscriptions) ->
-        return done(subscription) if err
-        return done(subscription) unless subscriptions?.data?.length > 0
+        return done(err, null) if err
+        return done(null, null) unless subscriptions?.data?.length > 0
         for sub in subscriptions.data
           if subscriptionID? and sub.id is subscriptionID
             unless subscription?.cancel_at_period_end is false
@@ -55,12 +56,12 @@ module.exports = utils =
           if userID? and not sub.metadata?.id and sub.plan?.id is 'basic'
             subscription ?= sub
 
-          return done(subscription) if subscription?.cancel_at_period_end is false
+          return done(null, subscription) if subscription?.cancel_at_period_end is false
 
         if subscriptions.has_more
           nextBatch(subscriptions.data[subscriptions.data.length - 1].id, done)
         else
-          done(subscription)
+          done(null, subscription)
     nextBatch(null, done)
 
   getAnalyticsStringID: (str, callback) ->
@@ -94,3 +95,5 @@ module.exports = utils =
         @analyticsStringCache[str] = document._id
         return callback @analyticsStringCache[str]
       insertString()
+
+module.exports.findStripeSubscriptionAsync = Promise.promisify(module.exports.findStripeSubscription)

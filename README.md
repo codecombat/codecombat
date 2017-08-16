@@ -5,7 +5,9 @@
     <img src ="https://dl.dropboxusercontent.com/u/138899/GitHub%20Wikis/readme_00.png" />
   </a>
 </div>
+
 [![Build Status](https://travis-ci.org/codecombat/codecombat.png?branch=master)](https://travis-ci.org/codecombat/codecombat)
+[![Coverage Status](https://coveralls.io/repos/github/codecombat/codecombat/badge.svg)](https://coveralls.io/github/codecombat/codecombat)
 
 CodeCombat is a multiplayer programming game for learning how to code.
 **See the [Archmage (coder) developer wiki](../../wiki/Archmage-Home) for a dev

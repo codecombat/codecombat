@@ -15,6 +15,8 @@ block content
           th Levels
           th Course
         each course in view.courses.models
+          if course.get('releasePhase') !== 'released'
+            - continue;
           - var campaign = view.campaigns.get(course.get('campaignID'));
           if !campaign
             - continue;
@@ -26,7 +28,10 @@ block content
         tr
           td= levelsTotal
           td All
+    - var conceptsSeen = {};
     each course in view.courses.models
+      if course.get('releasePhase') !== 'released'
+        - continue;
       - var campaign = view.campaigns.get(course.get('campaignID'));
       if !campaign
         - continue;
@@ -44,6 +49,7 @@ block content
           th Practice Threshold (m)
           th Shareable
           th Primer
+          th New Concepts
         each level, levelIndex in levels
           - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
           tr
@@ -55,3 +61,8 @@ block content
             td= level.get('practiceThresholdMinutes')
             td= level.get('shareable')
             td= level.get('primerLanguage')
+            td
+              for concept in level.get('concepts') || []
+                if !conceptsSeen[concept]
+                  - conceptsSeen[concept] = true;
+                  span= concept + ' '

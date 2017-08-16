@@ -105,3 +105,9 @@ Dockerfile
 # coffeelint for editors (might be standardized eventually)
 coffeelint.json
 gitSpy/*
+
+# nightwatch reports
+spec/smoke/reports/
+
+scripts/analytics/mongodb/.analyticsAuth.json
+scripts/analytics/mongodb/.mainAuth.json

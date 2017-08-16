@@ -68,7 +68,7 @@ module.exports = FacebookHandler = class FacebookHandler extends CocoClass
           channelUrl: document.location.origin + '/channel.html' # Channel File
           cookie: true # enable cookies to allow the server to access the session
           xfbml: true # parse XFBML
-          version: 'v2.7'
+          version: 'v2.8'
         })
         FB.getLoginStatus (response) =>
           if response.status is 'connected'
