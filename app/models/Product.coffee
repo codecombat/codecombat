@@ -1,9 +1,12 @@
 CocoModel = require './CocoModel'
+utils = require 'core/utils'
 
 module.exports = class ProductModel extends CocoModel
   @className: 'Product'
   @schema: require 'schemas/models/product.schema'
   urlRoot: '/db/products'
+
+  isRegionalSubscription: (name) -> utils.isRegionalSubscription(name ? @get('name'))
 
   priceStringNoSymbol: -> (@get('amount') / 100).toFixed(2)
 
@@ -26,7 +29,6 @@ module.exports = class ProductModel extends CocoModel
       return i18n.translate('subscribe.lifetime')
     @get('name')
 
-  # Send the Stripe token
   purchase: (token, options={}) ->
     options.url = _.result(@, 'url') + '/purchase'
     options.method = 'POST'
@@ -44,4 +46,3 @@ module.exports = class ProductModel extends CocoModel
         paymentID: payment.id
         payerID: payment.payer.payer_info.payer_id
     }, options))
-    

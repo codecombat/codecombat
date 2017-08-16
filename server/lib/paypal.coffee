@@ -8,6 +8,7 @@ paypal.configure({
   'client_secret': config.paypal.clientSecret
 })
 
+Promise.promisifyAll(paypal.billingAgreement)
 Promise.promisifyAll(paypal.payment)
 
 module.exports = paypal
