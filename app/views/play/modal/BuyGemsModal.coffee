@@ -4,6 +4,7 @@ stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 SubscribeModal = require 'views/core/SubscribeModal'
 Products = require 'collections/Products'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class BuyGemsModal extends ModalView
   id: 
@@ -71,6 +72,7 @@ module.exports = class BuyGemsModal extends ModalView
 
   onClickProductButton: (e) ->
     @playSound 'menu-button-click'
+    return @openModalView new CreateAccountModal() if me.get('anonymous')
     productID = $(e.target).closest('button').val()
     # Don't throw error when product is not found
     if productID.length == 0
