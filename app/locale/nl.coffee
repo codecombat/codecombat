@@ -65,7 +65,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     want_coco: "Wil je CodeCombat op jouw school?"
 
   nav:
-#    map: "Map"
+    map: "Kaart"
     play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     courses: "Lessen"
@@ -152,9 +152,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     campaign_multiplayer: "Multiplayer Arena's"
     campaign_multiplayer_description: "... waarin je direct tegen andere spelers speelt."
     brain_pop_done: "Je hebt de ogres verslagen met code! Jij wint!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_challenge: "Daag jezelf uit opnieuw te spelen in een andere programmeertaal!"
+    replay: "Herstart"
+    back_to_classroom: "Terug naar Klaslokaal"
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -351,7 +351,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Voer een geldig telefoonnummer in."
 
   general:
     and: "en"
@@ -428,7 +428,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     years: "jaren"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "Terug naar kaart"
     directions: "Instructies"
     edit_level: "Edit Level"
     explore_codecombat: "Verken CodeCombat"
