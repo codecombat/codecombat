@@ -213,8 +213,8 @@ module.exports = class User extends CocoModel
 
   hasSubscription: ->
     if payPal = @get('payPal')
-      return payPal.billingAgreementID
-    else if stripe = @get('stripe')
+      return true if payPal.billingAgreementID
+    if stripe = @get('stripe')
       return true if stripe.sponsorID
       return true if stripe.subscriptionID
       return true if stripe.free is true

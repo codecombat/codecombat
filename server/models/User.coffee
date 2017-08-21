@@ -352,8 +352,8 @@ UserSchema.methods.sendWelcomeEmail = ->
 
 UserSchema.methods.hasSubscription = ->
   if payPal = @get('payPal')
-    return payPal.billingAgreementID
-  else if stripeObject = @get('stripe')
+    return true if payPal.billingAgreementID
+  if stripeObject = @get('stripe')
     return true if stripeObject.sponsorID
     return true if stripeObject.subscriptionID
     return true if stripeObject.free is true

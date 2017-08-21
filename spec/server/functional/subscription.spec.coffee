@@ -1108,6 +1108,7 @@ describe 'POST /db/products/:handle/purchase', ->
         user = yield User.findById(@user.id)
         expect(user.get('stripe.free')).toBe(true)
         expect(user.get('payPal').payerID).toEqual(payPalResponse.payer.payer_info.payer_id)
+        expect(user.hasSubscription()).toBeTruthy()
 
 describe 'POST /db/user/:handle/paypal', ->
   describe '/create-billing-agreement', ->
