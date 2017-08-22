@@ -158,7 +158,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    back_to_classroom: "Back to Classroom"
 
   code:
-if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
+    if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "otro"
     elif: "si no"
     while: "mientras"
