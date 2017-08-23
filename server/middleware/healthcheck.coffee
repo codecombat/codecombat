@@ -1,7 +1,12 @@
 wrap = require 'co-express'
 errors = require '../commons/errors'
+co = require 'co'
 
-module.exports = wrap (req, res) ->
+healthcheckRoute = wrap (req, res) ->
+  yield runHealthcheck()
+  res.status(200).send('OK')
+  
+runHealthcheck = co.wrap ->
   User = require '../models/User'
   user = yield User.findOne({})
   throw new errors.InternalServerError('No users found') unless user
@@ -19,4 +24,9 @@ module.exports = wrap (req, res) ->
     yield hcUser.save()
   activity = hcUser.trackActivity('healthcheck', 1)
   yield hcUser.update({activity: activity})
-  res.status(200).send('OK')
+  return true
+
+module.exports = {
+  healthcheckRoute
+  runHealthcheck
+}
