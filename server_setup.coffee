@@ -31,6 +31,7 @@ wrap = require 'co-express'
 codePlayTags = require './server/lib/code-play-tags'
 morgan = require 'morgan'
 domainFilter = require './server/middleware/domain-filter'
+timeout = require('connect-timeout')
 
 {countries} = require './app/core/utils'
 
@@ -74,6 +75,8 @@ setupErrorMiddleware = (app) ->
         err = new errors.Conflict(err.response)
       if err.name is 'MongoError' and err.message.indexOf('timed out')
         err = new errors.GatewayTimeout('MongoDB timeout error.')
+      if req.timedout # set by connect-timeout
+        err = new errors.ServiceUnavailable('Request timed out.')
 
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
@@ -282,6 +285,7 @@ setupAPIDocs = (app) ->
   app.use('/api-docs', swaggerUi.setup(swaggerDoc))
 
 exports.setupMiddleware = (app) ->
+  app.use(timeout(config.timeout))
   setupHandlerTraceMiddleware app if config.TRACE_ROUTES
   setupSecureMiddleware app
   setupPerfMonMiddleware app

@@ -606,4 +606,4 @@ module.exports = class TeacherClassView extends RootView
       when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
       when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
       when 'expired' then $.i18n.t('teacher.status_expired')
-    return string.replace('{{date}}', moment(expires).utc().format('l'))
+    return string.replace('{{date}}', moment(expires).utc().format('ll'))

@@ -9,9 +9,6 @@ mixin accountLinks
   if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
     li
       a(href="/account/subscription", data-i18n="account.subscription")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
-    li
-      a(href="/account/prepaid", data-i18n="account.prepaid_codes")
   if me.isAdmin()
     li
       a(href="/admin", data-i18n="account_settings.admin")

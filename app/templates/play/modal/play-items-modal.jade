@@ -61,7 +61,9 @@
                     span.cost
                       img(src="/images/common/gem.png", draggable="false")
                       span.big-font= item.get('gems')
-                    if item.unequippable
+                    if item.get('subscriber') && !me.isPremium()
+                      span.btn.subscribe-button.big-font(data-i18n="subscribe.subscribe_title")
+                    else if item.unequippable
                       span.big-font.unequippable= item.get('heroClass')
                     else
                       button.btn.unlock-button.big-font(data-i18n="play.unlock", data-item-id=item.id)

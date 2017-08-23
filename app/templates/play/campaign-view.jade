@@ -58,8 +58,8 @@ if view.showAds()
         if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
           - continue;
         - var levelNumber = '';
-        if view.shouldShow('back-to-classroom')
-          - levelNumber = campaign.getLevelNumber(level.original, '');
+        if view.shouldShow('back-to-classroom') && view.classroom
+          - levelNumber = view.classroom.getLevelNumber(level.original, '');
           if (levelNumber)
             - levelNumber += '. ';
         div(

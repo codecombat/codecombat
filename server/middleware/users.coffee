@@ -115,6 +115,8 @@ module.exports =
     # Delete personal subscription
     if userToDelete.get('stripe.subscriptionID')
       yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
+    if userToDelete.get('payPal.billingAgreementID')
+      yield middleware.subscriptions.cancelPayPalBillingAgreementInternal(req)
 
     # Delete recipient subscription
     sponsorID = userToDelete.get('stripe.sponsorID')
@@ -425,6 +427,7 @@ module.exports =
       $or: [
         {emailLower: search.toLowerCase()}
         {nameLower: search.toLowerCase()}
+        {slug: _.str.slugify(search)}
       ]
     }
     query.$or.push {_id: mongoose.Types.ObjectId(search)} if utils.isID search
@@ -522,5 +525,5 @@ module.exports =
         }
       })
     ]
-    return res.send(200)
+    return res.sendStatus(200)
 

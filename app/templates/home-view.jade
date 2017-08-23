@@ -73,21 +73,34 @@ block content
   .container#classroom-in-box-container
     #classroom-in-box-row.row
       .col-sm-6
-        h2.text-navy(data-i18n="new_home.classroom_in_a_box")
+        a.open-video-btn.video-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='4')
+          img(src="/images/pages/home/video_thumb.png")
       .col-sm-6
+        h2.text-navy(data-i18n="new_home.classroom_in_a_box")
         p(data-i18n="[html]new_home.codecombat_is")
         p(data-i18n="[html]new_home.our_courses")
+        p
+          a.open-video-btn.video-text(data-toggle="modal", data-target="#screenshot-lightbox", data-index='4')
+            span(data-i18n="new_home.watch_how")
 
-    .top-screenshots
-      .screenshots
-        .hidden-sm.hidden-md.hidden-lg
-          small(data-i18n="new_home.top_screenshots_hint")
-        .screenshot-grid(title='Click to view full size')
-          a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
-            img(src="/images/pages/about/desert.jpg")
-        .clearfix.hidden-xs
-          small(data-i18n="new_home.top_screenshots_hint")
+  .teacher-screenshots
+    .screenshots
+      .hidden-sm.hidden-md.hidden-lg
+        small(data-i18n="new_home.top_screenshots_hint")
+      .screenshot-grid(title='Click to view full size')
+        a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='0')
+          img(src="/images/pages/about/desert.jpg")
+        a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
+          img(src="/images/pages/about/forest.jpg")
+        a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
+          img(src="/images/pages/about/dungeon.jpg")
+        a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
+          img(src="/images/pages/about/glacier.jpg")
+      .clearfix.hidden-xs
+        small(data-i18n="new_home.top_screenshots_hint")
 
+
+  .container
     #feature-spread-row.row.text-center
       h3(data-i18n="new_home.designed_with")
       .col-sm-4
@@ -194,20 +207,6 @@ block content
         h3(data-i18n="new_home.get_started_title")
       else
         h3(data-i18n="new_home.request_demo_title")
-
-      .teacher-screenshots
-        .screenshots
-          .hidden-sm.hidden-md.hidden-lg
-            small(data-i18n="new_home.top_screenshots_hint")
-          .screenshot-grid(title='Click to view full size')
-            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='1')
-              img(src="/images/pages/about/forest.jpg")
-            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='2')
-              img(src="/images/pages/about/dungeon.jpg")
-            a.screen-thumbnail(data-toggle="modal", data-target="#screenshot-lightbox", data-index='3')
-              img(src="/images/pages/about/glacier.jpg")
-          .clearfix.hidden-xs
-            small(data-i18n="new_home.top_screenshots_hint")
 
       if view.isTeacherWithDemo
         h4(data-i18n="new_home.get_started_subtitle")
@@ -319,10 +318,11 @@ block content
         .modal-content
           #screenshot-carousel.carousel
             ol.carousel-indicators
-              li(data-target=".screenshot-display", data-slide-to="0").active
-              li(data-target=".screenshot-display", data-slide-to="1")
-              li(data-target=".screenshot-display", data-slide-to="2")
-              li(data-target=".screenshot-display", data-slide-to="3")
+              li(data-target="#screenshot-carousel", data-slide-to="0").active
+              li(data-target="#screenshot-carousel", data-slide-to="1")
+              li(data-target="#screenshot-carousel", data-slide-to="2")
+              li(data-target="#screenshot-carousel", data-slide-to="3")
+              li(data-target="#screenshot-carousel", data-slide-to="4")
 
             .carousel-inner
               .item.active
@@ -333,6 +333,9 @@ block content
                 img#screenshot-dungeon(src="/images/pages/about/dungeon.jpg")
               .item
                 img#screenshot-glacier(src="/images/pages/about/glacier.jpg")
+              .item.video-carousel-item
+                .video-wrapper
+                  iframe.vimeo-player(src="https://player.vimeo.com/video/229304323" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen)
             a#carousel-left.left.carousel-control(href="#screenshot-carousel", role="button")
               span.glyphicon.glyphicons-chevron-left.glyphicon-chevron-left(aria-hidden="true")
               span.sr-only(data-i18n="about.previous")

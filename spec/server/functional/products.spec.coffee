@@ -8,6 +8,8 @@ libUtils = require '../../../server/lib/utils'
 
 describe 'GET /db/products', ->
   beforeEach utils.wrap ->
+    # TODO: Clear Products, to make this test not dependent on dev db
+    #       Also, make other tests not break when you do that.
     yield utils.clearModels([User, Payment])
     yield utils.populateProducts()
     @user = yield utils.initUser()
@@ -16,13 +18,13 @@ describe 'GET /db/products', ->
   it 'shouldnt leak coupon code information', utils.wrap ->
       url = utils.getURL('/db/products/')
       [res, doc] = yield request.getAsync({url, json: true})
-      ls2 = _.find doc, ((x) -> /lifetime_subscription$/.test x.name)
+      ls2 = _.find doc, ((x) -> /^lifetime_subscription$/.test x.name)
       expect(ls2.coupons).toEqual([])
 
   it 'should accept the coupon code QS', utils.wrap ->
       url = utils.getURL('/db/products/')
       [res, doc] = yield request.getAsync(url: url + '?coupon=c1', json: true)
-      ls2 = _.find doc, ((x) -> /lifetime/.test x.name)
+      ls2 = _.find doc, ((x) -> /^lifetime/.test x.name)
       expect(ls2.coupons[0].amount).toBe(10)
       expect(ls2.coupons.length).toBe(1)
 

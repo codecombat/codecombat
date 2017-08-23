@@ -12,6 +12,7 @@ module.exports.setup = (app) ->
 
   app.put('/api/classrooms/:handle/members', mw.api.putClassroomMember)
   app.put('/api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', mw.api.putClassroomCourseEnrolled)
+  app.get('/api/classrooms/:classroomHandle/members/:memberHandle/sessions', mw.api.getClassroomMemberSessions)
 
   app.post('/api/users', mw.api.postUser)
   app.get('/api/users/:handle', mw.api.getUser)
@@ -192,6 +193,9 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/destudent', mw.auth.checkHasPermission(['admin']), mw.users.destudent)
   app.post('/db/user/:handle/deteacher', mw.auth.checkHasPermission(['admin']), mw.users.deteacher)
   app.put('/db/user/:handle/israel-id', mw.auth.checkHasUser(), mw.users.putIsraelId)
+  app.post('/db/user/:handle/paypal/create-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.createPayPalBillingAgreement)
+  app.post('/db/user/:handle/paypal/execute-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.executePayPalBillingAgreement)
+  app.post('/db/user/:handle/paypal/cancel-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.cancelPayPalBillingAgreement)
   app.post('/db/user/:handle/reset_progress', mw.users.resetProgress)
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
@@ -219,6 +223,11 @@ module.exports.setup = (app) ->
   app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)
   app.delete('/db/prepaid/:handle/redeemers', mw.prepaids.revoke)
 
+  Product = require '../models/Product'
+  app.post('/db/products/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Product, 'product'))
+  app.get('/db/products/:handle/patches', mw.patchable.patches(Product))
+  app.get('/db/products/:handle', mw.rest.getByHandle(Product))
+  app.put('/db/products/:handle', mw.auth.checkHasUser(), mw.rest.put(Product))
   app.get('/db/products', mw.auth.checkHasUser(), mw.products.get)
   app.post('/db/products/:handle/purchase', mw.auth.checkLoggedIn(), mw.subscriptions.purchaseProduct)
 
@@ -239,4 +248,4 @@ module.exports.setup = (app) ->
 
   app.all('/headers', mw.headers)
 
-  app.get('/healthcheck', mw.healthcheck)
+  app.get('/healthcheck', mw.healthcheck.healthcheckRoute)

@@ -121,7 +121,7 @@ exports.config =
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
           regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|co|' + gameLibraries + '))')
-          regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui|' + gameLibraries  + '))')
+          regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui|vimeo-player-js|' + gameLibraries  + '))')
           'bower_components/treema/treema-utils.js'
         ]
 
@@ -151,6 +151,7 @@ exports.config =
         'javascripts/app/vendor/aether-java.js': 'bower_components/aether/build/java.js'
         'javascripts/app/vendor/aether-python.js': 'bower_components/aether/build/python.js'
         'javascripts/app/vendor/aether-html.js': 'bower_components/aether/build/html.js'
+        'javascripts/app/vendor/vimeo-player-js.js': 'bower_components/vimeo-player-js/dist/player.min.js'
 
         # Any vendor libraries we don't want the client to load immediately
         'javascripts/app/vendor/d3.js': regJoin('^bower_components/d3')

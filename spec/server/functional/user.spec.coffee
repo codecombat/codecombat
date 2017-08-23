@@ -16,13 +16,14 @@ Promise = require 'bluebird'
 Achievement = require '../../../server/models/Achievement'
 EarnedAchievement = require '../../../server/models/EarnedAchievement'
 LevelSession = require '../../../server/models/LevelSession'
+paypal = require '../../../server/lib/paypal'
 mongoose = require 'mongoose'
 
 describe 'POST /db/user', ->
 
   beforeEach utils.wrap ->
     yield utils.clearModels [User]
-        
+
   it 'converts the password into a hash', utils.wrap ->
     yield utils.becomeAnonymous()
     email = 'some-name@email.com'
@@ -35,7 +36,7 @@ describe 'POST /db/user', ->
     expect(user.get('passwordHash')[..5] in ['31dc3d', '948c7e']).toBeTruthy()
     expect(user.get('permissions')).toBeUndefined()
 
-    
+
 describe 'PUT /db/user', ->
 
   it 'returns 422 when no data is provided', utils.wrap ->
@@ -51,7 +52,7 @@ describe 'PUT /db/user', ->
     user2 = yield utils.initUser()
     [res] = yield request.putAsync(utils.getUrl('/db/user'), json: {_id: user2.id})
     expect(res.statusCode).toBe(403)
-    
+
   it 'returns 422 for invalid data', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -60,7 +61,7 @@ describe 'PUT /db/user', ->
     [res] = yield request.putAsync utils.getUrl('/db/user'), { json }
     expect(res.statusCode).toBe(422)
     expect(res.body[0].message.indexOf('too long')).toBeGreaterThan(-1)
-    
+
   it 'does not allow permission editing', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -108,7 +109,7 @@ describe 'PUT /db/user', ->
     expect(user.get('name')).toBe('Wilhelm')
     expect(user.get('emailLower')).toBe('new@email.com')
     expect(user.get('email')).toBe('New@email.com')
-      
+
   it 'returns 409 if setting to a taken username ', utils.wrap ->
     user1 = yield utils.initUser()
     yield utils.loginUser(user1)
@@ -137,7 +138,7 @@ describe 'PUT /db/user', ->
       yield new Promise (resolve) -> setTimeout(resolve, 10)
       classroom = yield Classroom.findById(classroom.id)
       expect(classroom.get('members').length).toBe(0)
-    
+
     it 'changes the role regardless of emailVerified', utils.wrap ->
       user = yield utils.initUser()
       user.set('emailVerified', true)
@@ -166,7 +167,7 @@ describe 'PUT /db/user', ->
     [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { email: '', name: '' }}
     expect(body.code).toBe(422)
     expect(body.message).toEqual('User needs a username or email address')
-    
+
   it 'allows unsetting email on student accounts, even when there\'s a user with email and emailLower set to empty string', utils.wrap ->
     invalidUser = yield utils.initUser()
     yield invalidUser.update({$set: {email: '', emailLower: ''}})
@@ -198,7 +199,7 @@ describe 'PUT /db/user', ->
     [res, body] = yield request.putAsync { uri: getURL('/db/user/'+user.id), json: { name: '' }}
     expect(res.statusCode).toBe(200)
     expect(res.body.name).toBeUndefined()
-    
+
   it 'works even when user object does not pass validation', utils.wrap ->
     invalidUser = yield utils.initUser()
     yield invalidUser.update({$set: {propNotInSchema: '...'}})
@@ -581,7 +582,7 @@ describe 'GET /db/user?email=:email', ->
     it 'returns 403', utils.wrap ->
       [res, body] = yield request.getAsync({ url: @url, json: true })
       expect(res.statusCode).toBe(403)
-  
+
 describe 'GET /db/user/:handle', ->
   it 'populates coursePrepaid from coursePrepaidID', utils.wrap ->
     user = yield utils.initUser({coursePrepaidID: mongoose.Types.ObjectId()})
@@ -638,7 +639,7 @@ describe 'DELETE /db/user/:handle', ->
     expect(classroom.get('deletedMembers').length).toBe(1)
     expect(classroom.get('members')[0].toString()).toEqual(user2.id)
     expect(classroom.get('deletedMembers')[0].toString()).toEqual(user.id)
-    
+
   it 'returns 401 if no cookie session', utils.wrap ->
     yield utils.logout()
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/1234"}
@@ -680,7 +681,18 @@ describe 'DELETE /db/user/:handle', ->
     expect(res.statusCode).toBe(200) # other login no longer valid
     user = yield User.findById(user.id)
     expect(user.get('email')).toBe(json.email)
-  
+
+  describe 'when PayPal subscribed', ->
+    it 'deleting user unsubscribes', utils.wrap ->
+      user = yield utils.initUser()
+      user.set('payPal.billingAgreementID', 'foo')
+      yield user.save()
+      yield utils.loginUser(user)
+      spyOn(paypal.billingAgreement, 'cancelAsync').and.returnValue(Promise.resolve({}))
+      [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+      user = yield User.findById user.id
+      expect(user.get('payPal.billingAgreementID')).not.toBeDefined()
+
   describe 'when the user is the recipient of a subscription', ->
     beforeEach utils.wrap ->
       yield utils.clearModels([User])
@@ -709,7 +721,7 @@ describe 'DELETE /db/user/:handle', ->
       yield utils.populateProducts()
       spyOn(stripe.customers, 'cancelSubscription').and.callFake (cId, sId, cb) -> cb(null)
       spyOn(stripe.customers, 'updateSubscription').and.callFake (cId, sId, opts, cb) -> cb(null)
-    
+
     it 'unsubscribes the user', utils.wrap ->
       yield utils.loginUser(@recipient1)
       [res] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{@recipient1.id}"}
@@ -743,7 +755,7 @@ describe 'Statistics', ->
   ThangType = require '../../../server/models/ThangType'
   User = require '../../../server/models/User'
   UserHandler = require '../../../server/handlers/user_handler'
-  
+
   beforeEach utils.wrap ->
     session = new LevelSession
       name: 'Beat Gandalf'
@@ -759,7 +771,7 @@ describe 'Statistics', ->
   it 'keeps track of games completed', utils.wrap ->
     user = yield User.findById(@user.id)
     expect(user.get 'stats.gamesCompleted').toBe 1
-    
+
   it 'recalculates games completed', utils.wrap (done) ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -805,7 +817,7 @@ describe 'Statistics', ->
 
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
-    
+
     [res] = yield request.postAsync {uri:url, json: article}
     expect(res.statusCode).toBe 201
 
@@ -844,7 +856,7 @@ describe 'Statistics', ->
         done()
 
 
-      
+
 describe 'GET /db/user/:handle/level.sessions', ->
   url = getURL('/db/level.session/')
   session =
@@ -887,11 +899,11 @@ describe 'GET /db/user/:handle/level.sessions', ->
 
 
 describe 'POST /db/user/:handle/signup-with-password', ->
-  
+
   beforeEach utils.wrap ->
     yield utils.clearModels([User])
     yield new Promise((resolve) -> setTimeout(resolve, 10))
-  
+
   it 'signs up the user with the password and sends welcome emails', utils.wrap ->
     spyOn(sendwithus.api, 'send')
     user = yield utils.becomeAnonymous()
@@ -967,7 +979,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
     expect(res.body.message).toBe('Username already taken')
-  
+
   it 'returns 409 if there is already a user with the same slug', utils.wrap ->
     name = 'some username'
     name2 = 'Some.    User.Namé'
@@ -980,7 +992,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
     expect(res.body.message).toBe('Username already taken')
-    
+
   it 'disassociates the user from their trial request if the trial request email and signup email do not match', utils.wrap ->
     user = yield utils.becomeAnonymous()
     trialRequest = yield utils.makeTrialRequest({ properties: { email: 'one@email.com' } })
@@ -1010,7 +1022,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
   facebookID = '12345'
   facebookEmail = 'some@email.com'
   name = 'someusername'
-  
+
   validFacebookResponse = new Promise((resolve) -> resolve({
     id: facebookID,
     email: facebookEmail,
@@ -1024,7 +1036,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     updated_time: '2015-12-08T17:10:39+0000',
     verified: true
   }))
-  
+
   invalidFacebookResponse = new Promise((resolve) -> resolve({
     error: {
       message: 'Invalid OAuth access token.',
@@ -1033,11 +1045,11 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
       fbtrace_id: 'EC4dEdeKHBH'
     }
   }))
-  
+
   beforeEach utils.wrap ->
     yield utils.clearModels([User])
     yield new Promise((resolve) -> setTimeout(resolve, 50))
-  
+
   it 'signs up the user with the facebookID and sends welcome emails', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
     spyOn(sendwithus.api, 'send')
@@ -1050,7 +1062,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     expect(updatedUser.get('email')).toBe(facebookEmail)
     expect(updatedUser.get('facebookID')).toBe(facebookID)
     expect(sendwithus.api.send).toHaveBeenCalled()
-    
+
   it 'returns 422 if facebook does not recognize the access token', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(invalidFacebookResponse)
     user = yield utils.becomeAnonymous()
@@ -1058,20 +1070,20 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
-    
+
   it 'returns 422 if the email or id do not match', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
-  
+
     json = { name, email: 'some-other@email.com', facebookID, facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
-  
+
     json = { name, email: facebookEmail, facebookID: '54321', facebookAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
-  
+
 
   # TODO: Fix this test, res.statusCode is occasionally 200
 #  it 'returns 409 if there is already a user with the given email', utils.wrap ->
@@ -1084,7 +1096,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 #    [res, body] = yield request.postAsync({url, json})
 #    expect(res.statusCode).toBe(409)
 
-    
+
 describe 'POST /db/user/:handle/signup-with-gplus', ->
   gplusID = '12345'
   gplusEmail = 'some@email.com'
@@ -1168,11 +1180,11 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(409)
     updatedUser = yield User.findById(user.id)
-    
+
 describe 'POST /db/user/:handle/destudent', ->
   beforeEach utils.wrap ->
     yield utils.clearModels([User, Classroom, CourseInstance, Course, Campaign])
-  
+
   it 'removes a student user from all classrooms and unsets their role property', utils.wrap ->
     student1 = yield utils.initUser({role: 'student'})
     student2 = yield utils.initUser({role: 'student'})
@@ -1188,12 +1200,12 @@ describe 'POST /db/user/:handle/destudent', ->
 
     url = getURL("/db/user/#{student1.id}/destudent")
     [res, body] = yield request.postAsync({url, json:true})
-    
+
     student1 = yield User.findById(student1.id)
     student2 = yield User.findById(student2.id)
     classroom = yield Classroom.findById(classroom.id)
     courseInstance = yield CourseInstance.findById(courseInstance.id)
-    
+
     expect(student1.get('role')).toBeUndefined()
     expect(student2.get('role')).toBe('student')
     expect(classroom.get('members').length).toBe(1)
@@ -1225,7 +1237,7 @@ describe 'POST /db/user/:handle/deteacher', ->
     teacher = yield User.findById(teacher.id)
     expect(teacher.get('role')).toBeUndefined()
 
-    
+
 describe 'POST /db/user/:handle/check-for-new-achievements', ->
   achievementURL = getURL('/db/achievement')
   achievementJSON = {
@@ -1242,12 +1254,12 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     description: 'Started playing Dungeon Arena.'
     related: 'a'
   }
-  
-  
+
+
   beforeEach utils.wrap ->
     yield utils.clearModels [Achievement, EarnedAchievement, LevelSession, User]
     Achievement.resetAchievements()
-    
+
   it 'finds new achievements and awards them to the user', utils.wrap ->
     user = yield utils.initUser({points: 100})
     yield utils.loginUser(user)
@@ -1263,18 +1275,18 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     [res, body] = yield request.postAsync { uri: achievementURL, json: achievementJSON }
     achievementUpdated = res.body.updated
     expect(res.statusCode).toBe(201)
-    
+
     user = yield User.findById(user.id)
     expect(user.get('earned')).toBeUndefined()
-    
+
     yield utils.loginUser(user)
     [res, body] = yield request.postAsync({ url, json })
     expect(body.points).toBe(175)
     earned = yield EarnedAchievement.count()
     expect(earned).toBe(1)
     expect(body.lastAchievementChecked).toBe(achievementUpdated)
-    
-    
+
+
   it 'updates the user if they already earned the achievement but the rewards changed', utils.wrap ->
     user = yield utils.initUser({points: 100})
     yield utils.loginUser(user)
@@ -1309,7 +1321,7 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     expect(res.statusCode).toBe(200)
 
     # special case: no worth, should default to 10
-    
+
     yield achievement.update({
       $set: {updated: new Date().toISOString()},
       $unset: {worth:''}
@@ -1318,7 +1330,7 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     expect(res.body.earned.gems).toBe(100)
     expect(res.body.points).toBe(110)
     expect(res.statusCode).toBe(200)
-    
+
   it 'works for level sessions', utils.wrap ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -1338,7 +1350,7 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     json = true
     [res, body] = yield request.postAsync({ url, json })
     expect(body.points).toBe(200)
-    
+
     # check idempotency
     achievement.set('updated', new Date().toISOString())
     yield achievement.save()
@@ -1383,16 +1395,16 @@ describe 'POST /db/user/:handle/check-for-new-achievements', ->
     admin = yield User.findById(admin.id)
     expect(admin.get('lastAchievementChecked')).toBe(achievement.get('updated'))
 
-    
+
 describe 'POST /db/user/:userID/request-verify-email', ->
   mailChimp = require '../../../server/lib/mail-chimp'
-  
+
   beforeEach utils.wrap ->
     spyOn(mailChimp.api, 'put').and.returnValue(Promise.resolve())
     @user = yield utils.initUser()
     verificationCode = @user.verificationCode(new Date().getTime())
     @url = utils.getURL("/db/user/#{@user.id}/verify/#{verificationCode}")
-  
+
   it 'sets emailVerified to true and updates MailChimp', utils.wrap ->
     [res, body] = yield request.postAsync({ @url, json: true })
     expect(res.statusCode).toBe(200)
@@ -1400,7 +1412,7 @@ describe 'POST /db/user/:userID/request-verify-email', ->
     user = yield User.findById(@user.id)
     expect(user.get('emailVerified')).toBe(true)
 
-    
+
 describe 'POST /db/user/:userId/reset_progress', ->
   it 'clears the user\'s level sessions, earned achievements and various user settings', utils.wrap ->
     userSettings = {
@@ -1411,7 +1423,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
       spent: 10
       heroConfig: {thangType: 'qwerty'}
     }
-    
+
     user = yield utils.initUser(userSettings)
     otherUser = yield utils.initUser(userSettings)
 
@@ -1419,7 +1431,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
     otherSession = yield utils.makeLevelSession({}, {creator:otherUser})
     otherEarnedAchievement = new EarnedAchievement({ user: otherUser.id })
     yield otherEarnedAchievement.save()
-    
+
     yield utils.loginUser(user)
     session = yield utils.makeLevelSession({}, {creator:user})
     earnedAchievement = new EarnedAchievement({ user: user.id })
@@ -1428,19 +1440,19 @@ describe 'POST /db/user/:userId/reset_progress', ->
     url = utils.getUrl("/db/user/#{user.id}/reset_progress")
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(200)
-    
+
     stillExist = yield [
       LevelSession.findById(session.id)
       EarnedAchievement.findById(earnedAchievement.id)
     ]
     expect(_.any(stillExist)).toBe(false)
-    
+
     othersStillExist = yield [
       LevelSession.findById(otherSession.id)
       EarnedAchievement.findById(otherEarnedAchievement.id)
     ]
     expect(_.all(othersStillExist)).toBe(true) # did not delete other user stuff
-    
+
     user = yield User.findById(user.id).lean()
     expect(user.points).toBe(0)
     expect(user.stats.gamesCompleted).toBe(0)
@@ -1449,16 +1461,16 @@ describe 'POST /db/user/:userId/reset_progress', ->
     expect(user.purchased.items).toDeepEqual([])
     expect(user.spent).toBe(0)
     expect(user.heroConfig).toBeUndefined()
-    
+
     otherUser = yield User.findById(otherUser.id).lean()
     expect(otherUser.points).toBe(10)
-    
+
   it 'allows anonymous users to reset their progress', utils.wrap ->
     user = yield utils.becomeAnonymous()
     url = utils.getUrl("/db/user/#{user.id}/reset_progress")
     [res, body] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(200)
-    
+
   it 'returns 403 for other users', utils.wrap ->
     user1 = yield utils.initUser()
     user2 = yield utils.initUser()
@@ -1466,14 +1478,14 @@ describe 'POST /db/user/:userId/reset_progress', ->
     url = utils.getUrl("/db/user/#{user2.id}/reset_progress")
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(403)
-    
+
   it 'returns 403 for admins', utils.wrap ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     url = utils.getUrl("/db/user/#{admin.id}/reset_progress")
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(403)
-    
+
   it 'returns 401 for non-logged in users', utils.wrap ->
     yield utils.logout()
     url = utils.getUrl("/db/user/12345/reset_progress")
