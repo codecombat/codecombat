@@ -81,8 +81,12 @@ setupErrorMiddleware = (app) ->
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
         console.log err.stack if err.stack and config.TRACE_ROUTES
-        return res.status(err.code).send(err.toJSON())
-
+        res.status(err.code).send(err.toJSON())
+        if req.timedout
+          # noop return self all response-ending functions
+          res.send = res.status = res.redirect = res.end = res.json = res.sendFile = res.download = res.sendStatus = -> res
+        return
+          
       if err.status and 400 <= err.status < 500
         console.log err.stack if err.stack and config.TRACE_ROUTES
         return res.status(err.status).send("Error #{err.status}")
