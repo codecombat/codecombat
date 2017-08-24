@@ -519,12 +519,12 @@ describe 'GET /db/user', ->
       expect(res.statusCode).toBe(200)
       
     it 'parses a properly formatted JWT israelToken', utils.wrap ->
-      user = yield utils.initUser({ israelId: 'abcd' })
+      user = yield utils.initUser({ israelId: 'abcde' })
       payload = {
         iss: config.israel.jwtIssuer
         aud: config.israel.jwtAudience
         district: config.israel.jwtDistrict
-        sub: 'abcd'
+        sub: 'abcde'
       }
       payload = jwt.sign(payload, config.israel.jwtSecret)
       [res] = yield request.getAsync({ url: getURL("/db/user?israelToken=#{payload}"), json: true, headers })
