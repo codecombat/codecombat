@@ -17,6 +17,7 @@ oauth = require '../lib/oauth'
 facebook = require '../lib/facebook'
 OAuthProvider = require '../models/OAuthProvider'
 querystring = require 'querystring'
+israel = require '../commons/israel'
 
 module.exports =
   checkDocumentPermissions: (req, res, next) ->
@@ -215,7 +216,10 @@ module.exports =
   loginByIsraelId: wrap (req, res, next) ->
     unless req.features.israel
       throw new errors.Forbidden('May not use israelId login outside of Israel')
-    { israelId } = req.body
+    { israelId, israelToken } = req.body
+    if israelToken
+      result = israel.verifyToken(israelToken)
+      israelId = result.sub
     user = yield User.findOne({ israelId })
     if not user
       throw new errors.NotFound('No user with this id found')

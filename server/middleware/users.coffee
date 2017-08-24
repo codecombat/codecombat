@@ -26,6 +26,7 @@ config = require '../../server_config'
 utils = require '../lib/utils'
 CLASubmission = require '../models/CLASubmission'
 Prepaid = require '../models/Prepaid'
+israel = require '../commons/israel'
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -64,10 +65,13 @@ module.exports =
     res.status(200).send(user.toObject({req: req}))
 
   fetchByIsraelId: wrap (req, res, next) ->
-    israelId = req.query.israelId
-    return next() unless israelId
+    {israelId, israelToken} = req.query
+    return next() unless israelId or israelToken
     unless req.features.israel
       throw new errors.Forbidden('May not use israelId lookup outside of Israel')
+    if israelToken
+      result = israel.verifyToken(israelToken)
+      israelId = result.sub
     user = yield User.findOne({israelId})
     res.status(200).send(if user then user.toObject({req}) else null)
 
@@ -359,14 +363,21 @@ module.exports =
 
 
   putIsraelId: wrap (req, res) ->
-    israelId = req.body.israelId
+    { israelId, israelToken } = req.body
+    if israelToken
+      result = israel.verifyToken(israelToken)
+      israelId = result.sub
+      type = result.type
     if not israelId
       throw new errors.UnprocessableEntity('israelId not provided')
     unless req.user.isAnonymous()
       throw new errors.Forbidden('Must be anonymous to set israelId')
     unless req.features.israel
       throw new errors.Forbidden('Cannot set israelId outside of Israel')
-    yield req.user.update({$set: {israelId}})
+    update = {$set: {israelId}}
+    if type in ['teacher', 'student']
+      update.$set.role = type
+    yield req.user.update(update)
     req.user.set({israelId})
     return res.status(200).send(req.user.toObject({req: req}))
 

@@ -151,6 +151,12 @@ config.sunburst =
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
 
+config.israel =
+  jwtSecret: process.env.COCO_ISRAEL_JWT_SECRET or '...'
+  jwtAudience: process.env.COCO_ISRAEL_JWT_AUDIENCE or 'aud'
+  jwtIssuer: process.env.COCO_ISRAEL_JWT_ISSUER or 'iss'
+  jwtDistrict: process.env.COCO_ISRAEL_JWT_DISTRICT or 'district'
+
 if fs.existsSync path.join(__dirname, '.build_info.json')
   config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
 

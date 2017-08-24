@@ -11,6 +11,8 @@ LevelSession = require '../../../server/models/LevelSession'
 OAuthProvider = require '../../../server/models/OAuthProvider'
 config = require '../../../server_config'
 querystring = require 'querystring'
+jwt = require 'jsonwebtoken'
+config = require '../../../server_config'
 
 urlLogin = getURL('/auth/login')
 urlReset = getURL('/auth/reset')
@@ -343,6 +345,22 @@ describe 'POST /auth/login-israel', ->
     json = { israelId: '12345' }
     [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json })
     expect(res.statusCode).toBe(403)
+    
+  it 'accepts a JWT token', utils.wrap ->
+    user = yield utils.initUser({ israelId: 'abcdef' })
+    yield utils.loginUser(user)
+    payload = {
+      iss: config.israel.jwtIssuer
+      aud: config.israel.jwtAudience
+      district: config.israel.jwtDistrict
+      sub: 'abcdef'
+    }
+    payload = jwt.sign(payload, config.israel.jwtSecret)
+    headers = { host: 'il.codecombat.com' }
+    json = { israelToken: payload }
+    [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json, headers })
+    expect(res.statusCode).toBe(200)
+    expect(res.body._id).toBe(user.id)
     
     
 describe 'GET /auth/login-clever', ->

@@ -18,6 +18,8 @@ EarnedAchievement = require '../../../server/models/EarnedAchievement'
 LevelSession = require '../../../server/models/LevelSession'
 paypal = require '../../../server/lib/paypal'
 mongoose = require 'mongoose'
+jwt = require 'jsonwebtoken'
+config = require '../../../server_config'
 
 describe 'POST /db/user', ->
 
@@ -240,6 +242,28 @@ describe 'PUT /db/user/:handle/israel-id', ->
     expect(res.statusCode).toBe(200)
     user = yield User.findById(user.id)
     expect(user.get('israelId')).toBe(json.israelId)
+
+  it 'accepts JWT token, and updates role if the token includes it', utils.wrap ->
+    user = yield utils.becomeAnonymous()
+    url = utils.getUrl("/db/user/#{user.id}/israel-id")
+
+    payload = {
+      iss: config.israel.jwtIssuer
+      aud: config.israel.jwtAudience
+      district: config.israel.jwtDistrict
+      sub: '358302'
+      type: 'student'
+    }
+    payload = jwt.sign(payload, config.israel.jwtSecret)
+    
+    json = { israelToken: payload }
+    headers = { host: 'il.codecombat.com' }
+    [res] = yield request.putAsync({ url, json, headers })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(user.id)
+    expect(user.get('israelId')).toBe('358302')
+    expect(user.get('role')).toBe('student')
+    
     
 
 describe 'PUT /db/user/-/become-student', ->
@@ -493,7 +517,33 @@ describe 'GET /db/user', ->
       [res] = yield request.getAsync({ url: getURL("/db/user?israelId=dne"), json: true, headers })
       expect(res.body).toBeFalsy()
       expect(res.statusCode).toBe(200)
-  
+      
+    it 'parses a properly formatted JWT israelToken', utils.wrap ->
+      user = yield utils.initUser({ israelId: 'abcd' })
+      payload = {
+        iss: config.israel.jwtIssuer
+        aud: config.israel.jwtAudience
+        district: config.israel.jwtDistrict
+        sub: 'abcd'
+      }
+      payload = jwt.sign(payload, config.israel.jwtSecret)
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelToken=#{payload}"), json: true, headers })
+      expect(res.statusCode).toBe(200)
+      expect(res.body._id).toBe(user.id)
+
+    it 'returns 403 for improperly signed JWT israelTokens', utils.wrap ->
+      payload = {
+        iss: config.israel.jwtIssuer
+        aud: config.israel.jwtAudience
+        district: config.israel.jwtDistrict
+        sub: 'abcd'
+      }
+      payload = jwt.sign(payload, config.israel.jwtSecret) + 'flip'
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelToken=#{payload}"), json: true, headers })
+      expect(res.statusCode).toBe(422)
+
+
+
 describe 'GET /db/user?email=:email', ->
   beforeEach utils.wrap ->
     yield Promise.promisify(clearModels)([User])

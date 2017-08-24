@@ -46,28 +46,30 @@ module.exports = class IsraelSignupView extends RootView
         'state'
         'district'
         'usertype'
+        'token'
       )
       name: ''
       password: ''
     })
     
-    { israelId, email } = @state.get('queryParams')
+    { israelId, token, email } = @state.get('queryParams')
+    israelToken = token
     
     # sanity checks
     if not me.isAnonymous()
       @state.set({fatalError: 'signed-in', loading: false})
     
-    else if not israelId
+    else if not (israelId or israelToken)
       @state.set({fatalError: 'missing-input', loading: false})
     
     else if email and not forms.validateEmail(email)
       @state.set({fatalError: 'invalid-email', loading: false})
       
     else
-      api.users.getByIsraelId(israelId)
+      api.users.getByIsraelIdOrToken({israelId, israelToken})
       .then (user) =>
         if user
-          return api.auth.loginByIsraelId(israelId)
+          return api.auth.loginByIsraelIdOrToken({israelId, israelToken})
           .then =>
             @redirectAfterAuth()
         else
@@ -80,7 +82,8 @@ module.exports = class IsraelSignupView extends RootView
                   @state.set({fatalError: 'email-exists'})
           .then =>
             @state.set({loading: false})
-      .catch =>
+      .catch (e) =>
+        console.log('Error:', e)
         @state.set({fatalError: $.i18n.t('loading_error.unknown'), loading: false})
 
     @listenTo(@state, 'change', _.debounce(@render))
@@ -148,7 +151,11 @@ module.exports = class IsraelSignupView extends RootView
       return me.save()
       
     .then =>
-      return api.users.putIsraelId({ userId: me.id, israelId: queryParams.israelId })
+      return api.users.putIsraelIdOrToken({ 
+        userId: me.id, 
+        israelId: queryParams.israelId,
+        israelToken: queryParams.token
+      })
         
     .then =>
       # sign up
