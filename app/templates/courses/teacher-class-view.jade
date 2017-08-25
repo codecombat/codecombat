@@ -23,6 +23,19 @@ block content
         .row.center-block.text-center.m-t-3.m-b-3
           .unarchive-btn.btn.btn-lg.btn-navy
             span(data-i18n='teacher.unarchive_this_class')
+      
+      - var today = new Date()
+      - var created = classroom.created()
+      - var elapsed = today.getTime()-created.getTime()
+      
+      if (elapsed/(1000*60*60*24) > 180)
+        .update-class
+          .alert.alert-info.text-center
+            strong(data-i18n='courses.update_old_classroom') 
+            .small-details
+              span.spr(data-i18n='courses.update_old_classroom_detail')
+              a(data-i18n="courses.teacher_dashboard" href="/teachers/")
+              span.spl(data-i18n="courses.update_old_classroom_detail_2") 
 
       h3.m-t-2= classroom.get('name')
       a.label.edit-classroom(data-classroom-id=classroom.id)

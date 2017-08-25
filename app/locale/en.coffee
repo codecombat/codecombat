@@ -1402,6 +1402,10 @@
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "You'll need to join a course to play this level."
     license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
+    update_old_classroom: "New school year, new levels!"
+    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
+    teacher_dashboard: "teacher dashboard"
+    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
