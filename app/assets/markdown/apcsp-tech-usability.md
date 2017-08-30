@@ -1,5 +1,5 @@
 ##### Activity
-# Creative Technology - Tech Usability Review
+# Tech Usability Review
 
 ## Learning Objectives:
 - [LO 1.2.5] Analyze the correctness, usability, functionality, and suitability of computational artifacts. [P4]
