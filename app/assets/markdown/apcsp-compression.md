@@ -22,13 +22,13 @@ When using Lossy compression, the file size is reduced by removing information f
 
 This is a close up of a map of Backwoods Forest, held by one of CodeCombat’s heroes, Anya.
 
-[image needed]
+<img alt="high res image" src="/images/pages/teachers/resources/markdown/compression-high-res.jpg" class="res-image" />
 
 The details of the map can be clearly seen.  This image is not compressed at all and takes up  194KB or storage space. This also means it takes that much bandwidth to transmit.
 
 Here is the same image, but after is has been compressed 90%. Now it only takes 20KB of storage space and bandwidth.
 
-[image needed]
+<img alt="low res image" src="/images/pages/teachers/resources/markdown/compression-low-res.jpg" class="res-image" />
 
 Look at how the details have become blurred. This is one of the costs of Lossy compression. 
 
@@ -38,18 +38,65 @@ Look at how the details have become blurred. This is one of the costs of Lossy c
 ## Lossless compression
 
 **Lossless compression**
-How much wood could a woodchuck chuck
- 
-If a woodchuck could chuck wood? 
 
-As much wood as a woodchuck could chuck, 
+<table class="woodchuck">
 
-If a woodchuck could chuck wood.
-How much  could a   
-If a  could  ? 
-As much  as a  could , 
-If a  could  .
+<tbody>
 
+<tr>
+
+<td>
+
+<span>How much wood could a woodchuck chuck  
+</span>
+
+<span>If a woodchuck could chuck wood?</span>
+
+<span>  
+As much wood as a woodchuck could chuck,</span>
+
+<span>  
+If a woodchuck could chuck wood.</span>
+
+</td>
+
+<td>
+
+<span>How much</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><span> could a</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> </span><img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> </span>
+
+<span>If a</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> could</span> <img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> </span><img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><span>?</span>
+
+<span>As much</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><span> as a</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> could</span> <img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span>,</span>
+
+<span>If a</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> could</span> <img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span> </span><img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><span>.</span>
+
+<span></span>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+
+<span>144 characters total</span>
+
+</td>
+
+<td>
+
+<span>By using</span> <img alt="wood image" src="/images/pages/teachers/resources/markdown/compression-wood-x.png" class="wood" /><span> and</span> <img alt="grass" src="/images/pages/teachers/resources/markdown/compression-grass.png" class="grass" /><span>to replace “wood” and “chuck” we reduce the total characters to 88 characters, which is about 39% compression.</span>
+
+<span>Because we know what the symbols represent, we can reconstruct the original tongue-twister with no loss of data.</span>
+
+</td>
+
+</tr>
+
+</tbody>
+
+</table>
 
 144 characters total
 By using  and to replace “wood” and “chuck” we reduce the total characters to 88 characters, which is about 39% compression.
@@ -57,20 +104,29 @@ Because we know what the symbols represent, we can reconstruct the original tong
 
 **Lossy Compression**
 
-Peter Piper picked a peck of pickled peppers.
-Did Peter Piper pick a peck of pickled peppers?
-If Peter Piper Picked a peck of pickled peppers,
-Where's the peck of pickled peppers Peter Piper picked?
+<table class="peter-piper">
 
+<tbody>
 
+<tr>
 
-Ptr Ppr pckd a pck of pckld ppprs.
-Dd Ptr Ppr pck a pck of pckld ppprs?
-If Ptr Ppr Pckd a pck of pckld ppprs,
-Whr's th pck of pckld ppprs Ptr Ppr pckd?
-195 characters
-By removing all vowels except those that start words, we reduce this to 148 characters for a compression rate of 24.1%
+<td><span>Peter Piper picked a peck of pickled peppers.</span> <span>Did Peter Piper pick a peck of pickled peppers?</span> <span>If Peter Piper Picked a peck of pickled peppers,</span> <span>Where's the peck of pickled peppers Peter Piper picked?</span><span></span><span></span></td>
 
+<td><span>Ptr Ppr pckd a pck of pckld ppprs.</span> <span>Dd Ptr Ppr pck a pck of pckld ppprs?</span> <span>If Ptr Ppr Pckd a pck of pckld ppprs,</span> <span>Whr's th pck of pckld ppprs Ptr Ppr pckd?</span></td>
+
+</tr>
+
+<tr>
+
+<td><span>195 characters</span></td>
+
+<td><span>By removing all vowels except those that start words, we reduce this to 148 characters for a compression rate of 24.1%</span></td>
+
+</tr>
+
+</tbody>
+
+</table>
 Ask your students if they think Lossless would be more efficient? 
 Break your students into groups and have them give it a try.
 
