@@ -652,7 +652,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
   subscribe:
     premium_already_subscribed: "Você já se inscreveu como Premium!"
     subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Seja um programador - faça a inscrição <b>Premium</b> hoje!"
+    comparison_blurb: "Seja um programador - faça a inscrição Premium hoje!"
     premium_pricing_prefix: "Seja Premium por apenas"
     premium_pricing_suffix: "e se torne um programador."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
