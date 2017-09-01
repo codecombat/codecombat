@@ -575,7 +575,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     ready_to_share: "Pronto para publicar seu projeto?"
     click_publish: "Clique em \"Publicar\" para que apareça na galeria da turma, depois confira o que seus colegas construíram! Você pode voltar e continuar trabalhando neste projeto. Qualquer outra alteração será salva automaticamente e compartilhada com seus colegas."
     already_published_prefix: "Suas mudanças foram publicadas na galeria da turma."
-    already_published_suffix: Continue experimentando e tornando este projeto ainda melhor, ou veja o que o resto da sua turma construiu! Suas mudanças serão automaticamente salvas e compartilhadas com seus colegas."
+    already_published_suffix: "Continue experimentando e tornando este projeto ainda melhor, ou veja o que o resto da sua turma construiu! Suas mudanças serão automaticamente salvas e compartilhadas com seus colegas."
     view_gallery: "Visualizar Galeria"
     project_published_noty: "Seu nível foi o publicado!"
     keep_editing: "Continue Editando"
@@ -652,7 +652,11 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
   subscribe:
     premium_already_subscribed: "Você já se inscreveu como Premium!"
     subscribe_modal_title: "CodeCombat Premium"
+<<<<<<< HEAD
     comparison_blurb: "Seja um programador. Faça a inscrição <b>Premium</b> hoje!" # {change}
+=======
+    comparison_blurb: "Seja um programador - faça a inscrição Premium hoje!"
+>>>>>>> 8a67450e2667dde8686f926d085e308fe98d9323
     premium_pricing_prefix: "Seja Premium por apenas"
     premium_pricing_suffix: "e se torne um programador."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
