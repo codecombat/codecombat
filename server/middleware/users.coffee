@@ -440,7 +440,7 @@ module.exports =
     else if search.length > 5
       searchParts = search.split(/[.+@]/)
       if searchParts.length > 1
-        users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).select(projection))
+        users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).limit(50).select(projection))
 
     users = _.uniq(users, false, (u) -> u.id)
 
@@ -505,4 +505,3 @@ module.exports =
       })
     ]
     return res.sendStatus(200)
-

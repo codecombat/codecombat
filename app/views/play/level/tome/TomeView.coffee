@@ -144,10 +144,8 @@ module.exports = class TomeView extends CocoView
     null
 
   onSpellLoaded: (e) ->
-    console.log 'onSpellLoaded', e if me.get('name') is 'Shanakin'
     for spellID, spell of @spells
       return unless spell.loaded
-    console.log '... all loaded, let us begin' if me.get('name') is 'Shanakin'
     justBegin = @options.level.isType('game-dev')
     @cast false, false, justBegin
 
