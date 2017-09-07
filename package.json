@@ -52,6 +52,7 @@
   ],
   "dependencies": {
     "@basicer/geoip-lite": "^1.1.6",
+    "@vimeo/player": "^2.2.0",
     "JQDeferred": "~2.1.0",
     "ace-builds": "ajaxorg/ace-builds#3fb55e8e374ab02ce47c1ae55ffb60a1835f3055",
     "aether": "~0.5.21",

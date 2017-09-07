@@ -1,3 +1,5 @@
+dynamicRequire = require('lib/dynamicRequire')
+
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
 redirect = (path) -> ->
@@ -244,25 +246,29 @@ module.exports = class CocoRouter extends Backbone.Router
       delete window.alreadyLoadedView
       path = 'play/CampaignView'
 
-    # path = "views/#{path}" if not _.string.startsWith(path, 'views/')
-    ViewClass = @tryToLoadModule path
-    if not ViewClass and application.moduleLoader.load(path)
-      @listenToOnce application.moduleLoader, 'load-complete', ->
-        options.recursive = true
-        @routeDirectly(path, args, options)
-      return
-    return go('NotFoundView') if not ViewClass
-    view = new ViewClass(options, args...)  # options, then any path fragment args
-    view.render()
-    if window.alreadyLoadedView
-      console.log "Need to merge view"
-      delete window.alreadyLoadedView
-      @mergeView(view)
-    else
-      @openView(view)
-
-    @viewLoad.setView(view)
-    @viewLoad.record()
+    path = "views/#{path}" if not _.string.startsWith(path, 'views/')
+    console.log path
+    dynamicRequire(path).then (ViewClass) =>
+      console.log "Got a thing?", ViewClass
+      # if not ViewClass and application.moduleLoader.load(path)
+      #   @listenToOnce application.moduleLoader, 'load-complete', ->
+      #     options.recursive = true
+      #     @routeDirectly(path, args, options)
+      #   return
+      return go('NotFoundView') if not ViewClass
+      view = new ViewClass(options, args...)  # options, then any path fragment args
+      view.render()
+      if window.alreadyLoadedView
+        console.log "Need to merge view"
+        delete window.alreadyLoadedView
+        @mergeView(view)
+      else
+        @openView(view)
+    
+      @viewLoad.setView(view)
+      @viewLoad.record()
+    .catch (err) ->
+      console.log err
 
   redirectHome: ->
     delete window.alreadyLoadedView
@@ -276,7 +282,7 @@ module.exports = class CocoRouter extends Backbone.Router
     # TODO: Put this back? Commented for easier Webpack debugging, not sure what it's for.
     # try
     path = path.match(/(views\/)?(.*)/)[2] # Chop out 'view' at beginning if it's there
-    return require('../views/' + path + '.coffee') # This hints Webpack to include things from /app/views/
+    # return require('../views/' + path + '.coffee') # This hints Webpack to include things from /app/views/
     # catch error
       # if error.toString().search('Cannot find module "' + path + '" from') is -1
         # throw error
