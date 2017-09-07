@@ -15,7 +15,7 @@ urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 TEAM = 'humans'
 

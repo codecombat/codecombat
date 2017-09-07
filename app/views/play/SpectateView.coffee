@@ -32,7 +32,7 @@ DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 PROFILE_ME = false
 

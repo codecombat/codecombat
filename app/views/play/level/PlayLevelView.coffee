@@ -48,7 +48,7 @@ HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 PROFILE_ME = false
 

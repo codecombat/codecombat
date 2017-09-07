@@ -38,7 +38,7 @@ LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 utils = require 'core/utils'
 
-require 'coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
+require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
 require 'treema/treema.js'
 
 # Make sure that all of our Aethers are loaded, so that if we try to preview the level, it will work.
@@ -49,7 +49,7 @@ require 'aether/lib/languages/lua'
 require 'aether/lib/languages/java'
 require 'aether/lib/languages/html'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'

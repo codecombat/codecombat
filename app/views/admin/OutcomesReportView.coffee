@@ -12,7 +12,7 @@ Users = require 'collections/Users'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
-require('vendor/co')
+co = require('co')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 

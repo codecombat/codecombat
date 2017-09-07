@@ -1,5 +1,5 @@
 utils = require 'core/utils'
-ace = require 'ace'
+# ace = require 'ace'
 
 defaults =
   autoLineEndings:

@@ -2,7 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
-ace = require 'ace'
+# ace = require 'ace'
 
 module.exports = class LevelThangEditView extends CocoView
   ###

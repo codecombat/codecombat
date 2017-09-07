@@ -9,7 +9,7 @@ errors = require 'core/errors'
 app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class AchievementEditView extends RootView
   id: 'editor-achievement-edit-view'

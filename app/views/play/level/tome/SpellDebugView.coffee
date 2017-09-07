@@ -1,6 +1,6 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell_debug'
-ace = require 'ace'
+# ace = require 'ace'
 Range = ace.require('ace/range').Range
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 serializedClasses =

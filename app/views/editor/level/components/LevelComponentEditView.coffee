@@ -4,7 +4,7 @@ LevelComponent = require 'models/LevelComponent'
 ComponentVersionsModal = require 'views/editor/component/ComponentVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-ace = require 'ace'
+# ace = require 'ace'
 
 require 'treema/treema.js'
 

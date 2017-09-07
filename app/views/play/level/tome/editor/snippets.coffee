@@ -9,7 +9,7 @@
 lineBreak = /\r\n|[\n\r\u2028\u2029]/g
 identifierRegex = /[\.a-zA-Z_0-9\$\-\u00A2-\uFFFF]/
 Fuzziac = require './fuzziac' # https://github.com/stollcri/fuzziac.js
-ace = require 'ace'
+# ace = require 'ace'
 
 module.exports = (SnippetManager, autoLineEndings) ->
   {Range} = ace.require 'ace/range'

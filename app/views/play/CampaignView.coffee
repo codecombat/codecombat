@@ -33,7 +33,7 @@ CourseInstance = require 'models/CourseInstance'
 Levels = require 'collections/Levels'
 payPal = require('core/services/paypal')
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 class LevelSessionsCollection extends CocoCollection
   url: ''

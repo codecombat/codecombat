@@ -129,7 +129,7 @@ module.exports = TestView = class TestView extends RootView
         # TODO Clean up more things
         #   * Events
 
-      require f for f in specFiles # runs the tests
+      require f for f in specFiles # runs the tests # Webpack: get this working async
 
   @getAllSpecFiles = ->
     allFiles = window.require.list()

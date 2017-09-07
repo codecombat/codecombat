@@ -7,7 +7,7 @@ User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
-require 'd3'
+require 'd3/d3.js'
 
 HIGHEST_SCORE = 1000000
 

@@ -1,8 +1,8 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/delta'
 deltasLib = require 'core/deltas'
-require 'diffview'
-require 'difflib'
+require 'vendor/scripts/diffview'
+require 'vendor/scripts/difflib'
 require '../../../bower_components/treema/treema.js'
 
 TEXTDIFF_OPTIONS =

@@ -22,7 +22,7 @@ template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 ExportThangTypeModal = require './ExportThangTypeModal'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 CENTER = {x: 200, y: 400}
 

@@ -4,7 +4,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 WebSurfaceView = require './WebSurfaceView'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class PlayWebDevLevelView extends RootView
   id: 'play-web-dev-level-view'

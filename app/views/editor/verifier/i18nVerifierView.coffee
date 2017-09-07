@@ -2,7 +2,7 @@ RootComponent = require 'views/core/RootComponent'
 Problem = require 'views/play/level/tome/Problem'
 locale = require 'locale/locale'
 api = require 'core/api'
-require 'vendor/co'
+co = require 'co'
 utils = require 'core/utils'
 
 I18nVerifierComponent = Vue.extend

@@ -26,7 +26,7 @@
       )
         .school(v-if="displayKey === 'name'" v-html="suggestion._highlightResult.name.value")
         .district
-          span(v-html="suggestion._highlightResult.district.value"),
+          span(v-html="suggestion._highlightResult.district.value") ,
           =" "
           span(v-if="suggestion._highlightResult.city", v-html="suggestion._highlightResult.city.value")
           =" "

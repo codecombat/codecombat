@@ -6,7 +6,7 @@ PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
 app = require 'core/application'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class CourseEditView extends RootView
   id: 'editor-course-edit-view'

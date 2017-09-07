@@ -1,6 +1,6 @@
 template = require 'templates/editor/campaign/campaign-analytics-modal'
 utils = require 'core/utils'
-require 'd3'
+require 'd3/d3.js'
 ModalView = require 'views/core/ModalView'
 
 # TODO: jquery-ui datepicker doesn't work well in this view

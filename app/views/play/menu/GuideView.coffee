@@ -2,7 +2,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
 SubscribeModal = require 'views/core/SubscribeModal'
-ace = require 'ace'
+# ace = require 'ace'
 utils = require 'core/utils'
 
 module.exports = class LevelGuideView extends CocoView
@@ -43,7 +43,7 @@ module.exports = class LevelGuideView extends CocoView
       @docs = specific.concat(general)
       @docs = $.extend(true, [], @docs)
       @docs = [@docs[0]] if @firstOnly and @docs[0]
-      @addPicoCTFProblem() 
+      @addPicoCTFProblem()
       doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'), options.session.get('codeLanguage'))) for doc in @docs
       doc.slug = _.string.slugify(doc.name) for doc in @docs
       doc.name = (utils.i18n doc, 'name') for doc in @docs

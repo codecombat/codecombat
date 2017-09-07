@@ -1,5 +1,5 @@
 # TODO: Pull this (and the copy for server tests) out into a separate library
-require 'vendor/co'
+co = require 'co'
 
 wrapJasmine = (gen) ->
   arity = gen.length

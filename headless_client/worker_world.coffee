@@ -3,7 +3,7 @@
 # This specific worker is targeted towards the node.js headless_client environment.
 
 fs = require 'fs'
-GLOBAL.Aether = Aether = require 'aether'
+# GLOBAL.Aether = Aether = require 'aether' # TODO: fix with webpack
 GLOBAL._ = _ = require 'lodash'
 GLOBAL.CoffeeScript = require 'coffee-script'
 
