@@ -53,6 +53,8 @@ require('ace-builds/src-noconflict/ace.js');
 window.Vue = require('vue').default
 window.Vuex = require('vuex').default
 
+window.algoliasearch = require('algoliasearch')
+
 require('./core/Router.coffee');
 
 require('core/initialize');
