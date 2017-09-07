@@ -22,13 +22,15 @@ html(lang='en')
     link(href='https://plus.google.com/115285980638641924488', rel='publisher')
     link(rel='shortcut icon', href='/images/favicon.ico')
     link(rel='stylesheet', href='/' + shaTag + '/stylesheets/app.css')
+    //- link(rel='stylesheet', href='/stylesheets/app.css')
     link(href='//fonts.googleapis.com/css?family=Merriweather', rel='stylesheet', type='text/css')
     script.
       var DEXECURE_URL = "/dexecure-c167a5675c.js";
       "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
       // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
-    script(src='/' +  shaTag + '/javascripts/vendor.js', defer='')
+    // script(src='/' +  shaTag + '/javascripts/vendor.js', defer='')
     script(src='/' + shaTag + '/javascripts/app.js', defer='')
+    //- script(src='/javascripts/app.js', defer='')
     script(src='/user-data?sha=' + shaTag)
     // Google Analytics
     script.
@@ -55,26 +57,26 @@ html(lang='en')
       });
 
     script(src='https://checkout.stripe.com/checkout.js')
-    // CodePlay Tags Header 
+    // CodePlay Tags Header
 
     block setup
     block script-start
       script.
         function onLoad() {
-          try {
-              // IE10 warning
-              var htmlElement = document.querySelector("html");
-              if (htmlElement) {
-                  if ($.browser.msie && $.browser.versionNumber < 11) {
-                      if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
-                          alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
-                      }
-                  }
-              }
-              // IE8 can't handle this
-              FastClick.attach(document.body);
-          } catch (error) { }
-          require('core/initialize');
+        //-   try {
+        //-       // IE10 warning
+        //-       var htmlElement = document.querySelector("html");
+        //-       if (htmlElement) {
+        //-           if ($.browser.msie && $.browser.versionNumber < 11) {
+        //-               if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
+        //-                   alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+        //-               }
+        //-           }
+        //-       }
+        //-       // IE8 can't handle this
+        //-       FastClick.attach(document.body);
+        //-   } catch (error) { }
+        //-   require('core/initialize');
         }
   body.clearfix(onload='onLoad();')
     #fb-root
@@ -82,4 +84,4 @@ html(lang='en')
     #modal-wrapper.modal-content.hide
     #module-load-progress.progress
       .progress-bar
-    // CodePlay Tags Footer 
+    // CodePlay Tags Footer

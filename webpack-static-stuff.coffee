@@ -7,9 +7,9 @@ _ = require 'lodash'
 fs = require('fs')
 
 compile = (contents, filename, cb) ->
-  console.log "Compile", filename, basePath
+  # console.log "Compile", filename, basePath
   outFile = filename.replace /.static.pug$/, '.html'
-  console.log {outFile, filename, basePath}
+  # console.log {outFile, filename, basePath}
   out = pug.compileClientWithDependenciesTracked contents,
     pretty: true
     filename: path.join(basePath, 'templates/static', filename)
@@ -38,7 +38,8 @@ compile = (contents, filename, cb) ->
 
   try
     fn = new Function(out.body + '\n return template;')()
-    str = fn(_.merge {_, i18n}, @locals, require './static-mock')
+    # str = fn(_.merge {_, i18n}, @locals, require './static-mock')
+    str = fn(_.merge {_, i18n}, {shaTag: process.env.GIT_SHA or 'dev'}, require './static-mock')
   catch e
     return cb(e.message)
 
@@ -57,9 +58,9 @@ compile = (contents, filename, cb) ->
       i.text(t.text)
 
   deps = ['static-mock.coffee'].concat(out.dependencies)
-  console.log "Wrote to #{outFile}", deps
+  # console.log "Wrote to #{outFile}", deps
 
-  console.log {outFile}
+  # console.log {outFile}
   
   if not fs.existsSync(path.resolve('./public'))
     fs.mkdirSync(path.resolve('./public'))
@@ -71,13 +72,14 @@ compile = (contents, filename, cb) ->
   cb()
   # cb(null, [{filename: outFile, content: c.html()}], deps) # old brunch callback
 
-module.exports = WebpackStaticStuff = (compiler) ->
+module.exports = WebpackStaticStuff = (options = {}) ->
+  # locals = options.locals
 
 WebpackStaticStuff.prototype.apply = (compiler) ->
   compiler.plugin 'emit', (compilation, callback) ->
     files = fs.readdirSync(path.resolve('./app/templates/static'))
     for filename in files
-      console.log filename
+      # console.log filename
       relativeFilePath = path.join(path.resolve('./app/templates/static/'), filename)
       content = fs.readFileSync(path.resolve('./app/templates/static/'+filename))
       compile(content, filename, callback)

@@ -23,6 +23,9 @@ module.exports = {
         { loader: 'style-loader' },
         { loader: 'css-loader' }
       ] },
+      { test: /\.sass$/, enforce: 'pre', use: [ // Allow importing * in app.sass
+        { loader: 'import-glob-loader' }
+      ] },
       { test: /\.sass$/, use: [
         { loader: 'style-loader' },
         { loader: 'css-loader' },
@@ -49,7 +52,7 @@ module.exports = {
     ],
     extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass'],
   },
-  // devtool: 'inline-source-map',
+  devtool: 'source-map',
   devServer: {
     contentBase: './public'
   },
@@ -59,6 +62,10 @@ module.exports = {
     request: 'empty',
   },
   plugins: [
+    new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
+      $: 'jquery',
+      jQuery: 'jquery'
+    }),
     new webpack.IgnorePlugin(/.png/, /vendor\/styles/), // Ignore jQuery-UI's missing images
     new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
     new webpack.IgnorePlugin(/^memwatch$/), // # TODO: Figure out if we actually want this.
@@ -66,6 +73,8 @@ module.exports = {
       from: 'app/assets',
       to: '.'
     }]),
-    new WebpackStaticStuff(),
+    new WebpackStaticStuff({
+      locals: {shaTag: process.env.GIT_SHA || 'dev'}
+    }),
   ]
 }

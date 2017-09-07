@@ -129,6 +129,8 @@
     "treema": "https://github.com/codecombat/treema.git",
     "tv4": "~1.0.16",
     "underscore.string": "~2.3.3",
+    "vue": "^2.4.2",
+    "vuex": "^2.4.0",
     "webpack": "^3.5.5",
     "winston": "0.6.x",
     "yamljs": "^0.2.8"
@@ -152,6 +154,7 @@
     "fs-extra": "^0.26.2",
     "genstats": "0.0.1",
     "http-proxy": "^1.13.2",
+    "import-glob-loader": "^1.1.0",
     "imports-loader": "^0.6.5",
     "intercom-client": "^2.8.5",
     "istanbul": "^0.4.5",

@@ -276,7 +276,7 @@ module.exports = class CocoRouter extends Backbone.Router
     # TODO: Put this back? Commented for easier Webpack debugging, not sure what it's for.
     # try
     path = path.match(/(views\/)?(.*)/)[2] # Chop out 'view' at beginning if it's there
-    return require('../views/modal/' + path + '.coffee') # This hints Webpack to include things from /app/views/
+    return require('../views/' + path + '.coffee') # This hints Webpack to include things from /app/views/
     # catch error
       # if error.toString().search('Cannot find module "' + path + '" from') is -1
         # throw error

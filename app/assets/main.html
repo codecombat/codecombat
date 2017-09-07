@@ -80,19 +80,19 @@
     }
 
     onLoad = function() {
-      try {
-        // IE10 warning
-        var htmlElement = document.querySelector("html");
-        if (htmlElement) {
-          if ($.browser.msie && $.browser.versionNumber < 11) {
-            alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
-          }
-        }
-
-        // IE8 can't handle this
-        FastClick.attach(document.body);
-        require('core/initialize');
-      } catch (error) { }
+    //   try {
+    //     // IE10 warning
+    //     var htmlElement = document.querySelector("html");
+    //     if (htmlElement) {
+    //       if ($.browser.msie && $.browser.versionNumber < 11) {
+    //         alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+    //       }
+    //     }
+    //
+    //     // IE8 can't handle this
+    //     FastClick.attach(document.body);
+    //     require('core/initialize');
+    //   } catch (error) { }
     }
   </script>
 

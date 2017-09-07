@@ -13,3 +13,5 @@
 
 // require('core/application')
 // require('lib/game-libraries')
+
+console.log('yay, ran startsmall!');

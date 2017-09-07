@@ -2,33 +2,13 @@
 // require('./styles/bootstrap/bootstrap.scss'); // Don't require its _ files, let them be required by bootstrap.scss
 require('nanoscroller/bin/css/nanoscroller.css'); // TODO: Is this the right way to do it? Do I need to do this for other packages too?
 
+global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 import 'bootstrap'
-// require.context('./styles/', false, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/account', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/admin', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/artisans', true, /^.*\.(sass|scss|css|less)$/);
-// // require.context('./styles/bootstrap', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/clans', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/common', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/contribute', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/core', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/courses', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/docs', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/editor', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/i18n', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/kinds', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/modal', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/play', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/teachers', true, /^.*\.(sass|scss|css|less)$/);
-// require.context('./styles/user', true, /^.*\.(sass|scss|css|less)$/);
-
-
-
-global.$ = window.$ = window.jQuery = require('jquery');
+import './app.sass'
 window._ = require('lodash');
 window.Backbone = require('backbone');
 window.Backbone.$ = window.jQuery; //wat
-// window.createjs = require('createjs.combined.js').createjs;
+window.createjs = require('vendor/scripts/createjs.combined.js').createjs;
 require('../vendor/scripts/easeljs-NEXT.combined.js');
 require('../vendor/scripts/tweenjs-NEXT.combined.js');
 require('../vendor/scripts/soundjs-NEXT.combined.js');
@@ -63,12 +43,15 @@ require.context('../vendor', true, /.*\.(js|css)/); // F'it, just import everyth
 require('treema/treema.js');
 // jasmine?
 window.THREE = require('three');
-require('npm-modernizr');
+require('imports-loader?this=>window!npm-modernizr');
 
 require('./locale/locale.coffee');
 require('./locale/en.coffee');
 require('lib/sprites/SpriteBuilder.coffee'); // loaded by ThangType
 require('ace-builds/src-noconflict/ace.js');
+
+window.Vue = require('vue').default
+window.Vuex = require('vuex').default
 
 require('./core/Router.coffee');
 

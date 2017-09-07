@@ -12,6 +12,48 @@ module.exports =
     #   code = path.replace('locale/', '')
     #   store.commit('addLocaleLoaded', code)
     #   @[code] = require(path)
+  
+  installVueI18n: ->
+    # https://github.com/rse/vue-i18next/blob/master/vue-i18next.js, converted by js2coffee 2.2.0
+    store = require('core/store')
+
+    VueI18Next = install: (Vue, options) ->
+    
+      ###  determine options  ###
+    
+      opts = {}
+      Vue.util.extend opts, options
+    
+      ###  expose a global API method  ###
+    
+      Vue.t = (key, options) ->
+        opts = {}
+        lng = store.state.me.preferredLanguage or 'en'
+        if not store.state.localesLoaded[lng]
+          lng = 'en'
+        if typeof lng == 'string' and lng != ''
+          opts.lng = lng
+        Vue.util.extend opts, options
+        i18n.t key, opts
+    
+      ###  expose a local API method  ###
+    
+      Vue::$t = (key, options) ->
+        opts = {}
+        lng = store.state.me.preferredLanguage or 'en'
+        if not store.state.localesLoaded[lng]
+          lng = 'en'
+        if typeof lng == 'string' and lng != ''
+          opts.lng = lng
+        ns = @$options.i18nextNamespace
+        if typeof ns == 'string' and ns != ''
+          opts.ns = ns
+        Vue.util.extend opts, options
+        i18n.t key, opts
+    
+      return
+    
+    Vue.use(VueI18Next)
 
   'en': require('./en')
   'en-US': require('./en-US')
