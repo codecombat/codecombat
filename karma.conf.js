@@ -71,6 +71,11 @@ module.exports = function(config) {
       dir : 'coverage/'
     },
 
+    //browserConsoleLogOptions: {
+    //  level: 'log',
+    //  terminal: true
+    //},
+
     plugins : [
       'karma-jasmine',
       'karma-chrome-launcher',

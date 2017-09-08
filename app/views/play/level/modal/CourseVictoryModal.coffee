@@ -154,5 +154,6 @@ module.exports = class CourseVictoryModal extends ModalView
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   submitLadder: ->
+    return if application.testing
     if @level.get('type') is 'course-ladder' and @session.readyToRank() or not @session.inLeague(@courseInstanceID)
       api.levelSessions.submitToRank({ session: @session.id, courseInstanceID: @courseInstanceID })
