@@ -16,7 +16,7 @@ responses = {
 }
 
 
-describe 'CreateAccountModal', ->
+xdescribe 'CreateAccountModal', ->
   
   modal = null
   
