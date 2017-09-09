@@ -601,6 +601,7 @@ describe 'CreateAccountModal Vue Store', ->
       spyOn(api.users, 'signupWithFacebook').and.returnValue(Promise.resolve())
       spyOn(api.users, 'signupWithPassword').and.returnValue(Promise.resolve())
       spyOn(api.trialRequests, 'post').and.returnValue(Promise.resolve())
+      spyOn(application.tracker, 'updateTrialRequestData').and.returnValue(Promise.resolve())
       @dispatch = jasmine.createSpy()
       @commit = jasmine.createSpy()
       @rootState = {

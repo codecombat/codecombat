@@ -1,8 +1,8 @@
 #### Activity
 # Getting Abstract!
  
-Learning Objective:
-2.2.3 Identify multiple levels of abstractions that are used when writing programs.
+### Learning Objective:
+= 2.2.3 Identify multiple levels of abstractions that are used when writing programs.
  
  
 #### Activity #1: Discussion of Layers of Abstraction

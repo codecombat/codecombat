@@ -68,4 +68,6 @@ iconObj =
   'fire-spewer': '🔥'
   'fire-trap': '💥'
   'ogre': '😈'
+  'ogres': '😈'
+  'humans': '🙂'
   'victory': '🎆'

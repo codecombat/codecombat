@@ -1,19 +1,15 @@
-#### Activity
+##### Activity
 # The Internet - Internet Simulation
  
-#### AP Computer Science Principles: Learning Objectives:
+### AP Computer Science Principles: Learning Objectives:
 
-[LO 2.3.1] Use models and simulations to represent phenomena. [P3]
-
-[LO 6.1.1] Explain the abstractions in the Internet and how the Internet functions. [P3]
-
-[LO 6.2.1] Explain characteristics of the Internet and the systems built on it. [P5]
-
-[LO 6.2.2] Explain how the characteristics of the Internet influence the systems built on it. [P4]
-
-[LO 6.3.1] Identify existing cybersecurity concerns and potential options to address these issues with the Internet and the systems built on it. [P1]
+- [LO 2.3.1] Use models and simulations to represent phenomena. [P3]
+- [LO 6.1.1] Explain the abstractions in the Internet and how the Internet functions. [P3]
+- [LO 6.2.1] Explain characteristics of the Internet and the systems built on it. [P5]
+- [LO 6.2.2] Explain how the characteristics of the Internet influence the systems built on it. [P4]
+- [LO 6.3.1] Identify existing cybersecurity concerns and potential options to address these issues with the Internet and the systems built on it. [P1]
  
-### What is packet transfer?
+## What is packet transfer?
  
 Packet transfer is a way of moving data through the Internet. It involves breaking up the data into smaller pieces, called packets, when sending it over a network.
  
