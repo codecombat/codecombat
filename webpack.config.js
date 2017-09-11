@@ -1,17 +1,45 @@
+var _ = require('lodash');
+var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var glob = require('glob')
 require('coffee-script');
 require('coffee-script/register');
 var WebpackStaticStuff = require('./webpack-static-stuff');
 
 console.log("Starting Webpack...");
+
+// Programmatically generate entry points for locale files
+var localeFilenames = fs.readdirSync('./app/locale')
+var localeEntries = _.reduce(localeFilenames, function (acc,localeFilename) {
+  if (/locale.coffee/.test(localeFilename)) { return acc }
+  localeName = localeFilename.replace('.coffee', '')
+  var entry = {}
+  entry[`locale/${localeName}`] = `./app/locale/${localeFilename}`
+  return _.merge(acc,entry)
+}, {})
+
+// Main webpack config
 module.exports = {
   // entry: './app/startSmall.js',
-  entry: './app/app.js',
+  context: path.resolve(__dirname),
+  entry: _.merge({}, localeEntries, {
+    // locale: glob.sync('./app/locale/*.coffee')
+    app: './app/app.js',
+    // Router: './app/core/Router.coffee',
+    // HomeView: './app/views/HomeView.coffee',
+    // AboutView: './app/views/AboutView.coffee',
+    // RootView: './app/views/core/RootView.coffee',
+    // CocoView: './app/views/core/CocoView.coffee',
+    // AchievementPopup: './app/views/core/AchievementPopup.coffee',
+    // errors: './app/core/errors.coffee',
+    // User: './app/models/User.coffee',
+    // Achievement: './app/models/Achievement.coffee',
+  }),
   output: {
-    filename: 'javascripts/app.js',
+    filename: 'javascripts/[name].js',
     chunkFilename: 'javascripts/chunks/[name].bundle.js',
     path: path.resolve(__dirname, 'public')
   },

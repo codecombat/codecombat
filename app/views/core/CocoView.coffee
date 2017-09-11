@@ -253,7 +253,7 @@ module.exports = class CocoView extends Backbone.View
     return unless elem.data('toggle') is 'coco-modal'
     return if elem.attr('disabled')
     target = elem.data('target')
-    Modal = require 'views/'+target
+    # Modal = require 'views/'+target # TODO: Fix with Webpack
     e.stopPropagation()
     @openModalView new Modal supermodel: @supermodal
 

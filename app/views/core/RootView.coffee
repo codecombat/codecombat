@@ -163,8 +163,8 @@ module.exports = class RootView extends CocoView
     @saveLanguage(newLang)
 
     require.context('locale', true, /.*/)
-    # application.moduleLoader.loadLanguage(me.get('preferredLanguage', true)).then =>
-    @onLanguageLoaded()
+    application.moduleLoader.loadLanguage(me.get('preferredLanguage', true)).then =>
+      @onLanguageLoaded()
 
   onLanguageLoaded: ->
     @render()

@@ -45,8 +45,6 @@ require('treema/treema.js');
 window.THREE = require('three');
 require('imports-loader?this=>window!npm-modernizr');
 
-require('./locale/locale.coffee');
-require('./locale/en.coffee');
 require('lib/sprites/SpriteBuilder.coffee'); // loaded by ThangType
 require('ace-builds/src-noconflict/ace.js');
 
@@ -54,7 +52,5 @@ window.Vue = require('vue').default
 window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')
-
-require('./core/Router.coffee');
 
 require('core/initialize');

@@ -142,6 +142,7 @@
     "auto-reload-brunch": "^1.8.1",
     "bower": "~1.6.4",
     "brunch": "^1.8.5",
+    "bundle-loader": "^0.5.5",
     "coffee-script-brunch": "^1.8.3",
     "coffeelint-brunch": "^1.7.1",
     "commonjs-require-definition": "0.2.0",

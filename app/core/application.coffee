@@ -73,8 +73,9 @@ Application = {
     @githubHandler = new GitHubHandler()
     # @moduleLoader = new ModuleLoader()
     # @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
+    locale.load(me.get('preferredLanguage', true))
     preferredLanguage = me.get('preferredLanguage') or 'en'
-    require.context('locale', true, /.*/)
+    # require.context('locale', true, /.*/)
     # window.require = (path) -> require('../' + path) # TODO: (Webpack) Don't do this. This loads everything.
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)

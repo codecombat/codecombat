@@ -1,7 +1,7 @@
 RootView = require 'views/core/RootView'
 NewModelModal = require 'views/editor/modal/NewModelModal'
 template = require 'templates/common/search-view'
-app = require 'core/application'
+# app = require 'core/application'
 
 class SearchCollection extends Backbone.Collection
   initialize: (modelURL, @model, @term, @projection) ->
@@ -68,7 +68,7 @@ module.exports = class SearchView extends RootView
   updateHash: (term) ->
     newPath = document.location.pathname + (if term then '#' + term else '')
     currentPath = document.location.pathname + document.location.hash
-    app.router.navigate(newPath) if newPath isnt currentPath
+    applicaton.router.navigate(newPath) if newPath isnt currentPath
 
   sameSearch: (term) ->
     return false unless @collection
@@ -89,7 +89,7 @@ module.exports = class SearchView extends RootView
 
   onNewModelSaved: (@model) ->
     base = document.location.pathname[1..] + '/'
-    app.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
+    applicaton.router.navigate(base + (@model.get('slug') or @model.id), {trigger: true})
 
   newModel: (e) ->
     modal = new NewModelModal model: @model, modelLabel: @modelLabel
