@@ -147,7 +147,7 @@
     "parse-domain": "^0.2.1",
     "pg": "^6.1.2",
     "requirejs": "~2.1.10",
-    "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
+    "sass-brunch": "^1.9.1",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
     "uglify-js": "^2.5.0"
   },
