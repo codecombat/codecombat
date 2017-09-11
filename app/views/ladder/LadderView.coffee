@@ -4,7 +4,7 @@ LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 {teamDataFromLevel} = require './utils'
 {me} = require 'core/auth'
-application = require 'core/application'
+# application = require 'core/application'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'

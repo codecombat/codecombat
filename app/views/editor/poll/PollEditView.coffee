@@ -6,7 +6,7 @@ PollModal = require 'views/play/modal/PollModal'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-app = require 'core/application'
+# app = require 'core/application'
 
 require 'lib/game-libraries'
 
@@ -120,7 +120,7 @@ module.exports = class PollEditView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          app.router.navigate '/editor/poll', trigger: true
+          applicaton.router.navigate '/editor/poll', trigger: true
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR

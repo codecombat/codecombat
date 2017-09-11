@@ -6,7 +6,7 @@ AchievementPopup = require 'views/core/AchievementPopup'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-app = require 'core/application'
+# app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
 
 require 'lib/game-libraries'
@@ -157,7 +157,7 @@ module.exports = class AchievementEditView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          app.router.navigate '/editor/achievement', trigger: true
+          applicaton.router.navigate '/editor/achievement', trigger: true
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR

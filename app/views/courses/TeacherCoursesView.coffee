@@ -1,4 +1,4 @@
-app = require 'core/application'
+# app = require 'core/application'
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Courses = require 'collections/Courses'

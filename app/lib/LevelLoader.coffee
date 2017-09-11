@@ -8,7 +8,7 @@ ThangNamesCollection = require 'collections/ThangNamesCollection'
 
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-app = require 'core/application'
+# app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 

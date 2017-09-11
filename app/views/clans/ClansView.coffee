@@ -1,4 +1,4 @@
-app = require 'core/application'
+# app = require 'core/application'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clans'
@@ -109,7 +109,7 @@ module.exports = class ClansView extends RootView
         error: (model, response, options) =>
           console.error 'Error saving clan', response.status
         success: (model, response, options) =>
-          app.router.navigate "/clans/#{model.id}"
+          applicaton.router.navigate "/clans/#{model.id}"
           window.location.reload()
     else
       console.log 'Invalid name'
@@ -123,7 +123,7 @@ module.exports = class ClansView extends RootView
         error: (model, response, options) =>
           console.error 'Error joining clan', response
         success: (model, response, options) =>
-          app.router.navigate "/clans/#{clanID}"
+          applicaton.router.navigate "/clans/#{clanID}"
           window.location.reload()
       @supermodel.addRequestResource( 'join_clan', options).load()
     else

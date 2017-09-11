@@ -1,4 +1,4 @@
-app = require 'core/application'
+# app = require 'core/application'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-view'
 AuthModal = require 'views/core/AuthModal'

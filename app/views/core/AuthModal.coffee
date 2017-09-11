@@ -2,7 +2,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/core/auth-modal'
 forms = require 'core/forms'
 User = require 'models/User'
-application  = require 'core/application'
+# application  = require 'core/application'
 errors = require 'core/errors'
 
 module.exports = class AuthModal extends ModalView
