@@ -3,6 +3,7 @@ SuperModel = require 'models/SuperModel'
 utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 loadSegmentIo = require('core/services/segment')
+api = require('core/api')
 
 debugAnalytics = false
 targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
@@ -210,12 +211,7 @@ module.exports = class Tracker extends CocoClass
     properties[key] = value for key, value of @explicitTraits if @explicitTraits?
     console.log 'Tracking internal analytics event:', event, properties if debugAnalytics
 
-    request = @supermodel.addRequestResource {
-      url: '/db/analytics.log.event/-/log_event'
-      data: {event: event, properties: properties}
-      method: 'POST'
-    }, 0
-    request.load()
+    api.analyticsLogEvents.post({event, properties})
 
   trackTiming: (duration, category, variable, label) ->
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings

@@ -27,11 +27,11 @@ module.exports.setup = (app) ->
   app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
 
   passport = require('passport')
-  app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
-  app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
-  app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
-  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
-  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
+  app.post('/auth/login', mw.auth.authDelay, passport.authenticate('local'), mw.auth.afterLogin)
+  app.post('/auth/login-facebook', mw.auth.authDelay, mw.auth.loginByFacebook, mw.auth.afterLogin)
+  app.post('/auth/login-gplus', mw.auth.authDelay, mw.auth.loginByGPlus, mw.auth.afterLogin)
+  app.get('/auth/login-clever', mw.auth.authDelay, mw.auth.loginByClever, mw.auth.redirectAfterLogin)
+  app.get('/auth/login-o-auth', mw.auth.authDelay, mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)
@@ -61,6 +61,8 @@ module.exports.setup = (app) ->
   app.post('/db/achievement/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Achievement, 'achievement'))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
+  
+  app.post('/db/analytics.log.event/-/log_event',  mw.auth.checkHasUser(), mw.analyticsLogEvents.post)
 
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))

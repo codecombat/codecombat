@@ -1,6 +1,7 @@
 module.exports =
   achievements: require './achievements'
   admin: require './admin'
+  analyticsLogEvents: require './analytics-log-events'
   api: require './api'
   auth: require './auth'
   branches: require './branches'
