@@ -168,18 +168,6 @@ module.exports = class User extends CocoModel
         return
     return errors
 
-  getAnnouncesActionAudioGroup: ->
-    return @announcesActionAudioGroup if @announcesActionAudioGroup
-    group = me.get('testGroupNumber') % 4
-    @announcesActionAudioGroup = switch group
-      when 0 then 'all-audio'
-      when 1 then 'no-audio'
-      when 2 then 'just-take-damage'
-      when 3 then 'without-take-damage'
-    @announcesActionAudioGroup = 'all-audio' if me.isAdmin()
-    application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
-    @announcesActionAudioGroup
-
   getCampaignAdsGroup: ->
     return @campaignAdsGroup if @campaignAdsGroup
     # group = me.get('testGroupNumber') % 2
