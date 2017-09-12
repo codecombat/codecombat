@@ -479,7 +479,7 @@ module.exports = class CampaignView extends RootView
       return @promptForSubscription campaignSlug, 'premium campaign visited'
 
   promptForSignup: ->
-    return if features.noAuth
+    return if features.noAuth or @terrain is 'game-dev-hoc'
 
     @endHighlight()
     authModal = new CreateAccountModal supermodel: @supermodel
@@ -487,6 +487,7 @@ module.exports = class CampaignView extends RootView
     @openModalView authModal
 
   promptForSubscription: (slug, label) ->
+    return console.log('Game dev HoC does not encourage subscribing.') if @terrain is 'game-dev-hoc'
     @endHighlight()
     @openModalView new SubscribeModal()
     # TODO: Added levelID on 2/9/16. Remove level property and associated AnalyticsLogEvent 'properties.level' index later.
@@ -518,7 +519,7 @@ module.exports = class CampaignView extends RootView
       level.disabled = false if me.isInGodMode()
 
       level.color = 'rgb(255, 80, 60)'
-      unless @course?
+      unless @course? or @terrain is 'game-dev-hoc'
         level.color = 'rgb(80, 130, 200)' if level.requiresSubscription and not features.codePlay
         level.color = 'rgb(200, 80, 200)' if level.adventurer
 
@@ -546,7 +547,7 @@ module.exports = class CampaignView extends RootView
           """
           level.color = 'rgb(80, 130, 200)' if problem.solved
 
-      level.hidden = level.locked
+      level.hidden = level.locked and @terrain isnt 'game-dev-hoc'
       if level.concepts?.length
         level.displayConcepts = level.concepts
         maxConcepts = 6
@@ -694,6 +695,7 @@ module.exports = class CampaignView extends RootView
 
   testParticles: ->
     return unless @campaign?.loaded and $.browser.chrome  # Sometimes this breaks in non-Chrome browsers, according to A/B tests.
+    return if @terrain is 'game-dev-hoc'
     @particleMan ?= new ParticleMan()
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
@@ -754,7 +756,13 @@ module.exports = class CampaignView extends RootView
     levelURL = "/db/level/#{levelSlug}"
     level = new Level().setURL levelURL
     level = @supermodel.loadModel(level, null, 0).model
-    sessionURL = "/db/level/#{levelSlug}/session"
+
+    # Note that this doesn't just preload the level. For sessions which require the
+    # campaign to be included, it also creates the session. If this code is changed,
+    # make sure to accommodate campaigns with free-in-certain-campaign-contexts levels,
+    # such as game dev levels in game-dev-hoc.
+    sessionURL = "/db/level/#{levelSlug}/session?campaign=#{@campaign.id}"
+
     @preloadedSession = new LevelSession().setURL sessionURL
     @listenToOnce @preloadedSession, 'sync', @onSessionPreloaded
     @preloadedSession = @supermodel.loadModel(@preloadedSession, {cache: false}).model
@@ -804,7 +812,13 @@ module.exports = class CampaignView extends RootView
     level = _.find _.values(@getLevels()), slug: levelSlug
 
     requiresSubscription = level.requiresSubscription or (me.isOnPremiumServer() and not (level.slug in ['dungeons-of-kithgard', 'gems-in-the-deep', 'shadow-guard', 'forgetful-gemsmith', 'signs-and-portents', 'true-names']))
-    canPlayAnyway = not @requiresSubscription or level.adventurer or @levelStatusMap[level.slug] or (features.codePlay and codePlay.canPlay(level.slug))
+    canPlayAnyway = _.any([
+      not @requiresSubscription
+      level.adventurer
+      @levelStatusMap[level.slug]
+      (features.codePlay and codePlay.canPlay(level.slug))
+      @terrain is 'game-dev-hoc'
+    ])
     if requiresSubscription and not canPlayAnyway
       @promptForSubscription levelSlug, 'map level clicked'
     else

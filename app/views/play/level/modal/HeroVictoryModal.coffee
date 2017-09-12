@@ -416,7 +416,8 @@ module.exports = class HeroVictoryModal extends ModalView
     campaign = @level.get 'campaign'
     if @level.get('slug') in campaignEndLevels
       campaign = ''  # Return to campaign selector
-    if (campaign is 'dungeon' or @level.get('slug') in ['kithgard-gates', 'game-grove']) and storage.load('should-return-to-game-dev-hoc')
+    gdHocLevels = ['kithgard-gates', 'over-the-garden-wall', 'vorpal-mouse', 'forest-incursion', 'them-bones', 'behavior-driven-development', 'seeing-is-believing', 'persistence-pays', 'game-grove']
+    if (campaign is 'dungeon' or @level.get('slug') in gdHocLevels) and application.onHocPage()
       # Return to game-dev-hoc instead if we're in that mode, since the levels don't realize they can be in that copycat campaign
       campaign = 'game-dev-hoc'
     campaign

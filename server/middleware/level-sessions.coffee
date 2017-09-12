@@ -81,6 +81,9 @@ unsetScores = wrap (req, res) ->
   
   
 putKeyValueDb = wrap (req, res) ->
+  if (not req.user) or (req.user.isAnonymous() and not req.user.get('hourOfCode'))
+    throw new errors.Unauthorized('You must be logged in.')
+  
   key = req.params.key
     
   session = yield database.getDocFromHandle(req, LevelSession)
@@ -106,6 +109,9 @@ putKeyValueDb = wrap (req, res) ->
   res.status(200).json(value)
   
 incrementKeyValueDb = wrap (req, res) ->
+  if (not req.user) or (req.user.isAnonymous() and not req.user.get('hourOfCode'))
+    throw new errors.Unauthorized('You must be logged in.')
+    
   key = req.params.key
 
   session = yield database.getDocFromHandle(req, LevelSession)

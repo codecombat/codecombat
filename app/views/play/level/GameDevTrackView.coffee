@@ -45,9 +45,9 @@ module.exports = class GameDevTrackView extends CocoView
   onRealTimePlaybackEnded: (e) ->
     @$el.removeClass('playback-float-right')
 
-  iconify: (name) ->
-    return iconObj[name] ? '❓' # That's an emoji in the ''.
-
+  titleize: (name) ->
+    return _.string.titleize(name)
+    
   beautify: (name, val) ->
     if typeof val is 'object' and val.x? and val.y? and val.z?
       return "x: #{Math.round(val.x)}\ny: #{Math.round(val.y)}"
@@ -58,16 +58,3 @@ module.exports = class GameDevTrackView extends CocoView
       return round
     return val
 
-iconObj =
-  'pos':'🎯'
-  'defeated': '☠'
-  'gold':'💰'
-  'time':'⏳'
-  'score': '🎶'
-  'plays': '⚽'
-  'fire-spewer': '🔥'
-  'fire-trap': '💥'
-  'ogre': '😈'
-  'ogres': '😈'
-  'humans': '🙂'
-  'victory': '🎆'
