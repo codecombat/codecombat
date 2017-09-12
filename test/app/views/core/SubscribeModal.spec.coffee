@@ -165,6 +165,7 @@ describe 'SubscribeModal', ->
     
         it 'calls hide()', wrapJasmine ->
           spyOn(@modal, 'hide')
+          spyOn(me, 'fetch').and.returnValue(Promise.resolve())
           yield @modal.onClickStripeLifetimeButton()
           expect(@modal.hide).toHaveBeenCalled()
           expect(@getTrackerEventNames()).toDeepEqual(
@@ -202,6 +203,7 @@ describe 'SubscribeModal', ->
 
         it 'calls hide()', wrapJasmine ->
           spyOn(@modal, 'hide')
+          spyOn(me, 'fetch').and.returnValue(Promise.resolve())
           yield @payPalButton?.click()
           expect(@modal.hide).toHaveBeenCalled()
           expect(@getTrackerEventNames()).toDeepEqual(

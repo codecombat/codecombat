@@ -237,9 +237,10 @@ module.exports = class SubscribeModal extends ModalView
       @onSubscriptionError(jqxhr, failureMessage)
 
   onSubscriptionSuccess: ->
-    Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
     @playSound 'victory'
-    @hide()
+    me.fetch().then =>
+      Backbone.Mediator.publish 'subscribe-modal:subscribed', {}
+      @hide()
 
   onSubscriptionError: (jqxhrOrError, errorEventName) ->
     jqxhr = null
