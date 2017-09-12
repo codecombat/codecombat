@@ -1105,6 +1105,97 @@ describe 'POST /db/products/:handle/purchase', ->
         expect(payment).toBeDefined()
         expect(payment.get('productID')).toBe(product.get('name'))
         expect(payment.get('payPal.id')).toBe(payPalResponse.id)
+        expect(payment.get('amount')).toBe(product.get('amount'))
+        user = yield User.findById(@user.id)
+        expect(user.get('stripe.free')).toBe(true)
+        expect(user.get('payPal').payerID).toEqual(payPalResponse.payer.payer_info.payer_id)
+        expect(user.hasSubscription()).toBeTruthy()
+
+      it 'accepts PayPal payments with coupon', utils.wrap ->
+        # TODO: figure out how to create test payments through PayPal API, set this up with fixtures through Nock
+
+        product = yield Product.findOne({ name: 'lifetime_subscription' })
+        amount = product.get('coupons')[0].amount
+        url = utils.getUrl("/db/products/#{product.id}/purchase")
+        json = { service: 'paypal', paymentID: "PAY-74521676DM528663SLFT63RA", payerID: 'VUR529XNB59XY', coupon: 'c1' }
+
+        payPalResponse = {
+          "id": "PAY-84848",
+          "intent": "sale",
+          "state": "approved",
+          "cart": "3J885",
+          "payer": {
+            "payment_method": "paypal",
+            "status": "VERIFIED",
+            "payer_info": {
+              "email": @user.get('email'),
+              "first_name": "test",
+              "last_name": "buyer",
+              "payer_id": "VUR529XNB59XY",
+              "shipping_address": {
+                "recipient_name": "test buyer",
+                "line1": "1 Main St",
+                "city": "San Jose",
+                "state": "CA",
+                "postal_code": "95131",
+                "country_code": "US"
+              },
+              "country_code": "US"
+            }
+          },
+          "transactions": [
+            {
+              "amount": {
+                "total": (amount/100).toFixed(2),
+                "currency": "USD",
+                "details": {}
+              },
+              "payee": {
+                "merchant_id": "7R5CJJ",
+                "email": "payments@codecombat.com"
+              },
+              "description": "Lifetime Subscription",
+              "item_list": {
+                "items": [
+                  {
+                    "name": "lifetime_subscription",
+                    "sku": product.id,
+                    "price": (amount/100).toFixed(2),
+                    "currency": "USD",
+                    "quantity": 1
+                  }
+                ],
+                "shipping_address": {
+                  "recipient_name": "test buyer",
+                  "line1": "1 Main St",
+                  "city": "San Jose",
+                  "state": "CA",
+                  "postal_code": "95131",
+                  "country_code": "US"
+                }
+              },
+              "related_resources": [] # bunch more info in here
+            }
+          ],
+          "create_time": "2017-07-13T22:35:45Z",
+          "links": [
+            {
+              "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-034662230Y592723RLFT7LLA",
+              "rel": "self",
+              "method": "GET"
+            }
+          ],
+          "httpStatusCode": 200
+        }
+        spyOn(paypal.payment, 'executeAsync').and.returnValue(Promise.resolve(payPalResponse))
+
+        [res] = yield request.postAsync({ url, json })
+        expect(res.statusCode).toBe(200)
+        payment = yield Payment.findOne({"payPal.id":"PAY-84848"})
+        expect(payment).toBeDefined()
+        expect(payment.get('productID')).toBe(product.get('name'))
+        expect(payment.get('payPal.id')).toBe(payPalResponse.id)
+        expect(payment.get('amount')).toBe(product.get('coupons')[0].amount)
         user = yield User.findById(@user.id)
         expect(user.get('stripe.free')).toBe(true)
         expect(user.get('payPal').payerID).toEqual(payPalResponse.payer.payer_info.payer_id)
