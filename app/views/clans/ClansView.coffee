@@ -23,7 +23,7 @@ module.exports = class ClansView extends RootView
 
   initialize: ->
     @publicClansArray = []
-    @myClansArray = []    
+    @myClansArray = []
     @idNameMap = {}
     @loadData()
 

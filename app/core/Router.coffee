@@ -1,4 +1,4 @@
-dynamicRequire = require('lib/dynamicRequire')
+# dynamicRequire = require('lib/dynamicRequire')
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
@@ -248,7 +248,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     console.log path
-    dynamicRequire(path).then (ViewClass) =>
+    require("bundle-loader?lazy!" + path)((ViewClass) =>
+    # require("bundle-loader?lazy!views/HomeView")((ViewClass) =>
       console.log "Got a thing?", ViewClass
       # if not ViewClass and application.moduleLoader.load(path)
       #   @listenToOnce application.moduleLoader, 'load-complete', ->
@@ -267,8 +268,9 @@ module.exports = class CocoRouter extends Backbone.Router
     
       @viewLoad.setView(view)
       @viewLoad.record()
-    .catch (err) ->
-      console.log err
+    )
+    # .catch (err) ->
+    #   console.log err
 
   redirectHome: ->
     delete window.alreadyLoadedView

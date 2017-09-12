@@ -3,7 +3,7 @@ var fs = require('fs');
 var path = require('path');
 var webpack = require('webpack');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
+var recursiveReadDirSync = require('recursive-readdir-sync');
 var glob = require('glob')
 require('coffee-script');
 require('coffee-script/register');
@@ -21,11 +21,27 @@ var localeEntries = _.reduce(localeFilenames, function (acc,localeFilename) {
   return _.merge(acc,entry)
 }, {})
 
+// Programmatically generate entry points for each view
+// var viewEntries = _.reduce(recursiveReadDirSync('./app/views'), function (acc,viewFilename) {
+//   console.log(viewFilename);
+//   viewName = viewFilename.replace('app/', '').replace('.coffee', '')
+//   var entry = {}
+//   entry[viewName] = viewFilename
+//   return _.merge(acc,entry)
+// }, {})
+viewEntries = {
+  'views/HomeView': 'app/views/HomeView.coffee',
+  'views/AboutView': 'app/views/AboutView.coffee',
+  'views/LegalView': 'app/views/LegalView.coffee',
+}
+console.log(viewEntries);
+// process.exit()
+
 // Main webpack config
 module.exports = {
   // entry: './app/startSmall.js',
   context: path.resolve(__dirname),
-  entry: _.merge({}, localeEntries, {
+  entry: _.merge({}, localeEntries, viewEntries, {
     // locale: glob.sync('./app/locale/*.coffee')
     app: './app/app.js',
     // Router: './app/core/Router.coffee',
@@ -91,6 +107,18 @@ module.exports = {
     request: 'empty',
   },
   plugins: [
+    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)(),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   names: Object.keys(viewEntries).concat(Object.keys(localeEntries)),
+    //   filename: '[name].js',
+    //   minChunks: (module, count) => {
+    //     return false
+    //   }
+    // }),
+    new webpack.optimize.CommonsChunkPlugin({
+      children: true,
+      minChunks: 2,
+    }),
     new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
       $: 'jquery',
       jQuery: 'jquery'
