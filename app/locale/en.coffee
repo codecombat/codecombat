@@ -49,7 +49,7 @@
     setup_a_class: "Set Up a Class"
     have_an_account: "Have an account?"
     logged_in_as: "You are currently logged in as"
-    computer_science: "Computer science courses for all ages"
+    computer_science: "Our self-paced courses cover basic syntax to advanced concepts" # {change}
     show_me_lesson_time: "Show me lesson time estimates for:"
     curriculum: "Total curriculum hours:"
     ffa: "Free for all students"
