@@ -41,6 +41,7 @@ module.exports = class SubscribeModal extends ModalView
       @supermodel.trackRequest @products.fetch {data}
     @trackTimeVisible({ trackViewLifecycle: true })
     payPal.loadPayPal().then => @render()
+    @subType = utils.getQueryVariable('subtype', me.getSubModalGroup())
 
   onLoaded: ->
     @basicProduct = @products.getBasicSubscriptionForUser(me)
