@@ -179,6 +179,16 @@ module.exports = class User extends CocoModel
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
 
+  getSubModalGroup: ->
+    return @subModalGroup if @subModalGroup
+    group = me.get('testGroupNumber') % 4
+    @subModalGroup = switch group
+      when 0, 1 then 'both-subs'
+      when 2, 3 then 'lifetime-only'
+    @subModalGroup = 'both-subs' if me.isAdmin()
+    application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
+    @subModalGroup
+
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
   # ... and another round, and then basically it just isn't completing well, so we pause the test until we can fix it.

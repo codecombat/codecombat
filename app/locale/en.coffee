@@ -651,6 +651,7 @@
     prompt_body: "Keep playing to earn more!"
 
   subscribe:
+    best_deal: "Best Deal!"
     confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
     premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
@@ -708,14 +709,15 @@
     unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
-    feature_levels: "Access __premiumLevelsCount__ levels available"
+    feature_levels: "Access 300+ levels available" # {change}
     feature_gems: "Receive __gems__ gems per month"
-    feature_heroes: "Unlock exclusive heroes"
+    feature_heroes: "Unlock exclusive heroes and pets" # {change}
     feature_games: "Make games for your friends"
     feature_websites: "Build websites and apps"
     feature_items: "Equip more powerful items"
-    month_price: "$__price__/mo"
-    lifetime: "Lifetime Subscription"
+    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__" # {change}
+    lifetime: "Lifetime Access" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Yearly Subscription"
     year_price: "$__price__/year"
