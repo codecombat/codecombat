@@ -25,15 +25,27 @@ const mongoConnUrlAnalytics = process.argv[2];
 const debugOutput = true;
 const daysToViewForm = 7;
 const daysToCreateClass = 7;
-const endDay = "2017-02-03";
+const endDay = "2017-09-11";
 
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
 startDay.setUTCDate(startDay.getUTCDate() - daysToViewForm - daysToCreateClass);
 startDay = startDay.toISOString().substring(0, 10);
 debug(`Measuring days ${startDay} to ${endDay}`);
 
-const startEvents = ['Teachers Request Demo Loaded', 'Teachers Create Account Loaded', 'Teachers Convert Account Loaded'];
-const remainingOrderedEvents = ['Teachers Classes Loaded', 'Teachers Classes Create New Class Started', 'Teachers Classes Create New Class Finished'];
+const startEventValues = ['Teachers Request Demo Loaded', 'Teachers Create Account Loaded', 'Teachers Convert Account Loaded', 'Homepage Click Teacher Button CTA'];
+const remainingOrderedEventValues = [
+  'CreateAccountModal Teacher BasicInfoView Submit Clicked',
+  'CreateAccountModal Teacher BasicInfoView Submit Success',
+  'CreateAccountModal Teacher SchoolInfoPanel Continue Clicked',
+  'CreateAccountModal Teacher SchoolInfoPanel Continue Success',
+  'CreateAccountModal Teacher TeacherRolePanel Continue Clicked',
+  'CreateAccountModal Teacher TeacherRolePanel Continue Success',
+  'CreateAccountModal Teacher DemographicsPanel Signup Clicked',
+  'CreateAccountModal Teacher DemographicsPanel Signup Success',
+  // 'Teachers Classes Loaded',
+  // 'Teachers Classes Create New Class Started',
+  // 'Teachers Classes Create New Class Finished'
+];
 
 co(function*() {
   const analyticsDb = yield MongoClient.connect(mongoConnUrlAnalytics, {connectTimeoutMS: 1000 * 60 * 60, socketTimeoutMS: 1000 * 60 * 60});
@@ -44,11 +56,11 @@ co(function*() {
   const midObjectId = objectIdWithTimestamp(formEndDate);
   debug(`Finding view teacher form events between ${startDay} and ${formEndDate.toISOString().substring(0, 10)}...`);
 
-  let query = {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: midObjectId}}, {event: {$in: startEvents}}]};
-  const formEvents = yield analyticsDb.collection('log').find(query, {user: 1}).toArray();
-  debug(`Teacher form events found ${formEvents.length}`);
+  let query = {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: midObjectId}}, {event: {$in: startEventValues}}]};
+  const startEvents = yield analyticsDb.collection('log').find(query, {user: 1}).toArray();
+  debug(`Teacher form events found ${startEvents.length}`);
   const userFormMap = {};
-  for (const event of formEvents) {
+  for (const event of startEvents) {
     userFormMap[event.user] = event._id.getTimestamp();
   }
   const userIds = Object.keys(userFormMap);
@@ -56,7 +68,8 @@ co(function*() {
 
   debug(`Finding rest of create class funnel events between ${startDay} and ${endDay}...`);
   const endObjectId = objectIdWithTimestamp(new Date(`${endDay}T00:00:00.000Z`));
-  query = {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: endObjectId}}, {event: {$in: remainingOrderedEvents}}, {user: {$in: userIds}}]};
+
+  query = {$and: [{_id: {$gte: startObjectId}}, {_id: {$lt: endObjectId}}, {event: {$in: remainingOrderedEventValues}}, {user: {$in: userIds}}]};
   const classEvents = yield analyticsDb.collection('log').find(query, {event: 1, user: 1}).toArray();
   debug(`Class created events found ${classEvents.length}`);
   const userFunnelEventsMap = {};
@@ -73,12 +86,12 @@ co(function*() {
 
   const usersSawTeacherForm = userIds.length;
   let teachersCreatedClass = 0;
-  console.log(`Looking at events from ${startDay} to ${endDay}:`);
+  debug(`Looking at events from ${startDay} to ${endDay}:`);
   console.log(`100% ${usersSawTeacherForm} users saw teacher form`);
-  for (const event of remainingOrderedEvents) {
+  for (const event of remainingOrderedEventValues) {
     const currentEventCount = Object.keys(userFunnelEventsMap[event] || {}).length;
     console.log(`${(currentEventCount * 100.0 / usersSawTeacherForm).toFixed(2)}% ${currentEventCount} users saw event ${event}`);
-    if (event === 'Teachers Classes Create New Class Finished') {
+    if (event === remainingOrderedEventValues[remainingOrderedEventValues.length - 1]) {
       teachersCreatedClass = currentEventCount;
     }
   }
