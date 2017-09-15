@@ -10,6 +10,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     classroom_in_a_box: "כיתה שלמה בקופסה ללימוד מדעי המחשב."
     codecombat_is: "CodeCombat הוא פלטפורמה <strong>לתלמידים</strong>, המיועדת ללימוד מדעי המחשב תוך כדי חוויית משחק אמיתית."
     our_courses: "הקורסים שלנו נבדקו במיוחד <strong>כדי להבטיח התאמתם לסביבה הכיתתית</strong>, אפילו אצל מורים עם ניסיון מועט בתכנות או ללא ניסיון כלל."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "התלמידים כותבים קוד, ורואים את השינויים שלהם מתעדכנים בזמן אמת"
     designed_with: "תוכנן מתוך חשיבה על מורים"
     real_code: "קוד מוקלד אמיתי"
@@ -48,13 +49,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     setup_a_class: "הקם כיתה"
     have_an_account: "כבר יש לך חשבון?"
     logged_in_as: "אתה מחובר כעת בתור"
-    computer_science: "קורסים במדעי המחשב לכל הגילאים"
+    computer_science: "קורסים במדעי המחשב לכל הגילאים" # {change}
     show_me_lesson_time: "הצג הערכות זמן שיעור עבור:"
     curriculum: "סה\"כ שעות בתכנית לימודים:"
     ffa: "בחינם לכל התלמידים"
     lesson_time: "זמן שיעור:"
     coming_soon: "עוד בקרוב!"
-    courses_available_in: "זמינים קורסים ב-JavaScript וב-Python. קורסים בפיתוח אינטרנט משתמשים ב-HTML,‏ CSS,‏ jQuery ו-Bootstrap."
+    courses_available_in: "זמינים קורסים ב-JavaScript וב-Python. קורסים בפיתוח אינטרנט משתמשים ב-HTML,‏ CSS,‏ jQuery ו-Bootstrap." # {change}
     boast: "כולל חידות ברמת מורכבות מספיקה כדי לרתק חובבי משחקים ומקודדים כאחד."
     winning: "שילוב מנצח של משחק תפקידים ושיעורי בית בתכנות, שמצליח להפוך תכנית לימודים שמתאימה לילדים למהנה באמת."
     run_class: "כל מה שנחוץ לכם כדי לנהל כיתה למדעי המחשב בבית הספר שלכם כבר היום, ללא צורך ברקע במדעי המחשב."
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     default_code: "קוד ברירת מחדל"
     loading: "טוען..."
     overview: "סקירה כללית"
+#    processing: "Processing..."
     solution: "פתרון"
     table_of_contents: "תוכן העניינים"
     intro: "מבוא"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create: "צור"
     fork: "פיצול"
     play: "שחק" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "נסה שוב"
     actions: "פעולות"
     info: "מידע"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     prompt_body: "המשיכו לשחק כדי להשיג עוד!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
     premium_already_subscribed: "אתם כבר רשומים למנוי פרימיום!"
     subscribe_modal_title: "CodeCombat פרימיום"
     comparison_blurb: "הפכו לאשפי קוד - הירשמו היום למנוי <b>פרימיום</b>!"
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unsubscribing: "מבטל מנוי"
     subscribe_prepaid: "לחצו על 'צור מנוי' כדי להשתמש בקוד בתשלום מראש"
     using_prepaid: "משתמש בקוד בתשלום מראש עבור מנוי חודשי"
-    feature_levels: "גישה אל __premiumLevelsCount__ שלבים זמינים"
+    feature_levels: "גישה אל __premiumLevelsCount__ שלבים זמינים" # {change}
     feature_gems: "קבלו __gems__ אבני חן כל חודש"
-    feature_heroes: "פתיחה של גיבורים בלעדיים"
+    feature_heroes: "פתיחה של גיבורים בלעדיים" # {change}
     feature_games: "ליצור משחקים עבור חברים"
     feature_websites: "בניית אתרי אינטרנט ויישומים"
     feature_items: "פריטים חזקים יותר לציוד"
-    month_price: "$__price__ לחודש"
-    lifetime: "מנוי לכל החיים"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__ לחודש" # {change}
+    lifetime: "מנוי לכל החיים" # {change}
     lifetime_price: "$__price__"
     year_subscription: "מנוי שנתי"
     year_price: "$__price__ לשנה"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     support_part1: "זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת"
     support_part2: "support@codecombat.com"
     support_part3: "בכל שאלה."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "אתם רוכשים כעת מנוי פרימיום שנתי!"
     you_are_purchasing_lifetime_sub: "אתם רוכשים כעת מנוי פרימיום לכל החיים!"
-    you_will_be_charged: "תחויבו בסכום חד-פעמי של $__priceString__."
+    you_will_be_charged: "תחויבו בסכום חד-פעמי של $__priceString__." # {change}
     choose_payment_method: "בחר שיטת תשלום"
     pay_with_credit_card_or_bitcoin: "תשלום באמצעות כרטיס אשראי/ביטקוין"
     paypal_payment_error: "נתקלנו בשגיאה בחיוב דרך PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   premium_features:
     get_premium: "מנוי<br>CodeCombat<br>פרימיום" # Fit into the banner on the /features page
     master_coder: "הירשמו עוד היום כדי להפוך לאשפי תכנות!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "הירשמו כעת"
     hero_blurb_1: "קבלו גישה אל __premiumHeroesCount__ super-charged גיבורים בלעדיים למנויים בלבד! קבלו את כוחו הבלתי ניתן לעצירה של אוקאר הך-רגל, את הדיוק הקטלני של נאריה בת-עלה או את היכולת לזמן שלדים \"חמודים\" עם נלפאר מעיר הקברים."
     hero_blurb_2: "לוחמי הפרימיום פותחים עבורכם כישורי לחימה מדהימים כגון זעקת קרב, רקיעת רגל והטלת אויב. תוכלו גם לשחק בתור סייר, ולהשתמש בהתגנבות ובקשתות, בסכיני הטלה ובמלכודות! נסו את כישוריכם בתור קוסמי קידוד של ממש, ונצלו את כוחות הקסם של הקדמונים, היסודות ועולם המתים!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     project_based_title: "קורסים מבוססי-פרויקט"
     project_based_description: "הקורסים לפיתוח אינטרנט ומשחקים כוללים פרויקטי גמר ניתנים לשיתוף."
     great_for_clubs_title: "מצוין למועדונים ולקורסי בחירה"
-    great_for_clubs_description: "מורים יכולים לרכוש עד __maxQuantityStarterLicenses__ רישיונות למתחילים בשנה."
+    great_for_clubs_description: "מורים יכולים לרכוש עד __maxQuantityStarterLicenses__ רישיונות למתחילים בשנה." #{change}
     low_price_title: "רק __starterLicensePrice__ לתלמיד"
     low_price_description: "רישיונות למתחילים נשארים פעילים למשך __starterLicenseLengthMonths__ חודשים ממועד הרכישה."
     three_great_courses: "ברישיון למתחילים כלולים שלושה קורסים מעולים:"

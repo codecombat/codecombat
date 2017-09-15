@@ -10,6 +10,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_in_a_box: "Готовый учебный кабинет из коробки для обучения информатике."
     codecombat_is: "CodeCombat – это платформа <strong>для учеников</strong>, чтобы изучать информатику во время игры."
     our_courses: "Наши курсы были тщательно проработаны, чтобы <strong>качественно обучать</strong>, даже если учителя не имеют особого опыта в программировании."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Ученики пишут код и видят, как их изменения обновляются в реальном времени"
     designed_with: "Разработано при поддержке учителей"
     real_code: "Писать настоящий код"
@@ -48,13 +49,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     setup_a_class: "Настройка класса"
     have_an_account: "Уже есть аккаунт?"
     logged_in_as: "Вы вошли как"
-    computer_science: "Курсы информатики для всех возрастов"
+    computer_science: "Курсы информатики для всех возрастов" # {change}
     show_me_lesson_time: "Покажите мне примерное время урока для:"
     curriculum: "Всего часов учебного плана:"
     ffa: "Бесплатно для всех учеников"
     lesson_time: "Время урока:"
     coming_soon: "Скоро!"
-    courses_available_in: "Курсы доступны на JavaScript и Python. В веб-разработке применяются HTML, CSS, jQuery и Bootstrap."
+    courses_available_in: "Курсы доступны на JavaScript и Python. В веб-разработке применяются HTML, CSS, jQuery и Bootstrap." # {change}
     boast: "Награды и достаточно сложные задачи очаруют как игроков, так и программистов."
     winning: "Выигрышная комбинация ролевой игры и домашнего задания по программированию, у которой получилось сделать обучение дружественным к детям и по-настоящему увлекательным."
     run_class: "Всё, что вам нужно, чтобы уже сегодня запустить класс информатики в вашей школе без предварительной подготовки."
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     default_code: "Код по умолчанию"
     loading: "Загрузка..."
     overview: "Обзор"
+#    processing: "Processing..."
     solution: "Решение"
 #    table_of_contents: "Table of Contents"
     intro: "Введение"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create: "Создать"
     fork: "Форк"
     play: "Играть" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Повторить"
     actions: "Действия"
     info: "Информация"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Премиум"
     comparison_blurb: "Стань мастером програмирования - подпишись на <b>Премиум</b> сегодня!"
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unsubscribing: "Отписываемся"
     subscribe_prepaid: "Нажмите 'Подпишись', чтобы использовать предоплаченный код"
     using_prepaid: "Использовать предоплаченный код для месячной подписки"
-    feature_levels: "Получи доступ к __premiumLevelsCount__ доступным уровням"
+    feature_levels: "Получи доступ к __premiumLevelsCount__ доступным уровням" # {change}
     feature_gems: "Получай __gems__ самоцветов каждый месяц"
-    feature_heroes: "Разблокируй эксклюзивных героев"
+    feature_heroes: "Разблокируй эксклюзивных героев" # {change}
     feature_games: "Создавай игры для своих друзей"
     feature_websites: "Создавай веб-сайты и приложения"
     feature_items: "Снаряжай более могущественные вещи"
-    month_price: "$__price__/мес"
-    lifetime: "Пожизненная подписка"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/мес" # {change}
+    lifetime: "Пожизненная подписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Годовая подписка"
     year_price: "$__price__/год"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     support_part1: "Нужна помощь по способах оплаты? Напишите на"
     support_part2: "support@codecombat.com"
     support_part3: ", если у вас есть вопросы."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   premium_features:
     get_premium: "Получи<br>CodeCombat<br>Премиум" # Fit into the banner on the /features page
     master_coder: "Стань мастером програмирования подписавшись сегодня!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Подпишись сейчас"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     project_based_title: "Проектно-ориентированные курсы"
     project_based_description: "Курсы по Веб-разработке и Разработке Игр имеют различные финальные проекты."
     great_for_clubs_title: "Отлично подходит для клубов и факультативов"
-    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ Стартовых Лицензий ежегодно."
+    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ Стартовых Лицензий ежегодно." #{change}
     low_price_title: "Всего __starterLicensePrice__ за одного учащегося"
     low_price_description: "Стартовые Лицензии активны в течение __starterLicenseLengthMonths__ месяцев с момента покупки."
     three_great_courses: "Стартовая Лицензия включает в себя три замечательных курса:"

@@ -10,6 +10,7 @@ module.exports = nativeDescription: "български език", englishDescri
     classroom_in_a_box: "Учебна стая в кутия за обучение по компютърни науки."
     codecombat_is: "CodeCombat е платформа <strong>за ученици</strong> за учене на компютърни науки с истинска игра."
     our_courses: "Нашите курсове са специално проверени за тяхното <strong>превъзходство в клас</strong>, дори от учители с малък до никакъв опит в програмирането."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Учениците пишат код и виждат обновяването на техните промени в реално време"
     designed_with: "Проектирани с мисъл за учителите"
     real_code: "Истински, типизиран код"
@@ -48,7 +49,7 @@ module.exports = nativeDescription: "български език", englishDescri
     setup_a_class: "Задай клас"
     have_an_account: "Вече имаш акаунт?"
     logged_in_as: "Влязъл си като"
-    computer_science: "Курсове по компютърни науки за всички възрасти"
+    computer_science: "Курсове по компютърни науки за всички възрасти" # {change}
     show_me_lesson_time: "Покажи ми ориентировъчни времена на уроци за:"
     curriculum: "Общо време на обучение:"
     ffa: "Достъпно за всички ученици"
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    default_code: "Default Code"
     loading: "Зареждане..."
 #    overview: "Overview"
+#    processing: "Processing..."
 #    solution: "Solution"
 #    table_of_contents: "Table of Contents"
 #    intro: "Intro"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "български език", englishDescri
     create: "Създай"
     fork: "Разклоняване"
     play: "Играй" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Отново"
     actions: "Действия"
     info: "Инфо"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Изостри уменията си в CodeCombat с абонамент!" # {change}
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "български език", englishDescri
     unsubscribing: "Прекратяване на абонамента..." # {change}
     subscribe_prepaid: "Кликнете 'Абонамент', за да използвате предплатен код"
     using_prepaid: "Използване на предплатен код за месечен абонамент"
-#    feature_levels: "Access __premiumLevelsCount__ levels available"
+#    feature_levels: "Access 300+ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
-#    feature_heroes: "Unlock exclusive heroes"
+#    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_games: "Make games for your friends"
 #    feature_websites: "Build websites and apps"
 #    feature_items: "Equip more powerful items"
-#    month_price: "$__price__/mo"
-#    lifetime: "Lifetime Subscription"
+#    feature_learn: "Learn to make games and websites" # {change}
+#    month_price: "$__price__"
+#    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
 #    year_subscription: "Yearly Subscription"
 #    year_price: "$__price__/year"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "български език", englishDescri
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
 #    subscribe_now: "Subscribe Now"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"

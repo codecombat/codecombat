@@ -49,13 +49,13 @@
     setup_a_class: "Set Up a Class"
     have_an_account: "Have an account?"
     logged_in_as: "You are currently logged in as"
-    computer_science: "Our self-paced courses cover basic syntax to advanced concepts" # {change}
+    computer_science: "Our self-paced courses cover basic syntax to advanced concepts"
     show_me_lesson_time: "Show me lesson time estimates for:"
     curriculum: "Total curriculum hours:"
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
     coming_soon: "More coming soon!"
-    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery." # {change}
+    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery."
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class:"Everything you need to run a computer science class in your school today, no CS background required."
@@ -709,15 +709,15 @@
     unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
-    feature_levels: "Access 300+ levels available" # {change}
+    feature_levels: "Access 300+ levels available"
     feature_gems: "Receive __gems__ gems per month"
-    feature_heroes: "Unlock exclusive heroes and pets" # {change}
+    feature_heroes: "Unlock exclusive heroes and pets"
     feature_games: "Make games for your friends"
     feature_websites: "Build websites and apps"
     feature_items: "Equip more powerful items"
-    feature_learn: "Learn to make games and websites" # {change}
-    month_price: "$__price__" # {change}
-    lifetime: "Lifetime Access" # {change}
+    feature_learn: "Learn to make games and websites"
+    month_price: "$__price__"
+    lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Yearly Subscription"
     year_price: "$__price__/year"
@@ -729,7 +729,7 @@
     you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
     you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-    you_will_be_charged: "You will be charged $__priceString__" # {change}
+    you_will_be_charged: "You will be charged $__priceString__"
     choose_payment_method: "Choose Payment Method"
     pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
     paypal_payment_error: "We encountered an error while charging PayPal."
@@ -983,7 +983,7 @@
     project_based_title: "Project-Based Courses"
     project_based_description: "Web and Game Development courses feature shareable final projects."
     great_for_clubs_title: "Great for clubs and electives"
-    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #{change}
+    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
     low_price_title: "Just __starterLicensePrice__ per student"
     low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
     three_great_courses: "Three great courses included in the Starter License:"

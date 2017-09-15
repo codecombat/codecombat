@@ -10,6 +10,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     classroom_in_a_box: "Virtuálna trieda pre výuku programovania."
     codecombat_is: "CodeCombat je platforma  <strong>pre študentov</strong>, kde sa naučia programovať hrou. "
     our_courses: "Naše kurzy boli špeciálne testované <strong>v reálnych triedach</strong> a to dokonca aj učiteľmi, ktorí nemali predchádzajúce skúsenosti v programovaní."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Zmeny v správaní programu vidia študenti v reálnom čase."
     designed_with: "Navrhnuté s ohľadom na potreby učiteľov"
     real_code: "Skutočný kód"
@@ -48,7 +49,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     setup_a_class: "Nastavenia triedy"
     have_an_account: "Máš účet?"
     logged_in_as: "Si prihlásený ako"
-    computer_science: "Kurz programovania pre každý vek"
+    computer_science: "Kurz programovania pre každý vek" # {change}
     show_me_lesson_time: "Ukáž mi predpokladaný čas kurzu pre:"
     curriculum: "Celkový počet hodín:"
     ffa: "Zdarma pre všetkých študentov"
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     default_code: "Pôvodný kód"
     loading: "Načítava sa..."
     overview: "Prehľad"
+#    processing: "Processing..."
     solution: "Riešenie"
 #    table_of_contents: "Table of Contents"
     intro: "Intro"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     create: "Vytvoriť"
     fork: "Klonovať"
     play: "Hraj" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Znova"
     actions: "Príkazy"
     info: "Info"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Uč sa dôkladnejšie vďaka predplatnému !" # {change}
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     unsubscribing: "Zrušenie predpaltného"
     subscribe_prepaid: "Klikni na Predplatné s kódom"
     using_prepaid: "Používam Mesačné predplatné"
-    feature_levels: "Získaj prístup ku  __premiumLevelsCount__ levels available"
+    feature_levels: "Získaj prístup ku  __premiumLevelsCount__ levels available" # {change}
     feature_gems: "Získaj __gems__ gems každý mesiac"
-    feature_heroes: "Odomkni exkluzívnych hrdinov"
+    feature_heroes: "Odomkni exkluzívnych hrdinov" # {change}
     feature_games: "Vytvor hry pre svojich priateľov"
     feature_websites: "Vytváraj webové stránky a aplikácie "
     feature_items: "Opatri si lepšie predmety"
-    month_price: "$__price__/mesiac"
-    lifetime: "Celoživotné predplatné"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/mesiac" # {change}
+    lifetime: "Celoživotné predplatné" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Ročné predplatné"
     year_price: "$__price__/rok"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     support_part1: "Potrebuješ pomoc s predplatným? Napíš email na"
     support_part2: "support@codecombat.com"
     support_part3: ",ak máš nejakú otázku."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   premium_features:
     get_premium: "Staň sa preplatiteľom hry <br>CodeCombat<br>" # Fit into the banner on the /features page
     master_coder: "Preplať si hru ešte dnes a staň sa majstrom kódu!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Predplať si CodeCombat"
     hero_blurb_1: "Získaj prístup ku  __premiumHeroesCount__  hrdinom, dostupným iba predplatiteľom! Spoznaj neuveriteľnú silu of Okara Duponohu, smrteľnú presnosť Listovej Narie alebo vyvolaj  \"rozkošné\" kostry s Nalfarom Kryptákom."
     hero_blurb_2: "Schopnosti prémiových hrdinov: bojový pokrik, dupanie a hodenie nepriteľom. Môžeš hrať aj ako strelec, čo ti umožní používať luky, pušky, môžeš hádzať nožom a výbušninami. Môžeš to skúsiť aj ako mág a využívaj rôzne druhy mágie."
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     project_based_title: "Projektovo založené kurzy"
     project_based_description: "Webový a herný vývoj umožňuje zdieľanie finálnych projektov."
     great_for_clubs_title: "Skvelé pre kluby a vybraných žiakov"
-    great_for_clubs_description: "Učitelia môžu zakúpiť až __maxQuantityStarterLicenses__ štartovacích licencií za rok."
+    great_for_clubs_description: "Učitelia môžu zakúpiť až __maxQuantityStarterLicenses__ štartovacích licencií za rok." #{change}
     low_price_title: "Iba __starterLicensePrice__ na žiaka"
     low_price_description: "Štartovacie licencie platia __starterLicenseLengthMonths__ mesiacov od nákupu."
     three_great_courses: "Tri skvelé kurzy zahrnuté do Štarovacej licencie:"

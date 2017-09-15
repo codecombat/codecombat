@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     classroom_in_a_box: "Ein Klassenraum in-einer-Box um Informatik zu lehren."
     codecombat_is: "CodeCombat ist eine Plattform für <strong>Schüler</strong>, um Informatik zu lernen während sie ein echtes Spiel spielen."
     our_courses: "Unsere Kurse wurden genau getestet um im <strong>Klassenraum</strong> zu bestehen, auch bei Lehrkräften mit wenig bis keiner Programmiererfahrung."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Schüler schreiben Code und ihre Veränderungen werden in Echtzeit sichtbar"
     designed_with: "Designed um Lehrkräften zu helfen"
     real_code: "Getippte Programme"
@@ -48,13 +49,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     setup_a_class: "Eine Klasse erstellen"
     have_an_account: "Account vorhanden?"
     logged_in_as: "Sie sind zurzeit eingeloggt als"
-    computer_science: "Informatikkurse für alle Altersgruppen"
+    computer_science: "Informatikkurse für alle Altersgruppen" # {change}
     show_me_lesson_time: "Zeig mir die vorgeschlagene Stundenzeit für:"
     curriculum: "Gesamte Lehrstunden:"
     ffa: "Kostenlos für alle Schüler"
     lesson_time: "Lektionszeit:"
     coming_soon: "Coming soon!"
-    courses_available_in: "Kurse sind verfügbar in JavaScript und Python. Web-Entwicklungs-Kurse mit HTML, CSS, jQuery, and Bootstrap"
+    courses_available_in: "Kurse sind verfügbar in JavaScript und Python. Web-Entwicklungs-Kurse mit HTML, CSS, jQuery, and Bootstrap" # {change}
     boast: "Bietet Rätsel die komplex genug sind um Spieler und Programmiere zu faszinieren."
     winning: "Eine gewinnbringende Kombination aus RPG-Gameplay und Programmierhausaufgaben die aufgeht und kindgerechte Bildung berechtigterweise unterhaltsam macht."
     run_class: "Alles was man braucht um einen Informatikkurs in der Schule zu geben, ohne dass man Hintergrundwissen braucht."
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     default_code: "Standardcode"
     loading: "Lade..."
     overview: "Übersicht"
+#    processing: "Processing..."
     solution: "Lösung"
     table_of_contents: "Inhaltsverzeichnis"
     intro: "Einführung"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     create: "Erstellen"
     fork: "Kopieren"
     play: "Spielen" # When used as an action verb, like "Play next level"
-    subscribe_to_play: "Abonniere zum Spielen"
     retry: "Erneut versuchen"
     actions: "Aktionen"
     info: "Informationen"
@@ -573,10 +574,13 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     project_complete: "Projekt abgeschlossen!"
     share_this_project: "Teile dieses Projekt mit Freunden oder der Familie:"
     ready_to_share: "Bereit, dein Projekt zu veröffentlichen?"
-    click_publish: "Klicke auf \"Veröffentlichen\" damit es in der Klassengalerie erscheint, dann sieh dir an, wass deine Klassenkameraden erstellt haben. Du kannst später an diesem Projekt weiterarbeiten. Alle Änderungen werden automatisch gesichert und mit deinen Klassenkameraden geteilt."   
+    click_publish: "Klicke auf \"Veröffentlichen\" damit es in der Klassengalerie erscheint, dann sieh dir an, wass deine Klassenkameraden erstellt haben. Du kannst später an diesem Projekt weiterarbeiten. Alle Änderungen werden automatisch gesichert und mit deinen Klassenkameraden geteilt."
     already_published_prefix: "Deine Änderungen wurden in der Galerie veröffentlicht."
     already_published_suffix: "Experimentiere weiter und mach diese Projekt noch besser oder sieh dir an, was der Rest der Klasse erstellt hat! Deine Änderungen werden automatisch gesichert und mit deinen Klassenkameraden geteilt."
-    
+#    view_gallery: "View Gallery"
+#    project_published_noty: "Your level has been published!"
+#    keep_editing: "Keep Editing"
+
   play_game_dev_level:
     created_by: "Erstellt von {{name}}"
     restart: "Level neu starten"
@@ -647,6 +651,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     prompt_body: "Spiele weiter und verdiene mehr!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
     premium_already_subscribed: "Du bist bereits Abonnent!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Werde Master Coder und bestelle das <b>Premium-Abonnent</b>!"
@@ -703,14 +709,15 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     unsubscribing: "Abonnement wird gekündigt..."
     subscribe_prepaid: "Klicke auf abonnieren, um einen Prepaidcode zu benutzen"
     using_prepaid: "Benutze einen Prepaidcode für ein Monatsabo"
-    feature_levels: "Zugang zu __premiumLevelsCount__ Leveln"
+    feature_levels: "Zugang zu __premiumLevelsCount__ Leveln" # {change}
     feature_gems: "Du erhälst __gems__ Edelsteine pro Monat"
-    feature_heroes: "Schalte exklusive Helden frei"
+    feature_heroes: "Schalte exklusive Helden frei" # {change}
     feature_games: "Kreire Spiele für deine Freunde"
     feature_websites: "Programmiere Webseiten und Apps"
     feature_items: "Nutze machtvollere Gegenstände"
-    month_price: "$__price__/Mon"
-    lifetime: "Lebenslanges Abonnement"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/Mon" # {change}
+    lifetime: "Lebenslanges Abonnement" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Jahresabonnement"
     year_price: "$__price__/Jahr"
@@ -719,9 +726,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     support_part1: "Brauchst du Hilfe bei den Zahlungsoptionen? Schicke eine E-Mail an"
     support_part2: "support@codecombat.com"
     support_part3: "wenn du Fragen hast."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "Du kaufst ein Jahresabonnement!"
     you_are_purchasing_lifetime_sub: "Du kaufst ein lebenslanges Abonnement!"
-    you_will_be_charged: "Du bezahlst einmalig  __priceString__$ ."
+    you_will_be_charged: "Du bezahlst einmalig  __priceString__$ ." # {change}
     choose_payment_method: "Wähle deine Zahlungsweise"
     pay_with_credit_card_or_bitcoin: "Zahle mit Kreditkarte / Bitcoin"
     paypal_payment_error: "Bei der Zahlunmg mit PayPal ist ein Fehler aufgetreten."
@@ -771,6 +779,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   premium_features:
     get_premium: "Werde<br>CodeCombat<br>Abonnent" # Fit into the banner on the /features page
     master_coder: "Schließe jetzt ein Abbonent ab und werde Master Coder!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Abonniere heute"
     hero_blurb_1: "Du bekommst Zugang zu __premiumHeroesCount__ extrastarken Helden nur für Abonnenten! Nutze die Macht von Okar Stompfoot, die tödliche Präzision von Naria von Blatt oder beschwöre \"hinreißende\" Skelette mit Nalfar Cryptor."
     hero_blurb_2: "Premium-Krieger erschließen beeindruckende Kampfkünste wie Kampf-Schrei, Stampfen oder Feinde-Wirbeln. Oder spiele als Waldläufer und nutze Tarntechnik, Messer und Borgen. Werde ein wahrer Programmier-Zauberer und entfessele Ur-, Nekromantie- oder Elementar-Magie!"
@@ -974,7 +983,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     project_based_title: "Projektbasierte Kurse"
     project_based_description: "Web- und Spiele-Entwicklungskurse umfassen Abschlussprojekte, die man teilen kann."
     great_for_clubs_title: "Ideal für AGs und Wahlfächer"
-    great_for_clubs_description: "Lehrer können bis zu __maxQuantityStarterLicenses__ Starterlizenzen pro Jahr erwerben."
+    great_for_clubs_description: "Lehrer können bis zu __maxQuantityStarterLicenses__ Starterlizenzen pro Jahr erwerben." #{change}
     low_price_title: "Nur __starterLicensePrice__ pro Schüler"
     low_price_description: "Starterlizenzen sind __starterLicenseLengthMonths__ Monate ab Kauf aktiv."
     three_great_courses: "Die Starter-Lizenz enthält drei tolle Kurse:"
@@ -1272,7 +1281,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     started: "angefangen"
     complete: "abgeschlossen"
     practice: "Übung"
-#    required: "erforderlich"
+#    required: "required"
     welcome_to_courses: "Abenteurer, willkomen zu den Kursen!"
     ready_to_play: "Bereit zum Spielen?"
     start_new_game: "Starten Sie ein neues Spiel"
@@ -2343,7 +2352,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     escape_pressed_code: "Escape-Taste gedrückt; Programm abgebrochen."
     target_an_enemy: "Wenn du einen Feind als Ziel auswählst, verwende den Namen wie `$1`, nicht den String `$2`."
     target_an_enemy_2: "Wähle einen Feind als Ziel mit dem Namen, wie $1."
-    cannot_read_property: "Kann die Eigenschaft '$1' von Undefiniert nicht auslesen." #TODO: Do we translate undefined/null?
+    cannot_read_property: "Kann die Eigenschaft '$1' von Undefiniert nicht auslesen."
     attempted_to_assign: "Du hast versucht, einer schreibgeschützten Eigenschaft etwas zuzuordnen."
     unexpected_early_end: "Unerwartetes frühes Ende des Programms."
     you_need_a_string: "Du brauchst einen String um zu bauen. Einen von $1"
