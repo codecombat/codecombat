@@ -32,6 +32,9 @@ NcesSearchInput = Vue.extend
       default: false
     label:
       type: String
+    setFocus:
+      type: String
+      default: 'no'
 
   methods:
     onInput: (e) ->
@@ -66,6 +69,7 @@ NcesSearchInput = Vue.extend
     initialValue: (@value) ->
 
   mounted: ->
-    @$refs.focus.focus()
+    # TODO: probably a better Vue-ish way to specify internal nces-search-input focus behavior than props.setFocus
+    $(this.$el).find('.form-control').focus() if @setFocus is 'yes'
 
 module.exports = NcesSearchInput

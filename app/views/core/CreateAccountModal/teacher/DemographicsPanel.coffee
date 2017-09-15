@@ -3,10 +3,7 @@ DemographicsPanel = Vue.extend
   template: require('templates/core/create-account-modal/demographics-panel')()
   data: ->
     formData = _.pick(@$store.state.modal.trialRequestProperties, [
-      'numStudents'
       'numStudentsTotal'
-      'notes'
-      'referrer'
       'educationLevel'
       'otherEducationLevel'
       'otherEducationLevelExplanation'

@@ -11,10 +11,10 @@ module.exports = TeacherSignupComponent = Vue.extend
 
   created: ->
     @disableKeyboardClose()
-  
+
   data: ->
     panelIndex: 0
-    panels: ['school-info-panel', 'teacher-role-panel', 'demographic-panel', 'setup-account-panel']
+    panels: ['school-info-panel', 'teacher-role-panel', 'setup-account-panel']
     trialRequestAttributes: {}
 
   computed:
@@ -23,14 +23,13 @@ module.exports = TeacherSignupComponent = Vue.extend
   components:
     'school-info-panel': SchoolInfoPanel
     'teacher-role-panel': TeacherRolePanel
-    'demographic-panel': DemographicsPanel
     'setup-account-panel': SetupAccountPanel
 
   methods:
     onContinue: (attributes) ->
       @trialRequestAttributes = _.assign({}, @trialRequestAttributes, attributes)
       @panelIndex += 1
-        
+
     onBack: ->
       if @panelIndex is 0 then @$emit('back') else @panelIndex -= 1
 

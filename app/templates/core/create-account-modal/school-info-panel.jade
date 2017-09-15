@@ -9,8 +9,9 @@ div.school-info-panel
           displayKey="name"
           v-bind:initialValue="organization"
           v-on:updateValue="updateValue"
+          setFocus="yes"
         )
-                  
+
     .row.m-y-2
       .col-xs-offset-2.col-xs-4
         nces-search-input(
@@ -47,7 +48,7 @@ div.school-info-panel
             =" "
             strong(v-if="showRequired && !country") {{ $t("common.required_field") }}
           input.form-control(name="country", v-model="country")
-  
+
   // In reverse order for tabbing purposes
   .history-nav-buttons
     button#create-account-btn.next-button.btn.btn-lg.btn-navy(v-on:click="clickContinue") {{ $t("common.next") }}

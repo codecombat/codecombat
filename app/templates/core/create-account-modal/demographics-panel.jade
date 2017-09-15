@@ -1,21 +1,6 @@
 .demographics-panel.text-left
   .row
     .col-xs-6
-      .form-group(v-bind:class="{ 'has-error': showRequired && !numStudents }")
-        span.control-label {{ $t("courses.number_programming_students") }}
-        .help-block.small
-          em.text-info {{ $t("teachers_quote.num_students_help") }}
-        select.form-control(v-model="numStudents", ref='focus' name="numStudents")
-          option(value='') {{ $t("teachers_quote.num_students_default") }}
-          option 1-10
-          option 11-50
-          option 51-100
-          option 101-200
-          option 201-500
-          option 501-1000
-          option 1000+
-        strong.help-block(v-if="showRequired && !numStudents") {{ $t("common.required_field") }}
-
       .form-group(v-bind:class="{ 'has-error': showRequired && !numStudentsTotal }")
         span.control-label
           span {{ $t("courses.number_total_students") }}
@@ -55,22 +40,6 @@
             span.spr {{ $t("nav.other") }}
             span {{ $t("teachers_quote.please_explain") }}
         input#other-education-level-input.form-control.m-b-2(v-model="otherEducationLevelExplanation")
-        
-
-    .col-xs-6
-      span.control-label
-        span {{ $t("teachers_quote.anything_else") }}
-        span.spl.text-muted {{ $t("signup.optional") }}
-      textarea.form-control.m-b-2(rows=8, v-model="notes")
-
-        
-      span.control-label
-        span {{ $t("teachers_quote.referrer") }}
-        span.spl.text-muted {{ $t("signup.optional") }}
-        .help-block.small
-          em.text-info {{ $t("teachers_quote.referrer_help") }}
-      input#oreferrer-input.form-control(v-model="referrer")
-
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
