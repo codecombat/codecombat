@@ -24,7 +24,7 @@ form#basic-info-form.modal-body.basic-info
             .form-group
               label.control-label(for="first-name-input")
                 span(data-i18n="general.first_name")
-              input#first-name-input.form-control.input-lg(name="firstName" value=view.signupState.get('signupForm').firstName autofocus)
+              input#first-name-input.form-control.input-lg(name="firstName" value=view.signupState.get('signupForm').firstName)
           div(class=(path === 'teacher' ? 'col-xs-3' : 'col-xs-4'))
             if view.signupState.get('path') === 'teacher'
               .last-name.form-group

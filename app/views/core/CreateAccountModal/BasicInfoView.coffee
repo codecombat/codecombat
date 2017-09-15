@@ -52,6 +52,10 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
 
+  afterRender: ->
+    @$el.find('#first-name-input').focus()
+    super()
+
   # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
   updateAuthModalInitialValues: (values) ->
     @signupState.set {
@@ -210,7 +214,7 @@ module.exports = class BasicInfoView extends CocoView
     @checkEmail()
     .then @checkName()
     .then =>
-      if not (@state.get('checkEmailState') in ['available', 'standby'] and (@state.get('checkNameState') is 'available') or @signupState.get('path') is 'teacher')
+      if not (@state.get('checkEmailState') in ['available', 'standby'] and (@state.get('checkNameState') is 'available' or @signupState.get('path') is 'teacher'))
         throw AbortError
 
       # update User

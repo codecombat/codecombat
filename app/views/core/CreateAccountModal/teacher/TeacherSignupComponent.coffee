@@ -1,6 +1,5 @@
 SchoolInfoPanel = require './SchoolInfoPanel'
 TeacherRolePanel = require './TeacherRolePanel'
-DemographicsPanel = require './DemographicsPanel'
 SetupAccountPanel = require './SetupAccountPanel'
 TeacherSignupStoreModule = require './TeacherSignupStoreModule'
 
