@@ -43,7 +43,7 @@ form#basic-info-form.modal-body.basic-info
               span(data-i18n="share_progress_modal.form_label")
             if view.signupState.get('path') === 'student'
               .help-block.optional-help-block.pull-right
-                span(data-i18n="signup.optional")
+                span.optional-text(data-i18n="signup.optional")
             input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email)
           .col-xs-4.email-check.fancy-error
             - var checkEmailState = view.state.get('checkEmailState');
@@ -63,26 +63,27 @@ form#basic-info-form.modal-body.basic-info
                 =" "
                 span(data-i18n="signup.email_good")
 
-      .form-group
-        .row
-          .col-xs-5.col-xs-offset-3
-            label.control-label(for="username-input")
-              span(data-i18n="general.username")
-            input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name)
-          .col-xs-4.name-check.fancy-error
-            - var checkNameState = view.state.get('checkNameState');
-            if checkNameState === 'checking'
-              span.small(data-i18n="signup.checking")
-            if checkNameState === 'exists'
-              span.small
-                span.text-burgundy.glyphicon.glyphicon-remove-circle
-                =" "
-                span= view.state.get('suggestedNameText')
-            if checkNameState === 'available'
-              span.small
-                span.text-forest.glyphicon.glyphicon-ok-circle
-                =" "
-                span(data-i18n="signup.name_available")
+      if view.signupState.get('path') !== 'teacher'
+        .form-group
+          .row
+            .col-xs-5.col-xs-offset-3
+              label.control-label(for="username-input")
+                span(data-i18n="general.username")
+              input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name)
+            .col-xs-4.name-check.fancy-error
+              - var checkNameState = view.state.get('checkNameState');
+              if checkNameState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkNameState === 'exists'
+                span.small
+                  span.text-burgundy.glyphicon.glyphicon-remove-circle
+                  =" "
+                  span= view.state.get('suggestedNameText')
+              if checkNameState === 'available'
+                span.small
+                  span.text-forest.glyphicon.glyphicon-ok-circle
+                  =" "
+                  span(data-i18n="signup.name_available")
 
       .form-group
         .row

@@ -40,8 +40,6 @@ const remainingOrderedEventValues = [
   'CreateAccountModal Teacher SchoolInfoPanel Continue Success',
   'CreateAccountModal Teacher TeacherRolePanel Continue Clicked',
   'CreateAccountModal Teacher TeacherRolePanel Continue Success',
-  'CreateAccountModal Teacher DemographicsPanel Signup Clicked',
-  'CreateAccountModal Teacher DemographicsPanel Signup Success',
   // 'Teachers Classes Loaded',
   // 'Teachers Classes Create New Class Started',
   // 'Teachers Classes Create New Class Finished'

@@ -65,7 +65,4 @@ NcesSearchInput = Vue.extend
   watch:
     initialValue: (@value) ->
 
-  mounted: ->
-    @$refs.focus.focus()
-
 module.exports = NcesSearchInput
