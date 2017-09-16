@@ -387,7 +387,10 @@ module.exports = mw =
     data = _.clone(data)
     if sources.e
       data.e = sources.e._id
-    
+    if sources.f
+      data.f = sources.f._id
+    if sources.l
+      data.l = sources.l._id
     return new AnalyticsPerDay(data).save()
     
   createDay: (offset) ->

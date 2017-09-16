@@ -14,126 +14,12 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
-    return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
     return @getLevelDropsBySlugs(req, res) if args[1] is 'level_drops'
     return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
     return @getRecurringRevenue(req, res) if args[1] is 'recurring_revenue'
     super(arguments...)
-
-    
-  getCampaignCompletionsBySlug: (req, res) ->
-    # Send back an ordered array of level per-day starts and finishes
-    # Parameters:
-    # slug - campaign slug
-    # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
-    # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
-
-    campaignSlug = req.query.slug or req.body.slug
-    startDay = req.query.startDay or req.body.startDay
-    endDay = req.query.endDay or req.body.endDay
-
-    # log.warn "campaign_completions campaignSlug='#{campaignSlug}' startDay=#{startDay} endDay=#{endDay}"
-
-    return @sendSuccess res, [] unless campaignSlug?
-
-    # Cache results in app server memory for 1 day
-    @campaignCompletionsCache ?= {}
-    @campaignCompletionsCachedSince ?= new Date()
-    if (new Date()) - @campaignCompletionsCachedSince > 86400 * 1000
-      @campaignCompletionsCache = {}
-      @campaignCompletionsCachedSince = new Date()
-    cacheKey = campaignSlug
-    cacheKey += 's' + startDay if startDay?
-    cacheKey += 'e' + endDay if endDay?
-    return @sendSuccess res, completions if completions = @campaignCompletionsCache[cacheKey]
-
-    getCompletions = (orderedLevelSlugs, levelStringIDSlugMap) =>
-      # 3. Send back an array of level starts and finishes
-      # Input:
-      # orderedLevelSlugs - Ordered list of level slugs, used for sorting results
-      # levelStringIDSlugMap - Maps level string IDs to level slugs
-
-      campaignLevelIDs = Object.keys(levelStringIDSlugMap)
-
-      AnalyticsString.find({v: {$in: ['Started Level', 'Saw Victory', 'all']}}).exec (err, documents) =>
-        if err? then return @sendDatabaseError res, err
-
-        for doc in documents
-          startEventID = doc._id if doc.v is 'Started Level'
-          finishEventID = doc._id if doc.v is 'Saw Victory'
-          filterEventID =  doc._id if doc.v is 'all'
-        return @sendSuccess res, [] unless startEventID? and finishEventID? and filterEventID?
-
-        queryParams = {$and: [
-          {$or: [{e: startEventID}, {e: finishEventID}]},
-          {f: filterEventID},
-          {l: {$in: campaignLevelIDs}}
-        ]}
-        queryParams["$and"].push {d: {$gte: startDay}} if startDay?
-        queryParams["$and"].push {d: {$lt: endDay}} if endDay?
-        AnalyticsPerDay.find(queryParams).exec (err, documents) =>
-          if err? then return @sendDatabaseError res, err
-
-          levelEventCounts = {}
-          for doc in documents
-            levelEventCounts[doc.l] ?= {}
-            levelEventCounts[doc.l][doc.d] ?= {}
-            levelEventCounts[doc.l][doc.d][doc.e] ?= 0
-            levelEventCounts[doc.l][doc.d][doc.e] += doc.c
-
-          completions = []
-          for levelID of levelEventCounts
-            days = {}
-            for day of levelEventCounts[levelID]
-              days[day] =
-                started: levelEventCounts[levelID][day][startEventID] ? 0
-                finished: levelEventCounts[levelID][day][finishEventID] ? 0
-            completions.push
-              level: levelStringIDSlugMap[levelID]
-              days: days
-          completions.sort (a, b) -> orderedLevelSlugs.indexOf(a.level) - orderedLevelSlugs.indexOf(b.level)
-
-          @campaignCompletionsCache[cacheKey] = completions
-          @sendSuccess res, completions
-
-    getLevelData = (campaignLevels) =>
-      # 2. Get ordered level slugs and string ID to level slug mapping
-      # Input:
-      # campaignLevels - array of Level IDs
-
-      queryParams = {original: {$in: campaignLevels}, "version.isLatestMajor": true, "version.isLatestMinor": true}
-      Level.find(queryParams).exec (err, documents) =>
-        if err? then return @sendDatabaseError res, err
-
-        # Save original level ID and slug in array for sorting
-        campaignOriginalSlugs = []
-        for doc in documents
-          campaignOriginalSlugs.push
-            slug: _.str.slugify(doc.get('name'))
-            original: doc.get('original').toString()
-
-        # Sort slugs against original levels from campaign
-        campaignOriginalSlugs.sort (a, b) ->
-          if campaignLevels.indexOf(a.original) < campaignLevels.indexOf(b.original) then -1 else 1
-
-        # Lookup analytics string IDs for level slugs
-        orderedLevelSlugs = []
-        orderedLevelSlugs.push item.slug for item in campaignOriginalSlugs
-        AnalyticsString.find({v: {$in: orderedLevelSlugs}}).exec (err, documents) =>
-          if err? then return @sendDatabaseError res, err
-
-          levelStringIDSlugMap = {}
-          levelStringIDSlugMap[doc._id] = doc.v for doc in documents
-          getCompletions orderedLevelSlugs, levelStringIDSlugMap
-
-    # 1. Get campaign levels
-    Campaign.find({slug: campaignSlug}).exec (err, documents) =>
-      if err? then return @sendDatabaseError res, err
-      campaignLevels = []
-      campaignLevels.push level for level of doc.get('levels') for doc in documents
-      getLevelData campaignLevels
 
   getLevelDropsBySlugs: (req, res) ->
     # Send back an array of level/drops

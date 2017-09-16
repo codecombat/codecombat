@@ -45,7 +45,7 @@ describe 'POST /db/analytics_perday/-/active_users', ->
     [res] = yield request.postAsync({url, json: true})
     expect(res.statusCode).toBe(403)
 
-  it 'returns all perday entries for active class events', utils.wrap ->
+  it 'returns all perday entries for active user events', utils.wrap ->
     paidString = yield utils.makeAnalyticsString({v:'Active classes paid'})
     trialString = yield utils.makeAnalyticsString({v:'Active classes trial'})
     freeString = yield utils.makeAnalyticsString({v:'Active classes free'})
@@ -77,3 +77,61 @@ describe 'POST /db/analytics_perday/-/active_users', ->
         }
       }
     ])
+
+
+describe 'POST /db/analytics_perday/-/campaign_completions', ->
+  
+  beforeEach utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    @level = yield utils.makeLevel()
+    @campaign = yield utils.makeCampaign({}, {levels:[@level]})
+    levelString = yield utils.makeAnalyticsString({v:@level.get('slug')})
+    startedString = yield utils.makeAnalyticsString({v:'Started Level'})
+    sawString = yield utils.makeAnalyticsString({v:'Saw Victory'})
+    allString = yield utils.makeAnalyticsString({v:'all'})
+    i = 100
+    yield utils.makeAnalyticsPerDay({d: '20150101', c: i++}, {e: startedString, f: allString, l:levelString})
+    yield utils.makeAnalyticsPerDay({d: '20150101', c: i++}, {e: sawString, f: allString, l:levelString})
+
+    @url = utils.getUrl('/db/analytics_perday/-/campaign_completions')
+    @json = { slug: @campaign.get('slug') }
+
+
+  it 'returns 403 unless you are an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.postAsync({@url, @json})
+    expect(res.statusCode).toBe(403)
+
+  it 'returns start and finish data for levels in a given campaign', utils.wrap ->
+    [res] = yield request.postAsync({@url, @json})
+    expect(res.body).toEqual([
+      {
+        "level": @level.get('slug'),
+        "days": {
+          "20150101": {
+            "started": 100,
+            "finished": 101
+          }
+        }
+      }
+    ])
+    
+  it 'accepts start and date inputs', utils.wrap ->
+    json = { 
+      slug: @campaign.get('slug')
+      startDay: '20140101'
+      endDay: '20160101'
+    }
+    [res] = yield request.postAsync({@url, json})
+    expect(res.body.length).toBe(1)
+
+    json = {
+      slug: @campaign.get('slug')
+      startDay: '20160101'
+      endDay: '20180101'
+    }
+    [res] = yield request.postAsync({@url, json})
+    expect(res.body.length).toBe(0)
