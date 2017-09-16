@@ -28,6 +28,26 @@ getActiveClasses = wrap (req, res) ->
   res.send(activeClasses)
 
 
+getActiveUsers = wrap (req, res) ->
+  events = ['DAU classroom paid', 'DAU classroom trial', 'DAU classroom free', 'DAU campaign paid', 'DAU campaign free',
+            'MAU classroom paid', 'MAU classroom trial', 'MAU classroom free', 'MAU campaign paid', 'MAU campaign free']
+  documents = yield AnalyticsString.find({v: {$in: events}})
+  eventIDs = []
+  eventStringMap = {}
+  for doc in documents
+    eventIDs.push(doc._id)
+    eventStringMap[doc._id] = doc.v
+
+  documents = yield AnalyticsPerDay.find({e: {$in: eventIDs}})
+  dayCountsMap = {}
+  for doc in documents
+    dayCountsMap[doc.d] ?= {}
+    dayCountsMap[doc.d][eventStringMap[doc.e]] = doc.c
+  activeUsers = ({day: day, events: eventCountMap} for day, eventCountMap of dayCountsMap)
+  res.send(activeUsers)
+
+  
 module.exports = {
-  getActiveClasses
+  getActiveClasses,
+  getActiveUsers
 }

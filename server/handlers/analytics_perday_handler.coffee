@@ -14,7 +14,6 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
-    return @getActiveUsers(req, res) if args[1] is 'active_users'
     return @getCampaignCompletionsBySlug(req, res) if args[1] is 'campaign_completions'
     return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
     return @getLevelDropsBySlugs(req, res) if args[1] is 'level_drops'
@@ -23,26 +22,7 @@ class AnalyticsPerDayHandler extends Handler
     return @getRecurringRevenue(req, res) if args[1] is 'recurring_revenue'
     super(arguments...)
 
-  getActiveUsers: (req, res) ->
-    events = ['DAU classroom paid', 'DAU classroom trial', 'DAU classroom free', 'DAU campaign paid', 'DAU campaign free',
-      'MAU classroom paid', 'MAU classroom trial', 'MAU classroom free', 'MAU campaign paid', 'MAU campaign free']
-    AnalyticsString.find({v: {$in: events}}).exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      eventIDs = []
-      eventStringMap = {}
-      for doc in documents
-        eventIDs.push(doc._id)
-        eventStringMap[doc._id] = doc.v 
-
-      AnalyticsPerDay.find({e: {$in: eventIDs}}).exec (err, documents) =>
-        return @sendDatabaseError(res, err) if err
-        dayCountsMap = {}
-        for doc in documents
-          dayCountsMap[doc.d] ?= {}
-          dayCountsMap[doc.d][eventStringMap[doc.e]] = doc.c
-        activeUsers = ({day: day, events: eventCountMap} for day, eventCountMap of dayCountsMap)
-        @sendSuccess(res, activeUsers)
-
+    
   getCampaignCompletionsBySlug: (req, res) ->
     # Send back an ordered array of level per-day starts and finishes
     # Parameters:
