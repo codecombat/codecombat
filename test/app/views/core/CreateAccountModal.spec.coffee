@@ -17,9 +17,9 @@ responses = {
 
 
 xdescribe 'CreateAccountModal', ->
-  
+
   modal = null
-  
+
 #  initModal = (options) -> ->
 #    application.facebookHandler.fakeAPI()
 #    application.gplusHandler.fakeAPI()
@@ -40,16 +40,16 @@ xdescribe 'CreateAccountModal', ->
       modal = new CreateAccountModal()
       modal.render()
       jasmine.demoModal(modal)
-    
+
     describe 'click sign up as TEACHER button', ->
       beforeEach ->
         spyOn application.router, 'navigate'
         modal.$('.teacher-path-button').click()
-        
+
       it 'switches to BasicInfoView and sets "path" to "teacher"', ->
         expect(modal.signupState.get('path')).toBe('teacher')
         expect(modal.signupState.get('screen')).toBe('basic-info')
-        
+
     describe 'click sign up as STUDENT button', ->
       beforeEach ->
         modal.$('.student-path-button').click()
@@ -57,7 +57,7 @@ xdescribe 'CreateAccountModal', ->
       it 'switches to SegmentCheckView and sets "path" to "student"', ->
         expect(modal.signupState.get('path')).toBe('student')
         expect(modal.signupState.get('screen')).toBe('segment-check')
-        
+
     describe 'click sign up as INDIVIDUAL button', ->
       beforeEach ->
         modal.$('.individual-path-button').click()
@@ -65,11 +65,11 @@ xdescribe 'CreateAccountModal', ->
       it 'switches to SegmentCheckView and sets "path" to "individual"', ->
         expect(modal.signupState.get('path')).toBe('individual')
         expect(modal.signupState.get('screen')).toBe('segment-check')
-        
+
   describe 'SegmentCheckView', ->
-    
+
     segmentCheckView = null
-    
+
     describe 'INDIVIDUAL path', ->
       beforeEach (done) ->
         modal = new CreateAccountModal()
@@ -81,7 +81,7 @@ xdescribe 'CreateAccountModal', ->
 
       it 'has a birthdate form', ->
         expect(modal.$('.birthday-form-group').length).toBe(1)
-    
+
     describe 'STUDENT path', ->
       beforeEach (done) ->
         modal = new CreateAccountModal()
@@ -91,14 +91,14 @@ xdescribe 'CreateAccountModal', ->
         segmentCheckView = modal.subviews.segment_check_view
         spyOn(segmentCheckView, 'checkClassCodeDebounced')
         _.defer done
-        
+
       it 'has a classCode input', ->
         expect(modal.$('.class-code-input').length).toBe(1)
-        
+
       it 'checks the class code when the input changes', ->
         modal.$('.class-code-input').val('test').trigger('input')
         expect(segmentCheckView.checkClassCodeDebounced).toHaveBeenCalled()
-        
+
       describe 'fetchClassByCode()', ->
         it 'is memoized', ->
           promise1 = segmentCheckView.fetchClassByCode('testA')
@@ -106,7 +106,7 @@ xdescribe 'CreateAccountModal', ->
           promise3 = segmentCheckView.fetchClassByCode('testB')
           expect(promise1).toBe(promise2)
           expect(promise1).not.toBe(promise3)
-          
+
       describe 'checkClassCode()', ->
         it 'shows a success message if the classCode is found', ->
           request = jasmine.Ajax.requests.mostRecent()
@@ -122,11 +122,11 @@ xdescribe 'CreateAccountModal', ->
               owner: factories.makeUser({name: 'Some Teacher'}).toJSON()
             })
           })
-        
+
       describe 'on submit with class code', ->
-        
+
         classCodeRequest = null
-        
+
         beforeEach ->
           request = jasmine.Ajax.requests.mostRecent()
           expect(_.string.startsWith(request.url, '/db/classroom')).toBe(false)
@@ -148,10 +148,10 @@ xdescribe 'CreateAccountModal', ->
 
           it 'navigates to the BasicInfoView', ->
             expect(modal.signupState.get('screen')).toBe('basic-info')
-            
+
           describe 'on the BasicInfoView for students', ->
-            
-            
+
+
         describe 'when the classroom IS NOT found', ->
           beforeEach (done) ->
             classCodeRequest.respondWith({
@@ -159,12 +159,12 @@ xdescribe 'CreateAccountModal', ->
               responseText: '{}'
             })
             segmentCheckView.once 'special-render', done
-            
+
           it 'shows an error', ->
             expect(modal.$('[data-i18n="signup.classroom_not_found"]').length).toBe(1)
-            
+
   describe 'CoppaDenyView', ->
-    
+
     coppaDenyView = null
 
     beforeEach ->
@@ -176,10 +176,10 @@ xdescribe 'CreateAccountModal', ->
       modal.render()
       jasmine.demoModal(modal)
       coppaDenyView = modal.subviews.coppa_deny_view
-      
+
     it 'shows an input for a parent\'s email address to sign up their child', ->
       expect(modal.$('#parent-email-input').length).toBe(1)
-      
+
 
   describe 'BasicInfoView', ->
 
@@ -194,20 +194,20 @@ xdescribe 'CreateAccountModal', ->
       modal.render()
       jasmine.demoModal(modal)
       basicInfoView = modal.subviews.basic_info_view
-      
+
     it 'checks for name conflicts when the name input changes', ->
       spyOn(basicInfoView, 'checkName')
       basicInfoView.$('#username-input').val('test').trigger('change')
       expect(basicInfoView.checkName).toHaveBeenCalled()
-      
+
     describe 'checkEmail()', ->
       beforeEach ->
         basicInfoView.$('input[name="email"]').val('some@email.com')
         basicInfoView.checkEmail()
-        
+
       it 'shows checking', ->
         expect(basicInfoView.$('[data-i18n="signup.checking"]').length).toBe(1)
-        
+
       describe 'if email DOES exist', ->
         beforeEach (done) ->
           jasmine.Ajax.requests.mostRecent().respondWith({
@@ -215,11 +215,11 @@ xdescribe 'CreateAccountModal', ->
             responseText: JSON.stringify({exists: true})
           })
           _.defer done
-        
+
         it 'says an account already exists and encourages to sign in', ->
           expect(basicInfoView.$('[data-i18n="signup.account_exists"]').length).toBe(1)
           expect(basicInfoView.$('.login-link[data-i18n="signup.sign_in"]').length).toBe(1)
-          
+
       describe 'if email DOES NOT exist', ->
         beforeEach (done) ->
           jasmine.Ajax.requests.mostRecent().respondWith({
@@ -230,7 +230,7 @@ xdescribe 'CreateAccountModal', ->
 
         it 'says email looks good', ->
           expect(basicInfoView.$('[data-i18n="signup.email_good"]').length).toBe(1)
-      
+
     describe 'checkName()', ->
       beforeEach ->
         basicInfoView.$('input[name="name"]').val('Some Name').trigger('change')
@@ -261,7 +261,7 @@ xdescribe 'CreateAccountModal', ->
 
         it 'says name looks good', ->
           expect(basicInfoView.$('[data-i18n="signup.name_available"]').length).toBe(1)
-          
+
     describe 'onSubmitForm()', ->
       it 'shows required errors for empty fields when on INDIVIDUAL path', ->
         modal.signupState.set('path', 'individual')
@@ -285,12 +285,12 @@ xdescribe 'CreateAccountModal', ->
             lastName: 'Last'
           })
           basicInfoView.$('form').submit()
-          
+
         it 'checks for email and name conflicts', ->
           emailCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/email'))
           nameCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/name'))
           expect(_.all([emailCheck, nameCheck])).toBe(true)
-          
+
         describe 'a check does not pass', ->
           beforeEach (done) ->
             nameCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/name'))
@@ -304,9 +304,9 @@ xdescribe 'CreateAccountModal', ->
               responseText: JSON.stringify({ exists: true })
             })
             _.defer done
-            
+
           it 're-enables the form and shows which field failed', ->
-             
+
         describe 'both checks do pass', ->
           beforeEach (done) ->
             nameCheck = _.find(jasmine.Ajax.requests.all(), (r) -> _.string.startsWith(r.url, '/auth/name'))
@@ -320,7 +320,7 @@ xdescribe 'CreateAccountModal', ->
               responseText: JSON.stringify({ exists: false })
             })
             _.defer done
-            
+
           it 'saves the user', ->
             request = jasmine.Ajax.requests.mostRecent()
             expect(_.string.startsWith(request.url, '/db/user')).toBe(true)
@@ -328,7 +328,7 @@ xdescribe 'CreateAccountModal', ->
             expect(body.firstName).toBe('First')
             expect(body.lastName).toBe('Last')
             expect(body.emails.generalNews.enabled).toBe(true)
-            
+
           describe 'saving the user FAILS', ->
             beforeEach (done) ->
               request = jasmine.Ajax.requests.mostRecent()
@@ -339,10 +339,10 @@ xdescribe 'CreateAccountModal', ->
                 })
               })
               _.defer(done)
-              
+
             it 'displays the server error', ->
               expect(basicInfoView.$('.alert-danger').length).toBe(1)
-              
+
           describe 'saving the user SUCCEEDS', ->
             beforeEach (done) ->
               request = jasmine.Ajax.requests.mostRecent()
@@ -351,11 +351,11 @@ xdescribe 'CreateAccountModal', ->
                 responseText: '{}'
               })
               _.defer(done)
-              
+
             it 'signs the user up with the password', ->
               request = jasmine.Ajax.requests.mostRecent()
               expect(_.string.endsWith(request.url, 'signup-with-password')).toBe(true)
-              
+
             describe 'after signup STUDENT', ->
               beforeEach (done) ->
                 basicInfoView.signupState.set({
@@ -366,31 +366,31 @@ xdescribe 'CreateAccountModal', ->
                 request = jasmine.Ajax.requests.mostRecent()
                 request.respondWith(responses.signupSuccess)
                 _.defer(done)
-              
+
               it 'joins the classroom', ->
                 request = jasmine.Ajax.requests.mostRecent()
                 expect(request.url).toBe('/db/classroom/~/members')
-              
+
             describe 'signing the user up SUCCEEDS', ->
               beforeEach (done) ->
                 spyOn(basicInfoView, 'finishSignup')
                 request = jasmine.Ajax.requests.mostRecent()
                 request.respondWith(responses.signupSuccess)
                 _.defer(done)
-                
+
               it 'calls finishSignup()', ->
                 expect(basicInfoView.finishSignup).toHaveBeenCalled()
 
   describe 'ConfirmationView', ->
     confirmationView = null
-    
+
     beforeEach ->
       modal = new CreateAccountModal()
       modal.signupState.set('screen', 'confirmation')
       modal.render()
       jasmine.demoModal(modal)
       confirmationView = modal.subviews.confirmation_view
-      
+
     it '(for demo testing)', ->
       me.set('name', 'A Sweet New Username')
       me.set('email', 'some@email.com')
@@ -580,15 +580,13 @@ describe 'CreateAccountModal Vue Components', ->
           expect(attrs.nces_district_students).toBe('some nces_district_students')
 
       describe 'clickContinue', ->
-    
+
       describe 'clickBack', ->
-    
+
     describe 'NcesSearchInput', ->
-    
-    describe 'DemographicsPanel', ->
-    
+
     describe 'SetupAccountPanel', ->
-    
+
     describe 'TeacherRolePanel', ->
 
 api = require 'core/api'
@@ -625,7 +623,7 @@ describe 'CreateAccountModal Vue Store', ->
           facebookID: ''
         ssoUsed: ''
       }
-    
+
     it "uses the form email when SSO isn't used", (done) ->
       TeacherSignupStoreModule.actions.createAccount({@state, @commit, @dispatch, @rootState}).then ->
         expect(api.users.signupWithPassword).toHaveBeenCalled()

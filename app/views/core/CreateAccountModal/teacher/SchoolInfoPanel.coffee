@@ -80,4 +80,7 @@ SchoolInfoPanel =
       window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Back Clicked', category: 'Teachers'
       @$emit('back')
 
+  mounted: ->
+    $("input[name*='organization']").focus()
+
 module.exports = SchoolInfoPanel
