@@ -64,6 +64,8 @@ module.exports.setup = (app) ->
   
   app.post('/db/analytics.log.event/-/log_event',  mw.auth.checkHasUser(), mw.analyticsLogEvents.post)
 
+  app.get('/db/analytics_perday/-/active_classes', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveClasses)
+
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
