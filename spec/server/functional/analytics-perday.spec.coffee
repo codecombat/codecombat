@@ -6,12 +6,12 @@ slack = require '../../../server/slack'
 request = require '../request'
 mongoose = require 'mongoose'
 
-describe 'GET /db/analytics_perday/-/active_classes', ->
+describe 'POST /db/analytics_perday/-/active_classes', ->
   it 'returns 403 unless you are an admin', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
     url = utils.getUrl('/db/analytics_perday/-/active_classes')
-    [res] = yield request.getAsync({url, json: true})
+    [res] = yield request.postAsync({url, json: true})
     expect(res.statusCode).toBe(403)
   
   it 'returns all perday entries for active class events', utils.wrap ->
@@ -26,7 +26,7 @@ describe 'GET /db/analytics_perday/-/active_classes', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     url = utils.getUrl('/db/analytics_perday/-/active_classes')
-    [res] = yield request.getAsync({url, json: true})
+    [res] = yield request.postAsync({url, json: true})
     expect(res.body).toEqual([{
       day: '20150101',
       classes: { 
@@ -37,12 +37,12 @@ describe 'GET /db/analytics_perday/-/active_classes', ->
     }])
 
 
-describe 'GET /db/analytics_perday/-/active_users', ->
+describe 'POST /db/analytics_perday/-/active_users', ->
   it 'returns 403 unless you are an admin', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
     url = utils.getUrl('/db/analytics_perday/-/active_users')
-    [res] = yield request.getAsync({url, json: true})
+    [res] = yield request.postAsync({url, json: true})
     expect(res.statusCode).toBe(403)
 
   it 'returns all perday entries for active class events', utils.wrap ->
@@ -59,7 +59,7 @@ describe 'GET /db/analytics_perday/-/active_users', ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
     url = utils.getUrl('/db/analytics_perday/-/active_users')
-    [res] = yield request.getAsync({url, json: true})
+    [res] = yield request.postAsync({url, json: true})
     expect(res.body).toEqual([
       {
         day: '20150101',
