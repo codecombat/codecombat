@@ -31,7 +31,7 @@ module.exports =
       throw new errors.NotFound('Classroom not found.')
     classroom = classroom.toObject()
     # Tack on the teacher's name for display to the user
-    owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name')).toObject()
+    owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name firstName lastName')).toObject()
     res.status(200).send({ data: classroom, owner } )
 
   getByOwner: wrap (req, res, next) ->

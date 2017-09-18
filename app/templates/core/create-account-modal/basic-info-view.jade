@@ -1,22 +1,6 @@
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
-    .auth-network-logins.text-center
-      h4
-        span(data-i18n="teachers_quote.connect_with")
-      a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-        img.network-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false", width="175", height="40")
-        span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
-      a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-        img.network-logo(src="/images/pages/modal/auth/gplus_sso_button.png", draggable="false", width="175", height="40")
-        span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
-        .gplus-login-wrapper
-          .gplus-login-button
-
-    .hr-text
-      hr
-      span(data-i18n="general.or")
-
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
@@ -92,20 +76,24 @@ form#basic-info-form.modal-body.basic-info
               span(data-i18n="general.password")
             input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password)
 
-      .form-group.checkbox.subscribe
-        .row
-          .col-xs-7.col-xs-offset-3
-            .checkbox
-              label
-                input#subscribe-input(type="checkbox" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
-                span(data-i18n="signup.email_announcements")
-
       .error-area
         - var error = view.state.get('error');
         if error
           .row
             .col-xs-7.col-xs-offset-3
           .alert.alert-danger= error
+
+    .hr-text
+      hr
+      span(data-i18n="general.or")
+
+    .auth-network-logins.text-center
+      .gplus-login
+        a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button.png", draggable="false")
+      .facebook-login
+        a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+          img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false")
 
   // In reverse order for tabbing purposes
   .history-nav-buttons
