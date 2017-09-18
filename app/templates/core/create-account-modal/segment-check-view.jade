@@ -20,7 +20,10 @@ form.modal-body.segment-check
             br
             span.classroom-name= view.classroom.get('name')
             br
-            span.teacher-name= view.classroom.owner.get('name')
+            if view.classroom.owner.get('firstName')
+              span.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+            else if view.classroom.owner.get('name')
+              span.teacher-name= view.classroom.owner.get('name')
           else
             span(data-i18n="signup.classroom_not_found")
           if _.isEmpty(view.signupState.get('classCode')) || !state.get('classCodeValid')

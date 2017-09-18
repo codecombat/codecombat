@@ -19,10 +19,24 @@ SetupAccountPanel = Vue.extend
       @saving = false
   methods:
     clickFinish: ->
-      # Make sure to add conditions if we change this to be used on non-teacher path
-      window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Finish Clicked', category: 'Teachers'
-      application.router.navigate('teachers/classes', {trigger: true})
-      document.location.reload()
+      # Save annoucements subscribe info
+      me.fetch(cache: false)
+      .then =>
+        emails = _.assign({}, me.get('emails'))
+        emails.generalNews ?= {}
+        emails.generalNews.enabled = $('#subscribe-input').is(':checked')
+        me.set('emails', emails)
+        jqxhr = me.save()
+        if not jqxhr
+          console.error(me.validationError)
+          throw new Error('Could not save user')
+        new Promise(jqxhr.then)
+        .then =>
+          # Make sure to add conditions if we change this to be used on non-teacher path
+          window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Finish Clicked', category: 'Teachers'
+          application.router.navigate('teachers/classes', {trigger: true})
+          document.location.reload()
+
     clickBack: ->
       window.tracker?.trackEvent 'CreateAccountModal Teacher SetupAccountPanel Back Clicked', category: 'Teachers'
       @$emit('back')
