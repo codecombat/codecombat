@@ -220,7 +220,7 @@ module.exports = class BasicInfoView extends CocoView
       # update User
       emails = _.assign({}, me.get('emails'))
       emails.generalNews ?= {}
-      emails.generalNews.enabled = @$('#subscribe-input').is(':checked') and not _.isEmpty(@state.get('checkEmailValue'))
+      emails.generalNews.enabled = not _.isEmpty(@state.get('checkEmailValue'))
       me.set('emails', emails)
       me.set(_.pick(data, 'firstName', 'lastName'))
 
