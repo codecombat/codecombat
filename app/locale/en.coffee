@@ -920,6 +920,8 @@
     lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
+    david_title: "Customer Success Manager"
+    jane_title: "Partnership Associate"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
