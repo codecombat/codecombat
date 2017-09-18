@@ -1,4 +1,4 @@
-# dynamicRequire = require('lib/dynamicRequire')
+dynamicRequire = require('lib/dynamicRequire')
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
@@ -247,9 +247,10 @@ module.exports = class CocoRouter extends Backbone.Router
       path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
-    console.log path
-    require("bundle-loader?lazy!" + path)((ViewClass) =>
-    # require("bundle-loader?lazy!views/HomeView")((ViewClass) =>
+    # path = path.replace(/^views\//,'') # TODO: Resolve these two lines with bundle-loader
+    # # This implicitly creates a separate bundle for each file in views/
+    # require("bundle-loader?lazy!views/" + path)((ViewClass) =>
+    dynamicRequire(path).then (ViewClass) =>
       console.log "Got a thing?", ViewClass
       # if not ViewClass and application.moduleLoader.load(path)
       #   @listenToOnce application.moduleLoader, 'load-complete', ->
@@ -268,9 +269,8 @@ module.exports = class CocoRouter extends Backbone.Router
     
       @viewLoad.setView(view)
       @viewLoad.record()
-    )
-    # .catch (err) ->
-    #   console.log err
+    .catch (err) ->
+      console.log err
 
   redirectHome: ->
     delete window.alreadyLoadedView
@@ -349,12 +349,15 @@ module.exports = class CocoRouter extends Backbone.Router
   onNavigate: (e, recursive=false) ->
     @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
-      ViewClass = @tryToLoadModule e.viewClass
-      if not ViewClass and application.moduleLoader.load(e.viewClass)
-        @listenToOnce application.moduleLoader, 'load-complete', ->
-          @onNavigate(e, true)
-        return
-      e.viewClass = ViewClass
+      dynamicRequire(e.viewClass).then (viewClass) =>
+        @onNavigate(_.assign({}, e, {viewClass}), true)
+      return
+      # ViewClass = @tryToLoadModule e.viewClass
+      # if not ViewClass and application.moduleLoader.load(e.viewClass)
+      #   @listenToOnce application.moduleLoader, 'load-complete', ->
+      #     @onNavigate(e, true)
+      #   return
+      # e.viewClass = ViewClass
 
     manualView = e.view or e.viewClass
     if (e.route is document.location.pathname) and not manualView

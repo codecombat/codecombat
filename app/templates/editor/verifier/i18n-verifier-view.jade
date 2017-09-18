@@ -8,7 +8,7 @@
   div(v-if="showCampaigns")
     a(v-for="campaign in campaigns"
       @click="selectedCampaign = campaign")
-      {{ campaign.name }}
+      | {{ campaign.name }}
       =", "
   button(@click="showLevels = !showLevels", :disabled="!selectedCampaign")
     | Toggle levels
@@ -20,7 +20,7 @@
       | Select All
     span(v-for="level in selectedCampaign.levelsArray")
       label
-        {{ level.name }} {{ selectedLevelSlugs.indexOf(level.slug) > -1 }}
+        | {{ level.name }} {{ selectedLevelSlugs.indexOf(level.slug) > -1 }}
         input(type="checkbox",
           :value="level.slug"
           v-model="selectedLevelSlugs")
@@ -81,11 +81,11 @@
        v-bind:style="{ backgroundColor: color(problem) }")
       td {{ problem[messageOrHint] }}
       td(v-if="showTranslated")
-        {{ problem.translated }}
+        | {{ problem.translated }}
       td(v-if="showUntranslated")
-        {{ problem.trimmed }}
+        | {{ problem.trimmed }}
       td(v-if="typeof problem.trimmed === 'string'")
-        {{ problem.trimmed.length }}
+        | {{ problem.trimmed.length }}
       td(v-else)
         | ???
       td {{ percentDifference(problem) }}%

@@ -16,7 +16,7 @@ style.
     -khtml-user-select: none;
     -webkit-user-select: none;
     -o-user-select: none;
-  } 
+  }
 
   @media print {
     a[href]:after {
@@ -47,18 +47,21 @@ div.style-flat
           | #{view.options.endDate}
 
   div.address
-    p 
+    p
       b= view.options.schoolName
       if view.options.schoolAddress
-        span, #{view.options.schoolAddress}
+        span
+          |, #{view.options.schoolAddress}
+          //- TODO webpack: make sure this doesn't add a space
+          
       br
-      b Teacher: 
+      b Teacher:
       if view.options.teacher.fullName
         | #{view.options.teacher.fullName} (#{view.options.teacher.email})
       else
         | #{view.options.teacher.email}
-    p.clear-both 
-      b Account Manager: 
+    p.clear-both
+      b Account Manager:
       | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
 
   div.block
@@ -145,5 +148,5 @@ div.style-flat
     div.bottom
       p Have question or want more information? We'd be happy to help.
       p
-        | Reach out your Account Manager at 
-        a(href="mailto:" + view.options.accountManager.email)= view.options.accountManager.email 
+        | Reach out your Account Manager at
+        a(href="mailto:" + view.options.accountManager.email)= view.options.accountManager.email

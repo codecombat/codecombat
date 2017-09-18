@@ -18,7 +18,7 @@ module.exports =
     console.log "Loading locale:", langCode
     promises = [
       new Promise (accept, reject) ->
-        require('bundle-loader?lazy!locale/'+langCode)((localeData) -> accept(localeData))
+        require('bundle-loader?lazy&name=[name]!locale/'+langCode)((localeData) -> accept(localeData))
       .then (localeData) =>
         @[langCode] = localeData
         store.commit('addLocaleLoaded', langCode)
@@ -27,7 +27,7 @@ module.exports =
     firstBit = langCode[...2]
     if (firstBit isnt langCode) and @[firstBit]?
       promises.push(new Promise (accept, reject) ->
-        require('bundle-loader?lazy!locale/'+firstBit)((localeData) -> accept(localeData))
+        require('bundle-loader?lazy&name=locale/[name]!locale/'+firstBit)((localeData) -> accept(localeData))
       .then (localeData) =>
         @[firstBit] = localeData
         store.commit('addLocaleLoaded', firstBit)

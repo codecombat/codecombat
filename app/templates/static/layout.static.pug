@@ -29,8 +29,8 @@ html(lang='en')
       "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
       // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
     // script(src='/' +  shaTag + '/javascripts/vendor.js', defer='')
-    script(src='/' + shaTag + '/javascripts/app.js', defer='')
-    //- script(src='/javascripts/app.js', defer='')
+    //- script(src='/' + shaTag + '/javascripts/567.js', defer='')
+    script(src='/javascripts/app.js', defer='')
     script(src='/user-data?sha=' + shaTag)
     // Google Analytics
     script.

@@ -1,4 +1,4 @@
-# require 'aether'
+require 'bower_components/aether/build/aether.js' # TODO webpack: Figure out aether build
 # require 'esper.js'
 
 utils = require 'core/utils'
