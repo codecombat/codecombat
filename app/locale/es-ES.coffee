@@ -49,13 +49,13 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     setup_a_class: "Configurar una clase"
     have_an_account: "¿Tienes una cuenta?"
     logged_in_as: "En este momento, has iniciado sesión como"
-    computer_science: "Cursos de informática para todas las edades"
+    computer_science: "Cursos de informática para todas las edades" # {change}
     show_me_lesson_time: "Muéstrame las estimaciones de tiempo de lección para:"
     curriculum: "Horario total del plan de estudios:"
     ffa: "Gratis para todos los estudiantes"
     lesson_time: "Tiempo de la lección:"
     coming_soon: "¡Más muy pronto!"
-    courses_available_in: "Los cursos están disponibles en JavaScript y Python. Los cursos de Desarrollo Web utilizan HTML, CSS, jQuery y Bootstrap."
+    courses_available_in: "Los cursos están disponibles en JavaScript y Python. Los cursos de Desarrollo Web utilizan HTML, CSS, jQuery y Bootstrap." # {change}
     boast: "Cuenta con acertijos lo suficiente complejos como para fascinar a jugadores y programadores por igual."
     winning: "Una combinación ganadora entre un juego de rol y una tarea sobre programación que hacen la educación amigable y disfrutable para los niños."
     run_class: "Todo lo que necesitas para organizar una clase de informática en tu escuela hoy mismo, sin necesidad de ningún conocimiento previo de informática."
@@ -241,7 +241,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     login_switch: "¿Ya tienes una cuenta?"
     school_name: "Nombre de la escuela y Ciudad"
     optional: "opcional"
-    school_name_placeholder: "Ejemplo: High School, Springfield, IL"    
+    school_name_placeholder: "Ejemplo: High School, Springfield, IL"
     connected_gplus_header: "¡Te has conectado con éxito con Google+!"
     connected_gplus_p: "Termina el registro para poder iniciar sesión con su cuenta de Google+."
     gplus_exists: "¡Ya tienes una cuenta asociada a Google+!"
@@ -328,6 +328,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    default_code: "Default Code"
     loading: "Cargando..."
 #    overview: "Overview"
+#    processing: "Processing..."
 #    solution: "Solution"
 #    table_of_contents: "Table of Contents"
 #    intro: "Intro"
@@ -341,7 +342,6 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     create: "Crear"
     fork: "Bifurcar"
     play: "Jugar" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Reintentar"
     actions: "Acciones"
     info: "Información"
@@ -651,6 +651,8 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     prompt_body: "¡Sigue jugando para ganar más!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "¡Mejora tus habilidades con una suscripción a CodeCombat!" # {change}
@@ -707,14 +709,15 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
     unsubscribing: "Dando de baja..." # {change}
     subscribe_prepaid: "Haz clic en Suscríbete para utilizar un código de prepago"
     using_prepaid: "Utilizando código de prepago para suscripción mensual"
-#    feature_levels: "Access __premiumLevelsCount__ levels available"
+#    feature_levels: "Access 300+ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
-#    feature_heroes: "Unlock exclusive heroes"
+#    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_games: "Make games for your friends"
 #    feature_websites: "Build websites and apps"
 #    feature_items: "Equip more powerful items"
-#    month_price: "$__price__/mo"
-#    lifetime: "Lifetime Subscription"
+#    feature_learn: "Learn to make games and websites" # {change}
+#    month_price: "$__price__"
+#    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
 #    year_subscription: "Yearly Subscription"
 #    year_price: "$__price__/year"
@@ -723,9 +726,10 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -775,6 +779,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
 #    subscribe_now: "Subscribe Now"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -978,7 +983,7 @@ module.exports = nativeDescription: "español (ES)", englishDescription: "Spanis
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"

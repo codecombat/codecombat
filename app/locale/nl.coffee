@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel." # {change}
     our_courses: "Onze lessen zijn specifiek ontwikkeld voor een klasomgeving, zelfs voor leraren zonder programmeerervaring." # {change}
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Leerlingen schrijven code en zien direct resultaat."
     designed_with: "Gemaakt voor leraren"
     real_code: "Echte, getypte code"
@@ -48,7 +49,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     setup_a_class: "Maak een klas aan"
     have_an_account: "Heb je al een account?" # {change}
     logged_in_as: "Je bent ingelogd als"
-    computer_science: "Informatica lessen voor alle leeftijden"
+    computer_science: "Informatica lessen voor alle leeftijden" # {change}
     show_me_lesson_time: "Geef geschatte lesduur weer:"
     curriculum: "Totaal aantal lesuren:"
     ffa: "Gratis voor alle leerlingen"
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     default_code: "Standaard Code"
     loading: "Bezig met laden..."
     overview: "Overzicht"
+#    processing: "Processing..."
     solution: "Oplossing"
 #    table_of_contents: "Table of Contents"
     intro: "Intro"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create: "Creëer"
     fork: "Fork"
     play: "Spelen" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Probeer opnieuw"
     actions: "Acties"
     info: "Info"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!" # {change}
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unsubscribing: "Uitschrijven..." # {change}
     subscribe_prepaid: "Klik op inschrijven om een prepaidcode te gebruiken."
     using_prepaid: "Prepaidcode gebruiken voor maandelijkse inschrijving."
-    feature_levels: "Krijg toegang tot __premiumLevelsCount__ beschikbare levels"
+    feature_levels: "Krijg toegang tot __premiumLevelsCount__ beschikbare levels" # {change}
     feature_gems: "Ontvang __gems__ edelstenen per maand"
-    feature_heroes: "Krijg toegang tot speciale helden"
+    feature_heroes: "Krijg toegang tot speciale helden" # {change}
     feature_games: "Maak spellen voor je vrienden"
     feature_websites: "Bouw websites en apps"
     feature_items: "Gebruik krachtigere items"
-    month_price: "$__price__/mo"
-    lifetime: "Levenslang abonnement"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/mo" # {change}
+    lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Jaarlijks abonnement"
     year_price: "$__price__/year"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     support_part1: "Hulp nodig met betalingsopties? Email"
     support_part2: "support@codecombat.com"
     support_part3: "als je vragen hebt."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Word een Mesteer Coder door je vandaag te abonneren!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Abonneer nu"
     hero_blurb_1: "Krijg toegang tot __premiumHeroesCount__ supersterke helden, alleen voor abonnees! Gebruik de epische kracht van Okar Stompfoot, de dodelijke precisie van Naria of the Leaf, of roep \"schattige\" skeletten op met Nalfar Cryptor."
     hero_blurb_2: "Premium helden hebben ongelofelijke vecht skills zoals Warcry, Stomp, en Hurl Enemy. Of, speel als Ranger met pijl en boog, werpmessen en vallen! Test je vaardigheden als echte codeermeester en gebruik een arsenaal vam Primordial, Necromantic og Elemental magie!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     project_based_title: "Project-Georienteerde Cursussen"
     project_based_description: "Web en Game Ontwikkeling cursussen hebben deelbare eindprojecten."
     great_for_clubs_title: "Leuk voor clubjes en keuzevakken"
-    great_for_clubs_description: "Leraren kunnen tot __maxQuantityStarterLicenses__ Starter Licenties kopen per jaar."
+    great_for_clubs_description: "Leraren kunnen tot __maxQuantityStarterLicenses__ Starter Licenties kopen per jaar." #{change}
     low_price_title: "Maar __starterLicensePrice__ per leerling"
     low_price_description: "Starter Licenties zijn __starterLicenseLengthMonths__ maanden geldig na aankoop."
     three_great_courses: "Drie geweldige cursussen in de Starter Licentie:"

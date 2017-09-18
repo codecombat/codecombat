@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     classroom_in_a_box: "Uma sala de aula num pacote para ensinar ciências da computação."
     codecombat_is: "O CodeCombat é uma plataforma <strong>para estudantes</strong> para aprender ciências da computação enquanto se joga um jogo real."
     our_courses: "Os nossos cursos foram especificamente testados para <strong>terem sucesso na sala de aula</strong>, até para professores com pouca ou nenhuma experiência anterior de programação."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Os estudantes escrevem código e veem as alterações deles atualizarem em tempo real"
     designed_with: "Desenhado a pensar nos professores"
     real_code: "Código real e escrito"
@@ -48,13 +49,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    setup_a_class: "Set Up a Class"
     have_an_account: "Tens uma conta?"
     logged_in_as: "Atualmente tens sessão iniciada como"
-    computer_science: "Cursos de ciências da computação para todas as idades"
+    computer_science: "Cursos de ciências da computação para todas as idades" # {change}
     show_me_lesson_time: "Mostrar estimativas do tempo de aula para:"
     curriculum: "Horas totais do currículo:"
     ffa: "Grátis para todos os estudantes"
     lesson_time: "Tempo de aula:"
     coming_soon: "Mais, brevemente!"
-    courses_available_in: "Os cursos estão disponíveis em JavaScript e Python. Os cursos de Desenvolvimento Web utilizam HTML, CSS, jQuery e Bootstrap."
+    courses_available_in: "Os cursos estão disponíveis em JavaScript e Python. Os cursos de Desenvolvimento Web utilizam HTML, CSS, jQuery e Bootstrap." # {change}
 #    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class: "Tudo o que precisas para teres uma turma de ciências da computação na tua escola hoje, sem serem necessárias bases de CC."
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     default_code: "Código Original"
     loading: "A Carregar..."
     overview: "Visão Geral"
+#    processing: "Processing..."
     solution: "Solução"
 #    table_of_contents: "Table of Contents"
     intro: "Introdução"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     create: "Criar"
     fork: "Bifurcar"
     play: "Jogar" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Tentar Novamente"
     actions: "Ações"
     info: "Informações"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat 'Premium'"
     comparison_blurb: "Torna-te um Programador Mestre - subscreve-te ao <b>'Premium'</b> hoje!"
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unsubscribing: "A Cancelar a Subscrição"
     subscribe_prepaid: "Clica em Subscrever para usares um código pré-pago"
     using_prepaid: "A usar um código pré-pago para a subscrição mensal"
-    feature_levels: "Acede a __premiumLevelsCount__ níveis disponíveis"
+    feature_levels: "Acede a __premiumLevelsCount__ níveis disponíveis" # {change}
     feature_gems: "Recebe __gems__ gemas por mês"
-    feature_heroes: "Desbloqueia heróis exclusivos"
+    feature_heroes: "Desbloqueia heróis exclusivos" # {change}
     feature_games: "Cria jogos para os teus amigos"
     feature_websites: "Constrói websites e aplicações"
     feature_items: "Equipa itens mais poderosos"
-    month_price: "$__price__/mês"
-    lifetime: "Subscrição Vitalícia"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/mês" # {change}
+    lifetime: "Subscrição Vitalícia" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Subscrição Anual"
     year_price: "$__price__/ano"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     support_part1: "Precisas de ajuda com as opções de pagamento? Envia um e-mail para"
     support_part2: "support@codecombat.com"
     support_part3: "se tiveres alguma questão."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
 #    subscribe_now: "Subscribe Now"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"

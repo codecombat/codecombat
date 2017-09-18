@@ -4,6 +4,7 @@ GitHubHandler = require 'core/social-handlers/GitHubHandler'
 ModuleLoader = require 'core/ModuleLoader'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
+storage = require 'core/storage'
 Tracker = require 'core/Tracker'
 CocoModel = require 'models/CocoModel'
 api = require 'core/api'
@@ -135,6 +136,9 @@ Application = {
   }
       
   loadedStaticPage: window.alreadyLoadedView?
+  
+  onHocPage: ->
+    return storage.load('should-return-to-game-dev-hoc')
   
 }
 

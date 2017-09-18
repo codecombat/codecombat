@@ -605,7 +605,7 @@ module.exports = class InventoryModal extends ModalView
     affordable = item.affordable
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless me.freeOnly()
+      @askToBuyGems button unless me.freeOnly() or application.onHocPage()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)

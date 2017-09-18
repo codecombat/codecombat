@@ -49,13 +49,13 @@
     setup_a_class: "Set Up a Class"
     have_an_account: "Have an account?"
     logged_in_as: "You are currently logged in as"
-    computer_science: "Our self-paced courses cover basic syntax to advanced concepts" # {change}
+    computer_science: "Our self-paced courses cover basic syntax to advanced concepts"
     show_me_lesson_time: "Show me lesson time estimates for:"
     curriculum: "Total curriculum hours:"
     ffa: "Free for all students"
     lesson_time: "Lesson time:"
     coming_soon: "More coming soon!"
-    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery." # {change}
+    courses_available_in: "Courses are available in JavaScript and Python. Web Development courses utilize HTML, CSS, and jQuery."
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
     winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class:"Everything you need to run a computer science class in your school today, no CS background required."
@@ -234,6 +234,7 @@
     create_teacher_header: "Create Teacher Account"
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
+    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"
     log_in: "log in with password"
@@ -709,15 +710,15 @@
     unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
-    feature_levels: "Access 300+ levels available" # {change}
+    feature_levels: "Access 300+ levels available"
     feature_gems: "Receive __gems__ gems per month"
-    feature_heroes: "Unlock exclusive heroes and pets" # {change}
+    feature_heroes: "Unlock exclusive heroes and pets"
     feature_games: "Make games for your friends"
     feature_websites: "Build websites and apps"
     feature_items: "Equip more powerful items"
-    feature_learn: "Learn to make games and websites" # {change}
-    month_price: "$__price__" # {change}
-    lifetime: "Lifetime Access" # {change}
+    feature_learn: "Learn to make games and websites"
+    month_price: "$__price__"
+    lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Yearly Subscription"
     year_price: "$__price__/year"
@@ -729,7 +730,7 @@
     you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
     you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-    you_will_be_charged: "You will be charged $__priceString__" # {change}
+    you_will_be_charged: "You will be charged $__priceString__"
     choose_payment_method: "Choose Payment Method"
     pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
     paypal_payment_error: "We encountered an error while charging PayPal."
@@ -920,6 +921,8 @@
     lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
+    david_title: "Customer Success Manager"
+    jane_title: "Partnership Associate"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
@@ -983,7 +986,7 @@
     project_based_title: "Project-Based Courses"
     project_based_description: "Web and Game Development courses feature shareable final projects."
     great_for_clubs_title: "Great for clubs and electives"
-    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #{change}
+    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
     low_price_title: "Just __starterLicensePrice__ per student"
     low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
     three_great_courses: "Three great courses included in the Starter License:"
@@ -1046,7 +1049,7 @@
     city: "City"
     state: "State"
     country: "Country"
-    num_students_help: "How many students do you anticipate using CodeCombat with?"
+    num_students_help: "How many students will use CodeCombat?" # {change}
     num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
@@ -1057,7 +1060,15 @@
     college_plus: "College or higher"
     referrer: "How did you hear about us?"
     referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
-    anything_else: "Anything else we should know?"
+    referrer_default: "Select One"
+    referrer_hoc: "Code.org/Hour of Code"
+    referrer_teacher: "A teacher"
+    referrer_admin: "An administrator"
+    referrer_student: "A student"
+    referrer_pd: "Professional trainings/workshops"
+    referrer_web: "Google"
+    referrer_other: "Other"
+    anything_else: "What kind of class do you anticipate using CodeCombat for?" # {change}
     thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"

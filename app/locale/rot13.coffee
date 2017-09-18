@@ -9,7 +9,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     learn_more: "Yrnea zber"
     classroom_in_a_box: "N pynffebbz va-n-obk sbe grnpuvat pbzchgre fpvrapr."
     codecombat_is: "PbqrPbzong vf n cyngsbez <fgebat>sbe fghqragf</fgebat> gb yrnea pbzchgre fpvrapr juvyr cynlvat guebhtu n erny tnzr."
-    our_courses: "Bhe pbhefrf unir orra fcrpvsvpnyyl cynlgrfgrq <fgebat>gb rkpry va gur pynffebbz</fgebat>, rira ol grnpuref jvgu yvggyr gb ab cevbe cebtenzzvat rkcrevrapr."
+    our_courses: "Bhe pbhefrf unir orra fcrpvsvpnyyl cynlgrfgrq <fgebat>gb rkpry va gur pynffebbz</fgebat>, rira sbe grnpuref jvgu yvggyr gb ab cevbe cebtenzzvat rkcrevrapr."
+    watch_how: "Jngpu ubj PbqrPbzong vf genafsbezvat gur jnl crbcyr yrnea pbzchgre fpvrapr."
     top_screenshots_hint: "Fghqragf jevgr pbqr naq frr gurve punatrf hcqngr va erny-gvzr"
     designed_with: "Qrfvtarq jvgu grnpuref va zvaq"
     real_code: "Erny, glcrq pbqr"
@@ -48,13 +49,13 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     setup_a_class: "Frg Hc n Pynff"
     have_an_account: "Unir na nppbhag?"
     logged_in_as: "Lbh ner pheeragyl ybttrq va nf"
-    computer_science: "Pbzchgre fpvrapr pbhefrf sbe nyy ntrf"
+    computer_science: "Bhe frys-cnprq pbhefrf pbire onfvp flagnk gb nqinaprq pbaprcgf" # {punatr}
     show_me_lesson_time: "Fubj zr yrffba gvzr rfgvzngrf sbe:"
     curriculum: "Gbgny pheevphyhz ubhef:"
     ffa: "Serr sbe nyy fghqragf"
     lesson_time: "Yrffba gvzr:"
     coming_soon: "Zber pbzvat fbba!"
-    courses_available_in: "Pbhefrf ner ninvynoyr va WninFpevcg naq Clguba. Jro Qrirybczrag pbhefrf hgvyvmr UGZY, PFF, wDhrel, naq Obbgfgenc."
+    courses_available_in: "Pbhefrf ner ninvynoyr va WninFpevcg naq Clguba. Jro Qrirybczrag pbhefrf hgvyvmr UGZY, PFF, naq wDhrel." # {punatr}
     boast: "Obnfgf evqqyrf gung ner pbzcyrk rabhtu gb snfpvangr tnzref naq pbqref nyvxr."
     winning: "N jvaavat pbzovangvba bs ECT tnzrcynl naq cebtenzzvat ubzrjbex gung chyyf bss znxvat xvq-sevraqyl rqhpngvba yrtvgvzngryl rawblnoyr."
     run_class:"Rirelguvat lbh arrq gb eha n pbzchgre fpvrapr pynff va lbhe fpubby gbqnl, ab PF onpxtebhaq erdhverq."
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     default_code: "Qrsnhyg Pbqr"
     loading: "Ybnqvat..."
     overview: "Bireivrj"
+    processing: "Cebprffvat..."
     solution: "Fbyhgvba"
     table_of_contents: "Gnoyr bs Pbagragf"
     intro: "Vageb"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     create: "Perngr"
     fork: "Sbex"
     play: "Cynl"  # Jura hfrq nf na npgvba ireo, yvxr "Cynl arkg yriry"
-    subscribe_to_play: "Fhofpevor gb Cynl"
     retry: "Ergel"
     actions: "Npgvbaf"
     info: "Vasb"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     prompt_body: "Xrrc cynlvat gb rnea zber!"
 
   subscribe:
+    best_deal: "Orfg Qrny!"
+    confirmation: "Pbatenghyngvbaf! Lbh abj unir n PbqrPbzong Cerzvhz Fhofpevcgvba!"
     premium_already_subscribed: "Lbh'er nyernql fhofpevorq gb Cerzvhz!"
     subscribe_modal_title: "PbqrPbzong Cerzvhz"
     comparison_blurb: "Orpbzr n Znfgre Pbqre - fhofpevor gb <o>Cerzvhz</o> gbqnl!"
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     unsubscribing: "Hafhofpevovat"
     subscribe_prepaid: "Pyvpx Fhofpevor gb hfr cercnvq pbqr"
     using_prepaid: "Hfvat cercnvq pbqr sbe zbaguyl fhofpevcgvba"
-    feature_levels: "Npprff __cerzvhzYriryfPbhag__ yriryf ninvynoyr"
+    feature_levels: "Npprff 300+ yriryf ninvynoyr" # {punatr}
     feature_gems: "Erprvir __trzf__ trzf cre zbagu"
-    feature_heroes: "Haybpx rkpyhfvir urebrf"
+    feature_heroes: "Haybpx rkpyhfvir urebrf naq crgf" # {punatr}
     feature_games: "Znxr tnzrf sbe lbhe sevraqf"
     feature_websites: "Ohvyq jrofvgrf naq nccf"
     feature_items: "Rdhvc zber cbjreshy vgrzf"
-    month_price: "$__cevpr__/zb"
-    lifetime: "Yvsrgvzr Fhofpevcgvba"
+    feature_learn: "Yrnea gb znxr tnzrf naq jrofvgrf" # {punatr}
+    month_price: "$__cevpr__" # {punatr}
+    lifetime: "Yvsrgvzr Npprff" # {punatr}
     lifetime_price: "$__cevpr__"
     year_subscription: "Lrneyl Fhofpevcgvba"
     year_price: "$__cevpr__/lrne"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     support_part1: "Arrq uryc jvgu cnlzrag bcgvbaf? Rznvy"
     support_part2: "fhccbeg@pbqrpbzong.pbz"
     support_part3: "vs lbh unir nal dhrfgvbaf."
+    you_are_purchasing_monthly_sub: "Lbh'er chepunfvat n Zbaguyl Cerzvhz Fhofpevcgvba!"
     you_are_purchasing_year_sub: "Lbh'er chepunfvat n Lrneyl Cerzvhz Fhofpevcgvba!"
     you_are_purchasing_lifetime_sub: "Lbh'er chepunfvat n Yvsrgvzr Cerzvhz Fhofpevcgvba!"
-    you_will_be_charged: "Lbh jvyy or punetrq $__cevprFgevat__ bar gvzr."
+    you_will_be_charged: "Lbh jvyy or punetrq $__cevprFgevat__" # {punatr}
     choose_payment_method: "Pubbfr Cnlzrag Zrgubq"
     pay_with_credit_card_or_bitcoin: "Cnl jvgu Perqvg Pneq / Ovgpbva"
     paypal_payment_error: "Jr rapbhagrerq na reebe juvyr punetvat CnlCny."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   premium_features:
     get_premium: "Trg<oe>PbqrPbzong<oe>Cerzvhz" # Svg vagb gur onaare ba gur /srngherf cntr
     master_coder: "Orpbzr n Znfgre Pbqre ol fhofpevovat gbqnl!"
+    paypal_redirect: "Lbh jvyy or erqverpgrq gb CnlCny gb pbzcyrgr gur fhofpevcgvba cebprff."
     subscribe_now: "Fhofpevor Abj"
     hero_blurb_1: "Trg npprff gb __cerzvhzUrebrfPbhag__ fhcre-punetrq fhofpevore-bayl urebrf! Unearff gur hafgbccnoyr cbjre bs Bxne Fgbzcsbbg, gur qrnqyl cerpvfvba bs Anevn bs gur Yrns, be fhzzba \"nqbenoyr\" fxryrgbaf jvgu Anysne Pelcgbe."
     hero_blurb_2: "Cerzvhz Jneevbef haybpx fghaavat znegvny fxvyyf yvxr Jnepel, Fgbzc, naq Uhey Rarzl. Be, cynl nf n Enatre, hfvat fgrnygu naq objf, guebjvat xavirf, gencf! Gel lbhe fxvyy nf n gehr pbqvat Jvmneq, naq hayrnfu n cbjreshy neenl bs Cevzbeqvny, Arpebznagvp be Ryrzragny zntvp!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     project_based_title: "Cebwrpg-Onfrq Pbhefrf"
     project_based_description: "Jro naq Tnzr Qrirybczrag pbhefrf srngher funernoyr svany cebwrpgf."
     great_for_clubs_title: "Terng sbe pyhof naq ryrpgvirf"
-    great_for_clubs_description: "Grnpuref pna chepunfr hc gb __znkDhnagvglFgnegreYvprafrf__ Fgnegre Yvprafrf cre lrne."
+    great_for_clubs_description: "Grnpuref pna chepunfr hc gb __znkDhnagvglFgnegreYvprafrf__ Fgnegre Yvprafrf." #{punatr}
     low_price_title: "Whfg __fgnegreYvprafrCevpr__ cre fghqrag"
     low_price_description: "Fgnegre Yvprafrf ner npgvir sbe __fgnegreYvprafrYratguZbaguf__ zbaguf sebz chepunfr."
     three_great_courses: "Guerr terng pbhefrf vapyhqrq va gur Fgnegre Yvprafr:"

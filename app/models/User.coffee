@@ -210,6 +210,7 @@ module.exports = class User extends CocoModel
     return me.get('testGroupNumber') % numVideos
 
   hasSubscription: ->
+    return false if me.isStudent() or me.isTeacher()
     if payPal = @get('payPal')
       return true if payPal.billingAgreementID
     if stripe = @get('stripe')

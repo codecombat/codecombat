@@ -168,8 +168,8 @@ module.exports.setup = (app) ->
   LevelSession = require '../models/LevelSession'
   app.post('/queue/scoring', mw.levelSessions.submitToLadder) # TODO: Rename to /db/level_session/:handle/submit-to-ladder
   app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
-  app.put('/db/level.session/:handle/key-value-db/:key', mw.auth.checkLoggedIn(), mw.levelSessions.putKeyValueDb)
-  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.auth.checkLoggedIn(), mw.levelSessions.incrementKeyValueDb)
+  app.put('/db/level.session/:handle/key-value-db/:key', mw.levelSessions.putKeyValueDb)
+  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.levelSessions.incrementKeyValueDb)
 
 
   LevelSystem = require '../models/LevelSystem'

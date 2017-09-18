@@ -10,6 +10,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     classroom_in_a_box: "Une classe tout-inclus pour enseigner l'informatique."
     codecombat_is: "CodeCombat est une plateforme <strong>pour les étudiants</strong> afin d'apprendre l'informatique tout en jouant."
     our_courses: "Nos cours ont été testés spécifiquement pour <strong>exceller en classe</strong>, même si les enseignants ont peu ou pas d'expérience en programmation."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Les étudiants écrivent du code et voient leurs changements s'appliquer en temps-réel"
     designed_with: "Concu en pensant aux enseignants"
     real_code: "Vrai code entré au clavier"
@@ -48,7 +49,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     setup_a_class: "Mettre en place une classe"
     have_an_account: "Avez-vous un compte?"
     logged_in_as: "Vous êtes présentement enregistré en tant que"
-    computer_science: "Des cours d'informatique pour tous âges"
+    computer_science: "Des cours d'informatique pour tous âges" # {change}
     show_me_lesson_time: "Montrez-moi des estimés de temps de cours pour:"
     curriculum: "Total des heures du curriculum:"
     ffa: "Gratuis pour tous les étudiants"
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     default_code: "Code par défaut"
     loading: "Chargement..."
     overview: "Vue d'ensemble"
+#    processing: "Processing..."
     solution: "Solution"
 #    table_of_contents: "Table of Contents"
     intro: "Intro"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     create: "Créer"
     fork: "Répliquer"
     play: "Jouer" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Réessayer"
     actions: "Actions"
     info: "Info"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Aiguisez vos compétences avec un abonnement CodeCombat !" # {change}
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     unsubscribing: "Desincription en cours..." # {change}
     subscribe_prepaid: "Cliquer S'abonner pour utiliser du code prépayé"
     using_prepaid: "Utiliser le code prépayé pour un abonnement mensuel"
-#    feature_levels: "Access __premiumLevelsCount__ levels available"
+#    feature_levels: "Access 300+ levels available"
 #    feature_gems: "Receive __gems__ gems per month"
-#    feature_heroes: "Unlock exclusive heroes"
+#    feature_heroes: "Unlock exclusive heroes and pets"
 #    feature_games: "Make games for your friends"
 #    feature_websites: "Build websites and apps"
 #    feature_items: "Equip more powerful items"
-#    month_price: "$__price__/mo"
-#    lifetime: "Lifetime Subscription"
+#    feature_learn: "Learn to make games and websites" # {change}
+#    month_price: "$__price__"
+#    lifetime: "Lifetime Access"
 #    lifetime_price: "$__price__"
 #    year_subscription: "Yearly Subscription"
 #    year_price: "$__price__/year"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    support_part1: "Need help with payment options? Email"
 #    support_part2: "support@codecombat.com"
 #    support_part3: "if you have any questions."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #  premium_features:
 #    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
 #    master_coder: "Become a Master Coder by subscribing today!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
 #    subscribe_now: "Subscribe Now"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"

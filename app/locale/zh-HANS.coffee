@@ -10,6 +10,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     classroom_in_a_box: "教授计算机科学的一站式课堂。"
     codecombat_is: "CodeCombat是一个让<strong>学生</strong>通过玩游戏学习计算机科学的平台。"
     our_courses: "我们的游戏编程课程尤其<strong>适用于教室教学的需求</strong>。无编程经验的教师也可轻松授课。"
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "学生编写代码后可即时查看改动。"
     designed_with: "从教育者角度设计"
     real_code: "真实可行的代码"
@@ -48,7 +49,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     setup_a_class: "配置班级"
     have_an_account: "已有帐号？"
     logged_in_as: "您现在的登录身份："
-    computer_science: "适合全年龄段的计算机科学课程"
+    computer_science: "适合全年龄段的计算机科学课程" # {change}
     show_me_lesson_time: "显示估计课程时间："
     curriculum: "总计课程时间"
     ffa: "对所有学生免费"
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     default_code: "默认代码"
     loading: "读取中……"
     overview: "概览"
+#    processing: "Processing..."
     solution: "解法"
 #    table_of_contents: "Table of Contents"
     intro: "简介"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create: "创建"
     fork: "派生"
     play: "开始" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "重试"
     actions: "行为"
     info: "信息"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
@@ -706,13 +709,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     unsubscribing: "取消订阅中"
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
-    feature_levels: "可以解锁超过 __premiumLevelsCount__ 个关卡"
+    feature_levels: "可以解锁超过 __premiumLevelsCount__ 个关卡" # {change}
     feature_gems: "每月赠送 __gems__ 宝石"
-    feature_heroes: "解锁独家英雄"
+    feature_heroes: "解锁独家英雄" # {change}
     feature_games: "为你的朋友制作游戏"
     feature_websites: "构建网站和应用程序"
     feature_items: "装备更强大的物品"
-    month_price: "$__price__/月"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/月" # {change}
     lifetime: "终身订阅"
 #    lifetime_price: "$__price__"
     year_subscription: "年度订阅"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     support_part1: "付款时需要帮助? Email"
     support_part2: "support@codecombat.com"
     support_part3: "如果您有任何问题."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "您正在购买年度高级订阅!"
     you_are_purchasing_lifetime_sub: "您正在购买终身优惠订阅!"
-    you_will_be_charged: "您将被一次性收取 $__priceString__ ."
+    you_will_be_charged: "您将被一次性收取 $__priceString__ ." # {change}
     choose_payment_method: "选择付款方式"
     pay_with_credit_card_or_bitcoin: "用信用卡/比特币支付"
     paypal_payment_error: "PayPal收费时遇到错误."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   premium_features:
     get_premium: "获取<br>CodeCombat<br>高级订阅" # Fit into the banner on the /features page
     master_coder: "通过订阅成为编程高手!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "现在订阅"
     hero_blurb_1: "订阅后可使用 __premiumHeroesCount__ 个超级英雄,利用Okar Stompfoot不可阻挡的力量,叶之Naria的致命精度,或Nalfar Cryptor的\"可爱\"骷髅!"
     hero_blurb_2: "高级战士可解锁惊人的武术技能，如Warcry、Stomp和Hurl Enemy。 或者玩游侠,使用隐形和弓箭、飞刀、陷阱！尝试用你的技能作为一个真正的编码教学，释放一个强大的原力，死灵或元素魔法阵列！"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
-#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses per year."
+#    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
 #    low_price_title: "Just __starterLicensePrice__ per student"
 #    low_price_description: "Starter Licenses are active for __starterLicenseLengthMonths__ months from purchase."
 #    three_great_courses: "Three great courses included in the Starter License:"

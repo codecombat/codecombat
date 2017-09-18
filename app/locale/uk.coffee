@@ -10,6 +10,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     classroom_in_a_box: "Класна кімната \"з коробки\" для того, щоб навчати комп'ютерним наукам."
     codecombat_is: "CodeCombat - це платформа <strong>для учнів</strong>, створена, щоб опановувати комп'ютерні науки під час захоплюючої гри."
     our_courses: "Наша програма була протестована, щоб бути <strong>ефективною в класі</strong>, навіть для вчителів з мінімальним досвідом програмування."
+#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "Учні пишуть код і бачать усі зміни наживо"
     designed_with: "Зважаючи на потреби вчителя"
     real_code: "Справжній код"
@@ -48,13 +49,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     setup_a_class: "Налаштуйте клас"
     have_an_account: "Вже є акаунт?"
     logged_in_as: "Ви увійшли як"
-    computer_science: "Курси програмування для будь-якого віку"
+    computer_science: "Курси програмування для будь-якого віку" # {change}
     show_me_lesson_time: "Покажіть мені оцінку часу уроку для:"
     curriculum: "Загальна кількість годин навчального плану:"
     ffa: "Безкоштовно для всіх учнів"
     lesson_time: "Час уроку:"
     coming_soon: "Очікуйте скоро!"
-    courses_available_in: "Курси доступні на JavaScript, Python і Java (очікуйте скоро!). Курси веб програмування використовують HTML, CSS, jQuery та Bootstrap."
+    courses_available_in: "Курси доступні на JavaScript, Python і Java (очікуйте скоро!). Курси веб програмування використовують HTML, CSS, jQuery та Bootstrap." # {change}
     boast: "Цікаві задачі, достатньо складні щоб зачарувати як гравців, так і програмістів."
     winning: "Виграшна комбінація рольової гри та завдань з програмування дозволила зробити навчання одночасно захоплюючим, цікавим та підходящим для дітей."
     run_class: "Все, що вам необхідно, щоб сьогодні ж розпочати клас інформатики у вашій школі. Знання інформатики не обов'язкові!"
@@ -327,6 +328,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     default_code: "Код за замовчуванням"
     loading: "Завантаження..."
     overview: "Огляд"
+#    processing: "Processing..."
     solution: "Рішення"
 #    table_of_contents: "Table of Contents"
     intro: "Вступ"
@@ -340,7 +342,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     create: "Створити"
     fork: "Форк"
     play: "Грати" # When used as an action verb, like "Play next level"
-#    subscribe_to_play: "Subscribe to Play"
     retry: "Повтор"
     actions: "Дії"
     info: "Інформація"
@@ -650,6 +651,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
+#    best_deal: "Best Deal!"
+#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Преміум"
     comparison_blurb: "Стань майстром програмування - підпишись на <strong>Преміум</strong> сьогодні!"
@@ -706,14 +709,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unsubscribing: "Триває скасування підписки..."
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
-    feature_levels: "Отримай доступ до __premiumLevelsCount__ доступних рівнів"
+    feature_levels: "Отримай доступ до __premiumLevelsCount__ доступних рівнів" # {change}
     feature_gems: "Отримуй __gems__ самоцвітів щомісяця"
-    feature_heroes: "Розблокуй ексклюзивних героїв"
+    feature_heroes: "Розблокуй ексклюзивних героїв" # {change}
     feature_games: "Створюй ігри для своїх друзів"
     feature_websites: "Створюй вебсайти та програми"
     feature_items: "Здобувай могутніші речі"
-    month_price: "$__price__/міс"
-    lifetime: "Пожиттєва підписка"
+#    feature_learn: "Learn to make games and websites" # {change}
+    month_price: "$__price__/міс" # {change}
+    lifetime: "Пожиттєва підписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Річна підписка"
     year_price: "$__price__/рік"
@@ -722,9 +726,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     support_part1: "Потрібна допомога з опціями оплати? Напишіть на"
     support_part2: "support@codecombat.com"
     support_part3: "якщо у вас є які-небудь питання."
+#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__ one time."
+#    you_will_be_charged: "You will be charged $__priceString__"
 #    choose_payment_method: "Choose Payment Method"
 #    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
@@ -774,6 +779,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   premium_features:
     get_premium: "Отримайте<br>CodeCombat<br>Преміум" # Fit into the banner on the /features page
     master_coder: "Станьте майстром програмування придбавши підписку вже сьогодні!"
+#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
     subscribe_now: "Підписатися зараз"
 #    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
 #    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
@@ -977,7 +983,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     project_based_title: "Курси на основі проектів"
     project_based_description: "Закінчивши курси веб та гейм-розробки ви зможете поділитися кінцевими проектами."
     great_for_clubs_title: "Чудово підходить для клубів та факультативів"
-    great_for_clubs_description: "Вчителі можуть купити до __maxQuantityStarterLicenses__ початкових ліцензій на рік."
+    great_for_clubs_description: "Вчителі можуть купити до __maxQuantityStarterLicenses__ початкових ліцензій на рік." #{change}
     low_price_title: "Всього __starterLicensePrice__ на учня"
     low_price_description: "Початкова ліцензія активна напротязі __starterLicenseLengthMonths__ місяців від придбання."
     three_great_courses: "Три чудових курси включено до початкової ліцензії:"

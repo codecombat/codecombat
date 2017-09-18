@@ -73,6 +73,8 @@ module.exports = class ControlBarView extends CocoView
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
     else if @campaign
       @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
+    if application.onHocPage()
+      @levelNumber = null
     super()
 
   setBus: (@bus) ->
