@@ -234,6 +234,7 @@
     create_teacher_header: "Create Teacher Account"
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
+    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"
     log_in: "log in with password"
