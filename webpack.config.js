@@ -48,6 +48,16 @@ module.exports = {
   entry: _.merge({}, localeEntries, viewEntries, {
     // locale: glob.sync('./app/locale/*.coffee')
     app: './app/app.js',
+    world: glob.sync('./app/lib/world/**/*.*').concat([ // For worker_world
+      './app/core/CocoClass.coffee',
+      './app/core/utils.coffee',
+      './vendor/scripts/Box2dWeb-2.1.a.3',
+      './vendor/scripts/string_score.js',
+      './bower_components/underscore.string',
+      './vendor/scripts/coffeescript.js',
+    ]),
+    lodash: 'lodash', // For worker_world
+    aether: './bower_components/aether/build/aether.js', // For worker_world
     // play: [ // Trying to apease CommonsChunkPlugin
     //   'views/play/CampaignView',
     //   'views/play/level/PlayLevelView',
