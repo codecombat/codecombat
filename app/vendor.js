@@ -29,8 +29,8 @@ require('../vendor/scripts/jquery-ui-1.11.1.custom.js');
 window.SPE = require('exports-loader?SPE!../vendor/scripts/ShaderParticles.js');
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');
 import 'vendor/styles/fancy_select.css'
-// window.Spade = require('exports?Spade!../vendor/scripts/spade.js');
-// window.async = require('imports?root=>window!../vendor/scripts/async.js');
+window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');
+window.async = require('imports-loader?root=>window!../vendor/scripts/async.js');
 
 // require('css-loader?-url!../vendor/scripts/jquery-ui-1.11.1.custom.css');
 require.context('../vendor', true, /.*\.(js|css)/); // F'it, just import everything for now. Handle the ones that need to be set to window manually.

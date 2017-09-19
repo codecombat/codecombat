@@ -38,7 +38,7 @@ localeEntries = {};
 //   'views/LegalView': 'app/views/LegalView.coffee',
 // }
 var viewEntries = {}
-console.log(viewEntries);
+// console.log("View entries:", viewEntries);
 // process.exit()
 
 // Main webpack config
@@ -49,6 +49,7 @@ module.exports = {
     // locale: glob.sync('./app/locale/*.coffee')
     app: './app/app.js',
     world: glob.sync('./app/lib/world/**/*.*').concat([ // For worker_world
+      './app/lib/worldLoader',
       './app/core/CocoClass.coffee',
       './app/core/utils.coffee',
       './vendor/scripts/Box2dWeb-2.1.a.3',
@@ -57,7 +58,7 @@ module.exports = {
       './vendor/scripts/coffeescript.js',
     ]),
     lodash: 'lodash', // For worker_world
-    aether: './bower_components/aether/build/aether.js', // For worker_world
+    // aether: './bower_components/aether/build/aether.js', // For worker_world
     // play: [ // Trying to apease CommonsChunkPlugin
     //   'views/play/CampaignView',
     //   'views/play/level/PlayLevelView',
@@ -83,6 +84,7 @@ module.exports = {
     publicPath: '/', // Base URL path webpack tries to load other bundles from
   },
   module: {
+    noParse: /bower_components.*aether.*/,
     rules: [
       { test: /\.coffee$/, use: { loader: 'coffee-loader'} },
       { test: /\.jade$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
@@ -176,6 +178,14 @@ module.exports = {
       children: true,
       async: 'play-commons',
     }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   minChunks: function(module, count) {
+    //     if (/locale/.test(module.resource)) { return false } // Don't suck locale files in
+    //     return count >= 2;
+    //   },
+    //   // children: true,
+    //   async: true,
+    // }),
     new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
       $: 'jquery',
       jQuery: 'jquery'
@@ -192,25 +202,25 @@ module.exports = {
       locals: {shaTag: process.env.GIT_SHA || 'dev'}
     }),
     // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result
-    new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
-      analyzerMode: 'static',
-      // analyzerHost: '127.0.0.1',
-      // analyzerPort: 8888,
-      reportFilename: 'bundleReport.html',
-      defaultSizes: 'gzip',
-      openAnalyzer: false,
-      generateStatsFile: true,
-      statsFilename: 'stats.json',
-      statsOptions: {
-        source: false,
-        reasons: true,
-        // assets: true,
-        // chunks: true,
-        // chunkModules: true,
-        // modules: true,
-        // children: true,
-      },
-      logLevel: 'info',
-    }),
+    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
+    //   analyzerMode: 'static',
+    //   // analyzerHost: '127.0.0.1',
+    //   // analyzerPort: 8888,
+    //   reportFilename: 'bundleReport.html',
+    //   defaultSizes: 'gzip',
+    //   openAnalyzer: false,
+    //   generateStatsFile: true,
+    //   statsFilename: 'stats.json',
+    //   statsOptions: {
+    //     source: false,
+    //     reasons: true,
+    //     // assets: true,
+    //     // chunks: true,
+    //     // chunkModules: true,
+    //     // modules: true,
+    //     // children: true,
+    //   },
+    //   logLevel: 'info',
+    // }),
   ]
 }

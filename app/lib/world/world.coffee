@@ -262,6 +262,7 @@ module.exports = class World
       config = levelSystem.config
       systemClass = @loadClassFromCode systemModel.js, systemModel.name, 'system'
       #console.log "using db system class ---\n", systemClass, "\n--- from code ---n", systemModel.js, "\n---"
+      debugger if typeof systemClass is 'object'
       system = new systemClass @, config
       @addSystems system
     null
@@ -316,6 +317,9 @@ module.exports = class World
     @addScripts level.scripts...
 
   loadClassFromCode: (js, name, kind='component') ->
+    require('lib/worldLoader')
+    window.box2d = require('lib/world/box2d') # TODO webpack: only load this when necessary
+    js = js.replace(/require\(/g, 'window.libWorldRequire(')
     # Cache them based on source code so we don't have to worry about extra compilations
     @componentCodeClassMap ?= {}
     @systemCodeClassMap ?= {}
