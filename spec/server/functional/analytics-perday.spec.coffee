@@ -2,9 +2,11 @@ utils = require '../utils'
 Promise = require 'bluebird'
 AnalyticsString = require '../../../server/models/AnalyticsString'
 AnalyticsPerDay = require '../../../server/models/AnalyticsPerDay'
+Campaign = require '../../../server/models/Campaign'
 slack = require '../../../server/slack'
 request = require '../request'
 mongoose = require 'mongoose'
+middleware = require '../../../server/middleware'
 
 describe 'POST /db/analytics_perday/-/active_classes', ->
   it 'returns 403 unless you are an admin', utils.wrap ->
@@ -105,7 +107,9 @@ describe 'POST /db/analytics_perday/-/campaign_completions', ->
     [res] = yield request.postAsync({@url, @json})
     expect(res.statusCode).toBe(403)
 
-  it 'returns start and finish data for levels in a given campaign', utils.wrap ->
+  it 'returns start and finish data for levels in a given campaign, and saves a cache', utils.wrap ->
+    spyOn(Campaign, 'find').and.callThrough()
+    expect(middleware.analyticsPerDay.campaignCompletionsCache).toBeUndefined()
     [res] = yield request.postAsync({@url, @json})
     expect(res.body).toEqual([
       {
@@ -118,6 +122,11 @@ describe 'POST /db/analytics_perday/-/campaign_completions', ->
         }
       }
     ])
+    expect(middleware.analyticsPerDay.campaignCompletionsCache).toBeDefined()
+    expect(Campaign.find.calls.count()).toBe(1)
+    [res] = yield request.postAsync({@url, @json})
+    expect(res.statusCode).toBe(200)
+    expect(Campaign.find.calls.count()).toBe(1)
     
   it 'accepts start and date inputs', utils.wrap ->
     json = { 

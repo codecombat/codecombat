@@ -48,6 +48,8 @@ getActiveUsers = wrap (req, res) ->
   activeUsers = ({day: day, events: eventCountMap} for day, eventCountMap of dayCountsMap)
   res.send(activeUsers)
 
+campaignCompletionsCache = {}
+campaignCompletionsCachedSince = new Date()
 
 getCampaignCompletionsBySlug = wrap (req, res) ->
   # Send back an ordered array of level per-day starts and finishes
@@ -65,15 +67,15 @@ getCampaignCompletionsBySlug = wrap (req, res) ->
   return res.send([]) unless campaignSlug?
 
   # Cache results in app server memory for 1 day
-  @campaignCompletionsCache ?= {}
-  @campaignCompletionsCachedSince ?= new Date()
-  if (new Date()) - @campaignCompletionsCachedSince > 86400 * 1000
-    @campaignCompletionsCache = {}
-    @campaignCompletionsCachedSince = new Date()
+  module.exports.campaignCompletionsCache ?= {}
+  module.exports.campaignCompletionsCachedSince ?= new Date()
+  if (new Date()) - module.exports.campaignCompletionsCachedSince > 86400 * 1000
+    module.exports.campaignCompletionsCache = {}
+    module.exports.campaignCompletionsCachedSince = new Date()
   cacheKey = campaignSlug
   cacheKey += 's' + startDay if startDay?
   cacheKey += 'e' + endDay if endDay?
-  return res.send(completions) if completions = @campaignCompletionsCache[cacheKey]
+  return res.send(completions) if completions = module.exports.campaignCompletionsCache[cacheKey]
 
   
   # 1. Get campaign levels
@@ -151,7 +153,7 @@ getCampaignCompletionsBySlug = wrap (req, res) ->
       days: days
   completions.sort (a, b) -> orderedLevelSlugs.indexOf(a.level) - orderedLevelSlugs.indexOf(b.level)
 
-  @campaignCompletionsCache[cacheKey] = completions
+  module.exports.campaignCompletionsCache[cacheKey] = completions
   res.send(completions)
 
 module.exports = {
