@@ -236,10 +236,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { facebookID, facebookAccessToken, email, name } = req.body
-    unless _.all([facebookID, facebookAccessToken, not _.isEmpty(email), not _.isEmpty(name)])
-      throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, email, and name')
+    unless _.all([facebookID, facebookAccessToken, not _.isEmpty(email)])
+      throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, and email')
 
-    if yield User.findByName(name)
+    if name and yield User.findByName(name)
       throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     facebookResponse = yield facebook.fetchMe(facebookAccessToken)
@@ -252,7 +252,9 @@ module.exports =
     if user
       throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
 
-    req.user.set({ facebookID, email, name, anonymous: false })
+    userData = { facebookID, email, anonymous: false }
+    userData.name = name if name
+    req.user.set(userData)
     yield module.exports.finishSignup(req, res)
 
   signupWithGPlus: wrap (req, res) ->
@@ -260,10 +262,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { gplusID, gplusAccessToken, email, name } = req.body
-    unless _.all([gplusID, gplusAccessToken, not _.isEmpty(email), not _.isEmpty(name)])
-      throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, email, and name')
+    unless _.all([gplusID, gplusAccessToken, not _.isEmpty(email)])
+      throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, and email')
 
-    if yield User.findByName(name)
+    if name and yield User.findByName(name)
       throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     gplusResponse = yield gplus.fetchMe(gplusAccessToken)
@@ -277,7 +279,9 @@ module.exports =
     if user
       throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
 
-    req.user.set({ gplusID, email, name, anonymous: false })
+    userData = { gplusID, email, anonymous: false }
+    userData.name = name if name
+    req.user.set(userData)
     yield module.exports.finishSignup(req, res)
 
   finishSignup: co.wrap (req, res) ->
