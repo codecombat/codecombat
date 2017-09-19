@@ -198,6 +198,11 @@ module.exports = {
       from: 'app/assets',
       to: '.'
     }]),
+    new CopyWebpackPlugin([{
+      context: 'node_modules/ace-builds/src-min-noconflict',
+      from: '**/*',
+      to: 'javascripts/ace'
+    }]),
     new WebpackStaticStuff({
       locals: {shaTag: process.env.GIT_SHA || 'dev'}
     }),
