@@ -12,41 +12,10 @@ var WebpackStaticStuff = require('./webpack-static-stuff');
 
 console.log("Starting Webpack...");
 
-// Programmatically generate entry points for locale files
-var localeFilenames = fs.readdirSync('./app/locale')
-var localeEntries = _.reduce(localeFilenames, function (acc,localeFilename) {
-  if (/locale.coffee/.test(localeFilename)) { return acc }
-  localeName = localeFilename.replace('.coffee', '')
-  var entry = {}
-  entry[`locale/${localeName}`] = `./app/locale/${localeFilename}`
-  return _.merge(acc,entry)
-}, {})
-localeEntries = {};
-
-// Programmatically generate entry points for each view
-// var viewEntries = _.reduce(recursiveReadDirSync('./app/views'), function (acc,viewFilename) {
-//   if (/.DS_Store/.test(viewFilename)) { return acc };
-//   console.log(viewFilename);
-//   viewName = viewFilename.replace('app/', '').replace('.coffee', '')
-//   var entry = {}
-//   entry[viewName] = viewFilename
-//   return _.merge(acc,entry)
-// }, {})
-// viewEntries = {
-//   'views/HomeView': 'app/views/HomeView.coffee',
-//   'views/AboutView': 'app/views/AboutView.coffee',
-//   'views/LegalView': 'app/views/LegalView.coffee',
-// }
-var viewEntries = {}
-// console.log("View entries:", viewEntries);
-// process.exit()
-
 // Main webpack config
 module.exports = {
-  // entry: './app/startSmall.js',
   context: path.resolve(__dirname),
-  entry: _.merge({}, localeEntries, viewEntries, {
-    // locale: glob.sync('./app/locale/*.coffee')
+  entry: {
     app: './app/app.js',
     world: glob.sync('./app/lib/world/**/*.*').concat([ // For worker_world
       './app/lib/worldLoader',
@@ -60,24 +29,8 @@ module.exports = {
     lodash: 'lodash', // For worker_world
     // aether: './bower_components/aether/build/aether.js', // For worker_world
     // esper: './bower_components/esper.js/esper.js',
-    // play: [ // Trying to apease CommonsChunkPlugin
-    //   'views/play/CampaignView',
-    //   'views/play/level/PlayLevelView',
-    //   'views/play/level/PlayGameDevLevelView',
-    //   'views/play/level/PlayWebDevLevelView',
-    //   'views/play/SpectateView',
-    // ]
     // vendor: './app/vendor.js'
-    // Router: './app/core/Router.coffee',
-    // HomeView: './app/views/HomeView.coffee',
-    // AboutView: './app/views/AboutView.coffee',
-    // RootView: './app/views/core/RootView.coffee',
-    // CocoView: './app/views/core/CocoView.coffee',
-    // AchievementPopup: './app/views/core/AchievementPopup.coffee',
-    // errors: './app/core/errors.coffee',
-    // User: './app/models/User.coffee',
-    // Achievement: './app/models/Achievement.coffee',
-  }),
+  },
   output: {
     filename: 'javascripts/[name].js',
     chunkFilename: 'javascripts/chunks/[name].bundle.js',
@@ -85,9 +38,21 @@ module.exports = {
     publicPath: '/', // Base URL path webpack tries to load other bundles from
   },
   module: {
-    noParse: /bower_components.*aether.*|fuzzaldrin/,
+    noParse: /bower_components.*aether.*|fuzzaldrin/, // These are already built into commonjs bundles
     rules: [
-      { test: /\.coffee$/, use: { loader: 'coffee-loader'} },
+      // { test: /.*\.js/, use: [
+      //   { loader: 'babel-loader', options: {
+      //     presets: ['minify'],
+      //   } },
+      // ] },
+      { test: /\.coffee$/, use: [
+        // { loader: 'babel-loader', options: {
+        //   // test: /\.js$/
+        //   // include: 'app',
+        //   presets: ['minify'],
+        // } },
+        { loader: 'coffee-loader' },
+      ] },
       { test: /\.jade$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
       { test: /\.pug$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
       { test: /\.css$/, use: [
@@ -230,29 +195,30 @@ module.exports = {
         to: 'javascripts/app/vendor/aether-html.js',
       }
     ]),
-    new WebpackStaticStuff({
-      locals: {shaTag: process.env.GIT_SHA || 'dev'}
-    }),
-    // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result
-    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
-    //   analyzerMode: 'static',
-    //   // analyzerHost: '127.0.0.1',
-    //   // analyzerPort: 8888,
-    //   reportFilename: 'bundleReport.html',
-    //   defaultSizes: 'gzip',
-    //   openAnalyzer: false,
-    //   generateStatsFile: true,
-    //   statsFilename: 'stats.json',
-    //   statsOptions: {
-    //     source: false,
-    //     reasons: true,
-    //     // assets: true,
-    //     // chunks: true,
-    //     // chunkModules: true,
-    //     // modules: true,
-    //     // children: true,
-    //   },
-    //   logLevel: 'info',
+    // new WebpackStaticStuff({
+    //   locals: {shaTag: process.env.GIT_SHA || 'dev'}
     // }),
+    // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result.
+    // new webpack.optimize.UglifyJsPlugin(),
+    new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
+      analyzerMode: 'static',
+      // analyzerHost: '127.0.0.1',
+      // analyzerPort: 8888,
+      reportFilename: 'bundleReport.html',
+      defaultSizes: 'gzip',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'stats.json',
+      statsOptions: {
+        source: false,
+        reasons: true,
+        // assets: true,
+        // chunks: true,
+        // chunkModules: true,
+        // modules: true,
+        // children: true,
+      },
+      logLevel: 'info',
+    }),
   ]
 }

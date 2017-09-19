@@ -1,4 +1,6 @@
 require('lib/worldLoader') # Install custom hack to dynamically require library files
+_ = require('lodash') # TODO webpack: Get these two loading from lodash entry, probably
+_.string = require('underscore.string')
 Vector = require './vector'
 Rectangle = require './rectangle'
 Ellipse = require './ellipse'

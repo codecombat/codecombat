@@ -33,6 +33,7 @@
     "test": "./node_modules/.bin/karma start",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
     "postdeploy": "echo Deployed. Unclench.",
+    "webpack": "webpack",
     "brunch": "brunch",
     "bower": "bower",
     "dev": "webpack-dev-server --open",
@@ -59,6 +60,7 @@
     "algoliasearch": "^3.13.1",
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
+    "babel-loader": "^7.1.2",
     "babel-minify-webpack-plugin": "^0.2.0",
     "backbone": "^1.3.3",
     "basic-auth": "^1.0.4",
@@ -137,7 +139,7 @@
     "underscore.string": "~2.3.3",
     "vue": "^2.4.2",
     "vuex": "^2.4.0",
-    "webpack": "^3.5.5",
+    "webpack": "^3.6.0",
     "winston": "0.6.x",
     "yamljs": "^0.2.8"
   },
@@ -190,6 +192,7 @@
     "sass-loader": "^6.0.6",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
     "uglify-js": "^2.5.0",
+    "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.7.1"
   },
   "optionalDependencies": {

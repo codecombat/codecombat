@@ -1,4 +1,4 @@
-// require('core/utils')
+require('core/utils')
 
 // require('core/Tracker')
 // require('core/d3_utils')

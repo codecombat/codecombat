@@ -24,6 +24,7 @@ window.key = require('../vendor/scripts/keymaster.js');
 require('../vendor/scripts/jquery.noty.packaged.min.js');
 // require('bootstrap/dist/js/bootstrap');
 require('nanoscroller');
+require('nanoscroller/bin/css/nanoscroller.css');
 require('../vendor/scripts/hsl-to-rgb.js');
 require('../vendor/scripts/jquery-ui-1.11.1.custom.js');
 window.SPE = require('exports-loader?SPE!../vendor/scripts/ShaderParticles.js');

@@ -40,5 +40,6 @@
         if task.get('revert').complete === true
           +task-row(task.cid)
     button#create-task.btn.btn-primary Add Task
-    if view.missingDefaults().length !== 0
-      button#add-default-tasks.btn.btn-default Add Default Tasks
+    //- // TODO: Webpack - figure out if this should be working
+    //- if view.missingDefaults().length !== 0
+    //-   button#add-default-tasks.btn.btn-default Add Default Tasks
