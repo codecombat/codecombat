@@ -116,18 +116,18 @@ self.transferableSupported = function transferableSupported() {
   return self._transferableSupported = false;
 };
 
-var World = self.require('lib/world/world');
-var GoalManager = self.require('lib/world/GoalManager');
+var World = self.libWorldRequire('lib/world/world');
+var GoalManager = self.libWorldRequire('lib/world/GoalManager');
 
-Aether.addGlobal('Vector', require('lib/world/vector'));
+Aether.addGlobal('Vector', self.libWorldRequire('lib/world/vector'));
 Aether.addGlobal('_', _);
 
 var serializedClasses = {
-    "Thang": self.require('lib/world/thang'),
-    "Vector": self.require('lib/world/vector'),
-    "Rectangle": self.require('lib/world/rectangle'),
-    "Ellipse": self.require('lib/world/ellipse'),
-    "LineSegment": self.require('lib/world/line_segment')
+    "Thang": self.libWorldRequire('lib/world/thang'),
+    "Vector": self.libWorldRequire('lib/world/vector'),
+    "Rectangle": self.libWorldRequire('lib/world/rectangle'),
+    "Ellipse": self.libWorldRequire('lib/world/ellipse'),
+    "LineSegment": self.libWorldRequire('lib/world/line_segment')
 };
 self.currentUserCodeMapCopy = "";
 self.currentDebugWorldFrame = 0;

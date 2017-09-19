@@ -18,7 +18,7 @@ require('../bower_components/validated-backbone-mediator/backbone-mediator.js');
 require('../bower_components/treema/treema.js');
 window.TreemaUtils = require('../bower_components/treema/treema-utils.js');
 window.moment = require('moment');
-window.$.i18n = require('../bower_components/i18next/i18next.js');
+window.$.i18n = window.i18n = require('../bower_components/i18next/i18next.js');
 require('../vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('../vendor/scripts/jquery.noty.packaged.min.js');
@@ -31,11 +31,12 @@ require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');
 import 'vendor/styles/fancy_select.css'
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');
 window.async = require('imports-loader?root=>window!../vendor/scripts/async.js');
+require('vendor/scripts/fuzzaldrin')
 
 // require('css-loader?-url!../vendor/scripts/jquery-ui-1.11.1.custom.css');
 require.context('../vendor', true, /.*\.(js|css)/); // F'it, just import everything for now. Handle the ones that need to be set to window manually.
 
-require('treema/treema.js');
+window.TreemaNode = require('exports-loader?TreemaNode!treema/treema.js');
 // jasmine?
 window.THREE = require('three');
 require('imports-loader?this=>window!npm-modernizr');

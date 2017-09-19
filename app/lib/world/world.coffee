@@ -1,3 +1,4 @@
+require('lib/worldLoader') # Install custom hack to dynamically require library files
 Vector = require './vector'
 Rectangle = require './rectangle'
 Ellipse = require './ellipse'
@@ -317,7 +318,6 @@ module.exports = class World
     @addScripts level.scripts...
 
   loadClassFromCode: (js, name, kind='component') ->
-    require('lib/worldLoader')
     window.box2d = require('lib/world/box2d') # TODO webpack: only load this when necessary
     js = js.replace(/require\(/g, 'window.libWorldRequire(')
     # Cache them based on source code so we don't have to worry about extra compilations

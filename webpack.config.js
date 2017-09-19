@@ -59,6 +59,7 @@ module.exports = {
     ]),
     lodash: 'lodash', // For worker_world
     // aether: './bower_components/aether/build/aether.js', // For worker_world
+    // esper: './bower_components/esper.js/esper.js',
     // play: [ // Trying to apease CommonsChunkPlugin
     //   'views/play/CampaignView',
     //   'views/play/level/PlayLevelView',
@@ -84,7 +85,7 @@ module.exports = {
     publicPath: '/', // Base URL path webpack tries to load other bundles from
   },
   module: {
-    noParse: /bower_components.*aether.*/,
+    noParse: /bower_components.*aether.*|fuzzaldrin/,
     rules: [
       { test: /\.coffee$/, use: { loader: 'coffee-loader'} },
       { test: /\.jade$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
@@ -117,6 +118,7 @@ module.exports = {
   resolve: {
     modules: [
       path.resolve('./app'),
+      path.resolve('./app/assets'),
       path.resolve('./'),
       'node_modules'
     ],
@@ -194,15 +196,40 @@ module.exports = {
     new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
     new webpack.IgnorePlugin(/^memwatch$/), // # TODO: Figure out if we actually want this.
     new webpack.IgnorePlugin(/.DS_Store$/),
-    new CopyWebpackPlugin([{
-      from: 'app/assets',
-      to: '.'
-    }]),
-    new CopyWebpackPlugin([{
-      context: 'node_modules/ace-builds/src-min-noconflict',
-      from: '**/*',
-      to: 'javascripts/ace'
-    }]),
+    new CopyWebpackPlugin([
+      { // Static assets
+        from: 'app/assets',
+        to: '.'
+      },{ // Ace
+        context: 'node_modules/ace-builds/src-min-noconflict',
+        from: '**/*',
+        to: 'javascripts/ace'
+      },{ // Esper
+        from: 'bower_components/esper.js/esper.js',
+        to: 'javascripts/esper.js'
+      },{
+        from: 'bower_components/esper.js/esper-modern.js',
+        to: 'javascripts/esper.modern.js'
+      },{ // Aether
+        from: 'bower_components/aether/build/coffeescript.js',
+        to: 'javascripts/app/vendor/aether-coffeescript.js',
+      },{
+        from: 'bower_components/aether/build/javascript.js',
+        to: 'javascripts/app/vendor/aether-javascript.js',
+      },{
+        from: 'bower_components/aether/build/lua.js',
+        to: 'javascripts/app/vendor/aether-lua.js',
+      },{
+        from: 'bower_components/aether/build/java.js',
+        to: 'javascripts/app/vendor/aether-java.js',
+      },{
+        from: 'bower_components/aether/build/python.js',
+        to: 'javascripts/app/vendor/aether-python.js',
+      },{
+        from: 'bower_components/aether/build/html.js',
+        to: 'javascripts/app/vendor/aether-html.js',
+      }
+    ]),
     new WebpackStaticStuff({
       locals: {shaTag: process.env.GIT_SHA || 'dev'}
     }),
