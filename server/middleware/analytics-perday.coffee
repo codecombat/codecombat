@@ -156,8 +156,75 @@ getCampaignCompletionsBySlug = wrap (req, res) ->
   module.exports.campaignCompletionsCache[cacheKey] = completions
   res.send(completions)
 
+
+getLevelCompletionsBySlug = wrap (req, res) ->
+  # Returns an array of per-day starts and finishes for given level
+  # Parameters:
+  # slug - level slug
+  # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
+  # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
+
+  # TODO: Code is similar to getCampaignCompletionsBySlug
+
+  levelSlug = req.body.slug
+  startDay = req.body.startDay
+  endDay = req.body.endDay
+
+  return res.send([]) unless levelSlug?
+
+  # Cache results in app server memory for 1 day
+  module.exports.levelCompletionsCache ?= {}
+  module.exports.levelCompletionsCachedSince ?= new Date()
+  if (new Date()) - module.exports.levelCompletionsCachedSince > 86400 * 1000
+    module.exports.levelCompletionsCache = {}
+    module.exports.levelCompletionsCachedSince = new Date()
+  cacheKey = levelSlug
+  cacheKey += 's' + startDay if startDay?
+  cacheKey += 'e' + endDay if endDay?
+  return res.send(levelCompletions) if levelCompletions = module.exports.levelCompletionsCache[cacheKey]
+
+  documents = yield AnalyticsString.find({v: {$in: ['Started Level', 'Saw Victory', 'all', levelSlug]}})
+
+  for doc in documents
+    startEventID = doc._id if doc.v is 'Started Level'
+    finishEventID = doc._id if doc.v is 'Saw Victory'
+    filterEventID =  doc._id if doc.v is 'all'
+    levelID = doc._id if doc.v is levelSlug
+  return res.send([]) unless startEventID? and finishEventID? and filterEventID? and levelID?
+
+  queryParams = {$and: [{$or: [{e: startEventID}, {e: finishEventID}]},{f: filterEventID},{l: levelID}]}
+  queryParams["$and"].push {d: {$gte: startDay}} if startDay?
+  queryParams["$and"].push {d: {$lt: endDay}} if endDay?
+  
+  documents = yield AnalyticsPerDay.find(queryParams)
+
+  dayEventCounts = {}
+  for doc in documents
+    day = doc.get('d')
+    eventID = doc.get('e')
+    count = doc.get('c')
+    dayEventCounts[day] ?= {}
+    dayEventCounts[day][eventID] = count
+
+  completions = []
+  for day of dayEventCounts
+    started = 0
+    finished = 0
+    for eventID of dayEventCounts[day]
+      eventID = parseInt eventID
+      started = dayEventCounts[day][eventID] if eventID is startEventID
+      finished = dayEventCounts[day][eventID] if eventID is finishEventID
+    completions.push
+      created: day
+      started: started
+      finished: finished
+
+  module.exports.levelCompletionsCache[cacheKey] = completions
+  res.send(completions)
+
 module.exports = {
   getActiveClasses,
   getActiveUsers,
-  getCampaignCompletionsBySlug
+  getCampaignCompletionsBySlug,
+  getLevelCompletionsBySlug
 }

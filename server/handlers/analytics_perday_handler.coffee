@@ -14,7 +14,6 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
-    return @getLevelCompletionsBySlug(req, res) if args[1] is 'level_completions'
     return @getLevelDropsBySlugs(req, res) if args[1] is 'level_drops'
     return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
@@ -84,73 +83,6 @@ class AnalyticsPerDayHandler extends Handler
         @levelDropsCache[cacheKey] = drops
         @sendSuccess res, drops
 
-  getLevelCompletionsBySlug: (req, res) ->
-    # Returns an array of per-day starts and finishes for given level
-    # Parameters:
-    # slug - level slug
-    # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
-    # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
-
-    # TODO: Code is similar to getCampaignCompletionsBySlug
-
-    levelSlug = req.query.slug or req.body.slug
-    startDay = req.query.startDay or req.body.startDay
-    endDay = req.query.endDay or req.body.endDay
-
-    return @sendSuccess res, [] unless levelSlug?
-
-    # log.warn "level_completions levelSlug='#{levelSlug}' startDay=#{startDay} endDay=#{endDay}"
-
-    # Cache results in app server memory for 1 day
-    @levelCompletionsCache ?= {}
-    @levelCompletionsCachedSince ?= new Date()
-    if (new Date()) - @levelCompletionsCachedSince > 86400 * 1000
-      @levelCompletionsCache = {}
-      @levelCompletionsCachedSince = new Date()
-    cacheKey = levelSlug
-    cacheKey += 's' + startDay if startDay?
-    cacheKey += 'e' + endDay if endDay?
-    return @sendSuccess res, levelCompletions if levelCompletions = @levelCompletionsCache[cacheKey]
-
-    AnalyticsString.find({v: {$in: ['Started Level', 'Saw Victory', 'all', levelSlug]}}).exec (err, documents) =>
-      if err? then return @sendDatabaseError res, err
-
-      for doc in documents
-        startEventID = doc._id if doc.v is 'Started Level'
-        finishEventID = doc._id if doc.v is 'Saw Victory'
-        filterEventID =  doc._id if doc.v is 'all'
-        levelID = doc._id if doc.v is levelSlug
-      return @sendSuccess res, [] unless startEventID? and finishEventID? and filterEventID? and levelID?
-
-      queryParams = {$and: [{$or: [{e: startEventID}, {e: finishEventID}]},{f: filterEventID},{l: levelID}]}
-      queryParams["$and"].push {d: {$gte: startDay}} if startDay?
-      queryParams["$and"].push {d: {$lt: endDay}} if endDay?
-      AnalyticsPerDay.find(queryParams).exec (err, documents) =>
-        if err? then return @sendDatabaseError res, err
-
-        dayEventCounts = {}
-        for doc in documents
-          day = doc.get('d')
-          eventID = doc.get('e')
-          count = doc.get('c')
-          dayEventCounts[day] ?= {}
-          dayEventCounts[day][eventID] = count
-
-        completions = []
-        for day of dayEventCounts
-          started = 0
-          finished = 0
-          for eventID of dayEventCounts[day]
-            eventID = parseInt eventID
-            started = dayEventCounts[day][eventID] if eventID is startEventID
-            finished = dayEventCounts[day][eventID] if eventID is finishEventID
-          completions.push
-            created: day
-            started: started
-            finished: finished
-
-        @levelCompletionsCache[cacheKey] = completions
-        @sendSuccess res, completions
 
   getLevelHelpsBySlugs: (req, res) ->
     # Send back an array of per-day level help buttons clicked and videos started
