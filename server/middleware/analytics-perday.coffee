@@ -222,9 +222,71 @@ getLevelCompletionsBySlug = wrap (req, res) ->
   module.exports.levelCompletionsCache[cacheKey] = completions
   res.send(completions)
 
+
+getLevelDropsBySlugs = wrap (req, res) ->
+  # Send back an array of level/drops
+  # Drops - Number of unique users for which this was the last level they played
+  # Parameters:
+  # slugs - level slugs
+  # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
+  # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
+
+  levelSlugs = req.body.slugs
+  startDay = req.body.startDay
+  endDay = req.body.endDay
+
+  return res.send([]) unless levelSlugs?
+
+  # Cache results in app server memory for 1 day
+  module.exports.levelDropsCache ?= {}
+  module.exports.levelDropsCachedSince ?= new Date()
+  if (new Date()) - module.exports.levelDropsCachedSince > 86400 * 1000
+    module.exports.levelDropsCache = {}
+    module.exports.levelDropsCachedSince = new Date()
+  cacheKey = levelSlugs.join ''
+  cacheKey += 's' + startDay if startDay?
+  cacheKey += 'e' + endDay if endDay?
+  return res.send(drops) if drops = module.exports.levelDropsCache[cacheKey]
+
+  documents = yield AnalyticsString.find({v: {$in: ['User Dropped', 'all'].concat(levelSlugs)}})
+
+  levelStringIDSlugMap = {}
+  for doc in documents
+    droppedEventID = doc._id if doc.v is 'User Dropped'
+    filterEventID =  doc._id if doc.v is 'all'
+    levelStringIDSlugMap[doc._id] = doc.v if doc.v in levelSlugs
+
+  return @sendSuccess res, [] unless droppedEventID? and filterEventID?
+
+  queryParams = {$and: [
+    {e: droppedEventID},
+    {f: filterEventID},
+    {l: {$in: Object.keys(levelStringIDSlugMap)}}
+  ]}
+  queryParams["$and"].push {d: {$gte: startDay}} if startDay?
+  queryParams["$and"].push {d: {$lt: endDay}} if endDay?
+  documents = yield AnalyticsPerDay.find(queryParams)
+
+  levelEventCounts = {}
+  for doc in documents
+    levelEventCounts[doc.l] ?= {}
+    levelEventCounts[doc.l][doc.e] ?= 0
+    levelEventCounts[doc.l][doc.e] += doc.c
+
+  drops = []
+  for levelID of levelEventCounts
+    drops.push
+      level: levelStringIDSlugMap[levelID]
+      dropped: levelEventCounts[levelID][droppedEventID] ? 0
+
+  module.exports.levelDropsCache[cacheKey] = drops
+  res.send(drops)
+
+
 module.exports = {
   getActiveClasses,
   getActiveUsers,
   getCampaignCompletionsBySlug,
-  getLevelCompletionsBySlug
+  getLevelCompletionsBySlug,
+  getLevelDropsBySlugs
 }

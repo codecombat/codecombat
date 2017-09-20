@@ -14,74 +14,10 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
-    return @getLevelDropsBySlugs(req, res) if args[1] is 'level_drops'
     return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
     return @getRecurringRevenue(req, res) if args[1] is 'recurring_revenue'
     super(arguments...)
-
-  getLevelDropsBySlugs: (req, res) ->
-    # Send back an array of level/drops
-    # Drops - Number of unique users for which this was the last level they played
-    # Parameters:
-    # slugs - level slugs
-    # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
-    # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
-
-    levelSlugs = req.query.slugs or req.body.slugs
-    startDay = req.query.startDay or req.body.startDay
-    endDay = req.query.endDay or req.body.endDay
-
-    # log.warn "level_drops levelSlugs='#{levelSlugs}' startDay=#{startDay} endDay=#{endDay}"
-
-    return @sendSuccess res, [] unless levelSlugs?
-
-    # Cache results in app server memory for 1 day
-    @levelDropsCache ?= {}
-    @levelDropsCachedSince ?= new Date()
-    if (new Date()) - @levelDropsCachedSince > 86400 * 1000
-      @levelDropsCache = {}
-      @levelDropsCachedSince = new Date()
-    cacheKey = levelSlugs.join ''
-    cacheKey += 's' + startDay if startDay?
-    cacheKey += 'e' + endDay if endDay?
-    return @sendSuccess res, drops if drops = @levelDropsCache[cacheKey]
-
-    AnalyticsString.find({v: {$in: ['User Dropped', 'all'].concat(levelSlugs)}}).exec (err, documents) =>
-      if err? then return @sendDatabaseError res, err
-
-      levelStringIDSlugMap = {}
-      for doc in documents
-        droppedEventID = doc._id if doc.v is 'User Dropped'
-        filterEventID =  doc._id if doc.v is 'all'
-        levelStringIDSlugMap[doc._id] = doc.v if doc.v in levelSlugs
-
-      return @sendSuccess res, [] unless droppedEventID? and filterEventID?
-
-      queryParams = {$and: [
-        {e: droppedEventID},
-        {f: filterEventID},
-        {l: {$in: Object.keys(levelStringIDSlugMap)}}
-      ]}
-      queryParams["$and"].push {d: {$gte: startDay}} if startDay?
-      queryParams["$and"].push {d: {$lt: endDay}} if endDay?
-      AnalyticsPerDay.find(queryParams).exec (err, documents) =>
-        if err? then return @sendDatabaseError res, err
-
-        levelEventCounts = {}
-        for doc in documents
-          levelEventCounts[doc.l] ?= {}
-          levelEventCounts[doc.l][doc.e] ?= 0
-          levelEventCounts[doc.l][doc.e] += doc.c
-
-        drops = []
-        for levelID of levelEventCounts
-          drops.push
-            level: levelStringIDSlugMap[levelID]
-            dropped: levelEventCounts[levelID][droppedEventID] ? 0
-
-        @levelDropsCache[cacheKey] = drops
-        @sendSuccess res, drops
 
 
   getLevelHelpsBySlugs: (req, res) ->
