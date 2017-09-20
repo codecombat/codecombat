@@ -3,8 +3,22 @@ template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
 
-# require 'vendor/scripts/jasmine-bundle' # TODO: Fix for Webpack
-# require 'tests' # TODO: Fix for Webpack
+require('vendor/styles/jasmine.css')
+window.getJasmineRequireObj = require('exports-loader?getJasmineRequireObj!vendor/scripts/jasmine')
+window.jasmineRequire = window.getJasmineRequireObj()
+require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-html')
+require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
+require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')
+
+# requireAll = (req) -> req(dep) for dep in req.keys()
+allFilesReq = require.context('test/app', true, /.*\.(coffee|js)$/)
+allFileNames = allFilesReq.keys()
+# allFiles = _.reduce allFilesReq.keys(), (acc, fileKey) ->
+#   acc[fileKey] = allFilesReq(fileKey)
+# , {}
+
+# allFiles = requireAll(require.context('test/app', true, /.*\.(coffee|js)$/))
+# debugger
 
 TEST_REQUIRE_PREFIX = 'test/app/'
 TEST_URL_PREFIX = '/test/'
@@ -129,11 +143,18 @@ module.exports = TestView = class TestView extends RootView
         # TODO Clean up more things
         #   * Events
 
-      require f for f in specFiles # runs the tests # Webpack: get this working async
+      # reqs = require('test/app/' + path) for path in allFilesReq.keys()
+      # console.log reqs
+      allFiles = _.reduce allFilesReq.keys(), (acc, fileKey) ->
+        acc[fileKey] = allFilesReq(fileKey)
+      , {}
+      # console.log allFiles
+      # require f for f in specFiles # runs the tests # Webpack: get this working async
+      # debugger
+
 
   @getAllSpecFiles = ->
-    allFiles = window.require.list()
-    (f for f in allFiles when f.indexOf('.spec') > -1)
+    (f for f in allFileNames when f.indexOf('.spec') > -1)
 
   destroy: ->
     # hack to get jasmine tests to properly run again on clicking links, and make sure if you

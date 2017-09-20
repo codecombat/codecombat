@@ -61,7 +61,6 @@
     "async": "0.2.x",
     "aws-sdk": "~2.0.0",
     "babel-loader": "^7.1.2",
-    "babel-minify-webpack-plugin": "^0.2.0",
     "backbone": "^1.3.3",
     "basic-auth": "^1.0.4",
     "bayesian-battle": "0.0.7",
