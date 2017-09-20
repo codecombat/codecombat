@@ -45,7 +45,7 @@ require('imports-loader?this=>window!npm-modernizr');
 require('lib/sprites/SpriteBuilder.coffee'); // loaded by ThangType
 require('ace-builds/src-noconflict/ace.js');
 
-window.Vue = require('vue').default
+window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)
 window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')
