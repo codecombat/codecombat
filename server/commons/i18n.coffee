@@ -20,18 +20,14 @@ exports.updateI18NCoverage = (doc) ->
 
       # use it to determine what properties actually need to be translated
       props = workingSchema.props or []
-      props = (prop for prop in props when parentData[prop])
-      #unless props.length
-      #  console.log 'props is', props, 'path is', path, 'data is', data, 'parentData is', parentData, 'workingSchema is', workingSchema
-      #  langCodeArrays.push _.without _.keys(locale), 'update'  # Every language has covered a path with no properties to be translated.
-      #  return
-
+      props = (prop for prop in props when parentData[prop] and prop not in ['sound', 'soundTriggers'])
+      return unless props.length
       return if 'additionalProperties' of i18n  # Workaround for #2630: Programmable is weird
 
       # get a list of lang codes where its object has keys for every prop to be translated
       coverage = _.filter(_.keys(i18n), (langCode) ->
         translations = i18n[langCode]
-        _.all((translations[prop] for prop in props))
+        translations and _.all((translations[prop] for prop in props))
       )
       #console.log 'got coverage', coverage, 'for', path, props, workingSchema, parentData
       langCodeArrays.push coverage
