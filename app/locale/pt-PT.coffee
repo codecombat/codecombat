@@ -7,10 +7,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     im_a_teacher: "Sou um Professor"
     im_a_student: "Sou um Estudante"
     learn_more: "Saber mais"
-    classroom_in_a_box: "Uma sala de aula num pacote para ensinar ciências da computação."
+    classroom_in_a_box: "Uma turma num pacote para ensinar ciências da computação."
     codecombat_is: "O CodeCombat é uma plataforma <strong>para estudantes</strong> para aprender ciências da computação enquanto se joga um jogo real."
     our_courses: "Os nossos cursos foram especificamente testados para <strong>terem sucesso na sala de aula</strong>, até para professores com pouca ou nenhuma experiência anterior de programação."
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Vê como o CodeCombat está a transformar o modo como as pessoas aprendem ciências da computação."
     top_screenshots_hint: "Os estudantes escrevem código e veem as alterações deles atualizarem em tempo real"
     designed_with: "Desenhado a pensar nos professores"
     real_code: "Código real e escrito"
@@ -45,17 +45,17 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    request_demo_subtitle: "Request a demo and get your students started in less than an hour."
 #    get_started_title: "Set up your class today"
 #    get_started_subtitle: "Set up a class, add your students, and monitor their progress as they learn computer science."
-#    request_demo: "Request a Demo"
+    request_demo: "Pedir uma Demonstração"
 #    setup_a_class: "Set Up a Class"
     have_an_account: "Tens uma conta?"
     logged_in_as: "Atualmente tens sessão iniciada como"
-    computer_science: "Cursos de ciências da computação para todas as idades" # {change}
+#    computer_science: "Our self-paced courses cover basic syntax to advanced concepts"
     show_me_lesson_time: "Mostrar estimativas do tempo de aula para:"
     curriculum: "Horas totais do currículo:"
     ffa: "Grátis para todos os estudantes"
     lesson_time: "Tempo de aula:"
     coming_soon: "Mais, brevemente!"
-    courses_available_in: "Os cursos estão disponíveis em JavaScript e Python. Os cursos de Desenvolvimento Web utilizam HTML, CSS, jQuery e Bootstrap." # {change}
+    courses_available_in: "Os cursos estão disponíveis em JavaScript e Python. Os cursos de Desenvolvimento Web utilizam HTML, CSS e jQuery."
 #    boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
 #    winning: "A winning combination of RPG gameplay and programming homework that pulls off making kid-friendly education legitimately enjoyable."
     run_class: "Tudo o que precisas para teres uma turma de ciências da computação na tua escola hoje, sem serem necessárias bases de CC."
@@ -66,7 +66,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     want_coco: "Queres o CodeCombat na tua escola?"
 
   nav:
-#    map: "Map"
+    map: "Mapa"
     play: "Níveis" # The top nav bar entry where players choose which levels to play
     community: "Comunidade"
     courses: "Cursos"
@@ -134,7 +134,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     achievements: "Conquistas" # Tooltip on achievement list button from /play
     settings: "Definições" # Tooltip on settings button from /play
     poll: "Votações" # Tooltip on poll button from /play
-    next: "Seguinte" # Go from choose hero to choose inventory before playing a level
+    next: "Próximo" # Go from choose hero to choose inventory before playing a level
     change_hero: "Alterar Herói" # Go back from choose inventory to choose hero
     buy_gems: "Comprar Gemas"
     subscription_required: "Subscrição Necessária"
@@ -155,7 +155,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    back_to_classroom: "Voltar à Turma"
 
   code:
     if: "se" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -252,12 +252,12 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     birthday: "Aniversário"
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
 #    classroom_not_found: "No classes exist with this Class Code. Check your spelling or ask your teacher for help."
-#    checking: "Checking..."
-#    account_exists: "This email is already in use:"
+    checking: "A verificar..."
+    account_exists: "Este e-mail já está a ser usado:"
     sign_in: "Iniciar sessão"
 #    email_good: "Email looks good!"
-#    name_taken: "Username already taken! Try {{suggestedName}}?"
-#    name_available: "Username available!"
+    name_taken: "Nome de utilizador já escolhido! Que tal {{suggestedName}}?"
+    name_available: "Nome de utilizador disponível!"
 #    name_is_email: "Username may not be an email"
     choose_type: "Escolhe o teu tipo de conta:"
     teacher_type_1: "Ensina programção usando o CodeCombat!"
@@ -321,16 +321,16 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 
   common:
     back: "Voltar" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
+    go_back: "Voltar"
     coming_soon: "Brevemente!"
     continue: "Continuar" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Próximo"
     default_code: "Código Original"
     loading: "A Carregar..."
     overview: "Visão Geral"
-#    processing: "Processing..."
+    processing: "A processar..."
     solution: "Solução"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Tabela de Conteúdos"
     intro: "Introdução"
     saving: "A Guardar..."
     sending: "A Enviar..."
@@ -352,7 +352,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     submit_changes: "Submeter Alterações"
     save_changes: "Guardar Alterações"
     required_field: "necessário"
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Introduz um número de telefone válido."
 
   general:
     and: "e"
@@ -429,7 +429,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     years: "anos"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "Voltar ao Mapa"
     directions: "Direções"
     edit_level: "Editar Nível"
     explore_codecombat: "Explorar o CodeCombat"
@@ -571,15 +571,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    tip_good_idea: "The best way to have a good idea is to have a lot of ideas. - Linus Pauling"
 #    tip_programming_not_about_computers: "Computer Science is no more about computers than astronomy is about telescopes. - Edsger Dijkstra"
 #    tip_mulan: "Believe you can, then you will. - Mulan"
-#    project_complete: "Project Complete!"
+    project_complete: "Projeto Completado!"
 #    share_this_project: "Share this project with friends or family:"
-#    ready_to_share: "Ready to publish your project?"
+    ready_to_share: "Pronto para publicares o teu projeto?"
 #    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
 #    already_published_prefix: "Your changes have been published to the class gallery."
 #    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
-#    view_gallery: "View Gallery"
-#    project_published_noty: "Your level has been published!"
-#    keep_editing: "Keep Editing"
+    view_gallery: "Ver Galeria"
+    project_published_noty: "O teu nível foi publicado!"
+    keep_editing: "Continuar a Editar"
 
   play_game_dev_level:
     created_by: "Criado por {{name}}"
@@ -646,9 +646,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    purchase: "Purchase"
 #    purchased: "Purchased"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Gemas Insuficientes"
+    prompt_body: "Continua a jogar para receberes mais!"
 
   subscribe:
 #    best_deal: "Best Deal!"
@@ -709,15 +709,15 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     unsubscribing: "A Cancelar a Subscrição"
     subscribe_prepaid: "Clica em Subscrever para usares um código pré-pago"
     using_prepaid: "A usar um código pré-pago para a subscrição mensal"
-    feature_levels: "Acede a __premiumLevelsCount__ níveis disponíveis" # {change}
+    feature_levels: "Acede a 300+ níveis disponíveis"
     feature_gems: "Recebe __gems__ gemas por mês"
-    feature_heroes: "Desbloqueia heróis exclusivos" # {change}
+    feature_heroes: "Desbloqueia heróis e animais exclusivos"
     feature_games: "Cria jogos para os teus amigos"
     feature_websites: "Constrói websites e aplicações"
     feature_items: "Equipa itens mais poderosos"
-#    feature_learn: "Learn to make games and websites" # {change}
-    month_price: "$__price__/mês" # {change}
-    lifetime: "Subscrição Vitalícia" # {change}
+    feature_learn: "Aprende a criar jogos e websites"
+    month_price: "$__price__"
+    lifetime: "Acesso Vitalício"
     lifetime_price: "$__price__"
     year_subscription: "Subscrição Anual"
     year_price: "$__price__/ano"
@@ -924,8 +924,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     retrostyle_blurb: "'RetroStyle Games'"
     jose_title: "Música"
     jose_blurb: "'Taking Off'"
-#    bryukh_title: "Game Designer"
-#    bryukh_blurb: "Constructs puzzles"
+    bryukh_title: "Designer de Jogos"
+    bryukh_blurb: "Constrói puzzles"
     community_title: "...e a nossa comunidade open source"
     community_subtitle: "Mais de 500 contribuidores ajudaram a construir o CodeCombat, com mais a se juntarem todas as semanas!"
     community_description_3: "O CodeCombat é um"
@@ -1042,11 +1042,11 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    district_name: "District Name"
     district_na: "Escreve N/A se não se aplicar"
     organization_label: "Escola"
-#    school_name: "School Name"
+    school_name: "Nome da Escola"
     city: "Cidade"
     state: "Estado"
     country: "País"
-    num_students_help: "Quantos antecipas que se inscrevam no CodeCombat?"
+    num_students_help: "Quantos estudantes vão usar o CodeCombat?"
     num_students_default: "Selecionar Intervalo"
     education_level_label: "Nível de Educação dos Estudantes"
     education_level_help: "Escolhe todos os que se aplicarem."
@@ -1055,13 +1055,13 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     please_explain: "(por favor, explica)"
 #    middle_school: "Middle School"
 #    college_plus: "College or higher"
-#    referrer: "How did you hear about us?"
-#    referrer_help: "For example: from another teacher, a conference, your students, Code.org, etc."
+    referrer: "Como ouviste falar de nós?"
+    referrer_help: "Por exemplo: através de outro professor, de uma conferência, dos teus estudantes, do Code.org, etc."
     anything_else: "Mais alguma coisa que devamos saber?"
-#    thanks_header: "Request Received!"
+    thanks_header: "Pedido Recebido!"
 #    thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
 #    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
-#    back_to_classes: "Back to Classes"
+    back_to_classes: "Voltar às Turmas"
 #    finish_signup: "Finish creating your teacher account:"
 #    finish_signup_p: "Create an account to set up a class, add your students, and monitor their progress as they learn computer science."
 #    signup_with: "Sign up with:"
@@ -1267,7 +1267,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    switch_to: "Switch To"
 #    greetings: "Greetings!"
     back_classrooms: "Voltar às minhas turmas"
-#    back_classroom: "Back to classroom"
+    back_classroom: "Voltar à turma"
     back_courses: "Voltar aos meus cursos"
 #    edit_details: "Edit class details"
 #    purchase_enrollments: "Purchase Student Licenses"
@@ -1294,7 +1294,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     my_classes: "Turmas Atuais"
     class_added: "Turma adicionada com sucesso!"
     view_levels: "ver todos os níveis do curso"
-#    view_project_gallery: "view my classmates' projects"
+    view_project_gallery: "ver os projetos dos meus colegas"
     join_class: "Entrar Numa Turma"
     join_class_2: "Entrar na turma"
     ask_teacher_for_code: "Pergunta ao teu professor se tens um código de turma do CodeCombat! Se tiveres, introdu-lo abaixo:"
@@ -1391,10 +1391,10 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     course_membership_required_to_play: "Precisas de te juntar a um curso para jogares este nível."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
 
-#  project_gallery:
-#    no_projects_published: "Be the first to publish a project in this course!"
-#    view_project: "View Project"
-#    edit_project: "Edit Project"
+  project_gallery:
+    no_projects_published: "Sê o primeiro a publicar um projeto neste curso!"
+    view_project: "Ver Projeto"
+    edit_project: "Editar Projeto"
 
   teacher:
 #    assigning_course: "Assigning course"
@@ -1516,8 +1516,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     select_all: "Selecionar Todos"
     project: "Projeto"
 #    project_gallery: "Project Gallery"
-#    view_project: "View Project"
-#    unpublished: "(unpublished)"
+    view_project: "Ver Projeto"
+    unpublished: "(não publicado)"
 #    view_arena_ladder: "View Arena Ladder"
     resource_hub: "Centro de Recursos"
 #    getting_started: "Getting Started"
@@ -2315,9 +2315,9 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    argument_error: "ArgumentError: "
 #    type_error: "TypeError: "
 #    syntax_error: "SyntaxError: "
-#    error: "Error: "
-    x_not_a_function: "`$1` não é uma função"
-#    x_not_defined: "$1 is not defined"
+    error: "Erro: "
+    x_not_a_function: "$1 não é uma função"
+    x_not_defined: "$1 não está definido"
 #    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
 #    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
 #    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
@@ -2378,7 +2378,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
 #    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
 #    hero_has_no_method: "`$1` has no method `$2`."
-#    there_is_a_problem: "There is a problem with your code."
+    there_is_a_problem: "Há um problema com o teu código."
 #    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
 #    missing_a_quotation_mark: "Missing a quotation mark. "
 #    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
