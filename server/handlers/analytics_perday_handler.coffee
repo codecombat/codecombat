@@ -14,88 +14,9 @@ class AnalyticsPerDayHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @sendForbiddenError res unless @hasAccess req
-    return @getLevelHelpsBySlugs(req, res) if args[1] is 'level_helps'
     return @getLevelSubscriptionsBySlugs(req, res) if args[1] is 'level_subscriptions'
     return @getRecurringRevenue(req, res) if args[1] is 'recurring_revenue'
     super(arguments...)
-
-
-  getLevelHelpsBySlugs: (req, res) ->
-    # Send back an array of per-day level help buttons clicked and videos started
-    # Parameters:
-    # slugs - level slugs
-    # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
-    # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
-
-    levelSlugs = req.query.slugs or req.body.slugs
-    startDay = req.query.startDay or req.body.startDay
-    endDay = req.query.endDay or req.body.endDay
-
-    # log.warn "level_helps levelSlugs='#{levelSlugs}' startDay=#{startDay} endDay=#{endDay}"
-
-    return @sendSuccess res, [] unless levelSlugs?
-
-    # Cache results in app server memory for 1 day
-    @levelHelpsCache ?= {}
-    @levelHelpsCachedSince ?= new Date()
-    if (new Date()) - @levelHelpsCachedSince > 86400 * 1000
-      @levelHelpsCache = {}
-      @levelHelpsCachedSince = new Date()
-    cacheKey = levelSlugs.join ''
-    cacheKey += 's' + startDay if startDay?
-    cacheKey += 'e' + endDay if endDay?
-    return @sendSuccess res, helps if helps = @levelHelpsCache[cacheKey]
-
-    findQueryParams = {v: {$in: ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video', 'all'].concat(levelSlugs)}}
-    AnalyticsString.find(findQueryParams).exec (err, documents) =>
-      if err? then return @sendDatabaseError res, err
-
-      levelStringIDSlugMap = {}
-      for doc in documents
-        alertHelpEventID = doc._id if doc.v is 'Problem alert help clicked'
-        palettteHelpEventID = doc._id if doc.v is 'Spell palette help clicked'
-        videoHelpEventID = doc._id if doc.v is 'Start help video'
-        filterEventID =  doc._id if doc.v is 'all'
-        levelStringIDSlugMap[doc._id] = doc.v if doc.v in levelSlugs
-
-      return @sendSuccess res, [] unless alertHelpEventID? and palettteHelpEventID? and videoHelpEventID? and filterEventID?
-
-      queryParams = {$and: [
-        {e: {$in: [alertHelpEventID, palettteHelpEventID, videoHelpEventID]}},
-        {f: filterEventID},
-        {l: {$in: Object.keys(levelStringIDSlugMap)}}
-      ]}
-      queryParams["$and"].push {d: {$gte: startDay}} if startDay?
-      queryParams["$and"].push {d: {$lt: endDay}} if endDay?
-      AnalyticsPerDay.find(queryParams).exec (err, documents) =>
-        if err? then return @sendDatabaseError res, err
-
-        levelEventCounts = {}
-        for doc in documents
-          levelEventCounts[doc.l] ?= {}
-          levelEventCounts[doc.l][doc.d] ?= {}
-          levelEventCounts[doc.l][doc.d][doc.e] ?= 0
-          levelEventCounts[doc.l][doc.d][doc.e] += doc.c
-
-        helps = []
-        for levelID of levelEventCounts
-          for day of levelEventCounts[levelID]
-            alertHelps = 0
-            paletteHelps = 0
-            videoStarts = 0
-            for eventID of levelEventCounts[levelID][day]
-              alertHelps = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is alertHelpEventID
-              paletteHelps = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is palettteHelpEventID
-              videoStarts = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is videoHelpEventID
-            helps.push
-              level: levelStringIDSlugMap[levelID]
-              day: day
-              alertHelps: alertHelps
-              paletteHelps: paletteHelps
-              videoStarts: videoStarts
-
-        @levelHelpsCache[cacheKey] = helps
-        @sendSuccess res, helps
 
 
   getLevelSubscriptionsBySlugs: (req, res) ->

@@ -248,4 +248,66 @@ describe 'POST /db/analytics_perday/-/level_drops', ->
       endDay: '20180101'
     }
     [res] = yield request.postAsync({@url, json})
+    expect(res.body.length).toBe(0)
+
+
+describe 'POST /db/analytics_perday/-/level_helps', ->
+  beforeEach utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+
+    @level = yield utils.makeLevel()
+    levelString = yield utils.makeAnalyticsString({v:@level.get('slug')})
+    alertString = yield utils.makeAnalyticsString({v: 'Problem alert help clicked'})
+    paletteString = yield utils.makeAnalyticsString({v: 'Spell palette help clicked'})
+    videoString = yield utils.makeAnalyticsString({v: 'Start help video'})
+    
+    allString = yield utils.makeAnalyticsString({v:'all'})
+    i = 100
+    yield utils.makeAnalyticsPerDay({d: '20150101', c: i++}, {e: alertString, f: allString, l:levelString})
+    yield utils.makeAnalyticsPerDay({d: '20150101', c: i++}, {e: paletteString, f: allString, l:levelString})
+    yield utils.makeAnalyticsPerDay({d: '20150101', c: i++}, {e: videoString, f: allString, l:levelString})
+
+    @url = utils.getUrl('/db/analytics_perday/-/level_helps')
+    @json = { slugs: [@level.get('slug')] }
+
+
+  it 'returns 403 unless you are an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.postAsync({@url, @json})
+    expect(res.statusCode).toBe(403)
+
+  it 'returns start and finish data for levels in a given level, and saves a cache', utils.wrap ->
+    spyOn(AnalyticsPerDay, 'find').and.callThrough()
+    expect(middleware.analyticsPerDay.levelHelpsCache).toBeUndefined()
+    [res] = yield request.postAsync({@url, @json})
+    expect(res.body).toEqual([ {
+      level: @level.get('slug')
+      day: '20150101',
+      alertHelps: 100,
+      paletteHelps: 101,
+      videoStarts: 102
+    } ])
+    expect(middleware.analyticsPerDay.levelHelpsCache).toBeDefined()
+    expect(AnalyticsPerDay.find.calls.count()).toBe(1)
+    [res] = yield request.postAsync({@url, @json})
+    expect(res.statusCode).toBe(200)
+    expect(AnalyticsPerDay.find.calls.count()).toBe(1)
+
+  it 'accepts start and date inputs', utils.wrap ->
+    json = {
+      slugs: [@level.get('slug')]
+      startDay: '20140101'
+      endDay: '20160101'
+    }
+    [res] = yield request.postAsync({@url, json})
+    expect(res.body.length).toBe(1)
+
+    json = {
+      slugs: [@level.get('slug')]
+      startDay: '20160101'
+      endDay: '20180101'
+    }
+    [res] = yield request.postAsync({@url, json})
     expect(res.body.length).toBe(0)  

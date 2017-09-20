@@ -283,10 +283,87 @@ getLevelDropsBySlugs = wrap (req, res) ->
   res.send(drops)
 
 
+getLevelHelpsBySlugs = wrap (req, res) ->
+  # Send back an array of per-day level help buttons clicked and videos started
+  # Parameters:
+  # slugs - level slugs
+  # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
+  # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
+
+  levelSlugs = req.body.slugs
+  startDay = req.body.startDay
+  endDay = req.body.endDay
+
+  # log.warn "level_helps levelSlugs='#{levelSlugs}' startDay=#{startDay} endDay=#{endDay}"
+
+  return res.send([]) unless levelSlugs?
+
+  # Cache results in app server memory for 1 day
+  module.exports.levelHelpsCache ?= {}
+  module.exports.levelHelpsCachedSince ?= new Date()
+  if (new Date()) - module.exports.levelHelpsCachedSince > 86400 * 1000
+    module.exports.levelHelpsCache = {}
+    module.exports.levelHelpsCachedSince = new Date()
+  cacheKey = levelSlugs.join ''
+  cacheKey += 's' + startDay if startDay?
+  cacheKey += 'e' + endDay if endDay?
+  return res.send(helps) if helps = module.exports.levelHelpsCache[cacheKey]
+
+  findQueryParams = {v: {$in: ['Problem alert help clicked', 'Spell palette help clicked', 'Start help video', 'all'].concat(levelSlugs)}}
+  documents = yield AnalyticsString.find(findQueryParams)
+
+  levelStringIDSlugMap = {}
+  for doc in documents
+    alertHelpEventID = doc._id if doc.v is 'Problem alert help clicked'
+    palettteHelpEventID = doc._id if doc.v is 'Spell palette help clicked'
+    videoHelpEventID = doc._id if doc.v is 'Start help video'
+    filterEventID =  doc._id if doc.v is 'all'
+    levelStringIDSlugMap[doc._id] = doc.v if doc.v in levelSlugs
+
+  return res.send([]) unless alertHelpEventID? and palettteHelpEventID? and videoHelpEventID? and filterEventID?
+
+  queryParams = {$and: [
+    {e: {$in: [alertHelpEventID, palettteHelpEventID, videoHelpEventID]}},
+    {f: filterEventID},
+    {l: {$in: Object.keys(levelStringIDSlugMap)}}
+  ]}
+  queryParams["$and"].push {d: {$gte: startDay}} if startDay?
+  queryParams["$and"].push {d: {$lt: endDay}} if endDay?
+  documents = yield AnalyticsPerDay.find(queryParams)
+
+  levelEventCounts = {}
+  for doc in documents
+    levelEventCounts[doc.l] ?= {}
+    levelEventCounts[doc.l][doc.d] ?= {}
+    levelEventCounts[doc.l][doc.d][doc.e] ?= 0
+    levelEventCounts[doc.l][doc.d][doc.e] += doc.c
+
+  helps = []
+  for levelID of levelEventCounts
+    for day of levelEventCounts[levelID]
+      alertHelps = 0
+      paletteHelps = 0
+      videoStarts = 0
+      for eventID of levelEventCounts[levelID][day]
+        alertHelps = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is alertHelpEventID
+        paletteHelps = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is palettteHelpEventID
+        videoStarts = levelEventCounts[levelID][day][eventID] if parseInt(eventID) is videoHelpEventID
+      helps.push
+        level: levelStringIDSlugMap[levelID]
+        day: day
+        alertHelps: alertHelps
+        paletteHelps: paletteHelps
+        videoStarts: videoStarts
+
+  module.exports.levelHelpsCache[cacheKey] = helps
+  res.send(helps)
+
+  
 module.exports = {
   getActiveClasses,
   getActiveUsers,
   getCampaignCompletionsBySlug,
   getLevelCompletionsBySlug,
-  getLevelDropsBySlugs
+  getLevelDropsBySlugs,
+  getLevelHelpsBySlugs
 }

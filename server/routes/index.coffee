@@ -69,7 +69,8 @@ module.exports.setup = (app) ->
   app.post('/db/analytics_perday/-/campaign_completions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getCampaignCompletionsBySlug)
   app.post('/db/analytics_perday/-/level_completions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelCompletionsBySlug)
   app.post('/db/analytics_perday/-/level_drops', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelDropsBySlugs)
-
+  app.post('/db/analytics_perday/-/level_helps', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelHelpsBySlugs)
+  
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
