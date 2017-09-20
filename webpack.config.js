@@ -9,6 +9,7 @@ var glob = require('glob')
 require('coffee-script');
 require('coffee-script/register');
 var WebpackStaticStuff = require('./webpack-static-stuff');
+var WebpackNotifyChanges = require('./webpack-notify-changes');
 
 console.log("Starting Webpack...");
 
@@ -99,6 +100,7 @@ module.exports = {
     request: 'empty',
   },
   plugins: [
+    new WebpackNotifyChanges(),
     new webpack.BannerPlugin({ // Label each module in the output bundle
       banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
     }),
