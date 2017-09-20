@@ -171,10 +171,11 @@ co(function* () {
   //  updatedLevel.set(levelObj)
   //  updatedLevel.set('commitMessage', `Import ${langProperty} translations`)
   //
+  //  i18n.updateI18NCoverage(updatedLevel)
+  //
   //  delta = differ.diff(_.omit(level.toObject(), omissions), _.omit(updatedLevel.toObject(), omissions))
   //  flattened = deltasLib.flattenDelta(delta)
-  //  if(flattened.length > 0 && updatedLevel.get('i18nCoverage'))
-  //    i18n.updateI18NCoverage(updatedLevel)
+  //
   //  if(flattened.length > 0) {
   //    console.log('flattened changes', updatedLevel.get('name'), JSON.stringify(flattened, null, '\t'))
   //    database.validateDoc(updatedLevel)
@@ -372,11 +373,9 @@ co(function* () {
   //  
   //  updatedThang.set(thangObj)
   //  updatedThang.set('commitMessage', `Import ${langProperty} translations`)
-  //
+  //  i18n.updateI18NCoverage(updatedThang)
   //  delta = differ.diff(_.omit(thang.toObject(), omissions), _.omit(updatedThang.toObject(), omissions))
   //  flattened = deltasLib.flattenDelta(delta)
-  //  if(flattened.length > 0 && updatedThang.get('i18nCoverage'))
-  //    i18n.updateI18NCoverage(updatedThang)
   //  if(flattened.length > 0) {
   //    console.log('flattened changes', updatedThang.get('name'), JSON.stringify(flattened, null, '\t'))
   //    database.validateDoc(updatedThang)
