@@ -49,11 +49,9 @@ module.exports = class SubscribeModal extends ModalView
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
       # Always use both-subs UX test group when basic product coupon, and delay identify until we can decide
       @subType = if utils.getQueryVariable('subtype')?
-        me.getSubModalGroup(utils.getQueryVariable('subtype'))
-        utils.getQueryVariable('subtype')
+        me.setSubModalGroup(utils.getQueryVariable('subtype'))
       else if @basicCoupon
-        me.getSubModalGroup('both-subs')
-        'both-subs'
+        me.setSubModalGroup('both-subs')
       else 
         me.getSubModalGroup()
     else

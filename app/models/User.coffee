@@ -179,16 +179,18 @@ module.exports = class User extends CocoModel
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
 
-  getSubModalGroup: (overrideValue) ->
+  getSubModalGroup: () ->
     return @subModalGroup if @subModalGroup
-    if overrideValue
-      @subModalGroup = overrideValue
-    else
-      group = me.get('testGroupNumber') % 4
-      @subModalGroup = switch group
-        when 0, 1 then 'both-subs'
-        when 2, 3 then 'lifetime-only'
+    group = me.get('testGroupNumber') % 4
+    @subModalGroup = switch group
+      when 0, 1 then 'both-subs'
+      when 2, 3 then 'lifetime-only'
     @subModalGroup = 'both-subs' if me.isAdmin()
+    application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
+    @subModalGroup
+
+  setSubModalGroup: (val) ->
+    @subModalGroup = if me.isAdmin() then 'both-subs' else val
     application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
     @subModalGroup
 
