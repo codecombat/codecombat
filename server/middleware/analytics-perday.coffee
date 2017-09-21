@@ -427,6 +427,36 @@ getLevelSubscriptionsBySlugs = wrap (req, res) ->
   module.exports.levelSubscriptionsCache[cacheKey] = subscriptions
   res.send(subscriptions)
 
+
+getRecurringRevenue = wrap (req, res) ->
+  events = [
+    'DRR gems',
+    'DRR school sales',
+    'DRR yearly subs',
+    'DRR monthly subs',
+    'DRR paypal',
+  ]
+
+  documents = yield AnalyticsString.find({v: {$in: events}})
+  
+  eventIDs = []
+  eventStringMap = {}
+  for doc in documents
+    eventStringMap[doc._id.valueOf()] = doc.v
+    eventIDs.push doc._id
+  return res.send([]) unless eventIDs.length is events.length
+
+  documents = yield AnalyticsPerDay.find({e: {$in: eventIDs}})
+  
+  dayCountsMap = {}
+  for doc in documents
+    dayCountsMap[doc.d] ?= {}
+    dayCountsMap[doc.d][eventStringMap[doc.e.valueOf()]] = doc.c
+  recurringRevenue = []
+  for key, val of dayCountsMap
+    recurringRevenue.push day: key, groups: dayCountsMap[key] ? {}
+  res.send(recurringRevenue)  
+
   
 module.exports = {
   getActiveClasses,
@@ -435,5 +465,6 @@ module.exports = {
   getLevelCompletionsBySlug,
   getLevelDropsBySlugs,
   getLevelHelpsBySlugs,
-  getLevelSubscriptionsBySlugs
+  getLevelSubscriptionsBySlugs,
+  getRecurringRevenue
 }

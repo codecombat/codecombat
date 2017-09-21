@@ -1,5 +1,4 @@
 module.exports.handlers =
-  'analytics_perday': 'handlers/analytics_perday_handler'
   'analytics_string': 'handlers/analytics_string_handler'
   'analytics_stripe_invoice': 'handlers/analytics_stripe_invoice_handler'
   # TODO: Disabling this until we know why our app servers CPU grows out of control.

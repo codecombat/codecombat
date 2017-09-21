@@ -365,3 +365,42 @@ describe 'POST /db/analytics_perday/-/level_subscriptions', ->
     }
     [res] = yield request.postAsync({@url, json})
     expect(res.body.length).toBe(0)
+
+    
+describe 'POST /db/analytics_perday/-/recurring_revenue', ->
+  it 'returns 403 unless you are an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    url = utils.getUrl('/db/analytics_perday/-/recurring_revenue')
+    [res] = yield request.postAsync({url, json: true})
+    expect(res.statusCode).toBe(403)
+
+  it 'returns all perday entries for active class events', utils.wrap ->
+    gemsString = yield utils.makeAnalyticsString({v:'DRR gems'})
+    schoolString = yield utils.makeAnalyticsString({v:'DRR school sales'})
+    yearlyString = yield utils.makeAnalyticsString({v:'DRR yearly subs'})
+    monthlyString = yield utils.makeAnalyticsString({v:'DRR monthly subs'})
+    paypalString = yield utils.makeAnalyticsString({v:'DRR paypal'})
+
+    i = 100
+    yield utils.makeAnalyticsPerDay({d:'20150101', c: i++}, {e: gemsString })
+    yield utils.makeAnalyticsPerDay({d:'20150101', c: i++}, {e: schoolString })
+    yield utils.makeAnalyticsPerDay({d:'20150101', c: i++}, {e: yearlyString })
+    yield utils.makeAnalyticsPerDay({d:'20150101', c: i++}, {e: monthlyString })
+    yield utils.makeAnalyticsPerDay({d:'20150101', c: i++}, {e: paypalString })
+
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    url = utils.getUrl('/db/analytics_perday/-/recurring_revenue')
+    [res] = yield request.postAsync({url, json: true})
+    expect(res.body).toEqual([ { 
+        day: '20150101',
+        groups: {
+          'DRR gems': 100,
+          'DRR school sales': 101,
+          'DRR yearly subs': 102,
+          'DRR monthly subs': 103,
+          'DRR paypal': 104
+        }
+      }
+    ])
