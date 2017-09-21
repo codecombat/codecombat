@@ -358,6 +358,75 @@ getLevelHelpsBySlugs = wrap (req, res) ->
   module.exports.levelHelpsCache[cacheKey] = helps
   res.send(helps)
 
+
+getLevelSubscriptionsBySlugs = wrap (req, res) ->
+  # Send back an array of level subscriptions shown and purchased counts
+  # Parameters:
+  # slugs - level slugs
+  # startDay - Inclusive, optional, YYYYMMDD e.g. '20141214'
+  # endDay - Exclusive, optional, YYYYMMDD e.g. '20141216'
+
+  levelSlugs = req.query.slugs or req.body.slugs
+  startDay = req.query.startDay or req.body.startDay
+  endDay = req.query.endDay or req.body.endDay
+
+  # log.warn "level_subscriptions levelSlugs='#{levelSlugs}' startDay=#{startDay} endDay=#{endDay}"
+
+  return res.send([]) unless levelSlugs?
+
+  # Cache results in app server memory for 1 day
+  module.exports.levelSubscriptionsCache ?= {}
+  module.exports.levelSubscriptionsCachedSince ?= new Date()
+  if (new Date()) - module.exports.levelSubscriptionsCachedSince > 86400 * 1000
+    module.exports.levelSubscriptionsCache = {}
+    module.exports.levelSubscriptionsCachedSince = new Date()
+  cacheKey = levelSlugs.join ''
+  cacheKey += 's' + startDay if startDay?
+  cacheKey += 'e' + endDay if endDay?
+  return res.send(subscriptions) if subscriptions = module.exports.levelSubscriptionsCache[cacheKey]
+
+  findQueryParams = {v: {$in: ['Show subscription modal', 'Finished subscription purchase', 'all'].concat(levelSlugs)}}
+  documents = yield AnalyticsString.find(findQueryParams)
+
+  levelStringIDSlugMap = {}
+  for doc in documents
+    showSubEventID = doc._id if doc.v is 'Show subscription modal'
+    finishSubEventID = doc._id if doc.v is 'Finished subscription purchase'
+    filterEventID =  doc._id if doc.v is 'all'
+    levelStringIDSlugMap[doc._id] = doc.v if doc.v in levelSlugs
+
+  res.send([]) unless showSubEventID? and finishSubEventID? and filterEventID?
+
+  queryParams = {$and: [
+    {e: {$in: [showSubEventID, finishSubEventID]}},
+    {f: filterEventID},
+    {l: {$in: Object.keys(levelStringIDSlugMap)}}
+  ]}
+  queryParams["$and"].push {d: {$gte: startDay}} if startDay?
+  queryParams["$and"].push {d: {$lt: endDay}} if endDay?
+  documents = yield AnalyticsPerDay.find(queryParams)
+
+  levelEventCounts = {}
+  for doc in documents
+    levelEventCounts[doc.l] ?= {}
+    levelEventCounts[doc.l][doc.e] ?= 0
+    levelEventCounts[doc.l][doc.e] += doc.c
+
+  subscriptions = []
+  for levelID of levelEventCounts
+    subsShown = 0
+    subsPurchased = 0
+    for eventID of levelEventCounts[levelID]
+      subsShown = levelEventCounts[levelID][eventID] if parseInt(eventID) is showSubEventID
+      subsPurchased = levelEventCounts[levelID][eventID] if parseInt(eventID) is finishSubEventID
+    subscriptions.push
+      level: levelStringIDSlugMap[levelID]
+      shown: subsShown
+      purchased: subsPurchased
+
+  module.exports.levelSubscriptionsCache[cacheKey] = subscriptions
+  res.send(subscriptions)
+
   
 module.exports = {
   getActiveClasses,
@@ -365,5 +434,6 @@ module.exports = {
   getCampaignCompletionsBySlug,
   getLevelCompletionsBySlug,
   getLevelDropsBySlugs,
-  getLevelHelpsBySlugs
+  getLevelHelpsBySlugs,
+  getLevelSubscriptionsBySlugs
 }
