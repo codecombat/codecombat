@@ -120,7 +120,7 @@ checkForCoupon = co.wrap (req, user, customer) ->
     yield checkForExistingSubscription(req, user, customer, couponID)
 
   else
-    couponID = user.get('stripe')?.couponID
+    couponID = user.get('stripe')?.couponID or req.body?.stripe?.couponID
     unless couponID or not user.get 'country'
       product = yield Product.findBasicSubscriptionForUser(user)
       unless product.get('name') is 'basic_subscription'
