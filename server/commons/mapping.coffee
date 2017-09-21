@@ -1,5 +1,4 @@
 module.exports.handlers =
-  'analytics_stripe_invoice': 'handlers/analytics_stripe_invoice_handler'
   # TODO: Disabling this until we know why our app servers CPU grows out of control.
   # 'analytics_users_active': 'handlers/analytics_users_active_handler'
   'article': 'handlers/article_handler'
@@ -27,7 +26,6 @@ module.exports.handlers =
   'user_polls_record': 'handlers/user_polls_record_handler'
 
 module.exports.handlerUrlOverrides =
-  'analytics_stripe_invoice': 'analytics.stripe.invoice'
   'level_component': 'level.component'
   'level_feedback': 'level.feedback'
   'level_session': 'level.session'

@@ -3,6 +3,7 @@ module.exports =
   admin: require './admin'
   analyticsLogEvents: require './analytics-log-events'
   analyticsPerDay: require './analytics-perday'
+  analyticsStripeInvoices: require './analytics-stripe-invoices'
   api: require './api'
   auth: require './auth'
   branches: require './branches'
