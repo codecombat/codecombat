@@ -718,6 +718,7 @@
     feature_items: "Equip more powerful items"
     feature_learn: "Learn to make games and websites"
     month_price: "$__price__"
+    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Lifetime Access"
     lifetime_price: "$__price__"
     year_subscription: "Yearly Subscription"

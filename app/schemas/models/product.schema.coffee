@@ -18,6 +18,7 @@ module.exports = ProductSchema = {
         properties: {
           code: { type: 'string' }
           amount: { type: 'integer', description: 'Adjusted cost in cents' }
+          duration: { type: 'string'}
         }
       }
     }
