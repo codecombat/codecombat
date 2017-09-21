@@ -103,7 +103,7 @@ module.exports = class SubscribeModal extends ModalView
   onClickPurchaseButton: (e) ->
     return unless @basicProduct
     @playSound 'menu-button-click'
-    return @openModalView new CreateAccountModal() if me.get('anonymous')
+    return @openModalView new CreateAccountModal({startOnPath: 'individual', signupReturnHref: document.location.href}) if me.get('anonymous')
     if @basicProduct.isRegionalSubscription()
       @startPayPalSubscribe()
     else
@@ -161,7 +161,7 @@ module.exports = class SubscribeModal extends ModalView
   # For lifetime subs
   onPayPalPaymentStarted: =>
     @playSound 'menu-button-click'
-    return @openModalView new CreateAccountModal() if me.get('anonymous')
+    return @openModalView new CreateAccountModal({startOnPath: 'individual', signupReturnHref: document.location.href}) if me.get('anonymous')
     startEvent = 'Start Lifetime Purchase'
     application.tracker?.trackEvent startEvent, { service: 'paypal' }
     @state = 'purchasing'
@@ -185,7 +185,7 @@ module.exports = class SubscribeModal extends ModalView
 
   onClickStripeLifetimeButton: ->
     @playSound 'menu-button-click'
-    return @openModalView new CreateAccountModal() if me.get('anonymous')
+    return @openModalView new CreateAccountModal({startOnPath: 'individual', signupReturnHref: document.location.href}) if me.get('anonymous')
     startEvent = 'Start Lifetime Purchase'
     finishEvent = 'Finish Lifetime Purchase'
     descriptionTranslationKey = 'subscribe.lifetime'
