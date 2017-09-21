@@ -222,7 +222,7 @@ describe 'POST /db/analytics_perday/-/level_drops', ->
     [res] = yield request.postAsync({@url, @json})
     expect(res.statusCode).toBe(403)
 
-  it 'returns start and finish data for levels in a given level, and saves a cache', utils.wrap ->
+  it 'returns user dropped info for given levels, and saves a cache', utils.wrap ->
     spyOn(AnalyticsPerDay, 'find').and.callThrough()
     expect(middleware.analyticsPerDay.levelDropsCache).toBeUndefined()
     [res] = yield request.postAsync({@url, @json})
@@ -278,7 +278,7 @@ describe 'POST /db/analytics_perday/-/level_helps', ->
     [res] = yield request.postAsync({@url, @json})
     expect(res.statusCode).toBe(403)
 
-  it 'returns start and finish data for levels in a given level, and saves a cache', utils.wrap ->
+  it 'returns info on alerts, spell palette clicks and help video starts for given levels, and saves a cache', utils.wrap ->
     spyOn(AnalyticsPerDay, 'find').and.callThrough()
     expect(middleware.analyticsPerDay.levelHelpsCache).toBeUndefined()
     [res] = yield request.postAsync({@url, @json})
@@ -338,7 +338,7 @@ describe 'POST /db/analytics_perday/-/level_subscriptions', ->
     [res] = yield request.postAsync({@url, @json})
     expect(res.statusCode).toBe(403)
 
-  it 'returns start and finish data for levels in a given level, and saves a cache', utils.wrap ->
+  it 'returns start and finish data for subscriptions in given levels, and saves a cache', utils.wrap ->
     spyOn(AnalyticsPerDay, 'find').and.callThrough()
     expect(middleware.analyticsPerDay.levelSubscriptionsCache).toBeUndefined()
     [res] = yield request.postAsync({@url, @json})
