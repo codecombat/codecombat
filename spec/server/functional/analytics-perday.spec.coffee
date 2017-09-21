@@ -375,7 +375,7 @@ describe 'POST /db/analytics_perday/-/recurring_revenue', ->
     [res] = yield request.postAsync({url, json: true})
     expect(res.statusCode).toBe(403)
 
-  it 'returns all perday entries for active class events', utils.wrap ->
+  it 'returns all perday entries for recurring revenue', utils.wrap ->
     gemsString = yield utils.makeAnalyticsString({v:'DRR gems'})
     schoolString = yield utils.makeAnalyticsString({v:'DRR school sales'})
     yearlyString = yield utils.makeAnalyticsString({v:'DRR yearly subs'})
