@@ -179,13 +179,18 @@ module.exports = class User extends CocoModel
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
 
-  getSubModalGroup: ->
+  getSubModalGroup: () ->
     return @subModalGroup if @subModalGroup
     group = me.get('testGroupNumber') % 4
     @subModalGroup = switch group
       when 0, 1 then 'both-subs'
       when 2, 3 then 'lifetime-only'
     @subModalGroup = 'both-subs' if me.isAdmin()
+    application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
+    @subModalGroup
+
+  setSubModalGroup: (val) ->
+    @subModalGroup = if me.isAdmin() then 'both-subs' else val
     application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
     @subModalGroup
 
@@ -436,6 +441,7 @@ module.exports = class User extends CocoModel
     stripe = _.clone(@get('stripe') ? {})
     stripe.planID = 'basic'
     stripe.token = token.id
+    stripe.couponID = options.couponID if options.couponID
     @set({stripe})
     return me.patch({headers: {'X-Change-Plan': 'true'}}).then =>
       unless utils.isValidEmail(@get('email'))
