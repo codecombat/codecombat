@@ -7,6 +7,9 @@ mixin price(name, p)
     - salePrice = Math.floor(salePrice);
   if origPrice == salePrice
     .price(data-i18n=name, data-i18n-options={price:origPrice})
+  else if view.basicCoupon && view.basicCoupon.duration === 'once'
+    .price.strike-price(data-i18n=name, data-i18n-options={price:origPrice})
+    .new-price(data-i18n="subscribe.first_month_price", data-i18n-options={price:salePrice})
   else
     div
       span.old-price(data-i18n=name, data-i18n-options={price:origPrice})
@@ -126,17 +129,3 @@ mixin price(name, p)
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
           p= view.stateMessage
-
-    .parent-link-popover-content.hidden
-      .email-parent-form
-        p(data-i18n="subscribe.parent_email_description")
-        form
-          .form-group
-            label(data-i18n="subscribe.parent_email_input_label")
-            input.parent-input.form-control(type='email', data-i18n="[placeholder]subscribe.parent_email_input_placeholder")
-            .parent-email-validator.email_invalid(data-i18n="subscribe.parent_email_input_invalid")
-          button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
-      .email-parent-complete
-        p(data-i18n="subscribe.parent_email_sent")
-        button.btn(type='button', onclick="$('.parent-link').popover('hide');", data-i18n="modal.close")
-

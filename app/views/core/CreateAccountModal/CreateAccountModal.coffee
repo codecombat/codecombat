@@ -73,8 +73,8 @@ module.exports = class CreateAccountModal extends ModalView
         subscribe: ['on'] # checked by default
       }
     }
-    
-    { startOnPath } = options
+
+    { startOnPath, @signupReturnHref } = options
     switch startOnPath
       when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
@@ -114,7 +114,9 @@ module.exports = class CreateAccountModal extends ModalView
         else
           @signupState.set { screen: 'segment-check' }
       'signup': ->
-        if @signupState.get('path') is 'student'
+        if @signupReturnHref
+          window.location.href = @signupReturnHref
+        else if @signupState.get('path') is 'student'
           @signupState.set { screen: 'extras', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
@@ -132,7 +134,9 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @insertSubView(new SingleSignOnConfirmView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'basic-info' }
       'signup': ->
-        if @signupState.get('path') is 'student'
+        if @signupReturnHref
+          window.location.href = @signupReturnHref
+        else if @signupState.get('path') is 'student'
           @signupState.set { screen: 'extras', accountCreated: true }
         else if @signupState.get('path') is 'teacher'
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
@@ -140,7 +144,7 @@ module.exports = class CreateAccountModal extends ModalView
           @signupState.set { screen: 'teacher-signup-component' }
         else
           @signupState.set { screen: 'confirmation', accountCreated: true }
-        
+
     @listenTo @insertSubView(new ExtrasView({ @signupState })),
       'nav-forward': -> @signupState.set { screen: 'confirmation' }
 
@@ -149,7 +153,7 @@ module.exports = class CreateAccountModal extends ModalView
     # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
     application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
     application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
-    
+
     @once 'hidden', ->
       if @signupState.get('accountCreated') and not application.testing
         # ensure logged in state propagates through the entire app
@@ -158,7 +162,7 @@ module.exports = class CreateAccountModal extends ModalView
         else if me.isTeacher()
           application.router.navigate('/teachers/classes', {trigger: true})
         window.location.reload()
-    
+
     store.registerModule('modal', TeacherSignupStoreModule)
 
   afterRender: ->
@@ -176,12 +180,12 @@ module.exports = class CreateAccountModal extends ModalView
           @signupState.set('screen', 'sso-confirm')
         else
           @signupState.set('screen', 'basic-info')
-      
+
   destroy: ->
     if @teacherSignupComponent
       @teacherSignupComponent.$destroy()
     try
       store.unregisterModule('modal')
-  
+
   onClickLoginLink: ->
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues') }))
