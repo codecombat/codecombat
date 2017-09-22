@@ -14,6 +14,7 @@ utils = require 'core/utils'
 urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
+aetherUtils = require 'lib/aether_utils'
 
 require 'lib/game-libraries'
 
@@ -91,7 +92,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = @session.generateSpellsObject level: @level
+      @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
       
       course = if @courseID then new Course({_id: @courseID}) else null

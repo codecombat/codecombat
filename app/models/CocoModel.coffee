@@ -367,7 +367,7 @@ class CocoModel extends Backbone.Model
     modulePath = "models/#{modelModule}"
 
     try
-      Model = require modulePath # TODO: Get this working async for chunking
+      Model = require modulePath # TODO webpack: Get this working async for chunking
     catch e
       console.error 'could not load model from link path', link, 'using path', modulePath
       return

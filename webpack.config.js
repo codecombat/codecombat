@@ -105,55 +105,35 @@ module.exports = {
       banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
     }),
     // new webpack.optimize.CommonsChunkPlugin({
-    //   // Convert the locale files into commons chunks (this removes them from other bundles, I think. Also removes the runtime from them?)
-    //   // Including 'app' at the end makes the Webpack runtime get put in 'app', not sure why.
-    //   names: Object.keys(_.merge({}, localeEntries, viewEntries)).concat(['app']),
-    //   minChunks: Infinity
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'view-commons',
-    //   chunks: Object.keys(viewEntries),
-    //   minChunks: 2,
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   name: 'vendor',
-    //   chunks: ['app', 'vendor'],
-    //   minChunks: 2,
-    // }),
-    // new webpack.optimize.CommonsChunkPlugin({
-    //   // name: '[name].js',
-    //   // children: true,
-    //   async: true,
-    //   minChunks: 2,
-    // }),
-    // new (require('chunk-splitting-plugin'))({
-    //   maxModulesPerChunk: 10,
-    //   maxModulesPerEntry: 1,
-    // }), // Make a ton of small chunks
-    // new webpack.optimize.CommonsChunkPlugin({
     //   // Trying to extract commons from main route branches
     //   // Doesn't seem to get anything?
     //   // filename: 'commons-[name]-[id]',
-    //   names: ['admin', 'account', 'clans', 'contribute', 'editor', 'i81n', 'play', 'courses', 'teachers', 'user'],
-    //   minChunks: 2,
-    //   async: true,
-    // }),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['app', 'play'],
-      minChunks: function(module, count) {
-        if (/locale/.test(module.resource)) { return false } // Don't suck locale files in
-        return count >= 2;
-      },
-      children: true,
-      async: 'play-commons',
-    }),
-    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'commons',
+    //   chunks: ['admin', 'account', 'clans', 'contribute', 'editor', 'i81n', 'play', 'courses', 'teachers', 'user'],
     //   minChunks: function(module, count) {
     //     if (/locale/.test(module.resource)) { return false } // Don't suck locale files in
     //     return count >= 2;
     //   },
+    //   async: 'commons',
+    // }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   // I initially had this misconfigured to extract commons from EVERYTHING and put it in play-commons.
+    //   // I think my initial goal of getting commons out of app+play is actually unnecessary,
+    //   // because I *think* bundle-loader doesn't include make anything redundant across app+child
+    //   name: 'play-commons',
+    //   chunks: ['app', 'play'],
+    //   minChunks: function(module, count) {
+    //     if (/locale/.test(module.resource)) { return false } // Don't suck locale files in
+    //     console.log("======");
+    //     console.log(module.resource);
+    //     console.log(module.request);
+    //     console.log(module.userRequest);
+    //     console.log(module.rawRequest);
+    //     console.log(module.loaders);
+    //     return count >= 2;
+    //   },
     //   // children: true,
-    //   async: true,
+    //   async: 'play-commons',
     // }),
     new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
       $: 'jquery',
@@ -197,9 +177,9 @@ module.exports = {
         to: 'javascripts/app/vendor/aether-html.js',
       }
     ]),
-    // new WebpackStaticStuff({
-    //   locals: {shaTag: process.env.GIT_SHA || 'dev'}
-    // }),
+    new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
+      locals: {shaTag: process.env.GIT_SHA || 'dev'}
+    }),
     // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result.
     // new webpack.optimize.UglifyJsPlugin(),
     new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({

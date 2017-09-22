@@ -111,3 +111,6 @@ spec/smoke/reports/
 
 scripts/analytics/mongodb/.analyticsAuth.json
 scripts/analytics/mongodb/.mainAuth.json
+
+# Created by git LFS
+.gitattributes

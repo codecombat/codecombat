@@ -1,5 +1,7 @@
 CocoClass = require 'core/CocoClass'
 utils = require 'core/utils'
+THREE = require('three')
+window.SPE = require('exports-loader?SPE!imports-loader?THREE=three!vendor/scripts/ShaderParticles')
 
 module.exports = ParticleMan = class ParticleMan extends CocoClass
 

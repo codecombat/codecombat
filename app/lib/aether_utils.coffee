@@ -62,3 +62,18 @@ functionParameters =
   update: []
   getNearestEnemy: []
   die: []
+
+# TODO Webpack: test to make sure this refactor works everywhere it's used
+module.exports.generateSpellsObject = (options) ->
+  {level, levelSession} = options
+  {createAetherOptions} = require 'lib/aether_utils'
+  aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: levelSession.get('codeLanguage'), skipProtectAPI: options.level?.isType('game-dev')
+  spellThang = thang: {id: 'Hero Placeholder'}, aether: new Aether aetherOptions
+  spells = "hero-placeholder/plan": thang: spellThang, name: 'plan'
+  source = levelSession.get('code')?['hero-placeholder']?.plan ? ''
+  try
+    spellThang.aether.transpile source
+  catch e
+    console.log "Couldn't transpile!\n#{source}\n", e
+    spellThang.aether.transpile ''
+  spells

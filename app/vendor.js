@@ -27,7 +27,7 @@ require('nanoscroller');
 require('nanoscroller/bin/css/nanoscroller.css');
 require('../vendor/scripts/hsl-to-rgb.js');
 require('../vendor/scripts/jquery-ui-1.11.1.custom.js');
-window.SPE = require('exports-loader?SPE!../vendor/scripts/ShaderParticles.js');
+// window.SPE = require('exports-loader?SPE!../vendor/scripts/ShaderParticles.js');
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');
 import 'vendor/styles/fancy_select.css'
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');
@@ -35,11 +35,10 @@ window.async = require('imports-loader?root=>window!../vendor/scripts/async.js')
 require('vendor/scripts/fuzzaldrin')
 
 // require('css-loader?-url!../vendor/scripts/jquery-ui-1.11.1.custom.css');
-require.context('../vendor', true, /.*\.(js|css)/); // F'it, just import everything for now. Handle the ones that need to be set to window manually.
 
 window.TreemaNode = require('exports-loader?TreemaNode!treema/treema.js');
 // jasmine?
-window.THREE = require('three');
+// window.THREE = require('three');
 require('imports-loader?this=>window!npm-modernizr');
 
 require('lib/sprites/SpriteBuilder.coffee'); // loaded by ThangType
@@ -49,3 +48,26 @@ window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the
 window.Vuex = require('vuex').default
 
 window.algoliasearch = require('algoliasearch')
+
+
+
+// All the rest of Vendor...
+// require.context('../vendor', true, /.*\.(js|css)/); // F'it, just import everything for now. Handle the ones that need to be set to window manually.
+// require('vendor/scripts/co.js')
+// require('vendor/scripts/coffeescript.js')
+require('vendor/scripts/css.js')
+require('vendor/scripts/deku.js')
+// require('vendor/scripts/difflib.js')
+// require('vendor/scripts/diffview.js')
+require('vendor/scripts/flying-focus.js')
+require('vendor/scripts/htmlparser2.js')
+// require('vendor/scripts/jasmine-boot.js')
+// require('vendor/scripts/jasmine-html.js')
+// require('vendor/scripts/jasmine-mock-ajax.js')
+// require('vendor/scripts/jasmine.js')
+require('vendor/scripts/jquery.mobile-events.js')
+require('vendor/scripts/lz-string-1.3.3-min.js')
+// require('vendor/scripts/register-game-libraries.js')
+require('vendor/scripts/string_score.js')
+require('vendor/scripts/vue.js')
+require('vendor/scripts/vuex.js')
