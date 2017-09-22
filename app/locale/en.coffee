@@ -1582,6 +1582,8 @@
     gd1: "Game Development 1"
     gd1_guide: "Game Development 1 - Project Guide"
     gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
+    gd1_rubric: "Game Development 1 - Project Rubric"
+    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
     wd1: "Web Development 1"
     wd1_headlines: "Headlines & Headers Activity"
     wd1_headlines_example: "View sample solution"
