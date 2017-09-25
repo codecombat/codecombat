@@ -32,6 +32,7 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Levels = require 'collections/Levels'
 payPal = require('core/services/paypal')
+createjs = require 'lib/createjs-parts'
 
 require 'lib/game-libraries'
 

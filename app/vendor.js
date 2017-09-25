@@ -2,13 +2,13 @@ global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 window._ = require('lodash');
 window.Backbone = require('backbone');
 window.Backbone.$ = window.jQuery; //wat
-window.createjs = require('vendor/scripts/createjs.combined.js').createjs;
-require('../vendor/scripts/easeljs-NEXT.combined.js');
-require('../vendor/scripts/tweenjs-NEXT.combined.js');
-require('../vendor/scripts/soundjs-NEXT.combined.js');
-require('../vendor/scripts/SpriteContainer.js');
-require('../vendor/scripts/SpriteStage.js');
-require('../vendor/scripts/movieclip-NEXT.min.js');
+// window.createjs = require('vendor/scripts/createjs.combined.js').createjs;
+// require('../vendor/scripts/easeljs-NEXT.combined.js');
+// require('../vendor/scripts/tweenjs-NEXT.combined.js');
+// require('../vendor/scripts/soundjs-NEXT.combined.js');
+// require('../vendor/scripts/SpriteContainer.js');
+// require('../vendor/scripts/SpriteStage.js');
+// require('../vendor/scripts/movieclip-NEXT.min.js');
 window.tv4 = require('tv4');
 window.lscache = require('lscache');
 window._.string = require('underscore.string');
@@ -41,7 +41,7 @@ window.TreemaNode = require('exports-loader?TreemaNode!treema/treema.js');
 // window.THREE = require('three');
 require('imports-loader?this=>window!npm-modernizr');
 
-require('lib/sprites/SpriteBuilder.coffee'); // loaded by ThangType
+// require('lib/sprites/SpriteBuilder.coffee'); // loaded by ThangType
 require('ace-builds/src-noconflict/ace.js');
 
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)

@@ -6,6 +6,7 @@ LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
 require 'treema/treema.js'
+createjs = require 'lib/createjs-parts'
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'

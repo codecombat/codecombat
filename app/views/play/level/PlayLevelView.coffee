@@ -21,6 +21,7 @@ Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 Simulator = require 'lib/simulator/Simulator'
 GameUIState = require 'models/GameUIState'
+createjs = require 'lib/createjs-parts'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'

@@ -18,6 +18,7 @@ LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
+createjs = require 'lib/createjs-parts'
 
 # subviews
 LoadingView = require './level/LevelLoadingView'

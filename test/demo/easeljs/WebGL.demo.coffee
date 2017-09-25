@@ -1,6 +1,7 @@
 RootView = require 'views/kinds/RootView'
 waterfallLib = require 'test/demo/fixtures/waterfall'
 librarianLib = require 'test/demo/fixtures/librarian'
+createjs = require 'lib/createjs-parts'
 
 class WebGLDemoView extends RootView
   template: -> '<canvas id="visible-canvas" width="1200" height="700" style="background: #ddd"><canvas id="invisible-canvas" width="0" height="0" style="display: none">'

@@ -23,6 +23,7 @@ CocoClass = require 'core/CocoClass'
 SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
 ThangType = require 'models/ThangType'
+createjs = require 'lib/createjs-parts'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 

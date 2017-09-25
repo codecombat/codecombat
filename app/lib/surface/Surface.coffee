@@ -18,6 +18,7 @@ PointChooser = require './PointChooser'
 RegionChooser = require './RegionChooser'
 MusicPlayer = require './MusicPlayer'
 GameUIState = require 'models/GameUIState'
+createjs = require 'lib/createjs-parts'
 
 resizeDelay = 500  # At least as much as $level-resize-transition-time.
 

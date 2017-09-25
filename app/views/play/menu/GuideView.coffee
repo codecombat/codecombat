@@ -4,6 +4,7 @@ Article = require 'models/Article'
 SubscribeModal = require 'views/core/SubscribeModal'
 # ace = require 'ace'
 utils = require 'core/utils'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class LevelGuideView extends CocoView
   template: template

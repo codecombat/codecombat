@@ -2,6 +2,7 @@ CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
 CocoCollection = require 'collections/CocoCollection'
+createjs = require 'lib/createjs-parts'
 
 utils = require 'core/utils'
 

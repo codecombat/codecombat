@@ -1,11 +1,5 @@
 # TODO: Webpack: get these from NPM modules where possible
-require('vendor/scripts/createjs.combined')
-require('vendor/scripts/easeljs-NEXT.combined')
-require('vendor/scripts/movieclip-NEXT.min')
-require('vendor/scripts/tweenjs-NEXT.combined')
-require('vendor/scripts/soundjs-NEXT.combined')
-require('vendor/scripts/SpriteContainer')
-require('vendor/scripts/SpriteStage')
+createjs = require 'lib/createjs-parts'
 window.SPE = require('exports-loader?SPE!imports-loader?THREE=three!vendor/scripts/ShaderParticles')
 require('vendor/scripts/deku')
 require('vendor/scripts/htmlparser2')

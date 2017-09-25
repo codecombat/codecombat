@@ -13,6 +13,7 @@ Purchase = require 'models/Purchase'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
 store = require 'core/store'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'

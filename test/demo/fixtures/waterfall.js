@@ -1,3 +1,5 @@
+var createjs = require('lib/createjs-parts');
+
 (function (lib, img, cjs) {
 
   var p; // shortcut to reference prototypes

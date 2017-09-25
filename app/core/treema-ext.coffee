@@ -3,6 +3,7 @@ CocoCollection = require 'collections/CocoCollection'
 {me} = require('core/auth')
 locale = require 'locale/locale'
 utils = require 'core/utils'
+createjs = require 'lib/createjs-parts'
 
 initializeFilePicker = ->
   require('core/services/filepicker')() unless window.application.isIPadApp

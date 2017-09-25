@@ -1,7 +1,7 @@
 FacebookHandler = require 'core/social-handlers/FacebookHandler'
 GPlusHandler = require 'core/social-handlers/GPlusHandler'
 GitHubHandler = require 'core/social-handlers/GitHubHandler'
-ModuleLoader = require 'core/ModuleLoader'
+# ModuleLoader = require 'core/ModuleLoader'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 Tracker = require 'core/Tracker'
