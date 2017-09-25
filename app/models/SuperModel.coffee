@@ -312,7 +312,7 @@ class ModelResource extends Resource
 
 #    # TODO: Track progress on requests and don't retry if progress was made recently.
 #    # Probably use _.debounce and attach event listeners to xhr objects.
-#    
+#
 #    # This logic is for handling failed responses for level loading.
 #    timeToWait = 5000
 #    tryLoad = =>

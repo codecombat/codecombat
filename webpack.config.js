@@ -10,6 +10,7 @@ require('coffee-script');
 require('coffee-script/register');
 var WebpackStaticStuff = require('./webpack-static-stuff');
 var WebpackNotifyChanges = require('./webpack-notify-changes');
+var WebpackShellPlugin = require('webpack-shell-plugin');
 
 console.log("Starting Webpack...");
 
@@ -28,7 +29,7 @@ module.exports = {
       './vendor/scripts/coffeescript.js',
     ]),
     lodash: 'lodash', // For worker_world
-    // aether: './bower_components/aether/build/aether.js', // For worker_world
+    aether: './bower_components/aether/build/aether.js', // For worker_world
     // esper: './bower_components/esper.js/esper.js',
     // vendor: './app/vendor.js'
   },
@@ -100,7 +101,6 @@ module.exports = {
     request: 'empty',
   },
   plugins: [
-    new WebpackNotifyChanges(),
     new webpack.BannerPlugin({ // Label each module in the output bundle
       banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
     }),
@@ -177,30 +177,39 @@ module.exports = {
         to: 'javascripts/app/vendor/aether-html.js',
       }
     ]),
-    new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
-      locals: {shaTag: process.env.GIT_SHA || 'dev'}
-    }),
+    // new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
+    //   locals: {shaTag: process.env.GIT_SHA || 'dev'}
+    // }),
     // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result.
     // new webpack.optimize.UglifyJsPlugin(),
-    new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
-      analyzerMode: 'static',
-      // analyzerHost: '127.0.0.1',
-      // analyzerPort: 8888,
-      reportFilename: 'bundleReport.html',
-      defaultSizes: 'gzip',
-      openAnalyzer: false,
-      generateStatsFile: true,
-      statsFilename: 'stats.json',
-      statsOptions: {
-        source: false,
-        reasons: true,
-        // assets: true,
-        // chunks: true,
-        // chunkModules: true,
-        // modules: true,
-        // children: true,
-      },
-      logLevel: 'info',
-    }),
+    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
+    //   analyzerMode: 'static',
+    //   // analyzerHost: '127.0.0.1',
+    //   // analyzerPort: 8888,
+    //   reportFilename: 'bundleReport.html',
+    //   defaultSizes: 'gzip',
+    //   openAnalyzer: false,
+    //   generateStatsFile: true,
+    //   statsFilename: 'stats.json',
+    //   statsOptions: {
+    //     source: false,
+    //     reasons: true,
+    //     // assets: true,
+    //     // chunks: true,
+    //     // chunkModules: true,
+    //     // modules: true,
+    //     // children: true,
+    //   },
+    //   logLevel: 'info',
+    // }),
+    new WebpackShellPlugin({
+      // onBuildStart: [
+      //   'echo Building...'
+      // ],
+      onBuildEnd: [
+        'coffee scripts/minify.coffee',
+        // 'echo Built!'
+      ],
+    })
   ]
 }

@@ -6,6 +6,7 @@ do (setupLodash = this) ->
   _.mixin _.str.exports()
 
 express = require 'express'
+compression = require('compression')
 http = require 'http'
 log = require 'winston'
 serverSetup = require './server_setup'
@@ -21,6 +22,7 @@ createAndConfigureApp = module.exports.createAndConfigureApp = ->
   serverSetup.connectToDatabase()
   
   app = express()
+  app.use(compression()) # TODO Webpack: Disable locally? Maybe.
   serverSetup.setExpressConfigurationOptions app
   serverSetup.setupMiddleware app
   serverSetup.setupRoutes app
