@@ -235,7 +235,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
     if levelProgress == 'started' || levelProgress == 'complete'
       if view.levelSessionMap && view.levelSessionMap[level.get('original')]
         - link = view.urls.playDevLevel({level: level, session: view.levelSessionMap[level.get('original')], course: course});
-      - labelText = translate('teacher.view_student_project');
+      - labelText = translate('teacher.view_project');
       - dotClass = 'navy';
     else
       - labelText = translate('teacher.project');

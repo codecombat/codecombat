@@ -46,7 +46,7 @@ module.exports = class GameDevTrackView extends CocoView
     @$el.removeClass('playback-float-right')
 
   titleize: (name) ->
-    return _.string.titleize(name)
+    return _.string.titleize(_.string.humanize(name))
     
   beautify: (name, val) ->
     if typeof val is 'object' and val.x? and val.y? and val.z?
