@@ -368,6 +368,7 @@ module.exports = class ThangType extends CocoModel
     @wizardType
 
   getPortraitURL: ->
+    return '' if application.testing
     if iconURL = @get('rasterIcon')
       return "/file/#{iconURL}"
     if rasterURL = @get('raster')

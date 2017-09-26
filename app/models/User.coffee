@@ -36,6 +36,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   getPhotoURL: (size=80) ->
+    return '' if application.testing
     return "/db/user/#{@id}/avatar?s=#{size}"
 
   getRequestVerificationEmailURL: ->
