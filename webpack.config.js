@@ -14,6 +14,21 @@ var WebpackShellPlugin = require('webpack-shell-plugin');
 
 console.log("Starting Webpack...");
 
+// Suck out commons chunks from these sets:
+// NOTE: Don't include files loaded by the WebWorkers in this. (lodash, aether, world)
+combos = {
+  createjs: ['admin', 'editor', 'courses', 'clans', 'i18n', 'ladder', 'play', 'artisans'],
+  d3: ['teachers', 'admin', 'ladder', 'editor'],
+  aether: ['play', 'editor', 'ladder'],
+  skulpty: ['ladder', 'editor'],
+  three: ['play', 'editor'],
+}
+commonsPlugins = _.map(combos, (combo, key) => {
+  return new webpack.optimize.CommonsChunkPlugin({ chunks: combo, async: key || true, minChunks: combo.length })
+})
+console.log(`Made ${commonsPlugins.length} commons plugins`);
+
+
 // Main webpack config
 module.exports = {
   context: path.resolve(__dirname),
@@ -46,6 +61,9 @@ module.exports = {
       //   { loader: 'babel-loader', options: {
       //     presets: ['minify'],
       //   } },
+      // ] },
+      // { test: /assets\/javascripts\/workers\/.*/, use: [ // Register these so as to prevent CommonsChunkPlugin from operating on them
+      //   { loader: 'worker-loader' },
       // ] },
       { test: /\.coffee$/, use: [
         // { loader: 'babel-loader', options: {
@@ -100,21 +118,31 @@ module.exports = {
     child_process: 'empty',
     request: 'empty',
   },
-  plugins: [
+  plugins: commonsPlugins.concat([
     new webpack.BannerPlugin({ // Label each module in the output bundle
       banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
     }),
+    // new webpack.optimize.CommonsChunkPlugin({ async: true, minChunks: 2 }),
+    // new webpack.optimize.CommonsChunkPlugin({ chunks: ['aether', 'play', 'editor', 'ladder'], async: true, minChunks: 4 }), // Aether
+    // new webpack.optimize.CommonsChunkPlugin({ chunks: ['admin', 'play', 'editor', 'ladder'], async: true, minChunks: 4 }), // Box2D
+    // new webpack.optimize.CommonsChunkPlugin({ chunks: ['play', 'editor', 'admin'], async: true, minChunks: 2 }), // Box2D, CreateJS
+    // new webpack.optimize.CommonsChunkPlugin({ chunks: ['play', 'editor', 'admin'], async: true, minChunks: 2 }), // Box2D, CreateJS
+    // new webpack.optimize.CommonsChunkPlugin({ chunks: ['aether', 'play'], async: true }),
     // new webpack.optimize.CommonsChunkPlugin({
     //   // Trying to extract commons from main route branches
     //   // Doesn't seem to get anything?
-    //   // filename: 'commons-[name]-[id]',
-    //   name: 'commons',
-    //   chunks: ['admin', 'account', 'clans', 'contribute', 'editor', 'i81n', 'play', 'courses', 'teachers', 'user'],
-    //   minChunks: function(module, count) {
-    //     if (/locale/.test(module.resource)) { return false } // Don't suck locale files in
-    //     return count >= 2;
-    //   },
-    //   async: 'commons',
+    //   // filename: 'commons',
+    //   // name: 'app',
+    //   // chunks: ['admin', 'account', 'clans', 'contribute', 'editor', 'i81n', 'play', 'courses', 'teachers', 'user'],
+    //   chunks: ['aether', 'play'],
+    //   // children: true,
+    //   minChunks: 2,
+    //   // minChunks: function(module, count) {
+    //   //   if (/locale/.test(module.resource)) { return false } // Don't suck locale files in
+    //   //   return count >= 2;
+    //   // },
+    //   async: 'aether',
+    //   async: true,
     // }),
     // new webpack.optimize.CommonsChunkPlugin({
     //   // I initially had this misconfigured to extract commons from EVERYTHING and put it in play-commons.
@@ -182,34 +210,35 @@ module.exports = {
     // }),
     // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result.
     // new webpack.optimize.UglifyJsPlugin(),
-    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
-    //   analyzerMode: 'static',
-    //   // analyzerHost: '127.0.0.1',
-    //   // analyzerPort: 8888,
-    //   reportFilename: 'bundleReport.html',
-    //   defaultSizes: 'gzip',
-    //   openAnalyzer: false,
-    //   generateStatsFile: true,
-    //   statsFilename: 'stats.json',
-    //   statsOptions: {
-    //     source: false,
-    //     reasons: true,
-    //     // assets: true,
-    //     // chunks: true,
-    //     // chunkModules: true,
-    //     // modules: true,
-    //     // children: true,
-    //   },
-    //   logLevel: 'info',
-    // }),
+    new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
+      analyzerMode: 'static',
+      // analyzerHost: '127.0.0.1',
+      // analyzerPort: 8888,
+      reportFilename: 'bundleReport.html',
+      defaultSizes: 'gzip',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: 'stats.json',
+      statsOptions: {
+        source: false,
+        reasons: true,
+        // assets: true,
+        // chunks: true,
+        // chunkModules: true,
+        // modules: true,
+        // children: true,
+      },
+      logLevel: 'info',
+    }),
     new WebpackShellPlugin({
-      // onBuildStart: [
-      //   'echo Building...'
-      // ],
+      // dev: true,
+      onBuildStart: [
+        'echo Building...'
+      ],
       onBuildEnd: [
-        'coffee scripts/minify.coffee',
-        // 'echo Built!'
+        // 'coffee scripts/minify.coffee',
+        'echo Built!',
       ],
     })
-  ]
+  ])
 }
