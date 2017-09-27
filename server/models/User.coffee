@@ -158,6 +158,7 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
 UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
   gemsEarned = gemsEarned + 100000 if @isInGodMode()
+  gemsEarned += 1000 if @get('hourOfCode')
   gemsPurchased = @get('purchased')?.gems ? 0
   gemsSpent = @get('spent') ? 0
   gemsEarned + gemsPurchased - gemsSpent

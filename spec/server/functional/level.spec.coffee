@@ -304,11 +304,11 @@ describe 'GET /db/level/:handle/session', ->
         expect(res.statusCode).toBe(201)
         done()
         
-      it 'returns 201 if the campaign included in the URL is game-dev-hoc and the level is in that campaign', utils.wrap ->
+      it 'returns 201 if the campaign included in the campaign is type "hoc" and the level is in that campaign', utils.wrap ->
         yield utils.loginUser(@admin)
         @otherLevel = yield utils.makeLevel({requiresSubscription: true})
         @campaign = yield utils.makeCampaign({}, {levels: [@level]})
-        @gameDevHocCampaign = yield utils.makeCampaign({name: 'Game Dev HoC'}, {levels: [@otherLevel]})
+        @gameDevHocCampaign = yield utils.makeCampaign({type: 'hoc'}, {levels: [@otherLevel]})
         yield utils.loginUser(@player)
         otherLevelUrl = getURL("/db/level/#{@otherLevel.id}/session")
         

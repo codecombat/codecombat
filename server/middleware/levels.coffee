@@ -130,7 +130,7 @@ module.exports =
         # check if the campaign requesting this is game dev hoc, if so then let it work
         query = {
           _id: mongoose.Types.ObjectId(req.query.campaign),
-          slug: 'game-dev-hoc', # replace with a way of indicating that
+          type: 'hoc'
           "levels.#{level.get('original')}": {$exists: true} 
         }
         campaign = yield Campaign.count(query)
