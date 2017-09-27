@@ -152,7 +152,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     campaign_multiplayer_description: "... dimana kamu membuat kode satu lawan satu melawan pemain lainnya."
     brain_pop_done: "Kamu telah membunuh Ogre dengan kode! Kamu menang!"
 
-#  code:
+  code:
     if: "jika" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "selainnya"
     elif: "selainnya, jika"
