@@ -234,6 +234,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_teacher_header: "Создать учётную запись Учителя"
     create_individual_header: "Создать личную учётную запись"
     email_announcements: "Получать оповещения о новых уровнях и возможностях на CodeCombat"
+#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Создаём учётную запись..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
@@ -709,14 +710,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unsubscribing: "Отписываемся"
     subscribe_prepaid: "Нажмите 'Подпишись', чтобы использовать предоплаченный код"
     using_prepaid: "Использовать предоплаченный код для месячной подписки"
-    feature_levels: "Получи доступ к __premiumLevelsCount__ доступным уровням" # {change}
+#    feature_level_access: "Access 300+ levels available"
     feature_gems: "Получай __gems__ самоцветов каждый месяц"
     feature_heroes: "Разблокируй эксклюзивных героев" # {change}
     feature_games: "Создавай игры для своих друзей"
     feature_websites: "Создавай веб-сайты и приложения"
     feature_items: "Снаряжай более могущественные вещи"
-#    feature_learn: "Learn to make games and websites" # {change}
+#    feature_learn: "Learn to make games and websites"
     month_price: "$__price__/мес" # {change}
+#    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Пожизненная подписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Годовая подписка"
@@ -920,6 +922,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     lisa_blurb: "Непреклонная"
     sean_title: "Региональный менеджер"
     liz_title: "Региональный менеджер"
+#    david_title: "Customer Success Manager"
+#    jane_title: "Partnership Associate"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музыка"
@@ -983,7 +987,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     project_based_title: "Проектно-ориентированные курсы"
     project_based_description: "Курсы по Веб-разработке и Разработке Игр имеют различные финальные проекты."
     great_for_clubs_title: "Отлично подходит для клубов и факультативов"
-    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ Стартовых Лицензий ежегодно." #{change}
+    great_for_clubs_description: "Учителя могут приобрести до __maxQuantityStarterLicenses__ Стартовых Лицензий ежегодно." # {change}
     low_price_title: "Всего __starterLicensePrice__ за одного учащегося"
     low_price_description: "Стартовые Лицензии активны в течение __starterLicenseLengthMonths__ месяцев с момента покупки."
     three_great_courses: "Стартовая Лицензия включает в себя три замечательных курса:"
@@ -1046,7 +1050,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     city: "Город"
     state: "Область"
     country: "Страна"
-    num_students_help: "Сколько учеников вы ожидаете привлечь в CodeCombat?"
+    num_students_help: "Сколько учеников вы ожидаете привлечь в CodeCombat?" # {change}
     num_students_default: "Выберите диапазон"
     education_level_label: "Уровень образования учеников"
     education_level_help: "Выберите столько, сколько нужно."
@@ -1057,7 +1061,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     college_plus: "Колледж/университет или выше"
     referrer: "Как вы о нас узнали?"
     referrer_help: "Например: от другого учителя, ваших учеников, на конференции, Code.org и т.д."
-    anything_else: "Что-нибудь ещё, о чём мы должны знать?"
+#    referrer_default: "Select One"
+#    referrer_hoc: "Code.org/Hour of Code"
+#    referrer_teacher: "A teacher"
+#    referrer_admin: "An administrator"
+#    referrer_student: "A student"
+#    referrer_pd: "Professional trainings/workshops"
+#    referrer_web: "Google"
+#    referrer_other: "Other"
+    anything_else: "Что-нибудь ещё, о чём мы должны знать?" # {change}
     thanks_header: "Запрос получен!"
     thanks_sub_header: "Спасибо, что проявили интерес к CodeCombat для вашей школы."
 #    thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"
@@ -1390,6 +1402,10 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "You'll need to join a course to play this level."
     license_required_to_play: "Попроси своего учителя назначить тебе лицензию для продолжения игры на CodeCombat!"
+#    update_old_classroom: "New school year, new levels!"
+#    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
+#    teacher_dashboard: "teacher dashboard"
+#    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1520,6 +1536,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    unpublished: "(unpublished)"
 #    view_arena_ladder: "View Arena Ladder"
 #    resource_hub: "Resource Hub"
+#    pacing_guides: "Classroom-in-a-Box Pacing Guides"
+#    pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
+#    pacing_guides_elem: "Elementary School Pacing Guide"
+#    pacing_guides_middle: "Middle School Pacing Guide"
+#    pacing_guides_high: "High School Pacing Guide"
 #    getting_started: "Getting Started"
 #    educator_faq: "Educator FAQ"
 #    educator_faq_desc: "Frequently asked questions about using CodeCombat in your classroom or school."
@@ -1561,6 +1582,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    gd1: "Game Development 1"
 #    gd1_guide: "Game Development 1 - Project Guide"
 #    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
+#    gd1_rubric: "Game Development 1 - Project Rubric"
+#    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
     wd1: "Веб-разработка 1"
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"

@@ -234,6 +234,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     create_teacher_header: "Stwórz konto nauczyciela"
     create_individual_header: "Stwórz konto prywatne"
     email_announcements: "Otrzymuj powiadomienia na e-mail o nowych poziomach i funkcjach w CodeCombat"
+#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Tworzenie konta..."
     sign_up: "Zarejestruj się"
     log_in: "Zaloguj się używając hasła"
@@ -709,14 +710,15 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     unsubscribing: "Anulowanie subskrypcji"
     subscribe_prepaid: "Kliknij `Zapisz się`, aby użyć kodu prepaid"
     using_prepaid: "Używasz kodu prepaid dla miesięcznych subskrypcji"
-    feature_levels: "__premiumLevelsCount__ bonusowych poziomów" # {change}
+#    feature_level_access: "Access 300+ levels available"
     feature_gems: "__gems__ klejnotów co miesiąc"
     feature_heroes: "Ekskluzywni bohaterowie" # {change}
     feature_games: "Tworzenie gier dla znajomych"
     feature_websites: "Tworzenie stron i aplikacji"
     feature_items: "Założysz potężniejsze przedmioty"
-#    feature_learn: "Learn to make games and websites" # {change}
+#    feature_learn: "Learn to make games and websites"
     month_price: "$__price__/miesiąc" # {change}
+#    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Dożywotnia subskrypcja" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Roczna subskrypcja"
@@ -920,6 +922,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     lisa_blurb: "Ma charakterek"
     sean_title: "Menedżer regionu"
     liz_title: "Menedżer regionu"
+#    david_title: "Customer Success Manager"
+#    jane_title: "Partnership Associate"
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Muzyka"
@@ -983,7 +987,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     project_based_title: "Kursy bazujące na projektach"
     project_based_description: "Kursy tworzenie gier i stron internetowych dają możliwość podzielenia się gotowym projektem."
     great_for_clubs_title: "Idelane dla kół i klubów szkolnych"
-    great_for_clubs_description: "Nauczyciele mogą kupić maksymalnie __maxQuantityStarterLicenses__ licencji startowych na rok." #{change}
+    great_for_clubs_description: "Nauczyciele mogą kupić maksymalnie __maxQuantityStarterLicenses__ licencji startowych na rok." # {change}
     low_price_title: "Jedyne __starterLicensePrice__ za ucznia"
     low_price_description: "Licencje startowe są aktywne przez __starterLicenseLengthMonths__ miesięcy od daty ich zakupu."
     three_great_courses: "Tzry świetne kursy dostępne w licencji startowej:"
@@ -1046,7 +1050,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     city: "Miasto"
     state: "Województwo"
     country: "Kraj"
-    num_students_help: "Ile osób masz zamiar zapisać do CodeCombat?"
+    num_students_help: "Ile osób masz zamiar zapisać do CodeCombat?" # {change}
     num_students_default: "Wybierz zakres"
     education_level_label: "Poziom nauczania uczniów"
     education_level_help: "Możesz wybrać wiele odpowiedzi."
@@ -1057,7 +1061,15 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     college_plus: "Studia"
     referrer: "Jak się o nas dowiedziałeś?"
     referrer_help: "Na przykład: od innego nauczyciela, na konferencji, od swoich uczniów, Code.org, itp."
-    anything_else: "Coś jeszcze powinniśmy wiedzieć?"
+#    referrer_default: "Select One"
+#    referrer_hoc: "Code.org/Hour of Code"
+#    referrer_teacher: "A teacher"
+#    referrer_admin: "An administrator"
+#    referrer_student: "A student"
+#    referrer_pd: "Professional trainings/workshops"
+#    referrer_web: "Google"
+#    referrer_other: "Other"
+    anything_else: "Coś jeszcze powinniśmy wiedzieć?" # {change}
     thanks_header: "Prośba otrzymana!"
     thanks_sub_header: "Dziękujemy za okazanie zainteresowania stroną CodeCombat."
     thanks_p: "Wkrótce się odezwiemy! Jeśli chcesz się z nami skontaktować napisz na:"
@@ -1390,6 +1402,10 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     web_dev_language_transition: "Wszystkie klasy będą używać HTML / JavaScript w tym kursie.  Klasy, które wcześniej uczyły sie Pythona, będą miały kilka dodatkowych lekcji z JavaScriptu, aby ułatwić przestawienie się na nowy język.  Klasy, które używały JavaScriptu rozpoczną grę bez tych lekcji."
     course_membership_required_to_play: "Musisz dołączyć do kursu, aby móc grać w ten poziom."
     license_required_to_play: "Poproś nauczyciela o przydzielenie ci licencji, abyś mógł kontynuować rozgrywkę w CodeCombat!"
+#    update_old_classroom: "New school year, new levels!"
+#    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
+#    teacher_dashboard: "teacher dashboard"
+#    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1520,6 +1536,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Pokaż drabinkę areny"
     resource_hub: "Baza wiedzy"
+#    pacing_guides: "Classroom-in-a-Box Pacing Guides"
+#    pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
+#    pacing_guides_elem: "Elementary School Pacing Guide"
+#    pacing_guides_middle: "Middle School Pacing Guide"
+#    pacing_guides_high: "High School Pacing Guide"
     getting_started: "Wprowadzenie"
     educator_faq: "FAQ dla nauczycieli"
     educator_faq_desc: "Najczęściej zadawane pytania odnośnie korzystania z CodeCombat w twojej klasie lub szkole."
@@ -1561,6 +1582,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     gd1: "Tworzenie gier 1"
 #    gd1_guide: "Game Development 1 - Project Guide"
 #    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
+#    gd1_rubric: "Game Development 1 - Project Rubric"
+#    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
     wd1: "Tworzenie stron 1"
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
