@@ -24,5 +24,10 @@ module.exports = class PaymentsView extends RootView
       transactionId = payPal?.transactions?[0]?.related_resources?[0]?.sale?.id
       if transactionId
         console.log('PayPal Payment', transactionId, payment.get('amount'))
+      
+      payPalSale = payment.get('payPalSale')
+      transactionId = payPalSale?.id
+      if transactionId
+        console.log('PayPal Subscription Payment', transactionId)
     
     super()
