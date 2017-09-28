@@ -18,6 +18,7 @@ module.exports = class GameDevTrackView extends CocoView
   onUITrackedPropertiesChanged: (e) ->
     @listings = {}
     for key, thangState of e.thangStateMap
+      continue unless thangState.trackedPropertyKeys
       trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
       unless trackedPropNamesIndex is -1
         trackedPropNames = thangState.props[trackedPropNamesIndex]
