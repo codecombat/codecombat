@@ -60,22 +60,34 @@ block content
           .average-playtime.small-details
             span(data-i18n='teacher.avg_playtime')
             span.spr :
-            span= stats.averagePlaytime
+            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+              span= stats.averagePlaytime
+            else
+              span(data-i18n='common.loading')
 
           .total-playtime.small-details
             span(data-i18n='teacher.total_playtime')
             span.spr :
-            span= stats.totalPlaytime
+            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+              span= stats.totalPlaytime
+            else
+              span(data-i18n='common.loading')
 
           .average-complete.small-details
             span(data-i18n='teacher.avg_completed')
             span.spr :
-            span= stats.averageLevelsComplete
+            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+              span= stats.averageLevelsComplete
+            else
+              span(data-i18n='common.loading')
 
           .total-complete.small-details
             span(data-i18n='teacher.total_completed')
             span.spr :
-            span= stats.totalLevelsComplete
+            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+              span= stats.totalLevelsComplete
+            else
+              span(data-i18n='common.loading')
 
           .total-complete.small-details
             span(data-i18n='teacher.created')
@@ -101,19 +113,27 @@ block content
         .completeness-info.col-md-4
           h4.m-b-2
             &nbsp;
-          if state.get('earliestIncompleteLevel')
-            div.small-details
+          div.small-details
+            if state.get('earliestIncompleteLevel')
               span(data-i18n='teacher.earliest_incomplete')
               span :
-            +longLevelName(state.get('earliestIncompleteLevel'))
-            +inlineUserList(state.get('earliestIncompleteLevel').users)
+              +longLevelName(state.get('earliestIncompleteLevel'))
+              +inlineUserList(state.get('earliestIncompleteLevel').users)
+            else
+              span(data-i18n='teacher.earliest_incomplete')
+              span :
+              div(data-i18n='common.loading')
 
-          if state.get('latestCompleteLevel')
-            div.small-details.m-t-3
+          div.small-details.m-t-3
+            if state.get('latestCompleteLevel')
               span(data-i18n='teacher.latest_complete')
               span :
-            +longLevelName(state.get('latestCompleteLevel'))
-            +inlineUserList(state.get('latestCompleteLevel').users)
+              +longLevelName(state.get('latestCompleteLevel'))
+              +inlineUserList(state.get('latestCompleteLevel').users)
+            else
+              span(data-i18n='teacher.latest_complete')
+              span :
+              div(data-i18n='common.loading')
 
         .adding-students.col-md-5
           h4.m-b-2
@@ -229,8 +249,11 @@ mixin studentRow(student)
       div
         i
           span(data-i18n='teacher.latest_completed')
-      div
-        +longLevelName(student.latestCompleteLevel)
+      if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+        div
+          +longLevelName(student.latestCompleteLevel)
+      else
+        div(data-i18n='common.loading')
     td
       if state.get('progressData')
         - var courses = view.sortedCourses.map(function(c) { return view.courses.get(c._id); });
