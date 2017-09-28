@@ -573,7 +573,9 @@ module.exports = Surface = class Surface extends CocoClass
       newWidth = 1024
       newHeight = newWidth / aspectRatio
     else if @options.resizeStrategy is 'wrapper-size'
-      newWidth = $('#canvas-wrapper').width()
+      canvasWrapperWidth = $('#canvas-wrapper').width()
+      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+      newWidth = Math.min(pageWidth, pageHeight * aspectRatio, canvasWrapperWidth)
       newHeight = newWidth / aspectRatio
     else if @realTime or @options.spectateGame
       pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
@@ -663,6 +665,8 @@ module.exports = Surface = class Surface extends CocoClass
 
   # Force sizing based on width for game-dev levels, so that the instructions panel doesn't obscure the game
   onManualCast: ->
+    console.log '???'
+    console.trace()
     if @options.levelType is 'game-dev'
       console.log "Force resize strategy"
       @options.originalResizeStrategy = @options.resizeStrategy
