@@ -19,7 +19,7 @@ post = wrap (req, res) ->
   try
     yield doc.save()
   catch e
-    slack.sendSlackMessage("Event '#{event}' with props #{properties} not created because #{e.message}.", ['#ops'])
+    slack.sendSlackMessage("Event '#{event}' with props #{JSON.stringify(properties)} not created because #{e.message}.", ['#ops'])
     # response already created
     
 module.exports = {
