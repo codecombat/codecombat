@@ -130,6 +130,7 @@ module.exports = class User extends CocoModel
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
     gemsEarned = gemsEarned + 100000 if me.isInGodMode()
+    gemsEarned += 1000 if me.get('hourOfCode')
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
     Math.floor gemsEarned + gemsPurchased - gemsSpent

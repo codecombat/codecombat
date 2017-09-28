@@ -73,7 +73,7 @@ module.exports = class ControlBarView extends CocoView
       @levelNumber = @classroom.getLevelNumber(@level.get('original'), @levelNumber)
     else if @campaign
       @levelNumber = @campaign.getLevelNumber(@level.get('original'), @levelNumber)
-    if application.onHocPage()
+    if application.getHocCampaign()
       @levelNumber = null
     super()
 
@@ -92,11 +92,11 @@ module.exports = class ControlBarView extends CocoView
     c.spectateGame = @spectateGame
     c.observing = @observing
     @homeViewArgs = [{supermodel: if @hasReceivedMemoryWarning then null else @supermodel}]
-    gameDevHoc = storage.load('should-return-to-game-dev-hoc')
-    if gameDevHoc
-      @homeLink = "/play/game-dev-hoc"
+    gameDevCampaign = application.getHocCampaign()
+    if gameDevCampaign
+      @homeLink = "/play/#{gameDevCampaign}"
       @homeViewClass = 'views/play/CampaignView'
-      @homeViewArgs.push 'game-dev-hoc'
+      @homeViewArgs.push gameDevCampaign
     else if me.isSessionless()
       @homeLink = "/teachers/courses"
       @homeViewClass = "views/courses/TeacherCoursesView"
