@@ -1,10 +1,11 @@
 ThangTypeLib = {
   getPortraitURL: (thangTypeObj) ->
-    if iconURL = thangTypeObj.rasterIcon
+    return '' if application.testing
+    if iconURL = @get('rasterIcon')
       return "/file/#{iconURL}"
-    if rasterURL = thangTypeObj.raster
+    if rasterURL = @get('raster')
       return "/file/#{rasterURL}"
-    "/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
+    "/file/db/thang.type/#{@get('original')}/portrait.png"
 }
 
 module.exports = ThangTypeLib
