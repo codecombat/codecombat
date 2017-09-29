@@ -15,6 +15,7 @@ urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
 aetherUtils = require 'lib/aether_utils'
+GameDevTrackView = require './GameDevTrackView'
 
 require 'lib/game-libraries'
 
@@ -113,6 +114,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         levelSlug: @level.get('slug')
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
+      @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
       @god.createWorld(@spells, false, false, true)
 
     .catch (e) =>

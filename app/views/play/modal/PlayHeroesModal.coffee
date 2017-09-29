@@ -54,7 +54,7 @@ module.exports = class PlayHeroesModal extends ModalView
 
   onHeroesLoaded: ->
     @formatHero hero for hero in @heroes.models
-    if me.freeOnly()
+    if me.freeOnly() or application.getHocCampaign()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
     unless me.isAdmin()
       @heroes.reset(@heroes.filter((hero) => hero.get('releasePhase') isnt 'beta'))

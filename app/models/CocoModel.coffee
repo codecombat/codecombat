@@ -429,6 +429,8 @@ class CocoModel extends Backbone.Model
     pathToData = {}
     attributes ?= @attributes
 
+    # TODO: Share this code between server and client
+    # NOTE: If you edit this, edit the server side version as well!
     TreemaUtils.walk(attributes, @schema(), null, (path, data, workingSchema) ->
       # Store parent data for the next block...
       if data?.i18n

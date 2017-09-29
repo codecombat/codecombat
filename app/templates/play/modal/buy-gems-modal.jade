@@ -19,7 +19,7 @@
           for product in view.products.models
             .product
               h4 x#{product.get('gems')}
-              h3(data-i18n=product.get('i18n'))
+              h3(data-i18n=view.getProductDescription(product.get('name')))
               button.btn.btn-illustrated.btn-lg(value=product.get('name'))
                 span= product.get('priceString')
   

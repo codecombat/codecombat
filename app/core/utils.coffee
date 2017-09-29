@@ -233,7 +233,7 @@ isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.le
 isRegionalSubscription = (name) -> /_basic_subscription/.test(name)
 
 isSmokeTestEmail = (email) ->
-  /@example.com/.test(email) or /smoketest/.test(email) or /@codecombat.com/.test(email)
+  /@example.com/.test(email) or /smoketest/.test(email)
 
 round = _.curry (digits, n) ->
   n = +n.toFixed(digits)

@@ -7,6 +7,7 @@ LevelSession = require '../models/LevelSession'
 Prepaid = require '../models/Prepaid'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
+Campaign = require '../models/Campaign'
 Course = require '../models/Course'
 User = require '../models/User'
 database = require '../commons/database'
@@ -124,6 +125,18 @@ module.exports =
         level.get('adventurer'),
         req.features.codePlay and codePlay.canPlay(level.get('slug'))
       ])
+
+      if req.query.campaign and not canPlayAnyway
+        # check if the campaign requesting this is game dev hoc, if so then let it work
+        query = {
+          _id: mongoose.Types.ObjectId(req.query.campaign),
+          type: 'hoc'
+          "levels.#{level.get('original')}": {$exists: true} 
+        }
+        campaign = yield Campaign.count(query)
+        if campaign
+          canPlayAnyway = true
+
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
 

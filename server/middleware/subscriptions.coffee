@@ -120,7 +120,7 @@ checkForCoupon = co.wrap (req, user, customer) ->
     yield checkForExistingSubscription(req, user, customer, couponID)
 
   else
-    couponID = user.get('stripe')?.couponID
+    couponID = user.get('stripe')?.couponID or req.body?.stripe?.couponID
     unless couponID or not user.get 'country'
       product = yield Product.findBasicSubscriptionForUser(user)
       unless product.get('name') is 'basic_subscription'
@@ -259,7 +259,14 @@ purchaseProduct = expressWrap (req, res) ->
 
   else if paymentType is 'paypal'
     { payerID, paymentID } = req.body
+
     amount = product.get('amount')
+    if req.body.coupon?
+      coupon = _.find product.get('coupons'), ((x) -> x.code is req.body.coupon)
+      if not coupon?
+        throw new errors.NotFound('Coupon not found')
+      amount = coupon.amount
+
     unless payerID and paymentID
       throw new errors.UnprocessableEntity('Must provide payerID and paymentID for PayPal purchases')
     execute_payment_json = {

@@ -20,6 +20,7 @@ ShareLicensesModal = require 'views/teachers/ShareLicensesModal'
 module.exports = class EnrollmentsView extends RootView
   id: 'enrollments-view'
   template: template
+  enrollmentRequestSent: false
 
   events:
     'click #enroll-students-btn': 'onClickEnrollStudentsButton'
@@ -72,8 +73,7 @@ module.exports = class EnrollmentsView extends RootView
     @debouncedRender = _.debounce @render, 0
     @listenTo @prepaids, 'sync', @updatePrepaidGroups
     @listenTo(@state, 'all', @debouncedRender)
-    @listenTo(me, 'change:enrollmentRequestSent', @debouncedRender)
-
+    
     leadPriorityRequest = me.getLeadPriority()
     @supermodel.trackRequest leadPriorityRequest
     leadPriorityRequest.then ({ priority }) =>
@@ -135,7 +135,11 @@ module.exports = class EnrollmentsView extends RootView
 
   onClickContactUsButton: ->
     window.tracker?.trackEvent 'Classes Licenses Contact Us', category: 'Teachers', ['Mixpanel']
-    @openModalView(new TeachersContactModal())
+    modal = new TeachersContactModal()
+    @openModalView(modal)
+    modal.on 'submit', =>
+      @enrollmentRequestSent = true
+      @debouncedRender()
 
   onClickEnrollStudentsButton: ->
     window.tracker?.trackEvent 'Classes Licenses Enroll Students', category: 'Teachers', ['Mixpanel']

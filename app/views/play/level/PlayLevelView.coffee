@@ -155,7 +155,14 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelLoaded: (e) ->
     return if @destroyed
-    if (me.isStudent() or me.isTeacher()) and not @courseID and not e.level.isType('course-ladder')
+    if _.all([
+      (me.isStudent() or me.isTeacher()),
+      not @courseID,
+      not e.level.isType('course-ladder')
+
+      # TODO: Add a general way for standalone levels to be accessed by students, teachers
+      e.level.get('slug') isnt 'peasants-and-munchkins' 
+    ])
       return _.defer -> application.router.redirectHome()
 
     unless e.level.isType('web-dev')

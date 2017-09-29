@@ -49,6 +49,21 @@ module.exports = class InventoryModal extends ModalView
   #- Setup
 
   initialize: (options) ->
+    if (application.getHocCampaign() is 'game-dev-hoc-2')
+      if !me.get('earned')
+        me.set('earned', {})
+      if !me.get('earned').items
+        me.attributes.earned.items = []
+      baseItems = [
+        '53e2384453457600003e3f07' # leather boots
+        '53e218d853457600003e3ebe' # simple sword
+        '53e22aa153457600003e3ef5' # wooden shield
+        '5744e3683af6bf590cd27371' # cougar
+      ]
+      for item in baseItems
+        unless item in me.get('earned').items
+          me.get('earned').items.push(item) # Allow HoC players to access the cat
+    
     @onScrollUnequipped = _.throttle(_.bind(@onScrollUnequipped, @), 200)
     super(arguments...)
     @items = new CocoCollection([], {model: ThangType})
@@ -149,7 +164,7 @@ module.exports = class InventoryModal extends ModalView
     else if restricted
       @itemGroups.restrictedItems.add(item)
       item.classes.push 'restricted'
-    else if subscriber
+    else if subscriber and not application.getHocCampaign() # allow HoC players to equip pets
       @itemGroups.subscriberItems.add(item)
       item.classes.push 'subscriber'
     else
@@ -605,7 +620,7 @@ module.exports = class InventoryModal extends ModalView
     affordable = item.affordable
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless me.freeOnly()
+      @askToBuyGems button unless me.freeOnly() or application.getHocCampaign()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)

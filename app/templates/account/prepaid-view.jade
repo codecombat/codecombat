@@ -23,31 +23,7 @@ block content
                 span(data-i18n="account_prepaid.purchase_code")
           .panel-collapse.collapse(class=view.ppcQuery ? "": "in")#purchasepanel
             .panel-body
-              p(data-i18n="account_prepaid.purchase_code1")
-              p(data-i18n="account_prepaid.purchase_code2")
-              p(data-i18n="account_prepaid.purchase_code3")
-              strong
-                p(data-i18n="account_prepaid.purchase_code4")
-                p
-                  span.spl(data-i18n="account_prepaid.purchase_code5")
-                  span : 
-                  a(href="mailto:team@codecombat.com") team@codecombat.com
-
-              .form-horizontal
-                .form-group
-                  label.control-label.col-md-2(for="users", data-i18n="account_prepaid.users")
-                  .col-md-2
-                    input#users-input.form-control(name="users", type="number", value="#{view.purchase.users}", min=1)
-                .form-group
-                  label.control-label.col-md-2(for="months", data-i18n="account_prepaid.months")
-                  .col-md-2
-                    input#months-input.form-control(name="months", type="number", value="#{view.purchase.months}", min=1)
-                .form-group
-                  label.control-label.col-md-2(data-i18n="account_prepaid.purchase_total")
-                  .col-md-10
-                    p.form-control-static $
-                      span#total #{(view.purchase.total/100).toFixed(2)}
-                button#purchase-btn.btn.btn-success.pull-right(data-i18n="account_prepaid.purchase_button")
+              p Prepaids are no longer available for purchase.
     .row
       .col-md-12
         .panel.panel-default

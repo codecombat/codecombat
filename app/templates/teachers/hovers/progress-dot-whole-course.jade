@@ -1,4 +1,7 @@
-if !total
+if loading
+  span.small-details(data-i18n='common.loading')
+    | Loading...
+else if !total
   span.small-details(data-i18n='teacher.no_progress')
     | No Progress
 else

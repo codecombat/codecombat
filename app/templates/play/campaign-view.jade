@@ -58,8 +58,8 @@ if view.showAds()
         if ((campaign.levelIsPractice(level) || !level.unlockedInSameCampaign) && level.hidden)
           - continue;
         - var levelNumber = '';
-        if view.shouldShow('back-to-classroom')
-          - levelNumber = campaign.getLevelNumber(level.original, '');
+        if view.shouldShow('back-to-classroom') && view.classroom
+          - levelNumber = view.classroom.getLevelNumber(level.original, '');
           if (levelNumber)
             - levelNumber += '. ';
         div(
@@ -276,7 +276,7 @@ if view.showAds()
     .glyphicon.glyphicon-volume-down
     .glyphicon.glyphicon-volume-up
 
-  if campaign && !editorMode && view.shouldShow('back-to-campaigns')
+  if campaign && campaign.get('type') !== 'hoc' && !editorMode && view.shouldShow('back-to-campaigns')
     button.btn.btn-lg.btn-inverse.campaign-control-button.picoctf-hide#back-button(data-i18n="[title]resources.campaigns", title="Campaigns")
       .glyphicon.glyphicon-globe
 

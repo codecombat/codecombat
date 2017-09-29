@@ -1017,9 +1017,23 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(200)
     updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(facebookEmail)
     expect(updatedUser.get('facebookID')).toBe(facebookID)
     expect(sendwithus.api.send).toHaveBeenCalled()
+
+  it 'signs up nameless user with the facebookID', utils.wrap ->
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBeUndefined()
+    expect(updatedUser.get('email')).toBe(facebookEmail)
+    expect(updatedUser.get('facebookID')).toBe(facebookID)
 
   it 'returns 422 if facebook does not recognize the access token', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(invalidFacebookResponse)
@@ -1107,6 +1121,19 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     expect(updatedUser.get('gplusID')).toBe(gplusID)
     expect(sendwithus.api.send).toHaveBeenCalled()
 
+  it 'signs up nameless user with the gplusID', utils.wrap ->
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBeUndefined()
+    expect(updatedUser.get('email')).toBe(gplusEmail)
+    expect(updatedUser.get('gplusID')).toBe(gplusID)
+
   it 'returns 422 if gplus does not recognize the access token', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(invalidGPlusResponse)
     user = yield utils.becomeAnonymous()
@@ -1127,7 +1154,6 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     json = { name, email: gplusEmail, gplusID: '54321', gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
-
 
   it 'returns 409 if there is already a user with the given email', utils.wrap ->
     conflictingUser = yield utils.initUser({name: 'someusername', email: gplusEmail})

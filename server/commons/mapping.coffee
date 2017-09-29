@@ -1,5 +1,4 @@
 module.exports.handlers =
-  'analytics_log_event': 'handlers/analytics_log_event_handler'
   'analytics_perday': 'handlers/analytics_perday_handler'
   'analytics_string': 'handlers/analytics_string_handler'
   'analytics_stripe_invoice': 'handlers/analytics_stripe_invoice_handler'
@@ -30,7 +29,6 @@ module.exports.handlers =
   'user_polls_record': 'handlers/user_polls_record_handler'
 
 module.exports.handlerUrlOverrides =
-  'analytics_log_event': 'analytics.log.event'
   'analytics_stripe_invoice': 'analytics.stripe.invoice'
   'level_component': 'level.component'
   'level_feedback': 'level.feedback'
