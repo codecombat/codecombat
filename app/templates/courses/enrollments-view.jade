@@ -128,6 +128,7 @@ mixin prepaidCard(prepaid, className)
 mixin addCredits
   .text-center.m-b-3.m-t-3
     h5(data-i18n="courses.get_enrollments")
+    - console.log(view)
     if view.enrollmentRequestSent
       #enrollment-request-sent-blurb.small
         p(data-i18n="teacher.enroll_request_sent_blurb1")
