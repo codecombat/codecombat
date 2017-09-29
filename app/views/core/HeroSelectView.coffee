@@ -1,3 +1,4 @@
+require('app/styles/core/hero-select-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/core/hero-select-view'
 # Classroom = require 'models/Classroom'

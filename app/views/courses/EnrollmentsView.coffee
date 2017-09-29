@@ -1,3 +1,4 @@
+require('app/styles/courses/enrollments-view.sass')
 RootView = require 'views/core/RootView'
 Classrooms = require 'collections/Classrooms'
 State = require 'models/State'

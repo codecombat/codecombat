@@ -1,3 +1,6 @@
+require('app/styles/play/level/level-loading-view.sass')
+require('app/styles/play/level/tome/spell_palette_entry.sass')
+require('app/styles/play/play-level-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/play-level-view'
 {me} = require 'core/auth'

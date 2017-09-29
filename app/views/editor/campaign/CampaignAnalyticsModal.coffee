@@ -1,3 +1,4 @@
+require('app/styles/editor/campaign/campaign-analytics-modal.sass')
 template = require 'templates/editor/campaign/campaign-analytics-modal'
 utils = require 'core/utils'
 require 'd3/d3.js' # TODO Webpack: Extract this modal from main chunk

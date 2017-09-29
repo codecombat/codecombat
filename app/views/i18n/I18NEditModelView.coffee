@@ -5,7 +5,7 @@ Patches = require 'collections/Patches'
 PatchModal = require 'views/editor/PatchModal'
 template = require 'templates/i18n/i18n-edit-model-view'
 deltasLib = require 'core/deltas'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 
 ###
   This view is the superclass for all views which Diplomats use to submit translations

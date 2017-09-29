@@ -1,3 +1,4 @@
+require('app/styles/admin/skipped-contacts-view.sass')
 RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
 co = require('co')

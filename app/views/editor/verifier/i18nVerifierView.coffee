@@ -1,3 +1,4 @@
+require('app/styles/editor/verifier/i18n-verifier-view.sass')
 RootComponent = require 'views/core/RootComponent'
 Problem = require 'views/play/level/tome/Problem'
 locale = require 'locale/locale'

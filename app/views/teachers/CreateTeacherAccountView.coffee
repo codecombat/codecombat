@@ -1,3 +1,4 @@
+require('app/styles/teachers/teacher-trial-requests.sass')
 RootView = require 'views/core/RootView'
 forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'

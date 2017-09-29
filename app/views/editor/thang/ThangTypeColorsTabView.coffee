@@ -1,3 +1,4 @@
+require('app/styles/editor/thang/colors_tab.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/thang/colors_tab'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'

@@ -1,3 +1,4 @@
+require('app/styles/editor/level/documentation_tab.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/level-edit-view'
 Level = require 'models/Level'

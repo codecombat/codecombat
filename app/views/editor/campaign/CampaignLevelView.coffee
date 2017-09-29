@@ -1,3 +1,4 @@
+require('app/styles/editor/campaign/campaign-level-view.sass')
 CocoView = require 'views/core/CocoView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'

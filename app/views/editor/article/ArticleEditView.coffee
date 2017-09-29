@@ -1,3 +1,4 @@
+require('app/styles/editor/article/edit.sass')
 RootView = require 'views/core/RootView'
 VersionHistoryView = require './ArticleVersionsModal'
 template = require 'templates/editor/article/edit'

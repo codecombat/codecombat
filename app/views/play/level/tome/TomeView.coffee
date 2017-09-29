@@ -1,3 +1,4 @@
+require('app/styles/play/level/tome/tome.sass')
 # There's one TomeView per Level. It has:
 # - a CastButtonView, which has
 #   - a cast button

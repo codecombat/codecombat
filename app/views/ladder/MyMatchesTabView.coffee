@@ -1,3 +1,4 @@
+require('app/styles/play/ladder/my_matches_tab.sass')
 CocoView = require 'views/core/CocoView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'

@@ -1,3 +1,4 @@
+require('app/styles/modal/model-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/model-modal'
 require 'treema/treema.js'

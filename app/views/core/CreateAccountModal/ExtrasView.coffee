@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/extras-view.sass')
 CocoView = require 'views/core/CocoView'
 HeroSelectView = require 'views/core/HeroSelectView'
 template = require 'templates/core/create-account-modal/extras-view'

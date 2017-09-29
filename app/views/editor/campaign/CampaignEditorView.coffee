@@ -1,3 +1,4 @@
+require('app/styles/editor/campaign/campaign-editor-view.sass')
 RootView = require 'views/core/RootView'
 Campaign = require 'models/Campaign'
 Level = require 'models/Level'

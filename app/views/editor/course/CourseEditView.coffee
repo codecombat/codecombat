@@ -1,3 +1,4 @@
+require('app/styles/editor/course/edit.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/course/edit'
 Course = require 'models/Course'

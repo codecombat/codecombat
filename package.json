@@ -33,7 +33,8 @@
     "test": "./node_modules/.bin/karma start",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "webpack": "webpack",
+    "postinstall": "bower install && webpack",
+    "webpack": "webpack --progress",
     "brunch": "brunch",
     "bower": "bower",
     "dev": "webpack-dev-server --open",
@@ -136,12 +137,14 @@
     "three": "^0.71.0",
     "treema": "https://github.com/codecombat/treema.git",
     "tv4": "~1.0.16",
+    "uglify-js": "^3.1.2",
     "underscore.string": "~2.3.3",
     "vue": "^2.4.2",
     "vuex": "^2.4.0",
     "webpack": "^3.6.0",
     "webpack-shell-plugin": "^0.5.0",
     "winston": "0.6.x",
+    "worker-loader": "^1.0.0",
     "yamljs": "^0.2.8"
   },
   "devDependencies": {
@@ -192,7 +195,6 @@
     "sass-brunch": "https://github.com/basicer/sass-brunch-bleeding/archive/1.9.1-bleeding.tar.gz",
     "sass-loader": "^6.0.6",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
-    "uglify-js": "^2.5.0",
     "webpack-bundle-analyzer": "^2.9.0",
     "webpack-dev-server": "^2.7.1"
   },

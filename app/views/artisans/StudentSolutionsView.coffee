@@ -1,3 +1,4 @@
+require('app/styles/artisans/student-solutions-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/student-solutions-view'
 
@@ -7,7 +8,7 @@ Campaign = require 'models/Campaign'
 Levels = require 'collections/Levels'
 Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
 # Aether = require 'aether'
 # require 'aether/parsers/python'

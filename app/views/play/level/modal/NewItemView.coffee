@@ -1,3 +1,4 @@
+require('app/styles/play/level/modal/new-item-view.sass')
 CocoView = require 'views/core/CocoView'
 
 module.exports = class NewItemView extends CocoView

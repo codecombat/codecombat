@@ -1,3 +1,4 @@
+require('app/styles/editor/thang/thang-type-edit-view.sass')
 ThangType = require 'models/ThangType'
 SpriteParser = require 'lib/sprites/SpriteParser'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'

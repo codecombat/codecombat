@@ -1,3 +1,4 @@
+require('app/styles/admin/design-elements-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/design-elements-view'
 

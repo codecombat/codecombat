@@ -1,3 +1,4 @@
+require('app/styles/editor/component/thang-components-edit-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/component/thang-components-edit-view'
 

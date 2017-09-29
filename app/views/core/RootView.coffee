@@ -37,7 +37,7 @@ module.exports = class RootView extends CocoView
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
-    'modal:open-modal-view': 'onOpenModalView'
+    'modal:open-modal-view': 'onOpenModalView' # TODO Webpack: Is this event deprecated?
 
   shortcuts:
     'ctrl+shift+a': 'navigateToAdmin'

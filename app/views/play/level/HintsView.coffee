@@ -1,7 +1,8 @@
 CocoView = require 'views/core/CocoView'
 State = require 'models/State'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 
 module.exports = class HintsView extends CocoView
   template: require('templates/play/level/hints-view')
@@ -47,7 +48,7 @@ module.exports = class HintsView extends CocoView
     @aceEditors = []
     aceEditors = @aceEditors
     @$el.find('pre:has(code[class*="lang-"])').each ->
-      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
 
   getProcessedHint: ->

@@ -1,3 +1,4 @@
+require('app/styles/courses/project-gallery.sass')
 RootComponent = require 'views/core/RootComponent'
 FlatLayout = require 'core/components/FlatLayout'
 api = require 'core/api'

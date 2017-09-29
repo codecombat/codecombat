@@ -1,3 +1,4 @@
+require('app/styles/play/campaign-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/campaign-view'
 LevelSession = require 'models/LevelSession'

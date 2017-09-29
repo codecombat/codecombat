@@ -1,3 +1,4 @@
+require('app/styles/demo.sass')
 RootView = require 'views/core/RootView'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/demo'

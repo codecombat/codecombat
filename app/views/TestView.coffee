@@ -1,3 +1,4 @@
+require('app/styles/test-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'

@@ -1,7 +1,8 @@
+require('app/styles/admin/codeplayback-view.sass')
 CocoView = require 'views/core/CocoView'
 
 CodeLog = require 'models/CodeLog'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
 
 template = require 'templates/admin/codeplayback-view'

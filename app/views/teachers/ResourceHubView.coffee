@@ -1,3 +1,4 @@
+require('app/styles/teachers/resource-hub-view.sass')
 RootView = require 'views/core/RootView'
 
 module.exports = class ResourceHubView extends RootView

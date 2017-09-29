@@ -1,3 +1,4 @@
+require('app/styles/artisans/thang-tasks-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/thang-tasks-view'
 

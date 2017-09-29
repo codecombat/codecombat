@@ -1,3 +1,4 @@
+require('app/styles/editor/patch.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/patch_modal'
 DeltaView = require 'views/editor/DeltaView'

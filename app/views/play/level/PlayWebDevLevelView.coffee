@@ -1,3 +1,4 @@
+require('app/styles/play/level/play-web-dev-level-view.sass')
 RootView = require 'views/core/RootView'
 
 Level = require 'models/Level'

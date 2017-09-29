@@ -1,3 +1,4 @@
+require('app/styles/play/modal/announcement-modal.sass')
 ModalView = require 'views/core/ModalView'
 utils = require 'core/utils'
 CreateAccountModal = require 'views/core/CreateAccountModal'

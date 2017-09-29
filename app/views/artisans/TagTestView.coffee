@@ -1,3 +1,4 @@
+require('app/styles/artisans/tag-test-view.sass')
 RootView = require 'views/core/RootView'
 CocoView = require 'views/core/CocoView'
 template = require 'templates/artisans/tag-test-view'
@@ -7,7 +8,7 @@ conceptList =require 'schemas/concepts'
 ThangType = require 'models/ThangType'
 
 ThangTypes = require 'collections/ThangTypes'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 
 class ActualTagView extends CocoView
   template: require 'templates/artisans/tag-test-tags-view'

@@ -1,3 +1,4 @@
+require('app/styles/clans/clan-details.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
 # app = require 'core/application'

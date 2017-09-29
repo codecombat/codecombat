@@ -1,3 +1,4 @@
+require('app/styles/admin/analytics.sass')
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'

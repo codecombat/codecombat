@@ -1,3 +1,4 @@
+require('app/styles/play/menu/game-menu-modal.sass')
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/menu/game-menu-modal'

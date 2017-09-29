@@ -1,3 +1,4 @@
+require('app/styles/play/level/level-flags-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-flags-view'
 {me} = require 'core/auth'

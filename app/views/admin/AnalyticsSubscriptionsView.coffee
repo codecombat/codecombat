@@ -1,3 +1,4 @@
+require('app/styles/admin/analytics-subscriptions.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/analytics-subscriptions'
 ThangType = require 'models/ThangType'

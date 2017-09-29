@@ -1,3 +1,4 @@
+require('app/styles/editor/achievement/edit.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'

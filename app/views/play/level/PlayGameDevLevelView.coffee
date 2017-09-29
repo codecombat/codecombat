@@ -1,3 +1,4 @@
+require('app/styles/play/level/play-game-dev-level-view.sass')
 RootView = require 'views/core/RootView'
 
 GameUIState = require 'models/GameUIState'

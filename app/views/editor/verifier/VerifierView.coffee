@@ -1,3 +1,5 @@
+require('app/styles/editor/verifier/verifier-view.sass')
+async = require('vendor/scripts/async.js')
 utils = require 'core/utils'
 
 RootView = require 'views/core/RootView'

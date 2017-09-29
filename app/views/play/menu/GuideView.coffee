@@ -1,9 +1,11 @@
+require('app/styles/play/menu/guide-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
 SubscribeModal = require 'views/core/SubscribeModal'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 createjs = require 'lib/createjs-parts'
 
 module.exports = class LevelGuideView extends CocoView
@@ -90,7 +92,7 @@ module.exports = class LevelGuideView extends CocoView
     aceEditors = @aceEditors
     codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
     @$el.find('pre').each ->
-      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
 
   clickSubscribe: (e) ->

@@ -1,10 +1,12 @@
+require('app/styles/teachers/teacher-course-solution-view.sass')
 utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Level = require 'models/Level'
 utils = require 'core/utils'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
+aceUtils = require 'core/aceUtils'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -81,7 +83,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @$el.find('pre>code').each ->
       els = $(@)
       c = els.parent()
-      aceEditor = utils.initializeACE c[0], lang
+      aceEditor = aceUtils.initializeACE c[0], lang
       aceEditor.setShowInvisibles false
       aceEditor.setBehavioursEnabled false
       aceEditor.setAnimatedScroll false

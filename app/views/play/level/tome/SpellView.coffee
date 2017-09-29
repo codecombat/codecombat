@@ -1,8 +1,9 @@
+require('app/styles/play/level/tome/spell.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'

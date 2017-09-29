@@ -1,3 +1,4 @@
+require('app/styles/admin/admin-outcomes-report.sass')
 RootView = require 'views/core/RootView'
 OutcomeReportResultView = require 'views/admin/OutcomeReportResultView'
 template = require 'templates/base-flat'

@@ -1,3 +1,4 @@
+require('app/styles/play/spectate.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/spectate'
 {me} = require 'core/auth'

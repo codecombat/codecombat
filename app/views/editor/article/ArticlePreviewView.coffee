@@ -1,3 +1,4 @@
+require('app/styles/editor/article/preview.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/article/preview'
 

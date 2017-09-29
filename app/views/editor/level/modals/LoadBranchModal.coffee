@@ -1,3 +1,4 @@
+require('app/styles/editor/level/modal/load-branch-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/load-branch-modal'
 DeltaView = require 'views/editor/DeltaView'

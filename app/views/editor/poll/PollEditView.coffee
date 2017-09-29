@@ -1,3 +1,4 @@
+require('app/styles/editor/poll/poll-edit-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/poll/poll-edit-view'
 Poll = require 'models/Poll'

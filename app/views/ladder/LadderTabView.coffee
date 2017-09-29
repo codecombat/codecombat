@@ -1,3 +1,4 @@
+require('app/styles/play/ladder/ladder-tab-view.sass')
 CocoView = require 'views/core/CocoView'
 CocoClass = require 'core/CocoClass'
 Level = require 'models/Level'

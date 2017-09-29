@@ -1,5 +1,5 @@
 utils = require 'core/utils'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 
 defaults =
   autoLineEndings:

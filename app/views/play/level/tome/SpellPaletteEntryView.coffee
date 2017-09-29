@@ -3,7 +3,7 @@ template = require 'templates/play/level/tome/spell_palette_entry'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
 DocFormatter = require './DocFormatter'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
 
 module.exports = class SpellPaletteEntryView extends CocoView

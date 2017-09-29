@@ -1,3 +1,4 @@
+require('app/styles/play/level/modal/course-victory-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/level/modal/course-victory-modal'
 Level = require 'models/Level'

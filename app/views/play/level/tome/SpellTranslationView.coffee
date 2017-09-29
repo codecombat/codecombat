@@ -1,7 +1,7 @@
 CocoView = require 'views/core/CocoView'
 LevelComponent = require 'models/LevelComponent'
 template = require 'templates/play/level/tome/spell_translation'
-# ace = require 'ace'
+ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 utils = require 'core/utils'

@@ -1,3 +1,4 @@
+require('app/styles/home-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
