@@ -9,6 +9,7 @@ LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
 require 'd3/d3.js'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 HIGHEST_SCORE = 1000000
 
@@ -22,6 +23,7 @@ module.exports = class LadderTabView extends CocoView
     'click .name-col-cell': 'onClickPlayerName'
     'click .spectate-cell': 'onClickSpectateCell'
     'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
     # Refactored, to-reimplement
 #  subscriptions:
@@ -40,6 +42,10 @@ module.exports = class LadderTabView extends CocoView
     # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
     #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
     #@checkFriends()
+
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()
 
   checkFriends: ->
     return  # Skipping for now

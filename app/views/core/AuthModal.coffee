@@ -5,6 +5,7 @@ forms = require 'core/forms'
 User = require 'models/User'
 # application  = require 'core/application'
 errors = require 'core/errors'
+RecoverModal = require 'views/core/RecoverModal'
 
 module.exports = class AuthModal extends ModalView
   id: 'auth-modal'
@@ -17,7 +18,7 @@ module.exports = class AuthModal extends ModalView
     'click #gplus-login-btn': 'onClickGPlusLoginButton'
     'click #facebook-login-btn': 'onClickFacebookLoginButton'
     'click #close-modal': 'hide'
-
+    'click [data-toggle="coco-modal"][data-target="core/RecoverModal"]': 'openRecoverModal'
 
   # Initialization
     
@@ -131,6 +132,9 @@ module.exports = class AuthModal extends ModalView
     btn.attr('disabled', false)
     errors.showNotyNetworkError(arguments...)
 
+  openRecoverModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RecoverModal()
 
   onHidden: ->
     super()

@@ -13,6 +13,7 @@ CampaignAnalyticsModal = require './CampaignAnalyticsModal'
 CampaignLevelView = require './CampaignLevelView'
 SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
+RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'
 
@@ -28,6 +29,7 @@ module.exports = class CampaignEditorView extends RootView
     'click #analytics-button': 'onClickAnalyticsButton'
     'click #save-button': 'onClickSaveButton'
     'click #patches-button': 'onClickPatches'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
   subscriptions:
     'editor:campaign-analytics-modal-closed' : 'onAnalyticsModalClosed'
@@ -62,6 +64,10 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @campaign, 'sync', @onFundamentalLoaded
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
+
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
 
   onLeaveMessage: ->
     for model in @toSave.models

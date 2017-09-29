@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 NewModelModal = require 'views/editor/modal/NewModelModal'
 template = require 'templates/common/search-view'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 # app = require 'core/application'
 
 class SearchCollection extends Backbone.Collection
@@ -37,6 +38,7 @@ module.exports = class SearchView extends RootView
     'keydown input#search': 'runSearch'
     'click #new-model-button': 'newModel'
     'hidden.bs.modal #new-model-modal': 'onModalHidden'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     @runSearch = _.debounce(@runSearch, 500)
@@ -95,3 +97,7 @@ module.exports = class SearchView extends RootView
     modal = new NewModelModal model: @model, modelLabel: @modelLabel
     modal.once 'model-created', @onNewModelSaved
     @openModalView modal
+  
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()

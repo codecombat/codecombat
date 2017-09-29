@@ -249,14 +249,7 @@ module.exports = class CocoView extends Backbone.View
   toggleModal: (e) ->
     if $(e.currentTarget).prop('target') is '_blank'
       return true
-    # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
-    elem = $(e.target)
-    return unless elem.data('toggle') is 'coco-modal'
-    return if elem.attr('disabled')
-    target = elem.data('target')
-    # Modal = require('views/'+target.replace(/Modal$/,'')+'Modal') # TODO: Webpack maybe require fewer modals
-    e.stopPropagation()
-    @openModalView new Modal supermodel: @supermodal
+    # No longer try to dynamically require modal views. Require and open them in the view that wants to.
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once

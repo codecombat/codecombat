@@ -11,6 +11,7 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -30,6 +31,7 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click #version-switch-button': 'onClickVersionSwitchButton'
     'click #version-switch-button .code-language-selector': 'onClickVersionSwitchButton'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -77,6 +79,10 @@ module.exports = class ControlBarView extends CocoView
     if application.getHocCampaign()
       @levelNumber = null
     super()
+
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()
 
   setBus: (@bus) ->
 

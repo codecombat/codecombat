@@ -7,6 +7,7 @@ SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 require 'views/modal/RevertModal'
 require 'treema/treema.js'
+RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'
 
@@ -18,6 +19,7 @@ module.exports = class ArticleEditView extends RootView
     'click #preview-button': 'openPreview'
     'click #history-button': 'showVersionHistory'
     'click #save-button': 'openSaveModal'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
   constructor: (options, @articleID) ->
     super options
@@ -80,6 +82,10 @@ module.exports = class ArticleEditView extends RootView
     @openModalView(modal)
     @listenToOnce modal, 'save-new-version', @saveNewArticle
     @listenToOnce modal, 'hidden', -> @stopListening(modal)
+    
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
 
   saveNewArticle: (e) ->
     @treema.endExistingEdits()

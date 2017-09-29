@@ -23,6 +23,7 @@ SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 ExportThangTypeModal = require './ExportThangTypeModal'
+RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'
 
@@ -164,7 +165,12 @@ module.exports = class ThangTypeEditView extends RootView
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
     'click #export-sprite-sheet-btn': 'onClickExportSpriteSheetButton'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
+  
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
     @openModalView modal

@@ -34,6 +34,11 @@ CourseInstance = require 'models/CourseInstance'
 Levels = require 'collections/Levels'
 payPal = require('core/services/paypal')
 createjs = require 'lib/createjs-parts'
+PlayItemsModal = require 'views/play/modal/PlayItemsModal'
+PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
+PlayAchievementsModal = require 'views/play/modal/PlayAchievementsModal'
+BuyGemsModal = require 'views/play/modal/BuyGemsModal'
+ContactModal = require 'views/core/ContactModal'
 
 require 'lib/game-libraries'
 
@@ -77,6 +82,11 @@ module.exports = class CampaignView extends RootView
     'click .poll': 'showPoll'
     'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
     'click .premium-menu-icon': 'onClickPremiumButton'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PlayAchievementsModal"]': 'openPlayAchievementsModal'
+    'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal'
+    'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -247,6 +257,26 @@ module.exports = class CampaignView extends RootView
   hideLoading: ->
     unless @campaign
       @$el.find('.game-controls, .user-status').removeClass 'hidden'
+
+  openPlayItemsModal: (e) ->
+    e.stopPropagation()
+    @openModalView new PlayItemsModal()
+    
+  openPlayHeroesModal: (e) ->
+    e.stopPropagation()
+    @openModalView new PlayHeroesModal()
+    
+  openPlayAchievementsModal: (e) ->
+    e.stopPropagation()
+    @openModalView new PlayAchievementsModal()
+    
+  openBuyGemsModal: (e) ->
+    e.stopPropagation()
+    @openModalView new BuyGemsModal()
+    
+  openContactModal: (e) ->
+    e.stopPropagation()
+    @openModalView new ContactModal()
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
