@@ -23,7 +23,7 @@ require('../vendor/scripts/jquery-ui-1.11.1.custom.js');// TODO webpack: Try to 
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO webpack: Try to extract this
 import 'vendor/styles/fancy_select.css'// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
-window.async = require('imports-loader?root=>window!../vendor/scripts/async.js');// Extracted
+// window.async = require('imports-loader?root=>window!../vendor/scripts/async.js');// Extracted
 require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 
 // require('css-loader?-url!../vendor/scripts/jquery-ui-1.11.1.custom.css');

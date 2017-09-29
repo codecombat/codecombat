@@ -57,6 +57,7 @@ module.exports = {
   module: {
     noParse: /bower_components.*aether.*|fuzzaldrin/, // These are already built into commonjs bundles
     rules: [
+      { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
       // { test: /.*\.js/, use: [
       //   { loader: 'babel-loader', options: {
       //     presets: ['minify'],
