@@ -7,6 +7,12 @@ module.exports = class ProblemAlertView extends CocoView
   id: 'problem-alert-view'
   className: 'problem-alert'
   template: template
+  duckImages: [
+    '/images/pages/play/duck_alejandro.png'
+    '/images/pages/play/duck_anya.png'
+    '/images/pages/play/duck_okar.png'
+    '/images/pages/play/duck_tharin.png'
+  ]
 
   subscriptions:
     'tome:show-problem-alert': 'onShowProblemAlert'
@@ -29,6 +35,7 @@ module.exports = class ProblemAlertView extends CocoView
       @onWindowResize()
     else
       @$el.hide()
+    @duckImg = @duckImages[_.random(0, @duckImages.length - 1)] if @duckImages?.length > 0
     $(window).on 'resize', @onWindowResize
 
   destroy: ->
