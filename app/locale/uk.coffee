@@ -234,6 +234,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     create_teacher_header: "Створити акаунт вчителя"
     create_individual_header: "Створити індивідуальний акаунт"
     email_announcements: "Отримувати анонси про нові рівні та інші новинки CodeCombat!"
+#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Створення акаунту..."
     sign_up: "Реєстрація"
     log_in: "вхід з паролем"
@@ -709,14 +710,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     unsubscribing: "Триває скасування підписки..."
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
-    feature_levels: "Отримай доступ до __premiumLevelsCount__ доступних рівнів" # {change}
+#    feature_level_access: "Access 300+ levels available"
     feature_gems: "Отримуй __gems__ самоцвітів щомісяця"
     feature_heroes: "Розблокуй ексклюзивних героїв" # {change}
     feature_games: "Створюй ігри для своїх друзів"
     feature_websites: "Створюй вебсайти та програми"
     feature_items: "Здобувай могутніші речі"
-#    feature_learn: "Learn to make games and websites" # {change}
+#    feature_learn: "Learn to make games and websites"
     month_price: "$__price__/міс" # {change}
+#    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Пожиттєва підписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Річна підписка"
@@ -920,6 +922,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     lisa_blurb: "Сміливиця"
     sean_title: "Менеджер територій"
     liz_title: "Менеджер територій"
+#    david_title: "Customer Success Manager"
+#    jane_title: "Partnership Associate"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
@@ -983,7 +987,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     project_based_title: "Курси на основі проектів"
     project_based_description: "Закінчивши курси веб та гейм-розробки ви зможете поділитися кінцевими проектами."
     great_for_clubs_title: "Чудово підходить для клубів та факультативів"
-    great_for_clubs_description: "Вчителі можуть купити до __maxQuantityStarterLicenses__ початкових ліцензій на рік." #{change}
+    great_for_clubs_description: "Вчителі можуть купити до __maxQuantityStarterLicenses__ початкових ліцензій на рік." # {change}
     low_price_title: "Всього __starterLicensePrice__ на учня"
     low_price_description: "Початкова ліцензія активна напротязі __starterLicenseLengthMonths__ місяців від придбання."
     three_great_courses: "Три чудових курси включено до початкової ліцензії:"
@@ -1046,7 +1050,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     city: "Місто"
     state: "Штат"
     country: "Країна"
-    num_students_help: "Скільки учнів ви очікуєте залучити до CodeCombat?"
+    num_students_help: "Скільки учнів ви очікуєте залучити до CodeCombat?" # {change}
     num_students_default: "Оберіть діапазон"
     education_level_label: "Освітній ступінь учнів"
     education_level_help: "Виберіть всі що підходять."
@@ -1057,7 +1061,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     college_plus: "Коледж/університет чи вище"
     referrer: "Як ви про нас почули?"
     referrer_help: "Наприклад: від іншого вчителя, ваших учнів, на конференції, Code.org тощо."
-    anything_else: "Ще щось, про що нам варто знати?"
+#    referrer_default: "Select One"
+#    referrer_hoc: "Code.org/Hour of Code"
+#    referrer_teacher: "A teacher"
+#    referrer_admin: "An administrator"
+#    referrer_student: "A student"
+#    referrer_pd: "Professional trainings/workshops"
+#    referrer_web: "Google"
+#    referrer_other: "Other"
+    anything_else: "Ще щось, про що нам варто знати?" # {change}
     thanks_header: "Запит отримано!"
     thanks_sub_header: "Дякуємо за ваш інтерес до CodeCombat для вашої школи."
     thanks_p: "Ми скоро з вами зв'яжемося! При потребі з нами можна зв'язатись тут:"
@@ -1390,6 +1402,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     web_dev_language_transition: "Програма HTML/JavaScript для всіх класів для цього курсу. Класи, що використовували Python, розпочнуть з додаткових вступних рівнів JavaScript, щоб полегшити перехід. Для класів, що вже використовують JavaScript, вступні рівні буде пропущено."
     course_membership_required_to_play: "Вам потрібно приєднатись до курсу щоб зіграти в цей рівень."
     license_required_to_play: "Попроси свого вчителя призначити тобі ліцензію для продовження гри на CodeCombat!"
+#    update_old_classroom: "New school year, new levels!"
+#    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
+#    teacher_dashboard: "teacher dashboard"
+#    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1520,6 +1536,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Переглянути рейтинг арени"
     resource_hub: "Хаб ресурсів"
+#    pacing_guides: "Classroom-in-a-Box Pacing Guides"
+#    pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
+#    pacing_guides_elem: "Elementary School Pacing Guide"
+#    pacing_guides_middle: "Middle School Pacing Guide"
+#    pacing_guides_high: "High School Pacing Guide"
     getting_started: "Початок роботи"
     educator_faq: "Учительські ЧаПи (FAQ)"
     educator_faq_desc: "Часті питання про використання CodeCombat у вашому класі чи школі."
@@ -1561,6 +1582,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    gd1: "Game Development 1"
 #    gd1_guide: "Game Development 1 - Project Guide"
 #    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
+#    gd1_rubric: "Game Development 1 - Project Rubric"
+#    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
     wd1: "Веб розробка 1"
     wd1_headlines: "Новини та заголовки"
     wd1_headlines_example: "Переглянути зразок рішення"

@@ -14,6 +14,7 @@ utils = require 'core/utils'
 urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
+GameDevTrackView = require './GameDevTrackView'
 
 require 'game-libraries'
 
@@ -112,6 +113,7 @@ module.exports = class PlayGameDevLevelView extends RootView
         levelSlug: @level.get('slug')
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
+      @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
       @god.createWorld(@spells, false, false, true)
 
     .catch (e) =>

@@ -234,6 +234,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     create_teacher_header: "יצירת חשבון מורה"
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
+#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
     log_in: "היכנס עם סיסמה"
@@ -709,14 +710,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unsubscribing: "מבטל מנוי"
     subscribe_prepaid: "לחצו על 'צור מנוי' כדי להשתמש בקוד בתשלום מראש"
     using_prepaid: "משתמש בקוד בתשלום מראש עבור מנוי חודשי"
-    feature_levels: "גישה אל __premiumLevelsCount__ שלבים זמינים" # {change}
+#    feature_level_access: "Access 300+ levels available"
     feature_gems: "קבלו __gems__ אבני חן כל חודש"
     feature_heroes: "פתיחה של גיבורים בלעדיים" # {change}
     feature_games: "ליצור משחקים עבור חברים"
     feature_websites: "בניית אתרי אינטרנט ויישומים"
     feature_items: "פריטים חזקים יותר לציוד"
-#    feature_learn: "Learn to make games and websites" # {change}
+#    feature_learn: "Learn to make games and websites"
     month_price: "$__price__ לחודש" # {change}
+#    first_month_price: "Only $__price__ for your first month!"
     lifetime: "מנוי לכל החיים" # {change}
     lifetime_price: "$__price__"
     year_subscription: "מנוי שנתי"
@@ -920,6 +922,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     lisa_blurb: "טיפוס קשוח"
     sean_title: "מנהל טריטוריה"
     liz_title: "מנהלת טריטוריה"
+#    david_title: "Customer Success Manager"
+#    jane_title: "Partnership Associate"
     retrostyle_title: "איור"
     retrostyle_blurb: "משחקי רטרו"
     jose_title: "מוזיקה"
@@ -983,7 +987,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     project_based_title: "קורסים מבוססי-פרויקט"
     project_based_description: "הקורסים לפיתוח אינטרנט ומשחקים כוללים פרויקטי גמר ניתנים לשיתוף."
     great_for_clubs_title: "מצוין למועדונים ולקורסי בחירה"
-    great_for_clubs_description: "מורים יכולים לרכוש עד __maxQuantityStarterLicenses__ רישיונות למתחילים בשנה." #{change}
+    great_for_clubs_description: "מורים יכולים לרכוש עד __maxQuantityStarterLicenses__ רישיונות למתחילים בשנה." # {change}
     low_price_title: "רק __starterLicensePrice__ לתלמיד"
     low_price_description: "רישיונות למתחילים נשארים פעילים למשך __starterLicenseLengthMonths__ חודשים ממועד הרכישה."
     three_great_courses: "ברישיון למתחילים כלולים שלושה קורסים מעולים:"
@@ -1046,7 +1050,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     city: "עיר"
     state: "מדינה (אם בארה\"ב)"
     country: "ארץ"
-    num_students_help: "עם כמה תלמידים, לדעתכם, אתם צפויים להשתמש ב-CodeCombat?"
+    num_students_help: "עם כמה תלמידים, לדעתכם, אתם צפויים להשתמש ב-CodeCombat?" # {change}
     num_students_default: "בחרו טווח"
     education_level_label: "רמת ההשכלה של התלמידים"
     education_level_help: "נא לבחור בכל האפשרויות המתאימות."
@@ -1057,7 +1061,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     college_plus: "תואר ראשון ומעלה"
     referrer: "כיצד שמעתם עלינו?"
     referrer_help: "לדוגמה: ממורה אחר, בכנס, מתלמידים, ב-Code.org וכו'."
-    anything_else: "יש עוד משהו שכדאי לנו לדעת?"
+#    referrer_default: "Select One"
+#    referrer_hoc: "Code.org/Hour of Code"
+#    referrer_teacher: "A teacher"
+#    referrer_admin: "An administrator"
+#    referrer_student: "A student"
+#    referrer_pd: "Professional trainings/workshops"
+#    referrer_web: "Google"
+#    referrer_other: "Other"
+    anything_else: "יש עוד משהו שכדאי לנו לדעת?" # {change}
     thanks_header: "הבקשה התקבלה!"
     thanks_sub_header: "אנו מודים לכם על גילוי העניין ב-CodeCombat עבור מוסד הלימודים שלכם."
     thanks_p: "ניצור קשר בקרוב! ליצירת קשר, ניתן לפנות אלינו ב:"
@@ -1390,6 +1402,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     web_dev_language_transition: "עבור קורס זה, כל הכיתות מתכנתות ב-HTML/JavaScript.  כיתות שכבר משתמשות ב-Python יתחילו עם כמה שלבי מבוא נוספים ב-JavaScript כדי להקל על המעבר.  כיתות שכבר משתמשות ב-JavaScript ידלגו על שלבי המבוא."
     course_membership_required_to_play: "כדי לשחק בשלב זה, יש להצטרף לקורס."
     license_required_to_play: "בקשו מהמורה להקצות לכם רישיון, כדי שתוכלו להמשיך ולשחק ב-CodeCombat!"
+#    update_old_classroom: "New school year, new levels!"
+#    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
+#    teacher_dashboard: "teacher dashboard"
+#    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -1520,6 +1536,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     unpublished: "(לא פורסם)"
     view_arena_ladder: "הצג טבלת זירה"
     resource_hub: "מרכז המשאבים"
+#    pacing_guides: "Classroom-in-a-Box Pacing Guides"
+#    pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
+#    pacing_guides_elem: "Elementary School Pacing Guide"
+#    pacing_guides_middle: "Middle School Pacing Guide"
+#    pacing_guides_high: "High School Pacing Guide"
     getting_started: "כיצד להתחיל"
     educator_faq: "שאלות נפוצות לאנשי חינוך"
     educator_faq_desc: "שאלות נפוצות על השימוש ב-CodeCombat בכיתה או במוסד הלימודים שלכם."
@@ -1561,6 +1582,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     gd1: "פיתוח משחקים 1"
     gd1_guide: "פיתוח משחקים 1 - מדריך פרויקט"
     gd1_guide_desc: "היעזרו בכך כדי להדריך את התלמידים שלכם במהלך יצירת הפרויקט הראשון שלהם למשחק שניתן לשתף בפרק זמן של 5 ימים."
+#    gd1_rubric: "Game Development 1 - Project Rubric"
+#    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
     wd1: "פיתוח אינטרנט 1"
     wd1_headlines: "פעילות בכותרות ובכותרות עליונות"
     wd1_headlines_example: "הצג פתרון לדוגמה"

@@ -137,8 +137,8 @@ Application = {
       
   loadedStaticPage: window.alreadyLoadedView?
   
-  onHocPage: ->
-    return storage.load('should-return-to-game-dev-hoc')
+  setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
+  getHocCampaign: -> storage.load('hoc-campaign')
   
 }
 

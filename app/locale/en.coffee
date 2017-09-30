@@ -710,7 +710,7 @@
     unsubscribing: "Unsubscribing"
     subscribe_prepaid: "Click Subscribe to use prepaid code"
     using_prepaid: "Using prepaid code for monthly subscription"
-    feature_levels: "Access 300+ levels available"
+    feature_level_access: "Access 300+ levels available"
     feature_gems: "Receive __gems__ gems per month"
     feature_heroes: "Unlock exclusive heroes and pets"
     feature_games: "Make games for your friends"
@@ -1050,7 +1050,7 @@
     city: "City"
     state: "State"
     country: "Country"
-    num_students_help: "How many students will use CodeCombat?" # {change}
+    num_students_help: "How many students will use CodeCombat?"
     num_students_default: "Select Range"
     education_level_label: "Education Level of Students"
     education_level_help: "Choose as many as apply."
@@ -1069,7 +1069,7 @@
     referrer_pd: "Professional trainings/workshops"
     referrer_web: "Google"
     referrer_other: "Other"
-    anything_else: "What kind of class do you anticipate using CodeCombat for?" # {change}
+    anything_else: "What kind of class do you anticipate using CodeCombat for?"
     thanks_header: "Request Received!"
     thanks_sub_header: "Thanks for expressing interest in CodeCombat for your school."
     thanks_p: "We'll be in touch soon! If you need to get in contact, you can reach us at:"

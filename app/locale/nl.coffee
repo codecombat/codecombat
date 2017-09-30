@@ -234,6 +234,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_teacher_header: "Creeër leraren account"
     create_individual_header: "Creeër persoonlijk account"
     email_announcements: "Ontvang aankondigingen via e-mail" # {change}
+#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
@@ -709,14 +710,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unsubscribing: "Uitschrijven..." # {change}
     subscribe_prepaid: "Klik op inschrijven om een prepaidcode te gebruiken."
     using_prepaid: "Prepaidcode gebruiken voor maandelijkse inschrijving."
-    feature_levels: "Krijg toegang tot __premiumLevelsCount__ beschikbare levels" # {change}
+#    feature_level_access: "Access 300+ levels available"
     feature_gems: "Ontvang __gems__ edelstenen per maand"
     feature_heroes: "Krijg toegang tot speciale helden" # {change}
     feature_games: "Maak spellen voor je vrienden"
     feature_websites: "Bouw websites en apps"
     feature_items: "Gebruik krachtigere items"
-#    feature_learn: "Learn to make games and websites" # {change}
+#    feature_learn: "Learn to make games and websites"
     month_price: "$__price__/mo" # {change}
+#    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Jaarlijks abonnement"
@@ -920,6 +922,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     lisa_blurb: "Warmbloedig"
     sean_title: "Regio Manager"
     liz_title: "Buurt Manager"
+#    david_title: "Customer Success Manager"
+#    jane_title: "Partnership Associate"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
@@ -983,7 +987,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     project_based_title: "Project-Georienteerde Cursussen"
     project_based_description: "Web en Game Ontwikkeling cursussen hebben deelbare eindprojecten."
     great_for_clubs_title: "Leuk voor clubjes en keuzevakken"
-    great_for_clubs_description: "Leraren kunnen tot __maxQuantityStarterLicenses__ Starter Licenties kopen per jaar." #{change}
+    great_for_clubs_description: "Leraren kunnen tot __maxQuantityStarterLicenses__ Starter Licenties kopen per jaar." # {change}
     low_price_title: "Maar __starterLicensePrice__ per leerling"
     low_price_description: "Starter Licenties zijn __starterLicenseLengthMonths__ maanden geldig na aankoop."
     three_great_courses: "Drie geweldige cursussen in de Starter Licentie:"
@@ -1046,7 +1050,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     city: "Stad"
     state: "Provincie"
     country: "Land"
-    num_students_help: "Voor hoeveel leerlingen zou je CodeCombat willen gebruiken?"
+    num_students_help: "Voor hoeveel leerlingen zou je CodeCombat willen gebruiken?" # {change}
     num_students_default: "Selecteer bereik"
     education_level_label: "Opleidingsniveau van leerlingen"
     education_level_help: "Selecteer toepasbare niveau(s)."
@@ -1057,7 +1061,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     college_plus: "Hoger Onderwijs"
     referrer: "Hoe heb je over ons gehoord?"
     referrer_help: "Bijvoorbeeld: van een andere leraar, een conferentie, je leerlingen, Code.org, etc."
-    anything_else: "Is er verder nog iets dat we moeten weten?"
+#    referrer_default: "Select One"
+#    referrer_hoc: "Code.org/Hour of Code"
+#    referrer_teacher: "A teacher"
+#    referrer_admin: "An administrator"
+#    referrer_student: "A student"
+#    referrer_pd: "Professional trainings/workshops"
+#    referrer_web: "Google"
+#    referrer_other: "Other"
+    anything_else: "Is er verder nog iets dat we moeten weten?" # {change}
     thanks_header: "Bedankt voor je demo-aanvraag!"
     thanks_sub_header: "Bedankt voor je interesse in CodeCombat."
     thanks_p: "Wij zullen spoedig contact met u opnemen. Vragen? Mail ons:" # {change}
@@ -1390,6 +1402,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
     license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!"
+#    update_old_classroom: "New school year, new levels!"
+#    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
+#    teacher_dashboard: "teacher dashboard"
+#    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1520,6 +1536,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    unpublished: "(unpublished)"
     view_arena_ladder: "Bekijk Arena Stand"
     resource_hub: "Hulpmiddelen"
+#    pacing_guides: "Classroom-in-a-Box Pacing Guides"
+#    pacing_guides_desc: "Learn how to incorporate all of CodeCombat's resources to plan your school year!"
+#    pacing_guides_elem: "Elementary School Pacing Guide"
+#    pacing_guides_middle: "Middle School Pacing Guide"
+#    pacing_guides_high: "High School Pacing Guide"
     getting_started: "Aan de Slag"
     educator_faq: "Leraar FAQ"
     educator_faq_desc: "Veel gestelde vragen over het gebruik van CodeCombat in je klas of school."
@@ -1561,6 +1582,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     gd1: "Game Ontwikkeling 1"
     gd1_guide: "Game Ontwikkeling 1 - Project Gids"
     gd1_guide_desc: "Gebruik dit om je studenten te begeleiden bij het maken van hun eerste deelbare spel in 5 dagen."
+#    gd1_rubric: "Game Development 1 - Project Rubric"
+#    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
     wd1: "Web Ontwikkeling 1"
     wd1_headlines: "Titels & Koppen Activiteit"
     wd1_headlines_example: "Bekijk voorbeeld-oplossing"
