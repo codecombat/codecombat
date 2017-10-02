@@ -1,5 +1,6 @@
 require('app/styles/admin/codeplayback-view.sass')
 CocoView = require 'views/core/CocoView'
+LZString = require 'lz-string'
 
 CodeLog = require 'models/CodeLog'
 ace = require('lib/aceContainer')

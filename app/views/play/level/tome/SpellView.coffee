@@ -16,6 +16,7 @@ aceUtils = require 'core/aceUtils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
+LZString = require 'lz-string'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'

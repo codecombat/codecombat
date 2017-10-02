@@ -4,6 +4,7 @@ LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
+LZString = require 'lz-string'
 
 SIMULATOR_VERSION = 4
 

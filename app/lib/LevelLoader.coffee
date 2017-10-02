@@ -5,6 +5,7 @@ Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
+LZString = require 'lz-string'
 
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
