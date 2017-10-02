@@ -162,7 +162,7 @@ module.exports = class TeacherClassesView extends RootView
 
 
       classCompletion['add_students'] = if students > 0 then 1.0 else 0.0
-      if me.get('enrollmentRequestSent') or @prepaids.length > 0
+      if @prepaids.length > 0
         classCompletion['reach_gamedev'] = 1.0
       else
         classCompletion['reach_gamedev'] = 0.0
