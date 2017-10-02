@@ -55,7 +55,7 @@ module.exports = {
     publicPath: '/', // Base URL path webpack tries to load other bundles from
   },
   module: {
-    noParse: /bower_components.*aether.*|fuzzaldrin/, // These are already built into commonjs bundles
+    noParse: /vendor.*coffeescript|bower_components.*aether.*|fuzzaldrin/, // These are already built into commonjs bundles
     rules: [
       { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
       // { test: /.*\.js/, use: [
