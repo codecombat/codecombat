@@ -220,8 +220,11 @@ module.exports = class TeacherClassView extends RootView
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
 
+  allStatsLoaded: ->
+    @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
+
   calculateProgressAndLevels: ->
-    return unless @supermodel.progress is 1 and @students.loaded and @classroom.sessions.loaded
+    return unless @supermodel.progress is 1 and @allStatsLoaded()
     # TODO: How to structure this in @state?
     for student in @students.models
       # TODO: this is a weird hack
@@ -566,7 +569,7 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
-    
+
   onClickSelectAll: (e) ->
     e.preventDefault()
     checkboxStates = _.clone @state.get('checkboxStates')

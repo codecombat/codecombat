@@ -60,7 +60,7 @@ block content
           .average-playtime.small-details
             span(data-i18n='teacher.avg_playtime')
             span.spr :
-            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+            if view.allStatsLoaded()
               span= stats.averagePlaytime
             else
               span(data-i18n='common.loading')
@@ -68,7 +68,7 @@ block content
           .total-playtime.small-details
             span(data-i18n='teacher.total_playtime')
             span.spr :
-            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+            if view.allStatsLoaded()
               span= stats.totalPlaytime
             else
               span(data-i18n='common.loading')
@@ -76,7 +76,7 @@ block content
           .average-complete.small-details
             span(data-i18n='teacher.avg_completed')
             span.spr :
-            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+            if view.allStatsLoaded()
               span= stats.averageLevelsComplete
             else
               span(data-i18n='common.loading')
@@ -84,7 +84,7 @@ block content
           .total-complete.small-details
             span(data-i18n='teacher.total_completed')
             span.spr :
-            if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+            if view.allStatsLoaded()
               span= stats.totalLevelsComplete
             else
               span(data-i18n='common.loading')
@@ -119,7 +119,7 @@ block content
               span :
               +longLevelName(state.get('earliestIncompleteLevel'))
               +inlineUserList(state.get('earliestIncompleteLevel').users)
-            else
+            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
               span(data-i18n='teacher.earliest_incomplete')
               span :
               div(data-i18n='common.loading')
@@ -130,7 +130,7 @@ block content
               span :
               +longLevelName(state.get('latestCompleteLevel'))
               +inlineUserList(state.get('latestCompleteLevel').users)
-            else
+            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
               span(data-i18n='teacher.latest_complete')
               span :
               div(data-i18n='common.loading')
@@ -249,7 +249,7 @@ mixin studentRow(student)
       div
         i
           span(data-i18n='teacher.latest_completed')
-      if view.students.loaded && view.classroom.sessions && view.classroom.sessions.loaded
+      if view.allStatsLoaded()
         div
           +longLevelName(student.latestCompleteLevel)
       else
