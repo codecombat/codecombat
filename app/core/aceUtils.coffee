@@ -1,4 +1,13 @@
 ace = require('lib/aceContainer');
+
+aceEditModes =
+  javascript: 'ace/mode/javascript'
+  coffeescript: 'ace/mode/coffee'
+  python: 'ace/mode/python'
+  lua: 'ace/mode/lua'
+  java: 'ace/mode/java'
+  html: 'ace/mode/html'
+
 # These ACEs are used for displaying code snippets statically, like in SpellPaletteEntryView popovers
 # and have short lifespans
 initializeACE = (el, codeLanguage) ->
@@ -24,5 +33,6 @@ initializeACE = (el, codeLanguage) ->
   return editor
 
 module.exports = {
+  aceEditModes
   initializeACE
 }

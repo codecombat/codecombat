@@ -2,7 +2,7 @@ CocoModel = require 'models/CocoModel'
 CocoCollection = require 'collections/CocoCollection'
 {me} = require('core/auth')
 locale = require 'locale/locale'
-utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 createjs = require 'lib/createjs-parts'
 
 initializeFilePicker = ->
@@ -238,12 +238,12 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
-    (key for key in _.keys(utils.aceEditModes) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
+    (key for key in _.keys(aceUtils.aceEditModes) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
 
 class CodeLanguageTreema extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
-    valEl.find('input').autocomplete(source: _.keys(utils.aceEditModes), minLength: 0, delay: 0, autoFocus: true)
+    valEl.find('input').autocomplete(source: _.keys(aceUtils.aceEditModes), minLength: 0, delay: 0, autoFocus: true)
     valEl
 
 class CodeTreema extends TreemaNode.nodeMap.ace
@@ -251,8 +251,8 @@ class CodeTreema extends TreemaNode.nodeMap.ace
     super(arguments...)
     @workingSchema.aceTabSize = 4
     # TODO: Find a less hacky solution for this
-    @workingSchema.aceMode = mode if mode = utils.aceEditModes[@keyForParent]
-    @workingSchema.aceMode = mode if mode = utils.aceEditModes[@parent?.data?.language]
+    @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@keyForParent]
+    @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@parent?.data?.language]
 
   initEditor: (args...) ->
     super args...

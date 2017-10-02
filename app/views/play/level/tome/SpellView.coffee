@@ -12,7 +12,7 @@ SpellTranslationView = require './SpellTranslationView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
-utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
@@ -101,7 +101,7 @@ module.exports = class SpellView extends CocoView
       @reallySetAnnotations newAnnotations
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker @spell.language in @languagesThatUseWorkers
-    @aceSession.setMode utils.aceEditModes[@spell.language]
+    @aceSession.setMode aceUtils.aceEditModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode 'unix'
@@ -1284,8 +1284,8 @@ module.exports = class SpellView extends CocoView
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
-    @aceSession.setMode utils.aceEditModes[e.language]
-    @autocomplete?.set 'language', utils.aceEditModes[e.language].substr('ace/mode/')
+    @aceSession.setMode aceUtils.aceEditModes[e.language]
+    @autocomplete?.set 'language', aceUtils.aceEditModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault

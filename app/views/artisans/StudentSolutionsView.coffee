@@ -9,7 +9,7 @@ Levels = require 'collections/Levels'
 Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
 ace = require('lib/aceContainer')
-utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 # Aether = require 'aether'
 # require 'aether/parsers/python'
 # require 'esper.js'
@@ -93,7 +93,7 @@ module.exports = class StudentSolutionsView extends RootView
       editor = ace.edit el
       aceSession = editor.getSession()
       aceDoc = aceSession.getDocument()
-      aceSession.setMode utils.aceEditModes[lang]
+      aceSession.setMode aceUtils.aceEditModes[lang]
       editor.setTheme 'ace/theme/textmate'
       editor.setReadOnly true
 

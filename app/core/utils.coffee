@@ -455,14 +455,6 @@ filterMarkdownCodeLanguages = (text, language) ->
 
   return text
 
-aceEditModes =
-  javascript: 'ace/mode/javascript'
-  coffeescript: 'ace/mode/coffee'
-  python: 'ace/mode/python'
-  lua: 'ace/mode/lua'
-  java: 'ace/mode/java'
-  html: 'ace/mode/html'
-
 capitalLanguages =
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
@@ -628,7 +620,6 @@ isValidEmail = (email) ->
   emailRegex.test(email?.trim().toLowerCase())
 
 module.exports = {
-  aceEditModes
   capitalLanguages
   clone
   combineAncestralObject

@@ -32,7 +32,7 @@ window.TreemaNode = require('exports-loader?TreemaNode!treema/treema.js');// TOD
 // jasmine?
 require('imports-loader?this=>window!npm-modernizr');
 
-require('ace-builds/src-noconflict/ace.js');// TODO webpack: Try to extract this
+// require('ace-builds/src-noconflict/ace.js');// Extracted TODO: Remove when I'm sure it works
 
 window.Vue = require('vue/dist/vue.common.js') // TODO: Update to using just the runtime (need to precompile templates!)// TODO webpack: Try to extract this
 window.Vuex = require('vuex').default// TODO webpack: Try to extract this
