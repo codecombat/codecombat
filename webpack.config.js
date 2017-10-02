@@ -30,7 +30,7 @@ console.log(`Made ${commonsPlugins.length} commons plugins`);
 
 
 // Main webpack config
-module.exports = {
+module.exports = (env) => ({
   context: path.resolve(__dirname),
   entry: {
     app: './app/app.js',
@@ -209,37 +209,25 @@ module.exports = {
     // new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
     //   locals: {shaTag: process.env.GIT_SHA || 'dev'}
     // }),
-    // new (require('babel-minify-webpack-plugin'))({},{}), // Compress the final result.
-    // new webpack.optimize.UglifyJsPlugin(),
-    new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
-      analyzerMode: 'static',
-      // analyzerHost: '127.0.0.1',
-      // analyzerPort: 8888,
-      reportFilename: 'bundleReport.html',
-      defaultSizes: 'gzip',
-      openAnalyzer: false,
-      generateStatsFile: true,
-      statsFilename: 'stats.json',
-      statsOptions: {
-        source: false,
-        reasons: true,
-        // assets: true,
-        // chunks: true,
-        // chunkModules: true,
-        // modules: true,
-        // children: true,
-      },
-      logLevel: 'info',
-    }),
-    new WebpackShellPlugin({
-      // dev: true,
-      onBuildStart: [
-        'echo Building...'
-      ],
-      onBuildEnd: [
-        // 'coffee scripts/minify.coffee',
-        'echo Built!',
-      ],
-    })
+    // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
+    //   analyzerMode: 'static',
+    //   // analyzerHost: '127.0.0.1',
+    //   // analyzerPort: 8888,
+    //   reportFilename: 'bundleReport.html',
+    //   defaultSizes: 'gzip',
+    //   openAnalyzer: false,
+    //   generateStatsFile: true,
+    //   statsFilename: 'stats.json',
+    //   statsOptions: {
+    //     source: false,
+    //     reasons: true,
+    //     // assets: true,
+    //     // chunks: true,
+    //     // chunkModules: true,
+    //     // modules: true,
+    //     // children: true,
+    //   },
+    //   logLevel: 'info',
+    // }),
   ])
-}
+})
