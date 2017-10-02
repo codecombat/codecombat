@@ -1,5 +1,6 @@
 HeroSelectModal = require 'views/courses/HeroSelectModal'
 factories = require 'test/app/factories'
+api = require 'core/api'
 
 describe 'HeroSelectModal', ->
 
@@ -13,28 +14,32 @@ describe 'HeroSelectModal', ->
 
   beforeEach (done) ->
     window.me = user = factories.makeUser({ heroConfig: { thangType: hero1.get('original') } })
+    heroesPromise = Promise.resolve([hero1.attributes, hero2.attributes])
+    spyOn(api.thangTypes, 'getAll').and.returnValue(heroesPromise)
     modal = new HeroSelectModal()
     subview = modal.subviews.hero_select_view
-    subview.heroes.fakeRequests[0].respondWith({ status: 200, responseText: heroesResponse })
+    # subview.heroes.fakeRequests[0].respondWith({ status: 200, responseText: heroesResponse })
     jasmine.demoModal(modal)
-    _.defer ->
-      modal.render()
-      done()
+    heroesPromise.then ->
+      _.defer ->
+        modal.render()
+        done()
 
   afterEach ->
     modal.stopListening()
 
   it 'highlights the current hero', ->
-    expect(modal.$(".hero-option[data-hero-original='#{hero1.get('original')}']")[0].className.split(" ")).toContain('selected')
+    expect(modal.$(".hero-option[data-hero-original='#{hero1.get('original')}']")?[0]?.className.split(" ")).toContain('selected')
 
   it 'saves when you change heroes', (done) ->
     modal.$(".hero-option[data-hero-original='#{hero2.get('original')}']").click()
-    _.defer ->
+    setTimeout -> # TODO Webpack: Figure out how to not need this race condition
       expect(user.fakeRequests.length).toBe(1)
       request = user.fakeRequests[0]
-      expect(request.method).toBe("PUT")
-      expect(JSON.parse(request.params).heroConfig?.thangType).toBe(hero2.get('original'))
+      expect(request?.method).toBe("PUT")
+      expect(JSON.parse(request?.params).heroConfig?.thangType).toBe(hero2.get('original'))
       done()
+    , 500
 
   it 'triggers its events properly', (done) ->
     spyOn(modal, 'trigger')

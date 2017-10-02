@@ -11,7 +11,7 @@ mixin heroOption(hero)
     .hero-avatar
       img(src=view.getPortraitURL(hero))
     .text-h5.hero-name
-      span= hero.getHeroShortName()
+      span= view.getHeroShortName(hero)
 
 .hero-list
   if view.heroes

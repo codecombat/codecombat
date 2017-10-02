@@ -6,7 +6,9 @@ template = require 'templates/core/hero-select-view'
 State = require 'models/State'
 # ThangType = require 'models/ThangType'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
+ThangTypeLib = require 'lib/ThangTypeLib'
 User = require 'models/User'
+api = require 'core/api'
 
 module.exports = class HeroSelectView extends CocoView
   id: 'hero-select-view'
@@ -29,7 +31,7 @@ module.exports = class HeroSelectView extends CocoView
     # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass'] })
     # @supermodel.trackRequest @heroes.fetchHeroes()
     
-    @supermodel.trackRequest api.thangTypes.getAll({ project: ['original', 'name', 'heroClass'] }).then (@heroes) =>
+    api.thangTypes.getAll({ project: ['original', 'name', 'heroClass'] }).then (@heroes) =>
       @debouncedRender()
 
     @listenTo @state, 'all', -> @debouncedRender()
@@ -40,8 +42,11 @@ module.exports = class HeroSelectView extends CocoView
     @state.set selectedHeroOriginal: heroOriginal
     @saveHeroSelection(heroOriginal)
     
-  getHeroPortraitUrl: (hero) ->
+  getPortraitURL: (hero) ->
     ThangTypeLib.getPortraitURL(hero)
+  
+  getHeroShortName: (hero) ->
+    ThangTypeLib.getHeroShortName(hero)
 
   saveHeroSelection: (heroOriginal) ->
     me.set(heroConfig: {}) unless me.get('heroConfig')
