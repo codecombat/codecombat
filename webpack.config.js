@@ -116,6 +116,9 @@ module.exports = (env) => ({
       'node_modules'
     ],
     extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass'],
+    alias: { // Replace Backbone's underscore with lodash
+      'underscore': 'node_modules/lodash'
+    }
   },
   // devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
   devServer: {
