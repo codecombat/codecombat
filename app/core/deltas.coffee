@@ -1,5 +1,7 @@
 SystemNameLoader = require './../core/SystemNameLoader'
-jsondiffpatch = require('lib/jsondiffpatch')
+unless typeof window is 'undefined' # Only do this on the client
+  # TODO Webpack: Extract the stuff the server needs to another file?
+  jsondiffpatch = require('lib/jsondiffpatch')
 
 ###
   Good-to-knows:
