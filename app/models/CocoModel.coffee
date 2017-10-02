@@ -348,35 +348,6 @@ class CocoModel extends Backbone.Model
     @updateI18NCoverage() if not path  # only need to do this at the highest level
     sum
 
-  @getReferencedModel: (data, schema) ->
-    return null unless schema.links?
-    linkObject = _.find schema.links, rel: 'db'
-    return null unless linkObject
-    return null if linkObject.href.match('thang.type') and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
-
-    # not fully extensible, but we can worry about that later
-    link = linkObject.href
-    link = link.replace('{(original)}', data.original)
-    link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
-    link = link.replace('{($)}', data)
-    @getOrMakeModelFromLink(link)
-
-  @getOrMakeModelFromLink: (link) ->
-    makeUrlFunc = (url) -> -> url
-    modelUrl = link.split('/')[2]
-    modelModule = _.string.classify(modelUrl)
-    modulePath = "models/#{modelModule}"
-
-    try
-      Model = require modulePath # TODO webpack: Get this working async for chunking
-    catch e
-      console.error 'could not load model from link path', link, 'using path', modulePath
-      return
-
-    model = new Model()
-    model.url = makeUrlFunc(link)
-    return model
-
   setURL: (url) ->
     makeURLFunc = (u) -> -> u
     @url = makeURLFunc(url)
