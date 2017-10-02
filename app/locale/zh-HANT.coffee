@@ -66,7 +66,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     want_coco: "想要在您的學校進行CodeCombat嗎？"
 
   nav:
-#    map: "Map"
+    map: "地圖"
     play: "返回地圖" # The top nav bar entry where players choose which levels to play
     community: "社群"
     courses: "課程"
