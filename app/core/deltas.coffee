@@ -1,5 +1,6 @@
 SystemNameLoader = require './../core/SystemNameLoader'
-jsondiffpatch = require('jsondiffpatch')
+jsondiffpatch = require('lib/jsondiffpatch')
+
 ###
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched

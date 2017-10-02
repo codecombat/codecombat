@@ -29,7 +29,7 @@ mongoose.connect(config.mongo.mongoose_replica_string || 'mongodb://localhost:27
 GLOBAL._ = require('lodash')
 _.str = require('underscore.string')
 _.mixin(_.str.exports())
-global.jsondiffpatch = require('jsondiffpatch')
+global.jsondiffpatch = require('lib/jsondiffpatch')
 global.tv4 = require('tv4')
 
 // Imports

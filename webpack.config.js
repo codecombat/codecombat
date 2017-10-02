@@ -55,7 +55,14 @@ module.exports = (env) => ({
     publicPath: '/', // Base URL path webpack tries to load other bundles from
   },
   module: {
-    noParse: /vendor.*coffeescript|bower_components.*aether.*|fuzzaldrin/, // These are already built into commonjs bundles
+    noParse: function (name){ // These are already built into commonjs bundles
+      return _.any([
+        /vendor.*coffeescript/,
+        /bower_components.*aether/,
+        /bower_components.*jsondiffpatch.*\.js$/,
+        /fuzzaldrin/,
+      ], (regex) => { return regex.test(name) })
+    },
     rules: [
       { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
       // { test: /.*\.js/, use: [

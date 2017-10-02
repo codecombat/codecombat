@@ -2,6 +2,7 @@ storage = require 'core/storage'
 deltasLib = require 'core/deltas'
 locale = require 'locale/locale'
 utils = require 'core/utils'
+jsondiffpatch = require 'lib/jsondiffpatch'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'

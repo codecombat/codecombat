@@ -1,6 +1,7 @@
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/delta'
 deltasLib = require 'core/deltas'
+jsondiffpatch = require('lib/jsondiffpatch')
 require 'vendor/scripts/diffview'
 require 'vendor/scripts/difflib'
 require '../../../bower_components/treema/treema.js'
