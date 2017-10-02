@@ -117,7 +117,7 @@ module.exports = (env) => ({
     ],
     extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass'],
   },
-  devtool: 'cheap-source-map', // https://webpack.js.org/configuration/devtool/
+  // devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
   devServer: {
     contentBase: './public'
   },
@@ -213,9 +213,9 @@ module.exports = (env) => ({
         to: 'javascripts/app/vendor/aether-html.js',
       }
     ]),
-    // new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
-    //   locals: {shaTag: process.env.GIT_SHA || 'dev'}
-    // }),
+    new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
+      locals: {shaTag: process.env.GIT_SHA || 'dev'}
+    }),
     // new (require('webpack-bundle-analyzer').BundleAnalyzerPlugin)({
     //   analyzerMode: 'static',
     //   // analyzerHost: '127.0.0.1',
