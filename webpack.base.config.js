@@ -104,7 +104,7 @@ module.exports = (env) => {
       }),
       new webpack.IgnorePlugin(/.png/, /vendor\/styles/), // Ignore jQuery-UI's missing images
       new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
-      new webpack.IgnorePlugin(/^memwatch$/), // # TODO: Figure out if we actually want this.
+      new webpack.IgnorePlugin(/^memwatch$/), // Just used by the headless client on the server side
       new webpack.IgnorePlugin(/.DS_Store$/),
       new CopyWebpackPlugin([
         { // Static assets
