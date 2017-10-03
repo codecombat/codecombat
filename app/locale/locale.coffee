@@ -14,27 +14,28 @@ module.exports =
     #   @[code] = require(path)
   
   load: (langCode) ->
-    store = require('core/store')
     console.log "Loading locale:", langCode
     promises = [
       new Promise (accept, reject) ->
         require('bundle-loader?lazy&name=[name]!locale/'+langCode)((localeData) -> accept(localeData))
       .then (localeData) =>
-        @[langCode] = localeData
-        store.commit('addLocaleLoaded', langCode)
-        return localeData
+        @storeLoadedLanguage(langCode, localeData)
     ]
     firstBit = langCode[...2]
     if (firstBit isnt langCode) and @[firstBit]?
       promises.push(new Promise (accept, reject) ->
         require('bundle-loader?lazy&name=locale/[name]!locale/'+firstBit)((localeData) -> accept(localeData))
       .then (localeData) =>
-        @[firstBit] = localeData
-        store.commit('addLocaleLoaded', firstBit)
-        return localeData
+        @storeLoadedLanguage(firstBit, localeData)
       )
     return Promise.all(promises)
   
+  storeLoadedLanguage: (langCode, localeData) ->
+    store = require('core/store')
+    @[langCode] = localeData
+    store.commit('addLocaleLoaded', langCode)
+    return localeData
+
   installVueI18n: ->
     # https://github.com/rse/vue-i18next/blob/master/vue-i18next.js, converted by js2coffee 2.2.0
     store = require('core/store')

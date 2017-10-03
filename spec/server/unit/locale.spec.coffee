@@ -1,7 +1,7 @@
 locale = require('../../../app/locale/locale')
 english = require("../../../app/locale/en")
 _ = require('lodash')
-langs = Object.keys(_.omit(locale, 'update', 'installVueI18n', 'load')).concat('rot13').map (langKey) ->
+langs = Object.keys(_.omit(locale, 'update', 'installVueI18n', 'load', 'storeLoadedLanguage')).concat('rot13').map (langKey) ->
   require("../../../app/locale/#{langKey}")
 
 describe 'esper error messages', ->
