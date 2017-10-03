@@ -1,11 +1,13 @@
 // Use this webpack config for development, with `webpack --config webpack.production.config.js`
 
 const _ = require('lodash');
+const fs = require('fs');
 const webpack = require('webpack');
 require('coffee-script');
 require('coffee-script/register');
 const WebpackStaticStuff = require('./webpack-static-stuff');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const EventHooksWebpackPlugin = require('event-hooks-webpack-plugin')
 
 // Suck out commons chunks from these sets:
 // NOTE: Don't include files loaded by the WebWorkers in this. (lodash, aether, world)
@@ -29,6 +31,17 @@ module.exports = (env) => {
   return _.merge(baseConfig, {
   plugins: baseConfig.plugins
     .concat(commonsPlugins)
+    .concat([
+      new EventHooksWebpackPlugin({
+        done: _.once(() => {
+          info = {
+            sha: process.env.GIT_SHA
+          }
+          fs.writeFile('.build_info.json', JSON.stringify(info, null, '  '))
+          console.log("\nWrote build information file");
+        })
+      })
+    ])
     .concat(!env.analyzeBundles ? [] : // Analyze the bundles with --env.analyzeBundles
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
