@@ -1,19 +1,19 @@
 // NOTE: Don't use this config by itself! It is just a parent for the dev and production configs.
 
-var _ = require('lodash');
-var path = require('path');
-var webpack = require('webpack');
-var CopyWebpackPlugin = require('copy-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var glob = require('glob')
+const _ = require('lodash');
+const path = require('path');
+const webpack = require('webpack');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const glob = require('glob')
 require('coffee-script');
 require('coffee-script/register');
-var WebpackStaticStuff = require('./webpack-static-stuff');
+const WebpackStaticStuff = require('./webpack-static-stuff');
 
 console.log("Starting Webpack...");
 
 // Main webpack config
-module.exports = {
+module.exports = (env) => ({
   context: path.resolve(__dirname),
   entry: {
     app: './app/app.js',
@@ -139,4 +139,4 @@ module.exports = {
       locals: {shaTag: process.env.GIT_SHA || 'dev'}
     }),
   ]
-}
+})
