@@ -7,6 +7,7 @@ const _ = require('lodash');
 const baseConfigFn = require('./webpack.base.config')
 // Development webpack config
 module.exports = (env) => {
+  if (!env) env = {};
   const baseConfig = baseConfigFn(env);
   return _.merge(baseConfig, {
     devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/

@@ -87,6 +87,7 @@
     "esper.js": "codecombat/esper.js",
     "express": "^4.14.0",
     "express-useragent": "^1.0.4",
+    "extract-text-webpack-plugin": "^3.0.1",
     "fastclick": "~1.0.3",
     "firepad": "~0.1.2",
     "font-awesome": "^4.7.0",

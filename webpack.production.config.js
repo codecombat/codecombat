@@ -24,6 +24,7 @@ commonsPlugins = _.sortBy(_.map(combos, (combo, key) => {
 const baseConfigFn = require('./webpack.base.config')
 // Production webpack config
 module.exports = (env) => {
+  if (!env) env = {}
   const baseConfig = baseConfigFn(env);
   return _.merge(baseConfig, {
   plugins: baseConfig.plugins
