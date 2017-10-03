@@ -33,7 +33,7 @@
     "test": "./node_modules/.bin/karma start",
     "predeploy": "echo Starting deployment--hold onto your butts.; echo Skipping brunch build --production",
     "postdeploy": "echo Deployed. Unclench.",
-    "postinstall": "bower install && webpack",
+    "postinstall": "bower install && webpack --config webpack.production.config.js",
     "webpack": "webpack --progress",
     "brunch": "brunch",
     "bower": "bower",
