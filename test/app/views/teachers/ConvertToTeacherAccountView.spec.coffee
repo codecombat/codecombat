@@ -203,8 +203,8 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       form.submit()
 
     it 'displays a validation error on district and not school', ->
-      expect(view.$('#organization-control').parent().hasClass('has-error')).toEqual(false)
-      expect(view.$('#district-control').parent().hasClass('has-error')).toEqual(true)
+      expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(false)
+      expect(view.$('#district-control').closest('.form-group').hasClass('has-error')).toEqual(true)
 
   describe 'submitting the form district set to n/a', ->
     beforeEach ->
@@ -216,8 +216,8 @@ describe 'ConvertToTeacherAccountView (/teachers/update-account)', ->
       form.submit()
 
     it 'submits a trial request, which does not include district setting', ->
-      expect(view.$('#organization-control').parent().hasClass('has-error')).toEqual(false)
-      expect(view.$('#district-control').parent().hasClass('has-error')).toEqual(false)
+      expect(view.$('#organization-control').closest('.form-group').hasClass('has-error')).toEqual(false)
+      expect(view.$('#district-control').closest('.form-group').hasClass('has-error')).toEqual(false)
       request = jasmine.Ajax.requests.mostRecent()
       expect(request.url).toBe('/db/trial.request')
       expect(request.method).toBe('POST')
