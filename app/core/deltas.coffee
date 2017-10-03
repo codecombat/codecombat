@@ -1,6 +1,9 @@
 SystemNameLoader = require './../core/SystemNameLoader'
-unless typeof window is 'undefined' # Only do this on the client
-  # TODO Webpack: Extract the stuff the server needs to another file?
+if typeof window is 'undefined'
+  # Just load the normal NPM library on the server side
+  jsondiffpatch = require('jsondiffpatch')
+else
+  # Client needs an extra formatting plugin and CSS
   jsondiffpatch = require('lib/jsondiffpatch')
 
 ###
