@@ -588,6 +588,13 @@
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
     default_student_instructions: "Click to control your hero and win your game!"
+    goal_survive: "Survive."
+    goal_survive_time: "Survive for __seconds__ seconds."
+    goal_defeat: "Defeat all enemies."
+    goal_defeat_amount: "Defeat __amount__ enemies."
+    goal_move: "Move to all the red X marks."
+    goal_collect: "Collect all the items."
+    goal_collect_amount: "Collect __amount__ items."
 
   game_menu:
     inventory_tab: "Inventory"

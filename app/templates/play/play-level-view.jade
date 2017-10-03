@@ -7,6 +7,8 @@ if view.showAds()
     script.
       (adsbygoogle = window.adsbygoogle || []).push({});
 
+include game-dev-goals.jade
+
 .game-container
   #level-loading-view
 
@@ -74,7 +76,11 @@ if view.showAds()
         h3.panel-title
           span(data-i18n="play_level.directions")
           | :
-      .panel-body!= view.howToPlayText
+      if view.studentGoals && view.studentGoals.length
+        .panel-body
+          +game-dev-goals(view.studentGoals)
+      else
+        .panel-body!= view.howToPlayText
 
     .hints-view.hide
 
