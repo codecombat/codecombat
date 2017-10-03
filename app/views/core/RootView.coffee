@@ -37,7 +37,6 @@ module.exports = class RootView extends CocoView
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
-    'modal:open-modal-view': 'onOpenModalView' # TODO Webpack: Is this event deprecated?
 
   shortcuts:
     'ctrl+shift+a': 'navigateToAdmin'
@@ -93,10 +92,6 @@ module.exports = class RootView extends CocoView
     anchorText = e?.currentTarget?.text
     window.tracker?.trackEvent anchorText, category: 'Homepage', ['Google Analytics'] if @id is 'home-view' and anchorText
     @toggleModal e
-
-  onOpenModalView: (e) ->
-    return console.error "Couldn't find modalPath #{e.modalPath}" unless e.modalPath and ModalClass = require e.modalPath
-    @openModalView new ModalClass {}
 
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
