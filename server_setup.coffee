@@ -370,11 +370,11 @@ setupQuickBailToMainHTML = (app) ->
       renderMain(template, req, res)
 
   app.get '/', fast('main.html')
-  # app.get '/about', fast('about.html')
-  # app.get '/features', fast('premium-features.html')
-  # app.get '/privacy', fast('privacy.html')
-  # app.get '/legal', fast('legal.html')
-  # app.get '/play', fast('overworld.html')
+  app.get '/about', fast('about.html')
+  app.get '/features', fast('premium-features.html')
+  app.get '/privacy', fast('privacy.html')
+  app.get '/legal', fast('legal.html')
+  app.get '/play', fast('overworld.html')
   app.get '/play/level/:slug', fast('main.html')
   app.get '/play/:slug', fast('main.html')
 
