@@ -730,6 +730,13 @@ module.exports = class PlayLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
+    
+    # without this check, when removing goals, goals aren't updated properly. Make sure we update
+    # the goals once the first frame is finished.
+    if @world.age > 0 and @willUpdateStudentGoals
+      @willUpdateStudentGoals = false
+      @updateStudentGoals()
+    
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
@@ -751,9 +758,17 @@ module.exports = class PlayLevelView extends RootView
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
-    @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
+    @willUpdateStudentGoals = true
+    @updateStudentGoals()
     @onWindowResize()
     @realTimePlaybackWaitingForFrames = true
+    
+  updateStudentGoals: ->
+    return unless @level.isType('game-dev')
+    @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
+    @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
+    @renderSelectors('#how-to-play-game-dev-panel')
+    @$('#how-to-play-game-dev-panel').removeClass('hide')
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'

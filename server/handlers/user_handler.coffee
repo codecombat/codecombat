@@ -284,6 +284,8 @@ UserHandler = class UserHandler extends Handler
     @put(req, res)
 
   hasAccessToDocument: (req, document) ->
+    if document.isStudent() and not (req.user?._id.equals(document._id) or req.user?.isAdmin())
+      return false
     if req.method.toLowerCase() in ['put', 'post', 'patch', 'delete']
       return true if req.user?.isAdmin()
       return req.user?._id.equals(document._id)
