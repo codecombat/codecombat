@@ -2149,7 +2149,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    for_loops_range: "For Loops Range"
     functions: "函数"
     game_ai: "游戏AI"
-#    game_goals: "Game Goals"
+    game_goals: "游戏目标"
 #    game_spawn: "Game Spawn"
     graphics: "图形"
 #    graphs: "Graphs"

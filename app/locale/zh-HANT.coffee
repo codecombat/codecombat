@@ -66,7 +66,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     want_coco: "想要在您的學校進行CodeCombat嗎？"
 
   nav:
-#    map: "Map"
+    map: "地圖"
     play: "返回地圖" # The top nav bar entry where players choose which levels to play
     community: "社群"
     courses: "課程"
@@ -155,7 +155,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     brain_pop_done: "你剛剛用編程戰勝了巨魔! 你贏了!"
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    back_to_classroom: "回到教室"
 
   code:
     if: "若是" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
