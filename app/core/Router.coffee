@@ -247,16 +247,7 @@ module.exports = class CocoRouter extends Backbone.Router
       path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
-    # path = path.replace(/^views\//,'') # TODO: Resolve these two lines with bundle-loader
-    # # This implicitly creates a separate bundle for each file in views/
-    # require("bundle-loader?lazy!views/" + path)((ViewClass) =>
     dynamicRequire(path).then (ViewClass) =>
-      console.log "Got a thing?", ViewClass
-      # if not ViewClass and application.moduleLoader.load(path)
-      #   @listenToOnce application.moduleLoader, 'load-complete', ->
-      #     options.recursive = true
-      #     @routeDirectly(path, args, options)
-      #   return
       return go('NotFoundView') if not ViewClass
       view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
