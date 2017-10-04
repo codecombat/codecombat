@@ -11,17 +11,9 @@ require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jas
 require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
 require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')
 
-# requireAll = (req) -> req(dep) for dep in req.keys()
-allFilesReq = require.context('test/app', true, /.*\.(coffee|js)$/)
-allFileNames = allFilesReq.keys()
-# allFiles = _.reduce allFilesReq.keys(), (acc, fileKey) ->
-#   acc[fileKey] = allFilesReq(fileKey)
-# , {}
+requireTests = require.context('test/app', true, /.*\.(coffee|js)$/)
 
-# allFiles = requireAll(require.context('test/app', true, /.*\.(coffee|js)$/))
-# debugger
-
-TEST_REQUIRE_PREFIX = 'test/app/'
+TEST_REQUIRE_PREFIX = './'
 TEST_URL_PREFIX = '/test/'
 
 customMatchers = {
@@ -143,18 +135,10 @@ module.exports = TestView = class TestView extends RootView
         # TODO Clean up more things
         #   * Events
 
-      # reqs = require('test/app/' + path) for path in allFilesReq.keys()
-      # console.log reqs
-      allFiles = _.reduce allFilesReq.keys(), (acc, fileKey) ->
-        acc[fileKey] = allFilesReq(fileKey)
-      , {}
-      # console.log allFiles
-      # require f for f in specFiles # runs the tests # Webpack: get this working async
-      # debugger
-
+      requireTests(file) for file in view.specFiles # This runs the spec files
 
   @getAllSpecFiles = ->
-    (f for f in allFileNames when f.indexOf('.spec') > -1)
+    requireTests.keys()
 
   destroy: ->
     # hack to get jasmine tests to properly run again on clicking links, and make sure if you
