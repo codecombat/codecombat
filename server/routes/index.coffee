@@ -64,6 +64,17 @@ module.exports.setup = (app) ->
   
   app.post('/db/analytics.log.event/-/log_event',  mw.auth.checkHasUser(), mw.analyticsLogEvents.post)
 
+  app.post('/db/analytics_perday/-/active_classes', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveClasses)
+  app.post('/db/analytics_perday/-/active_users', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveUsers)
+  app.post('/db/analytics_perday/-/campaign_completions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getCampaignCompletionsBySlug)
+  app.post('/db/analytics_perday/-/level_completions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelCompletionsBySlug)
+  app.post('/db/analytics_perday/-/level_drops', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelDropsBySlugs)
+  app.post('/db/analytics_perday/-/level_helps', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelHelpsBySlugs)
+  app.post('/db/analytics_perday/-/level_subscriptions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelSubscriptionsBySlugs)
+  app.post('/db/analytics_perday/-/recurring_revenue', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getRecurringRevenue)
+  
+  app.get('/db/analytics.stripe.invoice/-/all', mw.auth.checkHasPermission(['admin']), mw.analyticsStripeInvoices.getAll)
+  
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
