@@ -369,7 +369,8 @@ setupQuickBailToMainHTML = (app) ->
 
       renderMain(template, req, res)
 
-  app.get '/', fast('main.html')
+  app.get '/', fast('home.html')
+  app.get '/home', fast('home.html')
   app.get '/about', fast('about.html')
   app.get '/features', fast('premium-features.html')
   app.get '/privacy', fast('privacy.html')
