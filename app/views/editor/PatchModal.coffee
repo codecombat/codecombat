@@ -4,6 +4,7 @@ template = require 'templates/editor/patch_modal'
 DeltaView = require 'views/editor/DeltaView'
 auth = require 'core/auth'
 deltasLib = require 'core/deltas'
+modelDeltas = require 'lib/modelDeltas'
 
 module.exports = class PatchModal extends ModalView
   id: 'patch-modal'
@@ -40,7 +41,7 @@ module.exports = class PatchModal extends ModalView
 
     @pendingModel = @originalSource.clone(false)
     @pendingModel.markToRevert true
-    @deltaWorked = @pendingModel.applyDelta(@patch.get('delta'))
+    @deltaWorked = modelDeltas.applyDelta(@pendingModel, @patch.get('delta'))
     @pendingModel.loaded = true
 
   render: ->
@@ -65,7 +66,7 @@ module.exports = class PatchModal extends ModalView
 
   acceptPatch: ->
     delta = @deltaView.getApplicableDelta()
-    @targetModel.applyDelta(delta)
+    modelDeltas.applyDelta(@targetModel, delta)
     @targetModel.saveBackupNow()
     @patch.setStatus('accepted')
     @trigger 'accepted-patch'

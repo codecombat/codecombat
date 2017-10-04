@@ -5,6 +5,7 @@ Patches = require 'collections/Patches'
 PatchModal = require 'views/editor/PatchModal'
 template = require 'templates/i18n/i18n-edit-model-view'
 deltasLib = require 'core/deltas'
+modelDeltas = require 'lib/modelDeltas'
 ace = require('lib/aceContainer')
 
 ###
@@ -167,7 +168,7 @@ module.exports = class I18NEditModelView extends RootView
       return UNSAVED_CHANGES_MESSAGE
 
   onSubmitPatch: (e) ->
-    delta = @originalModel.getDeltaWith(@model)
+    delta = modelDeltas.getDeltaWith(@originalModel, @model)
     flattened = deltasLib.flattenDelta(delta)
     collection = _.string.underscored @model.constructor.className
     patch = new Patch({

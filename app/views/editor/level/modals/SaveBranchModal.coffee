@@ -3,6 +3,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/save-branch-modal'
 DeltaView = require 'views/editor/DeltaView'
 deltasLib = require 'core/deltas'
+modelDeltas = require 'lib/modelDeltas'
 Branch = require 'models/Branch'
 Branches = require 'collections/Branches'
 LevelComponents = require 'collections/LevelComponents'
@@ -60,7 +61,7 @@ module.exports = class SaveBranchModal extends ModalView
             changedModels = branch.systems
           model = allModels.get(patch.target.id).clone(false)
           model.markToRevert()
-          model.applyDelta(patch.delta)
+          modelDeltas.applyDelta(model, patch.delta)
           changedModels.add(model)
       @selectedBranch = @branches.first()
       @render()

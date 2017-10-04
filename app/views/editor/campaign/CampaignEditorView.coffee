@@ -14,6 +14,7 @@ CampaignLevelView = require './CampaignLevelView'
 SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
 RevertModal = require 'views/modal/RevertModal'
+modelDeltas = require 'lib/modelDeltas'
 
 require 'lib/game-libraries'
 
@@ -71,7 +72,7 @@ module.exports = class CampaignEditorView extends RootView
 
   onLeaveMessage: ->
     for model in @toSave.models
-      diff = model.getDelta()
+      diff = modelDeltas.getDelta(model)
       if _.size(diff)
         console.log 'model, diff', model, diff
         return 'You have changes!'

@@ -1,8 +1,6 @@
 storage = require 'core/storage'
-deltasLib = require 'core/deltas'
 locale = require 'locale/locale'
 utils = require 'core/utils'
-jsondiffpatch = require 'lib/jsondiffpatch'
 
 class CocoModel extends Backbone.Model
   idAttribute: '_id'
@@ -278,36 +276,6 @@ class CocoModel extends Backbone.Model
   getOwner: ->
     ownerPermission = _.find @get('permissions', true), access: 'owner'
     ownerPermission?.target
-
-  getDelta: ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff(_.omit(@_revertAttributes, deltasLib.DOC_SKIP_PATHS), _.omit(@attributes, deltasLib.DOC_SKIP_PATHS))
-
-  getDeltaWith: (otherModel) ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff @attributes, otherModel.attributes
-
-  applyDelta: (delta) ->
-    newAttributes = $.extend(true, {}, @attributes)
-    try
-      jsondiffpatch.patch newAttributes, delta
-    catch error
-      unless application.testing
-        console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
-      return false
-    for key, value of newAttributes
-      delete newAttributes[key] if _.isEqual value, @attributes[key]
-
-    @set newAttributes
-    return true
-
-  getExpandedDelta: ->
-    delta = @getDelta()
-    deltasLib.expandDelta(delta, @_revertAttributes, @schema())
-
-  getExpandedDeltaWith: (otherModel) ->
-    delta = @getDeltaWith(otherModel)
-    deltasLib.expandDelta(delta, @attributes, @schema())
 
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})

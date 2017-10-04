@@ -3,6 +3,7 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/load-branch-modal'
 DeltaView = require 'views/editor/DeltaView'
 deltasLib = require 'core/deltas'
+modelDeltas = require 'lib/modelDeltas'
 Branch = require 'models/Branch'
 Branches = require 'collections/Branches'
 LevelComponents = require 'collections/LevelComponents'
@@ -53,7 +54,7 @@ module.exports = class LoadBranchModal extends ModalView
           # make a model that represents what the patch represented when it was made
           originalChange = collection.get(patch.target.id).clone(false)
           originalChange.markToRevert()
-          originalChange.applyDelta(patch.delta)
+          modelDeltas.applyDelta(originalChange, patch.delta)
           
           # make a model that represents what will change locally
           currentModel = collection.find (model) -> _.all([
@@ -64,7 +65,7 @@ module.exports = class LoadBranchModal extends ModalView
           postLoadChange.markToRevert() # includes whatever local changes we have now
           
           toApply = currentModel.clone(false)
-          applied = toApply.applyDelta(patch.delta)
+          applied = modelDeltas.applyDelta(toApply, patch.delta)
           if applied
             postLoadChange.set(toApply.attributes)
             for key in postLoadChange.keys()
