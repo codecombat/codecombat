@@ -29,6 +29,7 @@ module.exports = (env) => {
   if (!env) env = {};
   const baseConfig = baseConfigFn(env);
   return _.merge(baseConfig, {
+  devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   plugins: baseConfig.plugins
     .concat(commonsPlugins)
     .concat([
