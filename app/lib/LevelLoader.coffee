@@ -220,7 +220,8 @@ module.exports = class LevelLoader extends CocoClass
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
     unless @level.isType('hero', 'hero-ladder', 'hero-coop')
-      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
+      if session is @session
+        Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
       if @checkAllWorldNecessitiesRegisteredAndLoaded()
         @onWorldNecessitiesLoaded()
@@ -232,7 +233,8 @@ module.exports = class LevelLoader extends CocoClass
       heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
       heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
       session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
-      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
+      if session is @session
+        Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       url = "/db/thang.type/#{heroConfig.thangType}/version"
       if heroResource = @maybeLoadURL(url, ThangType, 'thang')
         @worldNecessities.push heroResource
