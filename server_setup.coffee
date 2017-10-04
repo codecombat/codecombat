@@ -343,9 +343,9 @@ getStaticTemplate = (file) ->
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
   if req.features.codePlay
-   template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
-   template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
-
+    template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
+    template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
+   
   res.status(200).send template
 
 setupQuickBailToMainHTML = (app) ->
