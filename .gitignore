@@ -114,3 +114,6 @@ scripts/analytics/mongodb/.mainAuth.json
 
 # Created by git LFS
 .gitattributes
+
+# Build info file served by the production server
+.build_info.json
