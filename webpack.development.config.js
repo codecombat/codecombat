@@ -15,6 +15,7 @@ module.exports = (env) => {
       contentBase: './public'
     },
     plugins: baseConfig.plugins.concat([
+      new webpack.ProgressPlugin({ profile: false }),
       new webpack.BannerPlugin({ // Label each module in the output bundle
         banner: "hash:[hash], chunkhash:[chunkhash], name:[name], filebase:[filebase], query:[query], file:[file]"
       }),
