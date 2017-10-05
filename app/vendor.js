@@ -46,11 +46,9 @@ window.algoliasearch = require('algoliasearch')
 // require('vendor/scripts/co.js')
 // require('vendor/scripts/coffeescript.js')
 require('vendor/scripts/css.js')
-require('vendor/scripts/deku.js')// TODO webpack: Try to extract this
 // require('vendor/scripts/difflib.js')
 // require('vendor/scripts/diffview.js')
 require('vendor/scripts/flying-focus.js')
-require('vendor/scripts/htmlparser2.js')// TODO webpack: Try to extract this
 // require('vendor/scripts/jasmine-boot.js')
 // require('vendor/scripts/jasmine-html.js')
 // require('vendor/scripts/jasmine-mock-ajax.js')
