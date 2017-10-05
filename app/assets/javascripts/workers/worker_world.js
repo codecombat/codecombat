@@ -63,6 +63,7 @@ var console = {
 console.error = console.warn = console.info = console.debug = console.log;
 self.console = console;
 
+// Webpack TODO: Cache-bust these! (especially world.js)
 self.importScripts('/javascripts/lodash.js', '/javascripts/world.js', '/javascripts/aether.js');
 try {
   //Detect very modern javascript support.

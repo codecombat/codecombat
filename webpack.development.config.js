@@ -10,6 +10,9 @@ module.exports = (env) => {
   if (!env) env = {};
   const baseConfig = baseConfigFn(env);
   return _.merge(baseConfig, {
+    output: _.merge({}, baseConfig.output, {
+      chunkFilename: 'javascripts/chunks/[name].bundle.js',
+    }),
     devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
     devServer: {
       contentBase: './public'

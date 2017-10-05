@@ -29,6 +29,9 @@ module.exports = (env) => {
   if (!env) env = {};
   const baseConfig = baseConfigFn(env);
   return _.merge(baseConfig, {
+  output: _.merge({}, baseConfig.output, {
+    chunkFilename: 'javascripts/chunks/[name]-[chunkhash].bundle.js',
+  }),
   devtool: 'source-map', // https://webpack.js.org/configuration/devtool/
   plugins: baseConfig.plugins
     .concat(commonsPlugins)

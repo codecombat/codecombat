@@ -34,8 +34,8 @@ module.exports = (env) => {
       // vendor: './app/vendor.js'
     },
     output: {
-      filename: 'javascripts/[name].js',
-      chunkFilename: 'javascripts/chunks/[name].bundle.js',
+      filename: 'javascripts/[name].js', // TODO: Use chunkhash in layout.static.pug's script tags instead of GIT_SHA
+      // chunkFilename is determined by build type
       path: path.resolve(__dirname, 'public'),
       publicPath: '/', // Base URL path webpack tries to load other bundles from
     },
