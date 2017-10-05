@@ -94,10 +94,10 @@ module.exports = (env) => {
       request: 'empty',
     },
     plugins: [
-      new ExtractTextPlugin({
+      new webpack.ProgressPlugin({ profile: false }), // Always show build progress
+      new ExtractTextPlugin({ // Move CSS into external file
         filename: 'stylesheets/[name].css',
-        // allChunks: true,
-      }), // Move CSS into external file
+      }),
       new webpack.ProvidePlugin({ // So Bootstrap can use the global jQuery
         $: 'jquery',
         jQuery: 'jquery'
