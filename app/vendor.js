@@ -56,6 +56,6 @@ require('vendor/scripts/flying-focus.js')
 require('vendor/scripts/jquery.mobile-events.js')
 require('vendor/scripts/lz-string-1.3.3-min.js')
 // require('vendor/scripts/register-game-libraries.js')
-require('vendor/scripts/string_score.js')
+window.string_score = require('vendor/scripts/string_score.js') // Used in DB code (eg fire-dancing)
 require('vendor/scripts/vue.js')// TODO webpack: Try to extract this
 require('vendor/scripts/vuex.js')// TODO webpack: Try to extract this
