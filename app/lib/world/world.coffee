@@ -22,6 +22,7 @@ REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
+window.string_score = require 'vendor/scripts/string_score.js' # Used as a global in DB code
 
 module.exports = class World
   @className: 'World'
