@@ -1,3 +1,5 @@
+# These were extracted out of utils.coffee to prevent everything from having Ace as a dependency.
+
 ace = require('lib/aceContainer');
 
 aceEditModes =
