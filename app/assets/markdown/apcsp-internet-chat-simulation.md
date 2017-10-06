@@ -53,7 +53,7 @@ After the final round, show the video above to give students a better sense of h
 
 ### Discussion Questions:
 - How did the chat room simulation represent the way in which information is transferred via the Internet? What details were abstracted in the simulation?
-- What are some characteristics of the Internet?
 - Describe how the Internet transfers information from one device to another. 
 - Why is data transferred in packets? How does this reflect on the characteristics of the Internet?
-- How did you address cybersecurity issues in the simulation? What other ways could you have addressed it?
+- Describe how you manipulated information in order to encrypt it. How does this compare to ways in which computers do it?
+- How do systems built on the Internet, such as chat rooms, reflect the characteristics of the Internet?

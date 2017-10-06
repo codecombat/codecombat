@@ -94,8 +94,8 @@ module.exports = class Tracker extends CocoClass
 
     # Mixpanel
     # https://mixpanel.com/help/reference/javascript
-    mixpanel?.identify(me.id)
-    mixpanel?.register(traits)
+    # mixpanel?.identify(me.id)
+    # mixpanel?.register(traits)
 
     if me.isTeacher() and @segmentLoaded
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
@@ -103,8 +103,9 @@ module.exports = class Tracker extends CocoClass
 
   trackPageView: (includeIntegrations=[]) ->
     includeMixpanel = (name) ->
-      mixpanelIncludes = []
-      name in mixpanelIncludes or /courses|students|teachers/ig.test(name)
+      # mixpanelIncludes = []
+      # name in mixpanelIncludes or /courses|students|teachers/ig.test(name)
+      false
 
     name = Backbone.history.getFragment()
     url = "/#{name}"
@@ -117,8 +118,9 @@ module.exports = class Tracker extends CocoClass
     ga? 'send', 'pageview', url
     ga?('codeplay.send', 'pageview', url) if features.codePlay
     window.snowplow 'trackPageView'
+
     # Mixpanel
-    mixpanel?.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
+    # mixpanel?.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
     if me.isTeacher() and @segmentLoaded
       options = {}
@@ -153,7 +155,7 @@ module.exports = class Tracker extends CocoClass
 
     # Mixpanel
     # Only log explicit events for now
-    mixpanel?.track(action, properties) if 'Mixpanel' in includeIntegrations
+    # mixpanel?.track(action, properties) if 'Mixpanel' in includeIntegrations
 
     if me.isTeacher() and @segmentLoaded
       options = {}

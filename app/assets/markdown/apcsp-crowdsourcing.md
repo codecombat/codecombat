@@ -38,6 +38,14 @@ Having discussed ways in which various services harness the group to solve probl
 
 Having generated a list of collaborative projects or services, have students group up and pick some sort of collaboration and research either how it works or one of the challenges it faces, such as any of those listed above. Have each group present to the rest of the class their findings.
 
+## Zooniverse Activity
+Have the students visit the Zooniverse website (https://www.zooniverse.org/projects) and instruct them to participate in multiple citizen science projects. Encourage them to choose a different project each time. After giving them about ten minutes to work on the site, lead a discussion asking students how citizen science projects enable people to:
+
+- Solve problems
+- Participate in a project that scales
+- Help websites and apps collect data
+- Generate knowledge from data
+
 ### Discussion Questions:
 - What problems do these collaborative services solve?
 - How exactly do people participate in these collaborations? What individual actions are people doing, as opposed to the technology involved?
