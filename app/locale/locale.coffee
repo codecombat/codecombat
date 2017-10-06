@@ -4,15 +4,6 @@
 # http://en.wikipedia.org/wiki/Languages_used_on_the_Internet
 
 module.exports =
-  update: ->
-    # localesLoaded = (s for s in window.require.list() when _.string.startsWith(s, 'locale/'))
-    # store = require('core/store')
-    # for path in localesLoaded
-    #   continue if path is 'locale/locale'
-    #   code = path.replace('locale/', '')
-    #   store.commit('addLocaleLoaded', code)
-    #   @[code] = require(path)
-  
   load: (langCode) ->
     console.log "Loading locale:", langCode
     promises = [
