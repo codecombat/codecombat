@@ -77,11 +77,11 @@ module.exports = (env) => {
       ],
     },
     resolve: {
-      modules: [
-        path.resolve('./app'),
-        path.resolve('./app/assets'),
-        path.resolve('./'),
-        'node_modules'
+      modules: [ // This section denotes what folders you can use as a root in a require statement
+        path.resolve('./app'), // eg require('vendor.js') gets /app/vendor.js
+        path.resolve('./app/assets'), // eg require('images/favicon.ico') gets /app/assets/images/favicon.ico
+        path.resolve('./'), // Or you can use the full path /app/whatever
+        'node_modules'  // Or maybe require('foo') for the Node module "foo".
       ],
       extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass'],
       alias: { // Replace Backbone's underscore with lodash
