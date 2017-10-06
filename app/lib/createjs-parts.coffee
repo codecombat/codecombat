@@ -1,6 +1,3 @@
-# TODO: Does combined contain all of the other parts too???
-# module.exports = window.createjs = require('vendor/scripts/createjs.combined').createjs;
-
 # This temporarily creates a window.createjs attribute
 window.createjs ?= {}
 require('imports-loader?this=>window,createjs=>window.createjs!vendor/scripts/easeljs-NEXT.combined')
