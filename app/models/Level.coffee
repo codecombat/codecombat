@@ -1,7 +1,6 @@
 CocoModel = require './CocoModel'
 LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
-# ThangType = require './ThangType'
 LevelConstants = require 'lib/LevelConstants'
 
 # Pure functions for use in Vue
@@ -20,8 +19,8 @@ module.exports = class Level extends CocoModel
   editableByArtisans: true
 
   serialize: (options) ->
-    # {supermodel, session, otherSession, @headless, @sessionless, cached=false} = options
     {supermodel, session, otherSession, @headless, @sessionless, cached} = options
+    cached ?= false
     o = @denormalize supermodel, session, otherSession # hot spot to optimize
 
     # Figure out Components
