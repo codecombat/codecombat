@@ -1,5 +1,5 @@
 # Box2D is defined in global namespace
-window.Box2D = Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
+Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 
 # Used to have Box2DJS, but got rid of it.
 if Box2D?  # box2dweb, compiled from Flash port: https://code.google.com/p/box2dweb/

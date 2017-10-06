@@ -243,7 +243,7 @@ module.exports = class Simulator extends CocoClass
     @god.createWorld @generateSpellsObject()
 
     # Search for leaks, headless-client only.
-    # NOTE: Memwatch currently being ignored by Webpack.
+    # NOTE: Memwatch currently being ignored by Webpack, because it's only used by the server.
     if @options.headlessClient and @options.leakTest and not @memwatch?
       leakcount = 0
       maxleakcount = 0
