@@ -7,6 +7,12 @@ module.exports = {
       json: { session, courseInstanceID }
     }))
 
+  getByStudentsAndLevels: ({ earliestCreated, studentIds, levelOriginals, project }, options) ->
+    fetchJson("/db/level.session/-/levels-and-students", _.merge({}, options, {
+      method: 'POST'
+      json: { earliestCreated, studentIds, levelOriginals, project }
+    }))
+
   setKeyValue: ({ sessionID, key, value }, options) ->
     fetchJson("/db/level.session/#{sessionID}/key-value-db/#{key}", _.merge({}, options, {
       method: 'PUT'

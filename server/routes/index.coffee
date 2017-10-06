@@ -181,6 +181,7 @@ module.exports.setup = (app) ->
   app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
   app.put('/db/level.session/:handle/key-value-db/:key', mw.levelSessions.putKeyValueDb)
   app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.levelSessions.incrementKeyValueDb)
+  app.post('/db/level.session/-/levels-and-students', mw.auth.checkHasPermission(['admin']), mw.levelSessions.byLevelsAndStudents)
 
 
   LevelSystem = require '../models/LevelSystem'
