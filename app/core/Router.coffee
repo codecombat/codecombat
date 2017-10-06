@@ -271,15 +271,6 @@ module.exports = class CocoRouter extends Backbone.Router
       else '/'
     @navigate(homeUrl, {trigger: true, replace: true})
 
-  tryToLoadModule: (path) ->
-    # TODO: Put this back? Commented for easier Webpack debugging, not sure what it's for.
-    # try
-    path = path.match(/(views\/)?(.*)/)[2] # Chop out 'view' at beginning if it's there
-    # return require('../views/' + path + '.coffee') # This hints Webpack to include things from /app/views/
-    # catch error
-      # if error.toString().search('Cannot find module "' + path + '" from') is -1
-        # throw error
-
   openView: (view) ->
     @closeCurrentView()
     $('#page-container').empty().append view.el
@@ -320,7 +311,7 @@ module.exports = class CocoRouter extends Backbone.Router
     return if application.testing or application.demoing
     application.facebookHandler.loadAPI()
     application.gplusHandler.loadAPI()
-    require('./services/twitter')()
+    require('core/services/twitter')()
 
   renderSocialButtons: =>
     # TODO: Refactor remaining services to Handlers, use loadAPI success callback
@@ -343,12 +334,6 @@ module.exports = class CocoRouter extends Backbone.Router
       dynamicRequire(e.viewClass).then (viewClass) =>
         @onNavigate(_.assign({}, e, {viewClass}), true)
       return
-      # ViewClass = @tryToLoadModule e.viewClass
-      # if not ViewClass and application.moduleLoader.load(e.viewClass)
-      #   @listenToOnce application.moduleLoader, 'load-complete', ->
-      #     @onNavigate(e, true)
-      #   return
-      # e.viewClass = ViewClass
 
     manualView = e.view or e.viewClass
     if (e.route is document.location.pathname) and not manualView
