@@ -1,6 +1,5 @@
-require 'bower_components/aether/build/aether.js' # TODO webpack: Figure out aether build
-# require 'aether/src/aether'
-# require 'esper.js'
+require 'bower_components/aether/build/aether.js'
+# require 'esper.js' # TODO Webpack: Get Esper out of the frontpage script
 
 utils = require 'core/utils'
 
