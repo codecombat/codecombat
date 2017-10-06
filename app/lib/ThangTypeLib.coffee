@@ -8,7 +8,7 @@ ThangTypeLib = {
     "/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
     
   getHeroShortName: (thangTypeObj) ->
-    # TODO: Eventually nice to move this into ThangType so it can be translated like the rest
+    # TODO: Eventually nice to move this into ThangType DB object so it can be translated like the rest
     map = {
       'Assassin': {'en-US': 'Ritic'}
       'Captain': {'en-US': 'Anya', 'zh-HANS': '安雅'}

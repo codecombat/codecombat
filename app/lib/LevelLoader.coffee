@@ -9,7 +9,6 @@ LZString = require 'lz-string'
 
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-# app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
 
