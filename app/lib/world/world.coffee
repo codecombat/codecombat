@@ -266,7 +266,6 @@ module.exports = class World
       config = levelSystem.config
       systemClass = @loadClassFromCode systemModel.js, systemModel.name, 'system'
       #console.log "using db system class ---\n", systemClass, "\n--- from code ---n", systemModel.js, "\n---"
-      debugger if typeof systemClass is 'object'
       system = new systemClass @, config
       @addSystems system
     null
