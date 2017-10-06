@@ -90,6 +90,7 @@ module.exports =
   'et': { nativeDescription: 'Eesti', englishDescription: 'Estonian' }
   'el': { nativeDescription: 'Ελληνικά', englishDescription: 'Greek' }
   'eo': { nativeDescription: 'Esperanto', englishDescription: 'Esperanto' }
+  'fil': { nativeDescription: 'Filipino', englishDescription: 'Filipino' }
   'fa': { nativeDescription: 'فارسی', englishDescription: 'Persian' }
   'gl': { nativeDescription: 'Galego', englishDescription: 'Galician' }
   'ko': { nativeDescription: '한국어', englishDescription: 'Korean' }
@@ -99,12 +100,14 @@ module.exports =
   'hu': { nativeDescription: 'magyar', englishDescription: 'Hungarian' }
   'id': { nativeDescription: 'Bahasa Indonesia', englishDescription: 'Indonesian' }
   'it': { nativeDescription: 'Italiano', englishDescription: 'Italian' }
+  'kk': { nativeDescription: 'қазақ тілі', englishDescription: 'Kazakh' }
   'lt': { nativeDescription: 'lietuvių kalba', englishDescription: 'Lithuanian' }
   'mi': { nativeDescription: 'te reo Māori', englishDescription: 'Māori' }
   'mk-MK': { nativeDescription: 'Македонски', englishDescription: 'Macedonian' }
   'hi': { nativeDescription: 'मानक हिन्दी', englishDescription: 'Hindi' }
   'ms': { nativeDescription: 'Bahasa Melayu', englishDescription: 'Bahasa Malaysia' }
   'my': { nativeDescription: 'မြန်မာစကား', englishDescription: 'Myanmar language' }
+  'nl': { nativeDescription: 'Nederlands', englishDescription: 'Dutch' }
   'nl-BE': { nativeDescription: 'Nederlands (België)', englishDescription: 'Dutch (Belgium)' }
   'nl-NL': { nativeDescription: 'Nederlands (Nederland)', englishDescription: 'Dutch (Netherlands)' }
   'ja': { nativeDescription: '日本語', englishDescription: 'Japanese' }
@@ -122,7 +125,7 @@ module.exports =
   'sv': { nativeDescription: 'Svenska', englishDescription: 'Swedish' }
   'th': { nativeDescription: 'ไทย', englishDescription: 'Thai' }
   'tr': { nativeDescription: 'Türkçe', englishDescription: 'Turkish' }
-  'uk': { nativeDescription: 'українська мова', englishDescription: 'Ukrainian' }
+  'uk': { nativeDescription: 'українська', englishDescription: 'Ukrainian' }
   'ur': { nativeDescription: 'اُردُو', englishDescription: 'Urdu' }
   'vi': { nativeDescription: 'Tiếng Việt', englishDescription: 'Vietnamese' }
   'zh-WUU-HANS': { nativeDescription: '吴语', englishDescription: 'Wuu (Simplified)' }
