@@ -63,6 +63,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
     else if path is "esper"
       try
+        # TODO Webpack: Do this in the new setup?
         #Detect very modern javascript support.
         indirecteval = eval
         indirecteval "'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"
