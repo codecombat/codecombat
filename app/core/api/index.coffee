@@ -2,6 +2,7 @@ module.exports = {
   admin: require('./admin')
   analyticsLogEvents: require('./analytics-log-events')
   campaigns: require('./campaigns')
+  clas: require('./clas')
   classrooms: require('./classrooms')
   courses: require('./courses')
   courseInstances: require('./course-instances')

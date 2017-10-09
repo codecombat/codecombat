@@ -1,22 +1,25 @@
-RootView = require 'views/core/RootView'
-template = require 'templates/admin/clas'
-CocoCollection = require 'collections/CocoCollection'
-CocoModel = require 'models/CocoModel'
+RootComponent = require 'views/core/RootComponent'
+template = require 'templates/base-flat'
+require('vendor/co')
+api = require 'core/api'
 
-class CLASubmission extends CocoModel
-  @className: 'CLA'
-  @schema: require 'schemas/models/cla_submission'
-  urlRoot: '/db/cla.submission'
+CLAsComponent = Vue.extend({
+  data: ->
+    clas: []
+    
+  template: require('templates/admin/clas')()
+  
+  methods:
+    dateFormat: (s) -> moment(s).format('llll')
+    
+  created: co.wrap ->
+    clas = yield api.clas.getAll()
+    clas = _.sortBy(clas, (cla) -> (cla.githubUsername || 'zzzzzz').toLowerCase())
+    clas = _.uniq(clas, true, 'githubUsername')
+    @clas = clas
+})
 
-class CLACollection extends CocoCollection
-  url: '/db/cla.submissions'
-  model: CLASubmission
-  comparator: (claSubmission) -> return (claSubmission.get('githubUsername') or 'zzzzz').toLowerCase()
-
-module.exports = class CLAsView extends RootView
+module.exports = class CLAsView extends RootComponent
   id: 'admin-clas-view'
   template: template
-
-  constructor: (options) ->
-    super options
-    @clas = @supermodel.loadCollection(new CLACollection(), 'clas', {cache: false}).model
+  VueComponent: CLAsComponent
