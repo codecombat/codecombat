@@ -14,6 +14,9 @@ module.exports = {
       if lang in ['zh', 'ru', 'es', 'fr', 'pt', 'de', 'nl', 'lt']
         link += "c/other-languages/#{lang}"
       link
+    isAdmin: (state) ->
+      permissions = state.permissions or []
+      return permissions.indexOf('admin') > -1
 
   mutations:
     updateUser: (state, updates) ->

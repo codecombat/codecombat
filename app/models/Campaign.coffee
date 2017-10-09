@@ -15,6 +15,11 @@ module.exports = class Campaign extends CocoModel
   initialize: (options = {}) ->
     @forceCourseNumbering = options.forceCourseNumbering
     super(arguments...)
+    
+  @getLevels: (campaign) ->
+    levels = campaign.levels
+    levels = _.sortBy(levels, 'campaignIndex')
+    return levels
 
   getLevels: ->
     levels = new Levels(_.values(@get('levels')))
@@ -28,6 +33,14 @@ module.exports = class Campaign extends CocoModel
     levels.comparator = 'campaignIndex'
     levels.sort()
     return levels
+    
+  @getLevelNumberMap: (campaign, forceCourseNumbering) ->
+    levels = []
+    for level in @getLevels(campaign)
+      continue unless level.original
+      practice = @levelIsPractice(level, (campaign.type is 'course') or forceCourseNumbering)
+      levels.push({key: level.original, practice})
+    return utils.createLevelNumberMap(levels)
 
   getLevelNumber: (levelID, defaultNumber) ->
     unless @levelNumberMap
@@ -37,6 +50,12 @@ module.exports = class Campaign extends CocoModel
         levels.push({key: level.get('original'), practice: practice})
       @levelNumberMap = utils.createLevelNumberMap(levels)
     @levelNumberMap[levelID] ? defaultNumber
+    
+  @levelIsPractice: (level, forceCourseNumbering) ->
+    if forceCourseNumbering
+      return level.practice
+    else
+      return level.practice and / [ABCD]$/.test level.name
 
   levelIsPractice: (level) ->
     # Migration: in home version, only treat levels explicitly labeled as "Level Name A", "Level Name B", etc. as practice levels
