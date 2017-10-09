@@ -1,44 +1,42 @@
-RootView = require 'views/core/RootView'
-template = require 'templates/admin/files'
-tableTemplate = require 'templates/admin/files_table'
+RootComponent = require 'views/core/RootComponent'
+template = require 'templates/base-flat'
+require('vendor/co')
+api = require 'core/api'
+require('core/services/filepicker')()
 
-module.exports = class FilesView extends RootView
-  id: 'admin-files-view'
+FilesComponent = Vue.extend({
+  template: require('templates/admin/files')()
+  
+  data: ->
+    files: []
+    directory: 'music' # or 'interface'
+  
+  methods:
+    loadFiles: ->
+      co =>
+        @files = []
+        @files = yield api.files.getDirectory({path: @directory})
+        
+    uploadFile: ->
+      filepicker.pick {mimetypes:'audio/*'}, (InkBlob) =>
+        body =
+          url: InkBlob.url
+          filename: InkBlob.filename
+          mimetype: InkBlob.mimetype
+          path: @directory
+          force: 'true'
+        api.files.saveFile(body).then(@loadFiles)
+
+  created: ->
+    @loadFiles()
+    
+  watch:
+    directory: ->
+      @loadFiles()
+    
+})
+
+module.exports = class FilesView extends RootComponent
+  id: 'files-view'
   template: template
-
-  events:
-    'click #upload-button': -> filepicker.pick {mimetypes:'audio/*'}, @onFileChosen
-    'change #folder-select': 'loadFiles'
-
-  afterRender: ->
-    super()
-    require('core/services/filepicker')()  # Initialize if needed
-    @loadFiles()
-
-  onFileChosen: (InkBlob) =>
-    body =
-      url: InkBlob.url
-      filename: InkBlob.filename
-      mimetype: InkBlob.mimetype
-      path: @currentFolder()
-      force: true
-
-    # Automatically overwrite if the same path was put in here before
-#    body.force = true # if InkBlob.filename is @data
-    @uploadingPath = [@currentFolder(), InkBlob.filename].join('/')
-    $.ajax('/file', {type: 'POST', data: body, success: @onFileUploaded})
-
-  onFileUploaded: (e) =>
-    @loadFiles()
-
-  currentFolder: -> @$el.find('#folder-select').val()
-
-  loadFiles: ->
-    $.ajax
-      url: "/file/#{@currentFolder()}/"
-      success: @onLoadedFiles
-      cache: false
-
-  onLoadedFiles: (res) =>
-    table = tableTemplate({files:res})
-    @$el.find('#file-table').replaceWith(table)
+  VueComponent: FilesComponent

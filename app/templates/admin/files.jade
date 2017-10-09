@@ -1,12 +1,18 @@
-extends /templates/base
-block content
+div.container
   h1 Files
     
-  select#folder-select
+  select#folder-select(v-model="directory")
     option(value="music") Music
     option(value="interface") Interface
 
   a.btn#upload-button
-    i.icon-upload
+    i.icon-upload(v-on:click="uploadFile")
 
-  table#file-table
+  table.table-condensed#file-table.table
+    tbody
+      tr
+        th Filename
+      tr(v-for="file in files")
+        td
+          a(:href='"/file/"+file.metadata.path+"/"+file.filename', target="_blank")
+            | {{file.filename}}
