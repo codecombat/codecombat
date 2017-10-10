@@ -840,7 +840,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
   skill_docs:
     function: "función" # skill types
     method: "método"
-#    snippet: "snippet"
+    snippet: "fragmento"
     number: "número"
     array: "arreglo"
     object: "objeto"
@@ -861,8 +861,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     current_value: "Valor actual"
     default_value: "Valor por defecto"
     parameters: "Parámetros"
-#    required_parameters: "Required Parameters"
-#    optional_parameters: "Optional Parameters"
+    required_parameters: "Parámetros Requeridos"
+    optional_parameters: "Parámetros Opcionales"
     returns: "Devoluciones"
     granted_by: "Concedido por"
 
@@ -979,8 +979,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     previous: "Anterior"
     location_title: "Nos encontramos en el centro de SF:"
 
-#  teachers:
-#    licenses_needed: "Licenses needed"
+  teachers:
+    licenses_needed: "Licencias necesarias"
 
 #  special_offer:
 #    special_offer: "Special Offer"
@@ -1119,7 +1119,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     delete_account_tab: "Borra tu cuenta"
     wrong_email: "Mail Incorrecto"
     wrong_password: "Contraseña incorrecta"
-#    use_gravatar: "Change your profile picture by signing up for Gravatar"
+    use_gravatar: "Cambia tu foto de perfil iniciando sesión en Gravatar"
     delete_this_account: "Borrar esta cuenta permanentemente"
     reset_progress_tab: "Reiniciar Todo Progreso"
     reset_your_progress: "Limpiar todo tu progreso y comenzar de nuevo"
