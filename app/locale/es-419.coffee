@@ -138,10 +138,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     change_hero: "Cambiar héroe" # Go back from choose inventory to choose hero
     buy_gems: "Comprar gemas"
     subscription_required: "Requiere Suscripción"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscribers_only: "¡Solo para suscriptores!"
+    subscribe_unlock: "¡Suscríbete para desbloquear!"
+    subscriber_heroes: "¡Suscríbete ahora para debloquear inmediatamente a Amara, Hushbaum y Hattori!"
+    subscriber_gems: "¡Suscríbete ahora para comprar este héroe con gemas!"
     anonymous: "Jugador Anónimo"
     level_difficulty: "Dificultad: "
     play_classroom_version: "Jugar la Versión de Aula" # Choose a level in campaign version that you also can play in one of your courses
@@ -152,10 +152,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     adjust_volume: "Ajustar el volumen"
     campaign_multiplayer: "Arenas Multijugador"
     campaign_multiplayer_description: "... en las que programas cara a cara contra otros jugadores."
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_done: "!Has derrotado a los Ogros programando! ¡Ganaste!"
+    brain_pop_challenge: "¡Desafiate a jugar de nuevo usando otro lenguaje de programación!"
+    replay: "Repetir"
+    back_to_classroom: "Volver al aula"
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
