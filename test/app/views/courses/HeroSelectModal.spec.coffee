@@ -18,7 +18,6 @@ describe 'HeroSelectModal', ->
     spyOn(api.thangTypes, 'getAll').and.returnValue(heroesPromise)
     modal = new HeroSelectModal()
     subview = modal.subviews.hero_select_view
-    # subview.heroes.fakeRequests[0].respondWith({ status: 200, responseText: heroesResponse })
     jasmine.demoModal(modal)
     heroesPromise.then ->
       _.defer ->

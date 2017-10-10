@@ -100,7 +100,7 @@ LevelSessionSchema.set('toObject', {
     submittedCode = doc.get('submittedCode')
     unless req.user?.isAdmin() or req.user?.id is doc.get('creator') or ('employer' in (req.user?.get('permissions') ? [])) or not doc.get('submittedCode') # TODO: only allow leaderboard access to non-top-5 solutions
       ret = _.omit ret, LevelSession.privateProperties
-    if req.query.interpret
+    if req.query.interpret # TODO: Do we use this? LZString used to not be `require`d
       plan = submittedCode[if doc.get('team') is 'humans' then 'hero-placeholder' else 'hero-placeholder-1']?.plan ? ''
       plan = LZString.compressToUTF16 plan
       ret.interpret = plan
