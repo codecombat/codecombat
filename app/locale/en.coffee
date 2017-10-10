@@ -91,7 +91,6 @@
     other: "Other"
     learn_to_code: "Learn to Code!"
     toggle_nav: "Toggle navigation"
-    jobs: "Jobs"
     schools: "Schools"
     get_involved: "Get Involved"
     open_source: "Open source (GitHub)"
