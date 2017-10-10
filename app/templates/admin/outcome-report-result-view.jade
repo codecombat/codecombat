@@ -52,16 +52,17 @@ div.style-flat
       if view.options.schoolAddress
         span
           |, #{view.options.schoolAddress}
-          //- TODO webpack: make sure this doesn't add a space
           
       br
       b Teacher:
+        |
       if view.options.teacher.fullName
         | #{view.options.teacher.fullName} (#{view.options.teacher.email})
       else
         | #{view.options.teacher.email}
     p.clear-both
       b Account Manager:
+      |
       | #{view.options.accountManager.fullName} (#{view.options.accountManager.email})
 
   div.block
@@ -149,4 +150,5 @@ div.style-flat
       p Have question or want more information? We'd be happy to help.
       p
         | Reach out your Account Manager at
+        |
         a(href="mailto:" + view.options.accountManager.email)= view.options.accountManager.email
