@@ -643,13 +643,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     prompt_button: "Entrar al mercado"
     recovered: "Se recuperaron las anteriores compras de gemas. Por favor recarga la página"
     price: "x{{gems}} / mes"
-#    buy_premium: "Buy Premium"
-#    purchase: "Purchase"
-#    purchased: "Purchased"
+    buy_premium: "Comprar Premium"
+    purchase: "Compra"
+    purchased: "Comprado"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Gemas Insuficientes"
+    prompt_body: "¡Sigue jugando para ganar más!"
 
   subscribe:
 #    best_deal: "Best Deal!"
