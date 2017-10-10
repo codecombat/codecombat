@@ -37,9 +37,9 @@ module.exports = class AdminClassroomsProgressView extends RootView
     @totalTime = endDate.getTime() - startDate.getTime()
     colors = ['olive', 'deeppink', 'yellow', 'forestgreen', 'red', 'purple', 'brown', 'blue', 'fuchsia', 'lime']
     @courseColorMap = Object.keys(utils.courseAcronyms).reduce (m, c, i) =>
-        m[c] = colors[i % colors.length]
-        return m
-      , {}
+      m[c] = colors[i % colors.length]
+      return m
+    , {}
     @buildProgressData(@licenseEndMonths)
     super()
 
@@ -320,7 +320,6 @@ module.exports = class AdminClassroomsProgressView extends RootView
           classroomLicenseCourseProgressMap[classroom._id][license._id] ?= []
           classroomLicenseCourseProgressMap[classroom._id][license._id].push({id: course._id, dates: courseProgressMap})
         classroomLicenseCourseProgressMap[classroom._id][license._id].sort (a, b) => new Date(a.dates[0]).getTime() - new Date(b.dates[0]).getTime()
-
 
     # console.log 'classroomLicenseFurthestLevelMap', classroomLicenseFurthestLevelMap
     # console.log 'classroomLatestActivity', classroomLatestActivity
