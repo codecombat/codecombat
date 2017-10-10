@@ -5,8 +5,8 @@ div.container
     option(value="music") Music
     option(value="interface") Interface
 
-  a.btn#upload-button
-    i.icon-upload(v-on:click="uploadFile")
+  a.btn.btn-primary#upload-button
+    span.glyphicon.glyphicon-upload(v-on:click="uploadFile")
 
   table.table-condensed#file-table.table
     tbody
