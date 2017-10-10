@@ -174,7 +174,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     function: "función"
     def: "define"
     var: "variable"
-#    self: "self"
+    self: "sí mismo"
     hero: "heroe"
     this: "este"
     or: "o"
@@ -204,7 +204,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     false: "falso"
     undefined: "undefinido"
     null: "nulo"
-#    nil: "nil"
+    nil: "nada"
     None: "Ninguno"
 
   share_progress_modal:
