@@ -9,7 +9,6 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
-# Player = require.ensure('@vimeo/player') # TODO: webpack: load async
 
 #  TODO: auto margin feature paragraphs
 

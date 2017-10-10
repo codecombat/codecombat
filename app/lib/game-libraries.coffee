@@ -4,6 +4,5 @@ window.SPE = require('exports-loader?SPE!imports-loader?THREE=three!vendor/scrip
 require('vendor/scripts/deku')
 require('vendor/scripts/htmlparser2')
 require('vendor/scripts/css')
-# require('vendor/scripts/firepad') # ???
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/scripts/coffeescript')
