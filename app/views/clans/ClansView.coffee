@@ -1,5 +1,4 @@
 require('app/styles/clans/clans.sass')
-# app = require 'core/application'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clans'

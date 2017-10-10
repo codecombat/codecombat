@@ -3,7 +3,6 @@ ModalView = require 'views/core/ModalView'
 template = require 'templates/core/auth-modal'
 forms = require 'core/forms'
 User = require 'models/User'
-# application  = require 'core/application'
 errors = require 'core/errors'
 RecoverModal = require 'views/core/RecoverModal'
 

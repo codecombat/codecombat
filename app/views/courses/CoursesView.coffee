@@ -1,5 +1,4 @@
 require('app/styles/courses/courses-view.sass')
-# app = require 'core/application'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-view'
 AuthModal = require 'views/core/AuthModal'

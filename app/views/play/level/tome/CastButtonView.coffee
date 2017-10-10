@@ -144,6 +144,7 @@ module.exports = class CastButtonView extends CocoView
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
 
+    # TODO: performance: Get rid of async since this is basically the ONLY place we use it
     async.some _.values(@spells), (spell, callback) =>
       spell.hasChangedSignificantly spell.getSource(), null, callback
     , (castable) =>

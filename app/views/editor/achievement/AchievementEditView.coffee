@@ -7,7 +7,6 @@ AchievementPopup = require 'views/core/AchievementPopup'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-# app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
 
 require 'lib/game-libraries'

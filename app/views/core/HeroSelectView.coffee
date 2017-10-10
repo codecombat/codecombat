@@ -1,10 +1,7 @@
 require('app/styles/core/hero-select-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/core/hero-select-view'
-# Classroom = require 'models/Classroom'
-# ThangTypes = require 'collections/ThangTypes'
 State = require 'models/State'
-# ThangType = require 'models/ThangType'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangTypeLib = require 'lib/ThangTypeLib'
 User = require 'models/User'

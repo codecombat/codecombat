@@ -7,7 +7,6 @@ PollModal = require 'views/play/modal/PollModal'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-# app = require 'core/application'
 
 require 'lib/game-libraries'
 
