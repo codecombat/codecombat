@@ -66,7 +66,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     want_coco: "¿Quisiera CodeCombat en su escuela?"
 
   nav:
-#    map: "Map"
+    map: "Mapa"
     play: "Jugar" # The top nav bar entry where players choose which levels to play
     community: "Comunidad"
     courses: "Cursos"
@@ -78,19 +78,19 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     home: "Inicio"
     contribute: "Contribuir"
     legal: "Legal"
-#    privacy: "Privacy"
+    privacy: "Privacidad"
     about: "Acerca"
     contact: "Contacto"
     twitter_follow: "Seguir"
-#    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
+    my_classrooms: "Mis clases"
+    my_courses: "Mis cursos"
     careers: "Carreras"
     facebook: "Facebook"
     twitter: "Twitter"
     create_a_class: "Crear una Clase"
     other: "Otro"
     learn_to_code: "¡Aprender a programar!"
-#    toggle_nav: "Toggle navigation"
+    toggle_nav: "Alternar navegación"
     jobs: "Trabajos"
     schools: "Escuelas"
     get_involved: "Participa"
@@ -99,7 +99,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     faqs: "FAQs"
     help_pref: "¿Necesitas ayuda? Envianos un correó electronico!"
     help_suff: "y te contactaremos pronto"
-#    resource_hub: "Resource Hub"
+    resource_hub: "Centro de recursos"
 
   modal:
     close: "Cerrar"
