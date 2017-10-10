@@ -612,7 +612,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     day: "Hoy"
     week: "Esta Semana"
     all: "Siempre"
-#    latest: "Latest"
+    latest: "Mas reciente"
     time: "Tiempo"
     damage_taken: "Daño Recibido"
     damage_dealt: "Daño Infligido"
