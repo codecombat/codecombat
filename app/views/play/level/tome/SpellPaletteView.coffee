@@ -24,7 +24,6 @@ module.exports = class SpellPaletteView extends CocoView
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPalleteClick'
     'surface:stage-mouse-down': 'hide'
-    'level:set-playing': 'hide'
 
 
   events:
@@ -364,6 +363,8 @@ module.exports = class SpellPaletteView extends CocoView
     @hide()
 
   hide: () =>
+    console.log('hide!', arguments)
+    console.trace()
     @$el.find('.left .selected').removeClass 'selected'
     @$el.removeClass('open')
 

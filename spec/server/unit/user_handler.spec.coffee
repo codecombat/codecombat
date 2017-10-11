@@ -50,27 +50,3 @@ describe 'UserHandler', ->
       expect(_.isEqual(statsBefore, statsAfter)).toBe(true)
       done()
 
-  describe 'when get target is student', ->
-    beforeEach utils.wrap ->
-      @student = yield utils.initUser({ role: 'student' })
-    describe 'and getter is same user', ->
-      it 'get is allowed', utils.wrap ->
-        url = utils.getURL("/db/user/#{@student.id}")
-        [res, body] = yield request.getAsync({ url, json: true })
-        expect(res.statusCode).toEqual(200)
-    describe 'and getter is different non-admin user', ->
-      beforeEach utils.wrap ->
-        @getter = yield utils.initUser()
-        yield utils.loginUser(@getter)
-      it 'get is forbidden', utils.wrap ->
-        url = utils.getURL("/db/user/#{@student.id}")
-        [res, body] = yield request.getAsync({ url, json: true })
-        expect(res.statusCode).toEqual(403)
-    describe 'and getter is different admin user', ->
-      beforeEach utils.wrap ->
-        @getter = yield utils.initAdmin()
-        yield utils.loginUser(@getter)
-      it 'get is allowed', utils.wrap ->
-        url = utils.getURL("/db/user/#{@student.id}")
-        [res, body] = yield request.getAsync({ url, json: true })
-        expect(res.statusCode).toEqual(200)

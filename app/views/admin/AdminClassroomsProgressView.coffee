@@ -28,18 +28,18 @@ module.exports = class AdminClassroomsProgressView extends RootView
   initialize: ->
     return super() unless me.isAdmin()
     @licenseEndMonths = utils.getQueryVariable('licenseEndMonths', 12)
-    @licenseLimit = utils.getQueryVariable('licenseLimit');
-    @startDay = utils.getQueryVariable('startDay', '2017-08-01');
-    @endDay = utils.getQueryVariable('endDay', '2018-08-01');
+    @licenseLimit = utils.getQueryVariable('licenseLimit')
+    @startDay = utils.getQueryVariable('startDay', '2017-08-01')
+    @endDay = utils.getQueryVariable('endDay', '2018-08-01')
     startDate = new Date(@startDay)
     @startTime = startDate.getTime()
     endDate = new Date(@endDay)
     @totalTime = endDate.getTime() - startDate.getTime()
     colors = ['olive', 'deeppink', 'yellow', 'forestgreen', 'red', 'purple', 'brown', 'blue', 'fuchsia', 'lime']
     @courseColorMap = Object.keys(utils.courseAcronyms).reduce (m, c, i) =>
-        m[c] = colors[i % colors.length]
-        return m
-      , {}
+      m[c] = colors[i % colors.length]
+      return m
+    , {}
     @buildProgressData(@licenseEndMonths)
     super()
 
@@ -317,15 +317,9 @@ module.exports = class AdminClassroomsProgressView extends RootView
                 courseProgressMap[target] = currentDate
             return sum
           , 0)
-          # - console.log(licenseData.courseCompletDates);
-          # - var courseCompleteDates = Object.keys(licenseData.courseProgressMap).reduce(function(dates, courseId) {dates.push({id: courseId, date: licenseData.courseProgressMap[courseId]}); return dates}, []);
-          # - utils.sortCourses(courseCompleteDates);
-          # courseCompleteDates = ({id: courseId, date: courseProgressMap[courseId]} for target, date in courseProgressMap)
           classroomLicenseCourseProgressMap[classroom._id][license._id] ?= []
           classroomLicenseCourseProgressMap[classroom._id][license._id].push({id: course._id, dates: courseProgressMap})
-        # utils.sortCourses(classroomLicenseCourseProgressMap[classroom._id][license._id])
         classroomLicenseCourseProgressMap[classroom._id][license._id].sort (a, b) => new Date(a.dates[0]).getTime() - new Date(b.dates[0]).getTime()
-
 
     # console.log 'classroomLicenseFurthestLevelMap', classroomLicenseFurthestLevelMap
     # console.log 'classroomLatestActivity', classroomLatestActivity
