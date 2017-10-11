@@ -455,6 +455,50 @@ describe 'GET /db/user', ->
         expect(guy.name).toBe sam.get 'name'
         done()
 
+  describe 'when get target is student', ->
+    beforeEach utils.wrap ->
+      @student = yield utils.initUser({ role: 'student' })
+    describe 'and getter is same user', ->
+      beforeEach utils.wrap ->
+        yield utils.loginUser(@student)
+      it 'get is allowed', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(200)
+    describe 'and getter is different non-admin user', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initUser()
+        yield utils.loginUser(@getter)
+      it 'get is forbidden', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(403)
+    describe 'and getter is different admin user', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initAdmin()
+        yield utils.loginUser(@getter)
+      it 'get is allowed', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(200)
+    describe 'and getter is their teacher', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initUser({ role: 'teacher' })
+        yield utils.loginUser(@getter)
+        @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members: [@student] })
+      it 'get is allowed', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(200)
+    xdescribe 'and getter is not their teacher', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initUser({ role: 'teacher' })
+        yield utils.loginUser(@getter)
+      it 'get is forbidden', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(403)
+
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
 
