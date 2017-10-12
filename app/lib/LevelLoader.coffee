@@ -208,6 +208,7 @@ module.exports = class LevelLoader extends CocoClass
       team = @team ? @session.get('team')
       Backbone.Mediator.publish 'level:loaded', level: @level, team: team
       @publishedLevelLoaded = true
+      Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       @consolidateFlagHistory() if @opponentSession?.loaded
     else if session is @opponentSession
       @consolidateFlagHistory() if @session.loaded
@@ -220,40 +221,36 @@ module.exports = class LevelLoader extends CocoClass
         @worldNecessities.push heroResource
       @sessionDependenciesRegistered[session.id] = true
     unless @level.isType('hero', 'hero-ladder', 'hero-coop')
-      if session is @session
-        Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
       # Return before loading heroConfig ThangTypes. Finish if all world necessities were completed by the time the session loaded.
       if @checkAllWorldNecessitiesRegisteredAndLoaded()
         @onWorldNecessitiesLoaded()
+      return
+    # Load the ThangTypes needed for the session's heroConfig for these types of levels
+    heroConfig = session.get('heroConfig')
+    heroConfig ?= me.get('heroConfig') if session is @session and not @headless
+    heroConfig ?= {}
+    heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
+    heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
+    session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
+    url = "/db/thang.type/#{heroConfig.thangType}/version"
+    if heroResource = @maybeLoadURL(url, ThangType, 'thang')
+      @worldNecessities.push heroResource
     else
-      # Load the ThangTypes needed for the session's heroConfig for these types of levels
-      heroConfig = session.get('heroConfig')
-      heroConfig ?= me.get('heroConfig') if session is @session and not @headless
-      heroConfig ?= {}
-      heroConfig.inventory ?= feet: '53e237bf53457600003e3f05'  # If all else fails, assign simple boots.
-      heroConfig.thangType ?= '529ffbf1cf1818f2be000001'  # If all else fails, assign Tharin as the hero.
-      session.set 'heroConfig', heroConfig unless _.isEqual heroConfig, session.get('heroConfig')
-      if session is @session
-        Backbone.Mediator.publish 'level:session-loaded', level: @level, session: @session
-      url = "/db/thang.type/#{heroConfig.thangType}/version"
-      if heroResource = @maybeLoadURL(url, ThangType, 'thang')
-        @worldNecessities.push heroResource
-      else
-        heroThangType = @supermodel.getModel url
-        @loadDefaultComponentsForThangType heroThangType
-        @loadThangsRequiredByThangType heroThangType
+      heroThangType = @supermodel.getModel url
+      @loadDefaultComponentsForThangType heroThangType
+      @loadThangsRequiredByThangType heroThangType
 
-      for itemThangType in _.values(heroConfig.inventory)
-        url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon,kind"
-        if itemResource = @maybeLoadURL(url, ThangType, 'thang')
-          @worldNecessities.push itemResource
-        else
-          itemThangType = @supermodel.getModel url
-          @loadDefaultComponentsForThangType itemThangType
-          @loadThangsRequiredByThangType itemThangType
-      @sessionDependenciesRegistered[session.id] = true
-      if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
-        @onWorldNecessitiesLoaded()
+    for itemThangType in _.values(heroConfig.inventory)
+      url = "/db/thang.type/#{itemThangType}/version?project=name,components,original,rasterIcon,kind"
+      if itemResource = @maybeLoadURL(url, ThangType, 'thang')
+        @worldNecessities.push itemResource
+      else
+        itemThangType = @supermodel.getModel url
+        @loadDefaultComponentsForThangType itemThangType
+        @loadThangsRequiredByThangType itemThangType
+    @sessionDependenciesRegistered[session.id] = true
+    if _.size(@sessionDependenciesRegistered) is 2 and @checkAllWorldNecessitiesRegisteredAndLoaded()
+      @onWorldNecessitiesLoaded()
 
   loadCodeLanguagesForSession: (session) ->
     codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
