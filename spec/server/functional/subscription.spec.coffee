@@ -1495,7 +1495,8 @@ describe 'POST /db/user/:handle/paypal', ->
           expect(user.get('payPal').billingAgreementID).not.toBeDefined()
           expect(user.get('payPal').cancelDate).toBeDefined()
           expect(user.get('payPal').cancelDate).toBeLessThan(new Date())
-          expect(user.hasSubscription()).not.toBeTruthy()
+          expect(user.hasSubscription()).toBeTruthy()
+          expect(new Date(user.get('stripe').free)).toBeGreaterThan(new Date())
 
 describe 'POST /paypal/webhook', ->
   beforeEach utils.wrap ->
@@ -1805,4 +1806,5 @@ describe 'POST /paypal/webhook', ->
         expect(res.statusCode).toEqual(200)
         user = yield User.findById @user.id
         expect(user.get('payPal.billingAgreementID')).not.toBeDefined()
-        expect(user.hasSubscription()).not.toBeTruthy()
+        expect(user.hasSubscription()).toBeTruthy()
+        expect(new Date(user.get('stripe').free)).toBeGreaterThan(new Date())

@@ -95,9 +95,6 @@ module.exports.setup = (app) ->
       log.error("PayPal webhook subscription cancellation, no billing agreement for #{billingAgreementID}")
       return res.status(200).send("PayPal webhook subscription cancellation, no billing agreement for #{billingAgreementID}")
 
-    userPayPalData = _.clone(user.get('payPal') ? {})
-    delete userPayPalData.billingAgreementID
-    userPayPalData.cancelDate = new Date()
-    user.set('payPal', userPayPalData)
-    yield user.save()
+    yield user.cancelPayPalSubscription()
+
     return res.status(200).send()
