@@ -73,6 +73,13 @@ module.exports.setup = (app) ->
     })
     yield payment.save()
 
+    # Add gems to User
+    purchased = _.cloneDeep(user.get('purchased') ? {})
+    purchased.gems ?= 0
+    purchased.gems += gems if gems
+    user.set('purchased', purchased)
+    yield user.save()
+
     return res.status(200).send()
 
 
