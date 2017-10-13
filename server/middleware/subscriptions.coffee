@@ -407,11 +407,7 @@ cancelPayPalBillingAgreementInternal = co.wrap (req) ->
     billingAgreementID = req.body.billingAgreementID ? req.user.get('payPal')?.billingAgreementID
     throw new errors.UnprocessableEntity('No PayPal billing agreement') unless billingAgreementID
     yield paypal.billingAgreement.cancelAsync(billingAgreementID, {"note": "Canceling CodeCombat Premium Subscription"})
-    userPayPalData = _.clone(req.user.get('payPal') ? {})
-    delete userPayPalData.billingAgreementID
-    userPayPalData.cancelDate = new Date()
-    req.user.set('payPal', userPayPalData)
-    yield req.user.save()
+    yield req.user.cancelPayPalSubscription()
   catch e
     log.error 'PayPal cancel billing agreement error:', JSON.stringify(e, null, '\t')
     throw new errors.UnprocessableEntity('PayPal cancel billing agreement failed', {i18n: 'subscribe.paypal_payment_error'})

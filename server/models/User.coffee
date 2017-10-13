@@ -1,3 +1,4 @@
+moment = require 'moment'
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
@@ -54,6 +55,26 @@ UserSchema.methods.broadName = ->
   [emailName, emailDomain] = @get('email').split('@')
   return emailName if emailName
   return 'Anonymous'
+
+UserSchema.methods.cancelPayPalSubscription = co.wrap ->
+  userPayPalData = _.clone(@get('payPal') ? {})
+  return unless userPayPalData.billingAgreementID
+
+  delete userPayPalData.billingAgreementID
+  userPayPalData.cancelDate = new Date()
+  @set('payPal', userPayPalData)
+
+  # Use existing stripe.free end date functionality to run out remainder of cancelled payPal sub
+  # Approximating end date via uniform 31-day months
+  stripeInfo = _.cloneDeep(@get('stripe') ? {})
+  endDate = if userPayPalData.subscribeDate then moment(userPayPalData.subscribeDate) else moment()
+  today = moment()
+  endDate.add(1, 'M')  while endDate.isBefore(today)
+  endDate.add(2, 'd')
+  stripeInfo.free = endDate.format().substring(0, 10)
+  @set('stripe', stripeInfo)
+
+  yield @save()
 
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')
