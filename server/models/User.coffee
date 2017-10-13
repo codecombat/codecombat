@@ -55,6 +55,26 @@ UserSchema.methods.broadName = ->
   return emailName if emailName
   return 'Anonymous'
 
+UserSchema.methods.cancelPayPalSubscription = co.wrap ->
+  userPayPalData = _.clone(@get('payPal') ? {})
+  return unless userPayPalData.billingAgreementID
+
+  delete userPayPalData.billingAgreementID
+  userPayPalData.cancelDate = new Date()
+  @set('payPal', userPayPalData)
+
+  # Use existing stripe.free end date functionality to run out remainder of cancelled payPal sub
+  # Approximating end date via uniform 31-day months
+  stripeInfo = _.cloneDeep(@get('stripe') ? {})
+  endDate = if userPayPalData.subscribeDate then _.cloneDeep(userPayPalData.subscribeDate) else new Date()
+  today = new Date()
+  endDate.setUTCDate(endDate.getUTCDate() + 31) while endDate < today
+  endDate.setUTCDate(endDate.getUTCDate() + 1)
+  stripeInfo.free = endDate.toISOString().substring(0, 10)
+  @set('stripe', stripeInfo)
+
+  yield @save()
+
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')
   return p and 'godmode' in p
