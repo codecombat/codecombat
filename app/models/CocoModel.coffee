@@ -324,22 +324,6 @@ class CocoModel extends Backbone.Model
   getURL: ->
     return if _.isString @url then @url else @url()
 
-  makePatch: ->
-    Patch = require 'models/Patch'
-    target = {
-      'collection': _.string.underscored @constructor.className
-      'id': @id
-    }
-    # if this document is versioned (has original property) then include version info
-    if @get('original')
-      target.original = @get('original')
-      target.version = @get('version')
-
-    return new Patch({
-      delta: @getDelta()
-      target
-    })
-
   @pollAchievements: ->
     return if application.testing
 
