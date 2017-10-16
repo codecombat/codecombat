@@ -8,8 +8,9 @@ window._.string = require('underscore.string');
 require('jquery.browser');
 window.marked = require('marked');
 require('../bower_components/validated-backbone-mediator/backbone-mediator.js');
-require('../bower_components/treema/treema.js');// TODO webpack: Try to extract this
-window.TreemaUtils = require('../bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
+window.TreemaNode = require('exports-loader?TreemaNode!../bower_components/treema/treema.js');// TODO webpack: Try to extract this
+window.TreemaUtils = require('exports-loader?TreemaUtils!../bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
+import 'bower_components/treema/treema.css'
 window.moment = require('moment');
 window.$.i18n = window.i18n = require('../bower_components/i18next/i18next.js');
 require('../vendor/scripts/idle.js').createjs;
@@ -28,8 +29,6 @@ require('vendor/scripts/fuzzaldrin')// TODO webpack: Try to extract this
 
 // require('css-loader?-url!../vendor/scripts/jquery-ui-1.11.1.custom.css');
 
-window.TreemaNode = require('exports-loader?TreemaNode!treema/treema.js');// TODO webpack: Try to extract this
-// jasmine?
 require('imports-loader?this=>window!npm-modernizr');
 
 // require('ace-builds/src-noconflict/ace.js');// Extracted TODO: Remove when I'm sure it works
