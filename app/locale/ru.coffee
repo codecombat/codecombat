@@ -66,7 +66,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     want_coco: "Хотите CodeCombat в вашей школе?"
 
   nav:
-#    map: "Map"
+    map: "Карта"
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     courses: "Курсы"
@@ -154,8 +154,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_multiplayer_description: "... там вы соревнуетесь в программировании с другими игроками."
     brain_pop_done: "Вы победили огров с помощью кода! Вы выиграли!"
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+     replay: "Повторить попытку"
+     back_to_classroom: "Вернуться в классную комнату"
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -573,8 +573,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_programming_not_about_computers: "Информационные технологии – это настолько же про компьютеры, как астрономия – про телескопы. - Эдсгер Дейкстра"
     tip_mulan: "Верь, что сможешь, тогда получится. - Мулан"
 #    project_complete: "Project Complete!"
-#    share_this_project: "Share this project with friends or family:"
-#    ready_to_share: "Ready to publish your project?"
+     share_this_project: "Поделись проектом с друзьями или близкими людьми:"
+     ready_to_share: "Готов опубликовать проект?"
 #    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
 #    already_published_prefix: "Your changes have been published to the class gallery."
 #    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
