@@ -6,6 +6,7 @@ Achievement = require 'models/Achievement'
 ThangType = require 'models/ThangType'
 CampaignView = require 'views/play/CampaignView'
 CocoCollection = require 'collections/CocoCollection'
+require('lib/setupTreema')
 treemaExt = require 'core/treema-ext'
 utils = require 'core/utils'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
