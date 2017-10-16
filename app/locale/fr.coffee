@@ -1253,7 +1253,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     private_require_sub: "Les clans privés nécessitent un abonnement pour être créés ou rejoins."
 
   courses:
-    create_new_class: "Créer une Nouvelle Classe"
+    create_new_class: "Créer un nouveau cours"
     unnamed_class: "Classe sans nom"
     edit_settings1: "Modifier les Réglages de la Classe"
     add_students: "Ajouter des Elèves"

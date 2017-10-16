@@ -665,8 +665,6 @@ module.exports = Surface = class Surface extends CocoClass
 
   # Force sizing based on width for game-dev levels, so that the instructions panel doesn't obscure the game
   onManualCast: ->
-    console.log '???'
-    console.trace()
     if @options.levelType is 'game-dev'
       console.log "Force resize strategy"
       @options.originalResizeStrategy = @options.resizeStrategy
