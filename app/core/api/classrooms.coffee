@@ -18,7 +18,6 @@ module.exports = {
     options.remove = false
     jqxhrs = []
     while skip < size
-      options = _.cloneDeep(options)
       options.data.memberSkip = skip
       jqxhrs.push(fetchJson(url, options))
       skip += limit

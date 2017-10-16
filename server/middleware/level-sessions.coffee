@@ -6,6 +6,16 @@ CourseInstance = require('../models/CourseInstance')
 mongoose = require 'mongoose'
 database = require '../commons/database'
 
+byLevelsAndStudents = wrap (req, res) ->
+  throw new errors.Forbidden() unless req.user.isAdmin()
+  # console.log 'byLevelsAndStudents', req.body.studentIds.length, req.body.levelOriginals.length
+  studentIds = req.body.studentIds
+  levelOriginals = req.body.levelOriginals
+  throw new errors.UnprocessableEntity('studentIds and levelOriginals required') unless studentIds and levelOriginals
+  project = req.body.project ? {}
+  earliestCreated = new Date(req.body.earliestCreated ? '2017-08-01')
+  sessions = yield LevelSession.find({created: {$gte: earliestCreated}, creator: {$in: studentIds}, 'level.original': {$in: levelOriginals}, isForClassroom: true}, req.body.project ? {}).lean()
+  res.send(sessions)
 
 submitToLadder = wrap (req, res) ->
   requestSessionID = req.body.session
@@ -81,6 +91,9 @@ unsetScores = wrap (req, res) ->
   
   
 putKeyValueDb = wrap (req, res) ->
+  if (not req.user) or (req.user.isAnonymous() and not req.user.get('hourOfCode'))
+    throw new errors.Unauthorized('You must be logged in.')
+  
   key = req.params.key
     
   session = yield database.getDocFromHandle(req, LevelSession)
@@ -106,6 +119,9 @@ putKeyValueDb = wrap (req, res) ->
   res.status(200).json(value)
   
 incrementKeyValueDb = wrap (req, res) ->
+  if (not req.user) or (req.user.isAnonymous() and not req.user.get('hourOfCode'))
+    throw new errors.Unauthorized('You must be logged in.')
+    
   key = req.params.key
 
   session = yield database.getDocFromHandle(req, LevelSession)
@@ -138,6 +154,7 @@ incrementKeyValueDb = wrap (req, res) ->
 
 
 module.exports = {
+  byLevelsAndStudents
   incrementKeyValueDb
   putKeyValueDb
   submitToLadder

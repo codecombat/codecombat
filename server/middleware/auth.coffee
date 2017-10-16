@@ -19,6 +19,10 @@ OAuthProvider = require '../models/OAuthProvider'
 querystring = require 'querystring'
 
 module.exports =
+  authDelay: (req, res, next) ->
+    ms = if global.testing then 0 else 500
+    setTimeout(next, ms)
+    
   checkDocumentPermissions: (req, res, next) ->
     return next() if req.user?.isAdmin()
     if not req.doc.hasPermissionsForMethod(req.user, req.method)

@@ -29,7 +29,7 @@ block content
               a(href="#story")#story-link
                 small.label(data-i18n="about.story_link")
             li
-              a(href="#jobs")#jobs-link
+              a(href="#careers")#careers-link
                 small.label(data-i18n="nav.careers")
             li
               a(href="#contact")#contact-link
@@ -61,7 +61,7 @@ block content
               h6.label.team-name
                 a(href="http://www.nickwinter.net" rel="external") Nick Winter
               small(data-i18n="about.nick_title")
-              small(data-i18n="about.nick_blurb")
+              br
 
           li
             a(href="http://www.mattlott.com/" rel="external")
@@ -83,7 +83,7 @@ block content
               h6.label.team-name
                 a(href="http://cat.zdh.com/" rel="external") Catherine Weresow
               small(data-i18n="about.cat_title")
-              small(data-i18n="about.cat_blurb")
+              br
 
           li
             .profile-pic
@@ -92,7 +92,7 @@ block content
             .team-bio
               h6.label.team-name Scott Erickson
               small(data-i18n="about.scott_title")
-              small(data-i18n="about.scott_blurb")
+              br
 
           li
             .profile-pic
@@ -101,7 +101,7 @@ block content
             .team-bio
               h6.label.team-name Michael 'Maka' Gradin
               small(data-i18n="about.maka_title")
-              small(data-i18n="about.maka_blurb")
+              br
 
           li
             a(href="http://robinyang.com/" rel="external")
@@ -112,7 +112,7 @@ block content
               h6.label.team-name
                 a(href="http://robinyang.com/" rel="external") Robin Yang
               small(data-i18n="about.robin_title")
-              small(data-i18n="about.robin_blurb")
+              br
 
           li
             .profile-pic
@@ -139,7 +139,7 @@ block content
             .team-bio
               h6.label.team-name Elliot Okiwelu
               small(data-i18n="about.elliot_title")
-              small(data-i18n="about.elliot_blurb")
+              br
 
           li
             .profile-pic
@@ -148,7 +148,7 @@ block content
             .team-bio
               h6.label.team-name Lisa Wu
               small(data-i18n="about.lisa_title")
-              small(data-i18n="about.lisa_blurb")
+              br
 
           li
             .profile-pic
@@ -166,6 +166,24 @@ block content
             .team-bio
               h6.label.team-name Liz Coluni
               small(data-i18n="about.liz_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/david-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/david-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name David Fike
+              small(data-i18n="about.david_title")
+              br
+
+          li
+            .profile-pic
+              img(src="/images/pages/about/team-avatars/jane-avatar.png").img-thumbnail.avatar
+              img(src="/images/pages/about/team-headshots/jane-headshot.png").img-thumbnail.headshot
+            .team-bio
+              h6.label.team-name Jane Park
+              small(data-i18n="about.jane_title")
               br
         ul
           // Part time / contract
@@ -271,11 +289,11 @@ block content
           p
             .text-h5(data-i18n="about.story_long_way_2")
 
-      #jobs.anchor
+      #careers.anchor
         .text-center
           h3(data-i18n="about.jobs_title")
           h4(data-i18n="about.jobs_subtitle")
-        #jobs-row.row
+        #careers-row.row
           .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
             #benefits
               h5(data-i18n="about.jobs_benefits")
@@ -288,46 +306,10 @@ block content
                 li.small(data-i18n="about.jobs_benefit_4")
                 li.small(data-i18n="about.jobs_benefit_5")
                 li.small(data-i18n="about.jobs_benefit_7")
-          //- .col-sm-6.col-md-5.col-lg-4
-          //-   .job-listing
-          //-     h5 (No Open Roles)
-          //-     p.small Check back later for updates on new positions at CodeCombat.
           .col-sm-6.col-md-5.col-lg-4
             .job-listing
-              h5 Senior Frontend Engineer
-                .text-center
-                  small.label
-                    | San Francisco • Full-time
-                p.small Come help us build a next generation HTML5 coding game, and drive frontend engineering excellence across the team!
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/dba99f8f-d7db-43ca-a6d4-514dca22ba9e" rel="external")
-                 span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Senior Backend Engineer
-                .text-center
-                  small.label
-                    | San Francisco • Full-time
-                p.small Come use your extensive backend experience to ensure our servers always provide the answer, and drive backend engineering excellence across the team!
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/e53fba8b-132f-48c4-989d-fce6fbc3f23f" rel="external")
-                 span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-md-offset-1.col-lg-4.col-lg-offset-0
-            .job-listing
-              h5 Sales Development Representative
-                .text-center
-                  small.label
-                    | San Francisco • Full-time
-                p.small Bring in new leads, talk to prospects, qualify good opportunities, and drive new business with the team.
-                a.job-link.btn.btn-lg.btn-navy(href="https://jobs.lever.co/codecombat/db88e6ce-8597-4461-bc62-85facea7749e" rel="external")
-                 span(data-i18n="about.learn_more")
-          .col-sm-6.col-md-5.col-lg-4
-            .job-listing
-              h5(data-i18n="about.jobs_custom_title")
-              p.small(data-i18n="about.jobs_custom_description")
-              p.small
-                span.spr(data-i18n="about.jobs_custom_contact_1")
-                a(href="mailto:team@codecombat.com")
-                  | team@codecombat.com
-                span.spl(data-i18n="about.jobs_custom_contact_2")
+              h5 (No Open Roles)
+              p.small Check back later for updates on new positions at CodeCombat.
 
       #contact.anchor
         .text-center

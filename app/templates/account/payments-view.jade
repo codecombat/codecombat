@@ -41,6 +41,8 @@ block content
               td(data-i18n="subscribe.lifetime")
             else if /year_subscription$/.test(productID)
               td(data-i18n="subscribe.year_subscription")
+            else if /basic_subscription$/.test(productID)
+              td(data-i18n="subscribe.stripe_description")
             else
               td(data-i18n="account.gems")
           else if me.get('stripe').free != null

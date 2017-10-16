@@ -1,13 +1,16 @@
-.left-cap
+- var includeHomeLink = !((me.isStudent() || me.isTeacher()) && !view.course);
+if includeHomeLink
+  .left-cap
 .right-cap
 .center-chain
 .right-chain
 .wood-background
 
-.levels-link-area
-  a.levels-link(href=homeLink || "/")
-    .glyphicon.glyphicon-play
-    span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
+if includeHomeLink
+  .levels-link-area
+    a.levels-link(href=homeLink || "/")
+      .glyphicon.glyphicon-play
+      span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
 
 .level-name-area-container
   .level-name-area

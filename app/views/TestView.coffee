@@ -72,7 +72,6 @@ module.exports = TestView = class TestView extends RootView
       @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
   @runTests: (specFiles, demosOn=false, view) ->
-    
     jasmine.getEnv().addReporter({
       suiteStack: []
       

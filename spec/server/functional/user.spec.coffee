@@ -455,6 +455,50 @@ describe 'GET /db/user', ->
         expect(guy.name).toBe sam.get 'name'
         done()
 
+  describe 'when get target is student', ->
+    beforeEach utils.wrap ->
+      @student = yield utils.initUser({ role: 'student' })
+    describe 'and getter is same user', ->
+      beforeEach utils.wrap ->
+        yield utils.loginUser(@student)
+      it 'get is allowed', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(200)
+    describe 'and getter is different non-admin user', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initUser()
+        yield utils.loginUser(@getter)
+      it 'get is forbidden', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(403)
+    describe 'and getter is different admin user', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initAdmin()
+        yield utils.loginUser(@getter)
+      it 'get is allowed', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(200)
+    describe 'and getter is their teacher', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initUser({ role: 'teacher' })
+        yield utils.loginUser(@getter)
+        @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members: [@student] })
+      it 'get is allowed', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(200)
+    xdescribe 'and getter is not their teacher', ->
+      beforeEach utils.wrap ->
+        @getter = yield utils.initUser({ role: 'teacher' })
+        yield utils.loginUser(@getter)
+      it 'get is forbidden', utils.wrap ->
+        url = utils.getURL("/db/user/#{@student.id}")
+        [res, body] = yield request.getAsync({ url, json: true })
+        expect(res.statusCode).toEqual(403)
+
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
 
@@ -1017,9 +1061,23 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(200)
     updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(facebookEmail)
     expect(updatedUser.get('facebookID')).toBe(facebookID)
     expect(sendwithus.api.send).toHaveBeenCalled()
+
+  it 'signs up nameless user with the facebookID', utils.wrap ->
+    spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-facebook")
+    json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBeUndefined()
+    expect(updatedUser.get('email')).toBe(facebookEmail)
+    expect(updatedUser.get('facebookID')).toBe(facebookID)
 
   it 'returns 422 if facebook does not recognize the access token', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(invalidFacebookResponse)
@@ -1107,6 +1165,19 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     expect(updatedUser.get('gplusID')).toBe(gplusID)
     expect(sendwithus.api.send).toHaveBeenCalled()
 
+  it 'signs up nameless user with the gplusID', utils.wrap ->
+    spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
+    spyOn(sendwithus.api, 'send')
+    user = yield utils.becomeAnonymous()
+    url = getURL("/db/user/#{user.id}/signup-with-gplus")
+    json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(200)
+    updatedUser = yield User.findById(user.id)
+    expect(updatedUser.get('name')).toBeUndefined()
+    expect(updatedUser.get('email')).toBe(gplusEmail)
+    expect(updatedUser.get('gplusID')).toBe(gplusID)
+
   it 'returns 422 if gplus does not recognize the access token', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(invalidGPlusResponse)
     user = yield utils.becomeAnonymous()
@@ -1127,7 +1198,6 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     json = { name, email: gplusEmail, gplusID: '54321', gplusAccessToken: '...' }
     [res, body] = yield request.postAsync({url, json})
     expect(res.statusCode).toBe(422)
-
 
   it 'returns 409 if there is already a user with the given email', utils.wrap ->
     conflictingUser = yield utils.initUser({name: 'someusername', email: gplusEmail})

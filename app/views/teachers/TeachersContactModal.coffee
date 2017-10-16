@@ -71,9 +71,10 @@ module.exports = class TeachersContactModal extends ModalView
           category: 'Contact',
           licensesNeeded: formValues.licensesNeeded
         @state.set({ sendingState: 'sent' })
-        me.set('enrollmentRequestSent', true)
         setTimeout(=>
           @hide?()
         , 3000)
       error: -> @state.set({ sendingState: 'error' })
     })
+    
+    @trigger('submit')

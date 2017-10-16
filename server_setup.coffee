@@ -31,6 +31,7 @@ wrap = require 'co-express'
 codePlayTags = require './server/lib/code-play-tags'
 morgan = require 'morgan'
 domainFilter = require './server/middleware/domain-filter'
+timeout = require('connect-timeout')
 
 {countries} = require './app/core/utils'
 
@@ -74,12 +75,18 @@ setupErrorMiddleware = (app) ->
         err = new errors.Conflict(err.response)
       if err.name is 'MongoError' and err.message.indexOf('timed out')
         err = new errors.GatewayTimeout('MongoDB timeout error.')
+      if req.timedout # set by connect-timeout
+        err = new errors.ServiceUnavailable('Request timed out.')
 
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
         console.log err.stack if err.stack and config.TRACE_ROUTES
-        return res.status(err.code).send(err.toJSON())
-
+        res.status(err.code).send(err.toJSON())
+        if req.timedout
+          # noop return self all response-ending functions
+          res.send = res.status = res.redirect = res.end = res.json = res.sendFile = res.download = res.sendStatus = -> res
+        return
+          
       if err.status and 400 <= err.status < 500
         console.log err.stack if err.stack and config.TRACE_ROUTES
         return res.status(err.status).send("Error #{err.status}")
@@ -169,7 +176,7 @@ setupCountryTaggingMiddleware = (app) ->
 setupCountryRedirectMiddleware = (app, country='china', host='cn.codecombat.com') ->
   hosts = host.split /;/g
   shouldRedirectToCountryServer = (req) ->
-    reqHost = (req.hostname ? req.host).toLowerCase()  # Work around express 3.0
+    reqHost = (req.hostname ? req.host ? '').toLowerCase()  # Work around express 3.0
     return req.country is country and reqHost not in hosts and reqHost.indexOf(config.unsafeContentHostname) is -1
 
   app.use (req, res, next) ->
@@ -279,6 +286,7 @@ setupAPIDocs = (app) ->
   app.use('/api-docs', swaggerUi.setup(swaggerDoc))
 
 exports.setupMiddleware = (app) ->
+  app.use(timeout(config.timeout))
   setupHandlerTraceMiddleware app if config.TRACE_ROUTES
   setupSecureMiddleware app
   setupPerfMonMiddleware app
