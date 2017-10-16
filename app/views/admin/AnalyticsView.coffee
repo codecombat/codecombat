@@ -172,6 +172,7 @@ module.exports = class AnalyticsView extends RootView
         groupMap = {}
         dayGroupCountMap = {}
         for payment in data
+          continue unless payment.service in ['paypal', 'stripe']
           if !payment.created
             day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
           else
@@ -190,12 +191,39 @@ module.exports = class AnalyticsView extends RootView
         @revenueGroups = Object.keys(groupMap)
         @revenueGroups.push 'DRR Total'
 
+        # Split lifetime values across 8 months based on 12% monthly churn
+        lifetimeDurationMonths = 8 # Needs to be an integer
+        daysPerMonth = 30 #Close enough (needs to be an integer)
+        lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
+
         # Build list of recurring revenue entries, where each entry is a day of individual group values
         @revenue = []
+        serviceCarryForwardMap = {}
         for day of dayGroupCountMap
           data = {day, groups: []}
           for group in @revenueGroups
-            data.groups.push(dayGroupCountMap[day][group] ? 0)
+            if group in ['DRR intl lifetime', 'DRR usa lifetime']
+              serviceCarryForwardMap[group] ?= []
+              if dayGroupCountMap[day][group]
+                serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] ? 0) / lifetimeDurationMonths})
+              data.groups.push(0)
+            else if group is 'DRR Total'
+              # Add total, minus deferred lifetime values for this day
+              data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0))
+            else
+              data.groups.push(dayGroupCountMap[day][group] ? 0)
+
+          # Add previous lifetime sub contributions
+          for group of serviceCarryForwardMap
+            for carryData in serviceCarryForwardMap[group]
+              # Add deferred lifetime value every 30 days
+              # Deferred value = (lifetime purchase value) / lifetimeDurationMonths
+              if carryData.remaining > 0 and carryData.remaining % 30 is 0
+                data.groups[@revenueGroups.indexOf(group)] += carryData.value
+                data.groups[@revenueGroups.indexOf('DRR Total')] += carryData.value
+              if carryData.remaining > 0
+                carryData.remaining--
+
           @revenue.push data
 
         # Order present to past
@@ -234,7 +262,8 @@ module.exports = class AnalyticsView extends RootView
               @monthMrrMap[month].monthly += revenue.groups[i]
             else if group in ['DRR usa lifetime', 'DRR intl lifetime']
               @monthMrrMap[month].yearly += revenue.groups[i]
-            @monthMrrMap[month].total += revenue.groups['DRR Total']
+            else if group is 'DRR Total'
+              @monthMrrMap[month].total += revenue.groups[i]
 
         @updateAllKPIChartData()
         @updateRevenueChartData()

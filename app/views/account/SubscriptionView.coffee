@@ -180,20 +180,20 @@ class PersonalSub
     removeSub = =>
       payPalInfo = me.get('payPal')
       stripeInfo = _.clone(me.get('stripe'))
-      if stripeInfo
-        delete stripeInfo.planID
-        me.set('stripe', stripeInfo)
-        me.once 'sync', ->
-          window.tracker?.trackEvent 'Unsubscribe End', message: message
-          document.location.reload()
-        me.patch({headers: {'X-Change-Plan': 'true'}})
-      else if payPalInfo?.billingAgreementID
+      if payPalInfo?.billingAgreementID
         api.users.cancelBillingAgreement({userID: me.id, billingAgreementID: payPalInfo?.billingAgreementID})
         .then (response) =>
           window.tracker?.trackEvent 'Unsubscribe End', message: message
           document.location.reload()
         .catch (jqxhr) =>
           console.error('PayPal unsubscribe', jqxhr)
+      else if stripeInfo
+        delete stripeInfo.planID
+        me.set('stripe', stripeInfo)
+        me.once 'sync', ->
+          window.tracker?.trackEvent 'Unsubscribe End', message: message
+          document.location.reload()
+        me.patch({headers: {'X-Change-Plan': 'true'}})
 
       else
         console.error "Tried to unsubscribe without PayPal or Stripe user info."
@@ -282,11 +282,7 @@ class PersonalSub
         delete @state
         render()
 
-      else
-        delete @state
-        render()
-
-    else if payPalInfo?.billingAgreementID
+    if not @subscribed and payPalInfo?.billingAgreementID
       @self = true
       @active = true
       @subscribed = true

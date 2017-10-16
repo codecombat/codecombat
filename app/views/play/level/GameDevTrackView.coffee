@@ -54,9 +54,7 @@ module.exports = class GameDevTrackView extends CocoView
     if typeof val is 'object' and val.x? and val.y? and val.z?
       return "x: #{Math.round(val.x)}\ny: #{Math.round(val.y)}"
     if typeof val is 'number'
-      round = Math.round(val * 100) / 100
-      if name is 'time'
-        return round.toFixed(2) 
+      round = Math.round(val)
       return round
     return val
 

@@ -424,11 +424,13 @@ module.exports = class PlayLevelView extends RootView
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
     else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size e.session.get('heroConfig')?.inventory ? {}
-      @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
-      @setupManager.open()
-
-
+      # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
+      _.defer =>
+        return if _.size(e.session.get('heroConfig')?.inventory ? {})
+        # TODO: which scenario is this executed for?
+        @setupManager?.destroy()
+        @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+        @setupManager.open()
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
@@ -734,6 +736,13 @@ module.exports = class PlayLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
+    
+    # without this check, when removing goals, goals aren't updated properly. Make sure we update
+    # the goals once the first frame is finished.
+    if @world.age > 0 and @willUpdateStudentGoals
+      @willUpdateStudentGoals = false
+      @updateStudentGoals()
+    
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
@@ -755,9 +764,17 @@ module.exports = class PlayLevelView extends RootView
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
-    @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
+    @willUpdateStudentGoals = true
+    @updateStudentGoals()
     @onWindowResize()
     @realTimePlaybackWaitingForFrames = true
+    
+  updateStudentGoals: ->
+    return unless @level.isType('game-dev')
+    @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
+    @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
+    @renderSelectors('#how-to-play-game-dev-panel')
+    @$('#how-to-play-game-dev-panel').removeClass('hide')
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'
