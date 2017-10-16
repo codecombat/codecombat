@@ -2,6 +2,13 @@ fetchJson = require './fetch-json'
 utils = require 'core/utils'
 
 module.exports = {
-  getAll: (options) ->
-    return fetchJson('/db/thang.type', options)
+  getHeroes: (options) ->
+    data = {
+      view: 'heroes'
+    }
+    if options?.project
+      _.assign data, {
+        project: options.project.join(',')
+      }
+    return fetchJson('/db/thang.type', { data })
 }
