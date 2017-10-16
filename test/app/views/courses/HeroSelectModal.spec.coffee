@@ -15,7 +15,7 @@ describe 'HeroSelectModal', ->
   beforeEach (done) ->
     window.me = user = factories.makeUser({ heroConfig: { thangType: hero1.get('original') } })
     heroesPromise = Promise.resolve([hero1.attributes, hero2.attributes])
-    spyOn(api.thangTypes, 'getAll').and.returnValue(heroesPromise)
+    spyOn(api.thangTypes, 'getHeroes').and.returnValue(heroesPromise)
     modal = new HeroSelectModal()
     subview = modal.subviews.hero_select_view
     jasmine.demoModal(modal)
