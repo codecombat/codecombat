@@ -8,7 +8,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const glob = require('glob')
 require('coffee-script');
 require('coffee-script/register');
-const WebpackStaticStuff = require('./webpack-static-stuff');
+const CompileStaticTemplatesPlugin = require('./compile-static-templates');
 
 console.log("Starting Webpack...");
 
@@ -141,7 +141,7 @@ module.exports = (env) => {
           to: 'javascripts/app/vendor/aether-html.js',
         }
       ]),
-      new WebpackStaticStuff({ // TODO: webpack enable this again, just have it off for faster development
+      new CompileStaticTemplatesPlugin({ // TODO: webpack enable this again, just have it off for faster development
         locals: {shaTag: process.env.GIT_SHA || 'dev'}
       }),
     ]
