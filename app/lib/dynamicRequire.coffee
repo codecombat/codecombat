@@ -112,8 +112,10 @@ dynamicRequire = (path) ->
       when 'views/TestView' then require.ensure(['views/TestView'], ((require) -> accept(require('views/TestView'))), reject, 'TestView')
       when 'views/user/MainUserView' then require.ensure(['views/user/MainUserView'], ((require) -> accept(require('views/user/MainUserView'))), reject, 'user')
       when 'views/user/EmailVerifiedView' then require.ensure(['views/user/EmailVerifiedView'], ((require) -> accept(require('views/user/EmailVerifiedView'))), reject, 'user')
-      when 'views/NotFoundView' then require.ensure(['views/user/EmailVerifiedView'], ((require) -> accept(require('views/NotFoundView'))), reject, 'NotFoundView')
+      when 'views/NotFoundView' then require.ensure(['views/NotFoundView'], ((require) -> accept(require('views/NotFoundView'))), reject, 'NotFoundView')
+      when 'views/teachers/RestrictedToTeachersView' then require.ensure(['views/teachers/RestrictedToTeachersView'], ((require) -> accept(require('views/teachers/RestrictedToTeachersView'))), reject, 'RestrictedToTeachersView')
+      when 'views/courses/RestrictedToStudentsView' then require.ensure(['views/courses/RestrictedToStudentsView'], ((require) -> accept(require('views/courses/RestrictedToStudentsView'))), reject, 'RestrictedToStudentsView')
       else
-        throw new Error("Couldn't dynamically require that view!")
+        throw new Error("Couldn't dynamically require that view! #{path}")
 
 module.exports = dynamicRequire
