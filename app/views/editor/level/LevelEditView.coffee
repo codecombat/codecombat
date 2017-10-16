@@ -39,7 +39,7 @@ storage = require 'core/storage'
 utils = require 'core/utils'
 
 require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
-require 'treema/treema.js'
+require 'lib/setupTreema'
 
 # Make sure that all of our Aethers are loaded, so that if we try to preview the level, it will work.
 require 'aether/lib/languages/javascript'

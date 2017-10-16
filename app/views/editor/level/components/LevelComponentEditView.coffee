@@ -7,7 +7,7 @@ PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 ace = require('lib/aceContainer')
 
-require 'treema/treema.js'
+require 'lib/setupTreema'
 
 module.exports = class LevelComponentEditView extends CocoView
   id: 'level-component-edit-view'

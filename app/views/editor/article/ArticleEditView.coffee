@@ -6,7 +6,7 @@ Article = require 'models/Article'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 PatchesView = require 'views/editor/PatchesView'
 require 'views/modal/RevertModal'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 RevertModal = require 'views/modal/RevertModal'
 
 require 'lib/game-libraries'

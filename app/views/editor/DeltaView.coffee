@@ -5,7 +5,7 @@ modelDeltas = require 'lib/modelDeltas'
 jsondiffpatch = require('lib/jsondiffpatch')
 require 'vendor/scripts/diffview'
 require 'vendor/scripts/difflib'
-require '../../../bower_components/treema/treema.js'
+require 'lib/setupTreema'
 
 TEXTDIFF_OPTIONS =
   baseTextName: "Old"

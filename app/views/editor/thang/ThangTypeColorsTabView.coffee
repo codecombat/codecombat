@@ -3,7 +3,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/thang/colors_tab'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 {hexToHSL} = require 'core/utils'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 
 module.exports = class ThangTypeColorsTabView extends CocoView

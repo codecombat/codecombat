@@ -5,7 +5,6 @@ const fs = require('fs');
 const webpack = require('webpack');
 require('coffee-script');
 require('coffee-script/register');
-const WebpackStaticStuff = require('./webpack-static-stuff');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const EventHooksWebpackPlugin = require('event-hooks-webpack-plugin')
 

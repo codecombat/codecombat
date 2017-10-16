@@ -1,7 +1,7 @@
 require('app/styles/modal/model-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/model-modal'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 
 module.exports = class ModelModal extends ModalView
   id: 'model-modal'

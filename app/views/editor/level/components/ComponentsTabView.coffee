@@ -5,7 +5,7 @@ ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 LevelComponentEditView = require './LevelComponentEditView'
 LevelComponentNewView = require './NewLevelComponentModal'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 
 class LevelComponentCollection extends Backbone.Collection
   url: '/db/level.component'

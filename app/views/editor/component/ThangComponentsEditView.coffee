@@ -9,7 +9,7 @@ LevelComponents = require 'collections/LevelComponents'
 ThangComponentConfigView = require './ThangComponentConfigView'
 AddThangComponentsModal = require './AddThangComponentsModal'
 nodes = require '../level/treema_nodes'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 
 ThangType = require 'models/ThangType'
 CocoCollection = require 'collections/CocoCollection'

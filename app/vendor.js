@@ -8,7 +8,6 @@ window._.string = require('underscore.string');
 require('jquery.browser');
 window.marked = require('marked');
 require('../bower_components/validated-backbone-mediator/backbone-mediator.js');
-window.TreemaNode = require('exports-loader?TreemaNode!../bower_components/treema/treema.js');// TODO webpack: Try to extract this
 window.TreemaUtils = require('exports-loader?TreemaUtils!../bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
 import 'bower_components/treema/treema.css'
 window.moment = require('moment');

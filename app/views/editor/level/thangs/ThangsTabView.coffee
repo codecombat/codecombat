@@ -11,7 +11,7 @@ Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './LevelThangEditView'
 LevelComponents = require 'collections/LevelComponents'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 GameUIState = require 'models/GameUIState'
 GenerateTerrainModal = require 'views/editor/level/modals/GenerateTerrainModal'
 

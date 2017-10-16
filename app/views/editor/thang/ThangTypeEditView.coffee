@@ -6,7 +6,7 @@ Lank = require 'lib/surface/Lank'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
 

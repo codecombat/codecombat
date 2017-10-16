@@ -5,7 +5,7 @@ LevelSystem = require 'models/LevelSystem'
 SystemVersionsModal = require 'views/editor/level/systems/SystemVersionsModal'
 PatchesView = require 'views/editor/PatchesView'
 SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 ace = require('lib/aceContainer')
 
 module.exports = class LevelSystemEditView extends CocoView

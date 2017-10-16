@@ -6,7 +6,7 @@ ThangType = require 'models/ThangType'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 {me} = require 'core/auth'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 concepts = require 'schemas/concepts'
 
 module.exports = class SettingsTabView extends CocoView

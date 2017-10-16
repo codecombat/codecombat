@@ -5,7 +5,7 @@ Level = require 'models/Level'
 Surface = require 'lib/surface/Surface'
 nodes = require './../treema_nodes'
 defaultScripts = require 'lib/DefaultScripts'
-require 'treema/treema.js'
+require 'lib/setupTreema'
 
 module.exports = class ScriptsTabView extends CocoView
   id: 'editor-level-scripts-tab-view'
