@@ -2,6 +2,7 @@ CocoModel = require './CocoModel'
 LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
