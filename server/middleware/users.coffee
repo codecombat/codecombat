@@ -297,7 +297,7 @@ module.exports =
 
     # post-successful account signup tasks
 
-    req.user.sendWelcomeEmail()
+    req.user.sendWelcomeEmail(req)
 
     # If person A creates a trial request without creating an account, then person B uses that computer
     # to create an account, then person A's trial request is associated with person B's account. To prevent

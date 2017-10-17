@@ -913,12 +913,15 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     email = 'some@email.com'
     name = 'someusername'
     json = { name, email, password: '12345' }
-    [res, body] = yield request.postAsync({url, json})
+    [res, body] = yield request.postAsync({url, json, headers: {'host':'codecombat.com'}})
     expect(res.statusCode).toBe(200)
     updatedUser = yield User.findById(user.id)
     expect(updatedUser.get('email')).toBe(email)
     expect(updatedUser.get('passwordHash')).toBeDefined()
     expect(sendwithus.api.send).toHaveBeenCalled()
+    context = sendwithus.api.send.calls.argsFor(0)[0]
+    expect(_.str.startsWith(context.email_data.verify_link, "https://codecombat.com/user/#{user.id}/verify/")).toBe(true)
+    
 
   it 'signs up the user with just a name and password', utils.wrap ->
     user = yield utils.becomeAnonymous()
