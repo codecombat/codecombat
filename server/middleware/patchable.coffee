@@ -165,6 +165,6 @@ module.exports =
     res.status(201).send(patch.toObject({req: req}))
 
     if reasonNotAutoAccepted
-      docLink = "https://codecombat.com/editor/#{collectionName}/#{target.id}"
+      docLink = "https://codecombat.com/editor/#{collectionName}/#{target.id}" # TODO: Priority low
       message = "#{req.user.get('name')} submitted a patch to #{target.get('name')}: #{patch.get('commitMessage')} #{docLink}"
       slack.sendSlackMessage message, ['artisans']

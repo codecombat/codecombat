@@ -314,7 +314,7 @@ module.exports =
         email_data:
           teacher_name: req.user.broadName()
           class_name: classroom.get('name')
-          join_link: "https://codecombat.com/students?_cc=" + joinCode
+          join_link: "https://codecombat.com/students?_cc=" + joinCode # TODO: Priority high
           join_code: joinCode
       sendwithus.api.send context, _.noop
 

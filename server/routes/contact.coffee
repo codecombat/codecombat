@@ -58,7 +58,7 @@ createMailContent = (req, fromAddress, done) ->
     --
     http://codecombat.com/user/#{user.get('slug') or user.get('_id')}
     #{fromAddress} - #{user.get('name') or 'Anonymous'} - Level #{level}#{if teacher then ' - Teacher' else ''}#{if premium then ' - Subscriber' else ''}#{if country then ' - ' + country else ''}
-  """
+  """ # TODO: Priority high
   if req.body.browser
     content += "\n#{req.body.browser} - #{req.body.screenSize}"
   done(subject, content)
@@ -135,7 +135,7 @@ fetchRecentSessions = (user, context, sentFromLevel, callback) ->
       else if s.playtime < 7200 then playtime = "#{Math.round(s.playtime / 60)}m played"
       else playtime = "#{Math.round(s.playtime / 3600)}h played"
       ago = moment(s.changed).fromNow()
-      url = "http://codecombat.com/play/level/#{s.levelID}?session=#{s._id}&team=#{s.team or 'humans'}&dev=true"
+      url = "http://codecombat.com/play/level/#{s.levelID}?session=#{s._id}&team=#{s.team or 'humans'}&dev=true" # TODO: Priority high
       urlName = "#{s.levelName}#{if s.team is 'ogres' then ' ' + s.team else ''}"
       sessionStatus = "#{if s.state?.complete then ' complete ' else ''}- #{s.codeLanguage}, #{playtime}, #{ago}"
       if sentFromLevel?.levelID is s.levelID and sentFromLevel?.courseID

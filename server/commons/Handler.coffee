@@ -466,7 +466,7 @@ module.exports = class Handler
         parentDocument.makeNewMajorVersion(updatedObject, done)
 
   notifyWatchersOfChange: (editor, changedDocument, editPath) ->
-    docLink = "http://codecombat.com#{editPath}"
+    docLink = "http://codecombat.com#{editPath}" # TODO: Priority low
     @sendChangedSlackMessage creator: editor, target: changedDocument, docLink: docLink
     watchers = changedDocument.get('watchers') or []
     # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
@@ -486,7 +486,7 @@ module.exports = class Handler
       email_data:
         doc_name: changedDocument.get('name') or '???'
         submitter_name: editor.get('name') or '???'
-        doc_link: if editPath then "http://codecombat.com#{editPath}" else null
+        doc_link: if editPath then "http://codecombat.com#{editPath}" else null # TODO: Priority low
         commit_message: changedDocument.get('commitMessage')
     sendwithus.api.send context, (err, result) ->
 

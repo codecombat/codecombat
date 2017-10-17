@@ -26,6 +26,8 @@ config = require '../../server_config'
 utils = require '../lib/utils'
 CLASubmission = require '../models/CLASubmission'
 Prepaid = require '../models/Prepaid'
+crypto = require 'crypto'
+{ makeHostUrl } = require '../commons/urls'
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -173,7 +175,7 @@ module.exports =
         name: user.broadName()
       email_data:
         name: user.broadName()
-        verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
+        verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}" # TODO: Priority high
     sendwithus.api.send context, (err, result) ->
     res.status(200).send({})
 
@@ -510,3 +512,27 @@ module.exports =
     ]
     return res.sendStatus(200)
 
+  getAvatar: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+    fallback = req.query.fallback
+    size = req.query.s
+
+    hash = crypto.createHash('md5')
+    if user.get('email')
+      hash.update(_.trim(user.get('email')).toLowerCase())
+    else
+      hash.update(user.get('_id') + '')
+    emailHash = hash.digest('hex')
+
+    if thang = user.get('heroConfig')?.thangType
+      fallback ?= "/file/db/thang.type/#{thang}/portrait.png"
+      
+    fallback ?= makeHostUrl(req, '/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
+    unless /^http/.test fallback
+      fallback = makeHostUrl(req, fallback)
+    combinedPhotoURL = "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
+    
+    res.redirect(combinedPhotoURL)
+    res.end()
