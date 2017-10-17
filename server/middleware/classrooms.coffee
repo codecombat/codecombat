@@ -20,6 +20,7 @@ sendwithus = require '../sendwithus'
 co = require 'co'
 delighted = require '../delighted'
 subscriptions = require './subscriptions'
+{ makeHostUrl } = require '../commons/urls'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
@@ -314,7 +315,7 @@ module.exports =
         email_data:
           teacher_name: req.user.broadName()
           class_name: classroom.get('name')
-          join_link: "https://codecombat.com/students?_cc=" + joinCode # TODO: Priority high
+          join_link: makeHostUrl(req, '/students?_cc=' + joinCode)
           join_code: joinCode
       sendwithus.api.send context, _.noop
 
