@@ -175,7 +175,7 @@ module.exports =
         name: user.broadName()
       email_data:
         name: user.broadName()
-        verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}" # TODO: Priority high
+        verify_link: makeHostUrl(req, "/user/#{user._id}/verify/#{user.verificationCode(timestamp)}")
     sendwithus.api.send context, (err, result) ->
     res.status(200).send({})
 
