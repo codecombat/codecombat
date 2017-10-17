@@ -479,9 +479,6 @@ module.exports = class CocoView extends Backbone.View
 
   # Utilities
 
-  getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
-  @getQueryVariable: (param, defaultValue) -> utils.getQueryVariable(param, defaultValue)  # Moved to utils; TODO finish migrating
-
   getRootView: ->
     view = @
     view = view.parent while view.parent?

@@ -150,9 +150,9 @@ module.exports = class CampaignView extends RootView
 
     @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
-    if @getQueryVariable('course-instance')?
+    if utils.getQueryVariable('course-instance')?
       @courseLevelsFake = {}
-      @courseInstanceID = @getQueryVariable('course-instance')
+      @courseInstanceID = utils.getQueryVariable('course-instance')
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
       jqxhr = @courseInstance.fetch()
       @supermodel.trackRequest(jqxhr)
@@ -504,7 +504,7 @@ module.exports = class CampaignView extends RootView
 
   afterInsert: ->
     super()
-    if @getQueryVariable('signup') and not me.get('email')
+    if utils.getQueryVariable('signup') and not me.get('email')
       return @promptForSignup()
     if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.get('hourOfCode')))
       if not me.get('email')

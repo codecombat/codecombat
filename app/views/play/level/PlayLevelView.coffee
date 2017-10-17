@@ -110,14 +110,14 @@ module.exports = class PlayLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
-    @courseID = options.courseID or @getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance'
+    @courseID = options.courseID or utils.getQueryVariable 'course'
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
 
-    @isEditorPreview = @getQueryVariable 'dev'
-    @sessionID = @getQueryVariable 'session'
-    @observing = @getQueryVariable 'observing'
+    @isEditorPreview = utils.getQueryVariable 'dev'
+    @sessionID = utils.getQueryVariable 'session'
+    @observing = utils.getQueryVariable 'observing'
 
-    @opponentSessionID = @getQueryVariable('opponent')
+    @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
 
@@ -149,7 +149,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     @levelLoader = new LevelLoader levelLoaderOptions
@@ -219,7 +219,7 @@ module.exports = class PlayLevelView extends RootView
   onWorldNecessitiesLoaded: ->
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = @getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
+    team = utils.getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -498,7 +498,7 @@ module.exports = class PlayLevelView extends RootView
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface?.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
-    if (@isEditorPreview or @observing) and not @getQueryVariable('intro')
+    if (@isEditorPreview or @observing) and not utils.getQueryVariable('intro')
       @loadingView.startUnveiling()
       @loadingView.unveil true
     else
@@ -574,8 +574,8 @@ module.exports = class PlayLevelView extends RootView
     @simulator.fetchAndSimulateOneGame()
 
   shouldSimulate: ->
-    return true if @getQueryVariable('simulate') is true
-    return false if @getQueryVariable('simulate') is false
+    return true if utils.getQueryVariable('simulate') is true
+    return false if utils.getQueryVariable('simulate') is false
     stillBuggy = true  # Keep this true while we still haven't fixed the zombie worker problem when simulating the more difficult levels on Chrome
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
@@ -688,7 +688,7 @@ module.exports = class PlayLevelView extends RootView
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')
       ModalClass = CourseVictoryModal
-      options.courseInstanceID = @getQueryVariable('course-instance') or @getQueryVariable('league')
+      options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)

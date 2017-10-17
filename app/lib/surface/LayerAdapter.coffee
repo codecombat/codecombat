@@ -24,6 +24,7 @@ SegmentedSprite = require './SegmentedSprite'
 SingularSprite = require './SingularSprite'
 ThangType = require 'models/ThangType'
 createjs = require 'lib/createjs-parts'
+utils = require 'core/utils'
 
 NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
@@ -152,7 +153,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
-    lank.thangType.initPrerenderedSpriteSheets() unless currentView.getQueryVariable 'jitSpritesheets'
+    lank.thangType.initPrerenderedSpriteSheets() unless utils.getQueryVariable 'jitSpritesheets'
     prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
     prerenderedSpriteSheet?.markToLoad()
     @loadThangType(lank.thangType)

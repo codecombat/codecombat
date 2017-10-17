@@ -10,6 +10,7 @@ LeaderboardCollection  = require 'collections/LeaderboardCollection'
 ModelModal = require 'views/modal/ModelModal'
 require 'd3/d3.js'
 CreateAccountModal = require 'views/core/CreateAccountModal'
+utils = require 'core/utils'
 
 HIGHEST_SCORE = 1000000
 
@@ -167,7 +168,7 @@ module.exports = class LadderTabView extends CocoView
     return if not @options.league and (new Date() - 2 * 60 * 1000 < @lastRefreshTime)
     @lastRefreshTime = new Date()
     @supermodel.resetProgress()
-    @ladderLimit ?= parseInt @getQueryVariable('top_players', if @options.league then 100 else 20)
+    @ladderLimit ?= parseInt utils.getQueryVariable('top_players', if @options.league then 100 else 20)
     for team in @teams
       if oldLeaderboard = @leaderboards[team.id]
         @supermodel.removeModelResource oldLeaderboard

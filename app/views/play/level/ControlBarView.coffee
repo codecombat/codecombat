@@ -4,6 +4,7 @@ storage = require 'core/storage'
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/control-bar-view'
 {me} = require 'core/auth'
+utils = require 'core/utils'
 
 Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
@@ -112,7 +113,7 @@ module.exports = class ControlBarView extends CocoView
       @homeLink = "/play/ladder/#{levelID}"
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
-      if leagueID = @getQueryVariable('league') or @getQueryVariable('course-instance')
+      if leagueID = utils.getQueryVariable('league') or utils.getQueryVariable('course-instance')
         leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID

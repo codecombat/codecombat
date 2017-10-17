@@ -111,7 +111,7 @@ module.exports = class TomeView extends CocoView
         pathComponents[0] = _.string.slugify pathComponents[0]
         spellKey = pathComponents.join '/'
         @thangSpells[thang.id].push spellKey
-        skipProtectAPI = @getQueryVariable 'skip_protect_api', false
+        skipProtectAPI = utils.getQueryVariable 'skip_protect_api', false
         spell = @spells[spellKey] = new Spell
           hintsState: @options.hintsState
           programmableMethod: method

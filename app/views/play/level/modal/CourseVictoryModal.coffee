@@ -17,7 +17,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
   initialize: (options) ->
     @courseID = options.courseID
-    @courseInstanceID = options.courseInstanceID or @getQueryVariable('course-instance') or @getQueryVariable('league')
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     @views = []
 
     @session = options.session
@@ -145,7 +145,7 @@ module.exports = class CourseVictoryModal extends ModalView
     # Preserve the supermodel as we navigate back to the ladder.
     viewArgs = [{supermodel: if @options.hasReceivedMemoryWarning then null else @supermodel}, @level.get('slug')]
     ladderURL = "/play/ladder/#{@level.get('slug') || @level.id}"
-    if leagueID = (@courseInstanceID or @getQueryVariable 'league')
+    if leagueID = (@courseInstanceID or utils.getQueryVariable 'league')
       leagueType = if @level.get('type') is 'course-ladder' then 'course' else 'clan'
       viewArgs.push leagueType
       viewArgs.push leagueID

@@ -96,7 +96,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   finishShowingReady: =>
     return if @destroyed
-    showIntro = @getQueryVariable('intro')
+    showIntro = utils.getQueryVariable('intro')
     autoUnveil = not showIntro and (@options.autoUnveil or @session?.get('state').complete)
     if autoUnveil
       @startUnveiling()

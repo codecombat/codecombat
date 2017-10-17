@@ -49,8 +49,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     @level = new Level()
     @session = new LevelSession()
     @gameUIState = new GameUIState()
-    @courseID = @getQueryVariable 'course'
-    @courseInstanceID = @getQueryVariable 'course-instance'
+    @courseID = utils.getQueryVariable 'course'
+    @courseInstanceID = utils.getQueryVariable 'course-instance'
     @god = new God({ @gameUIState, indefiniteLength: true })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
     @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
