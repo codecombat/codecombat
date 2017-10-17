@@ -1,9 +1,9 @@
 // Helper for running tests through Karma.
 // Hooks into the test view logic for running tests.
-
+require('app/app.js')
 
 window.userObject = {_id:'1'};
-window.serverConfig  = {picoCTF: false, production: false, buildInfo: { sha: 'dev' }};
+window.serverConfig  = {picoCTF: false, production: false, buildInfo: { sha: 'dev' }, karmaTest: true};
 window.StripeCheckout = {configure: function (){}};
 window.features = { freeOnly: false }
 window.serverSession = {};
