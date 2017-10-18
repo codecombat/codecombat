@@ -424,13 +424,11 @@ module.exports = class PlayLevelView extends RootView
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
     else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size e.session.get('heroConfig')?.inventory ? {}
-      # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
-      _.defer =>
-        return if _.size(e.session.get('heroConfig')?.inventory ? {})
-        # TODO: which scenario is this executed for?
-        @setupManager?.destroy()
-        @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
-        @setupManager.open()
+      @setupManager?.destroy()
+      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+      @setupManager.open()
+
+
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()

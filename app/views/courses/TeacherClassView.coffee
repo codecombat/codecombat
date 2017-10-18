@@ -77,6 +77,7 @@ module.exports = class TeacherClassView extends RootView
 
   initialize: (options, classroomID) ->
     super(options)
+    @skipCalculation = utils.getQueryVariable('skipCalculation')
     # wrap templates so they translate when called
     translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
     @singleStudentCourseProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-course'), translateTemplateText)
@@ -226,6 +227,7 @@ module.exports = class TeacherClassView extends RootView
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
 
   calculateProgressAndLevels: ->
+    return if @skipCalculation # TODO: Fix perf for this function for large classes, remove this
     return unless @supermodel.progress is 1 and @allStatsLoaded()
     # TODO: How to structure this in @state?
     for student in @students.models
