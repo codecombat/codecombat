@@ -55,6 +55,10 @@ module.exports = (env) => {
         ] },
         { test: /\.jade$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
         { test: /\.pug$/, use: { loader: 'jade-loader', options: { root: path.resolve('./app') } } },
+        { test: /jquery-ui.*css$/, use: [ // So we can ignore the images it references that we are missing
+          { loader: 'style-loader' },
+          { loader: 'raw-loader' },
+        ] },
         { test: /\.css$/, use: [
           { loader: 'style-loader' },
           { loader: 'css-loader' },
@@ -102,7 +106,6 @@ module.exports = (env) => {
         $: 'jquery',
         jQuery: 'jquery'
       }),
-      new webpack.IgnorePlugin(/.png/, /vendor\/styles/), // Ignore jQuery-UI's missing images
       new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin(/^memwatch$/), // Just used by the headless client on the server side
       new webpack.IgnorePlugin(/.DS_Store$/),

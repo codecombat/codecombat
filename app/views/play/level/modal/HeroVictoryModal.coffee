@@ -254,7 +254,7 @@ module.exports = class HeroVictoryModal extends ModalView
     panels = @$el.find('.achievement-panel')
     for panel in panels
       panel = $(panel)
-      continue unless panel.data('animate')
+      continue unless panel.data('animate')?
       @animatedPanels = @animatedPanels.add(panel)
       panel.delay(500)  # Waiting for victory header to show up and fall
       panel.queue(->
