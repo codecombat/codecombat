@@ -99,7 +99,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
     'db/*path': 'routeToServer'
-    'demo(/*subpath)': go('DemoView')
     'docs/components': go('docs/ComponentsDocumentationView')
     'docs/systems': go('docs/SystemsDocumentationView')
 

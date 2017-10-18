@@ -50,7 +50,6 @@ dynamicRequire = (path) ->
       when 'views/contribute/ArtisanView' then require.ensure(['views/contribute/ArtisanView'], ((require) -> accept(require('views/contribute/ArtisanView'))), reject, 'contribute')
       when 'views/contribute/DiplomatView' then require.ensure(['views/contribute/DiplomatView'], ((require) -> accept(require('views/contribute/DiplomatView'))), reject, 'contribute')
       when 'views/contribute/ScribeView' then require.ensure(['views/contribute/ScribeView'], ((require) -> accept(require('views/contribute/ScribeView'))), reject, 'contribute')
-      when 'views/DemoView' then require.ensure(['views/DemoView'], ((require) -> accept(require('views/DemoView'))), reject, 'DemoView')
       # when 'views/docs/ComponentsDocumentationView' then require.ensure(['views/docs/ComponentsDocumentationView'], ((require) -> accept(require('views/docs/ComponentsDocumentationView'))), reject, 'docs')
       # when 'views/docs/SystemsDocumentationView' then require.ensure(['views/docs/SystemsDocumentationView'], ((require) -> accept(require('views/docs/SystemsDocumentationView'))), reject, 'docs')
       when 'views/editor/achievement/AchievementSearchView' then require.ensure(['views/editor/achievement/AchievementSearchView'], ((require) -> accept(require('views/editor/achievement/AchievementSearchView'))), reject, 'editor')
