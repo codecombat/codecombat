@@ -39,5 +39,3 @@ require('vendor/scripts/css.js')
 require('vendor/scripts/flying-focus.js')
 require('vendor/scripts/jquery.mobile-events.js')
 require('vendor/scripts/lz-string-1.3.3-min.js')
-require('vendor/scripts/vue.js')// TODO webpack: Try to extract this
-require('vendor/scripts/vuex.js')// TODO webpack: Try to extract this
