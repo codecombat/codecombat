@@ -181,7 +181,7 @@ module.exports = class Tracker extends CocoClass
     #console.log "SnowPlow", snowplowAction, properties
 
     try
-      schema = require("schemas/events/#{snowplowAction}")
+      schema = require("schemas/events/" + snowplowAction + ".json")
     catch
       console.warn('Schema not found for snowplow action: ', snowplowAction, properties)
       return
