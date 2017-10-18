@@ -63,21 +63,23 @@ html(lang='en')
     block setup
     block script-start
       script.
+        //- This runs for pages without specific static templates
+        //- Those pages with static templates run this themselves (in mock.static.pug),
+        //-   after setting window.alreadyLoadedView
         function onLoad() {
-        //-   try {
-        //-       // IE10 warning
-        //-       var htmlElement = document.querySelector("html");
-        //-       if (htmlElement) {
-        //-           if ($.browser.msie && $.browser.versionNumber < 11) {
-        //-               if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
-        //-                   alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
-        //-               }
-        //-           }
-        //-       }
-        //-       // IE8 can't handle this
-        //-       FastClick.attach(document.body);
-        //-   } catch (error) { }
-        //-   require('core/initialize');
+          try {
+              // IE10 warning
+              var htmlElement = document.querySelector("html");
+              if (htmlElement) {
+                  if ($.browser.msie && $.browser.versionNumber < 11) {
+                      if ((window.location.pathname || "").indexOf("web-dev-level") < 0) {
+                          alert("CodeCombat does not run in Internet Explorer 10 or older. Sorry!");
+                      }
+                  }
+              }
+              // IE8 can't handle this
+              FastClick.attach(document.body);
+          } catch (error) { }
         }
   body.clearfix(onload='onLoad();')
     #fb-root
