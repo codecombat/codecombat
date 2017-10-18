@@ -1,3 +1,5 @@
+# NOTE: Dependencies for this may not be cache-busted properly by webpack; take this into account when making changes.
+
 # function to use inside a webworker.
 # This function needs to run inside an environment that has a 'self'.
 # This specific worker is targeted towards the node.js headless_client environment.

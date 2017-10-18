@@ -1,5 +1,3 @@
-// require('nanoscroller/bin/css/nanoscroller.css'); // TODO: Is this the right way to do it? Do I need to do this for other packages too?
-//
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 import 'bootstrap'
 import './app.sass'

@@ -7,19 +7,20 @@ window.lscache = require('lscache');
 window._.string = require('underscore.string');
 require('jquery.browser');
 window.marked = require('marked');
-require('../bower_components/validated-backbone-mediator/backbone-mediator.js');
-window.TreemaUtils = require('exports-loader?TreemaUtils!../bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
+require('bower_components/validated-backbone-mediator/backbone-mediator.js');
+window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
 import 'bower_components/treema/treema.css'
 window.moment = require('moment');
-window.$.i18n = window.i18n = require('../bower_components/i18next/i18next.js');
-require('../vendor/scripts/idle.js').createjs;
+window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
+require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
-require('../vendor/scripts/jquery.noty.packaged.min.js');
+require('vendor/scripts/jquery.noty.packaged.min.js');
 // require('bootstrap/dist/js/bootstrap');
 require('nanoscroller');// TODO webpack: Try to extract this
 require('nanoscroller/bin/css/nanoscroller.css');// TODO webpack: Try to extract this
-require('../vendor/scripts/hsl-to-rgb.js');
-require('../vendor/scripts/jquery-ui-1.11.1.custom.js');// TODO webpack: Try to extract this
+require('vendor/scripts/hsl-to-rgb.js');
+require('vendor/scripts/jquery-ui-1.11.1.custom.js');// TODO webpack: Try to extract this
+import 'vendor/styles/jquery-ui-1.11.1.custom.css'
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO webpack: Try to extract this
 import 'vendor/styles/fancy_select.css'// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this
