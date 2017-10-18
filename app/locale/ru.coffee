@@ -66,7 +66,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     want_coco: "Хотите CodeCombat в вашей школе?"
 
   nav:
-#    map: "Map"
+    map: "Карта" # The top nav bar entry where player can return to the map
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     courses: "Курсы"
