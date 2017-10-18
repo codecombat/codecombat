@@ -150,7 +150,7 @@
     "after-brunch": "0.0.5",
     "assetsmanager-brunch": "^1.8.1",
     "auto-reload-brunch": "^1.8.1",
-    "bower": "~1.6.4",
+    "bower": "^1.7.9",
     "brunch": "^1.8.5",
     "bundle-loader": "^0.5.5",
     "coffee-script-brunch": "^1.8.3",
