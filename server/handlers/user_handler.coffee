@@ -294,7 +294,6 @@ UserHandler = class UserHandler extends Handler
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
     return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
-    return @avatar(req, res, args[0]) if args[1] is 'avatar'
     return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
@@ -490,17 +489,6 @@ UserHandler = class UserHandler extends Handler
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, {result: 'success'})
 
-  avatar: (req, res, id) ->
-    if not isID(id)
-      return @sendBadInputError(res, 'Invalid avatar id')
-    @modelClass.findById(id).exec (err, document) =>
-      return @sendDatabaseError(res, err) if err
-      return @sendNotFoundError(res) unless document
-      fallback = req.query.fallback
-      combinedPhotoURL = @buildGravatarURL document, req.query.s, fallback
-      res.redirect combinedPhotoURL
-      res.end()
-
   getLevelSessionsForEmployer: (req, res, userID) ->
     return @sendForbiddenError(res) unless req.user
     return @sendForbiddenError(res) unless req.user._id+'' is userID or req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
@@ -660,22 +648,6 @@ UserHandler = class UserHandler extends Handler
     User.find(query).select(selection).lean().exec (err, documents) =>
       return @sendDatabaseError res, err if err
       @sendSuccess res, documents
-
-  buildGravatarURL: (user, size, fallback) ->
-    emailHash = @buildEmailHash user
-    fallback ?= "/file/db/thang.type/#{thang}/portrait.png" if thang = user.get('heroConfig')?.thangType
-    fallback ?= 'https://codecombat.com/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png'
-    fallback = "https://codecombat.com#{fallback}" unless /^http/.test fallback
-    "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
-
-  buildEmailHash: (user) ->
-    # emailHash is used by gravatar
-    hash = crypto.createHash('md5')
-    if user.get('email')
-      hash.update(_.trim(user.get('email')).toLowerCase())
-    else
-      hash.update(user.get('_id') + '')
-    hash.digest('hex')
 
   getRemark: (req, res, userID) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
