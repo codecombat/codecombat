@@ -4,6 +4,8 @@ CocoCollection = require 'collections/CocoCollection'
 locale = require 'locale/locale'
 aceUtils = require 'core/aceUtils'
 createjs = require 'lib/createjs-parts'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 initializeFilePicker = ->
   require('core/services/filepicker')() unless window.application.isIPadApp

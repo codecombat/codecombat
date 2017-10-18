@@ -16,6 +16,8 @@ SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
 RevertModal = require 'views/modal/RevertModal'
 modelDeltas = require 'lib/modelDeltas'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 require 'lib/game-libraries'
 

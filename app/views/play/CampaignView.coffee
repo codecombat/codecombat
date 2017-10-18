@@ -39,6 +39,8 @@ PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 PlayAchievementsModal = require 'views/play/modal/PlayAchievementsModal'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 ContactModal = require 'views/core/ContactModal'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 require 'lib/game-libraries'
 

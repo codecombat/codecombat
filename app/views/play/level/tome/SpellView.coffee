@@ -401,9 +401,11 @@ module.exports = class SpellView extends CocoView
       return true for range in @readOnlyRanges when rightRange.intersects(range)
       false
 
+    # TODO: Performance: Consider removing, may be dead code.
     pulseLockedCode = ->
       $('.locked-code').finish().addClass('pulsating').effect('shake', times: 1, distance: 2, direction: 'down').removeClass('pulsating')
 
+    # TODO: Performance: Consider removing, may be dead code.
     preventReadonly = (next) ->
       if intersects()
         pulseLockedCode()
@@ -473,7 +475,7 @@ module.exports = class SpellView extends CocoView
          (e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()) or
          (e.command.name is 'del' and intersectsRight())
         @autocomplete?.off?()
-        pulseLockedCode()
+        pulseLockedCode() # TODO: Performance: Consider removing, may be dead code.
         return false
       else if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
         if intersects()

@@ -1,6 +1,8 @@
 require('app/styles/admin/design-elements-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/design-elements-view'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 module.exports = class DesignElementsView extends RootView
   id: 'design-elements-view'

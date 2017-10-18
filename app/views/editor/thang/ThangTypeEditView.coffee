@@ -9,6 +9,7 @@ DocumentFiles = require 'collections/DocumentFiles'
 require 'lib/setupTreema'
 createjs = require 'lib/createjs-parts'
 LZString = require 'lz-string'
+initSlider = require 'lib/initSlider'
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -447,10 +448,10 @@ module.exports = class ThangTypeEditView extends RootView
   # sliders
 
   initSliders: ->
-    @rotationSlider = @initSlider $('#rotation-slider', @$el), 50, @updateRotation
-    @scaleSlider = @initSlider $('#scale-slider', @$el), 29, @updateScale
-    @resolutionSlider = @initSlider $('#resolution-slider', @$el), 39, @updateResolution
-    @healthSlider = @initSlider $('#health-slider', @$el), 100, @updateHealth
+    @rotationSlider = initSlider $('#rotation-slider', @$el), 50, @updateRotation
+    @scaleSlider = initSlider $('#scale-slider', @$el), 29, @updateScale
+    @resolutionSlider = initSlider $('#resolution-slider', @$el), 39, @updateResolution
+    @healthSlider = initSlider $('#health-slider', @$el), 100, @updateHealth
 
   updateRotation: =>
     value = parseInt(180 * (@rotationSlider.slider('value') - 50) / 50)

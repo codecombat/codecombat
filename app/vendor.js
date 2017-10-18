@@ -18,8 +18,8 @@ require('vendor/scripts/jquery.noty.packaged.min.js');
 require('nanoscroller');// TODO webpack: Try to extract this
 require('nanoscroller/bin/css/nanoscroller.css');// TODO webpack: Try to extract this
 require('vendor/scripts/hsl-to-rgb.js');
-require('vendor/scripts/jquery-ui-1.11.1.custom.js');// TODO webpack: Try to extract this
-import 'vendor/styles/jquery-ui-1.11.1.custom.css'
+// require('vendor/scripts/jquery-ui-1.11.1.custom.js');// TODO webpack: Try to extract this
+// import 'vendor/styles/jquery-ui-1.11.1.custom.css'
 require('imports-loader?this=>window!../vendor/scripts/fancy_select.js');// TODO webpack: Try to extract this
 import 'vendor/styles/fancy_select.css'// TODO webpack: Try to extract this
 window.Spade = require('exports-loader?Spade!../vendor/scripts/spade.js');// TODO webpack: Try to extract this

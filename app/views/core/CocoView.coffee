@@ -505,13 +505,6 @@ module.exports = class CocoView extends Backbone.View
   isFirefox: ->
     navigator.userAgent.toLowerCase().indexOf('firefox') isnt -1
 
-  initSlider: ($el, startValue, changeCallback) ->
-    slider = $el.slider({animate: 'fast'})
-    slider.slider('value', startValue)
-    slider.on('slide', changeCallback)
-    slider.on('slidechange', changeCallback)
-    slider
-
   scrollToLink: (link, speed=300) ->
     scrollTo = $(link).offset().top
     $('html, body').animate({ scrollTop: scrollTo }, speed)
