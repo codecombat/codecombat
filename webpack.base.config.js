@@ -141,7 +141,7 @@ module.exports = (env) => {
           to: 'javascripts/app/vendor/aether-html.js',
         }
       ]),
-      new CompileStaticTemplatesPlugin({ // TODO: webpack enable this again, just have it off for faster development
+      new CompileStaticTemplatesPlugin({
         locals: {shaTag: process.env.GIT_SHA || 'dev'}
       }),
     ]

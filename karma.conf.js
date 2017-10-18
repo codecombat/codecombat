@@ -23,7 +23,7 @@ module.exports = function(config) {
 
     preprocessors : {
       '**/*.coffee': 'coffee',
-      '**/javascripts/whole-app.js': 'coverage'
+      '**/javascripts/whole-app.js': 'coverage' // TODO: Webpack: get this working
     },
 
     // list of files to exclude
