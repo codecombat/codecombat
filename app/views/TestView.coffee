@@ -7,7 +7,7 @@ storage = require 'core/storage'
 require('vendor/styles/jasmine.css')
 window.getJasmineRequireObj = require('exports-loader?getJasmineRequireObj!vendor/scripts/jasmine')
 window.jasmineRequire = window.getJasmineRequireObj()
-unless serverConfig.karmaTest # Karma doesn't use these two libraries, needs them not to run
+unless application.karmaTest # Karma doesn't use these two libraries, needs them not to run
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-html')
   require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
 require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')

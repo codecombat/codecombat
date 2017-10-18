@@ -1,4 +1,5 @@
 // Use this webpack config for development, with `webpack --config webpack.production.config.js`
+// This config is automatically selected depending on process.env in webpack.config.js
 
 const _ = require('lodash');
 const fs = require('fs');

@@ -1,4 +1,5 @@
-// Use this webpack config for Karma testing, with `webpack --config webpack.testing.config.js`
+// Use this webpack config for Karma testing, with `webpack --config webpack.karma.config.js`
+// This config is automatically selected depending on process.env in webpack.config.js
 
 // process.traceDeprecation = true;
 const webpack = require('webpack');

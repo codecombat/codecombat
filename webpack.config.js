@@ -1,6 +1,7 @@
+// TODO: Reconcile env variables for this; maybe WEBPACK_ENV = travis/production/undefined
 if (process.env.COCO_TRAVIS_TEST){
-  console.log("Automatically using Travis (testing) webpack config");
-  module.exports = require('./webpack.testing.config')
+  console.log("Automatically using Karma webpack config");
+  module.exports = require('./webpack.karma.config')
 } else if (process.env.BRUNCH_ENV == 'production'){
   console.log("Automatically using Production webpack config");
   module.exports = require('./webpack.production.config')
