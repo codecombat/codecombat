@@ -14,6 +14,7 @@ Promise = require 'bluebird'
 co = require 'co'
 core_utils = require '../../app/core/utils'
 mailChimp = require '../lib/mail-chimp'
+{ makeHostUrl } = require '../commons/urls'
 
 config = require '../../server_config'
 stripe = require('../lib/stripe_utils').api
@@ -355,7 +356,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
-UserSchema.methods.sendWelcomeEmail = ->
+UserSchema.methods.sendWelcomeEmail = (req) ->
   return if not @get('email')
   return if core_utils.isSmokeTestEmail(@get('email'))
   { welcome_email_student, welcome_email_user } = sendwithus.templates
@@ -367,7 +368,7 @@ UserSchema.methods.sendWelcomeEmail = ->
       name: @broadName()
     email_data:
       name: @broadName()
-      verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+      verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode(timestamp)}")
       teacher: @isTeacher()
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err
