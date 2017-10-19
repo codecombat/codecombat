@@ -35,7 +35,7 @@ PatchHandler = class PatchHandler extends Handler
   onPostSuccess: (req, doc) ->
     log.error 'Error sending patch created: could not find the loaded target on the patch object.' unless doc.targetLoaded
     return unless doc.targetLoaded
-    docLink = "http://codecombat.com#{req.headers['x-current-path']}"
+    docLink = "http://codecombat.com#{req.headers['x-current-path']}" # TODO: Dynamically generate URL with server/commons/urls.makeHostUrl
     @sendPatchCreatedSlackMessage creator: req.user, patch: doc, target: doc.targetLoaded, docLink: docLink
     watchers = doc.targetLoaded.get('watchers') or []
     # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.

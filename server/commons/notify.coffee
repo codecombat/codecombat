@@ -8,7 +8,7 @@ module.exports =
   notifyChangesMadeToDoc: (req, doc) ->
     # TODO: Stop using headers to pass edit paths. Perhaps should be a method property for Mongoose models
     editPath = req.headers['x-current-path']
-    docLink = "http://codecombat.com#{editPath}"
+    docLink = "http://codecombat.com#{editPath}" # TODO: Dynamically generate URL with server/commons/urls.makeHostUrl
 
     # Post a message on Slack
     message = "#{req.user.get('name')} saved a change to #{doc.get('name')}: #{doc.get('commitMessage') or '(no commit message)'} #{docLink}"
