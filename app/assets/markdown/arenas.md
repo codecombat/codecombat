@@ -23,7 +23,7 @@ The arena level is a reward for completing the required work. Students who have 
 Have students navigate to the last level of CS1 (Wakka Maul), CS2 (Power Peak), or CS3 (Cross Bones), , and complete it at their own pace.
 
 #### Dividing the Class
-Students must choose a team to join: Red or Blue. It is important to divide the class as most students will choose red, if undirected. It doesn’t matter if the sides are even, but you need players on both sides in order to let your students play against one another. Ways to divide the class:
+Students must choose a team to join: Red (the Humans) or Blue (the Ogres). It is important to divide the class as most students will choose red, if undirected. It doesn’t matter if the sides are even, but you need players on both sides in order to let your students play against one another. Ways to divide the class:
 * Divide the class into two randomly by drawing from a deck of cards.
 * Students who turn in their work early join the blue team, and latecomers play red.
 * Alternate teams as players finish.
