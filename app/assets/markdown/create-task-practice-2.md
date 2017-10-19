@@ -33,8 +33,8 @@ while True:
 But this does not:
 
 ```
-game.on(‘munchkin’, ‘spawn’, func1)
-game.on(‘munchkin’, ‘spawn’, func2)
+munchkin.on("spawn", func1)
+munchkin.on("spawn", func2)
 ```
 
 This is based on our interpretation of the 2018 Scoring Guidelines in rows 5 and 6:
