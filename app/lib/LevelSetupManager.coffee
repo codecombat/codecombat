@@ -18,8 +18,10 @@ module.exports = class LevelSetupManager extends CocoClass
     unless @level = @options.level
       @loadLevel()
     if @session
+      console.log 'LevelSetupManager given preloaded session:', @session.cid
       @fillSessionWithDefaults()
     else
+      console.log 'LevelSetupManager given no preloaded session.'
       @loadSession()
 
   loadLevel: ->
@@ -33,7 +35,12 @@ module.exports = class LevelSetupManager extends CocoClass
     #sessionURL += "?team=#{@team}" if @options.team  # TODO: figure out how to get the teams for multiplayer PVP hero style
     sessionURL += "?course=#{@options.courseID}" if @options.courseID
     @session = new LevelSession().setURL sessionURL
+    originalCid = @session.cid
     @session = @supermodel.loadModel(@session).model
+    if originalCid is @session.cid
+      console.log 'LevelSetupManager made a new Level Session', @session
+    else
+      console.log 'LevelSetupManager used a Level Session from the SuperModel', @session
     if @session.loaded then @onSessionSync() else @listenToOnce @session, 'sync', @onSessionSync
 
   onLevelSync: ->
@@ -224,9 +231,10 @@ module.exports = class LevelSetupManager extends CocoClass
     route += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     if @options.courseID? and @options.courseInstanceID?
       route += "&course=#{@options.courseID}&course-instance=#{@options.courseInstanceID}"
+    @supermodel.registerModel(@session)
     Backbone.Mediator.publish 'router:navigate', {
       route, viewClass
-      viewArgs: [{supermodel: @supermodel}, @options.levelID]
+      viewArgs: [{supermodel: @supermodel, sessionID: @session.id}, @options.levelID]
     }
 
   destroy: ->
