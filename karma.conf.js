@@ -83,7 +83,9 @@ module.exports = function(config) {
       'karma-coffee-preprocessor',
       'karma-coverage',
       'karma-firefox-launcher'
-    ]
+    ],
+
+    retryLimit: 5
   });
 
 };
