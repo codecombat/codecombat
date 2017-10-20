@@ -16,14 +16,14 @@ block modal-header-content
   br
   div
     a(href="#licenses") Grant Student Licenses
+  if view.prepaids.size()
+    div
+      a(href="#prepaids") Existing Prepaids
   if view.classrooms.size()
     div
       a(href="#classrooms") Update Classrooms
   div
     a(href="#stripe") Modify Stripe Subscription
-  if view.prepaids.size()
-    div
-      a(href="#prepaids") Existing Prepaids
   div
     a(href="#details") User Details
 
@@ -73,32 +73,6 @@ block modal-body-content
             button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
     hr
 
-  h3#stripe Modify Stripe Subscription
-  .form
-    .form-group
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="" checked=view.none)
-          | None
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="free" checked=view.free)
-          | Free
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-          | Free Until
-          input.form-control.spl(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
-      .radio
-        label
-          input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-          | Coupon
-        select.form-control#coupon-select
-          for coupon in view.coupons.models
-            option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
-    button#save-changes.btn.btn-primary Save Changes
-  hr
-
   if view.prepaids.size()
     h3.m-t-3#prepaids Existing Prepaids
     table.table.table-condensed
@@ -130,6 +104,32 @@ block modal-body-content
               = moment(prepaid.get('endDate')).utc().format('l')
           td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
     hr
+
+  h3#stripe Modify Stripe Subscription
+  .form
+    .form-group
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="" checked=view.none)
+          | None
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+          | Free
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+          | Free Until
+          input.form-control.spl(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+          | Coupon
+        select.form-control#coupon-select
+          for coupon in view.coupons.models
+            option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+    button#save-changes.btn.btn-primary Save Changes
+  hr
 
   h3#details User Details
   pre.user-props= JSON.stringify(view.user, null, 2)
