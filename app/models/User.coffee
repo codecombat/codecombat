@@ -181,19 +181,13 @@ module.exports = class User extends CocoModel
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
 
+  # TODO: full removal of sub modal test
   getSubModalGroup: () ->
     return @subModalGroup if @subModalGroup
-    group = me.get('testGroupNumber') % 4
-    @subModalGroup = switch group
-      when 0, 1 then 'both-subs'
-      when 2, 3 then 'lifetime-only'
-    @subModalGroup = 'both-subs' if me.isAdmin()
-    application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
+    @subModalGroup = 'both-subs'
     @subModalGroup
-
   setSubModalGroup: (val) ->
     @subModalGroup = if me.isAdmin() then 'both-subs' else val
-    application.tracker.identify subModalGroup: @subModalGroup unless me.isAdmin()
     @subModalGroup
 
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
