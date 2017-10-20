@@ -76,7 +76,7 @@ We do not currently support iPads or Android Tablets at this time.
 Yes! Check our our [Clever Integration FAQ](/teachers/resources/clever-faq) for more details on how to get started.
 
 ### Is there a recommended browser and operating system?
-CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with less RAM may have minor graphics issues in later courses.
+CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in later courses. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
 
 ### Students’ computer science backgrounds vary differently in my class, how does CodeCombat help me with that challenge?
 Many teachers are facing the challenge to address different student needs in the classroom. You are not alone there. CodeCombat solves your problem by providing truly personalized learning experience to your students.
