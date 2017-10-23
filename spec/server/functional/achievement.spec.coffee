@@ -502,12 +502,6 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     
     
   it 'handles achievement gem reward changes', utils.wrap ->
-    session = new LevelSession({
-      permissions: simplePermissions
-      creator: @admin._id
-      level: original: 'dungeon-arena'
-    })
-    yield session.save()
     @admin.set('simulatedBy', 4)
     yield @admin.save()
     
