@@ -579,3 +579,36 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     loadedAchievements = Achievement.getLoadedAchievements()
     expect(Object.keys(loadedAchievements).length).toBe(0)
     done()
+
+    
+describe 'GET /db/earned_achievements?view=get-by-achievement-ids', ->
+  beforeEach addAllAchievements
+  
+  it 'gets earned achievements by the user for the given achievements', utils.wrap ->
+    # satisfy achievement requirements
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: @admin._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    @admin.set('simulatedBy', 4)
+    yield @admin.save()
+
+    # recalculate
+    [res, body] = yield request.postAsync { uri:getURL '/admin/earned_achievement/recalculate' }
+    expect(res.statusCode).toBe 202
+
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 3
+
+    url = utils.getUrl('/db/earned_achievement')
+    qs = {
+      view: 'get-by-achievement-ids',
+      achievementIDs: [ @unlockable.id ].join(',')
+    }
+    [res, body] = yield request.getAsync({url, qs, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(res.body[0].achievement).toBe(@unlockable.id)
+    

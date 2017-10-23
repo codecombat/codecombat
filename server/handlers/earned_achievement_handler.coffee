@@ -20,7 +20,6 @@ class EarnedAchievementHandler extends Handler
     req.method in ['GET', 'PUT'] # or req.user.isAdmin()
 
   get: (req, res) ->
-    return @getByAchievementIDs(req, res) if req.query.view is 'get-by-achievement-ids'
     unless req.user
       return @sendForbiddenError(res, "You need to have a user to view earned achievements")
     query = { user: req.user._id+''}
@@ -43,22 +42,5 @@ class EarnedAchievementHandler extends Handler
       return @sendDatabaseError(res, err) if err
       documents = (@formatEntity(req, doc) for doc in documents)
       @sendSuccess(res, documents)
-
-  getByAchievementIDs: (req, res) ->
-    query = { user: req.user._id+''}
-    ids = req.query.achievementIDs
-    if (not ids) or (ids.length is 0)
-      return @sendBadInputError(res, 'For a get-by-achievement-ids request, need to provide ids.')
-
-    ids = ids.split(',')
-    for id in ids
-      if not Handler.isID(id)
-        return @sendBadInputError(res, "Not a MongoDB ObjectId: #{id}")
-
-    query.achievement = {$in: ids}
-    EarnedAchievement.find query, (err, earnedAchievements) ->
-      return @sendDatabaseError(res, err) if err
-      res.send(earnedAchievements)
-
 
 module.exports = new EarnedAchievementHandler()

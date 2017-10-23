@@ -234,8 +234,31 @@ updateAchievementsForUser = co.wrap (user, achievementMap, recalculatingAll) ->
   yield User.update {_id: userID}, update, {}
   if _.size secondUpdate
     yield User.update {_id: userID}, secondUpdate
+    
+    
+getByAchievementIds = wrap (req, res, next) ->
+  { view } = req.query
+  if view isnt 'get-by-achievement-ids'
+    return next()
+  
+  query = { user: req.user._id+'' }
+  ids = req.query.achievementIDs
+  if (not ids) or (ids.length is 0)
+    throw new errors.UnprocessableEntity('For a get-by-achievement-ids request, need to provide ids.')
+
+  ids = ids.split(',')
+  for id in ids
+    unless utils.isID(id)
+      throw new errors.UnprocessableEntity("Not a MongoDB ObjectId: #{id}")
+
+  query.achievement = {$in: ids}
+  earnedAchievements = yield EarnedAchievement.find query
+  res.send((ea.toObject({req}) for ea in earnedAchievements))
+
+  
 
 module.exports = {
+  getByAchievementIds
   post
   recalculateRoute
 }
