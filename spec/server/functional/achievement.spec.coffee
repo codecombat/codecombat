@@ -672,3 +672,41 @@ describe 'GET /db/earned_achievements', ->
     keys = _.keys(res.body[0])
     expect(_.without(keys, '_id', 'achievement').length).toBe(0)
     expect(res.body[0].achievement).toBeDefined()
+
+    
+describe 'PUT /db/earned_achievement/:handle', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels [Achievement, EarnedAchievement, LevelSession, User]
+
+  beforeEach addAllAchievements
+  beforeEach utils.wrap ->
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: @admin._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    @user.set('simulatedBy', 4)
+    yield @user.save()
+
+    # recalculate
+    yield utils.loginUser(@admin)
+    [res, body] = yield request.postAsync { uri:getURL '/admin/earned_achievement/recalculate' }
+    expect(res.statusCode).toBe 202
+
+    @earnedAchievements = yield EarnedAchievement.find({})
+    expect(@earnedAchievements.length).toBe 3
+
+  it 'allows setting the "notified" properties by anyone', utils.wrap ->
+    otherUser = yield utils.initUser()
+    yield utils.loginUser(otherUser)
+    expect(@earnedAchievements[0].notified).toBeFalsy()
+    @url = utils.getUrl("/db/earned_achievement/#{@earnedAchievements[0].id}")
+    [res] = yield request.putAsync({@url, json: {notified:true}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.notified).toBe(true)
+    earnedAchievement = yield EarnedAchievement.findById(@earnedAchievements[0].id)
+    expect(earnedAchievement.notified).toBe(true)

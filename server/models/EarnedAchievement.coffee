@@ -17,7 +17,8 @@ EarnedAchievementSchema.pre 'save', (next) ->
 
 EarnedAchievementSchema.index({user: 1, achievement: 1}, {unique: true, name: 'earned achievement index'})
 EarnedAchievementSchema.index({user: 1, changed: -1}, {name: 'latest '})
-
+EarnedAchievementSchema.statics.editableProperties = ['notified']
+EarnedAchievementSchema.statics.jsonSchema = jsonschema
 
 EarnedAchievementSchema.statics.upsertFor = co.wrap (achievement, trigger, earned, user) ->
   
