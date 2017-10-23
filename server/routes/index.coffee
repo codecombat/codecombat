@@ -160,7 +160,7 @@ module.exports.setup = (app) ->
   app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
 
   EarnedAchievement = require '../models/EarnedAchievement'
-  app.get('/db/earned_achievement', mw.earnedAchievements.getByAchievementIds)
+  app.get('/db/earned_achievement', mw.earnedAchievements.getByAchievementIds, mw.earnedAchievements.getOwnEarnedAchievements)
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
 
   Level = require '../models/Level'

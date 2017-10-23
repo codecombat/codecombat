@@ -19,28 +19,4 @@ class EarnedAchievementHandler extends Handler
     return false unless req.user
     req.method in ['GET', 'PUT'] # or req.user.isAdmin()
 
-  get: (req, res) ->
-    unless req.user
-      return @sendForbiddenError(res, "You need to have a user to view earned achievements")
-    query = { user: req.user._id+''}
-
-    projection = {}
-    if req.query.project
-      projection[field] = 1 for field in req.query.project.split(',')
-
-    q = EarnedAchievement.find(query, projection)
-
-    skip = parseInt(req.query.skip)
-    if skip? and skip < 1000000
-      q.skip(skip)
-
-    limit = parseInt(req.query.limit)
-    if limit? and limit < 1000
-      q.limit(limit)
-
-    q.exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      documents = (@formatEntity(req, doc) for doc in documents)
-      @sendSuccess(res, documents)
-
 module.exports = new EarnedAchievementHandler()

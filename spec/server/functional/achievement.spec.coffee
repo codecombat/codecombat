@@ -602,13 +602,73 @@ describe 'GET /db/earned_achievements?view=get-by-achievement-ids', ->
     earnedAchievements = yield EarnedAchievement.find({})
     expect(earnedAchievements.length).toBe 3
 
-    url = utils.getUrl('/db/earned_achievement')
+    @url = utils.getUrl('/db/earned_achievement')
     qs = {
       view: 'get-by-achievement-ids',
       achievementIDs: [ @unlockable.id ].join(',')
     }
-    [res, body] = yield request.getAsync({url, qs, json: true})
+    [res, body] = yield request.getAsync({@url, qs, json: true})
     expect(res.statusCode).toBe(200)
     expect(res.body.length).toBe(1)
     expect(res.body[0].achievement).toBe(@unlockable.id)
     
+    
+describe 'GET /db/earned_achievements', ->
+  
+  beforeEach utils.wrap -> 
+    yield utils.clearModels [Achievement, EarnedAchievement, LevelSession, User]
+  
+  beforeEach addAllAchievements
+  beforeEach utils.wrap ->
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: @admin._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    @user.set('simulatedBy', 4)
+    yield @user.save()
+
+    # recalculate
+    yield utils.loginUser(@admin)
+    [res, body] = yield request.postAsync { uri:getURL '/admin/earned_achievement/recalculate' }
+    expect(res.statusCode).toBe 202
+
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 3
+    @url = utils.getUrl('/db/earned_achievement')
+
+  it 'returns the logged in user\'s earned achievements', utils.wrap ->
+    yield utils.loginUser(@user)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.body.length).toBe(2)
+    expect(_.find(res.body, {achievement: @repeatable.id})).toBeTruthy()
+    expect(_.find(res.body, {achievement: @diminishing.id})).toBeTruthy()
+    expect(_.find(res.body, {achievement: @unlockable.id})).toBeFalsy()
+
+    yield utils.loginUser(@admin)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.body.length).toBe(1)
+    expect(_.find(res.body, {achievement: @repeatable.id})).toBeFalsy()
+    expect(_.find(res.body, {achievement: @diminishing.id})).toBeFalsy()
+    expect(_.find(res.body, {achievement: @unlockable.id})).toBeTruthy()
+    
+  it 'accepts project, skip and limit parameters', utils.wrap ->
+    yield utils.loginUser(@user)
+    [res] = yield request.getAsync({@url, json:true, qs: {limit: 1}})
+    expect(res.body.length).toBe(1)
+    firstEarnedAchievement = res.body[0]._id
+
+    [res] = yield request.getAsync({@url, json:true, qs: {skip: 1}})
+    expect(res.body.length).toBe(1)
+    secondEarnedAchievement = res.body[0]._id
+    expect(firstEarnedAchievement).not.toBe(secondEarnedAchievement)
+
+    [res] = yield request.getAsync({@url, json:true, qs: {project: 'achievement'}})
+    expect(res.body.length).toBe(2)
+    keys = _.keys(res.body[0])
+    expect(_.without(keys, '_id', 'achievement').length).toBe(0)
+    expect(res.body[0].achievement).toBeDefined()

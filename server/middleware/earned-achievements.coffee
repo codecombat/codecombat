@@ -255,10 +255,35 @@ getByAchievementIds = wrap (req, res, next) ->
   earnedAchievements = yield EarnedAchievement.find query
   res.send((ea.toObject({req}) for ea in earnedAchievements))
 
+
+getOwnEarnedAchievements = wrap (req, res) ->
+  unless req.user
+    throw new errors.Unauthorized("You need to have a user to view your earned achievements")
+
+  query = { user: req.user.id }
+
+  projection = {}
+  if req.query.project
+    projection[field] = 1 for field in req.query.project.split(',')
+
+  q = EarnedAchievement.find(query, projection)
+
+  skip = parseInt(req.query.skip)
+  if skip? and skip < 1000000
+    q.skip(skip)
+
+  limit = parseInt(req.query.limit)
+  if limit? and limit < 1000
+    q.limit(limit)
+
+  documents = yield q.exec()
+  documents = (doc.toObject({req}) for doc in documents)
+  res.send(documents)
   
 
 module.exports = {
   getByAchievementIds
+  getOwnEarnedAchievements
   post
   recalculateRoute
 }
