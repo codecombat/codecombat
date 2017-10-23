@@ -8,6 +8,7 @@ User = require '../../../server/models/User'
 request = require '../request'
 EarnedAchievementHandler = require '../../../server/handlers/earned_achievement_handler'
 mongoose = require 'mongoose'
+co = require 'co'
 
 url = getURL('/db/achievement')
 
@@ -15,6 +16,7 @@ url = getURL('/db/achievement')
 # Fixtures
 
 lockedLevelID = new mongoose.Types.ObjectId().toString()
+lockedLevelID2 = new mongoose.Types.ObjectId().toString()
 
 unlockable =
   name: 'Dungeon Arena Started'
@@ -414,7 +416,7 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     expect(user.get 'points').toBe @unlockable.get('worth')
     done()
 
-  it 'can recalculate all achievements', utils.wrap (done) ->
+  it 'can recalculate all achievements idempotently', utils.wrap (done) ->
     # satisfy achievement requirements
     session = new LevelSession({
       permissions: simplePermissions
@@ -424,7 +426,6 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     yield session.save()
     @admin.set('simulatedBy', 4)
     yield @admin.save()
-    yield new Promise((resolve) -> setTimeout(resolve, 100)) # give server time to apply achievement
     
     # remove all evidence
     yield utils.clearModels([EarnedAchievement])
@@ -433,14 +434,149 @@ describe 'POST /admin/earned_achievement/recalculate', ->
     # recalculate
     [res, body] = yield request.postAsync { uri:getURL '/admin/earned_achievement/recalculate' }
     expect(res.statusCode).toBe 202
-    yield new Promise((resolve) -> setTimeout(resolve, 500))
 
     earnedAchievements = yield EarnedAchievement.find({})
     expect(earnedAchievements.length).toBe 3
     user = yield User.findById(@admin.id)
     expect(user.get 'points').toBe @unlockable.get('worth') + 4 * @repeatable.get('worth') + (Math.log(.5 * (4 + .5)) + 1) * @diminishing.get('worth')
     expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+
+    [res, body] = yield request.postAsync { uri:getURL '/admin/earned_achievement/recalculate' }
+    expect(res.statusCode).toBe 202
+    
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 3
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe @unlockable.get('worth') + 4 * @repeatable.get('worth') + (Math.log(.5 * (4 + .5)) + 1) * @diminishing.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+
     done()
+    
+  it 'accepts a list of achievements to recalculate', utils.wrap ->
+    # satisfy achievement requirements
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: @admin._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    @admin.set('simulatedBy', 4)
+    yield @admin.save()
+    
+    # remove all evidence
+    yield utils.clearModels([EarnedAchievement])
+    yield User.update {}, {$set: {points: 0}}, {multi:true}
+
+    [res, body] = yield request.postAsync {
+      url:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@repeatable.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 1
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe 4 * @repeatable.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+
+    [res, body] = yield request.postAsync {
+      uri:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@diminishing.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 2
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe 4 * @repeatable.get('worth') + (Math.log(.5 * (4 + .5)) + 1) * @diminishing.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+
+    [res, body] = yield request.postAsync {
+      uri:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@unlockable.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 3
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe @unlockable.get('worth') + 4 * @repeatable.get('worth') + (Math.log(.5 * (4 + .5)) + 1) * @diminishing.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+    
+    
+  it 'handles achievement gem reward changes', utils.wrap ->
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: @admin._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    @admin.set('simulatedBy', 4)
+    yield @admin.save()
+    
+    # remove all evidence
+    yield utils.clearModels([EarnedAchievement])
+    yield User.update {}, {$set: {points: 0}}, {multi:true}
+
+    [res, body] = yield request.postAsync {
+      url:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@repeatable.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 1
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe 4 * @repeatable.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+
+    @repeatable.set({worth: 2})
+    yield @repeatable.save()
+    [res, body] = yield request.postAsync {
+      url:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@repeatable.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 1
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe 4 * @repeatable.get('worth')
+    expect(user.get('earned').gems).toBe 4 * @repeatable.get('rewards').gems
+
+  it 'handles achievement earned level changes', utils.wrap ->
+    session = new LevelSession({
+      permissions: simplePermissions
+      creator: @admin._id
+      level: original: 'dungeon-arena'
+    })
+    yield session.save()
+    
+    [res, body] = yield request.postAsync {
+      uri:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@unlockable.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 1
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe @unlockable.get('worth')
+    expect(user.get('earned.levels').length).toBe(1)
+    expect(user.get('earned.levels')[0]).toBe(lockedLevelID.toString())
+    
+    @unlockable.set({
+      rewards: {
+        levels: [lockedLevelID2]
+      }
+    })
+    yield @unlockable.save()
+    [res, body] = yield request.postAsync {
+      uri:getURL('/admin/earned_achievement/recalculate'),
+      json: { achievements: [@unlockable.id]}
+    }
+    expect(res.statusCode).toBe 202
+    earnedAchievements = yield EarnedAchievement.find({})
+    expect(earnedAchievements.length).toBe 1
+    user = yield User.findById(@admin.id)
+    expect(user.get 'points').toBe @unlockable.get('worth')
+    expect(user.get('earned.levels').length).toBe(1)
+    expect(user.get('earned.levels')[0]).toBe(lockedLevelID2.toString())
+    
 
   afterEach utils.wrap (done) ->
     # cleaning up test: deleting all Achievements and related
