@@ -17,7 +17,7 @@ combos = {
   aether: ['play', 'editor', 'ladder'], // For now, there is *also* a separate aether bundle for world.coffee
   skulpty: ['ladder', 'editor'],
   three: ['play', 'editor'],
-  ace: ['admin', 'teachers', 'i18n', 'artisans'],
+  ace: ['admin', 'teachers', 'i18n', 'artisans', 'ladder', 'editor', 'play'],
 }
 commonsPlugins = _.sortBy(_.map(combos, (combo, key) => {
   return new webpack.optimize.CommonsChunkPlugin({ chunks: combo, async: key || true, minChunks: combo.length })
