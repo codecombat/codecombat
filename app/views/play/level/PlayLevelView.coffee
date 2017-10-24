@@ -114,7 +114,7 @@ module.exports = class PlayLevelView extends RootView
     @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
 
     @isEditorPreview = utils.getQueryVariable 'dev'
-    @sessionID = utils.getQueryVariable 'session'
+    @sessionID = (utils.getQueryVariable 'session') || @options.sessionID
     @observing = utils.getQueryVariable 'observing'
 
     @opponentSessionID = utils.getQueryVariable('opponent')
@@ -152,6 +152,7 @@ module.exports = class PlayLevelView extends RootView
     levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
+    console.debug 'PlayLevelView: Create LevelLoader'
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
@@ -164,7 +165,7 @@ module.exports = class PlayLevelView extends RootView
       not e.level.isType('course-ladder')
 
       # TODO: Add a general way for standalone levels to be accessed by students, teachers
-      e.level.get('slug') isnt 'peasants-and-munchkins' 
+      e.level.get('slug') isnt 'peasants-and-munchkins'
     ])
       return _.defer -> application.router.redirectHome()
 
@@ -217,6 +218,7 @@ module.exports = class PlayLevelView extends RootView
   # Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded: ->
+    console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
     team = utils.getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
@@ -352,6 +354,7 @@ module.exports = class PlayLevelView extends RootView
   # Load Completed Setup ######################################################
 
   onSessionLoaded: (e) ->
+    console.log 'PlayLevelView: loaded session', e.session
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
@@ -492,6 +495,7 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelStarted: ->
     return unless @surface? or @webSurface?
+    console.log 'PlayLevelView: level started'
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and [VictoryModal, CourseVictoryModal].indexOf(window.currentModal.constructor) is -1
