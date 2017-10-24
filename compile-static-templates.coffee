@@ -73,6 +73,7 @@ compile = (contents, locals, filename, cb) ->
 
 module.exports = WebpackStaticStuff = (options = {}) ->
   @options = options
+  @prevTemplates = {}
   return null # Need this for webpack to be happy
 
 WebpackStaticStuff.prototype.apply = (compiler) ->
@@ -82,7 +83,10 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
     promises = []
     for filename in files
       relativeFilePath = path.join(path.resolve('./app/templates/static/'), filename)
-      content = fs.readFileSync(path.resolve('./app/templates/static/'+filename))
+      content = fs.readFileSync(path.resolve('./app/templates/static/'+filename)).toString()
+      if @prevTemplates[filename] is content
+        continue
+      @prevTemplates[filename] = content
       locals = _.merge({}, @options.locals, {
         chunkPaths: _.zipObject.apply(null, _.zip(compilation.chunks.map((c)=>[
           c.name,
@@ -91,8 +95,9 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
       })
       try
         compile(content, locals, filename, _.noop)
+        console.log "\nCompiled static file: #{filename}"
       catch err
-        console.log "Error compiling #{filename}:", err
+        console.log "\nError compiling #{filename}:", err
     callback()
 
   # Watch the static template files for changes
@@ -102,7 +107,6 @@ WebpackStaticStuff.prototype.apply = (compiler) ->
     _.forEach(files, (filename) =>
       absoluteFilePath = path.join(path.resolve('./app/templates/static/'), filename)
       unless compilationFileDependencies.has(absoluteFilePath)
-        console.log "Adding this to dependencies:", absoluteFilePath
         compilation.fileDependencies.push(absoluteFilePath)
     )
     callback()
