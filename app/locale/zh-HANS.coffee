@@ -983,9 +983,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     licenses_needed: "需要许可"
 
 #  special_offer:
-#    special_offer: "Special Offer"
-#    project_based_title: "Project-Based Courses"
-#    project_based_description: "Web and Game Development courses feature shareable final projects."
+#    special_offer: "Special Offer" "特别优惠"
+#    project_based_title: "Project-Based Courses" "基于项目的课程"
+#    project_based_description: "Web and Game Development courses feature shareable final projects."  “网页与游戏开发课程可分享的最终项目”
 #    great_for_clubs_title: "Great for clubs and electives"
 #    great_for_clubs_description: "Teachers can purchase up to __maxQuantityStarterLicenses__ Starter Licenses." #
 #    low_price_title: "Just __starterLicensePrice__ per student"
