@@ -28,6 +28,8 @@ html(lang='en')
       "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
       // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
     script(src='/' + shaTag + '/javascripts/esper.js', defer='')
+    if chunkPaths[viewName]
+      script(src=chunkPaths[viewName], defer='')
     script(src='/' + shaTag + '/javascripts/app.js', defer='', async='', data-ace-base='/javascripts/ace') // This data tag needs to be on SOME script with a src for Ace to work
     script(src='/user-data?sha=' + shaTag)
     // Google Analytics

@@ -6,7 +6,7 @@ basePath = path.resolve('./app')
 _ = require 'lodash'
 fs = require('fs')
 
-compile = (contents, filename, cb) ->
+compile = (contents, locals, filename, cb) ->
   # console.log "Compile", filename, basePath
   outFile = filename.replace /.static.pug$/, '.html'
   # console.log {outFile, filename, basePath}
@@ -38,8 +38,7 @@ compile = (contents, filename, cb) ->
 
   try
     fn = new Function(out.body + '\n return template;')()
-    # str = fn(_.merge {_, i18n}, @locals, require './static-mock')
-    str = fn(_.merge {_, i18n}, {shaTag: process.env.GIT_SHA or 'dev'}, require './static-mock')
+    str = fn(_.merge {_, i18n}, locals, require './static-mock')
   catch e
     return cb(e.message)
 
@@ -73,25 +72,37 @@ compile = (contents, filename, cb) ->
   # cb(null, [{filename: outFile, content: c.html()}], deps) # old brunch callback
 
 module.exports = WebpackStaticStuff = (options = {}) ->
-  # locals = options.locals
+  @options = options
+  return null # Need this for webpack to be happy
 
 WebpackStaticStuff.prototype.apply = (compiler) ->
-  compiler.plugin 'emit', (compilation, callback) ->
+  # Compile the static files
+  compiler.plugin 'emit', (compilation, callback) =>
     files = fs.readdirSync(path.resolve('./app/templates/static'))
+    promises = []
     for filename in files
-      # console.log filename
       relativeFilePath = path.join(path.resolve('./app/templates/static/'), filename)
       content = fs.readFileSync(path.resolve('./app/templates/static/'+filename))
-      compile(content, filename, callback)
-      
-    
-    
-  #
-  # constructor: (config) ->
-  #   @locals = config.locals or {}
-  #
-  # handles: /.static.pug$/
+      locals = _.merge({}, @options.locals, {
+        chunkPaths: _.zipObject.apply(null, _.zip(compilation.chunks.map((c)=>[
+          c.name,
+          compiler.options.output.chunkFilename.replace('[name]',c.name).replace('[chunkhash]',c.renderedHash)
+        ])))
+      })
+      try
+        compile(content, locals, filename, _.noop)
+      catch err
+        console.log "Error compiling #{filename}:", err
+    callback()
 
-# module.exports = (config) ->
-#   console.log "Loaded brunch static stuff"
-#   new BrunchStaticStuff(config)
+  # Watch the static template files for changes
+  compiler.plugin 'after-emit', (compilation, callback) =>
+    files = fs.readdirSync(path.resolve('./app/templates/static'))
+    compilationFileDependencies = new Set(compilation.fileDependencies)
+    _.forEach(files, (filename) =>
+      absoluteFilePath = path.join(path.resolve('./app/templates/static/'), filename)
+      unless compilationFileDependencies.has(absoluteFilePath)
+        console.log "Adding this to dependencies:", absoluteFilePath
+        compilation.fileDependencies.push(absoluteFilePath)
+    )
+    callback()

@@ -149,7 +149,7 @@ module.exports = (env) => {
         }
       ]),
       new CompileStaticTemplatesPlugin({
-        locals: {shaTag: process.env.GIT_SHA || 'dev'}
+        locals: {shaTag: process.env.GIT_SHA || 'dev'},
       }),
     ]
   }
