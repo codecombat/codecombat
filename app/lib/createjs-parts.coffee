@@ -10,5 +10,4 @@ require('imports-loader?this=>window,createjs=>window.createjs!vendor/scripts/Sp
 require('imports-loader?this=>window,createjs=>window.createjs!vendor/scripts/SpriteStage')
 
 module.exports = window.createjs
-# Get rid of the global. We want this so as to prevent adding code that depends on it without explicit requires.
-delete window.createjs
+# delete window.createjs # Don't do this; something needs it to be global.
