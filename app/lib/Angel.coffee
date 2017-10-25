@@ -163,8 +163,8 @@ module.exports = class Angel extends CocoClass
       @shared.goalManager?.world = world
       @finishWork()
     else
-      @deserializationQueue.shift()  # Finished with this deserialization.
-      if deserializationArgs = @deserializationQueue[0]  # Start another?
+      @deserializationQueue?.shift()  # Finished with this deserialization.
+      if deserializationArgs = @deserializationQueue?[0]  # Start another?
         @beholdWorld deserializationArgs...
 
   finishWork: ->
@@ -216,11 +216,11 @@ module.exports = class Angel extends CocoClass
     return @say 'Not initialized for work yet.' unless @initialized
     if @shared.workQueue.length
       @work = @shared.workQueue.shift()
-      return _.defer @simulateSync, @work if @work.synchronous
       @say 'Running world...'
       @running = true
       @shared.busyAngels.push @
       @deserializationQueue = []
+      return _.defer @simulateSync, @work if @work.synchronous
       @worker.postMessage func: 'runWorld', args: @work
       clearTimeout @purgatoryTimer
       @say 'Infinite loop timer started at interval of', @infiniteLoopIntervalDuration
@@ -230,16 +230,20 @@ module.exports = class Angel extends CocoClass
       @hireWorker()
 
   abort: ->
-    return unless @worker and @running
+    return unless @running
     @say 'Aborting...'
     @running = false
+    @work?.world?.goalManager?.destroy()
+    # TODO: somehow clear out more references to this old world to avoid leaking if in synchronous mode
+    @work?.aborted = true
     @work = null
     @streamingWorld = null
     @deserializationQueue = []
     _.remove @shared.busyAngels, @
-    @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
-    @aborting = true
-    @worker.postMessage func: 'abort'
+    if @worker
+      @abortTimeout = _.delay @fireWorker, @abortTimeoutDuration
+      @aborting = true
+      @worker.postMessage func: 'abort'
 
   fireWorker: (rehire=true) =>
     return if @destroyed
@@ -253,6 +257,7 @@ module.exports = class Angel extends CocoClass
     clearInterval @purgatoryTimer
     @say 'Fired worker.'
     @initialized = false
+    @work?.world?.destroy?()
     @work = null
     @streamingWorld = null
     @deserializationQueue = []
@@ -271,13 +276,19 @@ module.exports = class Angel extends CocoClass
     @worker.addEventListener 'message', @onWorkerMessage
     @worker.creationTime = new Date()
 
-  onFlagEvent: (e) ->
+  onFlagEvent: (flagEvent) ->
     return unless @running and @work.realTime
-    @worker.postMessage func: 'addFlagEvent', args: e
+    if @work.synchronous
+      @work.world.addFlagEvent flagEvent
+    else
+      @worker.postMessage func: 'addFlagEvent', args: flagEvent
 
   onAddRealTimeInputEvent: (realTimeInputEvent) ->
     return unless @running and @work.realTime
-    @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
+    if @work.synchronous
+      @work.world.addRealTimeInputEvent realTimeInputEvent.toJSON()
+    else
+      @worker.postMessage func: 'addRealTimeInputEvent', args: realTimeInputEvent.toJSON()
 
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime
@@ -295,50 +306,77 @@ module.exports = class Angel extends CocoClass
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
     work.world = testWorld = new World work.userCodeMap
+    work.world.synchronous = true
     work.world.levelSessionIDs = work.levelSessionIDs
     work.world.submissionCount = work.submissionCount
     work.world.fixedSeed = work.fixedSeed
     work.world.flagHistory = work.flagHistory ? []
-    work.world.difficulty = work.difficulty
-    work.world.loadFromLevel work.level
+    work.world.realTimeInputEvents = work.realTimeInputEvents ? []
+    work.world.difficulty = work.difficulty ? 0
+    work.world.loadFromLevel work.level, true
     work.world.preloading = work.preload
     work.world.headless = work.headless
     work.world.realTime = work.realTime
+    work.world.indefiniteLength = work.indefiniteLength;
+    work.world.justBegin = work.justBegin;
+    work.world.keyValueDb = work.keyValueDb;
     if @shared.goalManager
       testGM = new GoalManager(testWorld)
       testGM.setGoals work.goals
       testGM.setCode work.userCodeMap
       testGM.worldGenerationWillBegin()
       testWorld.setGoalManager testGM
-    @doSimulateWorld work
-    console?.profileEnd?() if imitateIE9?
-    console.log 'Construction:', (work.t1 - work.t0).toFixed(0), 'ms. Simulation:', (work.t2 - work.t1).toFixed(0), 'ms --', ((work.t2 - work.t1) / testWorld.frames.length).toFixed(3), 'ms per frame, profiled.'
+    @beginSimulationSync work
 
-    # If performance was really a priority in IE9, we would rework things to be able to skip this step.
-    goalStates = testGM?.getGoalStates()
-    work.world.goalManager.worldGenerationEnded() if work.world.ended
-
-    if work.headless
-      simulationFrameRate = work.world.frames.length / (work.t2 - work.t1) * 1000 * 30 / work.world.frameRate
-      @beholdGoalStates {goalStates, overallStatus: testGM.checkOverallStatus(), preload: false, totalFrames: work.world.totalFrames, lastFrameHash: work.world.frames[work.world.totalFrames - 2]?.hash, simulationFrameRate: simulationFrameRate}
-      return
-
-    serialized = world.serialize()
-    window.BOX2D_ENABLED = false
-    World.deserialize serialized.serializedWorld, @shared.worldClassMap, @shared.lastSerializedWorldFrames, @finishBeholdingWorld(goalStates), serialized.startFrame, serialized.endFrame, work.level
-    window.BOX2D_ENABLED = true
-    @shared.lastSerializedWorldFrames = serialized.serializedWorld.frames
-
-  doSimulateWorld: (work) ->
+  beginSimulationSync: (work) ->
     work.t1 = now()
-    Math.random = work.world.rand.randf  # so user code is predictable
-    Aether.replaceBuiltin('Math', Math)
-    replacedLoDash = _.runInContext(window)
-    _[key] = replacedLoDash[key] for key, val of replacedLoDash
-    i = 0
-    while i < work.world.totalFrames
-      frame = work.world.getFrame i++
+    #Math.random = work.world.rand.randf  # so user code is predictable - TODO: will this work when we do it on the main thread?
+    #Aether.replaceBuiltin('Math', Math)
+    #replacedLoDash = _.runInContext(window)
+    #_[key] = replacedLoDash[key] for key, val of replacedLoDash
+    work.world.worldLoadStartTime = work.t1
+    work.world.lastRealTimeUpdate = 0
+    work.world.realTimeSpeedFactor = 1
+    @simulateFramesSync work, 0
+
+  simulateFramesSync: (work, i) ->
+    return if @destroyed or work.aborted
+    i ?= work.world.frames.length
+    simulationLoopStartTime = now()
+    while i < work.world.totalFrames or work.indefiniteLength
+      if work.realTime
+        progress = work.world.frames.length / work.world.totalFrames
+        progress = Math.min(progress, 0.9) if work.world.indefiniteLength
+        @publishGodEvent 'world-load-progress-changed', progress: progress  # Debounce? Need to publish at all?
+        @streamFrameSync work
+        if work.indefiniteLength
+          break unless work.world.realTime
+          break if work.world.victory?
+        continuing = work.world.shouldContinueLoading simulationLoopStartTime, (->), false, (=> @simulateFramesSync(work) unless @destroyed)
+        return unless continuing
+      frame = work.world.getFrame i++  # TODO: handle errors
+    @finishSimulationSync work
+
+  streamFrameSync: (work) ->
+    goalStates = work.world.goalManager.getGoalStates()
+    @finishBeholdingWorld(goalStates)(work.world)
+
+  finishSimulationSync: (work) ->
     @publishGodEvent 'world-load-progress-changed', progress: 1
     work.world.ended = true
     system.finish work.world.thangs for system in work.world.systems
     work.t2 = now()
+    console?.profileEnd?() if imitateIE9?
+    console.log 'Construction:', (work.t1 - work.t0).toFixed(0), 'ms. Simulation:', (work.t2 - work.t1).toFixed(0), 'ms --', ((work.t2 - work.t1) / work.world.frames.length).toFixed(3), 'ms per frame, profiled.'
+
+    # If performance was really a priority in IE9, we would rework things to be able to skip this step.
+    goalStates = work.world.goalManager?.getGoalStates()
+    work.world.goalManager.worldGenerationEnded() if work.world.ended
+    @running = false
+
+    if work.headless
+      simulationFrameRate = work.world.frames.length / (work.t2 - work.t1) * 1000 * 30 / work.world.frameRate
+      @beholdGoalStates {goalStates, overallStatus: work.world.goalManager.checkOverallStatus(), preload: false, totalFrames: work.world.totalFrames, lastFrameHash: work.world.frames[work.world.totalFrames - 2]?.hash, simulationFrameRate: simulationFrameRate}
+      return
+
+    @shared.lastSerializedWorldFrames = work.world.frames

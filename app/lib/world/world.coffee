@@ -27,6 +27,7 @@ module.exports = class World
   preloading: false  # Whether we are just preloading a world in case we soon cast it
   debugging: false  # Whether we are just rerunning to debug a world we've already cast
   headless: false  # Whether we are just simulating for goal states instead of all serialized results
+  synchronous: false  # Whether we are simulating the game on the main thread and don't need to serialize/deserialize
   framesSerializedSoFar: 0
   framesClearedSoFar: 0
   apiProperties: ['age', 'dt']

@@ -78,7 +78,7 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'infinite-loop', @fail
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld @session.generateSpellsObject()
+    @god.createWorld {spells: @session.generateSpellsObject()}
     @state = 'running'
     @reportResults()
 

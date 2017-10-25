@@ -231,14 +231,10 @@ module.exports = Surface = class Surface extends CocoClass
       @mouseIsDown = false
 
   restoreWorldState: ->
+    return if @world.synchronous
     frame = @world.getFrame(@getCurrentFrame())
     return unless frame
     frame.restoreState()
-
-    if @options.levelType is 'game-dev'
-      Backbone.Mediator.publish('surface:ui-tracked-properties-changed',
-        thangStateMap: frame.thangStateMap
-      )
 
     current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
     if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
@@ -490,7 +486,7 @@ module.exports = Surface = class Surface extends CocoClass
         @fastForwardingSpeed = lag / intendedLag
       else
         @fastForwardingToFrame = @fastForwardingSpeed = null
-#    console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
+    #console.log "on new world, lag", lag, "intended lag", intendedLag, "fastForwardingToFrame", @fastForwardingToFrame, "speed", @fastForwardingSpeed, "cause we are at", @world.age, "of", @world.frames.length * @world.dt
     if event.finished
       @updatePaths()
     else
@@ -600,7 +596,7 @@ module.exports = Surface = class Surface extends CocoClass
         availableHeight -= bannerHeight
         scaleFactor = availableHeight / newHeight if availableHeight < newHeight
       scaleFactor = availableHeight / newHeight if availableHeight < newHeight
-    
+
     newWidth *= scaleFactor
     newHeight *= scaleFactor
 
@@ -620,7 +616,7 @@ module.exports = Surface = class Surface extends CocoClass
       # Since normalCanvas is absolutely positioned, it needs help aligning with webGLCanvas.
       offset = @webGLCanvas.offset().left - ($('#page-container').innerWidth() - $('#canvas-wrapper').innerWidth()) / 2
       @normalCanvas.css 'left', offset
-      
+
   updateCodePlayMargin: ->
     return unless features.codePlay
     availableWidth = (window.innerWidth * .57 - 200)

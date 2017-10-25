@@ -120,7 +120,7 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|co|' + gameLibraries + '))')
+          regJoin('^vendor/scripts/(?!(coffeescript|difflib|diffview|jasmine|co|' + gameLibraries + '))')
           regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui|vimeo-player-js|' + gameLibraries  + '))')
           'bower_components/treema/treema-utils.js'
         ]
@@ -132,7 +132,7 @@ exports.config =
         ],
 
         'javascripts/whole-vendor.js': if TRAVIS then [
-          regJoin('^vendor/scripts/(?!(Box2d|jasmine|register-game-libraries))')
+          regJoin('^vendor/scripts/(?!(jasmine|register-game-libraries))')
           regJoin('^bower_components/(?!aether|esper.js)')
         ] else []
 
@@ -308,6 +308,6 @@ console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade
 
 if process.env.GIT_SHA
   info =
-    sha: process.env.GIT_SHA 
+    sha: process.env.GIT_SHA
   fs.writeFile '.build_info.json', JSON.stringify info, null, '  '
   console.log( "Wrote build information file");

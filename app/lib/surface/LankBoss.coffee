@@ -162,8 +162,10 @@ module.exports = class LankBoss extends CocoClass
       itemsJustEquipped = itemsJustEquipped.concat @equipNewItems thang if thang.equip
       if lank = @lanks[thang.id]
         lank.setThang thang  # make sure Lank has latest Thang
+        thang.stateChanged = true if @world.synchronous and not thang.stateless  # TODO: think of a more performant thing to do
       else
         lank = @addThangToLanks(thang)
+        thang.stateChanged = true if @world.synchronous and not thang.stateless
         Backbone.Mediator.publish 'surface:new-thang-added', thang: thang, sprite: lank
         updatedObstacles.push lank if lank.sprite.parent is @layerAdapters['Obstacle']
         lank.playSounds()
@@ -294,7 +296,7 @@ module.exports = class LankBoss extends CocoClass
       mark.setLank(lank)
       mark.update()
       lank.marks.selection = mark # TODO: Figure out how to non-hackily assign lank this mark
-      
+
     for lank in removedLanks
       lank.removeMark?('selection')
 

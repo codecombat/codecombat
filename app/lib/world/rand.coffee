@@ -48,7 +48,7 @@ class Rand
       arr[j] = arr[i]
       arr[i] = t
     arr
-  
+
   choice: (arr) =>
     return arr[@rand arr.length]
 

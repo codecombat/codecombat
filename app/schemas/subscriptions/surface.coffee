@@ -180,6 +180,3 @@ module.exports =  # /app/lib/surface
 
   'surface:remove-flag': c.object {required: ['color']},
     color: {type: 'string'}
-
-  'surface:ui-tracked-properties-changed': c.object { required: ['thangStateMap']},
-    thangStateMap: {type: 'object'}

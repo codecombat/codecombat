@@ -23,7 +23,7 @@ TEAM = 'humans'
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
   template: require 'templates/play/level/play-game-dev-level-view'
-  
+
   subscriptions:
     'god:new-world-created': 'onNewWorld'
     'surface:ticked': 'onSurfaceTicked'
@@ -42,6 +42,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
+    if @getQueryVariable 'dev'
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @supermodel.on 'update-progress', (progress) =>
       @state.set({progress: (progress*100).toFixed(1)+'%'})
     @level = new Level()
@@ -95,10 +98,10 @@ module.exports = class PlayGameDevLevelView extends RootView
       @renderSelectors '#info-col'
       @spells = @session.generateSpellsObject level: @level
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
-      
+
       course = if @courseID then new Course({_id: @courseID}) else null
       shareURL = urls.playDevLevel({@level, @session, course})
-      
+
       @state.set({
         loading: false
         goalNames
@@ -115,7 +118,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-      @god.createWorld(@spells, false, false, true)
+      worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
+      @god.createWorld(worldCreationOptions)
 
     .catch (e) =>
       throw e if e.stack
@@ -132,7 +136,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onClickPlayButton: ->
-    @god.createWorld(@spells, false, true)
+    worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
+    @god.createWorld(worldCreationOptions)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
@@ -146,10 +151,10 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onClickPlayMoreCodeCombatButton: ->
     window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties, ['Mixpanel'])
-    
+
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)
-    
+
   renderAllButCanvas: ->
     @renderSelectors('#info-col', '#share-row')
     height = @state.get('surfaceHeight')
