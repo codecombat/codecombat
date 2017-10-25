@@ -10,7 +10,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     classroom_in_a_box: "Egy mindent-egyben megoldás programozás tanításra."
     codecombat_is: "A CodeCombat a diákoknak egy olyan platform, melyben programozni tanulnak, miközben egy igazi játékot játszanak." # {change}
     our_courses: "Kurzusaink osztálytermi keretek közötti oktatásra kiválóan alkalmasak, akár informatikában kevésbé jártas tanárok számára is." # {change}
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Nézd meg hogyan alakítja át a CodeCombat az emberek tanuási módját a számítástechnikát illetően."
     top_screenshots_hint: "A tanulók valós időben láthatják a beírt kód működését."
     designed_with: "Tanárok igényeihez tervezve"
     real_code: "Valódi, beírandó kódolás"
@@ -138,7 +138,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     buy_gems: "Vásárolj Drágköveket"
     subscription_required: "Előfizetést igényel"
-#    subscribers_only: "Subscribers Only!"
+    subscribers_only: "Csak előfizetőknek!"
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
@@ -147,15 +147,15 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play_classroom_version: "Osztálytermi változat" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Kezdő Kampány"
     awaiting_levels_adventurer_prefix: "Minden héten öt új pályát teszünk elérhetővé." # {change}
-    awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
+    awaiting_levels_adventurer: "Jelentkezz mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új pályákon játszik."
     adjust_volume: "Hangerő beállítása"
     campaign_multiplayer: "Multiplayer Arénák"
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_done: "Legyőzted az Ogrékat a programkódoddal! Győztél!"
+    brain_pop_challenge: "Tedd próbára magad újra, egy másik programnyelvet használva!"
+    replay: "Újra"
+    back_to_classroom: "Vissza az Osztályterembe"
 
   code:
     if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -325,13 +325,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    go_back: "Go Back"
     coming_soon: "Hamarosan!"
     continue: "Folytasd" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Következő"
     default_code: "Alapértelmezett kód"
     loading: "Töltés..."
     overview: "Áttekintés"
-#    processing: "Processing..."
+    processing: "Feldolgozás..."
     solution: "Megoldás"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Tartalomjegyzék"
     intro: "Bevezető"
     saving: "Mentés..."
     sending: "Küldés..."
@@ -353,7 +353,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     submit_changes: "Változások véglegesítése"
     save_changes: "Változások mentése"
     required_field: "kötelező"
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Adj meg egy érvényes telefonszámot"
 
   general:
     and: "és"
@@ -409,9 +409,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     last_name: "Családnév"
     last_initial: "Családnév kezdőbetűje"
     username: "Felhasználónév"
-#    contact_us: "Contact Us"
-#    close_window: "Close Window"
-#    learn_more: "Learn More"
+    contact_us: "Írj nekünk"
+    close_window: "Ablak bezárása"
+    learn_more: "Tudj meg többet"
 
   units:
     second: "másodperc"
@@ -430,12 +430,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     years: "évek"
 
   play_level:
-#    back_to_map: "Back to Map"
-#    directions: "Directions"
-#    edit_level: "Edit Level"
-#    explore_codecombat: "Explore CodeCombat"
+    back_to_map: "Vissza a térképhez"
+    directions: "Irányok"
+    edit_level: "Pálya szerkesztése"
+    explore_codecombat: "Fedezd fel a CodeCombat-ot"
 #    finished_hoc: "I'm finished with my Hour of Code"
-#    get_certificate: "Get your certificate!"
+    get_certificate: "Szerezd meg az okleveled!"
     level_complete: "Szint teljesítve"
     completed_level: "Teljesített pálya:"
     course: "Kurzus:"
@@ -643,13 +643,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_button: "Lépj be a boltba"
     recovered: "Az előző drágakő vásárlás helyreállt. Kérlek frissítsd az oldalt."
     price: "x {{gems}} / hó"
-#    buy_premium: "Buy Premium"
-#    purchase: "Purchase"
-#    purchased: "Purchased"
+    buy_premium: "Vegyél Premium tagságot"
+    purchase: "Vásárlás"
+    purchased: "Megvetted"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Nincs elég drágaköved"
+    prompt_body: "Játssz tovább, hogy szerezz még!"
 
   subscribe:
 #    best_deal: "Best Deal!"
