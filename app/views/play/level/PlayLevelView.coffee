@@ -107,7 +107,7 @@ module.exports = class PlayLevelView extends RootView
     super options
 
     @courseID = options.courseID or @getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance'
+    @courseInstanceID = options.courseInstanceID or @getQueryVariable('course-instance') or @getQueryVariable('league')
 
     @isEditorPreview = @getQueryVariable 'dev'
     @sessionID = (@getQueryVariable 'session') || @options.sessionID
