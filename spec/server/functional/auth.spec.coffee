@@ -24,6 +24,12 @@ describe 'GET /auth/whoami', ->
     expect(res.body.createdOnHost).toBeTruthy()
     expect(res.statusCode).toBe(200)
     done()
+    
+  it 'provides a user with language set to Hebrew if the domain is il.codecombat.com', utils.wrap ->
+    yield utils.logout()
+    [res, body] = yield request.getAsync({url: utils.getURL('/auth/whoami'), json: true, headers: {host: 'il.codecombat.com'}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.preferredLanguage).toBe('he')
 
 describe 'POST /auth/login', ->
   
