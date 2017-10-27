@@ -329,24 +329,7 @@ describe 'POST /auth/login-gplus', ->
 
     
 describe 'POST /auth/login-israel', ->
-  it 'logs the user in by id given', utils.wrap ->
-    user = yield utils.initUser({ israelId: '12345' })
-    yield utils.loginUser(user)
-    headers = { host: 'il.codecombat.com' }
-    json = { israelId: '12345' }
-    [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json, headers })
-    expect(res.statusCode).toBe(200)
-    expect(res.body._id).toBe(user.id)
-    
-    [res] = yield request.getAsync({ url: utils.getURL('/auth/whoami'), json: true })
-    expect(res.body._id).toBe(user.id)
-    
-  it 'returns 403 if not using the Israel domain', utils.wrap ->
-    json = { israelId: '12345' }
-    [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json })
-    expect(res.statusCode).toBe(403)
-    
-  it 'accepts a JWT token', utils.wrap ->
+  it 'logs the user in based on the passed in JWT token', utils.wrap ->
     user = yield utils.initUser({ israelId: 'abcdef' })
     yield utils.loginUser(user)
     payload = {
@@ -361,8 +344,14 @@ describe 'POST /auth/login-israel', ->
     [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json, headers })
     expect(res.statusCode).toBe(200)
     expect(res.body._id).toBe(user.id)
-    
-    
+
+  it 'returns 403 if not using the Israel domain', utils.wrap ->
+    json = { israelId: '12345' }
+    [res, body] = yield request.postAsync({url: getURL("/auth/login-israel"), json })
+    expect(res.statusCode).toBe(403)
+
+
+
 describe 'GET /auth/login-clever', ->
   originalCleverConfig = null 
   

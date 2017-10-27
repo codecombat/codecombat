@@ -216,10 +216,9 @@ module.exports =
   loginByIsraelId: wrap (req, res, next) ->
     unless req.features.israel
       throw new errors.Forbidden('May not use israelId login outside of Israel')
-    { israelId, israelToken } = req.body
-    if israelToken
-      result = israel.verifyToken(israelToken)
-      israelId = result.sub
+    { israelToken } = req.body
+    result = israel.verifyToken(israelToken)
+    israelId = result.sub
     user = yield User.findOne({ israelId })
     if not user
       throw new errors.NotFound('No user with this id found')
