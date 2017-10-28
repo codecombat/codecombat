@@ -163,6 +163,7 @@ module.exports.setup = (app) ->
   app.get('/db/earned_achievement', mw.earnedAchievements.getByAchievementIds, mw.earnedAchievements.getOwnEarnedAchievements)
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
   app.put('/db/earned_achievement/:handle', mw.rest.put(EarnedAchievement))
+  app.get('/db/earned_achievement/:handle', mw.rest.get(EarnedAchievement))
 
   Level = require '../models/Level'
   app.post('/db/level/names', mw.named.names(Level))

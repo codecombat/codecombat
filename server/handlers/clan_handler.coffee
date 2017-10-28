@@ -4,7 +4,6 @@ Handler = require '../commons/Handler'
 AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
 Clan = require './../models/Clan'
 EarnedAchievement = require '../models/EarnedAchievement'
-EarnedAchievementHandler = require './earned_achievement_handler'
 LevelSession = require '../models/LevelSession'
 LevelSessionHandler = require './level_session_handler'
 User = require '../models/User'
@@ -106,7 +105,7 @@ ClanHandler = class ClanHandler extends Handler
           memberIDs.push user.id
         EarnedAchievement.find {user: {$in: memberIDs}}, 'achievementName user', (err, documents) =>
           return @sendDatabaseError(res, err) if err?
-          cleandocs = (EarnedAchievementHandler.formatEntity(req, doc) for doc in documents)
+          cleandocs = (doc.toObject({req}) for doc in documents)
           @sendSuccess(res, cleandocs)
 
   getMembers: (req, res, clanID) ->

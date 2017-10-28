@@ -6,7 +6,6 @@ EarnedAchievement = require '../../../server/models/EarnedAchievement'
 LevelSession = require '../../../server/models/LevelSession'
 User = require '../../../server/models/User'
 request = require '../request'
-EarnedAchievementHandler = require '../../../server/handlers/earned_achievement_handler'
 mongoose = require 'mongoose'
 co = require 'co'
 

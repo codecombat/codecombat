@@ -44,7 +44,7 @@ recalculateRoute = wrap (req, res) ->
   if global.testing
     yield promise
 
-  res.send(202)
+  res.sendStatus(202)
   
   
 recalculate = co.wrap (slugsOrIDs, options={}) ->
