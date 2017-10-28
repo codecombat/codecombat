@@ -27,7 +27,7 @@ module.exports =
       triggeredBy: c.objectId()
       achievementName: type: 'string'
       created: type: ['date', 'string', 'number']
-      changed: type: ['date', 'string', 'number'] # TODO: migrate timestamps and Date objects all to ISO strings 
+      changed: type: ['date', 'string', 'number', 'object'] # TODO: migrate timestamps and Date objects all to ISO strings 
       achievedAmount: type: 'number'
       earnedPoints: type: 'number'
       previouslyAchievedAmount: {type: 'number'}
