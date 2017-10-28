@@ -19,13 +19,13 @@ describe 'ShareLicensesModal', ->
         ])
       @modal = new ShareLicensesModal({ prepaid: @prepaid })
       @modal.render()
-      @store = @modal.shareLicensesComponent.$store
+      @store = @modal.vueComponent.$store
       # TODO How do I wait for VueX to finish updating?
       _.defer ->
         done()
     
     # xit 'shows a list of joiners in reverse order', ->
-    #   joiners = @modal.shareLicensesComponent.prepaid.joiners
+    #   joiners = @modal.vueComponent.prepaid.joiners
     #   expect(joiners[0]?.firstName).toBe('teacher')
     #   expect(joiners[0]?.lastName).toBe('one')
     #   expect(joiners[0]?.email).toBe(@teacher.get('email'))
@@ -45,9 +45,9 @@ describe 'ShareLicensesModal', ->
           done()
         
       it 'can add a joiner', (done) ->
-        @modal.shareLicensesComponent.teacherSearchInput = @joiner3.get('email')
-        @modal.shareLicensesComponent.addTeacher().then =>
-          joiners = @modal.shareLicensesComponent.prepaid.joiners
+        @modal.vueComponent.teacherSearchInput = @joiner3.get('email')
+        @modal.vueComponent.addTeacher().then =>
+          joiners = @modal.vueComponent.prepaid.joiners
           expect(joiners[1].firstName).toBe('joiner')
           expect(joiners[1].lastName).toBe('three')
           expect(joiners[1].email).toBe(@joiner3.get('email'))

@@ -1,6 +1,6 @@
 PageErrors = require 'core/components/PageErrors'
 
-module.exports = {
+FlatLayout = {
   name: 'flat-layout'
   template: require('templates/core/components/flat-layout')()
   components:
@@ -8,5 +8,6 @@ module.exports = {
   computed: Vuex.mapState({
     errors: (state) -> state.pageErrors
   })
-  
 }
+
+module.exports = FlatLayout

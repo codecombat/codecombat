@@ -3,10 +3,10 @@
     .modal-content
       block modal-header
         .modal-header
-          if view.closeButton
+          if view && view.closeButton
             .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
           block modal-header-content
-            if view.options.headerContent
+            if view && view.options.headerContent
               h3!= view.options.headerContent
             else
               h3 man bites God
@@ -14,7 +14,7 @@
       block modal-body
         .modal-body
           block modal-body-content
-            if view.options.bodyContent
+            if view && view.options.bodyContent
               div!= view.options.bodyContent
             else
               p Man Bites God are the bad boys of the Melbourne live music and comedy scene. It is like being drowned in a bathtub of harmony.
