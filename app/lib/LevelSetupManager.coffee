@@ -63,6 +63,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @waitingToLoadModals = true
 
   loadModals: ->
+    
     # build modals and prevent them from disappearing.
     if @level.get('slug') is 'zero-sum'
       sorcerer = '52fd1524c7e6cf99160e7bc9'
@@ -72,6 +73,35 @@ module.exports = class LevelSetupManager extends CocoClass
       @onInventoryModalPlayClicked()
       return
     # TODO: Remove post-KR
+
+
+
+    if @level.get('slug') is 'escort-duty'
+      potionmaster = '52fd1524c7e6cf99160e7bc9'
+      if @session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
+        potionmaster = '53e126a4e06b897606d38bef'
+      @session.set 'heroConfig', {"thangType":potionmaster,"inventory":{
+          "eyes": "546941fda2b1f53ce794441d",
+          "feet": "546d4d8e9df4a17d0d449acd",
+          "programming-book": "557871261ff17fef5abee3ee",
+          "head": "546d4ca19df4a17d0d449abf",
+          "torso": "546d4a549df4a17d0d449a97",
+          "left-ring": "5441c35c4e9aeb727cc9711d",
+          "minion": "54eb5d1649fa2d5c905ddf52",
+          "neck": "54693363a2b1f53ce79443d1",
+          "wrists": "54693830a2b1f53ce79443f1",
+          "left-hand": "546376ea3839c6e02811d320",
+          "right-hand": "54eab92b2b7506e891ca720a",
+          "waist": "54694af7a2b1f53ce7944441",
+          "right-ring": "54692d2aa2b1f53ce794438f",
+          "pet": "5744e3683af6bf590cd27371"
+
+          }} #pet is cougar
+          # "pet": "57586f0a22179b2800efda37"  This is Baby Griffin
+        
+      @onInventoryModalPlayClicked()
+      return
+
     if @level.get('slug') is 'the-gauntlet-kr'
       lightseeker = '583d2cca6ffa3e65d170f29f'
       @session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
@@ -138,7 +168,7 @@ module.exports = class LevelSetupManager extends CocoClass
           "left-ring": "54692d2aa2b1f53ce794438f"
         }
       }
-    
+
     if @level.get('slug') is 'tesla-tesoro'
       #Need to update this for my level
       assassin = '566a2202e132c81f00f38c81'
@@ -146,7 +176,7 @@ module.exports = class LevelSetupManager extends CocoClass
         "thangType": assassin
         "inventory":{
           "eyes": "546941fda2b1f53ce794441d",
-          "feet": "546d4d8e9df4a17d0d449acd",  
+          "feet": "546d4d8e9df4a17d0d449acd",
           "minion": "54eb5d1649fa2d5c905ddf52",
           "neck": "54693363a2b1f53ce79443d1",
           "wrists": "54693830a2b1f53ce79443f1",
