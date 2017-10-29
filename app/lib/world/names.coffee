@@ -94,6 +94,9 @@ module.exports.thangNames = thangNames =
     # Female
     'Illumina'
     'Celadia'
+    'Celia'
+    'Gudrid'
+    'Miko'
     'Taric'
     'Vaelia'
     'Antary'
@@ -104,11 +107,13 @@ module.exports.thangNames = thangNames =
     'Vyrryx'
     'Yzzrith'
     'Xith'
+    'Zzyrix'
   ]
   'Ogre Chieftain': [
     # Female
     'Zagra Ux'
     'Oniko'
+    'Uru Ma'
   ]
   'Ogre Warlock': [
     # Male
@@ -122,7 +127,9 @@ module.exports.thangNames = thangNames =
     # Male
     'Frandar'
     'Karnaugh'
+    'Krigg'
     'Lanthon'
+    'Oga'
     'Tarjan'
     'Yorgalfen'
   ]
@@ -358,6 +365,7 @@ module.exports.thangNames = thangNames =
     # Female
     'Arryn'
     'Thrat'
+    'Riful'
   ]
   'Goliath': [
     # Male
@@ -831,7 +839,10 @@ module.exports.thangNames = thangNames =
   'Ogre Peon M': [
     # Male
     'Ba Bo'
+    'Bazza'
     'Bubbage'
+    'Corm'
+    'Drod'
     'Durbo'
     'Jaro'
     'Kurger'
@@ -841,6 +852,7 @@ module.exports.thangNames = thangNames =
   ]
   'Ogre Peon F': [
     # Female
+    'Botric'
     'Greeke'
     'Iblet'
     'Lorba'
@@ -882,7 +894,9 @@ module.exports.thangNames = thangNames =
   'Equestrian': [
     # Male
     'Neely'
+    'Olaf'
     'Reynaldo'
+    'Roland'
     'Ryder'
     'Thoron'
   ]
@@ -982,4 +996,7 @@ module.exports.thangNames = thangNames =
   'Duelist': [
     # Male
     'Alejandro'
+    'Diego'
+    'Pablo'
+    'Salvador'
   ]
