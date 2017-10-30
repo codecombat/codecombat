@@ -4,4 +4,3 @@ window.SPE = require('exports-loader?SPE!imports-loader?THREE=three!vendor/scrip
 require('vendor/scripts/deku')
 require('vendor/scripts/htmlparser2')
 require('vendor/scripts/css')
-require('vendor/scripts/coffeescript')

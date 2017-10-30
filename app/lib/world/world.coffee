@@ -23,6 +23,7 @@ ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
 window.string_score = require 'vendor/scripts/string_score.js' # Used as a global in DB code
+require 'vendor/scripts/coffeescript' # Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
 
 module.exports = class World
   @className: 'World'

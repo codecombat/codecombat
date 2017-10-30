@@ -552,12 +552,11 @@ module.exports = class PlayLevelView extends RootView
     return unless @shouldSimulate()
     return console.error "Should not auto-simulate until we fix how these languages are loaded"
     # TODO: how can we not require these as part of /play bundle?
-    ##require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'java']
-    #require 'aether/lib/languages/javascript'
-    #require 'aether/lib/languages/python'
-    #require 'aether/lib/languages/coffeescript'
-    #require 'aether/lib/languages/lua'
-    #require 'aether/lib/languages/java'
+    #require 'bower_components/aether/build/javascript'
+    #require 'bower_components/aether/build/python'
+    #require 'bower_components/aether/build/coffeescript'
+    #require 'bower_components/aether/build/lua'
+    #require 'bower_components/aether/build/java'
     @simulateNextGame()
 
   simulateNextGame: ->

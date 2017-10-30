@@ -42,12 +42,12 @@ require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession 
 require 'lib/setupTreema'
 
 # Make sure that all of our Aethers are loaded, so that if we try to preview the level, it will work.
-require 'aether/lib/languages/javascript'
-require 'aether/lib/languages/python'
-# require 'aether/lib/languages/coffeescript'
-require 'aether/lib/languages/lua'
-require 'aether/lib/languages/java'
-require 'aether/lib/languages/html'
+require 'bower_components/aether/build/javascript'
+require 'bower_components/aether/build/python'
+require 'bower_components/aether/build/coffeescript'
+require 'bower_components/aether/build/lua'
+require 'bower_components/aether/build/java'
+require 'bower_components/aether/build/html'
 
 require 'lib/game-libraries'
 
