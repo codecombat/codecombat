@@ -82,15 +82,16 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     about: "Acerca"
     contact: "Contacto"
     twitter_follow: "Seguir"
-    my_classrooms: "Mis clases"
-    my_courses: "Mis cursos"
+    my_classrooms: "Clases Mías"
+    my_courses: "Cursos Mías"
     careers: "Carreras"
     facebook: "Facebook"
     twitter: "Twitter"
     create_a_class: "Crear una Clase"
     other: "Otro"
     learn_to_code: "¡Aprender a programar!"
-    toggle_nav: "Alternar navegación"
+    toggle_nav: "Cambia navigación"
+    jobs: "Trabajos"
     schools: "Escuelas"
     get_involved: "Participa"
     open_source: "Código Libre (GitHub)"
@@ -351,8 +352,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit_patch: "Enviar Parche"
     submit_changes: "Enviar cambios"
     save_changes: "Guardar cambios"
-    required_field: " Requisito necesario" # {change}
-    valid_phone: "Ingrese número telefónico válido."
+    required_field: "Requisito necesario" # {change}
+    valid_phone: "Ingrese un número de teléfono válido."
 
   general:
     and: "y"
@@ -408,9 +409,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     last_name: "Apellido"
 #    last_initial: "Last Initial"
     username: "Nombre de usuario"
-#    contact_us: "Contact Us"
+    contact_us: "Contáctenos"
 #    close_window: "Close Window"
-#    learn_more: "Learn More"
+    learn_more: "Aprende Más"
 
   units:
     second: "segundo"
@@ -1287,7 +1288,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     back_classrooms: "Volver a mis aulas"
 #    back_classroom: "Back to classroom"
     back_courses: "Volver a mis cursos"
-    edit_details: "Editar detallesde clase"
+    edit_details: "Editar detalles de clase"
     purchase_enrollments: "Comprar Matrículas" # {change}
     remove_student: "Quitar alumno"
     assign: "Asignar"

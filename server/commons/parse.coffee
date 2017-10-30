@@ -9,6 +9,7 @@ module.exports =
       max: 1000
       default: 100
       param: 'limit'
+      min: 1
     }, options)
 
     limit = options.default
@@ -18,7 +19,7 @@ module.exports =
       valid = tv4.validate(limit, {
         type: 'integer'
         maximum: options.max
-        minimum: 1
+        minimum: options.min
       })
       if not valid
         throw new errors.UnprocessableEntity("Invalid #{options.param} parameter.")

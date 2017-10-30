@@ -512,3 +512,30 @@ describe '/db/payment', ->
       expect(body[0]._id).toEqual(payment._id.toString())
       expect(body[0].userID).toEqual(@user._id.toString())
       done()
+
+      
+describe 'GET /db/payments/-/all?payPalResource=:id', ->
+  it 'returns all payments which have the given payment or subscription id', utils.wrap ->
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    payPal?.transactions?[0]?.related_resources?[0]?.sale?.id
+    @payment1 = yield utils.makePayment({payPal: transactions: [{related_resources: [{sale:{id:'abc'}}]}]})
+    @payment2 = yield utils.makePayment({payPalSale: {id: '123'}})
+    
+    url = utils.getUrl('/db/payments/-/all')
+    [res, body] = yield request.getAsync {url, json: true, qs: {payPalResource: 'abc'}}
+    expect(res.statusCode).toEqual(200)
+    expect(body.length).toEqual(1)
+    expect(body[0]._id).toBe(@payment1.id)
+
+    [res, body] = yield request.getAsync {url, json: true, qs: {payPalResource: '123'}}
+    expect(res.statusCode).toEqual(200)
+    expect(body.length).toEqual(1)
+    expect(body[0]._id).toBe(@payment2.id)
+
+  it 'returns 403 if you are not an admin', utils.wrap ->
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+    url = utils.getUrl('/db/payments/-/all')
+    [res, body] = yield request.getAsync {url, json: true, qs: {payPalResource: 'abc'}}
+    expect(res.statusCode).toEqual(403)
