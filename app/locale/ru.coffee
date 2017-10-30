@@ -66,7 +66,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     want_coco: "Хотите CodeCombat в вашей школе?"
 
   nav:
-#    map: "Map"
+    map: "Карта" # The top nav bar entry where player can return to the map
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     courses: "Курсы"
@@ -91,7 +91,6 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     other: "Другое"
     learn_to_code: "Учить код!"
     toggle_nav: "Переключить навигацию"
-    jobs: "Работа"
     schools: "Школы"
     get_involved: "Принять участие"
     open_source: "Открытый исходный код (GitHub)"
@@ -588,6 +587,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play: "Начать уровень"
     play_more_codecombat: "Играй больше CodeCombat"
     default_student_instructions: "Кликните, чтобы управлять вашим героем и одержать победу!"
+#    goal_survive: "Survive."
+#    goal_survive_time: "Survive for __seconds__ seconds."
+#    goal_defeat: "Defeat all enemies."
+#    goal_defeat_amount: "Defeat __amount__ enemies."
+#    goal_move: "Move to all the red X marks."
+#    goal_collect: "Collect all the items."
+#    goal_collect_amount: "Collect __amount__ items."
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -1584,6 +1590,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
 #    gd1_rubric: "Game Development 1 - Project Rubric"
 #    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
+#    gd2: "Game Development 2"
+#    gd2_curriculum: "Game Development 2 - Curriculum Guide"
+#    gd2_curriculum_desc: "Lesson plans for Game Development 2."
     wd1: "Веб-разработка 1"
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"

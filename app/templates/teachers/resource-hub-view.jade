@@ -80,7 +80,10 @@ block content
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf")
+          - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide-zh-HANS.pdf";
+          a(href=quickStartURL)
             span(data-i18n="teacher.student_getting_started")
             span.spl [PDF]
           p(data-i18n="teacher.student_getting_started_desc")
@@ -101,7 +104,10 @@ block content
             span(data-i18n="teacher.cs1_curriculum")
           p(data-i18n="teacher.cs1_curriculum_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf")
+          - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide-zh-HANS.pdf";
+          a(href=pythonURL)
             span(data-i18n="teacher.cs1_syntax_python")
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_python_desc")
