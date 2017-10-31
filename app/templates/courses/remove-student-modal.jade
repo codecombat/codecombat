@@ -13,8 +13,12 @@ block modal-header-content
 block modal-body-content
   p.text-center
     span(data-i18n="courses.remove_description1")
-    if view.user.isEnrolled()
-      span(data-i18n="courses.remove_description2")
+  if view.user.isEnrolled()
+    p.text-center
+      if view.willRevokeLicense
+        span(data-i18n="courses.license_will_revoke")
+      else
+        span(data-i18n="courses.remove_description2")
 
 block modal-footer-content
   #remove-student-buttons.text-center

@@ -1348,6 +1348,7 @@
     are_you_sure: "Are you sure you want to remove this student from this class?"
     remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
     remove_description2: "The activated paid license will not be returned."
+    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Keep Student"
     removing_user: "Removing user"
     subtitle: "Review course overviews and levels" # Flat style redesign

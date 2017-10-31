@@ -317,6 +317,15 @@ module.exports = mw =
       expect(res.statusCode).toBe(201)
       Prepaid.findById(res.body._id).exec done
   
+  addRedeemerToPrepaid: Promise.promisify (prepaid, redeemer, done) ->
+    data = {
+      userID: redeemer?.id or redeemer
+    }
+    request.post { uri: getURL("/db/prepaid/#{prepaid.id}/redeemers"), method: 'POST', json: data }, (err, res) ->
+      return done(err) if err
+      expect(res.statusCode).toBe(201)
+      Prepaid.findById(res.body._id).exec done
+  
   addJoinerToPrepaid: Promise.promisify (prepaid, joiner, done) ->
     data = {
       userID: joiner?.id or joiner
