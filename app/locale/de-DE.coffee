@@ -209,7 +209,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
   share_progress_modal:
     blurb: "Du machst dich gut! Sag deinen Eltern wie viel du mit CodeCombat gelernt hast."
     email_invalid: "Diese E-Mail-Adresse ist leider ungültig."
-    form_blurb: "Schreibe hier ihre E-Mail-Adresse rein und wir werden es ihnen zeigen."
+    form_blurb: "Schreibe hier deine E-Mail-Adresse rein und wir werden es dir zeigen."
     form_label: "E-Mail-Adresse"
     placeholder: "E-Mail-Adresse"
     title: "Gute Arbeit, Lehrling"
@@ -1329,9 +1329,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     option1_header: "Lade Schüler via E-Mail ein"
     option1_body: "Hinweis: Schüler, die über keine E-Mail-Adresse verfügen, geben beim Anlegen des Schüler-Zugangs ihren eindeutigen Klassen-Code ein. E-Mails sind optional."
     remove_student1: "Schüler entfernen"
-    are_you_sure: "Sind Sie sicher, dass sie diesen Schüler von ihrer Klasse entfernen wollen?"
+    are_you_sure: "Bist du sicher, dass du diesen Schüler von deiner Klasse entfernen möchtest?"
     remove_description1: "Der Schüler wird den Zugang zu dem Klassenraum und zu den zugewiesenen Klassen verlieren. Der Spielfortschritt geht NICHT verloren, und der Schüler kann zu jeder Zeit wieder in die Klasse eingschrieben werden."
-    remove_description2: "Die acitvierte bezahlte Lizenz wird nicht zurückgenommen."
+    remove_description2: "Die aktivierte und bezahlte Lizenz wird nicht zurückgenommen."
     keep_student: "Schüler behalten"
     removing_user: "Benutzer entfernen"
     subtitle: "Kursübersichten und Level anzeigen" # Flat style redesign
