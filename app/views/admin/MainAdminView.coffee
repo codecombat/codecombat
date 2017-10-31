@@ -5,6 +5,7 @@ RootView = require 'views/core/RootView'
 template = require 'templates/admin'
 AdministerUserModal = require 'views/admin/AdministerUserModal'
 forms = require 'core/forms'
+utils = require 'core/utils'
 
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -42,6 +43,12 @@ module.exports = class MainAdminView extends RootView
       @supermodel.trackModel(@amActually)
     @featureMode = window.serverSession.featureMode
     super()
+
+  afterInsert: ->
+    super()
+    if search = utils.getQueryVariable 'search'
+      $('#user-search').val search
+      $('#user-search-button').click()
 
   onClickStopSpyingButton: ->
     button = @$('#stop-spying-btn')

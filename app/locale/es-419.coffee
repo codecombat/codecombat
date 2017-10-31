@@ -82,15 +82,15 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     about: "Acerca"
     contact: "Contacto"
     twitter_follow: "Seguir"
-    my_classrooms: "Mis clases"
-    my_courses: "Mis cursos"
+    my_classrooms: "Clases Mías"
+    my_courses: "Cursos Mías"
     careers: "Carreras"
     facebook: "Facebook"
     twitter: "Twitter"
     create_a_class: "Crear una Clase"
     other: "Otro"
     learn_to_code: "¡Aprender a programar!"
-    toggle_nav: "Alternar navegación"
+    toggle_nav: "Cambia navigación"
     jobs: "Trabajos"
     schools: "Escuelas"
     get_involved: "Participa"
@@ -352,8 +352,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     submit_patch: "Enviar Parche"
     submit_changes: "Enviar cambios"
     save_changes: "Guardar cambios"
-    required_field: " Requisito necesario" # {change}
-    valid_phone: "Ingrese número telefónico válido."
+    required_field: "Requisito necesario" # {change}
+    valid_phone: "Ingrese un número de teléfono válido."
 
   general:
     and: "y"
@@ -409,9 +409,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     last_name: "Apellido"
 #    last_initial: "Last Initial"
     username: "Nombre de usuario"
-#    contact_us: "Contact Us"
+    contact_us: "Contáctenos"
 #    close_window: "Close Window"
-#    learn_more: "Learn More"
+    learn_more: "Aprende Más"
 
   units:
     second: "segundo"
@@ -588,6 +588,13 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    play: "Play Level"
 #    play_more_codecombat: "Play More CodeCombat"
 #    default_student_instructions: "Click to control your hero and win your game!"
+#    goal_survive: "Survive."
+#    goal_survive_time: "Survive for __seconds__ seconds."
+#    goal_defeat: "Defeat all enemies."
+#    goal_defeat_amount: "Defeat __amount__ enemies."
+#    goal_move: "Move to all the red X marks."
+#    goal_collect: "Collect all the items."
+#    goal_collect_amount: "Collect __amount__ items."
 
   game_menu:
     inventory_tab: "Inventario"
@@ -1281,7 +1288,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     back_classrooms: "Volver a mis aulas"
 #    back_classroom: "Back to classroom"
     back_courses: "Volver a mis cursos"
-    edit_details: "Editar detallesde clase"
+    edit_details: "Editar detalles de clase"
     purchase_enrollments: "Comprar Matrículas" # {change}
     remove_student: "Quitar alumno"
     assign: "Asignar"
@@ -1584,6 +1591,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    gd1_guide_desc: "Use this to guide your students as they create their first shareable game project in 5 days."
 #    gd1_rubric: "Game Development 1 - Project Rubric"
 #    gd1_rubric_desc: "Use this rubric to assess student projects at the end of Game Development 1."
+#    gd2: "Game Development 2"
+#    gd2_curriculum: "Game Development 2 - Curriculum Guide"
+#    gd2_curriculum_desc: "Lesson plans for Game Development 2."
 #    wd1: "Web Development 1"
 #    wd1_headlines: "Headlines & Headers Activity"
 #    wd1_headlines_example: "View sample solution"
