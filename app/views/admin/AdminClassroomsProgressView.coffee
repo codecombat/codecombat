@@ -42,6 +42,7 @@ module.exports = class AdminClassroomsProgressView extends RootView
       return m
     , {}
     @buildProgressData(@licenseEndMonths)
+    @loadingMessage = "Loading.."
     super()
 
   objectIdToDate: (id) -> utils.objectIdToDate(id)
@@ -56,12 +57,12 @@ module.exports = class AdminClassroomsProgressView extends RootView
     .then (results) =>
       [courses, campaigns, {@classrooms, prepaids, teachers}] = results
       courses = courses.filter((c) => c.releasePhase is 'released')
-      freeCourseIds = (course._id for course in courses.filter((c) => c.free))
-      # console.log 'freeCourseIds', freeCourseIds, @classrooms[0].courses
+      excludedCourseIds = (course._id for course in courses.filter((c) => c.free or c.releasePhase isnt 'released'))
+      # console.log 'excludedCourseIds', excludedCourseIds, @classrooms[0].courses
       utils.sortCourses(courses)
       licenses = prepaids.filter((p) => p.redeemers?.length > 0)
 
-      # @classrooms = [@classrooms[0]]
+      # @classrooms = [@classrooms.find((c) => c._id is '59b0560484a9f600264fd6aa')]
 
       adminMap = {}
       adminMap[teacher._id.toString()] = true for teacher in teachers when 'admin' in (teacher.permissions or [])
@@ -77,7 +78,7 @@ module.exports = class AdminClassroomsProgressView extends RootView
       levelOriginalStringsMap = {}
       for classroom in @classrooms
         for course in classroom.courses
-          continue if course._id in freeCourseIds
+          continue if course._id in excludedCourseIds
           for level in course.levels
             levelOriginalStringsMap[level.original.toString()] = true
       # LevelSession has a creator/level index, which isn't the same as creator/'level.original'
@@ -96,7 +97,8 @@ module.exports = class AdminClassroomsProgressView extends RootView
 
       batchSize = 40
       fetchLevelSessions = (i, results) =>
-        console.log "Fetching level session batch #{i} out of #{Math.round(studentIds.length / (batchSize))}...", i, i * batchSize, studentIds.length, results.length
+        @loadingMessage = "Fetching level session batch #{i} out of #{Math.round(studentIds.length / (batchSize))}, #{results.length} level sessions found"
+        @render?()
         levelSessionPromises = []
         while i * batchSize < studentIds.length and levelSessionPromises.length < 4
           start = i * batchSize
@@ -115,6 +117,8 @@ module.exports = class AdminClassroomsProgressView extends RootView
 
       fetchLevelSessions(0, [])
       .then (levelSessions) =>
+        @loadingMessage = "Loading.."
+        @render?()
         # console.log 'courses', courses
         # console.log 'campaigns', campaigns
         console.log 'classrooms', @classrooms

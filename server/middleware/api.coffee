@@ -143,7 +143,7 @@ putUserSubscription = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client.hasControlOfUser(user)
+  unless req.client.hasControlOfUser(user, 'put-user-subscription')
     throw new errors.Forbidden('Must have created the user to perform this action.')
 
   # TODO: Remove 'endDate' parameter
@@ -183,7 +183,7 @@ putUserLicense = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client.hasControlOfUser(user)
+  unless req.client.hasControlOfUser(user, 'put-user-license')
     throw new errors.Forbidden('Must have created the user to perform this action.')
 
   { ends } = req.body
