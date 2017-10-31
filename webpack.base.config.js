@@ -18,6 +18,7 @@ module.exports = (env) => {
   return {
     context: path.resolve(__dirname),
     entry: {
+      // NOTE: If you add an entrypoint, consider updating ViewLoadTimer to track its loading.
       app: './app/app.js',
       world: glob.sync('./app/lib/world/**/*.*').concat([ // For worker_world
         './app/lib/worldLoader',
@@ -114,6 +115,7 @@ module.exports = (env) => {
       new webpack.IgnorePlugin(/^memwatch$/), // Just used by the headless client on the server side
       new webpack.IgnorePlugin(/.DS_Store$/),
       new CopyWebpackPlugin([
+        // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
         { // Static assets
           // Let's use file-loader down the line, but for now, just use URL references.
           from: 'app/assets',
