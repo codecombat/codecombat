@@ -388,7 +388,32 @@ executePayPalBillingAgreement = expressWrap (req, res) ->
     userPayPalData.payerID = billingAgreement.payer.payer_info.payer_id
     userPayPalData.subscribeDate = new Date()
     req.user.set('payPal', userPayPalData)
+
+    basicSubProduct = yield Product.findBasicSubscriptionForUser(req.user)
+    amount = basicSubProduct.get('amount')
+    gems = basicSubProduct.get('gems')
+    productID = basicSubProduct?.get('name')
+
+    payment = new Payment({
+      purchaser: req.user.get('_id')
+      recipient: req.user.get('_id')
+      created: new Date().toISOString()
+      service: 'paypal'
+      amount
+      gems
+      payPalBillingAgreementID: userPayPalData.billingAgreementID
+      productID
+    })
+    yield payment.save()
+
+    # Add gems to User
+    purchased = _.cloneDeep(req.user.get('purchased') ? {})
+    purchased.gems ?= 0
+    purchased.gems += gems if gems
+    req.user.set('purchased', purchased)
+
     yield req.user.save()
+
     return res.send(billingAgreement)
   catch e
     log.error 'PayPal execute billing agreement error:', JSON.stringify(e, null, '\t')
