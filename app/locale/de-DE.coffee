@@ -1273,7 +1273,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     concepts: "Konzepten"
     play_time: "Spielzeit:"
     completed: "Abgeschlossen:"
-    enter_emails: "E-mail-Adressen durch Komma oder Zeilenumbruch trennen"
+    enter_emails: "E-Mail-Adressen durch Komma oder Zeilenumbruch trennen"
     send_invites: "Schüler einladen"
     number_programming_students: "Anzahl der Schüler"
     number_total_students: "Gesamtzahl der Schüler in Schule/Bezirk"
