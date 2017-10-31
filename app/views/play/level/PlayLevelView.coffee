@@ -110,7 +110,7 @@ module.exports = class PlayLevelView extends RootView
     @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance'
 
     @isEditorPreview = @getQueryVariable 'dev'
-    @sessionID = @getQueryVariable 'session'
+    @sessionID = (@getQueryVariable 'session') || @options.sessionID
     @observing = @getQueryVariable 'observing'
 
     @opponentSessionID = @getQueryVariable('opponent')
@@ -148,13 +148,21 @@ module.exports = class PlayLevelView extends RootView
     levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
+    console.debug 'PlayLevelView: Create LevelLoader'
     @levelLoader = new LevelLoader levelLoaderOptions
     @listenToOnce @levelLoader, 'world-necessities-loaded', @onWorldNecessitiesLoaded
     @listenTo @levelLoader, 'world-necessity-load-failed', @onWorldNecessityLoadFailed
 
   onLevelLoaded: (e) ->
     return if @destroyed
-    if (me.isStudent() or me.isTeacher()) and not @courseID and not e.level.isType('course-ladder')
+    if _.all([
+      (me.isStudent() or me.isTeacher()),
+      not @courseID,
+      not e.level.isType('course-ladder')
+
+      # TODO: Add a general way for standalone levels to be accessed by students, teachers
+      e.level.get('slug') isnt 'peasants-and-munchkins' 
+    ])
       return _.defer -> application.router.redirectHome()
 
     unless e.level.isType('web-dev')
@@ -206,6 +214,7 @@ module.exports = class PlayLevelView extends RootView
   # Partially Loaded Setup ####################################################
 
   onWorldNecessitiesLoaded: ->
+    console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
     team = @getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
@@ -341,6 +350,7 @@ module.exports = class PlayLevelView extends RootView
   # Load Completed Setup ######################################################
 
   onSessionLoaded: (e) ->
+    console.log 'PlayLevelView: loaded session', e.session
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
@@ -413,11 +423,13 @@ module.exports = class PlayLevelView extends RootView
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
     else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size e.session.get('heroConfig')?.inventory ? {}
-      @setupManager?.destroy()
-      @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
-      @setupManager.open()
-
-
+      # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
+      _.defer =>
+        return if _.size(e.session.get('heroConfig')?.inventory ? {})
+        # TODO: which scenario is this executed for?
+        @setupManager?.destroy()
+        @setupManager = new LevelSetupManager({supermodel: @supermodel, level: e.level, levelID: @levelID, parent: @, session: e.session, courseID: @courseID, courseInstanceID: @courseInstanceID})
+        @setupManager.open()
 
   onLoaded: ->
     _.defer => @onLevelLoaderLoaded()
@@ -479,6 +491,7 @@ module.exports = class PlayLevelView extends RootView
 
   onLevelStarted: ->
     return unless @surface? or @webSurface?
+    console.log 'PlayLevelView: level started'
     @loadingView.showReady()
     @trackLevelLoadEnd()
     if window.currentModal and not window.currentModal.destroyed and [VictoryModal, CourseVictoryModal].indexOf(window.currentModal.constructor) is -1
@@ -723,6 +736,13 @@ module.exports = class PlayLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
+    
+    # without this check, when removing goals, goals aren't updated properly. Make sure we update
+    # the goals once the first frame is finished.
+    if @world.age > 0 and @willUpdateStudentGoals
+      @willUpdateStudentGoals = false
+      @updateStudentGoals()
+    
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
@@ -744,9 +764,17 @@ module.exports = class PlayLevelView extends RootView
   # Real-time playback
   onRealTimePlaybackStarted: (e) ->
     @$el.addClass('real-time').focus()
-    @$('#how-to-play-game-dev-panel').removeClass('hide') if @level.isType('game-dev')
+    @willUpdateStudentGoals = true
+    @updateStudentGoals()
     @onWindowResize()
     @realTimePlaybackWaitingForFrames = true
+    
+  updateStudentGoals: ->
+    return unless @level.isType('game-dev')
+    @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
+    @studentGoals = @studentGoals?.map((g) -> JSON.parse(g))
+    @renderSelectors('#how-to-play-game-dev-panel')
+    @$('#how-to-play-game-dev-panel').removeClass('hide')
 
   onRealTimePlaybackEnded: (e) ->
     return unless @$el.hasClass 'real-time'

@@ -83,7 +83,6 @@ exports.saveNewVersion = wrap (doc, major=null) ->
     version.isLatestMinor = false
   raw = yield latest.update({$set: {version: version}, $unset: {index: 1, slug: 1}})
   if not raw.nModified
-    console.error('Conditions', conditions)
     console.error('Doc', doc)
     console.error('Raw response', raw)
     throw new errors.InternalServerError('Latest version could not be modified.')

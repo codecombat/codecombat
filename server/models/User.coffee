@@ -1,3 +1,4 @@
+moment = require 'moment'
 mongoose = require 'mongoose'
 jsonschema = require '../../app/schemas/models/user'
 crypto = require 'crypto'
@@ -13,6 +14,7 @@ Promise = require 'bluebird'
 co = require 'co'
 core_utils = require '../../app/core/utils'
 mailChimp = require '../lib/mail-chimp'
+{ makeHostUrl } = require '../commons/urls'
 
 config = require '../../server_config'
 stripe = require('../lib/stripe_utils').api
@@ -54,6 +56,26 @@ UserSchema.methods.broadName = ->
   [emailName, emailDomain] = @get('email').split('@')
   return emailName if emailName
   return 'Anonymous'
+
+UserSchema.methods.cancelPayPalSubscription = co.wrap ->
+  userPayPalData = _.clone(@get('payPal') ? {})
+  return unless userPayPalData.billingAgreementID
+
+  delete userPayPalData.billingAgreementID
+  userPayPalData.cancelDate = new Date()
+  @set('payPal', userPayPalData)
+
+  # Use existing stripe.free end date functionality to run out remainder of cancelled payPal sub
+  # Approximating end date via uniform 31-day months
+  stripeInfo = _.cloneDeep(@get('stripe') ? {})
+  endDate = if userPayPalData.subscribeDate then moment(userPayPalData.subscribeDate) else moment()
+  today = moment()
+  endDate.add(1, 'M')  while endDate.isBefore(today)
+  endDate.add(2, 'd')
+  stripeInfo.free = endDate.format().substring(0, 10)
+  @set('stripe', stripeInfo)
+
+  yield @save()
 
 UserSchema.methods.isInGodMode = ->
   p = @get('permissions')
@@ -158,6 +180,7 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
 UserSchema.methods.gems = ->
   gemsEarned = @get('earned')?.gems ? 0
   gemsEarned = gemsEarned + 100000 if @isInGodMode()
+  gemsEarned += 1000 if @get('hourOfCode')
   gemsPurchased = @get('purchased')?.gems ? 0
   gemsSpent = @get('spent') ? 0
   gemsEarned + gemsPurchased - gemsSpent
@@ -333,7 +356,7 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
-UserSchema.methods.sendWelcomeEmail = ->
+UserSchema.methods.sendWelcomeEmail = (req) ->
   return if not @get('email')
   return if core_utils.isSmokeTestEmail(@get('email'))
   { welcome_email_student, welcome_email_user } = sendwithus.templates
@@ -345,7 +368,7 @@ UserSchema.methods.sendWelcomeEmail = ->
       name: @broadName()
     email_data:
       name: @broadName()
-      verify_link: "http://codecombat.com/user/#{@_id}/verify/#{@verificationCode(timestamp)}"
+      verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode(timestamp)}")
       teacher: @isTeacher()
   sendwithus.api.send data, (err, result) ->
     log.error "sendwithus post-save error: #{err}, result: #{result}" if err

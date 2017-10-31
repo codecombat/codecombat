@@ -120,6 +120,7 @@ productStubs = [
     name: 'brazil_lifetime_subscription'
     amount: 1001
     gems: 42000
+    coupons: [{code: 'c1', amount: 10}, {code: 'c2', amount: 99}]
   }
 ]
 

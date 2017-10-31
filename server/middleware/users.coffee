@@ -27,6 +27,8 @@ utils = require '../lib/utils'
 CLASubmission = require '../models/CLASubmission'
 Prepaid = require '../models/Prepaid'
 israel = require '../commons/israel'
+crypto = require 'crypto'
+{ makeHostUrl } = require '../commons/urls'
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -185,7 +187,7 @@ module.exports =
         name: user.broadName()
       email_data:
         name: user.broadName()
-        verify_link: "http://codecombat.com/user/#{user._id}/verify/#{user.verificationCode(timestamp)}"
+        verify_link: makeHostUrl(req, "/user/#{user._id}/verify/#{user.verificationCode(timestamp)}")
     sendwithus.api.send context, (err, result) ->
     res.status(200).send({})
 
@@ -248,10 +250,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { facebookID, facebookAccessToken, email, name } = req.body
-    unless _.all([facebookID, facebookAccessToken, not _.isEmpty(email), not _.isEmpty(name)])
-      throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, email, and name')
+    unless _.all([facebookID, facebookAccessToken, not _.isEmpty(email)])
+      throw new errors.UnprocessableEntity('Requires facebookID, facebookAccessToken, and email')
 
-    if yield User.findByName(name)
+    if name and yield User.findByName(name)
       throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     facebookResponse = yield facebook.fetchMe(facebookAccessToken)
@@ -264,7 +266,9 @@ module.exports =
     if user
       throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
 
-    req.user.set({ facebookID, email, name, anonymous: false })
+    userData = { facebookID, email, anonymous: false }
+    userData.name = name if name
+    req.user.set(userData)
     yield module.exports.finishSignup(req, res)
 
   signupWithGPlus: wrap (req, res) ->
@@ -272,10 +276,10 @@ module.exports =
       throw new errors.Forbidden('You are already signed in.')
 
     { gplusID, gplusAccessToken, email, name } = req.body
-    unless _.all([gplusID, gplusAccessToken, not _.isEmpty(email), not _.isEmpty(name)])
-      throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, email, and name')
+    unless _.all([gplusID, gplusAccessToken, not _.isEmpty(email)])
+      throw new errors.UnprocessableEntity('Requires gplusID, gplusAccessToken, and email')
 
-    if yield User.findByName(name)
+    if name and yield User.findByName(name)
       throw new errors.Conflict('Username already taken', { i18n: 'server_error.username_taken' })
 
     gplusResponse = yield gplus.fetchMe(gplusAccessToken)
@@ -289,7 +293,9 @@ module.exports =
     if user
       throw new errors.Conflict('Email already taken', { i18n: 'server_error.email_taken' })
 
-    req.user.set({ gplusID, email, name, anonymous: false })
+    userData = { gplusID, email, anonymous: false }
+    userData.name = name if name
+    req.user.set(userData)
     yield module.exports.finishSignup(req, res)
 
   finishSignup: co.wrap (req, res) ->
@@ -303,7 +309,7 @@ module.exports =
 
     # post-successful account signup tasks
 
-    req.user.sendWelcomeEmail()
+    req.user.sendWelcomeEmail(req)
 
     # If person A creates a trial request without creating an account, then person B uses that computer
     # to create an account, then person A's trial request is associated with person B's account. To prevent
@@ -472,7 +478,7 @@ module.exports =
     else if search.length > 5
       searchParts = search.split(/[.+@]/)
       if searchParts.length > 1
-        users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).select(projection))
+        users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).limit(50).select(projection))
 
     users = _.uniq(users, false, (u) -> u.id)
 
@@ -538,3 +544,27 @@ module.exports =
     ]
     return res.sendStatus(200)
 
+  getAvatar: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+    fallback = req.query.fallback
+    size = req.query.s
+
+    hash = crypto.createHash('md5')
+    if user.get('email')
+      hash.update(_.trim(user.get('email')).toLowerCase())
+    else
+      hash.update(user.get('_id') + '')
+    emailHash = hash.digest('hex')
+
+    if thang = user.get('heroConfig')?.thangType
+      fallback ?= "/file/db/thang.type/#{thang}/portrait.png"
+      
+    fallback ?= makeHostUrl(req, '/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
+    unless /^http/.test fallback
+      fallback = makeHostUrl(req, fallback)
+    combinedPhotoURL = "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
+    
+    res.redirect(combinedPhotoURL)
+    res.end()

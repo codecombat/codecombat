@@ -24,7 +24,6 @@ module.exports = class SpellPaletteView extends CocoView
     'tome:change-language': 'onTomeChangedLanguage'
     'tome:palette-clicked': 'onPalleteClick'
     'surface:stage-mouse-down': 'hide'
-    'level:set-playing': 'hide'
 
 
   events:

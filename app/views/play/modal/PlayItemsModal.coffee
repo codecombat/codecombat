@@ -216,7 +216,7 @@ module.exports = class PlayItemsModal extends ModalView
     affordable = cost <= gemsOwned
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless me.freeOnly()
+      @askToBuyGems button unless me.freeOnly() or application.getHocCampaign()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)

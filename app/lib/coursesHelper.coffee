@@ -17,6 +17,10 @@ module.exports =
         levels = classroom.getLevels({courseID: course.id})
         levels.remove(levels.filter((level) => level.get('practice')))
         for userID in instance.get('members')
+          unless classroom.sessions?.loaded
+            instance.sessionsLoaded = false
+            continue
+          instance.sessionsLoaded = true
           instance.started ||= _.any levels.models, (level) ->
             session = _.find classroom.sessions.models, (session) ->
               session.get('creator') is userID and session.get('level').original is level.get('original')
@@ -57,7 +61,7 @@ module.exports =
           }
     null
 
-  calculateLatestComplete: (classroom, courses, courseInstances, students) ->
+  calculateLatestComplete: (classroom, courses, courseInstances, students, userLevelCompletedMap) ->
     # Loop through all the combinations of things in reverse order, return the level that anyone's finished
     courseModels = courses.models.slice()
     for course, courseIndex in courseModels.reverse() #
@@ -71,9 +75,7 @@ module.exports =
         userIDs = []
         for user in students.models
           userID = user.id
-          sessions = _.filter classroom.sessions.models, (session) ->
-            session.get('creator') is userID and session.get('level').original is level.get('original')
-          if _.find(sessions, (s) -> s.completed()) #
+          if userLevelCompletedMap[userID]?[level.get('original').toString()]
             userIDs.push userID
         if userIDs.length > 0
           users = _.map userIDs, (id) ->

@@ -97,10 +97,14 @@ module.exports = class TeacherClassesView extends RootView
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
       for classroom in @classrooms.models
+        continue if classroom.get('archived')
         classroom.sessions = new LevelSessions()
-        jqxhrs = classroom.sessions.fetchForAllClassroomMembers(classroom)
-        if jqxhrs.length > 0
-          @supermodel.trackRequests(jqxhrs)
+        Promise.all(classroom.sessions.fetchForAllClassroomMembers(classroom))
+        .then (results) =>
+          return if @destroyed
+          helper.calculateDots(@classrooms, @courses, @courseInstances)
+          @calculateQuestCompletion()
+          @render()
     window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
 
     @courses = new Courses()
@@ -118,8 +122,9 @@ module.exports = class TeacherClassesView extends RootView
 
   afterRender: ->
     super()
-    @courseNagSubview = new CourseNagSubview()
-    @insertSubView(@courseNagSubview)
+    unless @courseNagSubview
+      @courseNagSubview = new CourseNagSubview()
+      @insertSubView(@courseNagSubview)
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -130,19 +135,18 @@ module.exports = class TeacherClassesView extends RootView
   calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
-      continue unless classroom.get('members')?.length > 0
+      continue unless classroom.get('members')?.length > 0 and classroom.sessions
       classCompletion = {}
       classCompletion[key] = 0 for key in Object.keys(@teacherQuestData)
       students = classroom.get('members')?.length
 
-      
       kithgardGatesCompletes = 0
       wakkaMaulCompletes = 0
       for session in classroom.sessions.models
         if session.get('level')?.original is '541c9a30c6362edfb0f34479' # kithgard-gates
           ++classCompletion['kithgard_gates_100']
         if session.get('level')?.original is '5630eab0c0fcbd86057cc2f8' # wakka-maul
-          ++classCompletion['wakka_maul_100']            
+          ++classCompletion['wakka_maul_100']
         continue unless session.get('state')?.complete
         if session.get('level')?.original is '5411cb3769152f1707be029c' # dungeons-of-kithgard
           ++classCompletion['teach_methods']
@@ -154,11 +158,11 @@ module.exports = class TeacherClassesView extends RootView
           ++classCompletion['teach_variables']
 
       classCompletion[k] /= students for k of classCompletion
-        
+
 
 
       classCompletion['add_students'] = if students > 0 then 1.0 else 0.0
-      if me.get('enrollmentRequestSent') or @prepaids.length > 0
+      if @prepaids.length > 0
         classCompletion['reach_gamedev'] = 1.0
       else
         classCompletion['reach_gamedev'] = 0.0

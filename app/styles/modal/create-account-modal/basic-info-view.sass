@@ -1,14 +1,22 @@
 #basic-info-view
-  .network-login
-    width: 175px
-    height: 40px
-    border: solid 0.5px darkgray
-    
-    span
-      visibility: hidden
+
+  .gplus-login
+    margin-bottom: 20px
+
+    .gplus-logo
+      width: 254px
+
+  .facebook-login
+
+    #facebook-signup-btn
+      height: 40px
+
+      .facebook-logo
+        height: 40px
+
 
   // Forms
-  
+
   .basic-info
     display: flex
     flex-direction: column
@@ -16,7 +24,7 @@
     .form-group
       text-align: left
       margin: 0
-      
+
       input
         max-height: 5vh
 
@@ -26,27 +34,27 @@
       .fancy-error
         padding-top: 29px
         line-height: 14px
-    
+
     .form-container
       > .form-group, > .row
         max-height: 84px
         max-height: calc(29px + 29px + 5vh)
         flex-grow: 1
         align-self: flex-start
-    
+
   .btn-illustrated img
     // Undo previous opacity-toggling hover behavior
     opacity: 1
-    
+
   label
     margin-bottom: 0
-    
+
   .help-block
     margin: 0
-  
+
   .optional-help-block
     font-style: italic
-    
+
   .form-container
     width: 800px
 
@@ -55,3 +63,6 @@
     padding-bottom: 0
     padding-left: 12px
     padding-right: 12px
+
+  .optional-text
+    font-size: 12px;

@@ -27,12 +27,12 @@ module.exports.setup = (app) ->
   app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
 
   passport = require('passport')
-  app.post('/auth/login', passport.authenticate('local'), mw.auth.afterLogin)
-  app.post('/auth/login-facebook', mw.auth.loginByFacebook, mw.auth.afterLogin)
-  app.post('/auth/login-gplus', mw.auth.loginByGPlus, mw.auth.afterLogin)
-  app.get('/auth/login-clever', mw.auth.loginByClever, mw.auth.redirectAfterLogin)
-  app.get('/auth/login-o-auth', mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
-  app.post('/auth/login-israel', mw.auth.loginByIsraelId, mw.auth.afterLogin)
+  app.post('/auth/login', mw.auth.authDelay, passport.authenticate('local'), mw.auth.afterLogin)
+  app.post('/auth/login-facebook', mw.auth.authDelay, mw.auth.loginByFacebook, mw.auth.afterLogin)
+  app.post('/auth/login-gplus', mw.auth.authDelay, mw.auth.loginByGPlus, mw.auth.afterLogin)
+  app.get('/auth/login-clever', mw.auth.authDelay, mw.auth.loginByClever, mw.auth.redirectAfterLogin)
+  app.get('/auth/login-o-auth', mw.auth.authDelay, mw.auth.loginByOAuthProvider, mw.auth.redirectOnError, mw.auth.redirectAfterLogin)
+  app.post('/auth/login-israel', mw.auth.authDelay, mw.auth.loginByIsraelId, mw.auth.afterLogin)
   app.post('/auth/logout', mw.auth.logout)
   app.get('/auth/name/?(:name)?', mw.auth.name)
   app.get('/auth/email/?(:email)?', mw.auth.email)
@@ -62,7 +62,20 @@ module.exports.setup = (app) ->
   app.post('/db/achievement/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Achievement, 'achievement'))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
+  
+  app.post('/db/analytics.log.event/-/log_event',  mw.auth.checkHasUser(), mw.analyticsLogEvents.post)
 
+  app.post('/db/analytics_perday/-/active_classes', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveClasses)
+  app.post('/db/analytics_perday/-/active_users', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveUsers)
+  app.post('/db/analytics_perday/-/campaign_completions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getCampaignCompletionsBySlug)
+  app.post('/db/analytics_perday/-/level_completions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelCompletionsBySlug)
+  app.post('/db/analytics_perday/-/level_drops', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelDropsBySlugs)
+  app.post('/db/analytics_perday/-/level_helps', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelHelpsBySlugs)
+  app.post('/db/analytics_perday/-/level_subscriptions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelSubscriptionsBySlugs)
+  app.post('/db/analytics_perday/-/recurring_revenue', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getRecurringRevenue)
+  
+  app.get('/db/analytics.stripe.invoice/-/all', mw.auth.checkHasPermission(['admin']), mw.analyticsStripeInvoices.getAll)
+  
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
@@ -169,8 +182,9 @@ module.exports.setup = (app) ->
   LevelSession = require '../models/LevelSession'
   app.post('/queue/scoring', mw.levelSessions.submitToLadder) # TODO: Rename to /db/level_session/:handle/submit-to-ladder
   app.post('/db/level.session/unset-scores', mw.auth.checkHasPermission(['admin']), mw.levelSessions.unsetScores)
-  app.put('/db/level.session/:handle/key-value-db/:key', mw.auth.checkLoggedIn(), mw.levelSessions.putKeyValueDb)
-  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.auth.checkLoggedIn(), mw.levelSessions.incrementKeyValueDb)
+  app.put('/db/level.session/:handle/key-value-db/:key', mw.levelSessions.putKeyValueDb)
+  app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.levelSessions.incrementKeyValueDb)
+  app.post('/db/level.session/-/levels-and-students', mw.auth.checkHasPermission(['admin']), mw.levelSessions.byLevelsAndStudents)
 
 
   LevelSystem = require '../models/LevelSystem'
@@ -201,6 +215,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
   app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
+  app.get('/db/user/:handle/avatar', mw.users.getAvatar)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)

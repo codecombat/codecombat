@@ -185,7 +185,7 @@ block content
           span.spr(data-i18n="new_home.game_based")
           a(href="http://schoolsweek.co.uk/gaming-is-good-for-childrens-brains-study-suggests/" target="_blank", data-i18n="new_home.compared")
           span.spl.spr(data-i18n="new_home.conventional")
-          a(href="http://dev.k-12techdecisions.com/article/game_based_learning_is_where_vygotsky_meets_dweck/P3" target="_blank", data-i18n="new_home.perform_at_higher_level")
+          a(href="https://mytechdecisions.com/mobility/game-based-learning-is-where-vygotsky-meets-dweck/" target="_blank", data-i18n="new_home.perform_at_higher_level")
           span .
         p
           span(data-i18n="new_home.feedback")
@@ -223,15 +223,6 @@ block content
 
     if !serverConfig.static
       h3.text-center(data-i18n="new_home.computer_science")
-      h4.text-center
-        span#school-level-label(data-i18n="new_home.show_me_lesson_time")
-        select#school-level-dropdown.form-control.text-navy
-          option(value='elementary', data-i18n="teachers_quote.elementary_school")
-          option(value='middle', selected=true, data-i18n="teachers_quote.middle_school")
-          option(value='high', data-i18n="teachers_quote.high_school")
-      h5.text-center#total-hours-header
-        span.spr(data-i18n="new_home.curriculum")
-        span#semester-duration
       #courses-row.row
         - var conceptsSeen = {};
         for course, courseIndex in view.courses.models
@@ -260,10 +251,6 @@ block content
                   if total === 0
                     span= course.get('description')
               img.media-object(src="/images/pages/home/" + course.get('slug') + ".png")
-              h6.course-duration
-                span.spr(data-i18n="new_home.lesson_time")
-                span.course-hours= course.get('duration') || 0
-                span.spl.unit(data-i18n="units.hours")
         .col-md-3.col-sm-4
           .media.disabled
             .media-body

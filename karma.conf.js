@@ -71,6 +71,11 @@ module.exports = function(config) {
       dir : 'coverage/'
     },
 
+    //browserConsoleLogOptions: {
+    //  level: 'log',
+    //  terminal: true
+    //},
+
     plugins : [
       'karma-jasmine',
       'karma-chrome-launcher',
@@ -78,7 +83,9 @@ module.exports = function(config) {
       'karma-coffee-preprocessor',
       'karma-coverage',
       'karma-firefox-launcher'
-    ]
+    ],
+
+    retryLimit: 5
   });
 
 };

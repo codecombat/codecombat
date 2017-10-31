@@ -45,6 +45,16 @@ block content
         .col-sm-1
           button.btn.btn-primary.btn-large#user-search-button  Search
     #user-search-result
+    
+    .form-horizontal
+      form(action='/db/payments/-/all').form-group
+        label.control-label.col-sm-2(for="paypal-input") PayPal Search
+        .col-sm-4
+          input.form-control#paypal-input(name="payPalResource", placeholder="PayPal Transaction ID")
+          input(type="hidden", name="project", value="purchaser,recipient,created,service,amount,gems")
+          input(type="hidden", name="limit", value="10")
+        .col-sm-1
+          button.btn.btn-primary(type="submit") Search
 
   if !me.isAdmin()
     div.text-center You must be logged in as an admin to view this page.
@@ -59,7 +69,7 @@ block content
     h4 Analytics
     ul
       li
-        a(href="/admin/classrooms-progress?licenseEndMonths=12") Classroom Progress vs. Available Content
+        a(href="/admin/classrooms-progress?startDay=2017-08-01&endDay=2018-08-01") Classroom Progress vs. Available Content
       li
         a(href="/admin/classroom-content") Amount of Classroom Content
       li

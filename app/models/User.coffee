@@ -36,6 +36,7 @@ module.exports = class User extends CocoModel
   broadName: -> User.broadName(@attributes)
 
   getPhotoURL: (size=80) ->
+    return '' if application.testing
     return "/db/user/#{@id}/avatar?s=#{size}"
 
   getRequestVerificationEmailURL: ->
@@ -129,6 +130,7 @@ module.exports = class User extends CocoModel
   gems: ->
     gemsEarned = @get('earned')?.gems ? 0
     gemsEarned = gemsEarned + 100000 if me.isInGodMode()
+    gemsEarned += 1000 if me.get('hourOfCode')
     gemsPurchased = @get('purchased')?.gems ? 0
     gemsSpent = @get('spent') ? 0
     Math.floor gemsEarned + gemsPurchased - gemsSpent
@@ -168,18 +170,6 @@ module.exports = class User extends CocoModel
         return
     return errors
 
-  getAnnouncesActionAudioGroup: ->
-    return @announcesActionAudioGroup if @announcesActionAudioGroup
-    group = me.get('testGroupNumber') % 4
-    @announcesActionAudioGroup = switch group
-      when 0 then 'all-audio'
-      when 1 then 'no-audio'
-      when 2 then 'just-take-damage'
-      when 3 then 'without-take-damage'
-    @announcesActionAudioGroup = 'all-audio' if me.isAdmin()
-    application.tracker.identify announcesActionAudioGroup: @announcesActionAudioGroup unless me.isAdmin()
-    @announcesActionAudioGroup
-
   getCampaignAdsGroup: ->
     return @campaignAdsGroup if @campaignAdsGroup
     # group = me.get('testGroupNumber') % 2
@@ -190,6 +180,15 @@ module.exports = class User extends CocoModel
     @campaignAdsGroup = 'no-ads' if me.isAdmin()
     application.tracker.identify campaignAdsGroup: @campaignAdsGroup unless me.isAdmin()
     @campaignAdsGroup
+
+  # TODO: full removal of sub modal test
+  getSubModalGroup: () ->
+    return @subModalGroup if @subModalGroup
+    @subModalGroup = 'both-subs'
+    @subModalGroup
+  setSubModalGroup: (val) ->
+    @subModalGroup = if me.isAdmin() then 'both-subs' else val
+    @subModalGroup
 
   # Signs and Portents was receiving updates after test started, and also had a big bug on March 4, so just look at test from March 5 on.
   # ... and stopped working well until another update on March 10, so maybe March 11+...
@@ -212,6 +211,7 @@ module.exports = class User extends CocoModel
     return me.get('testGroupNumber') % numVideos
 
   hasSubscription: ->
+    return false if me.isStudent() or me.isTeacher()
     if payPal = @get('payPal')
       return true if payPal.billingAgreementID
     if stripe = @get('stripe')
@@ -437,6 +437,7 @@ module.exports = class User extends CocoModel
     stripe = _.clone(@get('stripe') ? {})
     stripe.planID = 'basic'
     stripe.token = token.id
+    stripe.couponID = options.couponID if options.couponID
     @set({stripe})
     return me.patch({headers: {'X-Change-Plan': 'true'}}).then =>
       unless utils.isValidEmail(@get('email'))

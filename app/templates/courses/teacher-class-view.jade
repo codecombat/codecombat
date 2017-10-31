@@ -23,6 +23,19 @@ block content
         .row.center-block.text-center.m-t-3.m-b-3
           .unarchive-btn.btn.btn-lg.btn-navy
             span(data-i18n='teacher.unarchive_this_class')
+      
+      - var today = new Date()
+      - var created = classroom.created()
+      - var elapsed = today.getTime()-created.getTime()
+      
+      if (elapsed/(1000*60*60*24) > 180)
+        .update-class
+          .alert.alert-info.text-center
+            strong(data-i18n='courses.update_old_classroom') 
+            .small-details
+              span.spr(data-i18n='courses.update_old_classroom_detail')
+              a(data-i18n="courses.teacher_dashboard" href="/teachers/")
+              span.spl(data-i18n="courses.update_old_classroom_detail_2") 
 
       h3.m-t-2= classroom.get('name')
       a.label.edit-classroom(data-classroom-id=classroom.id)
@@ -47,22 +60,34 @@ block content
           .average-playtime.small-details
             span(data-i18n='teacher.avg_playtime')
             span.spr :
-            span= stats.averagePlaytime
+            if view.allStatsLoaded()
+              span= stats.averagePlaytime
+            else
+              span(data-i18n='common.loading')
 
           .total-playtime.small-details
             span(data-i18n='teacher.total_playtime')
             span.spr :
-            span= stats.totalPlaytime
+            if view.allStatsLoaded()
+              span= stats.totalPlaytime
+            else
+              span(data-i18n='common.loading')
 
           .average-complete.small-details
             span(data-i18n='teacher.avg_completed')
             span.spr :
-            span= stats.averageLevelsComplete
+            if view.allStatsLoaded()
+              span= stats.averageLevelsComplete
+            else
+              span(data-i18n='common.loading')
 
           .total-complete.small-details
             span(data-i18n='teacher.total_completed')
             span.spr :
-            span= stats.totalLevelsComplete
+            if view.allStatsLoaded()
+              span= stats.totalLevelsComplete
+            else
+              span(data-i18n='common.loading')
 
           .total-complete.small-details
             span(data-i18n='teacher.created')
@@ -88,19 +113,27 @@ block content
         .completeness-info.col-md-4
           h4.m-b-2
             &nbsp;
-          if state.get('earliestIncompleteLevel')
-            div.small-details
+          div.small-details
+            if state.get('earliestIncompleteLevel')
               span(data-i18n='teacher.earliest_incomplete')
               span :
-            +longLevelName(state.get('earliestIncompleteLevel'))
-            +inlineUserList(state.get('earliestIncompleteLevel').users)
+              +longLevelName(state.get('earliestIncompleteLevel'))
+              +inlineUserList(state.get('earliestIncompleteLevel').users)
+            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
+              span(data-i18n='teacher.earliest_incomplete')
+              span :
+              div(data-i18n='common.loading')
 
-          if state.get('latestCompleteLevel')
-            div.small-details.m-t-3
+          div.small-details.m-t-3
+            if state.get('latestCompleteLevel')
               span(data-i18n='teacher.latest_complete')
               span :
-            +longLevelName(state.get('latestCompleteLevel'))
-            +inlineUserList(state.get('latestCompleteLevel').users)
+              +longLevelName(state.get('latestCompleteLevel'))
+              +inlineUserList(state.get('latestCompleteLevel').users)
+            else if (view.classroom.get('members') || []).length > 0 && !view.allStatsLoaded()
+              span(data-i18n='teacher.latest_complete')
+              span :
+              div(data-i18n='common.loading')
 
         .adding-students.col-md-5
           h4.m-b-2
@@ -216,8 +249,11 @@ mixin studentRow(student)
       div
         i
           span(data-i18n='teacher.latest_completed')
-      div
-        +longLevelName(student.latestCompleteLevel)
+      if view.allStatsLoaded()
+        div
+          +longLevelName(student.latestCompleteLevel)
+      else
+        div(data-i18n='common.loading')
     td
       if state.get('progressData')
         - var courses = view.sortedCourses.map(function(c) { return view.courses.get(c._id); });

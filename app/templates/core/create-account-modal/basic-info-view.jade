@@ -1,22 +1,6 @@
 form#basic-info-form.modal-body.basic-info
   - var path = view.signupState.get('path')
   .modal-body-content
-    .auth-network-logins.text-center
-      h4
-        span(data-i18n="teachers_quote.connect_with")
-      a#facebook-signup-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-        img.network-logo(src="/images/pages/modal/auth/facebook_sso_button.png", draggable="false", width="175", height="40")
-        span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
-      a#gplus-signup-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-        img.network-logo(src="/images/pages/modal/auth/gplus_sso_button.png", draggable="false", width="175", height="40")
-        span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
-        .gplus-login-wrapper
-          .gplus-login-button
-
-    .hr-text
-      hr
-      span(data-i18n="general.or")
-
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name
@@ -43,7 +27,7 @@ form#basic-info-form.modal-body.basic-info
               span(data-i18n="share_progress_modal.form_label")
             if view.signupState.get('path') === 'student'
               .help-block.optional-help-block.pull-right
-                span(data-i18n="signup.optional")
+                span.optional-text(data-i18n="signup.optional")
             input.form-control.input-lg#email-input(name="email" type="email" value=view.signupState.get('signupForm').email)
           .col-xs-4.email-check.fancy-error
             - var checkEmailState = view.state.get('checkEmailState');
@@ -63,26 +47,27 @@ form#basic-info-form.modal-body.basic-info
                 =" "
                 span(data-i18n="signup.email_good")
 
-      .form-group
-        .row
-          .col-xs-5.col-xs-offset-3
-            label.control-label(for="username-input")
-              span(data-i18n="general.username")
-            input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name)
-          .col-xs-4.name-check.fancy-error
-            - var checkNameState = view.state.get('checkNameState');
-            if checkNameState === 'checking'
-              span.small(data-i18n="signup.checking")
-            if checkNameState === 'exists'
-              span.small
-                span.text-burgundy.glyphicon.glyphicon-remove-circle
-                =" "
-                span= view.state.get('suggestedNameText')
-            if checkNameState === 'available'
-              span.small
-                span.text-forest.glyphicon.glyphicon-ok-circle
-                =" "
-                span(data-i18n="signup.name_available")
+      if view.signupState.get('path') !== 'teacher'
+        .form-group
+          .row
+            .col-xs-5.col-xs-offset-3
+              label.control-label(for="username-input")
+                span(data-i18n="general.username")
+              input.form-control.input-lg#username-input(name="name" value=view.signupState.get('signupForm').name)
+            .col-xs-4.name-check.fancy-error
+              - var checkNameState = view.state.get('checkNameState');
+              if checkNameState === 'checking'
+                span.small(data-i18n="signup.checking")
+              if checkNameState === 'exists'
+                span.small
+                  span.text-burgundy.glyphicon.glyphicon-remove-circle
+                  =" "
+                  span= view.state.get('suggestedNameText')
+              if checkNameState === 'available'
+                span.small
+                  span.text-forest.glyphicon.glyphicon-ok-circle
+                  =" "
+                  span(data-i18n="signup.name_available")
 
       .form-group
         .row
@@ -91,20 +76,24 @@ form#basic-info-form.modal-body.basic-info
               span(data-i18n="general.password")
             input.form-control.input-lg#password-input(name="password" type="password" value=view.signupState.get('signupForm').password)
 
-      .form-group.checkbox.subscribe
-        .row
-          .col-xs-7.col-xs-offset-3
-            .checkbox
-              label
-                input#subscribe-input(type="checkbox" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
-                span(data-i18n="signup.email_announcements")
-
       .error-area
         - var error = view.state.get('error');
         if error
           .row
             .col-xs-7.col-xs-offset-3
           .alert.alert-danger= error
+
+    .hr-text
+      hr
+      span(data-i18n="general.or")
+
+    .auth-network-logins.text-center
+      .gplus-login
+        a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+          img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
+      .facebook-login
+        a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+          img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
 
   // In reverse order for tabbing purposes
   .history-nav-buttons

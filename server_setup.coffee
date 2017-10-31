@@ -176,7 +176,7 @@ setupCountryTaggingMiddleware = (app) ->
 setupCountryRedirectMiddleware = (app, country='china', host='cn.codecombat.com') ->
   hosts = host.split /;/g
   shouldRedirectToCountryServer = (req) ->
-    reqHost = (req.hostname ? req.host).toLowerCase()  # Work around express 3.0
+    reqHost = (req.hostname ? req.host ? '').toLowerCase()  # Work around express 3.0
     return req.country is country and reqHost not in hosts and reqHost.indexOf(config.unsafeContentHostname) is -1
 
   app.use (req, res, next) ->

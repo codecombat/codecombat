@@ -1,6 +1,7 @@
 module.exports = {
   admin: require('./admin')
   auth: require('./auth')
+  analyticsLogEvents: require('./analytics-log-events')
   campaigns: require('./campaigns')
   classrooms: require('./classrooms')
   courses: require('./courses')

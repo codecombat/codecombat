@@ -99,11 +99,8 @@ module.exports = class TeacherClassView extends RootView
     @students = new Users()
     @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
-      jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
-      @supermodel.trackRequests jqxhrs
-
-      requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
-      @supermodel.trackRequests(requests)
+      @fetchStudents()
+      @fetchSessions()
 
     @students.comparator = (student1, student2) =>
       dir = @state.get('sortDirection')
@@ -137,6 +134,22 @@ module.exports = class TeacherClassView extends RootView
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+
+  fetchStudents: ->
+    Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
+    .then =>
+      return if @destroyed
+      @removeDeletedStudents() # TODO: Move this to mediator listeners?
+      @calculateProgressAndLevels()
+      @render?()
+
+  fetchSessions: ->
+    Promise.all(@classroom.sessions.fetchForAllClassroomMembers(@classroom))
+    .then =>
+      return if @destroyed
+      @removeDeletedStudents() # TODO: Move this to mediator listeners?
+      @calculateProgressAndLevels()
+      @render?()
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -196,8 +209,9 @@ module.exports = class TeacherClassView extends RootView
 
   afterRender: ->
     super(arguments...)
-    @courseNagSubview = new CourseNagSubview()
-    @insertSubView(@courseNagSubview)
+    unless @courseNagSubview
+      @courseNagSubview = new CourseNagSubview()
+      @insertSubView(@courseNagSubview)
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -206,16 +220,24 @@ module.exports = class TeacherClassView extends RootView
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
 
+  allStatsLoaded: ->
+    @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
+
   calculateProgressAndLevels: ->
-    return unless @supermodel.progress is 1
+    return unless @supermodel.progress is 1 and @allStatsLoaded()
+    userLevelCompletedMap = @classroom.sessions.models.reduce((map, session) =>
+      if session.completed()
+        map[session.get('creator')] ?= {}
+        map[session.get('creator')][session.get('level').original.toString()] = true
+      map
+    , {})
     # TODO: How to structure this in @state?
     for student in @students.models
       # TODO: this is a weird hack
       studentsStub = new Users([ student ])
-      student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub)
-
+      student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub, userLevelCompletedMap)
     earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @courseInstances, @students)
-    latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students)
+    latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students, userLevelCompletedMap)
 
     classroomsStub = new Classrooms([ @classroom ])
     progressData = helper.calculateAllProgress(classroomsStub, @courses, @courseInstances, @students)
@@ -499,9 +521,9 @@ module.exports = class TeacherClassView extends RootView
       # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
       # end up returning the final result of all those requests together.
       @prepaids.fetchByCreator(me.id)
-      @students.fetchForClassroom(@classroom, removeDeleted: true)
+      @fetchStudents()
 
-      @trigger 'begin-assign-course'
+      @trigger 'begin-assign-course' # Only used for test automation
       if members.length
         noty text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true
         return courseInstance.addMembers(members)
@@ -552,7 +574,7 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
-    
+
   onClickSelectAll: (e) ->
     e.preventDefault()
     checkboxStates = _.clone @state.get('checkboxStates')

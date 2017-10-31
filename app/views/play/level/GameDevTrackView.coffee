@@ -18,6 +18,7 @@ module.exports = class GameDevTrackView extends CocoView
   onUITrackedPropertiesChanged: (e) ->
     @listings = {}
     for key, thangState of e.thangStateMap
+      continue unless thangState.trackedPropertyKeys
       trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
       unless trackedPropNamesIndex is -1
         trackedPropNames = thangState.props[trackedPropNamesIndex]
@@ -45,27 +46,14 @@ module.exports = class GameDevTrackView extends CocoView
   onRealTimePlaybackEnded: (e) ->
     @$el.removeClass('playback-float-right')
 
-  iconify: (name) ->
-    return iconObj[name] ? '❓' # That's an emoji in the ''.
-
+  titleize: (name) ->
+    return _.string.titleize(_.string.humanize(name))
+    
   beautify: (name, val) ->
     if typeof val is 'object' and val.x? and val.y? and val.z?
       return "x: #{Math.round(val.x)}\ny: #{Math.round(val.y)}"
     if typeof val is 'number'
-      round = Math.round(val * 100) / 100
-      if name is 'time'
-        return round.toFixed(2) 
+      round = Math.round(val)
       return round
     return val
 
-iconObj =
-  'pos':'🎯'
-  'defeated': '☠'
-  'gold':'💰'
-  'time':'⏳'
-  'score': '🎶'
-  'plays': '⚽'
-  'fire-spewer': '🔥'
-  'fire-trap': '💥'
-  'ogre': '😈'
-  'victory': '🎆'

@@ -21,6 +21,7 @@ sendwithus = require '../sendwithus'
 co = require 'co'
 delighted = require '../delighted'
 subscriptions = require './subscriptions'
+{ makeHostUrl } = require '../commons/urls'
 
 module.exports =
   fetchByCode: wrap (req, res, next) ->
@@ -32,7 +33,7 @@ module.exports =
       throw new errors.NotFound('Classroom not found.')
     classroom = classroom.toObject()
     # Tack on the teacher's name for display to the user
-    owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name')).toObject()
+    owner = (yield User.findOne({ _id: mongoose.Types.ObjectId(classroom.ownerID) }).select('name firstName lastName')).toObject()
     res.status(200).send({ data: classroom, owner } )
 
   getByOwner: wrap (req, res, next) ->
@@ -329,7 +330,7 @@ module.exports =
         email_data:
           teacher_name: req.user.broadName()
           class_name: classroom.get('name')
-          join_link: "https://codecombat.com/students?_cc=" + joinCode
+          join_link: makeHostUrl(req, '/students?_cc=' + joinCode)
           join_code: joinCode
       sendwithus.api.send context, _.noop
 

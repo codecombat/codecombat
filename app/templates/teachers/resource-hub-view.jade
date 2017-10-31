@@ -59,6 +59,19 @@ block content
       h4(data-i18n="teacher.getting_started")
       ul
         li
+          strong(data-i18n="teacher.pacing_guides")
+          p 
+            span(data-i18n="teacher.pacing_guides_desc")
+            br
+            a(href="http://files.codecombat.com/docs/resources/ElementaryPacing.pdf")
+              span(data-i18n="teacher.pacing_guides_elem")
+            span.spl.spr | 
+            a(href="http://files.codecombat.com/docs/resources/MiddleSchoolPacing.pdf")
+              span(data-i18n="teacher.pacing_guides_middle")
+            span.spl.spr | 
+            a(href="http://files.codecombat.com/docs/resources/HighSchoolPacing.pdf")
+              span(data-i18n="teacher.pacing_guides_high")
+        li
           a(href="/teachers/resources/faq")
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
@@ -67,7 +80,10 @@ block content
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf")
+          - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide-zh-HANS.pdf";
+          a(href=quickStartURL)
             span(data-i18n="teacher.student_getting_started")
             span.spl [PDF]
           p(data-i18n="teacher.student_getting_started_desc")
@@ -88,7 +104,10 @@ block content
             span(data-i18n="teacher.cs1_curriculum")
           p(data-i18n="teacher.cs1_curriculum_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf")
+          - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide-zh-HANS.pdf";
+          a(href=pythonURL)
             span(data-i18n="teacher.cs1_syntax_python")
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_python_desc")
@@ -119,14 +138,11 @@ block content
           a(href="/teachers/resources/gd1-5day")
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")
-
-      h4(data-i18n="teacher.cs2")
-      ul
         li
-          a(href="/teachers/resources/cs2")
-            span(data-i18n="teacher.cs2_curriculum")
-          p(data-i18n="teacher.cs2_curriculum_desc")
-
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf")
+            span(data-i18n="teacher.gd1_rubric")
+          p(data-i18n="teacher.gd1_rubric_desc")
+          
       h4(data-i18n="teacher.wd1")
       ul
         li
@@ -146,6 +162,21 @@ block content
             span(data-i18n="teacher.wd1_css_syntax")
             span.spl [PDF]
           p(data-i18n="teacher.wd1_css_syntax_desc")
+          
+      h4(data-i18n="teacher.cs2")
+      ul
+        li
+          a(href="/teachers/resources/cs2")
+            span(data-i18n="teacher.cs2_curriculum")
+          p(data-i18n="teacher.cs2_curriculum_desc")
+          
+      h4(data-i18n="teacher.gd2")
+      ul
+        li
+          a(href="/teachers/resources/gd2")
+            span(data-i18n="teacher.gd2_curriculum")
+          p(data-i18n="teacher.gd2_curriculum_desc")
+
 
       h4(data-i18n="teacher.cs3")
       ul
