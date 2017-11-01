@@ -16,6 +16,7 @@ Level = require 'models/Level'
 LevelFeedback = require 'models/LevelFeedback'
 storage = require 'core/storage'
 SubscribeModal = require 'views/core/SubscribeModal'
+AmazonHocModal = require 'views/play/modal/AmazonHocModal'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -36,6 +37,7 @@ module.exports = class HeroVictoryModal extends ModalView
     'click .skip-offer-button': 'onClickSkipOffer'
     'click #share-level-btn': 'onClickShareLevelButton'
     'click .subscribe-button': 'onSubscribeButtonClicked'
+    'click #amazon-hoc-button': 'onClickAmazonHocButton'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -217,6 +219,7 @@ module.exports = class HeroVictoryModal extends ModalView
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
+      @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
@@ -517,6 +520,9 @@ module.exports = class HeroVictoryModal extends ModalView
   onClickShareLevelButton: ->
     @$('#share-level-input').val(@shareURL).select()
     @tryCopy()
+
+  onClickAmazonHocButton: ->
+    @openModalView new AmazonHocModal()
 
   onSubscribeButtonClicked: ->
     @openModalView new SubscribeModal()

@@ -35,6 +35,7 @@ module.exports = class SpellTopBarView extends CocoView
     context.beautifyShortcutVerbose = "#{ctrl}+#{shift}+B: #{$.i18n.t 'keyboard_shortcuts.beautify'}"
     context.maximizeShortcutVerbose = "#{ctrl}+#{shift}+M: #{$.i18n.t 'keyboard_shortcuts.maximize_editor'}"
     context.codeLanguage = @options.codeLanguage
+    context.showAmazonLogo = application.getHocCampaign() is 'game-dev-hoc'
     context
 
   afterRender: ->
