@@ -37,6 +37,9 @@ if view.showAds()
       img.small-nav-logo.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png", title="Code Ninjas home", alt="Code Ninjas home")
 
   if campaign
+    if campaign.get('slug') === 'game-dev-hoc'
+      img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
+    
     .map
       if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
         #brain-pop-done-banner-wrapper

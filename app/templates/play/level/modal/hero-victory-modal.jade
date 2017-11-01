@@ -152,7 +152,9 @@ block modal-footer-content
   button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
 
   .next-level-buttons
-    if view.showHoc2016ExploreButton
+    if view.showAmazonHocButton
+      button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#amazon-hoc-button(data-i18n="play_level.keep_learning")
+    else if view.showHoc2016ExploreButton
       button.btn.btn-illustrated.btn-success.btn-lg.world-map-button.next-level-button.hide#continue-button(data-i18n="play_level.explore_codecombat")
     else if readyToRank
       .ladder-submission-view
