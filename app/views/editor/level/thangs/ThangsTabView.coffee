@@ -1,3 +1,4 @@
+require('app/styles/editor/level/thangs-tab-view.sass')
 CocoView = require 'views/core/CocoView'
 AddThangsView = require './AddThangsView'
 thangs_template = require 'templates/editor/level/thangs-tab-view'
@@ -10,8 +11,9 @@ Surface = require 'lib/surface/Surface'
 Thang = require 'lib/world/thang'
 LevelThangEditView = require './LevelThangEditView'
 LevelComponents = require 'collections/LevelComponents'
-require 'vendor/treema'
+require 'lib/setupTreema'
 GameUIState = require 'models/GameUIState'
+GenerateTerrainModal = require 'views/editor/level/modals/GenerateTerrainModal'
 
 # Moving the screen while dragging thangs constants
 MOVE_MARGIN = 0.15
@@ -52,6 +54,7 @@ module.exports = class ThangsTabView extends CocoView
     'click #thangs-palette-toggle': 'toggleThangsPalette'
 #    'click .add-thang-palette-icon': 'toggleThangsPalette'
     'click #rotation-menu-item button': 'onClickRotationButton'
+    'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
 
   shortcuts:
     'esc': 'selectAddThang'
@@ -141,6 +144,10 @@ module.exports = class ThangsTabView extends CocoView
     if _.keys(@thangsTreema.data).length
       @$el.find('#canvas-overlay').css('display', 'none')
 
+  openGenerateTerrainModal: (e) ->
+    e.stopPropagation()
+    @openModalView new GenerateTerrainModal()
+  
   onFilterExtantThangs: (e) ->
     @$el.find('#extant-thangs-filter button.active').button('toggle')
     button = $(e.target).closest('button')

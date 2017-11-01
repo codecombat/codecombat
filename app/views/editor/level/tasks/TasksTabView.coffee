@@ -1,3 +1,4 @@
+require('app/styles/editor/level/tasks-tab.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/tasks-tab'
 Level = require 'models/Level'

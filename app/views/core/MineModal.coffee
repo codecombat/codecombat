@@ -1,3 +1,4 @@
+require('app/styles/modal/mine-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/mine-modal'
 Products = require 'collections/Products'

@@ -1,3 +1,4 @@
+require('app/styles/play/modal/announcement-modal.sass')
 ModalView = require 'views/core/ModalView'
 utils = require 'core/utils'
 CreateAccountModal = require 'views/core/CreateAccountModal'
@@ -104,7 +105,7 @@ module.exports = class AnnouncementModal extends ModalView
       x = $(".paper-area").position()
       $("#item-tooltip").show().css("left", ((e.clientX - w.left) + 96) + "px")
       $("#item-tooltip").show().css("top", ((e.clientY - w.top)) + "px")
-      if $(e.currentTarget).data('coming-soon')
+      if $(e.currentTarget).data('coming-soon')?
         $("#item-tooltip #coming-soon").show()
       else
         $("#item-tooltip #coming-soon").hide()

@@ -1,4 +1,5 @@
 {hexToHSL, hslToHex} = require 'core/utils'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class SpriteBuilder
   constructor: (@thangType, @options) ->

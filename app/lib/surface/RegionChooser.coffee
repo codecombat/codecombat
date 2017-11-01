@@ -1,5 +1,6 @@
 CocoClass = require 'core/CocoClass'
 Camera = require './Camera'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class RegionChooser extends CocoClass
   constructor: (@options) ->

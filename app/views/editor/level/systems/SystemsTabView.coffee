@@ -1,3 +1,4 @@
+require('app/styles/editor/level/systems-tab-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/systems-tab-view'
 Level = require 'models/Level'
@@ -6,7 +7,7 @@ LevelSystemEditView = require './LevelSystemEditView'
 NewLevelSystemModal = require './NewLevelSystemModal'
 AddLevelSystemModal = require './AddLevelSystemModal'
 nodes = require '../treema_nodes'
-require 'vendor/treema'
+require 'lib/setupTreema'
 
 module.exports = class SystemsTabView extends CocoView
   id: 'systems-tab-view'

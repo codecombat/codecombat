@@ -7,6 +7,7 @@ AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
+createjs = require 'lib/createjs-parts'
 
 # We'll get rid of this once level's teams actually have colors
 healthColors =

@@ -1,3 +1,4 @@
+require('app/styles/play/level/play-game-dev-level-view.sass')
 RootView = require 'views/core/RootView'
 
 GameUIState = require 'models/GameUIState'
@@ -14,9 +15,10 @@ utils = require 'core/utils'
 urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
+aetherUtils = require 'lib/aether_utils'
 GameDevTrackView = require './GameDevTrackView'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 TEAM = 'humans'
 
@@ -48,8 +50,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     @level = new Level()
     @session = new LevelSession()
     @gameUIState = new GameUIState()
-    @courseID = @getQueryVariable 'course'
-    @courseInstanceID = @getQueryVariable 'course-instance'
+    @courseID = utils.getQueryVariable 'course'
+    @courseInstanceID = utils.getQueryVariable 'course-instance'
     @god = new God({ @gameUIState, indefiniteLength: true })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
     @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
@@ -95,7 +97,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = @session.generateSpellsObject level: @level
+      @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
       
       course = if @courseID then new Course({_id: @courseID}) else null

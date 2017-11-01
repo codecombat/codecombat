@@ -1,3 +1,4 @@
+require('app/styles/play/modal/amazon-hoc-modal.sass')
 ModalView = require('views/core/ModalView')
 template = require 'templates/play/modal/amazon-hoc-modal'
 

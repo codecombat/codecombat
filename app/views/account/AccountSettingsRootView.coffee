@@ -1,3 +1,4 @@
+require('app/styles/account/account-settings-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/account/account-settings-root-view'
 AccountSettingsView = require './AccountSettingsView'

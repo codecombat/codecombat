@@ -111,3 +111,6 @@ Dockerfile
 npm-debug.log*
 
 temp/
+
+# Created by git LFS
+.gitattributes

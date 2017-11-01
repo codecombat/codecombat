@@ -1,3 +1,4 @@
+require('app/styles/play/level/tome/spell-top-bar-view.sass')
 template = require 'templates/play/level/tome/spell-top-bar-view'
 ReloadLevelModal = require 'views/play/level/modal/ReloadLevelModal'
 CocoView = require 'views/core/CocoView'

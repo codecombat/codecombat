@@ -1,3 +1,4 @@
+require('app/styles/courses/teacher-class-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
@@ -23,6 +24,7 @@ Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
+window.saveAs = require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 

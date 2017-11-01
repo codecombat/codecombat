@@ -1,6 +1,6 @@
+require('app/styles/clans/clan-details.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/clans/clan-details'
-app = require 'core/application'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 CocoCollection = require 'collections/CocoCollection'
 Campaign = require 'models/Campaign'
@@ -289,7 +289,7 @@ module.exports = class ClanDetailsView extends RootView
       error: (model, response, options) =>
         console.error 'Error joining clan', response
       success: (model, response, options) =>
-        app.router.navigate "/clans"
+        application.router.navigate "/clans"
         window.location.reload()
     @supermodel.addRequestResource( 'delete_clan', options).load()
 

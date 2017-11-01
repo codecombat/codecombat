@@ -1,3 +1,4 @@
+require('app/styles/admin/admin-outcomes-report.sass')
 RootView = require 'views/core/RootView'
 OutcomeReportResultView = require 'views/admin/OutcomeReportResultView'
 template = require 'templates/base-flat'
@@ -12,7 +13,7 @@ Users = require 'collections/Users'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
-require('vendor/co')
+co = require('co')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 

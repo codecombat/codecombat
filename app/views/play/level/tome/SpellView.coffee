@@ -1,8 +1,9 @@
+require('app/styles/play/level/tome/spell.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/spell'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
-ace = require 'ace'
+ace = require('lib/aceContainer')
 Range = ace.require('ace/range').Range
 UndoManager = ace.require('ace/undomanager').UndoManager
 Problem = require './Problem'
@@ -11,10 +12,11 @@ SpellTranslationView = require './SpellTranslationView'
 SpellToolbarView = require './SpellToolbarView'
 LevelComponent = require 'models/LevelComponent'
 UserCodeProblem = require 'models/UserCodeProblem'
-utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
+LZString = require 'lz-string'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -100,7 +102,7 @@ module.exports = class SpellView extends CocoView
       @reallySetAnnotations newAnnotations
     @aceDoc = @aceSession.getDocument()
     @aceSession.setUseWorker @spell.language in @languagesThatUseWorkers
-    @aceSession.setMode utils.aceEditModes[@spell.language]
+    @aceSession.setMode aceUtils.aceEditModes[@spell.language]
     @aceSession.setWrapLimitRange null
     @aceSession.setUseWrapMode true
     @aceSession.setNewLineMode 'unix'
@@ -399,9 +401,11 @@ module.exports = class SpellView extends CocoView
       return true for range in @readOnlyRanges when rightRange.intersects(range)
       false
 
+    # TODO: Performance: Consider removing, may be dead code.
     pulseLockedCode = ->
       $('.locked-code').finish().addClass('pulsating').effect('shake', times: 1, distance: 2, direction: 'down').removeClass('pulsating')
 
+    # TODO: Performance: Consider removing, may be dead code.
     preventReadonly = (next) ->
       if intersects()
         pulseLockedCode()
@@ -471,7 +475,7 @@ module.exports = class SpellView extends CocoView
          (e.command.name in ['Backspace', 'throttle-backspaces'] and intersectsLeft()) or
          (e.command.name is 'del' and intersectsRight())
         @autocomplete?.off?()
-        pulseLockedCode()
+        pulseLockedCode() # TODO: Performance: Consider removing, may be dead code.
         return false
       else if e.command.name in ['enter-skip-delimiters', 'Enter', 'Return']
         if intersects()
@@ -1283,8 +1287,8 @@ module.exports = class SpellView extends CocoView
 
   onChangeLanguage: (e) ->
     return unless @spell.canWrite()
-    @aceSession.setMode utils.aceEditModes[e.language]
-    @autocomplete?.set 'language', utils.aceEditModes[e.language].substr('ace/mode/')
+    @aceSession.setMode aceUtils.aceEditModes[e.language]
+    @autocomplete?.set 'language', aceUtils.aceEditModes[e.language].substr('ace/mode/')
     wasDefault = @getSource() is @spell.originalSource
     @spell.setLanguage e.language
     @reloadCode true if wasDefault

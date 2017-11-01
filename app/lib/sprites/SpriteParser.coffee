@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 module.exports = class SpriteParser
   constructor: (@thangTypeModel) ->
     # Create a new ThangType, or work with one we've been building

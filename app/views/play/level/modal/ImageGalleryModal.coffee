@@ -1,3 +1,4 @@
+require('app/styles/play/modal/image-gallery-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 utils = require 'core/utils'
