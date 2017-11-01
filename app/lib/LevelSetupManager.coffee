@@ -146,8 +146,8 @@ module.exports = class LevelSetupManager extends CocoClass
         not _.isEqual(lastHeroesPurchased, me.get('purchased')?.heroes ? []))
       console.log 'Showing hero picker because heroes earned/purchased has changed.'
       firstModal = @heroesModal
-    else if allowedHeroSlugs = @level.get 'allowedHeroes'
-      unless _.find(allowedHeroSlugs, (slug) -> ThangType.heroes[slug] is me.get('heroConfig')?.thangType)
+    else if allowedHeroOriginals = @level.get 'allowedHeroes'
+      unless _.contains allowedHeroOriginals, me.get('heroConfig')?.thangType
         firstModal = @heroesModal
     firstModal = @inventoryModal if me.isStudent()
     lastHeroesEarned = me.get('earned')?.heroes ? []
