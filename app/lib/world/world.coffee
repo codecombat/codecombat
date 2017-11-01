@@ -249,7 +249,11 @@ module.exports = class World
     @picoCTFProblem = level.picoCTFProblem if level.picoCTFProblem
     if @picoCTFProblem?.instances and not @picoCTFProblem.flag_sha1
       @picoCTFProblem = _.merge @picoCTFProblem, @picoCTFProblem.instances[0]
-    system.start @thangs for system in @systems
+    for system in @systems
+      try
+        system.start @thangs
+      catch err
+        console.error "Error starting system!", system, err
 
   loadSystemsFromLevel: (level) ->
     # Remove old Systems
