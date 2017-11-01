@@ -223,7 +223,7 @@ describe 'GET /api/users/:handle/classrooms', ->
   
 describe 'POST /api/users/:handle/o-auth-identities', ->
 
-  beforeEach utils.wrap (done) ->
+  beforeEach utils.wrap ->
     yield utils.clearModels([User, APIClient])
     @client = new APIClient()
     @secret = @client.setNewSecret()
@@ -242,16 +242,18 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
     @json = { provider: @provider.id, accessToken: '1234' }
     @providerNock = nock('https://oauth.provider')
     @providerLookupRequest = @providerNock.get('/user?t=1234')
-    done()
 
-  it 'adds a new identity to the user if everything checks out', utils.wrap (done) ->
+  it 'idempotently adds a new identity to the user if everything checks out', utils.wrap ->
     @providerLookupRequest.reply(200, {id: 'abcd'})
     [res, body] = yield request.postAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(200)
     expect(res.body.oAuthIdentities.length).toBe(1)
     expect(res.body.oAuthIdentities[0].id).toBe('abcd')
     expect(res.body.oAuthIdentities[0].provider).toBe(@provider.id)
-    done()
+
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    [res, body] = yield request.postAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(200)
 
   it 'can take a code and do a token lookup', utils.wrap (done) ->
     @providerNock.get('/oauth2/token').reply(200, {access_token: '1234'})
