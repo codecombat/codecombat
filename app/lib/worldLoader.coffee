@@ -1,4 +1,4 @@
-window.libWorldRequire = (path) ->
+module.exports = window.libWorldRequire = (path) ->
   switch path
     when 'lib/world/systems/action' then require('lib/world/systems/action')
     when 'lib/world/systems/collision' then require('lib/world/systems/collision')

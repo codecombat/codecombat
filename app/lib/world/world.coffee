@@ -1,4 +1,3 @@
-require('lib/worldLoader') # Install custom hack to dynamically require library files
 _ = require('lodash') # TODO webpack: Get these two loading from lodash entry, probably
 _.string = require('underscore.string')
 Vector = require './vector'
@@ -24,6 +23,8 @@ EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
 window.string_score = require 'vendor/scripts/string_score.js' # Used as a global in DB code
 require 'vendor/scripts/coffeescript' # Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
+window.box2d = require('lib/world/box2d') # TODO webpack: only load this when necessary
+require('lib/worldLoader') # Install custom hack to dynamically require library files
 
 module.exports = class World
   @className: 'World'
@@ -321,8 +322,6 @@ module.exports = class World
     @addScripts level.scripts...
 
   loadClassFromCode: (js, name, kind='component') ->
-    window.box2d = require('lib/world/box2d') # TODO webpack: only load this when necessary
-    js = js.replace(/require\(/g, 'window.libWorldRequire(')
     # Cache them based on source code so we don't have to worry about extra compilations
     @componentCodeClassMap ?= {}
     @systemCodeClassMap ?= {}
@@ -330,6 +329,7 @@ module.exports = class World
     c = map[js]
     return c if c
     try
+      require = window.libWorldRequire
       c = map[js] = eval js
     catch err
       console.error "Couldn't compile #{kind} code:", err, "\n", js
