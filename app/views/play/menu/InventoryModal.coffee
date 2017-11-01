@@ -318,6 +318,9 @@ module.exports = class InventoryModal extends ModalView
   onClickSubscribeItemViewed: (e) ->
     return @askToSignUp() if me.get('anonymous')
     @openModalView new SubscribeModal()
+    itemElem = @$el.find('.item.active')
+    item = @items.get(itemElem?.data('item-id'))
+    window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'inventory modal: ' + (item?.get('slug') or 'unknown')
 
   #- Select/equip higher-level, all encompassing methods the callbacks all use
 
