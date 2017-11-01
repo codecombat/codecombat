@@ -1661,7 +1661,7 @@ describe 'POST /paypal/webhook', ->
               payments = yield Payment.find({'payPalBillingAgreementID': @paymentEventData.resource.billing_agreement_id}).lean()
               expect(payments?.length).toEqual(1)
 
-            it 'does not create a new payment and updates the existing one', utils.wrap ->
+            it 'does not create a new payment and updates the existing one for the corresponding webhook call', utils.wrap ->
               url = getURL('/paypal/webhook')
               [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
               expect(res.statusCode).toEqual(200)
@@ -1669,6 +1669,26 @@ describe 'POST /paypal/webhook', ->
               payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
               expect(payments?.length).toEqual(1)
               expect(payments[0].payPalBillingAgreementID).toEqual(@paymentEventData.resource.billing_agreement_id)
+
+            describe 'when initial subscribe payment already updated from webhook', ->
+              beforeEach utils.wrap ->
+                url = getURL('/paypal/webhook')
+                [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+                expect(res.statusCode).toEqual(200)
+                expect(res.body).toEqual("Payment sale object #{@paymentEventData.resource.id} added to initial payment #{@payment.id}")
+                payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+                expect(payments?.length).toEqual(1)
+                expect(payments[0].payPalBillingAgreementID).toEqual(@paymentEventData.resource.billing_agreement_id)
+
+              it 'creates a 2nd payment for month 2 recurring payment', utils.wrap ->
+                secondPaymentData = _.cloneDeep(@paymentEventData)
+                secondPaymentData.resource.id += 'second'
+                url = getURL('/paypal/webhook')
+                [res, body] = yield request.postAsync({ uri: url, json: secondPaymentData })
+                expect(res.statusCode).toEqual(200)
+                payments = yield Payment.find({'payPalSale.id': secondPaymentData.resource.id}).lean()
+                expect(payments?.length).toEqual(1)
+                expect(payments[0].payPalBillingAgreementID).not.toBeDefined()
 
   describe 'when BILLING.SUBSCRIPTION.CANCELLED event', ->
     beforeEach utils.wrap ->

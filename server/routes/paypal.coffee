@@ -12,8 +12,10 @@ module.exports.setup = (app) ->
   app.post '/paypal/webhook', expressWrap (req, res) ->
     try
       if req.body.event_type is "PAYMENT.SALE.COMPLETED"
+        log.info "PayPal webhook event #{req.body.event_type} received"
         yield handlePaymentSucceeded(req, res)
       else if req.body.event_type is "BILLING.SUBSCRIPTION.CANCELLED"
+        log.info "PayPal webhook event #{req.body.event_type} received"
         yield handleSubscriptionCancelled(req, res)
       else
         log.info "PayPal webhook unknown event #{req.body.event_type}"
