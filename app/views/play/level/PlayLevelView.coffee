@@ -129,7 +129,7 @@ module.exports = class PlayLevelView extends RootView
     if @isEditorPreview
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-      f = => @load() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
+      f = => @load?() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
       setTimeout f, 100
     else
       @load()
@@ -702,13 +702,13 @@ module.exports = class PlayLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
-    
+
     # without this check, when removing goals, goals aren't updated properly. Make sure we update
     # the goals once the first frame is finished.
     if @world.age > 0 and @willUpdateStudentGoals
       @willUpdateStudentGoals = false
       @updateStudentGoals()
-    
+
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
@@ -734,7 +734,7 @@ module.exports = class PlayLevelView extends RootView
     @updateStudentGoals()
     @onWindowResize()
     @realTimePlaybackWaitingForFrames = true
-    
+
   updateStudentGoals: ->
     return unless @level.isType('game-dev')
     @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals

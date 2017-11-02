@@ -45,7 +45,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
-    if @getQueryVariable 'dev'
+    if utils.getQueryVariable 'dev'
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @supermodel.on 'update-progress', (progress) =>
@@ -185,7 +185,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @updateDb()
 
   updateDb: ->
-    return unless @state.get('playing')
+    return unless @state?.get('playing')
     if @surface.world.keyValueDb and not _.isEqual(@surface.world.keyValueDb, @session.attributes.keyValueDb)
       @session.updateKeyValueDb(_.cloneDeep(@surface.world.keyValueDb))
       @session.saveKeyValueDb()
