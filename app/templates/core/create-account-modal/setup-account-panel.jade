@@ -1,9 +1,9 @@
 .setup-account-panel.text-left
   .p-a-3
     div.text-center(v-if="saving")
-      {{ $t("common.saving") }}
+      | {{ $t("common.saving") }}
     div.text-center(v-else-if="error")
-      {{ $t("loading_error.error") }}
+      | {{ $t("loading_error.error") }}
       =": "
       | {{ error }}
     div(v-else)

@@ -1,5 +1,5 @@
 mixin heroOption(hero)
-  - var heroOriginal = hero.get('original')
+  - var heroOriginal = hero.original
   - var selectedState
   if state.get('selectedHeroOriginal') === heroOriginal
     - selectedState = 'selected'
@@ -9,12 +9,12 @@ mixin heroOption(hero)
     - selectedState = ''
   .hero-option(data-hero-original=heroOriginal, class=selectedState)
     .hero-avatar
-      img(src=hero.getPortraitURL())
+      img(src=view.getPortraitURL(hero))
     .text-h5.hero-name
-      span= hero.getHeroShortName()
+      span= view.getHeroShortName(hero)
 
 .hero-list
-  if view.heroes.loaded
-    each hero in view.heroes.models
-      if hero.get('heroClass') === 'Warrior'
+  if view.heroes
+    each hero in view.heroes
+      if hero.heroClass === 'Warrior'
         +heroOption(hero)

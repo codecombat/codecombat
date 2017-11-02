@@ -61,7 +61,9 @@ class ViewVisibleTimer extends CocoClass
       @running = true
       @startTime = window.performance.now()
 
-  stopTimer: ({ subtractTimeout = false, clearName = false } = { })->
+  stopTimer: ({ subtractTimeout, clearName } = { })->
+    subtractTimeout ?= false
+    clearName ?= false
     clearTimeout(@awayTimeoutId)
     if @running
       @running = false

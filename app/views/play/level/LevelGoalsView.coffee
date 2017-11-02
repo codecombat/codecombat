@@ -1,3 +1,4 @@
+require('app/styles/play/level/goals.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/goals'
 {me} = require 'core/auth'

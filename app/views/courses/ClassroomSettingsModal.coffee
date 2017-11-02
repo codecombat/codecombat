@@ -1,3 +1,4 @@
+require('app/styles/courses/classroom-settings-modal.sass')
 Classroom = require 'models/Classroom'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/classroom-settings-modal'

@@ -58,7 +58,7 @@ block content
       //#contributor-list
       // TODO: collect CodeCombat userids for these guys so we can include a tiled list
       ul.diplomats
-        each stats, languageCode in view.calculateSpokenLanguageStats()
+        each stats, languageCode in view.languageStats
           if !(stats.completion < 0.02 && !stats.diplomats.length)
             li
               a(href=stats.githubURL)
@@ -69,7 +69,11 @@ block content
               if stats.diplomats.length
                 span.spl - #{stats.diplomats.join(', ')}
               .progress
-                .progress-bar(style='width: ' + (100 * stats.completion) + '%')
-                  span(style=stats.completion < 0.06 ? 'color: black; text-shadow: 0px 1px 0px white' : '')= Math.min(100, (100 * stats.completion).toFixed(1)) + '%'
+                .progress-bar(style='width: ' + (100 * (stats.completion || 0)) + '%')
+                  span(style=(stats.completion < 0.06 || stats.loading) ? 'color: black; text-shadow: 0px 1px 0px white' : '')
+                    if stats.loading
+                      | Loading...
+                    else
+                      = Math.min(100, (100 * stats.completion).toFixed(1)) + '%'
 
     div.clearfix

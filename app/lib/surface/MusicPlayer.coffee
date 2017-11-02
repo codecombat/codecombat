@@ -1,6 +1,7 @@
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
 {me} = require 'core/auth'
+createjs = require 'lib/createjs-parts'
 
 CROSSFADE_LENGTH = 1500
 MUSIC_VOLUME = 0.6

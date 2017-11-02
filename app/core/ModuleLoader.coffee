@@ -1,7 +1,7 @@
 CocoClass = require 'core/CocoClass'
 locale = require 'locale/locale'
 
-LOG = false
+LOG = true
 
 module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
@@ -63,6 +63,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
 
     else if path is "esper"
       try
+        # TODO Webpack: Do this in the new setup?
         #Detect very modern javascript support.
         indirecteval = eval
         indirecteval "'use strict'; let test = WeakMap && (class Test { *gen(a=7) { yield yield * () => true ; } });"
@@ -97,6 +98,7 @@ module.exports = ModuleLoader = class ModuleLoader extends CocoClass
     ])
 
   onFileLoad: (e) =>
+    return # TODO: remove, just trying to get Webpack going
     # load dependencies if it's not a vendor library
     if not /(^vendor)|game-libraries$|aether$|esper$/.test e.item.id
       have = window.require.list()

@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 module.exports.hitTest = (stage, bounds) ->
   tests = hits = 0
   for x in _.range(bounds.x, bounds.x + bounds.width, 5)

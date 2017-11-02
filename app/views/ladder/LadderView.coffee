@@ -1,10 +1,11 @@
+require('app/styles/play/ladder/ladder.sass')
 RootView = require 'views/core/RootView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 {teamDataFromLevel} = require './utils'
 {me} = require 'core/auth'
-application = require 'core/application'
+# application = require 'core/application'
 
 LadderTabView = require './LadderTabView'
 MyMatchesTabView = require './MyMatchesTabView'
@@ -46,7 +47,7 @@ module.exports = class LadderView extends RootView
       @levelDescription = marked(@level.get('description')) if @level.get('description')
       @teams = teamDataFromLevel @level
 
-    if @level.loaded then onLoaded() else @level.once('sync', onLoaded) 
+    if @level.loaded then onLoaded() else @level.once('sync', onLoaded)
     @sessions = @supermodel.loadCollection(new LevelSessionsCollection(@levelID), 'your_sessions', {cache: false}).model
     @winners = require('./tournament_results')[@levelID]
 

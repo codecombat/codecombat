@@ -1,3 +1,4 @@
+require('app/styles/teachers/edit-student-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 template = require 'templates/teachers/edit-student-modal'

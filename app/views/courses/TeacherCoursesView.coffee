@@ -1,4 +1,4 @@
-app = require 'core/application'
+require('app/styles/courses/teacher-courses-view.sass')
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Courses = require 'collections/Courses'

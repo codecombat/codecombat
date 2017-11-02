@@ -9,6 +9,7 @@ module.exports = {
   levelSessions: require('./level-sessions')
   prepaids: require('./prepaids')
   skippedContacts: require('./skipped-contacts')
+  thangTypes: require('./thang-types')
   trialRequests: require('./trial-requests')
   userCodeProblems: require('./user-code-problems')
   users: require('./users')

@@ -1,3 +1,4 @@
+require('app/styles/play/level/chat.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/chat'
 {me} = require 'core/auth'

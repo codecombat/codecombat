@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/segment-check-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/core/create-account-modal/segment-check-view'
 forms = require 'core/forms'

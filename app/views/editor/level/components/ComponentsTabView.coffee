@@ -1,10 +1,11 @@
+require('app/styles/editor/level/components_tab.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/components_tab'
 ThangType = require 'models/ThangType'
 LevelComponent = require 'models/LevelComponent'
 LevelComponentEditView = require './LevelComponentEditView'
 LevelComponentNewView = require './NewLevelComponentModal'
-require 'vendor/treema'
+require 'lib/setupTreema'
 
 class LevelComponentCollection extends Backbone.Collection
   url: '/db/level.component'

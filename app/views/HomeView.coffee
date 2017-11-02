@@ -1,3 +1,4 @@
+require('app/styles/home-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/home-view'
 CocoCollection = require 'collections/CocoCollection'
@@ -8,7 +9,6 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
-application.moduleLoader.load('vendor/vimeo-player-js')
 
 #  TODO: auto margin feature paragraphs
 
@@ -117,8 +117,12 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   afterRender: ->
-    application.moduleLoader.loadPromises['vendor/vimeo-player-js'].then =>
-      @vimeoPlayer = new Vimeo.Player(@$('.vimeo-player')[0])
+    require.ensure(['@vimeo/player'], (require) =>
+      Player = require('@vimeo/player')
+      @vimeoPlayer = new Player(@$('.vimeo-player')[0])
+    , (e) =>
+      console.log e
+    , 'vimeo')
     @onChangeSchoolLevelDropdown()
     @$('#screenshot-lightbox')
       .modal()
