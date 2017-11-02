@@ -49,6 +49,18 @@ class Rand
       arr[i] = t
     arr
 
+  # shuffle in exactly the same way lo-dash did to migrate same random sequences
+  # returns a new array but does not modify existing array
+  shuffleCompat: (arr) =>
+    index = -1
+    length = arr.length or 0
+    result = new Array length
+    for item in arr
+      r = @rand ++index + 1
+      result[index] = result[r]
+      result[r] = item
+    result
+
   choice: (arr) =>
     return arr[@rand arr.length]
 
