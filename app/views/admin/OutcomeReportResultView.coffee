@@ -1,3 +1,4 @@
+require('app/styles/admin/admin-outcomes-report.sass')
 utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 

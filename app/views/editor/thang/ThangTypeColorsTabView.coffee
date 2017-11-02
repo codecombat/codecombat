@@ -1,8 +1,11 @@
+require('app/styles/editor/thang/colors_tab.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/thang/colors_tab'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 {hexToHSL} = require 'core/utils'
-require 'vendor/treema'
+require 'lib/setupTreema'
+createjs = require 'lib/createjs-parts'
+initSlider = require 'lib/initSlider'
 
 module.exports = class ThangTypeColorsTabView extends CocoView
   id: 'editor-thang-colors-tab-view'
@@ -37,9 +40,9 @@ module.exports = class ThangTypeColorsTabView extends CocoView
   # sliders
 
   initSliders: ->
-    @hueSlider = @initSlider $('#hue-slider', @$el), 0, @makeSliderCallback 'hue'
-    @saturationSlider = @initSlider $('#saturation-slider', @$el), 50, @makeSliderCallback 'saturation'
-    @lightnessSlider = @initSlider $('#lightness-slider', @$el), 50, @makeSliderCallback 'lightness'
+    @hueSlider = initSlider $('#hue-slider', @$el), 0, @makeSliderCallback 'hue'
+    @saturationSlider = initSlider $('#saturation-slider', @$el), 50, @makeSliderCallback 'saturation'
+    @lightnessSlider = initSlider $('#lightness-slider', @$el), 50, @makeSliderCallback 'lightness'
 
   makeSliderCallback: (property) ->
     (e, result) =>

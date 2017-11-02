@@ -3,6 +3,7 @@ Camera = require 'lib/surface/Camera'
 World = require 'lib/world/world'
 ThangType = require 'models/ThangType'
 GameUIState = require 'models/GameUIState'
+createjs = require 'lib/createjs-parts'
 
 treeData = require 'test/app/fixtures/tree1.thang.type'
 munchkinData = require 'test/app/fixtures/ogre-munchkin-m.thang.type'

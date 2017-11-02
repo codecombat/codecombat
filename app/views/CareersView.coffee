@@ -1,3 +1,4 @@
+require('app/styles/careers.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/careers'
 

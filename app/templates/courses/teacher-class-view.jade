@@ -95,7 +95,7 @@ block content
             span= moment(classroom.created()).format('l')
 
           if view.students && view.students.models.length > 0
-            button.export-student-progress-btn.btn.btn-lg.btn-primary
+            button.export-student-progress-btn.btn.btn-lg.btn-primary(disabled=!view.allStatsLoaded())
               span(data-i18n='teacher.export_student_progress')
 
           //- .concepts.small-details
@@ -112,7 +112,7 @@ block content
 
         .completeness-info.col-md-4
           h4.m-b-2
-            &nbsp;
+            | &nbsp;
           div.small-details
             if state.get('earliestIncompleteLevel')
               span(data-i18n='teacher.earliest_incomplete')
@@ -483,7 +483,7 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-    button.btn.btn-primary-alt.assign-to-selected-students
+    button.btn.btn-primary-alt.assign-to-selected-students(disabled=!view.allStatsLoaded())
       span(data-i18n='teacher.assign_to_selected_students')
 
 mixin enrollmentStatusTab

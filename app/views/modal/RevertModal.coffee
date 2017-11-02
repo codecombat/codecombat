@@ -1,3 +1,4 @@
+require('app/styles/modal/revert-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/modal/revert-modal'
 CocoModel = require 'models/CocoModel'

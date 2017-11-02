@@ -47,6 +47,9 @@ createAndConfigureApp = module.exports.createAndConfigureApp = ->
   serverSetup.connectToDatabase()
   
   app = express()
+  if config.forceCompression
+    compression = require('compression')
+    app.use(compression())
   serverSetup.setExpressConfigurationOptions app
   serverSetup.setupMiddleware app
   serverSetup.setupRoutes app

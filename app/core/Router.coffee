@@ -1,3 +1,5 @@
+dynamicRequire = require('lib/dynamicRequire')
+
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
 redirect = (path) -> ->
@@ -97,7 +99,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
     'db/*path': 'routeToServer'
-    'demo(/*subpath)': go('DemoView')
     'docs/components': go('docs/ComponentsDocumentationView')
     'docs/systems': go('docs/SystemsDocumentationView')
 
@@ -245,24 +246,21 @@ module.exports = class CocoRouter extends Backbone.Router
       path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
-    ViewClass = @tryToLoadModule path
-    if not ViewClass and application.moduleLoader.load(path)
-      @listenToOnce application.moduleLoader, 'load-complete', ->
-        options.recursive = true
-        @routeDirectly(path, args, options)
-      return
-    return go('NotFoundView') if not ViewClass
-    view = new ViewClass(options, args...)  # options, then any path fragment args
-    view.render()
-    if window.alreadyLoadedView
-      console.log "Need to merge view"
-      delete window.alreadyLoadedView
-      @mergeView(view)
-    else
-      @openView(view)
-
-    @viewLoad.setView(view)
-    @viewLoad.record()
+    dynamicRequire(path).then (ViewClass) =>
+      return go('NotFoundView') if not ViewClass
+      view = new ViewClass(options, args...)  # options, then any path fragment args
+      view.render()
+      if window.alreadyLoadedView
+        console.log "Need to merge view"
+        delete window.alreadyLoadedView
+        @mergeView(view)
+      else
+        @openView(view)
+    
+      @viewLoad.setView(view)
+      @viewLoad.record()
+    .catch (err) ->
+      console.log err
 
   redirectHome: ->
     delete window.alreadyLoadedView
@@ -271,13 +269,6 @@ module.exports = class CocoRouter extends Backbone.Router
       when me.isTeacher() then '/teachers'
       else '/'
     @navigate(homeUrl, {trigger: true, replace: true})
-
-  tryToLoadModule: (path) ->
-    try
-      return window.require(path)
-    catch error
-      if error.toString().search('Cannot find module "' + path + '" from') is -1
-        throw error
 
   openView: (view) ->
     @closeCurrentView()
@@ -339,12 +330,9 @@ module.exports = class CocoRouter extends Backbone.Router
   onNavigate: (e, recursive=false) ->
     @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
-      ViewClass = @tryToLoadModule e.viewClass
-      if not ViewClass and application.moduleLoader.load(e.viewClass)
-        @listenToOnce application.moduleLoader, 'load-complete', ->
-          @onNavigate(e, true)
-        return
-      e.viewClass = ViewClass
+      dynamicRequire(e.viewClass).then (viewClass) =>
+        @onNavigate(_.assign({}, e, {viewClass}), true)
+      return
 
     manualView = e.view or e.viewClass
     if (e.route is document.location.pathname) and not manualView

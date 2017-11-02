@@ -1,3 +1,4 @@
+require('app/styles/premium-features-view.sass')
 RootView = require 'views/core/RootView'
 SubscribeModal = require 'views/core/SubscribeModal'
 template = require 'templates/premium-features-view'

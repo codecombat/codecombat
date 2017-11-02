@@ -19,7 +19,8 @@ module.exports = {
       json: value
     }))
 
-  incrementKeyValue: ({ sessionID, key, value=1 }, options) ->
+  incrementKeyValue: ({ sessionID, key, value }, options) ->
+    value ?= 1
     fetchJson("/db/level.session/#{sessionID}/key-value-db/#{key}/increment", _.merge({}, options, {
       method: 'POST'
       json: value

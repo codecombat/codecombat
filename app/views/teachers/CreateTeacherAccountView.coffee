@@ -1,3 +1,4 @@
+require('app/styles/teachers/teacher-trial-requests.sass')
 RootView = require 'views/core/RootView'
 forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
@@ -83,7 +84,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
 
-    $("#organization-control").algolia_autocomplete({hint: false}, [
+    @$("#organization-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
         algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits
@@ -106,7 +107,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()
 
-    $("#district-control").algolia_autocomplete({hint: false}, [
+    @$("#district-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
         algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits

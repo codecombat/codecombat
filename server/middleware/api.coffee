@@ -129,7 +129,10 @@ postUserOAuthIdentity = wrap (req, res) ->
 
   otherUser = yield User.findOne({oAuthIdentities: { $elemMatch: identity }})
   if otherUser
-    throw new errors.Conflict('User already exists with this identity')
+    if otherUser.id is user.id
+      return res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
+    else
+      throw new errors.Conflict('User already exists with this identity')
 
   yield user.update({$push: {oAuthIdentities: identity}})
   oAuthIdentities = user.get('oAuthIdentities') or []
@@ -143,7 +146,7 @@ putUserSubscription = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client.hasControlOfUser(user)
+  unless req.client.hasControlOfUser(user, 'put-user-subscription')
     throw new errors.Forbidden('Must have created the user to perform this action.')
 
   # TODO: Remove 'endDate' parameter
@@ -183,7 +186,7 @@ putUserLicense = wrap (req, res) ->
   if not user
     throw new errors.NotFound('User not found.')
 
-  unless req.client.hasControlOfUser(user)
+  unless req.client.hasControlOfUser(user, 'put-user-license')
     throw new errors.Forbidden('Must have created the user to perform this action.')
 
   { ends } = req.body

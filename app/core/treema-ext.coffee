@@ -2,7 +2,10 @@ CocoModel = require 'models/CocoModel'
 CocoCollection = require 'collections/CocoCollection'
 {me} = require('core/auth')
 locale = require 'locale/locale'
-utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
+createjs = require 'lib/createjs-parts'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 initializeFilePicker = ->
   require('core/services/filepicker')() unless window.application.isIPadApp
@@ -237,12 +240,12 @@ class ImageFileTreema extends TreemaNode.nodeMap.string
 
 class CodeLanguagesObjectTreema extends TreemaNode.nodeMap.object
   childPropertiesAvailable: ->
-    (key for key in _.keys(utils.aceEditModes) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
+    (key for key in _.keys(aceUtils.aceEditModes) when not @data[key]? and not (key is 'javascript' and @workingSchema.skipJavaScript))
 
 class CodeLanguageTreema extends TreemaNode.nodeMap.string
   buildValueForEditing: (valEl, data) ->
     super(valEl, data)
-    valEl.find('input').autocomplete(source: _.keys(utils.aceEditModes), minLength: 0, delay: 0, autoFocus: true)
+    valEl.find('input').autocomplete(source: _.keys(aceUtils.aceEditModes), minLength: 0, delay: 0, autoFocus: true)
     valEl
 
 class CodeTreema extends TreemaNode.nodeMap.ace
@@ -250,8 +253,8 @@ class CodeTreema extends TreemaNode.nodeMap.ace
     super(arguments...)
     @workingSchema.aceTabSize = 4
     # TODO: Find a less hacky solution for this
-    @workingSchema.aceMode = mode if mode = utils.aceEditModes[@keyForParent]
-    @workingSchema.aceMode = mode if mode = utils.aceEditModes[@parent?.data?.language]
+    @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@keyForParent]
+    @workingSchema.aceMode = mode if mode = aceUtils.aceEditModes[@parent?.data?.language]
 
   initEditor: (args...) ->
     super args...
@@ -382,7 +385,7 @@ module.exports.LatestVersionReferenceNode = class LatestVersionReferenceNode ext
   formatDocument: (docOrModel) ->
     return @modelToString(docOrModel) if docOrModel instanceof CocoModel
     return 'Unknown' unless @settings.supermodel?
-    m = CocoModel.getReferencedModel(@getData(), @workingSchema)
+    m = @getReferencedModel(@getData(), @workingSchema)
     data = @getData()
     if _.isString data  # LatestVersionOriginalReferenceNode just uses original
       if m.schema().properties.version
@@ -397,6 +400,36 @@ module.exports.LatestVersionReferenceNode = class LatestVersionReferenceNode ext
       @settings.supermodel.registerModel(m)
     return 'Unknown - ' + (data.original ? data) unless m
     return @modelToString(m)
+
+  getReferencedModel: (data, schema) ->
+    return null unless schema.links?
+    linkObject = _.find schema.links, rel: 'db'
+    return null unless linkObject
+    return null if linkObject.href.match('thang.type') and not CocoModel.isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
+
+    # not fully extensible, but we can worry about that later
+    link = linkObject.href
+    link = link.replace('{(original)}', data.original)
+    link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
+    link = link.replace('{($)}', data)
+    @getOrMakeModelFromLink(link)
+
+  getOrMakeModelFromLink: (link) ->
+    makeUrlFunc = (url) -> -> url
+    modelUrl = link.split('/')[2]
+    modelModule = _.string.classify(modelUrl)
+    modulePath = "models/#{modelModule}"
+
+    modulePath = modulePath.replace(/^models\//,'')
+    try
+      Model = require('app/models/' + modulePath) # TODO webpack: Get this working async for chunking
+    catch e
+      console.error 'could not load model from link path', link, 'using path', modulePath
+      return
+
+    model = new Model()
+    model.url = makeUrlFunc(link)
+    return model
 
   saveChanges: ->
     selected = @getSelectedResultEl()

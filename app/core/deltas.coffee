@@ -1,4 +1,11 @@
 SystemNameLoader = require './../core/SystemNameLoader'
+if typeof window is 'undefined'
+  # Just load the normal NPM library on the server side
+  jsondiffpatch = require('jsondiffpatch')
+else
+  # Client needs an extra formatting plugin and CSS
+  jsondiffpatch = require('lib/jsondiffpatch')
+
 ###
   Good-to-knows:
     dataPath: an array of keys that walks you up a JSON object that's being patched

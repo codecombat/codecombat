@@ -1,10 +1,11 @@
+require('app/styles/play/ladder/my_matches_tab.sass')
 CocoView = require 'views/core/CocoView'
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 {teamDataFromLevel} = require './utils'
-require 'vendor/d3'
+require 'd3/d3.js'
 
 module.exports = class MyMatchesTabView extends CocoView
   id: 'my-matches-tab-view'

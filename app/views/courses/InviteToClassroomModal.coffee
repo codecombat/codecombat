@@ -1,3 +1,4 @@
+require('app/styles/courses/invite-to-classroom-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/invite-to-classroom-modal'
 

@@ -1,3 +1,4 @@
+require('app/styles/editor/thang/home.sass')
 SearchView = require 'views/common/SearchView'
 
 module.exports = class ThangTypeSearchView extends SearchView

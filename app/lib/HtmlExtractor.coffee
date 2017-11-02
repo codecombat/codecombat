@@ -1,3 +1,5 @@
+require('vendor/scripts/htmlparser2')
+
 # Convert htmlparser2-formatted DOM structure into Deku format
 dekuify = (elem) ->
   return elem.data if elem.type is 'text'

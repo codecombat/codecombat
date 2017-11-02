@@ -1,7 +1,9 @@
+require('app/styles/play/level/level-loading-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-loading-view'
-ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
 SubscribeModal = require 'views/core/SubscribeModal'
 
 module.exports = class LevelLoadingView extends CocoView
@@ -41,7 +43,7 @@ module.exports = class LevelLoadingView extends CocoView
     @aceEditors = []
     aceEditors = @aceEditors
     @$el.find('pre:has(code[class*="lang-"])').each ->
-      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
 
   afterInsert: ->
@@ -94,7 +96,7 @@ module.exports = class LevelLoadingView extends CocoView
 
   finishShowingReady: =>
     return if @destroyed
-    showIntro = @getQueryVariable('intro')
+    showIntro = utils.getQueryVariable('intro')
     autoUnveil = not showIntro and (@options.autoUnveil or @session?.get('state').complete)
     if autoUnveil
       @startUnveiling()

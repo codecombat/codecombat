@@ -1,3 +1,4 @@
+require('app/styles/play/level/gold.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/gold'
 teamTemplate = require 'templates/play/level/team_gold'

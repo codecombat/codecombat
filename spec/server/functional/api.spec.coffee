@@ -223,7 +223,7 @@ describe 'GET /api/users/:handle/classrooms', ->
   
 describe 'POST /api/users/:handle/o-auth-identities', ->
 
-  beforeEach utils.wrap (done) ->
+  beforeEach utils.wrap ->
     yield utils.clearModels([User, APIClient])
     @client = new APIClient()
     @secret = @client.setNewSecret()
@@ -242,16 +242,18 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
     @json = { provider: @provider.id, accessToken: '1234' }
     @providerNock = nock('https://oauth.provider')
     @providerLookupRequest = @providerNock.get('/user?t=1234')
-    done()
 
-  it 'adds a new identity to the user if everything checks out', utils.wrap (done) ->
+  it 'idempotently adds a new identity to the user if everything checks out', utils.wrap ->
     @providerLookupRequest.reply(200, {id: 'abcd'})
     [res, body] = yield request.postAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(200)
     expect(res.body.oAuthIdentities.length).toBe(1)
     expect(res.body.oAuthIdentities[0].id).toBe('abcd')
     expect(res.body.oAuthIdentities[0].provider).toBe(@provider.id)
-    done()
+
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    [res, body] = yield request.postAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(200)
 
   it 'can take a code and do a token lookup', utils.wrap (done) ->
     @providerNock.get('/oauth2/token').reply(200, {access_token: '1234'})
@@ -391,6 +393,18 @@ describe 'PUT /api/users/:handle/subscription', ->
     expect(res.statusCode).toBe(403)
     done()
 
+  it 'works if the user\'s country is "brazil" and the client is the Brazil client.', utils.wrap ->
+    brazilClient = new APIClient({_id: new mongoose.Types.ObjectId('5930b75dee776800313fefca')})
+    secret = brazilClient.setNewSecret()
+    brazilAuth = { user: brazilClient.id, pass: secret }
+    yield brazilClient.save()
+    yield @user.update({$set: {country: 'brazil'}})
+
+    [res, body] = yield request.putAsync({ @url, @json, auth: brazilAuth })
+    t1 = new Date().toISOString()
+    expect(res.body.subscription.ends).toBe(@ends)
+    expect(res.statusCode).toBe(200)
+
   it 'returns 422 if ends is not provided or incorrectly formatted', utils.wrap (done) ->
     json = {}
     [res, body] = yield request.putAsync({ @url, json, @auth })
@@ -487,6 +501,18 @@ describe 'PUT /api/users/:handle/license', ->
     [res, body] = yield request.putAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(403)
     done()
+    
+  it 'works if the user\'s country is "brazil" and the client is the Brazil client.', utils.wrap ->
+    brazilClient = new APIClient({_id: new mongoose.Types.ObjectId('5930b75dee776800313fefca')})
+    secret = brazilClient.setNewSecret()
+    brazilAuth = { user: brazilClient.id, pass: secret }
+    yield brazilClient.save()
+    yield @user.update({$set: {country: 'brazil'}})
+
+    [res, body] = yield request.putAsync({ @url, @json, auth: brazilAuth })
+    t1 = new Date().toISOString()
+    expect(res.body.license?.ends).toBe(@ends)
+    expect(res.statusCode).toBe(200)
 
   it 'returns 422 if ends is not provided or incorrectly formatted or in the past', utils.wrap (done) ->
     json = {}

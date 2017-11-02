@@ -1,3 +1,4 @@
+require('app/styles/courses/hero-select-modal.sass')
 ModalView = require 'views/core/ModalView'
 HeroSelectView = require 'views/core/HeroSelectView'
 template = require 'templates/courses/hero-select-modal'

@@ -1,12 +1,20 @@
 ContributeClassView = require './ContributeClassView'
 template = require 'templates/contribute/archmage'
+ContactModal = require 'views/core/ContactModal'
 
 module.exports = class ArchmageView extends ContributeClassView
   id: 'archmage-view'
   template: template
 
+  events:
+    'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
+
   initialize: ->
     @contributorClassName = 'archmage'
+
+  openContactModal: (e) ->
+    e.stopPropagation()
+    @openModalView new ContactModal()
 
   contributors: [
     {id: '547acbb2af18b03c0563fdb3', name: 'David Liu', github: 'trotod'}

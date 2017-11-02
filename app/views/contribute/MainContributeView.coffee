@@ -1,3 +1,4 @@
+require('app/styles/contribute/contribute.sass')
 ContributeClassView = require 'views/contribute/ContributeClassView'
 template = require 'templates/contribute/contribute'
 

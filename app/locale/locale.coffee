@@ -4,20 +4,73 @@
 # http://en.wikipedia.org/wiki/Languages_used_on_the_Internet
 
 module.exports =
-  update: ->
-    localesLoaded = (s for s in window.require.list() when _.string.startsWith(s, 'locale/'))
+  load: (langCode) ->
+    console.log "Loading locale:", langCode
+    promises = [
+      new Promise (accept, reject) ->
+        require('bundle-loader?lazy&name=[name]!locale/'+langCode)((localeData) -> accept(localeData))
+      .then (localeData) =>
+        @storeLoadedLanguage(langCode, localeData)
+    ]
+    firstBit = langCode[...2]
+    if (firstBit isnt langCode) and @[firstBit]?
+      promises.push(new Promise (accept, reject) ->
+        require('bundle-loader?lazy&name=locale/[name]!locale/'+firstBit)((localeData) -> accept(localeData))
+      .then (localeData) =>
+        @storeLoadedLanguage(firstBit, localeData)
+      )
+    return Promise.all(promises)
+  
+  storeLoadedLanguage: (langCode, localeData) ->
+    store = require('core/store')
+    @[langCode] = localeData
+    store.commit('addLocaleLoaded', langCode)
+    return localeData
 
+  installVueI18n: ->
+    # https://github.com/rse/vue-i18next/blob/master/vue-i18next.js, converted by js2coffee 2.2.0
     store = require('core/store')
 
-    for path in localesLoaded
-      continue if path is 'locale/locale'
-      code = path.replace('locale/', '')
-      store.commit('addLocaleLoaded', code)
-      @[code] = require(path)
+    VueI18Next = install: (Vue, options) ->
+    
+      ###  determine options  ###
+    
+      opts = {}
+      Vue.util.extend opts, options
+    
+      ###  expose a global API method  ###
+    
+      Vue.t = (key, options) ->
+        opts = {}
+        lng = store.state.me.preferredLanguage or 'en'
+        if not store.state.localesLoaded[lng]
+          lng = 'en'
+        if typeof lng == 'string' and lng != ''
+          opts.lng = lng
+        Vue.util.extend opts, options
+        i18n.t key, opts
+    
+      ###  expose a local API method  ###
+    
+      Vue::$t = (key, options) ->
+        opts = {}
+        lng = store.state.me.preferredLanguage or 'en'
+        if not store.state.localesLoaded[lng]
+          lng = 'en'
+        if typeof lng == 'string' and lng != ''
+          opts.lng = lng
+        ns = @$options.i18nextNamespace
+        if typeof ns == 'string' and ns != ''
+          opts.ns = ns
+        Vue.util.extend opts, options
+        i18n.t key, opts
+    
+      return
+    
+    Vue.use(VueI18Next)
 
-
-  'en': { nativeDescription: 'English', englishDescription: 'English' }
-  'en-US': { nativeDescription: 'English (US)', englishDescription: 'English (US)' }
+  'en': require('./en') # Include these in the main bundle
+  'en-US': require('./en-US')
   'en-GB': { nativeDescription: 'English (UK)', englishDescription: 'English (UK)' }
   'zh-HANS': { nativeDescription: '简体中文', englishDescription: 'Chinese (Simplified)' }
   'zh-HANT': { nativeDescription: '繁體中文', englishDescription: 'Chinese (Traditional)' }
@@ -77,45 +130,3 @@ module.exports =
   'vi': { nativeDescription: 'Tiếng Việt', englishDescription: 'Vietnamese' }
   'zh-WUU-HANS': { nativeDescription: '吴语', englishDescription: 'Wuu (Simplified)' }
   'zh-WUU-HANT': { nativeDescription: '吳語', englishDescription: 'Wuu (Traditional)' }
-
-  installVueI18n: ->
-    # https://github.com/rse/vue-i18next/blob/master/vue-i18next.js, converted by js2coffee 2.2.0
-    store = require('core/store')
-
-    VueI18Next = install: (Vue, options) ->
-    
-      ###  determine options  ###
-    
-      opts = {}
-      Vue.util.extend opts, options
-    
-      ###  expose a global API method  ###
-    
-      Vue.t = (key, options) ->
-        opts = {}
-        lng = store.state.me.preferredLanguage or 'en'
-        if not store.state.localesLoaded[lng]
-          lng = 'en'
-        if typeof lng == 'string' and lng != ''
-          opts.lng = lng
-        Vue.util.extend opts, options
-        i18n.t key, opts
-    
-      ###  expose a local API method  ###
-    
-      Vue::$t = (key, options) ->
-        opts = {}
-        lng = store.state.me.preferredLanguage or 'en'
-        if not store.state.localesLoaded[lng]
-          lng = 'en'
-        if typeof lng == 'string' and lng != ''
-          opts.lng = lng
-        ns = @$options.i18nextNamespace
-        if typeof ns == 'string' and ns != ''
-          opts.ns = ns
-        Vue.util.extend opts, options
-        i18n.t key, opts
-    
-      return
-    
-    Vue.use(VueI18Next)

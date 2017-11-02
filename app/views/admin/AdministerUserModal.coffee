@@ -1,3 +1,4 @@
+require('app/styles/admin/administer-user-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/admin/administer-user-modal'
 User = require 'models/User'

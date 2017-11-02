@@ -1,3 +1,4 @@
+require('app/styles/courses/remove-student-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/remove-student-modal'
 

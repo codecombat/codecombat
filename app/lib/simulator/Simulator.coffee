@@ -4,6 +4,7 @@ LevelLoader = require 'lib/LevelLoader'
 GoalManager = require 'lib/world/GoalManager'
 God = require 'lib/God'
 {createAetherOptions} = require 'lib/aether_utils'
+LZString = require 'lz-string'
 
 SIMULATOR_VERSION = 4
 
@@ -242,24 +243,25 @@ module.exports = class Simulator extends CocoClass
     @god.createWorld {spells: @generateSpellsObject()}
 
     # Search for leaks, headless-client only.
+    # NOTE: Memwatch currently being ignored by Webpack, because it's only used by the server.
     if @options.headlessClient and @options.leakTest and not @memwatch?
       leakcount = 0
       maxleakcount = 0
       console.log 'Setting leak callbacks.'
       @memwatch = require 'memwatch'
-
+    
       @memwatch.on 'leak', (info) =>
         console.warn "LEAK!!\n" + JSON.stringify(info)
-
+    
         unless @hd?
           if (leakcount++ is maxleakcount)
             @hd = new @memwatch.HeapDiff()
-
+    
             @memwatch.on 'stats', (stats) =>
               console.warn 'stats callback: ' + stats
               diff = @hd.end()
               console.warn "HeapDiff:\n" + JSON.stringify(diff)
-
+    
               if @options.exitOnLeak
                 console.warn 'Exiting because of Leak.'
                 process.exit()

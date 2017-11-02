@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/create-account-modal.sass')
 ModalView = require 'views/core/ModalView'
 AuthModal = require 'views/core/AuthModal'
 ChooseAccountTypeView = require './ChooseAccountTypeView'
@@ -14,7 +15,6 @@ State = require 'models/State'
 template = require 'templates/core/create-account-modal/create-account-modal'
 forms = require 'core/forms'
 User = require 'models/User'
-application  = require 'core/application'
 errors = require 'core/errors'
 utils = require 'core/utils'
 store = require('core/store')

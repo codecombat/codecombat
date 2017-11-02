@@ -9,19 +9,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files : [
-      'public/javascripts/vendor.js', // need for jade definition...
-      'public/javascripts/whole-vendor.js',
-      'public/lib/ace/ace.js',
-      'public/javascripts/aether.js',
-      'public/javascripts/whole-app.js',
-      'public/javascripts/app/vendor/jasmine-mock-ajax.js',
-      'public/javascripts/app/tests.js',
-      'public/javascripts/run-tests.js'
+      'public/javascripts/test.js',
+      // 'public/javascripts/chunks/TestView.bundle.js',
+      // 'public/javascripts/vendor.js', // need for jade definition...
+      // 'public/javascripts/whole-vendor.js',
+      // 'public/lib/ace/ace.js',
+      // 'public/javascripts/aether.js',
+      // 'public/javascripts/whole-app.js',
+      // 'public/javascripts/app/vendor/jasmine-mock-ajax.js',
+      // 'public/javascripts/app/tests.js',
+      // 'public/javascripts/run-tests.js'
     ],
 
     preprocessors : {
       '**/*.coffee': 'coffee',
-      '**/javascripts/whole-app.js': 'coverage'
+      '**/javascripts/whole-app.js': 'coverage' // TODO: Webpack: get this working
     },
 
     // list of files to exclude

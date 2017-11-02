@@ -1,3 +1,4 @@
+require('app/styles/cla.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/cla'
 {me} = require 'core/auth'

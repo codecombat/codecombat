@@ -1,3 +1,5 @@
+require('app/styles/play/modal/buy-gems-modal.sass')
+require('app/styles/play/modal/lang-nl/buy-gems-modal-nl.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/buy-gems-modal'
 stripeHandler = require 'core/services/stripe'
@@ -7,7 +9,7 @@ Products = require 'collections/Products'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class BuyGemsModal extends ModalView
-  id: 
+  id:
     if (me.get('preferredLanguage',true) || 'en-US').split('-')[0] == 'nl'
       'buy-gems-modal-nl'
     else

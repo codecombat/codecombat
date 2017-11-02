@@ -1,3 +1,4 @@
+require('app/styles/play/level/play-game-dev-level-view.sass')
 RootView = require 'views/core/RootView'
 
 GameUIState = require 'models/GameUIState'
@@ -14,9 +15,10 @@ utils = require 'core/utils'
 urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
+aetherUtils = require 'lib/aether_utils'
 GameDevTrackView = require './GameDevTrackView'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 TEAM = 'humans'
 
@@ -27,6 +29,7 @@ module.exports = class PlayGameDevLevelView extends RootView
   subscriptions:
     'god:new-world-created': 'onNewWorld'
     'surface:ticked': 'onSurfaceTicked'
+    'god:streaming-world-updated': 'onStreamingWorldUpdated'
 
   events:
     'click #edit-level-btn': 'onEditLevelButton'
@@ -50,12 +53,13 @@ module.exports = class PlayGameDevLevelView extends RootView
     @level = new Level()
     @session = new LevelSession()
     @gameUIState = new GameUIState()
-    @courseID = @getQueryVariable 'course'
-    @courseInstanceID = @getQueryVariable 'course-instance'
+    @courseID = utils.getQueryVariable 'course'
+    @courseInstanceID = utils.getQueryVariable 'course-instance'
     @god = new God({ @gameUIState, indefiniteLength: true })
     @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
     @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
     @listenTo @state, 'change', _.debounce @renderAllButCanvas
+    @updateDb = _.throttle(@updateDb, 1000)
 
     @levelLoader.loadWorldNecessities()
 
@@ -96,7 +100,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = @session.generateSpellsObject level: @level
+      @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
 
       course = if @courseID then new Course({_id: @courseID}) else null
@@ -176,6 +180,15 @@ module.exports = class PlayGameDevLevelView extends RootView
   updateRealTimeGoals: (goals) ->
     @studentGoals = goals?.map((g) -> JSON.parse(g))
     @renderSelectors '#directions'
+
+  onStreamingWorldUpdated: (e) ->
+    @updateDb()
+
+  updateDb: ->
+    return unless @state.get('playing')
+    if @surface.world.keyValueDb and not _.isEqual(@surface.world.keyValueDb, @session.attributes.keyValueDb)
+      @session.updateKeyValueDb(_.cloneDeep(@surface.world.keyValueDb))
+      @session.saveKeyValueDb()
 
   destroy: ->
     @levelLoader?.destroy()

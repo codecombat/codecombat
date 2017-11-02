@@ -1,3 +1,4 @@
+require('app/styles/editor/level/modal/artisan-guide-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/artisan-guide-modal'
 
