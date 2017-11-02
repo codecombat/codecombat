@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel." # {change}
     our_courses: "Onze lessen zijn specifiek ontwikkeld voor een klasomgeving, zelfs voor leraren zonder programmeerervaring." # {change}
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+#    watch_how: "Kijk hoe CodeCombat de manier waarop mensen informatica leren verandert."
     top_screenshots_hint: "Leerlingen schrijven code en zien direct resultaat."
     designed_with: "Gemaakt voor leraren"
     real_code: "Echte, getypte code"
@@ -67,7 +67,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   nav:
     map: "Kaart"
-    play: "Levels" # The top nav bar entry where players choose which levels to play
+    play: "Levels" # Hier kiezen spelers welke levels ze willen spelen.
     community: "Gemeenschap"
     courses: "Lessen"
     blog: "Blog"
@@ -233,7 +233,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     create_teacher_header: "Creeër leraren account"
     create_individual_header: "Creeër persoonlijk account"
     email_announcements: "Ontvang aankondigingen via e-mail" # {change}
-#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
+#    teacher_email_announcements: "Houd me op de hoogte over nieuwe hulpmiddelen, leerplannen, en cursussen!"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
     log_in: "inloggen met wachtwoord"
@@ -294,17 +294,17 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_your_starting_hero: "Kies Je Eerste Held:"
     you_can_always_change_your_hero_later: "Je kan altijd nog van held veranderen."
 #    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
-#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
-#    teacher_list_create_class: "On the next screen you will be able to create a new class."
-#    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
-#    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
-#    teacher_list_resource_hub_3: "for solutions to every level, and the"
-#    teacher_list_resource_hub_4: "Resource Hub"
-#    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
-#    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
-#    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+#    teacher_ready_to_create_class: "Je bent er klaar voor om je eerste klas aan te maken!"
+#    teacher_students_can_start_now: "Je studenten zullen hun eerste cursus, Introduction to Computer Science, meteen kunnen spelen."
+#    teacher_list_create_class: "In het volgende scherm kun je een nieuwe klas aanmaken."
+#    teacher_list_add_students: "Voeg studenten aan de klas toe door op 'bekijk klas' te klikken, en daarna je studenten de klascode of link te sturen. Je kunt ze ook per email uitnodigen als ze een emailadres hebben."
+#    teacher_list_resource_hub_1: "Bekijk de"
+#    teacher_list_resource_hub_2: "Cursushandleidingen"
+#    teacher_list_resource_hub_3: "voor oplossingen van elk level, en de"
+#    teacher_list_resource_hub_4: "Verdeelcentrum voor hulpmiddelen"
+#    teacher_list_resource_hub_5: "voor lesprogrammagidsen, activiteiten, en meer!"
+#    teacher_additional_questions: "Dat was het! Als je nog meer hulp nodig hebt of je hebt vragen, neem contact op met __supportEmail__."
+#    dont_use_our_email_silly: "Zet hier niet je eigen email-adres neer, maar die van je ouders!"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -408,7 +408,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     last_name: "Achternaam"
     last_initial: "Eerste letter van je achternaam"
     username: "Gebruikersnaam"
-    contact_us: "Contacteer Ons"
+    contact_us: "Neem contact met ons op"
     close_window: "Sluit Venster"
     learn_more: "Lees Meer"
 
@@ -478,7 +478,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     victory_gems_gained: "Edelstenen verdiend"
     victory_new_item: "Nieuw Item"
     victory_new_hero: "Nieuwe Held"
-    victory_viking_code_school: "Wow, jij hebt net een moeilijk level gehaald! Als je nog geen programmeur was, zou je er een moeten worden! Je hebt net versneld toegang gekregen voor de Viking programmeerSchool, waar je je vaardigheden kan opkrikken en binnen 14 weken een professionele webontwikkelaar kunt worden."
+    victory_viking_code_school: "Wow, jij hebt net een moeilijk level gehaald! Als je nog geen programmeur was, zou je er een moeten worden! Je hebt net versneld toegang gekregen voor de Viking programmeerSchool, waar je je vaardigheden kunt opkrikken en binnen 14 weken een professionele webontwikkelaar kunt worden."
     victory_become_a_viking: "Word een Viking"
     victory_no_progress_for_teachers: "Voortgang voor leraren wordt niet bewaard. Maar u kunt een leerling-account voor uzelf aanmaken in uw eigen klas."
     tome_cast_button_run: "Uitvoeren"
@@ -571,15 +571,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     tip_good_idea: "De beste manier om tot een goed idee te komen, is door veel ideeën te hebben. - Linus Pauling"
     tip_programming_not_about_computers: "Informatica draait net zoveel om computers, als astronomie draait om telescopen. - Edsger Dijkstra"
     tip_mulan: "Geloof dat je het kan, dan kan je het . - Mulan"
-#    project_complete: "Project Complete!"
-#    share_this_project: "Share this project with friends or family:"
-#    ready_to_share: "Ready to publish your project?"
-#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
-#    already_published_prefix: "Your changes have been published to the class gallery."
-#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
-#    view_gallery: "View Gallery"
-#    project_published_noty: "Your level has been published!"
-#    keep_editing: "Keep Editing"
+#    project_complete: "Project afgerond!"
+#    share_this_project: "Deel dit project met vrienden of familie:"
+#    ready_to_share: "Klaar om je project te publiceren?"
+#    click_publish: "Klik \"Publish\" om het in de klassengalerij te publiceren, bekijk dan wat je klasgenoten hebben gebouwd! Je kunt terugkomen om aan dit project te werken. Alle volgende veranderingen zullen worden bewaard en met je klasgenoten gedeeld"
+#    already_published_prefix: "Je veranderingen zijn gepubliceerd in de galerij."
+#    already_published_suffix: "Blijf experimenteren en dit project nog beter maken, of bekijk wat de rest van je klas heeft gemaakt! Je veranderingen zullen automatisch worden bewaard en gedeeld met je klasgenoten."
+#    view_gallery: "Bekijk galerij"
+#    project_published_noty: "Je level is gepubliceerd!"
+#    keep_editing: "Blijf aanpassen"
 
   play_game_dev_level:
     created_by: "Gemaakt door {{name}}"
@@ -587,13 +587,13 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     play: "Speel Level"
     play_more_codecombat: "Speel Meer CodeCombat"
     default_student_instructions: "Klik om je held te besturen en het spel te winnen!"
-#    goal_survive: "Survive."
-#    goal_survive_time: "Survive for __seconds__ seconds."
-#    goal_defeat: "Defeat all enemies."
-#    goal_defeat_amount: "Defeat __amount__ enemies."
-#    goal_move: "Move to all the red X marks."
-#    goal_collect: "Collect all the items."
-#    goal_collect_amount: "Collect __amount__ items."
+#    goal_survive: "Overleef."
+#    goal_survive_time: "Overleef voor __seconden__ seconden."
+#    goal_defeat: "Versla alle vijanden."
+#    goal_defeat_amount: "versla __aantal__ vijanden."
+#    goal_move: "Beweeg naar alle rode X markeringen."
+#    goal_collect: "Verzamel alle items."
+#    goal_collect_amount: "Verzamel __aantal__ items."
 
   game_menu:
     inventory_tab: "Inventaris"
@@ -654,19 +654,19 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchased: "Gekocht"
 
 #  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+#    prompt_title: "Niet genoeg Edelstenen"
+#    prompt_body: "Blijf spelen om er meer te verdienen!"
 
   subscribe:
-#    best_deal: "Best Deal!"
-#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
-#    premium_already_subscribed: "You're already subscribed to Premium!"
+#    best_deal: "Beste Deal!"
+#    confirmation: "Gefeliciteerd! Je hebt nu een CodeCombat Premium Inschrijving!"
+#    premium_already_subscribed: "Je bent al ingeschreven bij Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!" # {change}
     premium_pricing_prefix: "Neem Premium voor maar"
     premium_pricing_suffix: "en word een meester programmeur."
     premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    free: "Gratis"
+    free: "gratis"
     month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
     subscribe_title: "premium account" # Actually used in subscribe buttons, too
@@ -708,7 +708,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     will_be_cancelled: "Wordt gestopt op"
     currently_free: "Je hebt momenteel een gratis account"
     currently_free_until: "Je inschrijving loopt tot"
-#    free_subscription: "Free subscription"
+#    free_subscription: "Gratis inschrijving"
     was_free_until: "Je hebt een gratis inschrijving tot"
     managed_subs: "beheerde inschrijving"
     subscribing: "Inschrijven..."
@@ -716,15 +716,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     unsubscribing: "Uitschrijven..." # {change}
     subscribe_prepaid: "Klik op inschrijven om een prepaidcode te gebruiken."
     using_prepaid: "Prepaidcode gebruiken voor maandelijkse inschrijving."
-#    feature_level_access: "Access 300+ levels available"
+#    feature_level_access: "Toegang tot 300+ levels beschikbaar"
     feature_gems: "Ontvang __gems__ edelstenen per maand"
     feature_heroes: "Krijg toegang tot speciale helden" # {change}
     feature_games: "Maak spellen voor je vrienden"
     feature_websites: "Bouw websites en apps"
     feature_items: "Gebruik krachtigere items"
-#    feature_learn: "Learn to make games and websites"
+#    feature_learn: "Leer games en websites te maken"
     month_price: "$__price__/mo" # {change}
-#    first_month_price: "Only $__price__ for your first month!"
+#    first_month_price: "Maar $__prijs__ voor je eerste maand!"
     lifetime: "Levenslang abonnement" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Jaarlijks abonnement"
@@ -734,12 +734,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     support_part1: "Hulp nodig met betalingsopties? Email"
     support_part2: "support@codecombat.com"
     support_part3: "als je vragen hebt."
-#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
-#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
-#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
+#    you_are_purchasing_monthly_sub: "Je bent een maandelijkse Premium inschrijving aan het aanschaffen!"
+#    you_are_purchasing_year_sub: "Je bent een jaarlijkse Premium inschrijving aan het aanschaffen!"
+#    you_are_purchasing_lifetime_sub: "Je bent een levenslange Premium inschrijving aan het aanschaffen!"
 #    you_will_be_charged: "You will be charged $__priceString__"
-#    choose_payment_method: "Choose Payment Method"
-#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
+#    choose_payment_method: "Kies betalingsmethode"
+#    pay_with_credit_card_or_bitcoin: "Betaal met Credit Card / Bitcoin"
 #    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
