@@ -87,7 +87,9 @@ module.exports = function(config) {
       'karma-firefox-launcher'
     ],
 
-    retryLimit: 5
+    retryLimit: 5,
+    browserNoActivityTimeout: 60000,     // default 10,000ms
+    browserDisconnectTolerance: 5
   });
 
 };
