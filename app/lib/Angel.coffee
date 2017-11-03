@@ -292,9 +292,12 @@ module.exports = class Angel extends CocoClass
 
   onStopRealTimePlayback: (e) ->
     return unless @running and @work.realTime
+    if @work.synchronous
+      return @abort()
     @work.realTime = false
     @lastRealTimeWork = new Date()
     @worker.postMessage func: 'stopRealTimePlayback'
+
 
   onEscapePressed: (e) ->
     return unless @running and not @work.realTime

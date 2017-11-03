@@ -170,8 +170,7 @@ module.exports = class TomeView extends CocoView
       @spells,
       preload,
       realTime,
-      #synchronous: @options.level.isType('game-dev') and not justBegin,  # would have to make a new async world to return to after testing
-      synchronous: false,
+      synchronous: @options.level.isType('game-dev') and not justBegin,
       justBegin,
       difficulty,
       submissionCount: sessionState.submissionCount ? 0,
