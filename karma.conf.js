@@ -57,12 +57,12 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers : ['Chrome'],
-
+    browsers : ['Firefox'],
 
     // If browser does not capture in given timeout [ms], kill it
-    captureTimeout : 5000,
+    captureTimeout : 15000,
 
+    transports: ['polling'],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and executing
@@ -80,14 +80,16 @@ module.exports = function(config) {
 
     plugins : [
       'karma-jasmine',
-      'karma-chrome-launcher',
-      'karma-phantomjs-launcher',
+      //'karma-chrome-launcher',
+      //'karma-phantomjs-launcher',
       'karma-coffee-preprocessor',
       'karma-coverage',
       'karma-firefox-launcher'
     ],
 
-    retryLimit: 5
+    retryLimit: 5,
+    browserNoActivityTimeout: 60000,     // default 10,000ms
+    browserDisconnectTolerance: 5
   });
 
 };
