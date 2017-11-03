@@ -178,8 +178,3 @@ describe 'LankBoss', ->
     expect(i1).toBeGreaterThan(i2)
     expect(i2).toBeGreaterThan(i3)
     expect(i3).toBeGreaterThan(i4)
-
-  it 'only contains children Sprites and Containers whose spritesheet matches the Layer', ->
-    defaultLayerContainer = lankBoss.layerAdapters.Default.container
-    for c in defaultLayerContainer.children
-      expect(c.spriteSheet).toBe(defaultLayerContainer.spriteSheet)
