@@ -1,6 +1,7 @@
 RootView = require 'views/core/RootView'
 {me} = require 'core/auth'
 template = require 'templates/user/identify-view'
+utils = require 'core/utils'
 
 module.exports = class IdentifyView extends RootView
   id: 'identify-view'
@@ -8,7 +9,7 @@ module.exports = class IdentifyView extends RootView
 
   getRenderData: ->
     context = super()
-    context.callbackID = @getQueryVariable 'id'
-    context.callbackURL = @getQueryVariable('callback') + "?id=#{context.callbackID}&username=#{me.get('name')}"
-    context.callbackSource = @getQueryVariable 'source'
+    context.callbackID = utils.getQueryVariable 'id'
+    context.callbackURL = utils.getQueryVariable('callback') + "?id=#{context.callbackID}&username=#{me.get('name')}"
+    context.callbackSource = utils.getQueryVariable 'source'
     context

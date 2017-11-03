@@ -1,3 +1,4 @@
+require('app/styles/editor/achievement/edit.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/achievement/edit'
 Achievement = require 'models/Achievement'
@@ -6,10 +7,9 @@ AchievementPopup = require 'views/core/AchievementPopup'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-app = require 'core/application'
 nodes = require 'views/editor/level/treema_nodes'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class AchievementEditView extends RootView
   id: 'editor-achievement-edit-view'
@@ -26,14 +26,14 @@ module.exports = class AchievementEditView extends RootView
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
     @supermodel.trackRequest @achievement.fetch()
-    
+
     # load level names so they're available to treema nodes
     @listenToOnce @achievement, 'sync', ->
       for levelOriginal in @achievement.get('rewards')?.levels ? []
         level = new Level()
         @supermodel.trackRequest level.fetchLatestVersion(levelOriginal, {data: {project:'name,version,original'}})
         level.once 'sync', (level) => @supermodel.registerModel(level)
-        
+
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
@@ -157,7 +157,7 @@ module.exports = class AchievementEditView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          app.router.navigate '/editor/achievement', trigger: true
+          application.router.navigate '/editor/achievement', trigger: true
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR

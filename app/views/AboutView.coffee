@@ -1,3 +1,4 @@
+require('app/styles/about.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/about'
 

@@ -1,5 +1,6 @@
 LevelComponent = require 'models/LevelComponent'
 Patch = require 'models/Patch'
+modelDeltas = require 'lib/modelDeltas'
 
 PatchModal = require 'views/editor/PatchModal'
 
@@ -9,7 +10,7 @@ describe 'PatchModal', ->
       levelComponent = new LevelComponent({ code: 'newList = (item.prop for item in list)', id: 'id' })
       levelComponent.markToRevert()
       levelComponent.set('code', 'func = -> console.log()')
-      patch = new Patch({delta: levelComponent.getDelta(), target: 'id'})
+      patch = new Patch({delta: modelDeltas.getDelta(levelComponent), target: 'id'})
 
       levelComponent = new LevelComponent({ code: 'newList = (item.prop for item in list)', id: 'id' })
       levelComponent.markToRevert()

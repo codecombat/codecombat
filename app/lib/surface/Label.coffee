@@ -1,4 +1,5 @@
 CocoClass = require 'core/CocoClass'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class Label extends CocoClass
   @STYLE_DIALOGUE = 'dialogue'  # A speech bubble from a script

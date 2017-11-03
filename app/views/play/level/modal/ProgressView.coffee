@@ -1,3 +1,4 @@
+require('app/styles/play/level/modal/progress-view.sass')
 CocoView = require 'views/core/CocoView'
 utils = require 'core/utils'
 urls = require 'core/urls'

@@ -1,3 +1,4 @@
+require('app/styles/editor/level/system/new.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/system/new'
 LevelSystem = require 'models/LevelSystem'

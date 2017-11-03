@@ -1,3 +1,4 @@
+require('app/styles/play/modal/code-play-create-account-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/code-play-create-account-modal'
 

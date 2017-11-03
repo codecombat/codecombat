@@ -34,6 +34,7 @@ PaymentSchema = c.object({title: 'Payment', required: []}, {
     title: 'PayPal Payment Sale Data',
     description: 'The payment sale object as received from PayPal' 
   }
+  payPalBillingAgreementID: { type: 'string', description: 'Used to connect initial subscribe payments with recurring payments.' }
 })
 
 c.extendBasicProperties(PaymentSchema, 'payment')

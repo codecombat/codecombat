@@ -45,7 +45,7 @@ form#basic-info-form.modal-body
           .col-xs-7.col-xs-offset-3
             .checkbox
               label
-                input#subscribe-input(type="checkbox" checked="checked" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
+                input#subscribe-input(type="checkbox" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
                 span(data-i18n="signup.email_announcements")
 
   // In reverse order for tabbing purposes

@@ -1,3 +1,4 @@
+require('app/styles/admin.sass')
 {backboneFailure, genericFailure} = require 'core/errors'
 errors = require 'core/errors'
 RootView = require 'views/core/RootView'

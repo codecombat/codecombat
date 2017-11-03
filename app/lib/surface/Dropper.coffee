@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 Dropper = class Dropper
   lostFrames: 0.0
   dropCounter: 0

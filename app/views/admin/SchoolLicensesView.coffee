@@ -1,3 +1,4 @@
+require('app/styles/admin/admin-school-licenses.sass')
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Prepaid = require 'models/Prepaid'

@@ -1,3 +1,4 @@
+require('app/styles/teachers/ap-cs-principles.sass')
 RootView = require 'views/core/RootView'
 
 module.exports = class ApCsPrinciplesView extends RootView

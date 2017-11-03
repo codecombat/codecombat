@@ -1,3 +1,4 @@
+require('app/styles/admin/admin-classrooms-progress.sass')
 api = require 'core/api'
 utils = require 'core/utils'
 RootView = require 'views/core/RootView'
@@ -316,7 +317,7 @@ module.exports = class AdminClassroomsProgressView extends RootView
           levelCompleteDates.reduce((sum, currentDate) =>
             sum++
             currentPercentage = sum / course.levels.length * 100
-            for target in @targetPercentCompleted 
+            for target in @targetPercentCompleted
               if currentPercentage >= target and not courseProgressMap[target]
                 courseProgressMap[target] = currentDate
             return sum

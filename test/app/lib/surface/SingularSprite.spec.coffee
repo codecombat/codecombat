@@ -6,6 +6,7 @@ ThangType = require 'models/ThangType'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 scaleTestUtils = require './scale-testing-utils'
+createjs = require 'lib/createjs-parts'
 
 describe 'SingularSprite', ->
   singularSprite = null

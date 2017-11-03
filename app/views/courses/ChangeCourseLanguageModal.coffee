@@ -1,3 +1,4 @@
+require('app/styles/courses/change-course-language-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/change-course-language-modal'
 

@@ -1,7 +1,8 @@
+require('app/styles/admin/analytics.sass')
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
-require 'vendor/d3'
+require 'd3/d3.js'
 d3Utils = require 'core/d3_utils'
 Payment = require 'models/Payment'
 RootView = require 'views/core/RootView'

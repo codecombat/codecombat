@@ -1,3 +1,4 @@
+require('app/styles/modal/subscribe-modal.sass')
 api = require 'core/api'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/core/subscribe-modal'

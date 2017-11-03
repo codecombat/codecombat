@@ -2,7 +2,6 @@
 //     (c) 2011-2013 Thomas Fuchs
 //     keymaster.js may be freely distributed under the MIT license.
 
-;(function(global){
   var k,
     _handlers = {},
     _mods = { 16: false, 18: false, 17: false, 91: false },
@@ -96,7 +95,7 @@
 
       // see if it's in the current scope
       
-      // Changed this for CodeCombat 
+      // Changed this for CodeCombat
       //if(handler.scope == scope || handler.scope == 'all'){
       if (true) {
         // check if modifiers match if any
@@ -295,5 +294,3 @@
   global.key.unbind = unbindKey;
 
   if(typeof module !== 'undefined') module.exports = key;
-
-})(this);

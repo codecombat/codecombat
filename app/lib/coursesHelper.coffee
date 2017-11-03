@@ -4,35 +4,37 @@ utils = require 'core/utils'
 module.exports =
   # Result: Each course instance gains a property, numCompleted, that is the
   #   number of students in that course instance who have completed ALL of
-  #   the levels in thate course
-  # TODO: simplify, classroom.sessions only includes sessions for assigned courses now
+  #   the levels in that course
   calculateDots: (classrooms, courses, courseInstances) ->
+    userLevelsCompleted = {}
+    sessions = _.flatten (classroom.sessions.models for classroom in classrooms.models)
+    for session in sessions
+      user = session.get 'creator'
+      userLevelsCompleted[user] ?= {}
+      level = session.get('level').original
+      userLevelsCompleted[user][level] ||= session.completed()
     for classroom in classrooms.models
-      # map [user, level] => session so we don't have to do find TODO
       for course, courseIndex in courses.models
         instance = courseInstances.findWhere({ courseID: course.id, classroomID: classroom.id })
         continue if not instance
+        unless classroom.sessions?.loaded
+          instance.sessionsLoaded = false
+          continue
+        instance.sessionsLoaded = true
         instance.numCompleted = 0
         instance.started = false
-        levels = classroom.getLevels({courseID: course.id})
-        levels.remove(levels.filter((level) => level.get('practice')))
+        levelsInVersionedCourse = new Set (level.get('original') for level in classroom.getLevels({courseID: course.id}).models when not level.get('practice'))
         for userID in instance.get('members')
-          unless classroom.sessions?.loaded
-            instance.sessionsLoaded = false
-            continue
-          instance.sessionsLoaded = true
-          instance.started ||= _.any levels.models, (level) ->
-            session = _.find classroom.sessions.models, (session) ->
-              session.get('creator') is userID and session.get('level').original is level.get('original')
-            session?
-          levelCompletes = _.map levels.models, (level) ->
-            #TODO: Hella slow! Do the mapping first!
-            sessions = _.filter classroom.sessions.models, (session) ->
-              session.get('creator') is userID and session.get('level').original is level.get('original')
-            # sessionMap[userID][level].completed()
-            _.find(sessions, (s) -> s.completed())
-          if _.every levelCompletes
-            instance.numCompleted += 1
+          userStarted = false
+          allComplete = true
+          for level, complete of userLevelsCompleted[userID] when levelsInVersionedCourse.has level
+            userStarted = true
+            if not complete
+              allComplete = false
+              break
+          allComplete = false unless userStarted
+          instance.started ||= userStarted
+          ++instance.numCompleted if allComplete
 
   calculateEarliestIncomplete: (classroom, courses, courseInstances, students) ->
     # Loop through all the combinations of things, return the first one that somebody hasn't finished

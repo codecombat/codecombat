@@ -1,3 +1,4 @@
+require('app/styles/teachers/share-licenses-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 TrialRequests = require 'collections/TrialRequests'

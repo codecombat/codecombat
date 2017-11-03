@@ -1,3 +1,6 @@
+require('app/styles/play/level/level-loading-view.sass')
+require('app/styles/play/level/tome/spell_palette_entry.sass')
+require('app/styles/play/play-level-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/play-level-view'
 {me} = require 'core/auth'
@@ -21,12 +24,13 @@ Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 Simulator = require 'lib/simulator/Simulator'
 GameUIState = require 'models/GameUIState'
+createjs = require 'lib/createjs-parts'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
 ProblemAlertView = require './tome/ProblemAlertView'
 TomeView = require './tome/TomeView'
-ChatView = require './LevelChatView'
+ChatView = require './LevelChatView' # TODO: Consider removing.
 HUDView = require './LevelHUDView'
 LevelDialogueView = require './LevelDialogueView'
 ControlBarView = require './ControlBarView'
@@ -48,7 +52,7 @@ HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 PROFILE_ME = false
 
@@ -106,14 +110,14 @@ module.exports = class PlayLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
-    @courseID = options.courseID or @getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance'
+    @courseID = options.courseID or utils.getQueryVariable 'course'
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
 
-    @isEditorPreview = @getQueryVariable 'dev'
-    @sessionID = (@getQueryVariable 'session') || @options.sessionID
-    @observing = @getQueryVariable 'observing'
+    @isEditorPreview = utils.getQueryVariable 'dev'
+    @sessionID = (utils.getQueryVariable 'session') || @options.sessionID
+    @observing = utils.getQueryVariable 'observing'
 
-    @opponentSessionID = @getQueryVariable('opponent')
+    @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
 
@@ -145,7 +149,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     console.debug 'PlayLevelView: Create LevelLoader'
@@ -161,7 +165,7 @@ module.exports = class PlayLevelView extends RootView
       not e.level.isType('course-ladder')
 
       # TODO: Add a general way for standalone levels to be accessed by students, teachers
-      e.level.get('slug') isnt 'peasants-and-munchkins' 
+      e.level.get('slug') isnt 'peasants-and-munchkins'
     ])
       return _.defer -> application.router.redirectHome()
 
@@ -217,7 +221,7 @@ module.exports = class PlayLevelView extends RootView
     console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = @getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
+    team = utils.getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -461,7 +465,7 @@ module.exports = class PlayLevelView extends RootView
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface?.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
-    if (@isEditorPreview or @observing) and not @getQueryVariable('intro')
+    if (@isEditorPreview or @observing) and not utils.getQueryVariable('intro')
       @loadingView.startUnveiling()
       @loadingView.unveil true
     else
@@ -511,12 +515,11 @@ module.exports = class PlayLevelView extends RootView
     return unless @shouldSimulate()
     return console.error "Should not auto-simulate until we fix how these languages are loaded"
     # TODO: how can we not require these as part of /play bundle?
-    ##require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'java']
-    #require 'vendor/aether-javascript'
-    #require 'vendor/aether-python'
-    #require 'vendor/aether-coffeescript'
-    #require 'vendor/aether-lua'
-    #require 'vendor/aether-java'
+    #require 'bower_components/aether/build/javascript'
+    #require 'bower_components/aether/build/python'
+    #require 'bower_components/aether/build/coffeescript'
+    #require 'bower_components/aether/build/lua'
+    #require 'bower_components/aether/build/java'
     @simulateNextGame()
 
   simulateNextGame: ->
@@ -537,8 +540,8 @@ module.exports = class PlayLevelView extends RootView
     @simulator.fetchAndSimulateOneGame()
 
   shouldSimulate: ->
-    return true if @getQueryVariable('simulate') is true
-    return false if @getQueryVariable('simulate') is false
+    return true if utils.getQueryVariable('simulate') is true
+    return false if utils.getQueryVariable('simulate') is false
     stillBuggy = true  # Keep this true while we still haven't fixed the zombie worker problem when simulating the more difficult levels on Chrome
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
@@ -651,7 +654,7 @@ module.exports = class PlayLevelView extends RootView
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')
       ModalClass = CourseVictoryModal
-      options.courseInstanceID = @getQueryVariable('course-instance') or @getQueryVariable('league')
+      options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)
