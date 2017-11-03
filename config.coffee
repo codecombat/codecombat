@@ -13,12 +13,7 @@ regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
 gameLibraries = [
   'register-game-libraries'
-  'easeljs'
-  'movieclip'
-  'tweenjs'
-  'soundjs'
-  'SpriteContainer'
-  'SpriteStage'
+  'createjs'
   'ShaderParticles'
   'deku'
   'htmlparser2'
@@ -187,11 +182,7 @@ exports.config =
           # Twitter Bootstrap jquery plugins
           'bower_components/bootstrap/dist/bootstrap.js'
           # CreateJS dependencies
-          'vendor/scripts/easeljs-NEXT.combined.js'
-          'vendor/scripts/preloadjs-NEXT.combined.js'
-          'vendor/scripts/soundjs-NEXT.combined.js'
-          'vendor/scripts/tweenjs-NEXT.combined.js'
-          'vendor/scripts/movieclip-NEXT.min.js'
+          'vendor/scripts/createjs.js'
           # Validated Backbone Mediator dependencies
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing

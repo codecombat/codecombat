@@ -30,7 +30,7 @@ NEVER_RENDER_ANYTHING = false # set to true to test placeholders
 
 module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
-  # Intermediary between a Surface Stage and a top-level static normal Container or hot-swapped WebGL SpriteContainer.
+  # Intermediary between a Surface Stage and a top-level static normal Container (used to also do hot-swapped WebGL SpriteContainer).
   # It handles zooming in different ways and, if webGL, creating and assigning spriteSheets.
 
   @TRANSFORM_SURFACE: 'surface'  # Layer moves/scales/zooms with the Surface of the World
@@ -69,7 +69,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     if @webGL
       @initializing = true
       @spriteSheet = @_renderNewSpriteSheet(false) # builds an empty spritesheet
-      @container = new createjs.SpriteContainer(@spriteSheet)
+      @container = new createjs.Container(@spriteSheet)
       @actionRenderState = {}
       @toRenderBundles = []
       @lanks = []
@@ -245,7 +245,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     builder.addFrame(placeholder)
 
     # Add custom graphics
-    extantGraphics = if @spriteSheet?.resolutionFactor is @resolutionFactor then @spriteSheet.getAnimations() else []
+    extantGraphics = if @spriteSheet?.resolutionFactor is @resolutionFactor then @spriteSheet.animations else []
     for key, graphic of @customGraphics
       if key in extantGraphics
         graphic = new createjs.Sprite(@spriteSheet)
@@ -301,7 +301,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @spriteSheet = builder.spriteSheet
     @spriteSheet.resolutionFactor = @resolutionFactor
     oldLayer = @container
-    @container = new createjs.SpriteContainer(@spriteSheet)
+    @container = new createjs.Container(@spriteSheet)
     for lank in @lanks
       console.log 'zombie sprite found on layer', @name if lank.destroyed
       continue if lank.destroyed
@@ -368,7 +368,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     spriteBuilder = new SpriteBuilder(thangType, {colorConfig: colorConfig})
     for containerGlobalName in containersToRender
       containerKey = @renderGroupingKey(thangType, containerGlobalName, colorConfig)
-      if @spriteSheet?.resolutionFactor is @resolutionFactor and containerKey in @spriteSheet.getAnimations()
+      if @spriteSheet?.resolutionFactor is @resolutionFactor and containerKey in @spriteSheet.animations
         container = new createjs.Sprite(@spriteSheet)
         container.gotoAndStop(containerKey)
         frame = spriteSheetBuilder.addFrame(container)
@@ -413,7 +413,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       scale = actions[0].scale or thangType.get('scale') or 1
 
       actionKeys = (@renderGroupingKey(thangType, action.name, colorConfig) for action in actions)
-      if @spriteSheet?.resolutionFactor is @resolutionFactor and _.all(actionKeys, (key) => key in @spriteSheet.getAnimations())
+      if @spriteSheet?.resolutionFactor is @resolutionFactor and _.all(actionKeys, (key) => key in @spriteSheet.animations)
         framesNeeded = _.uniq(_.flatten((@spriteSheet.getAnimation(key)).frames for key in actionKeys))
         framesMap = {}
         for frame in framesNeeded

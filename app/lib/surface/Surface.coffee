@@ -107,7 +107,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   initEasel: ->
     @normalStage = new createjs.Stage(@normalCanvas[0])
-    @webGLStage = new createjs.SpriteStage(@webGLCanvas[0])
+    @webGLStage = new createjs.StageGL(@webGLCanvas[0])
     @normalStage.nextStage = @webGLStage
     @camera = new Camera(@webGLCanvas, { @gameUIState, @handleEvents })
     AudioPlayer.camera = @camera unless @options.choosing
@@ -148,7 +148,7 @@ module.exports = Surface = class Surface extends CocoClass
     @webGLCanvas.on 'mousewheel', @onMouseWheel
     @hookUpChooseControls() if @options.choosing # TODO: figure this stuff out
     createjs.Ticker.timingMode = createjs.Ticker.RAF_SYNCHED
-    createjs.Ticker.setFPS @options.frameRate
+    createjs.Ticker.framerate = @options.frameRate
     @onResize()
 
   initCoordinates: ->
@@ -326,7 +326,7 @@ module.exports = Surface = class Surface extends CocoClass
     # We want to be able to essentially stop rendering the surface if it doesn't need to animate anything.
     # If pausing, though, we want to give it enough time to finish any tweens.
     performToggle = =>
-      createjs.Ticker.setFPS if paused then 1 else @options.frameRate
+      createjs.Ticker.framerate = if paused then 1 else @options.frameRate
       @surfacePauseTimeout = null
     clearTimeout @surfacePauseTimeout if @surfacePauseTimeout
     clearTimeout @surfaceZoomPauseTimeout if @surfaceZoomPauseTimeout
@@ -503,6 +503,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onMouseMove: (e) =>
     @mouseScreenPos = {x: e.stageX, y: e.stageY}
+    createjs.lastMouseWorldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
     return if @disabled
     Backbone.Mediator.publish 'surface:mouse-moved', x: e.stageX, y: e.stageY
     @gameUIState.trigger('surface:stage-mouse-move', { originalEvent: e })
@@ -510,10 +511,11 @@ module.exports = Surface = class Surface extends CocoClass
   onMouseDown: (e) =>
     return if @disabled
     cap = @camera.screenToCanvas({x: e.stageX, y: e.stageY})
+    wop = @camera.screenToWorld x: e.stageX, y: e.stageY
+    createjs.lastMouseWorldPos = wop
     # getObject(s)UnderPoint is broken, so we have to use the private method to get what we want
     onBackground = not @webGLStage._getObjectsUnderPoint(e.stageX, e.stageY, null, true)
 
-    wop = @camera.screenToWorld x: e.stageX, y: e.stageY
     event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e, worldPos: wop }
     Backbone.Mediator.publish 'surface:stage-mouse-down', event
     Backbone.Mediator.publish 'tome:focus-editor', {}
@@ -531,6 +533,7 @@ module.exports = Surface = class Surface extends CocoClass
 
   onMouseUp: (e) =>
     return if @disabled
+    createjs.lastMouseWorldPos = @camera.screenToWorld x: e.stageX, y: e.stageY
     onBackground = not @webGLStage.hitTest e.stageX, e.stageY
     event = { onBackground: onBackground, x: e.stageX, y: e.stageY, originalEvent: e }
     Backbone.Mediator.publish 'surface:stage-mouse-up', event

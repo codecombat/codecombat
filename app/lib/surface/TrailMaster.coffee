@@ -25,7 +25,7 @@ module.exports = class TrailMaster extends CocoClass
     @generatingPaths = true
     @cleanUp()
     @createGraphics()
-    pathDisplayObject = new createjs.SpriteContainer(@layerAdapter.spriteSheet)
+    pathDisplayObject = new createjs.Container(@layerAdapter.spriteSheet)
     pathDisplayObject.mouseEnabled = pathDisplayObject.mouseChildren = false
     pathDisplayObject.addChild @createFuturePath()
 #    pathDisplayObject.addChild @createPastPath() # Just made the animated path the full path... do we want to have past and future look different again?
@@ -47,7 +47,7 @@ module.exports = class TrailMaster extends CocoClass
     key = "path-dot-#{width}-#{fillColor}-#{strokeColor}"
     fillColor = createjs.Graphics.getRGB(fillColor...)
     strokeColor = createjs.Graphics.getRGB(strokeColor...)
-    unless key in @layerAdapter.spriteSheet.getAnimations()
+    unless key in @layerAdapter.spriteSheet.animations
       circle = new createjs.Shape()
       radius = width/2
       circle.graphics.setStrokeStyle(width/5).beginFill(fillColor).beginStroke(strokeColor).drawCircle(0, 0, radius)
@@ -75,7 +75,7 @@ module.exports = class TrailMaster extends CocoClass
 
   createTargets: ->
     return unless @thang.allTargets
-    container = new createjs.SpriteContainer(@layerAdapter.spriteSheet)
+    container = new createjs.Container(@layerAdapter.spriteSheet)
     for x, i in @thang.allTargets by 2
       y = @thang.allTargets[i + 1]
       sup = @camera.worldToSurface x: x, y: y
@@ -92,7 +92,7 @@ module.exports = class TrailMaster extends CocoClass
     options = options or {}
     interval = options.interval or 8
     key = options.frameKey or @pastDotKey
-    container = new createjs.SpriteContainer(@layerAdapter.spriteSheet)
+    container = new createjs.Container(@layerAdapter.spriteSheet)
 
     for x, i in points by interval * 2
       y = points[i + 1]

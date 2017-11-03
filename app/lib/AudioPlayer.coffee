@@ -44,7 +44,7 @@ class AudioPlayer extends CocoClass
 
   constructor: () ->
     super()
-    @ext = if createjs.Sound.getCapability('mp3') then '.mp3' else '.ogg'
+    @ext = if createjs.Sound.capabilities.mp3 then '.mp3' else '.ogg'
     @camera = null
     @listenToSound()
     @createNewManifest()
