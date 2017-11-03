@@ -263,19 +263,19 @@ module.exports = class CampaignView extends RootView
   openPlayItemsModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayItemsModal()
-    
+
   openPlayHeroesModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayHeroesModal()
-    
+
   openPlayAchievementsModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayAchievementsModal()
-    
+
   openBuyGemsModal: (e) ->
     e.stopPropagation()
     @openModalView new BuyGemsModal()
-    
+
   openContactModal: (e) ->
     e.stopPropagation()
     @openModalView new ContactModal()
@@ -980,7 +980,7 @@ module.exports = class CampaignView extends RootView
     button.toggleClass 'vol-off', volume <= 0.0
     button.toggleClass 'vol-down', 0.0 < volume < 1.0
     button.toggleClass 'vol-up', volume >= 1.0
-    createjs.Sound.setVolume(if volume is 1 then 0.6 else volume)  # Quieter for now until individual sound FX controls work again.
+    createjs.Sound.volume = if volume is 1 then 0.6 else volume  # Quieter for now until individual sound FX controls work again.
     if volume isnt me.get 'volume'
       me.set 'volume', volume
       me.patch()

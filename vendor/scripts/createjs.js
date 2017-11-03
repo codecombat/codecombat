@@ -26784,8 +26784,8 @@ createjs.deprecate = function(fallbackMethod, name) {
 			var item = this._soundInstances[src][i];
 			item.playbackResource = this._audioSources[src];
 			// ToDo consider adding play call here if playstate == playfailed
-			this._soundInstances[src] = null;
 		}
+		this._soundInstances[src] = null;
 	};
 
 	/**

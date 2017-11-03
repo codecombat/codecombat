@@ -113,10 +113,10 @@ module.exports = class TrailMaster extends CocoClass
     container
 
   play: ->
-    tween.setPaused(false) for tween in @tweens
+    tween.paused = false for tween in @tweens
 
   stop: ->
-    tween.setPaused(true) for tween in @tweens
+    tween.paused = true for tween in @tweens
 
   destroy: ->
     @cleanUp()
