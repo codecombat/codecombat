@@ -193,7 +193,7 @@
     "sass-loader": "^6.0.6",
     "telepath-brunch": "https://github.com/nwinter/telepath-brunch/tarball/master",
     "webpack-bundle-analyzer": "^2.9.0",
-    "webpack-dev-server": "^2.7.1"
+    "webpack-livereload-plugin": "^1.0.0"
   },
   "optionalDependencies": {
     "newrelic": "^1.24.0",
