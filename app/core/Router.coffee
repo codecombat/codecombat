@@ -1,4 +1,5 @@
 dynamicRequire = require('lib/dynamicRequire')
+locale = require 'locale/locale'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
 
@@ -246,7 +247,11 @@ module.exports = class CocoRouter extends Backbone.Router
       path = 'play/CampaignView'
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
-    dynamicRequire(path).then (ViewClass) =>
+    Promise.all([
+      dynamicRequire(path), # Load the view file
+      # The locale load is already initialized by `application`, just need the promise
+      locale.load(me.get('preferredLanguage', true))
+    ]).then ([ViewClass]) =>
       return go('NotFoundView') if not ViewClass
       view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
