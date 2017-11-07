@@ -157,8 +157,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
-    'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
-    'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
+    'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
+    'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
+    'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID) ->
+      @navigate("play/game-dev-level/#{sessionID}", { trigger: true, replace: true })
+    'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID) ->
+      @navigate("play/web-dev-level/#{sessionID}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
     'play/:map': go('play/CampaignView', { redirectTeachers: true })
 
