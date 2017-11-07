@@ -6,7 +6,7 @@ block page_nav
 block content
   .container
 
-    .content
+    .content.rtl-allowed
       if me.attributes.hourOfCode && me.isAnonymous()
         #hour-of-code
           h3
@@ -57,7 +57,7 @@ block content
       h1(data-i18n="teacher.resource_hub")
 
       h4(data-i18n="teacher.getting_started")
-      ul
+      ul(dir="auto")
         li
           strong(data-i18n="teacher.pacing_guides")
           p 

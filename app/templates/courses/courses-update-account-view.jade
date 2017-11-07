@@ -26,7 +26,7 @@ block content
             .col-md-6
               if view.accountType
                 div #{view.accountType}
-              div
+              div.rtl-allowed
                 span.spr #{me.get('email') || me.get('name')}
                 span.not_you
                   span.spr(data-i18n="courses.not_you")
@@ -85,6 +85,6 @@ block content
                     button.update-student-btn.btn.btn-forest(data-i18n="courses.update_account_update_student")
                 br
           br
-          .small.text-center
+          .small.text-center.rtl-allowed
             span.spr(data-i18n="courses.update_account_not_sure")
             a(href='mailto:team@codecombat.com') team@codecombat.com

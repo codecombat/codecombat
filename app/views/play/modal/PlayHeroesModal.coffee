@@ -290,6 +290,7 @@ module.exports = class PlayHeroesModal extends ModalView
       #- ...then rerender visible hero
       heroEntry = @$el.find(".hero-item[data-hero-id='#{@visibleHero.get('original')}']")
       heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n()
+      @applyRTLIfNeeded()
       heroEntry.removeClass 'locked purchasable'
       @selectedHero = @visibleHero
       @rerenderFooter()
@@ -318,6 +319,7 @@ module.exports = class PlayHeroesModal extends ModalView
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
     popover?.$tip?.i18n()
+    @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
     return @askToSignUp() if me.get('anonymous')

@@ -29,8 +29,17 @@
     color: black
     text-decoration: underline
 
+  [dir="rtl"] .prepaid-card-container
+    float: right
+
   .prepaid-card-container
     height: 309px
+
+    &[dir="rtl"] .pull-left
+      float: right !important
+
+    &[dir="rtl"] .pull-right
+      float: left !important
 
   .share-details
     text-align: right
