@@ -63,7 +63,6 @@ module.exports = class LevelSetupManager extends CocoClass
       @waitingToLoadModals = true
 
   loadModals: ->
-    
     # build modals and prevent them from disappearing.
     if @level.get('slug') is 'zero-sum'
       sorcerer = '52fd1524c7e6cf99160e7bc9'
@@ -75,8 +74,6 @@ module.exports = class LevelSetupManager extends CocoClass
 
     if @level.get('slug') is 'escort-duty'
       potionmaster = '52fd1524c7e6cf99160e7bc9'
-      if @session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
-        potionmaster = '53e126a4e06b897606d38bef'
       @session.set 'heroConfig', {"thangType":potionmaster,"inventory":{
           "eyes": "546941fda2b1f53ce794441d",
           "feet": "546d4d8e9df4a17d0d449acd",
@@ -92,9 +89,7 @@ module.exports = class LevelSetupManager extends CocoClass
           "waist": "54694af7a2b1f53ce7944441",
           "right-ring": "54692d2aa2b1f53ce794438f",
           "pet": "5744e3683af6bf590cd27371"
-
-          }} #pet is cougar
-          # "pet": "57586f0a22179b2800efda37"  This is Baby Griffin        
+          }}
       @onInventoryModalPlayClicked()
       return
 
@@ -121,7 +116,6 @@ module.exports = class LevelSetupManager extends CocoClass
       }
 
     if @level.get('slug') is 'tesla-tesoro'
-      #Need to update this for my level
       assassin = '566a2202e132c81f00f38c81'
       @session.set 'heroConfig', {
         "thangType": assassin
@@ -139,18 +133,19 @@ module.exports = class LevelSetupManager extends CocoClass
           "right-hand": "544d86318494308424f564e8"
           }
       }
-
-
       @onInventoryModalPlayClicked()
       return
+
     if @level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       @session.set 'heroConfig', {"thangType":raider,"inventory":{}}
       @onInventoryModalPlayClicked()
       return
+
     if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
+
     @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
