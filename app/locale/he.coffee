@@ -110,8 +110,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   diplomat_suggestion:
     title: "עזרו לתרגם את CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "אנו זקוקים לכישורי השפה שלכם"
-    pitch_body: "אנו מפתחים את CodeCombat בשפה האנגלית, אך כבר יש לנו שחקנים בכל העולם. רבים מהם רוצים לשחק בשפה {English} אך אינם דוברים אנגלית. לכן, אם אתם דוברים את שתי השפות, אנא שקלו להירשם בתור דיפלומט ולעזור לתרגם את אתר האינטרנט ואת כל השלבים של CodeCombat לשפה {English}."
-    missing_translations: "עד שנצליח לתרגם הכול לשפה {English}, יופיע בפניכם תוכן באנגלית כאשר השפה {English} אינה זמינה."
+    pitch_body: "אנו מפתחים את CodeCombat בשפה האנגלית, אך כבר יש לנו שחקנים בכל העולם. רבים מהם רוצים לשחק בשפה English אך אינם דוברים אנגלית. לכן, אם אתם דוברים את שתי השפות, אנא שקלו להירשם בתור דיפלומט ולעזור לתרגם את אתר האינטרנט ואת כל השלבים של CodeCombat לשפה English."
+    missing_translations: "עד שנצליח לתרגם הכול לשפה English, יופיע בפניכם תוכן באנגלית כאשר השפה English אינה זמינה."
     learn_more: "למידע נוסף על הצטרפות כדיפלומט"
     subscribe_as_diplomat: "הירשם כמנוי דיפלומט"
 
