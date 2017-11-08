@@ -47,7 +47,7 @@ printTranslation = function(docType, doc, path, englishString, translationString
 
   // Google Docs: =SUBSTITUTE(SUBSTITUTE(F2, "\n", char(10)), "XX", CHAR(34))
   // Excel: =SUBSTITUTE(E1, "\n", CHAR(10) & CHAR(13))
-  var translation = [[docType, doc._id+'', doc.original ? doc.original+'' : '', path, JSON.stringify(englishString), JSON.stringify(translationString)].join(',')]
+  var translation = [[docType, doc._id+'', doc.original ? doc.original+'' : '', path, JSON.stringify(englishString), JSON.stringify(translationString)].join('\t')]
   translation.sortKey = englishString.length;
   translations.push(translation);
 }
