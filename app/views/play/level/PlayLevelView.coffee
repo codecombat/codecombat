@@ -383,6 +383,27 @@ module.exports = class PlayLevelView extends RootView
         "left-hand": "54eb528449fa2d5c905ddf12",
         "right-hand": "544d86318494308424f564e8"
       }}
+    else if e.level.get('slug') in ['escort-duty']
+      potionmaster = '52fd1524c7e6cf99160e7bc9'
+      e.session.set 'heroConfig', {"thangType":potionmaster,"inventory":{
+        "eyes": "546941fda2b1f53ce794441d",
+        "feet": "546d4d8e9df4a17d0d449acd",
+        "programming-book": "557871261ff17fef5abee3ee",
+        "head": "546d4ca19df4a17d0d449abf",
+        "torso": "546d4a549df4a17d0d449a97",
+        "left-ring": "5441c35c4e9aeb727cc9711d",
+        "minion": "54eb5d1649fa2d5c905ddf52",
+        "neck": "54693363a2b1f53ce79443d1",
+        "wrists": "54693830a2b1f53ce79443f1",
+        "left-hand": "546376ea3839c6e02811d320",
+        "right-hand": "54eab92b2b7506e891ca720a",
+        "waist": "54694af7a2b1f53ce7944441",
+        "right-ring": "54692d2aa2b1f53ce794438f",
+        "pet": "5744e3683af6bf590cd27371"
+      }}
+
+
+
     else if e.level.get('slug') is 'the-battle-of-sky-span'
       wizard = '52fc1460b2b91c0d5a7b6af3'
       e.session.set 'heroConfig', {"thangType":wizard,"inventory":{}}
@@ -702,13 +723,13 @@ module.exports = class PlayLevelView extends RootView
     return if @headless
     scripts = @world.scripts  # Since these worlds don't have scripts, preserve them.
     @world = e.world
-    
+
     # without this check, when removing goals, goals aren't updated properly. Make sure we update
     # the goals once the first frame is finished.
     if @world.age > 0 and @willUpdateStudentGoals
       @willUpdateStudentGoals = false
       @updateStudentGoals()
-    
+
     @world.scripts = scripts
     thangTypes = @supermodel.getModels(ThangType)
     startFrame = @lastWorldFramesLoaded ? 0
@@ -734,7 +755,7 @@ module.exports = class PlayLevelView extends RootView
     @updateStudentGoals()
     @onWindowResize()
     @realTimePlaybackWaitingForFrames = true
-    
+
   updateStudentGoals: ->
     return unless @level.isType('game-dev')
     @studentGoals = @world.thangMap['Hero Placeholder'].stringGoals
