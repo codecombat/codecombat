@@ -6,6 +6,7 @@ loadingErrorTemplate = require 'templates/core/loading-error'
 require('app/styles/core/loading-error.sass')
 auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
+storage = require 'core/storage'
 
 lastToggleModalCall = 0
 visibleModal = null
@@ -113,6 +114,12 @@ module.exports = class CocoView extends Backbone.View
     editor.destroy()
 
   afterInsert: ->
+    if storage.load('sub-modal-continue')
+      subModalContinue = storage.load('sub-modal-continue')
+      storage.remove('sub-modal-continue')
+      _.defer =>
+        SubscribeModal = require 'views/core/SubscribeModal'
+        @openModalView new SubscribeModal({subModalContinue})
     @updateViewVisibleTimer()
 
   willDisappear: ->

@@ -316,7 +316,6 @@ module.exports = class InventoryModal extends ModalView
     _.defer => @justClickedEquipItemButton = false
 
   onClickSubscribeItemViewed: (e) ->
-    return @askToSignUp() if me.get('anonymous')
     @openModalView new SubscribeModal()
     itemElem = @$el.find('.item.active')
     item = @items.get(itemElem?.data('item-id'))

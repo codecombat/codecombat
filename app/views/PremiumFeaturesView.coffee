@@ -3,6 +3,7 @@ RootView = require 'views/core/RootView'
 SubscribeModal = require 'views/core/SubscribeModal'
 template = require 'templates/premium-features-view'
 utils = require 'core/utils'
+storage = require 'core/storage'
 
 module.exports = class PremiumFeaturesView extends RootView
   id: 'premium-features-view'
@@ -20,9 +21,9 @@ module.exports = class PremiumFeaturesView extends RootView
     super(options)
     
   afterInsert: () ->
-    super()
-    if utils.getQueryVariable('pop')?
+    if utils.getQueryVariable('pop')? and not storage.load('sub-modal-continue')
       @openSubscriptionModal()
+    super()
 
   openSubscriptionModal: ->
     @openModalView new SubscribeModal()

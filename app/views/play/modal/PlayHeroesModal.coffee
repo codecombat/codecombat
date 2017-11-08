@@ -328,7 +328,6 @@ module.exports = class PlayHeroesModal extends ModalView
     @$el.find('.unlock-button').popover 'destroy'
 
   onSubscribeButtonClicked: (e) ->
-    return @askToSignUp() if me.get('anonymous')
     @openModalView new SubscribeModal()
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
