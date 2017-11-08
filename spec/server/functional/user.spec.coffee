@@ -579,6 +579,7 @@ describe 'GET /db/user', ->
   # Add to the test case above an extra data check
 
     it 'returns 403 for improperly signed JWT israelTokens', utils.wrap ->
+      headers = { host: 'il.codecombat.com' }
       payload = {
         iss: config.israel.jwtIssuer
         aud: config.israel.jwtAudience
