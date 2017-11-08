@@ -181,7 +181,7 @@ module.exports = class PlayItemsModal extends ModalView
       return { viewName: @.id, featureName: 'filter-ranger' }
     else
       return null
-  
+
   onTabClicked: (e) ->
     @playSound 'game-menu-tab-switch'
     nano = $($(e.target).attr('href')).find('.nano')
@@ -264,6 +264,7 @@ module.exports = class PlayItemsModal extends ModalView
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
     popover?.$tip?.i18n()
+    @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
     @playSound 'menu-button-click'

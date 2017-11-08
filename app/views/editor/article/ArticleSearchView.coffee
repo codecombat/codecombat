@@ -16,4 +16,5 @@ module.exports = class ArticleSearchView extends SearchView
     context.currentSearch = 'editor.article_search_title'
     context.newModelsAdminOnly = true
     @$el.i18n()
+    @applyRTLIfNeeded()
     context

@@ -27,6 +27,9 @@
     color: white
     text-transform: uppercase
 
+    &[dir="rtl"]
+      right: 0
+
     .success
       color: lightgreen
       text-shadow: 1px 1px 0px black
@@ -44,6 +47,9 @@
     padding-left: 0
     margin-bottom: 0
     color: black
+
+    body[lang="he"] &, body[lang="ar"] &
+      padding-right: 0
     
   li
     list-style: none

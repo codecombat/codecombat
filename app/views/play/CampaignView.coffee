@@ -263,19 +263,19 @@ module.exports = class CampaignView extends RootView
   openPlayItemsModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayItemsModal()
-    
+
   openPlayHeroesModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayHeroesModal()
-    
+
   openPlayAchievementsModal: (e) ->
     e.stopPropagation()
     @openModalView new PlayAchievementsModal()
-    
+
   openBuyGemsModal: (e) ->
     e.stopPropagation()
     @openModalView new BuyGemsModal()
-    
+
   openContactModal: (e) ->
     e.stopPropagation()
     @openModalView new ContactModal()
@@ -308,6 +308,8 @@ module.exports = class CampaignView extends RootView
     @checkForUnearnedAchievements()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
     @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon' or @courseStats?
+    if @campaign and @isRTL utils.i18n(@campaign.attributes, 'fullName')
+      @$('.campaign-name').attr('dir', 'rtl')
     if not me.get('hourOfCode') and @terrain
       if features.codePlay
         if me.get('anonymous') and me.get('lastLevel') is 'true-names' and me.level() < 5

@@ -17,4 +17,5 @@ module.exports = class LevelSearchView extends SearchView
     context.currentNewSignup = 'editor.new_course_title_login'
     context.currentSearch = 'editor.course_search_title'
     @$el.i18n()
+    @applyRTLIfNeeded()
     context
