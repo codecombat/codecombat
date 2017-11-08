@@ -294,7 +294,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_your_starting_hero: "Kies Je Eerste Held:"
     you_can_always_change_your_hero_later: "Je kan altijd nog van held veranderen."
 #    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
+#    teacher_ready_to_create_class: "Je bent klaar om je eerste klas aan te maken!"
 #    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
 #    teacher_list_create_class: "On the next screen you will be able to create a new class."
 #    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
