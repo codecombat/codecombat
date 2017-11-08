@@ -1,3 +1,4 @@
+require('app/styles/editor/level/documentation_tab.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/level/level-edit-view'
 Level = require 'models/Level'
@@ -13,9 +14,8 @@ Campaigns = require 'collections/Campaigns'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 
-# in the template, but need to require them to load them
-require 'views/modal/RevertModal'
-require 'views/editor/level/modals/GenerateTerrainModal'
+RevertModal = require 'views/modal/RevertModal'
+GenerateTerrainModal = require 'views/editor/level/modals/GenerateTerrainModal'
 
 ThangsTabView = require './thangs/ThangsTabView'
 SettingsTabView = require './settings/SettingsTabView'
@@ -38,18 +38,18 @@ LevelFeedbackView = require 'views/editor/level/LevelFeedbackView'
 storage = require 'core/storage'
 utils = require 'core/utils'
 
-require 'vendor/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
-require 'vendor/treema'
+require 'vendor/scripts/coffeescript' # this is tenuous, since the LevelSession and LevelComponent models are what compile the code
+require 'lib/setupTreema'
 
 # Make sure that all of our Aethers are loaded, so that if we try to preview the level, it will work.
-require 'vendor/aether-javascript'
-require 'vendor/aether-python'
-require 'vendor/aether-coffeescript'
-require 'vendor/aether-lua'
-require 'vendor/aether-java'
-require 'vendor/aether-html'
+require 'bower_components/aether/build/javascript'
+require 'bower_components/aether/build/python'
+require 'bower_components/aether/build/coffeescript'
+require 'bower_components/aether/build/lua'
+require 'bower_components/aether/build/java'
+require 'bower_components/aether/build/html'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class LevelEditView extends RootView
   id: 'editor-level-view'
@@ -79,6 +79,8 @@ module.exports = class LevelEditView extends RootView
     'click #save-branch': 'onClickSaveBranch'
     'click #load-branch': 'onClickLoadBranch'
     'mouseup .nav-tabs > li a': 'toggleTab'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
+    'click [data-toggle="coco-modal"][data-target="editor/level/modals/GenerateTerrainModal"]': 'openGenerateTerrainModal'
 
   constructor: (options, @levelID) ->
     super options
@@ -149,6 +151,14 @@ module.exports = class LevelEditView extends RootView
     @patchesView = @insertSubView(new PatchesView(@level), @$el.find('.patches-view'))
     @listenTo @patchesView, 'accepted-patch', -> location.reload() unless key.shift  # Reload to make sure changes propagate, unless secret shift shortcut
     @$el.find('#level-watch-button').find('> span').toggleClass('secret') if @level.watching()
+
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
+  
+  openGenerateTerrainModal: (e) ->
+    e.stopPropagation()
+    @openModalView new GenerateTerrainModal()
 
   onPlayLevelTeamSelect: (e) ->
     if @childWindow and not @childWindow.closed

@@ -1,3 +1,4 @@
+require('app/styles/play/spectate.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/spectate'
 {me} = require 'core/auth'
@@ -18,6 +19,7 @@ LevelComponent = require 'models/LevelComponent'
 Article = require 'models/Article'
 Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
+createjs = require 'lib/createjs-parts'
 
 # subviews
 LoadingView = require './level/LevelLoadingView'
@@ -32,7 +34,7 @@ DuelStatsView = require './level/DuelStatsView'
 VictoryModal = require './level/modal/VictoryModal'
 InfiniteLoopModal = require './level/modal/InfiniteLoopModal'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 PROFILE_ME = false
 
@@ -55,8 +57,8 @@ module.exports = class SpectateLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
-    @sessionOne = @getQueryVariable 'session-one'
-    @sessionTwo = @getQueryVariable 'session-two'
+    @sessionOne = utils.getQueryVariable 'session-one'
+    @sessionTwo = utils.getQueryVariable 'session-two'
     if options.spectateSessions
       @sessionOne = options.spectateSessions.sessionOne
       @sessionTwo = options.spectateSessions.sessionTwo
@@ -85,7 +87,7 @@ module.exports = class SpectateLevelView extends RootView
       sessionID: @sessionOne
       opponentSessionID: @sessionTwo
       spectateMode: true
-      team: @getQueryVariable('team')
+      team: utils.getQueryVariable('team')
     @god = new God maxAngels: 1, spectate: true
 
   getRenderData: ->
@@ -256,7 +258,7 @@ module.exports = class SpectateLevelView extends RootView
     startFrame = @lastWorldFramesLoaded ? 0
     if @world.frames.length is @world.totalFrames  # Finished loading
       @lastWorldFramesLoaded = 0
-      unless @getQueryVariable('autoplay') is false
+      unless utils.getQueryVariable('autoplay') is false
         Backbone.Mediator.publish 'level:set-playing', playing: true  # Since we paused at first, now we autostart playback.
     else
       @lastWorldFramesLoaded = @world.frames.length
@@ -272,7 +274,7 @@ module.exports = class SpectateLevelView extends RootView
       @sessionOne = data[0]._id
       @sessionTwo = data[1]._id
       url = "/play/spectate/#{@levelID}?session-one=#{@sessionOne}&session-two=#{@sessionTwo}"
-      if leagueID = @getQueryVariable 'league'
+      if leagueID = utils.getQueryVariable 'league'
         url += "&league=" + leagueID
       Backbone.Mediator.publish 'router:navigate', {
         route: url,

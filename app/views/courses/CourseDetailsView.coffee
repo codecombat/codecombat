@@ -1,3 +1,4 @@
+require('app/styles/courses/course-details.sass')
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 LevelSessions = require 'collections/LevelSessions'

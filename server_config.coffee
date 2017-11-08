@@ -164,4 +164,9 @@ if fs.existsSync path.join(__dirname, '.build_info.json')
 # It's great for finding where a mystery endpoint is!
 config.TRACE_ROUTES = process.env.TRACE_ROUTES?
 
+# Enables server-side gzip compression for network responses
+# Only use this if testing network response sizes in development
+# (In production, CloudFlare compresses things for us!)
+config.forceCompression = process.env.COCO_FORCE_COMPRESSION?
+
 module.exports = config

@@ -1,19 +1,30 @@
+require('app/styles/play/level/play-web-dev-level-view.sass')
 RootView = require 'views/core/RootView'
 
 Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 WebSurfaceView = require './WebSurfaceView'
+api = require 'core/api'
 
-require 'game-libraries'
+require 'lib/game-libraries'
+utils = require 'core/utils'
 
 module.exports = class PlayWebDevLevelView extends RootView
   id: 'play-web-dev-level-view'
   template: require 'templates/play/level/play-web-dev-level-view'
 
-  initialize: (@options, @levelID, @sessionID) ->
-    @courseID = @getQueryVariable 'course'
-    @level = @supermodel.loadModel(new Level _id: @levelID).model
+  initialize: (@options, @sessionID) ->
+    @courseID = utils.getQueryVariable 'course'
     @session = @supermodel.loadModel(new LevelSession _id: @sessionID).model
+    @level = new Level()
+    @session.once 'sync', =>
+      levelResource = @supermodel.addSomethingResource('level')
+      api.levels.getByOriginal(@session.get('level').original).then (levelData) =>
+        @levelID = levelData.slug
+        @level.set({ _id: @levelID })
+        @level.fetch()
+        @level.once 'sync', =>
+          levelResource.markLoaded()
 
   onLoaded: ->
     super()

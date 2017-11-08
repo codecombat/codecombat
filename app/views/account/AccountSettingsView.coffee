@@ -1,3 +1,4 @@
+require('app/styles/account/account-settings-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/account/account-settings-view'
 forms = require 'core/forms'

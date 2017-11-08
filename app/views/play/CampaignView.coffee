@@ -1,3 +1,4 @@
+require('app/styles/play/campaign-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/campaign-view'
 LevelSession = require 'models/LevelSession'
@@ -15,7 +16,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 LeaderboardModal = require 'views/play/modal/LeaderboardModal'
 Level = require 'models/Level'
 utils = require 'core/utils'
-require 'vendor/three'
+require 'three'
 ParticleMan = require 'core/ParticleMan'
 ShareProgressModal = require 'views/play/modal/ShareProgressModal'
 UserPollsRecord = require 'models/UserPollsRecord'
@@ -32,8 +33,16 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 Levels = require 'collections/Levels'
 payPal = require('core/services/paypal')
+createjs = require 'lib/createjs-parts'
+PlayItemsModal = require 'views/play/modal/PlayItemsModal'
+PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
+PlayAchievementsModal = require 'views/play/modal/PlayAchievementsModal'
+BuyGemsModal = require 'views/play/modal/BuyGemsModal'
+ContactModal = require 'views/core/ContactModal'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 class LevelSessionsCollection extends CocoCollection
   url: ''
@@ -75,6 +84,11 @@ module.exports = class CampaignView extends RootView
     'click .poll': 'showPoll'
     'click #brain-pop-replay-btn': 'onClickBrainPopReplayButton'
     'click .premium-menu-icon': 'onClickPremiumButton'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PlayItemsModal"]': 'openPlayItemsModal'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PlayHeroesModal"]': 'openPlayHeroesModal'
+    'click [data-toggle="coco-modal"][data-target="play/modal/PlayAchievementsModal"]': 'openPlayAchievementsModal'
+    'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal'
+    'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -138,9 +152,9 @@ module.exports = class CampaignView extends RootView
 
     @supermodel.loadCollection(@earnedAchievements, 'achievements', {cache: false})
 
-    if @getQueryVariable('course-instance')?
+    if utils.getQueryVariable('course-instance')?
       @courseLevelsFake = {}
-      @courseInstanceID = @getQueryVariable('course-instance')
+      @courseInstanceID = utils.getQueryVariable('course-instance')
       @courseInstance = new CourseInstance(_id: @courseInstanceID)
       jqxhr = @courseInstance.fetch()
       @supermodel.trackRequest(jqxhr)
@@ -245,6 +259,26 @@ module.exports = class CampaignView extends RootView
   hideLoading: ->
     unless @campaign
       @$el.find('.game-controls, .user-status').removeClass 'hidden'
+
+  openPlayItemsModal: (e) ->
+    e.stopPropagation()
+    @openModalView new PlayItemsModal()
+    
+  openPlayHeroesModal: (e) ->
+    e.stopPropagation()
+    @openModalView new PlayHeroesModal()
+    
+  openPlayAchievementsModal: (e) ->
+    e.stopPropagation()
+    @openModalView new PlayAchievementsModal()
+    
+  openBuyGemsModal: (e) ->
+    e.stopPropagation()
+    @openModalView new BuyGemsModal()
+    
+  openContactModal: (e) ->
+    e.stopPropagation()
+    @openModalView new ContactModal()
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -472,7 +506,7 @@ module.exports = class CampaignView extends RootView
 
   afterInsert: ->
     super()
-    if @getQueryVariable('signup') and not me.get('email')
+    if utils.getQueryVariable('signup') and not me.get('email')
       return @promptForSignup()
     if not me.isPremium() and (@isPremiumCampaign() or (@options.worldComplete and not features.noAuth and not me.get('hourOfCode')))
       if not me.get('email')

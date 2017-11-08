@@ -1,3 +1,4 @@
+require('app/styles/play/level/modal/keyboard_shortcuts.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/level/modal/keyboard_shortcuts'
 

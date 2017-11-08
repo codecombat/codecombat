@@ -20,7 +20,7 @@ UserHandler = require './server/handlers/user_handler'
 slack = require './server/slack'
 Mandate = require './server/models/Mandate'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
-global.jsondiffpatch = require 'jsondiffpatch'
+global.jsondiffpatch = require('jsondiffpatch')
 global.stripe = require('stripe')(config.stripe.secretKey)
 errors = require './server/commons/errors'
 request = require 'request'
@@ -346,9 +346,9 @@ getStaticTemplate = (file) ->
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
   if req.features.codePlay
-   template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
-   template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
-
+    template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
+    template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
+   
   res.status(200).send template
 
 setupQuickBailToMainHTML = (app) ->
@@ -373,6 +373,7 @@ setupQuickBailToMainHTML = (app) ->
       renderMain(template, req, res)
 
   app.get '/', fast('home.html')
+  app.get '/home', fast('home.html')
   app.get '/about', fast('about.html')
   app.get '/features', fast('premium-features.html')
   app.get '/privacy', fast('privacy.html')

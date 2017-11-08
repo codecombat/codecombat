@@ -1,6 +1,7 @@
 CocoClass = require 'core/CocoClass'
 cache = {}
 {me} = require 'core/auth'
+createjs = require 'lib/createjs-parts'
 
 # Top 20 obscene words (plus 'fiddlesticks') will trigger swearing Simlish with *beeps*.
 # Didn't like leaving so much profanity lying around in the source, so rot13'd.

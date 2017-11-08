@@ -174,6 +174,12 @@ module.exports = class Tracker extends CocoClass
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
       delete properties.label
 
+    if event is 'View Load' # TODO: Update snowplow schema to include these
+      delete properties.totalEssentialEncodedBodySize
+      delete properties.totalEssentialTransferSize
+      delete properties.cachedEssentialResources
+      delete properties.totalEssentialResources
+
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
     properties.user = me.id
@@ -181,7 +187,7 @@ module.exports = class Tracker extends CocoClass
     #console.log "SnowPlow", snowplowAction, properties
 
     try
-      schema = require("schemas/events/#{snowplowAction}")
+      schema = require("schemas/events/" + snowplowAction + ".json")
     catch
       console.warn('Schema not found for snowplow action: ', snowplowAction, properties)
       return

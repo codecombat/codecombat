@@ -2,6 +2,7 @@ CocoClass = require 'core/CocoClass'
 Camera = require './Camera'
 ThangType = require 'models/ThangType'
 markThangTypes = {}
+createjs = require 'lib/createjs-parts'
 
 module.exports = class Mark extends CocoClass
   subscriptions: {}

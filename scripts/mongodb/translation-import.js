@@ -12,9 +12,9 @@
 // * uncomment "return true" lines
 
 // Constants (change these for different languages)
-langCode = 'ja';
-langProperty = 'Japanese';
-fileName = 'ja.csv';
+langCode = 'he';
+langProperty = 'Hebrew';
+fileName = 'en-to-he-2017-10-30.csv';
 
 // Set up CoffeeScript
 require('coffee-script');
@@ -67,10 +67,22 @@ update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   if(!_.isString(translation)) { translation = translation.toString() }
   translation = _.str.trim(translation)
   console.log('found translation!', englishString.slice(0,20), translation.slice(0,20))
+  if (langCode == 'he' && !isHebrew(translation)) {
+    // Skip non-Hebrew because of the translator's workflow not including old translations
+    return;
+  }
   if (!rootDoc.i18n) { rootDoc.i18n = {} }
   if (!rootDoc.i18n[langCode]) { rootDoc.i18n[langCode] = {} }
   rootDoc.i18n[langCode][property] = translation
 })
+
+function isHebrew(s) {
+  for(var i = 0; i < s.length; ++i) {
+    if(s.charCodeAt(i) >= 0x0590 && s.charCodeAt(i) <= 0x05FF)
+      return true;
+  }
+  return false;
+}
 
 makeTranslationMap = (translations) => {
   map = {}

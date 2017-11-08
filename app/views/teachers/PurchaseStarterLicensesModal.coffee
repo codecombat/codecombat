@@ -1,3 +1,4 @@
+require('app/styles/teachers/purchase-starter-licenses-modal.sass')
 ModalView = require 'views/core/ModalView'
 State = require 'models/State'
 utils = require 'core/utils'

@@ -1,3 +1,4 @@
+require('app/styles/artisans/artisans-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/artisans-view'
 

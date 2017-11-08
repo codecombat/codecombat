@@ -1,5 +1,5 @@
-utils = require 'core/utils'
-ace = require 'ace'
+aceUtils = require 'core/aceUtils'
+ace = require('lib/aceContainer')
 
 defaults =
   autoLineEndings:
@@ -334,6 +334,6 @@ module.exports = class Autocomplete
 
     # window.AutocompleteInstance = @Autocomplete  # For debugging. Make sure to not leave active when committing.
     # window.snippetEntries = snippetEntries
-    lang = utils.aceEditModes[e.language].substr 'ace/mode/'.length
+    lang = aceUtils.aceEditModes[e.language].substr 'ace/mode/'.length
     @addSnippets snippetEntries, lang
     spellView.editorLang = lang

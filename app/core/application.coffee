@@ -1,7 +1,6 @@
 FacebookHandler = require 'core/social-handlers/FacebookHandler'
 GPlusHandler = require 'core/social-handlers/GPlusHandler'
 GitHubHandler = require 'core/social-handlers/GitHubHandler'
-ModuleLoader = require 'core/ModuleLoader'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
 storage = require 'core/storage'
@@ -72,8 +71,8 @@ Application = {
     @facebookHandler = new FacebookHandler()
     @gplusHandler = new GPlusHandler()
     @githubHandler = new GitHubHandler()
-    @moduleLoader = new ModuleLoader()
-    @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
+    locale.load(me.get('preferredLanguage', true))
+    preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     CocoModel.pollAchievements()

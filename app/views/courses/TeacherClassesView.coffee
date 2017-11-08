@@ -1,3 +1,4 @@
+require('app/styles/courses/teacher-classes-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-classes-view'
 Classroom = require 'models/Classroom'

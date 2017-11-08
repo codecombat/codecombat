@@ -1,3 +1,4 @@
+require('app/styles/play/level/duel-stats-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/duel-stats-view'
 ThangAvatarView = require 'views/play/level/ThangAvatarView'

@@ -1,3 +1,5 @@
+createjs = require 'lib/createjs-parts'
+
 WIDTH = 20
 HEIGHT = 2
 EDGE = 0.3

@@ -5,12 +5,13 @@ Article = require 'models/Article'
 LevelSession = require 'models/LevelSession'
 ThangType = require 'models/ThangType'
 ThangNamesCollection = require 'collections/ThangNamesCollection'
+LZString = require 'lz-string'
 
 CocoClass = require 'core/CocoClass'
 AudioPlayer = require 'lib/AudioPlayer'
-app = require 'core/application'
 World = require 'lib/world/world'
 utils = require 'core/utils'
+loadAetherLanguage = require 'lib/loadAetherLanguage'
 
 LOG = true
 
@@ -195,7 +196,7 @@ module.exports = class LevelLoader extends CocoClass
       session.patch = session.save = -> console.error "Not saving session, since we didn't create it."
     else if codeLanguage = utils.getQueryVariable 'codeLanguage'
       session.set 'codeLanguage', codeLanguage
-    @loadCodeLanguagesForSession session
+    @worldNecessities = @worldNecessities.concat(@loadCodeLanguagesForSession session)
     if compressed = session.get 'interpret'
       uncompressed = LZString.decompressFromUTF16 compressed
       code = session.get 'code'
@@ -256,17 +257,16 @@ module.exports = class LevelLoader extends CocoClass
 
   loadCodeLanguagesForSession: (session) ->
     codeLanguages = _.uniq _.filter [session.get('codeLanguage') or 'python', session.get('submittedCodeLanguage')]
+    resources = []
     for codeLanguage in codeLanguages
       continue if codeLanguage in ['clojure', 'io']
-      do (codeLanguage) =>
-        modulePath = "vendor/aether-#{codeLanguage}"
-        return unless application.moduleLoader?.load modulePath
-        languageModuleResource = @supermodel.addSomethingResource 'language_module'
-        onModuleLoaded = (e) ->
-          return unless e.id is modulePath
+      do (codeLanguage) => # Prevents looped variables from being reassigned when async callbacks happen
+        languageModuleResource = @supermodel.addSomethingResource "language_module_#{codeLanguage}"
+        resources.push(languageModuleResource)
+        loadAetherLanguage(codeLanguage).then (aetherLang) =>
+          console.log "Marking lang loaded:", aetherLang
           languageModuleResource.markLoaded()
-          @stopListening application.moduleLoader, 'loaded', onModuleLoaded  # listenToOnce might work here instead, haven't tried
-        @listenTo application.moduleLoader, 'loaded', onModuleLoaded
+    return resources
 
   addSessionBrowserInfo: (session) ->
     return unless me.id is session.get 'creator'

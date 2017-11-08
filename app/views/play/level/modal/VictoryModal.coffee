@@ -1,3 +1,4 @@
+require('app/styles/play/level/modal/victory.sass')
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/level/modal/victory'

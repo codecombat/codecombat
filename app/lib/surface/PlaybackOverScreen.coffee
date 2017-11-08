@@ -1,4 +1,5 @@
 CocoClass = require 'core/CocoClass'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class PlaybackOverScreen extends CocoClass
   subscriptions:

@@ -1,3 +1,4 @@
+require('app/styles/account/main-account-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/account/main-account-view'
 

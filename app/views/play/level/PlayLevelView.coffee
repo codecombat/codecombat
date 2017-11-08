@@ -1,3 +1,6 @@
+require('app/styles/play/level/level-loading-view.sass')
+require('app/styles/play/level/tome/spell_palette_entry.sass')
+require('app/styles/play/play-level-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/play-level-view'
 {me} = require 'core/auth'
@@ -21,12 +24,13 @@ Camera = require 'lib/surface/Camera'
 AudioPlayer = require 'lib/AudioPlayer'
 Simulator = require 'lib/simulator/Simulator'
 GameUIState = require 'models/GameUIState'
+createjs = require 'lib/createjs-parts'
 
 # subviews
 LevelLoadingView = require './LevelLoadingView'
 ProblemAlertView = require './tome/ProblemAlertView'
 TomeView = require './tome/TomeView'
-ChatView = require './LevelChatView'
+ChatView = require './LevelChatView' # TODO: Consider removing.
 HUDView = require './LevelHUDView'
 LevelDialogueView = require './LevelDialogueView'
 ControlBarView = require './ControlBarView'
@@ -48,7 +52,7 @@ HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 PROFILE_ME = false
 
@@ -106,14 +110,14 @@ module.exports = class PlayLevelView extends RootView
     console.profile?() if PROFILE_ME
     super options
 
-    @courseID = options.courseID or @getQueryVariable 'course'
-    @courseInstanceID = options.courseInstanceID or @getQueryVariable 'course-instance'
+    @courseID = options.courseID or utils.getQueryVariable 'course'
+    @courseInstanceID = options.courseInstanceID or utils.getQueryVariable 'course-instance'
 
-    @isEditorPreview = @getQueryVariable 'dev'
-    @sessionID = (@getQueryVariable 'session') || @options.sessionID
-    @observing = @getQueryVariable 'observing'
+    @isEditorPreview = utils.getQueryVariable 'dev'
+    @sessionID = (utils.getQueryVariable 'session') || @options.sessionID
+    @observing = utils.getQueryVariable 'observing'
 
-    @opponentSessionID = @getQueryVariable('opponent')
+    @opponentSessionID = utils.getQueryVariable('opponent')
     @opponentSessionID ?= @options.opponent
     @gameUIState = new GameUIState()
 
@@ -145,7 +149,7 @@ module.exports = class PlayLevelView extends RootView
 
   load: ->
     @loadStartTime = new Date()
-    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: @getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
+    levelLoaderOptions = { @supermodel, @levelID, @sessionID, @opponentSessionID, team: utils.getQueryVariable('team'), @observing, @courseID, @courseInstanceID }
     if me.isSessionless()
       levelLoaderOptions.fakeSessionConfig = {}
     console.debug 'PlayLevelView: Create LevelLoader'
@@ -161,7 +165,7 @@ module.exports = class PlayLevelView extends RootView
       not e.level.isType('course-ladder')
 
       # TODO: Add a general way for standalone levels to be accessed by students, teachers
-      e.level.get('slug') isnt 'peasants-and-munchkins' 
+      e.level.get('slug') isnt 'peasants-and-munchkins'
     ])
       return _.defer -> application.router.redirectHome()
 
@@ -217,7 +221,7 @@ module.exports = class PlayLevelView extends RootView
     console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = @getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
+    team = utils.getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
@@ -359,43 +363,6 @@ module.exports = class PlayLevelView extends RootView
       if e.session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
         sorcerer = '53e126a4e06b897606d38bef'
       e.session.set 'heroConfig', {"thangType":sorcerer,"inventory":{"misc-0":"53e2396a53457600003e3f0f","programming-book":"546e266e9df4a17d0d449be5","minion":"54eb5dbc49fa2d5c905ddf56","feet":"53e214f153457600003e3eab","right-hand":"54eab7f52b7506e891ca7202","left-hand":"5463758f3839c6e02811d30f","wrists":"54693797a2b1f53ce79443e9","gloves":"5469425ca2b1f53ce7944421","torso":"546d4a549df4a17d0d449a97","neck":"54693274a2b1f53ce79443c9","eyes":"546941fda2b1f53ce794441d","head":"546d4ca19df4a17d0d449abf"}}
-    # TODO: Remove post-KR
-    else if e.level.get('slug') is 'the-gauntlet-kr'
-      lightseeker = '583d2cca6ffa3e65d170f29f'
-      e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
-        "feet":"53e237bf53457600003e3f05",
-        "head":"546d38269df4a17d0d4499ff",
-        "eyes":"53e238df53457600003e3f0b",
-        "torso":"53e22eac53457600003e3efc",
-        "right-hand":"53e218d853457600003e3ebe",
-        "programming-book":"53e4108204c00d4607a89f78"
-      }}
-    else if e.level.get('slug') is 'woodland-cleaver-kr'
-      lightseeker = '583d2cca6ffa3e65d170f29f'
-      e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
-        "eyes": "53e238df53457600003e3f0b",
-        "head": "546d38269df4a17d0d4499ff",
-        "torso": "545d3f0b2d03e700001b5a5d",
-        "right-hand": "544d7d1f8494308424f564a3",
-        "wrists": "53e2396a53457600003e3f0f",
-        "programming-book": "546e25d99df4a17d0d449be1",
-        "left-hand": "544c310ae0017993fce214bf"
-      }}
-    else if e.level.get('slug') is 'crossroads-kr'
-      lightseeker = '583d2cca6ffa3e65d170f29f'
-      e.session.set 'heroConfig', {"thangType":lightseeker,"inventory":{
-        "wrists": "53e2396a53457600003e3f0f",
-        "eyes": "53e2167653457600003e3eb3",
-        "feet": "546d4d589df4a17d0d449ac9",
-        "left-hand": "544d7bb88494308424f56493",
-        "right-hand": "54694ba3a2b1f53ce794444d",
-        "waist": "5437002a7beba4a82024a97d",
-        "programming-book": "546e25d99df4a17d0d449be1",
-        "gloves": "5469425ca2b1f53ce7944421",
-        "head": "546d390b9df4a17d0d449a0b",
-        "torso": "546aaf1b3777d6186329285e",
-        "neck": "54693140a2b1f53ce79443bc"
-      }}
     else if e.level.get('slug') in ['ace-of-coders', 'elemental-wars']
       goliath = '55e1a6e876cb0948c96af9f8'
       e.session.set 'heroConfig', {"thangType":goliath,"inventory":{
@@ -498,7 +465,7 @@ module.exports = class PlayLevelView extends RootView
       return Backbone.Mediator.subscribeOnce 'modal:closed', @onLevelStarted, @
     @surface?.showLevel()
     Backbone.Mediator.publish 'level:set-time', time: 0
-    if (@isEditorPreview or @observing) and not @getQueryVariable('intro')
+    if (@isEditorPreview or @observing) and not utils.getQueryVariable('intro')
       @loadingView.startUnveiling()
       @loadingView.unveil true
     else
@@ -548,12 +515,11 @@ module.exports = class PlayLevelView extends RootView
     return unless @shouldSimulate()
     return console.error "Should not auto-simulate until we fix how these languages are loaded"
     # TODO: how can we not require these as part of /play bundle?
-    ##require "vendor/aether-#{codeLanguage}" for codeLanguage in ['javascript', 'python', 'coffeescript', 'lua', 'java']
-    #require 'vendor/aether-javascript'
-    #require 'vendor/aether-python'
-    #require 'vendor/aether-coffeescript'
-    #require 'vendor/aether-lua'
-    #require 'vendor/aether-java'
+    #require 'bower_components/aether/build/javascript'
+    #require 'bower_components/aether/build/python'
+    #require 'bower_components/aether/build/coffeescript'
+    #require 'bower_components/aether/build/lua'
+    #require 'bower_components/aether/build/java'
     @simulateNextGame()
 
   simulateNextGame: ->
@@ -574,8 +540,8 @@ module.exports = class PlayLevelView extends RootView
     @simulator.fetchAndSimulateOneGame()
 
   shouldSimulate: ->
-    return true if @getQueryVariable('simulate') is true
-    return false if @getQueryVariable('simulate') is false
+    return true if utils.getQueryVariable('simulate') is true
+    return false if utils.getQueryVariable('simulate') is false
     stillBuggy = true  # Keep this true while we still haven't fixed the zombie worker problem when simulating the more difficult levels on Chrome
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
@@ -688,7 +654,7 @@ module.exports = class PlayLevelView extends RootView
     ModalClass = CourseVictoryModal if @isCourseMode() or me.isSessionless()
     if @level.isType('course-ladder')
       ModalClass = CourseVictoryModal
-      options.courseInstanceID = @getQueryVariable('course-instance') or @getQueryVariable('league')
+      options.courseInstanceID = utils.getQueryVariable('course-instance') or utils.getQueryVariable('league')
     ModalClass = PicoCTFVictoryModal if window.serverConfig.picoCTF
     victoryModal = new ModalClass(options)
     @openModalView(victoryModal)

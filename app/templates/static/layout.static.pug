@@ -27,8 +27,10 @@ html(lang='en')
       var DEXECURE_URL = "/dexecure-c167a5675c.js";
       "serviceWorker"in navigator&&navigator.serviceWorker.register(DEXECURE_URL,{scope:'/'}).then(function(e){"/"!=new URL(e.scope).pathname&&console.log("Service worker scope is not /")})["catch"](function(e){console.log("Unable to register service worker.");console.log(e)});
       // Placeholder for iPad, which inspects the user object at the bottom of an injected page.
-    script(src='/' +  shaTag + '/javascripts/vendor.js', defer='')
-    script(src='/' + shaTag + '/javascripts/app.js', defer='')
+    script(src='/' + shaTag + '/javascripts/esper.js', defer='')
+    if chunkPaths[viewName]
+      script(src=chunkPaths[viewName], defer='')
+    script(src='/' + shaTag + '/javascripts/app.js', defer='', async='', data-ace-base='/javascripts/ace') // This data tag needs to be on SOME script with a src for Ace to work
     script(src='/user-data?sha=' + shaTag)
     // Google Analytics
     script.
@@ -74,11 +76,17 @@ html(lang='en')
       });
 
     script(src='https://checkout.stripe.com/checkout.js')
-    // CodePlay Tags Header 
+    // CodePlay Tags Header
+    
+    // Webpack-inserted CSS:
+    //- (will be inserted at runtime)
 
     block setup
     block script-start
       script.
+        //- This runs for pages without specific static templates
+        //- Those pages with static templates run this themselves (in mock.static.pug),
+        //-   after setting window.alreadyLoadedView
         function onLoad() {
           try {
               // IE10 warning
@@ -93,7 +101,6 @@ html(lang='en')
               // IE8 can't handle this
               FastClick.attach(document.body);
           } catch (error) { }
-          require('core/initialize');
         }
   body.clearfix(onload='onLoad();')
     #fb-root
@@ -101,4 +108,4 @@ html(lang='en')
     #modal-wrapper.modal-content.hide
     #module-load-progress.progress
       .progress-bar
-    // CodePlay Tags Footer 
+    // CodePlay Tags Footer

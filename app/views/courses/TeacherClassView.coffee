@@ -1,3 +1,4 @@
+require('app/styles/courses/teacher-class-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
@@ -23,6 +24,8 @@ Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
+window.saveAs ?= require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
+window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -430,7 +433,7 @@ module.exports = class TeacherClassView extends RootView
       csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
-    saveAs(file, 'CodeCombat.csv')
+    window.saveAs(file, 'CodeCombat.csv')
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin

@@ -1,3 +1,4 @@
+require('app/styles/play/level/level-playback-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-playback-view'
 {me} = require 'core/auth'
@@ -299,7 +300,7 @@ module.exports = class LevelPlaybackView extends CocoView
         if @slideCount < 3
           @wasPlaying = false
           Backbone.Mediator.publish 'level:set-playing', {playing: false}
-          @$el.find('.scrubber-handle').effect('bounce', {times: 2})
+          @$el.find('.scrubber-handle').effect('bounce', {times: 2}) # TODO: Performance: consider removing, this is the only use
         else
           @playSound 'playback-scrub-end', 0.5
 

@@ -1,6 +1,7 @@
 CocoClass = require 'core/CocoClass'
 CocoView = require 'views/core/CocoView'
 {scriptMatchesEventPrereqs} = require './../world/script_event_prereqs'
+utils = require 'core/utils'
 
 allScriptModules = []
 allScriptModules.push(require './SpriteScriptModule')
@@ -44,7 +45,7 @@ module.exports = ScriptManager = class ScriptManager extends CocoClass
     @originalScripts = @filterScripts(options.scripts)
     @session = options.session
     @levelID = options.levelID
-    @debugScripts = application.isIPadApp or CocoView.getQueryVariable 'dev'
+    @debugScripts = application.isIPadApp or utils.getQueryVariable 'dev'
     @initProperties()
     @addScriptSubscriptions()
     @beginTicking()

@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/basic-info-view.sass')
 CocoView = require 'views/core/CocoView'
 AuthModal = require 'views/core/AuthModal'
 template = require 'templates/core/create-account-modal/basic-info-view'
