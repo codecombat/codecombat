@@ -432,6 +432,7 @@
     back_to_map: "Back to Map"
     directions: "Directions"
     edit_level: "Edit Level"
+    keep_learning: "Keep Learning"
     explore_codecombat: "Explore CodeCombat"
     finished_hoc: "I'm finished with my Hour of Code"
     get_certificate: "Get your certificate!"
@@ -580,6 +581,17 @@
     view_gallery: "View Gallery"
     project_published_noty: "Your level has been published!"
     keep_editing: "Keep Editing"
+    
+  amazon_hoc:
+    title: "Keep Learning with Amazon!"
+    congrats: "Congratulations on conquering that challenging Hour of Code!"
+    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+    educate_2: "Learn more and sign up here"
+    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+    future_eng_2: "here"
+    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+    future_eng_4: "Amazon Future Engineer"
+    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
   play_game_dev_level:
     created_by: "Created by {{name}}"

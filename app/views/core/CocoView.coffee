@@ -3,6 +3,7 @@ utils = require 'core/utils'
 CocoClass = require 'core/CocoClass'
 loadingScreenTemplate = require 'templates/core/loading'
 loadingErrorTemplate = require 'templates/core/loading-error'
+require('app/styles/core/loading-error.sass')
 auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
 
@@ -86,7 +87,7 @@ module.exports = class CocoView extends Backbone.View
     return if @viewVisibleTimer
     @viewVisibleTimer = new ViewVisibleTimer()
     @trackViewLifecycle = trackViewLifecycle
-    
+
   # Report the currently visible feature — this is the default handler for whole-view tracking
   # Views with more involved features should implement this method instead.
   currentVisiblePremiumFeature: ->
@@ -94,7 +95,7 @@ module.exports = class CocoView extends Backbone.View
       return { viewName: @.id }
     else
       return null
-  
+
   updateViewVisibleTimer: ->
     return if not @viewVisibleTimer
     visibleFeature = not @hidden and not @destroyed and @currentVisiblePremiumFeature()
@@ -132,7 +133,20 @@ module.exports = class CocoView extends Backbone.View
     @listenToShortcuts() if wasHidden
     view.didReappear() for id, view of @subviews
 
+
   # View Rendering
+
+  isRTL: (s) ->
+    # Hebrew is 0x0590 - 0x05FF, which is adjacent to Arabic at 0x0600 - 0x06FF
+    /[\u0590-\u06FF]/.test s
+
+  applyRTLIfNeeded: ->
+    return unless me.get('preferredLanguage') in ['he', 'ar']
+    @$('[data-i18n]').each (i, el) =>
+      return unless @isRTL(el.innerHTML)
+      el.dir = 'rtl'
+      $(el).parentsUntil('table, form, noscript, div:not([class~="rtl-allowed"]):not([class~="form"]):not([class~="form-group"]):not([class~="form-group"]), [dir="ltr"]').attr('dir', 'rtl')
+      $(el).parents('div.form').attr('dir', 'rtl')
 
   renderSelectors: (selectors...) ->
     newTemplate = $(@template(@getRenderData()))
@@ -141,6 +155,7 @@ module.exports = class CocoView extends Backbone.View
         $(elPair[0]).replaceWith($(elPair[1]))
     @delegateEvents()
     @$el.i18n()
+    @applyRTLIfNeeded()
 
   render: ->
     return @ unless me
@@ -164,6 +179,7 @@ module.exports = class CocoView extends Backbone.View
 
     @afterRender()
     @$el.i18n()
+    @applyRTLIfNeeded()
     @
 
   getRenderData: (context) ->
@@ -248,14 +264,7 @@ module.exports = class CocoView extends Backbone.View
   toggleModal: (e) ->
     if $(e.currentTarget).prop('target') is '_blank'
       return true
-    # special handler for opening modals that are dynamically loaded, rather than static in the page. It works (or should work) like Bootstrap's modals, except use coco-modal for the data-toggle value.
-    elem = $(e.target)
-    return unless elem.data('toggle') is 'coco-modal'
-    return if elem.attr('disabled')
-    target = elem.data('target')
-    Modal = require 'views/'+target
-    e.stopPropagation()
-    @openModalView new Modal supermodel: @supermodal
+    # No longer try to dynamically require modal views. Require and open them in the view that wants to.
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once
@@ -305,6 +314,7 @@ module.exports = class CocoView extends Backbone.View
   showLoading: ($el=@$el) ->
     $el.find('>').addClass('hidden')
     $el.append(loadingScreenTemplate()).i18n()
+    @applyRTLIfNeeded()
     @_lastLoading = $el
 
   hideLoading: ->
@@ -322,6 +332,7 @@ module.exports = class CocoView extends Backbone.View
     }
     @_lastLoading.find('.loading-screen').replaceWith((loadingErrorTemplate(context)))
     @_lastLoading.i18n()
+    @applyRTLIfNeeded()
 
   forumLink: ->
     link = 'http://discourse.codecombat.com/'
@@ -485,9 +496,6 @@ module.exports = class CocoView extends Backbone.View
 
   # Utilities
 
-  getQueryVariable: (param, defaultValue) -> CocoView.getQueryVariable(param, defaultValue)
-  @getQueryVariable: (param, defaultValue) -> utils.getQueryVariable(param, defaultValue)  # Moved to utils; TODO finish migrating
-
   getRootView: ->
     view = @
     view = view.parent while view.parent?
@@ -513,13 +521,6 @@ module.exports = class CocoView extends Backbone.View
 
   isFirefox: ->
     navigator.userAgent.toLowerCase().indexOf('firefox') isnt -1
-
-  initSlider: ($el, startValue, changeCallback) ->
-    slider = $el.slider({animate: 'fast'})
-    slider.slider('value', startValue)
-    slider.on('slide', changeCallback)
-    slider.on('slidechange', changeCallback)
-    slider
 
   scrollToLink: (link, speed=300) ->
     scrollTo = $(link).offset().top

@@ -1,8 +1,11 @@
+require('app/styles/editor/level/thang/level-thang-edit-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/editor/level/thang/level-thang-edit-view'
 ThangComponentsEditView = require 'views/editor/component/ThangComponentsEditView'
 ThangType = require 'models/ThangType'
-ace = require 'ace'
+ace = require('lib/aceContainer')
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
 module.exports = class LevelThangEditView extends CocoView
   ###

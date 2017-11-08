@@ -1,3 +1,4 @@
+require('app/styles/play/level/play-game-dev-level-view.sass')
 RootView = require 'views/core/RootView'
 
 GameUIState = require 'models/GameUIState'
@@ -14,9 +15,11 @@ utils = require 'core/utils'
 urls = require 'core/urls'
 Course = require 'models/Course'
 GameDevVictoryModal = require './modal/GameDevVictoryModal'
+aetherUtils = require 'lib/aether_utils'
 GameDevTrackView = require './GameDevTrackView'
+api = require 'core/api'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 TEAM = 'humans'
 
@@ -27,6 +30,7 @@ module.exports = class PlayGameDevLevelView extends RootView
   subscriptions:
     'god:new-world-created': 'onNewWorld'
     'surface:ticked': 'onSurfaceTicked'
+    'god:streaming-world-updated': 'onStreamingWorldUpdated'
 
   events:
     'click #edit-level-btn': 'onEditLevelButton'
@@ -34,7 +38,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     'click #copy-url-btn': 'onClickCopyURLButton'
     'click #play-more-codecombat-btn': 'onClickPlayMoreCodeCombatButton'
 
-  initialize: (@options, @levelID, @sessionID) ->
+  initialize: (@options, @sessionID) ->
     @state = new State({
       loading: true
       progress: 0
@@ -45,16 +49,23 @@ module.exports = class PlayGameDevLevelView extends RootView
     @supermodel.on 'update-progress', (progress) =>
       @state.set({progress: (progress*100).toFixed(1)+'%'})
     @level = new Level()
-    @session = new LevelSession()
+    @session = new LevelSession({ _id: @sessionID })
     @gameUIState = new GameUIState()
-    @courseID = @getQueryVariable 'course'
-    @courseInstanceID = @getQueryVariable 'course-instance'
+    @courseID = utils.getQueryVariable 'course'
+    @courseInstanceID = utils.getQueryVariable 'course-instance'
     @god = new God({ @gameUIState, indefiniteLength: true })
-    @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
-    @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
-    @listenTo @state, 'change', _.debounce @renderAllButCanvas
 
-    @levelLoader.loadWorldNecessities()
+    @supermodel.registerModel(@session)
+    new Promise((accept,reject) => @session.fetch({ cache: false }).then(accept, reject)).then (sessionData) =>
+      api.levels.getByOriginal(sessionData.level.original)
+    .then (levelData) =>
+      @levelID = levelData.slug
+      @levelLoader = new LevelLoader({ @supermodel, @levelID, @sessionID, observing: true, team: TEAM, @courseID })
+      @supermodel.setMaxProgress 1 # Hack, why are we setting this to 0.2 in LevelLoader?
+      @listenTo @state, 'change', _.debounce @renderAllButCanvas
+      @updateDb = _.throttle(@updateDb, 1000)
+
+      @levelLoader.loadWorldNecessities()
 
     .then (levelLoader) =>
       { @level, @session, @world } = levelLoader
@@ -93,7 +104,7 @@ module.exports = class PlayGameDevLevelView extends RootView
       @surface.setWorld(@world)
       @scriptManager.initializeCamera()
       @renderSelectors '#info-col'
-      @spells = @session.generateSpellsObject level: @level
+      @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
       
       course = if @courseID then new Course({_id: @courseID}) else null
@@ -115,7 +126,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-      @god.createWorld(@spells, false, false, true)
+      sessionDb = @session.get('keyValueDb') ? {}
+      @god.createWorld(@spells, false, false, true, sessionDb)
 
     .catch (e) =>
       throw e if e.stack
@@ -132,7 +144,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onClickPlayButton: ->
-    @god.createWorld(@spells, false, true)
+    sessionDb = @session.get('keyValueDb') ? {}
+    @god.createWorld(@spells, false, true, false, sessionDb)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
@@ -171,6 +184,15 @@ module.exports = class PlayGameDevLevelView extends RootView
   updateRealTimeGoals: (goals) ->
     @studentGoals = goals?.map((g) -> JSON.parse(g))
     @renderSelectors '#directions'
+
+  onStreamingWorldUpdated: (e) ->
+    @updateDb()
+
+  updateDb: ->
+    return unless @state.get('playing')
+    if @surface.world.keyValueDb and not _.isEqual(@surface.world.keyValueDb, @session.attributes.keyValueDb)
+      @session.updateKeyValueDb(_.cloneDeep(@surface.world.keyValueDb))
+      @session.saveKeyValueDb()
 
   destroy: ->
     @levelLoader?.destroy()

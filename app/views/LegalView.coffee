@@ -1,3 +1,4 @@
+require('app/styles/legal.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/legal'
 Products = require 'collections/Products'

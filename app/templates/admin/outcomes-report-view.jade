@@ -47,7 +47,7 @@
           label
             //- input(type="checkbox", v-model:value="startDate")
             input(type="checkbox", v-model:value="isClassroomSelected[classroom._id]")
-            {{classroom.name}}  [{{classroom.members.length}}] {{classroom.archived ? '(archived)' : ''}}
+            | {{classroom.name}}  [{{classroom.members.length}}] {{classroom.archived ? '(archived)' : ''}}
 
       .col-xs-6
         h2
@@ -55,7 +55,7 @@
         div(v-for="course in courses")
           label(v-if="isCourseVisible[course._id]")
             input(type="checkbox", v-model:value="isCourseSelected[course._id]", :disabled="!isCourseVisible[course._id]")
-            {{course.name}}
+            | {{course.name}}
 
     h2
       | Insights (markdown):

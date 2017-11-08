@@ -1,3 +1,4 @@
+require('app/styles/admin/analytics-subscriptions.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/analytics-subscriptions'
 ThangType = require 'models/ThangType'
@@ -5,7 +6,7 @@ User = require 'models/User'
 
 # TODO: Graphing code copied/mangled from campaign editor level view.  OMG, DRY.
 
-require 'vendor/d3'
+require 'd3/d3.js'
 
 module.exports = class AnalyticsSubscriptionsView extends RootView
   id: 'admin-analytics-subscriptions-view'

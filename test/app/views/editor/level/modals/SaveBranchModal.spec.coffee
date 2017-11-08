@@ -2,14 +2,15 @@ factories = require 'test/app/factories'
 SaveBranchModal = require 'views/editor/level/modals/SaveBranchModal'
 LevelComponents = require 'collections/LevelComponents'
 LevelSystems = require 'collections/LevelSystems'
+modelDeltas = require 'lib/modelDeltas'
 
 makeBranch = (attrs={}, {systems, components}) ->
   branch = new Branch(attrs)
   patches = []
   for component in components.models
-    patches.push(component.makePatch().toJSON())
+    patches.push(modelDeltas.makePatch(component).toJSON())
   for system in systems.models
-    patches.push(system.makePatch().toJSON())
+    patches.push(modelDeltas.makePatch(system).toJSON())
   branch.set({patches})
   return branch
 
@@ -64,7 +65,7 @@ describe 'SaveBranchModal', ->
         { 
           name: 'First Branch',
           patches: [
-            componentV0Changed.makePatch().toJSON()
+            modelDeltas.makePatch(componentV0Changed).toJSON()
           ]
           updatedBy: me.id
           updatedByName: 'Myself'

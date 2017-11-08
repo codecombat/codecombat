@@ -1,3 +1,4 @@
+require('app/styles/play/modal/poll-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/poll-modal'
 utils = require 'core/utils'

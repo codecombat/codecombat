@@ -1,5 +1,6 @@
 Problem = require 'views/play/level/tome/Problem'
-require 'locale/rot13'
+locale = require 'locale/locale'
+locale.storeLoadedLanguage('rot13', require('locale/rot13')) # Normally locale.load does this for us
 
 describe 'Problem', ->
   # boilerplate problem params
@@ -33,7 +34,7 @@ describe 'Problem', ->
       @oldLang = $.i18n.lng()
       $.i18n.setLng('rot13')
     afterEach ->
-      $.i18n.setLng(@olgLang)
+      $.i18n.setLng(@oldLang)
     it 'translates messages with line numbers, error types, and placeholders', ->
       english = 'Line 12: ReferenceError: somethin is not defined'
       rot13 = 'Yvar 12: ErsreraprReebe: somethin vf abg qrsvarq'

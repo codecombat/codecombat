@@ -1,8 +1,10 @@
+require('app/styles/play/level/control-bar-view.sass')
 storage = require 'core/storage'
 
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/control-bar-view'
 {me} = require 'core/auth'
+utils = require 'core/utils'
 
 Campaign = require 'models/Campaign'
 Classroom = require 'models/Classroom'
@@ -10,6 +12,7 @@ Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
@@ -29,6 +32,7 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click #version-switch-button': 'onClickVersionSwitchButton'
     'click #version-switch-button .code-language-selector': 'onClickVersionSwitchButton'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -77,6 +81,10 @@ module.exports = class ControlBarView extends CocoView
       @levelNumber = null
     super()
 
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()
+
   setBus: (@bus) ->
 
   getRenderData: (c={}) ->
@@ -105,7 +113,7 @@ module.exports = class ControlBarView extends CocoView
       @homeLink = "/play/ladder/#{levelID}"
       @homeViewClass = 'views/ladder/LadderView'
       @homeViewArgs.push levelID
-      if leagueID = @getQueryVariable('league') or @getQueryVariable('course-instance')
+      if leagueID = utils.getQueryVariable('league') or utils.getQueryVariable('course-instance')
         leagueType = if @level.isType('course-ladder') then 'course' else 'clan'
         @homeViewArgs.push leagueType
         @homeViewArgs.push leagueID

@@ -10,7 +10,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     classroom_in_a_box: "Готовый учебный кабинет из коробки для обучения информатике."
     codecombat_is: "CodeCombat – это платформа <strong>для учеников</strong>, чтобы изучать информатику во время игры."
     our_courses: "Наши курсы были тщательно проработаны, чтобы <strong>качественно обучать</strong>, даже если учителя не имеют особого опыта в программировании."
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Посмотрите как CodeCombat меняет обучение Информатике."
     top_screenshots_hint: "Ученики пишут код и видят, как их изменения обновляются в реальном времени"
     designed_with: "Разработано при поддержке учителей"
     real_code: "Писать настоящий код"
@@ -66,7 +66,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     want_coco: "Хотите CodeCombat в вашей школе?"
 
   nav:
-#    map: "Map"
+    map: "Карта" # The top nav bar entry where player can return to the map
     play: "Уровни" # The top nav bar entry where players choose which levels to play
     community: "Сообщество"
     courses: "Курсы"
@@ -152,9 +152,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     campaign_multiplayer: "Арены для мультиплеера"
     campaign_multiplayer_description: "... там вы соревнуетесь в программировании с другими игроками."
     brain_pop_done: "Вы победили огров с помощью кода! Вы выиграли!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_challenge: "Испытай себя играя снова с использованием различных языков программирования!"
+    replay: "Повторить"
+    back_to_classroom: "Назад в класс"
 
   code:
     if: "если" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -233,7 +233,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     create_teacher_header: "Создать учётную запись Учителя"
     create_individual_header: "Создать личную учётную запись"
     email_announcements: "Получать оповещения о новых уровнях и возможностях на CodeCombat"
-#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
+    teacher_email_announcements: "Сообщайте мне о новых учебных материалах, планах и курсах!"
     creating: "Создаём учётную запись..."
     sign_up: "Регистрация"
     log_in: "вход с паролем"
@@ -321,16 +321,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
   common:
     back: "Вернуться" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
+    go_back: "Вернуться назад"
     coming_soon: "Скоро!"
     continue: "Продолжить" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Далее"
     default_code: "Код по умолчанию"
     loading: "Загрузка..."
     overview: "Обзор"
-#    processing: "Processing..."
+    processing: "Обрабатывается..."
     solution: "Решение"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Содержание"
     intro: "Введение"
     saving: "Сохранение..."
     sending: "Отправка..."
@@ -429,7 +429,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     years: "года (лет)"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "Вернуться к карте"
     directions: "Направления"
     edit_level: "Редактировать Уровень"
     explore_codecombat: "Исследовать CodeCombat"
@@ -571,15 +571,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     tip_good_idea: "Лучший способ найти хорошую идею – иметь множество идей. - Линус Полинг"
     tip_programming_not_about_computers: "Информационные технологии – это настолько же про компьютеры, как астрономия – про телескопы. - Эдсгер Дейкстра"
     tip_mulan: "Верь, что сможешь, тогда получится. - Мулан"
-#    project_complete: "Project Complete!"
-#    share_this_project: "Share this project with friends or family:"
-#    ready_to_share: "Ready to publish your project?"
-#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
-#    already_published_prefix: "Your changes have been published to the class gallery."
-#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
-#    view_gallery: "View Gallery"
-#    project_published_noty: "Your level has been published!"
-#    keep_editing: "Keep Editing"
+    project_complete: "Проект завершен!"
+    share_this_project: "Поделитесь своим проектом с друзьями и семьей:"
+    ready_to_share: "Готовы опубликовать проект?"
+    click_publish: "Нажмите \"Опубликовать\", чтобы он появился в галерее класа, и затем посмотрите что ваши одноклассники придумали! Вы можете затем вернуться и продолжить работу над проектом. Любые дальнейшие изменения будут автоматически сохранены и доступны для ваших одноклассников."
+    already_published_prefix: "Ваши изменения опубликованы в галерею класа."
+    already_published_suffix: "Продолжайте эксперементировать и улучшать свой проект, или посмотрите что интресного сделали одноклассники! Ваши изменения будут автоматически сохранены и доступны для ваших одноклассников."
+    view_gallery: "Просмотреть галерею"
+    project_published_noty: "Ваш уровень опубликован!"
+    keep_editing: "Продолжить редактировать"
 
   play_game_dev_level:
     created_by: "Создано {{name}}"
@@ -587,13 +587,13 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     play: "Начать уровень"
     play_more_codecombat: "Играй больше CodeCombat"
     default_student_instructions: "Кликните, чтобы управлять вашим героем и одержать победу!"
-#    goal_survive: "Survive."
-#    goal_survive_time: "Survive for __seconds__ seconds."
-#    goal_defeat: "Defeat all enemies."
-#    goal_defeat_amount: "Defeat __amount__ enemies."
-#    goal_move: "Move to all the red X marks."
-#    goal_collect: "Collect all the items."
-#    goal_collect_amount: "Collect __amount__ items."
+    goal_survive: "Выжить."
+    goal_survive_time: "Выжить __seconds__ секунд(у)."
+    goal_defeat: "Победить всех врагов."
+    goal_defeat_amount: "Победить __amount__ врагов."
+    goal_move: "Добраться до всех крассных Х меток."
+    goal_collect: "Собрать все предметы."
+    goal_collect_amount: "Собрать __amount__ предмет(ов)."
 
   game_menu:
     inventory_tab: "Инвентарь"
@@ -618,7 +618,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     day: "Сегодня"
     week: "На этой неделе"
     all: "За всё время"
-#    latest: "Latest"
+    latest: "Последние"
     time: "Время"
     damage_taken: "Получено повреждений"
     damage_dealt: "Нанесено повреждений"
@@ -653,14 +653,14 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     purchase: "Купить"
     purchased: "Куплено"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Недостаточно самоцветов"
+    prompt_body: "Продолжай играть, чтобы получить еще!"
 
   subscribe:
-#    best_deal: "Best Deal!"
-#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
-#    premium_already_subscribed: "You're already subscribed to Premium!"
+    best_deal: "Лучшее предложение!"
+    confirmation: "Поздравляем! Теперь у вас есть Премиум подпика CodeCombat!"
+    premium_already_subscribed: "У вас уже есть Премиум подписка!"
     subscribe_modal_title: "CodeCombat Премиум"
     comparison_blurb: "Стань мастером програмирования - подпишись на <b>Премиум</b> сегодня!"
     premium_pricing_prefix: "Получите Премиум всего лишь за"
@@ -699,7 +699,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sale_button: "Распродажа!"
     sale_button_title: "Сэкономьте ${{discount}} при приобретении годовой подписки" # {change}
     stripe_description: "Месячная подписка"
-#    buy_now: "Buy Now"
+    buy_now: "Купить сейчас"
     subscription_required_to_play: "Чтобы пройти этот уровень, нужна подписка."
     unlock_help_videos: "Подпишитесь, чтобы разблокировать все обучающие видео."
     personal_sub: "Личная подписка" # Accounts Subscription View below
@@ -708,7 +708,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     will_be_cancelled: "Будет отменена"
     currently_free: "Сейчас у вас бесплатная подписка"
     currently_free_until: "Сейчас у вас бесплатная подписка до"
-#    free_subscription: "Free subscription"
+    free_subscription: "Бесплатная подписка"
     was_free_until: "У вас была бесплатная подписка до"
     managed_subs: "Управляемые подписки"
     subscribing: "Подписываемся..."
@@ -716,15 +716,15 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     unsubscribing: "Отписываемся"
     subscribe_prepaid: "Нажмите 'Подпишись', чтобы использовать предоплаченный код"
     using_prepaid: "Использовать предоплаченный код для месячной подписки"
-#    feature_level_access: "Access 300+ levels available"
+    feature_level_access: "Access 300+ levels available"
     feature_gems: "Получай __gems__ самоцветов каждый месяц"
     feature_heroes: "Разблокируй эксклюзивных героев" # {change}
     feature_games: "Создавай игры для своих друзей"
     feature_websites: "Создавай веб-сайты и приложения"
     feature_items: "Снаряжай более могущественные вещи"
-#    feature_learn: "Learn to make games and websites"
+    feature_learn: "Учись создавать игры и веб-сайты"
     month_price: "$__price__/мес" # {change}
-#    first_month_price: "Only $__price__ for your first month!"
+    first_month_price: "Всего $__price__ за первый месяц!"
     lifetime: "Пожизненная подписка" # {change}
     lifetime_price: "$__price__"
     year_subscription: "Годовая подписка"
@@ -900,7 +900,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     press_link: "Для прессы"
     mission_title: "Наша задача: сделать программирование доступным для каждого учащегося на Земле."
     mission_description_1: "<strong>Программирование – это магия</strong>. Это способность создавать что-то с помощью воображения. Мы создавали CodeCombat, чтобы дать учащимся почувствовать магию на кончиках пальцев, когда они <strong>пишут код</strong>."
-    mission_description_2: "Как оказалось, это позволяет им учиться быстрее. СИЛЬНО быстрее. Это как живой рассказ вместо чтения учебника. Мы хотим принести этот метод в каждую школу и <strong>каждому ученику</strong>, потому что все должны иметь шанс научится волшебству программирования."
+    mission_description_2: "Как оказалось, это позволяет им учиться быстрее. СИЛЬНО быстрее. Это как живой рассказ вместо чтения учебника. Мы хотим принести этот метод в каждую школу и <strong>каждому ученику</strong>, потому что все должны иметь шанс научиться волшебству программирования."
     team_title: "Присоединяйтесь к команде CodeCombat"
     team_values: "Мы ценим открытый и вежливый диалог, где побеждают лучшие идеи. Наши решения основаны на исследовании пожеланий клиентов, а наш процесс направлен на то, чтобы приносить осязаемые результаты. У нас все при деле, от CEO до контрибьютеров на GitHub, потому что мы ценим рост и обучение в своей команде."
     nick_title: "Сооснователь, CEO"

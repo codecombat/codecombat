@@ -37,7 +37,6 @@ module.exports = class RootView extends CocoView
 
   subscriptions:
     'achievements:new': 'handleNewAchievements'
-    'modal:open-modal-view': 'onOpenModalView'
 
   shortcuts:
     'ctrl+shift+a': 'navigateToAdmin'
@@ -93,10 +92,6 @@ module.exports = class RootView extends CocoView
     anchorText = e?.currentTarget?.text
     window.tracker?.trackEvent anchorText, category: 'Homepage', ['Google Analytics'] if @id is 'home-view' and anchorText
     @toggleModal e
-
-  onOpenModalView: (e) ->
-    return console.error "Couldn't find modalPath #{e.modalPath}" unless e.modalPath and ModalClass = require e.modalPath
-    @openModalView new ModalClass {}
 
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
@@ -162,7 +157,7 @@ module.exports = class RootView extends CocoView
     $.i18n.setLng(newLang, {})
     @saveLanguage(newLang)
 
-    application.moduleLoader.loadLanguage(me.get('preferredLanguage', true)).then =>
+    locale.load(me.get('preferredLanguage', true)).then =>
       @onLanguageLoaded()
 
   onLanguageLoaded: ->

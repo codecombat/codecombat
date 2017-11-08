@@ -1,3 +1,4 @@
+require('app/styles/account/account-prepaid-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/account/prepaid-view'
 {getPrepaidCodeAmount} = require '../../core/utils'

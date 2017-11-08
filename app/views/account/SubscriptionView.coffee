@@ -1,3 +1,4 @@
+require('app/styles/account/subscription-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/account/subscription-view'
 CocoCollection = require 'collections/CocoCollection'

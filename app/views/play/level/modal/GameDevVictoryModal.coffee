@@ -1,3 +1,4 @@
+require('app/styles/play/level/modal/game-dev-victory-modal.sass')
 ModalView = require 'views/core/ModalView'
 
 category = 'Play GameDev Level'

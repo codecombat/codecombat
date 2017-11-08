@@ -61,21 +61,22 @@ block content
         +archivedClassRow(classroom)
 
 mixin classRow(classroom)
-  .class.row
-    .class-details-col
-      .text-h4.semibold
+  .class.row.rtl-allowed(dir="auto")
+    .class-details-col.rtl-allowed(dir="auto")
+      .text-h4.semibold.rtl-allowed(dir="auto")
         = classroom.get('name')
-      .language.small
+      .language.small.rtl-allowed(dir="auto")
         span(data-i18n='teacher.language')
         | :&nbsp;
         span.language-name
           = classroom.capitalLanguage
-      .student-count.small
+      | &nbsp;
+      .student-count.small.rtl-allowed(dir="auto")
         span(data-i18n='courses.students')
         | :&nbsp;
         span
           = classroom.get('members').length
-      .class-links
+      .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
@@ -125,11 +126,11 @@ mixin progressDotLabel(label)
 
 mixin archivedClassRow(classroom)
   .class.row
-    .col-xs-10
+    .col-xs-10(dir="auto")
       span
         = classroom.get('name')
     .col-xs-2
-      .class-links.pull-right
+      .class-links.pull-right(dir="auto")
         a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
 
 mixin teacher-quests

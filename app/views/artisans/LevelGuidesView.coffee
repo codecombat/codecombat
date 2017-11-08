@@ -1,3 +1,4 @@
+require('app/styles/artisans/level-guides-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/level-guides-view'
 

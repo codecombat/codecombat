@@ -1,3 +1,4 @@
+require('app/styles/editor/thang/home.sass')
 SearchView = require 'views/common/SearchView'
 
 module.exports = class ThangTypeSearchView extends SearchView
@@ -17,6 +18,7 @@ module.exports = class ThangTypeSearchView extends SearchView
     context.currentSearch = 'editor.thang_search_title'
     context.newModelsAdminOnly = true
     @$el.i18n()
+    @applyRTLIfNeeded()
     context
 
   onSearchChange: =>

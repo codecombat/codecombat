@@ -8,6 +8,7 @@
 
 // STEP 1: Load images. Modify the range numbers and the file naming
 
+// TODO Webpack: Reconcile createJS not being globally available
 images = _.map(_.range(1,110), (i) => new createjs.Bitmap(`/images/kr/dark-knight/darkKnight_${_.string.pad(i, 4, '0')}.png`))
 
 // STEP 2: Take ranges, match them with the correct default animation.

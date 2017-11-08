@@ -1,3 +1,4 @@
+require('app/styles/editor/campaign/campaign-editor-view.sass')
 RootView = require 'views/core/RootView'
 Campaign = require 'models/Campaign'
 Level = require 'models/Level'
@@ -5,6 +6,7 @@ Achievement = require 'models/Achievement'
 ThangType = require 'models/ThangType'
 CampaignView = require 'views/play/CampaignView'
 CocoCollection = require 'collections/CocoCollection'
+require('lib/setupTreema')
 treemaExt = require 'core/treema-ext'
 utils = require 'core/utils'
 RelatedAchievementsCollection = require 'collections/RelatedAchievementsCollection'
@@ -12,8 +14,12 @@ CampaignAnalyticsModal = require './CampaignAnalyticsModal'
 CampaignLevelView = require './CampaignLevelView'
 SaveCampaignModal = require './SaveCampaignModal'
 PatchesView = require 'views/editor/PatchesView'
+RevertModal = require 'views/modal/RevertModal'
+modelDeltas = require 'lib/modelDeltas'
+require('vendor/scripts/jquery-ui-1.11.1.custom')
+require('vendor/styles/jquery-ui-1.11.1.custom.css')
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 achievementProject = ['related', 'rewards', 'name', 'slug']
 thangTypeProject = ['name', 'original']
@@ -27,6 +33,7 @@ module.exports = class CampaignEditorView extends RootView
     'click #analytics-button': 'onClickAnalyticsButton'
     'click #save-button': 'onClickSaveButton'
     'click #patches-button': 'onClickPatches'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
 
   subscriptions:
     'editor:campaign-analytics-modal-closed' : 'onAnalyticsModalClosed'
@@ -62,9 +69,13 @@ module.exports = class CampaignEditorView extends RootView
     @listenToOnce @levels, 'sync', @onFundamentalLoaded
     @listenToOnce @achievements, 'sync', @onFundamentalLoaded
 
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
+
   onLeaveMessage: ->
     for model in @toSave.models
-      diff = model.getDelta()
+      diff = modelDeltas.getDelta(model)
       if _.size(diff)
         console.log 'model, diff', model, diff
         return 'You have changes!'

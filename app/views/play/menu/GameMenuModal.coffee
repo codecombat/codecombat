@@ -1,3 +1,4 @@
+require('app/styles/play/menu/game-menu-modal.sass')
 ModalView = require 'views/core/ModalView'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 template = require 'templates/play/menu/game-menu-modal'
@@ -19,6 +20,7 @@ module.exports = class GameMenuModal extends ModalView
     'click #change-hero-tab': -> @trigger 'change-hero'
     'click #close-modal': 'hide'
     'click .auth-tab': 'onClickSignupButton'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     super options
@@ -73,6 +75,10 @@ module.exports = class GameMenuModal extends ModalView
     subview.onHidden?() for subviewKey, subview of @subviews
     @playSound 'game-menu-close'
     Backbone.Mediator.publish 'music-player:exit-menu', {}
+    
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()
 
   onClickSignupButton: (e) ->
     window.tracker?.trackEvent 'Started Signup', category: 'Play Level', label: 'Game Menu', level: @options.levelID

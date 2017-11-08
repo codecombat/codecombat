@@ -1,3 +1,4 @@
+require('app/styles/courses/classroom-view.sass')
 Campaign = require 'models/Campaign'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'

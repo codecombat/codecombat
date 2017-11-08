@@ -114,6 +114,19 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
   app.post('/db/campaign/:handle/watchers', mw.patchable.joinWatchers(Campaign))
   app.delete('/db/campaign/:handle/watchers', mw.patchable.leaveWatchers(Campaign))
+  
+  Clan = require '../models/Clan'
+  app.post('/db/clan', mw.auth.checkLoggedIn(), mw.clans.postClan)
+  app.put('/db/clan/:handle', mw.auth.checkLoggedIn(), mw.clans.putClan)
+  app.get('/db/clan/:handle', mw.rest.getByHandle(Clan))
+  app.delete('/db/clan/:handle', mw.auth.checkLoggedIn(), mw.clans.deleteClan)
+  app.put('/db/clan/:handle/join', mw.auth.checkLoggedIn(), mw.clans.joinClan)
+  app.put('/db/clan/:handle/leave', mw.auth.checkLoggedIn(), mw.clans.leaveClan)
+  app.get('/db/clan/:handle/member_achievements', mw.clans.getMemberAchievements)
+  app.get('/db/clan/:handle/members', mw.clans.getMembers)
+  app.get('/db/clan/:handle/member_sessions', mw.clans.getMemberSessions)
+  app.get('/db/clan/:handle/public', mw.clans.getPublicClans)
+  app.put('/db/clan/:handle/remove/:memberHandle', mw.auth.checkLoggedIn(), mw.clans.removeMember)
 
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)

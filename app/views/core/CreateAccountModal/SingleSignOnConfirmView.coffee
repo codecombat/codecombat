@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/sso-confirm-view.sass')
 CocoView = require 'views/core/CocoView'
 BasicInfoView = require 'views/core/CreateAccountModal/BasicInfoView'
 template = require 'templates/core/create-account-modal/single-sign-on-confirm-view'

@@ -5,6 +5,7 @@ God = require 'lib/God'
 GoalManager = require 'lib/world/GoalManager'
 LevelLoader = require 'lib/LevelLoader'
 utils = require 'core/utils'
+aetherUtils = require 'lib/aether_utils'
 
 module.exports = class VerifierTest extends CocoClass
   constructor: (@levelID, @updateCallback, @supermodel, @language, @options) ->
@@ -78,7 +79,7 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'infinite-loop', @fail
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld @session.generateSpellsObject()
+    @god.createWorld aetherUtils.generateSpellsObject({levelSession: @session})
     @state = 'running'
     @reportResults()
 

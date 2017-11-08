@@ -1,3 +1,4 @@
+require('app/styles/play/modal/play-heroes-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/play-heroes-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
@@ -13,6 +14,7 @@ Purchase = require 'models/Purchase'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
 store = require 'core/store'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -288,6 +290,7 @@ module.exports = class PlayHeroesModal extends ModalView
       #- ...then rerender visible hero
       heroEntry = @$el.find(".hero-item[data-hero-id='#{@visibleHero.get('original')}']")
       heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n()
+      @applyRTLIfNeeded()
       heroEntry.removeClass 'locked purchasable'
       @selectedHero = @visibleHero
       @rerenderFooter()
@@ -316,6 +319,7 @@ module.exports = class PlayHeroesModal extends ModalView
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
     popover?.$tip?.i18n()
+    @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
     return @askToSignUp() if me.get('anonymous')
@@ -328,7 +332,6 @@ module.exports = class PlayHeroesModal extends ModalView
   onSubscribeButtonClicked: (e) ->
     return @askToSignUp() if me.get('anonymous')
     @openModalView new SubscribeModal()
-    console.log $(e.target).data('heroSlug')
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
   #- Exiting

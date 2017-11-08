@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/confirmation-view.sass')
 CocoView = require 'views/core/CocoView'
 State = require 'models/State'
 template = require 'templates/core/create-account-modal/confirmation-view'

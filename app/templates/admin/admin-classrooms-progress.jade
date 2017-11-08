@@ -62,7 +62,7 @@ block content
               .course-cell-text CS3
           td &nbsp; released course not versioned in classroom, but teacher can add via UI
     if !view.classroomProgress
-      h1.text-center Loading..
+      h1.text-center= view.loadingMessage
     else
       .small
         table.table.table-condensed

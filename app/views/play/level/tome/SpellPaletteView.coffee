@@ -1,3 +1,4 @@
+require('app/styles/play/level/tome/spell-palette-view.sass')
 CocoView = require 'views/core/CocoView'
 {me} = require 'core/auth'
 filters = require 'lib/image_filter'
@@ -7,8 +8,8 @@ LevelComponent = require 'models/LevelComponent'
 ThangType = require 'models/ThangType'
 GameMenuModal = require 'views/play/menu/GameMenuModal'
 LevelSetupManager = require 'lib/LevelSetupManager'
-ace = require 'ace'
-utils = require 'core/utils'
+ace = require('lib/aceContainer')
+aceUtils = require 'core/aceUtils'
 
 N_ROWS = 4
 
@@ -371,13 +372,14 @@ module.exports = class SpellPaletteView extends CocoView
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
     content.i18n()
+    @applyRTLIfNeeded()
     codeLanguage = e.entry.options.language
     oldEditor.destroy() for oldEditor in @aceEditors
     @aceEditors = []
     aceEditors = @aceEditors
     # Initialize Ace for each popover code snippet that still needs it
     content.find('.docs-ace').each ->
-      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
 
   destroy: ->
