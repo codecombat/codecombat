@@ -1,4 +1,4 @@
-- var includeHomeLink = !((me.isStudent() || me.isTeacher()) && !view.course);
+- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course);
 if includeHomeLink
   .left-cap
 .right-cap

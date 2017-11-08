@@ -96,7 +96,7 @@ module.exports = class InventoryModal extends ModalView
       programmableConfig = _.find(item.get('components'), (c) -> c.config?.programmableProperties)?.config
       item.programmableProperties = (programmableConfig?.programmableProperties or []).concat programmableConfig?.moreProgrammableProperties or []
     @itemsProgrammablePropertiesConfigured = true
-    if me.isStudent()
+    if me.isStudent() and not application.getHocCampaign()
       @equipment = me.get('heroConfig')?.inventory or {}
     else
       @equipment = @options.equipment or @options.session?.get('heroConfig')?.inventory or me.get('heroConfig')?.inventory or {}
@@ -460,7 +460,7 @@ module.exports = class InventoryModal extends ModalView
         delete equipment[slot]
 
   calculateRequiredGearPerSlot: ->
-    return {} if me.isStudent()
+    return {} if me.isStudent() and not application.getHocCampaign()
     return @requiredGearPerSlot if @requiredGearPerSlot
     requiredGear = _.clone(@options.level.get('requiredGear')) ? {}
     requiredProperties = @options.level.get('requiredProperties') ? []
@@ -481,7 +481,7 @@ module.exports = class InventoryModal extends ModalView
     @requiredGearPerSlot
 
   calculateRestrictedGearPerSlot: ->
-    return {} if me.isStudent()
+    return {} if me.isStudent() and not application.getHocCampaign()
     return @restrictedGearPerSlot if @restrictedGearPerSlot
     @calculateRequiredGearPerSlot() unless @requiredGearPerSlot
     restrictedGear = _.clone(@options.level.get('restrictedGear')) ? {}
@@ -728,7 +728,7 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('#hero-image-thumb').toggle not ('gloves' in slotsWithImages)
 
     @equipment = @options.equipment = equipment
-    @updateConfig (() -> return), true if me.isStudent()  # Save the player's heroConfig if they're a student, whenever they change gear.
+    @updateConfig (() -> return), true if me.isStudent() and not application.getHocCampaign()  # Save the player's heroConfig if they're a student, whenever they change gear.
 
   removeDollImages: ->
     @$el.find('.doll-image').remove()

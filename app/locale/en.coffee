@@ -117,6 +117,8 @@
 
   play:
     play_as: "Play As"  # Ladder page
+    get_course_for_class: "Assign Game Development and more to your classes!"
+    request_licenses: "Contact our school specialists for details."
     compete: "Compete!" # Course details page
     spectate: "Spectate"  # Ladder page
     players: "players"  # Hover over a level on /play
