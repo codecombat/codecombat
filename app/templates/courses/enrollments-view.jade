@@ -5,7 +5,7 @@ block page_nav
 
 block content
   if me.isAnonymous() || (!me.isTeacher() && !view.classrooms.size())
-    .container
+    .container(dir="auto")
       .access-restricted.container.text-center.m-y-3
         h5(data-i18n='teacher.access_restricted')
         p(data-i18n='teacher.teacher_account_required')
@@ -34,7 +34,7 @@ block content
 
     if view.state.get('shouldUpsell')
       .bg-forest
-        .container
+        .container(dir="auto")
           .row
             .col-xs-9.m-t-1
               b
@@ -47,7 +47,7 @@ block content
               a.btn.btn-lg.btn-forest-alt.m-t-2.m-b-2(href="/teachers/starter-licenses")
                 b(data-i18n="general.learn_more")
 
-    .container.m-t-5
+    .container.m-t-5(dir="auto")
       h3(data-i18n='teacher.enrollments')
       h4#enrollments-blurb(data-i18n="teacher.enrollments_blurb")  
       - var available = view.state.get('prepaidGroups').available
@@ -62,26 +62,26 @@ block content
 
       .row.m-t-3
         if anyPrepaids
-          #prepaids-col.col-md-9
+          #prepaids-col.col-md-9.rtl-allowed
             if _.size(available) > 0
               h5.m-b-1(data-i18n="teacher.available_credits")
               .row
                 for prepaid in available
-                  .prepaid-card-container.col-sm-4.col-xs-6
+                  .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
                     +prepaidCard(prepaid)
 
             if _.size(pending) > 0
               h5.m-b-1.m-t-3(data-i18n="teacher.pending_credits")
               .row
                 for prepaid in pending
-                  .prepaid-card-container.col-sm-4.col-xs-6
+                  .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
                     +prepaidCard(prepaid, 'pending-prepaid-card')
 
             if _.size(empty) > 0
               h5.m-b-1(data-i18n="teacher.empty_credits")
               .row
                 for prepaid in empty
-                  .prepaid-card-container.col-sm-4.col-xs-6
+                  .prepaid-card-container.col-sm-4.col-xs-6.rtl-allowed
                     +prepaidCard(prepaid, 'empty-prepaid-card')
 
           #actions-col.col-md-3
@@ -93,13 +93,13 @@ block content
             +addCredits
 
 mixin prepaidCard(prepaid, className)
-  .prepaid-card.bg-navy.text-center.p-a-2(class=className)
+  .prepaid-card.bg-navy.text-center.p-a-2.rtl-allowed(class=className)
     h1.m-t-2.m-b-0= prepaid.openSpots()
     if prepaid.get('type') === 'starter_license'
-      div(data-i18n="teacher.starter_licenses")
+      div.rtl-allowed(data-i18n="teacher.starter_licenses")
     else
-      div(data-i18n="teacher.licenses_remaining")
-    div.m-t-1
+      div.rtl-allowed(data-i18n="teacher.licenses_remaining")
+    div.m-t-1.rtl-allowed(dir="auto")
       i.small-details
         if prepaid.usedSpots() === 1
           = translate('teacher.one_license_used')
