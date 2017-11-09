@@ -1,3 +1,7 @@
+if (!window.Promise) {
+  window.Promise = require('promise-polyfill')
+}
+require('bower_components/fetch/fetch.js')
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 window._ = require('lodash');
 window.Backbone = require('backbone');
