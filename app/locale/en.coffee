@@ -230,7 +230,6 @@
 
   signup:
     complete_subscription: "Complete Subscription"
-    continue_to_payment: "Continue to Payment Details"
     create_student_header: "Create Student Account"
     create_teacher_header: "Create Teacher Account"
     create_individual_header: "Create Individual Account"
