@@ -99,6 +99,7 @@ module.exports = class SubscribeModal extends ModalView
         @onClickPurchaseButton()
       else if @subModalContinue is 'lifetime'
         @subModalContinue = null
+        # Only automatically open lifetime payment dialog for Stripe, not PayPal
         unless @basicProduct.isRegionalSubscription()
           @onClickStripeLifetimeButton()
 
