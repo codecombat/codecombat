@@ -142,7 +142,6 @@ module.exports = class LankBoss extends CocoClass
     @lankArray.splice @lankArray.indexOf(lank), 1
     @stopListening lank
     lank.destroy()
-    lank.thang = thang  # Keep around so that we know which thang the destroyed thang was for
 
   updateSounds: ->
     lank.playSounds() for lank in @lankArray  # hmm; doesn't work for lanks which we didn't add yet in adjustLankExistence
