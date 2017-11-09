@@ -308,7 +308,7 @@ module.exports = class Angel extends CocoClass
   simulateSync: (work) =>
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
-    work.world = testWorld = new World work.userCodeMap
+    work.world = work.world = new World work.userCodeMap
     work.world.synchronous = true
     work.world.levelSessionIDs = work.levelSessionIDs
     work.world.submissionCount = work.submissionCount
@@ -324,11 +324,11 @@ module.exports = class Angel extends CocoClass
     work.world.justBegin = work.justBegin;
     work.world.keyValueDb = work.keyValueDb;
     if @shared.goalManager
-      testGM = new GoalManager(testWorld)
-      testGM.setGoals work.goals
-      testGM.setCode work.userCodeMap
-      testGM.worldGenerationWillBegin()
-      testWorld.setGoalManager testGM
+      goalManager = new GoalManager(work.world)
+      goalManager.setGoals work.goals
+      goalManager.setCode work.userCodeMap
+      goalManager.worldGenerationWillBegin()
+      work.world.setGoalManager goalManager
     @beginSimulationSync work
 
   beginSimulationSync: (work) ->
