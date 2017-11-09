@@ -72,6 +72,27 @@ module.exports = class LevelSetupManager extends CocoClass
       @onInventoryModalPlayClicked()
       return
 
+    if @level.get('slug') is 'escort-duty'
+      potionmaster = '52fd1524c7e6cf99160e7bc9'
+      @session.set 'heroConfig', {"thangType":potionmaster,"inventory":{
+          "eyes": "546941fda2b1f53ce794441d",
+          "feet": "546d4d8e9df4a17d0d449acd",
+          "programming-book": "557871261ff17fef5abee3ee",
+          "head": "546d4ca19df4a17d0d449abf",
+          "torso": "546d4a549df4a17d0d449a97",
+          "left-ring": "5441c35c4e9aeb727cc9711d",
+          "minion": "54eb5d1649fa2d5c905ddf52",
+          "neck": "54693363a2b1f53ce79443d1",
+          "wrists": "54693830a2b1f53ce79443f1",
+          "left-hand": "546376ea3839c6e02811d320",
+          "right-hand": "54eab92b2b7506e891ca720a",
+          "waist": "54694af7a2b1f53ce7944441",
+          "right-ring": "54692d2aa2b1f53ce794438f",
+          "pet": "5744e3683af6bf590cd27371"
+          }}
+      @onInventoryModalPlayClicked()
+      return
+
     if @level.get('slug') in ['ace-of-coders', 'elemental-wars']
       goliath = '55e1a6e876cb0948c96af9f8'
       @session.set 'heroConfig', {"thangType":goliath,"inventory":{"eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"}}
@@ -95,7 +116,6 @@ module.exports = class LevelSetupManager extends CocoClass
       }
 
     if @level.get('slug') is 'tesla-tesoro'
-      #Need to update this for my level
       assassin = '566a2202e132c81f00f38c81'
       @session.set 'heroConfig', {
         "thangType": assassin
@@ -113,18 +133,19 @@ module.exports = class LevelSetupManager extends CocoClass
           "right-hand": "544d86318494308424f564e8"
           }
       }
-
-
       @onInventoryModalPlayClicked()
       return
+
     if @level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       @session.set 'heroConfig', {"thangType":raider,"inventory":{}}
       @onInventoryModalPlayClicked()
       return
+
     if @level.isType('course', 'course-ladder', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @onInventoryModalPlayClicked()
       return
+
     @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy

@@ -49,7 +49,7 @@ module.exports = class GameMenuModal extends ModalView
 
   showsChooseHero: ->
     return false if @level?.isType('course', 'course-ladder')
-    return false if @options.levelID in ['zero-sum', 'ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro']
+    return false if @options.levelID in ['zero-sum', 'ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
     return true
 
   afterRender: ->
