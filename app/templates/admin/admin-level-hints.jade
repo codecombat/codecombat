@@ -1,0 +1,42 @@
+extends /templates/base
+
+//- DO NOT TRANSLATE
+
+block content
+
+  h1 Level Hints
+  div All level hints from classroom and home campaigns.
+  if !me.isAdmin()
+    div You must be logged in as an admin to view this page.
+  else if view.campaignHints
+    h2 Table of Contents
+    each campaign in view.campaignHints
+      h4
+        a(href="##{campaign.id}")= campaign.slug
+      each level in campaign.levels
+        span.spr
+          a(href="##{campaign.id}-#{level.id}")= level.slug
+
+    each campaign in view.campaignHints
+      h2(id="#{campaign.id}")= campaign.slug
+      table.table-striped.table-condensed
+        each level in campaign.levels
+          tr
+            td
+              h3(id="#{campaign.id}-#{level.id}")
+                span= level.slug
+                a.spl.small(href="/editor/level/#{level.slug}") (Edit)
+          tr
+            td
+              if level.hints && level.hints.length > 0
+                each hint in level.hints
+                  div
+                    span #{hint.name || '(unnamed hint)'}
+                    a.spl.small(href="/editor/level/#{level.slug}") (Edit)
+                  .hints-table !{marked(hint.body)}
+                  br
+              else
+                div No hints found.
+
+  else
+    h4 Loading..
