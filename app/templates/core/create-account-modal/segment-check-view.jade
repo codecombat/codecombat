@@ -36,6 +36,9 @@ form.modal-body.segment-check
       when 'teacher'
         // TODO
       when 'individual'
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.sign_in_to_continue")
+          br
         .birthday-form-group.form-group
           span(data-i18n="signup.enter_birthdate")
           .input-border
@@ -66,8 +69,8 @@ form.modal-body.segment-check
   .history-nav-buttons
     //- disabled=!view.signupState.get('segmentCheckValid')
     button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="common.next")
+      span(data-i18n="common.continue")
 
-    button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="common.back")
-  
+    if !view.signupState.get('subModalContinue')
+      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="common.back")

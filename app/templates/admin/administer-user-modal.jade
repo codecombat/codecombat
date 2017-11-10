@@ -11,8 +11,12 @@ block modal-header-content
     if view.user.isTeacher()
       button#deteacher-btn.btn.btn-burgundy Deteacher
 
-  h4 Name: #{view.user.get('name')}
+  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName') || ''} #{view.user.get('lastName')})
   h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
+  if view.user.isTeacher() && view.trialRequest
+    - var props = view.trialRequest.get('properties') || {}
+    h4 School: #{props.nces_school || props.organization}
+    h4 District: #{props.nces_district || props.district}
   br
   div
     a(href="#licenses") Grant Student Licenses

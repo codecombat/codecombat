@@ -404,7 +404,7 @@ module.exports =
     unless req.user.isAdmin()
       throw new errors.Forbidden()
 
-    projection = name: 1, email: 1, dateCreated: 1, role: 1
+    projection = name: 1, email: 1, dateCreated: 1, role: 1, firstName: 1, lastName: 1
 
     search = adminSearch
     query = {
@@ -449,8 +449,19 @@ module.exports =
         users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).limit(50).select(projection))
 
     users = _.uniq(users, false, (u) -> u.id)
-
-    res.send(users)
+    
+    teachers = (user for user in users when user?.isTeacher())
+    trialRequests = yield TrialRequest.find({applicant: $in: (teacher._id for teacher in teachers)})
+    trialRequestMap = _.zipObject([t.get('applicant').toString(), t.toObject()] for t in trialRequests)
+    
+    toSend = _.map(users, (user) =>
+      userObject = user.toObject()
+      trialRequest = trialRequestMap[user.id]
+      if trialRequest
+        userObject._trialRequest = _.pick(trialRequest.properties, 'organization', 'district', 'nces_name', 'nces_district')
+      return userObject
+    )    
+    res.send(toSend)
 
 
   sphinxSearch: co.wrap (req, search) ->

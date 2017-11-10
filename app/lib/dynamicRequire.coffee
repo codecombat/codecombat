@@ -19,6 +19,7 @@ dynamicRequire = (path) ->
       when 'views/admin/FilesView' then require.ensure(['views/admin/FilesView'], ((require) -> accept(require('views/admin/FilesView'))), reject, 'admin')
       when 'views/admin/AnalyticsView' then require.ensure(['views/admin/AnalyticsView'], ((require) -> accept(require('views/admin/AnalyticsView'))), reject, 'admin')
       when 'views/admin/AnalyticsSubscriptionsView' then require.ensure(['views/admin/AnalyticsSubscriptionsView'], ((require) -> accept(require('views/admin/AnalyticsSubscriptionsView'))), reject, 'admin')
+      when 'views/admin/AdminLevelHintsView' then require.ensure(['views/admin/AdminLevelHintsView'], ((require) -> accept(require('views/admin/AdminLevelHintsView'))), reject, 'admin')
       # when 'views/admin/LevelSessionsView' then require.ensure(['views/admin/LevelSessionsView'], ((require) -> accept(require('views/admin/LevelSessionsView'))), reject, 'admin')
       when 'views/admin/SchoolCountsView' then require.ensure(['views/admin/SchoolCountsView'], ((require) -> accept(require('views/admin/SchoolCountsView'))), reject, 'admin')
       when 'views/admin/SchoolLicensesView' then require.ensure(['views/admin/SchoolLicensesView'], ((require) -> accept(require('views/admin/SchoolLicensesView'))), reject, 'admin')
