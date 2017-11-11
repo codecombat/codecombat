@@ -7,6 +7,7 @@ module.exports =
   api: require './api'
   auth: require './auth'
   branches: require './branches'
+  clans: require './clans'
   classrooms: require './classrooms'
   apiClients: require './api-clients'
   campaigns: require './campaigns'

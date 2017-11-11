@@ -99,6 +99,9 @@ $heroCanvasHeight: 275px
           &:nth-child(15), &:nth-child(16)
             float: right
 
+            body[lang="he"] &, body[lang="ar"] &
+              float: left
+
           &.active
             background: url(/images/pages/play/modal/hero-portrait-selected.png)
             z-index: 5
@@ -244,10 +247,16 @@ $heroCanvasHeight: 275px
             width: 100px
             color: rgb(203,170,148)
 
+            &[dir="rtl"]
+              float: right
+
           .stat-value
             display: inline-block
             width: 280px
             color: rgb(244,189,68)
+
+            &[dir="rtl"]
+              float: right
 
           .stat-progress
             background: rgb(32,27,22)
@@ -415,6 +424,18 @@ $heroCanvasHeight: 275px
 
     select
       font-size: 18px
+
+    &[dir="rtl"] .fancy-select
+      .trigger
+        padding-right: 30px
+
+      .options
+        padding-right: 0
+
+        li
+          background-position-x: right
+          padding-left: 0
+          padding-right: 40px
 
     .fancy-select
       display: inline-block

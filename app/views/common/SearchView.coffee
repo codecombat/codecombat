@@ -82,6 +82,7 @@ module.exports = class SearchView extends RootView
     table = $(@tableTemplate(documents: documents, me: me, page: @page, moment: moment))
     @$el.find('table').replaceWith(table)
     @$el.find('table').i18n()
+    @applyRTLIfNeeded()
 
   removeOldSearch: ->
     return unless @collection?

@@ -1,4 +1,4 @@
-h4
+h4(dir="ltr")
   span.prop-name= doc.shortName
   |  - 
   - var skillType = (doc.type == 'function' && doc.owner == 'this' ? 'method' : doc.type)
@@ -18,8 +18,8 @@ if doc.translatedShortName
   h5
     span.translated-name= doc.translatedShortName
 
-.description
-  p!= marked(doc.description || 'Still undocumented, sorry.')
+.description.rtl-allowed(dir="auto")
+  p(dir="auto")!= marked(doc.description || 'Still undocumented, sorry.')
   div.clear(style="clear: both")
   if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
     p
@@ -106,7 +106,7 @@ if (doc.type != 'function' && doc.type != 'snippet' && doc.type != 'spawnable' &
       code.current-value(data-prop=doc.name)= value
 
 mixin argumentEntry(arg)
-  div
+  div(dir="auto")
     code= arg.name
     span.spr :
     code= arg.type
@@ -117,9 +117,9 @@ mixin argumentEntry(arg)
       code= arg.example
       | )
     if arg.description
-      div!= marked(arg.description)
+      div(dir="auto")!= marked(arg.description)
     if arg.default
-      div
+      div(dir="auto")
         em
           span(data-i18n="skill_docs.default_value") Default value
           span.spr :
@@ -127,7 +127,7 @@ mixin argumentEntry(arg)
 
 if doc.args && doc.args.length
   - var hasOptionalArguments = _.any(doc.args, function(arg){ return arg.optional })
-  p.args
+  p.args(dir="auto")
     strong
       if hasOptionalArguments
         span(data-i18n="skill_docs.required_parameters") Required Parameters
@@ -138,7 +138,7 @@ if doc.args && doc.args.length
       unless arg.optional
         +argumentEntry(arg)
   if hasOptionalArguments
-    p.args
+    p.args(dir="auto")
       strong
         span(data-i18n="skill_docs.optional_parameters") Optional Parameters
         span.spr :
@@ -148,7 +148,7 @@ if doc.args && doc.args.length
 
 
 if doc.returns
-  p.returns
+  p.returns(dir="auto")
     strong
       span(data-i18n="skill_docs.returns") Returns
       span.spr :

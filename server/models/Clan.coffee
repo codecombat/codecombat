@@ -17,7 +17,10 @@ ClanSchema.pre 'save', (next) ->
 ClanSchema.statics.privateProperties = []
 ClanSchema.statics.editableProperties = [
   'description'
-  'members'
+  'name'
+]
+ClanSchema.statics.postEditableProperties = [
+  'description'
   'name'
   'type'
 ]
