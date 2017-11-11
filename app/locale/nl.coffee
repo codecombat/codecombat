@@ -1,7 +1,7 @@
 module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", translation:
   new_home:
     slogan: "Het meest uitdagende spel om mee te leren programmeren."
-    classroom_edition: "Klasversie:"
+    classroom_edition: "Klaslokaalversie:"
     learn_to_code: "Leer programmeren:"
     play_now: "Speel"
     im_a_teacher: "Ik ben een leraar"
@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     classroom_in_a_box: "Kant-en-klare programmeerlessen."
     codecombat_is: "CodeCombat is een platform waarmee leerlingen leren programmeren door het spelen van een spel." # {change}
     our_courses: "Onze lessen zijn specifiek ontwikkeld voor een klasomgeving, zelfs voor leraren zonder programmeerervaring." # {change}
-    watch_how: "Kijk hoe CodeCombat de manier waarop mensen informatica leren verandert."
+    watch_how: "Kijk hoe CodeCombat de manier waarop leerlingen computerwetenschap leren transformeert."
     top_screenshots_hint: "Leerlingen schrijven code en zien direct resultaat."
     designed_with: "Gemaakt voor leraren"
     real_code: "Echte, getypte code"
@@ -49,7 +49,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     setup_a_class: "Maak een klas aan"
     have_an_account: "Heb je al een account?" # {change}
     logged_in_as: "Je bent ingelogd als"
-    computer_science: "Informatica lessen voor alle leeftijden" # {change}
+    computer_science: "Informaticalessen voor alle leeftijden" # {change}
     show_me_lesson_time: "Geef geschatte lesduur weer:"
     curriculum: "Totaal aantal lesuren:"
     ffa: "Gratis voor alle leerlingen"
@@ -786,8 +786,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   premium_features:
     get_premium: "Neem<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
-    master_coder: "Word een MeesterCoder door je vandaag te abonneren!"
-#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
+    master_coder: "Word een Meesterprogrammeur door je vandaag te abonneren!"
+    paypal_redirect: "Je zult teruggestuurd worden naar Paypal om het inschrijvingsproces af te ronden."
     subscribe_now: "Abonneer nu"
     hero_blurb_1: "Krijg toegang tot __premiumHeroesCount__ supersterke helden, alleen voor abonnees! Gebruik de epische kracht van Okar Stompfoot, de dodelijke precisie van Naria of the Leaf, of roep \"schattige\" skeletten op met Nalfar Cryptor."
     hero_blurb_2: "Premium helden hebben ongelofelijke vecht skills zoals Warcry, Stomp, en Hurl Enemy. Of, speel als Ranger met pijl en boog, werpmessen en vallen! Test je vaardigheden als echte codeermeester en gebruik een arsenaal vam Primordial, Necromantic og Elemental magie!"
@@ -892,7 +892,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     editor_config_behaviors_description: "Automatisch aanvullen van (gekrulde) haakjes en aanhalingstekens."
 
   about:
-    main_title: "Als je wil leren programmeren, moet je (heel veel) code schrijven."
+    main_title: "Als je wilt leren programmeren, moet je (heel veel) code schrijven."
     main_description: "Bij CodeCombat, is het ons doel om te zorgen dat je dat doet met een glimlach op je gezicht."
     mission_link: "Missie"
     team_link: "Team"
@@ -902,7 +902,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     mission_description_1: "<strong>Programmeren is magie</strong>. Het is het vermogen om dingen te maken vanuit pure fantasie. We zijn CodeCombat begonnen om leerlingen het gevoel the geven van een toverachtige kracht aan hun vingertoppen door het gebruik van <strong>getypte code</strong>." # {change}
     mission_description_2: "Het blijkt, dat het ze er ook nog in toe staat stelt om sneller te leren. VEEL sneller. Het is zoals een gesprek hebben in plaats van het lezen van een handleiding. We willen dat gesprek brengen naar elke school en naar <strong>elke student</strong>, omdat iedereen de kans moet krijgen om die magie van programmeren te leren." # {change}
     team_title: "Ontmoet het CodeCombat team"
-    team_values: "We waarderen een open en respectvol dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoeker onderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten voor hun. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
+    team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
     nick_blurb: "Motivatie Goeroe"
     matt_title: "Programmeur" # {change}
@@ -939,8 +939,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     community_title: "...en onze open-source gemeenschap"
     community_subtitle: "Meer dan 450 bijdragers hebben geholpen bij het bouwen van CodeCombat, met meer die zich er bij voegen elke week!" # {change}
     community_description_3: "CodeCombat is een"
-    community_description_link_2: "gemeenschap project"
-    community_description_1: "CodeCombat is een gemeenschapsproject, met honderden spelers die vrijwillig levels maken en bijdragen aan onze code om dingen toe te voegen, bugs te maken, het spel te testen, en zelfs te helpen het spel te vertalen in 50 talen (tot zover). Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en samen inspanning te leveren, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten. We zijn open source zodat we wat terug kunnen geven aan de gemeenschap. We leveren spelers die geïnteresseerd zijn in programmeren een vertrouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze" # {change}
+    community_description_link_2: "gemeenschapsproject"
+    community_description_1: "CodeCombat is een gemeenschapsproject, met honderden spelers die vrijwillig levels maken, bijdrage aan onze code om dingen toe te voegen, bugs te maken, speeltesten, en zelfs helpen het spel te vertalen in 50 talen zover. Werknemers, bijdragers en de site krijgen meer door het delen van ideeën en pooling inspanning, zoals de open source gemeenschap in het algemeen doet. De site is gemaakt met meerdere open source projecten, en we zijn open source zodat we wat terug kunnen geven aan de gemeenschap en leveren programmeer geïnteresseerde spelers een vertouwd project om te verkennen en mee te experimenteren. Iedereen kan zich bij de CodeCombat gemeenschap voegen! Bekijk onze" # {change}
     community_description_link: "Draag bij pagina"
     community_description_2: "voor meer info."
     number_contributors: "Meer dan 450 bijdragers hebben hun hulp en tijd verleend aan dit project."
@@ -961,10 +961,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jobs_subtitle: "Zie je niets dat bij je past maar wil je toch contact houden? Bekijk onze \"Maak eigen\" vermelding."
     jobs_benefits: "Arbeidsvoorwaarden"
     jobs_benefit_4: "Onbeperkte ziek/persoonlijke dagen" # {change}
-    jobs_benefit_5: "Professionele ontwikkeling en steun aan het voortgezet onderwijs" # {change}
+    jobs_benefit_5: "Professionele ontwikkeling en steun in het voortgezet onderwijs" # {change}
     jobs_benefit_6: "Zorgverzekering" # {change}
-    jobs_benefit_7: "Bureaus om aan te zitten (of sta-bureaus) voor iedereen"
-    jobs_benefit_9: "10 jaar de tijd om aanspraak te maken op aandelen"
+    jobs_benefit_7: "Zit-staan bureau's voor iedereen"
+    jobs_benefit_9: "10 jaar aanspraak tijd op aandelen"
     jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris"
     jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald"
     learn_more: "Lees verder"
