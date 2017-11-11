@@ -100,6 +100,9 @@ form#basic-info-form.modal-body.basic-info
     if view.signupState.get('path') === 'teacher'
       button.next-button.btn.btn-lg.btn-navy(type='submit')
         span(data-i18n="common.next")
+    else if view.signupState.get('subModalContinue')
+      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.continue")
     else
       button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
         span(data-i18n="login.sign_up")
