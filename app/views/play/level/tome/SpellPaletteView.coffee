@@ -372,6 +372,7 @@ module.exports = class SpellPaletteView extends CocoView
     content = @$el.find(".rightContentTarget")
     content.html(e.entry.doc.initialHTML)
     content.i18n()
+    @applyRTLIfNeeded()
     codeLanguage = e.entry.options.language
     oldEditor.destroy() for oldEditor in @aceEditors
     @aceEditors = []

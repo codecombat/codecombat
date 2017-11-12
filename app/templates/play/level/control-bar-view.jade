@@ -8,7 +8,7 @@ if includeHomeLink
 
 if includeHomeLink
   .levels-link-area
-    a.levels-link(href=homeLink || "/")
+    a.levels-link(href=homeLink || "/", dir="ltr")
       .glyphicon.glyphicon-play
       span(data-i18n=me.isSessionless() ? "nav.courses" : (ladderGame ? "general.ladder" : "nav.map")).home-text
 

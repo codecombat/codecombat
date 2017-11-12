@@ -113,17 +113,17 @@ if view.showAds()
             else if level.unlocksHero
               img.treasure-chest(src="/images/pages/play/gold-chest.png")
         div(style="left: #{level.position.x}%; bottom: #{level.position.y}%",class="level-shadow" + (level.next ? " next" : "") + (level.locked ? " locked" : "") + " " + (levelStatusMap[level.slug] || ""))
-        .level-info-container(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
+        .level-info-container.rtl-allowed(data-level-slug=level.slug, data-level-path=level.levelPath || 'level', data-level-name=level.name)
           - var playCount = levelPlayCountMap[level.slug]
           .progress.progress-striped.active.hide
             .progress-bar(style="width: 100%")
           - var showsLeaderboard = view.shouldShow('leaderboard') && (levelStatusMap[level.slug] === 'complete' && ((level.scoreTypes && level.scoreTypes.length) || ['hero-ladder', 'course-ladder'].indexOf(level.type) !== -1));
 
-          div(class="level-info " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
-            .level-status
+          div(class="level-info rtl-allowed " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
+            .level-status.rtl-allowed(dir="auto")
             h3= levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")))
             - var description = i18n(level, 'description') || level.description || ""
-            .level-description!= marked(description, {sanitize: !picoCTF})
+            .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: !picoCTF})
             if level.disabled
               p
                 span.spr(data-i18n="play.awaiting_levels_adventurer_prefix") We release five levels per week.
@@ -201,7 +201,7 @@ if view.showAds()
                       else
                         btn.btn.btn-illustrated.btn-lg.btn-primary.play-button(data-i18n="common.play")
                     if campaign && campaign.get('description')
-                      p.campaign-description
+                      p.campaign-description(dir="auto")
                         span= i18n(campaign.attributes, 'description')
           else
             - var campaign = campaigns[campaignSlug];
@@ -226,7 +226,7 @@ if view.showAds()
                   else
                     btn(data-i18n="common.play").btn.btn-illustrated.btn-lg.btn-success.play-button
                 if campaign && campaign.get('description')
-                  p.campaign-description
+                  p.campaign-description(dir="auto")
                     span= i18n(campaign.attributes, 'description')
 
   .game-controls.header-font.picoctf-hide
@@ -257,8 +257,9 @@ if view.showAds()
           span.gem.gem-30
           span#gems-count.spr= me.gems()
         if view.shouldShow('level')
-          span.level-indicator(data-i18n="general.player_level")
-          span.player-level.spr= me.level()
+          .rtl-allowed
+            span.level-indicator(data-i18n="general.player_level")
+            span.player-level.spr= me.level()
         span.player-hero-icon
         if me.get('anonymous')
           span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
@@ -289,10 +290,10 @@ if view.showAds()
 
   if campaign && campaign.loaded
     h1#campaign-status.picoctf-hide
-      .campaign-status-background
-        .campaign-name
+      .campaign-status-background.rtl-allowed
+        .campaign-name.rtl-allowed
           span= i18n(campaign.attributes, 'fullName')
-        .levels-completed
+        .levels-completed.rtl-allowed
           span= levelsCompleted
           | /
           span= levelsTotal

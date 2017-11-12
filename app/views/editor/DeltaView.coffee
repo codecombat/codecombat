@@ -3,8 +3,9 @@ template = require 'templates/editor/delta'
 deltasLib = require 'core/deltas'
 modelDeltas = require 'lib/modelDeltas'
 jsondiffpatch = require('lib/jsondiffpatch')
-require 'vendor/scripts/diffview'
-require 'vendor/scripts/difflib'
+diffview = require 'exports-loader?diffview!vendor/scripts/diffview'
+require 'vendor/styles/diffview.css'
+difflib = require 'exports-loader?difflib!vendor/scripts/difflib'
 require 'lib/setupTreema'
 
 TEXTDIFF_OPTIONS =
