@@ -6,7 +6,6 @@ module.exports = window.libWorldRequire = (path) ->
     when 'lib/world/box2d' then require('lib/world/box2d')
     when 'lib/world/GoalManager' then require('lib/world/GoalManager')
     when 'lib/world/Grid' then require('lib/world/Grid')
-    when 'lib/world/box2d' then require('lib/world/box2d')
     when 'lib/world/component' then require('lib/world/component')
     when 'lib/world/ellipse' then require('lib/world/ellipse')
     when 'lib/world/errors' then require('lib/world/errors')
