@@ -1260,7 +1260,7 @@ module.exports = class CampaignView extends RootView
     isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
     if what is 'classroom-level-play-button'
-      isValidStudent = (me.isStudent() and me.get('courseInstances')?.length) 
+      isValidStudent = (me.isStudent() and me.get('courseInstances')?.length)
       isValidTeacher = me.isTeacher()
       return (isValidStudent or isValidTeacher) and not application.getHocCampaign()
 
@@ -1289,9 +1289,9 @@ module.exports = class CampaignView extends RootView
       return isStudentOrTeacher and not application.getHocCampaign()
 
     if what in ['buy-gems']
-      return not (isIOS or me.freeOnly() or isStudentOrTeacher)
+      return not (isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
 
     if what in ['premium']
-      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher)
+      return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
 
     return true
