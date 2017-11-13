@@ -90,6 +90,7 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="play/modal/PlayAchievementsModal"]': 'openPlayAchievementsModal'
     'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal'
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -296,6 +297,10 @@ module.exports = class CampaignView extends RootView
   openContactModal: (e) ->
     e.stopPropagation()
     @openModalView new ContactModal()
+
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
