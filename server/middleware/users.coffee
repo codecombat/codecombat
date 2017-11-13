@@ -16,6 +16,8 @@ CourseInstance = require '../models/CourseInstance'
 facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
+Campaign = require '../models/Campaign'
+Course = require '../models/Course'
 Achievement = require '../models/Achievement'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
@@ -547,3 +549,33 @@ module.exports =
     
     res.redirect(combinedPhotoURL)
     res.end()
+
+
+  getCourseInstances: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found')
+      
+    unless req.user.isAdmin() or req.user.id is user.id
+      throw new errors.Forbidden()
+      
+    if user.isTeacher()
+      query = { ownerID: req.user._id }
+    else
+      query = { members: req.user._id }
+      
+    if req.query.campaignSlug
+      campaign = yield Campaign.findBySlug(req.query.campaignSlug).select({_id:1})
+      if not campaign
+        throw new errors.NotFound('Campaign not found')
+
+      campaignID = campaign._id
+      course = yield Course.findOne({ campaignID }).select({_id: 1})
+      query.courseID = course._id
+      
+    dbq = CourseInstance.find(query)
+    dbq.limit(parse.getLimitFromReq(req))
+    dbq.skip(parse.getSkipFromReq(req))
+    dbq.select(parse.getProjectFromReq(req))
+    courseInstances = yield dbq.exec()
+    res.status(200).send(ci.toObject({req}) for ci in courseInstances)

@@ -16,7 +16,10 @@ mixin modal-header-content
       when 'teacher'
         span(data-i18n="signup.create_teacher_header")
       when 'individual'
-        span(data-i18n="signup.create_individual_header")
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.complete_subscription")
+        else
+          span(data-i18n="signup.create_individual_header")
       default
         span(data-i18n="login.sign_up")
 

@@ -808,4 +808,4 @@ describe 'GET /db/course_instance/:handle/peer-projects', ->
 
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync({url, json: true})
-    expect(res.statusCode).toBe(200)    
+    expect(res.statusCode).toBe(200)

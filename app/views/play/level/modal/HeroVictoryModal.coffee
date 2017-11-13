@@ -202,7 +202,7 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
       gameDevHoc = application.getHocCampaign()
       lastLevelOriginal = switch gameDevHoc
-        when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove 
+        when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
       lastLevel = @level.get('original') is lastLevelOriginal # hoc2016 or kithgard-gates

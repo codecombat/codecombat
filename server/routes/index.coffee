@@ -225,6 +225,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
   app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
   app.get('/db/user/:handle/avatar', mw.users.getAvatar)
+  app.get('/db/user/:handle/course-instances', mw.users.getCourseInstances)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)

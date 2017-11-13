@@ -117,6 +117,8 @@
 
   play:
     play_as: "Play As"  # Ladder page
+    get_course_for_class: "Assign Game Development and more to your classes!"
+    request_licenses: "Contact our school specialists for details."
     compete: "Compete!" # Course details page
     spectate: "Spectate"  # Ladder page
     players: "players"  # Hover over a level on /play
@@ -229,10 +231,12 @@
     signup_switch: "Want to create an account?"
 
   signup:
+    complete_subscription: "Complete Subscription"
     create_student_header: "Create Student Account"
     create_teacher_header: "Create Teacher Account"
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
+    sign_in_to_continue: "Sign in or create an account to continue"
     teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"

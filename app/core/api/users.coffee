@@ -64,4 +64,9 @@ module.exports = {
       method: 'POST'
       json: {billingAgreementID}
     }))
+    
+  getCourseInstances: ({ userID, campaignSlug }, options={}) ->
+    fetchJson(@url(userID, "course-instances"), _.merge({}, options, {
+      data: { userID, campaignSlug }
+    }))
 }
