@@ -55,10 +55,11 @@ printTranslation = function(docType, doc, path, englishString, translationString
 // Find unique level original ids for classroom and home campaigns
 var courses = db.courses.find({releasePhase: 'released'}, {campaignID: 1}).toArray();
 var campaignIds = courses.reduce(function (ids, val) {
-  ids.push(val.campaignID);
+  // if (val._id.valueOf() === '56462f935afde0c6fd30fc8c') ids.push(val.campaignID);
   return ids;
 }, []);
 var campaignSlugs = ['dungeon', 'campaign-game-dev-1', 'campaign-game-web-1', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert', 'mountain', 'glacier'];
+// campaignSlugs = [];
 var campaigns = db.campaigns.find({$or: [{slug: {$in: campaignSlugs}}, {_id: {$in: campaignIds}}]}, {levels: 1}).toArray();
 var levelOriginalsToDo = [];
 campaigns.forEach(function(campaign) {
@@ -226,4 +227,4 @@ translations.forEach(function(tr) {
   print(tr.join('\n'));
 });
 
-print('\n\nUntranslated words: ' + untranslatedWords)
+// print('\n\nUntranslated words: ' + untranslatedWords)
