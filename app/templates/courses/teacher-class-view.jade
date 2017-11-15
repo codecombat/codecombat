@@ -472,7 +472,7 @@ mixin copyCodes
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
+    .no-students-selected.small-details(class=state.get('errors').nobodySelected ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
     span.small
       span(data-i18n='teacher.bulk_assign')
@@ -483,8 +483,10 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-    button.btn.btn-primary-alt.assign-to-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.assign_to_selected_students')
+    button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+      span(data-i18n='teacher.assign_course')
+    button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+      span(data-i18n='teacher.remove_course')
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

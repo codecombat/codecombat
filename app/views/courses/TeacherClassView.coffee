@@ -48,6 +48,7 @@ module.exports = class TeacherClassView extends RootView
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .revoke-student-button': 'onClickRevokeStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
+    'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
@@ -63,7 +64,7 @@ module.exports = class TeacherClassView extends RootView
       classCode: ""
       joinURL: ""
       errors:
-        assigningToNobody: false
+        nobodySelected: false
       selectedCourse: undefined
       checkboxStates: {}
       classStats:
@@ -448,11 +449,21 @@ module.exports = class TeacherClassView extends RootView
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
-    assigningToNobody = selectedIDs.length is 0
-    @state.set errors: { assigningToNobody }
-    return if assigningToNobody
+    nobodySelected = selectedIDs.length is 0
+    @state.set errors: { nobodySelected }
+    return if nobodySelected
     @assignCourse courseID, selectedIDs
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+
+  onClickBulkRemoveCourse: ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    courseID = @$('.bulk-course-select').val()
+    selectedIDs = @getSelectedStudentIDs()
+    nobodySelected = selectedIDs.length is 0
+    @state.set errors: { nobodySelected }
+    return if nobodySelected
+    @removeCourse courseID, selectedIDs
+    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
@@ -531,7 +542,7 @@ module.exports = class TeacherClassView extends RootView
         noty text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true
         return courseInstance.addMembers(members)
 
-    # Show a success/errror notification
+    # Show a success/error notification
     .then =>
       course = @courses.get(courseID)
       lines = [
@@ -560,6 +571,41 @@ module.exports = class TeacherClassView extends RootView
       throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
+  
+  removeCourse: (courseID, members) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    courseInstance = null
+    numberRemoved = 0
+
+    return Promise.resolve()
+    # Find the necessary course instance
+    .then =>
+      courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
+      # if not courseInstance
+      # TODO: show some message if no courseInstance?
+      return courseInstance
+
+    # Remove the students from the course instance
+    .then =>
+      @fetchStudents()
+
+      @trigger 'begin-remove-course' # Only used for test automation
+      if members.length
+        noty text: $.i18n.t('teacher.removing_course'), layout: 'center', type: 'information', killer: true
+        return courseInstance?.removeMembers(members)
+
+    # Show a success/error notification
+    .then =>
+      course = @courses.get(courseID)
+      lines = [
+        $.i18n.t('teacher.removed_course_msg')
+          .replace('{{numberRemoved}}', members.length)
+          .replace('{{courseName}}', course.get('name'))
+      ]
+      noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
+
+      @calculateProgressAndLevels()
+      @classroom.fetch()
 
   onClickRevokeStudentButton: (e) ->
     button = $(e.currentTarget)
