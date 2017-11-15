@@ -384,7 +384,7 @@ module.exports = class PlayLevelView extends RootView
         "right-hand": "544d86318494308424f564e8"
       }}
     else if e.level.get('slug') in ['escort-duty']
-      potionmaster = '52fd1524c7e6cf99160e7bc9'
+      potionmaster = '52e9adf7427172ae56002172'
       e.session.set 'heroConfig', {"thangType":potionmaster,"inventory":{
         "eyes": "546941fda2b1f53ce794441d",
         "feet": "546d4d8e9df4a17d0d449acd",
@@ -399,7 +399,7 @@ module.exports = class PlayLevelView extends RootView
         "right-hand": "54eab92b2b7506e891ca720a",
         "waist": "54694af7a2b1f53ce7944441",
         "right-ring": "54692d2aa2b1f53ce794438f",
-        "pet": "5744e3683af6bf590cd27371"
+        "pet": "57586f0a22179b2800efda37"
       }}
 
 

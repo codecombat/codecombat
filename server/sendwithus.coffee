@@ -34,6 +34,7 @@ module.exports.templates =
   plain_text_email: 'tem_85UvKDCCNPXsFckERTig6Y'
   next_steps_email: 'tem_RDHhTG5inXQi8pthyqWr5D'
   course_invite_email: 'tem_ic2ZhPkpj8GBADFuyAp4bj'
+  subscription_welcome_email: 'tem_MSvYFdtgvJfRm9QRcxFHPt8P'
   teacher_free_trial: 'tem_R7d9Hpoba9SceQNiYSXBak'
   teacher_request_demo: 'tem_cwG3HZjEyb6QE493hZuUra'
   password_reset: 'tem_wbQUMRtLY9xhec8BSCykLA'
