@@ -47,6 +47,17 @@ module.exports = class CourseInstance extends CocoModel
     me.set('courseInstances', _.without(me.get('courseInstances'), @id)) if userID is me.id
     return jqxhr
 
+  removeMembers: (userIDs, opts) ->
+    options = {
+      url: _.result(@, 'url') + '/members'
+      type: 'DELETE'
+      data: { userIDs }
+    }
+    _.extend options, opts
+    jqxhr = @fetch(options)
+    me.set('courseInstances', _.without(me.get('courseInstances'), @id)) if me.id in userIDs
+    return jqxhr
+
   firstLevelURL: ->
     "/play/level/dungeons-of-kithgard?course=#{@get('courseID')}&course-instance=#{@id}"
   

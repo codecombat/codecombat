@@ -1348,6 +1348,7 @@
     are_you_sure: "Are you sure you want to remove this student from this class?"
     remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
     remove_description2: "The activated paid license will not be returned."
+    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Keep Student"
     removing_user: "Removing user"
     subtitle: "Review course overviews and levels" # Flat style redesign
@@ -1436,6 +1437,7 @@
 
   teacher:
     assigning_course: "Assigning course"
+    removing_course: "Removing course"
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
@@ -1507,13 +1509,14 @@
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
     assign_course: "Assign Course"
+    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+    remove_course: "Remove Course"
     not_assigned_modal_title: "Courses were not assigned"
     not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
     not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
     not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
-    assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
     enroll_selected_students: "Enroll Selected Students"
     no_students_selected: "No students were selected."

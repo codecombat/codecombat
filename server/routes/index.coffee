@@ -135,6 +135,8 @@ module.exports.setup = (app) ->
   app.post('/db/classroom/:handle/invite-members', mw.classrooms.inviteMembers)
   app.get('/db/classroom/:handle/member-sessions', mw.classrooms.fetchMemberSessions)
   app.get('/db/classroom/:handle/members', mw.classrooms.fetchMembers) # TODO: Use mw.auth?
+  app.get('/db/classroom/:classroomID/members/:memberID/is-auto-revokable', mw.classrooms.checkIsAutoRevokable)
+  app.delete('/db/classroom/:classroomID/members/:memberID', mw.classrooms.deleteMember)
   app.post('/db/classroom/:classroomID/members/:memberID/reset-password', mw.classrooms.setStudentPassword)
   app.post('/db/classroom/:anything/members', mw.auth.checkLoggedIn(), mw.classrooms.join)
   app.post('/db/classroom/:handle/update-courses', mw.classrooms.updateCourses)
@@ -166,6 +168,7 @@ module.exports.setup = (app) ->
   app.post('/db/course_instance/-/recent', mw.auth.checkHasPermission(['admin']), mw.courseInstances.fetchRecent)
   app.get('/db/course_instance/:handle/levels/:levelOriginal/sessions/:sessionID/next', mw.courseInstances.fetchNextLevel)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
+  app.delete('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.removeMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
   app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)

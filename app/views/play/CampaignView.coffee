@@ -123,7 +123,7 @@ module.exports = class CampaignView extends RootView
       me.patch()
       pixelCode = switch @terrain
         when 'game-dev-hoc' then 'code_combat_gamedev'
-        when 'game-dev-hoc-2' then 'code_combat_gamedev2'
+        when 'game-dev-hoc-2' then 'code_combat_build_arcade'
         else 'code_combat'
       $('body').append($("<img src='https://code.org/api/hour/begin_#{pixelCode}.png' style='visibility: hidden;'>"))
     else if me.isTeacher() and not utils.getQueryVariable('course-instance') and not application.getHocCampaign()
