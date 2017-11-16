@@ -214,6 +214,7 @@ class PersonalSub
     @state = 'loading'
 
     if stripeInfo
+      @free = stripeInfo.free
       if stripeInfo.sponsorID
         @sponsor = true
         onSubSponsorSuccess = (sponsorInfo) =>
@@ -248,6 +249,11 @@ class PersonalSub
             periodEnd = new Date((sub.trial_end or sub.current_period_end) * 1000)
             if sub.cancel_at_period_end
               @activeUntil = periodEnd
+              if @free and typeof @free is 'string' and new Date(@free) > @activeUntil
+                # stripe.free trumps end of period cancellation date, switch to that state
+                delete @self
+                delete @active
+                delete @subscribed
             else if sub.discount?.coupon?.id isnt 'free'
               @nextPaymentDate = periodEnd
               # NOTE: This checks the product list for one that corresponds to their
@@ -277,8 +283,7 @@ class PersonalSub
           render()
         @supermodel.loadCollection(payments, 'payments', {cache: false})
 
-      else if stripeInfo.free
-        @free = stripeInfo.free
+      else if @free
         delete @state
         render()
 
