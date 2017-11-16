@@ -329,7 +329,7 @@ module.exports = class CampaignView extends RootView
     @render()
     @checkForUnearnedAchievements()
     @preloadTopHeroes() unless me.get('heroConfig')?.thangType
-    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) unless @terrain is 'dungeon' or @courseStats?
+    @$el.find('#campaign-status').delay(4000).animate({top: "-=58"}, 1000) if @terrain in ['forest', 'desert']
     if @campaign and @isRTL utils.i18n(@campaign.attributes, 'fullName')
       @$('.campaign-name').attr('dir', 'rtl')
     if not me.get('hourOfCode') and @terrain
