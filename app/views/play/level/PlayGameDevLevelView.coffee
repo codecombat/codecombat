@@ -110,11 +110,15 @@ module.exports = class PlayGameDevLevelView extends RootView
       course = if @courseID then new Course({_id: @courseID}) else null
       shareURL = urls.playDevLevel({@level, @session, course})
       
+      creatorString = if @session.get('creatorName')
+        $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
+      else
+        $.i18n.t('play_game_dev_level.created_during_hoc')
       @state.set({
         loading: false
         goalNames
         shareURL
-        creatorString: $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
+        creatorString
         isOwner: me.id is @session.get('creator')
       })
       @eventProperties = {

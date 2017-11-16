@@ -599,6 +599,7 @@
 
   play_game_dev_level:
     created_by: "Created by {{name}}"
+    created_during_hoc: "Created during Hour of Code"
     restart: "Restart Level"
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
