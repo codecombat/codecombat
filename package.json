@@ -107,7 +107,7 @@
     "mailchimp-api-v3": "^1.4.1",
     "marked": "~0.3.0",
     "method-override": "^2.3.7",
-    "moment": "~2.5.0",
+    "moment": "~2.19.0",
     "mongodb": "^2.0.28",
     "mongoose": "^4.5.3",
     "mongoose-cache": "nwinter/mongoose-cache#master",
