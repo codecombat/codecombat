@@ -87,7 +87,7 @@ setUpMoment = ->
       'zh-HANS': 'zh-cn'
       'zh-HANT': 'zh-tw'
     }[lang] or lang
-    moment.lang lang.toLowerCase(), {}
+    moment.locale lang.toLowerCase()
     # TODO: this relies on moment having all languages baked in, which is a performance hit; should switch to loading the language module we need on demand.
   setMomentLanguage me.get('preferredLanguage', true)
   me.on 'change:preferredLanguage', (me) ->
