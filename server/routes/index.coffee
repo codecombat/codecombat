@@ -61,7 +61,7 @@ module.exports.setup = (app) ->
   app.post('/db/achievement/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Achievement, 'achievement'))
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
-  
+
   app.post('/db/analytics.log.event/-/log_event',  mw.auth.checkHasUser(), mw.analyticsLogEvents.post)
 
   app.post('/db/analytics_perday/-/active_classes', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveClasses)
@@ -72,9 +72,9 @@ module.exports.setup = (app) ->
   app.post('/db/analytics_perday/-/level_helps', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelHelpsBySlugs)
   app.post('/db/analytics_perday/-/level_subscriptions', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getLevelSubscriptionsBySlugs)
   app.post('/db/analytics_perday/-/recurring_revenue', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getRecurringRevenue)
-  
+
   app.get('/db/analytics.stripe.invoice/-/all', mw.auth.checkHasPermission(['admin']), mw.analyticsStripeInvoices.getAll)
-  
+
   Article = require '../models/Article'
   app.get('/db/article', mw.rest.get(Article))
   app.post('/db/article', mw.auth.checkLoggedIn(), mw.auth.checkHasPermission(['admin', 'artisan']), mw.rest.post(Article))
@@ -114,7 +114,7 @@ module.exports.setup = (app) ->
   app.get('/db/campaign/-/overworld', mw.campaigns.fetchOverworld)
   app.post('/db/campaign/:handle/watchers', mw.patchable.joinWatchers(Campaign))
   app.delete('/db/campaign/:handle/watchers', mw.patchable.leaveWatchers(Campaign))
-  
+
   Clan = require '../models/Clan'
   app.post('/db/clan', mw.auth.checkLoggedIn(), mw.clans.postClan)
   app.put('/db/clan/:handle', mw.auth.checkLoggedIn(), mw.clans.putClan)
