@@ -8,7 +8,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     im_a_student: "אני תלמיד"
     learn_more: "מידע נוסף"
     classroom_in_a_box: "כיתה שלמה בקופסה ללימוד מדעי המחשב."
-    codecombat_is: "CodeCombat הוא פלטפורמה <strong>לתלמידים</strong>, המיועדת ללימוד מדעי המחשב תוך כדי חוויית משחק אמיתית."
+    codecombat_is: "CodeCombat היא פלטפורמה <strong>לתלמידים</strong>, המיועדת ללימוד מדעי המחשב תוך כדי חוויית משחק אמיתית."
     our_courses: "הקורסים שלנו נבדקו במיוחד <strong>כדי להבטיח התאמתם לסביבה הכיתתית</strong>, אפילו אצל מורים עם ניסיון מועט בתכנות או ללא ניסיון כלל."
 #    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "התלמידים כותבים קוד, ורואים את השינויים שלהם מתעדכנים בזמן אמת"
@@ -116,11 +116,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscribe_as_diplomat: "הירשם כמנוי דיפלומט"
 
   play:
-    play_as: "שחק בתור" # Ladder page
-    compete: "תחרות!" # Course details page
-    spectate: "מצב קהל" # Ladder page
-    players: "שחקנים" # Hover over a level on /play
-    hours_played: "שעות משחק" # Hover over a level on /play
+    play_as: "דף הטבל" # Ladder page
+    compete: "דף פרטי קורס" # Course details page
+    spectate: "דף הטבלה" # Ladder page
+    players: "רחף מעל לשלב ב" # Hover over a level on /play
+    hours_played: "רחף מעל לשלב ב" # Hover over a level on /play
     items: "פריטים" # Tooltip on item shop button from /play
     unlock: "פתח" # For purchasing items and heroes
     confirm: "אשר"
@@ -143,7 +143,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscriber_gems: "הירשם כמנוי היום כדי לקנות גיבור זה עם אבני חן!"
     anonymous: "שחקן אנונימי"
     level_difficulty: "רמת קושי: "
-    play_classroom_version: "שחק בגרסה הכיתתית" # Choose a level in campaign version that you also can play in one of your courses
+    play_classroom_version: "שחק בגרסה הכיתתית"
     campaign_beginner: "מערכה למתחילים"
     awaiting_levels_adventurer_prefix: "אנו משחררים שלבים חדשים מדי שבוע."
     awaiting_levels_adventurer: "הרשמה כהרפתקן"
@@ -856,7 +856,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     action: "פעולה"
     spell: "לחש"
     action_name: "שם"
-    action_cooldown: "נמשך"
+    action_cooldown: "נמשכת"
     action_specific_cooldown: "השהיה"
     action_damage: "נזק"
     action_range: "טווח"
@@ -882,7 +882,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     music_label: "מוזיקה"
     music_description: "להפעלה/כיבוי של המוזיקה."
     editor_config_title: "תצורת עורך"
-    editor_config_livecompletion_label: "השלמה אוטומטית חיה"
+    editor_config_livecompletion_label: "השלמה אוטומטית"
     editor_config_livecompletion_description: "מציג הצעות להשלמה אוטומטית תוך כדי הקלדה."
     editor_config_invisibles_label: "הצג בלתי נראים"
     editor_config_invisibles_description: "מציג בלתי נראים, כגון תווי רווח או טאב."
@@ -1308,12 +1308,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play_now_learn_2: "לולאות 'כל עוד' כדי לפתור פאזלים מעצבנים"
     play_now_learn_3: "מחרוזות ומשתנים להתאמה של הפעולות"
     play_now_learn_4: "כיצד להביס ענק (אלה כישורי חיים חשובים!)"
-    welcome_to_page: "לוח המחוונים שלי לתלמידים"
+    welcome_to_page: "לוח המחוונים שלי לתלמיד"
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
     view_levels: "הצג את כל השלבים בקורס"
     view_project_gallery: "הצג פרויקטים של חבריי לכיתה"
-    join_class: "הצטרף לכיתה"
+    join_class: "הצטרפו לכיתה"
     join_class_2: "הצטרף לכיתה"
     ask_teacher_for_code: "שאלו את המורה אם יש לכם קוד כיתה של CodeCombat! אם כן, הזינו אותו למטה:"
     enter_c_code: "<הזן קוד כיתה>"
@@ -1324,7 +1324,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     view_project: "הצג פרויקט"
     start: "התחל"
     last_level: "שלב אחרון ששיחקת"
-    not_you: "לא מדובר בך?"
+    not_you: "לא אתם?"
     continue_playing: "המשך לשחק"
     option1_header: "הזמנת תלמידים בדואר אלקטרוני"
     option1_body: "הערה: אם לתלמידים אין כתובות דואר אלקטרוני, הם יכולים להזין את קוד הכיתה הייחודי בעת יצירה של חשבון תלמיד, כדי להפוך את כתובות הדואר האלקטרוני לאופציה."
@@ -1483,7 +1483,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     course_overview: "סקירה כללית של הקורס"
     copy_class_code: "העתק קוד כיתה"
     class_code_blurb: "תלמידים יכולים להצטרף לכיתה באמצעות קוד כיתה זה. אין צורך בכתובת דואר אלקטרוני בעת יצירה של חשבון תלמיד עם קוד כיתה זה."
-    copy_class_url: "העתק כתובת URL של כיתה"
+    copy_class_url: "העתק URL כיתה"
     class_join_url_blurb: "כמו כן, ניתן לפרסם בדף אינטרנט משותף כתובת URL ייחודית זו של הכיתה."
     add_students_manually: "הזמנת תלמידים בדואר אלקטרוני"
     bulk_assign: "הקצאה המונית"

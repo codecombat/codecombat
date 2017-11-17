@@ -93,10 +93,13 @@
         z-index: 2;
 
       h1:not(.not-code), h2:not(.not-code), h3:not(.not-code), h4:not(.not-code), h5:not(.not-code), h6:not(.not-code)
-          font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
-          font-variant: normal
-          color: purple
-          text-transform: auto
+        font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
+        font-variant: normal
+        color: purple
+        text-transform: auto
+
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          font-family: "Cousine", "Courier", "Courier New", monospace !important
 
       .popover-title
         background-color: transparent
@@ -129,6 +132,9 @@
           font-size: 12px
           font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
+          body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+            font-family: "Cousine", "Courier", "Courier New", monospace !important
+
         .docs-ace
           .ace_cursor, .ace_bracket
             display: none
@@ -138,7 +144,8 @@
         font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
         font-size: 12px
 
-
+        body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+          font-family: "Cousine", "Courier", "Courier New", monospace !important
 
     h4.tab
       color: white
@@ -225,6 +232,11 @@
       .spell-palette-entry-view
         margin-left: 0
         width: 100px
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .ace_text-layer .ace_comment
+      direction: rtl
+      unicode-bidi: embed
 
 @media only screen and (max-width: 1100px)
   #spell-palette-view
