@@ -106,7 +106,7 @@ module.exports = class CoursesView extends RootView
         return if @destroyed
         @originalLevelMap[level.get('original')] = level for level in levels.models
         @render()
-      @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: 'original,primerLanguage,slug' }}))
+      @supermodel.trackRequest(levels.fetchForClassroom(classroomID, { data: { project: "original,primerLanguage,slug,i18n.#{me.get('preferredLanguage', true)}" }}))
 
   courseInstanceHasProject: (courseInstance) ->
     classroom = @classrooms.get(courseInstance.get('classroomID'))

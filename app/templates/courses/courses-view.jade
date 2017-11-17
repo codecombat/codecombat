@@ -140,7 +140,10 @@ mixin course-instance-body(courseInstance, classroom)
     div
       span(data-i18n="courses.last_level")
       span : #{stats.levels.lastPlayedNumber}.
-      span.spl= stats.levels.lastPlayed.get('name')
+      - var levelNameEnglish = stats.levels.lastPlayed.get('name');
+      - var levelWithI18N = view.originalLevelMap[stats.levels.lastPlayed.get('original')];
+      - var levelName = levelWithI18N ? i18n(levelWithI18N.attributes, 'name') : levelNameEnglish;
+      span.spl= levelName || levelNameEnglish
 
   .clearfix
   .progress

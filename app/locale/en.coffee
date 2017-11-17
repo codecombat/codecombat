@@ -599,6 +599,7 @@
 
   play_game_dev_level:
     created_by: "Created by {{name}}"
+    created_during_hoc: "Created during Hour of Code"
     restart: "Restart Level"
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
@@ -1612,6 +1613,9 @@
     gd2: "Game Development 2"
     gd2_curriculum: "Game Development 2 - Curriculum Guide"
     gd2_curriculum_desc: "Lesson plans for Game Development 2."
+    gd3: "Game Development 3"
+    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web Development 1"
     wd1_headlines: "Headlines & Headers Activity"
     wd1_headlines_example: "View sample solution"

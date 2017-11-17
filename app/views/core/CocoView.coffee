@@ -148,7 +148,7 @@ module.exports = class CocoView extends Backbone.View
     /[\u0590-\u06FF]/.test s
 
   applyRTLIfNeeded: ->
-    return unless me.get('preferredLanguage') in ['he', 'ar']
+    return unless me.get('preferredLanguage') in ['he', 'ar', 'fa', 'ur']
     @$('[data-i18n]').each (i, el) =>
       return unless @isRTL(el.innerHTML)
       el.dir = 'rtl'
