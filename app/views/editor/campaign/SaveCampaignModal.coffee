@@ -24,18 +24,5 @@ module.exports = class SaveCampaignModal extends ModalView
 
   onClickSaveButton: ->
     @showLoading()
-    @reverseLevelsBeforeSave()
     modelsBeingSaved = (model.patch() for model in @modelsToSave.models)
     $.when(_.compact(modelsBeingSaved)...).done(-> document.location.reload())
-
-  reverseLevelsBeforeSave: ->
-    # For some unfathomable reason, not in our code anywhere, the levels get reversed during the save somehow.
-    # Since we want to maintain their orders, we reverse them first, so that when they're reversed again, it's right.
-    # Yaaaay!
-    return unless campaign = _.find @modelsToSave.models, (m) -> m.constructor.className is 'Campaign'
-    levelsReversed = {}
-    levels = campaign.get 'levels'
-    levelIDs = _.keys(levels).reverse()
-    for levelID in levelIDs
-      levelsReversed[levelID] = levels[levelID]
-      campaign.set 'levels', levelsReversed
