@@ -149,7 +149,7 @@ module.exports = class Angel extends CocoClass
   finishBeholdingWorld: (goalStates) -> (world) =>
     return if @aborting or @destroyed
     finished = world.frames.length is world.totalFrames
-    if @work?.indefiniteLength and world.victory?
+    if world.indefiniteLength and world.victory?
       finished = true
       world.totalFrames = world.frames.length
     firstChangedFrame = if @work?.indefiniteLength then 0 else world.findFirstChangedFrame @shared.world
@@ -346,20 +346,22 @@ module.exports = class Angel extends CocoClass
 
   simulateFramesSync: (work, i) ->
     return if @destroyed or work.aborted
-    i ?= work.world.frames.length
+    world = work.world
+    i ?= world.frames.length
     simulationLoopStartTime = now()
-    while i < work.world.totalFrames or work.indefiniteLength
+    while i < world.totalFrames
       if work.realTime
-        progress = work.world.frames.length / work.world.totalFrames
-        progress = Math.min(progress, 0.9) if work.world.indefiniteLength
+        progress = world.frames.length / world.totalFrames
+        progress = Math.min(progress, 0.9) if world.indefiniteLength
         @publishGodEvent 'world-load-progress-changed', progress: progress  # Debounce? Need to publish at all?
         @streamFrameSync work
-        if work.indefiniteLength
-          break unless work.world.realTime
-          break if work.world.victory?
-        continuing = work.world.shouldContinueLoading simulationLoopStartTime, (->), false, (=> @simulateFramesSync(work) unless @destroyed)
+        if world.indefiniteLength and world.victory?
+          world.indefiniteLength = false
+        continuing = world.shouldContinueLoading simulationLoopStartTime, (->), false, (=> @simulateFramesSync(work) unless @destroyed)
         return unless continuing
-      frame = work.world.getFrame i++  # TODO: handle errors
+      if world.indefiniteLength and i is world.totalFrames - 1
+        ++world.totalFrames
+      frame = world.getFrame i++  # TODO: handle non-user-code errors?
     @finishSimulationSync work
 
   streamFrameSync: (work) ->
