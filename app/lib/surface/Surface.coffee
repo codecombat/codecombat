@@ -233,7 +233,9 @@ module.exports = Surface = class Surface extends CocoClass
       @mouseIsDown = false
 
   restoreWorldState: ->
-    return if @world.synchronous
+    if @world.synchronous
+      @lankBoss.updateSounds() if parseInt(@currentFrame) isnt parseInt(@lastFrame)
+      return
     frame = @world.getFrame(@getCurrentFrame())
     return unless frame
     frame.restoreState()
