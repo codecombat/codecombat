@@ -11,7 +11,7 @@ module.exports =
       email_id: sendwithus.templates.coppa_deny_parent_signup
       recipient:
         address: req.body.parentEmail
-    if /@codecombat.com/.test(context.recipient.address) or not _.string.trim context.recipient.address
+    if /@codecombat.com/.test(context.recipient.address) or not _.str.trim context.recipient.address
       console.error "Somehow sent an email with bogus recipient? #{context.recipient.address}"
       return next(new errors.InternalServerError("Error sending email. Need a valid recipient."))
     sendwithus.api.send context, (err, result) ->
