@@ -7735,7 +7735,7 @@ createjs.deprecate = function(fallbackMethod, name) {
 		if (createjs.lastMouseWorldPos) {
 			// CodeCombat monkey patch to improve performance when we know a Thang is too far away to be clicked.
 			var lank = this.lank || (this.parent ? (this.parent.lank || this.parent.parent ? this.parent.parent.lank : null) : null);
-			if (lank && lank.thang) {
+			if (lank && lank.thang && lank.thang.pos && lank.thang.pos.distanceSquared) {
 				var thangWorldPos = lank.thang.pos;
 				if (thangWorldPos.distanceSquared(createjs.lastMouseWorldPos) > 100) {
 					// Not worth testing, too far. TODO: take zoom / thang size into account to be more precise?
