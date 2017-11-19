@@ -1537,6 +1537,32 @@ describe 'POST /db/user/:userId/reset_progress', ->
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(401)
 
+
+describe 'GET /db/user/:handle/clans', ->
+  it 'returns that user\'s public clans only, unless fetching ones own clans', utils.wrap ->
+    user = yield utils.initUser({stripe: {free: true}})
+    url = utils.getUrl("/db/user/#{user.id}/clans")
+
+    yield utils.loginUser(user)
+    publicClan = yield utils.makeClan({type: 'public'})
+    privateClan = yield utils.makeClan({type: 'private'})
+
+    [res] = yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(2)
+    expect(_.find(res.body, {_id: publicClan.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: privateClan.id})).toBeTruthy()
+
+    otherUser = yield utils.initUser()
+    yield utils.loginUser(otherUser)
+    [res] = yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(_.find(res.body, {_id: publicClan.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: privateClan.id})).toBeFalsy()
+    
+
+
     
 describe 'GET /db/user/:handle/avatar', ->
   it 'returns an avatar based on the user\'s email', utils.wrap ->
@@ -1573,3 +1599,26 @@ describe 'GET /db/user/:handle/avatar', ->
     [res] = yield request.getAsync({url, followRedirect: false, headers: {'x-forwarded-proto': 'http', host: 'subdomain.codecombat.com', 'x-forwarded-port': '8080'}})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 'default=http://subdomain.codecombat.com:8080/')).toBe(true)
+
+
+describe 'GET /db/user/:handle/course-instances', ->
+  beforeEach utils.wrap ->
+    @campaignSlug = 'intro'
+    @student = yield utils.initUser({ role: 'student' })
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @campaign = yield utils.makeCampaign({ name: 'Intro' })
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, { @campaign })
+    @teacher = yield utils.initUser({ role: 'teacher' })
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, { members: [@student] })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom, members: [@student] })
+    yield utils.loginUser(@student)
+
+  it "returns a corresponding courseInstance for the classroom version's course", utils.wrap ->
+    url = utils.getUrl("/db/user/#{@student.id}/course-instances")
+    qs = {campaignSlug: @campaign.get('slug')}
+    [res] = yield request.getAsync({url, qs, json: true})
+    expect(res.body.length).toBe(1)
+    expect(res.body[0]._id).toBe(@courseInstance.id)
+    

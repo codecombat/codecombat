@@ -232,7 +232,7 @@ LevelHandler = class LevelHandler extends Handler
       findTop20Players = (sessionQueryParams, team, cb) ->
         sessionQueryParams['team'] = team
         aggregate = Session.aggregate [
-          {$match: sessionQueryParams}
+          {$match: _.clone(sessionQueryParams)}
           {$sort: {'totalScore': -1}}
           {$limit: 20}
           {$project: {'totalScore': 1}}

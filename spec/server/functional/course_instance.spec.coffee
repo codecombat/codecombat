@@ -313,8 +313,9 @@ describe 'DELETE /db/course_instance/:id/members', ->
     @campaign = yield utils.makeCampaign({}, {levels: [@level]})
     @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
     @student = yield utils.initUser({role: 'student'})
+    @student2 = yield utils.initUser({role: 'student'})
     @prepaid = yield utils.makePrepaid({creator: @teacher.id})
-    members = [@student]
+    members = [@student, @student2]
     yield utils.loginUser(@teacher)
     @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members })
     @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom })
@@ -337,23 +338,50 @@ describe 'DELETE /db/course_instance/:id/members', ->
     }).save()
     done()
 
-  it 'removes a member to the given CourseInstance', utils.wrap (done) ->
-    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
-    [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
-    expect(res.statusCode).toBe(200)
-    expect(res.body.members.length).toBe(0)
-    done()
+  describe 'when removing one member', ->
+    it 'removes a member from the given CourseInstance', utils.wrap (done) ->
+      url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+      [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
+      expect(res.statusCode).toBe(200)
+      expect(res.body.members.length).toBe(0)
+      done()
 
-  it 'removes the CourseInstance from the User.courseInstances', utils.wrap (done) ->
-    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
-    user = yield User.findById(@student.id)
-    expect(_.size(user.get('courseInstances'))).toBe(1)
-    [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
-    expect(res.statusCode).toBe(200)
-    expect(res.body.members.length).toBe(0)
-    user = yield User.findById(@student.id)
-    expect(_.size(user.get('courseInstances'))).toBe(0)
-    done()
+    it 'removes the CourseInstance from the User.courseInstances', utils.wrap (done) ->
+      url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+      user = yield User.findById(@student.id)
+      expect(_.size(user.get('courseInstances'))).toBe(1)
+      [res, body] = yield request.delAsync {uri: url, json: {userID: @student.id}}
+      expect(res.statusCode).toBe(200)
+      expect(res.body.members.length).toBe(0)
+      user = yield User.findById(@student.id)
+      expect(_.size(user.get('courseInstances'))).toBe(0)
+      done()
+
+  describe 'when removing multiple members', ->
+    beforeEach utils.wrap ->
+      url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+      [res, body] = yield request.postAsync {uri: url, json: {userID: @student2.id}}
+
+    it 'removes the members from the given CourseInstance', utils.wrap (done) ->
+      url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+      [res, body] = yield request.getAsync {uri: url, json: true}
+      expect(res.body.length).toBe(2)
+      [res, body] = yield request.delAsync {uri: url, json: {userIDs: [@student.id, @student2.id]}}
+      expect(res.statusCode).toBe(200)
+      expect(res.body.members.length).toBe(0)
+      done()
+
+    it 'removes the CourseInstance from the User.courseInstances', utils.wrap (done) ->
+      url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+      user = yield User.findById(@student.id)
+      expect(_.size(user.get('courseInstances'))).toBe(1)
+      [res, body] = yield request.delAsync {uri: url, json: {userIDs: [@student.id, @student2.id]}}
+      expect(res.statusCode).toBe(200)
+      expect(res.body.members.length).toBe(0)
+      user = yield User.findById(@student.id)
+      expect(_.size(user.get('courseInstances'))).toBe(0)
+      done()
+
 
 describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
 
@@ -808,4 +836,4 @@ describe 'GET /db/course_instance/:handle/peer-projects', ->
 
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync({url, json: true})
-    expect(res.statusCode).toBe(200)    
+    expect(res.statusCode).toBe(200)

@@ -13,7 +13,7 @@ SubscribeModal = require 'views/core/SubscribeModal'
 module.exports = class ClansView extends RootView
   id: 'clans-view'
   template: template
-  
+
 
   events:
     'click .create-clan-btn': 'onClickCreateClan'
@@ -109,7 +109,7 @@ module.exports = class ClansView extends RootView
         error: (model, response, options) =>
           console.error 'Error saving clan', response.status
         success: (model, response, options) =>
-          applicaton.router.navigate "/clans/#{model.id}"
+          application.router.navigate "/clans/#{model.id}"
           window.location.reload()
     else
       console.log 'Invalid name'
@@ -123,7 +123,7 @@ module.exports = class ClansView extends RootView
         error: (model, response, options) =>
           console.error 'Error joining clan', response
         success: (model, response, options) =>
-          applicaton.router.navigate "/clans/#{clanID}"
+          application.router.navigate "/clans/#{clanID}"
           window.location.reload()
       @supermodel.addRequestResource( 'join_clan', options).load()
     else

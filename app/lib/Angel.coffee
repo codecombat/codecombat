@@ -204,6 +204,8 @@ module.exports = class Angel extends CocoClass
     reportedLoadErrorAlready = true
     context = email: me.get('email')
     context.message = "Automatic Report - Unable to Load Level\nLogs:\n" + @allLogs.join('\n')
+    if /Error: Out of memory/.test(context.message) and /Legacy javascript detected/.test(context.message)
+      return  # If the computer is so old it doesn't have modern JS, it's probably more their problem than ours
     if $.browser
       context.browser = "#{$.browser.platform} #{$.browser.name} #{$.browser.versionNumber}"
     context.screenSize = "#{screen?.width ? $(window).width()} x #{screen?.height ? $(window).height()}"

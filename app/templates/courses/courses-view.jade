@@ -11,7 +11,7 @@ block content
             p We are transitioning to a new classroom management system; this page will soon be student-only.
             a(href="/teachers/classes") Go to teachers area.
 
-        #main-content
+        #main-content(dir="auto")
           if me.isAnonymous()
 
             h1.text-center(data-i18n="courses.welcome_to_courses")
@@ -43,7 +43,7 @@ block content
             .current-hero-container.text-center.row
               .hero-avatar
                 img(src=view.hero.getPortraitURL())
-              .current-hero-right-col
+              .current-hero-right-col.rtl-allowed
                 .semibold.current-hero-text
                   span.spr(data-i18n="courses.current_hero")
                   span.current-hero-name= view.hero.getHeroShortName()
@@ -62,8 +62,8 @@ block content
                   #just-added-text.text-center(data-i18n="courses.class_added")
 
                 //- sigh
-                div(class=classroomClass)
-                  h5
+                div(class=classroomClass).rtl-allowed
+                  h5(dir="auto")
                     span.spr= classroom.get('name')
                     span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
                   p
@@ -75,7 +75,7 @@ block content
                   - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
                   for courseInstance in courseInstances
 
-                    .course-instance-entry
+                    .course-instance-entry.rtl-allowed
                       - var course = view.courses.get(courseInstance.get('courseID'));
                       h6
                         span.spr= i18n(course.attributes, 'name')
@@ -140,7 +140,10 @@ mixin course-instance-body(courseInstance, classroom)
     div
       span(data-i18n="courses.last_level")
       span : #{stats.levels.lastPlayedNumber}.
-      span.spl= stats.levels.lastPlayed.get('name')
+      - var levelNameEnglish = stats.levels.lastPlayed.get('name');
+      - var levelWithI18N = view.originalLevelMap[stats.levels.lastPlayed.get('original')];
+      - var levelName = levelWithI18N ? i18n(levelWithI18N.attributes, 'name') : levelNameEnglish;
+      span.spl= levelName || levelNameEnglish
 
   .clearfix
   .progress

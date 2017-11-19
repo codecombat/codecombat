@@ -85,9 +85,7 @@ module.exports = class User extends CocoModel
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
   isSessionless: ->
-    # TODO: Fix old users who got mis-tagged as teachers
-    # TODO: Should this just be isTeacher, eventually?
-    Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false))
+    Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
   setRole: (role, force=false) ->
     oldRole = @get 'role'

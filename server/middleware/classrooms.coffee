@@ -15,6 +15,7 @@ parse = require '../commons/parse'
 LevelSession = require '../models/LevelSession'
 User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
+Prepaid = require '../models/Prepaid'
 TrialRequest = require '../models/TrialRequest'
 sendwithus = require '../sendwithus'
 co = require 'co'
@@ -142,6 +143,77 @@ module.exports =
     memberObjects = (member.toObject({ req: req, includedPrivates: ["name", "email", "firstName", "lastName", "coursePrepaid", "coursePrepaidID"] }) for member in members)
 
     res.status(200).send(memberObjects)
+
+  checkIsAutoRevokable: wrap (req, res, next) ->
+    userID = req.params.memberID
+    throw new errors.UnprocessableEntity('Member ID must be a MongoDB ID') unless utils.isID(userID)
+    try
+      classroom = yield Classroom.findById req.params.classroomID
+    catch err
+      throw new errors.InternalServerError('Error finding classroom by ID: ' + err)
+    throw new errors.NotFound('No classroom found with that ID') if not classroom
+    if not _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
+      throw new errors.Forbidden()
+    ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id'))
+    unless ownsClassroom
+      throw new errors.Forbidden()
+
+    try
+      otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
+    catch err
+      throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
+  
+    # If the student is being removed from their very last classroom, unenroll them
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
+    if user.isEnrolled() and otherClassrooms.length is 0
+      # log.debug "User removed from their last classroom; auto-revoking:", userID
+      prepaid = yield Prepaid.findOne({ type: "course", "redeemers.userID": mongoose.Types.ObjectId(userID) })
+      if prepaid
+        if not prepaid.canBeUsedBy(req.user._id)
+          return res.status(200).send({ willRevokeLicense: false })
+
+        # This logic is slightly different than the removing endpoint,
+        # since we don't want to tell a teacher it will be revoked unless it's *their* license
+        return res.status(200).send({ willRevokeLicense: true })
+
+    return res.status(200).send({ willRevokeLicense: false })
+
+  deleteMember: wrap (req, res, next) ->
+    userID = req.params.memberID
+    throw new errors.UnprocessableEntity('Member ID must be a MongoDB ID') unless utils.isID(userID)
+    try
+      classroom = yield Classroom.findById req.params.classroomID
+    catch err
+      throw new errors.InternalServerError('Error finding classroom by ID: ' + err)
+    throw new errors.NotFound('No classroom found with that ID') if not classroom
+    if not _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
+      throw new errors.Forbidden()
+    ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id'))
+    unless ownsClassroom
+      throw new errors.Forbidden()
+
+    try
+      otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
+    catch err
+      throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
+  
+    # If the student is being removed from their very last classroom, unenroll them
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
+    if user.isEnrolled() and otherClassrooms.length is 0
+      # log.debug "User removed from their last classroom; auto-revoking:", userID
+      prepaid = yield Prepaid.findOne({ type: "course", "redeemers.userID": mongoose.Types.ObjectId(userID) })
+      if prepaid
+        yield prepaid.revoke(user)
+
+    members = _.clone(classroom.get('members'))
+    members = (m for m in members when m.toString() isnt userID)
+    classroom.set('members', members)
+    try
+      classroom = yield classroom.save()
+    catch err
+      console.log err
+      throw new errors.InternalServerError(err)
+    res.status(200).send(classroom.toObject())
 
   fetchPlaytimes: wrap (req, res, next) ->
     # For given courseID, returns array of course/level IDs and slugs, and an array of recent level sessions

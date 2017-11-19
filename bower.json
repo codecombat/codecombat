@@ -29,7 +29,7 @@
     "jquery-mousewheel": "~3.1.9",
     "i18next": "https://github.com/nwinter/i18next.git",
     "marked": "~0.3.0",
-    "moment": "~2.5.0",
+    "moment": "~2.19.0",
     "aether": "~0.5.21",
     "underscore.string": "~2.3.3",
     "d3": "~3.4.4",
@@ -110,7 +110,7 @@
       ]
     },
     "moment": {
-      "main": "min/moment-with-langs.min.js"
+      "main": "min/moment-with-locales.min.js"
     }
   },
   "devDependencies": {

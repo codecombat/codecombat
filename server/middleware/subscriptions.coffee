@@ -15,6 +15,7 @@ StripeUtils = require '../lib/stripe_utils'
 slack = require '../slack'
 paypal = require '../lib/paypal'
 {isProduction} = require '../../server_config'
+sendwithus = require '../sendwithus'
 
 subscribeWithPrepaidCode = expressWrap (req, res) ->
   { ppc } = req.body
@@ -197,6 +198,15 @@ updateUser = co.wrap (req, user, customer, subscription, increment) ->
     user.set('purchased', purchased)
 
   yield user.save()
+
+  context =
+    email_id: sendwithus.templates.subscription_welcome_email
+    recipient:
+      address: user.get('email')
+  try
+    yield sendwithus.api.sendAsync(context)
+  catch err
+    log.error("new Stripe subscription sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
 
 unsubscribeUser = co.wrap (req, user, updateReqBody=true) ->
   stripeInfo = _.cloneDeep(user.get('stripe') ? {})
@@ -413,6 +423,15 @@ executePayPalBillingAgreement = expressWrap (req, res) ->
     req.user.set('purchased', purchased)
 
     yield req.user.save()
+
+    context =
+      email_id: sendwithus.templates.subscription_welcome_email
+      recipient:
+        address: req.user.get('email')
+    try
+      yield sendwithus.api.sendAsync(context)
+    catch err
+      log.error("new PayPal subscription sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
 
     return res.send(billingAgreement)
   catch e

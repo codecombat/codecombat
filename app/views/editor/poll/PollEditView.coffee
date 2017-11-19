@@ -120,7 +120,7 @@ module.exports = class PollEditView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          applicaton.router.navigate '/editor/poll', trigger: true
+          application.router.navigate '/editor/poll', trigger: true
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR

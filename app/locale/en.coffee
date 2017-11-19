@@ -117,6 +117,8 @@
 
   play:
     play_as: "Play As"  # Ladder page
+    get_course_for_class: "Assign Game Development and more to your classes!"
+    request_licenses: "Contact our school specialists for details."
     compete: "Compete!" # Course details page
     spectate: "Spectate"  # Ladder page
     players: "players"  # Hover over a level on /play
@@ -229,10 +231,12 @@
     signup_switch: "Want to create an account?"
 
   signup:
+    complete_subscription: "Complete Subscription"
     create_student_header: "Create Student Account"
     create_teacher_header: "Create Teacher Account"
     create_individual_header: "Create Individual Account"
     email_announcements: "Receive announcements about new CodeCombat levels and features!"
+    sign_in_to_continue: "Sign in or create an account to continue"
     teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Creating Account..."
     sign_up: "Sign Up"
@@ -595,6 +599,7 @@
 
   play_game_dev_level:
     created_by: "Created by {{name}}"
+    created_during_hoc: "Created during Hour of Code"
     restart: "Restart Level"
     play: "Play Level"
     play_more_codecombat: "Play More CodeCombat"
@@ -1344,6 +1349,7 @@
     are_you_sure: "Are you sure you want to remove this student from this class?"
     remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
     remove_description2: "The activated paid license will not be returned."
+    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Keep Student"
     removing_user: "Removing user"
     subtitle: "Review course overviews and levels" # Flat style redesign
@@ -1432,6 +1438,7 @@
 
   teacher:
     assigning_course: "Assigning course"
+    removing_course: "Removing course"
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
@@ -1503,13 +1510,14 @@
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
     assign_course: "Assign Course"
+    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+    remove_course: "Remove Course"
     not_assigned_modal_title: "Courses were not assigned"
     not_assigned_modal_starter_body_1: "This course requires a Starter License. You do not have enough Starter Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_starter_body_2: "Purchase Starter Licenses to grant access to this course."
     not_assigned_modal_full_body_1: "This course requires a Full License. You do not have enough Full Licenses available to assign this course to all __selected__ selected students."
     not_assigned_modal_full_body_2: "You only have __numFullLicensesAvailable__ Full Licenses available (__numStudentsWithoutFullLicenses__ students do not currently have a Full License active)."
     not_assigned_modal_full_body_3: "Please select fewer students, or reach out to __supportEmail__ for assistance."
-    assign_to_selected_students: "Assign to Selected Students"
     assigned: "Assigned"
     enroll_selected_students: "Enroll Selected Students"
     no_students_selected: "No students were selected."
@@ -1605,6 +1613,9 @@
     gd2: "Game Development 2"
     gd2_curriculum: "Game Development 2 - Curriculum Guide"
     gd2_curriculum_desc: "Lesson plans for Game Development 2."
+    gd3: "Game Development 3"
+    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web Development 1"
     wd1_headlines: "Headlines & Headers Activity"
     wd1_headlines_example: "View sample solution"

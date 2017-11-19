@@ -119,7 +119,7 @@ module.exports = class RootView extends CocoView
 
     if title = @getTitle() then title += ' | CodeCombat'
     else title = 'CodeCombat - Learn how to code by playing a game'
-    
+
     if localStorage?.showViewNames
       title = @constructor.name
 
@@ -144,7 +144,7 @@ module.exports = class RootView extends CocoView
     genericCodes = _.filter codes, (code) ->
       _.find(codes, (code2) ->
         code2 isnt code and code2.split('-')[0] is code)
-    for code, localeInfo of locale when code not in ['update', 'installVueI18n'] and (not (code in genericCodes) or code is initialVal)
+    for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
       $select.append(
         $('<option></option>').val(code).text(localeInfo.nativeDescription))
       if code is 'fr'

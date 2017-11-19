@@ -31,7 +31,7 @@ module.exports = class RelatedAchievementsView extends CocoView
   onNewAchievementSaved: (achievement) ->
     # We actually open the new tab in NewAchievementModal, so we don't replace this window.
     #url = '/editor/achievement/' + (achievement.get('slug') or achievement.id)
-    #applicaton.router.navigate(, {trigger: true})  # Let's open a new tab instead.
+    #application.router.navigate(, {trigger: true})  # Let's open a new tab instead.
 
   makeNewAchievement: ->
     modal = new NewAchievementModal model: Achievement, modelLabel: 'Achievement', level: @level

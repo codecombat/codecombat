@@ -94,8 +94,10 @@ module.exports = class SegmentCheckView extends CocoView
         age = (new Date().getTime() - @signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
         if age > 13
           @trigger 'nav-forward'
+          window.tracker?.trackEvent 'CreateAccountModal Individual SegmentCheckView Submit', category: 'Individuals'
         else
           @trigger 'nav-forward', 'coppa-deny'
+          window.tracker?.trackEvent 'CreateAccountModal Individual SegmentCheckView Coppa Deny', category: 'Individuals'
 
   fetchClassByCode: (classCode) ->
     if not classCode

@@ -10,7 +10,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     classroom_in_a_box: "Egy mindent-egyben megoldás programozás tanításra."
     codecombat_is: "A CodeCombat a diákoknak egy olyan platform, melyben programozni tanulnak, miközben egy igazi játékot játszanak." # {change}
     our_courses: "Kurzusaink osztálytermi keretek közötti oktatásra kiválóan alkalmasak, akár informatikában kevésbé jártas tanárok számára is." # {change}
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Nézd meg hogyan alakítja át a CodeCombat az emberek tanuási módját a számítástechnikát illetően."
     top_screenshots_hint: "A tanulók valós időben láthatják a beírt kód működését."
     designed_with: "Tanárok igényeihez tervezve"
     real_code: "Valódi, beírandó kódolás"
@@ -137,7 +137,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     buy_gems: "Vásárolj Drágköveket"
     subscription_required: "Előfizetést igényel"
-#    subscribers_only: "Subscribers Only!"
+    subscribers_only: "Csak előfizetőknek!"
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
@@ -146,15 +146,15 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     play_classroom_version: "Osztálytermi változat" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "Kezdő Kampány"
     awaiting_levels_adventurer_prefix: "Minden héten öt új pályát teszünk elérhetővé." # {change}
-    awaiting_levels_adventurer: "Jelentkezz fel mint Kalandor"
+    awaiting_levels_adventurer: "Jelentkezz mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új pályákon játszik."
     adjust_volume: "Hangerő beállítása"
     campaign_multiplayer: "Multiplayer Arénák"
     campaign_multiplayer_description: "... amelyekben a kódod felveheti a versenyt más játékosok kódjával"
-#    brain_pop_done: "You’ve defeated the Ogres with code! You win!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
+    brain_pop_done: "Legyőzted az Ogrékat a programkódoddal! Győztél!"
+    brain_pop_challenge: "Tedd próbára magad újra, egy másik programnyelvet használva!"
+    replay: "Újra"
+    back_to_classroom: "Vissza az Osztályterembe"
 
   code:
     if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -324,13 +324,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    go_back: "Go Back"
     coming_soon: "Hamarosan!"
     continue: "Folytasd" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Következő"
     default_code: "Alapértelmezett kód"
     loading: "Töltés..."
     overview: "Áttekintés"
-#    processing: "Processing..."
+    processing: "Feldolgozás..."
     solution: "Megoldás"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Tartalomjegyzék"
     intro: "Bevezető"
     saving: "Mentés..."
     sending: "Küldés..."
@@ -352,7 +352,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     submit_changes: "Változások véglegesítése"
     save_changes: "Változások mentése"
     required_field: "kötelező"
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Adj meg egy érvényes telefonszámot"
 
   general:
     and: "és"
@@ -408,9 +408,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     last_name: "Családnév"
     last_initial: "Családnév kezdőbetűje"
     username: "Felhasználónév"
-#    contact_us: "Contact Us"
-#    close_window: "Close Window"
-#    learn_more: "Learn More"
+    contact_us: "Írj nekünk"
+    close_window: "Ablak bezárása"
+    learn_more: "Tudj meg többet"
 
   units:
     second: "másodperc"
@@ -429,12 +429,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     years: "évek"
 
   play_level:
-#    back_to_map: "Back to Map"
-#    directions: "Directions"
-#    edit_level: "Edit Level"
-#    explore_codecombat: "Explore CodeCombat"
+    back_to_map: "Vissza a térképhez"
+    directions: "Irányok"
+    edit_level: "Pálya szerkesztése"
+    explore_codecombat: "Fedezd fel a CodeCombat-ot"
 #    finished_hoc: "I'm finished with my Hour of Code"
-#    get_certificate: "Get your certificate!"
+    get_certificate: "Szerezd meg az okleveled!"
     level_complete: "Szint teljesítve"
     completed_level: "Teljesített pálya:"
     course: "Kurzus:"
@@ -649,13 +649,13 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     prompt_button: "Lépj be a boltba"
     recovered: "Az előző drágakő vásárlás helyreállt. Kérlek frissítsd az oldalt."
     price: "x {{gems}} / hó"
-#    buy_premium: "Buy Premium"
-#    purchase: "Purchase"
-#    purchased: "Purchased"
+    buy_premium: "Vegyél Premium tagságot"
+    purchase: "Vásárlás"
+    purchased: "Megvetted"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "Nincs elég drágaköved"
+    prompt_body: "Játssz tovább, hogy szerezz még!"
 
   subscribe:
 #    best_deal: "Best Deal!"
@@ -2332,27 +2332,27 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
 #    body: "You are now on your way to becoming a master coder. Sign up to receive an extra <strong>100 Gems</strong> & you will also be entered for a chance to <strong>win $2,500 & other Lenovo Prizes</strong>."
-#    sign_up: "Sign up & keep coding ▶"
-#    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
-#    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
+#    sign_up: "Regisztrálj és folytasd a tanulást ▶"
+#    victory_sign_up_poke: "Regisztrálj ingyenesen, hogy elmenthesd az eddig írt programodat, és hogy esélyed legyen díjakat nyerni!"
+#    victory_sign_up: "Regisztrálj, hogy megnyerhesd a <strong>a $2,500-os</strong> díjat"
 
-#  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+  server_error:
+    email_taken: "Ezzel az e-mail címmel már regisztráltak."
+    username_taken: "A felhasználó név már foglalt."
 
-#  esper:
-#    line_no: "Line $1: "
-#    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
-#    reference_error: "ReferenceError: "
-#    argument_error: "ArgumentError: "
-#    type_error: "TypeError: "
-#    syntax_error: "SyntaxError: "
-#    error: "Error: "
-#    x_not_a_function: "$1 is not a function"
-#    x_not_defined: "$1 is not defined"
-#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
-#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
-#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
+  esper:
+    line_no: "Sorszám $1:"
+    uncaught: "Nem kezelt $1" # $1 will be an error type, eg "Uncaught SyntaxError"
+    reference_error: "Referencia hiba (ReferenceError): "
+    argument_error: "Argumentum hiba (ArgumentError): "
+    type_error: "Típus hiba (TypeError): "
+    syntax_error: "Szintaxis hiba (SyntaxError): "
+    error: "Hiba (Error): "
+    x_not_a_function: "$1 nem függvény"
+    x_not_defined: "$1 nem definiált"
+    spelling_issues: "Nézz körül, elgépeltél valamit: esetleg `$1` -re gondoltál, `$2` helyett?"
+    capitalization_issues: "Nézz körül kis-nagybetű hiba miatt: `$1` helyett `$2` -re lenne szükség."
+    py_empty_block: "$1 üres. Tegyél 4 szóközt az utasítások elé $2 utasítás alatt."
 #    fx_missing_paren: "If you want to call `$1` as a function, you need `()`'s"
 #    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
 #    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."
@@ -2410,11 +2410,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
 #    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
 #    hero_has_no_method: "`$1` has no method `$2`."
-#    there_is_a_problem: "There is a problem with your code."
+    there_is_a_problem: "Valamilyen hiba van a programodban."
 #    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
-#    missing_a_quotation_mark: "Missing a quotation mark. "
+    missing_a_quotation_mark: "Hiányzó idézőjel. "
 #    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
 #    you_do_not_have: "You do not have an item equipped with the $1 skill."
-#    put_each_command_on: "Put each command on a separate line"
+    put_each_command_on: "Helyezz minden utasítást külön sorba"
 #    are_you_missing_a: "Are you missing a '$1' after '$2'? "
 #    your_parentheses_must_match: "Your parentheses must match."

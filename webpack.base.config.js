@@ -24,7 +24,6 @@ module.exports = (env) => {
         './app/lib/worldLoader',
         './app/core/CocoClass.coffee',
         './app/core/utils.coffee',
-        './vendor/scripts/Box2dWeb-2.1.a.3',
         './vendor/scripts/string_score.js',
         './bower_components/underscore.string',
         './vendor/scripts/coffeescript.js',

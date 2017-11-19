@@ -1,0 +1,26 @@
+@font-face {
+  font-family: 'Cousine';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Cousine'), local('Cousine Regular'), url(cousine/Cousine-Regular.ttf) format('truetype');
+}
+/*
+@font-face {
+  font-family: 'Cousine';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Cousine Italic'), local('Cousine-Italic'), url(cousine/Cousine-Italic.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Cousine';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Cousine Bold'), local('Cousine-Bold'), url(cousine/Cousine-Bold.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Cousine';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Cousine Bold Italic'), local('Cousine-BoldItalic'), url(cousine/Cousine-BoldItalic.ttf) format('truetype');
+}
+*/

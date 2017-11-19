@@ -16,6 +16,8 @@ CourseInstance = require '../models/CourseInstance'
 facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
+Campaign = require '../models/Campaign'
+Course = require '../models/Course'
 Achievement = require '../models/Achievement'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
@@ -404,7 +406,7 @@ module.exports =
     unless req.user.isAdmin()
       throw new errors.Forbidden()
 
-    projection = name: 1, email: 1, dateCreated: 1, role: 1
+    projection = name: 1, email: 1, dateCreated: 1, role: 1, firstName: 1, lastName: 1
 
     search = adminSearch
     query = {
@@ -449,8 +451,19 @@ module.exports =
         users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).limit(50).select(projection))
 
     users = _.uniq(users, false, (u) -> u.id)
-
-    res.send(users)
+    
+    teachers = (user for user in users when user?.isTeacher())
+    trialRequests = yield TrialRequest.find({applicant: $in: (teacher._id for teacher in teachers)})
+    trialRequestMap = _.zipObject([t.get('applicant').toString(), t.toObject()] for t in trialRequests)
+    
+    toSend = _.map(users, (user) =>
+      userObject = user.toObject()
+      trialRequest = trialRequestMap[user.id]
+      if trialRequest
+        userObject._trialRequest = _.pick(trialRequest.properties, 'organization', 'district', 'nces_name', 'nces_district')
+      return userObject
+    )    
+    res.send(toSend)
 
 
   sphinxSearch: co.wrap (req, search) ->
@@ -536,3 +549,33 @@ module.exports =
     
     res.redirect(combinedPhotoURL)
     res.end()
+
+
+  getCourseInstances: wrap (req, res) ->
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found')
+      
+    unless req.user.isAdmin() or req.user.id is user.id
+      throw new errors.Forbidden()
+      
+    if user.isTeacher()
+      query = { ownerID: req.user._id }
+    else
+      query = { members: req.user._id }
+      
+    if req.query.campaignSlug
+      campaign = yield Campaign.findBySlug(req.query.campaignSlug).select({_id:1})
+      if not campaign
+        throw new errors.NotFound('Campaign not found')
+
+      campaignID = campaign._id
+      course = yield Course.findOne({ campaignID }).select({_id: 1})
+      query.courseID = course._id
+      
+    dbq = CourseInstance.find(query)
+    dbq.limit(parse.getLimitFromReq(req))
+    dbq.skip(parse.getSkipFromReq(req))
+    dbq.select(parse.getProjectFromReq(req))
+    courseInstances = yield dbq.exec()
+    res.status(200).send(ci.toObject({req}) for ci in courseInstances)

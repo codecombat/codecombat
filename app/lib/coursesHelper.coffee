@@ -7,7 +7,7 @@ module.exports =
   #   the levels in that course
   calculateDots: (classrooms, courses, courseInstances) ->
     userLevelsCompleted = {}
-    sessions = _.flatten (classroom.sessions.models for classroom in classrooms.models)
+    sessions = _.flatten (classroom.sessions?.models || [] for classroom in classrooms.models)
     for session in sessions
       user = session.get 'creator'
       userLevelsCompleted[user] ?= {}

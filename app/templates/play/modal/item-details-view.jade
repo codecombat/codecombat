@@ -1,6 +1,6 @@
 
 #item-title
-  h2.one-line.big-font= item ? item.name : ''
+  h2.one-line.big-font(dir="auto")= item ? item.name : ''
 
 #item-details-body
   if item
@@ -20,7 +20,7 @@
             img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
 
         if item.description
-          .item-description= item.description
+          .item-description(dir="auto")= item.description
 
         if !me.isStudent()
           if props.length

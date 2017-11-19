@@ -5,6 +5,7 @@ database = require '../commons/database'
 mongoose = require 'mongoose'
 AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
 TrialRequest = require '../models/TrialRequest'
+Campaign = require '../models/Campaign'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
 Course = require '../models/Course'
@@ -57,6 +58,7 @@ module.exports =
     if not (course.get('free') or userPrepaidsIncludeCourse)
       throw new errors.PaymentRequired('Cannot add users to a course instance until they are added to a prepaid that includes this course')
 
+    # Update the course to latest if nobody is in it yet
     unless courseInstance.get('members')?.length
       {oldCourseCount, newCourseCount, oldLevelCount, newLevelCount} = yield classroom.setUpdatedCourse({courseId})
       database.validateDoc(classroom)
@@ -83,6 +85,53 @@ module.exports =
 
     res.status(200).send(courseInstance.toObject({ req }))
 
+  removeMembers: wrap (req, res) ->
+    if req.body.userID
+      userIDs = [req.body.userID]
+    else if req.body.userIDs
+      userIDs = req.body.userIDs
+    else
+      throw new errors.UnprocessableEntity('Must provide userID or userIDs')
+
+    for userID in userIDs
+      unless _.all userIDs, database.isID
+        throw new errors.UnprocessableEntity('Invalid list of user IDs')
+
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+    courseId = courseInstance.get('courseID')
+
+    classroom = yield Classroom.findById courseInstance.get('classroomID')
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+
+    classroomMembers = (userID.toString() for userID in classroom.get('members'))
+    unless _.all(userIDs, (userID) -> _.contains classroomMembers, userID)
+      throw new errors.Forbidden('Users must be members of classroom')
+
+    ownsClassroom = classroom.get('ownerID').equals(req.user._id)
+    removingSelf = userIDs.length is 1 and userIDs[0] is req.user.id
+    unless ownsClassroom or removingSelf
+      throw new errors.Forbidden('You must own the classroom to remove members')
+
+    course = yield Course.findById courseId
+    throw new errors.NotFound('Course referenced by course instance not found') unless course
+    
+    userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
+
+    courseInstance = yield CourseInstance.findByIdAndUpdate(
+      courseInstance._id,
+      { $pull: { members: { $in: userObjectIDs } } }
+      { new: true }
+    )
+
+    userUpdateResult = yield User.update(
+      { _id: { $in: userObjectIDs } },
+      { $pull: { courseInstances: courseInstance._id } }
+    )
+    
+    res.status(200).send(courseInstance.toObject({ req }))
 
   fetchNextLevel: wrap (req, res) ->
     unless req.user? then return res.status(200).send({})

@@ -26,14 +26,14 @@ module.exports = class AchievementEditView extends RootView
     @achievement = new Achievement(_id: @achievementID)
     @achievement.saveBackups = true
     @supermodel.trackRequest @achievement.fetch()
-    
+
     # load level names so they're available to treema nodes
     @listenToOnce @achievement, 'sync', ->
       for levelOriginal in @achievement.get('rewards')?.levels ? []
         level = new Level()
         @supermodel.trackRequest level.fetchLatestVersion(levelOriginal, {data: {project:'name,version,original'}})
         level.once 'sync', (level) => @supermodel.registerModel(level)
-        
+
     @pushChangesToPreview = _.throttle(@pushChangesToPreview, 500)
 
   onLoaded: ->
@@ -157,7 +157,7 @@ module.exports = class AchievementEditView extends RootView
           type: 'success'
           layout: 'topCenter'
         _.delay ->
-          applicaton.router.navigate '/editor/achievement', trigger: true
+          application.router.navigate '/editor/achievement', trigger: true
         , 500
       error: (jqXHR, status, error) ->
         console.error jqXHR

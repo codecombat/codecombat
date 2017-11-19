@@ -13,7 +13,6 @@ module.exports = class DiplomatView extends ContributeClassView
     @languageStats = {}
     Object.keys(locale).forEach (languageCode) =>
       console.log "processing #{languageCode}"
-      return if languageCode in ['update', 'load', 'installVueI18n', 'storeLoadedLanguage']
       language = locale[languageCode]
       @languageStats[languageCode] = {
         githubURL: "https://github.com/codecombat/codecombat/blob/master/app/locale/#{languageCode}.coffee"

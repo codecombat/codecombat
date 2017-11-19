@@ -9,24 +9,24 @@ block modal-header-content
 
 block modal-body-content
   if victoryText
-    #victory-text= victoryText
+    #victory-text(dir="auto")= victoryText
 
   if isCourseLevel
     .course-name-container
       if currentCourseName
         p
           span.spr.level-title(data-i18n="play_level.course")
-          span.level-name= currentCourseName
+          span.level-name(dir="auto")= currentCourseName
     .container-fluid
       .row
         .col-md-6
           if currentLevelName
             .level-title(data-i18n="play_level.completed_level")
-            .level-name= currentLevelName.replace('Course: ', '')
+            .level-name(dir="auto")= currentLevelName.replace('Course: ', '')
         .col-md-6
           if nextLevelName
             .level-title(data-i18n="play_level.next_level")
-            .level-name= nextLevelName.replace('Course: ', '')
+            .level-name(dir="auto")= nextLevelName.replace('Course: ', '')
           else
             .level-title(data-i18n="play_level.course")
             .level-name(data-i18n="play_level.victory_title_suffix")
@@ -34,7 +34,7 @@ block modal-body-content
     br
 
   #level-feedback
-    div.rating.secret
+    div.rating.secret.rtl-allowed
       div.rating-label(data-i18n="play_level.victory_rate_the_level") Rate the level:
       i.glyphicon.glyphicon-star-empty
       i.glyphicon.glyphicon-star-empty
@@ -56,7 +56,7 @@ block modal-body-content
       .achievement-panel(class=achievement.completedAWhileAgo ? 'earned' : '' data-achievement-id=achievement.id data-animate=animate)
         - var rewards = achievement.get('rewards') || {};
 
-        div.achievement-description= achievement.description
+        div.achievement-description(dir="auto")= achievement.description
 
         div.achievement-rewards
           - var worth = achievement.worth;
@@ -84,7 +84,7 @@ block modal-body-content
                 if animate
                   .reward-text(data-i18n="play_level.victory_new_hero") New Hero
                 else
-                  .reward-text= i18n(hero.attributes, 'name')
+                  .reward-text(dir="auto")= i18n(hero.attributes, 'name')
 
           if rewards.items
             for item in rewards.items
@@ -98,14 +98,14 @@ block modal-body-content
                   if animate
                     .reward-text(data-i18n="play_level.victory_new_item") New Item
                   else
-                    .reward-text= i18n(item.attributes, 'name')
+                    .reward-text(dir="auto")= i18n(item.attributes, 'name')
 
 
 block modal-footer-content
   #totals
     .total-wrapper#xp-wrapper
       .total-count#xp-total 0
-      .total-label
+      .total-label.rtl-allowed
         span.spr(data-i18n="play_level.victory_experience_gained") XP Gained
         | -
         span.spl.spr(data-i18n="general.player_level") Level
@@ -146,7 +146,7 @@ block modal-footer-content
       .sign-up-poke.hide
         .sign-up-blurb(data-i18n="play_level.victory_sign_up_poke")
         button.btn.btn-illustrated.btn-warning.sign-up-button.btn-lg(data-dismiss="modal", data-i18n="play_level.victory_sign_up")
-  else if !me.isPremium() && !me.freeOnly() && !showHourOfCodeDoneButton
+  else if !me.isPremium() && !me.freeOnly() && !showHourOfCodeDoneButton && !application.getHocCampaign()
     button.btn.subscribe-button(data-dismiss="modal", data-i18n="subscribe.subscribe_title")
 
   button.btn.btn-illustrated.btn-lg.btn-warning.hide#saving-progress-label(disabled, data-i18n="play_level.victory_saving_progress") Saving Progress
