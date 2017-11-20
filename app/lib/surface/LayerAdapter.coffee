@@ -279,7 +279,11 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       builder.on 'complete', @onBuildSpriteSheetComplete, @, true, builder
       @asyncBuilder = builder
     else
-      sheet = builder.build()
+      try
+        sheet = builder.build()
+      catch e
+        @resolutionFactor *= 0.9
+        return @_renderNewSpriteSheet(async)
       @onBuildSpriteSheetComplete({async:async}, builder)
       return sheet
 
