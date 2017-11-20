@@ -159,7 +159,12 @@ module.exports = class MyMatchesTabView extends CocoView
       }
 
     x.domain(d3.extent(data, (d) -> d.date))
-    y.domain(d3.extent(data, (d) -> d.close))
+    [yMin, yMax] = d3.extent(data, (d) -> d.close)
+    yRange = yMax - yMin
+    yMid = yMin + yRange / 2
+    yMin = Math.min yMin, yMid - 500
+    yMax = Math.max yMax, yMid + 500
+    y.domain([yMin, yMax])
 
     svg.append('g')
       .attr('class', 'y axis')
