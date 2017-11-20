@@ -20,13 +20,14 @@ GameDevTrackView = require './GameDevTrackView'
 api = require 'core/api'
 
 require 'lib/game-libraries'
+window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 
 TEAM = 'humans'
 
 module.exports = class PlayGameDevLevelView extends RootView
   id: 'play-game-dev-level-view'
   template: require 'templates/play/level/play-game-dev-level-view'
-  
+
   subscriptions:
     'god:new-world-created': 'onNewWorld'
     'surface:ticked': 'onSurfaceTicked'
@@ -46,6 +47,9 @@ module.exports = class PlayGameDevLevelView extends RootView
       isOwner: false
     })
 
+    if utils.getQueryVariable 'dev'
+      @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
+        model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
     @supermodel.on 'update-progress', (progress) =>
       @state.set({progress: (progress*100).toFixed(1)+'%'})
     @level = new Level()
@@ -106,14 +110,15 @@ module.exports = class PlayGameDevLevelView extends RootView
       @renderSelectors '#info-col'
       @spells = aetherUtils.generateSpellsObject level: @level, levelSession: @session
       goalNames = (utils.i18n(goal, 'name') for goal in @goalManager.goals)
-      
+
       course = if @courseID then new Course({_id: @courseID}) else null
       shareURL = urls.playDevLevel({@level, @session, course})
-      
+
       creatorString = if @session.get('creatorName')
         $.i18n.t('play_game_dev_level.created_by').replace('{{name}}', @session.get('creatorName'))
       else
         $.i18n.t('play_game_dev_level.created_during_hoc')
+
       @state.set({
         loading: false
         goalNames
@@ -130,8 +135,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
-      sessionDb = @session.get('keyValueDb') ? {}
-      @god.createWorld(@spells, false, false, true, sessionDb)
+      worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
+      @god.createWorld(worldCreationOptions)
 
     .catch (e) =>
       throw e if e.stack
@@ -148,8 +153,8 @@ module.exports = class PlayGameDevLevelView extends RootView
     }
 
   onClickPlayButton: ->
-    sessionDb = @session.get('keyValueDb') ? {}
-    @god.createWorld(@spells, false, true, false, sessionDb)
+    worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
+    @god.createWorld(worldCreationOptions)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
     Backbone.Mediator.publish('level:set-playing', {playing: true})
     action = if @state.get('playing') then 'Play GameDev Level - Restart Level' else 'Play GameDev Level - Start Level'
@@ -163,10 +168,10 @@ module.exports = class PlayGameDevLevelView extends RootView
 
   onClickPlayMoreCodeCombatButton: ->
     window.tracker?.trackEvent('Play GameDev Level - Click Play More CodeCombat', @eventProperties, ['Mixpanel'])
-    
+
   onSurfaceResize: ({height}) ->
     @state.set('surfaceHeight', height)
-    
+
   renderAllButCanvas: ->
     @renderSelectors('#info-col', '#share-row')
     height = @state.get('surfaceHeight')
@@ -193,7 +198,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     @updateDb()
 
   updateDb: ->
-    return unless @state.get('playing')
+    return unless @state?.get('playing')
     if @surface.world.keyValueDb and not _.isEqual(@surface.world.keyValueDb, @session.attributes.keyValueDb)
       @session.updateKeyValueDb(_.cloneDeep(@surface.world.keyValueDb))
       @session.saveKeyValueDb()

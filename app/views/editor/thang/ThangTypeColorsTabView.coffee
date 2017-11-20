@@ -54,7 +54,7 @@ module.exports = class ThangTypeColorsTabView extends CocoView
   initStage: ->
     canvas = @$el.find('#tinting-display')
     @stage = new createjs.Stage(canvas[0])
-    createjs.Ticker.setFPS 20
+    createjs.Ticker.framerate = 20
     createjs.Ticker.addEventListener('tick', @stage)
     @updateMovieClip()
 

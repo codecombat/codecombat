@@ -170,6 +170,7 @@ module.exports = class TomeView extends CocoView
       @spells,
       preload,
       realTime,
+      synchronous: @options.level.isType('game-dev') and not justBegin,
       justBegin,
       difficulty,
       submissionCount: sessionState.submissionCount ? 0,
