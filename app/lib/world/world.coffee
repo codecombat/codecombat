@@ -283,7 +283,7 @@ module.exports = class World
 
     # Load new Thangs
     toAdd = (@loadThangFromLevel thangConfig, level.levelComponents, level.thangTypes for thangConfig in level.thangs ? [])
-    @extraneousThangs = consolidateThangs toAdd if willSimulate and not @synchronosu  # Combine walls, for example; serialize the leftovers later
+    @extraneousThangs = consolidateThangs toAdd if willSimulate and not @synchronous  # Combine walls, for example; serialize the leftovers later
     @addThang thang for thang in toAdd
     null
 
