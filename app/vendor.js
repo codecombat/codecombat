@@ -1,3 +1,7 @@
+if (!window.Promise) {
+  window.Promise = require('promise-polyfill')
+}
+require('bower_components/fetch/fetch.js')
 global.$ = window.$ = global.jQuery = window.jQuery = require('jquery');
 window._ = require('lodash');
 window.Backbone = require('backbone');
@@ -10,7 +14,7 @@ window.marked = require('marked');
 require('bower_components/validated-backbone-mediator/backbone-mediator.js');
 window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
 import 'bower_components/treema/treema.css'
-window.moment = require('moment');
+window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
 window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');

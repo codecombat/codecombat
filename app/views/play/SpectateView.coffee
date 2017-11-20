@@ -203,6 +203,9 @@ module.exports = class SpectateLevelView extends RootView
     @surface.camera.setBounds(bounds)
     zoom = =>
       @surface.camera.zoomTo({x: (worldBounds.right - worldBounds.left) / 2, y: (worldBounds.top - worldBounds.bottom) / 2}, 0.1, 0)
+      if @level.get('name') is 'Escort Duty'
+        @surface.camera.setBounds [{x: -7, y: -5}, {x: 87, y: 75}]
+        @surface.camera.zoomTo null, 0.1, 0
     _.delay zoom, 4000  # call it later for some reason (TODO: figure this out)
 
   findPlayerNames: ->

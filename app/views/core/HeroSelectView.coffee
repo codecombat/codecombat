@@ -25,10 +25,10 @@ module.exports = class HeroSelectView extends CocoView
       selectedHeroOriginal: currentHeroOriginal
     })
 
-    # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass'] })
+    # @heroes = new ThangTypes({}, { project: ['original', 'name', 'heroClass, 'slug''] })
     # @supermodel.trackRequest @heroes.fetchHeroes()
-    
-    api.thangTypes.getHeroes({ project: ['original', 'name', 'heroClass'] }).then (@heroes) =>
+
+    api.thangTypes.getHeroes({ project: ['original', 'name', 'heroClass', 'slug'] }).then (@heroes) =>
       @debouncedRender()
 
     @listenTo @state, 'all', -> @debouncedRender()
@@ -38,10 +38,10 @@ module.exports = class HeroSelectView extends CocoView
     heroOriginal = $(e.currentTarget).data('hero-original')
     @state.set selectedHeroOriginal: heroOriginal
     @saveHeroSelection(heroOriginal)
-    
+
   getPortraitURL: (hero) ->
     ThangTypeLib.getPortraitURL(hero)
-  
+
   getHeroShortName: (hero) ->
     ThangTypeLib.getHeroShortName(hero)
 

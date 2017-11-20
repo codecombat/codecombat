@@ -109,31 +109,10 @@ module.exports =
 
     unless prepaid.canBeUsedBy(req.user._id)
       throw new errors.Forbidden('You may not revoke enrollments you do not own.')
-    unless prepaid.get('type') is 'course'
-      throw new errors.Forbidden('This prepaid is not of type "course".')
-    if prepaid.get('endDate') and new Date(prepaid.get('endDate')) < new Date()
-      throw new errors.Forbidden('This prepaid is expired.')
-
+      
     user = yield User.findById(req.body?.userID)
-    if not user
-      throw new errors.NotFound('User not found.')
 
-    if not user.isEnrolled()
-      throw new errors.UnprocessableEntity('User to revoke must be enrolled first.')
-    if not _.any(prepaid.get('redeemers'), (obj) -> obj.userID.equals(user._id))
-      throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments')
-
-    query =
-      _id: prepaid._id
-      'redeemers.userID': { $eq: user._id }
-    update = { $pull: { redeemers : { userID: user._id } }}
-    result = yield Prepaid.update(query, update)
-    if result.nModified is 0
-      @logError(req.user, "POST prepaid redeemer lost race on maxRedeemers")
-      throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments (race)')
-
-    user.set('coursePrepaid', undefined)
-    yield user.save()
+    yield prepaid.revoke(user)
 
     # return prepaid with new redeemer added locally
     prepaid.set('redeemers', _.filter(prepaid.get('redeemers') or [], (obj) -> not obj.userID.equals(user._id)))

@@ -225,6 +225,8 @@ module.exports = class ThangType extends CocoModel
 
   getHeroShortName: -> ThangTypeLib.getHeroShortName(@attributes)
 
+  getGender: -> ThangTypeLib.getGender(@attributes)
+
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
     return null unless src

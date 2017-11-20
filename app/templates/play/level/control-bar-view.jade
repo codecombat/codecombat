@@ -1,4 +1,4 @@
-- var includeHomeLink = !((me.isStudent() || me.isTeacher()) && !view.course);
+- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course);
 if includeHomeLink
   .left-cap
 .right-cap
@@ -17,7 +17,7 @@ if includeHomeLink
     if view.course
       .level-label= i18n(view.course.attributes, 'name')
     .level-name(title=difficultyTitle || "")
-      span #{view.levelNumber ? view.levelNumber + '. ' : ''}#{worldName.replace('Course: ', '')}
+      span(dir="auto") #{view.levelNumber ? view.levelNumber + '. ' : ''}#{worldName.replace('Course: ', '')}
       if levelDifficulty
         sup.level-difficulty= levelDifficulty
 

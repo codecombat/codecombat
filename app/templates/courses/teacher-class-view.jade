@@ -29,8 +29,8 @@ block content
       - var elapsed = today.getTime()-created.getTime()
       
       if (elapsed/(1000*60*60*24) > 180)
-        .update-class
-          .alert.alert-info.text-center
+        .update-class.rtl-allowed
+          .alert.alert-info.text-center.rtl-allowed
             strong(data-i18n='courses.update_old_classroom') 
             .small-details.rtl-allowed
               span.spr(data-i18n='courses.update_old_classroom_detail')
@@ -205,7 +205,8 @@ mixin addStudentsButton
 
 mixin studentsTab
   #students-tab
-    +bulkAssignControls
+    div(dir=['he', 'ar', 'fa', 'ur'].indexOf(me.get('preferredLanguage', true)) == -1 ? 'ltr' : 'rtl')
+      +bulkAssignControls
     table.students-table
       thead
         th.checkbox-col.select-all.small.text-center
@@ -221,7 +222,7 @@ mixin studentsTab
           +studentRow(student)
 
 mixin sortButtons
-  .sort-buttons.small
+  .sort-buttons.small.rtl-allowed
     span(data-i18n='teacher.sort_by')
     span.spr :
     button.sort-button.sort-by-name(data-i18n='general.name', value='name')
@@ -472,7 +473,7 @@ mixin copyCodes
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
+    .no-students-selected.small-details(class=state.get('errors').nobodySelected ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
     span.small
       span(data-i18n='teacher.bulk_assign')
@@ -483,8 +484,10 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-    button.btn.btn-primary-alt.assign-to-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.assign_to_selected_students')
+    button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+      span(data-i18n='teacher.assign_course')
+    button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+      span(data-i18n='teacher.remove_course')
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

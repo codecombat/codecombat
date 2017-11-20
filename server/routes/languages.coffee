@@ -46,7 +46,7 @@ languageAliases =
 
 
 module.exports.languageCodeFromRequest = languageCodeFromRequest = (req) ->
-  possibleCodes = _.without _.keys(locale).concat(_.keys(languageAliases)), 'update', 'load', 'storeLoadedLanguage', 'installVueI18n'
+  possibleCodes = _.keys(locale).concat(_.keys(languageAliases))
   code = req.acceptsLanguages(possibleCodes) or 'en-US'
   code = languageAliases[code.toLowerCase()] or code
   code
