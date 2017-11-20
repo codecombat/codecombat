@@ -83,6 +83,8 @@ module.exports = class CreateAccountModal extends ModalView
       else
         if /^\/play/.test(location.pathname)
           @signupState.set({ path: 'individual', screen: 'segment-check' })
+    if @signupState.get('screen') is 'segment-check' and not @segmentCheckRequiredInCountry()
+      @signupState.set screen: 'basic-info'
 
     @listenTo @signupState, 'all', _.debounce @render
 
@@ -192,3 +194,8 @@ module.exports = class CreateAccountModal extends ModalView
 
   onClickLoginLink: ->
     @openModalView(new AuthModal({ initialValues: @signupState.get('authModalInitialValues'), subModalContinue: @signupState.get('subModalContinue') }))
+
+  segmentCheckRequiredInCountry: ->
+    return true unless me.get('country')
+    return true if me.get('country') in ['united-states', 'austria', 'belgium', 'bulgaria', 'croatia', 'cyprus', 'czech-republic', 'denmark', 'estonia', 'finland', 'france', 'germany', 'greece', 'hungary', 'ireland', 'italy', 'latvia', 'lithuania', 'luxembourg', 'malta', 'netherlands', 'poland', 'portugal', 'romania', 'slovakia', 'slovenia', 'spain', 'sweden', 'united-kingdom']
+    return false
