@@ -152,7 +152,7 @@ module.exports =
       challengeId = session.level.original + (if session.team is 'ogres' then '-blue' else '')
       challengeName = session.levelID + (if session.team is 'ogres' then ' (blue)' else '')
       challengeOrder = levelOrdering[session.level.original]
-      score = Math.round(Math.max 1, ((session.totalScore or 0) - 20) / 2, (session.state?.difficulty or 0) * 3)
+      score = Math.round(Math.min(10, Math.max 3, ((session.totalScore or 0) - 20) / 2, (session.state?.difficulty or 0) * 3))
       device = if session.browser then session.browser.name + (if not session.browser.desktop then ' mobile' else '') else null
       solutions.push
         provider: 'CodeCombat'
@@ -192,6 +192,6 @@ module.exports =
         done += 1
 #        console.log(solution.solution.id, done, 'solutions out of', solutions.length, err)
         cb(err)
-      )      
+      )
 
     res.status(200).send({message: "Upserted #{registrations.length} registrations and #{solutions.length} solutions."})
