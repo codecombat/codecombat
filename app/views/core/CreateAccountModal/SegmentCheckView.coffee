@@ -28,12 +28,6 @@ module.exports = class SegmentCheckView extends CocoView
       @trigger 'special-render'
     )
 
-  afterInsert: ->
-    super()
-    if me.get('country') and me.get('country') isnt 'united-states'
-      # No need for US-specific COPPA check
-      @trigger 'nav-forward'
-
   getClassCode: -> @$('.class-code-input').val() or @signupState.get('classCode')
 
   onInputClassCode: ->
