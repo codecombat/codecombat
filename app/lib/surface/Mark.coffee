@@ -145,7 +145,7 @@ module.exports = class Mark extends CocoClass
     shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
     key = "#{shapeName}-shadow"
     SHADOW_SIZE = 10
-    unless key in @layer.spriteSheet.getAnimations()
+    unless key in @layer.spriteSheet.animations
       shape = new createjs.Shape()
       shape.graphics.beginFill "rgba(0,0,0)"
       bounds = [-SHADOW_SIZE/2, - SHADOW_SIZE/2, SHADOW_SIZE, SHADOW_SIZE]
@@ -219,7 +219,7 @@ module.exports = class Mark extends CocoClass
     shapeName = if @lank.thang.shape in ['ellipsoid', 'disc'] then 'ellipse' else 'rect'
     key = "#{shapeName}-debug-#{@lank.thang.collisionCategory}"
     DEBUG_SIZE = 10
-    unless key in @layer.spriteSheet.getAnimations()
+    unless key in @layer.spriteSheet.animations
       shape = new createjs.Shape()
       debugColor = {
         none: 'rgba(224,255,239,0.25)'

@@ -79,7 +79,7 @@ module.exports = class VerifierTest extends CocoClass
     @listenToOnce @god, 'infinite-loop', @fail
     @listenToOnce @god, 'user-code-problem', @onUserCodeProblem
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld aetherUtils.generateSpellsObject({levelSession: @session})
+    @god.createWorld {spells: aetherUtils.generateSpellsObject {levelSession: @session}}
     @state = 'running'
     @reportResults()
 
