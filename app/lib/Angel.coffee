@@ -236,7 +236,6 @@ module.exports = class Angel extends CocoClass
     @say 'Aborting...'
     @running = false
     @work?.world?.goalManager?.destroy()
-    # TODO: somehow clear out more references to this old world to avoid leaking if in synchronous mode
     @work?.aborted = true
     @work = null
     @streamingWorld = null
@@ -310,7 +309,7 @@ module.exports = class Angel extends CocoClass
   simulateSync: (work) =>
     console?.profile? "World Generation #{(Math.random() * 1000).toFixed(0)}" if imitateIE9?
     work.t0 = now()
-    work.world = work.world = new World work.userCodeMap
+    work.world = new World work.userCodeMap
     work.world.synchronous = true
     work.world.levelSessionIDs = work.levelSessionIDs
     work.world.submissionCount = work.submissionCount
@@ -335,10 +334,6 @@ module.exports = class Angel extends CocoClass
 
   beginSimulationSync: (work) ->
     work.t1 = now()
-    #Math.random = work.world.rand.randf  # so user code is predictable - TODO: will this work when we do it on the main thread?
-    #Aether.replaceBuiltin('Math', Math)
-    #replacedLoDash = _.runInContext(window)
-    #_[key] = replacedLoDash[key] for key, val of replacedLoDash
     work.world.worldLoadStartTime = work.t1
     work.world.lastRealTimeUpdate = 0
     work.world.realTimeSpeedFactor = 1
@@ -361,7 +356,7 @@ module.exports = class Angel extends CocoClass
         return unless continuing
       if world.indefiniteLength and i is world.totalFrames - 1
         ++world.totalFrames
-      frame = world.getFrame i++  # TODO: handle non-user-code errors?
+      frame = world.getFrame i++  # TODO: better handle non-user-code errors and infinite-loops
     @finishSimulationSync work
 
   streamFrameSync: (work) ->

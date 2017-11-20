@@ -291,16 +291,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     return if @initializing or @destroyed
     @asyncBuilder = null
 
-    if false  # builder.spriteSheet._images.length > 1  # Don't need to do this with StageGL any more
-      total = 0
-      # get a rough estimate of how much smaller the spritesheet needs to be
-      for image, index in builder.spriteSheet._images
-        total += image.height / builder.maxHeight
-      @resolutionFactor /= (Math.max(1.25, Math.sqrt(total)))
-      #console.log "#{@name} rerendering new sprite sheet with resolutionFactor", @resolutionFactor, "async", e.async
-      @_renderNewSpriteSheet(e.async)
-      return
-
     @spriteSheet = builder.spriteSheet
     @spriteSheet.resolutionFactor = @resolutionFactor
     oldLayer = @container
