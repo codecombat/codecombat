@@ -774,7 +774,7 @@ module.exports = class CampaignView extends RootView
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
-      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable', 'game-dev']).length
+      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable']).length
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
