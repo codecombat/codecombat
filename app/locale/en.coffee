@@ -585,7 +585,7 @@
     view_gallery: "View Gallery"
     project_published_noty: "Your level has been published!"
     keep_editing: "Keep Editing"
-    
+
   amazon_hoc:
     title: "Keep Learning with Amazon!"
     congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -1422,6 +1422,7 @@
     select_your_hero_description: "You can always change your hero by going to your Courses page and clicking \"Change Hero\""
     select_this_hero: "Select this Hero"
     current_hero: "Current Hero:"
+    current_hero_female: "Current Hero:"
     change_hero: "Change Hero"
     web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
     course_membership_required_to_play: "You'll need to join a course to play this level."

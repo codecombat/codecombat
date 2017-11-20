@@ -45,7 +45,10 @@ block content
                 img(src=view.hero.getPortraitURL())
               .current-hero-right-col.rtl-allowed
                 .semibold.current-hero-text
-                  span.spr(data-i18n="courses.current_hero")
+                  if view.hero.getGender() == 'female'
+                    span.spr(data-i18n="courses.current_hero_female")
+                  else
+                    span.spr(data-i18n="courses.current_hero")
                   span.current-hero-name= view.hero.getHeroShortName()
                 button.change-hero-btn.btn.btn-lg.btn-forest
                   span(data-i18n="courses.change_hero")

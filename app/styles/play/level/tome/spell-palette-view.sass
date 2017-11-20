@@ -233,10 +233,14 @@
         margin-left: 0
         width: 100px
 
-  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
-    .ace_text-layer .ace_comment
-      direction: rtl
-      unicode-bidi: embed
+  //Fixes punctuation but puts comment marker on right, which is apparently worse.
+  //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+  //  .ace_text-layer .ace_comment
+  //    direction: rtl
+  //    unicode-bidi: embed
+
+  .right-aligned-description
+    text-align: right
 
 @media only screen and (max-width: 1100px)
   #spell-palette-view
