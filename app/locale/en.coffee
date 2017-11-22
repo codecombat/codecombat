@@ -157,6 +157,7 @@
     brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
     replay: "Replay"
     back_to_classroom: "Back to Classroom"
+    teacher_button: "For Teachers"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -309,6 +310,7 @@
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+    want_codecombat_in_school: "Want CodeCombat in your school?"
 
   recover:
     recover_account_title: "Recover Account"
@@ -1715,6 +1717,10 @@
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
     view_project_gallery: "View Project Gallery"
+    office_hours: "Hour of Code Office Hours"
+    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+    office_hours_link: "Hour of Code Office Hours"
+    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "Share Licenses"
@@ -1740,6 +1746,7 @@
     share_game: "Share This Game"
     share_web: "Share This Webpage"
     victory_share_prefix: "Share this link to invite your friends & family to"
+    victory_share_prefix_short: "Invite people to"
     victory_share_game: "play your game level"
     victory_share_web: "view your webpage"
     victory_share_suffix: "."
@@ -1748,6 +1755,7 @@
     victory_course_share_web: "view the webpage"
     victory_course_share_suffix: "you just created."
     copy_url: "Copy URL"
+    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "Creator"

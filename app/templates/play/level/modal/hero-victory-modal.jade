@@ -102,7 +102,7 @@ block modal-body-content
 
 
 block modal-footer-content
-  #totals
+  #totals(class=view.showShareGameWithTeacher ? "hide" : "")
     .total-wrapper#xp-wrapper
       .total-count#xp-total 0
       .total-label.rtl-allowed
@@ -118,9 +118,12 @@ block modal-footer-content
       .total-label(data-i18n="play_level.victory_gems_gained") Gems Gained
 
   if view.shareURL
-    #share-level-container
+    #share-level-container(class=view.showShareGameWithTeacher ? "with-email" : "")
       span.share-level-label
-        span(data-i18n='sharing.victory_share_prefix') Share this link to invite your friends & family to
+        if view.showShareGameWithTeacher
+          span(data-i18n='sharing.victory_share_prefix_short') Invite people to
+        else
+          span(data-i18n='sharing.victory_share_prefix') Share this link to invite your friends & family to
         span= ' '
         a(href=view.shareURL, target='_blank')
           if view.level.isType('game-dev')
@@ -128,9 +131,23 @@ block modal-footer-content
           else
             span(data-i18n='sharing.victory_share_web') view your webpage
         span(data-i18n='sharing.victory_share_suffix') .
+      if view.showShareGameWithTeacher
+        .row
+          .col-sm-4
+            .share-level-label(data-i18n="sharing.share_with_teacher_email") Send to your teacher
+          .col-sm-5
+            input.text-h4.semibold.form-control.input-md#share-game-with-teacher-input(placeholder="teacher.email@example.com")
+          .col-sm-3
+            button.btn.btn-illustrated.btn-success.btn-md#share-game-with-teacher-btn Send
       .row
-        .col-sm-9
-          input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
+        if view.showShareGameWithTeacher
+          .col-sm-4
+            .share-level-label(data-i18n="sharing.share_this_link") Share this link
+          .col-sm-5
+            input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
+        else
+          .col-sm-9
+            input.text-h4.semibold.form-control.input-md#share-level-input(value=view.shareURL)
         .col-sm-3
           button#share-level-btn.btn.btn-md.btn-success.btn-illustrated
             span(data-i18n='sharing.copy_url') Copy URL

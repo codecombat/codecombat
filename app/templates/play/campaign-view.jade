@@ -43,6 +43,10 @@ if showGameDevAlert
     a(href="https://code.ninja")
       img.small-nav-logo.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png", title="Code Ninjas home", alt="Code Ninjas home")
 
+  if view.shouldShow('teacher-button')
+    #teacher-button-container
+      button.btn.btn-lg.btn-illustrated.btn-primary#teacher-button(data-i18n="play.teacher_button", data-toggle='coco-modal', data-target='core/AnonymousTeacherModal')
+
   if campaign
     if campaign.get('slug') === 'game-dev-hoc'
       img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
@@ -304,7 +308,7 @@ if showGameDevAlert
           span= levelsCompleted
           | /
           span= levelsTotal
-    
+
 if campaign && view.shouldShow('codeplay-ads')
   a(href="https://lenovogamestate.com/pages/products/")
     - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"

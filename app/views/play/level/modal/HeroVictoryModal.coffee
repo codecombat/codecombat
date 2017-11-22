@@ -222,6 +222,8 @@ module.exports = class HeroVictoryModal extends ModalView
       c.showHourOfCodeDoneButton = showDone
       @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
+      @showShareGameWithTeacher = false  # TODO
+    @showShareGameWithTeacher = true  # TODO
 
     #c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
     c.showLeaderboard = false # Disable this button since it's broken
