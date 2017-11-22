@@ -227,6 +227,8 @@ module.exports = class HeroVictoryModal extends ModalView
       if @showAmazonHocButton
         @trackAwsButtonShown()
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
+      @showShareGameWithTeacher = false  # TODO
+    @showShareGameWithTeacher = true  # TODO
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course') and not @showAmazonHocButton and not @showHoc2016ExploreButton
 

@@ -1,0 +1,26 @@
+extends /templates/core/modal-base-flat
+
+block modal-header-content
+  h3 Want CodeCombat in your class?
+
+block modal-body-content
+  h4 I'm a teacher
+  p
+    button.btn.btn-primary.btn-lg.btn-block Create free teacher account
+  p
+    button.btn.btn-primary.btn-lg.btn-block Ask questions via chat
+  hr
+  h4 I'm a student
+  p
+    span Enter your teacher's email address:
+    .input-group
+      input.form-control.input-lg(placeholder="teacher.email@example.com")
+      .input-group-btn
+        button.btn.btn-primary.btn-lg Send
+    small.small.pull-right
+      span.spr Or ask your teacher to go to
+      a(href="/teachers") codecombat.com/teachers
+      span .
+
+block modal-footer-content
+  button.btn.btn-warning#decline-button(type="button", data-dismiss="modal") Never mind, keep playing
