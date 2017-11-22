@@ -223,8 +223,7 @@ module.exports = class HeroVictoryModal extends ModalView
       @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
 
-    #c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
-    c.showLeaderboard = false # Disable this button since it's broken
+    c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course') and not @showAmazonHocButton and not @showHoc2016ExploreButton
 
     c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.isType('course', 'course-ladder')
     c.isCourseLevel = @level.isType('course')
@@ -412,6 +411,7 @@ module.exports = class HeroVictoryModal extends ModalView
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
     ladderURL += '#my-matches'
+    @hide()
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   playSelectionSound: (hero, preload=false) ->
@@ -487,6 +487,7 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])
       @showOffer navigationEvent
     else
+      @hide()
       Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickLeaderboard: (e) ->
@@ -513,10 +514,12 @@ module.exports = class HeroVictoryModal extends ModalView
     url = {
       'lost-viking': 'http://www.vikingcodeschool.com/codecombat?utm_source=codecombat&utm_medium=viking_level&utm_campaign=affiliate&ref=Code+Combat+Elite'
     }[@level.get('slug')]
+    @hide()
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
     window.open url, '_blank' if url
 
   onClickSkipOffer: (e) ->
+    @hide()
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
 
   onClickShareLevelButton: ->
