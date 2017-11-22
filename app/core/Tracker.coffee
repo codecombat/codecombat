@@ -19,7 +19,7 @@ module.exports = class Tracker extends CocoClass
     @supermodel = new SuperModel()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get('role') and not me.isSmokeTestUser()
-    if me.isTeacher() and @isProduction and not application.testing and not me.isSmokeTestUser()
+    if me.isTeacher(true) and @isProduction and not application.testing and not me.isSmokeTestUser()
       @updateIntercomRegularly()
 
   enableInspectletJS: (levelSlug) ->
@@ -70,11 +70,11 @@ module.exports = class Tracker extends CocoClass
     @explicitTraits[key] = value for key, value of traits
 
     traitsToReport = ['email', 'anonymous', 'dateCreated', 'hourOfCode', 'name', 'referrer', 'testGroupNumber', 'gender', 'lastLevel', 'siteref', 'ageRange', 'schoolName', 'coursePrepaidID', 'role']
-    if me.isTeacher()
+    if me.isTeacher(true)
       traitsToReport.push('firstName', 'lastName')
     for userTrait in traitsToReport
       traits[userTrait] ?= me.get(userTrait) if me.get(userTrait)?
-    if me.isTeacher()
+    if me.isTeacher(true)
       traits.teacher = true
     traits.host = document.location.host
 
@@ -97,7 +97,7 @@ module.exports = class Tracker extends CocoClass
     # mixpanel?.identify(me.id)
     # mixpanel?.register(traits)
 
-    if me.isTeacher() and @segmentLoaded
+    if me.isTeacher(true) and @segmentLoaded
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
       analytics.identify me.id, traits
 
@@ -122,7 +122,7 @@ module.exports = class Tracker extends CocoClass
     # Mixpanel
     # mixpanel?.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
-    if me.isTeacher() and @segmentLoaded
+    if me.isTeacher(true) and @segmentLoaded
       options = {}
       if includeIntegrations?.length
         options.integrations = All: false
@@ -157,7 +157,7 @@ module.exports = class Tracker extends CocoClass
     # Only log explicit events for now
     # mixpanel?.track(action, properties) if 'Mixpanel' in includeIntegrations
 
-    if me.isTeacher() and @segmentLoaded
+    if me.isTeacher(true) and @segmentLoaded
       options = {}
       if includeIntegrations
         # https://segment.com/docs/libraries/analytics.js/#selecting-integrations
@@ -247,11 +247,12 @@ module.exports = class Tracker extends CocoClass
 
   updateRole: ->
     return if me.isAdmin() or me.isSmokeTestUser()
-    return unless me.isTeacher()
+    return unless me.isTeacher(true)
     loadSegmentIo()
     .then =>
       @segmentLoaded = true
       @identify()
+      @trigger 'segment-loaded'
     #analytics.page()  # It looks like we don't want to call this here because it somehow already gets called once in addition to this.
     # TODO: record any events and pageviews that have built up before we knew we were a teacher.
 
