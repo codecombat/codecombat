@@ -73,6 +73,7 @@ module.exports = class CreateAccountModal extends ModalView
         subscribe: ['on'] # checked by default
       }
       subModalContinue: options.subModalContinue
+      wantInSchool: false
     }
 
     { startOnPath} = options
