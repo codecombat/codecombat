@@ -15,12 +15,24 @@ block modal-body-content
     span Enter your teacher's email address:
     .input-group
       input.form-control.input-lg#anonymous-teacher-email-input(placeholder="teacher.email@example.com")
+      .email-check
+        - var checkEmailState = view.state.get('checkEmailState');
+        if checkEmailState === 'invalid'
+          small.small
+            span.text-burgundy.glyphicon.glyphicon-remove-circle
+        if checkEmailState === 'valid'
+          small.small
+            span.text-forest.glyphicon.glyphicon-ok-circle
       .input-group-btn
-        button.btn.btn-primary.btn-lg#anonymous-teacher-email-send-button Send
+        button.btn.btn-primary.btn-lg#anonymous-teacher-email-send-button(disabled=view.state.get('checkEmailState') != 'valid' || view.state.get('sendEmailState') != 'none') Send
     small.small.pull-right
       span.spr Or ask your teacher to go to
       a(href="/teachers") codecombat.com/teachers
       span .
+    small.small#anonymous-teacher-email-error
+      if view.state.get('sendEmailState') == 'error'
+        span(data-i18n="signup.parent_email_error")
+
 
 block modal-footer-content
   button.btn.btn-warning(type="button", data-dismiss="modal") Never mind, keep playing

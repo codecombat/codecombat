@@ -99,11 +99,12 @@ form#basic-info-form.modal-body.basic-info
         a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
           img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
 
-    if view.signupState.get('path') === 'individual'
-      .checkbox#want-in-school
-        label.control-label(for="want-in-school-checkbox")
-          input#want-in-school-checkbox(type="checkbox" value="")
-          span(data-i18n="signup.want_codecombat_in_school")
+    // TODO: turn on once we can ask about school inside ConfirmationView
+    //if view.signupState.get('path') === 'individual'
+    //  .checkbox#want-in-school
+    //    label.control-label(for="want-in-school-checkbox")
+    //      input#want-in-school-checkbox(type="checkbox" value="")
+    //      span(data-i18n="signup.want_codecombat_in_school")
 
   // In reverse order for tabbing purposes
   .history-nav-buttons

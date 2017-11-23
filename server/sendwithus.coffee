@@ -40,3 +40,5 @@ module.exports.templates =
   password_reset: 'tem_wbQUMRtLY9xhec8BSCykLA'
   sunburst_referral: 'tem_MWgdKKv7JwD8c6WdbRyRSG89'
   share_licenses_joiner: 'tem_7brGYfbJpYkx3qHXx33Yb8xQ'
+  teacher_signup_instructions: 'tem_M6GwYtHhD7MXJHFYC9XHxSWD'
+  teacher_game_dev_project_share: 'tem_rdMPFPG33QbhrGpSYbX6TvRP'

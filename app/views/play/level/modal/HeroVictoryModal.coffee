@@ -18,6 +18,8 @@ LevelFeedback = require 'models/LevelFeedback'
 storage = require 'core/storage'
 SubscribeModal = require 'views/core/SubscribeModal'
 AmazonHocModal = require 'views/play/modal/AmazonHocModal'
+forms = require 'core/forms'
+contact = require 'core/contact'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -39,6 +41,8 @@ module.exports = class HeroVictoryModal extends ModalView
     'click #share-level-btn': 'onClickShareLevelButton'
     'click .subscribe-button': 'onSubscribeButtonClicked'
     'click #amazon-hoc-button': 'onClickAmazonHocButton'
+    'input #share-game-with-teacher-input': 'onChangeShareGameWithTeacherInput'
+    'click #share-game-with-teacher-btn': 'onClickShareGameWithTeacherButton'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -539,6 +543,21 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onSubscribeButtonClicked: ->
     @openModalView new SubscribeModal()
+
+  onChangeShareGameWithTeacherInput: (e) ->
+    email = _.string.trim(@$('#share-game-with-teacher-input').val())
+    valid = forms.validateEmail(email) and not /codecombat/i.test(email)
+    @$('#share-game-with-teacher-btn').attr('disabled', not valid).text($.i18n.t 'common.send')
+
+  onClickShareGameWithTeacherButton: (e) ->
+    email = _.string.trim(@$('#share-game-with-teacher-input').attr('disabled', true).val())
+    @$('#share-game-with-teacher-btn').attr('disabled', true).text($.i18n.t 'common.sending')
+    contact.sendTeacherGameDevProjectShare({teacherEmail: email, sessionId: @session.id, codeLanguage: @session.get('codeLanguage') or 'python', levelName: utils.i18n(@level.attributes, 'name')})
+      .then =>
+        @$('#share-game-with-teacher-btn').text($.i18n.t 'common.sent')
+      .catch =>
+        @$('#share-game-with-teacher-input').attr('disabled', false).focus()
+        @$('#share-game-with-teacher-btn').text($.i18n.t 'loading_error.error')
 
   # Ratings and reviews
 
