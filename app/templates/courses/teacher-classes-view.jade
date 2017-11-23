@@ -31,15 +31,30 @@ block content
             | Please convert your account to ensure you retain access to your classrooms.
           button.btn.btn-primary.btn-lg.update-teacher-btn(data-event-action="Teachers Classes Convert Teacher Account Temp") Upgrade to teacher account
 
-    // Show office hours until last scheduled on December 8
-    if new Date() < new Date(2017, 11, 9)
-      .update-class.rtl-allowed
-        .alert.alert-info.text-center.rtl-allowed
-          strong(data-i18n='teacher.office_hours')
-          .small-details.rtl-allowed
-            span.spr(data-i18n='teacher.office_hours_detail')
-            a(data-i18n="teacher.office_hours_link" href="https://blog.codecombat.com/p/a52d16c3-8565-423e-9bcc-f3bbd30fdf79/")
-            span.spl(data-i18n="teacher.office_hours_detail_2") 
+    - var officeHours = view.upcomingOfficeHours;
+    - var limit = view.howManyOfficeHours == 'all' ? Infinity : 3;
+    - var limited = officeHours.length > 3;
+    #office-hours
+      if officeHours.length && view.howManyOfficeHours != 'none'
+        .update-class.rtl-allowed
+          button.close.see-no-office-hours(data-dismiss="alert" aria-label="Close")
+            span(aria-hidden=true) &times;
+          .alert.alert-info.text-center.rtl-allowed
+            strong(data-i18n='teacher.office_hours')
+            .small-details.rtl-allowed
+              span.spr(data-i18n='teacher.office_hours_detail')
+              a(data-i18n="teacher.office_hours_link" href="https://blog.codecombat.com/live-events/")
+              span.spl(data-i18n="teacher.office_hours_detail_2") 
+            ul.list-group
+              for oh in officeHours.slice(0, limit)
+                li.list-group-item
+                  span.spr #{moment(oh.time).calendar(null, {sameElse: 'ddd MMM D, LT'})}:
+                  a(href=oh.link target="_blank")= oh.name
+                  span.spl with #{oh.host} (#{moment(oh.time).fromNow()})
+            if view.howManyOfficeHours == 'all' && limited
+              a.see-less-office-hours.btn.btn-small.btn-primary.pull-right(data-i18n="teacher.office_hours_less") Less
+            else if view.howManyOfficeHours == 'some' && limited
+              a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="teacher.office_hours_more") More
 
     .container
       +teacher-quests
