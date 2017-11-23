@@ -417,6 +417,9 @@
     contact_us: "Contact Us"
     close_window: "Close Window"
     learn_more: "Learn More"
+    more: "More"
+    fewer: "Fewer"
+    with: "with"
 
   units:
     second: "second"
@@ -1721,6 +1724,7 @@
     office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
     office_hours_link: "Hour of Code Office Hours"
     office_hours_detail_2: "sessions."
+    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "Share Licenses"
@@ -2257,6 +2261,16 @@
     basic_javascript: "Basic JavaScript"
     basic_event_handling: "Basic Event Handling"
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
+
+  anonymous_teacher:
+    want_codecombat: "Want CodeCombat in your class?"
+    create_teacher_account: "Create free teacher account"
+    chat: "Ask questions via chat"
+    enter_teacher_email: "Enter your teacher's email address:"
+    teacher_email_placeholder: "teacher.email@example.com"
+    tell_teacher_prefix: "Or ask your teacher to go to"
+    tell_teacher_suffix: "."
+    never_mind: "Never mind, keep playing"
 
   delta:
     added: "Added"

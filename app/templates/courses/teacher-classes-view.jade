@@ -50,11 +50,12 @@ block content
                 li.list-group-item
                   span.spr #{moment(oh.time).calendar(null, {sameElse: 'ddd MMM D, LT'})}:
                   a(href=oh.link target="_blank")= oh.name
-                  span.spl with #{oh.host} (#{moment(oh.time).fromNow()})
+                  span.spl.spr(data-i18n="general.with")
+                  span #{oh.host} (#{moment(oh.time).fromNow()})
             if view.howManyOfficeHours == 'all' && limited
-              a.see-less-office-hours.btn.btn-small.btn-primary.pull-right(data-i18n="teacher.office_hours_less") Less
+              a.see-less-office-hours.btn.btn-small.btn-primary.pull-right(data-i18n="general.fewer") Fewer
             else if view.howManyOfficeHours == 'some' && limited
-              a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="teacher.office_hours_more") More
+              a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
     .container
       +teacher-quests

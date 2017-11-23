@@ -1,20 +1,20 @@
 extends /templates/core/modal-base-flat
 
 block modal-header-content
-  h3 Want CodeCombat in your class?
+  h3(data-i18n="anonymous_teacher.want_codecombat")
 
 block modal-body-content
-  h4 I'm a teacher
+  h4(data-i18n="update_account.am_teacher")
   p
-    button.btn.btn-primary.btn-lg.btn-block#anonymous-teacher-signup-button Create free teacher account
+    button.btn.btn-primary.btn-lg.btn-block#anonymous-teacher-signup-button(data-i18n="anonymous_teacher.create_teacher_account")
   p
-    button.btn.btn-primary.btn-lg.btn-block#anonymous-teacher-chat-button Ask questions via chat
+    button.btn.btn-primary.btn-lg.btn-block#anonymous-teacher-chat-button(data-i18n="anonymous_teacher.chat")
   hr
-  h4 I'm a student
+  h4(data-i18n="update_account.am_student")
   p
-    span Enter your teacher's email address:
+    span(data-i18n="anonymous_teacher.enter_teacher_email")
     .input-group
-      input.form-control.input-lg#anonymous-teacher-email-input(placeholder="teacher.email@example.com")
+      input.form-control.input-lg#anonymous-teacher-email-input(data-i18n="[placeholder]anonymous_teacher.teacher_email_placeholder")
       .email-check
         - var checkEmailState = view.state.get('checkEmailState');
         if checkEmailState === 'invalid'
@@ -24,15 +24,14 @@ block modal-body-content
           small.small
             span.text-forest.glyphicon.glyphicon-ok-circle
       .input-group-btn
-        button.btn.btn-primary.btn-lg#anonymous-teacher-email-send-button(disabled=view.state.get('checkEmailState') != 'valid' || view.state.get('sendEmailState') != 'none') Send
+        button.btn.btn-primary.btn-lg#anonymous-teacher-email-send-button(data-i18n="common.send", disabled=view.state.get('checkEmailState') != 'valid' || view.state.get('sendEmailState') != 'none')
     small.small.pull-right
-      span.spr Or ask your teacher to go to
+      span.spr(data-i18n="anonymous_teacher.tell_teacher_prefix")
       a(href="/teachers") codecombat.com/teachers
-      span .
+      span(data-i18n="anonymous_teacher.tell_teacher_suffix")
     small.small#anonymous-teacher-email-error
       if view.state.get('sendEmailState') == 'error'
         span(data-i18n="signup.parent_email_error")
 
-
 block modal-footer-content
-  button.btn.btn-warning(type="button", data-dismiss="modal") Never mind, keep playing
+  button.btn.btn-warning(type="button", data-dismiss="modal", data-i18n="anonymous_teacher.never_mind")
