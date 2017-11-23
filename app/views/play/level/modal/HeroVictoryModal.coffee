@@ -209,7 +209,7 @@ module.exports = class HeroVictoryModal extends ModalView
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
-      lastLevel = @level.get('original') is lastLevelOriginal # hoc2016 or kithgard-gates
+      lastLevel = @level.get('original') is lastLevelOriginal
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
@@ -226,8 +226,7 @@ module.exports = class HeroVictoryModal extends ModalView
       c.showHourOfCodeDoneButton = showDone
       @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
-      @showShareGameWithTeacher = false  # TODO
-    @showShareGameWithTeacher = true  # TODO
+      @showShareGameWithTeacher = gameDevHoc and lastLevel
 
     #c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
     c.showLeaderboard = false # Disable this button since it's broken
