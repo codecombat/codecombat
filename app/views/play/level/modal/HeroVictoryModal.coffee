@@ -77,6 +77,9 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('shareable') is 'project'
       @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}"
 
+    @trackAwsButtonShown = _.once ->
+      window.tracker?.trackEvent 'Show Amazon Modal Button'
+
   destroy: ->
     clearInterval @sequentialAnimationInterval
     @saveReview() if @$el.find('.review textarea').val()
@@ -221,6 +224,8 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
       @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
+      if @showAmazonHocButton
+        @trackAwsButtonShown()
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
 
     c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course') and not @showAmazonHocButton and not @showHoc2016ExploreButton
@@ -527,6 +532,7 @@ module.exports = class HeroVictoryModal extends ModalView
     @tryCopy()
 
   onClickAmazonHocButton: ->
+    window.tracker?.trackEvent 'Click Amazon Modal Button'
     @openModalView new AmazonHocModal()
 
   onSubscribeButtonClicked: ->
