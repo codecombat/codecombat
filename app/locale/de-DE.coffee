@@ -117,6 +117,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   play:
     play_as: "Spiele als " # Ladder page
+#    get_course_for_class: "Assign Game Development and more to your classes!"
+#    request_licenses: "Contact our school specialists for details."
     compete: "Teilnehmen!" # Course details page
     spectate: "Zuschauen" # Ladder page
     players: "Spieler" # Hover over a level on /play
@@ -229,10 +231,12 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     signup_switch: "Willst du einen Account erstellen?"
 
   signup:
+#    complete_subscription: "Complete Subscription"
     create_student_header: "Schülerkonto erstellen"
     create_teacher_header: "Lehrerkonto erstellen"
     create_individual_header: "Einzelkonto erstellen"
     email_announcements: "Erhalte Benachrichtigungen über neue Level und Features per E-Mail"
+#    sign_in_to_continue: "Sign in or create an account to continue"
     teacher_email_announcements: "Halte mich über neue Unterrichtsmaterialien, Inhalte und Kurse auf dem Laufenden!"
     creating: "Erzeuge Account..."
     sign_up: "Neuen Account anlegen"
@@ -432,6 +436,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     back_to_map: "Zurück zur Karte"
     directions: "Richtungen"
     edit_level: "Level bearbeiten"
+#    keep_learning: "Keep Learning"
     explore_codecombat: "CodeCombat entdecken"
     finished_hoc: "Ich bin mit meiner Stunde Code fertig"
     get_certificate: "Hol dir dein Zertifikat!"
@@ -581,8 +586,20 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
+#  amazon_hoc:
+#    title: "Keep Learning with Amazon!"
+#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+#    educate_2: "Learn more and sign up here"
+#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+#    future_eng_2: "here"
+#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+#    future_eng_4: "Amazon Future Engineer"
+#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
   play_game_dev_level:
     created_by: "Erstellt von {{name}}"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "Level neu starten"
     play: "Level spielen"
     play_more_codecombat: "Mehr CodeCombat spielen"
@@ -1332,6 +1349,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     are_you_sure: "Bist du sicher, dass du diesen Schüler von deiner Klasse entfernen möchtest?"
     remove_description1: "Der Schüler wird den Zugang zu dem Klassenraum und zu den zugewiesenen Klassen verlieren. Der Spielfortschritt geht NICHT verloren, und der Schüler kann zu jeder Zeit wieder in die Klasse eingschrieben werden."
     remove_description2: "Die aktivierte und bezahlte Lizenz wird nicht zurückgenommen."
+#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Schüler behalten"
     removing_user: "Benutzer entfernen"
     subtitle: "Kursübersichten und Level anzeigen" # Flat style redesign
@@ -1404,6 +1422,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     select_your_hero_description: "Du kannst deinen Helden jederzeit wechseln, indem du auf deine Kurseseite gehst und auf \"Held wechseln\" klickst"
     select_this_hero: "Wähle diesen Helden"
     current_hero: "Aktueller Held:"
+#    current_hero_female: "Current Hero:"
     change_hero: "Held wechseln"
     web_dev_language_transition: "Alle Klassen für diesen Kurs programmieren in HTML / JavaScript.  Klassen, die Python verwendet haben, fangen mit gesonderten Einführungsleveln für JavaScript an, um den Übergang zu erleichtern.  Klassen, die bereits JavaScript verwenden, überspringen die Einführungslevel."
     course_membership_required_to_play: "Du musst einen Kurs belegen, um dieses Level zu spielen."
@@ -1420,6 +1439,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
   teacher:
     assigning_course: "Kurs zuweisen"
+#    removing_course: "Removing course"
     course_solution: "Kurslösung"
     level_overview_solutions: "Level-Übersicht und Lösungen"
     no_student_assigned: "Diesem Kurs wurden keine Schüler zugewiesen."
@@ -1491,13 +1511,14 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     assigned_msg_2: "{{numberEnrolled}} Lizenzen wurden angewendet."
     assigned_msg_3: "Nun stehen dir noch {{remainingSpots}} Lizenzen zur Verfügung."
     assign_course: "Kurs zuweisen"
+#    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+#    remove_course: "Remove Course"
     not_assigned_modal_title: "Kurse wurden nicht zugewiesen"
     not_assigned_modal_starter_body_1: "Dieser Kurs erfordert eine Anfängerlizenz. Du hast nicht genug Starterlizenzen zur Verfügung, um diesen Kurs allen __selected__ Schülern zuzuweisen."
     not_assigned_modal_starter_body_2: "Kaufe Starterlizenzen, um vollständigen Zugriff auf diesen Kurs zu erhalten."
     not_assigned_modal_full_body_1: "Dieser Kurs erfordert eine Volllizenz. Du hast nicht genug Volllizenzen zur Verfügung, um diesen Kurs allen __selected__ Schülern zuzuweisen."
     not_assigned_modal_full_body_2: "Du hast nur __numFullLicensesAvailable__ Volllizenzen zur Verfügung (__numStudentsWithoutFullLicenses__ Schüler haben derzeit keine aktive Volllizenz)."
     not_assigned_modal_full_body_3: "Bitte wähle weniger Schüler aus, oder kontaktiere __supportEmail__ für Unterstützung."
-    assign_to_selected_students: "Ausgewählten Schülern zuweisen"
     assigned: "Zugewiesen"
     enroll_selected_students: "Ausgewählte Schüler einschreiben"
     no_students_selected: "Es wurden keine Schüler ausgewählt."
@@ -1593,6 +1614,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    gd2: "Game Development 2"
 #    gd2_curriculum: "Game Development 2 - Curriculum Guide"
 #    gd2_curriculum_desc: "Lesson plans for Game Development 2."
+#    gd3: "Game Development 3"
+#    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+#    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web-Entwicklung 1"
     wd1_headlines: "Schlagzeilen & Kopfzeilen Aktivität"
     wd1_headlines_example: "Beispiel-Lösung ansehen"

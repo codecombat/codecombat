@@ -59,8 +59,9 @@
   //  color: rgb(197, 6, 11)
   color: rgb(243, 169, 49)
 
-  .right-aligned-description
-    text-align: right
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
 
 body.dialogue-view-active
   .spell-palette-popover.popover
@@ -86,8 +87,9 @@ body.dialogue-view-active
   //    direction: rtl
   //    unicode-bidi: embed
 
-  .right-aligned-description
-    text-align: right
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
 
   // Jiggle animation
   // TODO: consolidate with problem_alert.sass jiggle

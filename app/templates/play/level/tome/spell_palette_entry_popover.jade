@@ -18,7 +18,7 @@ if doc.translatedShortName
   h5
     span.translated-name= doc.translatedShortName
 
-.description.rtl-allowed.right-aligned-description(dir="auto")
+.description.rtl-allowed.rtl-right-aligned(dir="auto")
   p(dir="auto")!= marked(doc.description || 'Still undocumented, sorry.')
   div.clear(style="clear: both")
   if cooldowns && (cooldowns.cooldown || cooldowns.specificCooldown)
@@ -137,7 +137,7 @@ mixin argumentEntry(arg)
         span(dir="rtl")= ": "
         code(dir="ltr")= arg.example
       if arg.description
-        div.right-aligned-description(dir="auto")!= marked(arg.description)
+        div.rtl-right-aligned(dir="auto")!= marked(arg.description)
       if arg.default
         div.rtl-allowed
           em
