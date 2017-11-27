@@ -117,6 +117,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   play:
     play_as: "דף הטבל" # Ladder page
+#    get_course_for_class: "Assign Game Development and more to your classes!"
+#    request_licenses: "Contact our school specialists for details."
     compete: "דף פרטי קורס" # Course details page
     spectate: "דף הטבלה" # Ladder page
     players: "רחף מעל לשלב ב" # Hover over a level on /play
@@ -143,7 +145,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscriber_gems: "הירשם כמנוי היום כדי לקנות גיבור זה עם אבני חן!"
     anonymous: "שחקן אנונימי"
     level_difficulty: "רמת קושי: "
-    play_classroom_version: "שחק בגרסה הכיתתית"
+    play_classroom_version: "שחק בגרסה הכיתתית" # Choose a level in campaign version that you also can play in one of your courses
     campaign_beginner: "מערכה למתחילים"
     awaiting_levels_adventurer_prefix: "אנו משחררים שלבים חדשים מדי שבוע."
     awaiting_levels_adventurer: "הרשמה כהרפתקן"
@@ -229,10 +231,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     signup_switch: "רוצים ליצור חשבון?"
 
   signup:
+#    complete_subscription: "Complete Subscription"
     create_student_header: "יצירת חשבון תלמיד"
     create_teacher_header: "יצירת חשבון מורה"
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
+#    sign_in_to_continue: "Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
@@ -432,6 +436,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     back_to_map: "בחזרה למפה"
     directions: "הנחיות"
     edit_level: "עריכת שלב"
+#    keep_learning: "Keep Learning"
     explore_codecombat: "לחקור את CodeCombat"
     finished_hoc: "סיימתי את \"שעת הקוד\" שלי"
     get_certificate: "קבלו תעודה!"
@@ -581,8 +586,20 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     project_published_noty: "השלב שלכם פורסם!"
     keep_editing: "המשך בעריכה"
 
+#  amazon_hoc:
+#    title: "Keep Learning with Amazon!"
+#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+#    educate_2: "Learn more and sign up here"
+#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+#    future_eng_2: "here"
+#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+#    future_eng_4: "Amazon Future Engineer"
+#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
   play_game_dev_level:
     created_by: "נוצר על-ידי {{name}}"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "התחל שלב מחדש"
     play: "שחקו בשלב"
     play_more_codecombat: "שחקו עוד CodeCombat"
@@ -1332,9 +1349,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     are_you_sure: "האם אתה בטוח שברצונך להסיר תלמיד זה מכיתה זו?"
     remove_description1: "התלמיד יאבד גישה לכיתה זה ולכיתות שהוקצו. ההתקדמות והמשחק לא יאבדו, וניתן יהיה להוסיף את התלמיד בחזרה לכיתה בכל עת."
     remove_description2: "הרישיון בתשלום שמופעל לא יוחזר."
+#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "שמור תלמיד"
     removing_user: "מסיר משתמש"
-    subtitle: "עיינו בסקירה כללית של הקורסים ובשלביהם"
+    subtitle: "עיינו בסקירה כללית של הקורסים ובשלביהם" # Flat style redesign
     changelog: "עיינו בשינויים האחרונים בשלבי הקורסים."
     select_language: "בחירת שפה"
     select_level: "בחירת שלב"
@@ -1421,6 +1439,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   teacher:
     assigning_course: "מקצה קורס"
+#    removing_course: "Removing course"
     course_solution: "פתרון קורס"
     level_overview_solutions: "סקירה כללית ופתרונות לשלב"
     no_student_assigned: "לא הוקצו תלמידים לקורס זה."
@@ -1492,7 +1511,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     assigned_msg_2: "הוחלו {{numberEnrolled}} רישיונות."
     assigned_msg_3: "נותרו לכם {{remainingSpots}} רישיונות זמינים."
     assign_course: "הקצה קורס"
-    #removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+#    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
     remove_course: "הסרת קורס"
     not_assigned_modal_title: "לא הוקצו קורסים"
     not_assigned_modal_starter_body_1: "לקורס זה נדרש רישיון למתחילים. אין מספיק רישיונות למתחילים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו."
@@ -1500,7 +1519,6 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     not_assigned_modal_full_body_1: "לקורס זה נדרש רישיון מלא. אין מספיק רישיונות מלאים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו."
     not_assigned_modal_full_body_2: "יש לכם __numFullLicensesAvailable__ רישיונות מלאים בלבד (ל-__numStudentsWithoutFullLicenses__ תלמידים אין כעת רישיון מלא פעיל)."
     not_assigned_modal_full_body_3: "נא לבחור פחות תלמידים או לפנות אל __supportEmail__ לקבלת סיוע."
-    assign_to_selected_students: "הקצה לתלמידים הנבחרים"
     assigned: "הוקצה"
     enroll_selected_students: "רשום את התלמידים הנבחרים"
     no_students_selected: "לא נבחרו תלמידים."
@@ -1596,6 +1614,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    gd2: "Game Development 2"
 #    gd2_curriculum: "Game Development 2 - Curriculum Guide"
 #    gd2_curriculum_desc: "Lesson plans for Game Development 2."
+#    gd3: "Game Development 3"
+#    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+#    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "פיתוח אינטרנט 1"
     wd1_headlines: "פעילות בכותרות ובכותרות עליונות"
     wd1_headlines_example: "הצג פתרון לדוגמה"
