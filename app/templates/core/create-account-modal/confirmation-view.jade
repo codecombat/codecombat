@@ -32,16 +32,8 @@
                 span(data-i18n="general.email")
                 | : #{me.get('email')}
 
-    // TODO: use our Vue Component to grab the school (based only on the name, hide other inputs) and put it in user.school (only if they found a match)
-    //if view.signupState.get('wantInSchool')
-    //  div.school-info-panel
-    //    nces-search-input(
-    //      v-bind:label='$t("teachers_quote.school_name")'
-    //      v-on:navSearchChoose="applySuggestion"
-    //      name="organization"
-    //      displayKey="name"
-    //      v-bind:initialValue="organization"
-    //      v-on:updateValue="updateValue"
-    //    )
+    //-  TODO: use our Vue Component to grab the school (based only on the name, hide other inputs) and put it in user.school (only if they found a match)
+    if view.signupState.get('wantInSchool')
+      div#nces-search-input
 
     button#start-btn.btn.btn-navy.btn-lg.m-t-3(data-i18n="signup.start_playing")
