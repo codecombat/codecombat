@@ -117,6 +117,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   play:
     play_as: "Cynl Nf"  # Ynqqre cntr
+    get_course_for_class: "Nffvta Tnzr Qrirybczrag naq zber gb lbhe pynffrf!"
+    request_licenses: "Pbagnpg bhe fpubby fcrpvnyvfgf sbe qrgnvyf."
     compete: "Pbzcrgr!" # Pbhefr qrgnvyf cntr
     spectate: "Fcrpgngr"  # Ynqqre cntr
     players: "cynlref"  # Ubire bire n yriry ba /cynl
@@ -229,10 +231,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     signup_switch: "Jnag gb perngr na nppbhag?"
 
   signup:
+    complete_subscription: "Pbzcyrgr Fhofpevcgvba"
     create_student_header: "Perngr Fghqrag Nppbhag"
     create_teacher_header: "Perngr Grnpure Nppbhag"
     create_individual_header: "Perngr Vaqvivqhny Nppbhag"
     email_announcements: "Erprvir naabhaprzragf nobhg arj PbqrPbzong yriryf naq srngherf!"
+    sign_in_to_continue: "Fvta va be perngr na nppbhag gb pbagvahr"
     teacher_email_announcements: "Xrrc zr hcqngrq ba arj grnpure erfbheprf, pheevphyhz, naq pbhefrf!"
     creating: "Perngvat Nppbhag..."
     sign_up: "Fvta Hc"
@@ -432,6 +436,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     back_to_map: "Onpx gb Znc"
     directions: "Qverpgvbaf"
     edit_level: "Rqvg Yriry"
+    keep_learning: "Xrrc Yrneavat"
     explore_codecombat: "Rkcyber PbqrPbzong"
     finished_hoc: "V'z svavfurq jvgu zl Ubhe bs Pbqr"
     get_certificate: "Trg lbhe pregvsvpngr!"
@@ -581,8 +586,20 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     project_published_noty: "Lbhe yriry unf orra choyvfurq!"
     keep_editing: "Xrrc Rqvgvat"
 
+  amazon_hoc:
+    title: "Xrrc Yrneavat jvgu Nznmba!"
+    congrats: "Pbatenghyngvbaf ba pbadhrevat gung punyyratvat Ubhe bs Pbqr!"
+    educate_1: "Abj, xrrc yrneavat nobhg pbqvat naq pybhq pbzchgvat jvgu NJF Rqhpngr, na rkpvgvat, serr cebtenz sebz Nznmba sbe obgu fghqragf naq grnpuref. Jvgu NJF Rqhpngr, lbh pna rnea pbby onqtrf nf lbh yrnea nobhg gur onfvpf bs gur pybhq naq phggvat-rqtr grpuabybtvrf fhpu nf tnzvat, iveghny ernyvgl, naq Nyrkn."
+    educate_2: "Yrnea zber naq fvta hc urer"
+    future_eng_1: "Lbh pna nyfb gel gb ohvyq lbhe bja fpubby snpgf fxvyy sbe Nyrkn"
+    future_eng_2: "urer"
+    future_eng_3: "(qrivpr vf abg erdhverq). Guvf Nyrkn npgvivgl vf oebhtug gb lbh ol gur"
+    future_eng_4: "Nznmba Shgher Ratvarre"
+    future_eng_5: "cebtenz juvpu perngrf yrneavat naq jbex bccbeghavgvrf sbe nyy X-12 fghqragf va gur Havgrq Fgngrf jub jvfu gb chefhr pbzchgre fpvrapr."
+
   play_game_dev_level:
     created_by: "Perngrq ol {{anzr}}"
+    created_during_hoc: "Perngrq qhevat Ubhe bs Pbqr"
     restart: "Erfgneg Yriry"
     play: "Cynl Yriry"
     play_more_codecombat: "Cynl Zber PbqrPbzong"
@@ -1332,6 +1349,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     are_you_sure: "Ner lbh fher lbh jnag gb erzbir guvf fghqrag sebz guvf pynff?"
     remove_description1: "Fghqrag jvyy ybfr npprff gb guvf pynffebbz naq nffvtarq pynffrf. Cebterff naq tnzrcynl vf ABG ybfg, naq gur fghqrag pna or nqqrq onpx gb gur pynffebbz ng nal gvzr."
     remove_description2: "Gur npgvingrq cnvq yvprafr jvyy abg or erghearq."
+    license_will_revoke: "Guvf fghqrag'f cnvq yvprafr jvyy or eribxrq naq znqr ninvynoyr gb nffvta gb nabgure fghqrag."
     keep_student: "Xrrc Fghqrag"
     removing_user: "Erzbivat hfre"
     subtitle: "Erivrj pbhefr bireivrjf naq yriryf" # Syng fglyr erqrfvta
@@ -1404,6 +1422,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     select_your_hero_description: "Lbh pna nyjnlf punatr lbhe ureb ol tbvat gb lbhe Pbhefrf cntr naq pyvpxvat \"Punatr Ureb\""
     select_this_hero: "Fryrpg guvf Ureb"
     current_hero: "Pheerag Ureb:"
+    current_hero_female: "Pheerag Ureb:"
     change_hero: "Punatr Ureb"
     web_dev_language_transition: "Nyy pynffrf cebtenz va UGZY / WninFpevcg sbe guvf pbhefr.  Pynffrf gung unir orra hfvat Clguba jvyy fgneg jvgu rkgen WninFpevcg vageb yriryf gb rnfr gur genafvgvba.  Pynffrf gung ner nyernql hfvat WninFpevcg jvyy fxvc gur vageb yriryf."
     course_membership_required_to_play: "Lbh'yy arrq gb wbva n pbhefr gb cynl guvf yriry."
@@ -1420,6 +1439,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   teacher:
     assigning_course: "Nffvtavat pbhefr"
+    removing_course: "Erzbivat pbhefr"
     course_solution: "Pbhefr Fbyhgvba"
     level_overview_solutions: "Yriry Bireivrj naq Fbyhgvbaf"
     no_student_assigned: "Ab fghqragf unir orra nffvtarq guvf pbhefr."
@@ -1491,13 +1511,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     assigned_msg_2: "{{ahzoreRaebyyrq}} yvprafrf jrer nccyvrq."
     assigned_msg_3: "Lbh abj unir {{erznvavatFcbgf}} ninvynoyr yvprafrf erznvavat."
     assign_course: "Nffvta Pbhefr"
+    removed_course_msg: "{{ahzoreErzbirq}} fghqragf jrer erzbirq sebz {{pbhefrAnzr}}."
+    remove_course: "Erzbir Pbhefr"
     not_assigned_modal_title: "Pbhefrf jrer abg nffvtarq"
     not_assigned_modal_starter_body_1: "Guvf pbhefr erdhverf n Fgnegre Yvprafr. Lbh qb abg unir rabhtu Fgnegre Yvprafrf ninvynoyr gb nffvta guvf pbhefr gb nyy __fryrpgrq__ fryrpgrq fghqragf."
     not_assigned_modal_starter_body_2: "Chepunfr Fgnegre Yvprafrf gb tenag npprff gb guvf pbhefr."
     not_assigned_modal_full_body_1: "Guvf pbhefr erdhverf n Shyy Yvprafr. Lbh qb abg unir rabhtu Shyy Yvprafrf ninvynoyr gb nffvta guvf pbhefr gb nyy __fryrpgrq__ fryrpgrq fghqragf."
     not_assigned_modal_full_body_2: "Lbh bayl unir __ahzShyyYvprafrfNinvynoyr__ Shyy Yvprafrf ninvynoyr (__ahzFghqragfJvgubhgShyyYvprafrf__ fghqragf qb abg pheeragyl unir n Shyy Yvprafr npgvir)."
     not_assigned_modal_full_body_3: "Cyrnfr fryrpg srjre fghqragf, be ernpu bhg gb __fhccbegRznvy__ sbe nffvfgnapr."
-    assign_to_selected_students: "Nffvta gb Fryrpgrq Fghqragf"
     assigned: "Nffvtarq"
     enroll_selected_students: "Raebyy Fryrpgrq Fghqragf"
     no_students_selected: "Ab fghqragf jrer fryrpgrq."
@@ -1593,6 +1614,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     gd2: "Tnzr Qrirybczrag 2"
     gd2_curriculum: "Tnzr Qrirybczrag 2 - Pheevphyhz Thvqr"
     gd2_curriculum_desc: "Yrffba cynaf sbe Tnzr Qrirybczrag 2."
+    gd3: "Tnzr Qrirybczrag 3"
+    gd3_curriculum: "Tnzr Qrirybczrag 3 - Pheevphyhz Thvqr"
+    gd3_curriculum_desc: "Yrffba cynaf sbe Tnzr Qrirybczrag 3."
     wd1: "Jro Qrirybczrag 1"
     wd1_headlines: "Urnqyvarf & Urnqref Npgvivgl"
     wd1_headlines_example: "Ivrj fnzcyr fbyhgvba"

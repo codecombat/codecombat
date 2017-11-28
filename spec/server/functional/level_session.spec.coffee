@@ -147,16 +147,8 @@ describe 'PUT /db/level.session/:handle/key-value-db/:key', ->
     [res] = yield request.putAsync({ @url })
     expect(res.statusCode).toBe(404)
 
-  it 'returns 401 if you are anonymous', utils.wrap ->
+  it 'returns 200 if you are anonymous', utils.wrap ->
     user = yield utils.becomeAnonymous()
-    session = yield utils.makeLevelSession({}, { @level, creator: user })
-    @url = utils.getUrl("/db/level.session/#{session.id}/key-value-db/foo")
-    [res] = yield request.putAsync({ @url })
-    expect(res.statusCode).toBe(401)
-    
-  it 'returns 200 if you are anonymous but an hour-of-code user', utils.wrap ->
-    user = yield utils.becomeAnonymous()
-    yield user.update({$set: {hourOfCode: true}})
     session = yield utils.makeLevelSession({}, { @level, creator: user })
     @url = utils.getUrl("/db/level.session/#{session.id}/key-value-db/foo")
     [res] = yield request.putAsync({ @url, json: 'bar' })
@@ -246,21 +238,13 @@ describe 'POST /db/level.session/:handle/key-value-db/:key/increment', ->
     [res] = yield request.postAsync({ @url })
     expect(res.statusCode).toBe(404)
 
-  it 'returns 401 if you are anonymous', utils.wrap ->
+  it 'returns 200 if you are anonymous', utils.wrap ->
     user = yield utils.becomeAnonymous()
-    session = yield utils.makeLevelSession({}, { @level, creator: user })
-    url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo/increment")
-    [res] = yield request.postAsync({ url, json: 1 })
-    expect(res.statusCode).toBe(401)
-
-  it 'returns 200 if you are anonymous but an hour-of-code user', utils.wrap ->
-    user = yield utils.becomeAnonymous()
-    yield user.update({$set: {hourOfCode: true}})
     session = yield utils.makeLevelSession({}, { @level, creator: user })
     url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo/increment")
     [res] = yield request.postAsync({ url, json: 1 })
     expect(res.statusCode).toBe(200)
-  
+
   it 'returns 422 if the level is not of type game-dev', utils.wrap ->
     yield @level.update({$set: { type: 'something-else' }})
     @url = utils.getUrl("/db/level.session/#{@session.id}/key-value-db/foo/increment")

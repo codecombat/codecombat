@@ -239,8 +239,9 @@
   //    direction: rtl
   //    unicode-bidi: embed
 
-  .right-aligned-description
-    text-align: right
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
 
 @media only screen and (max-width: 1100px)
   #spell-palette-view

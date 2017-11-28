@@ -168,7 +168,11 @@ module.exports = class Tracker extends CocoClass
 
   trackSnowplow: (event, properties) =>
     return if me.isSmokeTestUser()
-    return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load']
+    return if event in [
+      'Simulator Result',
+      'Started Level Load', 'Finished Level Load',
+      'Start HoC Campaign', 'Show Amazon Modal Button', 'Click Amazon Modal Button', 'Click Amazon link',
+    ]
     # Trimming properties we don't use internally
     # TODO: delete properites.level for 'Saw Victory' after 2/8/15.  Should be using levelID instead.
     if event in ['Clicked Start Level', 'Inventory Play', 'Heard Sprite', 'Started Level', 'Saw Victory', 'Click Play', 'Choose Inventory', 'Homepage Loaded', 'Change Hero']
