@@ -121,6 +121,8 @@ module.exports = class CampaignView extends RootView
               application.router.navigate((if me.isStudent() then '/students' else '/teachers'), {trigger: true, replace: true})
               noty({text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success'})
           return
+      if @terrain is 'game-dev-hoc'
+        window.tracker?.trackEvent 'Start HoC Campaign', label: 'game-dev-hoc'
       me.set('hourOfCode', true)
       me.patch()
       pixelCode = switch @terrain
