@@ -1,5 +1,3 @@
-# TODO Webpack: Fix this (used to use module loader)
-
 require('app/styles/editor/verifier/i18n-verifier-view.sass')
 RootComponent = require 'views/core/RootComponent'
 Problem = require 'views/play/level/tome/Problem'
@@ -53,14 +51,14 @@ I18nVerifierComponent = Vue.extend
     @selectedLevelSlugs = [@levelSlug]
     i18n.setLng(@language)
     yield @loadCampaigns()
-    yield application.moduleLoader.loadLanguage(@language)
+    yield locale.load @language
     @setupRegexes()
     newProblems = yield @getProblems(@levelSlug)
     @compareStrings(newProblems)
     @loading = false
   watch:
     language: co.wrap ->
-      yield application.moduleLoader.loadLanguage(@language)
+      yield locale.load @language
       console.log "Finished loading language", @language
       @setupRegexes()
       @compareStrings(@problems)
@@ -85,9 +83,9 @@ I18nVerifierComponent = Vue.extend
       for campaign in @campaigns
         Vue.set(campaign, 'levelsArray', Object.values(campaign.levels))
     setupRegexes: ->
-      en = require('locale/en').translation
+      en = locale.en.translation
       # Call require like this to prevent preload.js from trying to load app/locale.js which doesn't exist
-      otherLang = window["require"]("locale/#{@language}").translation
+      otherLang = locale[@language].translation
       translationKeys = Object.keys(en.esper)
       @regexes = []
       for translationKey in translationKeys

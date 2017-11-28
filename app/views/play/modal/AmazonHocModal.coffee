@@ -8,3 +8,15 @@ module.exports = class AmazonHocModal extends ModalView
 
   events:
     'click #close-modal': 'hide'
+    'mouseup #aws-educate-link': 'onClickAwsEducateLink' # mouseup detects middle click as well
+    'mouseup #aws-alexa-link': 'onClickAwsAlexaLink'
+    'mouseup #aws-future-eng-link': 'onClickAwsFutureEngLink'
+  
+  onClickAwsEducateLink: ->
+    window.tracker?.trackEvent 'Click Amazon link', label: 'aws-educate-link'
+  
+  onClickAwsAlexaLink: ->
+    window.tracker?.trackEvent 'Click Amazon link', label: 'aws-alexa-link'
+    
+  onClickAwsFutureEngLink: ->
+    window.tracker?.trackEvent 'Click Amazon link', label: 'aws-future-eng-link'
