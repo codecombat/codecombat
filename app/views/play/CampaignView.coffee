@@ -39,6 +39,7 @@ PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 PlayAchievementsModal = require 'views/play/modal/PlayAchievementsModal'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 ContactModal = require 'views/core/ContactModal'
+AnonymousTeacherModal = require 'views/core/AnonymousTeacherModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
@@ -91,6 +92,7 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal'
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+    'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -303,6 +305,10 @@ module.exports = class CampaignView extends RootView
   openCreateAccountModal: (e) ->
     e.stopPropagation()
     @openModalView new CreateAccountModal()
+
+  openAnonymousTeacherModal: (e) ->
+    e.stopPropagation()
+    @openModalView new AnonymousTeacherModal()
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -1295,5 +1301,8 @@ module.exports = class CampaignView extends RootView
 
     if what in ['premium']
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
+
+    if what in ['teacher-button']
+      return me.isAnonymous() and me.level() < 15 and new Date() < new Date(2017, 11, 9)
 
     return true

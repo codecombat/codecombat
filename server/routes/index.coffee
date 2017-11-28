@@ -42,6 +42,8 @@ module.exports.setup = (app) ->
   app.get('/auth/whoami', mw.auth.whoAmI)
 
   app.post('/contact/send-parent-signup-instructions', mw.contact.sendParentSignupInstructions)
+  app.post('/contact/send-teacher-game-dev-project-share', mw.contact.sendTeacherGameDevProjectShare)
+  app.post('/contact/send-teacher-signup-instructions', mw.contact.sendTeacherSignupInstructions)
 
   app.delete('/db/*', mw.auth.checkHasUser())
   app.patch('/db/*', mw.auth.checkHasUser())
