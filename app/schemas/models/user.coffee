@@ -324,8 +324,8 @@ _.extend UserSchema.properties,
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
-    
-    # TODO: move `free` out of stripe, it's independent 
+
+    # TODO: move `free` out of stripe, it's independent
     free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
@@ -367,7 +367,7 @@ _.extend UserSchema.properties,
   enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}  # unset: home player
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
   birthday: c.stringDate({title: "Birthday"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
 
