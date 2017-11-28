@@ -14,9 +14,6 @@ module.exports = class ConfirmationView extends CocoView
 
   initialize: ({ @signupState } = {}) ->
     @saveUserPromise = Promise.resolve()
-    @signupState.set({
-      wantInSchool: true
-    })
 
   onClickStartButton: ->
     @saveUserPromise.then =>
