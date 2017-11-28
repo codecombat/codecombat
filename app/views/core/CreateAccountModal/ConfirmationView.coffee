@@ -49,4 +49,5 @@ module.exports = class ConfirmationView extends CocoView
         me.set({
           school: fullNcesEntry
         })
+        @ncesSearchInput.$data.value = fullNcesEntry[displayKey]
         @saveUserPromise = new Promise(me.save().then)
