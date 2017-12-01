@@ -1721,10 +1721,9 @@
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
     view_project_gallery: "View Project Gallery"
-    office_hours: "Hour of Code Office Hours"
+    office_hours: "Hour of Code Webinars"
     office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-    office_hours_link: "Hour of Code Office Hours"
-    office_hours_detail_2: "sessions."
+    office_hours_link: "Hour of Code Webinar"
     office_hours_detail_2: "sessions."
 
   share_licenses:
