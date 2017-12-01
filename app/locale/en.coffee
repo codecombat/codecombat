@@ -158,6 +158,7 @@
     replay: "Replay"
     back_to_classroom: "Back to Classroom"
     teacher_button: "For Teachers"
+    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -310,7 +311,7 @@
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-    want_codecombat_in_school: "Want CodeCombat in your school?"
+    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "Recover Account"
@@ -2263,14 +2264,17 @@
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   anonymous_teacher:
-    want_codecombat: "Want CodeCombat in your class?"
+    notify_teacher: "Notify Teacher"
+    want_codecombat: "Want to play CodeCombat all the time?" # {change}
     create_teacher_account: "Create free teacher account"
     chat: "Ask questions via chat"
-    enter_teacher_email: "Enter your teacher's email address:"
+    enter_student_name: "Your name:"
+    enter_teacher_email: "Your teacher's email:" # {change}
     teacher_email_placeholder: "teacher.email@example.com"
-    tell_teacher_prefix: "Or ask your teacher to go to"
-    tell_teacher_suffix: "."
-    never_mind: "Never mind, keep playing"
+    student_name_placeholder: "type your name here"
+    teachers_section: "Teachers:"
+    students_section: "Students:"
+    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "Added"
