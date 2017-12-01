@@ -26,6 +26,8 @@ module.exports =
       recipient:
         address: req.body.teacherEmail
       bcc: [{address: 'schools@codecombat.com'}]
+      template_data:
+        student_name: req.body.studentName
     if /@codecombat.com/.test(context.recipient.address) or not _.str.trim context.recipient.address
       console.error "Somehow sent an email with bogus recipient? #{context.recipient.address}"
       return next(new errors.InternalServerError("Error sending email. Need a valid recipient."))
