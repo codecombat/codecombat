@@ -311,7 +311,7 @@
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "Recover Account"
@@ -2264,11 +2264,11 @@
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
-    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+    want_codecombat: "Want to play CodeCombat all the time?"
     create_teacher_account: "Create free teacher account"
     chat: "Ask questions via chat"
     enter_student_name: "Your name:"
-    enter_teacher_email: "Your teacher's email:" # {change}
+    enter_teacher_email: "Your teacher's email:"
     teacher_email_placeholder: "teacher.email@example.com"
     student_name_placeholder: "type your name here"
     teachers_section: "Teachers:"

@@ -157,6 +157,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     brain_pop_challenge: "挑战自己，用不同的编程语言再玩一次！"
     replay: "重玩"
     back_to_classroom: "返回教室"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。"
     dont_use_our_email_silly: "请不要在这里填写我们的邮箱地址！要填写你家长的邮箱地址。"
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "找回账户"
@@ -415,6 +418,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contact_us: "联系我们"
     close_window: "关闭窗口"
     learn_more: "学习更多"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "秒"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_quest_less: "查看基础任务"
     refresh_to_update: "(刷新页面查看更新)"
     view_project_gallery: "查看项目图库"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "分享许可证"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     share_game: "分享此游戏"
     share_web: "分享此网页"
     victory_share_prefix: "将这个链接分享给亲朋好友，让他们"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "玩你的游戏关卡"
     victory_share_web: "看你制作的网页"
     victory_share_suffix: "吧。"
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     victory_course_share_web: "网页"
     victory_course_share_suffix: "分享给亲朋好友。"
     copy_url: "复制 URL"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "创建者"
@@ -2249,6 +2261,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     basic_javascript: "基本JavaScript"
     basic_event_handling: "基本事件处理"
     create_sharable_interactive_web_page: "创建一个可分享的互动网页"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "被添加"

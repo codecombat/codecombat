@@ -157,6 +157,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     brain_pop_challenge: "Punyyratr lbhefrys gb cynl ntnva hfvat n qvssrerag cebtenzzvat ynathntr!"
     replay: "Ercynl"
     back_to_classroom: "Onpx gb Pynffebbz"
+    teacher_button: "Sbe Grnpuref"
+    get_more_codecombat: "Trg Zber PbqrPbzong"
 
   code:
     if: "vs"  # Xrljbeqf--gurfr genafyngvbaf fubj hc ba ubire, fb cyrnfr genafyngr gurz nyy, rira vs vg'f xvaq bs ybat. (Va gur pbqr rqvgbe, gurl jvyy fgvyy or va Ratyvfu.)
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_list_resource_hub_5: "sbe pheevphyhz thvqrf, npgvivgvrf, naq zber!"
     teacher_additional_questions: "Gung’f vg! Vs lbh arrq nqqvgvbany uryc be unir dhrfgvbaf, ernpu bhg gb __fhccbegRznvy__."
     dont_use_our_email_silly: "Qba'g chg bhe rznvy urer! Chg lbhe cnerag'f rznvy."
+    want_codecombat_in_school: "Jnag gb cynl PbqrPbzong nyy gur gvzr?" # {punatr}
 
   recover:
     recover_account_title: "Erpbire Nppbhag"
@@ -415,6 +418,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     contact_us: "Pbagnpg Hf"
     close_window: "Pybfr Jvaqbj"
     learn_more: "Yrnea Zber"
+    more: "Zber"
+    fewer: "Srjre"
+    with: "jvgu"
 
   units:
     second: "frpbaq"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_quest_less: "Frr srjre dhrfgf"
     refresh_to_update: "(erserfu gur cntr gb frr hcqngrf)"
     view_project_gallery: "Ivrj Cebwrpg Tnyyrel"
+    office_hours: "Ubhe bs Pbqr Jrovanef"
+    office_hours_detail: "Yrnea ubj gb xrrc hc jvgu jvgu lbhe fghqragf nf gurl perngr tnzrf naq rzonex ba gurve pbqvat wbhearl! Pbzr naq nggraq bhe"
+    office_hours_link: "Ubhe bs Pbqr Jrovane"
+    office_hours_detail_2: "frffvbaf."
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     share_game: "Funer Guvf Tnzr"
     share_web: "Funer Guvf Jrocntr"
     victory_share_prefix: "Funer guvf yvax gb vaivgr lbhe sevraqf & snzvyl gb"
+    victory_share_prefix_short: "Vaivgr crbcyr gb"
     victory_share_game: "cynl lbhe tnzr yriry"
     victory_share_web: "ivrj lbhe jrocntr"
     victory_share_suffix: "."
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     victory_course_share_web: "ivrj gur jrocntr"
     victory_course_share_suffix: "lbh whfg perngrq."
     copy_url: "Pbcl HEY"
+    share_with_teacher_email: "Fraq gb lbhe grnpure"
 
   game_dev:
     creator: "Perngbe"
@@ -2249,6 +2261,19 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     basic_javascript: "Onfvp WninFpevcg"
     basic_event_handling: "Onfvp Rirag Unaqyvat"
     create_sharable_interactive_web_page: "Perngr n funenoyr vagrenpgvir jro cntr"
+
+  anonymous_teacher:
+    notify_teacher: "Abgvsl Grnpure"
+    want_codecombat: "Jnag gb cynl PbqrPbzong nyy gur gvzr?" # {punatr}
+    create_teacher_account: "Perngr serr grnpure nppbhag"
+    chat: "Nfx dhrfgvbaf ivn pung"
+    enter_student_name: "Lbhe anzr:"
+    enter_teacher_email: "Lbhe grnpure'f rznvy:" # {punatr}
+    teacher_email_placeholder: "grnpure.rznvy@rknzcyr.pbz"
+    student_name_placeholder: "glcr lbhe anzr urer"
+    teachers_section: "Grnpuref:"
+    students_section: "Fghqragf:"
+    teacher_notified: "Jr'ir abgvsvrq lbhe grnpure gung lbh jnag gb cynl zber PbqrPbzong va lbhe pynffebbz!"
 
   delta:
     added: "Nqqrq"

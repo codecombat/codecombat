@@ -157,6 +157,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
 #    back_to_classroom: "Back to Classroom"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "Відновити акаунт"
@@ -415,6 +418,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     contact_us: "Зв'яжіться з нами"
     close_window: "Закрити вікно"
     learn_more: "Дізнатися більше"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "секунда"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     share_game: "Поділитись цією грою"
     share_web: "Поділитись цією веб-сторінкою"
     victory_share_prefix: "Поділитись цим посиланням, щоб запросити ваших друзів та рідних"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "грати ваш рівень"
     victory_share_web: "переглянути вашу веб-сторінку"
     victory_share_suffix: "."
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_course_share_web: "переглянути веб-сторінку"
     victory_course_share_suffix: ", яку ви щойно створили."
     copy_url: "Копіювати посилання"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "Творець"
@@ -2249,6 +2261,19 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     basic_javascript: "Основи JavaScript"
     basic_event_handling: "Основи обробки подій"
     create_sharable_interactive_web_page: "Створи інтерактивну веб-сторінку, якою можна ділитися"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "Додано"

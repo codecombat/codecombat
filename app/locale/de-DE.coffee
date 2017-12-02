@@ -157,6 +157,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     brain_pop_challenge: "Fordere dich selbst heraus und spiele noch einmal mit einer anderen Programmiersprache!"
     replay: "Neu spielen"
     back_to_classroom: "Zurück zum Klassenraum"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "wenn" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_list_resource_hub_5: "für Curriculumleitfäden, Aktivitäten und mehr!"
     teacher_additional_questions: "Fertig! Wenn du weitere Hilfe benötigst oder Fragen hast, wende dich an __supportEmail__."
     dont_use_our_email_silly: "Bitte gib die E-Mail deiner Eltern an, nicht unsere!"
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "Account-Wiederherstellung"
@@ -415,6 +418,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     contact_us: "Kontaktiere uns"
     close_window: "Fenster schließen"
     learn_more: "Mehr erfahren"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "Sekunde"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_quest_less: "Weniger Schritte anzeigen"
     refresh_to_update: "(Seite aktualisieren)"
     view_project_gallery: "Projekt-Galerie ansehen"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "Gemeinsam genutzte Lizenzen"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     share_game: "Dieses Spiel teilen"
     share_web: "Diese Website teilen"
     victory_share_prefix: "Diesen Link teilen, um deine Freunde & Familie einzuladen,"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "dein Level zu spielen"
     victory_share_web: "deine Webiste anzuschauen"
     victory_share_suffix: "."
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     victory_course_share_web: "die Website anzeigen"
     victory_course_share_suffix: "die du eben erstellt hast."
     copy_url: "URL kopieren"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "Editor"
@@ -2249,6 +2261,19 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     basic_javascript: "Grundlagen JavaScript"
     basic_event_handling: "Grundlagen Ereignisbehandlung"
     create_sharable_interactive_web_page: "Erstelle interaktive Webseiten, die geteilt werden können."
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "hinzugefügt"
