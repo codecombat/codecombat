@@ -53,7 +53,7 @@ UserSchema.methods.broadName = ->
   return name if name
   name = @get('name')
   return name if name
-  [emailName, emailDomain] = @get('email').split('@')
+  [emailName, emailDomain] = @get('email').split('@') if @get('email')
   return emailName if emailName
   return 'Anonymous'
 

@@ -286,7 +286,9 @@ module.exports = class BasicInfoView extends CocoView
     if @signupState.get('path') is 'student'
       window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Success', category: 'Students'
     if @signupState.get('path') is 'individual'
-      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Success', category: 'Individuals'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Success', category: 'Individuals', wantInSchool: @$('#want-in-school-checkbox').is(':checked')
+      if @$('#want-in-school-checkbox').is(':checked')
+        @signupState.set 'wantInSchool', true
     @trigger 'signup'
 
   displayFormSubmitting: ->

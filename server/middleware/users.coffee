@@ -301,6 +301,8 @@ module.exports =
     yield module.exports.finishSignup(req, res)
 
   finishSignup: co.wrap (req, res) ->
+    if req.user.get('role') is 'possible teacher'
+      req.user.set 'role', undefined
     try
       yield req.user.save()
     catch e
@@ -483,18 +485,18 @@ module.exports =
         users = users.concat(yield User.find({emailLower: {$regex: '^' + searchParts[0]}}).limit(50).select(projection))
 
     users = _.uniq(users, false, (u) -> u.id)
-    
+
     teachers = (user for user in users when user?.isTeacher())
     trialRequests = yield TrialRequest.find({applicant: $in: (teacher._id for teacher in teachers)})
     trialRequestMap = _.zipObject([t.get('applicant').toString(), t.toObject()] for t in trialRequests)
-    
+
     toSend = _.map(users, (user) =>
       userObject = user.toObject()
       trialRequest = trialRequestMap[user.id]
       if trialRequest
         userObject._trialRequest = _.pick(trialRequest.properties, 'organization', 'district', 'nces_name', 'nces_district')
       return userObject
-    )    
+    )
     res.send(toSend)
 
 
@@ -573,12 +575,12 @@ module.exports =
 
     if thang = user.get('heroConfig')?.thangType
       fallback ?= "/file/db/thang.type/#{thang}/portrait.png"
-      
+
     fallback ?= makeHostUrl(req, '/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
     unless /^http/.test fallback
       fallback = makeHostUrl(req, fallback)
     combinedPhotoURL = "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
-    
+
     res.redirect(combinedPhotoURL)
     res.end()
 
@@ -587,15 +589,15 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found')
-      
+
     unless req.user.isAdmin() or req.user.id is user.id
       throw new errors.Forbidden()
-      
+
     if user.isTeacher()
       query = { ownerID: req.user._id }
     else
       query = { members: req.user._id }
-      
+
     if req.query.campaignSlug
       campaign = yield Campaign.findBySlug(req.query.campaignSlug).select({_id:1})
       if not campaign
@@ -604,7 +606,7 @@ module.exports =
       campaignID = campaign._id
       course = yield Course.findOne({ campaignID }).select({_id: 1})
       query.courseID = course._id
-      
+
     dbq = CourseInstance.find(query)
     dbq.limit(parse.getLimitFromReq(req))
     dbq.skip(parse.getSkipFromReq(req))

@@ -47,6 +47,8 @@ module.exports = class God extends CocoClass
       angelCount = options.maxAngels
     else if window.application.isIPadApp
       angelCount = 1
+    else if @indefiniteLength  # Don't do much with angels in game-dev, will mostly be synchronous
+      angelCount = 1
     else
       angelCount = 2
 
@@ -73,9 +75,9 @@ module.exports = class God extends CocoClass
     @lastFixedSeed = e.fixedSeed
     @lastFlagHistory = (flag for flag in e.flagHistory when flag.source isnt 'code')
     @lastDifficulty = e.difficulty
-    @createWorld e.spells, e.preload, e.realTime, e.justBegin, e.keyValueDb
+    @createWorld e
 
-  createWorld: (spells, preload, realTime, justBegin, keyValueDb) ->
+  createWorld: ({spells, preload, realTime, justBegin, keyValueDb, synchronous}) ->
     console.log "#{@nick}: Let there be light upon #{@level.name}! (preload: #{preload})"
     userCodeMap = @getUserCodeMap spells
 
@@ -107,7 +109,7 @@ module.exports = class God extends CocoClass
       goals: @angelsShare.goalManager?.getGoals()
       headless: @angelsShare.headless
       preload
-      synchronous: not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
+      synchronous: synchronous ? not Worker?  # Profiling world simulation is easier on main thread, or we are IE9.
       realTime
       justBegin
       indefiniteLength: @indefiniteLength and realTime

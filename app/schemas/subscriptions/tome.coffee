@@ -12,6 +12,7 @@ module.exports =
     spells: {type: 'object'}
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
+    synchronous: {type: 'boolean'}
     submissionCount: {type: 'integer'}
     fixedSeed: {type: ['integer', 'undefined']}
     flagHistory: {type: 'array'}

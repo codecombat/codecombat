@@ -53,6 +53,7 @@ WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
 
 require 'lib/game-libraries'
+window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
 
 PROFILE_ME = false
 
@@ -129,7 +130,7 @@ module.exports = class PlayLevelView extends RootView
     if @isEditorPreview
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-      f = => @load() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
+      f = => @load?() unless @levelLoader  # Wait to see if it's just given to us through setLevel.
       setTimeout f, 100
     else
       @load()
@@ -509,7 +510,7 @@ module.exports = class PlayLevelView extends RootView
     _.delay (=> @perhapsStartSimulating?()), 10 * 1000
 
   onSetVolume: (e) ->
-    createjs.Sound.setVolume(if e.volume is 1 then 0.6 else e.volume)  # Quieter for now until individual sound FX controls work again.
+    createjs.Sound.volume = if e.volume is 1 then 0.6 else e.volume  # Quieter for now until individual sound FX controls work again.
     if e.volume and not @ambientSound
       @playAmbientSound()
 

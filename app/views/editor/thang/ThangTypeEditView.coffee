@@ -172,7 +172,7 @@ module.exports = class ThangTypeEditView extends RootView
   openRevertModal: (e) ->
     e.stopPropagation()
     @openModalView new RevertModal()
-  
+
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
     @openModalView modal
@@ -269,7 +269,7 @@ module.exports = class ThangTypeEditView extends RootView
     _.defer @refreshAnimation
     @toggleDots(false)
 
-    createjs.Ticker.setFPS(30)
+    createjs.Ticker.framerate = 30
     createjs.Ticker.addEventListener('tick', @stage)
 
   toggleDots: (newShowDots) ->

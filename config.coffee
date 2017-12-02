@@ -13,12 +13,7 @@ regJoin = (s) -> new RegExp(s.replace(/\//g, '[\\\/\\\\]'))
 
 gameLibraries = [
   'register-game-libraries'
-  'easeljs'
-  'movieclip'
-  'tweenjs'
-  'soundjs'
-  'SpriteContainer'
-  'SpriteStage'
+  'createjs'
   'ShaderParticles'
   'deku'
   'htmlparser2'
@@ -120,7 +115,7 @@ exports.config =
 
         #- vendor.js, all the vendor libraries
         'javascripts/vendor.js': [
-          regJoin('^vendor/scripts/(?!(Box2d|coffeescript|difflib|diffview|jasmine|co|' + gameLibraries + '))')
+          regJoin('^vendor/scripts/(?!(coffeescript|difflib|diffview|jasmine|co|' + gameLibraries + '))')
           regJoin('^bower_components/(?!(aether|d3|treema|three.js|esper.js|jquery-ui|vimeo-player-js|' + gameLibraries  + '))')
           'bower_components/treema/treema-utils.js'
         ]
@@ -132,7 +127,7 @@ exports.config =
         ],
 
         'javascripts/whole-vendor.js': if TRAVIS then [
-          regJoin('^vendor/scripts/(?!(Box2d|jasmine|register-game-libraries))')
+          regJoin('^vendor/scripts/(?!(jasmine|register-game-libraries))')
           regJoin('^bower_components/(?!aether|esper.js)')
         ] else []
 
@@ -187,11 +182,7 @@ exports.config =
           # Twitter Bootstrap jquery plugins
           'bower_components/bootstrap/dist/bootstrap.js'
           # CreateJS dependencies
-          'vendor/scripts/easeljs-NEXT.combined.js'
-          'vendor/scripts/preloadjs-NEXT.combined.js'
-          'vendor/scripts/soundjs-NEXT.combined.js'
-          'vendor/scripts/tweenjs-NEXT.combined.js'
-          'vendor/scripts/movieclip-NEXT.min.js'
+          'vendor/scripts/createjs.js'
           # Validated Backbone Mediator dependencies
           'bower_components/tv4/tv4.js'
           # Aether before box2d for some strange Object.defineProperty thing
@@ -308,6 +299,6 @@ console.log "Got #{coffeeFiles.length} coffee files and #{jadeFiles.length} jade
 
 if process.env.GIT_SHA
   info =
-    sha: process.env.GIT_SHA 
+    sha: process.env.GIT_SHA
   fs.writeFile '.build_info.json', JSON.stringify info, null, '  '
   console.log( "Wrote build information file");
