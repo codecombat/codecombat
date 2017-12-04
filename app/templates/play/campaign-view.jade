@@ -43,6 +43,10 @@ if showGameDevAlert
     a(href="https://code.ninja")
       img.small-nav-logo.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png", title="Code Ninjas home", alt="Code Ninjas home")
 
+  if view.shouldShow('teacher-button')
+    #teacher-button-container
+      button.btn.btn-lg.btn-illustrated.btn-primary#teacher-button(data-i18n="play.get_more_codecombat", data-toggle='coco-modal', data-target='core/AnonymousTeacherModal')
+
   if campaign
     if campaign.get('slug') === 'game-dev-hoc'
       img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
@@ -128,7 +132,7 @@ if showGameDevAlert
 
           div(class="level-info rtl-allowed " + (levelStatusMap[level.slug] || "") + (level.requiresSubscription ? " premium" : "") + (showsLeaderboard ? " shows-leaderboard" : ""))
             .level-status.rtl-allowed(dir="auto")
-            h3= levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")))
+            h3(dir="auto")= levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")))
             - var description = i18n(level, 'description') || level.description || ""
             .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: !picoCTF})
             if level.disabled
@@ -269,7 +273,7 @@ if showGameDevAlert
             span.player-level.spr= me.level()
         span.player-hero-icon
         if me.get('anonymous')
-          span.player-name.spr(data-i18n="play.anonymous") Anonymous Player
+          span.player-name(data-i18n="play.anonymous") Anonymous Player
           button.btn.btn-illustrated.login-button.btn-warning(data-i18n="login.log_in")
           button.btn.btn-illustrated.signup-button.btn-danger(data-i18n="signup.sign_up")
         else
@@ -304,7 +308,7 @@ if showGameDevAlert
           span= levelsCompleted
           | /
           span= levelsTotal
-    
+
 if campaign && view.shouldShow('codeplay-ads')
   a(href="https://lenovogamestate.com/pages/products/")
     - var url = "/images/common/codeplay/NA_LevelsPage_Cube_160x480.png"

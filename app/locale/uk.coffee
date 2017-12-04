@@ -117,6 +117,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   play:
     play_as: "Грати за" # Ladder page
+#    get_course_for_class: "Assign Game Development and more to your classes!"
+#    request_licenses: "Contact our school specialists for details."
     compete: "Змагайтесь!" # Course details page
     spectate: "Спостерігати" # Ladder page
     players: "гравці" # Hover over a level on /play
@@ -155,6 +157,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
 #    back_to_classroom: "Back to Classroom"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -229,10 +233,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     signup_switch: "Хочете створити акаунт?"
 
   signup:
+#    complete_subscription: "Complete Subscription"
     create_student_header: "Створити акаунт учня"
     create_teacher_header: "Створити акаунт вчителя"
     create_individual_header: "Створити індивідуальний акаунт"
     email_announcements: "Отримувати анонси про нові рівні та інші новинки CodeCombat!"
+#    sign_in_to_continue: "Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Створення акаунту..."
     sign_up: "Реєстрація"
@@ -305,6 +311,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "Відновити акаунт"
@@ -411,6 +418,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     contact_us: "Зв'яжіться з нами"
     close_window: "Закрити вікно"
     learn_more: "Дізнатися більше"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "секунда"
@@ -432,6 +442,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    back_to_map: "Back to Map"
     directions: "Напрямки"
     edit_level: "Редагувати рівень"
+#    keep_learning: "Keep Learning"
     explore_codecombat: "Дослідити CodeCombat"
     finished_hoc: "Я закінчив свою Годиною Коду"
     get_certificate: "Отримайте ваш сертифікат!"
@@ -581,8 +592,20 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
+#  amazon_hoc:
+#    title: "Keep Learning with Amazon!"
+#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+#    educate_2: "Learn more and sign up here"
+#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+#    future_eng_2: "here"
+#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+#    future_eng_4: "Amazon Future Engineer"
+#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
   play_game_dev_level:
     created_by: "Створив: {{name}}"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "Перезапустити рівень"
     play: "Грати рівень"
     play_more_codecombat: "Грати більше CodeCombat"
@@ -1332,6 +1355,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     are_you_sure: "Ви впевнені, що хочете видалити цього учня з цього класу?"
     remove_description1: "Учень втратить доступ до цієї класної кімнати та призначених класів. Прогрес НЕ буде втрачено і учня можна буде додати знову до класу в будь-який момент."
     remove_description2: "Активовану платну ліцензію не буде повернено."
+#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "Зберегти учня"
     removing_user: "Видалення користувача"
     subtitle: "Переглянути опис та рівні курсу" # Flat style redesign
@@ -1404,6 +1428,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     select_your_hero_description: "Ви завжди можете змінити вашого героя на сторінці ваших курсів клікнувши \"Змінити героя\""
     select_this_hero: "Обрати цього героя"
     current_hero: "Поточний герой:"
+#    current_hero_female: "Current Hero:"
     change_hero: "Змінити героя"
     web_dev_language_transition: "Програма HTML/JavaScript для всіх класів для цього курсу. Класи, що використовували Python, розпочнуть з додаткових вступних рівнів JavaScript, щоб полегшити перехід. Для класів, що вже використовують JavaScript, вступні рівні буде пропущено."
     course_membership_required_to_play: "Вам потрібно приєднатись до курсу щоб зіграти в цей рівень."
@@ -1420,6 +1445,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   teacher:
     assigning_course: "Призначення курсу"
+#    removing_course: "Removing course"
     course_solution: "Рішення курсу"
     level_overview_solutions: "Огляд та рішення рівня"
     no_student_assigned: "Жодного учня не призначено на цей курс."
@@ -1491,13 +1517,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     assigned_msg_2: "{{numberEnrolled}} ліцензій було застосовано."
     assigned_msg_3: "У вас залишилось {{remainingSpots}} доступних ліцензій."
     assign_course: "Призначити курси"
+#    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+#    remove_course: "Remove Course"
     not_assigned_modal_title: "Курси не були призначені"
     not_assigned_modal_starter_body_1: "Цей курс вимагає початкової ліцензії. У вас недостатньо початкових ліцензій для призначення цього курсу усім __selected__ обраним учням."
     not_assigned_modal_starter_body_2: "Придбайте початкові ліцензії, щоб надати доступ до цього курсу."
     not_assigned_modal_full_body_1: "Цей курс вимагає повної ліцензії. У вас недостатньо повних ліцензій для призначення цього курсу усім __selected__ обраним учням."
     not_assigned_modal_full_body_2: "У вас є лише __numFullLicensesAvailable__ Повних ліцензій (__numStudentsWithoutFullLicenses__ учнів в даний момент не мають активних Повних ліцензій)."
     not_assigned_modal_full_body_3: "Будь ласка, виберіть менше учнів або напишіть на __supportEmail__ для допомоги."
-    assign_to_selected_students: "Призначити обраним учням"
     assigned: "Призначено"
     enroll_selected_students: "Зарахувати обраних учнів"
     no_students_selected: "Не обрано жодного учня."
@@ -1593,6 +1620,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    gd2: "Game Development 2"
 #    gd2_curriculum: "Game Development 2 - Curriculum Guide"
 #    gd2_curriculum_desc: "Lesson plans for Game Development 2."
+#    gd3: "Game Development 3"
+#    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+#    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Веб розробка 1"
     wd1_headlines: "Новини та заголовки"
     wd1_headlines_example: "Переглянути зразок рішення"
@@ -1691,6 +1721,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -1716,6 +1750,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     share_game: "Поділитись цією грою"
     share_web: "Поділитись цією веб-сторінкою"
     victory_share_prefix: "Поділитись цим посиланням, щоб запросити ваших друзів та рідних"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "грати ваш рівень"
     victory_share_web: "переглянути вашу веб-сторінку"
     victory_share_suffix: "."
@@ -1724,6 +1759,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     victory_course_share_web: "переглянути веб-сторінку"
     victory_course_share_suffix: ", яку ви щойно створили."
     copy_url: "Копіювати посилання"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "Творець"
@@ -2225,6 +2261,19 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     basic_javascript: "Основи JavaScript"
     basic_event_handling: "Основи обробки подій"
     create_sharable_interactive_web_page: "Створи інтерактивну веб-сторінку, якою можна ділитися"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "Додано"

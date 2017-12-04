@@ -267,7 +267,7 @@ module.exports = class CocoRouter extends Backbone.Router
         @mergeView(view)
       else
         @openView(view)
-    
+
       @viewLoad.setView(view)
       @viewLoad.record()
     .catch (err) ->
@@ -309,6 +309,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return document.location.reload()
     window.currentModal?.hide?()
     return unless window.currentView?
+    window.currentView.modalClosed()
     window.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall

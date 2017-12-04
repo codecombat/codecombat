@@ -1,4 +1,4 @@
-ThangTypeLib = {
+ThangTypeLib =
   getPortraitURL: (thangTypeObj) ->
     return '' if application.testing
     if iconURL = thangTypeObj.rasterIcon
@@ -6,7 +6,7 @@ ThangTypeLib = {
     if rasterURL = thangTypeObj.raster
       return "/file/#{rasterURL}"
     "/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
-    
+
   getHeroShortName: (thangTypeObj) ->
     # TODO: Eventually nice to move this into ThangType DB object so it can be translated like the rest
     map = {
@@ -34,6 +34,13 @@ ThangTypeLib = {
     name = map[thangTypeObj.name]
     return translated if translated = name?[me.get('preferredLanguage', true)]
     return name?['en-US']
-}
+
+  getGender: (thangTypeObj) ->
+    # TODO: eventually move into ThangType DB object
+    slug = thangTypeObj?.slug ? thangTypeObj?.get?('slug') ? ''
+    heroGenders =
+      male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist', 'code-ninja']
+      female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'master-wizard', 'champion']
+    if slug in heroGenders.female then 'female' else 'male'
 
 module.exports = ThangTypeLib

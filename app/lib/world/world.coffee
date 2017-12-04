@@ -32,6 +32,7 @@ module.exports = class World
   preloading: false  # Whether we are just preloading a world in case we soon cast it
   debugging: false  # Whether we are just rerunning to debug a world we've already cast
   headless: false  # Whether we are just simulating for goal states instead of all serialized results
+  synchronous: false  # Whether we are simulating the game on the main thread and don't need to serialize/deserialize
   framesSerializedSoFar: 0
   framesClearedSoFar: 0
   apiProperties: ['age', 'dt']
@@ -282,7 +283,7 @@ module.exports = class World
 
     # Load new Thangs
     toAdd = (@loadThangFromLevel thangConfig, level.levelComponents, level.thangTypes for thangConfig in level.thangs ? [])
-    @extraneousThangs = consolidateThangs toAdd if willSimulate  # Combine walls, for example; serialize the leftovers later
+    @extraneousThangs = consolidateThangs toAdd if willSimulate and not @synchronous  # Combine walls, for example; serialize the leftovers later
     @addThang thang for thang in toAdd
     null
 
@@ -383,7 +384,8 @@ module.exports = class World
     @goalManager.setGoalState(goalID, status)
 
   endWorld: (victory=false, delay=3, tentative=false) ->
-    @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt))  # end a few seconds later
+    maximumFrame = if @indefiniteLength then Infinity else @totalFrames
+    @totalFrames = Math.min(maximumFrame, @frames.length + Math.floor(delay / @dt))  # end a few seconds later
     @victory = victory  # TODO: should just make this signify the winning superteam
     @victoryIsTentative = tentative
     status = if @victory then 'won' else 'lost'

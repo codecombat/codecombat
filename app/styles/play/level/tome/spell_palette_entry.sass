@@ -59,6 +59,9 @@
   //  color: rgb(197, 6, 11)
   color: rgb(243, 169, 49)
 
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
 
 body.dialogue-view-active
   .spell-palette-popover.popover
@@ -77,6 +80,16 @@ body.dialogue-view-active
   border-width: 16px 12px
   @include box-shadow(0 0 0 #000)
   // Prevent flickering in weird scenarios where popover goes over its own property
+
+  //Fixes punctuation but puts comment marker on right, which is apparently worse.
+  //body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+  //  .ace_text-layer .ace_comment
+  //    direction: rtl
+  //    unicode-bidi: embed
+
+  body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+    .rtl-right-aligned
+      text-align: right
 
   // Jiggle animation
   // TODO: consolidate with problem_alert.sass jiggle
@@ -124,6 +137,9 @@ body.dialogue-view-active
     font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
     font-variant: normal
 
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: "Cousine", "Courier", "Courier New", monospace !important
+
   .popover-title
     background-color: transparent
     margin: 0 14px
@@ -155,6 +171,9 @@ body.dialogue-view-active
       font-size: 12px
       font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
 
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: "Cousine", "Courier", "Courier New", monospace !important
+
     .docs-ace
       .ace_cursor, .ace_bracket
         display: none
@@ -163,6 +182,9 @@ body.dialogue-view-active
     color: black
     font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
     font-size: 12px
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: "Cousine", "Courier", "Courier New", monospace !important
 
 html.no-borderimage
   .spell-palette-popover.popover

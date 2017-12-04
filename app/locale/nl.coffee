@@ -67,7 +67,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   nav:
     map: "Kaart"
-    play: "Levels" # Hier kiezen spelers welke levels ze willen spelen.
+    play: "Levels" # The top nav bar entry where players choose which levels to play
     community: "Gemeenschap"
     courses: "Lessen"
     blog: "Blog"
@@ -117,6 +117,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   play:
     play_as: "Speel als " # Ladder page
+#    get_course_for_class: "Assign Game Development and more to your classes!"
+#    request_licenses: "Contact our school specialists for details."
     compete: "Compleet!" # Course details page
     spectate: "Toeschouwen" # Ladder page
     players: "Spelers" # Hover over a level on /play
@@ -155,6 +157,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     brain_pop_challenge: "Daag jezelf uit opnieuw te spelen in een andere programmeertaal!"
     replay: "Herstart"
     back_to_classroom: "Terug naar Klaslokaal"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "als" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -229,10 +233,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     signup_switch: "Wil je een account maken?"
 
   signup:
+#    complete_subscription: "Complete Subscription"
     create_student_header: "Creëer studenten account"
     create_teacher_header: "Creeër leraren account"
     create_individual_header: "Creeër persoonlijk account"
     email_announcements: "Ontvang aankondigingen via e-mail" # {change}
+#    sign_in_to_continue: "Sign in or create an account to continue"
     teacher_email_announcements: "Houd me op de hoogte over nieuwe hulpmiddelen, leerplannen, en cursussen!"
     creating: "Account aanmaken..."
     sign_up: "Aanmelden"
@@ -305,6 +311,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_list_resource_hub_5: "voor lesprogrammagidsen, activiteiten, en meer!"
     teacher_additional_questions: "Dat was het! Als je nog meer hulp nodig hebt of je hebt vragen, neem contact op met __supportEmail__."
     dont_use_our_email_silly: "Zet hier niet je eigen email-adres neer, maar die van je ouders!"
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "Herstel Account"
@@ -411,6 +418,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     contact_us: "Neem contact met ons op"
     close_window: "Sluit Venster"
     learn_more: "Lees Meer"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "seconde"
@@ -432,6 +442,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     back_to_map: "Terug naar kaart"
     directions: "Instructies"
     edit_level: "Edit Level"
+#    keep_learning: "Keep Learning"
     explore_codecombat: "Verken CodeCombat"
     finished_hoc: "Ik ben klaar met mijn Uur van de Code"
     get_certificate: "Haal je certificaat!"
@@ -581,8 +592,20 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     project_published_noty: "Je level is gepubliceerd!"
     keep_editing: "Blijf aanpassen"
 
+#  amazon_hoc:
+#    title: "Keep Learning with Amazon!"
+#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+#    educate_2: "Learn more and sign up here"
+#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+#    future_eng_2: "here"
+#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+#    future_eng_4: "Amazon Future Engineer"
+#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
   play_game_dev_level:
     created_by: "Gemaakt door {{name}}"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "Herstart Level"
     play: "Speel Level"
     play_more_codecombat: "Speel Meer CodeCombat"
@@ -644,8 +667,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchasing: "Aan het kopen..."
     declined: "Je kaart is geweigerd"
     retrying: "Server fout, opnieuw aan het proberen."
-    prompt_title: "Niet genoeg edelstenen"
-    prompt_body: "Wil je meer krijgen?"
+    prompt_title: "Niet genoeg Edelstenen"
+    prompt_body: "Blijf spelen om er meer te verdienen!"
     prompt_button: "Naar de winkel"
     recovered: "Edelstenen aankoop hersteld. Ververs de pagina alstublieft."
     price: "x{{gems}} / maand"
@@ -654,8 +677,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchased: "Gekocht"
 
 #  earn_gems:
-    prompt_title: "Niet genoeg Edelstenen"
-    prompt_body: "Blijf spelen om er meer te verdienen!"
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
 
   subscribe:
     best_deal: "Beste Deal!"
@@ -1332,6 +1355,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     are_you_sure: "Weet je zeker dat je de leerling uit de klas wilt halen?"
     remove_description1: "De toegang tot dit klaslokaal en de toegewezen klassen wordt geblokkeerd. Voortgang wordt NIET verwijderd, en de leerling kan altijd weer worden toegevoegd."
     remove_description2: "De geactiveerde betaalde licenties worden niet teruggegeven."
+#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "bewaar leerling"
     removing_user: "Verwijder gebruiker"
     subtitle: "Bekijk cursus richtlijnen, oplossingen, en levels" # Flat style redesign {change}
@@ -1404,6 +1428,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_your_hero_description: "Je kunt op elk moment wisselen van held door naar je Cursussen overzicht te gaan en op \"Verander Held\" te klikken"
     select_this_hero: "Kies deze Held"
     current_hero: "Huidige Held:"
+#    current_hero_female: "Current Hero:"
     change_hero: "Verander Held"
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
@@ -1420,6 +1445,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   teacher:
     assigning_course: "Cursus toewijzen"
+#    removing_course: "Removing course"
     course_solution: "Cursus antwoord"
     level_overview_solutions: "Level overzicht en antwoorden"
     no_student_assigned: "Er zijn geen leerlingen toegewezen aan deze cursus."
@@ -1491,13 +1517,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     assigned_msg_2: "{{numberEnrolled}} licenties zijn toegepast."
     assigned_msg_3: "Je hebt nog {{remainingSpots}} beschikbare licenties."
     assign_course: "Cursus toewijzen"
+#    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+#    remove_course: "Remove Course"
     not_assigned_modal_title: "Cursussen zijn niet toegewezen"
     not_assigned_modal_starter_body_1: "Voor deze cursus is een Starter Licentie nodig. U heeft niet genoeg Volledige Licenties beschikbaar om deze curus toe te wijzen aan de __selected__ geselecteerde leerlingen."
     not_assigned_modal_starter_body_2: "Schaf Starter Licenties aan om toegang te verlenen tot deze cursus."
     not_assigned_modal_full_body_1: "Voor deze cursus is een Volledige Licentie nodig. U heeft niet genoeg Volledige Licenties beschikbaar om deze curus toe te wijzen aan de __selected__ geselecteerde leerlingen."
     not_assigned_modal_full_body_2: "U heeft maar __numFullLicensesAvailable__ Volledige Licenties beschikbaar (__numStudentsWithoutFullLicenses__ leeringen hebben momenteel geen actieve Volledige Licentie)."
     not_assigned_modal_full_body_3: "Selecteer minder leerlingen, of neem contant op met __supportEmail__."
-    assign_to_selected_students: "Toewijzen aan Geselecteerde Leerlingen"
     assigned: "Toegewezen"
     enroll_selected_students: "Schrijf geselecteerde leerlingen in"
     no_students_selected: "Er waren geen leerlingen geselecteerd."
@@ -1593,6 +1620,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     gd2: "Game Ontwikkeling 2"
     gd2_curriculum: "Game Ontwikkeling 2 - Curriculum-Gids"
     gd2_curriculum_desc: "Lesplannen voor Game Ontwikkeling 2."
+#    gd3: "Game Development 3"
+#    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+#    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web Ontwikkeling 1"
     wd1_headlines: "Titels & Koppen Activiteit"
     wd1_headlines_example: "Bekijk voorbeeld-oplossing"
@@ -1670,27 +1700,31 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_quest_teach_methods_step2: "Print de [Snelle Startgids voor Studenten](http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf) in de Resource Hub."
     teacher_quest_teach_strings: "Trek niet aan de touwtjes van je studenten, leer ze `strings`."
     teacher_quest_teach_strings_step1: "Zorg dat 75% van je studenten heelhuids door __True Names__ heen komen!"
-#    teacher_quest_teach_strings_step2: "Gebruik de Docent Level Selector op [Course Guides](/teachers/courses) pagina om __True Names__ vooraf te bekijken."
-#    teacher_quest_teach_loops: "Laat je studenten hard lopen om `loops` aan te leren."
-#    teacher_quest_teach_loops_step1: "Zorg dat tenminste 75% van één klas door __Fire Dancing__ heen komt."
-#    teacher_quest_teach_loops_step2: "Gebruik de __Loops Activity__ in de [CS1 Curriculum guide](/teachers/resources/cs1) om dit concept te versterken."
-#    teacher_quest_teach_variables: "Varieer met `variables`."
-#    teacher_quest_teach_variables_step1: "Zorg dat tenminste 75% van één klas door __Known Enemy__heen komt."
-#    teacher_quest_teach_variables_step2: "Moedig samenwerking aan door [Pair Programming Activity](/teachers/resources/pair-programming)."
-#    teacher_quest_kithgard_gates_100: "Ontsnap de Kithgard Bruggen met je klas."
-#    teacher_quest_kithgard_gates_100_step1: "Zorg dat tenminste 75% van één klas door __Kithgard Gates__heen komt."
-#    teacher_quest_kithgard_gates_100_step2: "Begeleid studenten om door moeilijke problemen heen te komen door de [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) te gebruiken."
-#    teacher_quest_wakka_maul_100: "Bereid je voor op een duel in Wakka Maul."
-#    teacher_quest_wakka_maul_100_step1: "Zorg dat tenminste 75% van één klas door__Wakka Maul__heen komt."
-#    teacher_quest_wakka_maul_100_step2: "Bekijk de [Arena Guide](/teachers/resources/arenas) in de [Resource Hub](/teachers/resources) voor tips hoe je een succesvolle dag in de arena hebt."
-#    teacher_quest_reach_gamedev: "Ontdek nieuwe werelden!"
-#    teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) zodat je studenten nieuwe werelden kunnen ontdekken zoals Game Ontwikkeling en Web Ontwikkeling!"
-#    teacher_quest_done: "Wil je dat je studenten zelfs nog meer code leren? Zoek contact met onze [school specialists](mailto:schools@codecombat.com) vandaag!"
-#    teacher_quest_keep_going: "Ga zo door! Dit is wat je hierna kunt doen:"
-#    teacher_quest_more: "Bekijk alle quests (zoektochten)"
-#    teacher_quest_less: "Bekijk minder quests (zoektochten)"
-#    refresh_to_update: "(ververs de pagina om updates te zien)"
-#    view_project_gallery: "Bekijk Projectgalerij"
+#    teacher_quest_teach_strings_step2: "Use the Teacher Level Selector on [Course Guides](/teachers/courses) page to preview __True Names__."
+#    teacher_quest_teach_loops: "Keep your students in the loop about `loops`."
+#    teacher_quest_teach_loops_step1: "Get 75% of at least one class through __Fire Dancing__."
+#    teacher_quest_teach_loops_step2: "Use the __Loops Activity__ in the [CS1 Curriculum guide](/teachers/resources/cs1) to reinforce this concept."
+#    teacher_quest_teach_variables: "Vary it up with `variables`."
+#    teacher_quest_teach_variables_step1: "Get 75% of at least one class through __Known Enemy__."
+#    teacher_quest_teach_variables_step2: "Encourage collaboration by using the [Pair Programming Activity](/teachers/resources/pair-programming)."
+#    teacher_quest_kithgard_gates_100: "Escape the Kithgard Gates with your class."
+#    teacher_quest_kithgard_gates_100_step1: "Get 75% of at least one class through __Kithgard Gates__."
+#    teacher_quest_kithgard_gates_100_step2: "Guide students to think through hard problems using the [Engineering Cycle Worksheet](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf)."
+#    teacher_quest_wakka_maul_100: "Prepare to duel in Wakka Maul."
+#    teacher_quest_wakka_maul_100_step1: "Get 75% of at least one class to __Wakka Maul__."
+#    teacher_quest_wakka_maul_100_step2: "See the [Arena Guide](/teachers/resources/arenas) in the [Resource Hub](/teachers/resources) for tips on how to run a successful arena day."
+#    teacher_quest_reach_gamedev: "Explore new worlds!"
+#    teacher_quest_reach_gamedev_step1: "[Get licenses](/teachers/licenses) so that your students can explore new worlds, like Game Development and Web Development!"
+#    teacher_quest_done: "Want your students to learn even more code? Get in touch with our [school specialists](mailto:schools@codecombat.com) today!"
+#    teacher_quest_keep_going: "Keep going! Here's what you can do next:"
+#    teacher_quest_more: "See all quests"
+#    teacher_quest_less: "See fewer quests"
+#    refresh_to_update: "(refresh the page to see updates)"
+#    view_project_gallery: "View Project Gallery"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -1716,6 +1750,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     share_game: "Deel Dit Spel"
     share_web: "Deel Deze Webpagina"
     victory_share_prefix: "Deel deze link om je vriend en familie uit te nodigen voor"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "speel jouw level"
     victory_share_web: "bekijk jouw webpagina"
     victory_share_suffix: "."
@@ -1724,6 +1759,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     victory_course_share_web: "de webpagina bekijken"
     victory_course_share_suffix: "die je net hebt gemaakt."
     copy_url: "Kopieer URL"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "Maker"
@@ -2226,6 +2262,19 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     basic_event_handling: "Basis Event Afhandelen"
     create_sharable_interactive_web_page: "Maak een interactieve webpagina die je kunt delen"
 
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+
   delta:
     added: "Toegevoegd"
     modified: "Veranderd"
@@ -2337,22 +2386,22 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-    email_taken: "Emailadres is al in gebruik"
-    username_taken: "Username is al in gebruik"
+#    email_taken: "Email already taken"
+#    username_taken: "Username already taken"
 
 #  esper:
 #    line_no: "Line $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
-    reference_error: "ReferenceError: "
-    argument_error: "ArgumentError: "
-    type_error: "TypeError: "
-    syntax_error: "SyntaxError: "
-    error: "Error: "
-    x_not_a_function: "$1 is geen functie"
-    x_not_defined: "$1 is niet gedefinieerd"
-    spelling_issues: "Kijk uit voor spelfouten, bedoelde je `$1` in plaats van `$2`?"
-    capitalization_issues: "Kijk uit voor hoofdletters: `$1` should be `$2`."
-    py_empty_block: "Lege $1. Zet 4 spaties vóór statements binnen de $2 statement."
+#    reference_error: "ReferenceError: "
+#    argument_error: "ArgumentError: "
+#    type_error: "TypeError: "
+#    syntax_error: "SyntaxError: "
+#    error: "Error: "
+#    x_not_a_function: "$1 is not a function"
+#    x_not_defined: "$1 is not defined"
+#    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
+#    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
+#    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
 #    fx_missing_paren: "If you want to call `$1` as a function, you need `()`'s"
 #    unmatched_token: "Unmatched `$1`.  Every opening `$2` needs a closing `$3` to match it."
 #    unterminated_string: "Unterminated string. Add a matching `\"` at the end of your string."

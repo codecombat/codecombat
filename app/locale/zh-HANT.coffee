@@ -117,6 +117,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   play:
     play_as: "扮演" # Ladder page
+#    get_course_for_class: "Assign Game Development and more to your classes!"
+#    request_licenses: "Contact our school specialists for details."
     compete: "競賽!" # Course details page
     spectate: "觀戰" # Ladder page
     players: "玩家" # Hover over a level on /play
@@ -155,6 +157,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
     back_to_classroom: "回到教室"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "若是" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -229,10 +233,12 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     signup_switch: "建立一個帳號"
 
   signup:
+#    complete_subscription: "Complete Subscription"
     create_student_header: "建立學生帳號"
     create_teacher_header: "建立教師帳號"
     create_individual_header: "建立私人帳號"
     email_announcements: "接收通知以了解CodeCombat中的新關卡和新功能!"
+#    sign_in_to_continue: "Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "帳號建立中…"
     sign_up: "註冊"
@@ -305,6 +311,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "復原帳號"
@@ -411,6 +418,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     contact_us: "與我們聯繫"
     close_window: "關閉視窗"
     learn_more: "了解更多"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "秒"
@@ -432,6 +442,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    back_to_map: "Back to Map"
     directions: "目標方向"
     edit_level: "編輯關卡"
+#    keep_learning: "Keep Learning"
     explore_codecombat: "瀏覽 CodeCombat"
     finished_hoc: "我已經完成了我的編程時光"
     get_certificate: "取得您的證書!"
@@ -581,8 +592,20 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
+#  amazon_hoc:
+#    title: "Keep Learning with Amazon!"
+#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+#    educate_2: "Learn more and sign up here"
+#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+#    future_eng_2: "here"
+#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+#    future_eng_4: "Amazon Future Engineer"
+#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
   play_game_dev_level:
     created_by: "由{{name}}創建"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "重置關卡"
     play: "開始玩關卡"
     play_more_codecombat: "玩更多的CodeCombat"
@@ -1332,6 +1355,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     are_you_sure: "您確定要將這個學生從班級中移除嗎?"
     remove_description1: "學生將會失去進入這個教室和分配課程的資格。 但遊戲進度並不會失去，所以可以在重新加入教室的時候繼續進度。"
     remove_description2: "已經啟動的付費註冊碼將不能退費。"
+#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "保留學生"
     removing_user: "移除使用者中"
     subtitle: "回顧課程的總覽以及關卡" # Flat style redesign
@@ -1404,6 +1428,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     select_your_hero_description: "您隨時可以在課程頁面中點擊\"更換英雄\"來更換您的英雄"
     select_this_hero: "選擇這個英雄"
     current_hero: "現在使用英雄:"
+#    current_hero_female: "Current Hero:"
     change_hero: "更換英雄"
     web_dev_language_transition: "在這個課程中所有的班級都使用 HTML / JavaScript。 已經使用Python的班級將會從額外的JavaScript介紹關卡開始以銜接內容。 已經使用JavaScript的班級將會跳過介紹關卡。"
     course_membership_required_to_play: "您需要加入一個課程來遊玩此關卡。"
@@ -1420,6 +1445,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
   teacher:
     assigning_course: "派發課程中"
+#    removing_course: "Removing course"
     course_solution: "課程解答"
     level_overview_solutions: "關卡總覽及解答"
     no_student_assigned: "還沒有任何學生被分到這個課程中。"
@@ -1491,13 +1517,14 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     assigned_msg_2: "需要使用 {{numberEnrolled}} 個註冊碼。"
     assigned_msg_3: "您現在還有 {{remainingSpots}} 個可使用的註冊碼。"
     assign_course: "指派班級"
+#    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+#    remove_course: "Remove Course"
     not_assigned_modal_title: "班級未被指派"
     not_assigned_modal_starter_body_1: "這個課程需要一個起始註冊碼。您沒有足夠多可用的起始註冊碼來指派這個課程給所有 __selected__ 選擇的學生。"
     not_assigned_modal_starter_body_2: "購買起始註冊碼來授予這個課程的存取。"
     not_assigned_modal_full_body_1: "這個課程需要一個完整註冊碼。您沒有足夠多可用的完整註冊碼來指派這個課程給所有 __selected__ 選擇的學生。"
     not_assigned_modal_full_body_2: "您只擁有 __numFullLicensesAvailable__ 個可用的完整註冊碼 (__numStudentsWithoutFullLicenses__ 個學生還沒有啟動完整註冊碼)。"
     not_assigned_modal_full_body_3: "請選擇少一點的學生，或是寫信到 __supportEmail__ 取得幫助。"
-    assign_to_selected_students: "指派給選擇的學生"
     assigned: "已指派"
     enroll_selected_students: "註冊選擇的學生"
     no_students_selected: "沒有選擇的學生。"
@@ -1593,6 +1620,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    gd2: "Game Development 2"
 #    gd2_curriculum: "Game Development 2 - Curriculum Guide"
 #    gd2_curriculum_desc: "Lesson plans for Game Development 2."
+#    gd3: "Game Development 3"
+#    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+#    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "網頁開發 1"
     wd1_headlines: "標題以及標題activity"
     wd1_headlines_example: "觀看解答範本"
@@ -1691,6 +1721,10 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -1716,6 +1750,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     share_game: "分享這個遊戲"
     share_web: "分享這個網頁"
     victory_share_prefix: "分享這個連結來邀請您的朋友及家人觀看"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "遊玩您的遊戲關卡"
     victory_share_web: "瀏覽您的網頁"
     victory_share_suffix: "."
@@ -1724,6 +1759,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     victory_course_share_web: "觀看這個網頁"
     victory_course_share_suffix: "來看看您剛剛的努力。"
     copy_url: "複製網址"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "創造者"
@@ -2225,6 +2261,19 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     basic_javascript: "基礎JavaScript"
     basic_event_handling: "基礎事件處理"
     create_sharable_interactive_web_page: "建立一個可分享的互動式網頁"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "已填加"

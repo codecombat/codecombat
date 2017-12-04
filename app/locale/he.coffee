@@ -7,9 +7,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     im_a_teacher: "אני מורה"
     im_a_student: "אני תלמיד"
     learn_more: "מידע נוסף"
-    classroom_in_a_box: "כיתה שלמה בקופסה ללימוד מדעי המחשב."
-    codecombat_is: "CodeCombat הוא פלטפורמה <strong>לתלמידים</strong>, המיועדת ללימוד מדעי המחשב תוך כדי חוויית משחק אמיתית."
-    our_courses: "הקורסים שלנו נבדקו במיוחד <strong>כדי להבטיח התאמתם לסביבה הכיתתית</strong>, אפילו אצל מורים עם ניסיון מועט בתכנות או ללא ניסיון כלל."
+    classroom_in_a_box: "כיתה ללימוד מדעי מחשב בתוך קופסא."
+    codecombat_is: "CodeCombat היא פלטפורמה <strong>לתלמידים</strong>, ללימוד מדעי המחשב, תוך כדי חויית משחק מחשב אמיתי."
+    our_courses: "הקורסים שלנו נבנו <strong>לאפשר הגעה לרמת מצויינו</strong>, גם עבור מורים חסרי ניסיון או בעלי מעט ניסיון קודם בתחום התכנות."
 #    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
     top_screenshots_hint: "התלמידים כותבים קוד, ורואים את השינויים שלהם מתעדכנים בזמן אמת"
     designed_with: "תוכנן מתוך חשיבה על מורים"
@@ -116,11 +116,13 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     subscribe_as_diplomat: "הירשם כמנוי דיפלומט"
 
   play:
-    play_as: "שחק בתור" # Ladder page
-    compete: "תחרות!" # Course details page
-    spectate: "מצב קהל" # Ladder page
-    players: "שחקנים" # Hover over a level on /play
-    hours_played: "שעות משחק" # Hover over a level on /play
+    play_as: "דף הטבל" # Ladder page
+#    get_course_for_class: "Assign Game Development and more to your classes!"
+#    request_licenses: "Contact our school specialists for details."
+    compete: "דף פרטי קורס" # Course details page
+    spectate: "דף הטבלה" # Ladder page
+    players: "רחף מעל לשלב ב" # Hover over a level on /play
+    hours_played: "רחף מעל לשלב ב" # Hover over a level on /play
     items: "פריטים" # Tooltip on item shop button from /play
     unlock: "פתח" # For purchasing items and heroes
     confirm: "אשר"
@@ -155,6 +157,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     brain_pop_challenge: "כדי לאתגר את עצמכם, שחקו שוב באמצעות שפת תכנות אחרת!"
     replay: "הילוך חוזר"
     back_to_classroom: "בחזרה לכיתה"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "אם" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -229,10 +233,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     signup_switch: "רוצים ליצור חשבון?"
 
   signup:
+#    complete_subscription: "Complete Subscription"
     create_student_header: "יצירת חשבון תלמיד"
     create_teacher_header: "יצירת חשבון מורה"
     create_individual_header: "יצירת חשבון אישי"
     email_announcements: "קבלו הודעות על שלבים ותכונות חדשים ב-CodeCombat!"
+#    sign_in_to_continue: "Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "יוצר חשבון..."
     sign_up: "הרשמה"
@@ -305,6 +311,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_list_resource_hub_5: "כדי למצוא מדריכים לתכנית לימודים, פעילויות ועוד!"
     teacher_additional_questions: "זה הכול! לשאלות ולקבלת עזרה נוספת, נא לפנות אל __supportEmail__."
     dont_use_our_email_silly: "אל תכתבו כאן את הכתובת שלנו! כתבו את כתובת הדואר האלקטרוני של ההורה."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "שחזור חשבון"
@@ -411,6 +418,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     contact_us: "צור קשר"
     close_window: "סגור חלון"
     learn_more: "מידע נוסף"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "שנייה"
@@ -432,6 +442,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     back_to_map: "בחזרה למפה"
     directions: "הנחיות"
     edit_level: "עריכת שלב"
+#    keep_learning: "Keep Learning"
     explore_codecombat: "לחקור את CodeCombat"
     finished_hoc: "סיימתי את \"שעת הקוד\" שלי"
     get_certificate: "קבלו תעודה!"
@@ -581,8 +592,20 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     project_published_noty: "השלב שלכם פורסם!"
     keep_editing: "המשך בעריכה"
 
+#  amazon_hoc:
+#    title: "Keep Learning with Amazon!"
+#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
+#    educate_2: "Learn more and sign up here"
+#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
+#    future_eng_2: "here"
+#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+#    future_eng_4: "Amazon Future Engineer"
+#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+
   play_game_dev_level:
     created_by: "נוצר על-ידי {{name}}"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "התחל שלב מחדש"
     play: "שחקו בשלב"
     play_more_codecombat: "שחקו עוד CodeCombat"
@@ -856,7 +879,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     action: "פעולה"
     spell: "לחש"
     action_name: "שם"
-    action_cooldown: "נמשך"
+    action_cooldown: "נמשכת"
     action_specific_cooldown: "השהיה"
     action_damage: "נזק"
     action_range: "טווח"
@@ -882,7 +905,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     music_label: "מוזיקה"
     music_description: "להפעלה/כיבוי של המוזיקה."
     editor_config_title: "תצורת עורך"
-    editor_config_livecompletion_label: "השלמה אוטומטית חיה"
+    editor_config_livecompletion_label: "השלמה אוטומטית"
     editor_config_livecompletion_description: "מציג הצעות להשלמה אוטומטית תוך כדי הקלדה."
     editor_config_invisibles_label: "הצג בלתי נראים"
     editor_config_invisibles_description: "מציג בלתי נראים, כגון תווי רווח או טאב."
@@ -1308,12 +1331,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play_now_learn_2: "לולאות 'כל עוד' כדי לפתור פאזלים מעצבנים"
     play_now_learn_3: "מחרוזות ומשתנים להתאמה של הפעולות"
     play_now_learn_4: "כיצד להביס ענק (אלה כישורי חיים חשובים!)"
-    welcome_to_page: "לוח המחוונים שלי לתלמידים"
+    welcome_to_page: "(לוח המחוונים שלי (לתלמיד"
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
     view_levels: "הצג את כל השלבים בקורס"
     view_project_gallery: "הצג פרויקטים של חבריי לכיתה"
-    join_class: "הצטרף לכיתה"
+    join_class: "הצטרפו לכיתה"
     join_class_2: "הצטרף לכיתה"
     ask_teacher_for_code: "שאלו את המורה אם יש לכם קוד כיתה של CodeCombat! אם כן, הזינו אותו למטה:"
     enter_c_code: "<הזן קוד כיתה>"
@@ -1324,7 +1347,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     view_project: "הצג פרויקט"
     start: "התחל"
     last_level: "שלב אחרון ששיחקת"
-    not_you: "לא מדובר בך?"
+    not_you: "לא אתם?"
     continue_playing: "המשך לשחק"
     option1_header: "הזמנת תלמידים בדואר אלקטרוני"
     option1_body: "הערה: אם לתלמידים אין כתובות דואר אלקטרוני, הם יכולים להזין את קוד הכיתה הייחודי בעת יצירה של חשבון תלמיד, כדי להפוך את כתובות הדואר האלקטרוני לאופציה."
@@ -1332,9 +1355,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     are_you_sure: "האם אתה בטוח שברצונך להסיר תלמיד זה מכיתה זו?"
     remove_description1: "התלמיד יאבד גישה לכיתה זה ולכיתות שהוקצו. ההתקדמות והמשחק לא יאבדו, וניתן יהיה להוסיף את התלמיד בחזרה לכיתה בכל עת."
     remove_description2: "הרישיון בתשלום שמופעל לא יוחזר."
+#    license_will_revoke: "This student's paid license will be revoked and made available to assign to another student."
     keep_student: "שמור תלמיד"
     removing_user: "מסיר משתמש"
-    subtitle: "עיינו בסקירות כלליות של קורסים ובשלבים" # Flat style redesign
+    subtitle: "עיינו בסקירה כללית של הקורסים ובשלביהם" # Flat style redesign
     changelog: "עיינו בשינויים האחרונים בשלבי הקורסים."
     select_language: "בחירת שפה"
     select_level: "בחירת שלב"
@@ -1404,14 +1428,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     select_your_hero_description: "תמיד אפשר להחליף גיבור על-ידי מעבר אל דף הקורסים ולחיצה על \"החלף גיבור\""
     select_this_hero: "בחר גיבור זה"
     current_hero: "הגיבור הנוכחי:"
+    current_hero_female: "הגיבורה הנוכחית:"
     change_hero: "החלף גיבור"
     web_dev_language_transition: "עבור קורס זה, כל הכיתות מתכנתות ב-HTML/JavaScript.  כיתות שכבר משתמשות ב-Python יתחילו עם כמה שלבי מבוא נוספים ב-JavaScript כדי להקל על המעבר.  כיתות שכבר משתמשות ב-JavaScript ידלגו על שלבי המבוא."
     course_membership_required_to_play: "כדי לשחק בשלב זה, יש להצטרף לקורס."
     license_required_to_play: "בקשו מהמורה להקצות לכם רישיון, כדי שתוכלו להמשיך ולשחק ב-CodeCombat!"
-#    update_old_classroom: "New school year, new levels!"
-#    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
-#    teacher_dashboard: "teacher dashboard"
-#    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
+    update_old_classroom: "שנת לימודים חדשה, שלבים חדשים!"
+    update_old_classroom_detail: "בכדי לוודא שאתם מקבלים את השלבים המעודכנים ביותר, וודא שאתם יוצרים כתה חדשה לסמסטר הנוכחי, על ידי לחיצה על ״צור כיתה חדשה״"
+    teacher_dashboard: "על לוח המחוונים למורה"
+    update_old_classroom_detail_2: "והעבר/י לתלמידים את קוד הכיתה החדש שמופיע"
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -1420,6 +1445,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
   teacher:
     assigning_course: "מקצה קורס"
+#    removing_course: "Removing course"
     course_solution: "פתרון קורס"
     level_overview_solutions: "סקירה כללית ופתרונות לשלב"
     no_student_assigned: "לא הוקצו תלמידים לקורס זה."
@@ -1464,9 +1490,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     not_applicable: "לא זמין"
     edit: "עריכה"
     edit_2: "עריכה"
-    remove: "הסר"
+    remove: "הסרה"
     latest_completed: "אחרון שהושלם:"
-    sort_by: "מיין לפי"
+    sort_by: "מיון על פי"
     progress: "התקדמות"
     completed: "הושלם"
     practice: "תרגול"
@@ -1483,7 +1509,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     course_overview: "סקירה כללית של הקורס"
     copy_class_code: "העתק קוד כיתה"
     class_code_blurb: "תלמידים יכולים להצטרף לכיתה באמצעות קוד כיתה זה. אין צורך בכתובת דואר אלקטרוני בעת יצירה של חשבון תלמיד עם קוד כיתה זה."
-    copy_class_url: "העתק כתובת URL של כיתה"
+    copy_class_url: "העתק URL כיתה"
     class_join_url_blurb: "כמו כן, ניתן לפרסם בדף אינטרנט משותף כתובת URL ייחודית זו של הכיתה."
     add_students_manually: "הזמנת תלמידים בדואר אלקטרוני"
     bulk_assign: "הקצאה המונית"
@@ -1491,13 +1517,14 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     assigned_msg_2: "הוחלו {{numberEnrolled}} רישיונות."
     assigned_msg_3: "נותרו לכם {{remainingSpots}} רישיונות זמינים."
     assign_course: "הקצה קורס"
+#    removed_course_msg: "{{numberRemoved}} students were removed from {{courseName}}."
+    remove_course: "הסרת קורס"
     not_assigned_modal_title: "לא הוקצו קורסים"
     not_assigned_modal_starter_body_1: "לקורס זה נדרש רישיון למתחילים. אין מספיק רישיונות למתחילים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו."
     not_assigned_modal_starter_body_2: "רכשו רישיונות למתחילים כדי להעניק גישה אל קורס זה."
     not_assigned_modal_full_body_1: "לקורס זה נדרש רישיון מלא. אין מספיק רישיונות מלאים זמינים על מנת להקצות קורס זה לכל __selected__ התלמידים שנבחרו."
     not_assigned_modal_full_body_2: "יש לכם __numFullLicensesAvailable__ רישיונות מלאים בלבד (ל-__numStudentsWithoutFullLicenses__ תלמידים אין כעת רישיון מלא פעיל)."
     not_assigned_modal_full_body_3: "נא לבחור פחות תלמידים או לפנות אל __supportEmail__ לקבלת סיוע."
-    assign_to_selected_students: "הקצה לתלמידים הנבחרים"
     assigned: "הוקצה"
     enroll_selected_students: "רשום את התלמידים הנבחרים"
     no_students_selected: "לא נבחרו תלמידים."
@@ -1593,6 +1620,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    gd2: "Game Development 2"
 #    gd2_curriculum: "Game Development 2 - Curriculum Guide"
 #    gd2_curriculum_desc: "Lesson plans for Game Development 2."
+#    gd3: "Game Development 3"
+#    gd3_curriculum: "Game Development 3 - Curriculum Guide"
+#    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "פיתוח אינטרנט 1"
     wd1_headlines: "פעילות בכותרות ובכותרות עליונות"
     wd1_headlines_example: "הצג פתרון לדוגמה"
@@ -1691,6 +1721,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_quest_less: "לראות פחות מסעות"
     refresh_to_update: "(רעננו את הדף כדי לראות עדכונים)"
     view_project_gallery: "הצג גלריית פרויקט"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "שיתוף רישיונות"
@@ -1716,6 +1750,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     share_game: "שתף משחק זה"
     share_web: "שתף דף אינטרנט זה"
     victory_share_prefix: "שתפו קישור זה כדי להזמין חברים ובני משפחה"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "לשחק את השלב שלכם במשחק"
     victory_share_web: "לצפות בדף האינטרנט שלכם"
     victory_share_suffix: "."
@@ -1724,6 +1759,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_course_share_web: "לצפות בדף האינטרנט"
     victory_course_share_suffix: "שיצרתם כעת."
     copy_url: "העתק כתובת URL"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "יוצר"
@@ -2225,6 +2261,19 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     basic_javascript: "JavaScript בסיסי"
     basic_event_handling: "טיפול בסיסי באירועים"
     create_sharable_interactive_web_page: "יצירת דף אינטרנט אינטראקטיבי שניתן לשתף"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "נוסף"

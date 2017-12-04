@@ -39,6 +39,7 @@ PlayHeroesModal = require 'views/play/modal/PlayHeroesModal'
 PlayAchievementsModal = require 'views/play/modal/PlayAchievementsModal'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 ContactModal = require 'views/core/ContactModal'
+AnonymousTeacherModal = require 'views/core/AnonymousTeacherModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
@@ -91,6 +92,7 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="play/modal/BuyGemsModal"]': 'openBuyGemsModal'
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+    'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -119,6 +121,8 @@ module.exports = class CampaignView extends RootView
               application.router.navigate((if me.isStudent() then '/students' else '/teachers'), {trigger: true, replace: true})
               noty({text: 'Please create or join a classroom first', layout: 'topCenter', timeout: 8000, type: 'success'})
           return
+      if @terrain is 'game-dev-hoc'
+        window.tracker?.trackEvent 'Start HoC Campaign', label: 'game-dev-hoc'
       me.set('hourOfCode', true)
       me.patch()
       pixelCode = switch @terrain
@@ -301,6 +305,10 @@ module.exports = class CampaignView extends RootView
   openCreateAccountModal: (e) ->
     e.stopPropagation()
     @openModalView new CreateAccountModal()
+
+  openAnonymousTeacherModal: (e) ->
+    e.stopPropagation()
+    @openModalView new AnonymousTeacherModal()
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -774,7 +782,7 @@ module.exports = class CampaignView extends RootView
       particleKey.push 'hero' if level.unlocksHero and not level.unlockedHero
       #particleKey.push 'item' if level.slug is 'robot-ragnarok'  # TODO: generalize
       continue if particleKey.length is 2  # Don't show basic levels
-      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable', 'game-dev']).length
+      continue unless level.hidden or _.intersection(particleKey, ['item', 'hero-ladder', 'replayable']).length
       @particleMan.addEmitter level.position.x / 100, level.position.y / 100, particleKey.join('-')
 
   onMouseEnterPortals: (e) ->
@@ -1008,7 +1016,7 @@ module.exports = class CampaignView extends RootView
     button.toggleClass 'vol-off', volume <= 0.0
     button.toggleClass 'vol-down', 0.0 < volume < 1.0
     button.toggleClass 'vol-up', volume >= 1.0
-    createjs.Sound.setVolume(if volume is 1 then 0.6 else volume)  # Quieter for now until individual sound FX controls work again.
+    createjs.Sound.volume = if volume is 1 then 0.6 else volume  # Quieter for now until individual sound FX controls work again.
     if volume isnt me.get 'volume'
       me.set 'volume', volume
       me.patch()
@@ -1293,5 +1301,8 @@ module.exports = class CampaignView extends RootView
 
     if what in ['premium']
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
+
+    if what in ['teacher-button']
+      return me.isAnonymous() and me.level() < 15 and new Date() < new Date(2017, 11, 9)
 
     return true

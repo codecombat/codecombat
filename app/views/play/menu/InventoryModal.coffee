@@ -6,6 +6,7 @@ buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 earnGemsPromptTemplate = require 'templates/play/modal/earn-gems-prompt'
 {me} = require 'core/auth'
 ThangType = require 'models/ThangType'
+ThangTypeLib = require 'lib/ThangTypeLib'
 CocoCollection = require 'collections/CocoCollection'
 ItemView = require './ItemView'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
@@ -712,7 +713,7 @@ module.exports = class InventoryModal extends ModalView
   #- Paper doll equipment updating
   onEquipmentChanged: ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
+    gender = ThangTypeLib.getGender @selectedHero
     @$el.find('#hero-image, #hero-image-hair, #hero-image-head, #hero-image-thumb').removeClass().addClass "#{gender} #{heroClass}"
     equipment = @getCurrentEquipmentConfig()
     @onScrollUnequipped()
@@ -735,7 +736,7 @@ module.exports = class InventoryModal extends ModalView
 
   addDollImage: (slot, dollImages, heroClass, gender, item) ->
     heroClass = @selectedHero?.get('heroClass') ? 'Warrior'
-    gender = if @selectedHero?.get('slug') in heroGenders.male then 'male' else 'female'
+    gender = ThangTypeLib.getGender @selectedHero
     didAdd = false
     if slot is 'pet'
       imageKeys = ["pet"]
@@ -768,11 +769,6 @@ module.exports = class InventoryModal extends ModalView
     @$el.find('.item-slot').off 'dragstart'
     @stage?.removeAllChildren()
     super()
-
-
-heroGenders =
-  male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist', 'code-ninja']
-  female: ['captain', 'ninja', 'forest-archer', 'librarian', 'sorcerer', 'raider', 'guardian', 'pixie', 'master-wizard', 'champion']
 
 gear =
   'simple-boots': '53e237bf53457600003e3f05'
