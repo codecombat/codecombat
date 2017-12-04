@@ -35,6 +35,7 @@ ThangTypeHandler = class ThangTypeHandler extends Handler
     'heroClass'
     'tier'
     'extendedName'
+    'shortName'
     'unlockLevelName'
     'tasks'
     'terrains'

@@ -15,5 +15,7 @@ module.exports = class I18NEditThangTypeView extends I18NEditModelView
       @wrapRow('Description', ['description'], @model.get('description'), i18n[lang]?.description, [], 'markdown')
       if extendedName = @model.get('extendedName')
         @wrapRow('Extended Hero Name', ['extendedName'], extendedName, i18n[lang]?.extendedName, [])
+      if extendedName = @model.get('shortName')
+        @wrapRow('Short Hero Name', ['shortName'], shortName, i18n[lang]?.shortName, [])
       if unlockLevelName = @model.get('unlockLevelName')
         @wrapRow('Unlock Level Name', ['unlockLevelName'], unlockLevelName, i18n[lang]?.unlockLevelName, [])
