@@ -15,6 +15,7 @@ module.exports =
   contact: require './contact'
   courseInstances: require './course-instances'
   courses: require './courses'
+  discourse: require './discourse'
   earnedAchievements: require './earned-achievements'
   files: require './files'
   headers: require './headers'

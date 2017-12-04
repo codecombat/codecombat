@@ -151,6 +151,10 @@ config.sunburst =
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
 
+config.discourse =
+  apiKey: process.env.COCO_DISCOURSE_API_KEY
+  host: process.env.COCO_DISCOURSE_HOST or 'https://discourse.codecombat.com'
+
 if fs.existsSync path.join(__dirname, '.build_info.json')
   config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
 

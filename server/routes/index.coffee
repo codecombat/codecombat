@@ -25,6 +25,8 @@ module.exports.setup = (app) ->
   app.get('/api/user-lookup/israel-id/:israelId', mw.api.getUserLookupByIsraelId)
   app.get('/api/user-lookup/name/:name', mw.api.getUserLookupByName)
   app.get('/api/playtime-stats', mw.api.getPlayTimeStats)
+  
+  app.post('/webhook/discourse/user-signup', mw.discourse.webhooks.postUser)
 
   passport = require('passport')
   app.post('/auth/login', mw.auth.authDelay, passport.authenticate('local'), mw.auth.afterLogin)
