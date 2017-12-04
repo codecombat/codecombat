@@ -869,16 +869,16 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   skill_docs:
     function: "функция" # skill types
     method: "метод"
-    snippet: "отрезок"
+    snippet: "образец"
     number: "номер"
     array: "массив"
     object: "объект"
     string: "строка"
     writable: "доступно для записи" # Hover over "attack" in Your Skills while playing a level to see most of this
-    read_only: "только чтение"
+    read_only: "только для чтения"
     action: "Действие"
     spell: "Заклинание"
-    action_name: "имя"
+    action_name: "Имя"
     action_cooldown: "Применяется"
     action_specific_cooldown: "Восстановление"
     action_damage: "Урон"
