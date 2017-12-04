@@ -9,7 +9,7 @@ LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
 Users = require 'collections/Users'
 CourseInstances = require 'collections/CourseInstances'
-require 'd3/d3.js'
+require 'd3'
 utils = require 'core/utils'
 
 

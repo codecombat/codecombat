@@ -6,7 +6,7 @@ User = require 'models/User'
 
 # TODO: Graphing code copied/mangled from campaign editor level view.  OMG, DRY.
 
-require 'd3/d3.js'
+require 'd3'
 
 module.exports = class AnalyticsSubscriptionsView extends RootView
   id: 'admin-analytics-subscriptions-view'

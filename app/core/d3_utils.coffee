@@ -1,4 +1,4 @@
-# Caller needs require 'd3/d3.js'
+# Caller needs require 'd3'
 
 module.exports.createContiguousDays = (timeframeDays, skipToday=true, dayOffset=0) ->
   # Return list of last 'timeframeDays' contiguous days in yyyy-mm-dd format
