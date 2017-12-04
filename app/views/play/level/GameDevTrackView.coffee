@@ -8,7 +8,7 @@ module.exports = class GameDevTrackView extends CocoView
   template: template
 
   subscriptions:
-    'surface:ui-tracked-properties-changed': 'onUITrackedPropertiesChanged'
+    'surface:frame-changed': 'onFrameChanged'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
 
@@ -16,25 +16,37 @@ module.exports = class GameDevTrackView extends CocoView
     super options
     @listings = {}
 
-  onUITrackedPropertiesChanged: (e) ->
+  onFrameChanged: (e) ->
     @listings = {}
-    for key, thangState of e.thangStateMap
-      continue unless thangState.trackedPropertyKeys
-      trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
-      unless trackedPropNamesIndex is -1
-        trackedPropNames = thangState.props[trackedPropNamesIndex]
-        for name in trackedPropNames
-          propIndex = thangState.trackedPropertyKeys.indexOf name
+    if e.world.synchronous
+      for thang in e.world.thangs
+        if thang.id is 'Hero Placeholder'
+          hero = thang
+        if trackedProperties = thang.uiTrackedProperties
+          for name in trackedProperties
+            @listings[name] = thang[name]
+      if hero and hero.objTrackedProperties
+        for name in hero.objTrackedProperties
+          @listings[name] = hero['__' + name]
+    else
+      thangStateMap = e.world.frames[e.frame]?.thangStateMap
+      for key, thangState of thangStateMap
+        continue unless thangState.trackedPropertyKeys
+        trackedPropNamesIndex = thangState.trackedPropertyKeys.indexOf 'uiTrackedProperties'
+        unless trackedPropNamesIndex is -1
+          trackedPropNames = thangState.props[trackedPropNamesIndex]
+          for name in trackedPropNames
+            propIndex = thangState.trackedPropertyKeys.indexOf name
+            continue if propIndex is -1
+            @listings[name] = thangState.props[propIndex]
+        continue unless key is 'Hero Placeholder'
+        trackedObjNamesIndex = thangState.trackedPropertyKeys.indexOf 'objTrackedProperties'
+        continue if trackedObjNamesIndex is -1
+        trackedObjNames = thangState.props[trackedObjNamesIndex]
+        for name in trackedObjNames
+          propIndex = thangState.trackedPropertyKeys.indexOf('__' + name)
           continue if propIndex is -1
           @listings[name] = thangState.props[propIndex]
-      continue unless key is 'Hero Placeholder'
-      trackedObjNamesIndex = thangState.trackedPropertyKeys.indexOf 'objTrackedProperties'
-      continue if trackedObjNamesIndex is -1
-      trackedObjNames = thangState.props[trackedObjNamesIndex]
-      for name in trackedObjNames
-        propIndex = thangState.trackedPropertyKeys.indexOf('__' + name)
-        continue if propIndex is -1
-        @listings[name] = thangState.props[propIndex]
     unless _.isEqual(@listings, {})
       @$el.show()
       @renderSelectors('#listings')
@@ -49,7 +61,7 @@ module.exports = class GameDevTrackView extends CocoView
 
   titleize: (name) ->
     return _.string.titleize(_.string.humanize(name))
-    
+
   beautify: (name, val) ->
     if typeof val is 'object' and val.x? and val.y? and val.z?
       return "x: #{Math.round(val.x)}\ny: #{Math.round(val.y)}"
@@ -57,4 +69,3 @@ module.exports = class GameDevTrackView extends CocoView
       round = Math.round(val)
       return round
     return val
-

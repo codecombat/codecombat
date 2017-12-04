@@ -16,7 +16,7 @@ block content
         a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
 
   if classroom.loaded
-    .container
+    .container(dir="auto")
       +breadcrumbs
       div#classes-nag-subview
       if classroom.get('archived')
@@ -29,18 +29,18 @@ block content
       - var elapsed = today.getTime()-created.getTime()
       
       if (elapsed/(1000*60*60*24) > 180)
-        .update-class
-          .alert.alert-info.text-center
+        .update-class.rtl-allowed
+          .alert.alert-info.text-center.rtl-allowed
             strong(data-i18n='courses.update_old_classroom') 
-            .small-details
+            .small-details.rtl-allowed
               span.spr(data-i18n='courses.update_old_classroom_detail')
               a(data-i18n="courses.teacher_dashboard" href="/teachers/")
               span.spl(data-i18n="courses.update_old_classroom_detail_2") 
 
-      h3.m-t-2= classroom.get('name')
+      h3.m-t-2(dir="auto")= classroom.get('name')
       a.label.edit-classroom(data-classroom-id=classroom.id)
         span(data-i18n='teacher.edit_class_settings')
-      h4= classroom.get('description')
+      h4(dir="auto")= classroom.get('description')
 
       .classroom-info-row.row.m-t-5
         .classroom-details.col-md-3
@@ -113,7 +113,7 @@ block content
         .completeness-info.col-md-4
           h4.m-b-2
             | &nbsp;
-          div.small-details
+          div.small-details.rtl-allowed
             if state.get('earliestIncompleteLevel')
               span(data-i18n='teacher.earliest_incomplete')
               span :
@@ -124,7 +124,7 @@ block content
               span :
               div(data-i18n='common.loading')
 
-          div.small-details.m-t-3
+          div.small-details.m-t-3.rtl-allowed
             if state.get('latestCompleteLevel')
               span(data-i18n='teacher.latest_complete')
               span :
@@ -205,7 +205,8 @@ mixin addStudentsButton
 
 mixin studentsTab
   #students-tab
-    +bulkAssignControls
+    div(dir=['he', 'ar', 'fa', 'ur'].indexOf(me.get('preferredLanguage', true)) == -1 ? 'ltr' : 'rtl')
+      +bulkAssignControls
     table.students-table
       thead
         th.checkbox-col.select-all.small.text-center
@@ -221,7 +222,7 @@ mixin studentsTab
           +studentRow(student)
 
 mixin sortButtons
-  .sort-buttons.small
+  .sort-buttons.small.rtl-allowed
     span(data-i18n='teacher.sort_by')
     span.spr :
     button.sort-button.sort-by-name(data-i18n='general.name', value='name')
@@ -465,14 +466,14 @@ mixin copyCodes
 
   div.copy-button-group.form-inline.m-b-3
     .form-group
-      input.form-control.text-h4.semibold#join-url-input(value=state.get('joinURL'))
+      input.form-control.text-h4.semibold#join-url-input(value=state.get('joinURL'), dir="ltr")
     button#copy-url-btn.form-control.btn.btn-lg.btn-forest
       span(data-i18n='teacher.copy_class_url')
     div.text-center.small.class-code-blurb(data-i18n='teacher.class_join_url_blurb')
 
 mixin bulkAssignControls
   .bulk-assign-controls.form-inline
-    .no-students-selected.small-details(class=state.get('errors').assigningToNobody ? 'visible' : '')
+    .no-students-selected.small-details(class=state.get('errors').nobodySelected ? 'visible' : '')
       span(data-i18n='teacher.no_students_selected')
     span.small
       span(data-i18n='teacher.bulk_assign')
@@ -483,8 +484,10 @@ mixin bulkAssignControls
           = i18n(course.attributes, 'name')
           if !view.availableCourseMap[course.id]
             = " " + translate('teacher.paren_new')
-    button.btn.btn-primary-alt.assign-to-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.assign_to_selected_students')
+    button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+      span(data-i18n='teacher.assign_course')
+    button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+      span(data-i18n='teacher.remove_course')
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

@@ -91,7 +91,7 @@ module.exports = class Simulator extends CocoClass
   commenceSingleSimulation: ->
     @listenToOnce @god, 'infinite-loop', @handleSingleSimulationInfiniteLoop
     @listenToOnce @god, 'goals-calculated', @processSingleGameResults
-    @god.createWorld @generateSpellsObject()
+    @god.createWorld {spells: @generateSpellsObject()}
 
   handleSingleSimulationError: (error) ->
     console.error 'There was an error simulating a single game!', error
@@ -240,7 +240,7 @@ module.exports = class Simulator extends CocoClass
   commenceSimulationAndSetupCallback: ->
     @listenToOnce @god, 'infinite-loop', @onInfiniteLoop
     @listenToOnce @god, 'goals-calculated', @processResults
-    @god.createWorld @generateSpellsObject()
+    @god.createWorld {spells: @generateSpellsObject()}
 
     # Search for leaks, headless-client only.
     # NOTE: Memwatch currently being ignored by Webpack, because it's only used by the server.

@@ -156,13 +156,14 @@ mixin accountLinks
                 li
                   a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
 
-      #final-footer.small.text-center
+      #final-footer.small.text-center(dir="ltr")
         | Copyright ©2017 CodeCombat. All Rights Reserved.
         br.hidden-lg.hidden-md
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md
         if !me.isStudent()
-          span.spr(data-i18n="nav.help_pref")
-          - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
-          a(href="mailto:" + supportEmail)= supportEmail
-          span.spl(data-i18n="nav.help_suff")
+          .contact-info.rtl-allowed
+            span.spr(data-i18n="nav.help_pref")
+            - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
+            a(href="mailto:" + supportEmail)= supportEmail
+            span.spl(data-i18n="nav.help_suff")

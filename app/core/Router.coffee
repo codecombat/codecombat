@@ -23,6 +23,7 @@ module.exports = class CocoRouter extends Backbone.Router
       if window.serverConfig.picoCTF
         return @routeDirectly 'play/CampaignView', ['picoctf'], {}
       if utils.getQueryVariable 'hour_of_code'
+        delete window.alreadyLoadedView
         return @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
       unless me.isAnonymous() or me.isStudent() or me.isTeacher() or me.isAdmin() or me.hasSubscription()
         delete window.alreadyLoadedView
@@ -48,6 +49,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/files': go('admin/FilesView')
     'admin/analytics': go('admin/AnalyticsView')
     'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView')
+    'admin/level-hints': go('admin/AdminLevelHintsView')
     'admin/level-sessions': go('admin/LevelSessionsView')
     'admin/school-counts': go('admin/SchoolCountsView')
     'admin/school-licenses': go('admin/SchoolLicensesView')
@@ -157,10 +159,14 @@ module.exports = class CocoRouter extends Backbone.Router
     'play/ladder/:levelID': go('ladder/LadderView')
     'play/ladder': go('ladder/MainLadderView')
     'play/level/:levelID': go('play/level/PlayLevelView')
-    'play/game-dev-level/:levelID/:sessionID': go('play/level/PlayGameDevLevelView')
-    'play/web-dev-level/:levelID/:sessionID': go('play/level/PlayWebDevLevelView')
+    'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
+    'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
+    'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID) ->
+      @navigate("play/game-dev-level/#{sessionID}", { trigger: true, replace: true })
+    'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID) ->
+      @navigate("play/web-dev-level/#{sessionID}", { trigger: true, replace: true })
     'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView', { redirectTeachers: true })
+    'play/:map': go('play/CampaignView')
 
     'premium': go('PremiumFeaturesView')
     'Premium': go('PremiumFeaturesView')
@@ -261,7 +267,7 @@ module.exports = class CocoRouter extends Backbone.Router
         @mergeView(view)
       else
         @openView(view)
-    
+
       @viewLoad.setView(view)
       @viewLoad.record()
     .catch (err) ->
@@ -303,6 +309,7 @@ module.exports = class CocoRouter extends Backbone.Router
       return document.location.reload()
     window.currentModal?.hide?()
     return unless window.currentView?
+    window.currentView.modalClosed()
     window.currentView.destroy()
     $('.popover').popover 'hide'
     $('#flying-focus').css({top: 0, left: 0}) # otherwise it might make the page unnecessarily tall

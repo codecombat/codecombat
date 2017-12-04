@@ -19,6 +19,10 @@
         label.control-label(for="username-or-email-input")
           span(data-i18n="login.email_or_username")
           | :
+        if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
+          em.israel-server-hint(dir="rtl")
+            span תלמיד מערכת החינוךך?
+            a(href="https://lgn.edu.gov.il/nidp/saml2/sso?id=EDULogin&sid=0&option=credential&sid=0")  התחבר דרך פורטל משרד החינו
         .input-border
           input#username-or-email-input.input-large.form-control(
             name="emailOrUsername"

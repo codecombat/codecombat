@@ -35,4 +35,5 @@ TrialRequestSchema.statics.editableProperties = [
 ]
 
 TrialRequestSchema.statics.jsonSchema = jsonSchema
+TrialRequestSchema.index({'applicant': 1}, {name: 'applicant'})
 module.exports = TrialRequest = mongoose.model 'trial.request', TrialRequestSchema, 'trial.requests'

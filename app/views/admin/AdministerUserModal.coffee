@@ -7,6 +7,7 @@ StripeCoupons = require 'collections/StripeCoupons'
 forms = require 'core/forms'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
+TrialRequests = require 'collections/TrialRequests'
 
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
@@ -35,7 +36,9 @@ module.exports = class AdministerUserModal extends ModalView
           @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
     @classrooms = new Classrooms()
     @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
-    
+    @trialRequests = new TrialRequests()
+    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
+
   onLoaded: ->
     # TODO: Figure out a better way to expose this info, perhaps User methods?
     stripe = @user.get('stripe') or {}
@@ -44,6 +47,7 @@ module.exports = class AdministerUserModal extends ModalView
     @freeUntilDate = if @freeUntil then stripe.free else new Date().toISOString()[...10]
     @currentCouponID = stripe.couponID
     @none = not (@free or @freeUntil or @coupon)
+    @trialRequest = @trialRequests.first()
     super()
     
   onClickSaveChanges: ->

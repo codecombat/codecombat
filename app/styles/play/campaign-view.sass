@@ -568,6 +568,9 @@ $gameControlMargin: 30px
         height: 32px
         color: white
 
+      .rtl-allowed
+        display: inline-block
+
       .gem, .player-hero-icon
         position: absolute
         top: 1px
@@ -683,6 +686,20 @@ $gameControlMargin: 30px
 
       .levels-completed
         font-size: 22px
+
+  #teacher-button-container
+    position: absolute
+    right: 1%
+    top: 5%
+    top: -webkit-calc(1% + 50px)
+    top: calc(1% + 50px)
+    width: 194px
+    margin: 0
+    text-align: center
+    z-index: 30
+
+    #teacher-button
+      min-width: 90%
 
   .particle-man
     z-index: 2
@@ -902,6 +919,15 @@ $gameControlMargin: 30px
     top: 60px
     left: 20px
     z-index: 1
+    
+  #game-dev-hoc-license-alert
+    position: absolute
+    z-index: 1
+    bottom: -20px
+    left: 0
+    right: 0
+    text-align: center
+    padding: 5px
 
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.

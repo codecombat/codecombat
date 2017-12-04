@@ -121,16 +121,26 @@ module.exports = class MainAdminView extends RootView
     forms.enableSubmit(@$('#user-search-button'))
     result = ''
     if users.length
-      result = ("
-      <tr data-user-id='#{user._id}'>
-        <td><code>#{user._id}</code></td>
-        <td><img src='/db/user/#{user._id}/avatar?s=18' class='avatar'> #{_.escape(user.name or 'Anonymous')}</td>
-        <td>#{_.escape(user.email)}</td>
-        <td>
-          <button class='user-spy-button'>Spy</button>
-          #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
-        </td>
-      </tr>" for user in users)
+      result = []
+      for user in users
+        if user._trialRequest
+          trialRequestBit = "<br/>#{user._trialRequest.nces_name or user._trialRequest.organization} / #{user._trialRequest.nces_district || user._trialRequest.district}"
+        else
+          trialRequestBit = ""
+
+        result.push("
+        <tr data-user-id='#{user._id}'>
+          <td><code>#{user._id}</code></td>
+          <td>#{user.role or ''}</td>
+          <td><img src='/db/user/#{user._id}/avatar?s=18' class='avatar'> #{_.escape(user.name or 'Anonymous')}</td>
+          <td>#{_.escape(user.email)}#{trialRequestBit}</td>
+          <td>#{user.firstName or ''}</td>
+          <td>#{user.lastName or ''}</td>
+          <td>
+            <button class='user-spy-button'>Spy</button>
+            #{if new User(user).isTeacher() then "<button class='teacher-dashboard-button'>View Classes</button>" else ""}
+          </td>
+        </tr>")
       result = "<table class=\"table\">#{result.join('\n')}</table>"
     @$el.find('#user-search-result').html(result)
 

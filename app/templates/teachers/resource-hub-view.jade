@@ -6,7 +6,7 @@ block page_nav
 block content
   .container
 
-    .content
+    .content.rtl-allowed
       if me.attributes.hourOfCode && me.isAnonymous()
         #hour-of-code
           h3
@@ -57,7 +57,7 @@ block content
       h1(data-i18n="teacher.resource_hub")
 
       h4(data-i18n="teacher.getting_started")
-      ul
+      ul(dir="auto")
         li
           strong(data-i18n="teacher.pacing_guides")
           p 
@@ -184,6 +184,13 @@ block content
           a(href="/teachers/resources/cs3")
             span(data-i18n="teacher.cs3_curriculum")
           p(data-i18n="teacher.cs3_curriculum_desc")
+          
+      h4(data-i18n="teacher.gd3")
+      ul
+        li
+          a(href="/teachers/resources/gd3")
+            span(data-i18n="teacher.gd3_curriculum")
+          p(data-i18n="teacher.gd3_curriculum_desc")
 
       h4(data-i18n="teacher.wd2")
       ul

@@ -125,39 +125,40 @@ block content
             button.start-subscription-button.btn.btn-lg.btn-success(data-i18n="subscribe.subscribe_title")
 
     //- Sponsored Subscriptions
-    .panel.panel-default
-      .panel-heading
-        h3(data-i18n="subscribe.managed_subs")
-        p
-          span.spr Managed subscriptions are discontinued. Please contact
-          a(href='mailto:team@codecombat.com') team@codecombat.com
-          span.spl for more information.
+    if !_.isEmpty(view.recipientSubs.recipients) || view.recipientSubs.unsubscribingRecipients && view.recipientSubs.unsubscribingRecipients.length > 0 || view.recipientSubs.nextPaymentAmount > 0 && view.recipientSubs.sponsorSub
+      .panel.panel-default
+        .panel-heading
+          h3(data-i18n="subscribe.managed_subs")
+          p
+            span.spr Managed subscriptions are discontinued. Please contact
+            a(href='mailto:team@codecombat.com') team@codecombat.com
+            span.spl for more information.
 
-      .panel-body
-        if view.recipientSubs.nextPaymentAmount > 0 && view.recipientSubs.sponsorSub
-          h4(data-i18n="account.next_payment")
-          p= moment(new Date(view.recipientSubs.sponsorSub.current_period_end * 1000)).format('l')
-          p $#{view.recipientSubs.nextPaymentAmount / 100}
-          p= view.recipientSubs.card
+        .panel-body
+          if view.recipientSubs.nextPaymentAmount > 0 && view.recipientSubs.sponsorSub
+            h4(data-i18n="account.next_payment")
+            p= moment(new Date(view.recipientSubs.sponsorSub.current_period_end * 1000)).format('l')
+            p $#{view.recipientSubs.nextPaymentAmount / 100}
+            p= view.recipientSubs.card
 
-        h4(data-i18n="subscribe.current_recipients")
-        if view.recipientSubs.unsubscribingRecipients && view.recipientSubs.unsubscribingRecipients.length > 0
-          .alert.alert-info
-            span.spr(data-i18n="subscribe.unsubscribing")
-            span= view.recipientSubs.unsubscribingRecipients[0]
-        else
-          table.table.table-striped.table-condensed.recipients-table
-            tr
-              th(data-i18n="general.email")
-              th(data-i18n="general.name")
-              th
-            for recipient in view.recipientSubs.recipients
-              tr(data-recipient-id=recipient._id)
-                td.recipient-email= recipient.emailLower
-                td.recipient-name= recipient.name
-                td.recipient-unsubscribe
-                  if recipient.cancel_at_period_end
-                    div Ends #{moment(recipient.cancel_at_period_end).format('l')}
-                  else
-                    button.recipient-unsubscribe-button.btn.btn-sm.btn-warning(data-i18n="subscribe.unsubscribe")
-                    button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")
+          h4(data-i18n="subscribe.current_recipients")
+          if view.recipientSubs.unsubscribingRecipients && view.recipientSubs.unsubscribingRecipients.length > 0
+            .alert.alert-info
+              span.spr(data-i18n="subscribe.unsubscribing")
+              span= view.recipientSubs.unsubscribingRecipients[0]
+          else
+            table.table.table-striped.table-condensed.recipients-table
+              tr
+                th(data-i18n="general.email")
+                th(data-i18n="general.name")
+                th
+              for recipient in view.recipientSubs.recipients
+                tr(data-recipient-id=recipient._id)
+                  td.recipient-email= recipient.emailLower
+                  td.recipient-name= recipient.name
+                  td.recipient-unsubscribe
+                    if recipient.cancel_at_period_end
+                      div Ends #{moment(recipient.cancel_at_period_end).format('l')}
+                    else
+                      button.recipient-unsubscribe-button.btn.btn-sm.btn-warning(data-i18n="subscribe.unsubscribe")
+                      button.confirm-recipient-unsubscribe-button.btn.btn-sm.btn-primary.hide(data-i18n="play.confirm")

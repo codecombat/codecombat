@@ -36,7 +36,7 @@ module.exports =
       courseInstance = yield CourseInstance.findById(req.query.courseInstance)
       if not courseInstance
         throw new errors.NotFound('Course Instance not found.')
-      if not _.find(courseInstance.get('members'), (memberID) -> memberID.equals(req.user._id))
+      unless _.find(courseInstance.get('members'), (memberID) -> memberID.equals(req.user._id)) or courseInstance.get('ownerID').equals(req.user._id)
         throw new errors.Forbidden('You must be a member of the Course Instance.')
       classroom = yield Classroom.findById(courseInstance.get('classroomID'))
       if not classroom

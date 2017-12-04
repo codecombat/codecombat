@@ -31,7 +31,31 @@ block content
             | Please convert your account to ensure you retain access to your classrooms.
           button.btn.btn-primary.btn-lg.update-teacher-btn(data-event-action="Teachers Classes Convert Teacher Account Temp") Upgrade to teacher account
 
-
+    - var officeHours = view.upcomingOfficeHours;
+    - var limit = view.howManyOfficeHours == 'all' ? Infinity : 3;
+    - var limited = officeHours.length > 3;
+    #office-hours
+      if officeHours.length && view.howManyOfficeHours != 'none'
+        .update-class.rtl-allowed
+          button.close.see-no-office-hours(data-dismiss="alert" aria-label="Close")
+            span(aria-hidden=true) &times;
+          .alert.alert-info.text-center.rtl-allowed
+            strong(data-i18n='teacher.office_hours')
+            .small-details.rtl-allowed
+              span.spr(data-i18n='teacher.office_hours_detail')
+              a(data-i18n="teacher.office_hours_link" href="https://blog.codecombat.com/live-events/")
+              span.spl(data-i18n="teacher.office_hours_detail_2") 
+            ul.list-group
+              for oh in officeHours.slice(0, limit)
+                li.list-group-item
+                  span.spr #{moment(oh.time).calendar(null, {sameElse: 'ddd MMM D, LT'})}:
+                  a(href=oh.link target="_blank")= oh.name
+                  span.spl.spr(data-i18n="general.with")
+                  span #{oh.host} (#{moment(oh.time).fromNow()})
+            if view.howManyOfficeHours == 'all' && limited
+              a.see-less-office-hours.btn.btn-small.btn-primary.pull-right(data-i18n="general.fewer") Fewer
+            else if view.howManyOfficeHours == 'some' && limited
+              a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
     .container
       +teacher-quests
@@ -61,21 +85,22 @@ block content
         +archivedClassRow(classroom)
 
 mixin classRow(classroom)
-  .class.row
-    .class-details-col
-      .text-h4.semibold
+  .class.row.rtl-allowed(dir="auto")
+    .class-details-col.rtl-allowed(dir="auto")
+      .text-h4.semibold.rtl-allowed(dir="auto")
         = classroom.get('name')
-      .language.small
+      .language.small.rtl-allowed(dir="auto")
         span(data-i18n='teacher.language')
         | :&nbsp;
         span.language-name
           = classroom.capitalLanguage
-      .student-count.small
+      | &nbsp;
+      .student-count.small.rtl-allowed(dir="auto")
         span(data-i18n='courses.students')
         | :&nbsp;
         span
           = classroom.get('members').length
-      .class-links
+      .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
         a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
@@ -125,11 +150,11 @@ mixin progressDotLabel(label)
 
 mixin archivedClassRow(classroom)
   .class.row
-    .col-xs-10
+    .col-xs-10(dir="auto")
       span
         = classroom.get('name')
     .col-xs-2
-      .class-links.pull-right
+      .class-links.pull-right(dir="auto")
         a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
 
 mixin teacher-quests

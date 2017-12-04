@@ -18,6 +18,8 @@ LevelFeedback = require 'models/LevelFeedback'
 storage = require 'core/storage'
 SubscribeModal = require 'views/core/SubscribeModal'
 AmazonHocModal = require 'views/play/modal/AmazonHocModal'
+forms = require 'core/forms'
+contact = require 'core/contact'
 
 module.exports = class HeroVictoryModal extends ModalView
   id: 'hero-victory-modal'
@@ -39,6 +41,8 @@ module.exports = class HeroVictoryModal extends ModalView
     'click #share-level-btn': 'onClickShareLevelButton'
     'click .subscribe-button': 'onSubscribeButtonClicked'
     'click #amazon-hoc-button': 'onClickAmazonHocButton'
+    'input #share-game-with-teacher-input': 'onChangeShareGameWithTeacherInput'
+    'click #share-game-with-teacher-btn': 'onClickShareGameWithTeacherButton'
 
     # Feedback events
     'mouseover .rating i': (e) -> @showStars(@starNum($(e.target)))
@@ -75,7 +79,10 @@ module.exports = class HeroVictoryModal extends ModalView
       @loadExistingFeedback()
 
     if @level.get('shareable') is 'project'
-      @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@level.get('slug')}/#{@session.id}"
+      @shareURL = "#{window.location.origin}/play/#{@level.get('type')}-level/#{@session.id}"
+
+    @trackAwsButtonShown = _.once ->
+      window.tracker?.trackEvent 'Show Amazon Modal Button'
 
   destroy: ->
     clearInterval @sequentialAnimationInterval
@@ -202,10 +209,10 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the Hour of Code "I'm Done" tracking pixel after they played for 20 minutes
       gameDevHoc = application.getHocCampaign()
       lastLevelOriginal = switch gameDevHoc
-        when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove 
+        when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
-      lastLevel = @level.get('original') is lastLevelOriginal # hoc2016 or kithgard-gates
+      lastLevel = @level.get('original') is lastLevelOriginal
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
       showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
@@ -221,9 +228,12 @@ module.exports = class HeroVictoryModal extends ModalView
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
       @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
+      if @showAmazonHocButton
+        @trackAwsButtonShown()
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
+      @showShareGameWithTeacher = gameDevHoc and lastLevel
 
-    c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course')
+    c.showLeaderboard = @level.get('scoreTypes')?.length > 0 and not @level.isType('course') and not @showAmazonHocButton and not @showHoc2016ExploreButton
 
     c.showReturnToCourse = not c.showLeaderboard and not me.get('anonymous') and @level.isType('course', 'course-ladder')
     c.isCourseLevel = @level.isType('course')
@@ -411,6 +421,7 @@ module.exports = class HeroVictoryModal extends ModalView
       viewArgs.push leagueID
       ladderURL += "/#{leagueType}/#{leagueID}"
     ladderURL += '#my-matches'
+    @hide()
     Backbone.Mediator.publish 'router:navigate', route: ladderURL, viewClass: 'views/ladder/LadderView', viewArgs: viewArgs
 
   playSelectionSound: (hero, preload=false) ->
@@ -486,6 +497,7 @@ module.exports = class HeroVictoryModal extends ModalView
     if @level.get('slug') is 'lost-viking' and not (me.get('age') in ['0-13', '14-17'])
       @showOffer navigationEvent
     else
+      @hide()
       Backbone.Mediator.publish 'router:navigate', navigationEvent
 
   onClickLeaderboard: (e) ->
@@ -512,10 +524,12 @@ module.exports = class HeroVictoryModal extends ModalView
     url = {
       'lost-viking': 'http://www.vikingcodeschool.com/codecombat?utm_source=codecombat&utm_medium=viking_level&utm_campaign=affiliate&ref=Code+Combat+Elite'
     }[@level.get('slug')]
+    @hide()
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
     window.open url, '_blank' if url
 
   onClickSkipOffer: (e) ->
+    @hide()
     Backbone.Mediator.publish 'router:navigate', @navigationEventUponCompletion
 
   onClickShareLevelButton: ->
@@ -523,10 +537,26 @@ module.exports = class HeroVictoryModal extends ModalView
     @tryCopy()
 
   onClickAmazonHocButton: ->
+    window.tracker?.trackEvent 'Click Amazon Modal Button'
     @openModalView new AmazonHocModal()
 
   onSubscribeButtonClicked: ->
     @openModalView new SubscribeModal()
+
+  onChangeShareGameWithTeacherInput: (e) ->
+    email = _.string.trim(@$('#share-game-with-teacher-input').val())
+    valid = forms.validateEmail(email) and not /codecombat/i.test(email)
+    @$('#share-game-with-teacher-btn').attr('disabled', not valid).text($.i18n.t 'common.send')
+
+  onClickShareGameWithTeacherButton: (e) ->
+    email = _.string.trim(@$('#share-game-with-teacher-input').attr('disabled', true).val())
+    @$('#share-game-with-teacher-btn').attr('disabled', true).text($.i18n.t 'common.sending')
+    contact.sendTeacherGameDevProjectShare({teacherEmail: email, sessionId: @session.id, codeLanguage: @session.get('codeLanguage') or 'python', levelName: utils.i18n(@level.attributes, 'name')})
+      .then =>
+        @$('#share-game-with-teacher-btn').text($.i18n.t 'common.sent')
+      .catch =>
+        @$('#share-game-with-teacher-input').attr('disabled', false).focus()
+        @$('#share-game-with-teacher-btn').text($.i18n.t 'loading_error.error')
 
   # Ratings and reviews
 

@@ -13,6 +13,7 @@ CourseInstance = require '../../../server/models/CourseInstance'
 Campaign = require '../../../server/models/Campaign'
 LevelSession = require '../../../server/models/LevelSession'
 Level = require '../../../server/models/Level'
+Prepaid = require '../../../server/models/Prepaid'
 mongoose = require 'mongoose'
 subscriptions = require '../../../server/middleware/subscriptions'
 
@@ -432,26 +433,102 @@ describe 'POST /db/classroom/-/members', ->
     expect(res.statusCode).toBe(401)
     done()
 
-describe 'DELETE /db/classroom/:id/members', ->
+describe 'GET /db/classroom/:classroomID/members/:memberID/is-auto-revokable', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Prepaid])
     @teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(@teacher)
     @student = yield utils.initUser()
     @classroom = yield utils.makeClassroom({}, {members:[@student]})
-    @url = utils.getURL("/db/classroom/#{@classroom.id}/members")
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members/#{@student.id}/is-auto-revokable")
+    done()
+  
+  describe 'when the user does NOT have a license', ->
+    it 'says it will NOT revoke the license', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { @url, json: true }
+      expect(res.statusCode).toBe(200)
+      expect(res.body.willRevokeLicense).toBe(false)
+      done()
+  
+  describe 'when the user has a license', ->
+    beforeEach utils.wrap (done) ->
+      @admin = yield utils.initAdmin()
+      yield utils.loginUser(@admin)
+      @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+      yield utils.loginUser(@teacher)
+      yield utils.addRedeemerToPrepaid(@prepaid, @student)
+      @prepaid = yield Prepaid.findById(@prepaid.id)
+      done()
+
+    describe 'and the user is in other classrooms', ->
+      beforeEach utils.wrap (done) ->
+        @classroom2 = yield utils.makeClassroom({}, {members:[@student]})
+        done()
+
+      it 'says it will NOT revoke the license', utils.wrap (done) ->
+        [res, body] = yield request.getAsync { @url, json: true }
+        expect(res.statusCode).toBe(200)
+        expect(res.body.willRevokeLicense).toBe(false)
+        done()
+
+    describe 'and the user is NOT in any other classrooms', ->
+      it 'says it will revoke the license', utils.wrap (done) ->
+        [res, body] = yield request.getAsync { @url, json: true }
+        expect(res.statusCode).toBe(200)
+        expect(res.body.willRevokeLicense).toBe(true)
+        done()
+
+describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Prepaid])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser()
+    @classroom = yield utils.makeClassroom({}, {members:[@student]})
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members/#{@student.id}")
     done()
 
   it 'removes the given user from the list of members in the classroom', utils.wrap (done) ->
     expect(@classroom.get('members').length).toBe(1)
-    json = { userID: @student.id }
-    [res, body] = yield request.delAsync { @url, json }
+    [res, body] = yield request.delAsync { @url }
     expect(res.statusCode).toBe(200)
     classroom = yield Classroom.findById(@classroom.id)
     expect(classroom.get('members').length).toBe(0)
     done()
+  
+  describe 'when the user has a license', ->
+    beforeEach utils.wrap (done) ->
+      @admin = yield utils.initAdmin()
+      yield utils.loginUser(@admin)
+      @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+      yield utils.loginUser(@teacher)
+      yield utils.addRedeemerToPrepaid(@prepaid, @student)
+      @prepaid = yield Prepaid.findById(@prepaid.id)
+      done()
 
+    describe 'and the user is in other classrooms', ->
+      beforeEach utils.wrap (done) ->
+        @classroom2 = yield utils.makeClassroom({}, {members:[@student]})
+        done()
+
+      it 'does NOT revoke the license', utils.wrap (done) ->
+        expect(@prepaid.get('redeemers').length).toBe(1)
+        [res, body] = yield request.delAsync { @url }
+        expect(res.statusCode).toBe(200)
+        prepaid = yield Prepaid.findById(@prepaid.id)
+        expect(@prepaid.get('redeemers').length).toBe(1)
+        done()
+
+    describe 'and the user is NOT in any other classrooms', ->
+      it 'revokes the license', utils.wrap (done) ->
+        expect(@prepaid.get('redeemers').length).toBe(1)
+        [res, body] = yield request.delAsync { @url }
+        expect(res.statusCode).toBe(200)
+        prepaid = yield Prepaid.findById(@prepaid.id)
+        expect(prepaid.get('redeemers').length).toBe(0)
+        done()
 
 describe 'POST /db/classroom/:id/invite-members', ->
 
@@ -462,7 +539,7 @@ describe 'POST /db/classroom/:id/invite-members', ->
     url = classroomsURL + "/#{classroom.id}/invite-members"
     data = { emails: ['test@test.com'] }
     sendwithus = require '../../../server/sendwithus'
-    spyOn(sendwithus.api, 'send').and.callFake (context, cb) -> 
+    spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
       expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
       expect(context.recipient.address).toBe('test@test.com')
       expect(context.email_data.teacher_name).toBe('Mr Professerson')

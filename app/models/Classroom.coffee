@@ -58,9 +58,8 @@ module.exports = class Classroom extends CocoModel
 
   removeMember: (userID, opts) ->
     options = {
-      url: _.result(@, 'url') + '/members'
+      url: _.result(@, 'url') + "/members/#{userID}"
       type: 'DELETE'
-      data: { userID: userID }
     }
     _.extend options, opts
     @fetch(options)

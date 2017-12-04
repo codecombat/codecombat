@@ -50,7 +50,7 @@ module.exports = class MusicPlayer extends CocoClass
 
   restartCurrentMusic: ->
     return unless @currentMusic
-    @currentMusic.play('none', 0, 0, -1, 0.3)
+    @currentMusic.play {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}
     @updateMusicVolume()
 
   fadeOutCurrentMusic: ->
@@ -60,7 +60,7 @@ module.exports = class MusicPlayer extends CocoClass
     createjs.Tween.get(@currentMusic).to({volume: 0.0}, CROSSFADE_LENGTH).call(f)
 
   startNewMusic: (src, delay) ->
-    @currentMusic = createjs.Sound.play(src, 'none', 0, 0, -1, 0.3) if src
+    @currentMusic = createjs.Sound.play(src, {interrupt: 'none', delay: 0, offset: 0, loop: -1, volume: 0.3}) if src
     return unless @currentMusic
     @currentMusic.volume = 0.0
     if me.get('music', true)

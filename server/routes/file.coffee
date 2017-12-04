@@ -48,7 +48,7 @@ fileGet = (req, res) ->
     if _.startsWith(query['metadata.path'], 'db/user')
       res.status(404)
       return res.end()
-      
+
     Grid.gfs.collection('media').findOne query, (err, filedata) =>
       return errors.notFound(res) if not filedata
       readstream = Grid.gfs.createReadStream({_id: filedata._id, root: 'media'})
@@ -57,7 +57,7 @@ fileGet = (req, res) ->
         return res.end()
 
       res.setHeader('Content-Type', filedata.contentType)
-      res.setHeader('Last-Modified', filedata.uploadDate)
+      res.setHeader('Last-Modified', filedata.uploadDate.toUTCString())
       res.setHeader('Cache-Control', 'public')
       readstream.pipe(res)
       handleStreamEnd(res, res)

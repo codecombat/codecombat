@@ -17,10 +17,12 @@ module.exports = class WorldFrame
     return nextFrame
 
   setState: ->
+    return if @world.synchronous
     for thang in @world.thangs when not thang.stateless
       @thangStateMap[thang.id] = thang.getState()
 
   restoreState: ->
+    return if @world.synchronous
     thangState.restore() for thangID, thangState of @thangStateMap
     for thang in @world.thangs
       if not @thangStateMap[thang.id] and not thang.stateless
@@ -28,9 +30,11 @@ module.exports = class WorldFrame
         thang.exists = false
 
   restorePartialState: (ratio) ->
+    return if @world.synchronous
     thangState.restorePartial ratio for thangID, thangState of @thangStateMap
 
   restoreStateForThang: (thang) ->
+    return if @world.synchronous
     thangState = @thangStateMap[thang.id]
     if not thangState
       if not thang.stateless

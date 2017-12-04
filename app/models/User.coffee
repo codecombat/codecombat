@@ -81,13 +81,12 @@ module.exports = class User extends CocoModel
 
   isStudent: -> @get('role') is 'student'
 
-  isTeacher: ->
+  isTeacher: (includePossibleTeachers=false) ->
+    return true if includePossibleTeachers and @get('role') is 'possible teacher'  # They maybe haven't created an account but we think they might be a teacher based on behavior
     return @get('role') in ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
 
   isSessionless: ->
-    # TODO: Fix old users who got mis-tagged as teachers
-    # TODO: Should this just be isTeacher, eventually?
-    Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false))
+    Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
   setRole: (role, force=false) ->
     oldRole = @get 'role'

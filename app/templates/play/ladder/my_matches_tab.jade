@@ -40,7 +40,7 @@
               if match.state === 'tie'
                 span(data-i18n="general.tie").tie Tie
             td.code-language-cell(style="background-image: url(/images/common/code_languages/" + match.codeLanguage +  "_icon.png)")
-            td.name-cell= match.opponentName || "Anonymous"
+            td.name-cell= match.opponentName || view.nameMap[match.opponentID] || "Anonymous"
             td.time-cell= match.when
             td.battle-cell
               - var levelID = view.level.get('slug') || view.level.id

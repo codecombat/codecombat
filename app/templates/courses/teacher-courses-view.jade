@@ -14,13 +14,13 @@ block content
           | Please convert your account to ensure you retain access to your classrooms.
         a.btn.btn-primary.btn-lg(href="/teachers/update-account") Upgrade to teacher account
 
-  .container
+  .container(dir="auto")
     h1(data-i18n="nav.courses")
     h2(data-i18n="courses.subtitle")
     //- p
     //-   a(href="https://discourse.codecombat.com/t/course-level-changelog/7352" data-i18n="courses.changelog")
 
-  .courses.container
+  .courses.container(dir="auto")
     - var courses = view.courses.models;
     - var courseIndex = 0;
     while courseIndex < courses.length

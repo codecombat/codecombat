@@ -1,3 +1,4 @@
+require 'app/styles/modal/create-account-modal/nces-search-input.sass'
 algolia = require 'core/services/algolia'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
 SCHOOL_NCES_KEYS = DISTRICT_NCES_KEYS.concat(['id', 'name', 'students', 'phone'])
