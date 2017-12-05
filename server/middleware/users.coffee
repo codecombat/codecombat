@@ -217,6 +217,11 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
+  setVerifiedTeacher: wrap (req, res, next) ->
+    userID = mongoose.Types.ObjectId(req.body.userID)
+    user = yield User.findByIdAndUpdate(userID, { $set: { "discourse.verified_teacher": req.body.verified_teacher } }, { new: true })
+    res.status(200).send(user.toObject({req: req}))
+
   signupWithPassword: wrap (req, res) ->
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')

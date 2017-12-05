@@ -8,6 +8,7 @@ forms = require 'core/forms'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
+fetchJson = require('core/api/fetch-json')
 
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
@@ -21,6 +22,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click .update-classroom-btn': 'onClickUpdateClassroomButton'
     'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
     'click .user-link': 'onClickUserLink'
+    'click #verified-teacher-checkbox': 'onClickVerifiedTeacherCheckbox'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -143,3 +145,32 @@ module.exports = class AdministerUserModal extends ModalView
   onClickUserLink: (e) ->
     userID = $(e.target).data('user-id')
     @openModalView new AdministerUserModal({}, userID) if userID
+    
+  userIsVerifiedTeacher: () ->
+    @user.get('discourse')?.verified_teacher
+    
+  userDiscourseLink: () ->
+    return false if not (@user.get('discourse')?.id and @user.get('discourse')?.username)
+    "https://discourse.codecombat.com/u/#{@user.get('discourse').username}"
+  
+  onClickVerifiedTeacherCheckbox: (e) ->
+    if not @user.get('discourse')
+      @user.set('discourse', {})
+    checked = $(e.target).prop('checked')
+    @userSaveState = 'saving'
+    @render()
+    fetchJson("/db/user/#{@user.id}/verified_teacher", {
+      method: 'PUT',
+      json: {
+        userID: @user.id,
+        verified_teacher: checked,
+      }
+    }).then (res) =>
+      @userSaveState = 'saved'
+      @user.get('discourse').verified_teacher = res.discourse.verified_teacher
+      @render()
+      setTimeout((()=>
+        @userSaveState = null
+        @render()
+      ), 2000)
+    null

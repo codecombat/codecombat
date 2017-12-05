@@ -30,6 +30,26 @@ block modal-header-content
       a(href="#prepaids") Existing Prepaids
   div
     a(href="#details") User Details
+  
+  div.m-t-1
+    h4
+      | Discourse username:&nbsp;
+      if view.userDiscourseLink()
+        a(href=view.userDiscourseLink())
+          =view.user.get('discourse') && view.user.get('discourse').username
+      else
+        | (no discourse account)
+    label
+      input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      span.p-l-1
+        | APCSP Verified Teacher (has access to private forum)
+    div
+      if view.userSaveState == 'saving'
+        | Saving...
+      else if view.userSaveState == 'saved'
+        | Saved!
+      else
+        | &nbsp;
 
 block modal-body-content
 
