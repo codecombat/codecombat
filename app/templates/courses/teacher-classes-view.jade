@@ -107,16 +107,17 @@ mixin classRow(classroom)
         a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
 
     .flex-right
-      .progress-col
-        if classroom.get('members').length == 0
-          +addStudentsButton(classroom)
-        else
-          - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
-          - var courseLabelsArray = view.helper.courseLabelsArray(courses);
-          each trimCourse, index in classroom.getSortedCourses() || []
-            - var course = view.courses.get(trimCourse._id);
-            - var label = courseLabelsArray[index];
-            +progressDot(classroom, course, label)
+      //-  TODO: disabling for HoC to alleviate server stress
+      //- .progress-col
+      //-   if classroom.get('members').length == 0
+      //-     +addStudentsButton(classroom)
+      //-   else
+      //-     - var courses = classroom.getSortedCourses().map(function(c) { return view.courses.get(c._id); });
+      //-     - var courseLabelsArray = view.helper.courseLabelsArray(courses);
+      //-     each trimCourse, index in classroom.getSortedCourses() || []
+      //-       - var course = view.courses.get(trimCourse._id);
+      //-       - var label = courseLabelsArray[index];
+      //-       +progressDot(classroom, course, label)
       .view-class-arrow
         a.view-class-arrow-inner.glyphicon.glyphicon-chevron-right.view-class-btn(data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Chevron")
 
