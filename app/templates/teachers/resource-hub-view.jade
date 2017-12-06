@@ -72,11 +72,17 @@ block content
             a(href="http://files.codecombat.com/docs/resources/HighSchoolPacing.pdf")
               span(data-i18n="teacher.pacing_guides_high")
         li
-          a(href="/teachers/resources/faq")
+          - var faqURL = "/teachers/resources/faq";
+          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+          -     faqURL = "/teachers/resources/faq-nl-NL";
+          a(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
         li
-          a(href="/teachers/resources/getting-started")
+          - var gettingStartedURL = "/teachers/resources/getting-started";
+          //- if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+          //-     gettingStartedURL = "/teachers/resources/getting-started-nl-NL";
+          a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
         li

@@ -4,8 +4,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
 #    play_now: "Play Now"
-#    im_a_teacher: "I'm a Teacher"
-#    im_a_student: "I'm a Student"
+    im_a_teacher: "Sunt Profesor"
+    im_a_student: "Sunt Student"
 #    learn_more: "Learn more"
 #    classroom_in_a_box: "A classroom in-a-box for teaching computer science."
 #    codecombat_is: "CodeCombat is a platform <strong>for students</strong> to learn computer science while playing through a real game."
@@ -69,11 +69,11 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    map: "Map"
     play: "Nivele" # The top nav bar entry where players choose which levels to play
     community: "Communitate"
-#    courses: "Courses"
+    courses: "Cursuri"
     blog: "Blog"
     forum: "Forum"
     account: "Cont"
-#    my_account: "My Account"
+    my_account: "Contul meu"
     profile: "Profil"
     home: "Acasă"
     contribute: "Contribuie"
@@ -83,10 +83,10 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     contact: "Contact"
     twitter_follow: "Urmărește"
 #    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
+    my_courses: "Cursurile mele"
 #    careers: "Careers"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
+    facebook: "Facebook"
+    twitter: "Twitter"
 #    create_a_class: "Create a Class"
 #    other: "Other"
 #    learn_to_code: "Learn to Code!"
@@ -157,6 +157,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
 #    replay: "Replay"
 #    back_to_classroom: "Back to Classroom"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
 #  code:
 #    if: "if" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -195,15 +197,15 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    "<=": "is less than or equal"
 #    "*": "multiplied by"
 #    "/": "divided by"
-#    "+": "plus"
-#    "-": "minus"
-#    "+=": "add and assign"
-#    "-=": "subtract and assign"
-#    True: "True"
-#    true: "true"
-#    False: "False"
-#    false: "false"
-#    undefined: "undefined"
+    "+": "plus"
+    "-": "minus"
+    "+=": "adaugă și atribuie"
+    "-=": "scade și atribuie"
+    True: "Adevărat"
+    true: "adevărat"
+    False: "Fals"
+    false: "fals"
+    undefined: "nedefinit"
 #    null: "null"
 #    nil: "nil"
 #    None: "None"
@@ -218,7 +220,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 
   login:
     sign_up: "Crează cont"
-#    email_or_username: "Email or username"
+    email_or_username: "Email sau nume de utilizator"
     log_in: "Log In"
     logging_in: "Se conectează"
     log_out: "Log Out"
@@ -231,9 +233,9 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     signup_switch: "Doriți să creați un cont?"
 
   signup:
+    create_student_header: "Creare cont student"
+    create_teacher_header: "Creare cont profesor"
 #    complete_subscription: "Complete Subscription"
-#    create_student_header: "Create Student Account"
-#    create_teacher_header: "Create Teacher Account"
 #    create_individual_header: "Create Individual Account"
     email_announcements: "Primește notificări prin email" # {change}
 #    sign_in_to_continue: "Sign in or create an account to continue"
@@ -244,7 +246,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     required: "Trebuie să te înregistrezi înaite să parcurgi acest drum."
     login_switch: "Ai deja un cont?"
 #    school_name: "School Name and City"
-#    optional: "optional"
+    optional: "opțional"
 #    school_name_placeholder: "Example High School, Springfield, IL"
 #    connected_gplus_header: "You've successfully connected with Google+!"
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "Recuperează Cont"
@@ -339,7 +342,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     saving: "Se salvează..."
     sending: "Se trimite..."
     send: "Trimite"
-#    sent: "Sent"
+    sent: "Trimis"
     cancel: "Anulează"
     save: "Salvează"
     publish: "Publică"
@@ -408,13 +411,16 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     warrior: "Războinic"
     ranger: "Arcaș"
     wizard: "Vrăjitor"
-#    first_name: "First Name"
+    first_name: "Prenume"
 #    last_name: "Last Name"
 #    last_initial: "Last Initial"
-#    username: "Username"
+    username: "Nume de utilizator"
 #    contact_us: "Contact Us"
 #    close_window: "Close Window"
 #    learn_more: "Learn More"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "secundă"
@@ -446,8 +452,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     done: "Gata"
 #    next_level: "Next Level"
 #    next_game: "Next game"
-#    languages: "Languages"
-#    programming_language: "Programming language"
+    languages: "Limbi"
+    programming_language: "Limbaj de programare"
 #    show_menu: "Show game menu"
     home: "Acasă" # Not used any more, will be removed soon.
     level: "Nivel" # Like "Level: Dungeons of Kithgard"
@@ -597,8 +603,8 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
-#  play_game_dev_level:
-#    created_by: "Created by {{name}}"
+  play_game_dev_level:
+    created_by: "Creat de {{name}}"
 #    created_during_hoc: "Created during Hour of Code"
 #    restart: "Restart Level"
 #    play: "Play Level"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    share_game: "Share This Game"
 #    share_web: "Share This Webpage"
 #    victory_share_prefix: "Share this link to invite your friends & family to"
+#    victory_share_prefix_short: "Invite people to"
 #    victory_share_game: "play your game level"
 #    victory_share_web: "view your webpage"
 #    victory_share_suffix: "."
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    victory_course_share_web: "view the webpage"
 #    victory_course_share_suffix: "you just created."
 #    copy_url: "Copy URL"
+#    share_with_teacher_email: "Send to your teacher"
 
 #  game_dev:
 #    creator: "Creator"
@@ -2250,6 +2262,19 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
 #    basic_event_handling: "Basic Event Handling"
 #    create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+
   delta:
     added: "Adăugat"
     modified: "Modificat"
@@ -2337,21 +2362,21 @@ module.exports = nativeDescription: "limba română", englishDescription: "Roman
     oreilly: "ebook la alegere"
 
 #  calendar:
-#    year: "Year"
-#    day: "Day"
+    year: "An"
+    day: "Zi"
 #    month: "Month"
-#    january: "January"
-#    february: "February"
-#    march: "March"
-#    april: "April"
-#    may: "May"
-#    june: "June"
-#    july: "July"
+    january: "Ianuarie"
+#    february: "Februarie"
+#    march: "Martie"
+#    april: "Aprilie"
+#    may: "Mai"
+#    june: "Iunie"
+#    july: "Iulie"
 #    august: "August"
-#    september: "September"
-#    october: "October"
-#    november: "November"
-#    december: "December"
+#    september: "Septembrie"
+#    october: "Octombrie"
+#    november: "Noiembrie"
+#    december: "Decembrie"
 
 #  code_play_create_account_modal:
 #    title: "You did it!" # This section is only needed in US, UK, Mexico, India, and Germany
