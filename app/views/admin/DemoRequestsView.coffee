@@ -28,11 +28,10 @@ module.exports = class DemoRequestsView extends RootView
     @dayCounts.sort((a, b) -> b.day.localeCompare(a.day))
     sevenCounts = []
     for i in [@dayCounts.length - 1..0]
-      if dayCount
-        dayCount = @dayCounts[i]
-        sevenCounts.push(dayCount.count)
-        while sevenCounts.length > 7
-          sevenCounts.shift()
-        if sevenCounts.length is 7
-          dayCount.sevenAverage = Math.round(sevenCounts.reduce(((a, b) -> a + b), 0) / 7)
+      dayCount = @dayCounts[i]
+      sevenCounts.push(dayCount.count) if dayCount
+      while sevenCounts.length > 7
+        sevenCounts.shift()
+      if sevenCounts.length is 7
+        dayCount.sevenAverage = Math.round(sevenCounts.reduce(((a, b) -> a + b), 0) / 7)
     super()
