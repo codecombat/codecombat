@@ -456,7 +456,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     programming_language: "שפת תכנות"
     show_menu: "הצג תפריט משחק"
     home: "בית" # Not used any more, will be removed soon.
-    level: "דרגה" # Like "Level: Dungeons of Kithgard"
+    level: "שלב" # Like "Level: Dungeons of Kithgard"
     skip: "דלג"
     game_menu: "תפריט משחק"
     restart: "הפעל מחדש"

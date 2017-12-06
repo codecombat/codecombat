@@ -1,3 +1,5 @@
+utils = require 'core/utils'
+
 ThangTypeLib =
   getPortraitURL: (thangTypeObj) ->
     return '' if application.testing
@@ -8,7 +10,11 @@ ThangTypeLib =
     "/file/db/thang.type/#{thangTypeObj.original}/portrait.png"
 
   getHeroShortName: (thangTypeObj) ->
-    # TODO: Eventually nice to move this into ThangType DB object so it can be translated like the rest
+    # New way: moved into ThangType model
+    if shortName = utils.i18n thangTypeObj, 'shortName'
+      return shortName
+
+    # Old way: hard-coded
     map = {
       'Assassin': {'en-US': 'Ritic'}
       'Captain': {'en-US': 'Anya', 'zh-HANS': '安雅'}
@@ -36,7 +42,11 @@ ThangTypeLib =
     return name?['en-US']
 
   getGender: (thangTypeObj) ->
-    # TODO: eventually move into ThangType DB object
+    # New way: moved into ThangType model
+    if gender = thangTypeObj?.gender
+      return gender
+
+    # Old way: hard-coded
     slug = thangTypeObj?.slug ? thangTypeObj?.get?('slug') ? ''
     heroGenders =
       male: ['knight', 'samurai', 'trapper', 'potion-master', 'goliath', 'assassin', 'necromancer', 'duelist', 'code-ninja']
