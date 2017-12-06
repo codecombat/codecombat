@@ -44,6 +44,7 @@ module.exports = Surface = class Surface extends CocoClass
   worldLoaded: false
   scrubbing: false
   debug: false
+  realTineInputDelay: 1.5
 
   defaults:
     paths: true
@@ -529,7 +530,7 @@ module.exports = Surface = class Surface extends CocoClass
     @realTimeInputEvents.add({
       type: 'mousedown'
       pos: @camera.screenToWorld x: e.originalEvent.stageX, y: e.originalEvent.stageY
-      time: @world.dt * @world.frames.length
+      time: @world.dt * @world.frames.length + @realTineInputDelay
       thangID: e.sprite.thang.id
     })
 
@@ -561,7 +562,8 @@ module.exports = Surface = class Surface extends CocoClass
   onKeyEvent: (e) =>
     return unless @realTime
     event = _.pick(e, 'type', 'keyCode', 'ctrlKey', 'metaKey', 'shiftKey')
-    event.time = @world.dt * @world.frames.length
+    event.time = @world.dt * @world.frames.length + @realTineInputDelay
+    console.log 'adding', event.type, event.keyCode, 'at', event.time
     @realTimeInputEvents.add(event)
 
   #- Canvas callbacks

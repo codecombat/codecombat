@@ -7,6 +7,9 @@ module.exports = class LevelBus extends Bus
 
   @get: (levelID, sessionID) ->
     docName = "play/level/#{levelID}/#{sessionID}"
+    return @getByDocName docName
+
+  @getByDocName: (docName) ->
     return Bus.getFromCache(docName) or new LevelBus docName
 
   subscriptions:

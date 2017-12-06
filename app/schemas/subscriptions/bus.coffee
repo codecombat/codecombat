@@ -25,3 +25,7 @@ module.exports =
   'bus:player-states-changed': c.object {title: 'Player state changes', description: 'State of the players has changed'},
     states: {type: 'object', additionalProperties: {type: 'object'}}
     bus: {$ref: 'bus'}
+
+  'bus:multiplayer-level-start': c.object {title: 'Multiplayer level start', description: 'The level should start'},
+    playback: {type: 'object'}
+    bus: {$ref: 'bus'}

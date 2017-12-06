@@ -1,4 +1,6 @@
 CocoClass = require 'core/CocoClass'
+firebase = require('firebase/app')
+require('firebase/database')
 
 {me} = require 'core/auth'
 
@@ -11,7 +13,13 @@ module.exports = Bus = class Bus extends CocoClass
   @get: (docName) -> return @getFromCache or new Bus docName
   @getFromCache: (docName) -> return Bus.activeBuses[docName]
   @activeBuses: {}
-  @fireHost: 'https://codecombat.firebaseio.com'
+  @fireConfig:
+    apiKey: "AIzaSyA0PxqiV7dsPT-0T2F9aaNlCUBkVeYrb8w"
+    authDomain: "codecombat.firebaseapp.com"
+    databaseURL: "https://codecombat.firebaseio.com"
+    projectId: "firebase-codecombat"
+    storageBucket: ""
+    messagingSenderId: "555257565317"
 
   constructor: (@docName) ->
     super()
@@ -22,13 +30,13 @@ module.exports = Bus = class Bus extends CocoClass
     'auth:me-synced': 'onMeSynced'
 
   connect: ->
-    # Put Firebase back in bower if you want to use this
     Backbone.Mediator.publish 'bus:connecting', {bus: @}
-    Firebase.goOnline()
-    @fireRef = new Firebase(Bus.fireHost + '/' + @docName)
+    Bus.fireApp ?= firebase.initializeApp Bus.fireConfig
+    @fireRef = Bus.fireApp.database().ref @docName
     @fireRef.once 'value', @onFireOpen
 
   onFireOpen: (snapshot) =>
+    console.log 'on fire open', snapshot
     if @destroyed
       console.log("Leaving '#{@docName}' because class has been destroyed.")
       return
@@ -46,6 +54,7 @@ module.exports = Bus = class Bus extends CocoClass
     @myConnection = null
     @joined = false
     Backbone.Mediator.publish 'bus:disconnected', {bus: @}
+    # TODO: clean up Bus.fireApp if it's the last Bus?
 
   init: ->
     """
@@ -60,12 +69,12 @@ module.exports = Bus = class Bus extends CocoClass
   join: ->
     @joined = true
     @myConnection = @firePlayersRef.child(me.id)
-    @myConnection.set({id: me.id, name: me.get('name'), connected: true})
+    @myConnection.set({id: me.id, name: me.displayName(), connected: true})
     @onDisconnect = @myConnection.child('connected').onDisconnect()
     @onDisconnect.set(false)
 
   listenForChanges: ->
-    @fireChatRef.limit(CHAT_SIZE_LIMIT).on 'child_added', @onChatAdded
+    @fireChatRef.limitToLast(CHAT_SIZE_LIMIT).on 'child_added', @onChatAdded
     @firePlayersRef.on 'child_added', @onPlayerJoined
     @firePlayersRef.on 'child_removed', @onPlayerLeft
     @firePlayersRef.on 'child_changed', @onPlayerChanged

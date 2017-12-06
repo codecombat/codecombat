@@ -18,6 +18,8 @@ GameDevVictoryModal = require './modal/GameDevVictoryModal'
 aetherUtils = require 'lib/aether_utils'
 GameDevTrackView = require './GameDevTrackView'
 api = require 'core/api'
+GameDevLevelBus = require 'lib/GameDevLevelBus'
+ChatView = require './LevelChatView'
 
 require 'lib/game-libraries'
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -32,6 +34,7 @@ module.exports = class PlayGameDevLevelView extends RootView
     'god:new-world-created': 'onNewWorld'
     'surface:ticked': 'onSurfaceTicked'
     'god:streaming-world-updated': 'onStreamingWorldUpdated'
+    'bus:multiplayer-level-start': 'onMultiplayerLevelStart'
 
   events:
     'click #edit-level-btn': 'onEditLevelButton'
@@ -119,6 +122,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       else
         $.i18n.t('play_game_dev_level.created_during_hoc')
 
+      @register()  # TODO: where to put? Wait for it?
+
       @state.set({
         loading: false
         goalNames
@@ -135,12 +140,18 @@ module.exports = class PlayGameDevLevelView extends RootView
       }
       window.tracker?.trackEvent 'Play GameDev Level - Load', @eventProperties, ['Mixpanel']
       @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
+      @insertSubView new ChatView bus: @bus
       worldCreationOptions = {spells: @spells, preload: false, realTime: false, justBegin: true, keyValueDb: @session.get('keyValueDb') ? {}}
       @god.createWorld(worldCreationOptions)
 
     .catch (e) =>
       throw e if e.stack
       @state.set('errorMessage', e.message)
+
+  register: ->
+    @bus = GameDevLevelBus.get @session.id
+    @bus.setGameUIState @gameUIState
+    @bus.connect()  # TODO: only do sometimes?
 
   onEditLevelButton: ->
     viewClass = 'views/play/level/PlayLevelView'
@@ -152,7 +163,13 @@ module.exports = class PlayGameDevLevelView extends RootView
       viewArgs: [{}, @levelID]
     }
 
-  onClickPlayButton: ->
+  onClickPlayButton: (e) ->
+    @startLevel()
+
+  onMultiplayerLevelStart: (e) ->
+    @startLevel()
+
+  startLevel: ->
     worldCreationOptions = {spells: @spells, preload: false, realTime: true, justBegin: false, keyValueDb: @session.get('keyValueDb') ? {}, synchronous: true}
     @god.createWorld(worldCreationOptions)
     Backbone.Mediator.publish('playback:real-time-playback-started', {})
@@ -183,6 +200,8 @@ module.exports = class PlayGameDevLevelView extends RootView
       modal = new GameDevVictoryModal({ shareURL: @state.get('shareURL'), @eventProperties })
       @openModalView(modal)
       modal.once 'replay', @onClickPlayButton, @
+    if e.world.frames.length is e.world.totalFrames
+      Backbone.Mediator.publish('playback:real-time-playback-ended', {})
 
   onSurfaceTicked: (e) ->
     return if @studentGoals

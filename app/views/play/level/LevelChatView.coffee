@@ -17,12 +17,11 @@ module.exports = class LevelChatView extends CocoView
     'bus:new-message': 'onNewMessage'
 
   constructor: (options) ->
-    @levelID = options.levelID
     @session = options.session
-    # TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
-    @listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
-    @sessionID = options.sessionID
-    @bus = LevelBus.get(@levelID, @sessionID)
+    if @session
+      # TODO: we took out session.multiplayer, so this will not fire. If we want to resurrect it, we'll of course need a new way of activating chat.
+      @listenTo(@session, 'change:multiplayer', @updateMultiplayerVisibility)
+    @bus = options.bus ? LevelBus.get(options.levelID, options.sessionID)
     super()
     @regularlyClearOldMessages()
     @playNoise = _.debounce(@playNoise, 100)
@@ -30,7 +29,7 @@ module.exports = class LevelChatView extends CocoView
   updateMultiplayerVisibility: ->
     return unless @$el?
     try
-      @$el.toggle Boolean @session.get('multiplayer')
+      @$el.toggle Boolean @session?.get('multiplayer') ? true
     catch e
       console.error "Couldn't toggle the style on the LevelChatView to #{Boolean @session.get('multiplayer')} because of an error:", e
 

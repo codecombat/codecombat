@@ -88,6 +88,7 @@
     "express-useragent": "^1.0.4",
     "extract-text-webpack-plugin": "^3.0.1",
     "fastclick": "~1.0.3",
+    "firebase": "^4.6.2",
     "geoip-lite": "^1.1.6",
     "graceful-fs": "~2.0.1",
     "gridfs-stream": "~1.1.1",
