@@ -42,8 +42,8 @@ block content
         span(data-i18n='teacher.edit_class_settings')
       h4(dir="auto")= classroom.get('description')
 
-      .classroom-info-row.row.m-t-5
-        .classroom-details.col-md-3
+      .classroom-info-row.row.m-t-5.rtl-allowed
+        .classroom-details.col-md-3.rtl-allowed
           - var stats = state.get('classStats')
           h4.m-b-2(data-i18n='teacher.class_overview')
 

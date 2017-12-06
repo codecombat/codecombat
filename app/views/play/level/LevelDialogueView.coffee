@@ -65,7 +65,7 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')
-    group = $('<div class="enter secret"></div>')
+    group = $('<div class="enter secret" dir="ltr"></div>')
     @bubble.append(group)
     if responses
       @lastResponses = responses
