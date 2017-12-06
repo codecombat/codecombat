@@ -21,11 +21,13 @@
     flex-direction: column
     justify-content: space-between
     width: 235px
-    height: 340px
-    max-height: 42vh
     border-style: solid
     border-width: thin
     border-radius: 5px
+
+    body[lang^="en"] &
+      height: 340px
+      max-height: 42vh
 
     &.navy
       border-color: $navy
@@ -60,6 +62,8 @@
         align-self: center
         text-align: left
         padding-left: 20px
+        &[dir="rtl"]
+          text-align: right
         li
           span
             position: relative
