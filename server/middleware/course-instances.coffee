@@ -269,14 +269,12 @@ module.exports =
     for course in classroom.get('courses') when course._id.equals(courseInstance.get('courseID'))
       for level in course.levels when not _.contains(level.type, 'ladder')
         $or.push({
+          creator: req.user.id, # NOTE: Keep this in here rather than outside in an $and to ensure proper index usage
           'level.original': level.original + "",
           codeLanguage: level.primerLanguage or classroom.get('aceConfig.language')
         })
     if $or.length
-      query = {$and: [
-        {creator: req.user.id},
-        { $or }
-      ]}
+      query = { $or }
       levelSessions = yield LevelSession.find(query).select(parse.getProjectFromReq(req))
       res.send(session.toObject({req}) for session in levelSessions)
     else
