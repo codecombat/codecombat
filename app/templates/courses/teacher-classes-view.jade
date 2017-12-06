@@ -142,7 +142,9 @@ mixin progressDot(classroom, course, label)
     - started = courseInstance.started
     - dotClass = complete === total ? 'forest' : started ? 'gold' : '';
     - var progressDotContext = {total: total, complete: complete, loading: !courseInstance.sessionsLoaded};
-    .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+    //-  TODO: disabling for HoC to alleviate server stress
+    //- .progress-dot(class=dotClass, data-title=view.progressDotTemplate(progressDotContext))
+    .progress-dot(class=dotClass)
       +progressDotLabel(label)
 
 mixin progressDotLabel(label)
