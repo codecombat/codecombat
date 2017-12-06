@@ -48,7 +48,6 @@ printTranslation = function(docType, doc, path, englishString, translationString
   // Google Docs: =SUBSTITUTE(SUBSTITUTE(F2, "\n", char(10)), "XX", CHAR(34))
   // Excel: =SUBSTITUTE(E1, "\n", CHAR(10) & CHAR(13))
   var translation = [[docType, doc._id+'', doc.original ? doc.original+'' : '', path, JSON.stringify(englishString), JSON.stringify(translationString)].join('\t')]
-  translation.sortKey = englishString.length;
   translations.push(translation);
 }
 
@@ -58,9 +57,13 @@ var campaignIds = courses.reduce(function (ids, val) {
   // if (val._id.valueOf() === '56462f935afde0c6fd30fc8c') ids.push(val.campaignID);
   return ids;
 }, []);
-var campaignSlugs = ['dungeon', 'campaign-game-dev-1', 'campaign-game-web-1', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert', 'mountain', 'glacier'];
+var campaignSlugs = ['intro', 'game-dev-1', 'web-dev-1', 'course-2', 'game-dev-2', 'web-dev-2', 'dungeon', 'course-3', 'game-dev-3', 'campaign-game-dev-1', 'campaign-game-web-1', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert', 'mountain', 'glacier'];
 // campaignSlugs = [];
-var campaigns = db.campaigns.find({$or: [{slug: {$in: campaignSlugs}}, {_id: {$in: campaignIds}}]}, {levels: 1}).toArray();
+var campaigns = db.campaigns.find({$or: [{slug: {$in: campaignSlugs}}, {_id: {$in: campaignIds}}]}, {levels: 1, slug: 1}).toArray();
+campaigns = _.sortBy(campaigns, function(campaign) {
+  var index = campaignSlugs.indexOf(campaign.slug);
+  return index == -1 ? 9001 : index;
+});
 var levelOriginalsToDo = [];
 campaigns.forEach(function(campaign) {
   for (var levelOriginalId in campaign.levels) {
@@ -68,11 +71,14 @@ campaigns.forEach(function(campaign) {
   }
 });
 levelOriginalsToDo = _.unique(levelOriginalsToDo);
-
-db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach(function (level) {
+var allLevels = db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).toArray();
+allLevels = _.sortBy(allLevels, function(level) { return levelOriginalsToDo.indexOf(level.original + ''); });
+allLevels.forEach(function(level, levelIndex) {
+//db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach(function (level) {
   if(!_.contains(levelOriginalsToDo, level.original+'')) {
     return
   }
+  //if(levelIndex > 260) return;
   addLevel = add('levels', level);
   addLevel('', level, 'name');
   addLevel('', level, 'description');
@@ -213,6 +219,7 @@ db.thang.types.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forE
   addThang(thangType, 'name')
   addThang(thangType, 'description')
   addThang(thangType, 'extendedName')
+  addThang(thangType, 'shortName')
   addThang(thangType, 'unlockLevelName')
 })
 
@@ -222,9 +229,8 @@ db.articles.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach
   addArticle(article, 'body');
 })
 
-translations = _.sortBy(translations, 'sortKey');
 translations.forEach(function(tr) {
   print(tr.join('\n'));
 });
 
-// print('\n\nUntranslated words: ' + untranslatedWords)
+//print('\n\nUntranslated words: ' + untranslatedWords)
