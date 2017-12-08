@@ -46,6 +46,7 @@ Poll = require('../../server/models/Poll');
 Campaign = require('../../server/models/Campaign');
 LevelComponent = require('../../server/models/LevelComponent');
 ThangType = require('../../server/models/ThangType')
+Article = require('../../server/models/Article')
 _ = require('lodash');
 co = require('co');
 fs = require('fs');
@@ -411,6 +412,40 @@ co(function* () {
       database.validateDoc(updatedThang)
       if (doSave)
         yield versionsLib.saveNewVersion(updatedThang, thang.get('version.major'))
+      //return true
+    }
+  }
+
+  // Articles
+
+  articleTranslations = _.filter(allTranslations, (t) => t.Type === 'articles')
+  articleOriginals = _.filter(_.unique(_.pluck(articleTranslations, 'Original')))
+  for (var i in articleOriginals) {
+    articleOriginalString = articleOriginals[i]
+    article = yield Article.findCurrentVersion(articleOriginalString)
+    if(!article) { continue; }
+  
+    updatedArticle = database.initDoc(req, Article)
+    versionsLib.initNewVersion(updatedArticle, article)
+  
+    translations = _.filter(allTranslations, (t) => t.Original === articleOriginalString)
+    translationMap = makeTranslationMap(translations)
+  
+    articleObj = updatedArticle.toObject()
+    updateArticle = update(translationMap);
+    updateArticle('', articleObj, 'name');
+    updateArticle('', articleObj, 'body');
+    
+    updatedArticle.set(articleObj)
+    updatedArticle.set('commitMessage', `Import ${langProperty} translations`)
+    i18n.updateI18NCoverage(updatedArticle)
+    delta = differ.diff(_.omit(article.toObject(), omissions), _.omit(updatedArticle.toObject(), omissions))
+    flattened = deltasLib.flattenDelta(delta)
+    if(flattened.length > 0) {
+      //console.log('flattened changes', updatedArticle.get('name'), JSON.stringify(flattened, null, '\t'))
+      database.validateDoc(updatedArticle)
+      if (doSave)
+        yield versionsLib.saveNewVersion(updatedArticle, article.get('version.major'))
       //return true
     }
   }
