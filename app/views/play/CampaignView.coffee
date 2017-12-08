@@ -1260,6 +1260,9 @@ module.exports = class CampaignView extends RootView
   shouldShow: (what) ->
     isStudentOrTeacher = me.isStudent() or me.isTeacher()
     isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
+    
+    if what is 'leaderboard'
+      return false
 
     if what is 'classroom-level-play-button'
       isValidStudent = (me.isStudent() and me.get('courseInstances')?.length)
