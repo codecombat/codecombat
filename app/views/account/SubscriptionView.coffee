@@ -51,9 +51,9 @@ module.exports = class SubscriptionView extends RootView
 
   constructor: (options) ->
     super(options)
-    inBrazil = document.location.host is 'br.codecombat.com'
-    if inBrazil and not me.hasSubscription()
-      document.location.href = 'http://codecombat.net.br/'
+    #inBrazil = document.location.host is 'br.codecombat.com'
+    #if inBrazil and not me.hasSubscription()
+    #  document.location.href = 'http://codecombat.net.br/'
     prepaidCode = utils.getQueryVariable '_ppc'
     @personalSub = new PersonalSub(@supermodel, prepaidCode)
     @recipientSubs = new RecipientSubs(@supermodel)
