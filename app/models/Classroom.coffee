@@ -92,6 +92,8 @@ module.exports = class Classroom extends CocoModel
       levels.remove(levels.filter((level) -> level.isLadder()))
     if options.projectLevels
       levels.remove(levels.filter((level) -> level.get('shareable') isnt 'project'))
+    if options.assessmentLevels
+      levels.remove(levels.filter((level) -> not level.get('assessment')))
     return levels
 
   getLadderLevel: (courseID) ->
@@ -127,7 +129,7 @@ module.exports = class Classroom extends CocoModel
     playtime = 0
     levels = []
     for level, index in courseLevels.models
-      levelsTotal++ unless level.get('practice')
+      levelsTotal++ unless level.get('practice') or level.get('assessment')
       complete = false
       if session = levelSessionMap[level.get('original')]
         complete = session.get('state').complete ? false
@@ -138,10 +140,11 @@ module.exports = class Classroom extends CocoModel
           currentIndex = index
         else
           lastStarted = level
-          levelsLeft++ unless level.get('practice')
-      else if not level.get('practice')
+          levelsLeft++ unless level.get('practice') or level.get('assessment')
+      else if not (level.get('practice') or level.get('assessment'))
         levelsLeft++
       levels.push
+        assessment: level.get('assessment') ? false
         practice: level.get('practice') ? false
         complete: complete
     lastPlayed = lastStarted ? lastPlayed
@@ -204,3 +207,6 @@ module.exports = class Classroom extends CocoModel
       return propInfo[name].default
 
     return false
+  
+  hasAssessments: () ->
+    _.any(@get('courses'), (course) -> _.any(course.levels, { assessment: true }))

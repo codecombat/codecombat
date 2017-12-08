@@ -69,4 +69,7 @@ module.exports = {
     fetchJson(@url(userID, "course-instances"), _.merge({}, options, {
       data: { userID, campaignSlug }
     }))
+
+  getLevelSessions: ({ userID }, options={}) ->
+    fetchJson("/db/user/#{userID}/level.sessions", _.merge({}, options))
 }

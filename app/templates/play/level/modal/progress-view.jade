@@ -33,15 +33,26 @@
                     span #{stats.levels.numDone}/#{stats.levels.size}
             
         
-      if !view.nextLevel.isNew()
+      if !view.nextAssessment.isNew() || !view.nextLevel.isNew()
         .col-sm-5
-          .well.well-sm.well-parchment.rtl-allowed.rtl-allowed
-            h3.text-uppercase
-              span(data-i18n='play_level.next_level')
-              span :
-            h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
-            
-            div.next-level-description!= view.nextLevelDescription
+          if !view.nextAssessment.isNew()
+            .well.well-sm.well-parchment.rtl-allowed.rtl-allowed
+              h3.text-uppercase
+                span(data-i18n='play_level.challenge_unlocked')
+                span :
+              h2.text-uppercase= i18n(view.nextAssessment.attributes, 'name').replace('Course: ', '')
+              div.next-level-description!= view.nextAssessmentDescription
+
+            if !view.nextAssessment.isNew()
+              button#start-challenge-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(data-i18n='play_level.start_challenge')
+
+          if !view.nextLevel.isNew()
+            .well.well-sm.well-parchment.rtl-allowed.rtl-allowed
+              h3.text-uppercase
+                span(data-i18n='play_level.next_level')
+                span :
+              h2.text-uppercase= i18n(view.nextLevel.attributes, 'name').replace('Course: ', '')
+              div.next-level-description!= view.nextLevelDescription
     
     if view.level.isProject()
       if view.classroom

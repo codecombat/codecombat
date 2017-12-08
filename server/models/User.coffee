@@ -85,6 +85,9 @@ UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
 
+UserSchema.methods.isVerifiedTeacher = ->
+  return Boolean(@get('verifiedTeacher'))
+
 UserSchema.methods.hasPermission = (neededPermissions) ->
   permissions = @get('permissions') or []
   if _.contains(permissions, 'admin')

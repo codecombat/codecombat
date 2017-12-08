@@ -95,6 +95,7 @@ dynamicRequire = (path) ->
       when 'views/courses/CoursesView' then require.ensure(['views/courses/CoursesView'], ((require) -> accept(require('views/courses/CoursesView'))), reject, 'courses')
       when 'views/courses/CoursesUpdateAccountView' then require.ensure(['views/courses/CoursesUpdateAccountView'], ((require) -> accept(require('views/courses/CoursesUpdateAccountView'))), reject, 'courses')
       when 'views/courses/ProjectGalleryView' then require.ensure(['views/courses/ProjectGalleryView'], ((require) -> accept(require('views/courses/ProjectGalleryView'))), reject, 'courses')
+      when 'views/courses/StudentAssessmentsView' then require.ensure(['views/courses/StudentAssessmentsView'], ((require) -> accept(require('views/courses/StudentAssessmentsView'))), reject, 'courses')
       when 'views/courses/ClassroomView' then require.ensure(['views/courses/ClassroomView'], ((require) -> accept(require('views/courses/ClassroomView'))), reject, 'courses')
       when 'views/courses/CourseDetailsView' then require.ensure(['views/courses/CourseDetailsView'], ((require) -> accept(require('views/courses/CourseDetailsView'))), reject, 'courses')
       when 'views/courses/TeacherClassesView' then require.ensure(['views/courses/TeacherClassesView'], ((require) -> accept(require('views/courses/TeacherClassesView'))), reject, 'courses')

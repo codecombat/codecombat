@@ -34,7 +34,8 @@ module.exports = class Campaign extends CocoModel
       levels = []
       for level in @getLevels().models when level.get('original')
         practice = @levelIsPractice level
-        levels.push({key: level.get('original'), practice: practice})
+        assessment = @levelIsAssessment level
+        levels.push({key: level.get('original'), practice, assessment})
       @levelNumberMap = utils.createLevelNumberMap(levels)
     @levelNumberMap[levelID] ? defaultNumber
 
@@ -45,5 +46,9 @@ module.exports = class Campaign extends CocoModel
       return level.practice
     else
       return level.practice and / [ABCD]$/.test level.name
+  
+  levelIsAssessment: (level) ->
+    level = level.attributes if level.attributes
+    return level.assessment
 
   updateI18NCoverage: -> super(_.omit(@attributes, 'levels'))

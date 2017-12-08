@@ -96,6 +96,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
     @sortedCourses = []
+    @latestReleasedCourses = []
 
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchMineAndShared()
@@ -134,7 +135,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,primerLanguage,practice,shareable,i18n'}})
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n'}})
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
@@ -209,6 +210,7 @@ module.exports = class TeacherClassView extends RootView
       else
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
+    @getCourseAssessmentPairs()
     super()
 
   afterRender: ->
@@ -253,6 +255,14 @@ module.exports = class TeacherClassView extends RootView
       progressData
       classStats: @calculateClassStats()
     }
+  
+  getCourseAssessmentPairs: () ->
+    @courseAssessmentPairs = []
+    for course in @courses.models
+      assessmentLevels = @classroom.getLevels({courseID: course.id, assessmentLevels: true}).models
+      fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
+      @courseAssessmentPairs.push([course, fullLevels])
+    return @courseAssessmentPairs
 
   onClickNavTabLink: (e) ->
     e.preventDefault()

@@ -133,7 +133,7 @@ module.exports =
     
     res.status(200).send(courseInstance.toObject({ req }))
 
-  fetchNextLevel: wrap (req, res) ->
+  fetchNextLevels: wrap (req, res) ->
     unless req.user? then return res.status(200).send({})
     levelOriginal = req.params.levelOriginal
     unless database.isID(levelOriginal) then throw new errors.UnprocessableEntity('Invalid level original ObjectId')
@@ -169,26 +169,44 @@ module.exports =
     needsPractice = if currentLevel.get('type') in ['course-ladder', 'ladder'] then false
     else utils.needsPractice(currentLevelSession.get('playtime'), currentLevel.get('practiceThresholdMinutes'))
 
-    # Find next level
+    # Find next level and assessment
     levels = []
     currentIndex = -1
     for level, index in courseLevels
       currentIndex = index if level.original.toString() is levelOriginal
       levels.push
+        assessment: level.assessment ? false
         practice: level.practice ? false
         complete: levelCompleteMap[level.original?.toString()] or currentIndex is index
     unless currentIndex >=0 then throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
     nextLevelIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     nextLevelOriginal = courseLevels[nextLevelIndex]?.original
-    unless nextLevelOriginal then return res.status(200).send({})
+    nextAssessmentIndex = utils.findNextAssessmentForLevel(levels, currentIndex)
+    nextAssessmentOriginal = courseLevels[nextAssessmentIndex]?.original
+    unless nextLevelOriginal or nextAssessmentOriginal then return res.status(200).send({
+      level: {}
+      assessment: {}
+    })
 
-    # Return full Level object
-    dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
-    dbq.sort({ 'version.major': -1, 'version.minor': -1 })
-    dbq.select(parse.getProjectFromReq(req))
-    level = yield dbq
-    level = level.toObject({req: req})
-    res.status(200).send(level)
+    level = {}
+    if nextLevelOriginal
+      # Fetch full Level object
+      dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
+      dbq.sort({ 'version.major': -1, 'version.minor': -1 })
+      dbq.select(parse.getProjectFromReq(req))
+      level = yield dbq
+      level = level.toObject({req: req})
+    
+    assessment = {}
+    if nextAssessmentOriginal
+      # Fetch full Assessment Level object
+      dbq = Level.findOne({original: mongoose.Types.ObjectId(nextAssessmentOriginal)})
+      dbq.sort({ 'version.major': -1, 'version.minor': -1 })
+      dbq.select(parse.getProjectFromReq(req))
+      assessment = yield dbq
+      assessment = assessment.toObject({req: req})
+    
+    res.status(200).send({ level, assessment })
 
   fetchClassroom: wrap (req, res) ->
     courseInstance = yield database.getDocFromHandle(req, CourseInstance)

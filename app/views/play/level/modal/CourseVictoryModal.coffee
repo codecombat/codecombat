@@ -29,12 +29,16 @@ module.exports = class CourseVictoryModal extends ModalView
 
     @playSound 'victory'
     @nextLevel = new Level()
-    @nextLevelRequest = @supermodel.trackRequest(@nextLevel.fetchNextForCourse({
+    @nextAssessment = new Level()
+    nextLevelPromise = api.levels.fetchNextForCourse({
       levelOriginalID: @level.get('original')
       @courseInstanceID
       @courseID
       sessionID: @session.id
-    }))
+    }).then ({ level, assessment }) =>
+      @nextLevel.set(level)
+      @nextAssessment.set(assessment)
+    @supermodel.trackPromise(nextLevelPromise)
 
     @course = options.course
     if @courseID and not @course
@@ -71,6 +75,7 @@ module.exports = class CourseVictoryModal extends ModalView
     progressView = new ProgressView({
       level: @level
       nextLevel: @nextLevel
+      nextAssessment: @nextAssessment
       course: @course
       classroom: @classroom
       levelSessions: @levelSessions
@@ -80,6 +85,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     progressView.once 'done', @onDone, @
     progressView.once 'next-level', @onNextLevel, @
+    progressView.once 'start-challenge', @onStartChallenge, @
     progressView.once 'to-map', @onToMap, @
     progressView.once 'ladder', @onLadder, @
     progressView.once 'publish', @onPublish, @
@@ -111,6 +117,15 @@ module.exports = class CourseVictoryModal extends ModalView
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
     else
       link = "/play/level/#{@nextLevel.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
+      link += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
+    application.router.navigate(link, {trigger: true})
+
+  onStartChallenge: ->
+    window.tracker?.trackEvent 'Play Level Victory Modal Start Challenge', category: 'Students', levelSlug: @level.get('slug'), nextAssessmentSlug: @nextAssessment.get('slug'), []
+    if me.isSessionless()
+      link = "/play/level/#{@nextAssessment.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
+    else
+      link = "/play/level/#{@nextAssessment.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
       link += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     application.router.navigate(link, {trigger: true})
 
