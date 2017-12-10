@@ -971,7 +971,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     story_subtitle: "从2013年至今，CodeCombat已经从一组小草图成长为一个生动的、蓬勃发展的游戏。"
     story_statistic_1a: "5,000,000+"
     story_statistic_1b: "总玩家"
-    story_statistic_1c: "已经通过CodeCombat开始了他么的编程之旅"
+    story_statistic_1c: "已经通过CodeCombat开始了他们的编程之旅"
     story_statistic_2a: "我们将这个游戏翻译为超过 50 种语言 —— 得益于来自"
     story_statistic_2b: "200+ 个国家"
     story_statistic_3a: "的玩家，他们总共写下了"
