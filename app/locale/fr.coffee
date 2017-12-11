@@ -233,12 +233,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     signup_switch: "Voulez-vous créer un compte ?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Abonnement complet"
     create_student_header: "Créer un compte étudiant"
     create_teacher_header: "Créer un compte enseignant"
     create_individual_header: "Créer un compte individuel"
     email_announcements: "Recevoir les annonces par e-mail" # {change}
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "Connectez-vous ou créez un compte pour continuer"
     teacher_email_announcements: "Tenez moi informé des nouvelles ressources, curriculum et cours pour les enseignants!"
     creating: "Création du compte en cours..."
     sign_up: "S'abonner"
@@ -303,15 +303,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_ready_to_create_class: "Vous êtes prêt à créer votre premiere classe!"
     teacher_students_can_start_now: "Vos étudiants vont pouvoir commencer à jouer leur premier cours, Initiation à l'Informatique, immédiatement."
     teacher_list_create_class: "Au prochain écran, vous pourrez créer une nouvelle classe."
-#    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
-#    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
-#    teacher_list_resource_hub_3: "for solutions to every level, and the"
-#    teacher_list_resource_hub_4: "Resource Hub"
-#    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
-#    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
-#    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+    teacher_list_add_students: "Ajouter des élèves à la classe en cliquant sur le lien Afficher la classe, puis envoyer à vos élèves le code ou le lien URL du cours. Vous pouvez également les inviter par e-mail s'ils ont des adresses e-mail."
+    teacher_list_resource_hub_1: "Aller voir le"
+    teacher_list_resource_hub_2: "Guides de cours"
+    teacher_list_resource_hub_3: "Pour des solutions pour tous les niveaux et au"
+    teacher_list_resource_hub_4: "Centre de ressources"
+    teacher_list_resource_hub_5: "pour les guides de programme, les activités, et plus encore!"
+    teacher_additional_questions: "C'est tout! Si vous avez besoin d'aide supplémentaire ou si vous avez des questions, contactez __supportEmail__."
+    dont_use_our_email_silly: "Ne mettez pas votre email ici! Mettez celui de votre parent."
+    want_codecombat_in_school: "Avez-vous envie de jouer à CodeCombat tout le temps ?" # {change}
 
   recover:
     recover_account_title: "Récupérer son compte"
