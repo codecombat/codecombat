@@ -23,8 +23,8 @@ module.exports = class SubscribeModal extends ModalView
     'click .back-to-products': 'onClickBackToProducts'
 
   constructor: (options={}) ->
-    if document.location.host is 'br.codecombat.com'
-      document.location.href = 'http://codecombat.net.br/'
+    #if document.location.host is 'br.codecombat.com'
+    #  document.location.href = 'http://codecombat.net.br/'
 
     super(options)
     @state = 'standby'

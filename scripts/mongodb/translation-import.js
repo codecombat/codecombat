@@ -17,7 +17,7 @@
 langCode = 'zh-HANS';
 langProperty = 'Chinese';  // Match column name in CSV
 fileName = 'common-zh-HANS.csv';
-doSave = false  // Change to true to actually save
+doSave = false;  // Change to true to actually save
 
 if (!doSave)
   console.log("-----------------Dry Run---------------\nChange doSave to true to do it for real\n---------------------------------------\n")
@@ -46,6 +46,7 @@ Poll = require('../../server/models/Poll');
 Campaign = require('../../server/models/Campaign');
 LevelComponent = require('../../server/models/LevelComponent');
 ThangType = require('../../server/models/ThangType')
+Article = require('../../server/models/Article')
 _ = require('lodash');
 co = require('co');
 fs = require('fs');
@@ -68,8 +69,9 @@ updatedCount = 0
 update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   englishString = rootDoc[property]
   if(!englishString) return;
-  if(_.isUndefined(translationMap[englishString])) { return }
-  translation = translationMap[englishString]
+  var normalizedEnglish = normalizeEscapesAndPunctuationKeys(englishString);
+  if(_.isUndefined(translationMap[normalizedEnglish])) { return }
+  translation = translationMap[normalizedEnglish]
   if(!_.isString(translation)) { translation = translation.toString() }
   translation = _.str.trim(translation)
   //console.log('found translation!', englishString.slice(0,20), translation.slice(0,20))
@@ -83,7 +85,7 @@ update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   var oldTranslation = rootDoc.i18n[langCode][property];
   if (translation != oldTranslation) {
     ++updatedCount;
-    console.log('Changed:',updatedCount,'\tUpdating translation\nFor:', englishString.slice(0,100), '\nOld:', (oldTranslation || '').slice(0,100), '\nNew:', translation.slice(0,100),'\n');
+    console.log('Changed:',updatedCount,'\tUpdating translation\nFor:', englishString.slice(0,100).replace(/\n/g, '\\n'), '\nOld:', (oldTranslation || '').slice(0,100).replace(/\n/g, '\\n'), '\nNew:', translation.slice(0,100).replace(/\n/g, '\\n'),'\n');
   }
   rootDoc.i18n[langCode][property] = translation
 })
@@ -96,11 +98,33 @@ function isHebrew(s) {
   return false;
 }
 
+function normalizeEscapesAndPunctuationKeys(s) {
+  s = s.replace(/\\r/g, '');
+  s = s.replace(/\\n/g, '');
+  s = s.replace(/\n/g, '');
+  s = s.replace(/n/g, '');  // Just kill me now
+  s = s.replace(/"/g, '');
+  s = s.replace(/\\/g, '');
+  return s;
+}
+
+function normalizeEscapesAndPunctuationValues(s) {
+  // Possible we could use this for keys as well
+  s = s.replace(/\\r/g, '');
+  s = s.replace(/\\n/g, '\n');
+  s = s.replace(/\\"/g, '"');
+  //s = s.replace(/\\/, '"');  // Saw this in Chinese spreadsheet import once, probably don't want to use generally unless problem resurfaces
+  //s = s.replace(/"$/, '');  // Saw this in Hebrew spreadsheet import once, probably don't want to use generally unless problem resurfaces
+  return s;
+}
+
 makeTranslationMap = (translations) => {
   map = {}
   _.forEach(translations, (translation) => {
-    if(translation[langProperty])
-      map[translation.English] = translation[langProperty]
+    if(translation[langProperty]) {
+      var normalizedEnglish = normalizeEscapesAndPunctuationKeys(translation.English);
+      map[normalizedEnglish] = normalizeEscapesAndPunctuationValues(translation[langProperty]);
+    }
   })
   return map;
 }
@@ -411,6 +435,40 @@ co(function* () {
       database.validateDoc(updatedThang)
       if (doSave)
         yield versionsLib.saveNewVersion(updatedThang, thang.get('version.major'))
+      //return true
+    }
+  }
+
+  // Articles
+
+  articleTranslations = _.filter(allTranslations, (t) => t.Type === 'articles')
+  articleOriginals = _.filter(_.unique(_.pluck(articleTranslations, 'Original')))
+  for (var i in articleOriginals) {
+    articleOriginalString = articleOriginals[i]
+    article = yield Article.findCurrentVersion(articleOriginalString)
+    if(!article) { continue; }
+  
+    updatedArticle = database.initDoc(req, Article)
+    versionsLib.initNewVersion(updatedArticle, article)
+  
+    translations = _.filter(allTranslations, (t) => t.Original === articleOriginalString)
+    translationMap = makeTranslationMap(translations)
+  
+    articleObj = updatedArticle.toObject()
+    updateArticle = update(translationMap);
+    updateArticle('', articleObj, 'name');
+    updateArticle('', articleObj, 'body');
+    
+    updatedArticle.set(articleObj)
+    updatedArticle.set('commitMessage', `Import ${langProperty} translations`)
+    i18n.updateI18NCoverage(updatedArticle)
+    delta = differ.diff(_.omit(article.toObject(), omissions), _.omit(updatedArticle.toObject(), omissions))
+    flattened = deltasLib.flattenDelta(delta)
+    if(flattened.length > 0) {
+      //console.log('flattened changes', updatedArticle.get('name'), JSON.stringify(flattened, null, '\t'))
+      database.validateDoc(updatedArticle)
+      if (doSave)
+        yield versionsLib.saveNewVersion(updatedArticle, article.get('version.major'))
       //return true
     }
   }
