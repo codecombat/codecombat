@@ -117,8 +117,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play:
     play_as: "Jouer comme " # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Assigner le Développement de jeu et plus à vos classes."
+    request_licenses: "Contacter nos spécialistes de l'école pour plus de détails."
     compete: "Participer !" # Course details page
     spectate: "Spectateur" # Ladder page
     players: "Joueurs" # Hover over a level on /play
@@ -157,8 +157,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     brain_pop_challenge: "Relevez le défi en jouant à nouveau avec d'autres langages de programmation"
     replay: "Rejouer"
     back_to_classroom: "Retour à la Classe"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    teacher_button: "Pour les enseignants"
+    get_more_codecombat: "Avoir plus de CodeCombat"
 
   code:
     if: "Si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
