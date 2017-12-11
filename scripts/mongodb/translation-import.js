@@ -17,7 +17,7 @@
 langCode = 'zh-HANS';
 langProperty = 'Chinese';  // Match column name in CSV
 fileName = 'common-zh-HANS.csv';
-doSave = false  // Change to true to actually save
+doSave = false;  // Change to true to actually save
 
 if (!doSave)
   console.log("-----------------Dry Run---------------\nChange doSave to true to do it for real\n---------------------------------------\n")
@@ -69,8 +69,9 @@ updatedCount = 0
 update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   englishString = rootDoc[property]
   if(!englishString) return;
-  if(_.isUndefined(translationMap[englishString])) { return }
-  translation = translationMap[englishString]
+  var normalizedEnglish = normalizeEscapesAndPunctuationKeys(englishString);
+  if(_.isUndefined(translationMap[normalizedEnglish])) { return }
+  translation = translationMap[normalizedEnglish]
   if(!_.isString(translation)) { translation = translation.toString() }
   translation = _.str.trim(translation)
   //console.log('found translation!', englishString.slice(0,20), translation.slice(0,20))
@@ -84,7 +85,7 @@ update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   var oldTranslation = rootDoc.i18n[langCode][property];
   if (translation != oldTranslation) {
     ++updatedCount;
-    console.log('Changed:',updatedCount,'\tUpdating translation\nFor:', englishString.slice(0,100), '\nOld:', (oldTranslation || '').slice(0,100), '\nNew:', translation.slice(0,100),'\n');
+    console.log('Changed:',updatedCount,'\tUpdating translation\nFor:', englishString.slice(0,100).replace(/\n/g, '\\n'), '\nOld:', (oldTranslation || '').slice(0,100).replace(/\n/g, '\\n'), '\nNew:', translation.slice(0,100).replace(/\n/g, '\\n'),'\n');
   }
   rootDoc.i18n[langCode][property] = translation
 })
@@ -97,11 +98,33 @@ function isHebrew(s) {
   return false;
 }
 
+function normalizeEscapesAndPunctuationKeys(s) {
+  s = s.replace(/\\r/g, '');
+  s = s.replace(/\\n/g, '');
+  s = s.replace(/\n/g, '');
+  s = s.replace(/n/g, '');  // Just kill me now
+  s = s.replace(/"/g, '');
+  s = s.replace(/\\/g, '');
+  return s;
+}
+
+function normalizeEscapesAndPunctuationValues(s) {
+  // Possible we could use this for keys as well
+  s = s.replace(/\\r/g, '');
+  s = s.replace(/\\n/g, '\n');
+  s = s.replace(/\\"/g, '"');
+  //s = s.replace(/\\/, '"');  // Saw this in Chinese spreadsheet import once, probably don't want to use generally unless problem resurfaces
+  //s = s.replace(/"$/, '');  // Saw this in Hebrew spreadsheet import once, probably don't want to use generally unless problem resurfaces
+  return s;
+}
+
 makeTranslationMap = (translations) => {
   map = {}
   _.forEach(translations, (translation) => {
-    if(translation[langProperty])
-      map[translation.English] = translation[langProperty]
+    if(translation[langProperty]) {
+      var normalizedEnglish = normalizeEscapesAndPunctuationKeys(translation.English);
+      map[normalizedEnglish] = normalizeEscapesAndPunctuationValues(translation[langProperty]);
+    }
   })
   return map;
 }
