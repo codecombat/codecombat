@@ -328,16 +328,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   common:
     back: "Retour" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
+    go_back: "Retournez en arrière"
     coming_soon: "Arrive prochainement !"
     continue: "Continuer" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Prochain"
     default_code: "Code par défaut"
     loading: "Chargement..."
     overview: "Vue d'ensemble"
-#    processing: "Processing..."
+    processing: "En traitement..."
     solution: "Solution"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Table des matières"
     intro: "Intro"
     saving: "Sauvegarde..."
     sending: "Envoi..."
@@ -359,7 +359,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     submit_changes: "Soumettre des Changements"
     save_changes: "Sauvegarder les modifications"
     required_field: "Champ requis" # {change}
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Saisissez un numéro de téléphone valide" 
 
   general:
     and: "et"
