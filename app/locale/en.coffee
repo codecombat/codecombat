@@ -158,6 +158,7 @@
     replay: "Replay"
     back_to_classroom: "Back to Classroom"
     teacher_button: "For Teachers"
+    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "if"  # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -310,7 +311,7 @@
     teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-    want_codecombat_in_school: "Want CodeCombat in your school?"
+    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "Recover Account"
@@ -1720,10 +1721,9 @@
     teacher_quest_less: "See fewer quests"
     refresh_to_update: "(refresh the page to see updates)"
     view_project_gallery: "View Project Gallery"
-    office_hours: "Hour of Code Office Hours"
+    office_hours: "Hour of Code Webinars"
     office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-    office_hours_link: "Hour of Code Office Hours"
-    office_hours_detail_2: "sessions."
+    office_hours_link: "Hour of Code Webinar"
     office_hours_detail_2: "sessions."
 
   share_licenses:
@@ -2263,14 +2263,17 @@
     create_sharable_interactive_web_page: "Create a sharable interactive web page"
 
   anonymous_teacher:
-    want_codecombat: "Want CodeCombat in your class?"
+    notify_teacher: "Notify Teacher"
+    want_codecombat: "Want to play CodeCombat all the time?"
     create_teacher_account: "Create free teacher account"
     chat: "Ask questions via chat"
-    enter_teacher_email: "Enter your teacher's email address:"
+    enter_student_name: "Your name:"
+    enter_teacher_email: "Your teacher's email:"
     teacher_email_placeholder: "teacher.email@example.com"
-    tell_teacher_prefix: "Or ask your teacher to go to"
-    tell_teacher_suffix: "."
-    never_mind: "Never mind, keep playing"
+    student_name_placeholder: "type your name here"
+    teachers_section: "Teachers:"
+    students_section: "Students:"
+    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "Added"

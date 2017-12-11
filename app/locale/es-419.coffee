@@ -157,6 +157,8 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     brain_pop_challenge: "¡Desafiate a jugar de nuevo usando otro lenguaje de programación!"
     replay: "Repetir"
     back_to_classroom: "Volver al aula"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -246,10 +248,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     school_name: "Nombre de Escuela y Ciudad"
     optional: "opcional"
     school_name_placeholder: "Ejemplo: High School, Springfield, IL"
-    connected_gplus_header: "Te haz conectado exitosamente a travez de Google+!"
+    connected_gplus_header: "Te has conectado exitosamente a travez de Google+!"
     connected_gplus_p: "Termina el registro para que inicies sesión con tu cuenta de Google+."
     gplus_exists: "Ya tienes asociada una cuenta con Google+!"
-    connected_facebook_header: "Te haz conectado exitosamente a travez de Facebook!"
+    connected_facebook_header: "Te has conectado exitosamente a travez de Facebook!"
     connected_facebook_p: "Termina el registro para que inicies sesión con tu cuenta de Facebook."
     facebook_exists: "Ya tienes asociada una cuenta Facebook!"
     hey_students: "Estudiante, ingresa el coódigo de clase de tu maestro."
@@ -260,7 +262,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     account_exists: "Este email ya esta en uso:"
     sign_in: "Iniciar Sesión"
     email_good: "Tu email se ve bien!"
-    name_taken: "Ese nombre de usuario ya esta en uso! Try {{suggestedName}}?"
+    name_taken: "Ese nombre de usuario ya esta en uso! Intenta {{suggestedName}}?"
     name_available: "Nombre de usuario disponible!"
     name_is_email: "Tu email no puede ser tu nombre de usuario"
     choose_type: "Elige el tipo de cuenta:"
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "recuperar cuenta"
@@ -415,6 +418,9 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     contact_us: "Contáctenos"
 #    close_window: "Close Window"
     learn_more: "Aprende Más"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "segundo"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    share_game: "Share This Game"
 #    share_web: "Share This Webpage"
 #    victory_share_prefix: "Share this link to invite your friends & family to"
+#    victory_share_prefix_short: "Invite people to"
 #    victory_share_game: "play your game level"
 #    victory_share_web: "view your webpage"
 #    victory_share_suffix: "."
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
 #    victory_course_share_web: "view the webpage"
 #    victory_course_share_suffix: "you just created."
 #    copy_url: "Copy URL"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "Creador"
@@ -2249,6 +2261,19 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     basic_javascript: "JavaScript Básico"
     basic_event_handling: "Manejo de Eventos Básico"
     create_sharable_interactive_web_page: "Crear página web interactiva compartible"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "Agregado"

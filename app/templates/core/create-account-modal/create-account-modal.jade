@@ -57,7 +57,7 @@ block modal-footer
 mixin modal-footer-content
   if view.signupState.get('screen') !== 'confirmation'
     .modal-footer-content
-      .small-details
+      .small-details.rtl-allowed
         span.spr(data-i18n="signup.login_switch")
         a.login-link
           span(data-i18n="signup.sign_in")

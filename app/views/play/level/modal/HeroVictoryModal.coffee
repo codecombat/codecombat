@@ -132,7 +132,7 @@ module.exports = class HeroVictoryModal extends ModalView
       thangType = new ThangType()
       thangType.url = "/db/thang.type/#{thangTypeOriginal}/version"
       #thangType.project = ['original', 'rasterIcon', 'name', 'soundTriggers', 'i18n']  # This is what we need, but the PlayHeroesModal needs more, and so we load more to fill up the supermodel.
-      thangType.project = ['original', 'rasterIcon', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'unlockLevelName', 'i18n', 'subscriber']
+      thangType.project = ['original', 'rasterIcon', 'name', 'slug', 'soundTriggers', 'featureImages', 'gems', 'heroClass', 'description', 'components', 'extendedName', 'shortName', 'unlockLevelName', 'i18n', 'subscriber']
       @thangTypes[thangTypeOriginal] = @supermodel.loadModel(thangType).model
 
     @newEarnedAchievements = []

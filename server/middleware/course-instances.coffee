@@ -277,7 +277,7 @@ module.exports =
         {creator: req.user.id},
         { $or }
       ]}
-      levelSessions = yield LevelSession.find(query).select(parse.getProjectFromReq(req))
+      levelSessions = yield LevelSession.find(query).setOptions({maxTimeMS:1000}).select(parse.getProjectFromReq(req))
       res.send(session.toObject({req}) for session in levelSessions)
     else
       res.send []

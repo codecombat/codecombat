@@ -352,7 +352,10 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
         success = (@myRank) =>
         loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
-        promises.push $.ajax(loadURL, cache: false, success: success)
+        $.ajax(loadURL, cache: false, success: success).then =>
+          # still try to load ranks, but if they fail, do show the rest of the ladder
+          if @loaded
+            @trigger 'sync', @
     @promise = $.when(promises...)
     @promise.then @onLoad
     @promise.fail @onFail

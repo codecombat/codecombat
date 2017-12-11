@@ -157,6 +157,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     brain_pop_challenge: "כדי לאתגר את עצמכם, שחקו שוב באמצעות שפת תכנות אחרת!"
     replay: "הילוך חוזר"
     back_to_classroom: "בחזרה לכיתה"
+#    teacher_button: "For Teachers"
+#    get_more_codecombat: "Get More CodeCombat"
 
   code:
     if: "אם" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -309,6 +311,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_list_resource_hub_5: "כדי למצוא מדריכים לתכנית לימודים, פעילויות ועוד!"
     teacher_additional_questions: "זה הכול! לשאלות ולקבלת עזרה נוספת, נא לפנות אל __supportEmail__."
     dont_use_our_email_silly: "אל תכתבו כאן את הכתובת שלנו! כתבו את כתובת הדואר האלקטרוני של ההורה."
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
 
   recover:
     recover_account_title: "שחזור חשבון"
@@ -415,6 +418,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     contact_us: "צור קשר"
     close_window: "סגור חלון"
     learn_more: "מידע נוסף"
+#    more: "More"
+#    fewer: "Fewer"
+#    with: "with"
 
   units:
     second: "שנייה"
@@ -450,7 +456,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     programming_language: "שפת תכנות"
     show_menu: "הצג תפריט משחק"
     home: "בית" # Not used any more, will be removed soon.
-    level: "דרגה" # Like "Level: Dungeons of Kithgard"
+    level: "שלב" # Like "Level: Dungeons of Kithgard"
     skip: "דלג"
     game_menu: "תפריט משחק"
     restart: "הפעל מחדש"
@@ -1325,7 +1331,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play_now_learn_2: "לולאות 'כל עוד' כדי לפתור פאזלים מעצבנים"
     play_now_learn_3: "מחרוזות ומשתנים להתאמה של הפעולות"
     play_now_learn_4: "כיצד להביס ענק (אלה כישורי חיים חשובים!)"
-    welcome_to_page: "(לוח המחוונים שלי (לתלמיד"
+    welcome_to_page: "לוח המחונים שלי (לתלמיד)"
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
     view_levels: "הצג את כל השלבים בקורס"
@@ -1715,6 +1721,10 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_quest_less: "לראות פחות מסעות"
     refresh_to_update: "(רעננו את הדף כדי לראות עדכונים)"
     view_project_gallery: "הצג גלריית פרויקט"
+#    office_hours: "Hour of Code Webinars"
+#    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
+#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_detail_2: "sessions."
 
   share_licenses:
     share_licenses: "שיתוף רישיונות"
@@ -1740,6 +1750,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     share_game: "שתף משחק זה"
     share_web: "שתף דף אינטרנט זה"
     victory_share_prefix: "שתפו קישור זה כדי להזמין חברים ובני משפחה"
+#    victory_share_prefix_short: "Invite people to"
     victory_share_game: "לשחק את השלב שלכם במשחק"
     victory_share_web: "לצפות בדף האינטרנט שלכם"
     victory_share_suffix: "."
@@ -1748,6 +1759,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     victory_course_share_web: "לצפות בדף האינטרנט"
     victory_course_share_suffix: "שיצרתם כעת."
     copy_url: "העתק כתובת URL"
+#    share_with_teacher_email: "Send to your teacher"
 
   game_dev:
     creator: "יוצר"
@@ -2249,6 +2261,19 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     basic_javascript: "JavaScript בסיסי"
     basic_event_handling: "טיפול בסיסי באירועים"
     create_sharable_interactive_web_page: "יצירת דף אינטרנט אינטראקטיבי שניתן לשתף"
+
+#  anonymous_teacher:
+#    notify_teacher: "Notify Teacher"
+#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    create_teacher_account: "Create free teacher account"
+#    chat: "Ask questions via chat"
+#    enter_student_name: "Your name:"
+#    enter_teacher_email: "Your teacher's email:" # {change}
+#    teacher_email_placeholder: "teacher.email@example.com"
+#    student_name_placeholder: "type your name here"
+#    teachers_section: "Teachers:"
+#    students_section: "Students:"
+#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
   delta:
     added: "נוסף"

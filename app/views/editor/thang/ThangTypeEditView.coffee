@@ -83,16 +83,15 @@ defaultTasks =
   Hero: commonTasks.concat animatedThangTypeTasks.concat purchasableTasks.concat [
     'Set the hero class.'
     'Add Extended Hero Name.'
+    'Add Short Hero Name.'
+    'Add Hero Gender.'
     'Upload Hero Doll Images.'
     'Upload Pose Image.'
     'Start a new name category in names.coffee.'
     'Set up hero stats in Equips, Attackable, Moves.'
     'Set Collects collectRange to 2, Sees visualRange to 60.'
     'Add any custom hero abilities.'
-    'Add to ThangType model hard-coded hero ids/classes list.'
-    'Add to LevelHUDView hard-coded hero short names list.'
-    'Add to InventoryView hard-coded hero gender list.'
-    'Add to PlayHeroesModal hard-coded hero positioning logic.'
+    'Add to ThangTypeConstants hard-coded hero ids/classes list.'
     'Add as unlock to a level and add unlockLevelName here.'
   ]
   Floor: commonTasks.concat containerTasks.concat [

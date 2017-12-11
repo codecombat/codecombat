@@ -40,6 +40,7 @@ PlayAchievementsModal = require 'views/play/modal/PlayAchievementsModal'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 ContactModal = require 'views/core/ContactModal'
 AnonymousTeacherModal = require 'views/core/AnonymousTeacherModal'
+AmazonHocModal = require 'views/play/modal/AmazonHocModal'
 require('vendor/scripts/jquery-ui-1.11.1.custom')
 require('vendor/styles/jquery-ui-1.11.1.custom.css')
 fetchJson = require 'core/api/fetch-json'
@@ -93,6 +94,8 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
+    'click #amazon-campaign-button': 'onClickAmazonCampaign'
+    'click #amazon-campaign-logo': 'onClickAmazonCampaign'
 
   shortcuts:
     'shift+s': 'onShiftS'
@@ -309,6 +312,10 @@ module.exports = class CampaignView extends RootView
   openAnonymousTeacherModal: (e) ->
     e.stopPropagation()
     @openModalView new AnonymousTeacherModal()
+
+  onClickAmazonCampaign: (e) ->
+    window.tracker?.trackEvent 'Click Amazon Modal Button'
+    @openModalView new AmazonHocModal hideCongratulation: true
 
   getLevelPlayCounts: ->
     return unless me.isAdmin()
@@ -1267,6 +1274,9 @@ module.exports = class CampaignView extends RootView
     isStudentOrTeacher = me.isStudent() or me.isTeacher()
     isIOS = me.get('iosIdentifierForVendor') || application.isIPadApp
 
+    if what is 'leaderboard'
+      return false
+
     if what is 'classroom-level-play-button'
       isValidStudent = (me.isStudent() and me.get('courseInstances')?.length)
       isValidTeacher = me.isTeacher()
@@ -1304,5 +1314,11 @@ module.exports = class CampaignView extends RootView
 
     if what in ['teacher-button']
       return me.isAnonymous() and me.level() < 15 and new Date() < new Date(2017, 11, 9)
+
+    if what is 'amazon-campaign'
+      return @campaign?.get('slug') is 'game-dev-hoc'
+
+    if what is 'amazon-campaign-button'
+      return @shouldShow('amazon-campaign') and me.level() > 1
 
     return true

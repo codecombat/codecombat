@@ -239,8 +239,8 @@ setupFeaturesMiddleware = (app) ->
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
       features.playViewsOnly = true
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
-    
-    if /cn\.codecombat\.com/.test(req.get('host')) or req.session.featureMode is 'china'
+
+    if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
       features.freeOnly = true
       features.noAds = true

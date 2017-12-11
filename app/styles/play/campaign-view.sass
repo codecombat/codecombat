@@ -350,6 +350,9 @@ $gameControlMargin: 30px
       z-index: 3
       pointer-events: none
 
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        direction: rtl
+
       .tooltip-arrow
         display: none
 
@@ -913,12 +916,16 @@ $gameControlMargin: 30px
     height: calc(100% - 160px)
     z-index: 2
     
-  #amazon-campaign-logo
+  #amazon-campaign-container
     width: 200px
     position: absolute
     top: 60px
     left: 20px
     z-index: 1
+    cursor: pointer
+
+    #amazon-campaign-logo
+      width: 200px
     
   #game-dev-hoc-license-alert
     position: absolute

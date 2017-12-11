@@ -24,10 +24,10 @@ module.exports =
     })
     return new Promise(jqxhr.then)
 
-  sendTeacherSignupInstructions: (teacherEmail) ->
+  sendTeacherSignupInstructions: (teacherEmail, studentName) ->
     jqxhr = $.ajax('/contact/send-teacher-signup-instructions', {
       method: 'POST'
-      data: {teacherEmail}
+      data: {teacherEmail, studentName}
     })
     return new Promise(jqxhr.then)
 
