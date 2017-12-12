@@ -166,7 +166,7 @@ ClassroomSchema.methods.fetchSessionsForMembers = co.wrap (members) ->
         $or.push(_.assign({creator: member.toHexString()}, subQuery))
     if $or.length
       query = { $or }
-      dbqs.push(LevelSession.find(query).setOptions({maxTimeMS:500}).select(select).lean().exec())
+      dbqs.push(LevelSession.find(query).setOptions({maxTimeMS:5000}).select(select).lean().exec())
   results = yield dbqs
   return _.flatten(results)
 
