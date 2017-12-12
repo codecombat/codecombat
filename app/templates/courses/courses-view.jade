@@ -69,11 +69,12 @@ block content
                   h5(dir="auto")
                     span.spr= classroom.get('name')
                     span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
-                  p
-                    span(data-i18n="courses.teacher")
-                    span :
-                    if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
-                      span.spl= view.ownerNameMap[classroom.get('ownerID')]
+                  if !features.israel
+                    p
+                      span(data-i18n="courses.teacher")
+                      span :
+                      if view.ownerNameMap && view.ownerNameMap[classroom.get('ownerID')]
+                        span.spl= view.ownerNameMap[classroom.get('ownerID')]
 
                   - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
                   for courseInstance in courseInstances

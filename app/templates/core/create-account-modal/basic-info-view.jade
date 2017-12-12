@@ -4,7 +4,7 @@ form#basic-info-form.modal-body.basic-info
     if me.get("preferredLanguage") == "he" || window.location.host == "il.codecombat.com"
       .alert.alert-info.text-center(dir="rtl")
         span תלמיד מערכת החינוך?
-        a(href="https://lgn.edu.gov.il/nidp/saml2/sso?id=EDULogin&sid=0&option=credential&sid=0")  התחבר דרך פורטל משרד החינוך
+        a(href="https://pub.skillz-edu.org/portal/playground")  התחבר דרך פורטל משרד החינוך
     div.form-container
       if ['student', 'teacher'].indexOf(view.signupState.get('path')) !== -1
         .row.full-name

@@ -68,7 +68,7 @@ module.exports = class IsraelSignupView extends RootView
     else
       api.users.getByIsraelIdOrToken({israelId, israelToken})
       .then (user) =>
-        if user and not user.anonymous
+        if user# and not user.anonymous
           return api.auth.loginByIsraelIdOrToken({israelId, israelToken})
           .then =>
             @redirectAfterAuth()

@@ -347,7 +347,8 @@ module.exports =
       })
       database.validateDoc(prepaid)
       yield prepaid.save()
-      yield prepaid.redeem(req.user, teacherUser._id)
+      if userData.role is 'student'
+        yield prepaid.redeem(req.user, teacherUser._id)
       console.log 'Israel signup: created new prepaid:', prepaid
 
     if userData.role is 'student'
