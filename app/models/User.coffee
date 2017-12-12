@@ -334,6 +334,18 @@ module.exports = class User extends CocoModel
       window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'GPlus'
     return jqxhr
 
+  signupWithIsraelToken: (israelToken, options={}) ->
+    options.url = _.result(@, 'url') + '/signup-with-israel-token'
+    options.type = 'POST'
+    options.data ?= {}
+    _.extend(options.data, {israelToken})
+    options.contentType = 'application/json'
+    options.data = JSON.stringify(options.data)
+    jqxhr = @fetch(options)
+    jqxhr.then ->
+      window.tracker?.trackEvent 'Finished Signup', category: "Signup", label: 'Israel Token'
+    return jqxhr
+
   fetchGPlusUser: (gplusID, options={}) ->
     options.data ?= {}
     options.data.gplusID = gplusID

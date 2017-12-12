@@ -300,6 +300,85 @@ module.exports =
     req.user.set(userData)
     yield module.exports.finishSignup(req, res)
 
+  signupWithIsraelToken: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    {israelToken} = req.body
+    unless israelToken
+      throw new errors.UnprocessableEntity('Requires israelToken')
+    unless req.features.israel
+      throw new errors.Forbidden('May not use IsraelToken signup outside of Israel')
+    result = israel.verifyToken(israelToken)
+    userData =
+      firstName: result.given_name
+      lastName: result.sur_name
+      name: "#{result.given_name} #{result.sur_name}"
+      anonymous: false
+      role: result.type
+      school:
+        israelInstitutions: result.mosad
+        israelGradeLevel: result.student_kita
+        israelClassId: result.student_makbila
+    userWithSameName = yield User.findOne nameLower: userData.name.toLowerCase()
+    if userWithSameName
+      userData.name += " " + result.sub  # Append israelId to ensure uniqueness
+    req.user.set userData
+
+    institutionId = userData.school.israelInstitutions[0]
+    teacherName = israel.institutionTeacherName institutionId
+    teacherUser = yield User.findOne nameLower: teacherName.toLowerCase()
+    unless teacherUser
+      teacherUser = new User
+        name: teacherName
+        school:
+          israelInstitutions: [institutionId]
+        anonymous: false
+        role: 'teacher'
+        testGroupNumber: Math.floor(Math.random() * 256)
+        firstName: 'מורה'
+        lastName: institutionId
+      teacherUser = yield teacherUser.save()
+      console.log 'Israel signup: created new teacher user:', teacherUser
+      prepaid = new Prepaid({
+        creator: teacherUser._id
+        maxRedeemers: 9001
+        type: 'course'
+        startDate: new Date('2017-08-01').toISOString()
+        endDate: new Date('2018-08-01').toISOString()
+      })
+      database.validateDoc(prepaid)
+      yield prepaid.save()
+      yield prepaid.redeem(req.user, teacherUser._id)
+      console.log 'Israel signup: created new prepaid:', prepaid
+
+    classCode = israel.classCode institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
+    className = israel.className institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
+    classroom = yield Classroom.findOne code: classCode
+    unless classroom
+      classroom = new Classroom()
+      classroom.set 'ownerID', teacherUser._id
+      classroom.set 'members', []
+      classroom.set 'code', classCode
+      classroom.set 'codeCamel', classCode
+      classroom.set 'name', className
+      classroom.set 'aceConfig', language: 'python'
+      yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false})
+      database.validateDoc(classroom)
+      classroom = yield classroom.save()
+      console.log 'Israel signup: created new classroom:', classroom
+    yield classroom.addMember req.user
+    courseInstances = yield CourseInstance.find({classroomID: classroom._id})
+    courseInstanceIDs = []
+    for course in classroom.get('courses')
+      if not _.find courseInstances, {courseID: course._id}
+        courseInstance = new CourseInstance({classroomID: classroom._id, courseID: course._id, ownerID: teacherUser._id})
+        yield courseInstance.save()
+      courseInstanceIDs.push courseInstance._id
+    yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
+    yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
+    yield module.exports.finishSignup(req, res)
+
   finishSignup: co.wrap (req, res) ->
     if req.user.get('role') is 'possible teacher'
       req.user.set 'role', undefined
@@ -383,7 +462,7 @@ module.exports =
     unless req.user.isAnonymous()
       throw new errors.Forbidden('Must be anonymous to set israelId')
     unless req.features.israel
-      throw new errors.Forbidden('Cannot set israelId outside of Israel')
+      throw new errors.Forbidden('Cannot set israelId outside of Israel ')
     update = {$set: {israelId}}
     if type in ['teacher', 'student']
       update.$set.role = type

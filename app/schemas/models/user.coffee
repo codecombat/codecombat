@@ -383,6 +383,9 @@ _.extend UserSchema.properties,
       district: { type: 'string' }
       state: { type: 'string' }
       country: { type: 'string' }
+      israelInstitutions: c.array {description: 'Array of institutions/schools associated with this user. Passed in as `mosad`.'}, c.shortString()
+      israelGradeLevel: c.shortString {description: 'Grade level 1-12 as a string that this user is in. Passed in as `student_kita`.'}
+      israelClassId: c.shortString {description: 'Class id for the given institution and grade level. Passed in as `student_makbila`.'}
     }
   }
   lastAnnouncementSeen:

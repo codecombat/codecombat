@@ -232,6 +232,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
+  app.post('/db/user/:handle/signup-with-israel-token', mw.users.signupWithIsraelToken)
   app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
   app.get('/db/user/:handle/avatar', mw.users.getAvatar)
   app.get('/db/user/:handle/course-instances', mw.users.getCourseInstances)
