@@ -318,8 +318,9 @@ module.exports =
       role: result.type
       school:
         israelInstitutions: result.mosad
-        israelGradeLevel: result.student_kita
-        israelClassId: result.student_makbila
+    if result.student_kita
+      userData.school.israelGradeLevel = result.student_kita
+      userData.school.israelClassId = result.student_makbila
     userWithSameName = yield User.findOne nameLower: userData.name.toLowerCase()
     if userWithSameName
       userData.name += " " + result.sub  # Append israelId to ensure uniqueness
@@ -352,31 +353,32 @@ module.exports =
       yield prepaid.redeem(req.user, teacherUser._id)
       console.log 'Israel signup: created new prepaid:', prepaid
 
-    classCode = israel.classCode institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
-    className = israel.className institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
-    classroom = yield Classroom.findOne code: classCode
-    unless classroom
-      classroom = new Classroom()
-      classroom.set 'ownerID', teacherUser._id
-      classroom.set 'members', []
-      classroom.set 'code', classCode
-      classroom.set 'codeCamel', classCode
-      classroom.set 'name', className
-      classroom.set 'aceConfig', language: 'python'
-      yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false})
-      database.validateDoc(classroom)
-      classroom = yield classroom.save()
-      console.log 'Israel signup: created new classroom:', classroom
-    yield classroom.addMember req.user
-    courseInstances = yield CourseInstance.find({classroomID: classroom._id})
-    courseInstanceIDs = []
-    for course in classroom.get('courses')
-      if not _.find courseInstances, {courseID: course._id}
-        courseInstance = new CourseInstance({classroomID: classroom._id, courseID: course._id, ownerID: teacherUser._id})
-        yield courseInstance.save()
-      courseInstanceIDs.push courseInstance._id
-    yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
-    yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
+    if userData.role is 'student'
+      classCode = israel.classCode institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
+      className = israel.className institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
+      classroom = yield Classroom.findOne code: classCode
+      unless classroom
+        classroom = new Classroom()
+        classroom.set 'ownerID', teacherUser._id
+        classroom.set 'members', []
+        classroom.set 'code', classCode
+        classroom.set 'codeCamel', classCode
+        classroom.set 'name', className
+        classroom.set 'aceConfig', language: 'python'
+        yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false})
+        database.validateDoc(classroom)
+        classroom = yield classroom.save()
+        console.log 'Israel signup: created new classroom:', classroom
+      yield classroom.addMember req.user
+      courseInstances = yield CourseInstance.find({classroomID: classroom._id})
+      courseInstanceIDs = []
+      for course in classroom.get('courses')
+        if not _.find courseInstances, {courseID: course._id}
+          courseInstance = new CourseInstance({classroomID: classroom._id, courseID: course._id, ownerID: teacherUser._id})
+          yield courseInstance.save()
+        courseInstanceIDs.push courseInstance._id
+      yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
+      yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
     yield module.exports.finishSignup(req, res)
 
   finishSignup: co.wrap (req, res) ->
