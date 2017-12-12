@@ -313,7 +313,6 @@ module.exports =
     userData =
       firstName: result.given_name
       lastName: result.sur_name
-      name: "#{result.given_name} #{result.sur_name}"
       anonymous: false
       role: result.type
       school:
@@ -321,9 +320,7 @@ module.exports =
     if result.student_kita
       userData.school.israelGradeLevel = result.student_kita
       userData.school.israelClassId = result.student_makbila
-    userWithSameName = yield User.findOne nameLower: userData.name.toLowerCase()
-    if userWithSameName
-      userData.name += " " + result.sub  # Append israelId to ensure uniqueness
+    userData.name = yield User.unconflictNameAsync "#{result.given_name} #{result.sur_name}"
     req.user.set userData
 
     institutionId = userData.school.israelInstitutions[0]
