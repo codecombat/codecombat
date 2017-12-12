@@ -62,6 +62,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
+    
+    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'artisans': go('artisans/ArtisansView')
 
