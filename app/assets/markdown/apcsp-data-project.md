@@ -1,5 +1,6 @@
 #### Activity
 # Data - Data Project
+Computational Artifact Activity
  
 ### Learning Objectives:
 
@@ -29,3 +30,8 @@ This project should take four class periods - one to plan the project and locate
 - How did you decide on the layout and visualizations for your website? How do your design decisions showcase the data?
 - How did your partner help you gain additional insight from the data?
 - How did your hypothesis compare to your findings?
+
+### Assessment Questions:
+- What data did you use for your project? What did you learn from analyzing the data? [EK 3.1.1D, LO 3.2.1]
+- What parts of the project did you and your partner collaborate on? [LO 3.1.2]
+- Why did you choose to display your data the way you did? [LO 3.1.3]
