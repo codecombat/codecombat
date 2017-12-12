@@ -1622,3 +1622,23 @@ describe 'GET /db/user/:handle/course-instances', ->
     expect(res.body.length).toBe(1)
     expect(res.body[0]._id).toBe(@courseInstance.id)
     
+    
+describe 'PUT /db/user/:handle/verifiedTeacher', ->
+  it 'sets the verifiedTeacher property on the given user', utils.wrap ->
+    user = yield utils.initUser()
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
+    [res] = yield request.putAsync({url, json: true, body: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.verifiedTeacher).toBe(true)
+    user = yield User.findById(user.id)
+    expect(user.get('verifiedTeacher')).toBe(true)
+
+  it 'returns 403 unless you are an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
+    [res] = yield request.putAsync({url, json: true, body: true})
+    expect(res.statusCode).toBe(403)
+    

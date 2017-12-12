@@ -1,5 +1,6 @@
 #### Activity
 # Personal and Global Impact - Emerging Technology Project
+Research Activity, Computational Artifact Activity
  
 #### AP Computer Science Principles: Learning Objectives
 
@@ -27,3 +28,16 @@ Students will begin by reading an article about an emerging computing innovation
 - How will this technology impact other fields?
 - What are the benefits of this technology? The potential harms? Does that change when looking at people of different age groups, genders, countries, or economic status?
 - What kind of trouble did you have finding appropriate sources?
+
+### Assessment Questions:
+- What are three technologies which have changed or are currently changing how we communicate? [EK 7.1.1A, EK 7.1.1B, EK 7.1.1C, EK 7.1.1D]
+- What is the impact of having information widely available? [EK 7.1.1E]
+- Aside from underpinning car navigation, what is an example way in which GPS is used? [EK 7.1.1I]
+- What are some applications that only became possible when mobile devices entered the market? [EK 7.1.2G]
+- What is machine learning and what is an example application? [EK 7.2.1A]
+- How has computing affected an industry or career field? [EK 7.2.1A, EK 7.2.1B]
+- What is Moore’s law? [EK 7.2.1F]
+- What is an example of a computing innovation which has had positive and negative effects? [LO 7.3.1]
+- What is a recent example in the news of a negative outcome due to technology? [LO 7.3.1]
+- What is the “digital divide”? [7.4.1D]
+- How can you evaluate the credibility of a source? [7.5.2A]

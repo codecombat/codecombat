@@ -1,11 +1,12 @@
 #### Activity
 # Getting Abstract!
- 
+Inquiry Activity
+
 ### Learning Objective:
 = 2.2.3 Identify multiple levels of abstractions that are used when writing programs.
  
  
-#### Activity #1: Discussion of Layers of Abstraction
+**Prompt: What makes a book a book?**
  
  
 Abstraction is something we use every day in our lives without even thinking about it!
@@ -25,4 +26,15 @@ On the right, write things that describe the idea or purpose of a book: "it cont
 6. "So this book contains knowledge and ideas and stories and emotions. Those things started out as a series of chemical reactions in the authors brain, which they translated into letters and words and sentences, which they translated into ink making shapes on paper, which was sent through time and space to you, where you converted it back into chemicals in your brain that represent - maybe -the same ideas and knowledge and emotions that the author had. This is similar to the way computers work. The computer only knows about 1's and 0's. But through a series of abstractions, it converts these 1's and 0's into electrical impulses in wires, or radio waves for wireless signals… and another computer receives those signals and translates them back into 1's and 0's, and then into letters and words and images."
 7. At the end, you should have the word "book" in the middle of the board, circled. Surrounding it are a lot of other things that make up the concept of a book, from chemicals in a brain, to stories of adventure or scientific knowledge.
  
-Sum up the discussion by reinforcing - "All of this stuff on the board is what a 'book' is. But, if you had to think about all of these things every time you saw book, we'd all be trapped in thought every time we walked into a  room with a bookshelf! This is why abstractions are useful."
+**Prompt: What abstractions are used when writing programs?**
+
+Now that students have an understanding of what an abstraction is, ask them for examples of abstractions they’ve seen or used while coding. Students should identify multiple levels of abstractions. A couple example abstractions that they will have seen in the course so far:
+
+The game engine. “moveRight” abstracts out a great deal of animation and physics.
+The language itself. An action as simple as setting a variable causes a great number of things to happen behind the scenes. The computer sets aside memory, it keeps track of the name and the value. Defining functions, mathematical and logical actions are all abstracted away for the convenience of the programmer. Strings, numbers, booleans are all abstracted. Often times languages will be turned into machine code, a much lower-level language, in order to run a program.
+Previous activities, such as How the Internet Works, will have touched on abstractions such as an IP address. An IP address just links to “a device” but that device may change, and it could be any sort of device. The internet itself has [seven layers of abstraction](https://en.wikipedia.org/wiki/OSI_model).
+
+**Assessment questions:**
+- What is an example of multiple levels of abstraction when programming? [LO 2.2.3]
+- What is an example of a high-level programming language? A low-level programming language? How are they different? What purposes do they serve? [EK 2.2.3B]
+- How is a website or powerpoint presentation a combination of lower abstractions? [EK 2.2.3K]

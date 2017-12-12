@@ -1,5 +1,6 @@
 module.exports = {
   admin: require('./admin')
+  apcsp: require('./apcsp')
   analyticsLogEvents: require('./analytics-log-events')
   campaigns: require('./campaigns')
   classrooms: require('./classrooms')
@@ -7,6 +8,7 @@ module.exports = {
   courseInstances: require('./course-instances')
   levels: require('./levels')
   levelSessions: require('./level-sessions')
+  markdown: require('./markdown')
   prepaids: require('./prepaids')
   skippedContacts: require('./skipped-contacts')
   thangTypes: require('./thang-types')

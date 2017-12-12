@@ -32,6 +32,7 @@ dynamicRequire = (path) ->
       when 'views/admin/SkippedContactsView' then require.ensure(['views/admin/SkippedContactsView'], ((require) -> accept(require('views/admin/SkippedContactsView'))), reject, 'admin')
       when 'views/admin/OutcomeReportResultView' then require.ensure(['views/admin/OutcomeReportResultView'], ((require) -> accept(require('views/admin/OutcomeReportResultView'))), reject, 'admin')
       when 'views/admin/OutcomesReportView' then require.ensure(['views/admin/OutcomesReportView'], ((require) -> accept(require('views/admin/OutcomesReportView'))), reject, 'admin')
+      when 'views/teachers/DynamicAPCSPView' then require.ensure(['views/teachers/DynamicAPCSPView'], ((require) -> accept(require('views/teachers/DynamicAPCSPView'))), reject, 'teachers')
       when 'views/artisans/ArtisansView' then require.ensure(['views/artisans/ArtisansView'], ((require) -> accept(require('views/artisans/ArtisansView'))), reject, 'artisans')
       when 'views/artisans/LevelTasksView' then require.ensure(['views/artisans/LevelTasksView'], ((require) -> accept(require('views/artisans/LevelTasksView'))), reject, 'artisans')
       when 'views/artisans/SolutionProblemsView' then require.ensure(['views/artisans/SolutionProblemsView'], ((require) -> accept(require('views/artisans/SolutionProblemsView'))), reject, 'artisans')
