@@ -276,13 +276,6 @@ module.exports = class Level extends CocoModel
   isType: (types...) ->
     return @get('type', true) in types
 
-  fetchNextForCourse: ({ levelOriginalID, courseInstanceID, courseID, sessionID }, options={}) ->
-    if courseInstanceID
-      options.url = "/db/course_instance/#{courseInstanceID}/levels/#{levelOriginalID}/sessions/#{sessionID}/next"
-    else
-      options.url = "/db/course/#{courseID}/levels/#{levelOriginalID}/next"
-    @fetch(options)
-
   getSolutions: ->
     return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
     return [] unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan

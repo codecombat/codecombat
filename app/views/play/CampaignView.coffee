@@ -205,7 +205,7 @@ module.exports = class CampaignView extends RootView
               @courseStats = @classroom.statsForSessions(@courseInstance.sessions, @course.id)
             @courseLevels = new Levels()
             @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse(classroomID, courseID, {
-              data: { project: 'concepts,practice,primerLanguage,type,slug,name,original,description,shareable,i18n' }
+              data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n' }
             })
             @listenToOnce @courseLevels, 'sync', =>
               existing = @campaign.get('levels')
@@ -690,6 +690,7 @@ module.exports = class CampaignView extends RootView
         nextLevel = _.find orderedLevels, original: nextLevelOriginal
         continue if not nextLevel or nextLevel.locked
         continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
+        continue if @campaign.levelIsAssessment(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
         if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
@@ -779,7 +780,7 @@ module.exports = class CampaignView extends RootView
     @particleMan.removeEmitters()
     @particleMan.attach @$el.find('.map')
     for level in @campaign.renderedLevels ? {}
-      continue if level.hidden and (@campaign.levelIsPractice(level) or not level.unlockedInSameCampaign)
+      continue if level.hidden and (@campaign.levelIsPractice(level) or @campaign.levelIsAssessment(level) or not level.unlockedInSameCampaign)
       terrain = @terrain.replace('-branching-test', '').replace(/(campaign-)?(game|web)-dev-\d/, 'forest').replace(/(intro|game-dev-hoc)/, 'dungeon')
       particleKey = ['level', terrain]
       particleKey.push level.type if level.type and not (level.type in ['hero', 'course'])  # Would use isType, but it's not a Level model
@@ -1235,6 +1236,7 @@ module.exports = class CampaignView extends RootView
     courseOrder = _.sortBy orderedLevels, 'courseIdx'
     found = false
     prev = null
+    lastNormalLevel = null
     for level, levelIndex in courseOrder
       playerState = @levelStatusMap[level.slug]
       level.color = 'rgb(255, 80, 60)'
@@ -1259,6 +1261,9 @@ module.exports = class CampaignView extends RootView
           else
             level.hidden = true
             level.locked = true
+        else if level.assessment
+          level.hidden = false
+          level.locked = @levelStatusMap[lastNormalLevel?.slug] isnt 'complete'
         else
           level.locked = found
           level.hidden = false
@@ -1268,6 +1273,8 @@ module.exports = class CampaignView extends RootView
       level.unlocksHero = false
       level.unlocksItem = false
       prev = level
+      if not @campaign.levelIsPractice(level) and not @campaign.levelIsAssessment(level)
+        lastNormalLevel = level
     return true
 
   shouldShow: (what) ->

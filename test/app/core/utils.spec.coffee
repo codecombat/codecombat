@@ -243,6 +243,19 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(5)
         done()
+      it 'returns next level when rc pc p a rc* pc p r', (done) ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: true, complete: true}
+          {practice: true, complete: false}
+          {assessment: true, complete: false}
+          {practice: false, complete: true}
+          {practice: true, complete: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(6)
+        done()
       it 'returns next level when rc pc pc rc* r p', (done) ->
         levels = [
           {practice: false, complete: true}
@@ -272,4 +285,16 @@ describe 'Utility library', ->
           {practice: true, complete: false}
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(2)
+        done()
+      it 'returns next level when rc pc p a rc* r p', (done) ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: true, complete: true}
+          {practice: true, complete: false}
+          {practice: false, complete: false, assessment: true}
+          {practice: false, complete: true}
+          {practice: false, complete: false}
+          {practice: true, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 4, needsPractice)).toEqual(2)
         done()

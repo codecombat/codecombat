@@ -69,6 +69,8 @@ block content
                   h5(dir="auto")
                     span.spr= classroom.get('name')
                     span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
+                  if classroom.hasAssessments()
+                    a.spl.view-assessments-link(data-classroom-id=classroom.id, data-i18n="courses.view_assessments")
                   p
                     span(data-i18n="courses.teacher")
                     span :

@@ -4,6 +4,7 @@ LevelSession = require 'models/LevelSession'
 CourseVictoryModal = require 'views/play/level/modal/CourseVictoryModal'
 ProgressView = require 'views/play/level/modal/ProgressView'
 factories = require 'test/app/factories'
+api = require 'core/api'
 
 describe 'CourseVictoryModal', ->
   beforeEach ->
@@ -38,16 +39,15 @@ describe 'CourseVictoryModal', ->
         lastRequest.respondWith({
           status: 200, responseText: factories.makeUser().stringify()
         })
-    nextLevelRequest = modal.nextLevel.fakeRequests[0]
 
   describe 'given a course level with a next level and no item or hero rewards', ->
     modal = null
 
     beforeEach (done) ->
+      spyOn(api.levels, 'fetchNextForCourse').and.returnValue(new Promise((accept) -> accept({ level: factories.makeLevel().attributes })))
       options = makeViewOptions()
       modal = new CourseVictoryModal(options)
       handleRequests(modal)
-      nextLevelRequest.respondWith({status: 200, responseText: factories.makeLevel().stringify()})
       _.defer done
 
     it 'only shows the ProgressView', ->
@@ -79,9 +79,9 @@ describe 'CourseVictoryModal', ->
       level = options.level
       level.unset('nextLevel')
       delete options.nextLevel
+      spyOn(api.levels, 'fetchNextForCourse').and.returnValue(new Promise((accept) -> accept(factories.makeLevel())))
       modal = new CourseVictoryModal(options)
       handleRequests(modal)
-      nextLevelRequest.respondWith({status: 404, responseText: '{}'})
       _.defer done
 
     describe 'its ProgressView', ->
@@ -113,9 +113,9 @@ describe 'CourseVictoryModal', ->
       # make it a project level
       level.set('shareable', 'project')
       
+      spyOn(api.levels, 'fetchNextForCourse').and.returnValue(new Promise((accept) -> accept(factories.makeLevel())))
       modal = new CourseVictoryModal(options)
       handleRequests(modal)
-      nextLevelRequest.respondWith({status: 404, responseText: '{}'})
       _.defer done
 
     describe 'its CourseVictoryModal', ->

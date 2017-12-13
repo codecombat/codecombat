@@ -69,10 +69,17 @@ module.exports = class LevelLoadingView extends CocoView
       name = utils.i18n goal, 'name'
       goalList.append $('<li>').text(name)
       ++goalCount
+    @goalHeaderTransationKey = 'play_level.goals'
+    if @level.get('assessment')
+      @goalHeaderTransationKey = 'play_level.challenge_level_goals'
     if goalCount
       goalContainer.removeClass('secret')
       if goalCount is 1
-        goalContainer.find('.panel-heading').text $.i18n.t 'play_level.goal'  # Not plural
+        if @level.get('assessment')
+           @goalHeaderTransationKey = 'play_level.challenge_level_goal'  # Not plural
+        else
+          @goalHeaderTransationKey = 'play_level.goal'  # Not plural
+    goalContainer.find('.goals-title').text $.i18n.t @goalHeaderTransationKey
 
   prepareTip: ->
     tip = @$el.find('.tip')

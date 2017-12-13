@@ -30,7 +30,7 @@ module.exports =
 
     levelOriginals = (mongoose.Types.ObjectId(levelID) for levelID in sortedLevelIDs)
     query = { original: { $in: levelOriginals }, slug: { $exists: true }}
-    select = {documentation: 1, intro: 1, name: 1, original: 1, practice: 1, slug: 1, thangs: 1, i18n: 1, primerLanguage: 1}
+    select = {documentation: 1, intro: 1, name: 1, original: 1, practice: 1, assessment: 1, slug: 1, thangs: 1, i18n: 1, primerLanguage: 1}
     levels = yield Level.find(query).select(select).lean()
     levels.sort((a, b) -> sortedLevelIDs.indexOf(a.original + '') - sortedLevelIDs.indexOf(b.original + ''))
     res.status(200).send(levels)
@@ -52,26 +52,42 @@ module.exports =
     levels = _.sortBy(levels, 'campaignIndex')
     
     nextLevelOriginal = null
+    nextAssessmentOriginal = null
     foundLevelOriginal = false
     for level, index in levels
       if level.original.toString() is levelOriginal
         foundLevelOriginal = true
-        nextLevelOriginal = levels[index+1]?.original
-        break
+        continue
+      if foundLevelOriginal
+        if level.assessment
+          nextAssessmentOriginal = level.original
+        else
+          nextLevelOriginal = level.original
+          break
 
     if not foundLevelOriginal
       throw new errors.NotFound('Level original ObjectId not found in that course')
 
-    if not nextLevelOriginal
-      return res.status(200).send({})
+    unless nextLevelOriginal or nextAssessmentOriginal
+      return res.status(200).send({level: {}, assessment: {}})
 
-    dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
-
-    dbq.sort({ 'version.major': -1, 'version.minor': -1 })
-    dbq.select(parse.getProjectFromReq(req))
-    level = yield dbq
-    level = level.toObject({req: req})
-    res.status(200).send(level)
+    level = {}
+    if nextLevelOriginal
+      dbq = Level.findOne({original: mongoose.Types.ObjectId(nextLevelOriginal)})
+      dbq.sort({ 'version.major': -1, 'version.minor': -1 })
+      dbq.select(parse.getProjectFromReq(req))
+      level = yield dbq
+      level = level.toObject({req: req})
+      
+    assessment = {}
+    if nextAssessmentOriginal and req.user.get('verifiedTeacher')
+      dbq = Level.findOne({original: mongoose.Types.ObjectId(nextAssessmentOriginal)})
+      dbq.sort({ 'version.major': -1, 'version.minor': -1 })
+      dbq.select(parse.getProjectFromReq(req))
+      assessment = yield dbq
+      assessment = assessment.toObject({req: req})
+      
+    res.status(200).send({ level, assessment })
 
   get: (Model, options={}) -> wrap (req, res) ->
     query = {}

@@ -95,6 +95,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'slug'
   'original'
   'adventurer'
+  'assessment'
   'practice'
   'practiceThresholdMinutes'
   'primerLanguage'
