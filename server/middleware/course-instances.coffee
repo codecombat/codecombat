@@ -198,7 +198,7 @@ module.exports =
       level = level.toObject({req: req})
     
     assessment = {}
-    if nextAssessmentOriginal
+    if nextAssessmentOriginal and not level.practice # Only show challenge after finishing however much practice we needed
       # Fetch full Assessment Level object
       dbq = Level.findOne({original: mongoose.Types.ObjectId(nextAssessmentOriginal)})
       dbq.sort({ 'version.major': -1, 'version.minor': -1 })
