@@ -155,29 +155,52 @@ module.exports =
       score = Math.round(Math.min(10, Math.max 3, ((session.totalScore or 0) - 20) / 2, (session.state?.difficulty or 0) * 3))
       device = if session.browser then session.browser.name + (if not session.browser.desktop then ' mobile' else '') else null
       solutions.push
+        # New data
+        solutionid: session._id
         provider: 'CodeCombat'
         date: session.created
-        user:
-          userid: user._id
-          usercodeil: user.israelId
-          usertype: if user.role is 'student' then 'S' else 'T'
-          classcode: user.classCode
-        solution:
-          id: session._id
-          createddate: session.created
-          solutionstring: code
-          challengeid: challengeId
-          challengename: challengeName
-          challengeorder: challengeOrder
-          score: score
-          starttime: session.created
-          endtime: session.dateFirstCompleted or session.changed
-        info:
-          ip: user.lastIP
-          sessionkey: session._id  # How to find cookie session? Need it?
-          device: device
-          os: session.browser?.platform
-          country: 'israel'
+        userid: user._id
+        usercodeil: user.israelId
+        classcode: user.classCode
+        usertype: if user.role is 'student' then 'S' else 'T'
+        solutionstring: code
+        challengeid: challengeId
+        challengename: challengeName
+        challengeOrder: challengeOrder
+        score: score
+        #challengecategory: "Category 1" # TODO; new to distinguish between courses
+        solutionstarttime: session.created
+        solutionendtime: session.dateFirstCompleted or session.changed
+        ip: user.lastIP
+        sessionkey: session._id
+        device: device
+        os: session.browser?.platform
+        country: 'israel'
+
+        # Old data
+        #date: session.created  # Now solution.createddate
+        #provider: 'CodeCombat'
+        #user:
+        #  userid: user._id
+        #  usercodeil: user.israelId
+        #  usertype: if user.role is 'student' then 'S' else 'T'
+        #  classcode: user.classCode
+        #solution:
+        #  id: session._id
+        #  createddate: session.created
+        #  solutionstring: code
+        #  challengeid: challengeId
+        #  challengename: challengeName
+        #  challengeorder: challengeOrder
+        #  score: score
+        #  starttime: session.created
+        #  endtime: session.dateFirstCompleted or session.changed
+        #info:
+        #  ip: user.lastIP
+        #  sessionkey: session._id  # How to find cookie session? Need it?
+        #  device: device
+        #  os: session.browser?.platform
+        #  country: 'israel'
 
     done = 0
     yield async.eachLimitAsync registrations, 10, (registration, cb) ->
