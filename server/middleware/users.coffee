@@ -371,7 +371,7 @@ module.exports =
       courseInstances = yield CourseInstance.find({classroomID: classroom._id})
       courseInstanceIDs = []
       for course in classroom.get('courses')
-        if not _.find courseInstances, {courseID: course._id}
+        if not _.find(courseInstances, (ci) -> ci.courseID + '' is course._id + '')
           courseInstance = new CourseInstance({classroomID: classroom._id, courseID: course._id, ownerID: teacherUser._id})
           yield courseInstance.save()
         courseInstanceIDs.push courseInstance._id
