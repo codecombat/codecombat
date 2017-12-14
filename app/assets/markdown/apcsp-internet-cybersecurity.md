@@ -1,5 +1,5 @@
 ##### Activity
-# The Internet - Cybersecurity
+# Cybersecurity
 Inquiry Activity
 
 ### Learning Objectives:
@@ -34,7 +34,7 @@ Many phishing attackers create fake sites that mimic the name of the company but
 ## Distributed Denial of Service Attacks
 
 A Distributed Denial of Service (DDoS) is a cyber attack in which a multiple devices attack an online service, overwhelming it to the point that it can no longer work. This kind of attack is often used by groups wishing to bring down websites as a form of protest.
-Share the following article with the students, http://www.newsweek.com/anonymous-hacker-dark-web-child-porn-operation-553014. Have a class discussion about the article and note that the acceptance of these kinds of attacks is under debate. Also be sure to discuss the impact of having multiple people participate in the attack.
+Share the following article with the students, https://www.wired.com/story/reaper-iot-botnet-infected-million-networks/. Have a class discussion about the article and note that the acceptance of these kinds of attacks is under debate. Also be sure to discuss the impact of having multiple people participate in the attack.
 
 ## Reflection
 

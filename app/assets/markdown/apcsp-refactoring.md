@@ -1,6 +1,6 @@
 ##### Activity
 
-# Agrippa Refactored
+# Introduction to Refactoring
 Inquiry Activity
 
 ### Learning Objectives

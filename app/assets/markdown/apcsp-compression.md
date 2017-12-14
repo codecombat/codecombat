@@ -1,5 +1,5 @@
 ##### Activity
-# Lossy and Lossless compression
+# Lossy & Lossless compression
 Inquiry Activity
 
 Data - There are trade-offs when representing information as digital data.	
