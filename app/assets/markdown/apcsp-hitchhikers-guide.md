@@ -7,16 +7,23 @@ Inquiry Activity
 - [LO 4.2.2] Explain the difference between solvable and unsolvable problems in computer science. [P1]
 - [LO 4.2.3] Explain the existence of undecidable problems in computer science. [P1]
  
-Prompt: Describe an algorithm for the answer to life, the universe, and everything.
+**Overview for Teachers**
  
-What are unsolvable and undecidable problems?
+Your students will discuss an undecidable problem in small groups and then discuss as a class.
  
 ## What you need:
 - [Video clip](https://www.youtube.com/watch?v=aboZctrHfK8)
 - [Halting Problem article](http://www.huffingtonpost.com/entry/how-to-describing-alan-turings-halting-problem-to_us_58d1ae08e4b062043ad4add7)  **(key knowledge)**
  
-Students will watch a video clip from The Hitchhiker’s Guide to the Galaxy. After watching the clip, they will break into small groups and discuss the clip. In particular, they will focus on the problem the computer was attempting to solve - what is the answer to life, the universe, and everything. They will work together to try and determine an algorithm that could solve that problem then share the algorithm with the class. A whole-class discussion on unsolvable and undecidable problems will follow. The discussion will include an introduction to the Halting Problem, guiding students to see that it is undecidable. LO 4.1.2[P5], LO 4.2.2[P1], LO 4.2.3[P1]
+**Overview for Students**
  
+You will be learning about algorithms by working on a problem from The Hitchhiker’s Guide to the Galaxy.  We will have a class discussion after working on the problem in small groups.
+
+**Directions for Students**
+1. Watch a video clip from The Hitchhiker’s Guide to the Galaxy.
+1. Break into small groups and discuss the clip. In particular, focus on the problem the computer was attempting to solve: What is the answer to life, the universe, and everything?Work together to design an algorithm that could solve that problem.
+1. Share the algorithm with the class.
+1. Discuss unsolvable and undecidable problems as a class. Include an introduction to the Halting Problem.
  
 ### Discussion Questions:
 - What makes a problem unsolvable?

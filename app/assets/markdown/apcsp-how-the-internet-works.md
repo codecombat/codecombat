@@ -1,5 +1,5 @@
 ##### Activity
-# The Internet - How the Internet Works
+# How the Internet Works
 Inquiry Activity
  
 ### AP Computer Science Principles: Learning Objectives:

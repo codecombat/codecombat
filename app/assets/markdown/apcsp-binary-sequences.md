@@ -1,10 +1,10 @@
 #### Activity
-# Binary Sequences
+# Data Encoding
  
 ### Learning Objectives
-= 2.1.2 Explain how binary sequences are used to represent digital data.
+* [LO 2.1.2] Explain how binary sequences are used to represent digital data.
  
-Binary is used to encode different types of data, depending on the context in which it's used. One example of this is the "ASCII standard" for encoding text. 
+Different number bases, including binary, decimal, and hexadecimal can be used to encode different types of data, depending on the context in which it's used. One example of this is the "ASCII standard" for encoding text. 
  
 ### What you need:
  
@@ -44,3 +44,4 @@ Binary is used to encode different types of data, depending on the context in wh
 ### Challenge Questions: 
 - A sequence of bits can represent many different things. The letter A, in binary is 01000001. If the same bits were used to represent a number, what number would it be?
 - If you only have 8 bits, what is the highest integer you can represent in binary?
+- Given the binary representation of an ASCII letter A, how would it be represented in hexadecimal?

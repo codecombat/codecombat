@@ -1,5 +1,5 @@
 ##### Activity
-# Simulation of Predator and Prey Populations
+# Predators and Prey
 Inquiry Activity
 
 ### Learning Objectives

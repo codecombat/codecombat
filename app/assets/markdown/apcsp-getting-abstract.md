@@ -3,8 +3,8 @@
 Inquiry Activity
 
 ### Learning Objective:
-= 2.2.3 Identify multiple levels of abstractions that are used when writing programs.
- 
+* [LO 2.2.3] Identify multiple levels of abstractions that are used when writing programs.
+* [LO 6.1.1] Explain the abstractions in the Internet and how the Internet functions. [P3]
  
 **Prompt: What makes a book a book?**
  
@@ -28,13 +28,22 @@ On the right, write things that describe the idea or purpose of a book: "it cont
  
 **Prompt: What abstractions are used when writing programs?**
 
-Now that students have an understanding of what an abstraction is, ask them for examples of abstractions they’ve seen or used while coding. Students should identify multiple levels of abstractions. A couple example abstractions that they will have seen in the course so far:
+Now that students have an understanding of what an abstraction is, ask them for examples of abstractions they’ve seen or used while coding and during the course. Students should identify multiple levels of abstractions. Here are some  example abstractions that they will have seen in the course so far:
 
 The game engine. “moveRight” abstracts out a great deal of animation and physics.
 The language itself. An action as simple as setting a variable causes a great number of things to happen behind the scenes. The computer sets aside memory, it keeps track of the name and the value. Defining functions, mathematical and logical actions are all abstracted away for the convenience of the programmer. Strings, numbers, booleans are all abstracted. Often times languages will be turned into machine code, a much lower-level language, in order to run a program.
 Previous activities, such as How the Internet Works, will have touched on abstractions such as an IP address. An IP address just links to “a device” but that device may change, and it could be any sort of device. The internet itself has [seven layers of abstraction](https://en.wikipedia.org/wiki/OSI_model).
 
+**Prompt: What abstractions are there in how the internet is structured?**
+
+Segue into discussing abstractions in the internet. Review what was covered in the How the Internet Works activity and discuss which of those are examples of abstractions (especially protocols).
+
+An IP address is an abstraction for a device on the internet
+TCP/IP is an abstraction of a connection. While it’s actually a bunch of separate packets going between two machines, it can be treated as a direct connection between two machines.
+DNS is an abstraction of IP addresses. A service could change IP address but retain the same address which appears in the browser.
+
 **Assessment questions:**
 - What is an example of multiple levels of abstraction when programming? [LO 2.2.3]
 - What is an example of a high-level programming language? A low-level programming language? How are they different? What purposes do they serve? [EK 2.2.3B]
 - How is a website or powerpoint presentation a combination of lower abstractions? [EK 2.2.3K]
+- What are three abstractions fundamental to the functioning of the Internet? How do they manage complexity? [EK 6.1.1E, EK 6.1.1G, EK 6.1.1I]

@@ -1,5 +1,5 @@
 ##### Activity
-# Big Data
+# Introduction to Big Data
 
 ### AP Computer Science Principles: Learning Objectives
 - LO 3.2.2 Determine how large data sets impact the use of computational processes to discover information and knowledge. [P3]

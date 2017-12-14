@@ -1,5 +1,5 @@
 ##### Activity
-# Tech Usability Review
+# Technology Usability Review
 Inquiry Activity
 
 ## Learning Objectives:
