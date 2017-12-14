@@ -203,8 +203,17 @@ module.exports =
       dbq = Level.findOne({original: mongoose.Types.ObjectId(nextAssessmentOriginal)})
       dbq.sort({ 'version.major': -1, 'version.minor': -1 })
       dbq.select(parse.getProjectFromReq(req))
-      assessment = yield dbq
-      assessment = assessment.toObject({req: req})
+      # In parallel, fetch the level session for the Assessment Level to check if it's already complete
+      dbq2 = LevelSession.findOne({
+        'level.original': nextAssessmentOriginal + '',
+        creator: req.user.id + '',
+      })
+      [assessmentModel, assessmentSession] = yield Promise.all([dbq, dbq2])
+      if assessmentSession?.get('state').complete
+        assessment = {}
+      else
+        # Don't show them the assessment again if they've already beaten it
+        assessment = assessmentModel.toObject({req: req})
     
     res.status(200).send({ level, assessment })
 
