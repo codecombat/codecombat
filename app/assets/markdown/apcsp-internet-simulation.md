@@ -1,6 +1,5 @@
 ##### Activity
 # The Internet - Internet Simulation
-Inquiry Activity
 
 ### AP Computer Science Principles: Learning Objectives:
 
@@ -24,10 +23,3 @@ Students will participate in a whole-class interactive activity to simulate the 
 - Explain in your own words how packet processing works.
 - Why are packets useful?
 - How did the class handle security? What vulnerabilities are there still? How could you address them?
-
-### Assessment Questions:
-- What does the Predator and Prey simulation omit when it models real life? [EK 2.3.1A]
-- What are the tradeoffs if you were to add these omitted details? [EK 2.3.1C]
-- How did your hypotheses change as you experimented with the model? [EK 2.3.2C]
-- What are the benefits of modeling situations like these on computers? [EK 2.3.2E]
-- What are some examples of models being used in society? [EU 2.3]

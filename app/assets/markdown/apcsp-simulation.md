@@ -1,5 +1,6 @@
 ##### Activity
 # Simulation of Predator and Prey Populations
+Inquiry Activity
 
 ### Learning Objectives
 - [LO 2.3.1] Use models and simulations to represent phenomena. [P3]
@@ -51,3 +52,10 @@ The students should repeat these steps multiple times, each time recording a new
 - What are some weaknesses of this model? How could it be improved?
 - Does this model have too many, or too few, variables?
 - What other real world situations could the students use computers to model and simulate?
+
+### Assessment Questions:
+- What does the Predator and Prey simulation omit when it models real life? [EK 2.3.1A]
+- What are the tradeoffs if you were to add these omitted details? [EK 2.3.1C]
+- How did your hypotheses change as you experimented with the model? [EK 2.3.2C]
+- What are the benefits of modeling situations like these on computers? [EK 2.3.2E]
+- What are some examples of models being used in society? [EU 2.3]
