@@ -75,7 +75,7 @@ module.exports =
     console.log 'found', recentSessions.length, 'sessions'
 
     lastRegistrations = yield IsraelRegistration.find({}).select('date').lean().sort('-date').limit(1)
-    lastRegistration = lastRegistration[0]
+    lastRegistration = lastRegistrations[0]
     console.log 'found lastRegistration', lastRegistration
 
     userStartDate = lastRegistration?.date ? new Date(2017, 0, 1)
