@@ -57,7 +57,7 @@ module.exports =
     limit = if debugging then 20 else 1000
     limit = parseInt(req.query.limit) if req.query.limit?
 
-    lastSolution = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)
+    lastSolution = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)[0]
     console.log 'found lastSolution', lastSolution
 
     sessionStartDate = lastSolution?.date ? new Date(2017, 6, 1)
@@ -73,7 +73,7 @@ module.exports =
 
     console.log 'found', recentSessions.length, 'sessions'
 
-    lastRegistration = yield IsraelRegistration.find({}).select('date').lean().sort('-date').limit(1)
+    lastRegistration = yield IsraelRegistration.find({}).select('date').lean().sort('-date').limit(1)[0]
     console.log 'found lastRegistration', lastRegistration
 
     userStartDate = lastRegistration?.date ? new Date(2017, 0, 1)
@@ -91,7 +91,7 @@ module.exports =
           {_id: {$in: userIds}}
           {dateCreated: {$gte: userStartDate, $lte: _.last(recentSessions).changed}, 'role': {$exists: true}}
         ]
-      console.log 'let us query', JSON.stringify(userQuery, null, 2)
+      #console.log 'let us query', JSON.stringify(userQuery, null, 2)
       userQuery.israelId = {$exists: true} unless debugging
       userSelect = 'name dateCreated israelId stats.gamesCompleted role lastIP'
       users = yield User.find(userQuery).select(userSelect).lean()
@@ -138,7 +138,7 @@ module.exports =
           date: user.dateCreated
           user:
             userid: userId
-            usercodeil: user.israelId
+            usercodeil: user.israelId.replace(/old/, '')
             usertype: if user.role is 'student' then 'S' else 'T'
             classcode: classroom.code
         if user.role is 'student'
@@ -148,7 +148,7 @@ module.exports =
     solutions = []
     for session in recentSessions
       user = _.find users, (u) -> u._id + '' is session.creator + '' or (u.name and u.name is session.creatorName)
-      console.log 'session', session._id, session.creator, session.creatorName, session.levelID, user, user?.classCode
+      console.log 'session', session._id, session.creator, session.creatorName, session.levelID, user?.classCode
       continue unless user and user.classCode
       code = (if session.team is 'ogres' then session.code['hero-placeholder-1']?.plan else session.code['hero-placeholder']?.plan) ? ''
       challengeId = session.level.original + (if session.team is 'ogres' then '-blue' else '')
@@ -162,7 +162,7 @@ module.exports =
         provider: 'CodeCombat'
         date: session.created
         userid: user._id
-        usercodeil: user.israelId
+        usercodeil: user.israelId.replace(/old/, '')
         classcode: user.classCode
         usertype: if user.role is 'student' then 'S' else 'T'
         solutionstring: code
