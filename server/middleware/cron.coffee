@@ -57,7 +57,8 @@ module.exports =
     limit = if debugging then 20 else 1000
     limit = parseInt(req.query.limit) if req.query.limit?
 
-    lastSolution = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)[0]
+    lastSolutions = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)[0]
+    lastSolution = lastSolutions[0]
     console.log 'found lastSolution', lastSolution
 
     sessionStartDate = lastSolution?.date ? new Date(2017, 6, 1)
@@ -73,7 +74,8 @@ module.exports =
 
     console.log 'found', recentSessions.length, 'sessions'
 
-    lastRegistration = yield IsraelRegistration.find({}).select('date').lean().sort('-date').limit(1)[0]
+    lastRegistrations = yield IsraelRegistration.find({}).select('date').lean().sort('-date').limit(1)
+    lastRegistration = lastRegistration[0]
     console.log 'found lastRegistration', lastRegistration
 
     userStartDate = lastRegistration?.date ? new Date(2017, 0, 1)
