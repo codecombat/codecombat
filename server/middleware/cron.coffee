@@ -32,6 +32,7 @@ courseOrdering = (mongoose.Types.ObjectId(id) for id in [
   '57b621e7ad86a6efb5737e64'  # GAME_DEVELOPMENT_2
   '5789587aad86a6efb5737020'  # WEB_DEVELOPMENT_2
   '56462f935afde0c6fd30fc8c'  # COMPUTER_SCIENCE_3
+  '5a0df02b8f2391437740f74f'  # GAME_DEVELOPMENT_3
   '56462f935afde0c6fd30fc8d'  # COMPUTER_SCIENCE_4
   '569ed916efa72b0ced971447'  # COMPUTER_SCIENCE_5
   '5817d673e85d1220db624ca4'  # COMPUTER_SCIENCE_6
@@ -50,58 +51,56 @@ module.exports =
     debugging = req.user?.isAdmin()
     unless req.features.israel
       throw new errors.Forbidden('Do not aggregate Israel data outside of Israel')
-    # Query based on user.dateCreated to take advantage of index, refine by user.activity.join/createClassroom.first to find real new users - will miss any users who registered too long after creation
-    userDateCreatedInterval =   14 * 24 * 60 * 60 * 1000
-    # Query based on session._id date to take advantage of index, refine by session.changed to find real updated sessions - will miss any sessions completed too long after starting
-    sessionDateCreatedInterval = 7 * 24 * 60 * 60 * 1000
-    # Assume this function is called at this cron interval
-    aggregationInterval =                  5 * 60 * 1000
-    # Add some buffer time to make sure we don't miss anything between windows
-    aggregationInterval +=                     30 * 1000
-    if req.query.expandWindows
-      aggregationInterval = parseInt(req.query.expandWindows)
-      sessionDateCreatedInterval += aggregationInterval
-      userDateCreatedInterval += aggregationInterval
-    userDateCreatedStartTime = new Date(new Date() - userDateCreatedInterval)
-    sessionDateCreatedStartTime = new Date(new Date() - sessionDateCreatedInterval)
-    lastAggregationStartTime = new Date(new Date() - aggregationInterval)
-    limit = if debugging then 20 else 0
+    if req.hostname is 'il.codecombat.com'
+      LevelSessionSchema.index({changed: 1}, {name: 'oldest session index for aggregateIsraelData'})  # Blech. Don't want this index on our main server.
+
+    limit = if debugging then 20 else 1000
+    limit = parseInt(req.query.limit) if req.query.limit?
+
+    lastSolution = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)
+    console.log 'found lastSolution', lastSolution
+
+    sessionStartDate = lastSolution?.date ? new Date(2017, 6, 1)
+    console.log sessionStartDate, sessionStartDate.getTime(), utils.objectIdFromTimestamp(sessionStartDate.getTime())
 
     # First, get all the sessions that have changed during the aggregation interval
     sessionQuery =
-      _id: {$gte: utils.objectIdFromTimestamp(sessionDateCreatedStartTime.getTime())}
-      changed: {$gte: lastAggregationStartTime}
+      changed: {$gte: sessionStartDate}
       'state.complete': true
-    sessionSelect = 'changed creator created browser level levelID dateFirstCompleted team state.complete state.difficulty code totalScore browser'
-    recentSessions = yield LevelSession.find(sessionQuery).select(sessionSelect).limit(limit).lean()
+      isForClassroom: true
+    sessionSelect = 'changed creator creatorName created browser level levelID dateFirstCompleted team state.complete state.difficulty code totalScore browser isForClassroom'
+    recentSessions = yield LevelSession.find(sessionQuery).select(sessionSelect).limit(limit).lean().sort('changed')
 
-    # Get all the users for those sessions, or those who first joined or created a classroom during the aggregation interval
-    userIds = _(recentSessions)
-      .map((session) -> session.creator)
-      .uniq()
-      .map((creator) -> mongoose.Types.ObjectId(creator))
-      .value()
-    userQuery =
-      anonymous: false
-      $or: [
-        {_id: {$in: userIds}}
-        {dateCreated: {$gte: userDateCreatedStartTime}, 'activity.joinClassroom.first': {$gte: lastAggregationStartTime}}
-        {dateCreated: {$gte: userDateCreatedStartTime}, 'activity.createClassroom.first': {$gte: lastAggregationStartTime}}
-      ]
-    userQuery.israelId = {$exists: true} unless debugging
-    userSelect = 'dateCreated israelId stats.gamesCompleted activity.joinClassroom.first activity.createClassroom.first role lastIP'
-    users = yield User.find(userQuery).select(userSelect).limit(limit).lean()
+    console.log 'found', recentSessions.length, 'sessions'
 
-    # Get all the sessions for any new users
-    newUserIds = (user._id + '' for user in users when user.activity?.joinClassroom?.first >= lastAggregationStartTime or user.activity?.createClassroom?.first >= lastAggregationStartTime)
-    sessionQuery =
-      creator: {$in: newUserIds}
-      changed: {$lt: lastAggregationStartTime}
-    oldSessionsForNewUsers = yield LevelSession.find(sessionQuery).select(sessionSelect).lean()
-    sessions = recentSessions.concat oldSessionsForNewUsers
+    lastRegistration = yield IsraelRegistration.find({}).select('date').lean().sort('-date').limit(1)
+    console.log 'found lastRegistration', lastRegistration
+
+    userStartDate = lastRegistration?.date ? new Date(2017, 0, 1)
+    console.log userStartDate, userStartDate.getTime(), utils.objectIdFromTimestamp(userStartDate.getTime())
+
+    if recentSessions.length
+      userIds = _(recentSessions)
+        .map((session) -> session.creator)
+        .uniq()
+        .map((creator) -> mongoose.Types.ObjectId(creator))
+        .value()
+      userQuery =
+        anonymous: false
+        $or: [
+          {_id: {$in: userIds}}
+          {dateCreated: {$gte: userStartDate, $lte: _.last(recentSessions).changed}, 'role': {$exists: true}}
+        ]
+      console.log 'let us query', JSON.stringify(userQuery, null, 2)
+      userQuery.israelId = {$exists: true} unless debugging
+      userSelect = 'dateCreated israelId stats.gamesCompleted role lastIP'
+      users = yield User.find(userQuery).select(userSelect).lean()
+      console.log 'users', users.length, 'from', userIds.length, 'userIds', userIds
+    else
+      users = []
 
     # Get all the classrooms for all users so we can associate classCodes to users and sessions
-    userIds = _.union userIds, (mongoose.Types.ObjectId(session.creator) for session in oldSessionsForNewUsers), (user._id for user in users)
+    userIds = _.union userIds, (user._id for user in users)
     classroomQuery =
       $or: [
         {members: {$in: userIds}}
@@ -147,6 +146,7 @@ module.exports =
     solutions = []
     for session in sessions
       user = _.find users, (user) -> user._id + '' is session.creator
+      console.log 'session', session._id, session.creator, session.creatorName, session.levelID, user, user?.classCode
       continue unless user and user.classCode
       code = (if session.team is 'ogres' then session.code['hero-placeholder-1']?.plan else session.code['hero-placeholder']?.plan) ? ''
       challengeId = session.level.original + (if session.team is 'ogres' then '-blue' else '')
@@ -213,8 +213,8 @@ module.exports =
     yield async.eachLimitAsync solutions, 10, (solution, cb) ->
       IsraelSolution.findOneAndUpdate({'solutionid': solution.solutionid}, solution, {upsert: true}, (err, result) ->
         done += 1
-#        console.log(solution.solution.id, done, 'solutions out of', solutions.length, err)
+#        console.log(solution.solutionid, done, 'solutions out of', solutions.length, err)
         cb(err)
       )
 
-    res.status(200).send({message: "Upserted #{registrations.length} registrations and #{solutions.length} solutions."})
+    res.status(200).send({message: "Upserted #{registrations.length} registrations from #{registrations[0]?.date} - #{_.last(registrations)?.date} and #{solutions.length} solutions from #{solutions[0]?.date} - #{_.last(solutions)?.date}."})
