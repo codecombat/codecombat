@@ -211,7 +211,7 @@ module.exports =
       )
     done = 0
     yield async.eachLimitAsync solutions, 10, (solution, cb) ->
-      IsraelSolution.findOneAndUpdate({'solution.id': solution.solution.id}, solution, {upsert: true}, (err, result) ->
+      IsraelSolution.findOneAndUpdate({'solutionid': solution.solutionid}, solution, {upsert: true}, (err, result) ->
         done += 1
 #        console.log(solution.solution.id, done, 'solutions out of', solutions.length, err)
         cb(err)
