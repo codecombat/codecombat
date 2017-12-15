@@ -109,7 +109,7 @@ module.exports =
     classroomSelect = 'members ownerID code'
     classrooms = yield Classroom.find(classroomQuery).select(classroomSelect).lean()
 
-    if sessions.length
+    if recentSessions.length
       courses = yield Course.find({_id: {$in: courseOrdering}}).select('campaignID').lean()
       campaignOrdering = (_.find(courses, (course) -> course._id + '' is courseId + '')?.campaignID for courseId in courseOrdering)
       campaigns = yield Campaign.find({_id: {$in: campaignOrdering}}).select('levels').lean()
@@ -144,7 +144,7 @@ module.exports =
 
     # Prepare all solutions we might need to upsert
     solutions = []
-    for session in sessions
+    for session in recentSessions
       user = _.find users, (user) -> user._id + '' is session.creator
       console.log 'session', session._id, session.creator, session.creatorName, session.levelID, user, user?.classCode
       continue unless user and user.classCode
