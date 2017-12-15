@@ -57,7 +57,7 @@ module.exports =
     limit = if debugging then 20 else 1000
     limit = parseInt(req.query.limit) if req.query.limit?
 
-    lastSolutions = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)[0]
+    lastSolutions = yield IsraelSolution.find({}).select('date').lean().sort('-date').limit(1)
     lastSolution = lastSolutions[0]
     console.log 'found lastSolution', lastSolution
 
