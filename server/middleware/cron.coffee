@@ -140,7 +140,7 @@ module.exports =
           date: user.dateCreated
           user:
             userid: userId
-            usercodeil: user.israelId.replace(/old/, '')
+            usercodeil: user.israelId?.replace(/old/, '') or undefined
             usertype: if user.role is 'student' then 'S' else 'T'
             classcode: classroom.code
         if user.role is 'student'
@@ -164,7 +164,7 @@ module.exports =
         provider: 'CodeCombat'
         date: session.created
         userid: user._id
-        usercodeil: user.israelId.replace(/old/, '')
+        usercodeil: user.israelId?.replace(/old/, '') or undefined
         classcode: user.classCode
         usertype: if user.role is 'student' then 'S' else 'T'
         solutionstring: code
