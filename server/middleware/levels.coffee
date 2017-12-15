@@ -112,7 +112,7 @@ module.exports =
         throw new errors.PaymentRequired('You must be in a course which includes this level to play it')
 
       course = yield Course.findById(courseID).select('free')
-      unless course.get('free') or req.user.isEnrolled()
+      unless course.get('free') or req.user.isEnrolled() or req.features.israel
         throw new errors.PaymentRequired('You must be enrolled to access this content')
 
       lang = targetLevel.primerLanguage or classroomWithLevel.get('aceConfig')?.language
@@ -131,7 +131,7 @@ module.exports =
         query = {
           _id: mongoose.Types.ObjectId(req.query.campaign),
           type: 'hoc'
-          "levels.#{level.get('original')}": {$exists: true} 
+          "levels.#{level.get('original')}": {$exists: true}
         }
         campaign = yield Campaign.count(query)
         if campaign
