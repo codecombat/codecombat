@@ -109,6 +109,8 @@ module.exports =
     classroomSelect = 'members ownerID code'
     classrooms = yield Classroom.find(classroomQuery).select(classroomSelect).lean()
 
+    console.log "found", classrooms.length, "classrooms"
+
     if recentSessions.length
       courses = yield Course.find({_id: {$in: courseOrdering}}).select('campaignID').lean()
       campaignOrdering = (_.find(courses, (course) -> course._id + '' is courseId + '')?.campaignID for courseId in courseOrdering)
@@ -145,7 +147,7 @@ module.exports =
     # Prepare all solutions we might need to upsert
     solutions = []
     for session in recentSessions
-      user = _.find users, (user) -> user._id + '' is session.creator
+      user = _.find users, (u) -> u._id + '' is session.creator + '' or (u.name and u.name is session.creatorName)
       console.log 'session', session._id, session.creator, session.creatorName, session.levelID, user, user?.classCode
       continue unless user and user.classCode
       code = (if session.team is 'ogres' then session.code['hero-placeholder-1']?.plan else session.code['hero-placeholder']?.plan) ? ''
@@ -217,4 +219,6 @@ module.exports =
         cb(err)
       )
 
-    res.status(200).send({message: "Upserted #{registrations.length} registrations from #{registrations[0]?.date} - #{_.last(registrations)?.date} and #{solutions.length} solutions from #{solutions[0]?.date} - #{_.last(solutions)?.date}."})
+    message = "Upserted #{registrations.length} registrations from #{registrations[0]?.date} - #{_.last(registrations)?.date} and #{solutions.length} solutions from #{solutions[0]?.date} - #{_.last(solutions)?.date}."
+    console.log message
+    res.status(200).send({message: message})
