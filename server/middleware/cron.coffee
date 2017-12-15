@@ -93,7 +93,7 @@ module.exports =
         ]
       console.log 'let us query', JSON.stringify(userQuery, null, 2)
       userQuery.israelId = {$exists: true} unless debugging
-      userSelect = 'dateCreated israelId stats.gamesCompleted role lastIP'
+      userSelect = 'name dateCreated israelId stats.gamesCompleted role lastIP'
       users = yield User.find(userQuery).select(userSelect).lean()
       console.log 'users', users.length, 'from', userIds.length, 'userIds', userIds
     else
