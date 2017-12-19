@@ -49,7 +49,10 @@ module.exports =
     unless _.isUndefined(options.archived)
       # Handles when .archived is true, vs false-or-null
       sanitizedOptions.archived = { $ne: not (options.archived is 'true') }
-    dbq = Classroom.find _.merge sanitizedOptions, { ownerID: mongoose.Types.ObjectId(ownerID) }
+    dbq = Classroom.find _.merge sanitizedOptions, $or: [
+      {ownerID: mongoose.Types.ObjectId(ownerID)}
+      {'permissions.target': mongoose.Types.ObjectId(ownerID)}
+    ]
     dbq.select(parse.getProjectFromReq(req))
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
@@ -114,7 +117,7 @@ module.exports =
     throw new errors.Unauthorized() unless req.user
     classroom = yield database.getDocFromHandle(req, Classroom)
     throw new errors.NotFound('Classroom not found.') if not classroom
-    throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id)
+    throw new errors.Forbidden('You do not own this classroom.') unless req.user.isAdmin() or classroom.get('ownerID').equals(req.user._id) or classroom.getAccessForUserObjectId(req.user._id)
 
     memberLimit = parse.getLimitFromReq(req, {default: 10, max: 100, param: 'memberLimit'})
     memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
@@ -130,7 +133,7 @@ module.exports =
     memberSkip = parse.getSkipFromReq(req, {param: 'memberSkip'})
     classroom = yield database.getDocFromHandle(req, Classroom)
     throw new errors.NotFound('Classroom not found.') if not classroom
-    isOwner = classroom.get('ownerID').equals(req.user._id)
+    isOwner = classroom.get('ownerID').equals(req.user._id) or classroom.getAccessForUserObjectId(req.user._id)
     isMember = req.user.id in (m.toString() for m in classroom.get('members'))
     unless req.user.isAdmin() or isOwner or isMember
       log.debug "classrooms.fetchMembers: Can't fetch members for class (#{classroom.id}) you (#{req.user.id}) don't own and aren't a member of."
@@ -154,7 +157,7 @@ module.exports =
     throw new errors.NotFound('No classroom found with that ID') if not classroom
     if not _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
       throw new errors.Forbidden()
-    ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id'))
+    ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id')) or classroom.getAccessForUserObjectId(req.user.get('_id')) is 'write'
     unless ownsClassroom
       throw new errors.Forbidden()
 
@@ -162,7 +165,7 @@ module.exports =
       otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
     catch err
       throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
-  
+
     # If the student is being removed from their very last classroom, unenroll them
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
     if user.isEnrolled() and otherClassrooms.length is 0
@@ -188,7 +191,7 @@ module.exports =
     throw new errors.NotFound('No classroom found with that ID') if not classroom
     if not _.any(classroom.get('members'), (memberID) -> memberID.toString() is userID)
       throw new errors.Forbidden()
-    ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id'))
+    ownsClassroom = classroom.get('ownerID').equals(req.user.get('_id')) or classroom.getAccessForUserObjectId(req.user.get('_id')) is 'write'
     unless ownsClassroom
       throw new errors.Forbidden()
 
@@ -196,7 +199,7 @@ module.exports =
       otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
     catch err
       throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
-  
+
     # If the student is being removed from their very last classroom, unenroll them
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
     if user.isEnrolled() and otherClassrooms.length is 0
@@ -301,7 +304,7 @@ module.exports =
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
       throw new errors.NotFound('Classroom not found.')
-    unless req.user._id.equals(classroom.get('ownerID')) or req.user.isAdmin()
+    unless req.user._id.equals(classroom.get('ownerID')) or req.user.isAdmin() or classroom.getAccessForUserObjectId(req.user.get('_id')) is 'write'
       throw new errors.Forbidden('Only the owner may update their classroom content')
     addNewCoursesOnly = req.body?.addNewCoursesOnly ? false
 
@@ -334,7 +337,7 @@ module.exports =
     if not req.user.get('role')
       req.user.set('role', 'student')
       yield req.user.save()
-      
+
     # for Israel pilot only, join any prepaids associated with the teacher
     if req.features.israel and not req.user.get('coursePrepaid')
       prepaid = yield Prepaid.findOne({ creator: classroom.get('ownerID'), type: 'course' })
@@ -363,7 +366,7 @@ module.exports =
     { classroomID, memberID } = req.params
     teacherID = req.user.id
     return next() if teacherID is memberID or not newPassword
-    ownedClassrooms = yield Classroom.find({ ownerID: mongoose.Types.ObjectId(teacherID) })
+    ownedClassrooms = yield Classroom.find({ $or: [{ownerID: mongoose.Types.ObjectId(teacherID)}, {'permissions.target': mongoose.Types.ObjectId(teacherID)}, 'permissions.access': 'write'] })
     ownedStudentIDs = _.flatten ownedClassrooms.map (c) ->
       c.get('members').map (id) ->
         id.toString()
@@ -388,7 +391,7 @@ module.exports =
     if not classroom
       throw new errors.NotFound('Classroom not found.')
 
-    unless classroom.get('ownerID').equals(req.user?._id)
+    unless classroom.get('ownerID').equals(req.user?._id) or classroom.getAccessForUserObjectId(req.user?._id)
       log.debug "classroom_handler.inviteMembers: Can't invite to classroom (#{classroom.id}) you (#{req.user.get('_id')}) don't own"
       throw new errors.Forbidden('Must be owner of classroom to send invites.')
 

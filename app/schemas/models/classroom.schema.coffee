@@ -41,9 +41,10 @@ _.extend ClassroomSchema.properties,
     gems: {type: 'boolean', description: 'Allow students to earn gems.', default: false}
     xp: {type: 'boolean', description: 'Students collect XP and level up.', default: false}
   }
-   
+
 
 c.extendBasicProperties ClassroomSchema, 'Classroom'
+c.extendPermissionsProperties ClassroomSchema
 ClassroomSchema.properties.settings.additionalProperties = true
 
 module.exports = ClassroomSchema

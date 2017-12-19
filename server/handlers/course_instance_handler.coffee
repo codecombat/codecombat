@@ -28,6 +28,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     return true if document?.get('ownerID')?.equals(req.user?.get('_id'))
+    # TODO: need to rework so that we can check the parent classroom's permissions list
     return true if req.method is 'GET' and _.find document?.get('members'), (a) -> a.equals(req.user?.get('_id'))
     req.user?.isAdmin()
 
@@ -216,9 +217,10 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     if ownerID = req.query.ownerID
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
       return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
-      CourseInstance.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, courseInstances) =>
-        return @sendDatabaseError(res, err) if err
-        return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
+      Classroom.find({$or: [{ownerID: mongoose.Types.ObjectId(ownerID)}, {'permissions.target': mongoose.Types.ObjectId(ownerID)}]}).select('_id').lean().exec (err, classrooms) =>
+        CourseInstance.find {classroomID: {$in: (cr._id for cr in classrooms)}}, (err, courseInstances) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
     else if memberID = req.query.memberID
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or memberID is req.user.id)
       return @sendBadInputError(res, 'Bad memberID') unless utils.isID memberID

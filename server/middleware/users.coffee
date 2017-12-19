@@ -673,7 +673,7 @@ module.exports =
       throw new errors.Forbidden()
 
     if user.isTeacher()
-      query = { ownerID: req.user._id }
+      query = { $or: [{ownerID: req.user._id}, {'permissions.target': req.user._id}] }
     else
       query = { members: req.user._id }
 

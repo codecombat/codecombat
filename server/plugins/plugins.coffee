@@ -116,25 +116,25 @@ module.exports.PermissionsPlugin = (schema) ->
 
     allowed = allowed[method] or []
 
-    for permission in @permissions
+    for permission in @permissions ? []
       if permission.target is 'public' or actor?._id.equals(permission.target)
         return true if permission.access in allowed
 
     return false
 
   schema.methods.getOwner = ->
-    for permission in @permissions
+    for permission in @permissions ? []
       if permission.access is 'owner'
         return permission.target
 
   schema.methods.getPublicAccess = ->
-    for permission in @permissions
+    for permission in @permissions ? []
       if permission.target is 'public'
         return permission.access
 
   schema.methods.getAccessForUserObjectId = (objectId) ->
     public_access = null
-    for permission in @permissions
+    for permission in @permissions ? []
       if permission.target is 'public'
         public_access = permission.access
         continue
@@ -161,7 +161,7 @@ module.exports.VersionedPlugin = (schema) ->
   # Prevent multiple documents with the same version
   # Also used for looking up latest version, or specific versions.
   schema.index({'original': 1, 'version.major': -1, 'version.minor': -1}, {unique: true, name: 'version index'})
-  
+
   schema.statics.findCurrentVersion = (original, projection) ->
     if _.isString original
       try

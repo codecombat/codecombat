@@ -13,6 +13,9 @@ ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:
 ClassroomSchema.index({ownerID: 1}, {name: 'ownerID index'})
 ClassroomSchema.index({members: 1}, {name: 'members index'})
 ClassroomSchema.index({code: 1}, {name: 'code index', unique: true})
+ClassroomSchema.index({'permissions.target': 1}, {name: 'permissions.target index', sparse: true})
+
+ClassroomSchema.plugin(plugins.PermissionsPlugin)
 
 ClassroomSchema.statics.privateProperties = []
 ClassroomSchema.statics.editableProperties = [
@@ -47,7 +50,7 @@ ClassroomSchema.pre('save', (next) ->
 )
 
 ClassroomSchema.methods.isOwner = (userID) ->
-  return userID.equals(@get('ownerID'))
+  return userID.equals(@get('ownerID')) or @getAccessForUserObjectId(userID)
 
 ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
@@ -72,11 +75,11 @@ ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin}) ->
     for level in levels
       continue if classLanguage and level.primerLanguage is classLanguage
       levelData = { original: mongoose.Types.ObjectId(level.original) }
-      _.extend(levelData, _.pick(level, 
+      _.extend(levelData, _.pick(level,
         'type',
         'slug',
-        'name', 
-        'practice', 
+        'name',
+        'practice',
         'practiceThresholdMinutes',
         'primerLanguage',
         'shareable',
@@ -130,7 +133,7 @@ ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly
     existingCourseMap = _.zipObject(existingCourseIds, coursesData)
     coursesData = _.map(newestCoursesData, (newCourseData) -> existingCourseMap[newCourseData._id+''] or newCourseData)
   @set('courses', coursesData)
-  
+
 ClassroomSchema.methods.addMember = (user) ->
   # fires update, and adds to this local copy, or resolves immediately if the user is already part of the classroom
   members = _.clone(@get('members'))
@@ -140,11 +143,11 @@ ClassroomSchema.methods.addMember = (user) ->
   members.push user._id
   @set('members', members)
   return @update(update)
-  
+
 ClassroomSchema.methods.fetchSessionsForMembers = co.wrap (members) ->
   CourseInstance = require('./CourseInstance')
   LevelSession = require('./LevelSession')
-  
+
   courseLevelsMap = {}
   codeLanguage = @get('aceConfig.language')
   for course in @get('courses') ? []
@@ -176,7 +179,7 @@ ClassroomSchema.set('toObject', {
   transform: (doc, ret, options) ->
     if options.req
       user = options.req.user
-      unless user?.isAdmin() or user?._id.equals(doc.get('ownerID'))
+      unless user?.isAdmin() or user?._id.equals(doc.get('ownerID')) or doc.getAccessForUserObjectId(user?._id)
         delete ret.code
         delete ret.codeCamel
     if options.includeEnrolled

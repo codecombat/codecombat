@@ -43,7 +43,7 @@ module.exports =
     unless _.all(userIDs, (userID) -> _.contains classroomMembers, userID)
       throw new errors.Forbidden('Users must be members of classroom')
 
-    ownsClassroom = classroom.get('ownerID').equals(req.user._id)
+    ownsClassroom = classroom.get('ownerID').equals(req.user._id) or classroom.getAccessForUserObjectId(req.user._id) is 'write'
     addingSelf = userIDs.length is 1 and userIDs[0] is req.user.id
     unless ownsClassroom or addingSelf
       throw new errors.Forbidden('You must own the classroom to add members')
@@ -110,14 +110,14 @@ module.exports =
     unless _.all(userIDs, (userID) -> _.contains classroomMembers, userID)
       throw new errors.Forbidden('Users must be members of classroom')
 
-    ownsClassroom = classroom.get('ownerID').equals(req.user._id)
+    ownsClassroom = classroom.get('ownerID').equals(req.user._id) or classroom.getAccessForUserObjectId(req.user._id) is 'write'
     removingSelf = userIDs.length is 1 and userIDs[0] is req.user.id
     unless ownsClassroom or removingSelf
       throw new errors.Forbidden('You must own the classroom to remove members')
 
     course = yield Course.findById courseId
     throw new errors.NotFound('Course referenced by course instance not found') unless course
-    
+
     userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
 
     courseInstance = yield CourseInstance.findByIdAndUpdate(
@@ -130,7 +130,7 @@ module.exports =
       { _id: { $in: userObjectIDs } },
       { $pull: { courseInstances: courseInstance._id } }
     )
-    
+
     res.status(200).send(courseInstance.toObject({ req }))
 
   fetchNextLevel: wrap (req, res) ->
@@ -199,7 +199,7 @@ module.exports =
     if not classroom
       throw new errors.NotFound('Classroom not found.')
 
-    isOwner = classroom.get('ownerID')?.equals req.user?._id
+    isOwner = classroom.get('ownerID')?.equals(req.user?._id) or classroom.getAccessForUserObjectId(req.user._id)
     isMember = _.any(classroom.get('members') or [], (memberID) -> memberID.equals(req.user.get('_id')))
     if not (isOwner or isMember)
       throw new errors.Forbidden('You do not have access to this classroom')
@@ -287,12 +287,12 @@ module.exports =
     if not courseInstance
       throw new errors.NotFound('Course Instance not found.')
 
-    unless courseInstance.get('ownerID').equals(req.user._id) or _.any(courseInstance.get('members'), (id) -> id.equals req.user._id)
-      throw new errors.Forbidden('You must be a member of a the given course instance')
-
     classroom = yield Classroom.findById(courseInstance.get('classroomID'))
     if not classroom
       throw new errors.NotFound('Classroom not found.')
+
+    unless courseInstance.get('ownerID').equals(req.user._id) or _.any(courseInstance.get('members'), (id) -> id.equals req.user._id) or classroom.getAccessForUserObjectId(req.user._id)
+      throw new errors.Forbidden('You must be a member of a the given course instance')
 
     levelOriginalQueries = []
     for course in classroom.get('courses') when course._id.equals(courseInstance.get('courseID'))
