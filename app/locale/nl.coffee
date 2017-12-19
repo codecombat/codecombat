@@ -311,7 +311,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_list_resource_hub_5: "voor lesprogrammagidsen, activiteiten, en meer!"
     teacher_additional_questions: "Dat was het! Als je nog meer hulp nodig hebt of je hebt vragen, neem contact op met __supportEmail__."
     dont_use_our_email_silly: "Zet hier niet je eigen email-adres neer, maar die van je ouders!"
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "Herstel Account"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     course: "Les:"
     done: "Klaar"
     next_level: "Volgende Level"
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
     next_game: "Volgende spel"
     languages: "Talen"
     programming_language: "Programmeertaal"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     restart: "Herstarten"
     goals: "Doelen"
     goal: "Doel"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
     running: "Afspelen..."
     success: "Gelukt!"
     incomplete: "Incompleet"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     update_old_classroom_detail: "Om ervoor te zorgen dat je zoveel mogelijk up-to-date levels hebt, zorg je ervoor dat je een nieuwe klas aanmaakt voor dit semester door te klikken op 'Nieuwe Klas Aanmaken'op je"
     teacher_dashboard: "lerarendashboard"
     update_old_classroom_detail_2: "en door de leerlingen de nieuwe klassencode te geven die verschijnt."
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     how_to_apply_licenses_blurb_2: "Kan ik een licentie toepassen zonder een cursus toe te wijzen?"
     how_to_apply_licenses_blurb_3: "Ja — ga naar de Licentie Status tab in je klas en klik op \"Licentie toepassen\" bij een student die geen actieve licentie heeft."
     request_sent: "Verzoek Verstuurd!"
+#    assessments: "Assessments"
     license_status: "Licentie Status"
     status_expired: "Verlopen op {{date}}"
     status_not_enrolled: "Niet Ingeschreven"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"
