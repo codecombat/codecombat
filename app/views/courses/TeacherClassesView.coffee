@@ -124,17 +124,16 @@ module.exports = class TeacherClassesView extends RootView
     @classrooms.comparator = (a, b) -> b.id.localeCompare(a.id)
     @classrooms.fetchByOwner(@teacherID)
     @supermodel.trackCollection(@classrooms)
-    # TODO: disabling for HoC to alleviate server stress
-    # @listenTo @classrooms, 'sync', ->
-    #   for classroom in @classrooms.models
-    #     continue if classroom.get('archived')
-    #     classroom.sessions = new LevelSessions()
-    #     Promise.all(classroom.sessions.fetchForAllClassroomMembers(classroom))
-    #     .then (results) =>
-    #       return if @destroyed
-    #       helper.calculateDots(@classrooms, @courses, @courseInstances)
-    #       @calculateQuestCompletion()
-    #       @render()
+    @listenTo @classrooms, 'sync', ->
+      for classroom in @classrooms.models
+        continue if classroom.get('archived')
+        classroom.sessions = new LevelSessions()
+        Promise.all(classroom.sessions.fetchForAllClassroomMembers(classroom))
+        .then (results) =>
+          return if @destroyed
+          helper.calculateDots(@classrooms, @courses, @courseInstances)
+          @calculateQuestCompletion()
+          @render()
 
     window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
 
