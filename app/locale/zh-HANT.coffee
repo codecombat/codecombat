@@ -311,7 +311,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "復原帳號"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     course: "課程："
     done: "完成"
     next_level: "下一個關卡："
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
     next_game: "下一個遊戲"
     languages: "語言"
     programming_language: "程式語言"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     restart: "重新開始"
     goals: "目標"
     goal: "目標"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
     running: "執行中…"
     success: "成功！"
     incomplete: "未完成"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     how_to_apply_licenses_blurb_2: "我可以在沒有指派課程的情況下使用註冊碼媽?"
     how_to_apply_licenses_blurb_3: "可以 — 到您教室中的註冊碼狀態標籤並點擊 \"使用註冊碼\" 給任何沒有完成註冊碼的學生。"
     request_sent: "請求已送出!"
+#    assessments: "Assessments"
     license_status: "註冊碼狀態"
     status_expired: "已在 {{date}} 後過期"
     status_not_enrolled: "未招收"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"

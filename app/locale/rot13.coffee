@@ -311,7 +311,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_list_resource_hub_5: "sbe pheevphyhz thvqrf, npgvivgvrf, naq zber!"
     teacher_additional_questions: "Gung’f vg! Vs lbh arrq nqqvgvbany uryc be unir dhrfgvbaf, ernpu bhg gb __fhccbegRznvy__."
     dont_use_our_email_silly: "Qba'g chg bhe rznvy urer! Chg lbhe cnerag'f rznvy."
-    want_codecombat_in_school: "Jnag gb cynl PbqrPbzong nyy gur gvzr?" # {punatr}
+    want_codecombat_in_school: "Jnag gb cynl PbqrPbzong nyy gur gvzr?"
 
   recover:
     recover_account_title: "Erpbire Nppbhag"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     course: "Pbhefr:"
     done: "Qbar"
     next_level: "Arkg Yriry"
+    challenge_unlocked: "Punyyratr Haybpxrq"
+    start_challenge: "Fgneg Punyyratr"
     next_game: "Arkg tnzr"
     languages: "Ynathntrf"
     programming_language: "Cebtenzzvat ynathntr"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     restart: "Erfgneg"
     goals: "Tbnyf"
     goal: "Tbny"
+    challenge_level_goals: "Punyyratr Yriry Tbnyf"
+    challenge_level_goal: "Punyyratr Yriry Tbny"
     running: "Ehaavat..."
     success: "Fhpprff!"
     incomplete: "Vapbzcyrgr"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     update_old_classroom_detail: "Gb znxr fher lbh'er trggvat gur zbfg hc-gb-qngr yriryf, znxr fher lbh perngr n arj pynff sbe guvf frzrfgre ol pyvpxvat Perngr n Arj Pynff ba lbhe"
     teacher_dashboard: "grnpure qnfuobneq"
     update_old_classroom_detail_2: "naq tvivat fghqragf gur arj Pynff Pbqr gung nccrnef."
+    view_assessments: "Ivrj Nffrffzragf"
+    challenge: "Punyyratr:"
+    challenge_level: "Punyyratr Yriry:"
+    status: "Fgnghf:"
+    assessments: "Nffrffzragf"
+    play_again: "Cynl Ntnva"
+    keep_trying: "Xrrc Gelvat"
+    start_challenge: "Fgneg Punyyratr"
+    locked: "Ybpxrq"
 
   project_gallery:
     no_projects_published: "Or gur svefg gb choyvfu n cebwrpg va guvf pbhefr!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     how_to_apply_licenses_blurb_2: "Pna V fgvyy nccyl n yvprafr jvgubhg nffvtavat n pbhefr?"
     how_to_apply_licenses_blurb_3: "Lrf — tb gb gur Yvprafr Fgnghf gno va lbhe pynffebbz naq pyvpx \"Nccyl Yvprafr\" gb nal fghqrag jub qbrf abg unir na npgvir yvprafr."
     request_sent: "Erdhrfg Frag!"
+    assessments: "Nffrffzragf"
     license_status: "Yvprafr Fgnghf"
     status_expired: "Rkcverq ba {{qngr}}"
     status_not_enrolled: "Abg Raebyyrq"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     office_hours_detail: "Yrnea ubj gb xrrc hc jvgu jvgu lbhe fghqragf nf gurl perngr tnzrf naq rzonex ba gurve pbqvat wbhearl! Pbzr naq nggraq bhe"
     office_hours_link: "Ubhe bs Pbqr Jrovane"
     office_hours_detail_2: "frffvbaf."
+    success: "Fhpprff"
+    in_progress: "Va Cebterff"
+    not_started: "Abg Fgnegrq"
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   anonymous_teacher:
     notify_teacher: "Abgvsl Grnpure"
-    want_codecombat: "Jnag gb cynl PbqrPbzong nyy gur gvzr?" # {punatr}
+    want_codecombat: "Jnag gb cynl PbqrPbzong nyy gur gvzr?"
     create_teacher_account: "Perngr serr grnpure nppbhag"
     chat: "Nfx dhrfgvbaf ivn pung"
     enter_student_name: "Lbhe anzr:"
-    enter_teacher_email: "Lbhe grnpure'f rznvy:" # {punatr}
+    enter_teacher_email: "Lbhe grnpure'f rznvy:"
     teacher_email_placeholder: "grnpure.rznvy@rknzcyr.pbz"
     student_name_placeholder: "glcr lbhe anzr urer"
     teachers_section: "Grnpuref:"

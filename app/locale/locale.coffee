@@ -77,6 +77,8 @@ Object.defineProperties module.exports,
           require('bundle-loader?lazy&name=[name]!locale/'+langCode)((localeData) -> accept(localeData))
         .then (localeData) =>
           @storeLoadedLanguage(langCode, localeData)
+        .catch (error) =>
+          console.error "Error loading locale '#{langCode}':\n", error
       ]
       firstBit = langCode[...2]
       if (firstBit isnt langCode) and @[firstBit]?
@@ -84,6 +86,8 @@ Object.defineProperties module.exports,
           require('bundle-loader?lazy&name=locale/[name]!locale/'+firstBit)((localeData) -> accept(localeData))
         .then (localeData) =>
           @storeLoadedLanguage(firstBit, localeData)
+        .catch (error) =>
+          console.error "Error loading locale '#{firstBit}':\n", error
         )
       return Promise.all(promises)
 
