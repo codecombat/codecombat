@@ -285,6 +285,7 @@ module.exports =
     classroom = database.initDoc(req, Classroom)
     classroom.set 'ownerID', req.user._id
     classroom.set 'members', []
+    classroom.set 'permissions', [{target: req.user._id, access: 'owner'}]
     database.assignBody(req, classroom)
 
     yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false})

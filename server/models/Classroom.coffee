@@ -49,9 +49,6 @@ ClassroomSchema.pre('save', (next) ->
     next()
 )
 
-ClassroomSchema.methods.isOwner = (userID) ->
-  return userID.equals(@get('ownerID')) or @getAccessForUserObjectId(userID)
-
 ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
 
