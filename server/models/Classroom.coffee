@@ -55,6 +55,10 @@ ClassroomSchema.pre('save', (next) ->
   next()
 )
 
+ClassroomSchema.post 'init', ->
+  if @get('ownerID') and not @get('permissions')
+    @set 'permissions', [{target: @get('ownerID'), access: 'owner'}]
+
 ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
 
