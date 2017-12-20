@@ -138,7 +138,7 @@ module.exports.PermissionsPlugin = (schema) ->
       if permission.target is 'public'
         public_access = permission.access
         continue
-      if objectId.equals(permission.target)
+      if objectId?.equals(permission.target)
         return permission.access
     return public_access
 
