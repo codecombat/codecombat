@@ -364,6 +364,11 @@ module.exports =
         classroom.set 'name', className
         classroom.set 'aceConfig', language: 'python'
         yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false})
+        otherTeachers = yield User.find({role: 'teacher', 'school.israelInstitutions': institutionId}).select('_id').lean()
+        permissions = [{access: 'owner', target: teacherUser._id}]
+        for otherTeacher in otherTeachers
+          permissions.push {access: 'write', target: otherTeacher._id}
+        classroom.set 'permissions', permissions
         database.validateDoc(classroom)
         classroom = yield classroom.save()
         console.log 'Israel signup: created new classroom:', classroom
@@ -377,6 +382,8 @@ module.exports =
         courseInstanceIDs.push courseInstance._id
       yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
       yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
+    else if userData.role is 'teacher'
+      yield Classroom.update({ownerID: teacherUser._id}, { $addToSet: {permissions: {access: 'write', target: req.user._id}} }, {multi: true})
     yield module.exports.finishSignup(req, res)
 
   finishSignup: co.wrap (req, res) ->
