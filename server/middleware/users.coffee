@@ -229,7 +229,7 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
-    
+
   setVerifiedTeacher: wrap (req, res) ->
     unless _.isBoolean(req.body)
       throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
@@ -237,7 +237,7 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     update = { "verifiedTeacher": req.body }
     user.set(update)
     yield user.update({ $set: update })
@@ -378,9 +378,10 @@ module.exports =
         classroom.set 'codeCamel', classCode
         classroom.set 'name', className
         classroom.set 'aceConfig', language: 'python'
+        classroom.set 'permissions', [{access: 'owner', target: teacherUser._id}]
         yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false})
         otherTeachers = yield User.find({role: 'teacher', 'school.israelInstitutions': institutionId}).select('_id').lean()
-        permissions = [{access: 'owner', target: teacherUser._id}]
+        permissions = classroom.get 'permissions'
         for otherTeacher in otherTeachers
           permissions.push {access: 'write', target: otherTeacher._id}
         classroom.set 'permissions', permissions

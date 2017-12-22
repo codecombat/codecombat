@@ -55,7 +55,14 @@ ClassroomSchema.pre('save', (next) ->
   next()
 )
 
+ClassroomSchema.pre 'init', (next, data) ->
+  # Just in case it's needed for migrating to new permissions system
+  if data.ownerID and not data.permissions
+    data.permissions = [{target: @get('ownerID'), access: 'owner'}]
+  next()
+
 ClassroomSchema.post 'init', ->
+  # Just in case it's needed for migrating to new permissions system
   if @get('ownerID') and not @get('permissions')
     @set 'permissions', [{target: @get('ownerID'), access: 'owner'}]
 

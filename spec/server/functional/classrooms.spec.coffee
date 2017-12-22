@@ -25,10 +25,10 @@ describe 'GET /db/classroom?ownerID=:id', ->
     yield utils.clearModels([User, Classroom])
     @user1 = yield utils.initUser()
     yield utils.loginUser(@user1)
-    @classroom1 = yield new Classroom({name: 'Classroom 1', ownerID: @user1.get('_id') }).save()
+    @classroom1 = yield new Classroom({name: 'Classroom 1', ownerID: @user1.get('_id'), permissions: [{target: @user1.get('_id'), access: 'owner'}] }).save()
     @user2 = yield utils.initUser()
     yield utils.loginUser(@user2)
-    @classroom2 = yield new Classroom({name: 'Classroom 2', ownerID: @user2.get('_id') }).save()
+    @classroom2 = yield new Classroom({name: 'Classroom 2', ownerID: @user2.get('_id'), permissions: [{target: @user2.get('_id'), access: 'owner'}] }).save()
     done()
 
   it 'returns an array of classrooms with the given owner', utils.wrap (done) ->
@@ -68,7 +68,7 @@ describe 'GET /db/classroom by classCode', ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
     teacher = yield utils.initUser()
-    classroom = new Classroom({ name: "some class", ownerID: teacher.id, camelCode: "FooBarBaz", code: "foobarbaz" })
+    classroom = new Classroom({ name: "some class", ownerID: teacher.id, camelCode: "FooBarBaz", code: "foobarbaz", permissions: [{target: teacher.id, access: 'owner'}] })
     yield classroom.save()
     [res, body] = yield request.getAsync(getURL('/db/classroom?code=foo bar baz'), { json: true })
     expect(res.statusCode).toBe(200)
@@ -444,14 +444,14 @@ describe 'GET /db/classroom/:classroomID/members/:memberID/is-auto-revokable', -
     @classroom = yield utils.makeClassroom({}, {members:[@student]})
     @url = utils.getURL("/db/classroom/#{@classroom.id}/members/#{@student.id}/is-auto-revokable")
     done()
-  
+
   describe 'when the user does NOT have a license', ->
     it 'says it will NOT revoke the license', utils.wrap (done) ->
       [res, body] = yield request.getAsync { @url, json: true }
       expect(res.statusCode).toBe(200)
       expect(res.body.willRevokeLicense).toBe(false)
       done()
-  
+
   describe 'when the user has a license', ->
     beforeEach utils.wrap (done) ->
       @admin = yield utils.initAdmin()
@@ -498,7 +498,7 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
     classroom = yield Classroom.findById(@classroom.id)
     expect(classroom.get('members').length).toBe(0)
     done()
-  
+
   describe 'when the user has a license', ->
     beforeEach utils.wrap (done) ->
       @admin = yield utils.initAdmin()
@@ -613,8 +613,8 @@ describe 'GET /db/classroom/:handle/members', ->
     @teacher = yield utils.initUser()
     @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L", coursePrepaid: { _id: mongoose.Types.ObjectId() } })
     @student2 = yield utils.initUser({ name: "Student Nameynamington", firstName: "Student", lastName: "N" })
-    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id] }).save()
-    @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [] }).save()
+    @classroom = yield new Classroom({name: 'Classroom', ownerID: @teacher._id, members: [@student1._id, @student2._id], permissions: [{target: @teacher._id, access: 'owner'}] }).save()
+    @emptyClassroom = yield new Classroom({name: 'Empty Classroom', ownerID: @teacher._id, members: [], permissions: [{target: @teacher._id, access: 'owner'}] }).save()
     done()
 
   it 'does not work if you are not the owner of the classroom', utils.wrap (done) ->
@@ -657,7 +657,7 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname" })
     newPassword = "this is a new password"
-    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id] }).save()
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id], permissions: [{target: teacher._id, access: 'owner'}] }).save()
     expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
     [res, body] = yield request.postAsync({
       uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
@@ -675,7 +675,7 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     student = yield utils.initUser({ name: "Firstname Lastname" })
     student2 = yield utils.initUser({ name: "Firstname Lastname 2" })
     newPassword = "this is a new password"
-    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student2._id] }).save()
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student2._id], permissions: [{target: teacher._id, access: 'owner'}] }).save()
     expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
     [res, body] = yield request.postAsync({
       uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
@@ -692,7 +692,7 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname", emailVerified: true })
     newPassword = "this is a new password"
-    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id] }).save()
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id], permissions: [{target: teacher._id, access: 'owner'}] }).save()
     expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
     [res, body] = yield request.postAsync({
       uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
@@ -709,7 +709,7 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname" })
     newPassword = "e"
-    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id] }).save()
+    classroom = yield new Classroom({name: 'Classroom', ownerID: teacher._id, members: [student._id], permissions: [{target: teacher._id, access: 'owner'}] }).save()
     expect(student.get('passwordHash')).not.toEqual(User.hashPassword(newPassword))
     [res, body] = yield request.postAsync({
       uri: getURL("/db/classroom/#{classroom.id}/members/#{student.id}/reset-password")
