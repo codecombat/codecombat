@@ -1,5 +1,6 @@
 ##### Activity
-# The Internet - How the Internet Works
+# How the Internet Works
+Inquiry Activity
  
 ### AP Computer Science Principles: Learning Objectives:
 
@@ -45,7 +46,7 @@ Domain names are a part of the DNS naming hierarchy. One level of hierarchy incl
 
 The Internet moves computerized information from one place to another. An analogy for the Internet is the United States Postal Service. Information is passed between devices, with no regard of what the information is or why it is being sent. Because of the standard protocols and servers, the Internet can be used to transmit many different kinds of information. In addition, applications can be created that simply have to communicate with the Internet in order to run on the network.
 
-Information is transmitted on the Internet via packet switching. Instead of sending information all at once, the information is broken into smaller pieces, called packets. Each packet is then sent separately to the destination where they are all reassembled.
+Information is transmitted on the Internet via packet switching. Instead of sending information all at once, the information is broken into smaller pieces, called packets. Each packet is then sent separately to the destination where they are all reassembled. How this is done is standardized with the transmission control protocol, or TCP.
 
 At the end of the lesson, have the students write how the Internet works in a way that children can understand. Instruct them to explain the abstractions of the Internet in their writing. They can then revisit their writing from the beginning of class and compare their thoughts at the beginning of class to the reality of how the Internet works. 
  
@@ -59,3 +60,10 @@ At the end of the lesson, have the students write how the Internet works in a wa
 - What connections are there between the abstractions of the Internet and the abstractions in programming? 
 - Compare and contrast data compression and packet switching.
 - Describe how packet switching can help keep data more secure.
+
+### Assessment Questions:
+- Define the internet [EK 6.1.1A]
+- How is an internet-connected device identified by another device? [EK 6.1.1E, EK 6.1.1G]
+- How are domain names and IP addresses organized? [EK 6.2.1B, EK 6.2.1C]
+- What makes the internet fault-tolerant? [EK 6.2.2B]
+- What are some protocols which underpin the internet? [EK 6.1.1E, EK 6.2.2G]

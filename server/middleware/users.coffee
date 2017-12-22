@@ -229,6 +229,21 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
+    
+  setVerifiedTeacher: wrap (req, res) ->
+    unless _.isBoolean(req.body)
+      throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
+
+    user = yield database.getDocFromHandle(req, User)
+    if not user
+      throw new errors.NotFound('User not found.')
+      
+    update = { "verifiedTeacher": req.body }
+    user.set(update)
+    yield user.update({ $set: update })
+    res.status(200).send(user.toObject({req}))
+
+
   signupWithPassword: wrap (req, res) ->
     unless req.user.isAnonymous()
       throw new errors.Forbidden('You are already signed in.')

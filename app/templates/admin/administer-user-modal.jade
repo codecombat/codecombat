@@ -30,6 +30,19 @@ block modal-header-content
       a(href="#prepaids") Existing Prepaids
   div
     a(href="#details") User Details
+    
+  div.m-t-1
+    label
+      input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      span.p-l-1
+        | APCSP Verified Teacher (has access to private forum)
+    div
+      if view.userSaveState == 'saving'
+        | Saving...
+      else if view.userSaveState == 'saved'
+        | Saved!
+      else
+        | &nbsp;
 
 block modal-body-content
 

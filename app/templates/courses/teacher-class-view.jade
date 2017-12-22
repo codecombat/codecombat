@@ -153,6 +153,11 @@ block content
             a.course-progress-tab-btn(href='#course-progress-tab')
               .small-details.text-center(data-i18n='teacher.course_progress')
           .tab-spacer
+          if view.classroom.hasAssessments()
+            li(class=(activeTab === "#assessments-tab" ? 'active' : ''))
+              a.assessments-tab-btn(href='#assessments-tab')
+                .small-details.text-center(data-i18n='teacher.assessments')
+            .tab-spacer
           li(class=(activeTab === "#license-status-tab" ? 'active' : ''))
             a.course-progress-tab-btn(href='#license-status-tab')
               .small-details.text-center(data-i18n='teacher.license_status')
@@ -163,6 +168,8 @@ block content
             +studentsTab
           else if activeTab === '#course-progress-tab'
             +courseProgressTab
+          else if activeTab === '#assessments-tab'
+            +assessmentsTab
           else if activeTab === '#license-status-tab'
             +enrollmentStatusTab
 
@@ -289,8 +296,8 @@ mixin courseProgressTab
               if !view.availableCourseMap[course.id]
                 = " " + translate('teacher.paren_new')
 
-    h4.m-b-2(data-i18n="teacher.progress_color_key")
-    #progress-color-key-row.row
+    h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
+    #progress-color-key-row.row.m-b-3
       .col.col-md-2.col-xs-4
         .progress-dot.forest
         .key-text
@@ -354,10 +361,11 @@ mixin courseOverview(course)
       span= ': '
       span(data-i18n='teacher.course_overview')
     .course-overview-progress
-      each level, index in levels
-        - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
-        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-        +allStudentsLevelProgressDot(progress, level, levelNumber)
+      if state.get('progressData')
+        each level, index in levels
+          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level })
+          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+          +allStudentsLevelProgressDot(progress, level, levelNumber)
 
 mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
@@ -367,10 +375,11 @@ mixin studentLevelsRow(student)
     div.student-levels-progress
       - var course = state.get('selectedCourse')
       - var levels = view.classroom.getLevels({courseID: course.id}).models
-      each level, index in levels
-        - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-        - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-        +studentLevelProgressDot(progress, level, levelNumber)
+      if state.get('progressData')
+        each level, index in levels
+          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+          +studentLevelProgressDot(progress, level, levelNumber)
 
 
 mixin studentCourseProgressDot(progress, levelsTotal, label)
@@ -488,6 +497,44 @@ mixin bulkAssignControls
       span(data-i18n='teacher.assign_course')
     button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
       span(data-i18n='teacher.remove_course')
+
+mixin assessmentsTab
+  #assessments-tab
+    h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
+    #progress-color-key-row.row.m-b-3
+      .col.col-md-2.col-xs-4
+        .progress-dot.forest
+        .key-text
+          span.small(data-i18n='teacher.success')
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot.gold
+        .key-text
+          span.small(data-i18n='teacher.in_progress')
+        .clearfix
+      .col.col-md-2.col-xs-4
+        .progress-dot
+        .key-text
+          span.small(data-i18n='teacher.not_started')
+        .clearfix
+    table.table.table-condensed.assessments-table
+      if view.classroom && state.get('progressData')
+        thead
+          th
+          each pair in view.courseAssessmentPairs
+            each level in pair[1]
+              - var concept = level.get('primaryConcepts') && level.get('primaryConcepts')[0]
+              th(data-i18n="concepts." + concept)
+        tbody
+          each student in state.get('students').models
+            tr
+              td.student-name
+                = student.broadName()
+              each pair in view.courseAssessmentPairs
+                each level in pair[1]
+                  td
+                    - var progress = state.get('progressData').get({ classroom: view.classroom, course: pair[0], level: level, user: student })
+                    +studentLevelProgressDot(progress, level, null)
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

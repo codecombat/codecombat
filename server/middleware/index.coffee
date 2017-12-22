@@ -4,6 +4,7 @@ module.exports =
   analyticsLogEvents: require './analytics-log-events'
   analyticsPerDay: require './analytics-perday'
   analyticsStripeInvoices: require './analytics-stripe-invoices'
+  apcsp: require './apcsp'
   api: require './api'
   auth: require './auth'
   branches: require './branches'

@@ -1,6 +1,7 @@
 ##### Activity
 
-# Agrippa Refactored
+# Introduction to Refactoring
+Inquiry Activity
 
 ### Learning Objectives
 - [LO 2.2.1] Develop an abstraction when writing a program or creating other computational artifacts. [P2]
@@ -70,9 +71,47 @@ def cleaveOrAttack(enemy):
             hero.attack(enemy)
 ```
 
+To wrap up, guide the discussion toward how these functions could be used in other contexts. How generally usable is `enemyInRange` or `cleaveOrAttack`, for example? Can these be used in other contexts of other levels? Guide students toward the realization that abstraction often occurs when you ask the questions “what logic in this code could I use elsewhere?” and then figuring out how to structure the code so that it can be used in various circumstances.
 
 
 ### Discussion Questions:
 - How does using abstraction to break a problem into smaller, separate, problems help make programs better?
 - How does using abstractions make programs easier to understand?
 - What other abstractions are used in computer programming?
+
+### Assessment Questions:
+For each of the following pieces of pseudocode:
+- Circle a piece that can be abstracted out
+- Give it a descriptive function name and any necessary parameters
+- Describe how it could be used in another function elsewhere.
+
+```
+def userSignsUp(email, password):
+  emailIsLongEnough = email length is greater than 5
+  emailHasAtSymbol = email contains “@”
+  if emailIsLongEnough and emailHasAtSymbol
+    userExists = lookup user by email
+    if userExists
+      Tell user they have already signed up
+    else
+      Sign user up
+  else
+    Tell user email is invalid
+```
+
+```
+def driveCarInCircles():
+  if sensor 1 says something is in front of us
+    stop
+  else if sensor 2 says something is in front of us
+    stop
+  else if sensor 3 says something is in front of us
+    stop
+  else if at intersection
+    Turn right
+  else 
+    if closest object is over 100 feet away
+      Drive forward fast
+    else
+      Drive forward slow
+```

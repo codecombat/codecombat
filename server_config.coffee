@@ -150,6 +150,8 @@ config.sunburst =
 
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
+  
+config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
 
 config.israel =
   jwtSecret: process.env.COCO_ISRAEL_JWT_SECRET or '...'

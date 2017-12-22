@@ -73,7 +73,11 @@ module.exports = class TeacherCourseSolutionView extends RootView
     levels = []
     for level in @levels?.models when level.get('original')
       continue if @language? and level.get('primerLanguage') is @language
-      levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+      levels.push({
+        key: level.get('original'),
+        practice: level.get('practice') ? false,
+        assessment: level.get('assessment') ? false
+      })
     @levelNumberMap = utils.createLevelNumberMap(levels)
     @render?()
 

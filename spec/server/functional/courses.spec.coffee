@@ -100,7 +100,7 @@ describe 'PUT /db/course/:handle', ->
 
 describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
 
-  beforeEach utils.wrap (done) ->
+  beforeEach utils.wrap ->
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -110,6 +110,12 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
     expect(res.statusCode).toBe(200)
     @levelA = yield Level.findById(res.body._id)
     paredLevelA = _.pick(res.body, 'name', 'original', 'type')
+
+    levelJSON = { name: 'A-assessment', assessment: true, permissions: [{access: 'owner', target: admin.id}], type: 'course' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
+    expect(res.statusCode).toBe(200)
+    @assessmentA = yield Level.findById(res.body._id)
+    paredAssessmentA = _.pick(res.body, 'name', 'original', 'type', 'assessment')
 
     levelJSON = { name: 'B', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
@@ -125,6 +131,7 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
 
     campaignJSONA = { name: 'Campaign A', levels: {} }
     campaignJSONA.levels[paredLevelA.original] = paredLevelA
+    campaignJSONA.levels[paredAssessmentA.original] = paredAssessmentA
     campaignJSONA.levels[paredLevelB.original] = paredLevelB
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSONA})
     @campaignA = yield Campaign.findById(res.body._id)
@@ -140,8 +147,8 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
     @courseB = Course({name: 'Course B', campaignID: @campaignB._id, releasePhase: 'released'})
     yield @courseB.save()
 
-    teacher = yield utils.initUser({role: 'teacher'})
-    yield utils.loginUser(teacher)
+    @teacher = yield utils.initUser({role: 'teacher', verifiedTeacher: true})
+    yield utils.loginUser(@teacher)
     data = { name: 'Classroom 1' }
     classroomsURL = getURL('/db/classroom')
     [res, body] = yield request.postAsync {uri: classroomsURL, json: data }
@@ -150,24 +157,28 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
 
     url = getURL('/db/course')
 
-    done()
-
-  it 'returns the next level for the course in the linked classroom', utils.wrap (done) ->
+  it 'returns the next level for the course in the linked classroom', utils.wrap ->
     [res, body] = yield request.getAsync { uri: utils.getURL("/db/course/#{@courseA.id}/levels/#{@levelA.id}/next"), json: true }
     expect(res.statusCode).toBe(200)
-    expect(res.body.original).toBe(@levelB.original.toString())
-    done()
+    expect(res.body.level.original).toBe(@levelB.original.toString())
+    expect(res.body.assessment.original).toBe(@assessmentA.original.toString())
 
-  it 'returns empty object if the given level is the last level in its course', utils.wrap (done) ->
+  it 'does not return the assessment if the teacher is not verified', utils.wrap ->
+    yield @teacher.update({$set: {verifiedTeacher: false}})
+    [res, body] = yield request.getAsync { uri: utils.getURL("/db/course/#{@courseA.id}/levels/#{@levelA.id}/next"), json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.level.original).toBe(@levelB.original.toString())
+    expect(res.body.assessment).toEqual({})
+
+  it 'returns empty object if the given level is the last level in its course', utils.wrap ->
     [res, body] = yield request.getAsync { uri: utils.getURL("/db/course/#{@courseA.id}/levels/#{@levelB.id}/next"), json: true }
     expect(res.statusCode).toBe(200)
-    expect(res.body).toEqual({})
-    done()
+    expect(res.body.level).toEqual({})
+    expect(res.body.assessment).toEqual({})
 
-  it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap (done) ->
+  it 'returns 404 if the given level is not in the course instance\'s course', utils.wrap ->
     [res, body] = yield request.getAsync { uri: utils.getURL("/db/course/#{@courseB.id}/levels/#{@levelA.id}/next"), json: true }
     expect(res.statusCode).toBe(404)
-    done()
 
 describe 'GET /db/course/:handle/level-solutions', ->
   beforeEach utils.wrap (done) ->

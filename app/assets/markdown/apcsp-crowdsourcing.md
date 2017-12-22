@@ -1,13 +1,29 @@
 ##### Activity
-# Crowdsourcing
+# Innovations and Crowdsourcing
+Inquiry Activity
 
 ### Learning Objectives:
 - [LO 1.2.5] Analyze the correctness, usability, functionality, and suitability of computational artifacts.
+- [LO 7.1.1] Explain how computing innovations affect communication, interaction, and cognition. [P4]
 - [LO 7.1.2] Explain how people participate in a problem-solving process that scales. [P4]
+
+**What computing technologies have affected communication? In what ways?**
+
+Begin discussion by asking students what technologies in the past 30 years or so have had an impact on how society communicates and operates. As technologies are suggested, explore exactly how they have affected society, for example:
+
+* Email
+* Video conferencing
+* Social media
+* Social media
+* Cloud computing
+* GPS
+* Internet
+
+For a full list, see EKs under EU 7.1 in the Course Description.
 
 ## What kinds of collaboration does technology enable?
 
-Begin by introducing the concept of worldwide collaboration through technology. Ask for services where collaboration is a feature or even a central piece. Some examples that might be suggested to engender discussion:
+Segue to the topic of worldwide collaboration through technology. Ask for services where collaboration is a feature or even a central piece. Some examples that might be suggested to engender discussion:
 
 - Wikipedia, a collaborative encyclopedia project
 - Waze, a service which aggregates and shares traffic data between users
@@ -52,3 +68,10 @@ Have the students visit the Zooniverse website (https://www.zooniverse.org/proje
 - How do these services manage and coordinate the often huge number of collaborators involved, some of whom are not acting in good faith?
 - Which collaborative applications are improved or only possible with mobile devices?
 - What are some examples of collaborative output being false or misleading? How can users guard themselves?
+
+### Assessment Questions:
+* What are three technologies which have changed or are currently changing how we communicate and collaborate? [EK 7.1.1A, EK 7.1.1B, EK 7.1.1C, EK 7.1.1D]
+* What is the impact of having information widely available? [EK 7.1.1E]
+* Aside from underpinning car navigation, what is an example way in which GPS is used? [EK 7.1.1I]
+* What is crowdsourcing? What is an example of crowdsourcing? [EK 7.1.2F]
+* What are some applications that only became possible when mobile devices entered the market? [EK 7.1.2G]

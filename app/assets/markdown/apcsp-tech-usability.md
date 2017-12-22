@@ -1,5 +1,6 @@
 ##### Activity
-# Tech Usability Review
+# Technology Usability Review
+Inquiry Activity
 
 ## Learning Objectives:
 - [LO 1.2.5] Analyze the correctness, usability, functionality, and suitability of computational artifacts. [P4]
@@ -24,3 +25,8 @@ Once the students are all comfortable with the content in the article, they shou
 - Why are usability heuristics such as these important when designing websites and apps?
 - Do you agree with the ten usability heuristics chosen here? Would you add others? Take any away?
 - Should the heuristics change based on the device you’re using? The intent of the site or app? The cultural and social norms of its users?
+
+### Assessment Questions:
+- What is the purpose of the website you looked at? LO [1.2.5]
+- Does it have weaknesses, mistakes or errors that detract from its purpose? LO [1.2.5]
+- What is something that is easy to do using this website? What about something hard? LO [1.2.5]

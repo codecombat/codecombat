@@ -1,5 +1,5 @@
 ##### Activity
-# Searching and Sorting
+# Searching & Sorting
 
 ### Learning Objectives
 - [LO 4.2.1] Explain the difference between algorithms that run in a reasonable time and those that do not run in a reasonable time. [P1]

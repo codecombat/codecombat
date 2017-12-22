@@ -311,7 +311,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
 #    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
 #    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
 #  recover:
 #    recover_account_title: "Recover Account"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    course: "Course:"
     done: "เสร็จสิ้น"
 #    next_level: "Next Level"
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
 #    next_game: "Next game"
 #    languages: "Languages"
 #    programming_language: "Programming language"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
     restart: "เริ่มเล่นใหม่"
     goals: "เป้าหมาย"
 #    goal: "Goal"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
 #    running: "Running..."
     success: "สำเร็จ!"
     incomplete: "ไม่สมบูรณ์"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
 #    request_sent: "Request Sent!"
+#    assessments: "Assessments"
 #    license_status: "License Status"
 #    status_expired: "Expired on {{date}}"
 #    status_not_enrolled: "Not Enrolled"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "ไทย", englishDescription: "Thai", tra
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"

@@ -311,7 +311,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_list_resource_hub_5: "für Curriculumleitfäden, Aktivitäten und mehr!"
     teacher_additional_questions: "Fertig! Wenn du weitere Hilfe benötigst oder Fragen hast, wende dich an __supportEmail__."
     dont_use_our_email_silly: "Bitte gib die E-Mail deiner Eltern an, nicht unsere!"
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "Account-Wiederherstellung"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     course: "Kurse:"
     done: "Fertig"
     next_level: "Nächster Level"
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
     next_game: "Nächstes Spiel"
     languages: "Sprachen"
     programming_language: "Programmiersprache"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     restart: "Neustart"
     goals: "Ziele"
     goal: "Ziel"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
     running: "Läuft..."
     success: "Erfolgreich!"
     incomplete: "Unvollständig"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
   project_gallery:
     no_projects_published: "Sei der oder die erste, die in diesem Kurs ein Projekt veröffentlicht"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     how_to_apply_licenses_blurb_2: "Kann ich auch eine Lizenz anwenden, ohne einen Kurs zuzuordnen?"
     how_to_apply_licenses_blurb_3: "Ja, gehe zur Registerkarte „Lizenzstatus“ in deinem Klassenzimmer und klicke auf  \"Lizenz anwenden\" für jeden Schüler, der keine aktive Lizenz hat."
     request_sent: "Anfrage verschickt!"
+#    assessments: "Assessments"
     license_status: "Lizenzstatus"
     status_expired: "Abgelaufen am {{date}}"
     status_not_enrolled: "Nicht eingeschrieben"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
   share_licenses:
     share_licenses: "Gemeinsam genutzte Lizenzen"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"

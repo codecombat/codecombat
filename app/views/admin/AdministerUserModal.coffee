@@ -8,6 +8,7 @@ forms = require 'core/forms'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
+fetchJson = require('core/api/fetch-json')
 
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
@@ -21,6 +22,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click .update-classroom-btn': 'onClickUpdateClassroomButton'
     'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
     'click .user-link': 'onClickUserLink'
+    'click #verified-teacher-checkbox': 'onClickVerifiedTeacherCheckbox'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -143,3 +145,23 @@ module.exports = class AdministerUserModal extends ModalView
   onClickUserLink: (e) ->
     userID = $(e.target).data('user-id')
     @openModalView new AdministerUserModal({}, userID) if userID
+
+  userIsVerifiedTeacher: () ->
+    @user.get('verifiedTeacher')
+
+  onClickVerifiedTeacherCheckbox: (e) ->
+    checked = $(e.target).prop('checked')
+    @userSaveState = 'saving'
+    @render()
+    fetchJson("/db/user/#{@user.id}/verifiedTeacher", {
+      method: 'PUT',
+      json: checked
+    }).then (res) =>
+      @userSaveState = 'saved'
+      @user.set('verifiedTeacher', res.verifiedTeacher)
+      @render()
+      setTimeout((()=>
+        @userSaveState = null
+        @render()
+      ), 2000)
+    null

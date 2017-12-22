@@ -311,7 +311,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     teacher_list_resource_hub_5: "כדי למצוא מדריכים לתכנית לימודים, פעילויות ועוד!"
     teacher_additional_questions: "זה הכול! לשאלות ולקבלת עזרה נוספת, נא לפנות אל __supportEmail__."
     dont_use_our_email_silly: "אל תכתבו כאן את הכתובת שלנו! כתבו את כתובת הדואר האלקטרוני של ההורה."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "שחזור חשבון"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     course: "קורס:"
     done: "סיום"
     next_level: "השלב הבא"
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
     next_game: "המשחק הבא"
     languages: "שפות"
     programming_language: "שפת תכנות"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     restart: "הפעל מחדש"
     goals: "יעדים"
     goal: "יעד"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
     running: "מריץ..."
     success: "בוצע בהצלחה!"
     incomplete: "לא הושלמו"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     update_old_classroom_detail: "בכדי לוודא שאתם מקבלים את השלבים המעודכנים ביותר, וודא שאתם יוצרים כתה חדשה לסמסטר הנוכחי, על ידי לחיצה על ״צור כיתה חדשה״"
     teacher_dashboard: "על לוח המחוונים למורה"
     update_old_classroom_detail_2: "והעבר/י לתלמידים את קוד הכיתה החדש שמופיע"
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
   project_gallery:
     no_projects_published: "פרסמו פרויקט בקורס זה לפני כולם!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     how_to_apply_licenses_blurb_2: "האם עדיין אפשר להחיל רישיון בלי להקצות קורס?"
     how_to_apply_licenses_blurb_3: "כן - עברו אל כרטיסיית מצב הרישיון בכיתה שלכם, ולחצו על \"החל רישיון\" עבור כל תלמיד שאין לו רישיון פעיל."
     request_sent: "הבקשה נשלחה!"
+#    assessments: "Assessments"
     license_status: "מצב רישיון"
     status_expired: "פג בתאריך {{date}}"
     status_not_enrolled: "לא רשום"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
   share_licenses:
     share_licenses: "שיתוף רישיונות"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"

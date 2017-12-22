@@ -1,5 +1,6 @@
 ##### Activity
-# Lossy and Lossless compression
+# Lossy & Lossless compression
+Inquiry Activity
 
 Data - There are trade-offs when representing information as digital data.	
 
@@ -169,3 +170,7 @@ Ask them to analyze if streaming music is compressed using lossy or lossless com
 - Brt = be right there
 - Lol = laughing out loud
 - Smh = shaking my head
+
+### Assessment Questions:
+- What is lossless compression? What is an example of lossless compression in computing? [EK 3.3.1D]
+- What is lossy compression? What is an example of lossy compression in computing? [EK 3.3.1E]

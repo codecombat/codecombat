@@ -117,8 +117,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   play:
     play_as: "Jouer comme " # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Assigner le Développement de jeu et plus à vos classes."
+    request_licenses: "Contacter nos spécialistes de l'école pour plus de détails."
     compete: "Participer !" # Course details page
     spectate: "Spectateur" # Ladder page
     players: "Joueurs" # Hover over a level on /play
@@ -157,8 +157,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     brain_pop_challenge: "Relevez le défi en jouant à nouveau avec d'autres langages de programmation"
     replay: "Rejouer"
     back_to_classroom: "Retour à la Classe"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    teacher_button: "Pour les enseignants"
+    get_more_codecombat: "Avoir plus de CodeCombat"
 
   code:
     if: "Si" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -233,12 +233,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     signup_switch: "Voulez-vous créer un compte ?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Abonnement complet"
     create_student_header: "Créer un compte étudiant"
     create_teacher_header: "Créer un compte enseignant"
     create_individual_header: "Créer un compte individuel"
     email_announcements: "Recevoir les annonces par e-mail" # {change}
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "Connectez-vous ou créez un compte pour continuer"
     teacher_email_announcements: "Tenez moi informé des nouvelles ressources, curriculum et cours pour les enseignants!"
     creating: "Création du compte en cours..."
     sign_up: "S'abonner"
@@ -303,15 +303,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     teacher_ready_to_create_class: "Vous êtes prêt à créer votre premiere classe!"
     teacher_students_can_start_now: "Vos étudiants vont pouvoir commencer à jouer leur premier cours, Initiation à l'Informatique, immédiatement."
     teacher_list_create_class: "Au prochain écran, vous pourrez créer une nouvelle classe."
-#    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
-#    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
-#    teacher_list_resource_hub_3: "for solutions to every level, and the"
-#    teacher_list_resource_hub_4: "Resource Hub"
-#    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
-#    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
-#    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+    teacher_list_add_students: "Ajouter des élèves à la classe en cliquant sur le lien Afficher la classe, puis envoyer à vos élèves le code ou le lien URL du cours. Vous pouvez également les inviter par e-mail s'ils ont des adresses e-mail."
+    teacher_list_resource_hub_1: "Aller voir le"
+    teacher_list_resource_hub_2: "Guides de cours"
+    teacher_list_resource_hub_3: "Pour des solutions pour tous les niveaux et au"
+    teacher_list_resource_hub_4: "Centre de ressources"
+    teacher_list_resource_hub_5: "pour les guides de programme, les activités, et plus encore!"
+    teacher_additional_questions: "C'est tout! Si vous avez besoin d'aide supplémentaire ou si vous avez des questions, contactez __supportEmail__."
+    dont_use_our_email_silly: "Ne mettez pas votre email ici! Mettez celui de votre parent."
+    want_codecombat_in_school: "Avez-vous envie de jouer à CodeCombat tout le temps ?" # {change}
 
   recover:
     recover_account_title: "Récupérer son compte"
@@ -328,16 +328,16 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   common:
     back: "Retour" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
+    go_back: "Retournez en arrière"
     coming_soon: "Arrive prochainement !"
     continue: "Continuer" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Prochain"
     default_code: "Code par défaut"
     loading: "Chargement..."
     overview: "Vue d'ensemble"
-#    processing: "Processing..."
+    processing: "En traitement..."
     solution: "Solution"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Table des matières"
     intro: "Intro"
     saving: "Sauvegarde..."
     sending: "Envoi..."
@@ -359,7 +359,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     submit_changes: "Soumettre des Changements"
     save_changes: "Sauvegarder les modifications"
     required_field: "Champ requis" # {change}
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Saisissez un numéro de téléphone valide"
 
   general:
     and: "et"
@@ -413,14 +413,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     wizard: "Magicien"
     first_name: "Prénom"
     last_name: "Nom de famille"
-#    last_initial: "Last Initial"
+    last_initial: "Dernière Initiale"
     username: "Nom d'utilisateur"
     contact_us: "Contactez-nous"
-#    close_window: "Close Window"
+    close_window: "Fermer la fenêtre"
     learn_more: "En savoir plus"
-#    more: "More"
-#    fewer: "Fewer"
-#    with: "with"
+    more: "Plus"
+    fewer: "Moins"
+    with: "avec"
 
   units:
     second: "seconde"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     course: "Cours:"
     done: "Terminé"
     next_level: "Niveau Suivant"
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
     next_game: "Prochaine jeu"
     languages: "Langues"
     programming_language: "Langage de programmation"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     restart: "Relancer"
     goals: "Objectifs"
     goal: "Objectif"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
     running: "en cours..."
     success: "Succès"
     incomplete: "Incomplet"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    update_old_classroom_detail: "To make sure you're getting the most up-to-date levels, make sure you create a new class for this semester by clicking Create a New Class on your"
 #    teacher_dashboard: "teacher dashboard"
 #    update_old_classroom_detail_2: "and giving students the new Class Code that appears."
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    how_to_apply_licenses_blurb_2: "Can I still apply a license without assigning a course?"
 #    how_to_apply_licenses_blurb_3: "Yes — go to the License Status tab in your classroom and click \"Apply License\" to any student who does not have an active license."
 #    request_sent: "Request Sent!"
+#    assessments: "Assessments"
 #    license_status: "License Status"
 #    status_expired: "Expired on {{date}}"
 #    status_not_enrolled: "Not Enrolled"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"
@@ -2386,19 +2403,19 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-    email_taken: "Email déjà pris"
-    username_taken: "Nom déjà pris"
+#    email_taken: "Email already taken"
+#    username_taken: "Username already taken"
 
 #  esper:
-    line_no: "Ligne $1: "
+#    line_no: "Line $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
-    reference_error: "Erreur de référence: "
-    argument_error: "Erreur d'argument: "
-    type_error: "Erreur de type: "
-    syntax_error: "Erreur de syntaxe: "
-    error: "Erreur: "
-    x_not_a_function: "$1 n'est pas une fonction"
-    x_not_defined: "$1 n'est pas défini"
+#    reference_error: "ReferenceError: "
+#    argument_error: "ArgumentError: "
+#    type_error: "TypeError: "
+#    syntax_error: "SyntaxError: "
+#    error: "Error: "
+#    x_not_a_function: "$1 is not a function"
+#    x_not_defined: "$1 is not defined"
 #    spelling_issues: "Look out for spelling issues: did you mean `$1` instead of `$2`?"
 #    capitalization_issues: "Look out for capitalization: `$1` should be `$2`."
 #    py_empty_block: "Empty $1. Put 4 spaces in front of statements inside the $2 statement."
@@ -2409,17 +2426,17 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    missing_quotes: "Missing quotes. Try `$1`"
 #    argument_type: "`$1`'s argument `$2` should have type `$3`, but got `$4`: `$5`."
 #    argument_type2: "`$1`'s argument `$2` should have type `$3`, but got `$4`."
-    target_a_unit: "Ciblez une unité."
+#    target_a_unit: "Target a unit."
 #    attack_capitalization: "Attack $1, not $2. (Capital letters are important.)"
 #    empty_while: "Empty while statement. Put 4 spaces in front of statements inside the while statement."
 #    line_of_site: "`$1`'s argument `$2` has a problem. Is there an enemy within your line-of-sight yet?"
-    need_a_after_while: "Besoin de `$1` après `$2`."
+#    need_a_after_while: "Need a `$1` after `$2`."
 #    too_much_indentation: "Too much indentation at the beginning of this line."
 #    missing_hero: "Missing `$1` keyword; should be `$2`."
-    takes_no_arguments: "`$1` ne prend pas d'argument."
+#    takes_no_arguments: "`$1` takes no arguments."
 #    no_one_named: "There's no one named \"$1\" to target."
 #    separated_by_comma: "Function calls paramaters must be seperated by `,`s"
-    protected_property: "Ne peut pas lire la propriété protégée: $1"
+#    protected_property: "Can't read protected property: $1"
 #    need_parens_to_call: "If you want to call `$1` as function, you need `()`'s"
 #    expected_an_identifier: "Expected an identifier and instead saw '$1'."
 #    unexpected_identifier: "Unexpected identifier"
@@ -2452,18 +2469,18 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    indentation_unindent_does_not: "Indentation unindent does not match any outer indentation level"
 #    unclosed_paren_in_function_arguments: "Unclosed $1 in function arguments."
 #    unexpected_end_of_input: "Unexpected end of input"
-    there_is_no_enemy: "Il n'y a pas de `$1`. Utilsez `$2` en premier." # Les indices commencent ici
-    try_herofindnearestenemy: "Essayez `$1`"
-    there_is_no_function: "Il n'y a pas de fonction `$1`, mais `$2` a une méthode `$3`."
-    attacks_argument_enemy_has: "Argument de `$1` `$2` a un problème."
-    is_there_an_enemy: "Y-a t-il un ennemi dans votre ligne de vue maintenant?"
-    target_is_null_is: "La cible est $1. Y-a t-il toujours une cible à attaquer? (Utilisez $2?)"
-    hero_has_no_method: "`$1` n'a pas de méthode `$2`."
-    there_is_a_problem: "Il y a un problème avec votre code."
+#    there_is_no_enemy: "There is no `$1`. Use `$2` first." # Hints start here
+#    try_herofindnearestenemy: "Try `$1`"
+#    there_is_no_function: "There is no function `$1`, but `$2` has a method `$3`."
+#    attacks_argument_enemy_has: "`$1`'s argument `$2` has a problem."
+#    is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
+#    target_is_null_is: "Target is $1. Is there always a target to attack? (Use $2?)"
+#    hero_has_no_method: "`$1` has no method `$2`."
+#    there_is_a_problem: "There is a problem with your code."
 #    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
 #    missing_a_quotation_mark: "Missing a quotation mark. "
-    missing_var_use_var: "`$1` manquant. Utilisez `$2` pour créer une nouvelle variable."
-    you_do_not_have: "Vous n'avez pas d'objet équipé avec le talent $1."
-    put_each_command_on: "Mettez chaque commande sur une ligne séparée"
-    are_you_missing_a: "Avez-vous oublié un '$1' après '$2'? "
-    your_parentheses_must_match: "Vos parenthèses doivent correspondre."
+#    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
+#    you_do_not_have: "You do not have an item equipped with the $1 skill."
+#    put_each_command_on: "Put each command on a separate line"
+#    are_you_missing_a: "Are you missing a '$1' after '$2'? "
+#    your_parentheses_must_match: "Your parentheses must match."

@@ -311,7 +311,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
     teacher_additional_questions: "就是这样！如果您还需要额外的帮助或者遇到了什么问题，请联系__supportEmail__。"
     dont_use_our_email_silly: "请不要在这里填写我们的邮箱地址！要填写你家长的邮箱地址。"
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
 
   recover:
     recover_account_title: "找回账户"
@@ -451,6 +451,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     course: "课程:"
     done: "完成"
     next_level: "下一个关卡"
+#    challenge_unlocked: "Challenge Unlocked"
+#    start_challenge: "Start Challenge"
     next_game: "下一场游戏"
     languages: "语言"
     programming_language: "编程语言"
@@ -462,6 +464,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     restart: "重新开始"
     goals: "目标"
     goal: "目标"
+#    challenge_level_goals: "Challenge Level Goals"
+#    challenge_level_goal: "Challenge Level Goal"
     running: "运行中..."
     success: "成功！"
     incomplete: "未完成"
@@ -971,7 +975,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     story_subtitle: "从2013年至今，CodeCombat已经从一组小草图成长为一个生动的、蓬勃发展的游戏。"
     story_statistic_1a: "5,000,000+"
     story_statistic_1b: "总玩家"
-    story_statistic_1c: "已经通过CodeCombat开始了他么的编程之旅"
+    story_statistic_1c: "已经通过CodeCombat开始了他们的编程之旅"
     story_statistic_2a: "我们将这个游戏翻译为超过 50 种语言 —— 得益于来自"
     story_statistic_2b: "200+ 个国家"
     story_statistic_3a: "的玩家，他们总共写下了"
@@ -1437,6 +1441,15 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     update_old_classroom_detail: "为确保您获得最新关卡，请您尽量在本学期创建新的班级，方法是单击"
     teacher_dashboard: "老师面板"
     update_old_classroom_detail_2: "创建新班级，并为学生提供出现的新班级代码。"
+#    view_assessments: "View Assessments"
+#    challenge: "Challenge:"
+#    challenge_level: "Challenge Level:"
+#    status: "Status:"
+#    assessments: "Assessments"
+#    play_again: "Play Again"
+#    keep_trying: "Keep Trying"
+#    start_challenge: "Start Challenge"
+#    locked: "Locked"
 
   project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1558,6 +1571,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     how_to_apply_licenses_blurb_2: "我可以只申请许可而不分配课程吗?"
     how_to_apply_licenses_blurb_3: "是的 — 转到课堂中的\"许可状态\"选项卡，然后单击 \"应用许可\"到没有被分配许可的学生。"
     request_sent: "申请已发送！"
+#    assessments: "Assessments"
     license_status: "许可状态"
     status_expired: "在 {{date}} 过期"
     status_not_enrolled: "未分配名额"
@@ -1725,6 +1739,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
 #    office_hours_link: "Hour of Code Webinar"
 #    office_hours_detail_2: "sessions."
+#    success: "Success"
+#    in_progress: "In Progress"
+#    not_started: "Not Started"
 
   share_licenses:
     share_licenses: "分享许可证"
@@ -2264,11 +2281,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?" # {change}
+#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
 #    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
-#    enter_teacher_email: "Your teacher's email:" # {change}
+#    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
 #    student_name_placeholder: "type your name here"
 #    teachers_section: "Teachers:"
