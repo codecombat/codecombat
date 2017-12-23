@@ -28,7 +28,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     return true if document?.get('ownerID')?.equals(req.user?.get('_id'))
-    # TODO: need to rework so that we can check the parent classroom's permissions list
+    return true if req.method is 'GET' and req.user?.isTeacher() and req.features.israel  # TODO fix hack: we need to check classroom permissions here to see if teacher has permissions there
     return true if req.method is 'GET' and _.find document?.get('members'), (a) -> a.equals(req.user?.get('_id'))
     req.user?.isAdmin()
 
@@ -74,7 +74,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     Classroom.findById req.body.classroomID, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res, 'Classroom not found') unless classroom
-      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id'))
+      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id')) or classroom.getAccessForUserObjectId(req.user.get('_id')) is 'write'
       Course.findById req.body.courseID, (err, course) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Course not found') unless course
