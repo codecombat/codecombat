@@ -1335,7 +1335,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     play_now_learn_2: "לולאות 'כל עוד' כדי לפתור פאזלים מעצבנים"
     play_now_learn_3: "מחרוזות ומשתנים להתאמה של הפעולות"
     play_now_learn_4: "כיצד להביס ענק (אלה כישורי חיים חשובים!)"
-    welcome_to_page: "לוח המחונים שלי (לתלמיד)"
+    welcome_to_page: "לוח התוצאות שלי"
     my_classes: "כיתות נוכחיות"
     class_added: "הכיתה נוספה בהצלחה!"
     view_levels: "הצג את כל השלבים בקורס"
