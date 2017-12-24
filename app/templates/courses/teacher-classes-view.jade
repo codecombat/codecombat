@@ -57,8 +57,9 @@ block content
             else if view.howManyOfficeHours == 'some' && limited
               a.see-all-office-hours.btn.btn-primary.btn-small.pull-right(data-i18n="general.more") More
 
-    .container
-      +teacher-quests
+    if !features.israel
+      .container
+        +teacher-quests
 
     //- TODO: above or below teacher quests?
     .container
