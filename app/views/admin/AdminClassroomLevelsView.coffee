@@ -1,17 +1,8 @@
-require('app/styles/admin/admin-classroom-levels.sass')
-RootView = require 'views/core/RootView'
-CocoCollection = require 'collections/CocoCollection'
-Campaign = require 'models/Campaign'
-Course = require 'models/Course'
+RootComponent = require 'views/core/RootComponent'
+template = require 'templates/base-flat'
+AdminClassroomLevelsComponent = require('./AdminClassroomLevelsComponent.vue').default
 
-module.exports = class AdminClassroomLevelsView extends RootView
+module.exports = class AdminClassroomLevelsView extends RootComponent
   id: 'admin-classroom-levels-view'
-  template: require 'templates/admin/admin-classroom-levels'
-
-  initialize: ->
-    return super() unless me.isAdmin()
-    @campaigns = new CocoCollection([], { url: "/db/campaign", model: Campaign})
-    @supermodel.loadCollection(@campaigns, 'campaigns')
-    @courses = new CocoCollection([], { url: "/db/course", model: Course})
-    @supermodel.loadCollection(@courses, 'courses')
-    super()
+  template: template
+  VueComponent: AdminClassroomLevelsComponent

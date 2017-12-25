@@ -72,6 +72,7 @@ Object.defineProperties module.exports,
     enumerable: false
     value: (langCode) ->
       console.log "Loading locale:", langCode
+      return Promise.resolve() if langCode in ['en', 'en-US']
       promises = [
         new Promise (accept, reject) ->
           require('bundle-loader?lazy&name=[name]!locale/'+langCode)((localeData) -> accept(localeData))
