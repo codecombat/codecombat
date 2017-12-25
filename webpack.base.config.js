@@ -113,6 +113,19 @@ module.exports = (env) => {
       new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin(/^memwatch$/), // Just used by the headless client on the server side
       new webpack.IgnorePlugin(/.DS_Store$/),
+      
+      // Enable IgnorePlugins for development to speed webpack
+      //new webpack.IgnorePlugin(/\!locale/),
+      //new webpack.IgnorePlugin(/\/admin\//),
+      //new webpack.IgnorePlugin(/\/artisan\//),
+      //new webpack.IgnorePlugin(/\/clans\//),
+      //new webpack.IgnorePlugin(/\/contribute\//),
+      //new webpack.IgnorePlugin(/\/courses\//),
+      //new webpack.IgnorePlugin(/\/editor\//),
+      //new webpack.IgnorePlugin(/\/ladder\//),
+      //new webpack.IgnorePlugin(/\/teachers\//),
+      //new webpack.IgnorePlugin(/\/play\//),
+      
       new CopyWebpackPlugin([
         // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
         { // Static assets
