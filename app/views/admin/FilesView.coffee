@@ -1,6 +1,6 @@
 RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
-require('vendor/co')
+co = require('co')
 api = require 'core/api'
 require('core/services/filepicker')()
 

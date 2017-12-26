@@ -204,7 +204,7 @@
   "license": "MIT for the code, and CC-BY for the art and music",
   "private": true,
   "engines": {
-    "node": "^6.10.3",
+    "node": "^6.12.2",
     "npm": "^3.10.10"
   }
 }

@@ -2,7 +2,7 @@ require('app/styles/admin/admin-classroom-levels.sass')
 RootView = require 'views/core/RootView'
 RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
-require('vendor/co')
+co = require('co')
 api = require 'core/api'
 Campaign = require 'models/Campaign'
 
