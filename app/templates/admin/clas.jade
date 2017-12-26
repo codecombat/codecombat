@@ -1,18 +1,16 @@
-extends /templates/base
-
-block content
-
+div#cla-view.container
   h1 CLAs
 
   table.table.table-striped.table-bordered.table-condensed#clas
     tbody
-      - var models = view.clas.models
-      - var models = _.uniq(models, true, function(model) { return model.get('githubUsername'); });
-      each cla in models
-        tr
-          td #{cla.get('name')}
-          if me.isAdmin()
-            td #{cla.get('email')}
-          td #{cla.get('githubUsername')}
-          td #{cla.get('created')}
+      tr
+        th Name
+        th Email
+        th GitHub Username
+        th Created
+      tr(v-for="cla in clas")
+        td {{cla.name}}
+        td {{cla.email}}
+        td {{cla.githubUsername}}
+        td {{dateFormat(cla.created)}}
  

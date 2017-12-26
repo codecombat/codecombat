@@ -1,7 +1,0 @@
-table#file-table.table
-  tr
-    th Filename
-  for file in files
-    tr
-      td
-        a(href="/file/#{file.metadata.path}/#{file.filename}", target="_blank") #{file.filename}

@@ -1,68 +1,48 @@
-extends /templates/base
-
-//- DO NOT TRANSLATE
-
-block content
-
+div.admin-classroom-levels.container
   h3 Classroom Levels
-  if !me.isAdmin()
-    div You must be logged in as an admin to view this page.
-  else
-    p
-      - var levelsTotal = 0;
-      table.table.table-striped.table-condensed
+  div(v-if="loading") Loading...
+  div(v-else-if="!$store.getters['me/isAdmin']")
+    | You must be logged in as an admin to view this page.
+  div(v-else)
+    table.table.table-striped.table-condensed
+      tbody
         tr
           th Levels
           th Course
-        each course in view.courses.models
-          if course.get('releasePhase') !== 'released'
-            - continue;
-          - var campaign = view.campaigns.get(course.get('campaignID'));
-          if !campaign
-            - continue;
-          - var levels = campaign.getLevels().models;
-          - levelsTotal += levels.length;
-          tr
-            td= levels.length
-            td= course.get('name')
+        tr(v-for="course in filteredCourses")
+          td {{courseLevels(course._id).length}}
+          td {{course.name}}
         tr
-          td= levelsTotal
+          td {{totalLevels}}
           td All
-    - var conceptsSeen = {};
-    each course in view.courses.models
-      if course.get('releasePhase') !== 'released'
-        - continue;
-      - var campaign = view.campaigns.get(course.get('campaignID'));
-      if !campaign
-        - continue;
-      - var levels = campaign.getLevels().models;
-      - levelCounts = levels.length;
-      strong #{course.get('name')}
-      .small= course.get('description')
-      .small Levels last updated #{campaign.get('levelsUpdated')}
+
+    div(v-for="course in filteredCourses")
+      strong {{course.name}}
+      .small {{course.description}}
+      .small Levels last updated {{courseCampaign(course._id).levelsUpdated}}
       table.table.table-striped.table-condensed
-        tr
-          th= levels.length
-          th Slug
-          th Type
-          th Practice
-          th Practice Threshold (m)
-          th Shareable
-          th Primer
-          th New Concepts
-        each level, levelIndex in levels
-          - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
+        tbody
           tr
+            th {{courseLevels(course._id).length}}
+            th Slug
+            th Type
+            th Practice
+            th Practice Threshold (m)
+            th Shareable
+            th Primer
+            th New Concepts
+            
+          tr(v-for="level in courseLevels(course._id)")
             td
-              a(href='/play/level/' + level.get('slug'))= levelNumber
-            td= level.get('slug')
-            td= level.get('type')
-            td= level.get('practice')
-            td= level.get('practiceThresholdMinutes')
-            td= level.get('shareable')
-            td= level.get('primerLanguage')
+              a(:href="'/play/level/'+level.slug")
+               | {{levelNumberMapForCourse(course._id)[level.original]}}
+            td {{level.slug}}
+            td {{level.type}}
+            td {{level.practice}}
+            td {{level.practiceThresholdMinutes}}
+            td {{level.shareable}}
+            td {{level.primerLanguage}}
             td
-              for concept in level.get('concepts') || []
-                if !conceptsSeen[concept]
-                  - conceptsSeen[concept] = true;
-                  span= concept + ' '
+              span(v-for="concept in levelConceptsBySlug[level.slug]")
+                | {{concept}}
+                =" "
