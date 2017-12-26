@@ -49,6 +49,7 @@ module.exports = (env) => {
         ], (regex) => { return regex.test(name) })
       },
       rules: [
+        { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
         { test: /\.coffee$/, use: [
           { loader: 'coffee-loader' },
@@ -91,7 +92,7 @@ module.exports = (env) => {
         path.resolve('./'), // Or you can use the full path /app/whatever
         'node_modules'  // Or maybe require('foo') for the Node module "foo".
       ],
-      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass'],
+      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass', '.vue'],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'node_modules/lodash'
       }
