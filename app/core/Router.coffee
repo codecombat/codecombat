@@ -345,7 +345,7 @@ module.exports = class CocoRouter extends Backbone.Router
   onNavigate: (e, recursive=false) ->
     @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
-      dynamicRequire(e.viewClass).then (viewClass) =>
+      dynamicRequire[e.viewClass]().then (viewClass) =>
         @onNavigate(_.assign({}, e, {viewClass}), true)
       return
 
