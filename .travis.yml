@@ -21,7 +21,8 @@ cache:
     - bower_components
 before_install:
   - export COCO_TRAVIS_TEST=1
-  - npm install -g npm@3.x
+  - export CXX="g++-4.8"
+  - npm install -g npm@3.10.10
 before_script:
   - npm install node-sass
   - npm update
