@@ -25,6 +25,7 @@ before_install:
   - export CXX="g++-4.8"
   - npm install -g npm@3.10.10
 before_script:
+  - npm install --ignore-scripts
   - npm install node-sass
   - npm update
   - export DISPLAY=:99.0
