@@ -115,7 +115,6 @@
     "mysql": "^2.11.1",
     "nanoscroller": "~0.8.0",
     "node-force-domain": "~0.1.0",
-    "node-gyp": "~0.13.0",
     "node-statsd": "^0.1.1",
     "npm-modernizr": "~2.8.3",
     "passport": "0.1.x",
