@@ -20,7 +20,7 @@ div#admin-clas-view.container
 co = require('co')
 api = require 'core/api'
 
-CLAsComponent = {
+module.exports = Vue.extend({
   data: ->
     clas: []
 
@@ -32,9 +32,7 @@ CLAsComponent = {
     clas = _.sortBy(clas, (cla) -> (cla.githubUsername || 'zzzzzz').toLowerCase())
     clas = _.uniq(clas, true, 'githubUsername')
     @clas = clas
-}
-
-`export default CLAsComponent`
+})
 
 </script>
 

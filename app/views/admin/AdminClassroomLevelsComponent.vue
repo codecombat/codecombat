@@ -54,7 +54,7 @@ co = require('co')
 api = require 'core/api'
 Campaign = require 'models/Campaign'
 
-AdminClassroomLevelsComponent = {
+module.exports = Vue.extend({
   template: require('templates/admin/admin-classroom-levels')()
 
   data: ->
@@ -115,9 +115,7 @@ AdminClassroomLevelsComponent = {
       sum = _.reduce(@filteredCourses, (sum, course) =>
         return @courseLevels(course._id).length + sum
       , 0)
-}
-
-`export default AdminClassroomLevelsComponent`
+})
 
 </script>
 
