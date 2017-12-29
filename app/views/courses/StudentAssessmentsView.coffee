@@ -1,6 +1,6 @@
 require('app/styles/courses/student-assessments-view.sass')
 RootComponent = require 'views/core/RootComponent'
-FlatLayout = require 'core/components/FlatLayout'
+FlatLayout = require('core/components/FlatLayout.vue').default
 api = require 'core/api'
 User = require 'models/User'
 Level = require 'models/Level'
