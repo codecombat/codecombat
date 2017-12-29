@@ -1,3 +1,22 @@
+<script lang="coffee">
+
+module.exports = {
+  name: 'page-errors'
+  computed: _.assign(
+    Vuex.mapState({
+      error: (state) -> _.first(state.pageErrors)
+    }),
+    Vuex.mapGetters('me', [
+      'isAnonymous'
+      'forumLink'
+    ])
+  )
+}
+
+</script>
+
+<template lang="jade">
+
 #loading-error.text-center
   div(v-if="error.stack")
     h1 {{ $t("loading_error.unknown") }}
@@ -93,3 +112,4 @@
         li
           a(href="https://twitter.com/codecombat") {{ $t("nav.twitter") }}
 
+</template>

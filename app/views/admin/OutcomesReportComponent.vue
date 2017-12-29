@@ -1,6 +1,6 @@
 <template lang="jade">
 
-.container
+#outcomes-report-view.container
   form
     label
       | Teacher email:
@@ -98,7 +98,7 @@ co = require('co')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 
-OutcomesReportComponent = {
+module.exports = Vue.extend {
   data: ->
     accountManager: me.toJSON()
     teacherEmail: utils.getQueryVariable('email')
@@ -392,8 +392,6 @@ OutcomesReportComponent = {
         error: (data) => noty text: 'Failed to fetch lines of code', type: 'error'
 
 }
-
-`export default OutcomesReportComponent`
 
 </script>
 
