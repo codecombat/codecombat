@@ -1,5 +1,5 @@
 <template lang="jade">
-div.admin-classroom-levels.container
+#admin-classroom-levels-view.admin-classroom-levels.container
   h3 Classroom Levels
   div(v-if="loading") Loading...
   div(v-else-if="!$store.getters['me/isAdmin']")

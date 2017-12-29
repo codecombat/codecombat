@@ -40,8 +40,6 @@ module.exports = Vue.extend({
 @import "app/styles/bootstrap/variables"
 
 #admin-clas-view
-  background-color: white
-
   padding: 50px 0 200px
 
   table

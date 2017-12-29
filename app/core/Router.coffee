@@ -1,4 +1,3 @@
-dynamicRequire = require('lib/dynamicRequire')
 locale = require 'locale/locale'
 
 go = (path, options) -> -> @routeDirectly path, arguments, options
@@ -41,12 +40,12 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/prepaid': go('account/PrepaidView')
 
     'admin': go('admin/MainAdminView')
-    'admin/clas': go('admin/CLAsView')
+    'admin/clas': go('admin/CLAsComponent')
     'admin/classroom-content': go('admin/AdminClassroomContentView')
-    'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
+    'admin/classroom-levels': go('admin/AdminClassroomLevelsComponent')
     'admin/classrooms-progress': go('admin/AdminClassroomsProgressView')
     'admin/design-elements': go('admin/DesignElementsView')
-    'admin/files': go('admin/FilesView')
+    'admin/files': go('admin/FilesComponent')
     'admin/analytics': go('admin/AnalyticsView')
     'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView')
     'admin/level-hints': go('admin/AdminLevelHintsView')
@@ -61,8 +60,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/codelogs': go('admin/CodeLogsView')
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
-    'admin/outcomes-report': go('admin/OutcomesReportView')
-    
+    'admin/outcomes-report': go('admin/OutcomesReportComponent')
+
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'artisans': go('artisans/ArtisansView')
@@ -257,10 +256,12 @@ module.exports = class CocoRouter extends Backbone.Router
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     Promise.all([
-      dynamicRequire[path](), # Load the view file
+      viewMap[path](), # Load the view file
       # The locale load is already initialized by `application`, just need the promise
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
+      if _.isFunction(ViewClass.default)
+        ViewClass = @wrapVueComponent(ViewClass.default)
       return go('NotFoundView') if not ViewClass
       view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
@@ -275,6 +276,14 @@ module.exports = class CocoRouter extends Backbone.Router
       @viewLoad.record()
     .catch (err) ->
       console.log err
+
+  wrapVueComponent: (VueComponent) ->
+    RootComponent = require 'views/core/RootComponent'
+    baseFlatTemplate = require 'templates/base-flat'
+    class ComponentWrapper extends RootComponent
+      template: baseFlatTemplate
+      VueComponent: VueComponent
+    return ComponentWrapper
 
   redirectHome: ->
     delete window.alreadyLoadedView
@@ -345,7 +354,7 @@ module.exports = class CocoRouter extends Backbone.Router
   onNavigate: (e, recursive=false) ->
     @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
-      dynamicRequire[e.viewClass]().then (viewClass) =>
+      viewMap[e.viewClass]().then (viewClass) =>
         @onNavigate(_.assign({}, e, {viewClass}), true)
       return
 
@@ -376,3 +385,149 @@ module.exports = class CocoRouter extends Backbone.Router
   logout: ->
     me.logout()
     @navigate('/', { trigger: true })
+
+
+# Chunks
+# TODO: automatically chunk by folder?
+viewMap = {
+  'views/AboutView': -> `import(/* webpackChunkName: "AboutView" */ 'views/AboutView')`,
+
+  'views/HomeView': -> `import(/* webpackChunkName: "HomeView" */ 'views/HomeView')`,
+
+  'views/account/MainAccountView': -> `import(/* webpackChunkName: "account" */ 'views/account/MainAccountView')`,
+  'views/account/AccountSettingsRootView': -> `import(/* webpackChunkName: "account" */ 'views/account/AccountSettingsRootView')`,
+  'views/account/UnsubscribeView': -> `import(/* webpackChunkName: "account" */ 'views/account/UnsubscribeView')`,
+  'views/account/PaymentsView': -> `import(/* webpackChunkName: "account" */ 'views/account/PaymentsView')`,
+  'views/account/SubscriptionView': -> `import(/* webpackChunkName: "account" */ 'views/account/SubscriptionView')`,
+  'views/account/InvoicesView': -> `import(/* webpackChunkName: "account" */ 'views/account/InvoicesView')`,
+  'views/account/PrepaidView': -> `import(/* webpackChunkName: "account" */ 'views/account/PrepaidView')`,
+  'views/account/IsraelSignupView': -> `import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView')`,
+
+  'views/admin/MainAdminView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/MainAdminView')`,
+  'views/admin/CLAsComponent': -> `import(/* webpackChunkName: "admin" */ 'views/admin/CLAsComponent')`,
+  'views/admin/AdminClassroomContentView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomContentView')`,
+  'views/admin/AdminClassroomLevelsComponent': -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomLevelsComponent')`,
+  'views/admin/AdminClassroomsProgressView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomsProgressView')`,
+  'views/admin/FilesComponent': -> `import(/* webpackChunkName: "admin" */ 'views/admin/FilesComponent')`,
+  'views/admin/AnalyticsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/AnalyticsView')`,
+  'views/admin/AnalyticsSubscriptionsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/AnalyticsSubscriptionsView')`,
+  'views/admin/AdminLevelHintsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminLevelHintsView')`,
+  'views/admin/SchoolCountsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/SchoolCountsView')`,
+  'views/admin/SchoolLicensesView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/SchoolLicensesView')`,
+  'views/admin/BaseView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/BaseView')`,
+  'views/admin/DemoRequestsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/DemoRequestsView')`,
+  'views/admin/TrialRequestsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/TrialRequestsView')`,
+  'views/admin/UserCodeProblemsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/UserCodeProblemsView')`,
+  'views/admin/PendingPatchesView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/PendingPatchesView')`,
+  'views/admin/CodeLogsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/CodeLogsView')`,
+  'views/admin/SkippedContactsView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/SkippedContactsView')`,
+  'views/admin/OutcomeReportResultView': -> `import(/* webpackChunkName: "admin" */ 'views/admin/OutcomeReportResultView')`,
+  'views/admin/OutcomesReportComponent': -> `import(/* webpackChunkName: "admin" */ 'views/admin/OutcomesReportComponent')`,
+
+  'views/artisans/ArtisansView': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView')`,
+  'views/artisans/LevelTasksView': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView')`,
+  'views/artisans/SolutionProblemsView': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView')`,
+  'views/artisans/LevelConceptMap': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelConceptMap')`,
+  'views/artisans/LevelGuidesView': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelGuidesView')`,
+  'views/artisans/StudentSolutionsView': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/StudentSolutionsView')`,
+  'views/artisans/TagTestView': -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/TagTestView')`,
+
+  'views/CLAView': -> `import(/* webpackChunkName: "CLAView" */ 'views/CLAView')`,
+
+  'views/clans/ClansView': -> `import(/* webpackChunkName: "clans" */ 'views/clans/ClansView')`,
+  'views/clans/ClanDetailsView': -> `import(/* webpackChunkName: "clans" */ 'views/clans/ClanDetailsView')`,
+
+  'views/CommunityView': -> `import(/* webpackChunkName: "CommunityView" */ 'views/CommunityView')`,
+
+  'views/contribute/MainContributeView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/MainContributeView')`,
+  'views/contribute/AdventurerView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/AdventurerView')`,
+  'views/contribute/AmbassadorView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/AmbassadorView')`,
+  'views/contribute/ArchmageView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/ArchmageView')`,
+  'views/contribute/ArtisanView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/ArtisanView')`,
+  'views/contribute/DiplomatView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/DiplomatView')`,
+  'views/contribute/ScribeView': -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/ScribeView')`,
+
+  'views/courses/CoursesView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/CoursesView')`,
+  'views/courses/CoursesUpdateAccountView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/CoursesUpdateAccountView')`,
+  'views/courses/ProjectGalleryView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/ProjectGalleryView')`,
+  'views/courses/StudentAssessmentsView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/StudentAssessmentsView')`,
+  'views/courses/ClassroomView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/ClassroomView')`,
+  'views/courses/CourseDetailsView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/CourseDetailsView')`,
+  'views/courses/TeacherClassesView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassesView')`,
+  'views/courses/TeacherClassView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassView')`,
+  'views/courses/TeacherCoursesView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherCoursesView')`,
+  'views/courses/EnrollmentsView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/EnrollmentsView')`,
+
+  'views/editor/achievement/AchievementSearchView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/achievement/AchievementSearchView')`,
+  'views/editor/achievement/AchievementEditView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/achievement/AchievementEditView')`,
+  'views/editor/article/ArticleSearchView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/article/ArticleSearchView')`,
+  'views/editor/article/ArticlePreviewView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/article/ArticlePreviewView')`,
+  'views/editor/article/ArticleEditView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/article/ArticleEditView')`,
+  'views/editor/level/LevelSearchView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/level/LevelSearchView')`,
+  'views/editor/level/LevelEditView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/level/LevelEditView')`,
+  'views/editor/thang/ThangTypeSearchView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/thang/ThangTypeSearchView')`,
+  'views/editor/thang/ThangTypeEditView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/thang/ThangTypeEditView')`,
+  'views/editor/campaign/CampaignEditorView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/campaign/CampaignEditorView')`,
+  'views/editor/poll/PollSearchView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/poll/PollSearchView')`,
+  'views/editor/poll/PollEditView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/poll/PollEditView')`,
+  'views/editor/verifier/VerifierView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/verifier/VerifierView')`,
+  'views/editor/verifier/i18nVerifierView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/verifier/i18nVerifierView')`,
+  'views/editor/course/CourseSearchView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseSearchView')`,
+  'views/editor/course/CourseEditView': -> `import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseEditView')`,
+
+  'views/i18n/I18NHomeView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView')`,
+  'views/i18n/I18NEditThangTypeView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView')`,
+  'views/i18n/I18NEditComponentView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView')`,
+  'views/i18n/I18NEditLevelView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditLevelView')`,
+  'views/i18n/I18NEditAchievementView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditAchievementView')`,
+  'views/i18n/I18NEditCampaignView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCampaignView')`,
+  'views/i18n/I18NEditPollView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditPollView')`,
+  'views/i18n/I18NEditCourseView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCourseView')`,
+  'views/i18n/I18NEditProductView': -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditProductView')`,
+
+  'views/LegalView': -> `import(/* webpackChunkName: "LegalView" */ 'views/LegalView')`,
+
+  'views/ladder/LadderView': -> `import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView')`,
+  'views/ladder/MainLadderView': -> `import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView')`,
+
+  'views/NotFoundView': -> `import(/* webpackChunkName: "NotFoundView" */ 'views/NotFoundView')`,
+
+  'views/play/CampaignView': -> `import(/* webpackChunkName: "play" */ 'views/play/CampaignView')`,
+  'views/play/level/PlayLevelView': -> `import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelView')`,
+  'views/play/level/PlayGameDevLevelView': -> `import(/* webpackChunkName: "play" */ 'views/play/level/PlayGameDevLevelView')`,
+  'views/play/level/PlayWebDevLevelView': -> `import(/* webpackChunkName: "play" */ 'views/play/level/PlayWebDevLevelView')`,
+  'views/play/SpectateView': -> `import(/* webpackChunkName: "play" */ 'views/play/SpectateView')`,
+
+  'views/PremiumFeaturesView': -> `import(/* webpackChunkName: "PremiumFeaturesView" */ 'views/PremiumFeaturesView')`,
+
+  'views/PrivacyView': -> `import(/* webpackChunkName: "PrivacyView" */ 'views/PrivacyView')`,
+
+  'views/teachers/RestrictedToTeachersView': -> `import(/* webpackChunkName: "RestrictedToTeachersView" */ 'views/teachers/RestrictedToTeachersView')`,
+
+  'views/courses/RestrictedToStudentsView': -> `import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView')`,
+
+  'views/teachers/TeacherStudentView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherStudentView')`,
+  'views/teachers/TeacherCourseSolutionView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherCourseSolutionView')`,
+  'views/teachers/RequestQuoteView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/RequestQuoteView')`,
+  'views/teachers/ResourceHubView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/ResourceHubView')`,
+  'views/teachers/ApCsPrinciplesView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/ApCsPrinciplesView')`,
+  'views/teachers/MarkdownResourceView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/MarkdownResourceView')`,
+  'views/teachers/CreateTeacherAccountView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/CreateTeacherAccountView')`,
+  'views/teachers/StarterLicenseUpsellView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/StarterLicenseUpsellView')`,
+  'views/teachers/ConvertToTeacherAccountView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/ConvertToTeacherAccountView')`,
+  'views/teachers/DynamicAPCSPView': -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView')`,
+
+  'views/TestView': -> `import(/* webpackChunkName: "TestView" */ 'views/TestView')`,
+
+  'views/user/IdentifyView': -> `import(/* webpackChunkName: "user" */ 'views/user/IdentifyView')`,
+  'views/user/MainUserView': -> `import(/* webpackChunkName: "user" */ 'views/user/MainUserView')`,
+  'views/user/EmailVerifiedView': -> `import(/* webpackChunkName: "user" */ 'views/user/EmailVerifiedView')`,
+}
+
+
+# //      # when 'views/admin/DesignElementsView' then require.ensure(['views/admin/DesignElementsView'], ((require) -> accept(require('views/admin/DesignElementsView'))), reject, 'admin')
+# //      # when 'views/admin/LevelSessionsView' then require.ensure(['views/admin/LevelSessionsView'], ((require) -> accept(require('views/admin/LevelSessionsView'))), reject, 'admin')
+# //      # when 'views/artisans/ThangTasksView' then require.ensure(['views/artisans/ThangTasksView'], ((require) -> accept(require('views/artisans/ThangTasksView'))), reject, 'artisans')
+# //      # when 'views/docs/ComponentsDocumentationView' then require.ensure(['views/docs/ComponentsDocumentationView'], ((require) -> accept(require('views/docs/ComponentsDocumentationView'))), reject, 'docs')
+# //      # when 'views/docs/SystemsDocumentationView' then require.ensure(['views/docs/SystemsDocumentationView'], ((require) -> accept(require('views/docs/SystemsDocumentationView'))), reject, 'docs')
+# //      # when 'views/editor/ThangTasksView' then require.ensure(['views/editor/ThangTasksView'], ((require) -> accept(require('views/editor/ThangTasksView'))), reject, 'editor')
