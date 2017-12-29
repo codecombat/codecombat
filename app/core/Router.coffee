@@ -185,7 +185,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
     'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
-    'students/assessments/:classroomID': go('courses/StudentAssessmentsView')
+    'students/assessments/:classroomID': go('courses/StudentAssessments')
     'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
     'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
     'teachers': redirect('/teachers/classes')
@@ -450,7 +450,7 @@ viewMap = {
   'views/courses/CoursesView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/CoursesView')`,
   'views/courses/CoursesUpdateAccountView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/CoursesUpdateAccountView')`,
   'views/courses/ProjectGalleryView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/ProjectGalleryView')`,
-  'views/courses/StudentAssessmentsView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/StudentAssessmentsView')`,
+  'views/courses/StudentAssessments': -> `import(/* webpackChunkName: "courses" */ 'views/courses/StudentAssessments')`,
   'views/courses/ClassroomView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/ClassroomView')`,
   'views/courses/CourseDetailsView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/CourseDetailsView')`,
   'views/courses/TeacherClassesView': -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassesView')`,

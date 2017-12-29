@@ -1,3 +1,56 @@
+<template lang="jade">
+flat-layout#student-assessments-view
+  .container.m-t-3
+    p
+      a(href="/students", data-i18n="courses.back_courses")
+    div.text-center.m-t-2
+      h2
+        | {{ $t('courses.assessments') }}
+      h1(v-if="classroom")
+        | {{ classroom.name }}
+      ul.assessments-list.m-t-3
+        li
+          .row
+            .col-xs-5.col-xs-offset-1
+              span.table-header.pull-left
+                | {{ $t('courses.challenge_level') }}
+            .status-column.col-xs-3
+              span.table-header.pull-left
+                | {{ $t('courses.status') }}
+        li(v-for="level in levels")
+          .row
+            .col-xs-5.col-xs-offset-1
+              span.level-name.pull-left
+                span(v-if="level.primaryConcepts")
+                  | {{ $t('concepts.' + (level.primaryConcepts && level.primaryConcepts[0])) }} ({{ level.name }})
+                span(v-else)
+                  | ({{ level.name }})
+            .col-xs-3
+              div.level-status.pull-left
+                span(v-if="sessionMap[level.original] && sessionMap[level.original].state.complete")
+                  span.glyphicon.glyphicon-ok-sign.success-symbol.text-forest
+                  | {{ $t('teacher.success') }}
+                span(v-else-if="sessionMap[level.original]")
+                  span.glyphicon.glyphicon-question-sign.in-progress-symbol.text-gold
+                  | {{ $t('teacher.in_progress') }}
+                span(v-else)
+                  span.glyphicon.glyphicon-question-sign.not-started-symbol.text-gray
+                  | {{ $t('teacher.not_started') }}
+            .col-xs-2
+              div(v-if="levelUnlockedMap[level.original] && playLevelUrlMap[level.original]")
+                a.play-level-btn.btn.btn-lg.btn-gray(v-if="sessionMap[level.original] && sessionMap[level.original].state.complete", :href="playLevelUrlMap[level.original]")
+                  | {{ $t('courses.play_again') }}
+                a.play-level-btn.btn.btn-lg.btn-forest(v-else-if="sessionMap[level.original]", :href="playLevelUrlMap[level.original]")
+                  | {{ $t('courses.keep_trying') }}
+                a.play-level-btn.btn.btn-lg.btn-navy(v-else, :href="playLevelUrlMap[level.original]")
+                  | {{ $t('courses.start_challenge') }}
+              div(v-else)
+                a.btn.btn-lg.btn-gray-alt(disabled)
+                  | {{ $t('courses.locked') }}
+</template>
+
+<script lang="coffee">
+
 require('app/styles/courses/student-assessments-view.sass')
 RootComponent = require 'views/core/RootComponent'
 FlatLayout = require('core/components/FlatLayout.vue').default
@@ -6,16 +59,17 @@ User = require 'models/User'
 Level = require 'models/Level'
 utils = require 'core/utils'
 
-StudentAssessmentsComponent = Vue.extend
+module.exports = Vue.extend
   name: 'student-assessments-component'
   template: require('templates/courses/student-assessments-view')()
   components:
     'flat-layout': FlatLayout
   props:
-    classroomID:
-      type: String
-      default: -> null
+    params:
+      type: Array
+      default: -> []
   data: ->
+    classroomID: ''
     courseInstances: []
     levelSessions: []
     classroom: null
@@ -27,6 +81,8 @@ StudentAssessmentsComponent = Vue.extend
     backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
   created: ->
     # TODO: Only fetch the ones for this classroom
+    @classroomID = @params[0]
+    console.log('classroom id', @classroomID)
     Promise.all([
       api.users.getCourseInstances({ userID: me.id }).then((@courseInstances) =>)
       # TODO: Only load the levels we actually need
@@ -84,10 +140,16 @@ StudentAssessmentsComponent = Vue.extend
         map[level.original] = @sessionMap[@previousLevelMap[level.original]]?.state.complete or false
       return map
 
-module.exports = class StudentAssessmentsView extends RootComponent
-  id: 'student-assessments-view'
-  template: require 'templates/base-flat'
-  VueComponent: StudentAssessmentsComponent
-  constructor: (options, @classroomID) ->
-    @propsData = { @classroomID }
-    super options
+</script>
+
+<style lang="sass">
+#student-assessments-view
+  .assessments-list
+    list-style: none
+
+  .play-level-btn
+    min-width: 140px
+
+  .table-header
+    font-weight: bold
+</style>

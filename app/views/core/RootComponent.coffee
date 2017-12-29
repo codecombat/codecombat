@@ -7,6 +7,11 @@ module.exports = class RootComponent extends RootView
   vuexModule: null
   propsData: null
 
+  constructor: ->
+    super(arguments...)
+    @propsData ?= {}
+    @propsData.params = Array.prototype.slice.call(arguments, 1)
+
   afterRender: ->
     if @vueComponent
       @$el.find('#site-content-area').replaceWith(@vueComponent.$el)
