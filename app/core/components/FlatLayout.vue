@@ -8,7 +8,7 @@ div
 
 <script lang="coffee">
 
-PageErrors = require 'core/components/PageErrors'
+PageErrors = require('core/components/PageErrors.vue').default
 
 module.exports = {
   name: 'flat-layout'
