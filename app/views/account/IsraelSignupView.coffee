@@ -58,6 +58,9 @@ module.exports = class IsraelSignupView extends RootView
     # sanity checks
     if not me.isAnonymous()
       @state.set({fatalError: 'signed-in', loading: false})
+      me.logout success: ->
+        # Reload the page and then log the new user in via the token
+        window.location.reload()
 
     else if not (israelId or israelToken)
       @state.set({fatalError: 'missing-input', loading: false})
