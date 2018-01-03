@@ -947,10 +947,7 @@ module.exports = nativeDescription: "Nederlands (België)", englishDescription: 
     robin_blurb: "Stellage" # {change}
 #    josh_title: "Game Designer"
 #    josh_blurb: "Floor Is Lava"
-#    phoenix_title: "Software Engineer"
 #    nolan_title: "Territory Manager"
-#    elliot_title: "Partnership Manager"
-#    elliot_blurb: "Mindreader"
 #    lisa_title: "School Specialist"
 #    lisa_blurb: "A gritty one"
 #    sean_title: "Territory Manager"

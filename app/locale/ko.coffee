@@ -947,10 +947,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     robin_blurb: "발판" # {change}
     josh_title: "게임 디자이너"
     josh_blurb: "바닥은 용암"
-#    phoenix_title: "Software Engineer"
 #    nolan_title: "Territory Manager"
-#    elliot_title: "Partnership Manager"
-#    elliot_blurb: "Mindreader"
 #    lisa_title: "School Specialist"
 #    lisa_blurb: "A gritty one"
 #    sean_title: "Territory Manager"

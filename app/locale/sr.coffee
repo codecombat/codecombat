@@ -947,10 +947,7 @@ module.exports = nativeDescription: "српски", englishDescription: "Serbian
     robin_blurb: "Подупире скеле" # {change}
     josh_title: "Дизајнер игара"
     josh_blurb: "Под је лава"
-    phoenix_title: "Софтверски инжењер"
     nolan_title: "Руководилац подручја"
-    elliot_title: "Руководилац партнерства"
-    elliot_blurb: "Читач ума"
     lisa_title: "Школски специјалиста"
     lisa_blurb: "Одважна"
     sean_title: "Територијални менаџер"

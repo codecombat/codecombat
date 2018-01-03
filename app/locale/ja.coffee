@@ -947,10 +947,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     robin_blurb: "土台作り" # {change}
     josh_title: "ゲームデザイナー"
     josh_blurb: "床は溶岩"
-    phoenix_title: "ソフトウェアエンジニア"
     nolan_title: "地区担当マネージャー"
-    elliot_title: "パートナーシップマネージャー"
-    elliot_blurb: "読心術者"
     lisa_title: "市場開発代表" # {change}
     lisa_blurb: "荒々しい"
     sean_title: "地域部長"
