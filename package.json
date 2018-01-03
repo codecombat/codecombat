@@ -42,6 +42,7 @@
     "multicore": "coffee multicore.coffee",
     "jasmine": "jasmine",
     "proxy": "COCO_PROXY='true' nodemon",
+    "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
     "coverage": "node ./bin/coverage.js"
   },
   "main": "index.js",
