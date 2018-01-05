@@ -35,8 +35,7 @@
   
           if view.basicProduct
             .product
-              h4.subscription-gem-amount x{{gems}} / mo
-              h3(data-i18n="account.subscription")
+              h3.subscribe-text(data-i18n="account.subscribe_for_gems")
               if me.hasSubscription()
                 button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
                   | ✓ 

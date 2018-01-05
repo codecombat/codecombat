@@ -2072,6 +2072,7 @@
     payments: "Payments"
     prepaid_codes: "Prepaid Codes"
     purchased: "Purchased"
+    subscribe_for_gems: "Subscribe for gems"
     subscription: "Subscription"
     invoices: "Invoices"
     service_apple: "Apple"
