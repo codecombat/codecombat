@@ -142,7 +142,7 @@ If you would like to purchase more licenses, click on *Student Licenses* in the 
 
 <img src="http://files.codecombat.com/docs/getting-started/bulk-assign.png" title="Bulk Assign Courses" alt="bulk-assign" width="400px"/>
 
-Once a student is enrolled, you’ll be able to assign additional courses to them. We recommend not assigning students to more than one course ahead of where they currently are. You can bulk-assign a course to multiple students at a time by selecting students using checkboxes on the left-hand side (or the “Select All” checkbox), then choosing the appropriate course from the dropdown menu, and then clicking “Assign to Selected Students.”
+Once a student is enrolled, you’ll be able to assign additional courses to them. We recommend not assigning students to more than one course ahead of where they currently are. You can assign a course to multiple students at a time by selecting students using checkboxes on the left-hand side (or the “Select All” checkbox), then choosing the appropriate course from the dropdown menu, and then clicking “Assign Course.”
 
 ##### STEP 8
 ## Start Teaching!

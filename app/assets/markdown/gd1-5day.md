@@ -18,7 +18,7 @@ In Game Development 1, students will learn how to think about games and game des
 ### Setup
 1. Navigate to the class page.
 2. Select students to whom you want to assign Game Development 1.
-3. Select Game Development 1 from the Bulk-Assign dropdown, then click “Assign”.
+3. Select Game Development 1 from the "Select Course" dropdown, then click “Assign Course”.
 4. Students will be able to see Game Development 1 from their student dashboard.
 
 ### Course Overview
