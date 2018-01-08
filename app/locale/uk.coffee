@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     payments: "Платежі"
     prepaid_codes: "Передплачені коди"
     purchased: "Придбано"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "Підписка"
     invoices: "Рахунки"
     service_apple: "Apple"

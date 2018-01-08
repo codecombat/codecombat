@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     payments: "תשלומים"
     prepaid_codes: "קודים בתשלום מראש"
     purchased: "נרכש"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "מנוי"
     invoices: "חשבוניות"
     service_apple: "Apple"

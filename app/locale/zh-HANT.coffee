@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     payments: "付款"
     prepaid_codes: "儲值碼"
     purchased: "已購買"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "訂閱"
     invoices: "收據"
     service_apple: "設備：Apple"

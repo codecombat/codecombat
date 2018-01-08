@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payments: "Pagos"
     prepaid_codes: "Códigos Prepagados"
     purchased: "Comprado"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "Suscripción"
     invoices: "Facturas"
     service_apple: "Apple"

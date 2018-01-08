@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     payments: "Befizetések"
     prepaid_codes: "Fizetős kódok"
     purchased: "Vásárolt"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "Előfizetés"
     invoices: "Számlák"
     service_apple: "Apple"

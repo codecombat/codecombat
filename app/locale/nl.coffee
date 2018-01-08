@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     payments: "Betalingen"
     prepaid_codes: "Prepaidcodes"
     purchased: "Gekocht"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "abonnement"
     invoices: "Facturen"
     service_apple: "Apple"

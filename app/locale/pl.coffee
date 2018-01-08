@@ -2072,6 +2072,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     payments: "Płatności"
     prepaid_codes: "Kody przedpłacone"
     purchased: "Zakupiono"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "Subskrypcje"
     invoices: "Faktury"
     service_apple: "Apple"
