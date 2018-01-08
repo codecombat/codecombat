@@ -68,4 +68,4 @@ module.exports = class GameDevTrackView extends CocoView
     if typeof val is 'number'
       round = Math.round(val)
       return round
-    return val
+    return val ? ''
