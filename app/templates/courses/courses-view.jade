@@ -81,8 +81,11 @@ block content
                   - var courseInstances = view.courseInstances.where({classroomID: classroom.id});
                   for courseInstance in courseInstances
                     - var courseID = courseInstance.get('courseID');
-                    // Only show CS1, GD1, WD1 during pre-training phase, and add CS2, GD2, WD2 during training phase
-                    if (!(courseID == '560f1a9f22961295f9427742' || courseID == '5789587aad86a6efb573701e' || courseID == '5789587aad86a6efb573701f' || courseID == '5632661322961295f9428638' || courseID == '57b621e7ad86a6efb5737e64' || courseID == '5789587aad86a6efb5737020'))
+                    // Never show WD2
+                    if (features.israel && courseID == '5789587aad86a6efb5737020')
+                      - continue;
+                    // Only show CS1, GD1, WD1 during pre-training phase, and add CS2, GD2 during training phase
+                    if (features.israel && !(courseID == '560f1a9f22961295f9427742' || courseID == '5789587aad86a6efb573701e' || courseID == '5789587aad86a6efb573701f' || courseID == '5632661322961295f9428638' || courseID == '57b621e7ad86a6efb5737e64'))
                       - continue;
                     .course-instance-entry.rtl-allowed
                       - var course = view.courses.get(courseInstance.get('courseID'));
