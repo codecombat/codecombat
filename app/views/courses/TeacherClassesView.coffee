@@ -214,6 +214,12 @@ module.exports = class TeacherClassesView extends RootView
     @addFreeCourseInstances() # make sure this happens
     super()
 
+  canWrite: (classroom) ->
+    # If we are viewing the page as an admin or a read-only-permissioned teacher, we can't use destructive features.
+    return true if me.id is classroom.get('ownerID')
+    return true if _.find(classroom.get('permissions'), target: me.id)?.access is 'write'
+    false
+
   onClickEditClassroom: (e) ->
     classroomID = $(e.target).data('classroom-id')
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', classroomID: classroomID, ['Mixpanel']
@@ -256,9 +262,9 @@ module.exports = class TeacherClassesView extends RootView
       @calculateQuestCompletion()
 
   onClickArchiveClassroom: (e) ->
-    return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
+    return unless @canWrite classroom
     classroom.set('archived', true)
     classroom.save {}, {
       success: =>
@@ -267,9 +273,9 @@ module.exports = class TeacherClassesView extends RootView
     }
 
   onClickUnarchiveClassroom: (e) ->
-    return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
+    return unless @canWrite classroom
     classroom.set('archived', false)
     classroom.save {}, {
       success: =>

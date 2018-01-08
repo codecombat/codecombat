@@ -103,8 +103,9 @@ mixin classRow(classroom)
           = classroom.get('members').length
       .class-links.rtl-allowed(dir="auto")
         a.view-class-btn.text-h6(data-i18n='teacher.view_class' data-classroom-id=classroom.id data-event-action="Teachers Classes View Class Link")
-        a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
-        a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
+        if view.canWrite(classroom)
+          a.edit-classroom.text-h6(data-i18n='teacher.edit_class_settings' data-classroom-id=classroom.id data-event-action="Teachers Classes Edit Class Started")
+          a.archive-classroom.text-h6(data-i18n='teacher.archive_class' data-classroom-id=classroom.id data-event-action="Teachers Classes Archive Class")
 
     .flex-right
       .progress-col
@@ -156,7 +157,8 @@ mixin archivedClassRow(classroom)
         = classroom.get('name')
     .col-xs-2
       .class-links.pull-right(dir="auto")
-        a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
+        if view.canWrite(classroom)
+          a.unarchive-classroom.text-h6(data-i18n='teacher.unarchive_class' data-classroom-id=classroom.id)
 
 mixin teacher-quests
   - var lastComplete = null;

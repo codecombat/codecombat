@@ -383,7 +383,7 @@ module.exports =
         otherTeachers = yield User.find({role: 'teacher', 'school.israelInstitutions': institutionId}).select('_id').lean()
         permissions = classroom.get 'permissions'
         for otherTeacher in otherTeachers
-          permissions.push {access: 'write', target: otherTeacher._id}
+          permissions.push {access: 'read', target: otherTeacher._id}
         classroom.set 'permissions', permissions
         database.validateDoc(classroom)
         classroom = yield classroom.save()
@@ -400,7 +400,7 @@ module.exports =
       yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
       yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
     else if userData.role is 'teacher'
-      yield Classroom.update({ownerID: teacherUser._id}, { $addToSet: {permissions: {access: 'write', target: req.user._id}} }, {multi: true})
+      yield Classroom.update({ownerID: teacherUser._id}, { $addToSet: {permissions: {access: 'read', target: req.user._id}} }, {multi: true})
     yield module.exports.finishSignup(req, res)
 
   finishSignup: co.wrap (req, res) ->

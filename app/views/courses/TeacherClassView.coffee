@@ -255,7 +255,7 @@ module.exports = class TeacherClassView extends RootView
       progressData
       classStats: @calculateClassStats()
     }
-  
+
   getCourseAssessmentPairs: () ->
     @courseAssessmentPairs = []
     for course in @courses.models
@@ -263,6 +263,12 @@ module.exports = class TeacherClassView extends RootView
       fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
       @courseAssessmentPairs.push([course, fullLevels])
     return @courseAssessmentPairs
+
+  canWrite: ->
+    # If we are viewing the page as an admin or a read-only-permissioned teacher, we can't use destructive features.
+    return true if me.id is @classroom.get('ownerID')
+    return true if _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'
+    false
 
   onClickNavTabLink: (e) ->
     e.preventDefault()
@@ -285,13 +291,12 @@ module.exports = class TeacherClassView extends RootView
     @tryCopy()
 
   onClickUnarchive: ->
-    # TODO: actually hide all these write-only features if you don't have write access instead of just making them not do anything
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     window.tracker?.trackEvent 'Teachers Class Unarchive', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @classroom.save { archived: false }
 
   onClickEditClassroom: (e) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     window.tracker?.trackEvent 'Teachers Class Edit Class Started', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     @promptToEdit()
 
@@ -302,14 +307,14 @@ module.exports = class TeacherClassView extends RootView
     @listenToOnce modal, 'hide', @render
 
   onClickEditStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     window.tracker?.trackEvent 'Teachers Class Students Edit', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new EditStudentModal({ user, @classroom })
     @openModalView(modal)
 
   onClickRemoveStudentLink: (e) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     user = @students.get($(e.currentTarget).data('student-id'))
     modal = new RemoveStudentModal({
       classroom: @classroom
@@ -324,7 +329,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Removed', category: 'Teachers', classroomID: @classroom.id, userID: e.user.id, ['Mixpanel']
 
   onClickAddStudents: (e) =>
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     window.tracker?.trackEvent 'Teachers Class Add Students', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
     modal = new InviteToClassroomModal({ classroom: @classroom })
     @openModalView(modal)
@@ -332,7 +337,7 @@ module.exports = class TeacherClassView extends RootView
 
   removeDeletedStudents: () ->
     return unless @classroom.loaded and @students.loaded
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     _.remove(@classroom.get('members'), (memberID) =>
       not @students.get(memberID) or @students.get(memberID)?.get('deleted')
     )
@@ -361,7 +366,7 @@ module.exports = class TeacherClassView extends RootView
   ensureInstance: (courseID) ->
 
   onClickEnrollStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     selectedUsers = new Users([user])
@@ -369,7 +374,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent $(e.currentTarget).data('event-action'), category: 'Teachers', classroomID: @classroom.id, userID: userID, ['Mixpanel']
 
   enrollStudents: (selectedUsers) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     modal = new ActivateLicensesModal { @classroom, selectedUsers, users: @students }
     @openModalView(modal)
     modal.once 'redeem-users', (enrolledUsers) =>
@@ -448,7 +453,7 @@ module.exports = class TeacherClassView extends RootView
     window.saveAs(file, 'CodeCombat.csv')
 
   onClickAssignStudentButton: (e) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     userID = $(e.currentTarget).data('user-id')
     user = @students.get(userID)
     members = [userID]
@@ -457,7 +462,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, userID: userID, ['Mixpanel']
 
   onClickBulkAssign: ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -467,7 +472,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   onClickBulkRemoveCourse: ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
     nobodySelected = selectedIDs.length is 0
@@ -477,7 +482,7 @@ module.exports = class TeacherClassView extends RootView
     window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     courseInstance = null
     numberEnrolled = 0
     remainingSpots = 0
@@ -584,7 +589,7 @@ module.exports = class TeacherClassView extends RootView
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
 
   removeCourse: (courseID, members) ->
-    return unless me.id is @classroom.get('ownerID') or _.find(@classroom.get('permissions'), target: me.id)?.access is 'write'  # May be viewing page as admin
+    return unless @canWrite()
     courseInstance = null
     numberRemoved = 0
 

@@ -19,7 +19,7 @@ block content
     .container(dir="auto")
       +breadcrumbs
       div#classes-nag-subview
-      if classroom.get('archived')
+      if classroom.get('archived') && view.canWrite()
         .row.center-block.text-center.m-t-3.m-b-3
           .unarchive-btn.btn.btn-lg.btn-navy
             span(data-i18n='teacher.unarchive_this_class')
@@ -38,8 +38,9 @@ block content
               span.spl(data-i18n="courses.update_old_classroom_detail_2") 
 
       h3.m-t-2(dir="auto")= classroom.get('name')
-      a.label.edit-classroom(data-classroom-id=classroom.id)
-        span(data-i18n='teacher.edit_class_settings')
+      if view.canWrite()
+        a.label.edit-classroom(data-classroom-id=classroom.id)
+          span(data-i18n='teacher.edit_class_settings')
       h4(dir="auto")= classroom.get('description')
 
       .classroom-info-row.row.m-t-5.rtl-allowed
@@ -135,12 +136,13 @@ block content
               span :
               div(data-i18n='common.loading')
 
-        .adding-students.col-md-5
-          h4.m-b-2
-            span(data-i18n='courses.add_students')
-            span :
-          +copyCodes
-          +addStudentsButton
+        if view.canWrite()
+          .adding-students.col-md-5
+            h4.m-b-2
+              span(data-i18n='courses.add_students')
+              span :
+            +copyCodes
+            +addStudentsButton
 
       if view.students.length > 0
         ul.nav.nav-tabs.m-t-5(role='tablist')
@@ -250,9 +252,10 @@ mixin studentRow(student)
           div.student-name= student.broadName()
         div.student-email.small-details= student.get('email')
     td.hidden
-      a.edit-student-button(data-student-id=student.id)
-        span.glyphicon.glyphicon-edit
-        span(data-i18n='teacher.edit')
+      if view.canWrite()
+        a.edit-student-button(data-student-id=student.id)
+          span.glyphicon.glyphicon-edit
+          span(data-i18n='teacher.edit')
     td.latest-level-col.small
       div
         i
@@ -275,13 +278,14 @@ mixin studentRow(student)
             - var label = courseLabelsArray[index];
             +studentCourseProgressDot(progress, levelsTotal, label)
     td
-      .pull-right
-        a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
-          div.glyphicon.glyphicon-edit
-          div(data-i18n='teacher.edit')
-        a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
-          div.glyphicon.glyphicon-remove
-          div(data-i18n='teacher.remove')
+      if view.canWrite()
+        .pull-right
+          a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+            div.glyphicon.glyphicon-edit
+            div(data-i18n='teacher.edit')
+          a.remove-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
+            div.glyphicon.glyphicon-remove
+            div(data-i18n='teacher.remove')
 
 mixin courseProgressTab
   #course-progress-tab.m-t-3
@@ -481,22 +485,23 @@ mixin copyCodes
     div.text-center.small.class-code-blurb(data-i18n='teacher.class_join_url_blurb')
 
 mixin bulkAssignControls
-  .bulk-assign-controls.form-inline
-    .no-students-selected.small-details(class=state.get('errors').nobodySelected ? 'visible' : '')
-      span(data-i18n='teacher.no_students_selected')
-    span.small
-      span(data-i18n='teacher.bulk_assign')
-      span :
-    select.bulk-course-select.form-control
-      each course in _.rest(view.latestReleasedCourses)
-        option(value=course.id selected=(course===state.get('selectedCourse')))
-          = i18n(course.attributes, 'name')
-          if !view.availableCourseMap[course.id]
-            = " " + translate('teacher.paren_new')
-    button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.assign_course')
-    button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
-      span(data-i18n='teacher.remove_course')
+  if view.canWrite()
+    .bulk-assign-controls.form-inline
+      .no-students-selected.small-details(class=state.get('errors').nobodySelected ? 'visible' : '')
+        span(data-i18n='teacher.no_students_selected')
+      span.small
+        span(data-i18n='teacher.bulk_assign')
+        span :
+      select.bulk-course-select.form-control
+        each course in _.rest(view.latestReleasedCourses)
+          option(value=course.id selected=(course===state.get('selectedCourse')))
+            = i18n(course.attributes, 'name')
+            if !view.availableCourseMap[course.id]
+              = " " + translate('teacher.paren_new')
+      button.btn.btn-primary.assign-to-selected-students(disabled=!view.allStatsLoaded())
+        span(data-i18n='teacher.assign_course')
+      button.btn.btn-burgundy-alt.remove-from-selected-students(disabled=!view.allStatsLoaded())
+        span(data-i18n='teacher.remove_course')
 
 mixin assessmentsTab
   #assessments-tab
@@ -576,13 +581,14 @@ mixin enrollmentStatusTab
             span.spr :
             strong(class= status === 'expired' ? 'text-danger' : '')= view.studentStatusString(student)
           td.enroll-col
-            if status !== 'enrolled'
-              button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
-            else
-              if student.prepaidType() === 'course'
-                span(data-i18n="teacher.full_license")
-              else if student.prepaidType() === 'starter_license'
-                span(data-i18n="teacher.starter_license")
-          td.revoke-col
-            if status === 'enrolled' && student.prepaidType() === 'course'
-              button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
+            if view.canWrite()
+              if status !== 'enrolled'
+                button.enroll-student-button.btn.btn-navy(data-i18n="teacher.apply_license", data-user-id=student.id, data-event-action="Teachers Class Enrollment Enroll Student")
+              else
+                if student.prepaidType() === 'course'
+                  span(data-i18n="teacher.full_license")
+                else if student.prepaidType() === 'starter_license'
+                  span(data-i18n="teacher.starter_license")
+            td.revoke-col
+              if status === 'enrolled' && student.prepaidType() === 'course'
+                button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
