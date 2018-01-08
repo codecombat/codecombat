@@ -1,4 +1,5 @@
 createjs = require 'lib/createjs-parts'
+esprima = require 'esprima'
 
 module.exports = class SpriteParser
   constructor: (@thangTypeModel) ->
