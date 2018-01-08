@@ -947,10 +947,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     robin_blurb: "土台作り" # {change}
     josh_title: "ゲームデザイナー"
     josh_blurb: "床は溶岩"
-    phoenix_title: "ソフトウェアエンジニア"
     nolan_title: "地区担当マネージャー"
-    elliot_title: "パートナーシップマネージャー"
-    elliot_blurb: "読心術者"
     lisa_title: "市場開発代表" # {change}
     lisa_blurb: "荒々しい"
     sean_title: "地域部長"
@@ -1525,7 +1522,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    copy_class_url: "Copy Class URL"
 #    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
 #    add_students_manually: "Invite Students by Email"
-#    bulk_assign: "Bulk-assign"
+#    bulk_assign: "Select course"
 #    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
 #    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
@@ -2075,6 +2072,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    payments: "Payments"
 #    prepaid_codes: "Prepaid Codes"
 #    purchased: "Purchased"
+#    subscribe_for_gems: "Subscribe for gems"
 #    subscription: "Subscription"
 #    invoices: "Invoices"
 #    service_apple: "Apple"

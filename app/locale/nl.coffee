@@ -947,10 +947,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     robin_blurb: "Steigers" # {change}
     josh_title: "Game Designer"
     josh_blurb: "Vloer Is Lava"
-    phoenix_title: "Software Engineer"
     nolan_title: "Regio-manager"
-    elliot_title: "Partner-manager"
-    elliot_blurb: "Gedachtenlezer"
     lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
     lisa_blurb: "Warmbloedig"
     sean_title: "Regio Manager"
@@ -2075,6 +2072,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     payments: "Betalingen"
     prepaid_codes: "Prepaidcodes"
     purchased: "Gekocht"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "abonnement"
     invoices: "Facturen"
     service_apple: "Apple"

@@ -142,7 +142,7 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
         {id: 'javascript', name: 'JavaScript'}
         {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-        {id: 'lua', name: 'Lua'}
+        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
       ]
 
       if me.isAdmin() or not application.isProduction()

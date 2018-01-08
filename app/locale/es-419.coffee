@@ -947,10 +947,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     robin_blurb: "Scaffolding" # {change}
     josh_title: "Diseñador de Juegos"
     josh_blurb: "El piso es Lava"
-    phoenix_title: "Ingeniero de Software"
     nolan_title: "Administrador de territorio"
-    elliot_title: "Administrador de Asociación"
-#    elliot_blurb: "Mindreader"
 #    lisa_title: "School Specialist"
 #    lisa_blurb: "A gritty one"
 #    sean_title: "Territory Manager"
@@ -2075,6 +2072,7 @@ module.exports = nativeDescription: "Español (América Latina)", englishDescrip
     payments: "Pagos"
     prepaid_codes: "Códigos Prepagados"
     purchased: "Comprado"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "Suscripción"
     invoices: "Facturas"
     service_apple: "Apple"
