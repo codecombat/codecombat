@@ -6,7 +6,7 @@ LevelSession = require 'models/LevelSession'
 CocoCollection = require 'collections/CocoCollection'
 User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
-{teamDataFromLevel} = require './utils'
+{teamDataFromLevel, scoreForDisplay} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
 require 'd3/d3.js'
 CreateAccountModal = require 'views/core/CreateAccountModal'
@@ -17,6 +17,7 @@ HIGHEST_SCORE = 1000000
 module.exports = class LadderTabView extends CocoView
   id: 'ladder-tab-view'
   template: require 'templates/play/ladder/ladder-tab-view'
+  scoreForDisplay: scoreForDisplay
 
   events:
     'click .connect-facebook': 'onConnectFacebook'
@@ -197,7 +198,7 @@ module.exports = class LadderTabView extends CocoView
   generateHistogram: (histogramElement, histogramData, teamName) ->
     #renders twice, hack fix
     if $('#' + histogramElement.attr('id')).has('svg').length then return
-    histogramData = histogramData.map (d) -> d*100
+    histogramData = histogramData.map (d) => scoreForDisplay d
 
     margin =
       top: 20
@@ -210,8 +211,11 @@ module.exports = class LadderTabView extends CocoView
 
     formatCount = d3.format(',.0')
 
-    minX = Math.floor(Math.min(histogramData...) / 1000) * 1000
-    maxX = Math.ceil(Math.max(histogramData...) / 1000) * 1000
+    axisFactor = 1000
+    if features.israel
+      axisFactor /= 100
+    minX = Math.floor(Math.min(histogramData...) / axisFactor) * axisFactor
+    maxX = Math.ceil(Math.max(histogramData...) / axisFactor) * axisFactor
     x = d3.scale.linear().domain([minX, maxX]).range([0, width])
     data = d3.layout.histogram().bins(x.ticks(20))(histogramData)
     y = d3.scale.linear().domain([0, d3.max(data, (d) -> d.y)]).range([height, 10])
@@ -240,9 +244,10 @@ module.exports = class LadderTabView extends CocoView
       .attr('height', (d) -> height - y(d.y))
     if session = @leaderboards[teamName].session
       if @options.league
-        playerScore = (_.find(session.get('leagues'), {leagueID: @options.league.id})?.stats.totalScore or 10) * 100
+        playerScore = (_.find(session.get('leagues'), {leagueID: @options.league.id})?.stats.totalScore or 10)
       else
-        playerScore = session.get('totalScore') * 100
+        playerScore = session.get('totalScore')
+      playerScore = scoreForDisplay playerScore
       scorebar = svg.selectAll('.specialbar')
         .data([playerScore])
         .enter().append('g')

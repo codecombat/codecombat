@@ -38,6 +38,36 @@ courseOrdering = (mongoose.Types.ObjectId(id) for id in [
   '5817d673e85d1220db624ca4'  # COMPUTER_SCIENCE_6
 ])
 
+practiceLevels = [
+  'kounter-kithwise'
+  'crawlways-of-kithgard'
+  'illusory-interruption'
+  'forgetful-gemsmith'
+  'favorable-odds'
+  'the-raised-sword'
+  'descending-further'
+  'riddling-kithmaze'
+  'radiant-aura'
+  'cupboards-of-kithgard-a'
+  'cupboards-of-kithgard-b'
+  'lowly-kithmen'
+  'closing-the-distance'
+  'the-skeleton'
+  'the-gauntlet-a'
+  'the-gauntlet-b'
+  'backwoods-ambush'
+  'patrol-buster-a'
+  'eagle-eye'
+  'backwoods-standoff-a'
+  'backwoods-standoff-b'
+  'the-agrippa-defense-a'
+  'the-agrippa-defense-b'
+  'return-to-thornbush-farm-a'
+  'return-to-thornbush-farm-b'
+  'buddys-name-a'
+  'buddys-name-b'
+]
+
 module.exports =
   checkCronAuth: (req, res, next) ->
     requestIP = req.headers['x-forwarded-for']?.replace(' ', '').split(',')[0]
@@ -119,10 +149,12 @@ module.exports =
       campaigns = yield Campaign.find({_id: {$in: campaignOrdering}}).select('levels').lean()
       campaigns = (_.find(campaigns, (campaign) -> campaign._id + '' is campaignId + '') for campaignId in campaignOrdering)
       levelOrdering = {}
+      coursesByLevel = {}
       levelIndex = 0
       for campaign in campaigns
         for levelOriginal in Object.keys campaign.levels
           levelOrdering[levelOriginal] = levelIndex++
+          coursesByLevel[levelOriginal] = campaign.slug
 
     # Prepare all registrations we might need to upsert
     registrations = []
@@ -156,7 +188,14 @@ module.exports =
       challengeId = session.level.original + (if session.team is 'ogres' then '-blue' else '')
       challengeName = session.levelID + (if session.team is 'ogres' then ' (blue)' else '')
       challengeOrder = levelOrdering[session.level.original]
-      score = Math.round(Math.min(10, Math.max 3, ((session.totalScore or 0) - 20) / 2, (session.state?.difficulty or 0) * 3))
+      challengeCategory = coursesByLevel[session.level.original] or 'other'
+      if session.levelID in ['elemental-wars', 'tesla-tesoro', 'escort-duty']
+        challengeCategory = 'tournament'
+      score = 1
+      if session.levelID in practiceLevels
+        score = 0
+      if session.totalScore and challengeCategory is 'tournament'
+        score = Math.round(Math.max 1, session.totalScore - 20)  # They may cap this at 30 or 40 points. A really good score on a crowded arena might be 60-110. totalScore starts around 20, so they get positive points for improving on that.
       device = if session.browser then session.browser.name + (if not session.browser.desktop then ' mobile' else '') else null
       solutions.push
         # New data
@@ -170,9 +209,9 @@ module.exports =
         solutionstring: code
         challengeid: challengeId
         challengename: challengeName
-        challengeOrder: challengeOrder
+        challengeorder: challengeOrder
         score: score
-        #challengecategory: "Category 1" # TODO; new to distinguish between courses
+        challengecategory: challengeCategory
         solutionstarttime: session.created
         solutionendtime: session.dateFirstCompleted or session.changed
         ip: user.lastIP
