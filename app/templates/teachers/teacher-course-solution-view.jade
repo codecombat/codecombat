@@ -64,6 +64,9 @@ block content
           else
             .text-center
               i(data-i18n="common.coming_soon")
+          if features.israel && ['introduction-to-computer-science', 'game-development-1', 'web-development-1', 'computer-science-2', 'game-development-2'].indexOf(view.course.get('slug')) == -1
+            // No solutions for CS3+ during tournament
+            - continue;
           h4.text-center
             span= level.get('name')
             span.spl(data-i18n="common.solution")
