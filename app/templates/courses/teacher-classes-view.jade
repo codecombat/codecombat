@@ -73,7 +73,9 @@ block content
         unless classroom.get('archived')
           +classRow(classroom)
 
-    +createClassButton
+    if !features.israel || !view.classrooms.models.length
+      // Israel teachers can't manually make new classes; they only have the automatically created classes
+      +createClassButton
 
   - var archivedClassrooms = view.classrooms.where({archived: true});
   if _.size(archivedClassrooms)
