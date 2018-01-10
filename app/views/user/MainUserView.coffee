@@ -1,3 +1,4 @@
+require('app/styles/user/main-user-view.sass')
 UserView = require 'views/common/UserView'
 CocoCollection = require 'collections/CocoCollection'
 LevelSession = require 'models/LevelSession'

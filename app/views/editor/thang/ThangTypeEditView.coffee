@@ -1,3 +1,4 @@
+require('app/styles/editor/thang/thang-type-edit-view.sass')
 ThangType = require 'models/ThangType'
 SpriteParser = require 'lib/sprites/SpriteParser'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
@@ -5,7 +6,10 @@ Lank = require 'lib/surface/Lank'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Camera = require 'lib/surface/Camera'
 DocumentFiles = require 'collections/DocumentFiles'
-require 'vendor/treema'
+require 'lib/setupTreema'
+createjs = require 'lib/createjs-parts'
+LZString = require 'lz-string'
+initSlider = require 'lib/initSlider'
 
 # in the template, but need to require to load them
 require 'views/modal/RevertModal'
@@ -21,8 +25,9 @@ SaveVersionModal = require 'views/editor/modal/SaveVersionModal'
 template = require 'templates/editor/thang/thang-type-edit-view'
 storage = require 'core/storage'
 ExportThangTypeModal = require './ExportThangTypeModal'
+RevertModal = require 'views/modal/RevertModal'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 CENTER = {x: 200, y: 400}
 
@@ -78,16 +83,15 @@ defaultTasks =
   Hero: commonTasks.concat animatedThangTypeTasks.concat purchasableTasks.concat [
     'Set the hero class.'
     'Add Extended Hero Name.'
+    'Add Short Hero Name.'
+    'Add Hero Gender.'
     'Upload Hero Doll Images.'
     'Upload Pose Image.'
     'Start a new name category in names.coffee.'
     'Set up hero stats in Equips, Attackable, Moves.'
     'Set Collects collectRange to 2, Sees visualRange to 60.'
     'Add any custom hero abilities.'
-    'Add to ThangType model hard-coded hero ids/classes list.'
-    'Add to LevelHUDView hard-coded hero short names list.'
-    'Add to InventoryView hard-coded hero gender list.'
-    'Add to PlayHeroesModal hard-coded hero positioning logic.'
+    'Add to ThangTypeConstants hard-coded hero ids/classes list.'
     'Add as unlock to a level and add unlockLevelName here.'
   ]
   Floor: commonTasks.concat containerTasks.concat [
@@ -162,6 +166,11 @@ module.exports = class ThangTypeEditView extends RootView
     'mouseup #canvas': 'onCanvasMouseUp'
     'mousemove #canvas': 'onCanvasMouseMove'
     'click #export-sprite-sheet-btn': 'onClickExportSpriteSheetButton'
+    'click [data-toggle="coco-modal"][data-target="modal/RevertModal"]': 'openRevertModal'
+
+  openRevertModal: (e) ->
+    e.stopPropagation()
+    @openModalView new RevertModal()
 
   onClickSetVectorIcon: ->
     modal = new VectorIconSetupModal({}, @thangType)
@@ -259,7 +268,7 @@ module.exports = class ThangTypeEditView extends RootView
     _.defer @refreshAnimation
     @toggleDots(false)
 
-    createjs.Ticker.setFPS(30)
+    createjs.Ticker.framerate = 30
     createjs.Ticker.addEventListener('tick', @stage)
 
   toggleDots: (newShowDots) ->
@@ -438,10 +447,10 @@ module.exports = class ThangTypeEditView extends RootView
   # sliders
 
   initSliders: ->
-    @rotationSlider = @initSlider $('#rotation-slider', @$el), 50, @updateRotation
-    @scaleSlider = @initSlider $('#scale-slider', @$el), 29, @updateScale
-    @resolutionSlider = @initSlider $('#resolution-slider', @$el), 39, @updateResolution
-    @healthSlider = @initSlider $('#health-slider', @$el), 100, @updateHealth
+    @rotationSlider = initSlider $('#rotation-slider', @$el), 50, @updateRotation
+    @scaleSlider = initSlider $('#scale-slider', @$el), 29, @updateScale
+    @resolutionSlider = initSlider $('#resolution-slider', @$el), 39, @updateResolution
+    @healthSlider = initSlider $('#health-slider', @$el), 100, @updateHealth
 
   updateRotation: =>
     value = parseInt(180 * (@rotationSlider.slider('value') - 50) / 50)

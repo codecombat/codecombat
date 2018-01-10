@@ -20,7 +20,10 @@ form.modal-body.segment-check
             br
             span.classroom-name= view.classroom.get('name')
             br
-            span.teacher-name= view.classroom.owner.get('name')
+            if view.classroom.owner.get('firstName')
+              span.teacher-name= view.classroom.owner.get('firstName') + " " + view.classroom.owner.get('lastName')
+            else if view.classroom.owner.get('name')
+              span.teacher-name= view.classroom.owner.get('name')
           else
             span(data-i18n="signup.classroom_not_found")
           if _.isEmpty(view.signupState.get('classCode')) || !state.get('classCodeValid')
@@ -33,6 +36,9 @@ form.modal-body.segment-check
       when 'teacher'
         // TODO
       when 'individual'
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.sign_in_to_continue")
+          br
         .birthday-form-group.form-group
           span(data-i18n="signup.enter_birthdate")
           .input-border
@@ -63,8 +69,8 @@ form.modal-body.segment-check
   .history-nav-buttons
     //- disabled=!view.signupState.get('segmentCheckValid')
     button.next-button.btn.btn-lg.btn-navy(type='submit')
-      span(data-i18n="common.next")
+      span(data-i18n="common.continue")
 
-    button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
-      span(data-i18n="common.back")
-  
+    if !view.signupState.get('subModalContinue')
+      button.back-to-account-type.btn.btn-lg.btn-navy-alt(type='button')
+        span(data-i18n="common.back")

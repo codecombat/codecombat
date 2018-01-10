@@ -27,6 +27,9 @@
     color: white
     text-transform: uppercase
 
+    &[dir="rtl"]
+      right: 0
+
     .success
       color: lightgreen
       text-shadow: 1px 1px 0px black
@@ -44,6 +47,9 @@
     padding-left: 0
     margin-bottom: 0
     color: black
+
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      padding-right: 0
     
   li
     list-style: none
@@ -78,3 +84,11 @@ html.no-borderimage
     .goals-status
       position: static
       margin-top: 10px
+
+body[lang^='pt'], body[lang^='es'], body[lang='fr'], body[lang='hu'], body[lang='it'], body[lang='sr']
+  #goals-view
+    font-size: 12px
+
+    &.brighter
+      font-size: 16px
+      font-size: 1.2vw

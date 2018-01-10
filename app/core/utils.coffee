@@ -95,6 +95,7 @@ courseIDs =
   GAME_DEVELOPMENT_2: '57b621e7ad86a6efb5737e64'
   WEB_DEVELOPMENT_2: '5789587aad86a6efb5737020'
   COMPUTER_SCIENCE_3: '56462f935afde0c6fd30fc8c'
+  GAME_DEVELOPMENT_3: '5a0df02b8f2391437740f74f'
   COMPUTER_SCIENCE_4: '56462f935afde0c6fd30fc8d'
   COMPUTER_SCIENCE_5: '569ed916efa72b0ced971447'
   COMPUTER_SCIENCE_6: '5817d673e85d1220db624ca4'
@@ -107,6 +108,7 @@ orderedCourseIDs = [
   courseIDs.GAME_DEVELOPMENT_2
   courseIDs.WEB_DEVELOPMENT_2
   courseIDs.COMPUTER_SCIENCE_3
+  courseIDs.GAME_DEVELOPMENT_3
   courseIDs.COMPUTER_SCIENCE_4
   courseIDs.COMPUTER_SCIENCE_5
   courseIDs.COMPUTER_SCIENCE_6
@@ -120,6 +122,7 @@ courseAcronyms[courseIDs.COMPUTER_SCIENCE_2] = 'CS2'
 courseAcronyms[courseIDs.GAME_DEVELOPMENT_2] = 'GD2'
 courseAcronyms[courseIDs.WEB_DEVELOPMENT_2] = 'WD2'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_3] = 'CS3'
+courseAcronyms[courseIDs.GAME_DEVELOPMENT_3] = 'GD3'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_4] = 'CS4'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_5] = 'CS5'
 courseAcronyms[courseIDs.COMPUTER_SCIENCE_6] = 'CS6'
@@ -229,6 +232,11 @@ getByPath = (target, path) ->
   obj
 
 isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
+
+isRegionalSubscription = (name) -> /_basic_subscription/.test(name)
+
+isSmokeTestEmail = (email) ->
+  /@example.com/.test(email) or /smoketest/.test(email)
 
 round = _.curry (digits, n) ->
   n = +n.toFixed(digits)
@@ -450,38 +458,6 @@ filterMarkdownCodeLanguages = (text, language) ->
 
   return text
 
-aceEditModes =
-  javascript: 'ace/mode/javascript'
-  coffeescript: 'ace/mode/coffee'
-  python: 'ace/mode/python'
-  lua: 'ace/mode/lua'
-  java: 'ace/mode/java'
-  html: 'ace/mode/html'
-
-# These ACEs are used for displaying code snippets statically, like in SpellPaletteEntryView popovers
-# and have short lifespans
-initializeACE = (el, codeLanguage) ->
-  contents = $(el).text().trim()
-  editor = ace.edit el
-  editor.setOptions maxLines: Infinity
-  editor.setReadOnly true
-  editor.setTheme 'ace/theme/textmate'
-  editor.setShowPrintMargin false
-  editor.setShowFoldWidgets false
-  editor.setHighlightActiveLine false
-  editor.setHighlightActiveLine false
-  editor.setBehavioursEnabled false
-  editor.renderer.setShowGutter false
-  editor.setValue contents
-  editor.clearSelection()
-  session = editor.getSession()
-  session.setUseWorker false
-  session.setMode aceEditModes[codeLanguage]
-  session.setWrapLimitRange null
-  session.setUseWrapMode true
-  session.setNewLineMode 'unix'
-  return editor
-
 capitalLanguages =
   'javascript': 'JavaScript'
   'coffeescript': 'CoffeeScript'
@@ -500,22 +476,27 @@ createLevelNumberMap = (levels) ->
       levelNumber = i - practiceLevelTotalCount + String.fromCharCode('a'.charCodeAt(0) + practiceLevelCurrentCount)
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
+    else if level.assessment
+      practiceLevelTotalCount++
+      practiceLevelCurrentCount++
+      levelNumber = 'Challenge'
     else
       practiceLevelCurrentCount = 0
     levelNumberMap[level.key] = levelNumber
   levelNumberMap
 
 findNextLevel = (levels, currentIndex, needsPractice) ->
+  # TODO: Fully account for skipping assessments
   # levels = [{practice: true/false, complete: true/false}]
   index = currentIndex
   index++
   if needsPractice
     if levels[currentIndex].practice or index < levels.length and levels[index].practice
-      # Needs practice, on practice or next practice, choose next incomplete level
+      # Needs practice, current level is practice or next is practice; return the next incomplete practice-or-normal level
       # May leave earlier practice levels incomplete and reach end of course
-      index++ while index < levels.length and levels[index].complete
+      index++ while index < levels.length and (levels[index].complete or levels[index].assessment)
     else
-      # Needs practice, on required, next required, choose first incomplete level of previous practice chain
+      # Needs practice, current level is required, next level is required; return the first incomplete level of previous practice chain
       index--
       index-- while index >= 0 and not levels[index].practice
       if index >= 0
@@ -525,12 +506,29 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
           index++ while index < levels.length and levels[index].practice and levels[index].complete
           if levels[index].practice and not levels[index].complete
             return index
+      # Last set of practice levels is complete; return the next incomplete normal level instead.
       index = currentIndex + 1
-      index++ while index < levels.length and levels[index].complete
+      index++ while index < levels.length and levels[index].complete and not levels[index].assessment
   else
-    # No practice needed, next required incomplete level
-    index++ while index < levels.length and (levels[index].practice or levels[index].complete)
+    # No practice needed; return the next required incomplete level
+    index++ while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
   index
+
+findNextAssessmentForLevel = (levels, currentIndex) ->
+  # Assessments are placed immediately after a level (and possibly its practice levels)
+  # eg: l*,p,p,a*,a',l,... (if we ever do multiple assessments later)
+  # given index l*, return index a*
+  # given index a*, return index a'
+  index = currentIndex
+  index++
+  while index < levels.length
+    if levels[index].assessment
+      return index
+    else if levels[index].practice # it's a practice level, keep looking
+      index++
+    else # we got to a normal level; we didn't find an assessment for the given level.
+      return false
+  return false # we got to the end of the list and found nothing
 
 needsPractice = (playtime=0, threshold=5) ->
   playtime / 60 > threshold
@@ -647,7 +645,6 @@ isValidEmail = (email) ->
   emailRegex.test(email?.trim().toLowerCase())
 
 module.exports = {
-  aceEditModes
   capitalLanguages
   clone
   combineAncestralObject
@@ -658,6 +655,7 @@ module.exports = {
   extractPlayerCodeTag
   filterMarkdownCodeLanguages
   findNextLevel
+  findNextAssessmentForLevel
   formatDollarValue
   functionCreators
   getByPath
@@ -673,9 +671,10 @@ module.exports = {
   hexToHSL
   hslToHex
   i18n
-  initializeACE
   injectCSS
   isID
+  isRegionalSubscription
+  isSmokeTestEmail
   keepDoingUntil
   kindaEqual
   needsPractice

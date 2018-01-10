@@ -114,6 +114,7 @@ module.exports = {
     attrs = _.extend({}, {
       level:
         original: level.get('original'),
+        majorVersion: 1
       creator: creator.id,
     }, attrs)
     attrs.level.primerLanguage = level.get('primerLanguage') if level.get('primerLanguage')

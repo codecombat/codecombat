@@ -1,3 +1,20 @@
+mixin price(name, p)
+  - var origPrice = p.priceStringNoSymbol()
+  if origPrice % 1 === 0
+    - origPrice = Math.floor(origPrice);
+  - var salePrice = p.adjustedPriceStringNoSymbol()
+  if salePrice % 1 === 0
+    - salePrice = Math.floor(salePrice);
+  if origPrice == salePrice
+    .price(data-i18n=name, data-i18n-options={price:origPrice})
+  else if view.basicCoupon && view.basicCoupon.duration === 'once'
+    .price.strike-price(data-i18n=name, data-i18n-options={price:origPrice})
+    .new-price(data-i18n="subscribe.first_month_price", data-i18n-options={price:salePrice})
+  else
+    div
+      span.old-price(data-i18n=name, data-i18n-options={price:origPrice})
+      span.price(data-i18n=name, data-i18n-options={price:salePrice})
+
 .modal-dialog
   .modal-content
     if view.state === 'purchasing'
@@ -15,64 +32,84 @@
         span.glyphicon.glyphicon-remove
 
       div.paper-area
-        div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
-          
-            
-        .container-fluid
-          .row
-            .col-xs-5.feature-col.col-xs-offset-1
-              ul
-                li(data-i18n="subscribe.feature_levels" data-i18n-options={premiumLevelsCount:view.i18nData.premiumLevelsCount})
-                if view.basicProduct
-                  li(data-i18n="subscribe.feature_gems", data-i18n-options={gems:view.basicProduct.get('gems')})
-                li(data-i18n="subscribe.feature_heroes")
-              
-              
-            .col-xs-5.feature-col
-              ul
-                li(data-i18n="subscribe.feature_games")
-                li(data-i18n="subscribe.feature_websites")
-                li(data-i18n="subscribe.feature_items")
-                
-          hr
-          
-          .row
-            - var secondRowClass = '.col-xs-5'
-            if view.basicProduct
+        if view.subType === 'both-subs'
+          div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
+
+          .container-fluid
+            .row
               .col-xs-5.option-col.col-xs-offset-1
-                .option-header.text-center(data-i18n="subscribe.stripe_description")
-                .price(data-i18n="subscribe.month_price", data-i18n-options={price:view.basicProduct.priceStringNoSymbol()})
-                button.btn.btn-lg.btn-illustrated.purchase-button Subscribe Now
-              
-            else
-              - var secondRowClass = '.col-xs-12'
-                
+                img(src="/images/pages/play/modal/three-pets.png")
+              .col-xs-6
+                ul.features-list
+                  li(data-i18n="subscribe.feature_level_access")
+                  li(data-i18n="subscribe.feature_heroes")
+                  li(data-i18n="subscribe.feature_learn")
+
+            hr
+
             if view.lifetimeProduct
-              .option-col(class=secondRowClass)
-                .option-header.text-center(data-i18n="subscribe.lifetime")
-                .price(data-i18n="subscribe.lifetime_price", data-i18n-options={price:view.lifetimeProduct.priceStringNoSymbol()})
-                button.btn.btn-lg.btn-illustrated.lifetime-button Buy Now
-            
-            if view.yearProduct
-              .option-col(class=secondRowClass)
-                .option-header.text-center(data-i18n="subscribe.year_subscription")
-                .price(data-i18n="subscribe.year_price", data-i18n-options={price: view.yearProduct.priceStringNoSymbol()})
-                button.btn.btn-lg.btn-illustrated.sale-button Buy Now
+              .short-row.row
+                if view.basicProduct
+                  .col-xs-5.option-col.col-xs-offset-1
+                  .option-col(class='.col-xs-5')
+                    .option-header.best-deal(data-i18n="subscribe.best_deal")
+                else
+                  .option-col(class='.col-xs-12')
+                    .option-header.best-deal(data-i18n="subscribe.best_deal")
+            .row
+              - var secondRowClass = '.col-xs-5'
+              if view.basicProduct
+                .col-xs-5.option-col.col-xs-offset-1
+                  +price("subscribe.month_price", view.basicProduct)
+                  .option-header.price-subtext.text-center(data-i18n="subscribe.stripe_description")
+                  button.btn.btn-lg.btn-illustrated.purchase-button
+                    span.buy-now-text(data-i18n="subscribe.buy_now")
+                    span.buy-lock-icon &#x1F512;
 
-        p 
-          span(data-i18n="subscribe.kids_message_1")
-          =" "
-          a.parent-link(data-i18n="subscribe.kids_message_2")
-          
-        p
-          span(data-i18n="subscribe.support_part1")
-          =" "
-          a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
-          =" "
-          span(data-i18n="subscribe.support_part3")
+              else
+                - var secondRowClass = '.col-xs-12'
 
+              if view.lifetimeProduct
+                .option-col(class=secondRowClass)
+                  +price("subscribe.lifetime_price", view.lifetimeProduct)
+                  .option-header.price-subtext.text-center(data-i18n="subscribe.lifetime")
+                  if view.paymentProcessor === 'PayPal'
+                    #paypal-button-container
+                  else
+                    button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
+                      span.buy-now-text(data-i18n="subscribe.buy_now")
+                      span.buy-lock-icon &#x1F512;
 
+        else
+          //- lifetime-only modal
+          .container-fluid
+            .row
+              .col-xs-5.text-center
+                img.left-image(src="/images/pages/play/modal/heroes-and-pets.png")
+              .col-xs-7
+                div.benefits-header.text-center(data-i18n="[html]subscribe.comparison_blurb")
+                ul
+                  li(data-i18n="subscribe.feature_level_access")
+                  li(data-i18n="subscribe.feature_heroes")
+                  li(data-i18n="subscribe.feature_learn")
+                if view.lifetimeProduct
+                  .option-col(class=secondRowClass)
+                    +price("subscribe.lifetime_price", view.lifetimeProduct)
+                    .option-header.text-center(data-i18n="subscribe.lifetime")
+                    if view.paymentProcessor === 'PayPal'
+                      #paypal-button-container
+                    else
+                      button.stripe-lifetime-button.btn.btn-lg.btn-illustrated
+                        span.buy-now-text(data-i18n="subscribe.buy_now")
+                        span.buy-lock-icon &#x1F512;
 
+        div.support-blurb.text-center
+          p
+            span(data-i18n="subscribe.support_part1")
+            =" "
+            a(href="mailto:support@codecombat.com", data-i18n="subscribe.support_part2")
+            =" "
+            span(data-i18n="subscribe.support_part3")
 
       if view.state === 'declined'
         #declined-alert.alert.alert-danger.alert-dismissible
@@ -80,22 +117,15 @@
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
 
+      if view.state === 'error'
+        #error-alert.alert.alert-danger.alert-dismissible
+          button.close(type="button" data-dismiss="alert")
+            span(aria-hidden="true") &times;
+          p= view.stateMessage
+
       if view.state === 'unknown_error'
         #error-alert.alert.alert-danger.alert-dismissible
           button.close(type="button" data-dismiss="alert")
             span(aria-hidden="true") &times;
           p(data-i18n="loading_error.unknown")
           p= view.stateMessage
-
-    .parent-link-popover-content.hidden
-      .email-parent-form
-        p(data-i18n="subscribe.parent_email_description")
-        form
-          .form-group
-            label(data-i18n="subscribe.parent_email_input_label")
-            input.parent-input.form-control(type='email', data-i18n="[placeholder]subscribe.parent_email_input_placeholder")
-            .parent-email-validator.email_invalid(data-i18n="subscribe.parent_email_input_invalid")
-          button.parent-send.btn.btn-default(type='submit', data-i18n="subscribe.parent_email_send")
-      .email-parent-complete
-        p(data-i18n="subscribe.parent_email_sent")
-        button.btn(type='button', onclick="$('.parent-link').popover('hide');", data-i18n="modal.close")

@@ -1,3 +1,4 @@
+require('app/styles/admin/demo-requests.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/demo-requests'
 CocoCollection = require 'collections/CocoCollection'

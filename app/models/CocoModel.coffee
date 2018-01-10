@@ -1,5 +1,4 @@
 storage = require 'core/storage'
-deltasLib = require 'core/deltas'
 locale = require 'locale/locale'
 utils = require 'core/utils'
 
@@ -278,36 +277,6 @@ class CocoModel extends Backbone.Model
     ownerPermission = _.find @get('permissions', true), access: 'owner'
     ownerPermission?.target
 
-  getDelta: ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff(_.omit(@_revertAttributes, deltasLib.DOC_SKIP_PATHS), _.omit(@attributes, deltasLib.DOC_SKIP_PATHS))
-
-  getDeltaWith: (otherModel) ->
-    differ = deltasLib.makeJSONDiffer()
-    differ.diff @attributes, otherModel.attributes
-
-  applyDelta: (delta) ->
-    newAttributes = $.extend(true, {}, @attributes)
-    try
-      jsondiffpatch.patch newAttributes, delta
-    catch error
-      unless application.testing
-        console.error 'Error applying delta\n', JSON.stringify(delta, null, '\t'), '\n\nto attributes\n\n', newAttributes
-      return false
-    for key, value of newAttributes
-      delete newAttributes[key] if _.isEqual value, @attributes[key]
-
-    @set newAttributes
-    return true
-
-  getExpandedDelta: ->
-    delta = @getDelta()
-    deltasLib.expandDelta(delta, @_revertAttributes, @schema())
-
-  getExpandedDeltaWith: (otherModel) ->
-    delta = @getDeltaWith(otherModel)
-    deltasLib.expandDelta(delta, @attributes, @schema())
-
   watch: (doWatch=true) ->
     $.ajax("#{@urlRoot}/#{@id}/watch", {type: 'PUT', data: {on: doWatch}})
     @watching = -> doWatch
@@ -347,35 +316,6 @@ class CocoModel extends Backbone.Model
     @updateI18NCoverage() if not path  # only need to do this at the highest level
     sum
 
-  @getReferencedModel: (data, schema) ->
-    return null unless schema.links?
-    linkObject = _.find schema.links, rel: 'db'
-    return null unless linkObject
-    return null if linkObject.href.match('thang.type') and not @isObjectID(data)  # Skip loading hardcoded Thang Types for now (TODO)
-
-    # not fully extensible, but we can worry about that later
-    link = linkObject.href
-    link = link.replace('{(original)}', data.original)
-    link = link.replace('{(majorVersion)}', '' + (data.majorVersion ? 0))
-    link = link.replace('{($)}', data)
-    @getOrMakeModelFromLink(link)
-
-  @getOrMakeModelFromLink: (link) ->
-    makeUrlFunc = (url) -> -> url
-    modelUrl = link.split('/')[2]
-    modelModule = _.string.classify(modelUrl)
-    modulePath = "models/#{modelModule}"
-
-    try
-      Model = require modulePath
-    catch e
-      console.error 'could not load model from link path', link, 'using path', modulePath
-      return
-
-    model = new Model()
-    model.url = makeUrlFunc(link)
-    return model
-
   setURL: (url) ->
     makeURLFunc = (u) -> -> u
     @url = makeURLFunc(url)
@@ -383,22 +323,6 @@ class CocoModel extends Backbone.Model
 
   getURL: ->
     return if _.isString @url then @url else @url()
-
-  makePatch: ->
-    Patch = require 'models/Patch'
-    target = {
-      'collection': _.string.underscored @constructor.className
-      'id': @id
-    }
-    # if this document is versioned (has original property) then include version info
-    if @get('original')
-      target.original = @get('original')
-      target.version = @get('version')
-
-    return new Patch({
-      delta: @getDelta()
-      target
-    })
 
   @pollAchievements: ->
     return if application.testing
@@ -429,6 +353,8 @@ class CocoModel extends Backbone.Model
     pathToData = {}
     attributes ?= @attributes
 
+    # TODO: Share this code between server and client
+    # NOTE: If you edit this, edit the server side version as well!
     TreemaUtils.walk(attributes, @schema(), null, (path, data, workingSchema) ->
       # Store parent data for the next block...
       if data?.i18n

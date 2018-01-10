@@ -1,3 +1,4 @@
+require('app/styles/play/modal/poll-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/poll-modal'
 utils = require 'core/utils'
@@ -119,9 +120,10 @@ module.exports = class PollModal extends ModalView
       _.delay (=>
         return if @destroyed
         earned = me.get('earned') ? {}
+        earned.gems ?= 0
         earned.gems += randomGems
         me.set 'earned', earned
-        me.trigger 'change:earned'
+        me.trigger 'change:earned', me, earned
       ), 1200
 
 

@@ -36,7 +36,7 @@
 
   .language
     display: inline-block
-    width: 140px
+    margin-right: 10px
 
   .student-count
     display: inline-block
@@ -83,6 +83,9 @@
       color: $gray-light
       &:hover
         text-decoration: none
+
+  [dir="rtl"] .view-class-arrow .view-class-arrow-inner
+    transform: rotate(180deg)
 
   .progress-dot
     display: inline-block

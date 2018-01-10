@@ -154,6 +154,77 @@
     a
       color: rgb(127, 127, 255)
 
+  .ability-icon
+    cursor: pointer
+  .ability-icon > img
+    transition: transform 0.25s
+  .ability-icon > img:active
+    transform: scale(0.75)
+  .ability-icon > img:hover
+    transform: scale(1.25)
+  #ritic-image
+    cursor: pointer
+  .ritic-block
+    transition: filter 0s;
+  .ritic-block-1
+    filter: hue-rotate(160deg) brightness(0) blur(6px) opacity(0.5);
+    transition: filter 1s;
+  .ritic-block-2
+    filter: hue-rotate(160deg) brightness(0.5) blur(4px) opacity(0.575);
+    transition: filter 1s;
+  .ritic-block-3
+    filter: hue-rotate(160deg) brightness(1) blur(2px) opacity(0.66);
+    transition: filter 1s;
+  .shard
+    position: absolute
+    width: 32px
+    transition: transform 1s
+    pointer-events: none
+
+  .highlight
+    display: none
+    opacity: 0.5
+    // I like black better than cyan?
+    filter: brightness(0)
+
+  @keyframes highlight-anim
+    0%
+      transform: rotate(0deg)
+    100%
+      transform: rotate(360deg)
+
+  @keyframes highlight-reverse-anim
+    0%
+      transform: rotate(0deg)
+    100%
+      transform: rotate(-360deg)
+
+  .breathing
+    animation: breathing-anim 2s infinite alternate;
+
+  @keyframes breathing-anim
+    0%
+      transform: scaleX(0.98) scaleY(1.02);
+    100%
+      transform: scaleX(1) scaleY(1);
+
+  .twitching
+    animation: twitching-anim 1s infinite alternate;
+
+  @keyframes twitching-anim
+    0%
+      transform: rotate(0deg);
+    10%
+      transform: rotate(0deg);
+    20%
+      transform: rotate(-1deg);
+    30%
+      transform: rotate(1deg);
+    40%
+      transform: rotate(0deg);
+    100%
+      transform: rotate(0deg);
+
 
   //- Action buttons
 

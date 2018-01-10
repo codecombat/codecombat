@@ -9,19 +9,21 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files : [
-      'public/javascripts/vendor.js', // need for jade definition...
-      'public/javascripts/whole-vendor.js',
-      'public/lib/ace/ace.js',
-      'public/javascripts/aether.js',
-      'public/javascripts/whole-app.js',
-      'public/javascripts/app/vendor/jasmine-mock-ajax.js',
-      'public/javascripts/app/tests.js',
-      'public/javascripts/run-tests.js'
+      'public/javascripts/test.js',
+      // 'public/javascripts/chunks/TestView.bundle.js',
+      // 'public/javascripts/vendor.js', // need for jade definition...
+      // 'public/javascripts/whole-vendor.js',
+      // 'public/lib/ace/ace.js',
+      // 'public/javascripts/aether.js',
+      // 'public/javascripts/whole-app.js',
+      // 'public/javascripts/app/vendor/jasmine-mock-ajax.js',
+      // 'public/javascripts/app/tests.js',
+      // 'public/javascripts/run-tests.js'
     ],
 
     preprocessors : {
       '**/*.coffee': 'coffee',
-      '**/javascripts/whole-app.js': 'coverage'
+      '**/javascripts/whole-app.js': 'coverage' // TODO: Webpack: get this working
     },
 
     // list of files to exclude
@@ -55,12 +57,12 @@ module.exports = function(config) {
     // - Safari (only Mac)
     // - PhantomJS
     // - IE (only Windows)
-    browsers : ['Chrome'],
-
+    browsers : ['Firefox'],
 
     // If browser does not capture in given timeout [ms], kill it
-    captureTimeout : 5000,
+    captureTimeout : 15000,
 
+    transports: ['polling'],
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and executing
@@ -71,14 +73,23 @@ module.exports = function(config) {
       dir : 'coverage/'
     },
 
+    //browserConsoleLogOptions: {
+    //  level: 'log',
+    //  terminal: true
+    //},
+
     plugins : [
       'karma-jasmine',
-      'karma-chrome-launcher',
-      'karma-phantomjs-launcher',
+      //'karma-chrome-launcher',
+      //'karma-phantomjs-launcher',
       'karma-coffee-preprocessor',
       'karma-coverage',
       'karma-firefox-launcher'
-    ]
+    ],
+
+    retryLimit: 5,
+    browserNoActivityTimeout: 60000,     // default 10,000ms
+    browserDisconnectTolerance: 5
   });
 
 };

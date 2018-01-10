@@ -1,4 +1,4 @@
-app = require 'core/application'
+require('app/styles/courses/teacher-courses-view.sass')
 CocoCollection = require 'collections/CocoCollection'
 CocoModel = require 'models/CocoModel'
 Courses = require 'collections/Courses'
@@ -23,6 +23,7 @@ module.exports = class TeacherCoursesView extends RootView
 
   initialize: (options) ->
     super(options)
+    application.setHocCampaign('') # teachers playing levels from here return here
     @utils = require 'core/utils'
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})

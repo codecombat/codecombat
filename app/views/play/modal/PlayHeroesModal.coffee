@@ -1,3 +1,4 @@
+require('app/styles/play/modal/play-heroes-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/play-heroes-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
@@ -13,6 +14,7 @@ Purchase = require 'models/Purchase'
 LayerAdapter = require 'lib/surface/LayerAdapter'
 Lank = require 'lib/surface/Lank'
 store = require 'core/store'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class PlayHeroesModal extends ModalView
   className: 'modal fade play-modal'
@@ -40,7 +42,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @confirmButtonI18N = options.confirmButtonI18N ? "common.save"
     @heroes = new CocoCollection([], {model: ThangType})
     @heroes.url = '/db/thang.type?view=heroes'
-    @heroes.setProjection ['original','name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','unlockLevelName','i18n','poseImage','tier']
+    @heroes.setProjection ['original','name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n','poseImage','tier','releasePhase']
     @heroes.comparator = 'gems'
     @listenToOnce @heroes, 'sync', @onHeroesLoaded
     @supermodel.loadCollection(@heroes, 'heroes')
@@ -53,11 +55,14 @@ module.exports = class PlayHeroesModal extends ModalView
 
   onHeroesLoaded: ->
     @formatHero hero for hero in @heroes.models
-    if me.freeOnly()
+    if me.freeOnly() or application.getHocCampaign()
       @heroes.reset(@heroes.filter((hero) => !hero.locked))
+    unless me.isAdmin()
+      @heroes.reset(@heroes.filter((hero) => hero.get('releasePhase') isnt 'beta'))
 
   formatHero: (hero) ->
     hero.name = utils.i18n hero.attributes, 'extendedName'
+    hero.name ?= utils.i18n hero.attributes, 'shortName'
     hero.name ?= utils.i18n hero.attributes, 'name'
     hero.description = utils.i18n hero.attributes, 'description'
     hero.unlockLevelName = utils.i18n hero.attributes, 'unlockLevelName'
@@ -137,7 +142,7 @@ module.exports = class PlayHeroesModal extends ModalView
         {id: 'python', name: "Python (#{$.i18n.t('choose_hero.default')})"}
         {id: 'javascript', name: 'JavaScript'}
         {id: 'coffeescript', name: "CoffeeScript (#{$.i18n.t('choose_hero.experimental')})"}
-        {id: 'lua', name: 'Lua'}
+        {id: 'lua', name: "Lua (#{$.i18n.t('choose_hero.experimental')})"}
       ]
 
       if me.isAdmin() or not application.isProduction()
@@ -173,12 +178,13 @@ module.exports = class PlayHeroesModal extends ModalView
 
   loadHero: (hero, heroIndex, preloading=false) ->
     createjs.Ticker.removeEventListener 'tick', stage for stage in _.values @stages
-    createjs.Ticker.setFPS 30  # In case we paused it from being inactive somewhere else
+    createjs.Ticker.framerate = 30  # In case we paused it from being inactive somewhere else
     if poseImage = hero.get 'poseImage'
       $(".hero-item[data-hero-id='#{hero.get('original')}'] canvas").hide()
       $(".hero-item[data-hero-id='#{hero.get('original')}'] .hero-pose-image").show().find('img').prop('src', '/file/' + poseImage)
       @playSelectionSound hero unless preloading
       return hero
+    # TODO: remove animated hero code, as we have poseImages for all heroes.
     if stage = @stages[heroIndex]
       unless preloading
         _.defer -> createjs.Ticker.addEventListener 'tick', stage  # Deferred, otherwise it won't start updating for some reason.
@@ -286,6 +292,7 @@ module.exports = class PlayHeroesModal extends ModalView
       #- ...then rerender visible hero
       heroEntry = @$el.find(".hero-item[data-hero-id='#{@visibleHero.get('original')}']")
       heroEntry.find('.hero-status-value').attr('data-i18n', 'play.available').i18n()
+      @applyRTLIfNeeded()
       heroEntry.removeClass 'locked purchasable'
       @selectedHero = @visibleHero
       @rerenderFooter()
@@ -314,6 +321,7 @@ module.exports = class PlayHeroesModal extends ModalView
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
     popover?.$tip?.i18n()
+    @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
     return @askToSignUp() if me.get('anonymous')
@@ -324,9 +332,7 @@ module.exports = class PlayHeroesModal extends ModalView
     @$el.find('.unlock-button').popover 'destroy'
 
   onSubscribeButtonClicked: (e) ->
-    return @askToSignUp() if me.get('anonymous')
     @openModalView new SubscribeModal()
-    console.log $(e.target).data('heroSlug')
     window.tracker?.trackEvent 'Show subscription modal', category: 'Subscription', label: 'hero subscribe modal: ' + ($(e.target).data('heroSlug') or 'unknown')
 
   #- Exiting

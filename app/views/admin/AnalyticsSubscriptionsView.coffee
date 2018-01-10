@@ -1,3 +1,4 @@
+require('app/styles/admin/analytics-subscriptions.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/admin/analytics-subscriptions'
 ThangType = require 'models/ThangType'
@@ -5,7 +6,7 @@ User = require 'models/User'
 
 # TODO: Graphing code copied/mangled from campaign editor level view.  OMG, DRY.
 
-require 'vendor/d3'
+require 'd3/d3.js'
 
 module.exports = class AnalyticsSubscriptionsView extends RootView
   id: 'admin-analytics-subscriptions-view'
@@ -100,7 +101,8 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     earliestEventDate.setUTCMonth(earliestEventDate.getUTCMonth() - 2)
     earliestEventDate.setUTCDate(earliestEventDate.getUTCDate() - 8)
     nextBatch = (starting_after, done) =>
-      @updateFetchDataState "Fetching cancellations #{cancellationEvents.length}..."
+      @updateFetchDataState "Fetching cancellations #{cancellationEvents.length} so far..."
+      console.log "Fetching cancellations #{cancellationEvents.length} so far..."
       options =
         url: '/db/subscription/-/stripe_events'
         method: 'POST'
@@ -131,28 +133,35 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     nextBatch null, done
 
   getOutstandingCancelledSubscriptions: (cancellations, done) ->
-    @updateFetchDataState "Fetching oustanding cancellations..."
     trimmedCancellations = _.map(cancellations, (a) -> _.pick(a, ['customerID', 'subscriptionID']))
-    options =
-      url: '/db/subscription/-/stripe_subscriptions'
-      method: 'POST'
-      data: {subscriptions: trimmedCancellations}
-    options.error = (model, response, options) =>
-      return if @destroyed
-      console.error 'Failed to get outstanding cancellations', response
-    options.success = (subscriptions, response, options) =>
-      return if @destroyed
-      outstandingCancelledSubscriptions = []
-      for subscription in subscriptions
-        continue unless subscription?.cancel_at_period_end
-        outstandingCancelledSubscriptions.push
-          cancel: new Date(subscription.canceled_at * 1000)
-          customerID: subscription.customerID
-          start: new Date(subscription.start * 1000)
-          subscriptionID: subscription.id
-          userID: subscription.metadata?.id
-      done(outstandingCancelledSubscriptions)
-    @supermodel.addRequestResource('get_outstanding_cancelled_subscriptions', options, 0).load()
+    batchSize = 100
+    outstandingCancelledSubscriptions = []
+    nextBatch = (batch, done) =>
+      @updateFetchDataState "Fetching #{batch.length} of #{trimmedCancellations.length} remaining oustanding cancellations..."
+      console.log "Fetching #{batch.length} of #{trimmedCancellations.length} remaining oustanding cancellations..."
+      options =
+        url: '/db/subscription/-/stripe_subscriptions'
+        method: 'POST'
+        data: {subscriptions: batch}
+      options.error = (model, response, options) =>
+        return if @destroyed
+        console.error 'Failed to get outstanding cancellations', response
+      options.success = (subscriptions, response, options) =>
+        return if @destroyed
+        for subscription in subscriptions
+          continue unless subscription?.cancel_at_period_end
+          outstandingCancelledSubscriptions.push
+            cancel: new Date(subscription.canceled_at * 1000)
+            customerID: subscription.customerID
+            start: new Date(subscription.start * 1000)
+            subscriptionID: subscription.id
+            userID: subscription.metadata?.id
+        if trimmedCancellations.length > 0
+          nextBatch(trimmedCancellations.splice(0, batchSize), done)
+        else
+          done(outstandingCancelledSubscriptions)
+      @supermodel.addRequestResource('get_outstanding_cancelled_subscriptions', options, 0).load()
+    nextBatch(trimmedCancellations.splice(0, batchSize), done)
 
   getSubscribers: (subscriptions, done) ->
     # console.log 'getSubscribers', subscriptions.length
@@ -286,7 +295,8 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
     getLiveInvoices = (ending_before, done) =>
 
       nextBatch = (ending_before, done) =>
-        @updateFetchDataState "Fetching invoices #{Object.keys(invoices).length}..."
+        @updateFetchDataState "Fetching live Stripe invoices #{Object.keys(invoices).length} invoices so far..."
+        console.log "Fetching invoices #{Object.keys(invoices).length} invoices so far..."
         options =
           url: '/db/subscription/-/stripe_invoices'
           method: 'POST'
@@ -308,7 +318,8 @@ module.exports = class AnalyticsSubscriptionsView extends RootView
       nextBatch ending_before, done
 
     getAnalyticsInvoices = (done) =>
-      @updateFetchDataState "Fetching invoices #{Object.keys(invoices).length}..."
+      @updateFetchDataState "Fetching internal Stripe invoices #{Object.keys(invoices).length} invoices so far..."
+      console.log "Fetching internal Stripe invoices #{Object.keys(invoices).length} invoices so far..."
       options =
         url: '/db/analytics.stripe.invoice/-/all'
         method: 'GET'

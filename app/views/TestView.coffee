@@ -1,12 +1,20 @@
+require('app/styles/test-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/test-view'
 requireUtils = require 'lib/requireUtils'
 storage = require 'core/storage'
 
-require 'vendor/jasmine-bundle'
-require 'tests'
+require('vendor/styles/jasmine.css')
+window.getJasmineRequireObj = require('exports-loader?getJasmineRequireObj!vendor/scripts/jasmine')
+window.jasmineRequire = window.getJasmineRequireObj()
+unless application.karmaTest # Karma doesn't use these two libraries, needs them not to run
+  require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-html')
+  require('imports-loader?jasmineRequire=>window.jasmineRequire!vendor/scripts/jasmine-boot')
+require('imports-loader?getJasmineRequireObj=>window.getJasmineRequireObj!vendor/scripts/jasmine-mock-ajax')
 
-TEST_REQUIRE_PREFIX = 'test/app/'
+requireTests = require.context('test/app', true, /.*\.(coffee|js)$/)
+
+TEST_REQUIRE_PREFIX = './'
 TEST_URL_PREFIX = '/test/'
 
 customMatchers = {
@@ -72,7 +80,6 @@ module.exports = TestView = class TestView extends RootView
       @specFiles = (f for f in @specFiles when _.string.startsWith f, prefix)
 
   @runTests: (specFiles, demosOn=false, view) ->
-    
     jasmine.getEnv().addReporter({
       suiteStack: []
       
@@ -129,11 +136,9 @@ module.exports = TestView = class TestView extends RootView
         # TODO Clean up more things
         #   * Events
 
-      require f for f in specFiles # runs the tests
-
+      requireTests(file) for file in specFiles # This runs the spec files
   @getAllSpecFiles = ->
-    allFiles = window.require.list()
-    (f for f in allFiles when f.indexOf('.spec') > -1)
+    requireTests.keys()
 
   destroy: ->
     # hack to get jasmine tests to properly run again on clicking links, and make sure if you

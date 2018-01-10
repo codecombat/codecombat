@@ -2,6 +2,9 @@ CocoModel = require './CocoModel'
 SpriteBuilder = require 'lib/sprites/SpriteBuilder'
 LevelComponent = require './LevelComponent'
 CocoCollection = require 'collections/CocoCollection'
+createjs = require 'lib/createjs-parts'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
+ThangTypeLib = require 'lib/ThangTypeLib'
 
 utils = require 'core/utils'
 
@@ -10,32 +13,9 @@ buildQueue = []
 module.exports = class ThangType extends CocoModel
   @className: 'ThangType'
   @schema: require 'schemas/models/thang_type'
-  @heroes:
-    captain: '529ec584c423d4e83b000014'
-    knight: '529ffbf1cf1818f2be000001'
-    samurai: '53e12be0d042f23505c3023b'
-    raider: '55527eb0b8abf4ba1fe9a107'
-    goliath: '55e1a6e876cb0948c96af9f8'
-    guardian: '566a058620de41290036a745'
-    ninja: '52fc0ed77e01835453bd8f6c'
-    'forest-archer': '5466d4f2417c8b48a9811e87'
-    trapper: '5466d449417c8b48a9811e83'
-    pixie: ''
-    assassin: '566a2202e132c81f00f38c81'
-    librarian: '52fbf74b7e01835453bd8d8e'
-    'potion-master': '52e9adf7427172ae56002172'
-    sorcerer: '52fd1524c7e6cf99160e7bc9'
-    necromancer: '55652fb3b9effa46a1f775fd'
-    'master-wizard': ''
-    duelist: '57588f09046caf2e0012ed41'
-    champion: '575848b522179b2800efbfbf'
-    'code-ninja': '58192d484954d56144a7062f'
-  @heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja']
-    Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
-    Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
-  @items:
-    'simple-boots': '53e237bf53457600003e3f05'
+  @heroes: ThangTypeConstants.heroes
+  @heroClasses: ThangTypeConstants.heroClasses
+  @items: ThangTypeConstants.items
   urlRoot: '/db/thang.type'
   building: {}
   editableByArtisans: true
@@ -243,33 +223,9 @@ module.exports = class ThangType extends CocoModel
     portraitOnly = !!options.portraitOnly
     "#{@get('name')} - #{options.resolutionFactor} - #{colorConfigs} - #{portraitOnly}"
 
-  getHeroShortName: ->
-    # TODO: Eventually nice to move this into ThangType so it can be translated like the rest
-    map = {
-      'Assassin': {'en-US': 'Ritic'}
-      'Captain': {'en-US': 'Anya', 'zh-HANS': '安雅'}
-      'Champion': {'en-US': 'Ida'}
-      'Master Wizard': {'en-US': 'Usara'}
-      'Duelist': {'en-US': 'Alejandro'}
-      'Forest Archer': {'en-US': 'Naria'}
-      'Goliath': {'en-US': 'Okar'}
-      'Guardian': {'en-US': 'Illia'}
-      'Knight': {'en-US': 'Tharin', 'zh-HANS': '坦林'}
-      'Librarian': {'en-US': 'Hushbaum'}
-      'Necromancer': {'en-US': 'Nalfar'}
-      'Ninja': {'en-US': 'Amara'}
-      'Pixie': {'en-US': 'Zana'}
-      'Potion Master': {'en-US': 'Omarn'}
-      'Raider': {'en-US': 'Arryn'}
-      'Samurai': {'en-US': 'Hattori'}
-      'Ian Elliott': {'en-US': 'Hattori'}
-      'Sorcerer': {'en-US': 'Pender'}
-      'Trapper': {'en-US': 'Senick'}
-      'Code Ninja': {'en-US': 'Code Ninja'}
-    }
-    name = map[@get('name')]
-    return translated if translated = name?[me.get('preferredLanguage', true)]
-    return name?['en-US']
+  getHeroShortName: -> ThangTypeLib.getHeroShortName(@attributes)
+
+  getGender: -> ThangTypeLib.getGender(@attributes)
 
   getPortraitImage: (spriteOptionsOrKey, size=100) ->
     src = @getPortraitSource(spriteOptionsOrKey, size)
@@ -367,12 +323,7 @@ module.exports = class ThangType extends CocoModel
     @wizardType.fetch()
     @wizardType
 
-  getPortraitURL: ->
-    if iconURL = @get('rasterIcon')
-      return "/file/#{iconURL}"
-    if rasterURL = @get('raster')
-      return "/file/#{rasterURL}"
-    "/file/db/thang.type/#{@get('original')}/portrait.png"
+  getPortraitURL: -> ThangTypeLib.getPortraitURL(@attributes)
 
   # Item functions
 

@@ -9,7 +9,7 @@
 lineBreak = /\r\n|[\n\r\u2028\u2029]/g
 identifierRegex = /[\.a-zA-Z_0-9\$\-\u00A2-\uFFFF]/
 Fuzziac = require './fuzziac' # https://github.com/stollcri/fuzziac.js
-ace = require 'ace'
+ace = require('lib/aceContainer')
 
 module.exports = (SnippetManager, autoLineEndings) ->
   {Range} = ace.require 'ace/range'
@@ -136,7 +136,7 @@ module.exports = (SnippetManager, autoLineEndings) ->
 
     beginningOfLine = session.getLine(pos.row).substring(0,pos.column - prefix.length)
 
-    unless (fullPrefixParts.length < 3 and /^(hero|self|this|@)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
+    unless (fullPrefixParts.length < 3 and /^(hero|self|this|@|db|game|ui)$/.test(fullPrefixParts[0]) ) or /^\s*$/.test(beginningOfLine)
       # console.log "DEBUG: autocomplete bailing", fullPrefixParts, '|', prefix, '|', beginningOfLine, '|', pos.column - prefix.length
       @completions = completions
       return callback null, completions

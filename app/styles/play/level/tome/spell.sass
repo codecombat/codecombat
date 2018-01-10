@@ -82,6 +82,9 @@
     font-family: Monaco, Menlo, Ubuntu Mono, Consolas, "source-code-pro", monospace !important
     @include transition(height 0.25s ease-in-out)
 
+    body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+      font-family: "Cousine", "Courier", "Courier New", monospace !important
+
     &.disabled
       @include opacity(0.8)
       .ace_cursor, .executing, .ace_active-line, .ace_gutter-active-line
@@ -222,6 +225,9 @@
     .ace_text-layer .ace_variable
       // https://github.com/codecombat/codecombat/issues/6
       color: rgb(145, 48, 50)
+
+    .ace_text-layer .ace_invisible_space
+      visibility: hidden
 
     .ace_search
       background-color: rgba(216, 187, 165, 1)

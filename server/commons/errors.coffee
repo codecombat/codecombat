@@ -95,6 +95,14 @@ module.exports.InternalServerError = class InternalServerError extends NetworkEr
   code: 500
   errorName: 'Internal Server Error'
 
+module.exports.BadGatewayError = class BadGatewayError extends NetworkError
+  code: 502
+  errorName: 'Bad Gateway Error'
+  
+module.exports.ServiceUnavailable = class ServiceUnavailable extends NetworkError
+  code: 503
+  errorName: 'Service Unavailable'
+
 module.exports.GatewayTimeout = class GatewayTimeout extends NetworkError
   code: 504
   errorName: 'Gateway Timeout'

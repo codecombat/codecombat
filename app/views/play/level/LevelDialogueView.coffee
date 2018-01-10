@@ -1,3 +1,4 @@
+require('app/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-dialogue-view'
 DialogueAnimator = require './DialogueAnimator'
@@ -32,17 +33,9 @@ module.exports = class LevelDialogueView extends CocoView
       @openModalView new PlayItemsModal supermodel: @supermodal
       e.stopPropagation()
 
-  shouldSkipDialogue: (mood) ->
-    return false if me.isAdmin()
-    return true if mood is 'alarm'
-    if mood is 'debrief'
-      switch me.get('testGroupNumber') % 8
-        when 4, 5, 6, 7 then return true # First 4 test groups do not see 'debrief'-type boxes 
-    return false
 
   onSpriteDialogue: (e) ->
     return unless e.message
-    return Backbone.Mediator.publish('script:end-current-script', {}) if @shouldSkipDialogue(e.mood)
     @$el.addClass 'active speaking'
     $('body').addClass('dialogue-view-active')
     @setMessage e.message, e.mood, e.responses
@@ -51,7 +44,6 @@ module.exports = class LevelDialogueView extends CocoView
         @$el.find('.dialogue-area').append($('<img/>').addClass('embiggen').attr('src', '/file/' + e.sprite.thangType.get('poseImage')))
       else
         @$el.find('.dialogue-area').append($('<img/>').attr('src', e.sprite.thangType.getPortraitURL()))
-    window.tracker?.trackEvent 'Heard Sprite', {message: e.message, label: e.message, ls: @sessionID}
 
   onDialogueSoundCompleted: ->
     @$el.removeClass 'speaking'
@@ -73,7 +65,7 @@ module.exports = class LevelDialogueView extends CocoView
     @$el.addClass(mood)
     @lastMood = mood
     @bubble.text('')
-    group = $('<div class="enter secret"></div>')
+    group = $('<div class="enter secret" dir="ltr"></div>')
     @bubble.append(group)
     if responses
       @lastResponses = responses

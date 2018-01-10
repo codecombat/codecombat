@@ -1,3 +1,5 @@
+_ = require('lodash') # TODO webpack: Get these two loading from lodash entry, probably
+_.string = require('underscore.string')
 Vector = require './vector'
 Rectangle = require './rectangle'
 Ellipse = require './ellipse'
@@ -19,6 +21,9 @@ REAL_TIME_COUNTDOWN_DELAY = 3000  # match CountdownScreen
 ITEM_ORIGINAL = '53e12043b82921000051cdf9'
 EXISTS_ORIGINAL = '524b4150ff92f1f4f8000024'
 COUNTDOWN_LEVELS = ['sky-span']
+window.string_score = require 'vendor/scripts/string_score.js' # Used as a global in DB code
+require 'vendor/scripts/coffeescript' # Install the global CoffeeScript compiler #TODO Performance: Load this only when necessary
+require('lib/worldLoader') # Install custom hack to dynamically require library files
 
 module.exports = class World
   @className: 'World'
@@ -27,6 +32,7 @@ module.exports = class World
   preloading: false  # Whether we are just preloading a world in case we soon cast it
   debugging: false  # Whether we are just rerunning to debug a world we've already cast
   headless: false  # Whether we are just simulating for goal states instead of all serialized results
+  synchronous: false  # Whether we are simulating the game on the main thread and don't need to serialize/deserialize
   framesSerializedSoFar: 0
   framesClearedSoFar: 0
   apiProperties: ['age', 'dt']
@@ -249,7 +255,11 @@ module.exports = class World
     @picoCTFProblem = level.picoCTFProblem if level.picoCTFProblem
     if @picoCTFProblem?.instances and not @picoCTFProblem.flag_sha1
       @picoCTFProblem = _.merge @picoCTFProblem, @picoCTFProblem.instances[0]
-    system.start @thangs for system in @systems
+    for system in @systems
+      try
+        system.start @thangs
+      catch err
+        console.error "Error starting system!", system, err
 
   loadSystemsFromLevel: (level) ->
     # Remove old Systems
@@ -273,7 +283,7 @@ module.exports = class World
 
     # Load new Thangs
     toAdd = (@loadThangFromLevel thangConfig, level.levelComponents, level.thangTypes for thangConfig in level.thangs ? [])
-    @extraneousThangs = consolidateThangs toAdd if willSimulate  # Combine walls, for example; serialize the leftovers later
+    @extraneousThangs = consolidateThangs toAdd if willSimulate and not @synchronous  # Combine walls, for example; serialize the leftovers later
     @addThang thang for thang in toAdd
     null
 
@@ -323,6 +333,7 @@ module.exports = class World
     c = map[js]
     return c if c
     try
+      require = window.libWorldRequire
       c = map[js] = eval js
     catch err
       console.error "Couldn't compile #{kind} code:", err, "\n", js
@@ -373,7 +384,8 @@ module.exports = class World
     @goalManager.setGoalState(goalID, status)
 
   endWorld: (victory=false, delay=3, tentative=false) ->
-    @totalFrames = Math.min(@totalFrames, @frames.length + Math.floor(delay / @dt))  # end a few seconds later
+    maximumFrame = if @indefiniteLength then Infinity else @totalFrames
+    @totalFrames = Math.min(maximumFrame, @frames.length + Math.floor(delay / @dt))  # end a few seconds later
     @victory = victory  # TODO: should just make this signify the winning superteam
     @victoryIsTentative = tentative
     status = if @victory then 'won' else 'lost'
@@ -406,7 +418,7 @@ module.exports = class World
     #console.log "... world serializing frames from", startFrame, "to", endFrame, "of", @totalFrames
     [transferableObjects, nontransferableObjects] = [0, 0]
     serializedFlagHistory = (_.omit(_.clone(flag), 'processed') for flag in @flagHistory)
-    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag}
+    o = {totalFrames: @totalFrames, maxTotalFrames: @maxTotalFrames, frameRate: @frameRate, dt: @dt, victory: @victory, userCodeMap: {}, trackedProperties: {}, flagHistory: serializedFlagHistory, difficulty: @difficulty, scores: @getScores(), randomSeed: @randomSeed, picoCTFFlag: @picoCTFFlag, keyValueDb: @keyValueDb}
     o.trackedProperties[prop] = @[prop] for prop in @trackedProperties or []
 
     for thangID, methods of @userCodeMap
@@ -513,7 +525,7 @@ module.exports = class World
             w.userCodeMap[thangID][methodName][aetherStateKey] = serializedAether[aetherStateKey]
     else
       w = new World o.userCodeMap, classMap
-    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag]
+    [w.totalFrames, w.maxTotalFrames, w.frameRate, w.dt, w.scriptNotes, w.victory, w.flagHistory, w.difficulty, w.scores, w.randomSeed, w.picoCTFFlag, w.keyValueDb] = [o.totalFrames, o.maxTotalFrames, o.frameRate, o.dt, o.scriptNotes ? [], o.victory, o.flagHistory, o.difficulty, o.scores, o.randomSeed, o.picoCTFFlag, o.keyValueDb]
     w[prop] = val for prop, val of o.trackedProperties
 
     perf.t1 = now()

@@ -1,9 +1,11 @@
+require('app/styles/play/modal/play-items-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/play-items-modal'
 buyGemsPromptTemplate = require 'templates/play/modal/buy-gems-prompt'
 ItemDetailsView = require './ItemDetailsView'
 BuyGemsModal = require 'views/play/modal/BuyGemsModal'
 CreateAccountModal = require 'views/core/CreateAccountModal'
+SubscribeModal = require 'views/core/SubscribeModal'
 
 CocoCollection = require 'collections/CocoCollection'
 ThangType = require 'models/ThangType'
@@ -50,6 +52,7 @@ module.exports = class PlayItemsModal extends ModalView
     'click .item': 'onItemClicked'
     'shown.bs.tab': 'onTabClicked'
     'click .unlock-button': 'onUnlockButtonClicked'
+    'click .subscribe-button': 'onSubscribeButtonClicked'
     'click .buy-gems-prompt-button': 'onBuyGemsPromptButtonClicked'
     'click #close-modal': 'hide'
     'click': 'onClickedSomewhere'
@@ -74,6 +77,7 @@ module.exports = class PlayItemsModal extends ModalView
       'description'
       'i18n'
       'heroClass'
+      'subscriber'
     ]
 
     itemFetcher = new CocoCollection([], { url: '/db/thang.type?view=items', project: project, model: ThangType })
@@ -143,6 +147,7 @@ module.exports = class PlayItemsModal extends ModalView
 
   onItemClicked: (e) ->
     return if $(e.target).closest('.unlock-button').length
+    return if @destroyed
     @playSound 'menu-button-click'
     itemEl = $(e.target).closest('.item')
     wasSelected = itemEl.hasClass('selected')
@@ -176,7 +181,7 @@ module.exports = class PlayItemsModal extends ModalView
       return { viewName: @.id, featureName: 'filter-ranger' }
     else
       return null
-  
+
   onTabClicked: (e) ->
     @playSound 'game-menu-tab-switch'
     nano = $($(e.target).attr('href')).find('.nano')
@@ -212,7 +217,7 @@ module.exports = class PlayItemsModal extends ModalView
     affordable = cost <= gemsOwned
     if not affordable
       @playSound 'menu-button-click'
-      @askToBuyGems button unless me.freeOnly()
+      @askToBuyGems button unless me.freeOnly() or application.getHocCampaign()
     else if button.hasClass('confirm')
       @playSound 'menu-button-unlock-end'
       purchase = Purchase.makeFor(item)
@@ -239,6 +244,9 @@ module.exports = class PlayItemsModal extends ModalView
       @$el.one 'click', (e) ->
         button.removeClass('confirm').text($.i18n.t('play.unlock')) if e.target isnt button[0]
 
+  onSubscribeButtonClicked: (e) ->
+    @openModalView new SubscribeModal()
+
   askToSignUp: ->
     createAccountModal = new CreateAccountModal supermodel: @supermodel
     return @openModalView createAccountModal
@@ -256,6 +264,7 @@ module.exports = class PlayItemsModal extends ModalView
     ).popover 'show'
     popover = unlockButton.data('bs.popover')
     popover?.$tip?.i18n()
+    @applyRTLIfNeeded()
 
   onBuyGemsPromptButtonClicked: (e) ->
     @playSound 'menu-button-click'

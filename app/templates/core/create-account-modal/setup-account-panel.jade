@@ -1,9 +1,9 @@
 .setup-account-panel.text-left
   .p-a-3
     div.text-center(v-if="saving")
-      {{ $t("common.saving") }}
+      | {{ $t("common.saving") }}
     div.text-center(v-else-if="error")
-      {{ $t("loading_error.error") }}
+      | {{ $t("loading_error.error") }}
       =": "
       | {{ error }}
     div(v-else)
@@ -23,6 +23,11 @@
           =" "
           span {{ $t("signup.teacher_list_resource_hub_5") }}
       span(v-html="$t('signup.teacher_additional_questions', {supportEmail})")
+
+    br
+    div.text-center
+      input#subscribe-input(type="checkbox" name="subscribe" checked=true)
+      span.spl {{ $t("signup.teacher_email_announcements") }}
 
   .history-nav-buttons
     button.back-button.btn.btn-lg.btn-navy-alt(type='button', v-on:click="clickBack" v-if="error") {{ $t("common.back") }}

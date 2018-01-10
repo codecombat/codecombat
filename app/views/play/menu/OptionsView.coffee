@@ -1,3 +1,4 @@
+require('app/styles/play/menu/options-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/options-view'
 {me} = require 'core/auth'
@@ -26,14 +27,8 @@ module.exports = class OptionsView extends CocoView
     'change #option-live-completion': 'updateLiveCompletion'
     'click .profile-photo': 'onEditProfilePhoto'
     'click .editable-icon': 'onEditProfilePhoto'
-    'keyup #player-name': -> @trigger 'nameChanged'
 
   constructor: (options) ->
-    @uploadFilePath = "db/user/#{me.id}"
-    @onNameChange = _.debounce(@checkNameExists, 500)
-    @on 'nameChanged', @onNameChange
-    @playerName = me.get 'name'
-    require('core/services/filepicker')() unless window.application.isIPadApp  # Initialize if needed
     super options
 
   getRenderData: (c={}) ->
@@ -63,8 +58,6 @@ module.exports = class OptionsView extends CocoView
     @playSound 'menu-button-click'  # Could have another volume-indicating noise
 
   onHidden: ->
-    if @playerName and @playerName isnt me.get('name')
-      me.set 'name', @playerName
     @aceConfig.invisibles = @$el.find('#option-invisibles').prop('checked')
     @aceConfig.keyBindings = 'default'  # We used to give them the option, but we took it away.
     @aceConfig.indentGuides = @$el.find('#option-indent-guides').prop('checked')
@@ -91,37 +84,3 @@ module.exports = class OptionsView extends CocoView
 
   updateLiveCompletion: ->
     @aceConfig.liveCompletion = @$el.find('#option-live-completion').prop('checked')
-
-  checkNameExists: =>
-    forms.clearFormAlerts(@$el)
-    name = $('#player-name').val()
-    User.getUnconflictedName name, (newName) =>
-      forms.clearFormAlerts(@$el)
-      if name isnt newName
-        forms.setErrorToProperty @$el, 'playerName', 'This name is already taken so you won\'t be able to keep it.', true
-      else
-        @playerName = newName
-
-  onEditProfilePhoto: (e) ->
-    return if window.application.isIPadApp  # TODO: have an iPad-native way of uploading a photo, since we don't want to load FilePicker on iPad (memory)
-    @playSound 'menu-button-click'
-    photoContainer = @$el.find('.profile-photo')
-    onSaving = =>
-      photoContainer.addClass('saving')
-    onSaved = (uploadingPath) =>
-      me.set('photoURL', uploadingPath)
-      photoContainer.removeClass('saving').attr('src', me.getPhotoURL(photoContainer.width()))
-    filepicker.pick {mimetypes: 'image/*'}, @onImageChosen(onSaving, onSaved)
-
-  formatImagePostData: (inkBlob) ->
-    url: inkBlob.url, filename: inkBlob.filename, mimetype: inkBlob.mimetype, path: @uploadFilePath, force: true
-
-  onImageChosen: (onSaving, onSaved) ->
-    (inkBlob) =>
-      onSaving()
-      uploadingPath = [@uploadFilePath, inkBlob.filename].join('/')
-      $.ajax '/file', type: 'POST', data: @formatImagePostData(inkBlob), success: @onImageUploaded(onSaved, uploadingPath)
-
-  onImageUploaded: (onSaved, uploadingPath) ->
-    (e) =>
-      onSaved uploadingPath

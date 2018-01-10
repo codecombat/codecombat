@@ -1,9 +1,9 @@
 FacebookHandler = require 'core/social-handlers/FacebookHandler'
 GPlusHandler = require 'core/social-handlers/GPlusHandler'
 GitHubHandler = require 'core/social-handlers/GitHubHandler'
-ModuleLoader = require 'core/ModuleLoader'
 locale = require 'locale/locale'
 {me} = require 'core/auth'
+storage = require 'core/storage'
 Tracker = require 'core/Tracker'
 CocoModel = require 'models/CocoModel'
 api = require 'core/api'
@@ -71,8 +71,8 @@ Application = {
     @facebookHandler = new FacebookHandler()
     @gplusHandler = new GPlusHandler()
     @githubHandler = new GitHubHandler()
-    @moduleLoader = new ModuleLoader()
-    @moduleLoader.loadLanguage(me.get('preferredLanguage', true))
+    locale.load(me.get('preferredLanguage', true))
+    preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
     CocoModel.pollAchievements()
@@ -106,6 +106,7 @@ Application = {
       #resPostPath: '/languages/add/__lng__/__ns__'
     }, (t) =>
       @router = new Router()
+      @userIsIdle = false
       onIdleChanged = (to) => => Backbone.Mediator.publish 'application:idle-changed', idle: @userIsIdle = to
       @idleTracker = new Idle
         onAway: onIdleChanged true
@@ -134,6 +135,9 @@ Application = {
   }
       
   loadedStaticPage: window.alreadyLoadedView?
+  
+  setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
+  getHocCampaign: -> storage.load('hoc-campaign')
   
 }
 

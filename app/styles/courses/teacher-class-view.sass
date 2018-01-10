@@ -28,6 +28,12 @@
     .small-details
       margin-bottom: 4px
 
+  .update-class
+    margin: 10px 150px 0 150px
+
+  .classroom-info-row[dir="rtl"] > div
+    float: right
+
   .concept
     & span
       white-space: nowrap
@@ -66,6 +72,9 @@
       border-bottom: thin solid #979797
     li.active
       border-bottom: none
+
+  [dir="rtl"] .bulk-assign-controls
+    float: left
 
   .bulk-assign-controls
     position: relative
@@ -175,25 +184,28 @@
     text-decoration: underline
     line-height: 16px
 
+  // Reusable Progress Dot key
+  
+  #progress-color-key-row
+    .col
+      min-height: 40px
+      .progress-dot
+        position: absolute
+        top: 0
+        padding-top: 5px
+        margin: 5px
+        &.practice
+          margin-left: 26px
+          margin-top: 14px
+      .key-text
+        line-height: 18px
+        margin-top: 9px
+        margin-left: 50px
+
   // Course Progress tab
 
   #course-progress-tab, #student-projects-tab
 
-    #progress-color-key-row
-      .col
-        min-height: 40px
-        .progress-dot
-          position: absolute
-          top: 0
-          padding-top: 5px
-          &.practice
-            margin-left: 26px
-            margin-top: 14px
-        .key-text
-          line-height: 18px
-          margin-top: 9px
-          margin-left: 50px
-    
     .course-overview-row
       margin-top: 50px
       border: thin solid gray
@@ -317,7 +329,7 @@
       border-color: $navy
     .tooltip-arrow
       border-top-color: $navy
-      
+
   .progress-dot.practice
     background: $gray-light
     height: 12px
@@ -325,7 +337,7 @@
     top: 6px
     min-width: 12px
     border-radius: 6px
-    
+
     .dot-label
       .dot-label-inner
         color: $gray-light
@@ -365,7 +377,7 @@
       position: absolute
       top: 8px
       right: 5px
-
+  
   #license-status-table
     // These column widths are just to keep the cells from resizing on search
     .checkbox-col
@@ -408,3 +420,13 @@
         stroke-dasharray: 1, 2
     .bar
         fill: FireBrick
+
+  #assessments-tab
+    table
+      table-layout: fixed
+    th
+      font-size: 14px
+      font-weight: normal
+      
+    td, th
+      text-align: center

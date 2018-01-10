@@ -11,6 +11,8 @@ Classroom = require '../../../server/models/Classroom'
 Course = require '../../../server/models/Course'
 CourseInstance = require '../../../server/models/CourseInstance'
 LevelSession = require '../../../server/models/LevelSession'
+Campaign = require '../../../server/models/Campaign'
+Level = require '../../../server/models/Level'
 
 describe 'POST /api/users', ->
 
@@ -221,7 +223,7 @@ describe 'GET /api/users/:handle/classrooms', ->
   
 describe 'POST /api/users/:handle/o-auth-identities', ->
 
-  beforeEach utils.wrap (done) ->
+  beforeEach utils.wrap ->
     yield utils.clearModels([User, APIClient])
     @client = new APIClient()
     @secret = @client.setNewSecret()
@@ -240,16 +242,18 @@ describe 'POST /api/users/:handle/o-auth-identities', ->
     @json = { provider: @provider.id, accessToken: '1234' }
     @providerNock = nock('https://oauth.provider')
     @providerLookupRequest = @providerNock.get('/user?t=1234')
-    done()
 
-  it 'adds a new identity to the user if everything checks out', utils.wrap (done) ->
+  it 'idempotently adds a new identity to the user if everything checks out', utils.wrap ->
     @providerLookupRequest.reply(200, {id: 'abcd'})
     [res, body] = yield request.postAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(200)
     expect(res.body.oAuthIdentities.length).toBe(1)
     expect(res.body.oAuthIdentities[0].id).toBe('abcd')
     expect(res.body.oAuthIdentities[0].provider).toBe(@provider.id)
-    done()
+
+    @providerLookupRequest.reply(200, {id: 'abcd'})
+    [res, body] = yield request.postAsync({ @url, @json, @auth })
+    expect(res.statusCode).toBe(200)
 
   it 'can take a code and do a token lookup', utils.wrap (done) ->
     @providerNock.get('/oauth2/token').reply(200, {access_token: '1234'})
@@ -389,6 +393,18 @@ describe 'PUT /api/users/:handle/subscription', ->
     expect(res.statusCode).toBe(403)
     done()
 
+  it 'works if the user\'s country is "brazil" and the client is the Brazil client.', utils.wrap ->
+    brazilClient = new APIClient({_id: new mongoose.Types.ObjectId('5930b75dee776800313fefca')})
+    secret = brazilClient.setNewSecret()
+    brazilAuth = { user: brazilClient.id, pass: secret }
+    yield brazilClient.save()
+    yield @user.update({$set: {country: 'brazil'}})
+
+    [res, body] = yield request.putAsync({ @url, @json, auth: brazilAuth })
+    t1 = new Date().toISOString()
+    expect(res.body.subscription.ends).toBe(@ends)
+    expect(res.statusCode).toBe(200)
+
   it 'returns 422 if ends is not provided or incorrectly formatted', utils.wrap (done) ->
     json = {}
     [res, body] = yield request.putAsync({ @url, json, @auth })
@@ -485,6 +501,18 @@ describe 'PUT /api/users/:handle/license', ->
     [res, body] = yield request.putAsync({ @url, @json, @auth })
     expect(res.statusCode).toBe(403)
     done()
+    
+  it 'works if the user\'s country is "brazil" and the client is the Brazil client.', utils.wrap ->
+    brazilClient = new APIClient({_id: new mongoose.Types.ObjectId('5930b75dee776800313fefca')})
+    secret = brazilClient.setNewSecret()
+    brazilAuth = { user: brazilClient.id, pass: secret }
+    yield brazilClient.save()
+    yield @user.update({$set: {country: 'brazil'}})
+
+    [res, body] = yield request.putAsync({ @url, @json, auth: brazilAuth })
+    t1 = new Date().toISOString()
+    expect(res.body.license?.ends).toBe(@ends)
+    expect(res.statusCode).toBe(200)
 
   it 'returns 422 if ends is not provided or incorrectly formatted or in the past', utils.wrap (done) ->
     json = {}
@@ -659,6 +687,58 @@ describe 'PUT /api/classrooms/:classroomHandle/courses/:courseHandle/enrolled', 
   it 'returns 403 if the client did not create the classroom owner', utils.wrap ->
     yield @teacher.update({$unset: {clientCreator: ''}})
     [res, body] = yield request.putAsync({url: @freeCourse.url, @json, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
+
+
+
+describe 'GET /api/classrooms/:classroomHandle/members/:memberHandle/sessions', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Campaign, Level, LevelSession])
+    @client = yield utils.makeAPIClient()
+    @teacher = yield utils.initUser({role: 'teacher', clientCreator: @client._id})
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @levelA = yield utils.makeLevel({type: 'course'})
+    @levelB = yield utils.makeLevel({type: 'course', primerLanguage: 'python'})
+    @campaignA = yield utils.makeCampaign({}, {levels: [@levelA]})
+    @campaignB = yield utils.makeCampaign({}, {levels: [@levelB]})
+    @courseA = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignA})
+    @courseB = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaignB})
+    @student1 = yield utils.initUser({role: 'student', clientCreator: @client._id})
+    @student2 = yield utils.initUser({role: 'student', clientCreator: @client._id})
+    @session1A = yield utils.makeLevelSession({codeLanguage: 'javascript', state: { complete: true }}, {creator: @student1, level: @levelA})
+    @session1B = yield utils.makeLevelSession({codeLanguage: 'python', state: { complete: false }}, {creator: @student1, level: @levelB})
+    @session2A = yield utils.makeLevelSession({codeLanguage: 'javascript', state: { complete: true }}, {creator: @student2, level: @levelA})
+    @session2B = yield utils.makeLevelSession({codeLanguage: 'python', state: { complete: false }}, {creator: @student2, level: @levelB})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: {language: 'javascript'}}, { members: [@student1, @student2] })
+    @courseInstanceA = yield utils.makeCourseInstance({courseID: @courseA.id, classroomID: @classroom.id}, { members: [@student1, @student2] })
+    @courseInstanceB = yield utils.makeCourseInstance({courseID: @courseB.id, classroomID: @classroom.id}, { members: [@student1] })
+    yield utils.logout()
+    done()
+
+  it 'returns all sessions for a member in the classroom with assigned courses', utils.wrap ->
+    url = getURL("/api/classrooms/#{@classroom.id}/members/#{@student1.id}/sessions")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(2)
+
+    url = getURL("/api/classrooms/#{@classroom.id}/members/#{@student2.id}/sessions")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(200)
+    expect(body.length).toBe(1)
+
+  it 'returns 403 if the client did not create the student', utils.wrap ->
+    yield @student1.update({$unset: {clientCreator: ''}})
+    url = getURL("/api/classrooms/#{@classroom.id}/members/#{@student1.id}/sessions")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
+    expect(res.statusCode).toBe(403)
+
+  it 'returns 403 if the client did not create the classroom owner', utils.wrap ->
+    yield @teacher.update({$unset: {clientCreator: ''}})
+    url = getURL("/api/classrooms/#{@classroom.id}/members/#{@student1.id}/sessions")
+    [res, body] = yield request.getAsync({url, json: true, auth: @client.auth})
     expect(res.statusCode).toBe(403)
 
   

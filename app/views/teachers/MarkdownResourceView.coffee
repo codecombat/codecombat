@@ -1,10 +1,15 @@
+require('app/styles/teachers/markdown-resource-view.sass')
+# This is the generic view for rendering content from /app/assets/markdown
+
 RootView = require 'views/core/RootView'
 utils = require 'core/utils'
-ace = require 'ace'
+ace = require('lib/aceContainer')
+aceUtils = require 'core/aceUtils'
 
 module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
   template: require 'templates/teachers/markdown-resource-view'
+  
   initialize: (options, @name) ->
     super(options)
     @content = ''
@@ -22,7 +27,7 @@ module.exports = class MarkdownResourceView extends RootView
         $('body').append($("<img src='https://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
       @loadingData = false
       @render()
-
+  
 
   afterRender: ->
     super()
@@ -35,8 +40,12 @@ module.exports = class MarkdownResourceView extends RootView
       else
         lang = 'python'
 
-      aceEditor = utils.initializeACE c[0], lang
+      aceEditor = aceUtils.initializeACE c[0], lang
       aceEditor.setShowInvisibles false
       aceEditor.setBehavioursEnabled false
       aceEditor.setAnimatedScroll false
       aceEditor.$blockScrolling = Infinity
+    if _.contains(location.href, '#')
+      _.defer =>
+        # Remind the browser of the fragment in the URL, so it jumps to the right section.
+        location.href = location.href

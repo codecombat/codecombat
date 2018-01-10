@@ -1,3 +1,4 @@
+require('app/styles/teachers/teacher-trial-requests.sass')
 RootView = require 'views/core/RootView'
 forms = require 'core/forms'
 TrialRequest = require 'models/TrialRequest'
@@ -7,6 +8,8 @@ errors = require 'core/errors'
 User = require 'models/User'
 algolia = require 'core/services/algolia'
 State = require 'models/State'
+loadSegment = require('core/services/segment')
+
 
 SIGNUP_REDIRECT = '/teachers/classes'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students', 'phone']
@@ -48,6 +51,7 @@ module.exports = class CreateTeacherAccountView extends RootView
     @listenTo @state, 'change:checkEmailState', -> @renderSelectors('.email-check')
     @listenTo @state, 'change:checkNameState', -> @renderSelectors('.name-check')
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
+    loadSegment() unless @segmentLoaded
 
   onLeaveMessage: ->
     if @formChanged
@@ -80,7 +84,7 @@ module.exports = class CreateTeacherAccountView extends RootView
       @$('#other-education-level-checkbox').attr('checked', !!otherLevel)
       @$('#other-education-level-input').val(otherLevel)
 
-    $("#organization-control").algolia_autocomplete({hint: false}, [
+    @$("#organization-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
         algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits
@@ -103,7 +107,7 @@ module.exports = class CreateTeacherAccountView extends RootView
         @$('input[name="nces_' + key + '"]').val suggestion[key]
       @onChangeForm()
 
-    $("#district-control").algolia_autocomplete({hint: false}, [
+    @$("#district-control").algolia_autocomplete({hint: false}, [
       source: (query, callback) ->
         algolia.schoolsIndex.search(query, { hitsPerPage: 5, aroundLatLngViaIP: false }).then (answer) ->
           callback answer.hits
@@ -244,10 +248,23 @@ module.exports = class CreateTeacherAccountView extends RootView
         jqxhr = me.signupWithPassword(name, email, password1)
       @trigger 'signup'
       return jqxhr
+
+    .then =>
+      trialRequestIntercomData = _.pick @trialRequest.attributes.properties, ["siteOrigin", "marketingReferrer", "referrer", "notes", "numStudentsTotal", "numStudents", "purchaserRole", "role", "phoneNumber", "country", "state", "city", "district", "organization", "nces_students", "nces_name", "nces_id", "nces_phone", "nces_district_students", "nces_district_schools", "nces_district_id", "nces_district"]
+      trialRequestIntercomData.educationLevel_elementary = _.contains @trialRequest.attributes.properties.educationLevel, "Elementary"
+      trialRequestIntercomData.educationLevel_middle = _.contains @trialRequest.attributes.properties.educationLevel, "Middle"
+      trialRequestIntercomData.educationLevel_high = _.contains @trialRequest.attributes.properties.educationLevel, "High"
+      trialRequestIntercomData.educationLevel_college = _.contains @trialRequest.attributes.properties.educationLevel, "College+"
+      application.tracker.updateTrialRequestData trialRequestIntercomData
       
     .then =>
       application.router.navigate(SIGNUP_REDIRECT, { trigger: true })
       application.router.reload()
+      
+    .then =>
+      @trigger 'on-trial-request-submit-complete'
+
+
 
     .catch (e) =>
       if e instanceof Error

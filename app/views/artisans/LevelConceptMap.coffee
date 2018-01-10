@@ -1,3 +1,4 @@
+require('app/styles/artisans/solution-problems-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/concept-map-view'
 

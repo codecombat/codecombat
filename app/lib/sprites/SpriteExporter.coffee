@@ -1,6 +1,7 @@
 SpriteBuilder = require('./SpriteBuilder')
 ThangType = require('models/ThangType')
 CocoClass = require('core/CocoClass')
+createjs = require 'lib/createjs-parts'
 
 
 class SpriteExporter extends CocoClass

@@ -1,19 +1,27 @@
 CocoModel = require './CocoModel'
 LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
-ThangType = require './ThangType'
+LevelConstants = require 'lib/LevelConstants'
+ThangTypeConstants = require 'lib/ThangTypeConstants'
+
+# Pure functions for use in Vue
+# First argument is always a raw Level.attributes
+# Accessible via eg. `Level.isProject(levelObj)`
+LevelLib = {
+  isProject: (level) ->
+    return level.shareable is 'project'
+}
 
 module.exports = class Level extends CocoModel
   @className: 'Level'
   @schema: require 'schemas/models/level'
-  @levels:
-    'dungeons-of-kithgard': '5411cb3769152f1707be029c'
-    'defense-of-plainswood': '541b67f71ccc8eaae19f3c62'
+  @levels: LevelConstants.levels
   urlRoot: '/db/level'
   editableByArtisans: true
 
   serialize: (options) ->
-    {supermodel, session, otherSession, @headless, @sessionless, cached=false} = options
+    {supermodel, session, otherSession, @headless, @sessionless, cached} = options
+    cached ?= false
     o = @denormalize supermodel, session, otherSession # hot spot to optimize
 
     # Figure out Components
@@ -31,7 +39,7 @@ module.exports = class Level extends CocoModel
     tmap[t.thangType] = true for t in o.thangs ? []
     sessionHeroes = [session?.get('heroConfig')?.thangType, otherSession?.get('heroConfig')?.thangType]
     o.thangTypes = []
-    for tt in supermodel.getModels ThangType
+    for tt in supermodel.getModels 'ThangType'
       if tmap[tt.get('original')] or
         (tt.get('kind') isnt 'Hero' and tt.get('kind')? and tt.get('components') and not tt.notInLevel) or
         (tt.get('kind') is 'Hero' and (@isType('course', 'course-ladder', 'game-dev') or tt.get('original') in sessionHeroes))
@@ -60,7 +68,7 @@ module.exports = class Level extends CocoModel
   denormalize: (supermodel, session, otherSession) ->
     o = $.extend true, {}, @attributes
     if o.thangs and @isType('hero', 'hero-ladder', 'hero-coop', 'course', 'course-ladder', 'game-dev', 'web-dev')
-      thangTypesWithComponents = (tt for tt in supermodel.getModels(ThangType) when tt.get('components')?)
+      thangTypesWithComponents = (tt for tt in supermodel.getModels('ThangType') when tt.get('components')?)
       thangTypesByOriginal = _.indexBy thangTypesWithComponents, (tt) -> tt.get('original')  # Optimization
       for levelThang in o.thangs
         @denormalizeThang(levelThang, supermodel, session, otherSession, thangTypesByOriginal)
@@ -148,7 +156,7 @@ module.exports = class Level extends CocoModel
 
     # Load the user's chosen hero AFTER getting stats from default char
     if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF
-      heroThangType = me.get('heroConfig')?.thangType or ThangType.heroes.captain
+      heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 
   sortSystems: (levelSystems, systemModels) ->
@@ -263,18 +271,10 @@ module.exports = class Level extends CocoModel
   isLadder: ->
     return @get('type')?.indexOf('ladder') > -1
 
-  isProject: ->
-    return @get('shareable') is 'project'
+  isProject: -> Level.isProject(@attributes)
 
   isType: (types...) ->
     return @get('type', true) in types
-
-  fetchNextForCourse: ({ levelOriginalID, courseInstanceID, courseID, sessionID }, options={}) ->
-    if courseInstanceID
-      options.url = "/db/course_instance/#{courseInstanceID}/levels/#{levelOriginalID}/sessions/#{sessionID}/next"
-    else
-      options.url = "/db/course/#{courseID}/levels/#{levelOriginalID}/next"
-    @fetch(options)
 
   getSolutions: ->
     return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
@@ -298,3 +298,5 @@ module.exports = class Level extends CocoModel
       catch e
         console.error "Problem with template and solution comments for", @get('slug'), e
     sampleCode
+
+_.assign(Level, LevelLib)

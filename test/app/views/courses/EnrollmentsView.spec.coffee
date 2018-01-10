@@ -89,7 +89,7 @@ describe 'EnrollmentsView', ->
 
       describe 'when the teacher has made contact', ->
         beforeEach ->
-          me.set('enrollmentRequestSent', true)
+          @view.enrollmentRequestSent = true
           @view.render()
 
         it 'shows confirmation and a mailto link to schools@codecombat.com', ->

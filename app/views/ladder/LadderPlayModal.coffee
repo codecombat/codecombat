@@ -1,3 +1,4 @@
+require('app/styles/play/ladder/play_modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/ladder/play_modal'
 ThangType = require 'models/ThangType'
@@ -104,6 +105,7 @@ module.exports = class LadderPlayModal extends ModalView
   finishRendering: ->
     return if @destroyed
     @checkTutorialLevelExists (exists) =>
+      return if @destroyed
       @tutorialLevelExists = exists
       @render()
       @maybeShowTutorialButtons()

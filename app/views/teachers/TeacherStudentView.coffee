@@ -1,3 +1,4 @@
+require('app/styles/teachers/teacher-student-view.sass')
 RootView = require 'views/core/RootView'
 Campaigns = require 'collections/Campaigns'
 Classroom = require 'models/Classroom'
@@ -8,7 +9,7 @@ LevelSessions = require 'collections/LevelSessions'
 User = require 'models/User'
 Users = require 'collections/Users'
 CourseInstances = require 'collections/CourseInstances'
-require 'vendor/d3'
+require 'd3/d3.js'
 utils = require 'core/utils'
 
 

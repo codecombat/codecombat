@@ -1,3 +1,4 @@
+require('app/styles/courses/courses-update-account-view.sass')
 errors = require 'core/errors'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/courses-update-account-view'

@@ -29,10 +29,15 @@ block modal-body-content
     span(data-i18n="teacher.apply_licenses_to_the_following_students")
     span :
     .well.form-group
-      - var enrolledUsers = view.users.filter(function(user){ return user.isEnrolled() })
-      - var unenrolledUsers = view.users.filter(function(user){ return !user.isEnrolled() })
+      - var enrolledUsers = view.enrolledUsers()
+      - var unenrolledUsers = view.unenrolledUsers()
+      - var areAllSelected = view.areAllSelected()
+      .checkbox
+        label
+          input.select-all-users-checkbox(type="checkbox", disabled=false, checked=areAllSelected)
+          span.spr(data-i18n="teacher.select_all")
       for user in unenrolledUsers
-        - var selected = Boolean(paid || state.get('selectedUsers').get(user.id))
+        - var selected = state.get('selectedUsers').get(user.id)
         .checkbox
           label
             input.user-checkbox(type="checkbox", disabled=false, checked=selected, data-user-id=user.id, name='user')
@@ -41,7 +46,7 @@ block modal-body-content
         .small-details.m-t-3
           span(data-i18n='teacher.students_have_licenses')
       for user in enrolledUsers
-        - var selected = Boolean(paid || state.get('selectedUsers').get(user.id))
+        - var selected = state.get('selectedUsers').get(user.id)
         .checkbox
           label
             input.user-checkbox(type="checkbox", disabled=true, checked=true, data-user-id=user.id, name='user')

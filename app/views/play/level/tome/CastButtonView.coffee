@@ -1,8 +1,10 @@
+require('app/styles/play/level/tome/cast_button.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/tome/cast-button-view'
 {me} = require 'core/auth'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 LevelSession = require 'models/LevelSession'
+async = require('vendor/scripts/async.js')
 
 module.exports = class CastButtonView extends CocoView
   id: 'cast-button-view'
@@ -31,9 +33,12 @@ module.exports = class CastButtonView extends CocoView
     @observing = options.session.get('creator') isnt me.id
     # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a
     # mirror level is added to
-    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro']
+    @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
+    # Show publish CourseVictoryModal if they've already published
+    if options.session.get('published')
+      Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
 
   destroy: ->
     clearInterval @updateReplayabilityInterval
@@ -139,6 +144,7 @@ module.exports = class CastButtonView extends CocoView
   updateCastButton: ->
     return if _.some @spells, (spell) => not spell.loaded
 
+    # TODO: performance: Get rid of async since this is basically the ONLY place we use it
     async.some _.values(@spells), (spell, callback) =>
       spell.hasChangedSignificantly spell.getSource(), null, callback
     , (castable) =>

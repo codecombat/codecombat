@@ -35,9 +35,6 @@ module.exports =
 
   'modal:closed': c.object {}
 
-  'modal:open-modal-view': c.object {required: ['modalPath']},
-    modalPath: {type: 'string'}
-
   'router:navigate': c.object {required: ['route']},
     route: {type: 'string'}
     view: {type: 'object'}

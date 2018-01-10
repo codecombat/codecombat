@@ -7,10 +7,12 @@ config = {}
 
 config.clusterID = "#{os.hostname()}"
 if cluster.worker?
- config.clusterID += "/#{cluster.worker.id}" 
+ config.clusterID += "/#{cluster.worker.id}"
 
 config.unittest = global.testing
 config.proxy = process.env.COCO_PROXY
+
+config.timeout = parseInt(process.env.COCO_TIMEOUT) or 60*1000
 
 config.chinaDomain = "cn.codecombat.com;ccombat.cn;contributors.codecombat.com"
 config.brazilDomain = "br.codecombat.com;contributors.codecombat.com"
@@ -41,7 +43,7 @@ else
 
 if process.env.COCO_MONGO_LS_REPLICA_STRING?
   config.mongo.level_session_replica_string = process.env.COCO_MONGO_LS_REPLICA_STRING
-  
+
 if process.env.COCO_MONGO_LS_AUX_REPLICA_STRING?
   config.mongo.level_session_aux_replica_string = process.env.COCO_MONGO_LS_AUX_REPLICA_STRING
 
@@ -55,6 +57,10 @@ config.closeIO =
 
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
+  
+config.paypal =
+  clientID: process.env.COCO_PAYPAL_CLIENT_ID or 'AcS4lYmr_NwK_TTWSJzOzTh01tVDceWDjB_N7df3vlvW4alTV_AF2rtmcaZDh0AmnTcOof9gKyLyHkm-'
+  clientSecret: process.env.COCO_PAYPAL_CLIENT_SECRET or 'EEp-AscLo_-_59jMBgrPFWUaMrI_HJEY8Mf1ESD7OJ8DSIFbKtVe1btqP2SAZXR_llP_oosvJYFWEjUZ'
 
 config.redis =
   port: process.env.COCO_REDIS_PORT or 6379
@@ -76,7 +82,6 @@ config.mail =
   mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
-  stackleadAPIKey: process.env.COCO_STACKLEAD_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
@@ -130,7 +135,7 @@ if process.env.COCO_STATSD_HOST
     host: process.env.COCO_STATSD_HOST
     port: process.env.COCO_STATSD_PORT or 8125
     prefix: process.env.COCO_STATSD_PREFIX or ''
-    
+
 config.snowplow =
   user: process.env.COCO_SNOWPLOW_USER or 'user'
   database: process.env.COCO_SNOWPLOW_DATABASE or 'database'
@@ -143,11 +148,21 @@ config.buildInfo = { sha: 'dev' }
 config.sunburst =
   email: process.env.COCO_SUNBURST_EMAIL or ''
 
+config.intercom =
+  accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
+  
+config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
+
 if fs.existsSync path.join(__dirname, '.build_info.json')
   config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'
 
 # This logs a stack trace every time an endpoint sends a response or throws an error.
 # It's great for finding where a mystery endpoint is!
 config.TRACE_ROUTES = process.env.TRACE_ROUTES?
+
+# Enables server-side gzip compression for network responses
+# Only use this if testing network response sizes in development
+# (In production, CloudFlare compresses things for us!)
+config.forceCompression = process.env.COCO_FORCE_COMPRESSION?
 
 module.exports = config

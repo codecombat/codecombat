@@ -63,6 +63,7 @@ module.exports = class ThangState
   getStateForProp: (prop) ->
     # Get the property, whether we have it stored in @props or in @trackedPropertyValues. Optimize it.
     # Figured based on http://jsperf.com/object-vs-array-vs-native-linked-list/13 that it should be faster with small arrays to do the indexOf reads (each up to 24x faster) than to do a single object read, and then we don't have to maintain an extra @props object; just keep array
+    return @thang[prop] if @thang.world.synchronous
     propIndex = @trackedPropertyKeys.indexOf prop
     if propIndex is -1
       initialPropIndex = @thang.unusedTrackedPropertyKeys.indexOf prop
@@ -76,6 +77,7 @@ module.exports = class ThangState
     # Restore trackedProperties' values to @thang, retrieving them from @trackedPropertyValues if needed. Optimize it.
     return @ if @thang._state is @ and not @thang.partialState
     unless @hasRestored  # Restoring in a deserialized World for first time
+      return @ if @thang.world.synchronous
       for prop, propIndex in @thang.unusedTrackedPropertyKeys when @trackedPropertyKeys.indexOf(prop) is -1
         @thang[prop] = @thang.unusedTrackedPropertyValues[propIndex]
       props = []

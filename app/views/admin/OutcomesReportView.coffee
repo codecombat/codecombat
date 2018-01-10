@@ -1,3 +1,4 @@
+require('app/styles/admin/admin-outcomes-report.sass')
 RootView = require 'views/core/RootView'
 OutcomeReportResultView = require 'views/admin/OutcomeReportResultView'
 template = require 'templates/base-flat'
@@ -12,7 +13,7 @@ Users = require 'collections/Users'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 CourseInstances = require 'collections/CourseInstances'
-require('vendor/co')
+co = require('co')
 helper = require 'lib/coursesHelper'
 utils = require 'core/utils'
 
@@ -274,9 +275,6 @@ OutcomesReportComponent = Vue.extend
       new Promise (accept, reject) ->
         trialRequests = new TrialRequests()
         trialRequests.fetchByApplicant(teacher._id).then (data) ->
-          if data.length is 0
-            noty text: "WARNING: No trial request found for that user!", type: 'error'
-            return reject("WARNING: No trial request found for that user!")
           return accept(data)
         , (error) ->
           return reject(error) if error

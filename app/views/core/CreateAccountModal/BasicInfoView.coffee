@@ -1,3 +1,4 @@
+require('app/styles/modal/create-account-modal/basic-info-view.sass')
 CocoView = require 'views/core/CocoView'
 AuthModal = require 'views/core/AuthModal'
 template = require 'templates/core/create-account-modal/basic-info-view'
@@ -51,23 +52,27 @@ module.exports = class BasicInfoView extends CocoView
     @listenTo @state, 'change:error', -> @renderSelectors('.error-area')
     @listenTo @signupState, 'change:facebookEnabled', -> @renderSelectors('.auth-network-logins')
     @listenTo @signupState, 'change:gplusEnabled', -> @renderSelectors('.auth-network-logins')
-  
+
+  afterRender: ->
+    @$el.find('#first-name-input').focus()
+    super()
+
   # These values are passed along to AuthModal if the user clicks "Sign In" (handled by CreateAccountModal)
   updateAuthModalInitialValues: (values) ->
     @signupState.set {
       authModalInitialValues: _.merge @signupState.get('authModalInitialValues'), values
     }, { silent: true }
-    
+
   onChangeEmail: (e) ->
     @updateAuthModalInitialValues { email: @$(e.currentTarget).val() }
     @checkEmail()
-    
+
   checkEmail: ->
     email = @$('[name="email"]').val()
 
     if @signupState.get('path') isnt 'student' and (not _.isEmpty(email) and email is @state.get('checkEmailValue'))
       return @state.get('checkEmailPromise')
-      
+
     if not (email and forms.validateEmail(email))
       @state.set({
         checkEmailState: 'standby'
@@ -75,11 +80,11 @@ module.exports = class BasicInfoView extends CocoView
         checkEmailPromise: null
       })
       return Promise.resolve()
-      
+
     @state.set({
       checkEmailState: 'checking'
       checkEmailValue: email
-      
+
       checkEmailPromise: (User.checkEmailExists(email)
       .then ({exists}) =>
         return unless email is @$('[name="email"]').val()
@@ -96,7 +101,7 @@ module.exports = class BasicInfoView extends CocoView
 
   onChangeName: (e) ->
     @updateAuthModalInitialValues { name: @$(e.currentTarget).val() }
-    
+
     # Go through the form library so this follows the same trimming rules
     name = forms.formToObject(@$el.find('#basic-info-form')).name
     # Carefully remove the error for just this field
@@ -109,6 +114,8 @@ module.exports = class BasicInfoView extends CocoView
     @checkName()
 
   checkName: ->
+    return Promise.resolve() if @signupState.get('path') is 'teacher'
+
     name = @$('input[name="name"]').val()
 
     if name is @state.get('checkNameValue')
@@ -154,17 +161,17 @@ module.exports = class BasicInfoView extends CocoView
         else
           return {code: tv4.errorCodes.FORMAT_CUSTOM, message: "Please enter a valid email address."}
     })
-    
+
     forms.clearFormAlerts(@$el)
-    
+
     if data.name and forms.validateEmail(data.name)
       forms.setErrorToProperty(@$el, 'name', $.i18n.t('signup.name_is_email'))
       return false
-    
+
     res = tv4.validateMultiple data, @formSchema()
     forms.applyErrorsToForm(@$('form'), res.errors) unless res.valid
     return res.valid
-  
+
   formSchema: ->
     type: 'object'
     properties:
@@ -173,9 +180,9 @@ module.exports = class BasicInfoView extends CocoView
       password: User.schema.properties.password
     required: switch @signupState.get('path')
       when 'student' then ['name', 'password', 'firstName', 'lastName']
-      when 'teacher' then ['name', 'password', 'email', 'firstName', 'lastName']
+      when 'teacher' then ['password', 'email', 'firstName', 'lastName']
       else ['name', 'password', 'email']
-  
+
   onClickBackButton: ->
     if @signupState.get('path') is 'teacher'
       window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Back Clicked', category: 'Teachers'
@@ -184,7 +191,7 @@ module.exports = class BasicInfoView extends CocoView
     if @signupState.get('path') is 'individual'
       window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Back Clicked', category: 'Individuals'
     @trigger 'nav-back'
-  
+
   onClickUseSuggestedNameLink: (e) ->
     @$('input[name="name"]').val(@state.get('suggestedName'))
     forms.clearFormAlerts(@$el.find('input[name="name"]').closest('.form-group').parent())
@@ -204,20 +211,20 @@ module.exports = class BasicInfoView extends CocoView
 
     @displayFormSubmitting()
     AbortError = new Error()
-    
+
     @checkEmail()
     .then @checkName()
     .then =>
-      if not (@state.get('checkEmailState') in ['available', 'standby'] and @state.get('checkNameState') is 'available')
+      if not (@state.get('checkEmailState') in ['available', 'standby'] and (@state.get('checkNameState') is 'available' or @signupState.get('path') is 'teacher'))
         throw AbortError
 
       # update User
       emails = _.assign({}, me.get('emails'))
       emails.generalNews ?= {}
-      emails.generalNews.enabled = @$('#subscribe-input').is(':checked') and not _.isEmpty(@state.get('checkEmailValue'))
+      emails.generalNews.enabled = not _.isEmpty(@state.get('checkEmailValue'))
       me.set('emails', emails)
       me.set(_.pick(data, 'firstName', 'lastName'))
-      
+
       unless _.isNaN(@signupState.get('birthday').getTime())
         me.set('birthday', @signupState.get('birthday').toISOString())
 
@@ -229,19 +236,19 @@ module.exports = class BasicInfoView extends CocoView
         throw new Error('Could not save user')
 
       return new Promise(jqxhr.then)
-    
+
     .then =>
-      
+
       # Don't sign up, kick to TeacherComponent instead
       if @signupState.get('path') is 'teacher'
         @signupState.set({
-          signupForm: _.pick(forms.formToObject(@$el), 'firstName', 'lastName', 'email', 'name', 'password', 'subscribe')
+          signupForm: _.pick(forms.formToObject(@$el), 'firstName', 'lastName', 'email', 'password', 'subscribe')
         })
         @trigger 'signup'
         return
-      
+
       # Use signup method
-      window.tracker?.identify()
+      window.tracker?.identify() unless User.isSmokeTestUser({ email: @signupState.get('signupForm').email })
       switch @signupState.get('ssoUsed')
         when 'gplus'
           { email, gplusID } = @signupState.get('ssoAttrs')
@@ -256,15 +263,15 @@ module.exports = class BasicInfoView extends CocoView
           jqxhr = me.signupWithPassword(name, email, password)
 
       return new Promise(jqxhr.then)
-      
+
     .then =>
       { classCode, classroom } = @signupState.attributes
       if classCode and classroom
         return new Promise(classroom.joinWithCode(classCode).then)
-      
+
     .then =>
       @finishSignup()
-        
+
     .catch (e) =>
       @displayFormStandingBy()
       if e is AbortError
@@ -272,20 +279,22 @@ module.exports = class BasicInfoView extends CocoView
       else
         console.error 'BasicInfoView form submission Promise error:', e
         @state.set('error', e.responseJSON?.message or 'Unknown Error')
-      
+
   finishSignup: ->
     if @signupState.get('path') is 'teacher'
       window.tracker?.trackEvent 'CreateAccountModal Teacher BasicInfoView Submit Success', category: 'Teachers'
     if @signupState.get('path') is 'student'
       window.tracker?.trackEvent 'CreateAccountModal Student BasicInfoView Submit Success', category: 'Students'
     if @signupState.get('path') is 'individual'
-      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Success', category: 'Individuals'
+      window.tracker?.trackEvent 'CreateAccountModal Individual BasicInfoView Submit Success', category: 'Individuals', wantInSchool: @$('#want-in-school-checkbox').is(':checked')
+      if @$('#want-in-school-checkbox').is(':checked')
+        @signupState.set 'wantInSchool', true
     @trigger 'signup'
 
   displayFormSubmitting: ->
     @$('#create-account-btn').text($.i18n.t('signup.creating')).attr('disabled', true)
     @$('input').attr('disabled', true)
-    
+
   displayFormStandingBy: ->
     @$('#create-account-btn').text($.i18n.t('login.sign_up')).attr('disabled', false)
     @$('input').attr('disabled', false)

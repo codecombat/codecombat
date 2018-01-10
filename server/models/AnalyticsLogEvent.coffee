@@ -4,6 +4,7 @@ plugins = require '../plugins/plugins'
 utils = require '../lib/utils'
 http = require 'http'
 config = require '../../server_config'
+jsonschema = require '../../app/schemas/models/analytics_log_event'
 
 AnalyticsLogEventSchema = new mongoose.Schema({
   user: String #Actually a `mongoose.Schema.Types.ObjectId` but ...
@@ -15,6 +16,16 @@ AnalyticsLogEventSchema.index({event: 1, _id: -1})
 AnalyticsLogEventSchema.index({event: 1, 'properties.level': 1})
 AnalyticsLogEventSchema.index({event: 1, 'properties.levelID': 1})
 AnalyticsLogEventSchema.index({user: 1, event: 1})
+AnalyticsLogEventSchema.statics.jsonSchema = jsonschema
+
+if global.testing
+  AnalyticsLogEventSchema.pre('save', (next) ->
+    # for testing
+    if AnalyticsLogEvent.errorOnSave
+      next(new Error('stap'))
+    else
+      next()
+)
 
 AnalyticsLogEventSchema.statics.logEvent = (user, event, properties={}) ->
   unless user?
@@ -26,7 +37,7 @@ AnalyticsLogEventSchema.statics.logEvent = (user, event, properties={}) ->
     event: event
     properties: properties
 
-  doc.save()
+  return doc.save()
 
 unless config.proxy
   analyticsMongoose = mongoose.createConnection config.mongo.analytics_replica_string, (error) ->

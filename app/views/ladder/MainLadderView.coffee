@@ -1,3 +1,4 @@
+require('app/styles/play/ladder_home.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/play/ladder_home'
 LevelSession = require 'models/LevelSession'

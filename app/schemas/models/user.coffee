@@ -311,12 +311,21 @@ _.extend UserSchema.properties,
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
 
+  payPal: c.object {}, {
+    payerID: { type: 'string' }
+    billingAgreementID: { type: 'string', description: 'Set if user has PayPal monthly subscription' }
+    subscribeDate: c.date()
+    cancelDate: c.date()
+  }
+
   stripe: c.object {}, {
     customerID: { type: 'string' }
     planID: { enum: ['basic'], description: 'Determines if a user has or wants to subscribe' }
     subscriptionID: { type: 'string', description: 'Determines if a user is subscribed' }
     token: { type: 'string' }
     couponID: { type: 'string' }
+
+    # TODO: move `free` out of stripe, it's independent
     free: { type: ['boolean', 'string'], format: 'date-time', description: 'Type string is subscription end date' }
     prepaidCode: c.shortString description: 'Prepaid code to apply to sub purchase'
 
@@ -355,10 +364,11 @@ _.extend UserSchema.properties,
       includedCourseIDs: { type: ['array', 'null'], description: 'courseIDs that this prepaid includes access to', items: c.objectId() }
     }
   }
-  enrollmentRequestSent: { type: 'boolean' }
+  enrollmentRequestSent: { type: 'boolean', description: 'deprecated' }
 
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
-  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator"]}  # unset: home player
+  role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
+  verifiedTeacher: { type: 'boolean' }
   birthday: c.stringDate({title: "Birthday"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
 
@@ -379,6 +389,13 @@ _.extend UserSchema.properties,
   lastAnnouncementSeen:
     type: 'number'
     description: 'The highed announcement modal index displayed to the user.'
+  studentMilestones:
+    type: 'object'
+    description: "Flags for whether a teacher's students have reached a given level. Used for Intercom campaigns."
+    properties: {
+      studentStartedWakkaMaul: { type: 'boolean', description: "One of a teacher's students has reached Wakka Maul" }
+      studentStartedMayhemOfMunchkins: { type: 'boolean', description: "One of a teacher's students has started A Mayhem of Munchkins" }
+    }
 
 c.extendBasicProperties UserSchema, 'user'
 

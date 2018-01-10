@@ -3,19 +3,31 @@ wrap = require 'co-express'
 LevelSession = require '../models/LevelSession'
 Level = require '../models/Level'
 CourseInstance = require('../models/CourseInstance')
+mongoose = require 'mongoose'
+database = require '../commons/database'
 
+byLevelsAndStudents = wrap (req, res) ->
+  throw new errors.Forbidden() unless req.user.isAdmin()
+  # console.log 'byLevelsAndStudents', req.body.studentIds.length, req.body.levelOriginals.length
+  studentIds = req.body.studentIds
+  levelOriginals = req.body.levelOriginals
+  throw new errors.UnprocessableEntity('studentIds and levelOriginals required') unless studentIds and levelOriginals
+  project = req.body.project ? {}
+  earliestCreated = new Date(req.body.earliestCreated ? '2017-08-01')
+  sessions = yield LevelSession.find({created: {$gte: earliestCreated}, creator: {$in: studentIds}, 'level.original': {$in: levelOriginals}, isForClassroom: true}, req.body.project ? {}).lean()
+  res.send(sessions)
 
 submitToLadder = wrap (req, res) ->
   requestSessionID = req.body.session
   courseInstanceId = req.body.courseInstanceId
-  
+
   if (not req.user) or req.user.isAnonymous()
     throw new errors.Unauthorized()
 
   session = yield LevelSession.findOne({_id: requestSessionID}).select('code leagues codeLanguage creator level')
   if not session
     throw new errors.NotFound('Session not found.')
-    
+
   unless req.user?.isAdmin()
     userHasPermissionToSubmitCode = session.get('creator') is req.user?.id
     unless userHasPermissionToSubmitCode
@@ -43,7 +55,7 @@ submitToLadder = wrap (req, res) ->
   leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to save them as strings.
   currentLeagueIds = (session.get('leagues') or []).map((l) -> l.leagueID)
   leagueIDs = _.unique(leagueIDs.concat(currentLeagueIds))
-  
+
   if courseInstanceId and not _.contains(leagueIDs, courseInstanceId)
     courseInstance = yield CourseInstance.findById(courseInstanceId)
     if not courseInstance
@@ -51,7 +63,7 @@ submitToLadder = wrap (req, res) ->
     if not courseInstance.isMember(req.user._id)
       throw new errors.Forbidden('Not assigned this course in this classroom')
     leagueIDs.push(courseInstance.id)
-  
+
   newLeagues = []
   for leagueID in leagueIDs
     league = _.clone(_.find(session.get('leagues'), leagueID: leagueID) ? leagueID: leagueID)
@@ -68,7 +80,83 @@ submitToLadder = wrap (req, res) ->
   yield LevelSession.update {_id: session._id}, sessionUpdateObject
   session.set(sessionUpdateObject)
   res.send(session.toObject({req}))
+
+
+unsetScores = wrap (req, res) ->
+  sessionID = req.body.session
+  unless sessionID
+    throw new errors.UnprocessableEntity('No session provided.')
+  yield LevelSession.update {_id: mongoose.Types.ObjectId(sessionID)}, {$unset: {'state.topScores': 1}}
+  res.send 200
   
+  
+putKeyValueDb = wrap (req, res) ->
+  if not req.user
+    throw new errors.Unauthorized('You must have an associated user, anonymous or not.')
+  
+  key = req.params.key
+    
+  session = yield database.getDocFromHandle(req, LevelSession)
+  if not session
+    throw new errors.NotFound('Session not found.')
+    
+  sessionDb = session.get('keyValueDb')
+  if not sessionDb
+    level = yield Level.findCurrentVersion(session.get('level.original'), 'type')
+    if level.get('type') isnt 'game-dev'
+      throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key) 
+    throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+    
+  value = req.body
+  unless _.any([_.isString(value), _.isNumber(value), _.isNull(value), _.isBoolean(value)])
+    throw new errors.UnprocessableEntity('Values may only be strings, numbers, booleans, or null')
+    
+  if _.isString(value) and value.length > 1024
+    throw new errors.UnprocessableEntity('Strings may not be over one kilobyte')
+    
+  yield session.update({ $set: { "keyValueDb.#{key}": value }})
+  res.status(200).json(value)
+  
+incrementKeyValueDb = wrap (req, res) ->
+  if not req.user
+    throw new errors.Unauthorized('You must have an associated user, anonymous or not.')
+    
+  key = req.params.key
+
+  session = yield database.getDocFromHandle(req, LevelSession)
+  if not session
+    throw new errors.NotFound('Session not found.')
+
+  sessionDb = session.get('keyValueDb')
+  if not sessionDb
+    level = yield Level.findCurrentVersion(session.get('level.original'), 'type')
+    if level.get('type') isnt 'game-dev'
+      throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key) 
+    throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
+
+  value = req.body
+  unless _.isNumber(value)
+    throw new errors.UnprocessableEntity('Value must be a number')
+
+  currentValue = sessionDb?[key]
+  if _.isNumber(currentValue)
+    update = { $inc: { }}
+    update.$inc['keyValueDb.'+key] = value
+    yield session.update(update)
+    res.status(200).json(value+currentValue)
+  else
+    update = { $set: {}}
+    update.$set['keyValueDb.'+key] = value
+    yield session.update(update)
+    res.status(200).json(value)
+
+
 module.exports = {
+  byLevelsAndStudents
+  incrementKeyValueDb
+  putKeyValueDb
   submitToLadder
+  unsetScores
 }

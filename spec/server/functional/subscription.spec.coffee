@@ -16,6 +16,7 @@ moment = require 'moment'
 middleware = require '../../../server/middleware'
 errors = require '../../../server/commons/errors'
 winston = require 'winston'
+paypal = require '../../../server/lib/paypal'
 
 subPrice = 100
 subGems = 3500
@@ -135,17 +136,17 @@ describe '/db/user, editing stripe property', ->
       @json = user.toObject()
       @json.stripe = { planID: 'basic' }
       @url = userURL
-    
+
     describe 'when subscriptions.subscribeUser throws a NetworkError subclass', ->
       beforeEach ->
         spyOn(middleware.subscriptions, 'subscribeUser')
         .and.returnValue(Promise.reject(new errors.Forbidden('Forbidden!')))
-  
+
       it 'returns the thrown network error', utils.wrap ->
         [res, body] = yield request.putAsync { @url, @json, headers }
         expect(res.statusCode).toBe(403)
         expect(res.body).toBe('Forbidden!')
-        
+
     describe 'when subscriptions.subscribeUser returns a legacy error object', ->
       beforeEach ->
         spyOn(middleware.subscriptions, 'subscribeUser')
@@ -168,7 +169,7 @@ describe '/db/user, editing stripe property', ->
         expect(res.statusCode).toBe(402)
         expect(res.body).toBe('Card declined')
         expect(winston.warn).not.toHaveBeenCalled()
-        
+
     describe 'when subscriptions.subscribeUser returns a runtime error', ->
       beforeEach ->
         spyOn(middleware.subscriptions, 'subscribeUser')
@@ -220,7 +221,7 @@ describe '/db/user, editing stripe property', ->
         expect(res.statusCode).toBe(500)
         expect(res.body).toBe('Subscription error.')
         expect(winston.warn).toHaveBeenCalled()
-    
+
 
   it 'returns client error when a token fails to charge', (done) ->
     nockUtils.setupNock 'db-user-sub-test-1.json', (err, nockDone) ->
@@ -445,13 +446,16 @@ describe 'Subscriptions', ->
                 expect(err).toBeNull()
                 customerID = user1.get('stripe').customerID
                 subscriptionID = user1.get('stripe').subscriptionID
-                request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
+                stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
                   expect(err).toBeNull()
-                  stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                  expect(subscription?.cancel_at_period_end).toEqual(false)
+                  request.del {uri: "#{userURL}/#{user1.id}"}, (err, res) ->
                     expect(err).toBeNull()
-                    expect(subscription?.cancel_at_period_end).toEqual(true)
-                    nockDone()
-                    done()
+                    stripe.customers.retrieveSubscription customerID, subscriptionID, (err, subscription) ->
+                      expect(err).toBeNull()
+                      expect(subscription?.cancel_at_period_end).toEqual(true)
+                      nockDone()
+                      done()
 
     it 'User subscribes, deletes themselves, subscription ends', (done) ->
       nockUtils.setupNock 'sub-test-03.json', (err, nockDone) ->
@@ -714,17 +718,31 @@ describe 'Subscriptions', ->
               nockDone()
               done()
 
+    it 'returns 403 when trying to subscribe with stripe over an existing PayPal subscription', utils.wrap ->
+      user = yield utils.initUser()
+      yield utils.loginUser(user)
+      user.set('payPal.billingAgreementID', 'foo')
+      yield user.save()
+      requestBody = user.toObject()
+      requestBody.stripe =
+        planID: 'basic'
+        token: {id: 'bar'}
+      [res, body] = yield request.putAsync({uri: userURL, json: requestBody, headers: headers })
+      expect(res.statusCode).toBe(403)
+
   describe 'APIs', ->
     # TODO: Refactor these tests to be use yield, be independent of one another, and move to products.spec.coffee
+    # TODO: year tests converted to lifetime, but should be reviewed for usefulness
     subscriptionURL = getURL('/db/subscription')
-    purchaseYearSaleUrl = null
+    purchaseLifetimeUrl = null
     beforeEach utils.wrap (done) ->
       yield utils.populateProducts()
-      product = yield Product.findOne({name: 'year_subscription'})
-      purchaseYearSaleUrl = getURL("/db/products/#{product.id}/purchase")
+      @product = yield Product.findOne({name: 'lifetime_subscription'})
+      purchaseLifetimeUrl = getURL("/db/products/#{@product.id}/purchase")
       done()
 
-    it 'year_sale', (done) ->
+    it 'lifetime sub', (done) ->
+      product = @product
       nockUtils.setupNock 'sub-test-35.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -735,7 +753,7 @@ describe 'Subscriptions', ->
               stripe:
                 token: token.id
                 timestamp: new Date()
-            request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+            request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
               expect(err).toBeNull()
               expect(res.statusCode).toBe(200)
               User.findById user1.id, (err, user1) ->
@@ -743,19 +761,19 @@ describe 'Subscriptions', ->
                 stripeInfo = user1.get('stripe')
                 expect(stripeInfo).toBeDefined()
                 return done() unless stripeInfo
-                endDate = new Date()
-                endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                expect(stripeInfo.free).toEqual(true)
                 expect(stripeInfo.customerID).toBeDefined()
                 expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                 Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
                   expect(err).toBeNull()
                   expect(payment).toBeTruthy()
                   expect(payment.get('gems')).toEqual(subGems*12)
+                  expect(payment.get('productID')).toBe(product.get('name'))
                   nockDone()
                   done()
 
-    it 'year_sale when stripe.free === true', (done) ->
+    # TODO: Is the behavior being tested here correct? Seems like one shouldn't be able (or need) to buy a lifetime sub when stripe.free is already true.
+    it 'lifetime sub when stripe.free === true', (done) ->
       nockUtils.setupNock 'sub-test-36.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -769,7 +787,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -777,9 +795,7 @@ describe 'Subscriptions', ->
                   stripeInfo = user1.get('stripe')
                   expect(stripeInfo).toBeDefined()
                   return done() unless stripeInfo
-                  endDate = new Date()
-                  endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                  expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                  expect(stripeInfo.free).toEqual(true)
                   expect(stripeInfo.customerID).toBeDefined()
                   expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -789,7 +805,7 @@ describe 'Subscriptions', ->
                     nockDone()
                     done()
 
-    it 'year_sale when stripe.free < today', (done) ->
+    it 'lifetime sub when stripe.free < today', (done) ->
       nockUtils.setupNock 'sub-test-37.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -805,7 +821,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -813,9 +829,7 @@ describe 'Subscriptions', ->
                   stripeInfo = user1.get('stripe')
                   expect(stripeInfo).toBeDefined()
                   return done() unless stripeInfo
-                  endDate = new Date()
-                  endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                  expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                  expect(stripeInfo.free).toEqual(true)
                   expect(stripeInfo.customerID).toBeDefined()
                   expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -825,7 +839,7 @@ describe 'Subscriptions', ->
                     nockDone()
                     done()
 
-    it 'year_sale when stripe.free > today', (done) ->
+    it 'lifetime sub when stripe.free > today', (done) ->
       nockUtils.setupNock 'sub-test-38.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -841,7 +855,7 @@ describe 'Subscriptions', ->
                 stripe:
                   token: token.id
                   timestamp: new Date()
-              request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+              request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                 expect(err).toBeNull()
                 expect(res.statusCode).toBe(200)
                 User.findById user1.id, (err, user1) ->
@@ -849,10 +863,7 @@ describe 'Subscriptions', ->
                   stripeInfo = user1.get('stripe')
                   expect(stripeInfo).toBeDefined()
                   return done() unless stripeInfo
-                  endDate = new Date()
-                  endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                  endDate.setUTCDate(endDate.getUTCDate() + 5)
-                  expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                  expect(stripeInfo.free).toEqual(true)
                   expect(stripeInfo.customerID).toBeDefined()
                   expect(user1.get('purchased')?.gems).toEqual(subGems*12)
                   Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -862,7 +873,7 @@ describe 'Subscriptions', ->
                     nockDone()
                     done()
 
-    it 'year_sale with monthly sub', (done) ->
+    it 'lifetime sub with monthly sub', (done) ->
       nockUtils.setupNock 'sub-test-39.json', (err, nockDone) ->
         stripe.tokens.create {
           card: { number: '4242424242424242', exp_month: 12, exp_year: 2020, cvc: '123' }
@@ -883,7 +894,7 @@ describe 'Subscriptions', ->
                       stripe:
                         token: token.id
                         timestamp: new Date()
-                    request.post {uri: purchaseYearSaleUrl, json: requestBody, headers: headers }, (err, res) ->
+                    request.post {uri: purchaseLifetimeUrl, json: requestBody, headers: headers }, (err, res) ->
                       expect(err).toBeNull()
                       expect(res.statusCode).toBe(200)
                       User.findById user1.id, (err, user1) ->
@@ -891,9 +902,7 @@ describe 'Subscriptions', ->
                         stripeInfo = user1.get('stripe')
                         expect(stripeInfo).toBeDefined()
                         return done() unless stripeInfo
-                        endDate = stripeSubscriptionPeriodEndDate
-                        endDate.setUTCFullYear(endDate.getUTCFullYear() + 1)
-                        expect(stripeInfo.free).toEqual(endDate.toISOString().substring(0, 10))
+                        expect(stripeInfo.free).toEqual(true)
                         expect(stripeInfo.customerID).toBeDefined()
                         expect(user1.get('purchased')?.gems).toEqual(subGems+subGems*12)
                         Payment.findOne 'stripe.customerID': stripeInfo.customerID, (err, payment) ->
@@ -903,7 +912,6 @@ describe 'Subscriptions', ->
                           nockDone()
                           done()
 
-                
   describe 'Countries', ->
     it 'Brazil users get Brazil coupon', (done) ->
       nockUtils.setupNock 'sub-test-41.json', (err, nockDone) ->
@@ -950,10 +958,10 @@ describe 'Subscriptions', ->
 
 
 describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
-  
+
   beforeEach utils.wrap ->
     yield utils.clearModels([User])
-    
+
     @recipient1 = yield utils.initUser()
     @recipient2 = yield utils.initUser()
     @sponsor = yield utils.initUser({
@@ -979,7 +987,7 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     yield utils.populateProducts()
     spyOn(stripe.customers, 'cancelSubscription').and.callFake (cId, sId, cb) -> cb(null)
     spyOn(stripe.customers, 'updateSubscription').and.callFake (cId, sId, opts, cb) -> cb(null)
-    
+
   it 'unsubscribes the given recipient', utils.wrap ->
     yield utils.loginUser(@sponsor)
     url = utils.getURL("/db/user/#{@sponsor.id}/stripe/recipients/#{@recipient1.id}")
@@ -990,3 +998,865 @@ describe 'DELETE /db/user/:handle/stripe/recipients/:recipientHandle', ->
     expect((yield User.findById(@sponsor.id)).get('stripe').recipients.length).toBe(1)
     expect((yield User.findById(@recipient1.id)).get('stripe')).toBeUndefined()
     expect((yield User.findById(@recipient2.id)).get('stripe')).toBeDefined()
+
+
+describe 'POST /db/products/:handle/purchase', ->
+  describe 'when logged in user', ->
+    beforeEach utils.wrap ->
+      @user = yield utils.initUser()
+      yield utils.loginUser(@user)
+      yield utils.populateProducts()
+
+    describe 'when subscribed', ->
+      beforeEach utils.wrap ->
+        @billingAgreementID = 1234
+        @user.set('payPal.billingAgreementID', @billingAgreementID)
+        yield @user.save()
+
+      it 'denies PayPal payments', utils.wrap ->
+        product = yield Product.findOne({ name: 'lifetime_subscription' })
+        url = utils.getUrl("/db/products/#{product.id}/purchase")
+        json = { service: 'paypal', paymentID: "PAY-74521676DM528663SLFT63RA", payerID: 'VUR529XNB59XY' }
+        [res] = yield request.postAsync({ url, json })
+        expect(res.statusCode).toBe(403)
+
+    describe 'when NOT subscribed', ->
+      it 'accepts PayPal payments', utils.wrap ->
+        # TODO: figure out how to create test payments through PayPal API, set this up with fixtures through Nock
+
+        product = yield Product.findOne({ name: 'lifetime_subscription' })
+        amount = product.get('amount')
+        url = utils.getUrl("/db/products/#{product.id}/purchase")
+        json = { service: 'paypal', paymentID: "PAY-74521676DM528663SLFT63RA", payerID: 'VUR529XNB59XY' }
+
+        payPalResponse = {
+          "id": "PAY-03466",
+          "intent": "sale",
+          "state": "approved",
+          "cart": "3J885",
+          "payer": {
+            "payment_method": "paypal",
+            "status": "VERIFIED",
+            "payer_info": {
+              "email": @user.get('email'),
+              "first_name": "test",
+              "last_name": "buyer",
+              "payer_id": "VUR529XNB59XY",
+              "shipping_address": {
+                "recipient_name": "test buyer",
+                "line1": "1 Main St",
+                "city": "San Jose",
+                "state": "CA",
+                "postal_code": "95131",
+                "country_code": "US"
+              },
+              "country_code": "US"
+            }
+          },
+          "transactions": [
+            {
+              "amount": {
+                "total": (amount/100).toFixed(2),
+                "currency": "USD",
+                "details": {}
+              },
+              "payee": {
+                "merchant_id": "7R5CJJ",
+                "email": "payments@codecombat.com"
+              },
+              "description": "Lifetime Subscription",
+              "item_list": {
+                "items": [
+                  {
+                    "name": "lifetime_subscription",
+                    "sku": product.id,
+                    "price": (amount/100).toFixed(2),
+                    "currency": "USD",
+                    "quantity": 1
+                  }
+                ],
+                "shipping_address": {
+                  "recipient_name": "test buyer",
+                  "line1": "1 Main St",
+                  "city": "San Jose",
+                  "state": "CA",
+                  "postal_code": "95131",
+                  "country_code": "US"
+                }
+              },
+              "related_resources": [] # bunch more info in here
+            }
+          ],
+          "create_time": "2017-07-13T22:35:45Z",
+          "links": [
+            {
+              "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-034662230Y592723RLFT7LLA",
+              "rel": "self",
+              "method": "GET"
+            }
+          ],
+          "httpStatusCode": 200
+        }
+        spyOn(paypal.payment, 'executeAsync').and.returnValue(Promise.resolve(payPalResponse))
+
+        [res] = yield request.postAsync({ url, json })
+        expect(res.statusCode).toBe(200)
+        payment = yield Payment.findOne({"payPal.id":"PAY-03466"})
+        expect(payment).toBeDefined()
+        expect(payment.get('productID')).toBe(product.get('name'))
+        expect(payment.get('payPal.id')).toBe(payPalResponse.id)
+        expect(payment.get('amount')).toBe(product.get('amount'))
+        user = yield User.findById(@user.id)
+        expect(user.get('stripe.free')).toBe(true)
+        expect(user.get('payPal').payerID).toEqual(payPalResponse.payer.payer_info.payer_id)
+        expect(user.hasSubscription()).toBeTruthy()
+
+      it 'accepts PayPal payments with coupon', utils.wrap ->
+        # TODO: figure out how to create test payments through PayPal API, set this up with fixtures through Nock
+
+        product = yield Product.findOne({ name: 'lifetime_subscription' })
+        amount = product.get('coupons')[0].amount
+        url = utils.getUrl("/db/products/#{product.id}/purchase")
+        json = { service: 'paypal', paymentID: "PAY-74521676DM528663SLFT63RA", payerID: 'VUR529XNB59XY', coupon: 'c1' }
+
+        payPalResponse = {
+          "id": "PAY-84848",
+          "intent": "sale",
+          "state": "approved",
+          "cart": "3J885",
+          "payer": {
+            "payment_method": "paypal",
+            "status": "VERIFIED",
+            "payer_info": {
+              "email": @user.get('email'),
+              "first_name": "test",
+              "last_name": "buyer",
+              "payer_id": "VUR529XNB59XY",
+              "shipping_address": {
+                "recipient_name": "test buyer",
+                "line1": "1 Main St",
+                "city": "San Jose",
+                "state": "CA",
+                "postal_code": "95131",
+                "country_code": "US"
+              },
+              "country_code": "US"
+            }
+          },
+          "transactions": [
+            {
+              "amount": {
+                "total": (amount/100).toFixed(2),
+                "currency": "USD",
+                "details": {}
+              },
+              "payee": {
+                "merchant_id": "7R5CJJ",
+                "email": "payments@codecombat.com"
+              },
+              "description": "Lifetime Subscription",
+              "item_list": {
+                "items": [
+                  {
+                    "name": "lifetime_subscription",
+                    "sku": product.id,
+                    "price": (amount/100).toFixed(2),
+                    "currency": "USD",
+                    "quantity": 1
+                  }
+                ],
+                "shipping_address": {
+                  "recipient_name": "test buyer",
+                  "line1": "1 Main St",
+                  "city": "San Jose",
+                  "state": "CA",
+                  "postal_code": "95131",
+                  "country_code": "US"
+                }
+              },
+              "related_resources": [] # bunch more info in here
+            }
+          ],
+          "create_time": "2017-07-13T22:35:45Z",
+          "links": [
+            {
+              "href": "https://api.sandbox.paypal.com/v1/payments/payment/PAY-034662230Y592723RLFT7LLA",
+              "rel": "self",
+              "method": "GET"
+            }
+          ],
+          "httpStatusCode": 200
+        }
+        spyOn(paypal.payment, 'executeAsync').and.returnValue(Promise.resolve(payPalResponse))
+
+        [res] = yield request.postAsync({ url, json })
+        expect(res.statusCode).toBe(200)
+        payment = yield Payment.findOne({"payPal.id":"PAY-84848"})
+        expect(payment).toBeDefined()
+        expect(payment.get('productID')).toBe(product.get('name'))
+        expect(payment.get('payPal.id')).toBe(payPalResponse.id)
+        expect(payment.get('amount')).toBe(product.get('coupons')[0].amount)
+        user = yield User.findById(@user.id)
+        expect(user.get('stripe.free')).toBe(true)
+        expect(user.get('payPal').payerID).toEqual(payPalResponse.payer.payer_info.payer_id)
+        expect(user.hasSubscription()).toBeTruthy()
+
+describe 'POST /db/user/:handle/paypal', ->
+  describe '/create-billing-agreement', ->
+    beforeEach utils.wrap ->
+      @payPalResponse = {
+        "name":"[TEST agreement] CodeCombat Premium Subscription",
+        "description":"[TEST agreeement] A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!",
+        "plan":{
+            "id": "TODO",
+            "state":"ACTIVE",
+            "name":"[TEST plan] CodeCombat Premium Subscription",
+            "description":"[TEST plan] A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!",
+            "type":"INFINITE",
+            "payment_definitions":[
+              {
+                  "id":"PD-2M295453FC097664LX2K4IKA",
+                  "name":"Regular payment definition",
+                  "type":"REGULAR",
+                  "frequency":"Day",
+                  "amount":{
+                    "currency":"USD",
+                    "value": "TODO"
+                  },
+                  "cycles":"0",
+                  "charge_models":[
+
+                  ],
+                  "frequency_interval":"1"
+              }
+            ],
+            "merchant_preferences":{
+              "setup_fee":{
+                  "currency":"USD",
+                  "value":"0"
+              },
+              "max_fail_attempts":"0",
+              "return_url":"http://localhost:3000/paypal/subscribe-callback",
+              "cancel_url":"http://localhost:3000/paypal/cancel-callback",
+              "auto_bill_amount":"YES",
+              "initial_fail_amount_action":"CONTINUE"
+            }
+        },
+        "links":[
+            {
+              "href":"https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_express-checkout&token=EC-92B61638JR311510D",
+              "rel":"approval_url",
+              "method":"REDIRECT"
+            },
+            {
+              "href":"https://api.sandbox.paypal.com/v1/payments/billing-agreements/EC-92B61638JR311510D/agreement-execute",
+              "rel":"execute",
+              "method":"POST"
+            }
+        ],
+        "start_date":"2017-08-08T18:47:06.681Z",
+        "httpStatusCode":201
+      }
+
+    describe 'when user NOT logged in', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.becomeAnonymous()
+        yield utils.populateProducts()
+        @product = yield Product.findOne({ name: 'basic_subscription' })
+
+      it 'returns 401 and does not create a billing agreement', utils.wrap ->
+        url = utils.getUrl("/db/user/#{@user.id}/paypal/create-billing-agreement")
+        [res, body] = yield request.postAsync({ url, json: {productID: @product.id} })
+
+        expect(res.statusCode).toBe(401)
+        expect(@user.isAnonymous()).toBeTruthy()
+
+    describe 'when user logged in', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.initUser()
+        yield utils.loginUser(@user)
+
+      describe 'when user already subscribed', ->
+        beforeEach utils.wrap ->
+          @user.set('payPal.billingAgreementID', 'foo')
+          yield @user.save()
+          @product = yield Product.findOne({ name: 'brazil_basic_subscription' })
+
+        it 'returns 403 and does not create a billing agreement', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/create-billing-agreement")
+          [res, body] = yield request.postAsync({ url, json: {productID: @product.id} })
+          expect(res.statusCode).toBe(403)
+          expect(@user.get('payPal.billingAgreementID')).toEqual('foo')
+
+      describe 'when invalid product', ->
+
+        it 'returns 422 and does not create a billing agreement', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/create-billing-agreement")
+          [res, body] = yield request.postAsync({ url, json: {productID: 99999} })
+
+          expect(res.statusCode).toBe(422)
+
+      describe 'when regional product', ->
+        beforeEach utils.wrap ->
+          yield utils.populateProducts()
+          @product = yield Product.findOne({ name: 'brazil_basic_subscription' })
+          @payPalResponse.plan.id = @product.get('payPalBillingPlanID')
+          @payPalResponse.plan.payment_definitions[0].amount.value = parseFloat(@product.get('amount') / 100).toFixed(2)
+
+        it 'creates a billing agreement', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/create-billing-agreement")
+          spyOn(paypal.billingAgreement, 'createAsync').and.returnValue(Promise.resolve(@payPalResponse))
+          [res, body] = yield request.postAsync({ url, json: {productID: @product.id} })
+          expect(res.statusCode).toBe(201)
+          expect(body.plan.id).toEqual(@product.get('payPalBillingPlanID'))
+          expect(body.plan.payment_definitions[0].amount.value).toEqual(parseFloat(@product.get('amount') / 100).toFixed(2))
+
+      describe 'when basic product', ->
+        beforeEach utils.wrap ->
+          yield utils.populateProducts()
+          @product = yield Product.findOne({ name: 'basic_subscription' })
+          @payPalResponse.plan.id = @product.get('payPalBillingPlanID')
+          @payPalResponse.plan.payment_definitions[0].amount.value = parseFloat(@product.get('amount') / 100).toFixed(2)
+
+        it 'creates a billing agreement', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/create-billing-agreement")
+          spyOn(paypal.billingAgreement, 'createAsync').and.returnValue(Promise.resolve(@payPalResponse))
+          [res, body] = yield request.postAsync({ url, json: {productID: @product.id} })
+          expect(res.statusCode).toBe(201)
+          expect(body.plan.id).toEqual(@product.get('payPalBillingPlanID'))
+          expect(body.plan.payment_definitions[0].amount.value).toEqual(parseFloat(@product.get('amount') / 100).toFixed(2))
+
+  describe '/execute-billing-agreement', ->
+    beforeEach utils.wrap ->
+      @payPalResponse = {
+        "id": "I-3HNGD4BKF09P",
+        "state": "Active",
+        "description": "[TEST agreeement] A CodeCombat Premium subscription gives you access to exclusive levels, heroes, equipment, pets and more!",
+        "payer": {
+          "payment_method": "paypal",
+          "status": "verified",
+          "payer_info": {
+            "email": "foo@bar.com",
+            "first_name": "Foo",
+            "last_name": "Bar",
+            "payer_id": "1324",
+          }
+        },
+        "plan": {
+          "payment_definitions": [
+            {
+              "type": "REGULAR",
+              "frequency": "Day",
+              "amount": {
+                "value": "TODO"
+              },
+              "cycles": "0",
+              "charge_models": [
+                {
+                  "type": "TAX",
+                  "amount": {
+                    "value": "0.00"
+                  }
+                },
+                {
+                  "type": "SHIPPING",
+                  "amount": {
+                    "value": "0.00"
+                  }
+                }
+              ],
+              "frequency_interval": "1"
+            }
+          ],
+          "merchant_preferences": {
+            "setup_fee": {
+              "value": "0.00"
+            },
+            "max_fail_attempts": "0",
+            "auto_bill_amount": "YES"
+          },
+          "links": [],
+          "currency_code": "USD"
+        },
+        "links": [
+          {
+            "href": "https://api.sandbox.paypal.com/v1/payments/billing-agreements/I-3HNGD4BKF09P",
+            "rel": "self",
+            "method": "GET"
+          }
+        ],
+        "start_date": "2017-08-08T07:00:00Z",
+        "agreement_details": {
+          "outstanding_balance": {
+            "value": "0.00"
+          },
+          "cycles_remaining": "0",
+          "cycles_completed": "0",
+          "next_billing_date": "2017-08-08T10:00:00Z",
+          "final_payment_date": "1970-01-01T00:00:00Z",
+          "failed_payment_count": "0"
+        },
+        "httpStatusCode": 200
+      }
+
+    describe 'when user NOT logged in', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.becomeAnonymous()
+        yield utils.populateProducts()
+
+      it 'returns 401 and does not execute a billing agreement', utils.wrap ->
+        url = utils.getUrl("/db/user/#{@user.id}/paypal/execute-billing-agreement")
+        [res, body] = yield request.postAsync({ url })
+        expect(res.statusCode).toBe(401)
+        expect(@user.isAnonymous()).toBeTruthy()
+
+    describe 'when user logged in', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.initUser()
+        yield utils.loginUser(@user)
+
+      describe 'when user already subscribed', ->
+        beforeEach utils.wrap ->
+          @user.set('payPal.billingAgreementID', 'foo')
+          yield @user.save()
+
+        it 'returns 403 and does not execute a billing agreement', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/execute-billing-agreement")
+          [res, body] = yield request.postAsync({ url })
+          expect(res.statusCode).toBe(403)
+          expect(@user.get('payPal.billingAgreementID')).toEqual('foo')
+
+      describe 'when no token', ->
+
+        it 'returns 404 and does not execute a billing agreement', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/execute-billing-agreement")
+          [res, body] = yield request.postAsync({ url })
+          expect(res.statusCode).toBe(404)
+
+      describe 'when token passed', ->
+        beforeEach utils.wrap ->
+          @product = yield Product.findOne({name: 'basic_subscription'})
+          unless @product
+            @localProduct = true
+            @product = Product({name: 'basic_subscription', gems: 20, amount: 30})
+            yield @product.save()
+          # else
+          #   console.log '@product exists', @product
+        afterEach utils.wrap ->
+          if @localProduct
+            yield Product.remove({_id: @product.get('_id')})
+        it 'subscribes the user', utils.wrap ->
+          expect(@user.hasSubscription()).not.toBeTruthy()
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/execute-billing-agreement")
+          spyOn(paypal.billingAgreement, 'executeAsync').and.returnValue(Promise.resolve(@payPalResponse))
+          [res, body] = yield request.postAsync({ url, json: {token: 'foo' }})
+          expect(res.statusCode).toBe(200)
+          expect(body.id).toEqual(@payPalResponse.id)
+          user = yield User.findById @user.id
+          userPayPalData = user.get('payPal')
+          expect(userPayPalData.billingAgreementID).toEqual(@payPalResponse.id)
+          expect(userPayPalData.payerID).toEqual(@payPalResponse.payer.payer_info.payer_id)
+          expect(userPayPalData.subscribeDate).toBeDefined()
+          expect(userPayPalData.subscribeDate).toBeLessThan(new Date())
+          expect(user.hasSubscription()).toBeTruthy()
+          payment = yield Payment.findOne payPalBillingAgreementID: userPayPalData.billingAgreementID
+          expect(payment).toBeDefined()
+          expect(payment.get('recipient').toString()).toEqual(user.id)
+          expect(payment.get('amount')).toEqual(@product.get('amount'))
+          expect(payment.get('gems')).toEqual(@product.get('gems'))
+          expect(user.get('purchased').gems).toEqual(@product.get('gems'))
+
+  describe '/cancel-billing-agreement', ->
+    beforeEach utils.wrap ->
+      @payPalResponse = {
+        "httpStatusCode": 204
+      }
+
+    describe 'when user NOT logged in', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.becomeAnonymous()
+        yield utils.populateProducts()
+
+      it 'no billing agreement cancelled', utils.wrap ->
+        url = utils.getUrl("/db/user/#{@user.id}/paypal/cancel-billing-agreement")
+        [res, body] = yield request.postAsync({ url })
+        expect(res.statusCode).toBe(401)
+        expect(@user.isAnonymous()).toBeTruthy()
+
+    describe 'when user logged in', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.initUser()
+        yield utils.loginUser(@user)
+
+      describe 'when user not subscribed', ->
+
+        it 'no billing agreement cancelled', utils.wrap ->
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/cancel-billing-agreement")
+          [res, body] = yield request.postAsync({ url })
+          expect(res.statusCode).toBe(403)
+
+      describe 'when user subscribed', ->
+        beforeEach utils.wrap ->
+          @billingAgreementID = 1234
+          @user.set('payPal.billingAgreementID', @billingAgreementID)
+          yield @user.save()
+
+        it 'user unsubscribed', utils.wrap ->
+          expect(@user.hasSubscription()).toBeTruthy()
+          url = utils.getUrl("/db/user/#{@user.id}/paypal/cancel-billing-agreement")
+          spyOn(paypal.billingAgreement, 'cancelAsync').and.returnValue(Promise.resolve(@payPalResponse))
+          [res, body] = yield request.postAsync({ url, json: {billingAgreementID: @billingAgreementID} })
+          expect(res.statusCode).toBe(204)
+          user = yield User.findById @user.id
+          expect(user.get('payPal').billingAgreementID).not.toBeDefined()
+          expect(user.get('payPal').cancelDate).toBeDefined()
+          expect(user.get('payPal').cancelDate).toBeLessThan(new Date())
+          expect(user.hasSubscription()).toBeTruthy()
+          expect(new Date(user.get('stripe').free)).toBeGreaterThan(new Date())
+
+describe 'POST /paypal/webhook', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Payment])
+
+  describe 'when unknown event', ->
+
+    it 'returns 200 and info message', utils.wrap ->
+      url = getURL('/paypal/webhook')
+      [res, body] = yield request.postAsync({ uri: url, json: {event_type: "UNKNOWN.EVENT"} })
+      expect(res.statusCode).toEqual(200)
+      expect(res.body).toEqual('PayPal webhook unknown event UNKNOWN.EVENT')
+
+  describe 'when PAYMENT.SALE.COMPLETED event', ->
+
+    describe 'when billing agreement payment', ->
+      beforeEach utils.wrap ->
+        @paymentEventData = {
+          "id":"WH-7UE28022AT424841V-9DJ65866TC5772327",
+          "event_version":"1.0",
+          "create_time":"2017-08-07T23:33:37.176Z",
+          "resource_type":"sale",
+          "event_type":"PAYMENT.SALE.COMPLETED",
+          "summary":"Payment completed for $ 0.99 USD",
+          "resource":{
+              "id":"3C172741YC758734U",
+              "state":"completed",
+              "amount":{
+                "total":"0.99",
+                "currency":"USD",
+                "details":{
+
+                }
+              },
+              "payment_mode":"INSTANT_TRANSFER",
+              "protection_eligibility":"ELIGIBLE",
+              "protection_eligibility_type":"ITEM_NOT_RECEIVED_ELIGIBLE,UNAUTHORIZED_PAYMENT_ELIGIBLE",
+              "transaction_fee":{
+                "value":"0.02",
+                "currency":"USD"
+              },
+              "billing_agreement_id":"I-H3HN1PXG1SEV",
+              "create_time":"2017-08-07T23:33:10Z",
+              "update_time":"2017-08-07T23:33:10Z",
+              "links":[
+                {
+                    "href":"https://api.sandbox.paypal.com/v1/payments/sale/3C172741YC758734U",
+                    "rel":"self",
+                    "method":"GET"
+                },
+                {
+                    "href":"https://api.sandbox.paypal.com/v1/payments/sale/3C172741YC758734U/refund",
+                    "rel":"refund",
+                    "method":"POST"
+                }
+              ]
+          },
+          "links":[
+              {
+                "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7UE28022AT424841V-9DJ65866TC5772327",
+                "rel":"self",
+                "method":"GET"
+              },
+              {
+                "href":"https://api.sandbox.paypal.com/v1/notifications/webhooks-events/WH-7UE28022AT424841V-9DJ65866TC5772327/resend",
+                "rel":"resend",
+                "method":"POST"
+              }
+          ]
+        }
+
+      describe 'when incomplete', ->
+
+        it 'returns 200 and incomplete message', utils.wrap ->
+          @paymentEventData.resource.state = 'incomplete'
+          url = getURL('/paypal/webhook')
+          [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+          expect(res.statusCode).toEqual(200)
+          expect(res.body).toEqual("PayPal webhook payment incomplete state: #{@paymentEventData.resource.id} #{@paymentEventData.resource.state}")
+
+      describe 'when no user with billing agreement', ->
+
+        it 'returns 200 and no user message', utils.wrap ->
+          url = getURL('/paypal/webhook')
+          [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+          expect(res.statusCode).toEqual(200)
+          expect(res.body).toEqual("PayPal webhook payment no user found: #{@paymentEventData.resource.id} #{@paymentEventData.resource.billing_agreement_id}")
+
+      describe 'when user with billing agreement', ->
+        beforeEach utils.wrap ->
+          @user = yield utils.initUser()
+          yield utils.loginUser(@user)
+          @user.set('payPal.billingAgreementID', @paymentEventData.resource.billing_agreement_id)
+          yield @user.save()
+
+        xdescribe 'when no basic_subscription product for user', ->
+          beforeEach utils.wrap ->
+            # TODO: populateProducts runs once, so this could mess with following tests.
+            yield utils.clearModels([Product])
+
+          it 'returns 200 and unexpected sub message', utils.wrap ->
+            url = getURL('/paypal/webhook')
+            [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+            expect(res.statusCode).toEqual(200)
+            expect(res.body).toEqual("PayPal webhook unexpected sub for user: #{@user.id} undefined")
+
+        describe 'when basic_subscription product exists for user', ->
+          beforeEach utils.wrap ->
+            @product = Product({name: 'basic_subscription', gems: 20})
+            yield @product.save()
+
+          describe 'when no previous payment recorded', ->
+            beforeEach utils.wrap ->
+              yield utils.clearModels([Payment])
+
+            it 'creates a new payment and awards gems', utils.wrap ->
+              url = getURL('/paypal/webhook')
+              [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+              expect(res.statusCode).toEqual(200)
+              payment = yield Payment.findOne({'payPalSale.id': @paymentEventData.resource.id})
+              expect(payment).toBeTruthy()
+              expect(payment.get('purchaser').toString()).toEqual(@user.id)
+              expect(payment.get('amount')).toEqual(Math.round(parseFloat(@paymentEventData.resource.amount.total) * 100))
+              user = yield User.findById(payment.get('purchaser'))
+              expect(user.get('purchased').gems).toBeDefined() # Products in db are not predictable for this test suite
+
+          describe 'when previous payment already recorded', ->
+            beforeEach utils.wrap ->
+              yield utils.clearModels([Payment])
+              yield Payment({'payPalSale.id': @paymentEventData.resource.id}).save()
+              payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+              expect(payments?.length).toEqual(1)
+
+            it 'does not create a new payment', utils.wrap ->
+              url = getURL('/paypal/webhook')
+              [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+              expect(res.statusCode).toEqual(200)
+              expect(res.body).toEqual("Payment already recorded for #{@paymentEventData.resource.id}")
+              payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+              expect(payments?.length).toEqual(1)
+
+          describe 'when initial subscribe payment already recorded', ->
+            beforeEach utils.wrap ->
+              yield utils.clearModels([Payment])
+              @payment = yield Payment({'payPalBillingAgreementID': @paymentEventData.resource.billing_agreement_id}).save()
+              payments = yield Payment.find({'payPalBillingAgreementID': @paymentEventData.resource.billing_agreement_id}).lean()
+              expect(payments?.length).toEqual(1)
+
+            it 'does not create a new payment and updates the existing one for the corresponding webhook call', utils.wrap ->
+              url = getURL('/paypal/webhook')
+              [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+              expect(res.statusCode).toEqual(200)
+              expect(res.body).toEqual("Payment sale object #{@paymentEventData.resource.id} added to initial payment #{@payment.id}")
+              payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+              expect(payments?.length).toEqual(1)
+              expect(payments[0].payPalBillingAgreementID).toEqual(@paymentEventData.resource.billing_agreement_id)
+
+            describe 'when initial subscribe payment already updated from webhook', ->
+              beforeEach utils.wrap ->
+                url = getURL('/paypal/webhook')
+                [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+                expect(res.statusCode).toEqual(200)
+                expect(res.body).toEqual("Payment sale object #{@paymentEventData.resource.id} added to initial payment #{@payment.id}")
+                payments = yield Payment.find({'payPalSale.id': @paymentEventData.resource.id}).lean()
+                expect(payments?.length).toEqual(1)
+                expect(payments[0].payPalBillingAgreementID).toEqual(@paymentEventData.resource.billing_agreement_id)
+
+              it 'creates a 2nd payment for month 2 recurring payment', utils.wrap ->
+                secondPaymentData = _.cloneDeep(@paymentEventData)
+                secondPaymentData.resource.id += 'second'
+                url = getURL('/paypal/webhook')
+                [res, body] = yield request.postAsync({ uri: url, json: secondPaymentData })
+                expect(res.statusCode).toEqual(200)
+                payments = yield Payment.find({'payPalSale.id': secondPaymentData.resource.id}).lean()
+                expect(payments?.length).toEqual(1)
+                expect(payments[0].payPalBillingAgreementID).not.toBeDefined()
+
+  describe 'when BILLING.SUBSCRIPTION.CANCELLED event', ->
+    beforeEach utils.wrap ->
+      @paymentEventData = {
+        "id": "WH-6TD369808N914414D-1YJ376786E892292F",
+        "create_time": "2016-04-28T11:53:10Z",
+        "resource_type": "Agreement",
+        "event_type": "BILLING.SUBSCRIPTION.CANCELLED",
+        "summary": "A billing subscription was cancelled",
+        "resource": {
+          "shipping_address": {
+            "recipient_name": "Cool Buyer",
+            "line1": "3rd st",
+            "line2": "cool",
+            "city": "San Jose",
+            "state": "CA",
+            "postal_code": "95112",
+            "country_code": "US"
+          },
+          "id": "I-PE7JWXKGVN0R",
+          "plan": {
+            "curr_code": "USD",
+            "links": [],
+            "payment_definitions": [
+              {
+                "type": "TRIAL",
+                "frequency": "Month",
+                "frequency_interval": "1",
+                "amount": {
+                  "value": "5.00"
+                },
+                "cycles": "5",
+                "charge_models": [
+                  {
+                    "type": "TAX",
+                    "amount": {
+                      "value": "1.00"
+                    }
+                  },
+                  {
+                    "type": "SHIPPING",
+                    "amount": {
+                      "value": "1.00"
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "REGULAR",
+                "frequency": "Month",
+                "frequency_interval": "1",
+                "amount": {
+                  "value": "10.00"
+                },
+                "cycles": "15",
+                "charge_models": [
+                  {
+                    "type": "TAX",
+                    "amount": {
+                      "value": "2.00"
+                    }
+                  },
+                  {
+                    "type": "SHIPPING",
+                    "amount": {
+                      "value": "1.00"
+                    }
+                  }
+                ]
+              }
+            ],
+            "merchant_preferences": {
+              "setup_fee": {
+                "value": "0.00"
+              },
+              "auto_bill_amount": "YES",
+              "max_fail_attempts": "21"
+            }
+          },
+          "payer": {
+            "payment_method": "paypal",
+            "status": "verified",
+            "payer_info": {
+              "email": "coolbuyer@example.com",
+              "first_name": "Cool",
+              "last_name": "Buyer",
+              "payer_id": "XLHKRXRA4H7QY",
+              "shipping_address": {
+                "recipient_name": "Cool Buyer",
+                "line1": "3rd st",
+                "line2": "cool",
+                "city": "San Jose",
+                "state": "CA",
+                "postal_code": "95112",
+                "country_code": "US"
+              }
+            }
+          },
+          "description": "update desc",
+          "agreement_details": {
+            "outstanding_balance": {
+              "value": "0.00"
+            },
+            "num_cycles_remaining": "5",
+            "num_cycles_completed": "0",
+            "last_payment_date": "2016-04-28T11:29:54Z",
+            "last_payment_amount": {
+              "value": "1.00"
+            },
+            "final_payment_due_date": "2017-11-30T10:00:00Z",
+            "failed_payment_count": "0"
+          },
+          "state": "Cancelled",
+          "links": [
+            {
+              "href": "https://api.paypal.com/v1/payments/billing-agreements/I-PE7JWXKGVN0R",
+              "rel": "self",
+              "method": "GET"
+            }
+          ],
+          "start_date": "2016-04-30T07:00:00Z"
+        },
+        "links": [
+          {
+            "href": "https://api.paypal.com/v1/notifications/webhooks-events/WH-6TD369808N914414D-1YJ376786E892292F",
+            "rel": "self",
+            "method": "GET",
+            "encType": "application/json"
+          },
+          {
+            "href": "https://api.paypal.com/v1/notifications/webhooks-events/WH-6TD369808N914414D-1YJ376786E892292F/resend",
+            "rel": "resend",
+            "method": "POST",
+            "encType": "application/json"
+          }
+        ],
+        "event_version": "1.0"
+      }
+
+    describe 'when incomplete', ->
+
+      it 'returns 200 and incomplete message', utils.wrap ->
+        @paymentEventData.resource.state = 'incomplete'
+        url = getURL('/paypal/webhook')
+        [res, body] = yield request.postAsync({ uri: url, json: {event_type: "BILLING.SUBSCRIPTION.CANCELLED"}})
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual("PayPal webhook subscription cancellation, no billing agreement given for #{@paymentEventData.event_type} #{JSON.stringify({event_type: "BILLING.SUBSCRIPTION.CANCELLED"})}")
+
+    describe 'when no user with billing agreement', ->
+
+      it 'returns 200 and no user message', utils.wrap ->
+        url = getURL('/paypal/webhook')
+        [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+        expect(res.statusCode).toEqual(200)
+        expect(res.body).toEqual("PayPal webhook subscription cancellation, no billing agreement for #{@paymentEventData.resource.id}")
+
+    describe 'when user with billing agreement', ->
+      beforeEach utils.wrap ->
+        @user = yield utils.initUser()
+        yield utils.loginUser(@user)
+        @user.set('payPal.billingAgreementID', @paymentEventData.resource.id)
+        yield @user.save()
+
+      it 'unsubscribes user and returns 200', utils.wrap ->
+        url = getURL('/paypal/webhook')
+        [res, body] = yield request.postAsync({ uri: url, json: @paymentEventData })
+        expect(res.statusCode).toEqual(200)
+        user = yield User.findById @user.id
+        expect(user.get('payPal.billingAgreementID')).not.toBeDefined()
+        expect(user.hasSubscription()).toBeTruthy()
+        expect(new Date(user.get('stripe').free)).toBeGreaterThan(new Date())

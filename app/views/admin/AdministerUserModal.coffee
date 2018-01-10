@@ -1,3 +1,4 @@
+require('app/styles/admin/administer-user-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/admin/administer-user-modal'
 User = require 'models/User'
@@ -6,6 +7,8 @@ StripeCoupons = require 'collections/StripeCoupons'
 forms = require 'core/forms'
 Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
+TrialRequests = require 'collections/TrialRequests'
+fetchJson = require('core/api/fetch-json')
 
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
@@ -18,6 +21,8 @@ module.exports = class AdministerUserModal extends ModalView
     'click #deteacher-btn': 'onClickDeteacherButton'
     'click .update-classroom-btn': 'onClickUpdateClassroomButton'
     'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
+    'click .user-link': 'onClickUserLink'
+    'click #verified-teacher-checkbox': 'onClickVerifiedTeacherCheckbox'
 
   initialize: (options, @userHandle) ->
     @user = new User({_id:@userHandle})
@@ -25,10 +30,17 @@ module.exports = class AdministerUserModal extends ModalView
     @coupons = new StripeCoupons()
     @supermodel.trackRequest @coupons.fetch({cache: false})
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle)
+    @supermodel.trackRequest @prepaids.fetchByCreator(@userHandle, { data: {includeShared: true} })
+    @listenTo @prepaids, 'sync', =>
+      @prepaids.each (prepaid) =>
+        if prepaid.loaded and not prepaid.creator
+          prepaid.creator = new User()
+          @supermodel.trackRequest prepaid.creator.fetchCreatorOfPrepaid(prepaid)
     @classrooms = new Classrooms()
     @supermodel.trackRequest @classrooms.fetchByOwner(@userHandle)
-    
+    @trialRequests = new TrialRequests()
+    @supermodel.trackRequest @trialRequests.fetchByApplicant(@userHandle)
+
   onLoaded: ->
     # TODO: Figure out a better way to expose this info, perhaps User methods?
     stripe = @user.get('stripe') or {}
@@ -37,6 +49,7 @@ module.exports = class AdministerUserModal extends ModalView
     @freeUntilDate = if @freeUntil then stripe.free else new Date().toISOString()[...10]
     @currentCouponID = stripe.couponID
     @none = not (@free or @freeUntil or @coupon)
+    @trialRequest = @trialRequests.first()
     super()
     
   onClickSaveChanges: ->
@@ -87,7 +100,7 @@ module.exports = class AdministerUserModal extends ModalView
       button.remove()
     .catch (e) =>
       button.attr('disabled', false).text('Destudent')
-      noty { 
+      noty {
         text: e.message or e.responseJSON?.message or e.responseText or 'Unknown Error'
         type: 'error'
       }
@@ -128,3 +141,27 @@ module.exports = class AdministerUserModal extends ModalView
         @renderSelectors('#classroom-table')
       .catch ->
         noty({text: 'Failed to update classroom courses.', type: 'error'})
+
+  onClickUserLink: (e) ->
+    userID = $(e.target).data('user-id')
+    @openModalView new AdministerUserModal({}, userID) if userID
+
+  userIsVerifiedTeacher: () ->
+    @user.get('verifiedTeacher')
+
+  onClickVerifiedTeacherCheckbox: (e) ->
+    checked = $(e.target).prop('checked')
+    @userSaveState = 'saving'
+    @render()
+    fetchJson("/db/user/#{@user.id}/verifiedTeacher", {
+      method: 'PUT',
+      json: checked
+    }).then (res) =>
+      @userSaveState = 'saved'
+      @user.set('verifiedTeacher', res.verifiedTeacher)
+      @render()
+      setTimeout((()=>
+        @userSaveState = null
+        @render()
+      ), 2000)
+    null

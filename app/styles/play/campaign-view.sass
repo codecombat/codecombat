@@ -350,6 +350,9 @@ $gameControlMargin: 30px
       z-index: 3
       pointer-events: none
 
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        direction: rtl
+
       .tooltip-arrow
         display: none
 
@@ -483,6 +486,7 @@ $gameControlMargin: 30px
         margin-left: $gameControlMargin
         @media only screen and (max-height: 650px)
           margin-left: 0
+
       width: $gameControlSize
       height: $gameControlSize
 
@@ -520,7 +524,6 @@ $gameControlMargin: 30px
       &.achievements
         background-position: (-3 * $gameControlSize) 0px
       &.account
-        //background-position: (-4 * $gameControlSize) 0px
         background-position: (-5 * $gameControlSize) 0px
       &.settings
         background-position: (-5 * $gameControlSize) 0px
@@ -528,6 +531,19 @@ $gameControlMargin: 30px
         background-position: (-6 * $gameControlSize) 0px
       &.poll
         background-position: (-4 * $gameControlSize) 0px
+      &.premium-menu-icon
+        background: url(/images/pages/play/premium-menu-icon.png) no-repeat
+        background-position: 50% 50%
+        background-size: 100%
+        transform: scale(1.31) translateY(-5px) translateX(-6px)
+        @media only screen and (max-height: 650px)
+          transform: scale(0.67) scale(1.31) translateY(-5px) translateX(-6px)
+        box-shadow: initial
+        filter: drop-shadow(2px 2px 4px black)
+        outline: none
+        &:hover
+          filter: drop-shadow(0 0 2px #bbf)
+
 
     .tooltip
       font-size: 24px
@@ -554,6 +570,9 @@ $gameControlMargin: 30px
         min-width: 90px
         height: 32px
         color: white
+
+      .rtl-allowed
+        display: inline-block
 
       .gem, .player-hero-icon
         position: absolute
@@ -670,6 +689,20 @@ $gameControlMargin: 30px
 
       .levels-completed
         font-size: 22px
+
+  #teacher-button-container
+    position: absolute
+    right: 1%
+    top: 5%
+    top: -webkit-calc(1% + 50px)
+    top: calc(1% + 50px)
+    width: 194px
+    margin: 0
+    text-align: center
+    z-index: 30
+
+    #teacher-button
+      min-width: 90%
 
   .particle-man
     z-index: 2
@@ -844,9 +877,10 @@ $gameControlMargin: 30px
 
   .under-logo
     position: absolute
-    top: calc(1% + 55px)
-    left: calc(1% + 20px)
+    top: calc(1% + 64px)
+    left: 1%
     z-index: 1
+    width: 193px
 
   .picoctf-powered-by
     color: rgb(227, 173, 53)
@@ -881,6 +915,26 @@ $gameControlMargin: 30px
     top: 60px
     height: calc(100% - 160px)
     z-index: 2
+    
+  #amazon-campaign-container
+    width: 200px
+    position: absolute
+    top: 60px
+    left: 20px
+    z-index: 1
+    cursor: pointer
+
+    #amazon-campaign-logo
+      width: 200px
+    
+  #game-dev-hoc-license-alert
+    position: absolute
+    z-index: 1
+    bottom: -20px
+    left: 0
+    right: 0
+    text-align: center
+    padding: 5px
 
 body.ipad #campaign-view
   // iPad only supports up to Kithgard Gates for now.

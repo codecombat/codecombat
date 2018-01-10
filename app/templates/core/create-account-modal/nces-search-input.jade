@@ -1,4 +1,4 @@
-.form-group(v-bind:class="{ 'has-error': showRequired && !value }")
+.form-group.nces-search-input-component(v-bind:class="{ 'has-error': showRequired && !value }")
   span.control-label
     | {{ label }}
     =" "
@@ -12,7 +12,6 @@
     v-on:keyup.esc.stop="navSearchClear"
     v-on:blur="onBlur"
     v-on:input="onInput"
-    ref='focus'
     autocomplete="off"
   )
   .suggestion-wrapper
@@ -26,7 +25,7 @@
       )
         .school(v-if="displayKey === 'name'" v-html="suggestion._highlightResult.name.value")
         .district
-          span(v-html="suggestion._highlightResult.district.value"),
+          span(v-html="suggestion._highlightResult.district.value") ,
           =" "
           span(v-if="suggestion._highlightResult.city", v-html="suggestion._highlightResult.city.value")
           =" "

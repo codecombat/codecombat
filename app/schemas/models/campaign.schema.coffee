@@ -10,7 +10,7 @@ _.extend CampaignSchema.properties, {
   i18n: {type: 'object', title: 'i18n', format: 'i18n', props: ['name', 'fullName', 'description']}
   fullName: { type: 'string', title: 'Full Name', description: 'Ex.: "Kithgard Dungeon"' }
   description: { type: 'string', format: 'string', description: 'How long it takes and what players learn.' }
-  type: c.shortString(title: 'Type', description: 'What kind of campaign this is.', 'enum': ['hero', 'course','hidden'])
+  type: c.shortString(title: 'Type', description: 'What kind of campaign this is.', 'enum': ['hero', 'course','hidden', 'hoc'])
 
   ambientSound: c.object {},
     mp3: { type: 'string', format: 'sound-file' }
@@ -95,6 +95,7 @@ CampaignSchema.denormalizedLevelProperties = [
   'slug'
   'original'
   'adventurer'
+  'assessment'
   'practice'
   'practiceThresholdMinutes'
   'primerLanguage'

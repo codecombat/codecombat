@@ -1,18 +1,14 @@
 CocoClass = require 'core/CocoClass'
 cache = {}
 {me} = require 'core/auth'
+createjs = require 'lib/createjs-parts'
 
 # Top 20 obscene words (plus 'fiddlesticks') will trigger swearing Simlish with *beeps*.
 # Didn't like leaving so much profanity lying around in the source, so rot13'd.
 rot13 = (s) -> s.replace /[A-z]/g, (c) -> String.fromCharCode c.charCodeAt(0) + (if c.toUpperCase() <= 'M' then 13 else -13)
 swears = (rot13 s for s in ['nefrubyr', 'nffubyr', 'onfgneq', 'ovgpu', 'oybbql', 'obyybpxf', 'ohttre', 'pbpx', 'penc', 'phag', 'qnza', 'qnea', 'qvpx', 'qbhpur', 'snt', 'shpx', 'cvff', 'chffl', 'fuvg', 'fyhg', 'svqqyrfgvpxf'])
 
-# IE(11, 10, 9) throws an exception if createjs.FlashPlugin is undefined
-# Chrome and Firefox don't seem to care that it's undefined
-if createjs.FlashPlugin?
-  soundPlugins = [createjs.WebAudioPlugin, createjs.FlashPlugin, createjs.HTMLAudioPlugin]
-else
-  soundPlugins = [createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]
+soundPlugins = [createjs.WebAudioPlugin, createjs.HTMLAudioPlugin]
 createjs.Sound.registerPlugins(soundPlugins)
 
 class Manifest
@@ -43,7 +39,7 @@ class AudioPlayer extends CocoClass
 
   constructor: () ->
     super()
-    @ext = if createjs.Sound.getCapability('mp3') then '.mp3' else '.ogg'
+    @ext = if createjs.Sound.capabilities.mp3 then '.mp3' else '.ogg'
     @camera = null
     @listenToSound()
     @createNewManifest()

@@ -1,12 +1,12 @@
+require('app/styles/editor/course/edit.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/editor/course/edit'
 Course = require 'models/Course'
 ConfirmModal = require 'views/core/ConfirmModal'
 PatchesView = require 'views/editor/PatchesView'
 errors = require 'core/errors'
-app = require 'core/application'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class CourseEditView extends RootView
   id: 'editor-course-edit-view'

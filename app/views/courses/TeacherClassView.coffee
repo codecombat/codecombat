@@ -1,3 +1,4 @@
+require('app/styles/courses/teacher-class-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/courses/teacher-class-view'
@@ -23,6 +24,8 @@ Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
+window.saveAs ?= require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
+window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -45,6 +48,7 @@ module.exports = class TeacherClassView extends RootView
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .revoke-student-button': 'onClickRevokeStudentButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
+    'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
     'click .select-all': 'onClickSelectAll'
     'click .student-checkbox': 'onClickStudentCheckbox'
@@ -60,7 +64,7 @@ module.exports = class TeacherClassView extends RootView
       classCode: ""
       joinURL: ""
       errors:
-        assigningToNobody: false
+        nobodySelected: false
       selectedCourse: undefined
       checkboxStates: {}
       classStats:
@@ -92,18 +96,16 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @classroom.fetch()
     @onKeyPressStudentSearch = _.debounce(@onKeyPressStudentSearch, 200)
     @sortedCourses = []
+    @latestReleasedCourses = []
 
     @prepaids = new Prepaids()
-    @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
+    @supermodel.trackRequest @prepaids.fetchMineAndShared()
 
     @students = new Users()
     @classroom.sessions = new LevelSessions()
     @listenTo @classroom, 'sync', ->
-      jqxhrs = @students.fetchForClassroom(@classroom, removeDeleted: true)
-      @supermodel.trackRequests jqxhrs
-
-      requests = @classroom.sessions.fetchForAllClassroomMembers(@classroom)
-      @supermodel.trackRequests(requests)
+      @fetchStudents()
+      @fetchSessions()
 
     @students.comparator = (student1, student2) =>
       dir = @state.get('sortDirection')
@@ -133,10 +135,26 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,concepts,primerLanguage,practice,shareable,i18n'}})
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n'}})
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
+
+  fetchStudents: ->
+    Promise.all(@students.fetchForClassroom(@classroom, {removeDeleted: true, data: {project: 'firstName,lastName,name,email,coursePrepaid,coursePrepaidID,deleted'}}))
+    .then =>
+      return if @destroyed
+      @removeDeletedStudents() # TODO: Move this to mediator listeners?
+      @calculateProgressAndLevels()
+      @render?()
+
+  fetchSessions: ->
+    Promise.all(@classroom.sessions.fetchForAllClassroomMembers(@classroom))
+    .then =>
+      return if @destroyed
+      @removeDeletedStudents() # TODO: Move this to mediator listeners?
+      @calculateProgressAndLevels()
+      @render?()
 
   attachMediatorEvents: () ->
     # Model/Collection events
@@ -192,12 +210,14 @@ module.exports = class TeacherClassView extends RootView
       else
         @debouncedRender()
     @listenTo @students, 'sort', @debouncedRender
+    @getCourseAssessmentPairs()
     super()
 
   afterRender: ->
     super(arguments...)
-    @courseNagSubview = new CourseNagSubview()
-    @insertSubView(@courseNagSubview)
+    unless @courseNagSubview
+      @courseNagSubview = new CourseNagSubview()
+      @insertSubView(@courseNagSubview)
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -206,16 +226,24 @@ module.exports = class TeacherClassView extends RootView
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
 
+  allStatsLoaded: ->
+    @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
+
   calculateProgressAndLevels: ->
-    return unless @supermodel.progress is 1
+    return unless @supermodel.progress is 1 and @allStatsLoaded()
+    userLevelCompletedMap = @classroom.sessions.models.reduce((map, session) =>
+      if session.completed()
+        map[session.get('creator')] ?= {}
+        map[session.get('creator')][session.get('level').original.toString()] = true
+      map
+    , {})
     # TODO: How to structure this in @state?
     for student in @students.models
       # TODO: this is a weird hack
       studentsStub = new Users([ student ])
-      student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub)
-
+      student.latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, studentsStub, userLevelCompletedMap)
     earliestIncompleteLevel = helper.calculateEarliestIncomplete(@classroom, @courses, @courseInstances, @students)
-    latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students)
+    latestCompleteLevel = helper.calculateLatestComplete(@classroom, @courses, @courseInstances, @students, userLevelCompletedMap)
 
     classroomsStub = new Classrooms([ @classroom ])
     progressData = helper.calculateAllProgress(classroomsStub, @courses, @courseInstances, @students)
@@ -227,6 +255,14 @@ module.exports = class TeacherClassView extends RootView
       progressData
       classStats: @calculateClassStats()
     }
+  
+  getCourseAssessmentPairs: () ->
+    @courseAssessmentPairs = []
+    for course in @courses.models
+      assessmentLevels = @classroom.getLevels({courseID: course.id, assessmentLevels: true}).models
+      fullLevels = _.filter(@levels.models, (l) => l.get('original') in _.map(assessmentLevels, (l2)=>l2.get('original')))
+      @courseAssessmentPairs.push([course, fullLevels])
+    return @courseAssessmentPairs
 
   onClickNavTabLink: (e) ->
     e.preventDefault()
@@ -408,7 +444,7 @@ module.exports = class TeacherClassView extends RootView
       csvContent += "#{student.broadName()},#{student.get('name')},#{student.get('email') or ''},#{levels},#{playtimeString},#{courseCountsString}\"#{conceptsString}\"\n"
     csvContent = csvContent.substring(0, csvContent.length - 1)
     file = new Blob([csvContent], {type: 'text/csv;charset=utf-8'})
-    saveAs(file, 'CodeCombat.csv')
+    window.saveAs(file, 'CodeCombat.csv')
 
   onClickAssignStudentButton: (e) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
@@ -423,11 +459,21 @@ module.exports = class TeacherClassView extends RootView
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseID = @$('.bulk-course-select').val()
     selectedIDs = @getSelectedStudentIDs()
-    assigningToNobody = selectedIDs.length is 0
-    @state.set errors: { assigningToNobody }
-    return if assigningToNobody
+    nobodySelected = selectedIDs.length is 0
+    @state.set errors: { nobodySelected }
+    return if nobodySelected
     @assignCourse courseID, selectedIDs
     window.tracker?.trackEvent 'Teachers Class Students Assign Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
+
+  onClickBulkRemoveCourse: ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    courseID = @$('.bulk-course-select').val()
+    selectedIDs = @getSelectedStudentIDs()
+    nobodySelected = selectedIDs.length is 0
+    @state.set errors: { nobodySelected }
+    return if nobodySelected
+    @removeCourse courseID, selectedIDs
+    window.tracker?.trackEvent 'Teachers Class Students Remove-Course Selected', category: 'Teachers', classroomID: @classroom.id, courseID: courseID, ['Mixpanel']
 
   assignCourse: (courseID, members) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
@@ -499,14 +545,14 @@ module.exports = class TeacherClassView extends RootView
       # refresh prepaids, since the racing multiple parallel redeem requests in the previous `then` probably did not
       # end up returning the final result of all those requests together.
       @prepaids.fetchByCreator(me.id)
-      @students.fetchForClassroom(@classroom, removeDeleted: true)
+      @fetchStudents()
 
-      @trigger 'begin-assign-course'
+      @trigger 'begin-assign-course' # Only used for test automation
       if members.length
         noty text: $.i18n.t('teacher.assigning_course'), layout: 'center', type: 'information', killer: true
         return courseInstance.addMembers(members)
 
-    # Show a success/errror notification
+    # Show a success/error notification
     .then =>
       course = @courses.get(courseID)
       lines = [
@@ -535,6 +581,45 @@ module.exports = class TeacherClassView extends RootView
       throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
+  
+  removeCourse: (courseID, members) ->
+    return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
+    courseInstance = null
+    membersBefore = 0
+
+    return Promise.resolve()
+    # Find the necessary course instance
+    .then =>
+      courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
+      if courseInstance
+        membersBefore = courseInstance.get('members').length
+      # if not courseInstance
+      # TODO: show some message if no courseInstance?
+      return courseInstance
+
+    # Remove the students from the course instance
+    .then =>
+      @fetchStudents()
+
+      @trigger 'begin-remove-course' # Only used for test automation
+      if members.length
+        noty text: $.i18n.t('teacher.removing_course'), layout: 'center', type: 'information', killer: true
+        return courseInstance?.removeMembers(members)
+
+    # Show a success/error notification
+    .then (res) =>
+      membersAfter = courseInstance?.get('members').length or 0
+      numberRemoved = membersBefore - membersAfter
+      course = @courses.get(courseID)
+      lines = [
+        $.i18n.t('teacher.removed_course_msg')
+          .replace('{{numberRemoved}}', numberRemoved)
+          .replace('{{courseName}}', course.get('name'))
+      ]
+      noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000
+
+      @calculateProgressAndLevels()
+      @classroom.fetch()
 
   onClickRevokeStudentButton: (e) ->
     button = $(e.currentTarget)
@@ -552,7 +637,7 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
-    
+
   onClickSelectAll: (e) ->
     e.preventDefault()
     checkboxStates = _.clone @state.get('checkboxStates')
@@ -606,4 +691,4 @@ module.exports = class TeacherClassView extends RootView
       when 'not-enrolled' then $.i18n.t('teacher.status_not_enrolled')
       when 'enrolled' then (if expires then $.i18n.t('teacher.status_enrolled') else '-')
       when 'expired' then $.i18n.t('teacher.status_expired')
-    return string.replace('{{date}}', moment(expires).utc().format('l'))
+    return string.replace('{{date}}', moment(expires).utc().format('ll'))

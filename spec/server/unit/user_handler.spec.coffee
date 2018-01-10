@@ -49,3 +49,4 @@ describe 'UserHandler', ->
 
       expect(_.isEqual(statsBefore, statsAfter)).toBe(true)
       done()
+

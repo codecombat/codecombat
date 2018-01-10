@@ -13,6 +13,7 @@ CourseInstance = require '../../../server/models/CourseInstance'
 Campaign = require '../../../server/models/Campaign'
 LevelSession = require '../../../server/models/LevelSession'
 Level = require '../../../server/models/Level'
+Prepaid = require '../../../server/models/Prepaid'
 mongoose = require 'mongoose'
 subscriptions = require '../../../server/middleware/subscriptions'
 
@@ -110,6 +111,8 @@ describe 'POST /db/classroom', ->
     paredLevelA = _.pick(@levelA.toObject(), 'name', 'original', 'type', 'slug')
     paredLevelA.campaignIndex = 0
     campaignJSON.levels[@levelA.get('original').toString()] = paredLevelA
+    for levelOriginal, level of campaignJSON.levels
+      level.position = { x: 10*level.campaignIndex, y: 10*level.campaignIndex }
 
     [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSON})
     @campaign = yield Campaign.findById(res.body._id)
@@ -126,6 +129,7 @@ describe 'POST /db/classroom', ->
     expect(res.body.name).toBe('Classroom 1')
     expect(res.body.members.length).toBe(0)
     expect(res.body.ownerID).toBe(teacher.id)
+    expect(res.body.courses[0].levels[0].position).toBeDefined()
     done()
 
   it 'returns 401 for anonymous users', utils.wrap (done) ->
@@ -429,26 +433,102 @@ describe 'POST /db/classroom/-/members', ->
     expect(res.statusCode).toBe(401)
     done()
 
-describe 'DELETE /db/classroom/:id/members', ->
+describe 'GET /db/classroom/:classroomID/members/:memberID/is-auto-revokable', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Prepaid])
     @teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(@teacher)
     @student = yield utils.initUser()
     @classroom = yield utils.makeClassroom({}, {members:[@student]})
-    @url = utils.getURL("/db/classroom/#{@classroom.id}/members")
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members/#{@student.id}/is-auto-revokable")
+    done()
+  
+  describe 'when the user does NOT have a license', ->
+    it 'says it will NOT revoke the license', utils.wrap (done) ->
+      [res, body] = yield request.getAsync { @url, json: true }
+      expect(res.statusCode).toBe(200)
+      expect(res.body.willRevokeLicense).toBe(false)
+      done()
+  
+  describe 'when the user has a license', ->
+    beforeEach utils.wrap (done) ->
+      @admin = yield utils.initAdmin()
+      yield utils.loginUser(@admin)
+      @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+      yield utils.loginUser(@teacher)
+      yield utils.addRedeemerToPrepaid(@prepaid, @student)
+      @prepaid = yield Prepaid.findById(@prepaid.id)
+      done()
+
+    describe 'and the user is in other classrooms', ->
+      beforeEach utils.wrap (done) ->
+        @classroom2 = yield utils.makeClassroom({}, {members:[@student]})
+        done()
+
+      it 'says it will NOT revoke the license', utils.wrap (done) ->
+        [res, body] = yield request.getAsync { @url, json: true }
+        expect(res.statusCode).toBe(200)
+        expect(res.body.willRevokeLicense).toBe(false)
+        done()
+
+    describe 'and the user is NOT in any other classrooms', ->
+      it 'says it will revoke the license', utils.wrap (done) ->
+        [res, body] = yield request.getAsync { @url, json: true }
+        expect(res.statusCode).toBe(200)
+        expect(res.body.willRevokeLicense).toBe(true)
+        done()
+
+describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Prepaid])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @student = yield utils.initUser()
+    @classroom = yield utils.makeClassroom({}, {members:[@student]})
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members/#{@student.id}")
     done()
 
   it 'removes the given user from the list of members in the classroom', utils.wrap (done) ->
     expect(@classroom.get('members').length).toBe(1)
-    json = { userID: @student.id }
-    [res, body] = yield request.delAsync { @url, json }
+    [res, body] = yield request.delAsync { @url }
     expect(res.statusCode).toBe(200)
     classroom = yield Classroom.findById(@classroom.id)
     expect(classroom.get('members').length).toBe(0)
     done()
+  
+  describe 'when the user has a license', ->
+    beforeEach utils.wrap (done) ->
+      @admin = yield utils.initAdmin()
+      yield utils.loginUser(@admin)
+      @prepaid = yield utils.makePrepaid({ creator: @teacher.id })
+      yield utils.loginUser(@teacher)
+      yield utils.addRedeemerToPrepaid(@prepaid, @student)
+      @prepaid = yield Prepaid.findById(@prepaid.id)
+      done()
 
+    describe 'and the user is in other classrooms', ->
+      beforeEach utils.wrap (done) ->
+        @classroom2 = yield utils.makeClassroom({}, {members:[@student]})
+        done()
+
+      it 'does NOT revoke the license', utils.wrap (done) ->
+        expect(@prepaid.get('redeemers').length).toBe(1)
+        [res, body] = yield request.delAsync { @url }
+        expect(res.statusCode).toBe(200)
+        prepaid = yield Prepaid.findById(@prepaid.id)
+        expect(@prepaid.get('redeemers').length).toBe(1)
+        done()
+
+    describe 'and the user is NOT in any other classrooms', ->
+      it 'revokes the license', utils.wrap (done) ->
+        expect(@prepaid.get('redeemers').length).toBe(1)
+        [res, body] = yield request.delAsync { @url }
+        expect(res.statusCode).toBe(200)
+        prepaid = yield Prepaid.findById(@prepaid.id)
+        expect(prepaid.get('redeemers').length).toBe(0)
+        done()
 
 describe 'POST /db/classroom/:id/invite-members', ->
 
@@ -463,8 +543,9 @@ describe 'POST /db/classroom/:id/invite-members', ->
       expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
       expect(context.recipient.address).toBe('test@test.com')
       expect(context.email_data.teacher_name).toBe('Mr Professerson')
+      expect(context.email_data.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
       done()
-    [res, body] = yield request.postAsync { uri: url, json: data }
+    [res, body] = yield request.postAsync { uri: url, json: data, headers: {host: 'codecombat.com'} }
     expect(res.statusCode).toBe(200)
 
 
@@ -709,7 +790,7 @@ describe 'GET /db/classroom/:handle/update-courses', ->
     done()
 
   describe 'addNewCoursesOnly', ->
-    it 'only adds new courses, but leaves existing courses intact', utils.wrap (done) ->
+    it 'only adds new courses, but leaves existing courses intact', utils.wrap ->
       yield utils.clearModels [User, Classroom, Course, Level, Campaign]
 
       admin = yield utils.initAdmin()
@@ -719,7 +800,7 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       yield utils.loginUser(admin)
       levels = yield _.times(3, -> utils.makeLevel())
       firstCampaign = yield utils.makeCampaign({}, {levels: [levels[0]]})
-      yield utils.makeCourse({releasePhase: 'released'}, {campaign: firstCampaign})
+      firstCourse = yield utils.makeCourse({releasePhase: 'released'}, {campaign: firstCampaign})
 
       # make a classroom, make sure it has the one course
       yield utils.loginUser(teacher)
@@ -749,14 +830,19 @@ describe 'GET /db/classroom/:handle/update-courses', ->
       yield utils.loginUser(teacher)
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: { addNewCoursesOnly:true } }
       expect(body.courses.length).toBe(2)
+      course = _.find(body.courses, {_id: firstCourse.id})
+      expect(course.levels.length).toBe(1)
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(2)
-      expect(classroom.get('courses')[0].levels.length).toBe(1)
+      course = _.find(classroom.get('courses'), (course) => course._id.equals(firstCourse._id))
+      expect(course.levels.length).toBe(1)
 
       # update without addNewCoursesOnly, make sure first course still updates
       [res, body] = yield request.postAsync { uri: classroomsURL + "/#{classroom.id}/update-courses", json: true }
       expect(body.courses.length).toBe(2)
+      course = _.find(body.courses, {_id: firstCourse.id})
+      expect(course.levels.length).toBe(2)
       classroom = yield Classroom.findById(res.body._id)
       expect(classroom.get('courses').length).toBe(2)
-      expect(classroom.get('courses')[0].levels.length).toBe(2)
-      done()
+      course = _.find(classroom.get('courses'), (course) => course._id.equals(firstCourse._id))
+      expect(course.levels.length).toBe(2)

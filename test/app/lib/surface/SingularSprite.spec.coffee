@@ -6,6 +6,7 @@ ThangType = require 'models/ThangType'
 ogreMunchkinThangType = new ThangType(require 'test/app/fixtures/ogre-munchkin-m.thang.type')
 treeThangType = new ThangType(require 'test/app/fixtures/tree1.thang.type')
 scaleTestUtils = require './scale-testing-utils'
+createjs = require 'lib/createjs-parts'
 
 describe 'SingularSprite', ->
   singularSprite = null
@@ -14,7 +15,7 @@ describe 'SingularSprite', ->
   showMe = ->
     canvas = $('<canvas width="600" height="400"></canvas>').css('position', 'absolute').css('index', 1000).css('background', 'white')
     $('body').append(canvas)
-    stage = new createjs.Stage(canvas[0]) # this is not a SpriteStage because some tests require adding MovieClips
+    stage = new createjs.Stage(canvas[0])
     stage.addChild(singularSprite)
     scale = 3
     stage.scaleX = stage.scaleY = scale
@@ -30,13 +31,13 @@ describe 'SingularSprite', ->
         stage.update()
     }
     createjs.Ticker.addEventListener "tick", listener
-    
+
   afterEach ->
     g = new createjs.Graphics()
     g.beginFill(createjs.Graphics.getRGB(64,255,64,0.7))
     g.drawCircle(0, 0, 1)
     s = new createjs.Shape(g)
-    stage.addChild(s)    
+    stage.addChild(s)
 
   describe 'with Tree ThangType', ->
     beforeEach ->
@@ -87,7 +88,7 @@ describe 'SingularSprite', ->
       hitRate = scaleTestUtils.hitTest(stage, new createjs.Rectangle(-15, -30, 35, 40))
       expect(hitRate).toBeGreaterThan(0.73)
 #      $('canvas').remove()
-      
+
   describe 'with Ogre Munchkin ThangType', ->
     beforeEach ->
       layer = new LayerAdapter({webGL:true, name:'Default'})

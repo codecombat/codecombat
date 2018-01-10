@@ -1,7 +1,8 @@
+require('app/styles/admin/analytics.sass')
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 CourseInstance = require 'models/CourseInstance'
-require 'vendor/d3'
+require 'd3/d3.js'
 d3Utils = require 'core/d3_utils'
 Payment = require 'models/Payment'
 RootView = require 'views/core/RootView'
@@ -121,31 +122,108 @@ module.exports = class AnalyticsView extends RootView
     }, 0).load()
 
     @supermodel.addRequestResource({
-      url: '/db/analytics_perday/-/recurring_revenue'
-      method: 'POST'
+      url: '/db/payments/-/all?nofree=true&project=created,gems,service,amount,productID,prepaidID'
+      method: 'GET'
       success: (data) =>
-        # Amounts in cents, 'DRR yearly subs', 'DRR monthly subs'
+
+        revenueGroupFromPayment = (payment) ->
+          product = payment.productID or payment.service
+          if payment.productID is 'lifetime_subscription'
+            product = "usa lifetime"
+          else if /_lifetime_subscription/.test(payment.productID)
+            product = "intl lifetime"
+          else if payment.productID is 'basic_subscription'
+            product = "usa monthly"
+          else if /_basic_subscription/.test(payment.productID)
+            product = "intl monthly"
+          else if /gems/.test(payment.productID)
+            product = "gems"
+          else if payment.prepaidID
+            if price % 9.99 is 0
+              product = "usa monthly"
+            else
+              # NOTE: assumed to be classroom starter licenses
+              product = 'classroom'
+          else if payment.service is 'stripe' && (price is 399 || price is 400)
+            product = "intl monthly"
+          else if payment.service is 'stripe' && (price is 999 || price is 799)
+            product = "usa monthly"
+          else if price is 9900 || price >= 5999 && payment.gems is 42000
+            product = "usa lifetime"
+          else if price is 0
+            product = "free"
+          else if payment.service is 'stripe' && price is 599 && payment.gems is 3500
+            product = 'intl monthly'
+          else if payment.service is 'paypal' && payment.gems is 42000 && price < 5999
+            product = "intl lifetime"
+          else if payment.service is 'paypal' && payment.gems is 10500 && price is 2997
+            product = "usa monthly"
+
+          product = payment.service if product is 'custom'
+          product ?= "unknown"
+
+          product = 'gems' if product is 'ios'
+          # product = 'usa lifetime' if product is 'stripe'
+          product = 'unknown' if product in ['external', 'bitcoin', 'iem', 'paypal']
+
+          return product
 
         # Organize data by day, then group
         groupMap = {}
         dayGroupCountMap = {}
-        for dailyRevenue in data
-          dayGroupCountMap[dailyRevenue.day] ?= {}
-          dayGroupCountMap[dailyRevenue.day]['DRR Total'] = 0
-          for group, val of dailyRevenue.groups
-            groupMap[group] = true
-            dayGroupCountMap[dailyRevenue.day][group] = val
-            dayGroupCountMap[dailyRevenue.day]['DRR Total'] += val
+        for payment in data
+          continue unless payment.service in ['paypal', 'stripe']
+          if !payment.created
+            day = utils.objectIdToDate(payment._id).toISOString().substring(0, 10)
+          else
+            day = payment.created.substring(0, 10)
+          continue if day is new Date().toISOString().substring(0, 10)
+          price = parseInt(payment.amount)
+          dayGroupCountMap[day] ?= {'DRR Total': 0}
+          dayGroupCountMap[day]['DRR Total'] ?= 0
+          group = revenueGroupFromPayment(payment)
+          continue if group in ['free', 'classroom', 'unknown']
+          group = 'DRR ' + group
+          groupMap[group] = true
+          dayGroupCountMap[day][group] ?= 0
+          dayGroupCountMap[day][group] += price
+          dayGroupCountMap[day]['DRR Total'] += price
         @revenueGroups = Object.keys(groupMap)
         @revenueGroups.push 'DRR Total'
 
+        # Split lifetime values across 8 months based on 12% monthly churn
+        lifetimeDurationMonths = 8 # Needs to be an integer
+        daysPerMonth = 30 #Close enough (needs to be an integer)
+        lifetimeDaySplit = lifetimeDurationMonths * daysPerMonth
+
         # Build list of recurring revenue entries, where each entry is a day of individual group values
         @revenue = []
+        serviceCarryForwardMap = {}
         for day of dayGroupCountMap
-          dashedDay = "#{day.substring(0, 4)}-#{day.substring(4, 6)}-#{day.substring(6, 8)}"
-          data = day: dashedDay, groups: []
+          data = {day, groups: []}
           for group in @revenueGroups
-            data.groups.push(dayGroupCountMap[day][group] ? 0)
+            if group in ['DRR intl lifetime', 'DRR usa lifetime']
+              serviceCarryForwardMap[group] ?= []
+              if dayGroupCountMap[day][group]
+                serviceCarryForwardMap[group].push({remaining: lifetimeDaySplit, value: (dayGroupCountMap[day][group] ? 0) / lifetimeDurationMonths})
+              data.groups.push(0)
+            else if group is 'DRR Total'
+              # Add total, minus deferred lifetime values for this day
+              data.groups.push((dayGroupCountMap[day][group] ? 0) - (dayGroupCountMap[day]['DRR intl lifetime'] ? 0) - (dayGroupCountMap[day]['DRR usa lifetime'] ? 0))
+            else
+              data.groups.push(dayGroupCountMap[day][group] ? 0)
+
+          # Add previous lifetime sub contributions
+          for group of serviceCarryForwardMap
+            for carryData in serviceCarryForwardMap[group]
+              # Add deferred lifetime value every 30 days
+              # Deferred value = (lifetime purchase value) / lifetimeDurationMonths
+              if carryData.remaining > 0 and carryData.remaining % 30 is 0
+                data.groups[@revenueGroups.indexOf(group)] += carryData.value
+                data.groups[@revenueGroups.indexOf('DRR Total')] += carryData.value
+              if carryData.remaining > 0
+                carryData.remaining--
+
           @revenue.push data
 
         # Order present to past
@@ -180,11 +258,11 @@ module.exports = class AnalyticsView extends RootView
           for group, i in @revenueGroups
             if group is 'DRR gems'
               @monthMrrMap[month].gems += revenue.groups[i]
-            else if group is 'DRR monthly subs'
+            else if group in ['DRR usa monthly', 'DRR intl monthly']
               @monthMrrMap[month].monthly += revenue.groups[i]
-            else if group is 'DRR yearly subs'
+            else if group in ['DRR usa lifetime', 'DRR intl lifetime']
               @monthMrrMap[month].yearly += revenue.groups[i]
-            if group in ['DRR gems', 'DRR monthly subs', 'DRR yearly subs']
+            else if group is 'DRR Total'
               @monthMrrMap[month].total += revenue.groups[i]
 
         @updateAllKPIChartData()
@@ -479,13 +557,11 @@ module.exports = class AnalyticsView extends RootView
       currentMrr = 0
       currentMonthlyValues = []
       for i in [@revenue.length - 1..0] when i >= 0
-        entry = @revenue[i]
-        monthlySubAmount = entry.groups[@revenueGroups.indexOf('DRR monthly subs')] ? 0
-        yearlySubAmount = entry.groups[@revenueGroups.indexOf('DRR yearly subs')] ? 0
-        currentMonthlyValues.push monthlySubAmount + yearlySubAmount
-        currentMrr += monthlySubAmount + yearlySubAmount
+        total = @revenue[i].groups[@revenueGroups.indexOf('DRR Total')]
+        currentMonthlyValues.push total
+        currentMrr += total
         currentMrr -= currentMonthlyValues.shift() while currentMonthlyValues.length > daysInMonth
-        @dayMrrMap[entry.day] = currentMrr if currentMonthlyValues.length is daysInMonth
+        @dayMrrMap[@revenue[i].day] = currentMrr if currentMonthlyValues.length is daysInMonth
 
     @kpiRecentChartLines = []
     @kpiChartLines = []
@@ -676,6 +752,8 @@ module.exports = class AnalyticsView extends RootView
         chartLines[0].max = chartLines[3].max
         chartLines[1].max = chartLines[4].max
         chartLines[2].max = chartLines[6].max
+
+      chartLines.reverse()  # X-axis is based off first one, first one might be previous year, so cheaply make sure first one is this year
 
   updateActiveClassesChartData: ->
     @activeClassesChartLines90 = []

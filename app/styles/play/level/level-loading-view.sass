@@ -72,12 +72,18 @@ $UNVEIL_TIME: 1.2s
       pointer-events: all
       @include transition($UNVEIL_TIME ease-in-out)
 
-      padding: 80px 70px 40px 50px
+      padding: 11vh 70px 40px 50px
       .progress-or-start-container.intro-footer
         bottom: 30px
 
     .level-loading-goals
       text-align: left
+
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        text-align: right
+
+        ul
+          padding-right: 0
 
       .goals-title
         font-size: 32px
@@ -92,6 +98,9 @@ $UNVEIL_TIME: 1.2s
       text-align: left
       font-size: 16px
       //overflow-y: scroll  // using nanoscroller now
+
+      body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
+        text-align: right
 
       img
         max-width: 100%

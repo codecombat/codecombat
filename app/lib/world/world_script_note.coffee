@@ -11,7 +11,7 @@ module.exports = class WorldScriptNote
     @invalid = false
     @channel = script.channel
     @event ?= {}
-    @event.replacedNoteChain = script.noteChain
+    @event.replacedNoteChain = script.noteChain if script.noteChain
 
   serialize: ->
     o = {channel: @channel, event: {}}

@@ -1,9 +1,12 @@
+require('app/styles/play/menu/guide-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/menu/guide-view'
 Article = require 'models/Article'
 SubscribeModal = require 'views/core/SubscribeModal'
-ace = require 'ace'
+ace = require('lib/aceContainer')
 utils = require 'core/utils'
+aceUtils = require 'core/aceUtils'
+createjs = require 'lib/createjs-parts'
 
 module.exports = class LevelGuideView extends CocoView
   template: template
@@ -43,7 +46,7 @@ module.exports = class LevelGuideView extends CocoView
       @docs = specific.concat(general)
       @docs = $.extend(true, [], @docs)
       @docs = [@docs[0]] if @firstOnly and @docs[0]
-      @addPicoCTFProblem() 
+      @addPicoCTFProblem()
       doc.html = marked(utils.filterMarkdownCodeLanguages(utils.i18n(doc, 'body'), options.session.get('codeLanguage'))) for doc in @docs
       doc.slug = _.string.slugify(doc.name) for doc in @docs
       doc.name = (utils.i18n doc, 'name') for doc in @docs
@@ -89,7 +92,7 @@ module.exports = class LevelGuideView extends CocoView
     aceEditors = @aceEditors
     codeLanguage = @options.session.get('codeLanguage') or me.get('aceConfig')?.language or 'python'
     @$el.find('pre').each ->
-      aceEditor = utils.initializeACE @, codeLanguage
+      aceEditor = aceUtils.initializeACE @, codeLanguage
       aceEditors.push aceEditor
 
   clickSubscribe: (e) ->
@@ -110,13 +113,13 @@ module.exports = class LevelGuideView extends CocoView
     if @vimeoListenerAttached
       player = @$('#help-video-player')[0]
       player.contentWindow.postMessage JSON.stringify(method: 'pause'), '*'
-    createjs?.Sound?.setVolume?(@volume ? ( me.get('volume') ? 1.0))
+    createjs?.Sound?.volume = @volume ? ( me.get('volume') ? 1.0)
     Backbone.Mediator.publish 'level:docs-hidden', {}
 
   onShown: ->
     # TODO: Disable sound only when video is playing?
     @volume ?= me.get('volume') ? 1.0
-    createjs?.Sound?.setVolume(0.0)
+    createjs?.Sound?.volume = 0.0
 
   onStartHelpVideo: ->
     unless @trackedHelpVideoStart

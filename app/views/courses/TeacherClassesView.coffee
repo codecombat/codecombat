@@ -1,3 +1,4 @@
+require('app/styles/courses/teacher-classes-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-classes-view'
 Classroom = require 'models/Classroom'
@@ -14,11 +15,36 @@ InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 Prepaids = require 'collections/Prepaids'
 User = require 'models/User'
 utils = require 'core/utils'
+storage = require 'core/storage'
 
 helper = require 'lib/coursesHelper'
 
 translateWithMarkdown = (label) ->
   marked.inlineLexer $.i18n.t(label), []
+
+# TODO: if this proves useful, make a simple admin page with a Treema for editing office hours in db
+officeHours = [
+  {time: moment('2017-11-30 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/bf85234b89537f1d7c24e00bf0acd2b8', host: 'Sean', name: 'CodeCombat for Beginner Teachers'}
+  {time: moment('2017-12-04 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/1a5f9b80856e51ae7510d14dfea9e911', host: 'Liz', name: 'CodeCombat: Beyond Block-Based Coding'}
+  {time: moment('2017-12-04 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/68015ae621420952d746f627e8486654', host: 'Sean', name: 'CodeCombat for Middle School'}
+  {time: moment('2017-12-04 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/ecf21cdd1affec72d746f627e8486654', host: 'Nolan', name: 'Beyond Hour of Code'}
+  {time: moment('2017-12-05 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/d9c7dcfac92bba9234538d7d4481ef37', host: 'Sean', name: 'CodeCombat for Coding Clubs'}
+  {time: moment('2017-12-05 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/334d5dbf0b4ddc6cc5b9141539e44ee6', host: 'Nolan', name: 'Personalized Learning with CodeCombat'}
+  {time: moment('2017-12-05 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/876c5f89accf02af66858a512be5123a', host: 'David', name: 'Python with CodeCombat'}
+  {time: moment('2017-12-06 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/874004a82bb3eb65cde7dc3c8da9331e', host: 'David', name: 'CodeCombat: Beyond Hour of Code'}
+  {time: moment('2017-12-06 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/45486b96986b45dadc2040ba88984b7b', host: 'Sean', name: 'JavaScript with CodeCombat'}
+  {time: moment('2017-12-06 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/e4ade7271b84495ac5b9141539e44ee6', host: 'Liz', name: 'Maximizing Engagement Through Game-based Learning'}
+  {time: moment('2017-12-07 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/f77f28fc90bfab79c5b9141539e44ee6', host: 'Liz', name: 'Personalized Learning with CodeCombat'}
+  {time: moment('2017-12-07 13:00-08').toDate(), link: 'https://zoom.us/meeting/register/ea07fb1c3fc67c57dc2040ba88984b7b', host: 'Nolan', name: 'CodeCombat: Beyond Hour of Code'}
+  {time: moment('2017-12-07 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/57ac7a10d6744d2fcde7dc3c8da9331e', host: 'Sean', name: 'CodeCombat for Coding Clubs'}
+  {time: moment('2017-12-08 08:00-08').toDate(), link: 'https://zoom.us/meeting/register/d84bdb59e95f1a6e7510d14dfea9e911', host: 'David', name: 'CodeCombat: Beyond Hour of Code'}
+  {time: moment('2017-12-08 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/01a8b160963f72b7dc2040ba88984b7b', host: 'Nolan', name: 'CodeCombat: Beyond Block-Based Coding'}
+  {time: moment('2017-12-08 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/b1e110cb5d3e9a8a8c34be5db4a05ad8', host: 'Liz', name: 'CodeCombat for Middle School'}
+  {time: moment('2017-12-11 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/e3863fa30a12b647c5b9141539e44ee6', host: 'Nolan', name: 'Maximizing Engagement Through Game-based Learning'}
+  {time: moment('2017-12-12 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/80fa005d281ecca8d746f627e8486654', host: 'David', name: 'CodeCombat for Coding Clubs'}
+  {time: moment('2017-12-13 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/3478f64c196a01757c24e00bf0acd2b8', host: 'Sean', name: 'Python with CodeCombat'}
+  {time: moment('2017-12-14 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/6303676f53c4b00234538d7d4481ef37', host: 'Liz', name: 'CodeCombat for Beginner Teachers'}
+]
 
 module.exports = class TeacherClassesView extends RootView
   id: 'teacher-classes-view'
@@ -85,6 +111,9 @@ module.exports = class TeacherClassesView extends RootView
     'click .view-class-btn': 'onClickViewClassButton'
     'click .see-all-quests': 'onClickSeeAllQuests'
     'click .see-less-quests': 'onClickSeeLessQuests'
+    'click .see-all-office-hours': 'onClickSeeAllOfficeHours'
+    'click .see-less-office-hours': 'onClickSeeLessOfficeHours'
+    'click .see-no-office-hours': 'onClickSeeNoOfficeHours'
 
   getTitle: -> $.i18n.t 'teacher.my_classes'
 
@@ -97,10 +126,15 @@ module.exports = class TeacherClassesView extends RootView
     @supermodel.trackCollection(@classrooms)
     @listenTo @classrooms, 'sync', ->
       for classroom in @classrooms.models
+        continue if classroom.get('archived')
         classroom.sessions = new LevelSessions()
-        jqxhrs = classroom.sessions.fetchForAllClassroomMembers(classroom)
-        if jqxhrs.length > 0
-          @supermodel.trackRequests(jqxhrs)
+        Promise.all(classroom.sessions.fetchForAllClassroomMembers(classroom))
+        .then (results) =>
+          return if @destroyed
+          helper.calculateDots(@classrooms, @courses, @courseInstances)
+          @calculateQuestCompletion()
+          @render()
+
     window.tracker?.trackEvent 'Teachers Classes Loaded', category: 'Teachers', ['Mixpanel']
 
     @courses = new Courses()
@@ -114,12 +148,18 @@ module.exports = class TeacherClassesView extends RootView
     @prepaids = new Prepaids()
     @supermodel.trackRequest @prepaids.fetchByCreator(me.id)
 
+    earliestHourTime = new Date() - 60 * 60 * 1000
+    latestHourTime = new Date() - -21 * 24 * 60 * 60 * 1000
+    @upcomingOfficeHours = _.sortBy (oh for oh in officeHours when earliestHourTime < oh.time < latestHourTime), 'time'
+    @howManyOfficeHours = if storage.load('hide-office-hours') then 'none' else 'some'
+
     # Level Sessions loaded after onLoaded to prevent race condition in calculateDots
 
   afterRender: ->
     super()
-    @courseNagSubview = new CourseNagSubview()
-    @insertSubView(@courseNagSubview)
+    unless @courseNagSubview
+      @courseNagSubview = new CourseNagSubview()
+      @insertSubView(@courseNagSubview)
     $('.progress-dot').each (i, el) ->
       dot = $(el)
       dot.tooltip({
@@ -130,19 +170,18 @@ module.exports = class TeacherClassesView extends RootView
   calculateQuestCompletion: ->
     @teacherQuestData['create_classroom'].complete = @classrooms.length > 0
     for classroom in @classrooms.models
-      continue unless classroom.get('members')?.length > 0
+      continue unless classroom.get('members')?.length > 0 and classroom.sessions
       classCompletion = {}
       classCompletion[key] = 0 for key in Object.keys(@teacherQuestData)
       students = classroom.get('members')?.length
 
-      
       kithgardGatesCompletes = 0
       wakkaMaulCompletes = 0
       for session in classroom.sessions.models
         if session.get('level')?.original is '541c9a30c6362edfb0f34479' # kithgard-gates
           ++classCompletion['kithgard_gates_100']
         if session.get('level')?.original is '5630eab0c0fcbd86057cc2f8' # wakka-maul
-          ++classCompletion['wakka_maul_100']            
+          ++classCompletion['wakka_maul_100']
         continue unless session.get('state')?.complete
         if session.get('level')?.original is '5411cb3769152f1707be029c' # dungeons-of-kithgard
           ++classCompletion['teach_methods']
@@ -154,11 +193,11 @@ module.exports = class TeacherClassesView extends RootView
           ++classCompletion['teach_variables']
 
       classCompletion[k] /= students for k of classCompletion
-        
+
 
 
       classCompletion['add_students'] = if students > 0 then 1.0 else 0.0
-      if me.get('enrollmentRequestSent') or @prepaids.length > 0
+      if @prepaids.length > 0
         classCompletion['reach_gamedev'] = 1.0
       else
         classCompletion['reach_gamedev'] = 0.0
@@ -270,3 +309,16 @@ module.exports = class TeacherClassesView extends RootView
     $(e.target).hide()
     @$el.find('.see-all-quests').show()
     @$el.find('.quest.hide-revealed').addClass('hide').removeClass('hide-revealed')
+
+  onClickSeeAllOfficeHours: (e) ->
+    @howManyOfficeHours = 'all'
+    @renderSelectors '#office-hours'
+
+  onClickSeeLessOfficeHours: (e) ->
+    @howManyOfficeHours = 'some'
+    @renderSelectors '#office-hours'
+
+  onClickSeeNoOfficeHours: (e) ->
+    @howManyOfficeHours = 'none'
+    @renderSelectors '#office-hours'
+    storage.save 'hide-office-hours', true

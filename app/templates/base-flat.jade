@@ -9,9 +9,6 @@ mixin accountLinks
   if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly()) || me.hasSubscription()
     li
       a(href="/account/subscription", data-i18n="account.subscription")
-  if me.isAdmin() || !(me.isTeacher() || me.isStudent() || me.freeOnly())
-    li
-      a(href="/account/prepaid", data-i18n="account.prepaid_codes")
   if me.isAdmin()
     li
       a(href="/admin", data-i18n="account_settings.admin")
@@ -34,7 +31,7 @@ mixin accountLinks
                 span.icon-bar
                 span.icon-bar
                 span.icon-bar
-              a.navbar-brand(href="/")
+              a.navbar-brand(href="/home")
                 if serverConfig.codeNinjas
                   img#logo-img.code-ninjas-powered-by(src="/images/pages/base/logo.png")
                   img.code-ninjas-logo(src="/images/pages/base/code-ninjas-logo-right.png")
@@ -108,7 +105,7 @@ mixin accountLinks
                 li
                   a(href="/about", data-i18n="nav.about")
                 li
-                  a(href="/about#jobs", data-i18n="nav.jobs")
+                  a(href="/about#careers", data-i18n="nav.careers")
                 li
                   a(href="http://blog.codecombat.com/", data-i18n="nav.blog")
                 li
@@ -159,13 +156,14 @@ mixin accountLinks
                 li
                   a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
 
-      #final-footer.small.text-center
+      #final-footer.small.text-center(dir="ltr")
         | Copyright ©2017 CodeCombat. All Rights Reserved.
         br.hidden-lg.hidden-md
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md
         if !me.isStudent()
-          span.spr(data-i18n="nav.help_pref")
-          - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
-          a(href="mailto:" + supportEmail)= supportEmail
-          span.spl(data-i18n="nav.help_suff")
+          .contact-info.rtl-allowed
+            span.spr(data-i18n="nav.help_pref")
+            - var supportEmail = (me.get('preferredLanguage', true) || 'en-US').split('-')[0] == 'nl' ? 'klantenservice@codecombat.nl' : 'team@codecombat.com';
+            a(href="mailto:" + supportEmail)= supportEmail
+            span.spl(data-i18n="nav.help_suff")

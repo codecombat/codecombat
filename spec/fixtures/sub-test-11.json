@@ -5,7 +5,7 @@
         "path": "/v1/customers",
         "status": 200,
         "response": {
-            "id": "cus_7XTFvcXwBcViLz",
+            "id": "cus_Aqjaphgkwxd6Ii",
             "alipay_accounts": {
                 "has_more": false
             },

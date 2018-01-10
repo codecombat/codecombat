@@ -11,6 +11,7 @@ PrepaidSchema = new mongoose.Schema {
 }, {strict: false, minimize: false,read:config.mongo.readpref}
 PrepaidSchema.index({code: 1}, { unique: true })
 PrepaidSchema.index({'redeemers.userID': 1})
+PrepaidSchema.index({'joiners.userID': 1}, {sparse: true})
 PrepaidSchema.index({owner: 1, endDate: 1}, { sparse: true })
 
 PrepaidSchema.statics.DEFAULT_START_DATE = new Date(2016,4,15).toISOString()
@@ -43,6 +44,18 @@ PrepaidSchema.methods.canReplaceUserPrepaid = (otherPrepaid) ->
     return true
   return false
 
+PrepaidSchema.methods.canBeUsedBy = (userID) ->
+  @get('creator').equals(userID) or _.find(@get('joiners'), (joiner) -> joiner.userID.equals(userID) )
+
+PrepaidSchema.methods.wasStudentEnrolledByTeacher = (userID, teacherID) ->
+  if @get('type') isnt 'course'
+    return false
+  redemption = _.find @get('redeemers'), (r) =>
+    r.userID.equals mongoose.Types.ObjectId(userID)
+  # If teacherID is missing; it's legacy and was assigned by the owner
+  return (redemption.teacherID.equals(teacherID) or
+    (not redemption.teacherID and @.get('ownerID').equals(teacherID)))
+
 PrepaidSchema.pre('save', (next) ->
   @set('exhausted', @get('maxRedeemers') <= _.size(@get('redeemers')))
   if not @get('code')
@@ -61,7 +74,33 @@ PrepaidSchema.post 'init', (doc) ->
     if not @get('endDate')
       @set('endDate', Prepaid.DEFAULT_END_DATE)
       
-PrepaidSchema.methods.redeem = co.wrap (user) ->
+PrepaidSchema.methods.revoke = co.wrap (user) ->
+  unless @get('type') is 'course'
+    throw new errors.Forbidden('This prepaid is not of type "course".')
+  if @get('endDate') and new Date(@get('endDate')) < new Date()
+    throw new errors.Forbidden('This prepaid is expired.')
+
+  if not user
+    throw new errors.NotFound('User not found.')
+  
+  if not user.isEnrolled()
+    throw new errors.UnprocessableEntity('User to revoke must be enrolled first.')
+  if not _.any(@get('redeemers'), (obj) -> obj.userID.equals(user._id))
+    throw new errors.UnprocessableEntity('User was not enrolled with this set of enrollments')
+
+  query =
+    _id: @_id
+    'redeemers.userID': { $eq: user._id }
+  update = { $pull: { redeemers : { userID: user._id } }}
+  result = yield Prepaid.update(query, update)
+  if result.nModified is 0
+    @logError(req.user, "Error occurred while trying to revoke license. (race)")
+    throw new errors.UnprocessableEntity('Error occurred while trying to revoke license. (race)')
+
+  user.set('coursePrepaid', undefined)
+  yield user.save()
+      
+PrepaidSchema.methods.redeem = co.wrap (user, teacherID) ->
   if @get('endDate') and new Date(@get('endDate')) < new Date()
     throw new errors.Forbidden('This prepaid is expired')
   
@@ -85,7 +124,7 @@ PrepaidSchema.methods.redeem = co.wrap (user) ->
     if redeemer.userID.equals(user._id)
       throw new errors.Forbidden('User already redeemed')
 
-  newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: user._id } }}
+  newRedeemerPush = { $push: { redeemers : { date: new Date(), userID: user._id, teacherID: teacherID } }}
   result = yield Prepaid.update(
     {
       _id: @_id,

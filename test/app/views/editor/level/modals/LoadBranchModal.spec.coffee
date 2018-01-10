@@ -2,6 +2,7 @@ factories = require 'test/app/factories'
 LoadBranchModal = require 'views/editor/level/modals/LoadBranchModal'
 LevelComponents = require 'collections/LevelComponents'
 LevelSystems = require 'collections/LevelSystems'
+modelDeltas = require 'lib/modelDeltas'
 
 describe 'LoadBranchModal', ->
   it 'loads branch patches into local systems and components', (done) ->
@@ -16,14 +17,14 @@ describe 'LoadBranchModal', ->
     componentFine = factories.makeLevelComponent({name: 'BasicCase'})
     componentFine.markToRevert()
     componentFine.set('description', 'Adding a description')
-    patches.push componentFine.makePatch().toJSON()
+    patches.push modelDeltas.makePatch(componentFine).toJSON()
     componentFine.revert()
     
     # CASE 2: there are existing local changes to the component that will be overwritten
     componentOverwrite = factories.makeLevelComponent({name: 'OverWriting'})
     componentOverwrite.markToRevert()
     componentOverwrite.set('description', 'Adding a description')
-    patches.push componentOverwrite.makePatch().toJSON()
+    patches.push modelDeltas.makePatch(componentOverwrite).toJSON()
 
     componentOverwrite.revert()
     componentOverwrite.set('searchStrings', 'unrelated setting that will be overwritten')
@@ -33,7 +34,7 @@ describe 'LoadBranchModal', ->
     componentOldVersion = factories.makeLevelComponent({name: 'OldVersion'})
     componentOldVersion.markToRevert()
     componentOldVersion.set('description', 'Change that should make it')
-    patches.push componentOldVersion.makePatch().toJSON()
+    patches.push modelDeltas.makePatch(componentOldVersion).toJSON()
 
     # the new version (without changes) will be given to the modal...
     componentNewVersion = componentOldVersion.clone(false)
@@ -72,7 +73,7 @@ describe 'LoadBranchModal', ->
       majorVersion: 1 # patch will show majorVersion going from 0 to 1
       original: '1234'
     }])
-    patches.push componentOldWillFailVersion.makePatch().toJSON()
+    patches.push modelDeltas.makePatch(componentOldWillFailVersion).toJSON()
     
     # the new version which will break when the patch is applied is given to the modal...
     componentNewWillFailVersion = componentOldWillFailVersion.clone(false)

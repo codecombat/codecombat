@@ -9,7 +9,7 @@ block content
         #course-details-link
           a(href="/students/#{view.course.id}/#{view.league.id}")
             span.glyphicon.glyphicon-arrow-left
-            span.spl Levels
+            span.spl(data-i18n="nav.play")
       
         .text-center
           span#course-name
@@ -143,10 +143,9 @@ block content
               span= team.displayName
       div.column.col-md-2
   
-    if view.leagueType !== 'course'
-      .spectate-button-container
-        a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
-          span(data-i18n="play.spectate") Spectate
+    .spectate-button-container
+      a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
+        span(data-i18n="play.spectate") Spectate
 
   ul.nav.nav-pills
     li.active

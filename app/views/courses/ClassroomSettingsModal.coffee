@@ -1,3 +1,4 @@
+require('app/styles/courses/classroom-settings-modal.sass')
 Classroom = require 'models/Classroom'
 ModalView = require 'views/core/ModalView'
 template = require 'templates/courses/classroom-settings-modal'
@@ -33,20 +34,7 @@ module.exports = class ClassroomSettingsModal extends ModalView
     else
       forms.setErrorToProperty(form, 'language', $.i18n.t('common.required_field'))
       return
-    
-    settings = @classroom.get('settings') or {}
-    mayTweak = settings?.optionsEditable or me.isAdmin()
-    for k in Object.keys(attrs)
-      if /^settings\//.test(k)
-        val = (attrs[k].length > 0)
-        key = k.substring(9)
-        if val isnt @classroom.getSetting key
-          settings[key] = val
-        delete attrs[k]
 
-    if mayTweak
-      attrs.settings = settings
-    
     @classroom.set(attrs)
     schemaErrors = @classroom.getValidationErrors()
     if schemaErrors

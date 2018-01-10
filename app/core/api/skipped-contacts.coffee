@@ -2,7 +2,7 @@ fetchJson = require './fetch-json'
 utils = require 'core/utils'
 
 module.exports = {
-  fetchAll: (options) ->
+  getAll: (options) ->
     return fetchJson('/db/skipped-contact', options).then (contacts) ->
       contacts.forEach (contact) ->
         contact.email = contact.trialRequest?.properties.email or contact.zpContact?.email

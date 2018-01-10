@@ -45,7 +45,7 @@ form#basic-info-form.modal-body
           .col-xs-7.col-xs-offset-3
             .checkbox
               label
-                input#subscribe-input(type="checkbox" checked="checked" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
+                input#subscribe-input(type="checkbox" name="subscribe" checked=view.signupState.get('signupForm').subscribe[0] === 'on')
                 span(data-i18n="signup.email_announcements")
 
   // In reverse order for tabbing purposes
@@ -53,6 +53,9 @@ form#basic-info-form.modal-body
     if view.signupState.get('path') === 'teacher'
       button.next-button.btn.btn-lg.btn-navy(type='submit')
         span(data-i18n="common.next")
+    else if view.signupState.get('subModalContinue')
+      button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
+        span(data-i18n="common.continue")
     else
       button#create-account-btn.next-button.btn.btn-lg.btn-navy(type='submit')
         span(data-i18n="login.sign_up")

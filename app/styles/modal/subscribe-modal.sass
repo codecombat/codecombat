@@ -31,7 +31,7 @@
     text-shadow: black 4px 4px 0, black -4px -4px 0, black 4px -4px 0, black -4px 4px 0, black 4px 0px 0, black 0px -4px 0, black -4px 0px 0, black 0px 4px 0, black 6px 6px 6px
     font-variant: normal
     text-transform: uppercase
-
+    margin-left: -30px
 
   //- Close modal button
 
@@ -69,9 +69,9 @@
     position: absolute
     top: 114px
     right: 65px
-    
+
   //- Paper area
-  
+
   .paper-area
     position: absolute
     top: 114px
@@ -80,57 +80,102 @@
     width: 684px
     background: #d4c9b1
     border: 3px solid black
-    
-    .benefits-header
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+
+    .benefits-header, .big-text
       font-weight: bold
       font-size: 20px
-      margin: 10px 0
-      
+      margin: 10px 40px 10px 0px
+
+    ul, .med-text
+      font-size: 16px
+      font-weight: bold
+
     table
       width: 100%
       margin: 20px 0
       text-align: center
-    
+
     ul
       list-style: none
       padding: 0
-      font-size: 16px
-      font-weight: bold
-      
+
       li::before
         content: "• "
-      
+
     hr
       border-top: 1px solid gray
-      margin: 20px 40px
-      
+      margin: 10px 40px
+
     th
       font-size: 36px
       text-align: center
       line-height: 36px
       color: #59882f
       text-shadow: 1px 1px 1px rgba(0,0,0,0.5)
-      
+
     .option-col
       text-align: center
-      
+
     .option-header
       font-weight: bold
       font-size: 16px
-      
+
     .price
-      font-weight: bold
-      font-size: 24px
-      
+      font-size: 50px
+
+    .price-subtext
+      margin-bottom: 5px
+
+    .old-price
+      text-decoration: line-through;
+      font-size: 20px
+      color: red
+      margin-left: -85px
+      margin-right: 10px
+
+    .new-price
+      font-size: 14px
+      margin-bottom: 6px
+      margin-right: 10px
+
+    .strike-price
+      text-decoration: line-through;
+      color: red
+      font-size: 30px
+
     p
       margin: 5px 0 0 20px
-      
+
     button
       min-width: 250px
-      
-    .row
-      margin-bottom: 17px
 
+    .short-row
+      margin-bottom: 0px
+
+    .best-deal
+      font-size: 15px
+      color: darkgreen
+      text-transform: uppercase
+
+    .buy-now-text
+      opacity: 1.0
+
+    .buy-lock-icon
+      opacity: 1.0
+      float: right
+
+    .left-image
+      width: 100%
+      margin-top: 10px
+      margin-left: 10px
+      height: 335px
+      padding: 20px
+
+    .features-list
+      padding-right: 20px
 
   //- Feature comparison table
 
@@ -184,23 +229,6 @@
           border-top-width: 1px
           border-color: rgba(85, 85, 85, 0.1)
 
-  //- Parent info popover link
-
-  #parents-info
-    position: absolute
-    left: 38px
-    top: 389px
-    text-decoration: underline
-    cursor: pointer
-    font-weight: bold
-    line-height: 18px
-    color: black
-    font-family: $headings-font-family
-    font-size: 18px
-
-  .popover-title
-    line-height: 26px
-
   //- Payment methods info popover link
 
   #payment-methods-info
@@ -228,31 +256,7 @@
       height: 70px
       margin: 0 5px
 
-  //- Purchase button
-
-  .purchase-button
-    flex-grow: 1
-    font-size: 24px
-    line-height: 30px
-    border-style: solid
-    border-image: url(/images/common/button-background-primary-active.png) 14 20 20 20 fill round
-    border-width: 14px 20px 20px 20px
-    color: darken(white, 5%)
-
-    span
-      pointer-events: none
-
-    &:hover
-      border-image: url(/images/common/button-background-primary-disabled.png) 14 20 20 20 fill round
-
-    &:active
-      border-image: url(/images/common/button-background-primary-pressed.png) 14 20 20 20 fill round
-      padding: 2px 0 0 2px
-      color: white
-
-  //- Sale button
-
-  .sale-button, .lifetime-button
+  .purchase-button, .stripe-lifetime-button
     font-size: 24px
     line-height: 30px
     border-style: solid
@@ -267,12 +271,11 @@
     span
       pointer-events: none
 
-  .email-parent-form
-    .email_invalid
-      color: red
-      display: none
-  .email-parent-complete
-    display: none
+  #paypal-button-container
+    height: 45px
+    width: 250px
+    display: inline-block
+    margin: 5px auto 0px auto
 
   //- Errors
 
@@ -283,6 +286,8 @@
     top: 20px
     border: 5px solid gray
 
+.support-blurb
+  margin-top: 10px
 
 body[lang='fr']
   #subscribe-modal

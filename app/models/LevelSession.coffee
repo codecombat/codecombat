@@ -1,4 +1,5 @@
 CocoModel = require './CocoModel'
+api = require('core/api')
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -93,20 +94,6 @@ module.exports = class LevelSession extends CocoModel
     state.topScores = newTopScores
     @set 'state', state
 
-  generateSpellsObject: (options={}) ->
-    {level} = options
-    {createAetherOptions} = require 'lib/aether_utils'
-    aetherOptions = createAetherOptions functionName: 'plan', codeLanguage: @get('codeLanguage'), skipProtectAPI: options.level?.isType('game-dev')
-    spellThang = thang: {id: 'Hero Placeholder'}, aether: new Aether aetherOptions
-    spells = "hero-placeholder/plan": thang: spellThang, name: 'plan'
-    source = @get('code')?['hero-placeholder']?.plan ? ''
-    try
-      spellThang.aether.transpile source
-    catch e
-      console.log "Couldn't transpile!\n#{source}\n", e
-      spellThang.aether.transpile ''
-    spells
-
   isFake: -> @id is 'A Fake Session ID'
 
   inLeague: (leagueId) ->
@@ -114,3 +101,23 @@ module.exports = class LevelSession extends CocoModel
     for league in @get('leagues')
       return true if league.leagueID is leagueId
     return false
+
+  updateKeyValueDb: (keyValueDb) ->
+    oldDb = @get('keyValueDb') ? {}
+    @originalKeyValueDb ?= oldDb
+    @set('keyValueDb', keyValueDb) if _.size keyValueDb
+
+  saveKeyValueDb: ->
+    keyValueDb = @get('keyValueDb') ? {}
+    return unless @originalKeyValueDb
+    return if @isFake()
+    for key, value of keyValueDb
+      oldValue = @originalKeyValueDb[key]
+      if not oldValue or typeof(oldValue) is 'string' or typeof(value) is 'string'
+        api.levelSessions.setKeyValue({ sessionID: @id, key, value})
+      else if typeof(oldValue) is 'number' and typeof(value) is 'number'
+        increment = value - oldValue
+        api.levelSessions.incrementKeyValue({ sessionID: @id, key, value: increment})
+
+    @set('keyValueDb', keyValueDb) if _.size keyValueDb
+    delete @originalKeyValueDb

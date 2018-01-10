@@ -1,11 +1,14 @@
+require('app/styles/editor/level/modal/save-branch-modal.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/editor/level/modal/save-branch-modal'
 DeltaView = require 'views/editor/DeltaView'
 deltasLib = require 'core/deltas'
+modelDeltas = require 'lib/modelDeltas'
 Branch = require 'models/Branch'
 Branches = require 'collections/Branches'
 LevelComponents = require 'collections/LevelComponents'
 LevelSystems = require 'collections/LevelSystems'
+modelDeltas = require 'lib/modelDeltas'
 
 
 module.exports = class SaveBranchModal extends ModalView
@@ -59,7 +62,7 @@ module.exports = class SaveBranchModal extends ModalView
             changedModels = branch.systems
           model = allModels.get(patch.target.id).clone(false)
           model.markToRevert()
-          model.applyDelta(patch.delta)
+          modelDeltas.applyDelta(model, patch.delta)
           changedModels.add(model)
       @selectedBranch = @branches.first()
       @render()
@@ -148,12 +151,12 @@ module.exports = class SaveBranchModal extends ModalView
     toRevert = []
     selectedComponents = _.map(@$('.component-checkbox:checked'), (checkbox) => @componentsWithChanges.get($(checkbox).data('component-id')))
     for component in selectedComponents
-      patches.push(component.makePatch().toJSON())
+      patches.push(modelDeltas.makePatch(component).toJSON())
       toRevert.push(component)
     
     selectedSystems = _.map(@$('.system-checkbox:checked'), (checkbox) => @systemsWithChanges.get($(checkbox).data('system-id')))
     for system in selectedSystems
-      patches.push(system.makePatch().toJSON())
+      patches.push(modelDeltas.makePatch(system).toJSON())
       toRevert.push(system)
     branch.set({patches})
     jqxhr = branch.save()

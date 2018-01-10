@@ -13,6 +13,7 @@ module.exports =
     spells: {type: 'object'}
     preload: {type: 'boolean'}
     realTime: {type: 'boolean'}
+    synchronous: {type: 'boolean'}
     submissionCount: {type: 'integer'}
     fixedSeed: {type: ['integer', 'undefined']}
     flagHistory: {type: 'array'}
@@ -20,6 +21,7 @@ module.exports =
     god: {type: 'object'}
     justBegin: {type: 'boolean'}
     cinematic: {type: 'boolean'}
+    keyValueDb: {type: 'object'}
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}

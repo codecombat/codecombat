@@ -1,3 +1,4 @@
+require('app/styles/teachers/starter-license-upsell-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
 Products = require 'collections/Products'

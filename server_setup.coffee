@@ -20,7 +20,7 @@ UserHandler = require './server/handlers/user_handler'
 slack = require './server/slack'
 Mandate = require './server/models/Mandate'
 global.tv4 = require 'tv4' # required for TreemaUtils to work
-global.jsondiffpatch = require 'jsondiffpatch'
+global.jsondiffpatch = require('jsondiffpatch')
 global.stripe = require('stripe')(config.stripe.secretKey)
 errors = require './server/commons/errors'
 request = require 'request'
@@ -31,6 +31,7 @@ wrap = require 'co-express'
 codePlayTags = require './server/lib/code-play-tags'
 morgan = require 'morgan'
 domainFilter = require './server/middleware/domain-filter'
+timeout = require('connect-timeout')
 
 {countries} = require './app/core/utils'
 
@@ -72,12 +73,20 @@ setupErrorMiddleware = (app) ->
         err = new errors.UnprocessableEntity(err.response)
       if err.code is 409 and err.response
         err = new errors.Conflict(err.response)
+      if err.name is 'MongoError' and err.message.indexOf('timed out')
+        err = new errors.GatewayTimeout('MongoDB timeout error.')
+      if req.timedout # set by connect-timeout
+        err = new errors.ServiceUnavailable('Request timed out.')
 
       # TODO: Make all errors use this
       if err instanceof errors.NetworkError
         console.log err.stack if err.stack and config.TRACE_ROUTES
-        return res.status(err.code).send(err.toJSON())
-
+        res.status(err.code).send(err.toJSON())
+        if req.timedout
+          # noop return self all response-ending functions
+          res.send = res.status = res.redirect = res.end = res.json = res.sendFile = res.download = res.sendStatus = -> res
+        return
+          
       if err.status and 400 <= err.status < 500
         console.log err.stack if err.stack and config.TRACE_ROUTES
         return res.status(err.status).send("Error #{err.status}")
@@ -89,12 +98,12 @@ setupErrorMiddleware = (app) ->
 
       res.status(err.status ? 500).send(error: "Something went wrong!")
       console.log err.stack if err.stack and config.TRACE_ROUTES
-      message = "Express error: #{req.method} #{req.path}: #{err.message} \n #{err.stack}"
-      log.error "#{message}, stack: #{err.stack}"
+      message = "Express error: \"#{req.method} #{req.path}\": #{err.stack}"
+      log.error message
       if global.testing
-        console.log "#{message}, stack: #{err.stack}"
+        console.log message
       unless message.indexOf('card was declined') >= 0
-        slack.sendSlackMessage(message, ['ops'], {papertrail: true})
+        slack.sendSlackMessage("Express error: \"#{req.method} #{req.path}\": #{err.message}", ['ops'], {papertrail: true})
     else
       next(err)
 
@@ -105,7 +114,7 @@ setupExpressMiddleware = (app) ->
     app.use compression filter: (req, res) ->
       return false if req.headers.host is 'codecombat.com'  # CloudFlare will gzip it for us on codecombat.com
       compressible res.getHeader('Content-Type')
-  else if not global.testing
+  else if not global.testing or config.TRACE_ROUTES
     morgan.format('dev', developmentLogging)
     app.use(morgan('dev'))
 
@@ -137,7 +146,7 @@ setupExpressMiddleware = (app) ->
 
   app.use require('serve-favicon') path.join(__dirname, 'public', 'images', 'favicon.ico')
   app.use require('cookie-parser')()
-  app.use require('body-parser').json limit: '25mb'
+  app.use require('body-parser').json({limit: '25mb', strict: false})
   app.use require('body-parser').urlencoded extended: true, limit: '25mb'
   app.use require('method-override')()
   app.use require('cookie-session')
@@ -167,7 +176,7 @@ setupCountryTaggingMiddleware = (app) ->
 setupCountryRedirectMiddleware = (app, country='china', host='cn.codecombat.com') ->
   hosts = host.split /;/g
   shouldRedirectToCountryServer = (req) ->
-    reqHost = (req.hostname ? req.host).toLowerCase()  # Work around express 3.0
+    reqHost = (req.hostname ? req.host ? '').toLowerCase()  # Work around express 3.0
     return req.country is country and reqHost not in hosts and reqHost.indexOf(config.unsafeContentHostname) is -1
 
   app.use (req, res, next) ->
@@ -230,8 +239,8 @@ setupFeaturesMiddleware = (app) ->
       features.campaignSlugs = ['dungeon', 'forest', 'desert']
       features.playViewsOnly = true
       features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
-    
-    if /cn\.codecombat\.com/.test(req.get('host')) or req.session.featureMode is 'china'
+
+    if /cn\.codecombat\.com/.test(req.get('host')) or /koudashijie/.test(req.get('host')) or req.session.featureMode is 'china'
       features.china = true
       features.freeOnly = true
       features.noAds = true
@@ -277,6 +286,7 @@ setupAPIDocs = (app) ->
   app.use('/api-docs', swaggerUi.setup(swaggerDoc))
 
 exports.setupMiddleware = (app) ->
+  app.use(timeout(config.timeout))
   setupHandlerTraceMiddleware app if config.TRACE_ROUTES
   setupSecureMiddleware app
   setupPerfMonMiddleware app
@@ -333,9 +343,9 @@ getStaticTemplate = (file) ->
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
   if req.features.codePlay
-   template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
-   template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
-
+    template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
+    template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
+   
   res.status(200).send template
 
 setupQuickBailToMainHTML = (app) ->
@@ -360,6 +370,7 @@ setupQuickBailToMainHTML = (app) ->
       renderMain(template, req, res)
 
   app.get '/', fast('home.html')
+  app.get '/home', fast('home.html')
   app.get '/about', fast('about.html')
   app.get '/features', fast('premium-features.html')
   app.get '/privacy', fast('privacy.html')

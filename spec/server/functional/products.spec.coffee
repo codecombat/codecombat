@@ -6,6 +6,28 @@ request = require '../request'
 moment = require 'moment'
 libUtils = require '../../../server/lib/utils'
 
+describe 'GET /db/products', ->
+  beforeEach utils.wrap ->
+    # TODO: Clear Products, to make this test not dependent on dev db
+    #       Also, make other tests not break when you do that.
+    yield utils.clearModels([User, Payment])
+    yield utils.populateProducts()
+    @user = yield utils.initUser()
+    yield utils.loginUser(@user)
+
+  it 'shouldnt leak coupon code information', utils.wrap ->
+      url = utils.getURL('/db/products/')
+      [res, doc] = yield request.getAsync({url, json: true})
+      ls2 = _.find doc, ((x) -> /^lifetime_subscription$/.test x.name)
+      expect(ls2.coupons).toEqual([])
+
+  it 'should accept the coupon code QS', utils.wrap ->
+      url = utils.getURL('/db/products/')
+      [res, doc] = yield request.getAsync(url: url + '?coupon=c1', json: true)
+      ls2 = _.find doc, ((x) -> /^lifetime/.test x.name)
+      expect(ls2.coupons[0].amount).toBe(10)
+      expect(ls2.coupons.length).toBe(1)
+
 describe 'POST /db/products/:handle/purchase', ->
 
   beforeEach utils.wrap ->
@@ -23,13 +45,12 @@ describe 'POST /db/products/:handle/purchase', ->
         cb(new Error('Your card was declined'))
 
 
-  it 'allows purchase of a year subscription', utils.wrap ->
+  it 'disallows purchase of a year subscription', utils.wrap ->
     @returnSuccessfulCharge()
     url = utils.getURL('/db/products/year_subscription/purchase')
     json = {stripe: { token: '1', timestamp: new Date() }}
     [res, body] = yield request.postAsync({url, json})
-    expect(moment(res.body.stripe.free).isAfter(moment().add(1, 'year').subtract(1, 'day'))).toBe(true)
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(422)
 
   it 'allows purchase of a lifetime subscription', utils.wrap ->
     @returnSuccessfulCharge()
@@ -42,16 +63,32 @@ describe 'POST /db/products/:handle/purchase', ->
     payment = yield Payment.findOne()
     expect(product.get('amount')).toBe(payment.get('amount'))
 
-  it 'allows purchase of a lifetime subscription (2)', utils.wrap ->
+  it 'disallows purchase of a lifetime subscription (2)', utils.wrap ->
     @returnSuccessfulCharge()
     url = utils.getURL('/db/products/lifetime_subscription2/purchase')
     json = {stripe: { token: '1', timestamp: new Date() }}
     [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(422)
+
+  it 'allows purchase of a lifetime subscription with coupon', utils.wrap ->
+    @returnSuccessfulCharge()
+    url = utils.getURL('/db/products/lifetime_subscription/purchase')
+    json = {stripe: { token: '1', timestamp: new Date() }, coupon: 'c1'}
+    [res, body] = yield request.postAsync({url, json})
     expect(res.body.stripe.free).toBe(true)
     expect(res.statusCode).toBe(200)
-    product = yield Product.findOne({name:'lifetime_subscription2'})
+    product = yield Product.findOne({name:'lifetime_subscription'})
     payment = yield Payment.findOne()
-    expect(product.get('amount')).toBe(payment.get('amount'))
+    expect(product.get('coupons')[0].amount).toBe(payment.get('amount'))
+    metadata = stripe.charges.create.calls.argsFor(0)[0].metadata
+    expect(metadata.couponCode).toBe('c1')
+
+  it 'blocks purchase of a lifetime subscription with an invalid coupon', utils.wrap ->
+    @returnSuccessfulCharge()
+    url = utils.getURL('/db/products/lifetime_subscription/purchase')
+    json = {stripe: { token: '1', timestamp: new Date() }, coupon: 'x1'}
+    [res, body] = yield request.postAsync({url, json})
+    expect(res.statusCode).toBe(404)
 
   it 'returns 402 when the charge is declined', utils.wrap ->
     @returnDeclinedCharge()

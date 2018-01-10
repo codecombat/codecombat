@@ -12,7 +12,8 @@
 ###
   
 fetchWrapper = (url, options={}) ->
-  if options.json
+  options = _.cloneDeep(options)
+  unless _.isUndefined(options.json)
     options.headers ?= {}
     options.headers['content-type'] = 'application/json'
     options.body = JSON.stringify(options.json)
@@ -32,6 +33,6 @@ fetchWrapper = (url, options={}) ->
       else
         # old style (handler) raw text response. Wrap it in an object.
         return res.text().then (message) -> Promise.reject({message, code: res.status })
-    return if isJson then res.json() else res.text()    
+    return if isJson then res.json() else res.text()
   
 module.exports = fetchWrapper

@@ -9,7 +9,7 @@
 
     else
       if (me.get('preferredLanguage',true) || 'en-US').split('-')[0] == 'nl'
-        img(src="/images/pages/play/modal/lang-nl/buy-gems-background-NL.png")#buy-gems-background)
+        img(src="/images/pages/play/modal/lang-nl/buy-gems-background-NL.png")#buy-gems-background
       else
         img(src="/images/pages/play/modal/buy-gems-background.png")#buy-gems-background 
       h1(data-i18n="play.buy_gems") 
@@ -19,7 +19,7 @@
           for product in view.products.models
             .product
               h4 x#{product.get('gems')}
-              h3(data-i18n=product.get('i18n'))
+              h3(data-i18n=view.getProductDescription(product.get('name')))
               button.btn.btn-illustrated.btn-lg(value=product.get('name'))
                 span= product.get('priceString')
   
@@ -35,8 +35,7 @@
   
           if view.basicProduct
             .product
-              h4.subscription-gem-amount x{{gems}} / mo
-              h3(data-i18n="account.subscription")
+              h3.subscribe-text(data-i18n="account.subscribe_for_gems")
               if me.hasSubscription()
                 button.disabled.start-subscription-button.btn.btn-lg.btn-illustrated.btn-success
                   | ✓ 

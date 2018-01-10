@@ -3,24 +3,50 @@ extends /templates/core/modal-base-flat
 // DNT
 
 block modal-header-content
+
   .pull-right
+    br
     if view.user.isStudent()
       button#destudent-btn.btn.btn-burgundy Destudent
     if view.user.isTeacher()
       button#deteacher-btn.btn.btn-burgundy Deteacher
-  
-  h3 Administer User
-  h4 #{view.user.get('name') || 'Unnamed'} / #{view.user.get('email')}
-  span= view.user.id
-  if view.user.get('cleverID')
-    br
-    b Clever ID:
-    =" "
-    span= view.user.get('cleverID')
+
+  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName') || ''} #{view.user.get('lastName')})
+  h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
+  if view.user.isTeacher() && view.trialRequest
+    - var props = view.trialRequest.get('properties') || {}
+    h4 School: #{props.nces_school || props.organization}
+    h4 District: #{props.nces_district || props.district}
+  br
+  div
+    a(href="#licenses") Grant Student Licenses
+  if view.classrooms.size()
+    div
+      a(href="#classrooms") Update Classrooms
+  div
+    a(href="#stripe") Modify Stripe Subscription
+  if view.prepaids.size()
+    div
+      a(href="#prepaids") Existing Prepaids
+  div
+    a(href="#details") User Details
+    
+  div.m-t-1
+    label
+      input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      span.p-l-1
+        | APCSP Verified Teacher (has access to private forum)
+    div
+      if view.userSaveState == 'saving'
+        | Saving...
+      else if view.userSaveState == 'saved'
+        | Saved!
+      else
+        | &nbsp;
 
 block modal-body-content
 
-  h3.m-t-3 Grant Student Licenses
+  h3.m-t-3#licenses Grant Student Licenses
   #prepaid-form.form
     if view.state === 'creating-prepaid'
       .progress.progress-striped.active
@@ -38,32 +64,33 @@ block modal-body-content
         input.form-control(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
       .form-group
         label End Date
-        input.form-control(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD')))
+        input.form-control(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD'))
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
+    hr
 
-  if view.prepaids.size()
-    h3.m-t-3 Existing Prepaids
-    table.table.table-condensed
+  if view.classrooms.size()
+    h3.m-t-3#classrooms Update Classrooms
+    table#classroom-table.table
       tr
-        th ID
-        th Type
-        th Start
-        th End
-        th Used
-      for prepaid in view.prepaids.models
+        th Name
+        th Lang
+        th # Levels / Courses
+        th
+      for classroom in view.classrooms.models
         tr
-          td= prepaid.id
-          td= prepaid.get('type')
           td
-            if prepaid.get('startDate')
-              = moment(prepaid.get('startDate')).utc().format('lll')
+            = classroom.get('name')
+            if classroom.get('archived')
+              i.spl.text-muted (archived)
+          td= classroom.capitalLanguage
+          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
           td
-            if prepaid.get('endDate')
-              = moment(prepaid.get('endDate')).utc().format('lll')
-          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+    hr
 
-  h3 Stripe Benefit
+  h3#stripe Modify Stripe Subscription
   .form
     .form-group
       .radio
@@ -87,25 +114,42 @@ block modal-body-content
           for coupon in view.coupons.models
             option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
     button#save-changes.btn.btn-primary Save Changes
-  
-  if view.classrooms.size()
-    h3.m-t-3 Update Classrooms
-    table#classroom-table.table
+  hr
+
+  if view.prepaids.size()
+    h3.m-t-3#prepaids Existing Prepaids
+    table.table.table-condensed
       tr
-        th Name
-        th Lang
-        th # Levels / Courses
-        th
-      for classroom in view.classrooms.models
+        th ID
+        th Shared by
+        th Type
+        th Issued
+        th Start
+        th End
+        th Used
+      for prepaid in view.prepaids.models
         tr
+          td= prepaid.id
           td
-            = classroom.get('name')
-            if classroom.get('archived')
-              i.spl.text-muted (archived)
-          td= classroom.capitalLanguage
-          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+            if prepaid.creator
+              if prepaid.creator.id !== view.user.id
+                a.user-link(data-user-id=prepaid.creator.id)
+                  = prepaid.creator.get('name')
+              else
+                | -
+          td= prepaid.get('type')
+          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
           td
-            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
-            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+            if prepaid.get('startDate')
+              = moment(prepaid.get('startDate')).utc().format('l')
+          td
+            if prepaid.get('endDate')
+              = moment(prepaid.get('endDate')).utc().format('l')
+          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
+    hr
+
+  h3#details User Details
+  pre.user-props= JSON.stringify(view.user, null, 2)
+  hr
 
 block modal-footer

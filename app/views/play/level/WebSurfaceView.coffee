@@ -1,3 +1,4 @@
+require('app/styles/play/level/web-surface-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/web-surface-view'
 HtmlExtractor = require 'lib/HtmlExtractor'

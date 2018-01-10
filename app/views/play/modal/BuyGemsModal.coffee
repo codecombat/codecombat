@@ -1,12 +1,15 @@
+require('app/styles/play/modal/buy-gems-modal.sass')
+require('app/styles/play/modal/lang-nl/buy-gems-modal-nl.sass')
 ModalView = require 'views/core/ModalView'
 template = require 'templates/play/modal/buy-gems-modal'
 stripeHandler = require 'core/services/stripe'
 utils = require 'core/utils'
 SubscribeModal = require 'views/core/SubscribeModal'
 Products = require 'collections/Products'
+CreateAccountModal = require 'views/core/CreateAccountModal'
 
 module.exports = class BuyGemsModal extends ModalView
-  id: 
+  id:
     if (me.get('preferredLanguage',true) || 'en-US').split('-')[0] == 'nl'
       'buy-gems-modal-nl'
     else
@@ -42,11 +45,8 @@ module.exports = class BuyGemsModal extends ModalView
     @trackTimeVisible({ trackViewLifecycle: true })
 
   onLoaded: ->
-    @basicProduct = @products.findWhere { name: 'basic_subscription' }
-    if countrySpecificProduct = @products.findWhere { name: "#{me.get('country')}_basic_subscription" }
-      @basicProduct = countrySpecificProduct
-    @lifetimeProduct = @products.findWhere { name: 'lifetime_subscription' }
-    @lifetimeProduct ?= @products.findWhere { name: 'lifetime_subscription2' }
+    @basicProduct = @products.getBasicSubscriptionForUser(me)
+    @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     @products.reset @products.filter (product) -> _.string.startsWith(product.get('name'), 'gems_')
     super()
 
@@ -71,9 +71,17 @@ module.exports = class BuyGemsModal extends ModalView
 #      newProducts.push localProduct
 #    @products = _.sortBy newProducts, 'gems'
 #    @render()
+    
+  getProductDescription: (productName) ->
+    return switch productName
+      when 'gems_5' then 'buy_gems.few_gems'
+      when 'gems_10' then 'buy_gems.pile_gems'
+      when 'gems_20' then 'buy_gems.chest_gems'
+      else ''
 
   onClickProductButton: (e) ->
     @playSound 'menu-button-click'
+    return @openModalView new CreateAccountModal() if me.get('anonymous')
     productID = $(e.target).closest('button').val()
     # Don't throw error when product is not found
     if productID.length == 0
@@ -86,7 +94,7 @@ module.exports = class BuyGemsModal extends ModalView
     else
       application.tracker?.trackEvent 'Started gem purchase', { productID: productID }
       stripeHandler.open({
-        description: $.t(product.get('i18n'))
+        description: $.t(@getProductDescription(product.get('name')))
         amount: product.get('amount')
         bitcoin: true
         alipay: if me.get('country') is 'china' or (me.get('preferredLanguage') or 'en-US')[...2] is 'zh' then true else 'auto'

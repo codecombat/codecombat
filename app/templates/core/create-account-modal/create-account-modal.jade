@@ -16,7 +16,10 @@ mixin modal-header-content
       when 'teacher'
         span(data-i18n="signup.create_teacher_header")
       when 'individual'
-        span(data-i18n="signup.create_individual_header")
+        if view.signupState.get('subModalContinue')
+          span(data-i18n="signup.complete_subscription")
+        else
+          span(data-i18n="signup.create_individual_header")
       default
         span(data-i18n="login.sign_up")
 
@@ -54,7 +57,7 @@ block modal-footer
 mixin modal-footer-content
   if view.signupState.get('screen') !== 'confirmation'
     .modal-footer-content
-      .small-details
+      .small-details.rtl-allowed
         span.spr(data-i18n="signup.login_switch")
         a.login-link
           span(data-i18n="signup.sign_in")

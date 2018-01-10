@@ -94,6 +94,16 @@ module.exports = class SuperModel extends Backbone.Model
   trackCollection: (collection, value) ->
     res = @addModelResource(collection, '', {}, value)
     res.listen()
+  
+  trackPromise: (promise, value=1) ->
+    res = new Resource('', value)
+    promise.then ->
+      res.markLoaded()
+    promise.catch (err) ->
+      res.error = err
+      res.markFailed()
+    @storeResource(res, value)
+    return promise
     
   trackRequest: (jqxhr, value=1) ->
     res = new Resource('', value)
@@ -132,8 +142,11 @@ module.exports = class SuperModel extends Backbone.Model
     # can't use instanceof. SuperModel gets passed between windows, and one window
     # will have different class objects than another window.
     # So compare className instead.
-    return (m for key, m of @models when m.constructor.className is ModelClass.className) if ModelClass
-    return _.values @models
+    if not ModelClass
+      return _.values @models
+    # Allow checking by string name to reduce module dependencies
+    className = if _.isString(ModelClass) then ModelClass else ModelClass.className
+    return (m for key, m of @models when m.constructor.className is className)
 
   registerModel: (model) ->
     @models[model.getURL()] = model
@@ -259,7 +272,7 @@ module.exports = class SuperModel extends Backbone.Model
       return resolve(@) if @finished()
       @once 'failed', ({resource}) ->
         jqxhr = resource.jqxhr
-        reject({message: jqxhr.responseJSON?.message or jqxhr.responseText or 'Unknown Error'})
+        reject({message: jqxhr?.responseJSON?.message or jqxhr?.responseText or resource.error or 'Unknown Error'})
       @once 'loaded-all', => resolve(@)
 
 class Resource extends Backbone.Model
@@ -309,7 +322,7 @@ class ModelResource extends Resource
 
 #    # TODO: Track progress on requests and don't retry if progress was made recently.
 #    # Probably use _.debounce and attach event listeners to xhr objects.
-#    
+#
 #    # This logic is for handling failed responses for level loading.
 #    timeToWait = 5000
 #    tryLoad = =>

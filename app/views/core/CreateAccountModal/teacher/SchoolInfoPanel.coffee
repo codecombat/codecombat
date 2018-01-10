@@ -1,3 +1,4 @@
+require 'app/styles/modal/create-account-modal/school-info-panel.sass'
 NcesSearchInput = require './NcesSearchInput'
 algolia = require 'core/services/algolia'
 DISTRICT_NCES_KEYS = ['district', 'district_id', 'district_schools', 'district_students']
@@ -79,5 +80,8 @@ SchoolInfoPanel =
       @commitValues()
       window.tracker?.trackEvent 'CreateAccountModal Teacher SchoolInfoPanel Back Clicked', category: 'Teachers'
       @$emit('back')
+
+  mounted: ->
+    $("input[name*='organization']").focus()
 
 module.exports = SchoolInfoPanel

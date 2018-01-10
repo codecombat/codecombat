@@ -6,7 +6,7 @@ block page_nav
 block content
   .container
 
-    .content
+    .content.rtl-allowed
       if me.attributes.hourOfCode && me.isAnonymous()
         #hour-of-code
           h3
@@ -57,17 +57,39 @@ block content
       h1(data-i18n="teacher.resource_hub")
 
       h4(data-i18n="teacher.getting_started")
-      ul
+      ul(dir="auto")
         li
-          a(href="/teachers/resources/faq")
+          strong(data-i18n="teacher.pacing_guides")
+          p 
+            span(data-i18n="teacher.pacing_guides_desc")
+            br
+            a(href="http://files.codecombat.com/docs/resources/ElementaryPacing.pdf")
+              span(data-i18n="teacher.pacing_guides_elem")
+            span.spl.spr | 
+            a(href="http://files.codecombat.com/docs/resources/MiddleSchoolPacing.pdf")
+              span(data-i18n="teacher.pacing_guides_middle")
+            span.spl.spr | 
+            a(href="http://files.codecombat.com/docs/resources/HighSchoolPacing.pdf")
+              span(data-i18n="teacher.pacing_guides_high")
+        li
+          - var faqURL = "/teachers/resources/faq";
+          - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+          -     faqURL = "/teachers/resources/faq-nl-NL";
+          a(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
         li
-          a(href="/teachers/resources/getting-started")
+          - var gettingStartedURL = "/teachers/resources/getting-started";
+          //- if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
+          //-     gettingStartedURL = "/teachers/resources/getting-started-nl-NL";
+          a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf")
+          - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide-zh-HANS.pdf";
+          a(href=quickStartURL)
             span(data-i18n="teacher.student_getting_started")
             span.spl [PDF]
           p(data-i18n="teacher.student_getting_started_desc")
@@ -76,6 +98,10 @@ block content
             span(data-i18n="teacher.progress_journal")
             span.spl [PDF]
           p(data-i18n="teacher.progress_journal_desc")
+        li
+          a(href="/teachers/resources/ap-cs-principles")
+            span AP Computer Science Principles
+          p AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming.
 
       h4(data-i18n="teacher.cs1")
       ul
@@ -84,7 +110,10 @@ block content
             span(data-i18n="teacher.cs1_curriculum")
           p(data-i18n="teacher.cs1_curriculum_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf")
+          - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide-zh-HANS.pdf";
+          a(href=pythonURL)
             span(data-i18n="teacher.cs1_syntax_python")
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_python_desc")
@@ -115,14 +144,11 @@ block content
           a(href="/teachers/resources/gd1-5day")
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")
-
-      h4(data-i18n="teacher.cs2")
-      ul
         li
-          a(href="/teachers/resources/cs2")
-            span(data-i18n="teacher.cs2_curriculum")
-          p(data-i18n="teacher.cs2_curriculum_desc")
-
+          a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/GD1_Project_Rubric.pdf")
+            span(data-i18n="teacher.gd1_rubric")
+          p(data-i18n="teacher.gd1_rubric_desc")
+          
       h4(data-i18n="teacher.wd1")
       ul
         li
@@ -142,6 +168,21 @@ block content
             span(data-i18n="teacher.wd1_css_syntax")
             span.spl [PDF]
           p(data-i18n="teacher.wd1_css_syntax_desc")
+          
+      h4(data-i18n="teacher.cs2")
+      ul
+        li
+          a(href="/teachers/resources/cs2")
+            span(data-i18n="teacher.cs2_curriculum")
+          p(data-i18n="teacher.cs2_curriculum_desc")
+          
+      h4(data-i18n="teacher.gd2")
+      ul
+        li
+          a(href="/teachers/resources/gd2")
+            span(data-i18n="teacher.gd2_curriculum")
+          p(data-i18n="teacher.gd2_curriculum_desc")
+
 
       h4(data-i18n="teacher.cs3")
       ul
@@ -149,6 +190,13 @@ block content
           a(href="/teachers/resources/cs3")
             span(data-i18n="teacher.cs3_curriculum")
           p(data-i18n="teacher.cs3_curriculum_desc")
+          
+      h4(data-i18n="teacher.gd3")
+      ul
+        li
+          a(href="/teachers/resources/gd3")
+            span(data-i18n="teacher.gd3_curriculum")
+          p(data-i18n="teacher.gd3_curriculum_desc")
 
       h4(data-i18n="teacher.wd2")
       ul

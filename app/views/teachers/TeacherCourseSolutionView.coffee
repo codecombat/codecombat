@@ -1,10 +1,12 @@
+require('app/styles/teachers/teacher-course-solution-view.sass')
 utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Level = require 'models/Level'
 utils = require 'core/utils'
-ace = require 'ace'
+ace = require('lib/aceContainer')
+aceUtils = require 'core/aceUtils'
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -67,11 +69,16 @@ module.exports = class TeacherCourseSolutionView extends RootView
           console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
         solutionPlayerCodeTag = utils.extractPlayerCodeTag(solutionText)
         finalSolutionCode = if solutionPlayerCodeTag then solutionPlayerCodeTag else solutionText
+        finalSolutionCode = @fingerprint finalSolutionCode
         level.set 'solution',  finalSolutionCode
     levels = []
     for level in @levels?.models when level.get('original')
       continue if @language? and level.get('primerLanguage') is @language
-      levels.push({key: level.get('original'), practice: level.get('practice') ? false})
+      levels.push({
+        key: level.get('original'),
+        practice: level.get('practice') ? false,
+        assessment: level.get('assessment') ? false
+      })
     @levelNumberMap = utils.createLevelNumberMap(levels)
     @render?()
 
@@ -81,8 +88,16 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @$el.find('pre>code').each ->
       els = $(@)
       c = els.parent()
-      aceEditor = utils.initializeACE c[0], lang
+      aceEditor = aceUtils.initializeACE c[0], lang
       aceEditor.setShowInvisibles false
       aceEditor.setBehavioursEnabled false
       aceEditor.setAnimatedScroll false
       aceEditor.$blockScrolling = Infinity
+
+  fingerprint: (code) ->
+    # Add a zero-width-space at the end of every comment line
+    switch @language
+      when 'javascript' then code.replace /^(\/\/.*)/gm, "$1​"
+      when 'lua' then code.replace /^(--.*)/gm, "$1​"
+      when 'html' then code.replace /^(<!--.*)-->/gm, "$1​-->"
+      else code.replace /^(#.*)/gm, "$1​"

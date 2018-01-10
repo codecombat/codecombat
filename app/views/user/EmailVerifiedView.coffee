@@ -1,3 +1,4 @@
+require('app/styles/user/email-verified-view.sass')
 RootView = require 'views/core/RootView'
 State = require 'models/State'
 template = require 'templates/user/email-verified-view'

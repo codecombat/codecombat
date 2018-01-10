@@ -1,6 +1,6 @@
 
 #item-title
-  h2.one-line.big-font= item ? item.name : ''
+  h2.one-line.big-font(dir="auto")= item ? item.name : ''
 
 #item-details-body
   if item
@@ -20,7 +20,7 @@
             img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
 
         if item.description
-          .item-description= item.description
+          .item-description(dir="auto")= item.description
 
         if !me.isStudent()
           if props.length
@@ -41,8 +41,11 @@ if item && !item.owned
   if item.unequippable
     button.btn.big-font.disabled.unequippable #{item.get('heroClass')} Only
   else
-    button#selected-item-unlock-button.btn.big-font.unlock-button(data-item-id=item.id)
-      span(data-i18n="play.unlock") Unlock
-      span.spl= '('+item.get('gems')
-      img(src="/images/common/gem.png", draggable="false")
-      span )
+    button#selected-item-unlock-button.btn.big-font(data-item-id=item.id, class=(item.get('subscriber') && !me.isPremium() ? "subscribe-button" : "unlock-button"))
+      if item.get('subscriber') && !me.isPremium()
+        span(data-i18n="subscribe.subscribe_title")
+      else
+        span(data-i18n="play.unlock")
+        span.spl= '('+item.get('gems')
+        img(src="/images/common/gem.png", draggable="false")
+        span )

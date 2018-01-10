@@ -1,3 +1,4 @@
+require('app/styles/play/ladder/ladder-tab-view.sass')
 CocoView = require 'views/core/CocoView'
 CocoClass = require 'core/CocoClass'
 Level = require 'models/Level'
@@ -7,7 +8,9 @@ User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
-require 'vendor/d3'
+require 'd3/d3.js'
+CreateAccountModal = require 'views/core/CreateAccountModal'
+utils = require 'core/utils'
 
 HIGHEST_SCORE = 1000000
 
@@ -21,6 +24,7 @@ module.exports = class LadderTabView extends CocoView
     'click .name-col-cell': 'onClickPlayerName'
     'click .spectate-cell': 'onClickSpectateCell'
     'click .load-more-ladder-entries': 'onLoadMoreLadderEntries'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
     # Refactored, to-reimplement
 #  subscriptions:
@@ -39,6 +43,10 @@ module.exports = class LadderTabView extends CocoView
     # Trying not loading the FP/G+ stuff for now to see if anyone complains they were using it so we can have just two columns.
     #@socialNetworkRes = @supermodel.addSomethingResource('social_network_apis', 0)
     #@checkFriends()
+
+  openCreateAccountModal: (e) ->
+    e.stopPropagation()
+    @openModalView new CreateAccountModal()
 
   checkFriends: ->
     return  # Skipping for now
@@ -160,7 +168,7 @@ module.exports = class LadderTabView extends CocoView
     return if not @options.league and (new Date() - 2 * 60 * 1000 < @lastRefreshTime)
     @lastRefreshTime = new Date()
     @supermodel.resetProgress()
-    @ladderLimit ?= parseInt @getQueryVariable('top_players', if @options.league then 100 else 20)
+    @ladderLimit ?= parseInt utils.getQueryVariable('top_players', if @options.league then 100 else 20)
     for team in @teams
       if oldLeaderboard = @leaderboards[team.id]
         @supermodel.removeModelResource oldLeaderboard
@@ -251,12 +259,15 @@ module.exports = class LadderTabView extends CocoView
 
     message = "#{histogramData.length} players"
     if @leaderboards[teamName].session?
+      # TODO: i18n for these messages
       if @options.league
         # TODO: fix server handler to properly fetch myRank with a leagueID
         message = "#{histogramData.length} players in league"
       else if @leaderboards[teamName].myRank <= histogramData.length
         message = "##{@leaderboards[teamName].myRank} of #{histogramData.length}"
         message += "+" if histogramData.length >= 100000
+      else if @leaderboards[teamName].myRank is 'unknown'
+        message = "#{if histogramData.length >= 100000 then '100,000+' else histogramData.length} players"
       else
         message = 'Rank your session!'
     svg.append('g')
@@ -377,7 +388,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     l.reverse()
     l.push @session
     l = l.concat(@playersBelow.models)
-    if @myRank
+    if @myRank is 'unknown'
+      session.rank ?= '' for session in l
+    else if @myRank
       startRank = @myRank - 4
       session.rank = startRank + i for session, i in l
     l

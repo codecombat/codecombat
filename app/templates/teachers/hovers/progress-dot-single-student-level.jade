@@ -9,8 +9,9 @@ mixin timePlayed()
 
 if completed
   .small-details.nowrap
-    span= levelNumber
-    span.spr . 
+    if levelNumber
+      span= levelNumber
+      span.spr . 
     span= levelName
   .small-details.nowrap
     span.spr(data-i18n='teacher.completed')
@@ -23,8 +24,9 @@ if completed
   //-     | click to view solution
 else if started
   .small-details.nowrap
-    span= levelNumber
-    span.spr . 
+    if levelNumber
+      span= levelNumber
+      span.spr . 
     span= levelName
   .small-details.nowrap
     span.spr(data-i18n='teacher.last_played')
@@ -35,8 +37,9 @@ else if started
   //-     | click to view progress
 else
   .small-details.nowrap
-    span= levelNumber
-    span.spr . 
+    if levelNumber
+      span= levelNumber
+      span.spr . 
     span= levelName
   if practice
     span.small-details.nowrap(data-i18n='teacher.not_required')

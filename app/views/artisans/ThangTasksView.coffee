@@ -1,3 +1,4 @@
+require('app/styles/artisans/thang-tasks-view.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/artisans/thang-tasks-view'
 
@@ -5,7 +6,7 @@ ThangType = require 'models/ThangType'
 
 ThangTypes = require 'collections/ThangTypes'
 
-require 'game-libraries'
+require 'lib/game-libraries'
 
 module.exports = class ThangTasksView extends RootView
   template: template
