@@ -213,7 +213,7 @@ LevelHandler = class LevelHandler extends Handler
       findParameters['_id'] = slugOrID
     else
       findParameters['slug'] = slugOrID
-    selectString = 'original version'
+    selectString = 'original version slug'
     query = Level.findOne(findParameters)
       .select(selectString)
       .lean()
@@ -228,20 +228,36 @@ LevelHandler = class LevelHandler extends Handler
           original: level.original.toString()
           majorVersion: level.version.major
         submitted: true
+      if leagueID = req.query.league
+        sessionsQueryParameters['leagues.leagueID'] = leagueID
+        # Index with league uses levelID instead of level
+        delete sessionsQueryParameters.level
+        sessionsQueryParameters.levelID = level.slug
 
       teams = ['humans', 'ogres']
-      findTop20Players = (sessionQueryParams, team, cb) ->
-        sessionQueryParams['team'] = team
-        aggregate = Session.aggregate [
-          {$match: _.clone(sessionQueryParams)}
-          {$sort: {'totalScore': -1}}
-          {$limit: 20}
-          {$project: {'totalScore': 1}}
-        ]
-        aggregate.cache(3 * 60 * 1000)
-        aggregate.exec cb
+      findRandomPlayer = (query, team, cb) ->
+        query['team'] = team
+        if leagueID
+          # Find any random player, since there probably aren't that many
+          aggregate = Session.aggregate [
+            {$match: _.clone(query)}
+            {$limit: 100}
+            {$sample: {size: 1}}
+            {$project: {'totalScore': 1}}
+          ]
+          aggregate.exec cb
+        else
+          # Find from among top 20 players
+          aggregate = Session.aggregate [
+            {$match: _.clone(query)}
+            {$sort: {'totalScore': -1}}
+            {$limit: 20}
+            {$project: {'totalScore': 1}}
+          ]
+          aggregate.cache(3 * 60 * 1000)
+          aggregate.exec cb
 
-      async.map teams, findTop20Players.bind(@, sessionsQueryParameters), (err, map) =>
+      async.map teams, findRandomPlayer.bind(@, sessionsQueryParameters), (err, map) =>
         if err? then return @sendDatabaseError(res, err)
         sessions = []
         for mapItem in map

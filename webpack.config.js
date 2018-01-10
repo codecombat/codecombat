@@ -5,6 +5,9 @@ if (process.env.COCO_TRAVIS_TEST){
 } else if (process.env.BRUNCH_ENV == 'production'){
   console.log("Automatically using Production webpack config");
   module.exports = require('./webpack.production.config')
+} else if (process.env.COCO_ANALYZER_BUNDLE){
+  console.log("Automatically using Analyzer webpack config");
+  module.exports = require('./webpack.analyzer.config')
 } else {
   console.log("Automatically using Development webpack config");
   module.exports = require('./webpack.development.config')

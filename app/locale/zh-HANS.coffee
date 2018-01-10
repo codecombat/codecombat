@@ -947,10 +947,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     robin_blurb: "基架" # {change}
     josh_title: "游戏设计师"
     josh_blurb: "地面是熔岩"
-    phoenix_title: "软件工程师"
     nolan_title: "区域经理"
-    elliot_title: "合作经理"
-    elliot_blurb: "读心者"
     lisa_title: "校园专家" # {change}
     lisa_blurb: "坚韧不拔的人"
     sean_title: "区域经理"
@@ -2075,6 +2072,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     payments: "支付方式"
     prepaid_codes: "预付费码"
     purchased: "已购买"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "订阅"
     invoices: "票据"
     service_apple: "设备：苹果"

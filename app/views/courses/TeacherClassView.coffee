@@ -591,12 +591,14 @@ module.exports = class TeacherClassView extends RootView
   removeCourse: (courseID, members) ->
     return unless @canWrite()
     courseInstance = null
-    numberRemoved = 0
+    membersBefore = 0
 
     return Promise.resolve()
     # Find the necessary course instance
     .then =>
       courseInstance = @courseInstances.findWhere({ courseID, classroomID: @classroom.id })
+      if courseInstance
+        membersBefore = courseInstance.get('members').length
       # if not courseInstance
       # TODO: show some message if no courseInstance?
       return courseInstance
@@ -611,11 +613,13 @@ module.exports = class TeacherClassView extends RootView
         return courseInstance?.removeMembers(members)
 
     # Show a success/error notification
-    .then =>
+    .then (res) =>
+      membersAfter = courseInstance?.get('members').length or 0
+      numberRemoved = membersBefore - membersAfter
       course = @courses.get(courseID)
       lines = [
         $.i18n.t('teacher.removed_course_msg')
-          .replace('{{numberRemoved}}', members.length)
+          .replace('{{numberRemoved}}', numberRemoved)
           .replace('{{courseName}}', course.get('name'))
       ]
       noty text: lines.join('<br />'), layout: 'center', type: 'information', killer: true, timeout: 5000

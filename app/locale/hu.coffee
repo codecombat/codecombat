@@ -947,10 +947,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     robin_blurb: "Barkácsolok" # {change}
     josh_title: "Játéktervező"
     josh_blurb: "Ég a talpunk alatt a föld"
-    phoenix_title: "Programozó"
     nolan_title: "Territory Manager"
-    elliot_title: "Partnership Manager"
-    elliot_blurb: "Gondolatolvasó"
     lisa_title: "Üzletfejlesztési képviselő" # {change}
 #    lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
@@ -2075,6 +2072,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     payments: "Befizetések"
     prepaid_codes: "Fizetős kódok"
     purchased: "Vásárolt"
+#    subscribe_for_gems: "Subscribe for gems"
     subscription: "Előfizetés"
     invoices: "Számlák"
     service_apple: "Apple"
