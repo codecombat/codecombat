@@ -259,12 +259,15 @@ module.exports = class LadderTabView extends CocoView
 
     message = "#{histogramData.length} players"
     if @leaderboards[teamName].session?
+      # TODO: i18n for these messages
       if @options.league
         # TODO: fix server handler to properly fetch myRank with a leagueID
         message = "#{histogramData.length} players in league"
       else if @leaderboards[teamName].myRank <= histogramData.length
         message = "##{@leaderboards[teamName].myRank} of #{histogramData.length}"
         message += "+" if histogramData.length >= 100000
+      else if @leaderboards[teamName].myRank is 'unknown'
+        message = "#{if histogramData.length >= 100000 then '100,000+' else histogramData.length} players"
       else
         message = 'Rank your session!'
     svg.append('g')
@@ -385,7 +388,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     l.reverse()
     l.push @session
     l = l.concat(@playersBelow.models)
-    if @myRank
+    if @myRank is 'unknown'
+      session.rank ?= '' for session in l
+    else if @myRank
       startRank = @myRank - 4
       session.rank = startRank + i for session, i in l
     l

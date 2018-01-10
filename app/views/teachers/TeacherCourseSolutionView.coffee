@@ -69,6 +69,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
           console.error "Couldn't create solution template of", solution?.source, "\nwith context", programmableMethod.context, "\nError:", error
         solutionPlayerCodeTag = utils.extractPlayerCodeTag(solutionText)
         finalSolutionCode = if solutionPlayerCodeTag then solutionPlayerCodeTag else solutionText
+        finalSolutionCode = @fingerprint finalSolutionCode
         level.set 'solution',  finalSolutionCode
     levels = []
     for level in @levels?.models when level.get('original')
@@ -92,3 +93,11 @@ module.exports = class TeacherCourseSolutionView extends RootView
       aceEditor.setBehavioursEnabled false
       aceEditor.setAnimatedScroll false
       aceEditor.$blockScrolling = Infinity
+
+  fingerprint: (code) ->
+    # Add a zero-width-space at the end of every comment line
+    switch @language
+      when 'javascript' then code.replace /^(\/\/.*)/gm, "$1​"
+      when 'lua' then code.replace /^(--.*)/gm, "$1​"
+      when 'html' then code.replace /^(<!--.*)-->/gm, "$1​-->"
+      else code.replace /^(#.*)/gm, "$1​"
