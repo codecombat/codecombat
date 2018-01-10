@@ -124,10 +124,14 @@ LevelHandler = class LevelHandler extends Handler
   getMyLeaderboardRank: (req, res, id) ->
     req.query.order = 1
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
-    t0 = new Date()
-    Session.count(sessionsQueryParameters).setOptions({maxTimeMS:200}).exec (err, count) =>
-      return @sendDatabaseError(res, err) if err
-      res.send JSON.stringify(count + 1)
+    Session.count(sessionsQueryParameters).setOptions({maxTimeMS:1000}).exec (err, count) =>
+      if err and err.message is 'operation exceeded time limit'
+        rank = "unknown"
+      else if err
+        return @sendDatabaseError(res, err)
+      else
+        rank = count + 1
+      res.send JSON.stringify rank
 
   makeLeaderboardQueryParameters: (req, id) ->
     @validateLeaderboardRequestParameters req
