@@ -54,6 +54,8 @@ include game-dev-goals.jade
 
       #level-dialogue-view
 
+      button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
+
     if features.codePlay
       a(href=document.location.protocol+"//lenovogamestate.com/pages/products/")
         - var url = "/images/common/codeplay/NA_InLevelPage_Y700_1132X283_ingameProduct.png"
@@ -70,8 +72,6 @@ include game-dev-goals.jade
         span(data-i18n="play_level.edit_level")
       else
         span(data-i18n="play_level.skip")
-
-    button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
 
     #cinematic-code-display
       for i in [0, 1, 2, 3, 4]

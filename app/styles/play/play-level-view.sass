@@ -51,8 +51,10 @@ $level-resize-transition-time: 0.5s
           width: 1.8vw
           height: 1.8vw
     #duel-stats-view
-      right: calc(1% + 100px)
+      right: calc(50% - 250px)
       bottom: 50px
+      .duel-stats-background
+        opacity: 0.8
     #control-bar-view .title
       left: 20%
       width: 60%
@@ -97,6 +99,7 @@ $level-resize-transition-time: 0.5s
     #cinematic-code-display
       display: block
       z-index: 20
+      visibility: visible
 
     #control-bar-view
       display: none
@@ -312,6 +315,7 @@ $level-resize-transition-time: 0.5s
     text-align: left
     background-color: rgba(0, 0, 0, 0.7)
     border-bottom-right-radius: 8px
+    visibility: hidden
 
     .code-line
       line-height: 1.2em

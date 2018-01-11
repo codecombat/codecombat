@@ -603,7 +603,6 @@ module.exports = class SpellView extends CocoView
 
   cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
     Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin, cinematic }
-    $('#cinematic-code-display').hide()  # TODO: put somewhere more efficient
 
   notifySpellChanged: =>
     return if @destroyed
@@ -1122,7 +1121,6 @@ module.exports = class SpellView extends CocoView
       markerRange.start.detach()
       markerRange.end.detach()
       @aceSession.removeMarker markerRange.id
-      utils.replaceText $('#cinematic-code-display code'), ''  # TODO: only do when necessary
     @markerRanges = []
     for row in [0 ... @aceSession.getLength()]
       unless executedRows[row]
@@ -1164,10 +1162,9 @@ module.exports = class SpellView extends CocoView
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
-        $cinematicParent = $('#cinematic-code-display').show()
+        $cinematicParent = $('#cinematic-code-display')
         highlightedIndex = 0
         for sourceLineNumber in [start.row - 2 .. start.row + 2]
-          # TODO: only do when necessary, like has changed
           codeLine = _.string.rtrim @aceDoc.$lines[sourceLineNumber]
           $codeLineEl = $cinematicParent.find(".code-line-#{highlightedIndex++}")
           utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''

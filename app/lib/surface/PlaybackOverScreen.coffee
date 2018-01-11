@@ -32,7 +32,7 @@ module.exports = class PlaybackOverScreen extends CocoClass
     text.textAlign = 'center'
     text.textBaseline = 'middle'
     text.x = 0.5 * @camera.canvasWidth
-    text.y = 0.8 * @camera.canvasHeight
+    text.y = 0.75 * @camera.canvasHeight
     @dimLayer.addChild text
     @text = text
 
@@ -94,4 +94,7 @@ module.exports = class PlaybackOverScreen extends CocoClass
         @text.text = 'TIMED OUT'
       else
         @text.text = 'INCOMPLETE'
+    defaultSize = Math.ceil @camera.canvasHeight / 6
+    textScaleFactor = Math.min 1, Math.max(0.5, "PLAYERNAME WINS".length / @text.text.length)
+    @text.scaleX = @text.scaleY = textScaleFactor
     @dimLayer.updateCache()
