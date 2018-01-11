@@ -680,6 +680,9 @@ module.exports = Surface = class Surface extends CocoClass
     @cinematic = false
     @onResize()
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
+    if @handleEvents
+      if @previousCameraZoom
+        @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
   onFlagColorSelected: (e) ->
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)
