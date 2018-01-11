@@ -4,20 +4,23 @@ extends /templates/core/modal-base-flat
 
 block modal-header-content
 
-  .pull-right
-    br
-    if view.user.isStudent()
-      button#destudent-btn.btn.btn-burgundy Destudent
-    if view.user.isTeacher()
-      button#deteacher-btn.btn.btn-burgundy Deteacher
-
-  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName') || ''} #{view.user.get('lastName')})
+  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
   h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
   if view.user.isTeacher() && view.trialRequest
     - var props = view.trialRequest.get('properties') || {}
     h4 School: #{props.nces_school || props.organization}
     h4 District: #{props.nces_district || props.district}
+  if view.user.isStudent() || view.user.isTeacher()
+    p
+      if view.user.isStudent()
+        button#destudent-btn.btn.btn-burgundy Destudent
+      if view.user.isTeacher()
+        button#deteacher-btn.btn.btn-burgundy Deteacher
   br
+
+  if view.prepaids.size()
+    div
+      a(href="#prepaids") Existing Prepaids
   div
     a(href="#licenses") Grant Student Licenses
   if view.classrooms.size()
@@ -25,9 +28,6 @@ block modal-header-content
       a(href="#classrooms") Update Classrooms
   div
     a(href="#stripe") Modify Stripe Subscription
-  if view.prepaids.size()
-    div
-      a(href="#prepaids") Existing Prepaids
   div
     a(href="#details") User Details
     
@@ -45,6 +45,38 @@ block modal-header-content
         | &nbsp;
 
 block modal-body-content
+
+  if view.prepaids.size()
+    h3.m-t-3#prepaids Existing Prepaids
+    table.table.table-condensed
+      tr
+        th ID
+        th Shared by
+        th Type
+        th Issued
+        th Start
+        th End
+        th Used
+      for prepaid in view.prepaids.models
+        tr
+          td= prepaid.id
+          td
+            if prepaid.creator
+              if prepaid.creator.id !== view.user.id
+                a.user-link(data-user-id=prepaid.creator.id)
+                  = prepaid.creator.get('name')
+              else
+                | -
+          td= prepaid.get('type')
+          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
+          td
+            if prepaid.get('startDate')
+              = moment(prepaid.get('startDate')).utc().format('l')
+          td
+            if prepaid.get('endDate')
+              = moment(prepaid.get('endDate')).utc().format('l')
+          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
+    hr
 
   h3.m-t-3#licenses Grant Student Licenses
   #prepaid-form.form
@@ -115,38 +147,6 @@ block modal-body-content
             option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
     button#save-changes.btn.btn-primary Save Changes
   hr
-
-  if view.prepaids.size()
-    h3.m-t-3#prepaids Existing Prepaids
-    table.table.table-condensed
-      tr
-        th ID
-        th Shared by
-        th Type
-        th Issued
-        th Start
-        th End
-        th Used
-      for prepaid in view.prepaids.models
-        tr
-          td= prepaid.id
-          td
-            if prepaid.creator
-              if prepaid.creator.id !== view.user.id
-                a.user-link(data-user-id=prepaid.creator.id)
-                  = prepaid.creator.get('name')
-              else
-                | -
-          td= prepaid.get('type')
-          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
-          td
-            if prepaid.get('startDate')
-              = moment(prepaid.get('startDate')).utc().format('l')
-          td
-            if prepaid.get('endDate')
-              = moment(prepaid.get('endDate')).utc().format('l')
-          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
-    hr
 
   h3#details User Details
   pre.user-props= JSON.stringify(view.user, null, 2)

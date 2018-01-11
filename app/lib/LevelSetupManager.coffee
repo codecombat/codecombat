@@ -87,8 +87,7 @@ module.exports = class LevelSetupManager extends CocoClass
           "left-hand": "546376ea3839c6e02811d320",
           "right-hand": "54eab92b2b7506e891ca720a",
           "waist": "54694af7a2b1f53ce7944441",
-          "right-ring": "54692d2aa2b1f53ce794438f",
-          "pet": "57586f0a22179b2800efda37"
+          "right-ring": "54692d2aa2b1f53ce794438f"
           }}
       @onInventoryModalPlayClicked()
       return
