@@ -16,10 +16,12 @@ This guide is written with Python-language classrooms in mind, but can easily be
 
 ## Scope and Sequence
 
-1.  On Update and Setting Position
-2.  Animations
-3.  Runner Project Tutorial
-4.  Game Dev 3 Project
+[1.  On Update and Setting Position](#on-update-and-setting-position)  
+[2.  Animations](#animations)  
+[3.  Runner Project Tutorial](#runner)  
+[4.  Game Dev 3 Project](#game-development-3-project)  
+
+---
 
 # On Update and Setting Position
 
@@ -203,6 +205,9 @@ Then `doSomething` is called once every game update, which can happen dozens of 
 
 Setting `pos` is low level. It sets the unit’s position for that frame, directly, immediately, and without taking any other state into consideration. For example, you can move a unit on top of a forest that `moveXY` is designed not to allow.
 
+
+---
+
 # Animations
 
 ## Introduction to Animations
@@ -337,6 +342,9 @@ Examples:
 * Scale, such that the unit gradually grows or shrinks over time
 * Movement speed, such as being dependent on what surface the unit is moving through
 
+
+---
+
 # Runner
 
 ## Summary
@@ -390,6 +398,9 @@ The game’s “y” change has been left intact, but the x position change has 
 **What would happen if `onUpdateOgre` ran for all ogres, not just the defeated and undefeated?**
 
 Give students an opportunity to write down what they think will happen. They can then test out their assumptions by modifying the code from `if unit.health > 0` to `if unit.health > -100` or `if True`. When they play the game, the ogres will no longer “fall” to the left. They will keep up with the hero!
+
+
+---
 
 # Game Development 3 Project
 
