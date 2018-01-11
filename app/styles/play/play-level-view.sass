@@ -306,10 +306,38 @@ $level-resize-transition-time: 0.5s
     display: none
     position: absolute
     left: 0px
-    right: 0px
-    bottom: 70px
+    top: 0px
+    padding: 10px
     font-size: 30px
-    text-align: center
+    text-align: left
+    background-color: rgba(0, 0, 0, 0.7)
+    border-bottom-right-radius: 8px
+
+    .code-line
+      line-height: 1.2em
+
+    code
+      background-color: transparent
+      padding: 0
+      color: rgb(34, 255, 4)
+      white-space: pre
+      line-height: 0px
+
+      &.line-number
+        width: 50px
+        display: inline-block
+
+    .code-line-1, .code-line-3
+      line-height: 1.0em
+      opacity: 0.7
+      .code-text, .line-number
+        font-size: 60%
+
+    .code-line-0, .code-line-4
+      line-height: 0.8em
+      opacity: 0.5
+      .code-text, .line-number
+        font-size: 40%
 
   .ad-container
     width: 100%

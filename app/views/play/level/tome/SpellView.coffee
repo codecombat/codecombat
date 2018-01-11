@@ -17,6 +17,7 @@ CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
+utils = require 'core/utils'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -602,7 +603,7 @@ module.exports = class SpellView extends CocoView
 
   cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
     Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin, cinematic }
-    $('#cinematic-code-display code').hide()  # TODO: put somewhere more efficient
+    $('#cinematic-code-display').hide()  # TODO: put somewhere more efficient
 
   notifySpellChanged: =>
     return if @destroyed
@@ -1163,8 +1164,16 @@ module.exports = class SpellView extends CocoView
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
-        highlightedCode = @getSource().slice start.ofs, end.ofs
-        utils.replaceText $('#cinematic-code-display code').show(), highlightedCode  # TODO: only do when necessary
+        $cinematicParent = $('#cinematic-code-display').show()
+        highlightedIndex = 0
+        for sourceLineNumber in [start.row - 2 .. start.row + 2]
+          # TODO: only do when necessary, like has changed
+          codeLine = _.string.rtrim @aceDoc.$lines[sourceLineNumber]
+          $codeLineEl = $cinematicParent.find(".code-line-#{highlightedIndex++}")
+          utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''
+          utils.replaceText $codeLineEl.find('.indentation'), codeLine.match(/\s*/)[0]
+          utils.replaceText $codeLineEl.find('.code-text'), _.string.trim(codeLine)
+
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 

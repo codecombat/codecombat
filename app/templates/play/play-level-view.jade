@@ -74,7 +74,11 @@ include game-dev-goals.jade
     button.btn.btn-lg.btn-primary.banner.header-font#stop-cinematic-playback-button(data-i18n="[title]common.continue;common.continue")
 
     #cinematic-code-display
-      code
+      for i in [0, 1, 2, 3, 4]
+        div(class="code-line code-line-" + i)
+          code.line-number
+          code.indentation
+          code.code-text
 
     #how-to-play-game-dev-panel.panel.panel-default.hide.style-flat
       .panel-heading
