@@ -584,7 +584,7 @@ module.exports = Surface = class Surface extends CocoClass
       newHeight = newWidth / aspectRatio
     else if @realTime or @cinematic or @options.spectateGame
       pageHeight = window.innerHeight - $('#playback-view').outerHeight()
-      if @realTime
+      if @realTime or @options.spectateGame
         pageHeight -= $('#control-bar-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio

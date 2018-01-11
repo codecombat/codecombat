@@ -180,7 +180,7 @@ module.exports = class SpectateLevelView extends RootView
     @insertSubView @tome = new TomeView levelID: @levelID, session: @session, otherSession: @otherSession, thangs: @world.thangs, supermodel: @supermodel, spectateView: true, spectateOpponentCodeLanguage: @otherSession?.get('submittedCodeLanguage'), level: @level, god: @god
     @insertSubView new PlaybackView session: @session, level: @level
 
-    @insertSubView new GoldView {}
+    @insertSubView new GoldView {} unless @level.isType('hero-ladder', 'course-ladder')
     @insertSubView new HUDView {level: @level}
     @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, spectateGame: true}
