@@ -1164,7 +1164,7 @@ module.exports = class SpellView extends CocoView
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
         $cinematicParent = $('#cinematic-code-display')
         highlightedIndex = 0
-        for sourceLineNumber in [start.row - 2 .. start.row + 2]
+        for sourceLineNumber in [end.row - 2 .. end.row + 2]
           codeLine = _.string.rtrim @aceDoc.$lines[sourceLineNumber]
           $codeLineEl = $cinematicParent.find(".code-line-#{highlightedIndex++}")
           utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''
