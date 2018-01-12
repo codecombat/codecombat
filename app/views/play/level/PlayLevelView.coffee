@@ -8,6 +8,7 @@ ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 storage = require 'core/storage'
 {createAetherOptions} = require 'lib/aether_utils'
+loadAetherLanguage = require 'lib/loadAetherLanguage'
 
 # tools
 Surface = require 'lib/surface/Surface'
@@ -535,14 +536,13 @@ module.exports = class PlayLevelView extends RootView
 
   perhapsStartSimulating: ->
     return unless @shouldSimulate()
-    return console.error "Should not auto-simulate until we fix how these languages are loaded"
-    # TODO: how can we not require these as part of /play bundle?
-    #require 'bower_components/aether/build/javascript'
-    #require 'bower_components/aether/build/python'
-    #require 'bower_components/aether/build/coffeescript'
-    #require 'bower_components/aether/build/lua'
-    #require 'bower_components/aether/build/java'
-    @simulateNextGame()
+    languagesToLoad = ['javascript', 'python', 'coffeescript', 'lua']  # java
+    for language in languagesToLoad
+      do (language) =>
+        loadAetherLanguage(language).then (aetherLang) =>
+          languagesToLoad = _.without languagesToLoad, language
+          if not languagesToLoad.length
+            @simulateNextGame()
 
   simulateNextGame: ->
     return @simulator.fetchAndSimulateOneGame() if @simulator
@@ -564,7 +564,6 @@ module.exports = class PlayLevelView extends RootView
   shouldSimulate: ->
     return true if utils.getQueryVariable('simulate') is true
     return false if utils.getQueryVariable('simulate') is false
-    stillBuggy = true  # Keep this true while we still haven't fixed the zombie worker problem when simulating the more difficult levels on Chrome
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
     defaultHeapLimit = 793000000
@@ -575,30 +574,27 @@ module.exports = class PlayLevelView extends RootView
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
     return false if me.level() < 8
+    return false if @level.get('slug') in ['zero-sum', 'ace-of-coders']
     if @level.isType('course', 'game-dev', 'web-dev')
       return false
     else if @level.isType('hero') and gamesSimulated
-      return false if stillBuggy
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 10000
     else if @level.isType('hero-ladder') and gamesSimulated
-      return false if stillBuggy
       return false if cores < 4
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 15000
     else if @level.isType('hero-ladder') and not gamesSimulated
-      return false if stillBuggy
       return false if cores < 8
       return false if heapLimit <= defaultHeapLimit
-      return false if @loadDuration > 20000
+      return false if @loadDuration > 12000
     else if @level.isType('course-ladder')
       return false if cores <= defaultCores
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 18000
     else
       console.warn "Unwritten level type simulation heuristics; fill these in for new level type #{@level.get('type')}?"
-      return false if stillBuggy
       return false if cores < 8
       return false if heapLimit < defaultHeapLimit
       return false if @loadDuration > 10000

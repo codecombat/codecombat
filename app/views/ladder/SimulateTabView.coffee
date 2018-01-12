@@ -24,7 +24,7 @@ module.exports = class SimulateTabView extends CocoView
   onLoaded: ->
     super()
     @render()
-    if (document.location.hash is '#simulate' or @options.level.isType('course-ladder')) and not @simulator
+    if not @simulator and (document.location.hash is '#simulate' or @options.level.get('slug') not in ['ace-of-coders', 'zero-sum'])
       @startSimulating()
 
   afterRender: ->
