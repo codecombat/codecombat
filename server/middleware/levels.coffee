@@ -16,7 +16,7 @@ log = require 'winston'
 
 module.exports =
   upsertSession: wrap (req, res) ->
-    level = yield database.getDocFromHandle(req, Level)
+    level = yield database.getDocFromHandle(req, Level)  # TODO: project only fields we need?
     if not level
       throw new errors.NotFound('Level not found.')
     levelOriginal = level.get('original')
@@ -58,6 +58,17 @@ module.exports =
     if session
       return res.send(session.toObject({req: req}))
 
+    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
+    if sessionQuery.team and level.get('slug') in mirrorMatches
+      # Find their other session for this, so that if it exists, we can initialize the new team's session with the mirror code.
+      otherTeam = if sessionQuery.team is 'humans' then 'ogres' else 'humans'
+      otherSessionQuery = _.defaults {team: otherTeam, code: {$exists: true}}, sessionQuery
+      otherSession = yield LevelSession.findOne(otherSessionQuery).select('team code codeLanguage')
+      if otherSession
+        heroSlugs = humans: 'hero-placeholder', ogres: 'hero-placeholder-1'
+        code = {}
+        code[heroSlugs[sessionQuery.team]] = plan: otherSession.get('code')[heroSlugs[otherSession.get('team')]].plan
+
     attrs = sessionQuery
     _.extend(attrs, {
       state:
@@ -68,8 +79,10 @@ module.exports =
         {target: req.user.id, access: 'owner'}
         {target: 'public', access: 'write'}
       ]
-      codeLanguage: req.user.get('aceConfig')?.language ? 'python'
+      codeLanguage: otherSession?.get('codeLanguage') ? req.user.get('aceConfig')?.language ? 'python'
     })
+    if code
+      attrs.code = code
 
     if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
@@ -131,7 +144,7 @@ module.exports =
         query = {
           _id: mongoose.Types.ObjectId(req.query.campaign),
           type: 'hoc'
-          "levels.#{level.get('original')}": {$exists: true} 
+          "levels.#{level.get('original')}": {$exists: true}
         }
         campaign = yield Campaign.count(query)
         if campaign

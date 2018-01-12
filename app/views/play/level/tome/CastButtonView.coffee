@@ -33,6 +33,7 @@ module.exports = class CastButtonView extends CocoView
     @observing = options.session.get('creator') isnt me.id
     # WARNING: CourseVictoryModal does not handle mirror sessions when submitting to ladder; adjust logic if a
     # mirror level is added to
+    # Keep server/middleware/levels.coffee mirror list in sync with this one
     @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
     @mirror = @mirrorSession?
     @autoSubmitsToLadder = @options.level.isType('course-ladder')
@@ -174,10 +175,13 @@ module.exports = class CastButtonView extends CocoView
       submitAgainLabel.text waitTime
 
   loadMirrorSession: ->
+    # Future work would be to only load this the first time we are going to submit (or auto submit), so that if we write some code but don't submit it, the other session can still initialize itself with it.
     url = "/db/level/#{@options.level.get('slug') or @options.level.id}/session"
     url += "?team=#{if me.team is 'humans' then 'ogres' else 'humans'}"
     mirrorSession = new LevelSession().setURL url
     @mirrorSession = @supermodel.loadModel(mirrorSession, {cache: false}).model
+    @listenToOnce @mirrorSession, 'sync', ->
+      @ladderSubmissionView?.mirrorSession = @mirrorSession
 
   updateLadderSubmissionViews: ->
     @removeSubView subview for key, subview of @subviews when subview instanceof LadderSubmissionView
