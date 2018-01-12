@@ -440,7 +440,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessio
       creator: @teacher.id
       level: original: @levelJSPrimer1.get('original').toString()
       permissions: simplePermissions
-      codeLanguage: 'python'
+      codeLanguage: 'javascript'
     yield @sessionJSPrimer1.save()
 
     campaignJSONA = { name: 'Campaign A', levels: {} }

@@ -264,7 +264,6 @@ module.exports = class LevelLoader extends CocoClass
         languageModuleResource = @supermodel.addSomethingResource "language_module_#{codeLanguage}"
         resources.push(languageModuleResource)
         loadAetherLanguage(codeLanguage).then (aetherLang) =>
-          console.log "Marking lang loaded:", aetherLang
           languageModuleResource.markLoaded()
     return resources
 
@@ -390,7 +389,7 @@ module.exports = class LevelLoader extends CocoClass
     reason = @getReasonForNotYetLoaded()
     console.debug('LevelLoader: Reason not loaded:', reason)
     return !reason
-    
+
   getReasonForNotYetLoaded: ->
     return 'worldNecessities still loading' unless _.filter(@worldNecessities).length is 0
     return 'thang names need to load' unless @thangNamesLoaded

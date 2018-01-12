@@ -67,6 +67,8 @@ module.exports.setup = (app) ->
   app.post('/db/achievement/:handle/watchers', mw.patchable.joinWatchers(Achievement))
   app.delete('/db/achievement/:handle/watchers', mw.patchable.leaveWatchers(Achievement))
 
+  AnalyticsLogEvent = require '../models/AnalyticsLogEvent'
+  app.get('/db/analytics.log.event', mw.auth.checkHasPermission(['admin']), mw.rest.get(AnalyticsLogEvent))
   app.post('/db/analytics.log.event/-/log_event',  mw.auth.checkHasUser(), mw.analyticsLogEvents.post)
 
   app.post('/db/analytics_perday/-/active_classes', mw.auth.checkHasPermission(['admin']), mw.analyticsPerDay.getActiveClasses)

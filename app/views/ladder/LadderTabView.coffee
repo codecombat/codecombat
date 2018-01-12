@@ -189,7 +189,7 @@ module.exports = class LadderTabView extends CocoView
       histogramData = null
       $.when(
         level = "#{@level.get('original')}.#{@level.get('version').major}"
-        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}"
+        url = "/db/level/#{level}/histogram_data?team=#{team.name.toLowerCase()}&levelSlug=#{@level.get('slug')}"
         url += '&leagues.leagueID=' + @options.league.id if @options.league
         $.get url, (data) -> histogramData = data
       ).then =>
@@ -264,12 +264,15 @@ module.exports = class LadderTabView extends CocoView
 
     message = "#{histogramData.length} players"
     if @leaderboards[teamName].session?
+      # TODO: i18n for these messages
       if @options.league
         # TODO: fix server handler to properly fetch myRank with a leagueID
         message = "#{histogramData.length} players in league"
       else if @leaderboards[teamName].myRank <= histogramData.length
         message = "##{@leaderboards[teamName].myRank} of #{histogramData.length}"
         message += "+" if histogramData.length >= 100000
+      else if @leaderboards[teamName].myRank is 'unknown'
+        message = "#{if histogramData.length >= 100000 then '100,000+' else histogramData.length} players"
       else
         message = 'Rank your session!'
     svg.append('g')
@@ -355,7 +358,7 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
         promises.push @playersBelow.fetch cache: false
         level = "#{@level.get('original')}.#{@level.get('version').major}"
         success = (@myRank) =>
-        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}"
+        loadURL = "/db/level/#{level}/leaderboard_rank?scoreOffset=#{score}&team=#{@team}&levelSlug=#{@level.get('slug')}"
         loadURL += '&leagues.leagueID=' + @league.id if @league
         promises.push $.ajax(loadURL, cache: false, success: success)
     @promise = $.when(promises...)
@@ -390,7 +393,9 @@ module.exports.LeaderboardData = LeaderboardData = class LeaderboardData extends
     l.reverse()
     l.push @session
     l = l.concat(@playersBelow.models)
-    if @myRank
+    if @myRank is 'unknown'
+      session.rank ?= '' for session in l
+    else if @myRank
       startRank = @myRank - 4
       session.rank = startRank + i for session, i in l
     l

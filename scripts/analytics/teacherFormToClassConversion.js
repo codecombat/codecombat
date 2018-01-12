@@ -10,8 +10,8 @@
 
 // TODO: users that saw teacher form earlier in date range have more time to create a class
 
-if (process.argv.length !== 3) {
-  console.log("Usage: node <script> <mongo connection Url analytics>");
+if (process.argv.length !== 4) {
+  console.log("Usage: node <script> <mongo connection Url analytics> <mongo connection Url>");
   console.log("Include ?readPreference=secondary in connection URLs");
   process.exit();
 }
@@ -21,11 +21,12 @@ const co = require('co');
 const MongoClient = require('mongodb').MongoClient;
 const mongoose = require('mongoose');
 const mongoConnUrlAnalytics = process.argv[2];
+const mongoConnUrl = process.argv[3];
 
 const debugOutput = true;
 const daysToViewForm = 7;
 const daysToCreateClass = 7;
-const endDay = "2017-09-11";
+const endDay = "2017-10-01";
 
 let startDay = new Date(`${endDay}T00:00:00.000Z`);
 startDay.setUTCDate(startDay.getUTCDate() - daysToViewForm - daysToCreateClass);
@@ -33,20 +34,25 @@ startDay = startDay.toISOString().substring(0, 10);
 debug(`Measuring days ${startDay} to ${endDay}`);
 
 const startEventValues = ['Teachers Request Demo Loaded', 'Teachers Create Account Loaded', 'Teachers Convert Account Loaded', 'Homepage Click Teacher Button CTA'];
+
+// TODO: demo request path has different steps and events than standard teacher account creation
+
 const remainingOrderedEventValues = [
-  'CreateAccountModal Teacher BasicInfoView Submit Clicked',
-  'CreateAccountModal Teacher BasicInfoView Submit Success',
-  'CreateAccountModal Teacher SchoolInfoPanel Continue Clicked',
-  'CreateAccountModal Teacher SchoolInfoPanel Continue Success',
-  'CreateAccountModal Teacher TeacherRolePanel Continue Clicked',
-  'CreateAccountModal Teacher TeacherRolePanel Continue Success',
-  // 'Teachers Classes Loaded',
+  // 'CreateAccountModal Teacher BasicInfoView Submit Clicked',
+  // 'CreateAccountModal Teacher BasicInfoView Submit Success',
+  // 'CreateAccountModal Teacher SchoolInfoPanel Continue Clicked',
+  // 'CreateAccountModal Teacher SchoolInfoPanel Continue Success',
+  // 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked',
+  // 'CreateAccountModal Teacher TeacherRolePanel Continue Success',
+  'Teachers Classes Loaded',
   // 'Teachers Classes Create New Class Started',
   // 'Teachers Classes Create New Class Finished'
 ];
 
 co(function*() {
   const analyticsDb = yield MongoClient.connect(mongoConnUrlAnalytics, {connectTimeoutMS: 1000 * 60 * 60, socketTimeoutMS: 1000 * 60 * 60});
+  const prodDb = yield MongoClient.connect(mongoConnUrl, {connectTimeoutMS: 1000 * 60 * 60, socketTimeoutMS: 1000 * 60 * 60});
+  debug(`Connected to databases`);
 
   const startObjectId = objectIdWithTimestamp(new Date(`${startDay}T00:00:00.000Z`));
   const formEndDate = new Date(`${endDay}T00:00:00.000Z`);
@@ -93,8 +99,20 @@ co(function*() {
       teachersCreatedClass = currentEventCount;
     }
   }
-  console.log(`Saw teacher signup form= ${usersSawTeacherForm} Created class= ${teachersCreatedClass} Conversion= ${teachersCreatedClass / usersSawTeacherForm} ${teachersCreatedClass * 100.0 / usersSawTeacherForm}%`);
+  // console.log(`Saw teacher signup form= ${usersSawTeacherForm} Created class= ${teachersCreatedClass} Conversion= ${teachersCreatedClass / usersSawTeacherForm} ${teachersCreatedClass * 100.0 / usersSawTeacherForm}%`);
+  console.log(`Saw teacher signup form= ${usersSawTeacherForm} Created account= ${teachersCreatedClass} Conversion= ${teachersCreatedClass / usersSawTeacherForm} ${teachersCreatedClass * 100.0 / usersSawTeacherForm}%`);
 
+  // Find percentage of teachers that have students
+  const userObjectIds = userIds.map((stringId) => mongoose.Types.ObjectId(stringId));
+  const classrooms = yield prodDb.collection('classrooms').find({ownerID: {$in: userObjectIds}, $where: 'this.members.length > 0'}, {ownerID: 1, member: 1}).toArray();
+  // debug(`${classrooms.length} classrooms`);
+  const teachersWithStudents = classrooms.reduce((s, c) => {
+    s.add(c.ownerID.toString());
+    return s;
+  }, new Set());
+  console.log(`${teachersWithStudents.size} teachers have students, ${Math.round(teachersWithStudents.size / teachersCreatedClass * 100)}% of those that finished account creation.`);
+
+  prodDb.close();
   analyticsDb.close();
   debug(`Script runtime: ${new Date() - scriptStartTime}`);
 })

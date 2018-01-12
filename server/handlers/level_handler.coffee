@@ -12,6 +12,7 @@ Campaign = require '../models/Campaign'
 Course = require  '../models/Course'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
+simpleCache = require '../lib/simpleCache'
 
 LevelHandler = class LevelHandler extends Handler
   modelClass: Level
@@ -80,6 +81,7 @@ LevelHandler = class LevelHandler extends Handler
         valueArray = _.pluck data, (session) -> _.find(session.leagues, leagueID: league)?.stats?.totalScore or 10
       else
         valueArray = _.pluck data, 'totalScore'
+        simpleCache.setLadderScores req.query.levelSlug, match.team, valueArray
       @sendSuccess res, valueArray
 
   checkExistence: (req, res, slugOrID) ->
@@ -124,10 +126,16 @@ LevelHandler = class LevelHandler extends Handler
   getMyLeaderboardRank: (req, res, id) ->
     req.query.order = 1
     sessionsQueryParameters = @makeLeaderboardQueryParameters(req, id)
-    t0 = new Date()
     Session.count(sessionsQueryParameters).setOptions({maxTimeMS:200}).exec (err, count) =>
-      return @sendDatabaseError(res, err) if err
-      res.send JSON.stringify(count + 1)
+      if err and err.message is 'operation exceeded time limit'
+        rank = "unknown"
+        if not sessionsQueryParameters['leagues.leagueID'] and req.query.levelSlug
+          rank = simpleCache.getLadderRank(req.query.levelSlug, req.query.team, req.query.scoreOffset) or rank
+      else if err
+        return @sendDatabaseError(res, err)
+      else
+        rank = count + 1
+      res.send JSON.stringify rank
 
   makeLeaderboardQueryParameters: (req, id) ->
     @validateLeaderboardRequestParameters req
