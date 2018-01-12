@@ -35,7 +35,7 @@ module.exports = class CastButtonView extends CocoView
     # mirror level is added to
     @loadMirrorSession() if @options.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
     @mirror = @mirrorSession?
-    @autoSubmitsToLadder = @options.level.get('slug') in ['wakka-maul']
+    @autoSubmitsToLadder = @options.level.isType('course-ladder')
     # Show publish CourseVictoryModal if they've already published
     if options.session.get('published')
       Backbone.Mediator.publish 'level:show-victory', { showModal: true, manual: false }
