@@ -669,7 +669,10 @@ module.exports = class World
 
   teamForPlayer: (n) ->
     playableTeams = @playableTeams ? ['humans']
-    playableTeams[n % playableTeams.length]
+    if n?
+      playableTeams[n % playableTeams.length]
+    else
+      _.sample playableTeams  # Pick at random for good distribution
 
   getScores: ->
     time: @age

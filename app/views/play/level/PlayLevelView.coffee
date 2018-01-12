@@ -223,7 +223,8 @@ module.exports = class PlayLevelView extends RootView
     console.debug('PlayLevelView: world necessities loaded')
     # Called when we have enough to build the world, but not everything is loaded
     @grabLevelLoaderData()
-    team = utils.getQueryVariable('team') ?  @session.get('team') ? @world?.teamForPlayer(0) ? 'humans'
+    randomTeam = @world?.teamForPlayer()  # If no team is set, then we will want to equally distribute players to teams
+    team = utils.getQueryVariable('team') ?  @session.get('team') ? randomTeam ? 'humans'
     @loadOpponentTeam(team)
     @setupGod()
     @setTeam team
