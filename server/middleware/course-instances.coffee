@@ -153,13 +153,17 @@ module.exports =
     _.remove(courseLevels, (level) -> level.primerLanguage is classLanguage) if classLanguage
 
     # Get level completions and playtime
+    # Build one query for each language that's included in this course
     currentLevelSession = null
-    levelIDs = (level.original.toString() for level in courseLevels)
-    query = {$and: [
-      {creator: req.user.id},
-      {'level.original': {$in: levelIDs}}
-      {codeLanguage: classroom.get('aceConfig.language')}
-    ]}
+    query = {$or: []}
+    groups = _.groupBy(courseLevels, (l) -> l.primerLanguage or classroom.get('aceConfig.language'))
+    for codeLanguage, levelsGroup of groups
+      levelIDs = (level.original.toString() for level in levelsGroup)
+      query.$or.push {$and: [
+        {creator: req.user.id},
+        {'level.original': {$in: levelIDs}}
+        {codeLanguage}
+      ]}
     levelSessions = yield LevelSession.find(query, {level: 1, playtime: 1, state: 1})
     levelCompleteMap = {}
     for levelSession in levelSessions
