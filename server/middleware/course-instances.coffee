@@ -155,17 +155,22 @@ module.exports =
     # Get level completions and playtime
     # Build one query for each language that's included in this course
     currentLevelSession = null
-    query = {$or: []}
+    queries = []
     groups = _.groupBy(courseLevels, (l) -> l.primerLanguage or classroom.get('aceConfig.language'))
+    project = {level: 1, playtime: 1, state: 1}
     for codeLanguage, levelsGroup of groups
       levelIDs = (level.original.toString() for level in levelsGroup)
-      query.$or.push {$and: [
-        {creator: req.user.id},
-        {'level.original': {$in: levelIDs}}
-        {codeLanguage}
-      ]}
-    levelSessions = yield LevelSession.find(query, {level: 1, playtime: 1, state: 1})
+      while levelIDs.length
+        # chunk queries
+        subset = levelIDs.splice(0, 10)
+        queries.push(LevelSession.find({$and: [
+          {creator: req.user.id},
+          {'level.original': {$in: subset}}
+          {codeLanguage}
+        ]}, project))
+    levelSessions = _.flatten(yield queries)
     levelCompleteMap = {}
+    
     for levelSession in levelSessions
       currentLevelSession = levelSession if levelSession.id is sessionID
       levelCompleteMap[levelSession.get('level')?.original] = levelSession.get('state')?.complete
