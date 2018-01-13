@@ -1,4 +1,4 @@
-- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course);
+- var includeHomeLink = application.getHocCampaign() || !((me.isStudent() || me.isTeacher()) && !view.course) || view.level.isType('course-ladder');
 if includeHomeLink
   .left-cap
 .right-cap

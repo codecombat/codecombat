@@ -84,7 +84,11 @@ module.exports =
     if code
       attrs.code = code
 
-    if level.get('type') in ['course', 'course-ladder'] or req.query.course?
+    if req.features.israel and not req.user.isAnonymous() and level.get('slug') in ['escort-duty', 'tesla-tesoro', 'elemental-wars']
+      console.log "Allowing session creation for #{level.get('slug')} outside of any course"
+      attrs.isForClassroom = true
+
+    else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
       # Handle either being given the courseInstance, or having to deduce it
@@ -153,7 +157,7 @@ module.exports =
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
 
-    attrs.isForClassroom = course?
+    attrs.isForClassroom ?= course?
     session = new LevelSession(attrs)
     if classroom # Potentially set intercom trigger flag on teacher
       teacher = yield User.findOne({ _id: classroom.get('ownerID') })

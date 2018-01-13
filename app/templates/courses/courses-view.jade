@@ -37,6 +37,55 @@ block content
 
           else
 
+            //if features.israel && new Date() < new Date(2018, 0, 15, 8)
+            if true
+              .text-center
+                h1#tournament-title
+                  if me.get('preferredLanguage') == 'he'
+                    | תחרות 
+                  else
+                    | Tournament
+                a#tournament-rules
+                  if me.get('preferredLanguage') == 'he'
+                    | חוקים וניקוד
+                  else
+                    | Tournament Rules and Scoring
+                #tournament-rules-content.hide.rtl-allowed
+                  if me.get('preferredLanguage') == 'he'
+                    p(dir="rtl") ברוכים הבאים לתחרות CodeCombat של אליפות הסייבר Skillz! עליכם להשלים לפחות עשרה שלבים בקורס ״מבוא למדעי המחשב 3״ או קורסים מתקדמים יותר על מנת לזכות ב-10 נקודות לתחרות. לאחר מכן, אתם יכולים להרויח עוד 90 נקודות (לכל היותר) על פני שלוש זירות מרובות שחקנים על מנת לצבור מקסימום של 100 נקודות בתחרות. אתם יכולים לזכות ב-עד 40 נקודות בכל זירה מרובת שחקנים, על ידי כתיבת קוד בעל אסטרטגיה טובה יותר, תוך כדי הבסת שחקנים אחרים וטיפוס מעלה בלוח השחקנים המובילים. אתם רוצים להגדיל את מספר הנקודות שלכם? שחקו יותר שלבי משחק CodeCombat על מנת ללמוד טקטיקות תכנות/קידוד מתקדמות יותר, כך שכאשר תחזרו לזירה, תוכלו ליישם את מה שלמדתם במהלך השלבים, בשדה הקרב.
+
+                    p(dir="rtl") בכל זירה, הניקוד מתבצע כדלקמן: הקוד שכתבתם יורץ (ישוחק) כל הזמן ברקע נגד שחקנים אחרים על מנת לקבוע כמה הוא חזק. מספר הנקודות שאתם צוברים בכל עימות נקבע על ידי כללי הסקה בייסיאנית המנבאים מה היה הסיכוי שלך לנצח בעימות. כאשר אתם מביסים שחקן המדורג במקום גבוהה מכם בדירוג, אתם זוכים ביותר נקודות. כאשר אתם מביסים שחקן המדורג במקום נמוך מכם בדירוג, אתם זוכים בפחות נקודות. מפסידים לשחקן חלש מכם, מפסידים יותר נקודות. מפסידים לשחקן חזק מכם, מפסידים פחות נקודות. תשתדלו להשיג יותר מ-40 נקודות בכל שלושת הזירות, ואז בחרו את הזירה האהובה עליכם ביותר, ותנסו להגיע למקום הראשון בארץ בזירה זו. הקוד שלכם ישוחק גם על הנבחרת האדומה וגם על הנבחרת הכחולה והציון הגבוהה מבין השניים ילקח בחשבון.
+
+                    p(dir="rtl") אתם יכולים לנסות את הקוד שלכם כנגד כל שחקן אחר ולשפר את האסטרטגיה שלכם עד שאתם מנצחים, אבל חשוב לזכור: לא מתבצעת צבירה של נקודות עד שאתם  שולחים את הקוד האחרון שלכם והוא מתחיל לשחק באופן אוטומטי כנגד שחקנים אחרים. 
+                  else
+                    p Welcome to the Skillz CodeCombat tournament! Complete at least 10 levels in the Computer Science 3 or later courses to earn 10 tournament points. Then, earn another 90 points across the three multiplayer arenas for a maximum score of 100 tournament points. You may earn up to 40 points in each multiplayer arena by writing better strategy code, defeating other players, and climbing your way up the leaderboards. Want to improve your score? Play more CodeCombat levels to learn advanced coding tactics, then come back to your arena to use what you have learned on the battlefield.
+  
+                    p In each arena, scoring is as follows: your code will play constantly in the background against other players to determine how strong it is. The number of points you earn for a match are determined by a Bayesian calculation predicting how likely you were to win that match. So if you beat a player ranked more highly than you, you gain more points. Beat a player lower than you, gain fewer points. Lose to a weaker player, lose more points. Lose to a stronger player, lose fewer points. Try to get above 40 points on all three arenas, then pick your favorite and vie for the #1 rank in the country. Your code will play on both the red and blue teams and use your highest score of the two.
+  
+                    p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
+
+              for level in view.tournamentArenas
+                a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
+                  .level
+                    if level.image
+                      img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
+                    else
+                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+                      h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
+                    .overlay-text.level-difficulty.rtl-allowed
+                      if me.get('preferredLanguage') != "he"
+                        span(data-i18n="play.level_difficulty") Difficulty: 
+                        each i in Array(level.difficulty)
+                          | ★
+                      - var playCount = view.levelPlayCountMap[level.id]
+                      if playCount
+                        if me.get('preferredLanguage') != "he"
+                          span.spl.spr - 
+                        span.spl.spr #{playCount.sessions}
+                        span(data-i18n="play.players") players
+                    .play-text-container
+                      .overlay-text.play-text(data-i18n="common.play") Play
+
             .text-center
               h1(data-i18n="courses.welcome_to_page")
 

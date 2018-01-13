@@ -1,3 +1,6 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
 #courses-view
   h1
     margin-bottom: 30px
@@ -71,3 +74,78 @@
       flex-direction: column
       justify-content: space-between
       align-items: flex-start
+
+  #tournament-rules
+   display: block
+   font-size: 30px
+   margin-top: -20px
+   margin-bottom: 20px
+
+  .popover
+    max-width: 700px
+    font-size: 16px
+    line-height: 22px
+
+    p[dir="rtl"]
+      text-align: right
+
+  .level
+    width: 100%
+    position: relative
+    margin-bottom: 20px
+    text-shadow: 1px 0px 0px black, -1px 0px 0 black, 0px 1px 0px black, 0px -1px 0px black
+
+    &:hover div, &:hover .dynamic-level-name
+      color: lighten($yellow, 20%)
+
+    &:hover img
+      filter: brightness(1.2)
+      -webkit-filter: brightness(1.2)
+      box-shadow: 0 0 5px black
+
+    .level-image
+      width: 100%
+
+    .dynamic-level-name
+      position: absolute
+      z-index: 1
+      top: 40px
+      width: 100%
+      text-align: center
+
+      text-shadow: 0px 5px 5px black, -2px 0px 2px black, 2px 0px 2px black, 0px -2px 2px black
+      font-size: 72px
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    .overlay-text
+      color: $yellow
+      font-family: $headings-font-family
+      font-variant: small-caps
+      @include transition(color .10s linear)
+
+    .level-difficulty
+      position: absolute
+      left: 0px
+      bottom: 0px
+      font-size: 25px
+      padding-right: 10px
+      background-color: rgba(255, 255, 255, 0.75)
+      border-radius: 6px
+
+    .play-text-container
+      position: absolute
+      right: 0px
+      bottom: 0px
+      background-color: rgba(255, 255, 255, 0.75)
+      border-radius: 6px
+
+      .play-text
+        text-align: right
+        font-size: 50px
+        line-height: 50px
+
+  a[disabled] .level
+    opacity: 0.7

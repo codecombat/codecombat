@@ -68,6 +68,9 @@ module.exports = class CoursesView extends RootView
     @supermodel.loadModel(@hero, 'hero')
     @listenTo @hero, 'change', -> @render() if @supermodel.finished()
 
+    if features.israel
+      @getArenaPlayCounts()
+
   afterInsert: ->
     super()
     unless me.isStudent() or (@classCodeQueryVar and not me.isTeacher())
@@ -240,3 +243,74 @@ module.exports = class CoursesView extends RootView
     classroomID = $(e.target).data('classroom-id')
     window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
     application.router.navigate("/students/assessments/#{classroomID}", { trigger: true })
+
+  afterRender: ->
+    super()
+    rulesContent = @$el.find('#tournament-rules-content').html()
+    @$el.find('#tournament-rules').popover(placement: 'bottom', trigger: 'hover', container: '#site-content-area', content: rulesContent, html: true)
+
+  getArenaPlayCounts: ->
+    @levelPlayCountMap = []
+    success = (levelPlayCounts) =>
+      return if @destroyed
+      for level in levelPlayCounts
+        @levelPlayCountMap[level._id] = playtime: level.playtime, sessions: level.sessions
+      @render() if @supermodel.finished()
+
+    levelIDs = []
+    for level in @tournamentArenas
+      levelIDs.push level.id
+    levelPlayCountsRequest = @supermodel.addRequestResource 'play_counts', {
+      url: '/db/level/-/play_counts'
+      data: {ids: levelIDs}
+      method: 'POST'
+      success: success
+    }, 0
+    levelPlayCountsRequest.load()
+
+  tournamentArenas:
+    if me.get('preferredLanguage') is 'he'
+      [
+        {
+          name: 'ליווי'
+          difficulty: 3
+          id: 'escort-duty'
+          image: '/file/db/level/5a54e22d3a12370043f223ab/Escort Duty Banner-he.png'
+        }
+        {
+          name: 'Tesla Tesoro'
+          difficulty: 4
+          id: 'tesla-tesoro'
+          image: '/file/db/level/58cccfb52633d31f00d74226/TeslaTesoro-hebrew.png'
+        }
+        {
+          name: 'Elemental Wars'
+          difficulty: 5
+          id: 'elemental-wars'
+          image: '/file/db/level/5a54e0703a12370043f21fbe/elementalwars-hebrew.png'
+        }
+      ]
+    else
+      [
+        {
+          name: 'Escort Duty'
+          difficulty: 3
+          id: 'escort-duty'
+          image: '/file/db/level/59c5163bdf1a4c002f275d1e/NOV02-Escort Duty Banner.png'
+          description:'Go head-to-head against another player in this desert treasure chest bonanza!'
+        }
+        {
+          name: 'Tesla Tesoro'
+          difficulty: 4
+          id: 'tesla-tesoro'
+          image: '/file/db/level/58cccfb52633d31f00d74226/Tesla Tesoro Lightning.png'
+          description: 'Mix collection, peasants, and combat in this multiplayer coin-gathering arena.'
+        }
+        {
+          name: 'Elemental Wars'
+          difficulty: 5
+          id: 'elemental-wars'
+          image: '/file/db/level/5a54e0703a12370043f21fbe/elemental-wars.png'
+          description: 'Battle for control over the icy treasure chests as your gigantic warrior marshals his armies against his mirror-match nemesis.'
+        }
+      ]
