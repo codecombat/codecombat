@@ -278,6 +278,7 @@ module.exports = class LevelPlaybackView extends CocoView
     Backbone.Mediator.publish 'playback:real-time-playback-ended', {}
 
   onStopCinematicPlayback: (e) ->
+    return unless @cinematic
     Backbone.Mediator.publish 'level:set-letterbox', on: false
     Backbone.Mediator.publish 'playback:cinematic-playback-ended', {}
 

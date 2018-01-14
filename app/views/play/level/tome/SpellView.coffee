@@ -867,6 +867,9 @@ module.exports = class SpellView extends CocoView
         lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
       lineOffsetPx -= @ace.session.getScrollTop()
     Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
+    if problem.level not in ['info', 'warning']
+      Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
+      # TODO: find a way to also show problem alert if it's compile-time, and/or not enter cinematic mode at all
 
   # Gets the number of lines before the start of <script> content in the usercode
   # Because Errors report their line number relative to the <script> tag
