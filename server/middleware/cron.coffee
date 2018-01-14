@@ -191,6 +191,16 @@ module.exports =
       challengeCategory = coursesByLevel[session.level.original] or 'other'
       if session.levelID in ['elemental-wars', 'tesla-tesoro', 'escort-duty']
         challengeCategory = 'tournament'
+        otherTeam = if session.team is 'humans' then 'ogres' else 'humans'
+        otherSession = yield LevelSession.findOne({level: session.level, creator: session.creator, team: otherTeam}).select(sessionSelect).lean()
+        otherSolution = yield IsraelSolution.findOne({solutionid: session._id})
+        if otherSolution
+          # We are putting the solution under the other session; don't double-count
+          console.log '  Avoiding storing', session.creatorName, session.levelID, session.team, 'because we are using', otherSession.team, 'instead'
+          continue
+        if otherSession?.totalScore > session.totalScore
+          console.log ' ', session.creatorName, session.levelID, session.team, 'using ', otherSession.team, 'instead because score is higher'
+          session.totalScore = otherSession.totalScore
       score = 1
       if session.levelID in practiceLevels
         score = 0
@@ -219,31 +229,6 @@ module.exports =
         device: device
         os: session.browser?.platform
         country: 'israel'
-
-        # Old data
-        #date: session.created  # Now solution.createddate
-        #provider: 'CodeCombat'
-        #user:
-        #  userid: user._id
-        #  usercodeil: user.israelId
-        #  usertype: if user.role is 'student' then 'S' else 'T'
-        #  classcode: user.classCode
-        #solution:
-        #  id: session._id
-        #  createddate: session.created
-        #  solutionstring: code
-        #  challengeid: challengeId
-        #  challengename: challengeName
-        #  challengeorder: challengeOrder
-        #  score: score
-        #  starttime: session.created
-        #  endtime: session.dateFirstCompleted or session.changed
-        #info:
-        #  ip: user.lastIP
-        #  sessionkey: session._id  # How to find cookie session? Need it?
-        #  device: device
-        #  os: session.browser?.platform
-        #  country: 'israel'
 
     done = 0
     yield async.eachLimitAsync registrations, 10, (registration, cb) ->
