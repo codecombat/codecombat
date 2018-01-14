@@ -24,15 +24,16 @@ describe 'GET /auth/whoami', ->
     expect(res.body.createdOnHost).toBeTruthy()
     expect(res.statusCode).toBe(200)
     done()
-    
-  it 'provides a user with language set to Hebrew if the domain is il.codecombat.com', utils.wrap ->
-    yield utils.logout()
-    [res, body] = yield request.getAsync({url: utils.getURL('/auth/whoami'), json: true, headers: {host: 'il.codecombat.com'}})
-    expect(res.statusCode).toBe(200)
-    expect(res.body.preferredLanguage).toBe('he')
+
+  # TEMP: they want this turned off temporarily until some special translation fixes are in place
+  #it 'provides a user with language set to Hebrew if the domain is il.codecombat.com', utils.wrap ->
+  #  yield utils.logout()
+  #  [res, body] = yield request.getAsync({url: utils.getURL('/auth/whoami'), json: true, headers: {host: 'il.codecombat.com'}})
+  #  expect(res.statusCode).toBe(200)
+  #  expect(res.body.preferredLanguage).toBe('he')
 
 describe 'POST /auth/login', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
     yield utils.becomeAnonymous()
@@ -45,7 +46,7 @@ describe 'POST /auth/login', ->
     }})
     expect(res.statusCode).toBe(401)
     done()
-    
+
   it 'returns 200 when the user does exist', utils.wrap (done) ->
     yield utils.initUser({
       'email': 'some@email.com'
@@ -57,7 +58,7 @@ describe 'POST /auth/login', ->
     }})
     expect(res.statusCode).toBe(200)
     done()
-    
+
   it 'allows login by username', utils.wrap (done) ->
     yield utils.initUser({
       name: 'Some name that will be lowercased...'
@@ -104,7 +105,7 @@ describe 'POST /auth/reset', ->
       'password': '12345'
     })
     done()
-  
+
   it 'returns 422 if no email is included', utils.wrap (done) ->
     [res, body] = yield request.postAsync(
       {uri: urlReset, json: {username: 'some@email.com'}}
@@ -136,9 +137,9 @@ describe 'POST /auth/reset', ->
       password: passwordReset
     }})
     expect(res.statusCode).toBe(200)
-    
+
     done()
-    
+
   it 'resetting password is not idempotent', utils.wrap (done) ->
     spyOn(sendwithus.api, 'send').and.callFake (options, cb) ->
       expect(options.recipient.address).toBe('some@email.com')
@@ -154,7 +155,7 @@ describe 'POST /auth/reset', ->
       username: 'some@email.com'
       password: passwordReset
     }}
-    
+
     [res, body] = yield request.postAsync(postArgs)
     expect(res.statusCode).toBe(200)
     [res, body] = yield request.postAsync(postArgs)
@@ -167,7 +168,7 @@ describe 'GET /auth/unsubscribe', ->
     yield utils.clearModels([User])
     @user = yield utils.initUser()
     done()
-    
+
   it 'returns 422 if email is not included', utils.wrap (done) ->
     url = getURL('/auth/unsubscribe')
     [res, body] = yield request.getAsync(url)
@@ -179,7 +180,7 @@ describe 'GET /auth/unsubscribe', ->
     [res, body] = yield request.getAsync(url)
     expect(res.statusCode).toBe(404)
     done()
-    
+
   it 'returns 200 even if the email has a + in it', utils.wrap (done) ->
     @user.set('email', 'some+email@address.com')
     yield @user.save()
@@ -187,7 +188,7 @@ describe 'GET /auth/unsubscribe', ->
     [res, body] = yield request.getAsync(url, {json: true})
     expect(res.statusCode).toBe(200)
     done()
-    
+
   describe '?recruitNotes=1', ->
 
     it 'unsubscribes the user from recruitment emails', utils.wrap (done) ->
@@ -198,7 +199,7 @@ describe 'GET /auth/unsubscribe', ->
       expect(user.get('emails').recruitNotes.enabled).toBe(false)
       expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
       done()
-    
+
   describe '?employerNotes=1', ->
 
     it 'unsubscribes the user from employer emails', utils.wrap (done) ->
@@ -223,7 +224,7 @@ describe 'GET /auth/unsubscribe', ->
       done()
 
   describe 'no GET query params', ->
-    
+
     it 'unsubscribes the user from all emails', utils.wrap (done) ->
       url = getURL("/auth/unsubscribe?email=#{@user.get('email')}")
       [res, body] = yield request.getAsync(url)
@@ -261,17 +262,17 @@ describe 'GET /auth/name', ->
 
     done()
 
-    
+
 describe 'POST /auth/login-facebook', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
     fields = ['email', 'first_name', 'last_name', 'gender'].join(',')
     @facebookRequest = nock('https://graph.facebook.com').get('/v2.8/me').query({access_token: 'abcd', fields})
     done()
-    
-  afterEach -> 
+
+  afterEach ->
     nock.cleanAll()
-  
+
   url = getURL('/auth/login-facebook')
   it 'takes facebookID and facebookAccessToken and logs the user in', utils.wrap (done) ->
     @facebookRequest.reply(200, { id: '1234' })
@@ -279,19 +280,19 @@ describe 'POST /auth/login-facebook', ->
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(200)
     done()
-    
+
   it 'returns 422 if no token or id is provided', utils.wrap (done) ->
     [res, body] = yield request.postAsync url
     expect(res.statusCode).toBe(422)
     done()
-  
+
   it 'returns 422 if the token is invalid', utils.wrap (done) ->
     @facebookRequest.reply(400, {})
     yield new User({name: 'someone', facebookID: '1234'}).save()
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
     expect(res.statusCode).toBe(422)
     done()
-  
+
   it 'returns 404 if the user does not already exist', utils.wrap (done) ->
     @facebookRequest.reply(200, { id: '1234' })
     [res, body] = yield request.postAsync url, { json: { facebookID: '1234', facebookAccessToken: 'abcd' }}
@@ -333,7 +334,7 @@ describe 'POST /auth/login-gplus', ->
     expect(res.statusCode).toBe(404)
     done()
 
-    
+
 describe 'POST /auth/login-israel', ->
   it 'logs the user in based on the passed in JWT token', utils.wrap ->
     user = yield utils.initUser({ israelId: 'abcdef' })
@@ -359,8 +360,8 @@ describe 'POST /auth/login-israel', ->
 
 
 describe 'GET /auth/login-clever', ->
-  originalCleverConfig = null 
-  
+  originalCleverConfig = null
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
     originalCleverConfig = config.clever
@@ -374,7 +375,7 @@ describe 'GET /auth/login-clever', ->
     @url = utils.getURL("/auth/login-clever")
     @qs = { code: 'code', scope: 'all' }
     done()
-    
+
   afterEach ->
     config.clever = originalCleverConfig
 
@@ -391,10 +392,10 @@ describe 'GET /auth/login-clever', ->
     expect(body.role).toBe('student')
     expect(body.cleverID).toBe('xyz')
     expect(body.email).toBe('clever@email.com')
-    
+
     userID = body._id
     userCount = yield User.count()
-    
+
     # make sure another user is not created
     yield utils.logout()
     @tokenRequest.reply(200, @tokenSuccessResponse)
@@ -407,7 +408,7 @@ describe 'GET /auth/login-clever', ->
     expect(body._id).toBe(userID)
     expect(yield User.count()).toBe(userCount)
     done()
-    
+
   it 'redirects to the teacher dashboard if they are a teacher', utils.wrap (done) ->
     @tokenRequest.reply(200, @tokenSuccessResponse)
     @meRequest.reply(200, { data: { type: 'teacher', id: 'xyz' } })
@@ -476,7 +477,7 @@ describe 'GET /auth/login-o-auth', ->
     expect(res.statusCode).toBe(302)
     expect(res.headers.location).toBe('/teachers/classes')
     done()
-    
+
   it 'can take a code and do a token lookup', utils.wrap (done) ->
     @providerNock.get('/oauth2/token').reply(200, {access_token: '1234'})
     @providerLookupRequest.reply(200, {id: 'abcd'})
@@ -503,7 +504,7 @@ describe 'GET /auth/login-o-auth', ->
     [res, body] = yield request.getAsync({ @url, qs, json:true, followRedirect:false })
     expect(res.statusCode).toBe(422)
     done()
-    
+
   it 'redirects the user on error when errorRedirect param is provided', utils.wrap (done) ->
     errorRedirect = 'http://source.com/error-happened'
     [res, body] = yield request.getAsync({ @url, qs: { errorRedirect }, followRedirect: false })
@@ -513,7 +514,7 @@ describe 'GET /auth/login-o-auth', ->
     expect(qs.code).toBe('422')
     done()
 
-      
+
 describe 'POST /auth/spy', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User])
@@ -521,7 +522,7 @@ describe 'POST /auth/spy', ->
     @user1 = yield utils.initUser({name: 'Test User 1'})
     @user2 = yield utils.initUser({name: 'Test User 2'})
     done()
-  
+
   it 'logs in an admin as an arbitrary user', utils.wrap (done) ->
     yield utils.loginUser(@admin)
     [res, body] = yield request.postAsync {uri: getURL('/auth/spy'), json: {user: @user1.id}}
@@ -537,19 +538,19 @@ describe 'POST /auth/spy', ->
     expect(res.statusCode).toBe(200)
     expect(body._id).toBe(@user1.id)
     done()
-    
+
   it 'accepts the user\'s username as input', utils.wrap (done) ->
     yield utils.loginUser(@admin)
     [res, body] = yield request.postAsync {uri: getURL('/auth/spy'), json: {user: @user1.get('name')}}
     expect(res.statusCode).toBe(200)
     expect(body._id).toBe(@user1.id)
     done()
-    
+
   it 'does not work for anonymous users', utils.wrap (done) ->
     [res, body] = yield request.postAsync {uri: getURL('/auth/spy'), json: {user: @user1.get('name')}}
     expect(res.statusCode).toBe(401)
     done()
-    
+
   it 'does not work for non-admins', utils.wrap (done) ->
     yield utils.loginUser(@user1)
     [res, body] = yield request.postAsync {uri: getURL('/auth/spy'), json: {user: @user1.get('name')}}
@@ -565,7 +566,7 @@ describe 'POST /auth/stop-spying', ->
     [res, body] = yield request.postAsync {uri: getURL('/auth/spy'), json: {user: @user.id}}
     expect(res.statusCode).toBe(200)
     done()
-  
+
   it 'it reverts the spying user back to the admin', utils.wrap (done) ->
     [res, body] = yield request.getAsync {uri: getURL('/auth/whoami'), json: true}
     expect(body._id).toBe(@user.id)
