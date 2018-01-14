@@ -172,9 +172,11 @@ module.exports =
           date: user.dateCreated
           user:
             userid: userId
-            usercodeil: user.israelId?.replace(/old/, '') or undefined
+            usercodeil: user.israelId?.replace?(/old/, '') or undefined
             usertype: if user.role is 'student' then 'S' else 'T'
             classcode: classroom.code
+        if user.israelId and not user.israelId.replace
+          console.log "Weird non-string israelId?", user.israelId, typeof user.israelId
         if user.role is 'student'
           break  # Don't provide multiple registrations if students are in multiple classes
 
