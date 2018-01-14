@@ -574,7 +574,7 @@ module.exports = class PlayLevelView extends RootView
     return false if $.browser?.msie or $.browser?.msedge
     return false if $.browser.linux
     return false if me.level() < 8
-    return false if @level.get('slug') in ['zero-sum', 'ace-of-coders']
+    return false if @level.get('slug') in ['zero-sum', 'ace-of-coders', 'elemental-wars']
     if @level.isType('course', 'game-dev', 'web-dev')
       return false
     else if @level.isType('hero') and gamesSimulated
