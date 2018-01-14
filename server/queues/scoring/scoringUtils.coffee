@@ -118,6 +118,7 @@ createSessionScoreUpdate = (scoreObject) ->
     totalScore: newTotalScore
     $push: {scoreHistory: {$each: [scoreHistoryAddition], $slice: -1000}}
     randomSimulationIndex: Math.random()
+    changed: new Date()
   for league, leagueIndex in (scoreObject.leagues ? [])
     continue unless league.stats.updated
     newTotalScore = league.stats.meanStrength - 1.8 * league.stats.standardDeviation
