@@ -366,46 +366,11 @@ module.exports = class PlayLevelView extends RootView
       if e.session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
         sorcerer = '53e126a4e06b897606d38bef'
       e.session.set 'heroConfig', {"thangType":sorcerer,"inventory":{"misc-0":"53e2396a53457600003e3f0f","programming-book":"546e266e9df4a17d0d449be5","minion":"54eb5dbc49fa2d5c905ddf56","feet":"53e214f153457600003e3eab","right-hand":"54eab7f52b7506e891ca7202","left-hand":"5463758f3839c6e02811d30f","wrists":"54693797a2b1f53ce79443e9","gloves":"5469425ca2b1f53ce7944421","torso":"546d4a549df4a17d0d449a97","neck":"54693274a2b1f53ce79443c9","eyes":"546941fda2b1f53ce794441d","head":"546d4ca19df4a17d0d449abf"}}
-    else if e.level.get('slug') in ['ace-of-coders', 'elemental-wars']
+    else if e.level.get('slug') is 'ace-of-coders'
       goliath = '55e1a6e876cb0948c96af9f8'
       e.session.set 'heroConfig', {"thangType":goliath,"inventory":{
         "eyes":"53eb99f41a100989a40ce46e","neck":"54693274a2b1f53ce79443c9","wrists":"54693797a2b1f53ce79443e9","feet":"546d4d8e9df4a17d0d449acd","minion":"54eb5bf649fa2d5c905ddf4a","programming-book":"557871261ff17fef5abee3ee"
       }}
-    else if e.level.get('slug') in ['tesla-tesoro']
-      assassin = '566a2202e132c81f00f38c81'
-      e.session.set 'heroConfig', {"thangType":assassin,"inventory":{
-        "eyes": "546941fda2b1f53ce794441d",
-        "feet": "546d4d8e9df4a17d0d449acd",
-        "minion": "54eb5d1649fa2d5c905ddf52",
-        "neck": "54693363a2b1f53ce79443d1",
-        "wrists": "54693830a2b1f53ce79443f1",
-        "programming-book": "557871261ff17fef5abee3ee",
-        "left-ring": "5441c35c4e9aeb727cc9711d",
-        "torso": "546d3d549df4a17d0d449a47",
-        "head": "546d47c09df4a17d0d449a6f",
-        "left-hand": "54eb528449fa2d5c905ddf12",
-        "right-hand": "544d86318494308424f564e8"
-      }}
-    else if e.level.get('slug') in ['escort-duty']
-      potionmaster = '52e9adf7427172ae56002172'
-      e.session.set 'heroConfig', {"thangType":potionmaster,"inventory":{
-        "eyes": "546941fda2b1f53ce794441d",
-        "feet": "546d4d8e9df4a17d0d449acd",
-        "programming-book": "557871261ff17fef5abee3ee",
-        "head": "546d4ca19df4a17d0d449abf",
-        "torso": "546d4a549df4a17d0d449a97",
-        "left-ring": "5441c35c4e9aeb727cc9711d",
-        "minion": "54eb5d1649fa2d5c905ddf52",
-        "neck": "54693363a2b1f53ce79443d1",
-        "wrists": "54693830a2b1f53ce79443f1",
-        "left-hand": "546376ea3839c6e02811d320",
-        "right-hand": "54eab92b2b7506e891ca720a",
-        "waist": "54694af7a2b1f53ce7944441",
-        "right-ring": "54692d2aa2b1f53ce794438f"
-      }}
-
-
-
     else if e.level.get('slug') is 'the-battle-of-sky-span'
       wizard = '52fc1460b2b91c0d5a7b6af3'
       e.session.set 'heroConfig', {"thangType":wizard,"inventory":{}}
