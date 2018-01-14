@@ -193,14 +193,15 @@ module.exports =
         challengeCategory = 'tournament'
         otherTeam = if session.team is 'humans' then 'ogres' else 'humans'
         otherSession = yield LevelSession.findOne({level: session.level, creator: session.creator, team: otherTeam}).select(sessionSelect).lean()
-        otherSolution = yield IsraelSolution.findOne({solutionid: session._id})
-        if otherSolution
-          # We are putting the solution under the other session; don't double-count
-          console.log '  Avoiding storing', session.creatorName, session.levelID, session.team, 'because we are using', otherSession.team, 'instead'
-          continue
-        if otherSession?.totalScore > session.totalScore
-          console.log ' ', session.creatorName, session.levelID, session.team, 'using ', otherSession.team, 'instead because score is higher'
-          session.totalScore = otherSession.totalScore
+        if otherSession
+          otherSolution = yield IsraelSolution.findOne({solutionid: otherSession._id})
+          if otherSolution
+            # We are putting the solution under the other session; don't double-count
+            console.log '  Avoiding storing', session.creatorName, session.levelID, session.team, 'because we are using', otherSession.team, 'instead'
+            continue
+          if otherSession.totalScore > session.totalScore
+            console.log ' ', session.creatorName, session.levelID, session.team, 'using ', otherSession.team, 'instead because score is higher'
+            session.totalScore = otherSession.totalScore
       score = 1
       if session.levelID in practiceLevels
         score = 0
