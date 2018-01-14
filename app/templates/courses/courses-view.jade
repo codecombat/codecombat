@@ -38,7 +38,7 @@ block content
           else
 
             //if true
-            if features.israel && new Date() < new Date(2018, 0, 15, 8)
+            if features.israel && new Date() >= new Date(2018, 0, 15, 8)
               .text-center
                 h1#tournament-title
                   if me.get('preferredLanguage') == 'he'
