@@ -74,7 +74,7 @@ module.exports = class CastButtonView extends CocoView
     castRealTimeShortcutVerbose + ': ' + $.i18n.t('keyboard_shortcuts.run_real_time')
 
   onCastButtonClick: (e) ->
-    Backbone.Mediator.publish 'tome:manual-cast', {}
+    Backbone.Mediator.publish 'tome:manual-cast', {cinematic: @options.level.isType('hero', 'course', 'hero-ladder', 'course-ladder')}
 
   onCastRealTimeButtonClick: (e) ->
     if @options.level.get('replayable') and (timeUntilResubmit = @options.session.timeUntilResubmit()) > 0

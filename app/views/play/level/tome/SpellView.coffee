@@ -17,6 +17,7 @@ CodeLog = require 'models/CodeLog'
 Autocomplete = require './editor/autocomplete'
 TokenIterator = ace.require('ace/token_iterator').TokenIterator
 LZString = require 'lz-string'
+utils = require 'core/utils'
 
 module.exports = class SpellView extends CocoView
   id: 'spell-view'
@@ -140,7 +141,7 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
-      exec: => Backbone.Mediator.publish 'tome:manual-cast', {realTime: @options.level.isType('game-dev')}
+      exec: => Backbone.Mediator.publish 'tome:manual-cast', {realTime: @options.level.isType('game-dev'), cinematic: @options.level.isType('hero', 'course', 'hero-ladder', 'course-ladder')}
     unless @observing
       addCommand
         name: 'run-code-real-time'
@@ -600,8 +601,8 @@ module.exports = class SpellView extends CocoView
     # @addAutocompleteSnippets()
     @highlightCurrentLine()
 
-  cast: (preload=false, realTime=false, justBegin=false) ->
-    Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin }
+  cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
+    Backbone.Mediator.publish 'tome:cast-spell', { @spell, @thang, preload, realTime, justBegin, cinematic }
 
   notifySpellChanged: =>
     return if @destroyed
@@ -683,7 +684,7 @@ module.exports = class SpellView extends CocoView
 
   onManualCast: (e) ->
     cast = @$el.parent().length
-    @recompile cast, e.realTime
+    @recompile cast, e.realTime, e.cinematic
     @focus() if cast
     if @options.level.isType('web-dev')
       @sourceAtLastCast = @getSource()
@@ -699,13 +700,13 @@ module.exports = class SpellView extends CocoView
     Backbone.Mediator.publish 'tome:spell-loaded', spell: @spell
     @updateLines()
 
-  recompile: (cast=true, realTime=false) ->
+  recompile: (cast=true, realTime=false, cinematic=false) ->
     hasChanged = @spell.source isnt @getSource()
     if hasChanged
       @spell.transpile @getSource()
       @updateAether true, false
     if cast  #and (hasChanged or realTime)  # just always cast now
-      @cast(false, realTime)
+      @cast(false, realTime, false, cinematic)
     if hasChanged
       @notifySpellChanged()
 
@@ -1161,6 +1162,15 @@ module.exports = class SpellView extends CocoView
         @aceSession.addGutterDecoration start.row, clazz
         @decoratedGutter[start.row] = clazz
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
+        $cinematicParent = $('#cinematic-code-display')
+        highlightedIndex = 0
+        for sourceLineNumber in [end.row - 2 .. end.row + 2]
+          codeLine = _.string.rtrim @aceDoc.$lines[sourceLineNumber]
+          $codeLineEl = $cinematicParent.find(".code-line-#{highlightedIndex++}")
+          utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''
+          utils.replaceText $codeLineEl.find('.indentation'), codeLine.match(/\s*/)[0]
+          utils.replaceText $codeLineEl.find('.code-text'), _.string.trim(codeLine)
+
     @debugView?.setVariableStates {} unless gotVariableStates
     null
 

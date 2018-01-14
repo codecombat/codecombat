@@ -15,6 +15,8 @@ module.exports = class MusicPlayer extends CocoClass
     'audio-player:loaded': 'onAudioLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onRealTimePlaybackStarted'  # Handle cinematic the same as real-time
+    'playback:cinematic-playback-ended': 'onRealTimePlaybackEnded'
     'music-player:enter-menu': 'onEnterMenu'
     'music-player:exit-menu': 'onExitMenu'
     'level:set-volume': 'onSetVolume'

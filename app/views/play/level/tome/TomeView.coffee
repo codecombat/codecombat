@@ -152,9 +152,9 @@ module.exports = class TomeView extends CocoView
 
   onCastSpell: (e) ->
     # A single spell is cast.
-    @cast e?.preload, e?.realTime, e?.justBegin
+    @cast e?.preload, e?.realTime, e?.justBegin, e?.cinematic
 
-  cast: (preload=false, realTime=false, justBegin=false) ->
+  cast: (preload=false, realTime=false, justBegin=false, cinematic=false) ->
     return if @options.level.isType('web-dev')
     sessionState = @options.session.get('state') ? {}
     if realTime
@@ -172,6 +172,7 @@ module.exports = class TomeView extends CocoView
       realTime,
       synchronous: @options.level.isType('game-dev') and not justBegin,
       justBegin,
+      cinematic,
       difficulty,
       submissionCount: sessionState.submissionCount ? 0,
       flagHistory: sessionState.flagHistory ? [],
