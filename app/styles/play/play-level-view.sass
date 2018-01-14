@@ -311,14 +311,18 @@ $level-resize-transition-time: 0.5s
     left: 0px
     top: 0px
     padding: 10px
-    font-size: 30px
+    font-size: 2.2vw
     text-align: left
     background-color: rgba(0, 0, 0, 0.7)
     border-bottom-right-radius: 8px
     visibility: hidden
+    max-width: 45%
 
     .code-line
       line-height: 1.2em
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
 
     code
       background-color: transparent
@@ -328,7 +332,7 @@ $level-resize-transition-time: 0.5s
       line-height: 0px
 
       &.line-number
-        width: 50px
+        width: 4vw
         display: inline-block
 
     .code-line-1, .code-line-3
