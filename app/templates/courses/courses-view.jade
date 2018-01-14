@@ -77,12 +77,13 @@ block content
                         span(data-i18n="play.level_difficulty") Difficulty: 
                         each i in Array(level.difficulty)
                           | ★
-                      - var playCount = view.levelPlayCountMap[level.id]
-                      if playCount
-                        if me.get('preferredLanguage') != "he"
-                          span.spl.spr - 
-                        span.spl.spr #{playCount.sessions}
-                        span(data-i18n="play.players") players
+                      if view.levelPlayCountMap
+                        - var playCount = view.levelPlayCountMap[level.id]
+                        if playCount
+                          if me.get('preferredLanguage') != "he"
+                            span.spl.spr - 
+                          span.spl.spr #{playCount.sessions}
+                          span(data-i18n="play.players") players
                     .play-text-container
                       .overlay-text.play-text(data-i18n="common.play") Play
 

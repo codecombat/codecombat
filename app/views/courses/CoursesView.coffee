@@ -303,7 +303,7 @@ module.exports = class CoursesView extends RootView
           name: 'Tesla Tesoro'
           difficulty: 4
           id: 'tesla-tesoro'
-          image: '/file/db/level/58cccfb52633d31f00d74226/Tesla Tesoro Lightning.png'
+          image: '/file/db/level/58cccfb52633d31f00d74226/TeslaTesoro.png'
           description: 'Mix collection, peasants, and combat in this multiplayer coin-gathering arena.'
         }
         {
