@@ -97,7 +97,7 @@ makeGetSecondRandomLeagueSession = (options, callback) ->
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
 #ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
 #ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul', 'power-peak', 'cross-bones', 'summation-summit', 'the-battle-of-sky-span']
-ladderLevelIDs = ['escort-duty', 'tesla-tesoro', 'elemental-wars']  # Israel-only: focus on these arenas
+ladderLevelIDs = ['escort-duty', 'tesla-tesoro']  # Israel-only: focus on these arenas
 backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders'
 sampleByLevel = (options, callback) ->
   levelID = options.levelID or _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)
