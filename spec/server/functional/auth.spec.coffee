@@ -25,12 +25,11 @@ describe 'GET /auth/whoami', ->
     expect(res.statusCode).toBe(200)
     done()
 
-  # TEMP: they want this turned off temporarily until some special translation fixes are in place
-  #it 'provides a user with language set to Hebrew if the domain is il.codecombat.com', utils.wrap ->
-  #  yield utils.logout()
-  #  [res, body] = yield request.getAsync({url: utils.getURL('/auth/whoami'), json: true, headers: {host: 'il.codecombat.com'}})
-  #  expect(res.statusCode).toBe(200)
-  #  expect(res.body.preferredLanguage).toBe('he')
+  it 'provides a user with language set to Hebrew if the domain is il.codecombat.com', utils.wrap ->
+    yield utils.logout()
+    [res, body] = yield request.getAsync({url: utils.getURL('/auth/whoami'), json: true, headers: {host: 'il.codecombat.com'}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.preferredLanguage).toBe('he')
 
 describe 'POST /auth/login', ->
 
