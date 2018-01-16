@@ -1837,7 +1837,7 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     fork_title: "Forkovat novou verzi"
     fork_creating: "Vytváření Forku..."
     generate_terrain: "Generování terénu"
-    more: "Vícee"
+    more: "Více"
     wiki: "Wiki"
     live_chat: "Živý Chat"
     thang_main: "Hlavní"

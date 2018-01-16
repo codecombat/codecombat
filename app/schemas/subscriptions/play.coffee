@@ -176,3 +176,5 @@ module.exports =
   'level:contact-button-pressed': c.object {title: 'Contact Pressed', description: 'Dispatched when the contact button is pressed in a level.'}
 
   'level:license-required': c.object {}
+
+  'level:open-items-modal': c.object {}

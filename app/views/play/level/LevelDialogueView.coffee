@@ -2,6 +2,7 @@ require('app/styles/play/level/level-dialogue-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-dialogue-view'
 DialogueAnimator = require './DialogueAnimator'
+PlayItemsModal = require 'views/play/modal/PlayItemsModal'
 
 module.exports = class LevelDialogueView extends CocoView
   id: 'level-dialogue-view'
@@ -13,6 +14,7 @@ module.exports = class LevelDialogueView extends CocoView
     'level:shift-space-pressed': 'onShiftSpacePressed'
     'level:escape-pressed': 'onEscapePressed'
     'sprite:dialogue-sound-completed': 'onDialogueSoundCompleted'
+    'level:open-items-modal': 'openItemsModal'
 
   events:
     'click': 'onClick'
@@ -29,10 +31,11 @@ module.exports = class LevelDialogueView extends CocoView
   onClickLink: (e) ->
     route = $(e.target).attr('href')
     if route and /item-store/.test route
-      PlayItemsModal = require 'views/play/modal/PlayItemsModal'
       @openModalView new PlayItemsModal supermodel: @supermodal
       e.stopPropagation()
 
+  openItemsModal: (e) ->
+    @openModalView new PlayItemsModal supermodel: @supermodal
 
   onSpriteDialogue: (e) ->
     return unless e.message

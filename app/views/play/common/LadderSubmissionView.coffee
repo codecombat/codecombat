@@ -74,11 +74,11 @@ module.exports = class LadderSubmissionView extends CocoView
         data: ajaxData
         success: success
         error: failure
-      if @mirrorSession and @mirrorSession.get('submittedCode')
+      if @mirrorSession
         # Also submit the mirrorSession after the main session submits successfully.
         mirrorAjaxData = _.clone ajaxData
         mirrorAjaxData.session = @mirrorSession.id
-        mirrorCode = @mirrorSession.get('code')
+        mirrorCode = @mirrorSession.get('code') ? {}
         if @session.get('team') is 'humans'
           mirrorCode['hero-placeholder-1'] = @session.get('code')['hero-placeholder']
         else

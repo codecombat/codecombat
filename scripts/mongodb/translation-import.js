@@ -11,12 +11,10 @@
 // * return after the first change is found (commented out)
 // * uncomment "return true" lines
 
-// TODO: update to import Article translations
-
 // Constants (change these for different languages)
-langCode = 'zh-HANS';
-langProperty = 'Chinese';  // Match column name in CSV
-fileName = 'common-zh-HANS.csv';
+langCode = 'he';
+langProperty = 'Hebrew';  // Match column name in CSV
+fileName = 'en-to-he-2017-12-22.csv';
 doSave = false;  // Change to true to actually save
 
 if (!doSave)
@@ -85,17 +83,24 @@ update = _.curry(function(translationMap, propertyPrefix, rootDoc, property) {
   if (!rootDoc.i18n) { rootDoc.i18n = {} }
   if (!rootDoc.i18n[langCode]) { rootDoc.i18n[langCode] = {} }
   var oldTranslation = rootDoc.i18n[langCode][property];
-  logUpdate(englishString, translation, oldTranslation);
-  rootDoc.i18n[langCode][property] = translation
+  if(logUpdate(englishString, translation, oldTranslation))
+    rootDoc.i18n[langCode][property] = translation
 })
 
 function logUpdate(englishString, translation, oldTranslation) {
+  if (langCode == 'he' && oldTranslation && isHebrew(oldTranslation) && translation != oldTranslation) {
+    console.log("Skipping overwriting on", englishString);
+    ++unchangedCount;
+    return false;  // Don't overwrite any Hebrew, it might be a more recent correction from proofreader
+  }
   if (translation != oldTranslation) {
     ++updatedCount;
     console.log('Changed:',updatedCount,'\tUpdating translation\nFor:', englishString.slice(0,100).replace(/\n/g, '\\n'), '\nOld:', (oldTranslation || '').slice(0,100).replace(/\n/g, '\\n'), '\nNew:', translation.slice(0,100).replace(/\n/g, '\\n'),'\n');
+    return true;
   }
   else {
     ++unchangedCount;
+    return true;
   }
 }
 
@@ -122,7 +127,7 @@ function normalizeEscapesAndPunctuationValues(s) {
   s = s.replace(/\\r/g, '');
   s = s.replace(/\\n/g, '\n');
   s = s.replace(/\\"/g, '"');
-  if (langCode == 'zh-HANS') {
+  if (langCode == 'zh-HANS' || langCode == 'he') {
     var s1 = s;
     s = s.replace(/\\/, '"');  // Saw this in Chinese spreadsheet import once, probably don't want to use generally unless problem resurfaces
     if (s != s1) {
@@ -228,8 +233,8 @@ co(function* () {
               if (!method.i18n) { method.i18n = {} }
               if (!method.i18n[langCode]) { method.i18n[langCode] = {} }
               if (!method.i18n[langCode].context) { method.i18n[langCode].context = {} }
-              logUpdate(englishString, translationMap[normalizedEnglish], method.i18n[langCode].context[property]);
-              method.i18n[langCode].context[property] = translationMap[normalizedEnglish]
+              if(logUpdate(englishString, translationMap[normalizedEnglish], method.i18n[langCode].context[property]))
+                method.i18n[langCode].context[property] = translationMap[normalizedEnglish]
             })
           })
         }
@@ -353,8 +358,12 @@ co(function* () {
           if (!propDoc.i18n) { return }
           if (!propDoc.i18n[langCode]) { propDoc.i18n[langCode] = {} }
           if (!propDoc.i18n[langCode].description) { propDoc.i18n[langCode].description = {} }
-          logUpdate(englishString, translationMap[normalizedEnglish], propDoc.i18n[langCode].description[j]);
-          propDoc.i18n[langCode].description[j] = translationMap[normalizedEnglish]
+          if (langCode == 'he' && translationMap[normalizedEnglish] && isHebrew(translationMap[normalizedEnglish])) {
+            console.log("Skipping overwriting on", englishString);
+            return;  // Don't overwrite any Hebrew, it might be a more recent correction from proofreader
+          }
+          if(logUpdate(englishString, translationMap[normalizedEnglish], propDoc.i18n[langCode].description[j]))
+            propDoc.i18n[langCode].description[j] = translationMap[normalizedEnglish]
         })
       }
       _.forEach(propDoc.context, function(value, j) {
@@ -364,8 +373,12 @@ co(function* () {
         if (!propDoc.i18n) { return }
         if (!propDoc.i18n[langCode]) { propDoc.i18n[langCode] = {} }
         if (!propDoc.i18n[langCode].context) { propDoc.i18n[langCode].context = {} }
-        logUpdate(englishString, translationMap[normalizedEnglish], propDoc.i18n[langCode].context[j]);
-        propDoc.i18n[langCode].context[j] = translationMap[normalizedEnglish]
+        if (langCode == 'he' && translationMap[normalizedEnglish] && isHebrew(translationMap[normalizedEnglish])) {
+          console.log("Skipping overwriting on", englishString);
+          return;  // Don't overwrite any Hebrew, it might be a more recent correction from proofreader
+        }
+        if(logUpdate(englishString, translationMap[normalizedEnglish], propDoc.i18n[langCode].context[j]))
+          propDoc.i18n[langCode].context[j] = translationMap[normalizedEnglish]
       })
     })
   
