@@ -349,7 +349,7 @@ renderMain = wrap (template, req, res) ->
   if req.features.codePlay
     template = template.replace /<!-- ?CodePlay Tags Header ?-->/, codePlayTags.header
     template = template.replace /<!-- ?CodePlay Tags Footer ?-->/, codePlayTags.footer
-  if req.features.israel or true
+  if req.features.israel
     template = template.replace /<!-- ?Israel Tags Header ?-->/, israelTags.header
     template = template.replace /<!-- ?Israel Tags Footer ?-->/, israelTags.footer
 

@@ -29,6 +29,6 @@ module.exports.teamDataFromLevel = (level) ->
 
 module.exports.scoreForDisplay = (score) ->
   if features.israel
-    return score - 20
+    return score - 5
   else
     return score * 100
