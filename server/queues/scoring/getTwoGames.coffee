@@ -97,7 +97,8 @@ makeGetSecondRandomLeagueSession = (options, callback) ->
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
 #ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
 ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul', 'power-peak', 'cross-bones', 'summation-summit', 'the-battle-of-sky-span']
-backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders'
+#backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders'
+backgroundLadderLevelIDs = ['wakka-maul']  # Temp: test background simulations with the easiest possible level to see if we still have crash reports
 sampleByLevel = (options, callback) ->
   levelID = options.levelID or _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)
   if Math.random() < 0.5 and options.user and not options.user.isTeacher()
