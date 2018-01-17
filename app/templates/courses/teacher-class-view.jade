@@ -379,7 +379,7 @@ mixin studentLevelsRow(student)
         each level, index in levels
           - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
           - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +studentLevelProgressDot(progress, level, levelNumber)
+          +studentLevelProgressDot(progress, level, levelNumber, student)
 
 
 mixin studentCourseProgressDot(progress, levelsTotal, label)
@@ -423,12 +423,15 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
       +progressDotLabel(labelText)
 
 
-mixin studentLevelProgressDot(progress, level, levelNumber)
+mixin studentLevelProgressDot(progress, level, levelNumber, student)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice') })
-  - link = null;
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject() })
+  - var link = null;
+  if dotClass
+    //- TODO: these anchor links do not navigate to the anchor in destination page
+    - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug');
   - labelText = levelNumber;
   if level.isLadder()
     - var course = view.state.get('selectedCourse');
@@ -453,6 +456,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber)
     if !(progress.completed || progress.started)
       - labelText = ''
       - dotClass += ' practice'
+
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     if link
       a(href=link)
@@ -534,7 +538,7 @@ mixin assessmentsTab
                 each level in pair[1]
                   td
                     - var progress = state.get('progressData').get({ classroom: view.classroom, course: pair[0], level: level, user: student })
-                    +studentLevelProgressDot(progress, level, null)
+                    +studentLevelProgressDot(progress, level, null, student)
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

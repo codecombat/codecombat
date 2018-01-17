@@ -278,10 +278,11 @@ module.exports = class Level extends CocoModel
 
   getSolutions: ->
     return [] unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
-    return [] unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+    return [] unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
       try
+        # TODO: use preferredlanguage to localize source
         solution.source = _.template(solution.source)(plan.context)
       catch e
         console.error "Problem with template and solution comments for", @get('slug'), e

@@ -13,17 +13,12 @@ require 'd3/d3.js'
 utils = require 'core/utils'
 
 
-
-
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
   template: require 'templates/teachers/teacher-student-view'
   # helper: helper
   events:
-    # 'click .assign-student-button': 'onClickAssignStudentButton' # TODO: make this work
-    # 'click .enroll-student-button': 'onClickEnrollStudentButton' # TODO: make this work
     'change #course-dropdown': 'onChangeCourseChart'
-
 
 
   getTitle: -> return @user?.broadName()
@@ -34,15 +29,15 @@ module.exports = class TeacherStudentView extends RootView
     @supermodel.trackRequest(@classroom.fetch())
 
     @courses = new Courses()
-    @supermodel.trackRequest(@courses.fetch({data: { project: 'name,i18n' }}))
+    @supermodel.trackRequest(@courses.fetch({data: { project: 'name,i18n,slug' }}))
 
     @courseInstances = new CourseInstances()
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
+    # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
     @urls = require('core/urls')
-
 
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
     @levelProgressMap = {}
@@ -56,6 +51,7 @@ module.exports = class TeacherStudentView extends RootView
       @updateLevelProgressMap()
       @updateLevelDataMap()
       @calculateStandardDev()
+      @updateSolutions()
       @render()
     super()
 
@@ -72,6 +68,15 @@ module.exports = class TeacherStudentView extends RootView
     @drawBarGraph()
     @onChangeCourseChart()
 
+  updateSolutions: ->
+    return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
+    @levelSolutionMap = {}
+    for level in @levels.models
+      solution = level.getSolutions().find((s) => s.language is @classroom.get('aceConfig')?.language)
+      @levelSolutionMap[level.get('original')] = solution.source if solution
+    @levelStudentCodeMap = {}
+    for session in @sessions.models
+      @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
 
   onChangeCourseChart: (e)->
     if (e)
@@ -232,6 +237,7 @@ module.exports = class TeacherStudentView extends RootView
     @updateLastPlayedInfo()
     @updateLevelProgressMap()
     @updateLevelDataMap()
+    @updateSolutions()
 
   updateLastPlayedInfo: ->
     # Make sure all our data is loaded, @sessions may not even be intialized yet
