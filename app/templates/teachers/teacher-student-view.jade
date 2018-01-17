@@ -233,7 +233,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
   - levelName = level.get('name')
-  - var context = { levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete', isLadder: level.isLadder(), isProject: level.isProject()};
+  - var context = { levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
   - var link = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
     - context.session = view.levelSessionMap[level.get('original')];
@@ -241,21 +241,10 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
       - link = "#" + level.get('slug');
   - var labelText = levelNumber;
   if level.isLadder()
-    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
-    if courseInstance
-      - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
-      - labelText = translate('courses.arena');
-    else
-      - labelText = translate('courses.arena');
+    - labelText = translate('courses.arena');
     - dotClass += ' progress-dot-lg';
   else if level.isProject()
-    if levelProgress == 'started' || levelProgress == 'complete'
-      if view.levelSessionMap && view.levelSessionMap[level.get('original')]
-        - link = view.urls.playDevLevel({level: level, session: view.levelSessionMap[level.get('original')], course: course});
-      - labelText = translate('teacher.view_project');
-      - dotClass = 'navy';
-    else
-      - labelText = translate('teacher.project');
+    - labelText = translate('teacher.project');
     - dotClass += ' progress-dot-lg';
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     if link
