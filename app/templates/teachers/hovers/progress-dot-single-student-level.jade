@@ -19,9 +19,10 @@ if completed
     if dateCompleted
       span= new Date(dateCompleted).toLocaleString()
     +timePlayed
-  //- .small-details
-  //-   i(data-i18n='teacher.click_to_view_solution')
-  //-     | click to view solution
+  if !isProject && !isLadder
+    .small-details.nowrap
+      //- TODO: data-i18n doesn't work here
+      strong Click to view student code
 else if started
   .small-details.nowrap
     if levelNumber
@@ -32,9 +33,9 @@ else if started
     span.spr(data-i18n='teacher.last_played')
     span= new Date(session.get('changed')).toLocaleString()
     +timePlayed
-  //- .small-details
-  //-   i(data-i18n='teacher.click_to_view_progress')
-  //-     | click to view progress
+  if !isProject && !isLadder
+    .small-details.nowrap
+      strong Click to view student code
 else
   .small-details.nowrap
     if levelNumber
