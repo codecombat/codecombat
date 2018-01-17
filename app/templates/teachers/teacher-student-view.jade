@@ -172,9 +172,9 @@ block content
           // Edit password
           // Remove Student
 
-        .student-levels
+        .student-progress-section
           h4(data-i18n="teacher.course_progress")
-          .student-levels-progress
+          .student-progress-section-progress
             each versionedCourse in (view.classroom.getSortedCourses()|| [])
               - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
               if !course
@@ -189,7 +189,7 @@ block content
                     - var levelProgress = view.levelProgressMap[level.get('original')];
                     +studentLevelProgressDot(levelProgress, level, levelNumber, course)
 
-        .student-levels
+        .student-progress-section
           h4(data-i18n="teacher.student_code")
           each versionedCourse in (view.classroom.getSortedCourses()|| [])
             - var course = _.find(view.courses.models, function(c) {return c.id === versionedCourse._id;});
@@ -205,10 +205,11 @@ block content
                 table.table.table-condensed
                   each level, index in levels
                     if view.levelStudentCodeMap[level.get('original')]
+                      - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
                       tr
                         td(colspan=2)
                           a(name=level.get('slug'))
-                          span Level: #{level.get('name')}
+                          span Level #{levelNumber}: #{level.get('name')}
                       tr
                         td
                           .small
