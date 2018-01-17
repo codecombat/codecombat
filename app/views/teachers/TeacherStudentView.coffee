@@ -11,7 +11,7 @@ Users = require 'collections/Users'
 CourseInstances = require 'collections/CourseInstances'
 require 'd3/d3.js'
 utils = require 'core/utils'
-
+aceUtils = require 'core/aceUtils'
 
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
@@ -67,6 +67,14 @@ module.exports = class TeacherStudentView extends RootView
 
     @drawBarGraph()
     @onChangeCourseChart()
+
+    oldEditor.destroy() for oldEditor in @aceEditors ? []
+    @aceEditors = []
+    aceEditors = @aceEditors
+    lang = @classroom.get('aceConfig')?.language or 'python'
+    @$el.find('pre:has(code[class*="lang-"])').each ->
+      aceEditor = aceUtils.initializeACE(@, lang)
+      aceEditors.push aceEditor
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded

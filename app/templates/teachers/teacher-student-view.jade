@@ -206,6 +206,9 @@ block content
                   each level, index in levels
                     if view.levelStudentCodeMap[level.get('original')]
                       - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1);
+                      - var langClass = 'lang-python';
+                      if view.classroom.get('aceConfig')
+                        - langClass = 'lang-' + view.classroom.get('aceConfig').language;
                       tr
                         td(colspan=2)
                           a(name=level.get('slug'))
@@ -217,14 +220,14 @@ block content
                             span.spl(data-i18n="general.code")
                             span :
                           pre
-                            code= view.levelStudentCodeMap[level.get('original')]
+                            code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
                         td
                           if view.levelSolutionMap[level.get('original')]
                             .small
                               span(data-i18n="common.solution")
                               span :
                             pre
-                              code= view.levelSolutionMap[level.get('original')]
+                              code(class=langClass)= view.levelSolutionMap[level.get('original')]
 
 mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   //- TODO: Refactor with TeacherClassesView jade
