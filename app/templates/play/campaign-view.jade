@@ -116,6 +116,8 @@ if showGameDevAlert
               else
                 img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
               img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
+            else if levelStatusMap[level.slug] !== 'complete' && level.assessment
+              img.banner(src="/images/pages/play/level-banner-unstarted-subscriber.png")
             else if levelStatusMap[level.slug] === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")
             else if levelStatusMap[level.slug] !== 'complete'

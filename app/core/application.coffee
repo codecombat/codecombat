@@ -75,6 +75,7 @@ Application = {
     preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
+    moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize' 
     CocoModel.pollAchievements()
     unless me.get('anonymous')
       # TODO: Remove logging later, once this system has proved stable

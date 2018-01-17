@@ -155,6 +155,11 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
+    
+  codeConcepts:
+    type: 'array'
+    items:
+      type: 'string'    
 
   playtime:
     type: 'number'

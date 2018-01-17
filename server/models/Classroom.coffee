@@ -79,6 +79,7 @@ ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin, includeAssessme
         'slug',
         'name',
         'assessment',
+        'assessmentPlacement'
         'practice',
         'practiceThresholdMinutes',
         'primerLanguage',
@@ -165,7 +166,7 @@ ClassroomSchema.methods.fetchSessionsForMembers = co.wrap (members) ->
       memberCoursesMap[userID.toHexString()] ?= []
       memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
   dbqs = []
-  select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published code'
+  select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published code codeConcepts'
   $or = []
   for member in members
     for courseID in memberCoursesMap[member.toHexString()] ? []

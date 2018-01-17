@@ -1446,7 +1446,9 @@
     challenge_level: "Challenge Level:"
     status: "Status:"
     assessments: "Assessments"
-    play_again: "Play Again"
+    challenges: "Challenges"
+    level_name: "Level Name:"
+    play_again: "Replay" # {change}
     keep_trying: "Keep Trying"
     start_challenge: "Start Challenge"
     locked: "Locked"
@@ -1508,6 +1510,8 @@
     latest_completed: "Latest completed:"
     sort_by: "Sort by"
     progress: "Progress"
+    concepts_used: "Concepts used by Student:"
+    concept_checked: "Concept checked:"
     completed: "Completed"
     practice: "Practice"
     started: "Started"
@@ -1742,6 +1746,12 @@
     success: "Success"
     in_progress: "In Progress"
     not_started: "Not Started"
+    mid_course: "Mid-Course"
+    end_course: "End of Course"
+    none: "None detected yet"
+    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+    level_label: "Level:"
+    time_played_label: "Time Played:"
 
   share_licenses:
     share_licenses: "Share Licenses"
