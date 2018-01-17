@@ -181,7 +181,6 @@ PaymentHandler = class PaymentHandler extends Handler
               if err
                 @logPaymentError(req, 'Apple incr db error.'+err)
                 return @sendDatabaseError(res, err)
-              @sendPaymentSlackMessage user: req.user, payment: payment
               @sendCreated(res, @formatEntity(req, payment))
             )
           )
@@ -273,7 +272,6 @@ PaymentHandler = class PaymentHandler extends Handler
               if err
                 @logPaymentError(req, 'Stripe recalc db error. '+err)
                 return @sendDatabaseError(res, err)
-              @sendPaymentSlackMessage user: req.user, payment: payment
               @sendSuccess(res, @formatEntity(req, payment))
           )
       )
@@ -336,7 +334,6 @@ PaymentHandler = class PaymentHandler extends Handler
         if err
           @logPaymentError(req, 'Stripe incr db error. '+err)
           return @sendDatabaseError(res, err)
-        @sendPaymentSlackMessage user: req.user, payment: payment
         @sendCreated(res, @formatEntity(req, payment))
       )
     )
