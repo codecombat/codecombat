@@ -528,6 +528,7 @@ module.exports = class PlayLevelView extends RootView
 
   shouldSimulate: ->
     return true if utils.getQueryVariable('simulate') is true
+    return false  # Disabled due to unresolved crashing issues
     return false if utils.getQueryVariable('simulate') is false
     return false if @isEditorPreview
     defaultCores = 2

@@ -1460,6 +1460,7 @@
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
     paren_new: "(new)"
+    student_code: "Student Code"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"
@@ -1507,7 +1508,6 @@
     completed: "Completed"
     practice: "Practice"
     started: "Started"
-    click_to_view_progress: "click to view progress"
     no_progress: "No progress"
     not_required: "Not required"
     select_course: "Select course to view"
