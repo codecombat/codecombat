@@ -84,7 +84,9 @@ module.exports =
     if code
       attrs.code = code
 
-    if level.get('type') in ['course', 'course-ladder'] or req.query.course?
+    if req.user.isAdmin()
+      null  # Admins can play any level, even if it's not in a course yet (example: level editor)
+    else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
       # Handle either being given the courseInstance, or having to deduce it
