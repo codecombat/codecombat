@@ -532,7 +532,9 @@ module.exports = class PlayLevelView extends RootView
 
   shouldSimulate: ->
     return true if utils.getQueryVariable('simulate') is true
+    return false  # Disabled due to unresolved crashing issues
     return false if utils.getQueryVariable('simulate') is false
+    return false if @isEditorPreview
     defaultCores = 2
     cores = window.navigator.hardwareConcurrency or defaultCores  # Available on Chrome/Opera, soon Safari
     defaultHeapLimit = 793000000

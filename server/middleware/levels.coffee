@@ -87,7 +87,8 @@ module.exports =
     if req.features.israel and not req.user.isAnonymous() and level.get('slug') in ['escort-duty', 'tesla-tesoro', 'elemental-wars']
       console.log "Allowing session creation for #{level.get('slug')} outside of any course"
       attrs.isForClassroom = true
-
+    else if req.user.isAdmin()
+      null  # Admins can play any level, even if it's not in a course yet (example: level editor)
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
