@@ -6,7 +6,7 @@ module.exports = class WorldFrame
   constructor: (@world, @time=0) ->
     @thangStateMap = {}
     if @world
-      @scores = @world.getScores()
+      @scores = _.omit @world.getScores(), 'code-length'
       @setState()
 
   getNextFrame: ->

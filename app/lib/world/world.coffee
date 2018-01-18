@@ -676,7 +676,8 @@ module.exports = class World
     else
       _.sample playableTeams  # Pick at random for good distribution
 
-  scoreTypes: ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty']
+  scoreTypes: ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'survival-time', 'defeated']
+  # Not 'code-length', that doesn't need to be stored per each frame
 
   getScores: ->
     time: @age
@@ -684,3 +685,6 @@ module.exports = class World
     'damage-dealt': @getSystem('Combat')?.damageDealtForTeam 'humans'
     'gold-collected': @getSystem('Inventory')?.teamGold.humans?.collected
     'difficulty': @difficulty
+    'code-length': @getThangByID('Hero Placeholder')?.linesOfCodeUsed
+    'survival-time': @age
+    'defeated': @getSystem('Combat')?.defeatedByTeam 'humans'

@@ -181,7 +181,13 @@ module.exports =
 
   'level:scores-updated': c.object {},
     scores: c.array {},
-      c.object {required: ['type', 'value']},
+      c.object {required: ['type', 'score']},
         type: c.shortString()
-        value: {type: 'number'}
-        best: {type: 'number'}
+        score: {type: 'number'}
+
+  'level:top-scores-updated': c.object {},
+    scores: c.array {},
+      c.object {required: ['type', 'score']},
+        type: c.shortString()
+        score: {type: 'number'}
+        date: c.date()

@@ -17,12 +17,17 @@ CreateAccountModal = require 'views/core/CreateAccountModal'
 module.exports = class ControlBarView extends CocoView
   id: 'control-bar-view'
   template: template
+  topScores: {}
 
   subscriptions:
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'level:scores-updated': 'onScoresUpdated'
+    'level:top-scores-updated': 'onTopScoresUpdated'
+    'goal-manager:new-goal-states': 'onNewGoalStates'
+    'surface:playback-ended': 'onPlaybackEnded'
+    'surface:frame-changed': 'onFrameChanged'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -72,6 +77,7 @@ module.exports = class ControlBarView extends CocoView
     super options
     if @level.get 'replayable'
       @listenTo @session, 'change-difficulty', @onSessionDifficultyChanged
+    @updateTopScores @session.getTopScores()
 
   onLoaded: ->
     if @classroom
@@ -184,24 +190,49 @@ module.exports = class ControlBarView extends CocoView
     @render()
 
   onScoresUpdated: (e) ->
-    #return unless @level.get('assessment') in ['open-ended']  # TODO
+    #return unless @level.get('assessment') in ['open-ended']
     mainScore = e.scores?[0]
+    if mainScore?.type is 'code-length' and not mainScore.score
+      mainScore = null  # Not counted until complete
     $scoreboard = @$('#scoreboard').toggle Boolean(mainScore)
-    #console.log 'onScoreUpdated; mainScore', mainScore
     return unless mainScore
     utils.replaceText $scoreboard.find('.score-type'), $.i18n.t("leaderboard.#{mainScore.type.replace(/-/g, '_')}")
-    scoreText = switch mainScore.type
-      when 'time', 'survival-time' then "#{mainScore.value.toFixed(1)} #{$.i18n.t 'general.seconds'}"
-      when 'code-length' then "#{mainScore.value} #{$.i18n.t 'leaderboard.code_length_suffix'}"
-      else Math.round(mainScore.value)
+    scoreText = @formatScore mainScore.type, mainScore.score, false
     utils.replaceText $scoreboard.find('.current-score-value'), scoreText
-    showBest = mainScore.best?  # and levelIsOver  # TODO
-    showBest ||= switch mainScore.type
-      when 'time', 'damage-taken' then mainScore.best < mainScore.value
-      else mainScore.best > mainScore.value
+    bestScore = @topScores[mainScore.type]
+    showBest = bestScore?  # and levelIsOver  # TODO
+    showBest &&= switch mainScore.type
+      when 'time', 'damage-taken' then bestScore < mainScore.score
+      else bestScore > mainScore.score
     $scoreboard.find('.best-score').toggle showBest
     if showBest
-      utils.replaceText $scoreboard.find('.best-score-value'), mainScore.best
+      bestScoreText = @formatScore mainScore.type, bestScore, true
+      utils.replaceText $scoreboard.find('.best-score-value'), bestScoreText
+
+  formatScore: (type, score, isBest) ->
+    switch type
+      when 'time', 'survival-time'
+        if isBest
+          score.toFixed(1)
+        else
+          "#{score.toFixed(1)} #{$.i18n.t 'units.seconds'}"
+      else Math.round score
+
+  onTopScoresUpdated: (e) ->
+    @updateTopScores e.scores
+
+  updateTopScores: (scores) ->
+    for score in scores
+      @topScores[score.type] = score.score
+
+  onNewGoalStates: (e) ->
+    @$('#scoreboard').toggleClass 'success', e.overallStatus is 'success'
+
+  onPlaybackEnded: (e) ->
+    @$('#scoreboard').toggleClass 'ended', true
+
+  onFrameChanged: (e) ->
+    @$('#scoreboard').toggleClass 'ended', false
 
   destroy: ->
     @setupManager?.destroy()

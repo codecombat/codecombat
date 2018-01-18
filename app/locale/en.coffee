@@ -653,8 +653,7 @@
     gold_collected: "Gold Collected"
     survival_time: "Survival Time"
     defeated: "Enemies Defeated"
-    code_length: "Code Length"
-    code_length_suffix: "statements"
+    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Equipped"

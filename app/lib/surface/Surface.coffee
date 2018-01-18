@@ -263,12 +263,16 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.update e
     @webGLStage.update e
 
-
   restoreScores: (frame) ->
-    return unless frame.scores
+    return unless frame.scores and @options.level
     scores = []
     for scoreType in @options.level.get('scoreTypes') ? []
-      scores.push type: scoreType, value: frame.scores[scoreType] if frame.scores[scoreType]?  #, best:   TODO best
+      if scoreType is 'code-length'
+        score = @world.scores?['code-length']
+      else
+        score = frame.scores[scoreType]
+      if score?
+        scores.push type: scoreType, score: score
     Backbone.Mediator.publish 'level:scores-updated', scores: scores
 
   #- Setting play/pause and progress

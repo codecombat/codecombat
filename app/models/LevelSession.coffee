@@ -91,8 +91,13 @@ module.exports = class LevelSession extends CocoModel
         newTopScores.push type: scoreType, date: now, score: newScore
       else
         newTopScores.push oldTopScore
-    state.topScores = newTopScores
     @set 'state', state
+    Backbone.Mediator.publish 'level:top-scores-updated', scores: @getTopScores()
+
+  getTopScores: ->
+    scores = (_.clone(score) for score in @get('state')?.topScores ? [])
+    score.score *= -1 for score in scores when score.type in ['time', 'damage-taken', 'code-length']  # Undo negative storage for display
+    scores
 
   isFake: -> @id is 'A Fake Session ID'
 
