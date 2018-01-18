@@ -239,6 +239,7 @@ module.exports = Surface = class Surface extends CocoClass
     frame = @world.getFrame(@getCurrentFrame())
     return unless frame
     frame.restoreState()
+    @restoreScores frame
 
     current = Math.max(0, Math.min(@currentFrame, @world.frames.length - 1))
     if current - Math.floor(current) > 0.01 and Math.ceil(current) < @world.frames.length - 1
@@ -262,6 +263,13 @@ module.exports = Surface = class Surface extends CocoClass
     @normalStage.update e
     @webGLStage.update e
 
+
+  restoreScores: (frame) ->
+    return unless frame.scores
+    scores = []
+    for scoreType in @options.level.get('scoreTypes') ? []
+      scores.push type: scoreType, value: frame.scores[scoreType] if frame.scores[scoreType]?  #, best:   TODO best
+    Backbone.Mediator.publish 'level:scores-updated', scores: scores
 
   #- Setting play/pause and progress
 

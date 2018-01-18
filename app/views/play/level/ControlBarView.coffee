@@ -22,6 +22,7 @@ module.exports = class ControlBarView extends CocoView
     'level:disable-controls': 'onDisableControls'
     'level:enable-controls': 'onEnableControls'
     'ipad:memory-warning': 'onIPadMemoryWarning'
+    'level:scores-updated': 'onScoresUpdated'
 
   events:
     'click #next-game-button': -> Backbone.Mediator.publish 'level:next-game-pressed', {}
@@ -32,7 +33,7 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click #version-switch-button': 'onClickVersionSwitchButton'
     'click #version-switch-button .code-language-selector': 'onClickVersionSwitchButton'
-    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
+    'click [data-toggle="coco-modal"][data-tarnnnnget="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -125,7 +126,7 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push @course.get('campaignID')
       if @courseInstanceID
         @homeLink += "?course-instance=#{@courseInstanceID}"
-        
+
       @homeViewClass = 'views/play/CampaignView'
     else if @level.isType('hero', 'hero-coop', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @homeLink = '/play'
@@ -181,6 +182,26 @@ module.exports = class ControlBarView extends CocoView
   onSessionDifficultyChanged: ->
     return if @session.get('state')?.difficulty is @lastDifficulty
     @render()
+
+  onScoresUpdated: (e) ->
+    #return unless @level.get('assessment') in ['open-ended']  # TODO
+    mainScore = e.scores?[0]
+    $scoreboard = @$('#scoreboard').toggle Boolean(mainScore)
+    #console.log 'onScoreUpdated; mainScore', mainScore
+    return unless mainScore
+    utils.replaceText $scoreboard.find('.score-type'), $.i18n.t("leaderboard.#{mainScore.type.replace(/-/g, '_')}")
+    scoreText = switch mainScore.type
+      when 'time', 'survival-time' then "#{mainScore.value.toFixed(1)} #{$.i18n.t 'general.seconds'}"
+      when 'code-length' then "#{mainScore.value} #{$.i18n.t 'leaderboard.code_length_suffix'}"
+      else Math.round(mainScore.value)
+    utils.replaceText $scoreboard.find('.current-score-value'), scoreText
+    showBest = mainScore.best?  # and levelIsOver  # TODO
+    showBest ||= switch mainScore.type
+      when 'time', 'damage-taken' then mainScore.best < mainScore.value
+      else mainScore.best > mainScore.value
+    $scoreboard.find('.best-score').toggle showBest
+    if showBest
+      utils.replaceText $scoreboard.find('.best-score-value'), mainScore.best
 
   destroy: ->
     @setupManager?.destroy()

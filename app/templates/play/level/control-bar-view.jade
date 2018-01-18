@@ -25,6 +25,14 @@ if includeHomeLink
       span(dir="auto") #{levelNumberLabel}#{worldName.replace('Course: ', '')}
       if levelDifficulty
         sup.level-difficulty= levelDifficulty
+    #scoreboard
+      span.score-type Survival time
+      span= ": "
+      span.current-score-value 136.7 seconds
+      span.best-score
+        span.best-score-prefix= " (best: "
+        span.best-score-value 138.8
+        span.best-score-suffix )
 
 .buttons-area
 

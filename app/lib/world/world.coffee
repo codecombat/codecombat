@@ -456,6 +456,7 @@ module.exports = class World
       o.trackedPropertiesPerThangValuesOffsets.push []
       for type in trackedPropertiesTypes
         transferableStorageBytesNeeded += ThangState.transferableBytesNeededForType(type, nFrames)
+    transferableStorageBytesNeeded += ThangState.transferableBytesNeededForType('number', @scoreTypes.length * nFrames)
     if typedArraySupport
       o.storageBuffer = new ArrayBuffer(transferableStorageBytesNeeded)
     else
@@ -475,6 +476,7 @@ module.exports = class World
           # Instead of one big array with each storage as a view into it, they're all separate, so let's keep 'em around for flattening.
           storageBufferOffset += storage.length
           o.storageBuffer.push storage
+    [o.scoresStorage, scoresBytesStored] = ThangState.createArrayForType 'number', nFrames * @scoreTypes.length, o.storageBuffer, storageBufferOffset
 
     o.specialKeysToValues = [null, Infinity, NaN]
     # Whatever is in specialKeysToValues index 0 will be default for anything missing, so let's make sure it's null.
@@ -486,7 +488,7 @@ module.exports = class World
     t1 = now()
     o.frameHashes = []
     for frameIndex in [startFrame ... endFrame]
-      o.frameHashes.push @frames[frameIndex].serialize(frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesPerThangIndices, o.trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, o.specialValuesToKeys, o.specialKeysToValues)
+      o.frameHashes.push @frames[frameIndex].serialize(frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesPerThangIndices, o.trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, o.specialValuesToKeys, o.specialKeysToValues, o.scoresStorage)
     t2 = now()
 
     unless typedArraySupport
@@ -577,7 +579,7 @@ module.exports = class World
     ++perf.batches
     startTime = now()
     for frameIndex in [w.frames.length ... endFrame]
-      w.frames.push WorldFrame.deserialize(w, frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.frameHashes[frameIndex - startFrame], w.dt * frameIndex)
+      w.frames.push WorldFrame.deserialize(w, frameIndex - startFrame, o.trackedPropertiesThangIDs, o.trackedPropertiesThangs, o.trackedPropertiesPerThangKeys, o.trackedPropertiesPerThangTypes, o.trackedPropertiesPerThangValues, o.specialKeysToValues, o.scoresStorage, o.frameHashes[frameIndex - startFrame], w.dt * frameIndex)
       elapsed = now() - startTime
       if elapsed > DESERIALIZATION_INTERVAL and frameIndex < endFrame - 1
         #console.log "  Deserialization not finished, let's do it again soon. Have:", w.frames.length, ", wanted from", startFrame, "to", endFrame
@@ -673,6 +675,8 @@ module.exports = class World
       playableTeams[n % playableTeams.length]
     else
       _.sample playableTeams  # Pick at random for good distribution
+
+  scoreTypes: ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty']
 
   getScores: ->
     time: @age

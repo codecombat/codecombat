@@ -86,7 +86,7 @@ module.exports = class LevelSession extends CocoModel
       unless newScore?
         newTopScores.push oldTopScore
         continue
-      newScore *= -1 if scoreType in ['time', 'damage-taken']  # Make it so that higher is better
+      newScore *= -1 if scoreType in ['time', 'damage-taken', 'code-length']  # Make it so that higher is better
       if not oldTopScore? or newScore > oldTopScore.score
         newTopScores.push type: scoreType, date: now, score: newScore
       else

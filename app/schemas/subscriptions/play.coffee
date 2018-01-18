@@ -178,3 +178,10 @@ module.exports =
   'level:license-required': c.object {}
 
   'level:open-items-modal': c.object {}
+
+  'level:scores-updated': c.object {},
+    scores: c.array {},
+      c.object {required: ['type', 'value']},
+        type: c.shortString()
+        value: {type: 'number'}
+        best: {type: 'number'}
