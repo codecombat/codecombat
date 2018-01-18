@@ -204,7 +204,7 @@ module.exports = class ControlBarView extends CocoView
     showBest &&= switch mainScore.type
       when 'time', 'damage-taken' then bestScore < mainScore.score
       else bestScore > mainScore.score
-    $scoreboard.find('.best-score').toggle showBest
+    $scoreboard.find('.best-score').toggleClass 'hidden', not showBest
     if showBest
       bestScoreText = @formatScore mainScore.type, bestScore, true
       utils.replaceText $scoreboard.find('.best-score-value'), bestScoreText

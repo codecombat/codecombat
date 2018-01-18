@@ -91,6 +91,7 @@ module.exports = class LevelSession extends CocoModel
         newTopScores.push type: scoreType, date: now, score: newScore
       else
         newTopScores.push oldTopScore
+    state.topScores = newTopScores
     @set 'state', state
     Backbone.Mediator.publish 'level:top-scores-updated', scores: @getTopScores()
 
