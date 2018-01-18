@@ -29,7 +29,6 @@ module.exports = class SubscribeModal extends ModalView
     super(options)
     @state = 'standby'
     @couponID = utils.getQueryVariable('coupon')
-    @subType = utils.getQueryVariable('subtype', 'both-subs')
     @subModalContinue = options.subModalContinue
     if options.products
       # this is just to get the test demo to work
@@ -49,16 +48,6 @@ module.exports = class SubscribeModal extends ModalView
     # Process basic product coupons unless custom region pricing
     if @couponID and @basicProduct.get('coupons')? and @basicProduct?.get('name') is 'basic_subscription'
       @basicCoupon = _.find(@basicProduct.get('coupons'), {code: @couponID})
-
-      # Always use both-subs UX test group when basic product coupon, and delay identify until we can decide
-      @subType = if utils.getQueryVariable('subtype')?
-        me.setSubModalGroup(utils.getQueryVariable('subtype'))
-      else if @basicCoupon
-        me.setSubModalGroup('both-subs')
-      else
-        me.getSubModalGroup()
-    else
-      @subType = utils.getQueryVariable('subtype', me.getSubModalGroup())
     @lifetimeProduct = @products.getLifetimeSubscriptionForUser(me)
     if @lifetimeProduct?.get('name') isnt 'lifetime_subscription'
       # Use PayPal for international users with regional pricing
