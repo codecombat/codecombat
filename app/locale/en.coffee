@@ -758,9 +758,8 @@
     year_price: "$__price__/year"
     kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
     kids_message_2: "Ask Your Parent"
-    support_part1: "Need help with payment options? Email"
+    support_part1: "Need help with payment or prefer PayPal? Email" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "if you have any questions."
     you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
     you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
