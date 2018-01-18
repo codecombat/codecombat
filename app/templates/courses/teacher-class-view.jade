@@ -415,11 +415,11 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
       - labelText = ''
       - dotClass += ' practice'
 
-  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
-    if link
-      a(href=link)
-        +progressDotLabel(labelText)
-    else
+  if link
+    a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context), href=link)
+      +progressDotLabel(labelText)
+  else
+    .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.allStudentsLevelProgressDotTemplate(context))
       +progressDotLabel(labelText)
 
 
@@ -457,11 +457,12 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
       - labelText = ''
       - dotClass += ' practice'
 
-  .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
-    if link
-      a(href=link)
-        +progressDotLabel(labelText)
-    else
+  
+  if link
+    a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link)
+      +progressDotLabel(labelText)
+  else
+    .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
       +progressDotLabel(labelText)
 
 mixin progressDotLabel(label)
