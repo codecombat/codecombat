@@ -135,7 +135,9 @@ module.exports.setup = (app) ->
   app.put('/db/clan/:handle/remove/:memberHandle', mw.auth.checkLoggedIn(), mw.clans.removeMember)
 
   app.post('/db/classroom', mw.classrooms.post)
-  app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)
+  app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner, mw.classrooms.getByMember)
+  app.get('/db/classroom/:handle', mw.classrooms.getByHandle)
+  app.put('/db/classroom/:handle', mw.classrooms.put)
   app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
   app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
   app.post('/db/classroom/:handle/invite-members', mw.classrooms.inviteMembers)
@@ -170,15 +172,21 @@ module.exports.setup = (app) ->
   app.post('/db/course/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Course, 'course'))
   app.get('/db/course/:handle/patches', mw.patchable.patches(Course))
 
+  app.post('/db/course_instance', mw.auth.checkLoggedIn(), mw.courseInstances.post)
+  app.get('/db/course_instance', mw.courseInstances.getByOwner, mw.courseInstances.getByMember, mw.courseInstances.getByClassroom)
   app.get('/db/course_instance/-/non-hoc', mw.auth.checkHasPermission(['admin']), mw.courseInstances.fetchNonHoc)
   app.post('/db/course_instance/-/recent', mw.auth.checkHasPermission(['admin']), mw.courseInstances.fetchRecent)
+  app.get('/db/course_instance/:handle', mw.auth.checkLoggedIn(), mw.courseInstances.getByHandle)
   app.get('/db/course_instance/:handle/levels/:levelOriginal/sessions/:sessionID/next', mw.courseInstances.fetchNextLevels)
+  app.get('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMembers)
   app.post('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.addMembers)
   app.delete('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.removeMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
   app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
   app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
+  app.get('/db/course_instance/:handle/level_sessions', mw.auth.checkLoggedIn(), mw.courseInstances.getLevelSessions)
+  app.get('/db/course_instance/-/find_by_level/:levelOriginal', mw.auth.checkLoggedIn(), mw.courseInstances.findByLevel)
 
   EarnedAchievement = require '../models/EarnedAchievement'
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)

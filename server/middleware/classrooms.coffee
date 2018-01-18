@@ -54,6 +54,19 @@ module.exports =
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
     res.status(200).send(classrooms)
+    
+  getByMember: wrap (req, res, next) ->
+    { memberID } = req.query
+    return next() unless memberID
+
+    unless req.user and (req.user.isAdmin() or memberID is req.user.id)
+      throw new errors.Forbidden()
+
+    unless utils.isID memberID
+      throw new errors.UnprocessableEntity('Bad memberID')
+
+    classrooms = yield Classroom.find {members: mongoose.Types.ObjectId(memberID)}
+    res.send((classroom.toObject({req}) for classroom in classrooms))
 
   fetchAllLevels: wrap (req, res, next) ->
     classroom = yield database.getDocFromHandle(req, Classroom)
@@ -398,3 +411,23 @@ module.exports =
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
     classrooms = yield Classroom.find().select('ownerID members').lean()
     res.status(200).send(classrooms)
+
+  getByHandle: wrap (req, res) ->
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    unless classroom.isOwner(req.user._id) or classroom.isMember(req.user._id) or req.user.isAdmin()
+      throw new errors.Forbidden('You do not have access to this classroom')
+    res.status(200).send(classroom.toObject({req}))
+    
+  put: wrap (req, res) ->
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+
+    unless classroom.isOwner(req.user._id)
+      throw new errors.Forbidden('You may not edit this classroom')
+    database.assignBody(req, classroom)
+    database.validateDoc(classroom)
+    classroom = yield classroom.save()
+    res.status(200).send(classroom.toObject({req}))

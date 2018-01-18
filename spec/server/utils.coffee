@@ -374,7 +374,7 @@ module.exports = mw =
       data.classroomID = sources.classroom.id
 
     [res, body] = yield request.postAsync({ uri: getURL('/db/course_instance'), json: data })
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     courseInstance = yield CourseInstance.findById(res.body._id)
     if sources.members
       userIDs = _.map(sources.members, 'id')
