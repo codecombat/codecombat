@@ -272,12 +272,6 @@ module.exports = class CoursesView extends RootView
     if me.get('preferredLanguage') is 'he'
       [
         {
-          name: 'ליווי'
-          difficulty: 3
-          id: 'escort-duty'
-          image: '/file/db/level/5a54e22d3a12370043f223ab/Escort Duty Banner-he.png'
-        }
-        {
           name: 'Tesla Tesoro'
           difficulty: 4
           id: 'tesla-tesoro'
@@ -289,16 +283,15 @@ module.exports = class CoursesView extends RootView
           id: 'elemental-wars'
           image: '/file/db/level/5a54e0703a12370043f21fbe/elementalwars-hebrew.png'
         }
+        {
+          name: 'ליווי'
+          difficulty: 5
+          id: 'escort-duty'
+          image: '/file/db/level/5a54e22d3a12370043f223ab/Escort Duty Banner-he.png'
+        }
       ]
     else
       [
-        {
-          name: 'Escort Duty'
-          difficulty: 3
-          id: 'escort-duty'
-          image: '/file/db/level/59c5163bdf1a4c002f275d1e/NOV02-Escort Duty Banner.png'
-          description:'Go head-to-head against another player in this desert treasure chest bonanza!'
-        }
         {
           name: 'Tesla Tesoro'
           difficulty: 4
@@ -312,5 +305,12 @@ module.exports = class CoursesView extends RootView
           id: 'elemental-wars'
           image: '/file/db/level/5a54e0703a12370043f21fbe/elemental-wars.png'
           description: 'Battle for control over the icy treasure chests as your gigantic warrior marshals his armies against his mirror-match nemesis.'
+        }
+        {
+          name: 'Escort Duty'
+          difficulty: 5
+          id: 'escort-duty'
+          image: '/file/db/level/59c5163bdf1a4c002f275d1e/NOV02-Escort Duty Banner.png'
+          description:'Go head-to-head against another player in this desert treasure chest bonanza!'
         }
       ]
