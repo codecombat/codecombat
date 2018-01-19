@@ -38,7 +38,7 @@ module.exports = class ControlBarView extends CocoView
     'click #control-bar-sign-up-button': 'onClickSignupButton'
     'click #version-switch-button': 'onClickVersionSwitchButton'
     'click #version-switch-button .code-language-selector': 'onClickVersionSwitchButton'
-    'click [data-toggle="coco-modal"][data-tarnnnnget="core/CreateAccountModal"]': 'openCreateAccountModal'
+    'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
 
   constructor: (options) ->
     @supermodel = options.supermodel
@@ -190,8 +190,8 @@ module.exports = class ControlBarView extends CocoView
     @render()
 
   onScoresUpdated: (e) ->
-    #return unless @level.get('assessment') in ['open-ended']
-    mainScore = e.scores?[0]
+    return unless @level.get('assessment') in ['open-ended']
+    mainScore = e.scores?[0]  # Current interface is only set up to display one score; first one is the most important.
     if mainScore?.type is 'code-length' and not mainScore.score
       mainScore = null  # Not counted until complete
     $scoreboard = @$('#scoreboard').toggle Boolean(mainScore)
@@ -200,7 +200,7 @@ module.exports = class ControlBarView extends CocoView
     scoreText = @formatScore mainScore.type, mainScore.score, false
     utils.replaceText $scoreboard.find('.current-score-value'), scoreText
     bestScore = @topScores[mainScore.type]
-    showBest = bestScore?  # and levelIsOver  # TODO
+    showBest = bestScore?
     showBest &&= switch mainScore.type
       when 'time', 'damage-taken' then bestScore < mainScore.score
       else bestScore > mainScore.score

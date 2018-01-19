@@ -136,10 +136,10 @@ _.extend LevelSessionSchema.properties,
         source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
     topScores: c.array {},
       c.object {},
-        type: c.shortString('enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty', 'code-length', 'survival-time', 'defeated'])
+        type: c.scoreType
         date: c.date
           description: 'When the submission achieving this score happened.'
-        score: {type: 'number'}  # Store 'time' and 'damage-taken' as negative numbers so the index works.
+        score: {type: 'number'}  # Store 'time', 'damage-taken', etc. as negative numbers so the index works.
 
   code:
     type: 'object'
