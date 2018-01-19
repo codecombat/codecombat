@@ -74,6 +74,8 @@ module.exports = class LevelSession extends CocoModel
       @set 'state', state
     wait
 
+  @lowerIsBetterScoreTypes: ['time', 'damage-taken', 'code-length']
+
   recordScores: (scores, level) ->
     return unless scores
     state = @get 'state'
@@ -86,13 +88,19 @@ module.exports = class LevelSession extends CocoModel
       unless newScore?
         newTopScores.push oldTopScore
         continue
-      newScore *= -1 if scoreType in ['time', 'damage-taken']  # Make it so that higher is better
+      newScore *= -1 if scoreType in LevelSession.lowerIsBetterScoreTypes  # Index relies on "top" scores being higher numbers
       if not oldTopScore? or newScore > oldTopScore.score
         newTopScores.push type: scoreType, date: now, score: newScore
       else
         newTopScores.push oldTopScore
     state.topScores = newTopScores
     @set 'state', state
+    Backbone.Mediator.publish 'level:top-scores-updated', scores: @getTopScores()
+
+  getTopScores: ->
+    scores = (_.clone(score) for score in @get('state')?.topScores ? [])
+    score.score *= -1 for score in scores when score.type in LevelSession.lowerIsBetterScoreTypes  # Undo negative storage for display
+    scores
 
   isFake: -> @id is 'A Fake Session ID'
 

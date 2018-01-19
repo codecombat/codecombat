@@ -646,11 +646,14 @@
     week: "This Week"
     all: "All-Time"
     latest: "Latest"
-    time: "Time"
+    time: "Win Time"
     damage_taken: "Damage Taken"
     damage_dealt: "Damage Dealt"
     difficulty: "Difficulty"
     gold_collected: "Gold Collected"
+    survival_time: "Survival Time"
+    defeated: "Enemies Defeated"
+    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Equipped"
