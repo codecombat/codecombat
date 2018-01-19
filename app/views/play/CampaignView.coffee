@@ -311,6 +311,7 @@ module.exports = class CampaignView extends RootView
   openAnonymousTeacherModal: (e) ->
     e.stopPropagation()
     @openModalView new AnonymousTeacherModal()
+    @endHighlight()
 
   onClickAmazonCampaign: (e) ->
     window.tracker?.trackEvent 'Click Amazon Modal Button'
@@ -1316,7 +1317,7 @@ module.exports = class CampaignView extends RootView
       return not (me.isPremium() or isIOS or me.freeOnly() or isStudentOrTeacher or (application.getHocCampaign() and me.isAnonymous()))
 
     if what in ['teacher-button']
-      return me.isAnonymous() and me.level() < 15 and new Date() < new Date(2017, 11, 9)
+      return me.isAnonymous() and me.level() < 8 and me.get('preferredLanguage', true) is 'en-US'
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'

@@ -2278,9 +2278,7 @@
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
-    want_codecombat: "Want to play CodeCombat all the time?"
     create_teacher_account: "Create free teacher account"
-    chat: "Ask questions via chat"
     enter_student_name: "Your name:"
     enter_teacher_email: "Your teacher's email:"
     teacher_email_placeholder: "teacher.email@example.com"
