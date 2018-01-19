@@ -27,8 +27,8 @@ module.exports =
     trialRequest.set 'status', 'submitted'
     attrs = _.pick req.body, 'properties', 'type'
     # Grab name from user if we have it on user and not already recorded
-    attrs.properties.firstName ||= firstName if firstName = user.get('firstName')
-    attrs.properties.lastName ||= lastName if lastName = user.get('lastName')
+    attrs.properties.firstName ||= firstName if firstName = req.user.get('firstName')
+    attrs.properties.lastName ||= lastName if lastName = req.user.get('lastName')
     trialRequest.set 'properties', _.extend {}, trialRequest.get('properties'), attrs.properties
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
