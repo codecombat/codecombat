@@ -51,8 +51,6 @@ if showGameDevAlert
     if view.shouldShow('amazon-campaign')
       #amazon-campaign-container
         img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
-        if view.shouldShow('amazon-campaign-button')
-          button.btn.btn-lg.btn-illustrated.btn-success#amazon-campaign-button(data-i18n="amazon_hoc.title")
     
     .map
       if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal

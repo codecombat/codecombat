@@ -94,7 +94,6 @@ module.exports = class CampaignView extends RootView
     'click [data-toggle="coco-modal"][data-target="core/ContactModal"]': 'openContactModal'
     'click [data-toggle="coco-modal"][data-target="core/CreateAccountModal"]': 'openCreateAccountModal'
     'click [data-toggle="coco-modal"][data-target="core/AnonymousTeacherModal"]': 'openAnonymousTeacherModal'
-    'click #amazon-campaign-button': 'onClickAmazonCampaign'
     'click #amazon-campaign-logo': 'onClickAmazonCampaign'
 
   shortcuts:
@@ -1321,8 +1320,5 @@ module.exports = class CampaignView extends RootView
 
     if what is 'amazon-campaign'
       return @campaign?.get('slug') is 'game-dev-hoc'
-
-    if what is 'amazon-campaign-button'
-      return @shouldShow('amazon-campaign') and me.level() > 1
 
     return true
