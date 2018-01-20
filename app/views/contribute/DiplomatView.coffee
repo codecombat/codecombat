@@ -78,7 +78,7 @@ module.exports = class DiplomatView extends ContributeClassView
     th: ['Kamolchanok Jittrepit']             # ไทย, Thai
     da: ['Anon', 'Einar Rasmussen', 'Rahazan', 'Randi Hillerøe', 'Silwing', 'marc-portier', 'sorsjen', 'Zleep-Dogg']             # dansk, Danish
     ko: ['Melondonut']             # 한국어, Korean
-    sk: ['Anon', 'Juraj Pecháč']             # slovenčina, Slovak
+    sk: ['Anon', 'Juraj Pecháč']             # slovenčina, Slovak 
     sl: []             # slovenščina, Slovene
     fi: []             # suomi, Finnish
     bg: []             # български език, Bulgarian
