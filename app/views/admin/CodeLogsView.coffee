@@ -28,22 +28,22 @@ module.exports = class CodeLogsView extends RootView
     userID = $('#userid-search')[0].value
     unless userID is ''
       Promise.resolve(@codelogs.fetchByUserID(userID))
-      .then (e) => 
+      .then (e) =>
         @renderSelectors '#codelogtable'
-    else 
+    else
       Promise.resolve(@codelogs.fetchLatest())
-      .then (e) => 
+      .then (e) =>
         @renderSelectors '#codelogtable'
 
   onLevelSlugInput: (e) ->
     slug = $('#levelslug-search')[0].value
     unless slug is ''
       Promise.resolve(@codelogs.fetchBySlug(slug))
-      .then (e) => 
+      .then (e) =>
         @renderSelectors '#codelogtable'
     else
       Promise.resolve(@codelogs.fetchLatest())
-      .then (e) => 
+      .then (e) =>
         @renderSelectors '#codelogtable'
 
   onClickPlayback: (e) ->

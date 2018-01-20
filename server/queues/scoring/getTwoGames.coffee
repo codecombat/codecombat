@@ -4,6 +4,7 @@ errors = require '../../commons/errors'
 scoringUtils = require './scoringUtils'
 LevelSession = require '../../models/LevelSession'
 Mandate = require '../../models/Mandate'
+simpleCache = require '../../lib/simpleCache'
 
 module.exports = getTwoGames = (req, res) ->
   #return errors.unauthorized(res, 'You need to be logged in to get games.') unless req.user?.get('email')
@@ -19,7 +20,8 @@ module.exports = getTwoGames = (req, res) ->
       background: req.body.background
       levelID: req.body.levelID
       leagueID: req.body.leagueID
-    getRandomSessions req.user, options, sendSessionsResponse(res)
+      user: req.user
+    getRandomSessions options, sendSessionsResponse(res)
 
 sessionSelectionString = 'team totalScore submittedCode submittedCodeLanguage teamSpells levelID creatorName creator submitDate leagues'
 
@@ -41,51 +43,81 @@ getSpecificSession = (sessionID, callback) ->
     if err? then return callback "Couldn\'t find target simulation session #{sessionID}"
     callback null, session
 
-getRandomSessions = (user, options, callback) ->
+getRandomSessions = (options, callback) ->
   # Determine whether to play a random match, an internal league match, or an external league match.
   # Only people in a league will end up simulating internal league matches (for leagues they're in) except by dumb chance.
   # If we don't like that, we can rework sampleByLevel to have an opportunity to switch to internal leagues if the first session had a league affiliation.
   if not leagueID = options.leagueID
-    leagueIDs = user?.get('clans') or []
-    leagueIDs = leagueIDs.concat user?.get('courseInstances') or []
+    leagueIDs = options.user?.get('clans') or []
+    leagueIDs = leagueIDs.concat options.user?.get('courseInstances') or []
     leagueIDs = (leagueID + '' for leagueID in leagueIDs)  # Make sure to fetch them as strings.
     return sampleByLevel options, callback unless leagueIDs.length and Math.random() > 1 / leagueIDs.length
-    leagueID = _.sample leagueIDs
-  queryParameters = {'leagues.leagueID': leagueID}
+    options.leagueID = _.sample leagueIDs
+  queryParameters = {'leagues.leagueID': options.leagueID}
   queryParameters.levelID = options.levelID if options.levelID
-  findRandomSession queryParameters, (err, session) ->
+  nextStep = makeGetSecondRandomLeagueSession options, callback
+  if Math.random() < 0.5 and options.user and not options.user.isTeacher()
+    # Prioritize simulating own games
+    LevelSession.find(_.assign({creator: options.user._id + ''}, queryParameters)).select(sessionSelectionString).lean().exec (err, sessions) ->
+      if err then return callback err
+      if sessions.length
+        nextStep null, _.sample sessions
+      else
+        # Didn't have our own session, so find someone else's
+        findRandomSession {query: queryParameters}, nextStep
+  else
+    findRandomSession {query: queryParameters}, nextStep
+
+makeGetSecondRandomLeagueSession = (options, callback) ->
+  (err, session) ->
     if err then return callback err
     unless session then return sampleByLevel options, callback
     otherTeam = scoringUtils.calculateOpposingTeam session.team
-    queryParameters = team: otherTeam, levelID: session.levelID
+    queryParameters = team: otherTeam, levelID: session.levelID, creator: {$ne: session.creator + ''}
     if Math.random() < 0.5
       # Try to play a match on the internal league ladder for this level
-      queryParameters['leagues.leagueID'] = leagueID
+      queryParameters['leagues.leagueID'] = options.leagueID
       findNextLeagueOpponent session, queryParameters, (err, otherSession) ->
         if err then return callback err
         if otherSession
-          session.shouldUpdateLastOpponentSubmitDateForLeague = leagueID
+          session.shouldUpdateLastOpponentSubmitDateForLeague = options.leagueID
           return callback null, [session, otherSession]
         # No opposing league session found; try to play an external match
         delete queryParameters['leagues.leagueID']
         delete queryParameters.submitDate
-        findRandomSession queryParameters, (err, otherSession) ->
+        findRandomSession {session: session, query: queryParameters}, (err, otherSession) ->
           if err then return callback err
           callback null, [session, otherSession]
     else
       # Play what will probably end up being an external match
-      findRandomSession queryParameters, (err, otherSession) ->
+      findRandomSession {session: session, query: queryParameters}, (err, otherSession) ->
         if err then return callback err
         callback null, [session, otherSession]
 
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
-#ladderLevelIDs = ['greed', 'criss-cross', 'brawlwood', 'dungeon-arena', 'gold-rush', 'sky-span']  # Let's not give any extra simulations to old ladders.
 ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul', 'power-peak', 'cross-bones', 'summation-summit', 'the-battle-of-sky-span']
-backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders'
+backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders', 'elemental-wars'
 sampleByLevel = (options, callback) ->
   levelID = options.levelID or _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)
-  favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
-  async.map [{levelID: levelID, team: 'humans', favorRecent: favorRecentHumans}, {levelID: levelID, team: 'ogres', favorRecent: not favorRecentHumans}], findRandomSession, callback
+  if Math.random() < 0.5 and options.user and not options.user.isTeacher()
+    # Prioritize simulating own games
+    LevelSession.find({creator: options.user._id + '', submitted: true, levelID: levelID}).select(sessionSelectionString).lean().exec (err, sessions) ->
+      if err then return callback err
+      if sessions.length
+        session = _.sample sessions
+        otherTeam = if session.team is 'humans' then 'ogres' else 'humans'
+        findRandomSession {session: session, query: {levelID: levelID, team: otherTeam}}, (err, otherSession) ->
+          if err then return callback err
+          callback null, [session, otherSession]
+      else
+        delete options.user
+        sampleByLevel options, callback
+  else
+    favorRecentHumans = Math.random() < 0.5  # We pick one session favoring recent submissions, then find another one uniformly to play against
+    async.map [
+      {query: {levelID: levelID, team: 'humans'}, favorRecent: favorRecentHumans},
+      {query: {levelID: levelID, team: 'ogres'}, favorRecent: not favorRecentHumans}
+    ], findRandomSession, callback
 
 findNextLeagueOpponent = (session, queryParams, callback) ->
   queryParams.submitted = true
@@ -95,46 +127,63 @@ findNextLeagueOpponent = (session, queryParams, callback) ->
   sort = submitDate: -1
   LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec (err, otherSession) ->
     return callback err if err
-    if otherSession and otherSession.creator + '' is session.creator + ''
-      queryParams.submitDate.$lt = new Date(new Date(queryParams.submitDate.$lt) - 1)
-      return LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec callback
     callback null, otherSession
 
-findRandomSession = (queryParams, callback) ->
+findRandomSession = (options, callback) ->
   # In MongoDB 3.2, we will be able to easily get a random document with aggregate $sample: https://jira.mongodb.org/browse/SERVER-533
-  queryParams.submitted = true
-  favorRecent = queryParams.favorRecent
-  delete queryParams.favorRecent
-  if favorRecent
-    return findRecentRandomSession queryParams, callback
-  queryParams.randomSimulationIndex = $lte: Math.random()
+  query = options.query
+  query.submitted = true
+  if options.favorRecent
+    return findRecentRandomSession query, callback
+  if query.team and options.session
+    ladderScores = simpleCache.getLadderScores query.levelID, options.session.team
+    if ladderScores and Math.random() < 0.5
+      # Try to find some match near this one in score
+      return findComparableSession {session: options.session, query: query, scores: ladderScores}, callback
+  query.randomSimulationIndex = $lte: Math.random()
   sort = randomSimulationIndex: -1
-  LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec (err, session) ->
+  LevelSession.findOne(query).sort(sort).select(sessionSelectionString).lean().exec (err, session) ->
     return callback err if err
     return callback null, session if session
-    delete queryParams.randomSimulationIndex  # Just find the highest-indexed session, if our randomSimulationIndex was lower than the lowest one.
-    LevelSession.findOne(queryParams).sort(sort).select(sessionSelectionString).lean().exec (err, session) ->
+    delete query.randomSimulationIndex  # Just find the highest-indexed session, if our randomSimulationIndex was lower than the lowest one.
+    LevelSession.findOne(query).sort(sort).select(sessionSelectionString).lean().exec (err, session) ->
       return callback err if err
       callback null, session
 
-findRecentRandomSession = (queryParams, callback) ->
+findRecentRandomSession = (query, callback) ->
   # We pick a random submitDate between the first submit date for the level and now, then do a $lt fetch to find a session to simulate.
   # We bias it towards recently submitted sessions.
-  findEarliestSubmission queryParams, (err, startDate) ->
+  findEarliestSubmission query, (err, startDate) ->
     return callback err, null unless startDate
     now = new Date()
     interval = now - startDate
     cutoff = new Date now - Math.pow(Math.random(), 4) * interval
-    queryParams.submitDate = $gte: startDate, $lt: cutoff
-    LevelSession.findOne(queryParams).sort(submitDate: -1).select(sessionSelectionString).lean().exec (err, session) ->
+    query.submitDate = $gte: startDate, $lt: cutoff
+    LevelSession.findOne(query).sort(submitDate: -1).select(sessionSelectionString).lean().exec (err, session) ->
       return callback err if err
       callback null, session
 
 earliestSubmissionCache = {}
-findEarliestSubmission = (queryParams, callback) ->
-  cacheKey = JSON.stringify queryParams
+findEarliestSubmission = (query, callback) ->
+  cacheKey = JSON.stringify query
   return callback null, cached if cached = earliestSubmissionCache[cacheKey]
-  LevelSession.findOne(queryParams).sort(submitDate: 1).lean().exec (err, earliest) ->
+  LevelSession.findOne(query).sort(submitDate: 1).lean().exec (err, earliest) ->
     return callback err if err
     result = earliestSubmissionCache[cacheKey] = earliest?.submitDate
     callback null, result
+
+findComparableSession = (options, callback) ->
+  # We pick a random session kind of close in score to the target session
+  scores = options.scores
+  sessionRank = _.sortedIndex scores, options.session.totalScore, (index) -> -index  # Descending order
+  range = Math.max 100, Math.round(scores.length / 500)
+  maxScoreIndex = Math.max 0, sessionRank - range
+  minScoreIndex = Math.min scores.length - 1, sessionRank + range
+  possibleScores = scores.slice(maxScoreIndex, minScoreIndex)
+  targetScore = _.sample possibleScores
+  #console.log 'trying to find something with score close to', options.session.totalScore, 'of', scores.slice(0, 5), '... where we are ranked', sessionRank, ' and found', targetScore, 'between', maxScoreIndex, scores[maxScoreIndex], 'and', minScoreIndex, scores[minScoreIndex]
+  options.query.totalScore = $lte: targetScore
+  sort = totalScore: -1
+  LevelSession.findOne(options.query).sort(sort).select(sessionSelectionString).lean().exec (err, session) ->
+    return callback err if err
+    callback null, session

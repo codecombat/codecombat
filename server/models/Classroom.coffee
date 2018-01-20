@@ -165,15 +165,16 @@ ClassroomSchema.methods.fetchSessionsForMembers = co.wrap (members) ->
       memberCoursesMap[userID.toHexString()] ?= []
       memberCoursesMap[userID.toHexString()].push(courseInstance.courseID)
   dbqs = []
-  select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published'
+  select = 'state.complete level creator playtime changed created dateFirstCompleted submitted published code'
+  $or = []
   for member in members
-    $or = []
     for courseID in memberCoursesMap[member.toHexString()] ? []
       for subQuery in courseLevelsMap[courseID.toHexString()] ? []
         $or.push(_.assign({creator: member.toHexString()}, subQuery))
-    if $or.length
-      query = { $or }
-      dbqs.push(LevelSession.find(query).setOptions({maxTimeMS:5000}).select(select).lean().exec())
+  while $or.length
+    chunk = $or.splice(0, 50)
+    break if chunk.length is 0
+    dbqs.push(LevelSession.find({ $or: chunk }).setOptions({maxTimeMS:1000}).select(select).lean().exec())
   results = yield dbqs
   return _.flatten(results)
 

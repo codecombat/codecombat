@@ -64,7 +64,11 @@ module.exports = class Simulator extends CocoClass
           @trigger 'statusUpdate', "No games to simulate. Trying another game in #{@retryDelayInSeconds} seconds."
           @simulateAnotherTaskAfterDelay()
           return
-        @trigger 'statusUpdate', 'Setting up simulation...'
+        @simulatingPlayerStrings = {}
+        for team in ['humans', 'ogres']
+          session = _.find(taskData.sessions, {team: team})
+          @simulatingPlayerStrings[team] = "#{session.creatorName or session.creator} #{session.team}"
+        @trigger 'statusUpdate', "Setting up #{taskData.sessions[0].levelID} simulation between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
         #refactor this
         @task = new SimulationTask(taskData)
 
@@ -81,7 +85,7 @@ module.exports = class Simulator extends CocoClass
   simulateSingleGame: ->
     return if @destroyed
     @assignWorldAndLevelFromLevelLoaderAndDestroyIt()
-    @trigger 'statusUpdate', 'Simulating...'
+    @trigger 'statusUpdate', "Simulating match between #{@simulatingPlayerStrings.humans} and #{@simulatingPlayerStrings.ogres}"
     @setupGod()
     try
       @commenceSingleSimulation()
@@ -129,7 +133,12 @@ module.exports = class Simulator extends CocoClass
       @sendSingleGameBackToServer(taskResults)
 
   sendSingleGameBackToServer: (results) ->
-    @trigger 'statusUpdate', 'Simulation completed, sending results back to server!'
+    status = 'Recording:'
+    for session in results.sessions
+      states = ['wins', if _.find(results.sessions, (s) -> s.metrics.rank is 0) then 'loses' else 'draws']
+      status += " #{session.name} #{states[session.metrics.rank]}"
+    console.log status
+    @trigger 'statusUpdate', status
 
     $.ajax
       url: '/queue/scoring/recordTwoGames'
@@ -249,19 +258,19 @@ module.exports = class Simulator extends CocoClass
       maxleakcount = 0
       console.log 'Setting leak callbacks.'
       @memwatch = require 'memwatch'
-    
+
       @memwatch.on 'leak', (info) =>
         console.warn "LEAK!!\n" + JSON.stringify(info)
-    
+
         unless @hd?
           if (leakcount++ is maxleakcount)
             @hd = new @memwatch.HeapDiff()
-    
+
             @memwatch.on 'stats', (stats) =>
               console.warn 'stats callback: ' + stats
               diff = @hd.end()
               console.warn "HeapDiff:\n" + JSON.stringify(diff)
-    
+
               if @options.exitOnLeak
                 console.warn 'Exiting because of Leak.'
                 process.exit()
@@ -308,7 +317,7 @@ module.exports = class Simulator extends CocoClass
 
   handleTaskResultsTransferSuccess: (result) =>
     return if @destroyed
-    console.log "Task registration result: #{JSON.stringify result}"
+    #console.log "Task registration result: #{JSON.stringify result}"
     @trigger 'statusUpdate', 'Results were successfully sent back to server!'
     @simulatedByYou++
     unless @options.headlessClient

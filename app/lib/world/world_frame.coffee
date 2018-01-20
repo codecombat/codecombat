@@ -5,7 +5,9 @@ module.exports = class WorldFrame
 
   constructor: (@world, @time=0) ->
     @thangStateMap = {}
-    @setState() if @world
+    if @world
+      @scores = _.omit @world.getScores(), 'code-length'
+      @setState()
 
   getNextFrame: ->
     # Optimized. Must be called while thangs are current at this frame.
@@ -56,19 +58,25 @@ module.exports = class WorldFrame
           map[y][x] = symbols[i % symbols.length] if 0 <= y < @world.height and 0 <= x < @world.width
     @time + '\n' + (xs.join(' ') for xs in map).join('\n') + '\n'
 
-  serialize: (frameIndex, trackedPropertiesThangIDs, trackedPropertiesPerThangIndices, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialValuesToKeys, specialKeysToValues) ->
+  serialize: (frameIndex, trackedPropertiesThangIDs, trackedPropertiesPerThangIndices, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialValuesToKeys, specialKeysToValues, scoresStorage) ->
     # Optimize
     for thangID, thangIndex in trackedPropertiesThangIDs
       thangState = @thangStateMap[thangID]
       if thangState
         thangState.serialize(frameIndex, trackedPropertiesPerThangIndices[thangIndex], trackedPropertiesPerThangTypes[thangIndex], trackedPropertiesPerThangValues[thangIndex], specialValuesToKeys, specialKeysToValues)
+    scoreValues = _.values(@scores)
+    for score, scoreIndex in scoreValues
+      scoresStorage[frameIndex * scoreValues.length + scoreIndex] = score or 0
     @hash
 
-  @deserialize: (world, frameIndex, trackedPropertiesThangIDs, trackedPropertiesThangs, trackedPropertiesPerThangKeys, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialKeysToValues, hash, age) ->
+  @deserialize: (world, frameIndex, trackedPropertiesThangIDs, trackedPropertiesThangs, trackedPropertiesPerThangKeys, trackedPropertiesPerThangTypes, trackedPropertiesPerThangValues, specialKeysToValues, scoresStorage, hash, age) ->
     # Optimize
     wf = new WorldFrame null, age
     wf.world = world
     wf.hash = hash
+    wf.scores = {}
     for thangID, thangIndex in trackedPropertiesThangIDs
       wf.thangStateMap[thangID] = ThangState.deserialize world, frameIndex, trackedPropertiesThangs[thangIndex], trackedPropertiesPerThangKeys[thangIndex], trackedPropertiesPerThangTypes[thangIndex], trackedPropertiesPerThangValues[thangIndex], specialKeysToValues
+    for scoreType, scoreIndex in world.scoreTypes
+      wf.scores[scoreType] = scoresStorage[frameIndex * world.scoreTypes.length + scoreIndex]
     wf

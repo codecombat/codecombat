@@ -646,11 +646,14 @@
     week: "This Week"
     all: "All-Time"
     latest: "Latest"
-    time: "Time"
+    time: "Win Time"
     damage_taken: "Damage Taken"
     damage_dealt: "Damage Dealt"
     difficulty: "Difficulty"
     gold_collected: "Gold Collected"
+    survival_time: "Survival Time"
+    defeated: "Enemies Defeated"
+    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Equipped"
@@ -758,9 +761,8 @@
     year_price: "$__price__/year"
     kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
     kids_message_2: "Ask Your Parent"
-    support_part1: "Need help with payment options? Email"
+    support_part1: "Need help with payment or prefer PayPal? Email" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "if you have any questions."
     you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
     you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
@@ -953,7 +955,7 @@
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
     david_title: "Customer Success Manager"
-    jane_title: "Partnership Associate"
+    jane_title: "Partnership Manager" # {change}
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
@@ -1460,6 +1462,7 @@
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
     paren_new: "(new)"
+    student_code: "Student Code"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"
@@ -1507,7 +1510,6 @@
     completed: "Completed"
     practice: "Practice"
     started: "Started"
-    click_to_view_progress: "click to view progress"
     no_progress: "No progress"
     not_required: "Not required"
     select_course: "Select course to view"
@@ -1522,7 +1524,7 @@
     copy_class_url: "Copy Class URL"
     class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
     add_students_manually: "Invite Students by Email"
-    bulk_assign: "Select course"
+    bulk_assign: "Select course" # {change}
     assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
@@ -2279,9 +2281,7 @@
 
   anonymous_teacher:
     notify_teacher: "Notify Teacher"
-    want_codecombat: "Want to play CodeCombat all the time?"
     create_teacher_account: "Create free teacher account"
-    chat: "Ask questions via chat"
     enter_student_name: "Your name:"
     enter_teacher_email: "Your teacher's email:"
     teacher_email_placeholder: "teacher.email@example.com"
