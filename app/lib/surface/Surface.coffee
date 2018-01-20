@@ -21,7 +21,7 @@ GameUIState = require 'models/GameUIState'
 createjs = require 'lib/createjs-parts'
 require 'jquery-mousewheel'
 
-resizeDelay = 500  # At least as much as $level-resize-transition-time.
+resizeDelay = 1  # At least as much as $level-resize-transition-time.
 
 module.exports = Surface = class Surface extends CocoClass
   stage: null
@@ -73,6 +73,8 @@ module.exports = Surface = class Surface extends CocoClass
     'camera:zoom-updated': 'onZoomUpdated'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
     'level:flag-color-selected': 'onFlagColorSelected'
     'tome:manual-cast': 'onManualCast'
     'playback:stop-real-time-playback': 'onStopRealTimePlayback'
@@ -492,7 +494,10 @@ module.exports = Surface = class Surface extends CocoClass
     fastForwardBuffer = 2
     if @playing and not @realTime and (ffToFrame = Math.min(event.firstChangedFrame, @frameBeforeCast, @world.frames.length - 1)) and ffToFrame > @currentFrame + fastForwardBuffer * @world.frameRate
       @fastForwardingToFrame = ffToFrame
-      @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
+      if @cinematic
+        @fastForwardingSpeed = Math.max 1, Math.min(2, (ffToFrame * @world.dt) / 15)
+      else
+        @fastForwardingSpeed = Math.max 3, 3 * (@world.maxTotalFrames * @world.dt) / 60
     else if @realTime
       buffer = if @world.indefiniteLength then 0 else @world.realTimeBufferMax
       lag = (@world.frames.length - 1) * @world.dt - @world.age
@@ -592,8 +597,10 @@ module.exports = Surface = class Surface extends CocoClass
       pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
       newWidth = Math.min(pageWidth, pageHeight * aspectRatio, canvasWrapperWidth)
       newHeight = newWidth / aspectRatio
-    else if @realTime or @options.spectateGame
-      pageHeight = window.innerHeight - $('#control-bar-view').outerHeight() - $('#playback-view').outerHeight()
+    else if @realTime or @cinematic or @options.spectateGame
+      pageHeight = window.innerHeight - $('#playback-view').outerHeight()
+      if @realTime or @options.spectateGame
+        pageHeight -= $('#control-bar-view').outerHeight()
       newWidth = Math.min pageWidth, pageHeight * aspectRatio
       newHeight = newWidth / aspectRatio
     else if $('#thangs-tab-view')
@@ -672,6 +679,24 @@ module.exports = Surface = class Surface extends CocoClass
     @normalCanvas.add(@webGLCanvas).removeClass 'flag-color-selected'
     if @handleEvents
       if @previousCameraZoom
+        @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
+
+  #- Cinematic playback
+  onCinematicPlaybackStarted: (e) ->
+    return if @cinematic
+    @cinematic = true
+    @onResize()
+    if @heroLank and @options.levelType not in ['hero-ladder', 'course-ladder']
+      @previousCameraZoom = @camera.zoom
+      @camera.zoomTo @heroLank.sprite, Math.min(@camera.zoom * 2, 3), 3000
+
+  onCinematicPlaybackEnded: (e) ->
+    return unless @cinematic
+    @cinematic = false
+    @onResize()
+    _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
+    if @handleEvents
+      if @previousCameraZoom and @options.levelType not in ['hero-ladder', 'course-ladder']
         @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
   onFlagColorSelected: (e) ->

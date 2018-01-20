@@ -209,6 +209,14 @@ module.exports = class User extends CocoModel
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
 
+  testCinematicPlayback: ->
+    return @shouldTestCinematicPlayback if @shouldTestCinematicPlayback?
+    return true if me.isAdmin()
+    return false if me.isStudent() or me.isTeacher()
+    @shouldTestCinematicPlayback = me.get('testGroupNumber') % 2 is 0
+    application.tracker.identify cinematicPlayback: @shouldTestCinematicPlayback
+    @shouldTestCinematicPlayback
+
   hasSubscription: ->
     return false if me.isStudent() or me.isTeacher()
     if payPal = @get('payPal')

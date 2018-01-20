@@ -19,7 +19,7 @@ module.exports = class LevelHUDView extends CocoView
 
   events:
     'click': 'onClick'
-    
+
   constructor: ->
     if features.codePlay
       classNames = (@className or '').split(' ')
@@ -86,6 +86,7 @@ module.exports = class LevelHUDView extends CocoView
     options.colorConfig = colorConfig if colorConfig
     wrapper = @$el.find '.thang-canvas-wrapper'
     team = @thang?.team
+    wrapper.removeClass 'hide'
     wrapper.removeClass (i, css) -> (css.match(/\bteam-\S+/g) or []).join ' '
     wrapper.addClass "team-#{team}"
     if thangType.get('raster')

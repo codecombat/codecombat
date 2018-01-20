@@ -87,12 +87,15 @@ module.exports = class PlayLevelView extends RootView
     'level:session-loaded': 'onSessionLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onCinematicPlaybackStarted'
+    'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
 
   events:
     'click #level-done-button': 'onDonePressed'
     'click #stop-real-time-playback-button': -> Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+    'click #stop-cinematic-playback-button': -> Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
     'click #fullscreen-editor-background-screen': (e) -> Backbone.Mediator.publish 'tome:toggle-maximize', {}
     'click .contact-link': 'onContactClicked'
     'click': 'onClick'
@@ -326,13 +329,14 @@ module.exports = class PlayLevelView extends RootView
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
-    @insertSubView new GoldView {} unless @level.get('slug') in ['wakka-maul'] unless @level.isType('web-dev') or @level.isType('game-dev')
+    goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
+    @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
     @insertSubView new GameDevTrackView {} if @level.isType('game-dev')
     @insertSubView new HUDView {level: @level} unless @level.isType('web-dev')
     @insertSubView new LevelDialogueView {level: @level, sessionID: @session.id}
     @insertSubView new ChatView levelID: @levelID, sessionID: @session.id, session: @session
     @insertSubView new ProblemAlertView session: @session, level: @level, supermodel: @supermodel
-    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs if @level.isType('hero-ladder', 'course-ladder')
+    @insertSubView new DuelStatsView level: @level, session: @session, otherSession: @otherSession, supermodel: @supermodel, thangs: @world.thangs, showsGold: goldInDuelStatsView if @level.isType('hero-ladder', 'course-ladder')
     @insertSubView @controlBar = new ControlBarView {worldName: utils.i18n(@level.attributes, 'name'), session: @session, level: @level, supermodel: @supermodel, courseID: @courseID, courseInstanceID: @courseInstanceID}
     @insertSubView @hintsView = new HintsView({ @session, @level, @hintsState }), @$('.hints-view')
     @insertSubView @webSurface = new WebSurfaceView {level: @level, @goalManager} if @level.isType('web-dev')
@@ -574,8 +578,10 @@ module.exports = class PlayLevelView extends RootView
     e.preventDefault()
 
   onEscapePressed: (e) ->
-    return unless @$el.hasClass 'real-time'
-    Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+    if @$el.hasClass 'real-time'
+      Backbone.Mediator.publish 'playback:stop-real-time-playback', {}
+    else if @$el.hasClass 'cinematic'
+      Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
 
   onLevelReloadFromData: (e) ->
     isReload = Boolean @world
@@ -737,6 +743,16 @@ module.exports = class PlayLevelView extends RootView
       _.delay @onSubmissionComplete, 750  # Wait for transition to end.
     else
       @waitingForSubmissionComplete = true
+
+  # Cinematice playback
+  onCinematicPlaybackStarted: (e) ->
+    @$el.addClass('cinematic').focus()
+    @onWindowResize()
+
+  onCinematicPlaybackEnded: (e) ->
+    return unless @$el.hasClass 'cinematic'
+    @$el.removeClass 'cinematic'
+    @onWindowResize()
 
   onSubmissionComplete: =>
     return if @destroyed
