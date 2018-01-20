@@ -25,7 +25,6 @@ module.exports =
 
   'tome:manual-cast': c.object {title: 'Manually Cast Spells', description: 'Published when you wish to manually recast all spells', required: []},
     realTime: {type: 'boolean'}
-    cinematic: {type: 'boolean'}
 
   'tome:manual-cast-denied': c.object {title: 'Manual Cast Denied', description: 'Published when player attempts to submit for real-time playback, but must wait after a replayable level failure.', required: ['timeUntilResubmit']},
     timeUntilResubmit: {type: 'number'}

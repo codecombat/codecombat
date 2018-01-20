@@ -141,7 +141,7 @@ module.exports = class SpellView extends CocoView
     addCommand
       name: 'run-code'
       bindKey: {win: 'Shift-Enter|Ctrl-Enter', mac: 'Shift-Enter|Command-Enter|Ctrl-Enter'}
-      exec: => Backbone.Mediator.publish 'tome:manual-cast', {realTime: @options.level.isType('game-dev'), cinematic: @options.level.isType('hero', 'course', 'hero-ladder', 'course-ladder')}
+      exec: => Backbone.Mediator.publish 'tome:manual-cast', {realTime: @options.level.isType('game-dev')}
     unless @observing
       addCommand
         name: 'run-code-real-time'
@@ -683,8 +683,12 @@ module.exports = class SpellView extends CocoView
       @saveSpadeTimeout = null
 
   onManualCast: (e) ->
+    cinematic = @options.level.isType('hero', 'course', 'hero-ladder', 'course-ladder')
+    cinematic = false if me.isStudent() and not @options.level.isType('course-ladder')
+    cinematic = false if not me.isStudent() and not me.testCinematicPlayback()
+
     cast = @$el.parent().length
-    @recompile cast, e.realTime, e.cinematic
+    @recompile cast, e.realTime, cinematic
     @focus() if cast
     if @options.level.isType('web-dev')
       @sourceAtLastCast = @getSource()
