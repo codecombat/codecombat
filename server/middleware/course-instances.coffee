@@ -192,7 +192,7 @@ module.exports =
     nextLevelOriginal = courseLevels[nextLevelIndex]?.original
     nextAssessmentIndex = utils.findNextAssessmentForLevel(levels, currentIndex)
     nextAssessmentOriginal = courseLevels[nextAssessmentIndex]?.original
-    unless nextLevelOriginal or nextAssessmentOriginal then return res.status(200).send({
+    unless nextLevelOriginal then return res.status(200).send({
       level: {}
       assessment: {}
     })

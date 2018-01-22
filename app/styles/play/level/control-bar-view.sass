@@ -124,6 +124,19 @@
         @include rotate(-15deg)
         vertical-align: middle
 
+      #scoreboard
+        display: none
+        height: 7px
+        margin-top: -3px
+        color: $control-yellow
+
+        &.success
+          color: $control-yellow-highlight
+
+        &:not(.ended) .best-score
+          visibility: hidden
+          position: absolute
+
   .buttons-area
     position: absolute
     right: 35px

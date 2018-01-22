@@ -6,6 +6,7 @@ body.is-playing
   background-color: black
 
 $level-resize-transition-time: 0.5s
+// TODO: use this for real-time playback but not cinematic playback
 
 #level-view
   margin: 0 auto
@@ -17,7 +18,7 @@ $level-resize-transition-time: 0.5s
   top: 0
   @include user-select(none)
 
-  &.real-time
+  &.real-time, &.cinematic
     // Hmm, somehow the #page-container is cutting us off by ~17px on the right, looks a bit off.
     
     &.real-time.game-dev
@@ -37,16 +38,6 @@ $level-resize-transition-time: 0.5s
       width: 100%
       button, h4
         display: none
-    &:not(.flags)
-      #playback-view
-        width: 100%
-    &.flags
-      #playback-view
-        $flags-width: 200px
-        width: 90%
-        width: -webkit-calc(100% - 200px)
-        width: calc(100% - 200px)
-        left: $flags-width
     #code-area, #thang-hud, #goals-view
       display: none
       visibility: hidden
@@ -60,15 +51,14 @@ $level-resize-transition-time: 0.5s
           width: 1.8vw
           height: 1.8vw
     #duel-stats-view
-      right: calc(1% + 100px)
+      right: calc(50% - 250px)
       bottom: 50px
+      .duel-stats-background
+        opacity: 0.8
     #control-bar-view .title
       left: 20%
       width: 60%
       text-align: center
-    #stop-real-time-playback-button
-      display: block
-      z-index: 20
     #level-dialogue-view
       display: none
 
@@ -80,13 +70,50 @@ $level-resize-transition-time: 0.5s
     min-height: 555px
     //background-color: black
 
+  &.real-time
+    &:not(.flags)
+      #playback-view
+        width: 100%
+
+    &.flags
+      #playback-view
+        $flags-width: 200px
+        width: 90%
+        width: -webkit-calc(100% - 200px)
+        width: calc(100% - 200px)
+        left: $flags-width
+
+    #stop-real-time-playback-button
+      display: block
+      z-index: 20
+
+  &.cinematic
+    #playback-view
+      width: 100%
+      margin-top: -10px
+
+    #stop-cinematic-playback-button
+      display: block
+      z-index: 20
+
+    #cinematic-code-display
+      display: block
+      z-index: 20
+      visibility: visible
+
+    #control-bar-view
+      display: none
+
+    #canvas-wrapper
+      top: 0
+
   #canvas-wrapper
     top: 50px
     width: calc(#{$game-view-width} - #{$api-bar-width})
     position: relative
     overflow: hidden
     background-color: black
-    @include transition(all $level-resize-transition-time ease-out, z-index 1.2s linear)
+    //@include transition(all $level-resize-transition-time ease-out, z-index 1.2s linear)
     z-index: 0
 
     &.preview-overlay
@@ -108,7 +135,7 @@ $level-resize-transition-time: 0.5s
   canvas#webgl-surface, canvas#normal-surface
     display: block
     z-index: 2
-    @include transition($level-resize-transition-time ease-out)
+    //@include transition($level-resize-transition-time ease-out)
 
     &.grabbable:not(.flag-color-selected)
       cursor: -moz-grab
@@ -148,7 +175,7 @@ $level-resize-transition-time: 0.5s
     right: 0
     top: 0px
     bottom: 0
-    @include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
+    //@include transition(width $level-resize-transition-time ease-in-out, right $level-resize-transition-time ease-in-out)
     z-index: 2
 
   #game-area
@@ -268,12 +295,57 @@ $level-resize-transition-time: 0.5s
     top: 0
     z-index: 19
 
-  #stop-real-time-playback-button
+  #stop-real-time-playback-button, #stop-cinematic-playback-button
     display: none
     position: absolute
     // bottom: 70px // Set via javascript because of gamedev level sizing
     right: 15px
     font-size: 30px
+
+  #stop-cinematic-playback-button
+    bottom: 70px
+
+  #cinematic-code-display
+    display: none
+    position: absolute
+    left: 0px
+    top: 0px
+    padding: 10px
+    font-size: 2.2vw
+    text-align: left
+    background-color: rgba(0, 0, 0, 0.7)
+    border-bottom-right-radius: 8px
+    visibility: hidden
+    max-width: 45%
+
+    .code-line
+      line-height: 1.2em
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+    code
+      background-color: transparent
+      padding: 0
+      color: rgb(34, 255, 4)
+      white-space: pre
+      line-height: 0px
+
+      &.line-number
+        width: 4vw
+        display: inline-block
+
+    .code-line-1, .code-line-3
+      line-height: 1.0em
+      opacity: 0.7
+      .code-text, .line-number
+        font-size: 60%
+
+    .code-line-0, .code-line-4
+      line-height: 0.8em
+      opacity: 0.5
+      .code-text, .line-number
+        font-size: 40%
 
   .ad-container
     width: 100%

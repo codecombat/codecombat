@@ -15,6 +15,8 @@ module.exports = class MusicPlayer extends CocoClass
     'audio-player:loaded': 'onAudioLoaded'
     'playback:real-time-playback-started': 'onRealTimePlaybackStarted'
     'playback:real-time-playback-ended': 'onRealTimePlaybackEnded'
+    'playback:cinematic-playback-started': 'onRealTimePlaybackStarted'  # Handle cinematic the same as real-time
+    'playback:cinematic-playback-ended': 'onRealTimePlaybackEnded'
     'music-player:enter-menu': 'onEnterMenu'
     'music-player:exit-menu': 'onExitMenu'
     'level:set-volume': 'onSetVolume'
@@ -23,7 +25,7 @@ module.exports = class MusicPlayer extends CocoClass
     super arguments...
     me.on 'change:music', @onMusicSettingChanged, @
 
-  onAudioLoaded: ->
+  onAudioLoaded: (e) ->
     @onPlayMusic(@standingBy) if @standingBy
 
   onPlayMusic: (e) ->
@@ -32,7 +34,7 @@ module.exports = class MusicPlayer extends CocoClass
       @lastMusicEventIgnoredWhileMuted = e
       return
     src = e.file
-    src = "/file#{src}#{AudioPlayer.ext}"
+    src = "/file#{src}#{AudioPlayer.ext}" unless /^http/.test(src)
     if (not e.file) or src is @currentMusic?.src
       if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
       return

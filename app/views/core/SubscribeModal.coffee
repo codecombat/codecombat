@@ -65,6 +65,7 @@ module.exports = class SubscribeModal extends ModalView
       @paymentProcessor = 'PayPal'
     else
       @paymentProcessor = 'stripe'
+    @paymentProcessor = 'stripe' # Always use Stripe
     super()
     @render()
 
@@ -117,10 +118,11 @@ module.exports = class SubscribeModal extends ModalView
       service = if @basicProduct.isRegionalSubscription() then 'paypal' else 'stripe'
       application.tracker?.trackEvent 'Started Signup from buy monthly', {service}
       return @openModalView new CreateAccountModal({startOnPath: 'individual', subModalContinue: 'monthly'})
-    if @basicProduct.isRegionalSubscription()
-      @startPayPalSubscribe()
-    else
-      @startStripeSubscribe()
+    # if @basicProduct.isRegionalSubscription()
+    #   @startPayPalSubscribe()
+    # else
+    #   @startStripeSubscribe()
+    @startStripeSubscribe() # Always use Stripe
 
   startPayPalSubscribe: ->
     application.tracker?.trackEvent 'Started subscription purchase', { service: 'paypal' }
