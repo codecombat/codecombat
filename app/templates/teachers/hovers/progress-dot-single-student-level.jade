@@ -1,48 +1,74 @@
 if practice
-  span.text-uppercase.small-details(data-i18n='teacher.practice')
+  span.text-uppercase.small-details.spr(data-i18n='teacher.practice')
 
 mixin timePlayed()
   if session.get('playtime') > 0
-    .small-details.nowrap
+    .small-details.nowrap 
+      span(data-i18n="teacher.time_played_label")
+      =" "
       span.spr(data-i18n='teacher.time_played')
       span= moment.duration({ seconds: session.get('playtime') }).humanize()
+    
+mixin header()
+  strong.small-details.nowrap
+    if assessment
+      span(data-i18n="courses.challenge")
+    else
+      span(data-i18n="teacher.level_label")
+    =" "
+    if levelNumber
+      span= levelNumber
+      span.spr . 
+    span= levelName
+    
+mixin assessmentLines()
+  if assessment === 'open-ended'
+    .small-details.nowrap
+      span(data-i18n="teacher.concepts_used")
+    em.small-details
+      for concept, i in codeConcepts
+        if i > 0
+          =", "
+        span(data-i18n="concepts." + concept)
+      if !codeConcepts.length
+        span(data-i18n="teacher.none")
+  else
+    .small-details.nowrap
+      span(data-i18n="teacher.concept_checked")
+    em.small-details
+      span(data-i18n="concepts." + primaryConcept)
 
 if completed
+  +header
   .small-details.nowrap
-    if levelNumber
-      span= levelNumber
-      span.spr . 
-    span= levelName
-  .small-details.nowrap
-    span.spr(data-i18n='teacher.completed')
+    span(data-i18n='teacher.completed')
+    =": "
     - var dateCompleted = session.get('dateFirstCompleted') || session.get('created') || session.get('changed');
     if dateCompleted
-      span= new Date(dateCompleted).toLocaleString()
+      span= moment(dateCompleted).format('lll')
     +timePlayed
+  if assessment
+    +assessmentLines
   if !isProject && !isLadder
-    .small-details.nowrap
+    .small-details.nowrap.m-t-1
       //- TODO: data-i18n doesn't work here
-      strong Click to view student code
+      .student-code Click to view student code
 else if started
+  +header
   .small-details.nowrap
-    if levelNumber
-      span= levelNumber
-      span.spr . 
-    span= levelName
-  .small-details.nowrap
-    span.spr(data-i18n='teacher.last_played')
-    span= new Date(session.get('changed')).toLocaleString()
+    span(data-i18n='user.last_played')
+    =": "
+    span= moment(session.get('changed')).format('lll')
     +timePlayed
+  if assessment
+    +assessmentLines
+        
   if !isProject && !isLadder
-    .small-details.nowrap
-      strong Click to view student code
+    .small-details.nowrap.m-t-1
+      .student-code Click to view student code
 else
-  .small-details.nowrap
-    if levelNumber
-      span= levelNumber
-      span.spr . 
-    span= levelName
+  +header
   if practice
-    span.small-details.nowrap(data-i18n='teacher.not_required')
+    .small-details.nowrap(data-i18n='teacher.not_required')
   else
-    span.small-details.nowrap(data-i18n='teacher.no_progress')
+    .small-details.nowrap(data-i18n='teacher.no_progress')

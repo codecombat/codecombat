@@ -278,6 +278,8 @@ _.extend LevelSchema.properties,
   practice: { type: 'boolean' }
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
   assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended'], description: 'Set to true if this is an assessment level.' }
+  assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
+  
   primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }
   shareable: { title: 'Shareable', type: ['string', 'boolean'], enum: [false, true, 'project'], description: 'Whether the level is not shareable (false), shareable (true), or a sharing-encouraged project level ("project"). Make sure to use "project" for project levels so they show up correctly in the Teacher Dashboard.' }
 

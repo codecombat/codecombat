@@ -135,7 +135,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n'}})
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug'}})
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
@@ -405,6 +405,7 @@ module.exports = class TeacherClassView extends RootView
         if instance and instance.hasMember(student)
           for trimLevel in trimCourse.levels
             level = @levels.findWhere({ original: trimLevel.original })
+            continue if level.get('assessment')
             progress = @state.get('progressData').get({ classroom: @classroom, course: course, level: level, user: student })
             concepts.push(level.get('concepts') ? []) if progress?.completed
       concepts = _.union(_.flatten(concepts))
@@ -416,6 +417,8 @@ module.exports = class TeacherClassView extends RootView
         continue unless session.get('creator') is student.id
         continue unless session.get('state')?.complete
         continue if levelPracticeMap[session.get('level')?.original]
+        level = @levels.findWhere({ original: session.get('level')?.original })
+        continue if level?.get('assessment')
         levels++
         playtime += session.get('playtime') or 0
         if courseID = levelCourseIdMap[session.get('level')?.original]

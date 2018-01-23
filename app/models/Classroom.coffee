@@ -52,7 +52,7 @@ module.exports = class Classroom extends CocoModel
         levels = []
         for level in course.levels when level.original
           continue if language? and level.primerLanguage is language
-          levels.push({key: level.original, practice: level.practice ? false})
+          levels.push({key: level.original, practice: level.practice ? false, assessment: level.assessment ? false})
         _.assign(@levelNumberMap, utils.createLevelNumberMap(levels))
     @levelNumberMap[levelID] ? defaultNumber
 
@@ -75,7 +75,7 @@ module.exports = class Classroom extends CocoModel
     }
 
   getLevels: (options={}) ->
-    # options: courseID, withoutLadderLevels, projectLevels
+    # options: courseID, withoutLadderLevels, projectLevels, assessmentLevels
     # TODO: find a way to get the i18n in here so that level names can be translated (Courses don't include in their denormalized copy of levels)
     Levels = require 'collections/Levels'
     courses = @get('courses')

@@ -85,7 +85,7 @@ module.exports = class LevelSession extends CocoModel
       oldTopScore = _.find oldTopScores, type: scoreType
       newScore = scores[scoreType]
       unless newScore?
-        newTopScores.push oldTopScore
+        newTopScores.push oldTopScore if oldTopScore
         continue
       newScore *= -1 if scoreType in LevelConstants.lowerIsBetterScoreTypes  # Index relies on "top" scores being higher numbers
       if not oldTopScore? or newScore > oldTopScore.score
