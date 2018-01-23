@@ -76,7 +76,7 @@ module.exports = class Level extends CocoModel
 
   denormalizeThang: (levelThang, supermodel, session, otherSession, thangTypesByOriginal) ->
     levelThang.components ?= []
-    isHero = /Hero Placeholder/.test(levelThang.id) and @isType('hero', 'hero-ladder', 'hero-coop')
+    isHero = /Hero Placeholder/.test(levelThang.id) and @isType('hero', 'hero-ladder', 'hero-coop') and @get('assessment') isnt 'open-ended'
     if isHero and otherSession
       # If it's a hero and there's another session, find the right session for it.
       # If there is no other session (playing against default code, or on single player), clone all placeholders.
@@ -155,7 +155,7 @@ module.exports = class Level extends CocoModel
         levelThang.components.push placeholderComponent
 
     # Load the user's chosen hero AFTER getting stats from default char
-    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF
+    if /Hero Placeholder/.test(levelThang.id) and @isType('course') and not @headless and not @sessionless and not window.serverConfig.picoCTF and not @get('assessment') is 'open-ended'
       heroThangType = me.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
       levelThang.thangType = heroThangType if heroThangType
 

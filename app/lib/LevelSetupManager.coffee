@@ -102,6 +102,10 @@ module.exports = class LevelSetupManager extends CocoClass
       @onInventoryModalPlayClicked()
       return
 
+    if @level.get('assessment') is 'open-ended'
+      @onInventoryModalPlayClicked()
+      return
+
     @heroesModal = new PlayHeroesModal({supermodel: @supermodel, session: @session, confirmButtonI18N: 'play.next', level: @level, hadEverChosenHero: @options.hadEverChosenHero})
     @inventoryModal = new InventoryModal({supermodel: @supermodel, session: @session, level: @level})
     @heroesModalDestroy = @heroesModal.destroy
