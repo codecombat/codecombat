@@ -636,7 +636,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     options_caption: "Налаштування параметрів"
     guide_caption: "Документація та поради"
     multiplayer_caption: "Гра з друзями!"
-    auth_caption: "Збережіть свій поступ."
+    auth_caption: "Збережіть свій прогрес."
 
   leaderboard:
     view_other_solutions: "Переглянути таблицю лідерів"
@@ -1151,8 +1151,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     wrong_password: "Невірний пароль"
 #    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Вилучити цей акаунт назовсім"
-    reset_progress_tab: "Скинути увесь поступ"
-    reset_your_progress: "Скинути увесь поступ і почати заново"
+    reset_progress_tab: "Скинути увесь прогрес"
+    reset_your_progress: "Скинути увесь прогрес і почати заново"
     god_mode: "Режим Бога"
     emails_tab: "Email-адреси"
     admin: "Aдмін"
@@ -1252,7 +1252,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     invite_1: "Запрошення:"
     invite_2: "*Запросіть гравців до цього Клану, виславши дане посилання."
     members: "Учасники"
-    progress: "Поступ"
+    progress: "Прогрес"
     not_started_1: "не розпочато"
     started_1: "розпочато"
     complete_1: "завершено"
@@ -2362,7 +2362,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     blurb_2: "правил турніру"
     blurb_3: "першості серед людей або оґрів."
     blurb_4: "Дві команди – подвоєння призів!"
-    blurb_5: "(Два переможня на першому місці, два на другому, тощо.)"
+    blurb_5: "(Два переможця на першому місці, два на другому, тощо.)"
     rank: "Ранг"
     prizes: "Призи"
     total_value: "Загалом"
@@ -2401,8 +2401,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-#    email_taken: "Email already taken"
-#    username_taken: "Username already taken"
+#    email_taken: "Цей е-mail вже використовується"
+#    username_taken: "Ім'я користувача вже використовується"
 
 #  esper:
 #    line_no: "Line $1: "

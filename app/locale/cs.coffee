@@ -66,39 +66,39 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
-#    map: "Map"
+    map: "Mapa"
     play: "Úrovně" # The top nav bar entry where players choose which levels to play
     community: "Komunita"
     courses: "Kurzy"
     blog: "Blog"
     forum: "Fórum"
     account: "Účet"
-#    my_account: "My Account"
+    my_account: "Můj Účet"
     profile: "Profil"
     home: "Domů"
     contribute: "Přispívat"
     legal: "Licence"
-#    privacy: "Privacy"
+    privacy: "Soukromí"
     about: "O stránkách"
     contact: "Kontakt"
     twitter_follow: "Sledovat na Twitteru"
-#    my_classrooms: "My Classes"
-#    my_courses: "My Courses"
+    my_classrooms: "Moje Třídy"
+    my_courses: "Moje Kurzy"
     careers: "Kariéry"
-#    facebook: "Facebook"
-#    twitter: "Twitter"
-#    create_a_class: "Create a Class"
-#    other: "Other"
-#    learn_to_code: "Learn to Code!"
-#    toggle_nav: "Toggle navigation"
-#    schools: "Schools"
-#    get_involved: "Get Involved"
-#    open_source: "Open source (GitHub)"
-#    support: "Support"
-#    faqs: "FAQs"
-#    help_pref: "Need help? Email"
-#    help_suff: "and we'll get in touch!"
-#    resource_hub: "Resource Hub"
+    facebook: "Facebook"
+    twitter: "Twitter"
+    create_a_class: "Vytvořit Třídu"
+    other: "Jiné"
+    learn_to_code: "Nauč se kódit!"
+    toggle_nav: "Přepnout navigaci"
+    schools: "Školy"
+    get_involved: "Zapojit se"
+    open_source: "Open source (GitHub)"
+    support: "Podpora"
+    faqs: "FAQ"
+    help_pref: "Potřebujete pomoc? Email"
+    help_suff: "a my se ozveme!"
+    resource_hub: "Resource Hub"
 
   modal:
     close: "Zavřít"
@@ -117,9 +117,9 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
 
   play:
     play_as: "Hrát jako" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
-#    compete: "Compete!" # Course details page
+    get_course_for_class: "Přiřaď Herní Vývoj a jiné do svých tříd!"
+    request_licenses: "Kontaktujte specialisty naší školy pro více detailů."
+    compete: "Soupeřit!" # Course details page
     spectate: "Dívat se" # Ladder page
     players: "hráči" # Hover over a level on /play
     hours_played: "hodin nahráno" # Hover over a level on /play
@@ -134,15 +134,15 @@ module.exports = nativeDescription: "čeština", englishDescription: "Czech", tr
     heroes: "Hrdinové" # Tooltip on hero shop button from /play
     achievements: "Úspěchy" # Tooltip on achievement list button from /play
     settings: "Nastavení" # Tooltip on settings button from /play
-#    poll: "Poll" # Tooltip on poll button from /play
+    poll: "Hlasování" # Tooltip on poll button from /play
     next: "Další" # Go from choose hero to choose inventory before playing a level
     change_hero: "Změnit hrdinu" # Go back from choose inventory to choose hero
     buy_gems: "Zakoupit drahokamy"
     subscription_required: "Předplatné vyžadováno"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+    subscribers_only: "Pouze předplatitelé!"
+    subscribe_unlock: "Předplaťte si pro odemknutí!"
+    subscriber_heroes: "Předplaťte si dnes pro okamžité odemčení Amary, Hushbauma a Hattoriho!"
+    subscriber_gems: "Předplaťte si dnes pro nákup tohoto hrdiny za drahokamy!"
     anonymous: "Anonymní hráč"
     level_difficulty: "Obtížnost: "
 #    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
