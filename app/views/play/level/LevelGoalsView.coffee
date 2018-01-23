@@ -3,6 +3,7 @@ CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/goals'
 {me} = require 'core/auth'
 utils = require 'core/utils'
+LevelSession = require 'models/LevelSession'
 
 stateIconMap =
   success: 'glyphicon-ok'
@@ -13,6 +14,7 @@ module.exports = class LevelGoalsView extends CocoView
   template: template
   className: 'secret expanded'
   playbackEnded: false
+  topScores: {}
 
   subscriptions:
     'goal-manager:new-goal-states': 'onNewGoalStates'
@@ -21,6 +23,8 @@ module.exports = class LevelGoalsView extends CocoView
     'level:set-playing': 'onSetPlaying'
     'surface:playback-restarted': 'onSurfacePlaybackRestarted'
     'surface:playback-ended': 'onSurfacePlaybackEnded'
+    'level:scores-updated': 'onScoresUpdated'
+    'level:top-scores-updated': 'onTopScoresUpdated'
 
   events:
     'mouseenter': ->
@@ -34,13 +38,15 @@ module.exports = class LevelGoalsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
+    @updateTopScores options.session.getTopScores @level
 
   onNewGoalStates: (e) ->
     firstRun = not @previousGoalStatus?
     @previousGoalStatus ?= {}
     @$el.find('.goal-status').addClass 'secret'
+    @succeeded = e.overallStatus is 'success'
     classToShow = null
-    classToShow = 'success' if e.overallStatus is 'success'
+    classToShow = 'success' if @succeeded
     classToShow = 'incomplete' if e.overallStatus is 'failure'
     classToShow ?= 'timed-out' if e.timedOut
     classToShow ?= 'incomplete'
@@ -130,6 +136,8 @@ module.exports = class LevelGoalsView extends CocoView
       height = @normalHeight
       height = @$el.outerHeight() if not height or @playbackEnded
       top = 41 - height
+      if @shouldShowScores()
+        top += 20
     @$el.css 'top', top
     if @soundTimeout
       # Don't play the sound we were going to play after all; the transition has reversed.
@@ -148,3 +156,53 @@ module.exports = class LevelGoalsView extends CocoView
   onSetLetterbox: (e) ->
     @$el.toggle not e.on
     @updatePlacement()
+
+  # Score display
+
+  shouldShowScores: ->
+    shouldShow = @level.get('assessment') in ['open-ended'] and @hasMainScore
+    if shouldShow isnt @showingScores
+      @showingScores = shouldShow
+      @$el.toggleClass 'with-scores', shouldShow
+    shouldShow
+
+  onScoresUpdated: (e) ->
+    mainScore = e.scores?[0]  # Current interface is only set up to display one score; first one is the most important.
+    if mainScore?.type is 'code-length' and not mainScore.score
+      mainScore = null  # Not counted until complete
+    @hasMainScore = mainScore?
+    return unless @shouldShowScores()
+    $scoreboard = @$('.scoreboard')
+    $scoreboard.toggleClass 'success', @succeeded
+    utils.replaceText $scoreboard.find('.score-type'), $.i18n.t("leaderboard.#{mainScore.type.replace(/-/g, '_')}")
+    scoreText = @formatScore mainScore.type, mainScore.score, false
+    utils.replaceText $scoreboard.find('.current-score-value'), scoreText
+    bestScore = @topScores[mainScore.type]
+    showBest = bestScore?
+    showBest &&= switch mainScore.type
+      when 'time', 'damage-taken' then bestScore < mainScore.score
+      else bestScore > mainScore.score
+    @$el.toggleClass 'with-best-score', showBest
+    $scoreboard.find('.best-score').toggleClass 'hidden', not showBest
+    if showBest
+      bestScoreText = @formatScore mainScore.type, bestScore, true
+      utils.replaceText $scoreboard.find('.best-score-value'), bestScoreText
+    thresholdAchieved = @level.thresholdForScore type: mainScore.type, score: bestScore ? mainScore.score
+    for threshold in ['bronze', 'silver', 'gold']
+      @$(".threshold-icon").toggleClass "threshold-#{threshold}", threshold is thresholdAchieved
+
+  formatScore: (type, score, isBest) ->
+    switch type
+      when 'time', 'survival-time'
+        if isBest
+          score.toFixed(1)
+        else
+          "#{score.toFixed(1)} #{$.i18n.t 'units.sec'}"
+      else Math.round score
+
+  onTopScoresUpdated: (e) ->
+    @updateTopScores e.scores
+
+  updateTopScores: (scores) ->
+    for score in scores
+      @topScores[score.type] = score.score

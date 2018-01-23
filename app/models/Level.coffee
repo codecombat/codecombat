@@ -300,4 +300,17 @@ module.exports = class Level extends CocoModel
         console.error "Problem with template and solution comments for", @get('slug'), e
     sampleCode
 
+  thresholdForScore: ({type, score}) ->
+    return null unless levelScoreTypes = @get 'scoreTypes'
+    return null unless levelScoreType = _.find levelScoreTypes, type: type
+    #levelScoreType = type: type, thresholds: {bronze: 15, silver: 45, gold: 60}
+    for threshold in ['gold', 'silver', 'bronze']
+      thresholdValue = levelScoreType.thresholds[threshold]
+      if levelScoreType.type in LevelConstants.lowerIsBetterScoreTypes
+        achieved = score <= thresholdValue
+      else
+        achieved = score >= thresholdValue
+      if achieved
+        return threshold
+
 _.assign(Level, LevelLib)

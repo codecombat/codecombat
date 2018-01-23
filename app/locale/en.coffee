@@ -425,6 +425,7 @@
   units:
     second: "second"
     seconds: "seconds"
+    sec: "sec"
     minute: "minute"
     minutes: "minutes"
     hour: "hour"
@@ -651,7 +652,7 @@
     damage_dealt: "Damage Dealt"
     difficulty: "Difficulty"
     gold_collected: "Gold Collected"
-    survival_time: "Survival Time"
+    survival_time: "Survived"
     defeated: "Enemies Defeated"
     code_length: "Lines of Code"
 

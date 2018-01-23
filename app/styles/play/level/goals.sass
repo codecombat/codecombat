@@ -21,7 +21,7 @@
     border-width: 0.91vw 1.22vw 3.10vw 0.91vw
     min-width: 23vw
 
-  .goals-status
+  .goals-status, .scoreboard
     margin: 5px 0 0 0
     position: absolute
     color: white
@@ -42,7 +42,7 @@
       color: rgb(245, 170, 49)
     .running
       color: rgb(200, 200, 200)
-    
+
   ul
     padding-left: 0
     margin-bottom: 0
@@ -65,6 +65,75 @@
     
   li.status-success
     color: darkgreen
+
+  .scoreboard
+    display: none
+    margin-top: 25px
+    color: rgb(230, 230, 230)
+
+    &.success
+      color: white
+
+      .current-score-value, .best-score
+        color: lightgreen
+        text-shadow: 1px 1px 0px black
+
+    .best-score
+      visibility: hidden
+
+  .threshold
+    display: none
+
+  &.with-scores
+    border-image: url(/images/level/goals_background_with_scores.png) 15 20 96 15 fill stretch
+    border-width: 8px 10px 45px 8px
+
+    .scoreboard
+      display: block
+
+    &.brighter
+      border-width: 0.91vw 1.22vw 3.8vw 0.91vw
+
+      .goals-status, .scoreboard
+        font-size: 1.2vw
+
+      .scoreboard
+        margin-top: 2.0vw
+
+      &.with-best-score
+        min-width: 27vw
+
+        .best-score
+          visibility: visible
+
+      .threshold
+        bottom: -3.5vw
+        right: -1vw
+        font-size: 3.5vw
+
+    .threshold
+      bottom: -48px
+      right: -10px
+      font-size: 36px
+      text-shadow: 1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black
+      position: absolute
+      line-height: 20px
+      display: block
+
+      .threshold-icon
+        display: none
+
+      .threshold-bronze
+        color: #a87308
+        display: inline
+
+      .threshold-silver
+        color: #a8a8a8
+        display: inline
+
+      .threshold-gold
+        color: #f4cb27
+        display: inline
     
 #goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
   display: none
