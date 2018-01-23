@@ -323,7 +323,28 @@ _.extend LevelSchema.properties,
   }}
   campaign: c.shortString title: 'Campaign', description: 'Which campaign this level is part of (like "desert").', format: 'hidden'  # Automatically set by campaign editor.
   campaignIndex: c.int title: 'Campaign Index', description: 'The 0-based index of this level in its campaign.', format: 'hidden'  # Automatically set by campaign editor.
-  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).', uniqueItems: true}, c.scoreType
+  scoreTypes: c.array {title: 'Score Types', description: 'What metric to show leaderboards for. Most important one first, not too many (2 is good).'}, {
+      anyOf: [
+        c.scoreType,
+        {
+          type: 'object'
+          title: 'Score Type Object'
+          required: ['type']
+          additionalProperties: false
+          properties: {
+            type: c.scoreType
+            thresholds: {
+              type: 'object'
+              properties: {
+                bronze: { type: 'number' }
+                silver: { type: 'number' }
+                gold: { type: 'number' }
+              }
+            }
+          }
+        }
+      ]
+    }
   concepts: c.array {title: 'Programming Concepts', description: 'Which programming concepts this level covers.', uniqueItems: true, format: 'concepts-list'}, c.concept
   primaryConcepts: c.array {title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true}, c.concept
   picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
