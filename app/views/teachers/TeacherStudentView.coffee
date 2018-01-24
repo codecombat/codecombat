@@ -53,6 +53,7 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
+      window.location.href = window.location.href if window.location.hash # Navigate to anchor after loading
     super()
 
   afterRender: ->
@@ -81,6 +82,7 @@ module.exports = class TeacherStudentView extends RootView
     @levelSolutionMap = {}
     for level in @levels.models
       solution = level.getSolutions().find((s) => s.language is @classroom.get('aceConfig')?.language)
+      solution = level.getSolutions().find((s) => s.language is 'html') unless solution
       @levelSolutionMap[level.get('original')] = solution.source if solution
     @levelStudentCodeMap = {}
     for session in @sessions.models

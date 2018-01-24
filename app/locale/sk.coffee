@@ -425,6 +425,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
   units:
     second: "sekunda"
     seconds: "sekúnd"
+#    sec: "sec"
     minute: "minúta"
     minutes: "minúty"
     hour: "hodina"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     damage_dealt: "spôsobenej újmy"
     difficulty: "obtiažnosti"
     gold_collected: "Nazbierané zlato"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Použité"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     year_price: "$__price__/rok"
     kids_message_1: "Deti! Posielame email rodičom, iba oni vám môžu zaplatiť predplatné."
     kids_message_2: "Spýtaj sa rodičov"
-    support_part1: "Potrebuješ pomoc s predplatným? Napíš email na"
+    support_part1: "Potrebuješ pomoc s predplatným? Napíš email na" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: ",ak máš nejakú otázku."
 #    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     sean_title: "Oblastný manažér"
     liz_title: "Oblastný manažér"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Ilustrácia"
     retrostyle_blurb: "Retro hry"
     jose_title: "Hudba"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    level_overview_solutions: "Level Overview and Solutions"
 #    no_student_assigned: "No students have been assigned this course."
 #    paren_new: "(new)"
+#    student_code: "Student Code"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    latest_completed: "Latest completed:"
 #    sort_by: "Sort by"
 #    progress: "Progress"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
 #    completed: "Completed"
 #    practice: "Practice"
 #    started: "Started"
-#    click_to_view_progress: "click to view progress"
 #    no_progress: "No progress"
 #    not_required: "Not required"
 #    select_course: "Select course to view"
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

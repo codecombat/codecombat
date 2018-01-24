@@ -148,6 +148,7 @@ module.exports = class Classroom extends CocoModel
         practice: level.get('practice') ? false
         complete: complete
     lastPlayed = lastStarted ? lastPlayed
+    lastPlayedNumber = '' if lastPlayed?.get('assessment')
     needsPractice = false
     nextIndex = 0
     if currentIndex >= 0
