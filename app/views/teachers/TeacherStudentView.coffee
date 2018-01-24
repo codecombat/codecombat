@@ -53,6 +53,7 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
+      window.location.href = window.location.href if window.location.hash # Navigate to anchor after loading
     super()
 
   afterRender: ->
