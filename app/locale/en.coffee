@@ -762,7 +762,7 @@
     year_price: "$__price__/year"
     kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
     kids_message_2: "Ask Your Parent"
-    support_part1: "Need help with payment or prefer PayPal? Email" # {change}
+    support_part1: "Need help with payment or prefer PayPal? Email"
     support_part2: "support@codecombat.com"
     you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
@@ -956,7 +956,7 @@
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
     david_title: "Customer Success Manager"
-    jane_title: "Partnership Manager" # {change}
+    jane_title: "Partnership Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Music"
@@ -1448,7 +1448,7 @@
     assessments: "Assessments"
     challenges: "Challenges"
     level_name: "Level Name:"
-    play_again: "Replay" # {change}
+    play_again: "Replay"
     keep_trying: "Keep Trying"
     start_challenge: "Start Challenge"
     locked: "Locked"
@@ -1529,7 +1529,7 @@
     copy_class_url: "Copy Class URL"
     class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
     add_students_manually: "Invite Students by Email"
-    bulk_assign: "Select course" # {change}
+    bulk_assign: "Select course"
     assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenses were applied."
     assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."

@@ -425,6 +425,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   units:
     second: "másodperc"
     seconds: "másodpercek"
+#    sec: "sec"
     minute: "perc"
     minutes: "percek"
     hour: "óra"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     damage_dealt: "Kiosztott Sebzés"
     difficulty: "Nehézség"
     gold_collected: "Összegyűjtött Arany"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Felvett"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    year_price: "$__price__/year"
 #    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
 #    kids_message_2: "Ask Your Parent"
-#    support_part1: "Need help with payment options? Email"
+#    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
-#    support_part3: "if you have any questions."
 #    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sean_title: "Territory Manager"
 #    liz_title: "Territory Manager"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Zene"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     level_overview_solutions: "Pályaleírások és megoldókulcs"
 #    no_student_assigned: "No students have been assigned this course."
 #    paren_new: "(new)"
+#    student_code: "Student Code"
     teacher_dashboard: "Tanári irányítópult" # Navbar
     my_classes: "Saját osztályok"
     courses: "Kurzus útmutatók"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     latest_completed: "Legkésőbbi teljesített" # {change}
     sort_by: "Rendezés"
     progress: "Fejlődés"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "Teljesítve"
 #    practice: "Practice"
     started: "Elkezdve"
-    click_to_view_progress: "Kattints a fejlődés megtekintéséhez"
     no_progress: "Nincs fejlődés"
 #    not_required: "Not required"
     select_course: "Megnézendő kurzus kiválasztása"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     copy_class_url: "Osztály-URL másolása"
     class_join_url_blurb: "Az osztály egyedi URL-címét közzéteheted egy diákjaiddal közösen használt weboldalon."
     add_students_manually: "Tanulók meghívása e-mailben"
-    bulk_assign: "Csoportos hozzárendelés"
+    bulk_assign: "Csoportos hozzárendelés" # {change}
 #    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
 #    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

@@ -425,6 +425,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
   units:
     second: "frpbaq"
     seconds: "frpbaqf"
+    sec: "frp"
     minute: "zvahgr"
     minutes: "zvahgrf"
     hour: "ubhe"
@@ -646,11 +647,14 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     week: "Guvf Jrrx"
     all: "Nyy-Gvzr"
     latest: "Yngrfg"
-    time: "Gvzr"
+    time: "Jva Gvzr"
     damage_taken: "Qnzntr Gnxra"
     damage_dealt: "Qnzntr Qrnyg"
     difficulty: "Qvssvphygl"
     gold_collected: "Tbyq Pbyyrpgrq"
+    survival_time: "Fheivirq"
+    defeated: "Rarzvrf Qrsrngrq"
+    code_length: "Yvarf bs Pbqr"
 
   inventory:
     equipped_item: "Rdhvccrq"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     year_price: "$__cevpr__/lrne"
     kids_message_1: "Xvqf! Jr'yy fraq na rznvy gb lbhe cneragf fb gurl pna chepunfr n fhofpevcgvba sbe lbh."
     kids_message_2: "Nfx Lbhe Cnerag"
-    support_part1: "Arrq uryc jvgu cnlzrag bcgvbaf? Rznvy"
+    support_part1: "Arrq uryc jvgu cnlzrag be cersre CnlCny? Rznvy" # {punatr}
     support_part2: "fhccbeg@pbqrpbzong.pbz"
-    support_part3: "vs lbh unir nal dhrfgvbaf."
     you_are_purchasing_monthly_sub: "Lbh'er chepunfvat n Zbaguyl Cerzvhz Fhofpevcgvba!"
     you_are_purchasing_year_sub: "Lbh'er chepunfvat n Lrneyl Cerzvhz Fhofpevcgvba!"
     you_are_purchasing_lifetime_sub: "Lbh'er chepunfvat n Yvsrgvzr Cerzvhz Fhofpevcgvba!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     sean_title: "Greevgbel Znantre"
     liz_title: "Greevgbel Znantre"
     david_title: "Phfgbzre Fhpprff Znantre"
-    jane_title: "Cnegarefuvc Nffbpvngr"
+    jane_title: "Cnegarefuvc Znantre" # {punatr}
     retrostyle_title: "Vyyhfgengvba"
     retrostyle_blurb: "ErgebFglyr Tnzrf"
     jose_title: "Zhfvp"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     challenge_level: "Punyyratr Yriry:"
     status: "Fgnghf:"
     assessments: "Nffrffzragf"
-    play_again: "Cynl Ntnva"
+    challenges: "Punyyratrf"
+    level_name: "Yriry Anzr:"
+    play_again: "Ercynl" # {punatr}
     keep_trying: "Xrrc Gelvat"
     start_challenge: "Fgneg Punyyratr"
     locked: "Ybpxrq"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     level_overview_solutions: "Yriry Bireivrj naq Fbyhgvbaf"
     no_student_assigned: "Ab fghqragf unir orra nffvtarq guvf pbhefr."
     paren_new: "(arj)"
+    student_code: "Fghqrag Pbqr"
     teacher_dashboard: "Grnpure Qnfuobneq" # Anione
     my_classes: "Zl Pynffrf"
     courses: "Pbhefr Thvqrf"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     latest_completed: "Yngrfg pbzcyrgrq:"
     sort_by: "Fbeg ol"
     progress: "Cebterff"
+    concepts_used: "Pbaprcgf hfrq ol Fghqrag:"
+    concept_checked: "Pbaprcg purpxrq:"
     completed: "Pbzcyrgrq"
     practice: "Cenpgvpr"
     started: "Fgnegrq"
-    click_to_view_progress: "pyvpx gb ivrj cebterff"
     no_progress: "Ab cebterff"
     not_required: "Abg erdhverq"
     select_course: "Fryrpg pbhefr gb ivrj"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     copy_class_url: "Pbcl Pynff HEY"
     class_join_url_blurb: "Lbh pna nyfb cbfg guvf havdhr pynff HEY gb n funerq jrocntr."
     add_students_manually: "Vaivgr Fghqragf ol Rznvy"
-    bulk_assign: "Fryrpg pbhefr"
+    bulk_assign: "Fryrpg pbhefr" # {punatr}
     assigned_msg_1: "{{ahzoreNffvtarq}} fghqragf jrer nffvtarq {{pbhefrAnzr}}."
     assigned_msg_2: "{{ahzoreRaebyyrq}} yvprafrf jrer nccyvrq."
     assigned_msg_3: "Lbh abj unir {{erznvavatFcbgf}} ninvynoyr yvprafrf erznvavat."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     success: "Fhpprff"
     in_progress: "Va Cebterff"
     not_started: "Abg Fgnegrq"
+    mid_course: "Zvq-Pbhefr"
+    end_course: "Raq bs Pbhefr"
+    none: "Abar qrgrpgrq lrg"
+    explain_open_ended: "Abgr: Fghqragf ner rapbhentrq gb fbyir guvf yriry perngviryl — bar cbffvoyr fbyhgvba vf cebivqrq orybj."
+    level_label: "Yriry:"
+    time_played_label: "Gvzr Cynlrq:"
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
 
   anonymous_teacher:
     notify_teacher: "Abgvsl Grnpure"
-    want_codecombat: "Jnag gb cynl PbqrPbzong nyy gur gvzr?"
     create_teacher_account: "Perngr serr grnpure nppbhag"
-    chat: "Nfx dhrfgvbaf ivn pung"
     enter_student_name: "Lbhe anzr:"
     enter_teacher_email: "Lbhe grnpure'f rznvy:"
     teacher_email_placeholder: "grnpure.rznvy@rknzcyr.pbz"

@@ -425,6 +425,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   units:
     second: "seconde"
     seconds: "seconden"
+#    sec: "sec"
     minute: "minuut"
     minutes: "minuten"
     hour: "uur"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     damage_dealt: "Schade uitgedeeld"
     difficulty: "Moeilijkheidsgraad"
     gold_collected: "Goud verzameld"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Gekozen"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     year_price: "$__price__/year"
     kids_message_1: "Kinderen! We sturen een mail naar jullie ouders zodat ze een abonnement voor jullie kunnen kopen."
     kids_message_2: "Vraag het aan je ouders"
-    support_part1: "Hulp nodig met betalingsopties? Email"
+    support_part1: "Hulp nodig met betalingsopties? Email" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "als je vragen hebt."
     you_are_purchasing_monthly_sub: "Je bent een maandelijkse Premium inschrijving aan het aanschaffen!"
     you_are_purchasing_year_sub: "Je bent een jaarlijkse Premium inschrijving aan het aanschaffen!"
     you_are_purchasing_lifetime_sub: "Je bent een levenslange Premium inschrijving aan het aanschaffen!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     sean_title: "Regio Manager"
     liz_title: "Buurt Manager"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
     jose_title: "Muziek"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     level_overview_solutions: "Level overzicht en antwoorden"
     no_student_assigned: "Er zijn geen leerlingen toegewezen aan deze cursus."
     paren_new: "(nieuw)"
+#    student_code: "Student Code"
     teacher_dashboard: "Docenten Dashboard" # Navbar
     my_classes: "Mijn Klassen"
     courses: "Cursussen" # {change}
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     latest_completed: "Laatste Voltooid" # {change}
     sort_by: "Sorteer op"
     progress: "Voortgang"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "Behaald"
     practice: "Oefen"
     started: "Gestart"
-    click_to_view_progress: "klik om de eigenschappen te bekijken"
     no_progress: "Geen voortgang"
     not_required: "Niet vereist"
     select_course: "Selecteer cursus om te bekijken"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     copy_class_url: "Kopieer klas-link"
     class_join_url_blurb: "Nieuwe studenten kunnen deze link bezoeken terwijl ze ingelogd zijn om zich bij de klas aan te sluiten." # {change}
     add_students_manually: "Leerlingen Handmatig Toevoegen" # {change}
-    bulk_assign: "Toewijzen in Bulk"
+    bulk_assign: "Toewijzen in Bulk" # {change}
     assigned_msg_1: "{{numberAssigned}} studenten zitten bij {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licenties zijn toegepast."
     assigned_msg_3: "Je hebt nog {{remainingSpots}} beschikbare licenties."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
   share_licenses:
     share_licenses: "Deel licenties"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

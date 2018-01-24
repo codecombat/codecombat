@@ -425,6 +425,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
   units:
     second: "שנייה"
     seconds: "שניות"
+#    sec: "sec"
     minute: "דקה"
     minutes: "דקות"
     hour: "שעה"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     damage_dealt: "נזק שנגרם"
     difficulty: "רמת קושי"
     gold_collected: "זהב שנאסף"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "ציוד נוכחי"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     year_price: "$__price__ לשנה"
     kids_message_1: "ילדים! אנו נשלח להורים הודעה בדואר אלקטרוני, כדי שהם יוכלו לרכוש עבורכם מנוי."
     kids_message_2: "שאל הורה"
-    support_part1: "זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת"
+    support_part1: "זקוקים לעזרה עם אפשרויות התשלום? שלחו דואר אלקטרוני לכתובת" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "בכל שאלה."
 #    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
     you_are_purchasing_year_sub: "אתם רוכשים כעת מנוי פרימיום שנתי!"
     you_are_purchasing_lifetime_sub: "אתם רוכשים כעת מנוי פרימיום לכל החיים!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     sean_title: "מנהל טריטוריה"
     liz_title: "מנהלת טריטוריה"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "איור"
     retrostyle_blurb: "משחקי רטרו"
     jose_title: "מוזיקה"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     level_overview_solutions: "סקירה כללית ופתרונות לשלב"
     no_student_assigned: "לא הוקצו תלמידים לקורס זה."
     paren_new: "(חדש)"
+#    student_code: "Student Code"
     teacher_dashboard: "לוח המחוונים למורה" # Navbar
     my_classes: "הכיתות שלי"
     courses: "מדריכים לקורס"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     latest_completed: "אחרון שהושלם:"
     sort_by: "מיון על פי"
     progress: "התקדמות"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "הושלם"
     practice: "תרגול"
     started: "התחיל"
-    click_to_view_progress: "לחצו כדי לעיין בהתקדמות"
     no_progress: "אין התקדמות"
     not_required: "לא נדרש"
     select_course: "בחרו קורס להצגה"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     copy_class_url: "העתק URL כיתה"
     class_join_url_blurb: "כמו כן, ניתן לפרסם בדף אינטרנט משותף כתובת URL ייחודית זו של הכיתה."
     add_students_manually: "הזמנת תלמידים בדואר אלקטרוני"
-    bulk_assign: "הקצאה המונית"
+    bulk_assign: "הקצאה המונית" # {change}
     assigned_msg_1: "{{courseName}} הוקצה ל-{{numberAssigned}} תלמידים."
     assigned_msg_2: "הוחלו {{numberEnrolled}} רישיונות."
     assigned_msg_3: "נותרו לכם {{remainingSpots}} רישיונות זמינים."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
   share_licenses:
     share_licenses: "שיתוף רישיונות"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

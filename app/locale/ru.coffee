@@ -425,6 +425,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
   units:
     second: "секунда"
     seconds: "секунд(ы)"
+#    sec: "sec"
     minute: "минута"
     minutes: "минут(ы)"
     hour: "час"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     damage_dealt: "Нанесено повреждений"
     difficulty: "Сложность"
     gold_collected: "Собрано золота"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Выбранный"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     year_price: "$__price__/год"
     kids_message_1: "Ребята! Мы вышлем email вашим родителям, чтобы они могли купить для вас подписку."
     kids_message_2: "Спроси своих родителей"
-    support_part1: "Нужна помощь по способах оплаты? Напишите на"
+    support_part1: "Нужна помощь по способах оплаты? Напишите на" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: ", если у вас есть вопросы."
     you_are_purchasing_monthly_sub: "Вы купили Месячную Премиум Подписку!"
     you_are_purchasing_year_sub: "Вы купили Годовую Премиум Подписку!"
     you_are_purchasing_lifetime_sub: "Вы купили Пожизненную Премиум Подписку!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     sean_title: "Региональный менеджер"
     liz_title: "Региональный менеджер"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Иллюстрации"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музыка"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     level_overview_solutions: "Обзор уровня и решения"
     no_student_assigned: "Ни один ученик не был назначен на этот курс."
     paren_new: "(новое)"
+#    student_code: "Student Code"
     teacher_dashboard: "Панель учителя" # Navbar
     my_classes: "Мои классы"
     courses: "Руководства курсов"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     latest_completed: "Последний пройденный:"
     sort_by: "Сортировать по"
     progress: "Прогресс"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "Завершено"
     practice: "Тренировка"
     started: "Начато"
-    click_to_view_progress: "кликнуть для просмотра прогресса"
     no_progress: "Нет прогресса"
     not_required: "Не требуется"
     select_course: "Выберите курс для просмотра"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     copy_class_url: "Копировать URL класса"
     class_join_url_blurb: "Вы также можете опубликовать этот уникальный Классный URL на общей веб-странице."
     add_students_manually: "Пригласить учеников по email"
-    bulk_assign: "Назначение учеников"
+    bulk_assign: "Назначение учеников" # {change}
     assigned_msg_1: "{{numberAssigned}} учеников назначены на курс {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} лицензий были приняты."
     assigned_msg_3: "У вас теперь осталось {{remainingSpots}} доступных лицензий."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

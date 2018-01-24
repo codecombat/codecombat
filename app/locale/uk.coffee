@@ -425,6 +425,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
   units:
     second: "секунда"
     seconds: "секунд"
+#    sec: "sec"
     minute: "хвилина"
     minutes: "хвилин"
     hour: "година"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     damage_dealt: "Пошкоджень нанесено"
     difficulty: "Складність"
     gold_collected: "Золота зібрано"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Екіпіровано"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     year_price: "$__price__/рік"
     kids_message_1: "Дітлахи! Ми надішлемо email вашим батькам, щоб вони змогли купити вам підписку."
     kids_message_2: "Запитай батьків"
-    support_part1: "Потрібна допомога з опціями оплати? Напишіть на"
+    support_part1: "Потрібна допомога з опціями оплати? Напишіть на" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "якщо у вас є які-небудь питання."
 #    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sean_title: "Менеджер територій"
     liz_title: "Менеджер територій"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Ілюстрація"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Музика"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     level_overview_solutions: "Огляд та рішення рівня"
     no_student_assigned: "Жодного учня не призначено на цей курс."
     paren_new: "(новий)"
+#    student_code: "Student Code"
     teacher_dashboard: "Учительська панель" # Navbar
     my_classes: "Мої класи"
     courses: "Путівники курсу"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     latest_completed: "Останній завершений:"
     sort_by: "Сортувати"
     progress: "Прогрес"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "Завершено"
     practice: "Практикувати"
     started: "Розпочато"
-    click_to_view_progress: "натисніть, щоб побачити прогрес"
     no_progress: "Немає прогресу"
     not_required: "Не обов'язково"
     select_course: "Оберіть курс для перегляду"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     copy_class_url: "Копіювати посилання класу"
     class_join_url_blurb: "Ви також можете поширити це унікальне посилання."
     add_students_manually: "Запросити учнів через Email"
-    bulk_assign: "Масове призначення"
+    bulk_assign: "Масове призначення" # {change}
     assigned_msg_1: "{{numberAssigned}} учнів було призначено до {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} ліцензій було застосовано."
     assigned_msg_3: "У вас залишилось {{remainingSpots}} доступних ліцензій."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
@@ -2401,8 +2412,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
 #  server_error:
-#    email_taken: "Цей е-mail вже використовується"
-#    username_taken: "Ім'я користувача вже використовується"
+#    email_taken: "Email already taken"
+#    username_taken: "Username already taken"
 
 #  esper:
 #    line_no: "Line $1: "

@@ -425,6 +425,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   units:
     second: "秒"
     seconds: "秒"
+#    sec: "sec"
     minute: "分钟"
     minutes: "分钟"
     hour: "小时"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     damage_dealt: "造成的伤害"
     difficulty: "难度"
     gold_collected: "收集的金币"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "已装备"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     year_price: "$__price__/年"
     kids_message_1: "孩子们！我们会发送一封电子邮件给您的父母，以便他们可以为您购买订阅。"
     kids_message_2: "联系你的父母"
-    support_part1: "付款时需要帮助? Email"
+    support_part1: "付款时需要帮助? Email" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "如果您有任何问题。"
     you_are_purchasing_monthly_sub: "您正在购买月度高级订阅！"
     you_are_purchasing_year_sub: "您正在购买年度高级订阅！"
     you_are_purchasing_lifetime_sub: "您正在购买终身高级订阅！"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sean_title: "区域经理"
     liz_title: "区域经理"
     david_title: "客户成功经理"
-    jane_title: "合作伙伴"
+    jane_title: "合作伙伴" # {change}
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     level_overview_solutions: "关卡概览和解法"
     no_student_assigned: "没有学生被分配到这个课程。"
     paren_new: "(新)"
+#    student_code: "Student Code"
     teacher_dashboard: "老师面板" # Navbar
     my_classes: "我的班级"
     courses: "课程指导"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     latest_completed: "最近通关" # {change}
     sort_by: "排列依据"
     progress: "进度"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "已完成"
     practice: "练习"
     started: "已开始"
-    click_to_view_progress: "点击查看进度"
     no_progress: "无进度"
     not_required: "不需要"
     select_course: "选择查看"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     copy_class_url: "复制班级链接地址"
     class_join_url_blurb: "新学生可以在登录之后，访问该网址加入班级。" # {change}
     add_students_manually: "手工添加学生" # {change}
-    bulk_assign: "批量添加"
+    bulk_assign: "批量添加" # {change}
     assigned_msg_1: "{{numberAssigned}} 学生被分配 {{courseName}}。"
     assigned_msg_2: "{{numberEnrolled}} 被应用许可证。"
     assigned_msg_3: "你现在还有 {{remainingSpots}} 个可用的许可。"
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
   share_licenses:
     share_licenses: "分享许可证"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

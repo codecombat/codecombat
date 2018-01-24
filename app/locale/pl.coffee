@@ -425,6 +425,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
   units:
     second: "sekunda"
     seconds: "sekund"
+#    sec: "sec"
     minute: "minuta"
     minutes: "minut"
     hour: "godzina"
@@ -651,6 +652,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     damage_dealt: "Obrażenia zadane"
     difficulty: "Trudność"
     gold_collected: "Złoto zebrane"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
 
   inventory:
     equipped_item: "Założone"
@@ -758,9 +762,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     year_price: "$__price__/rok"
     kids_message_1: "Wyślemy emaila do Waszych rodziców z prośbą o wykupienie Wam subskrypcji."
     kids_message_2: "Zapytaj rodzica"
-    support_part1: "Potrzebujesz pomocy? Jeśli masz jakieś pytania, to napisz do nas na"
+    support_part1: "Potrzebujesz pomocy? Jeśli masz jakieś pytania, to napisz do nas na" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "."
 #    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
 #    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
 #    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
@@ -953,7 +956,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     sean_title: "Menedżer regionu"
     liz_title: "Menedżer regionu"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Ilustracje"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Muzyka"
@@ -1443,7 +1446,9 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
+#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
@@ -1460,6 +1465,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     level_overview_solutions: "Opisy i rozwiązania poziomów"
     no_student_assigned: "Do kursu nie został dołączony żaden uczeń."
     paren_new: "(nowy)"
+#    student_code: "Student Code"
     teacher_dashboard: "Panel nauczyciela" # Navbar
     my_classes: "Moje klasy"
     courses: "Przewodniki"
@@ -1504,10 +1510,11 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     latest_completed: "Ostatnio ukończony:"
     sort_by: "Sortuj według"
     progress: "Postęp"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "Ukończono"
     practice: "Ćwicz"
     started: "Rozpoczęto"
-    click_to_view_progress: "podejrzyj postęp"
     no_progress: "Brak postępu"
     not_required: "Nie wymagane"
     select_course: "Wybierz kurs do wyświetlenia"
@@ -1522,7 +1529,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     copy_class_url: "Kopiuj URL klasy"
     class_join_url_blurb: "Możesz także umieścić ten unikalny URL klasy na waszej wspólnej stronie."
     add_students_manually: "Zaproś uczniów poprzez email"
-    bulk_assign: "Masowe przydzielanie"
+    bulk_assign: "Masowe przydzielanie" # {change}
     assigned_msg_1: "{{numberAssigned}} uczniów zostało dołączonych do kursu {{courseName}}."
     assigned_msg_2: "{{numberEnrolled}} licencji zostało przypisanych."
     assigned_msg_3: "Posiadasz jeszcze {{remainingSpots}} dostępnych licencji."
@@ -1739,6 +1746,12 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2292,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"
