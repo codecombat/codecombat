@@ -57,6 +57,7 @@ module.exports = class LadderView extends RootView
       @tournamentTimeElapsed = moment(new Date(tournamentStartDate)).fromNow()
 
     @loadLeague()
+    @urls = require('core/urls')
 
   loadLeague: ->
     @leagueID = @leagueType = null unless @leagueType in ['clan', 'course']
@@ -69,9 +70,10 @@ module.exports = class LadderView extends RootView
       else
         @listenToOnce @league, 'sync', @onCourseInstanceLoaded
 
-  onCourseInstanceLoaded: (courseInstance) ->
+  onCourseInstanceLoaded: (@courseInstance) ->
     return if @destroyed
-    course = new Course({_id: courseInstance.get('courseID')})
+    @classroomID = @courseInstance.get('classroomID')
+    course = new Course({_id: @courseInstance.get('courseID')})
     @course = @supermodel.loadModel(course).model
     @listenToOnce @course, 'sync', @render
 
