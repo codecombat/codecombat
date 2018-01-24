@@ -54,6 +54,19 @@ module.exports =
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
     res.status(200).send(classrooms)
+    
+  getByMember: wrap (req, res, next) ->
+    { memberID } = req.query
+    return next() unless memberID
+
+    unless req.user and (req.user.isAdmin() or memberID is req.user.id)
+      throw new errors.Forbidden()
+
+    unless utils.isID memberID
+      throw new errors.UnprocessableEntity('Bad memberID')
+
+    classrooms = yield Classroom.find {members: mongoose.Types.ObjectId(memberID)}
+    res.send((classroom.toObject({req}) for classroom in classrooms))
 
   fetchAllLevels: wrap (req, res, next) ->
     classroom = yield database.getDocFromHandle(req, Classroom)
