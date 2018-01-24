@@ -285,7 +285,7 @@ module.exports = class Level extends CocoModel
         # TODO: use preferredlanguage to localize source
         solution.source = _.template(solution.source)(plan.context)
       catch e
-        console.error "Problem with template and solution comments for", @get('slug'), e
+        console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
 
   getSampleCode: ->
