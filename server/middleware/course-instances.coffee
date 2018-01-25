@@ -276,8 +276,12 @@ module.exports =
 
   fetchNonHoc: wrap (req, res) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    limit = parseInt(req.query.options?.limit ? 0)
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
-    courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).lean()
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query.$and.push({_id: {$lt: beforeId}})
+    courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).sort({_id: -1}).limit(limit).lean()
     res.status(200).send(courseInstances)
 
   fetchMyCourseLevelSessions: wrap (req, res) ->

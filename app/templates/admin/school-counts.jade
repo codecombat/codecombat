@@ -8,6 +8,9 @@ block content
     div You must be logged in as an admin to view this page.
   else if !view.countryGraphs || !view.countryGraphs['USA']
     h3 Loading...
+    p.small Change query string 'batchsize' to be small if this page never loads or larger to speed it up (currently set to #{view.batchSize})
+    p
+      !{view.state}
   else
     p
       div CodeCombat is now in #{view.countryGraphs['USA'].totalSchools} schools with #{view.countryGraphs['USA'].totalStudents} students [and #{view.countryGraphs['USA'].totalTeachers} teachers] [in #{view.countryGraphs['USA'].totalStates} states] in the USA

@@ -396,5 +396,10 @@ module.exports =
 
   getUsers: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    classrooms = yield Classroom.find().select('ownerID members').lean()
+    limit = parseInt(req.query.options?.limit ? 0)
+    query = {}
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query = {$and: [{_id: {$lt: beforeId}}, query]}
+    classrooms = yield Classroom.find(query).sort({_id: -1}).limit(limit).select('ownerID members').lean()
     res.status(200).send(classrooms)
