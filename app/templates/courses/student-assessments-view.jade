@@ -44,7 +44,7 @@ flat-layout
                 =" "
                 | {{ $t('teacher.not_started') }}
             div.small(v-if="level.assessment === 'open-ended' && sessionMap[level.original]")
-              strong {{ $t('teacher.concepts_used') }}
+              strong {{ $t('courses.concepts_used') }}
               =" "
               span(v-for="(concept, i) in sessionMap[level.original].codeConcepts || []")
                 span(v-if="i > 0")
