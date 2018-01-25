@@ -7,6 +7,9 @@
 // https://medium.com/intercom-developers/be-prepared-3-ways-to-handle-rate-limits-baeb9215c1bc
 
 // TODO: Intercom advised to create a segment where last_heard_from is unknown and whatever other criteria we want, and use the API to just fetch that segment. If it works, would be way easier to do than this, and reliably get responses to our auto messages, too. Future work.
+// Since this seems to be not working that well, I'm doing it manually for now based on the segment from the web interface, and disabling this script.
+console.log(`${new Date().toISOString()} Skipping deleteInactiveIntercomUsers.js in favor of manual process.`);
+process.exit();
 
 if (process.argv.length !== 3) {
   console.log("Usage: node <script> <Intercom Access Token> ");
