@@ -64,5 +64,10 @@ module.exports =
 
   getUsers: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    trialRequests = yield TrialRequest.find(status: {$ne: 'denied'}).select('applicant properties').lean()
+    limit = parseInt(req.query.options?.limit ? 0)
+    query = {status: {$ne: 'denied'}}
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query = {$and: [{_id: {$lt: beforeId}}, query]}
+    trialRequests = yield TrialRequest.find(query).sort({_id: -1}).limit(limit).select('applicant properties').lean()
     res.status(200).send(trialRequests)

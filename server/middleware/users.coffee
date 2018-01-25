@@ -183,24 +183,35 @@ module.exports =
 
   getStudents: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    query = $or: [{role: 'student'}, {$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}]
-    users = yield User.find(query).select('lastIP').lean()
+    limit = parseInt(req.query.options?.limit ? 0)
+    query = {$or: [{role: 'student'}, {$and: [{schoolName: {$exists: true}}, {schoolName: {$ne: ''}}, {anonymous: false}]}]}
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query = {$and: [{_id: {$lt: beforeId}}, query]}
+    users = yield User.find(query).sort({_id: -1}).limit(limit).select('lastIP').lean()
     for user in users
       if ip = user.lastIP
         user.geo = geoip.lookup(ip)
         if country = user.geo?.country
           user.geo.countryName = countryList.getName(country)
+      delete user.lastIP
     res.status(200).send(users)
 
   getTeachers: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    limit = parseInt(req.query.options?.limit ? 0)
     teacherRoles = ['teacher', 'technology coordinator', 'advisor', 'principal', 'superintendent', 'parent']
-    users = yield User.find(anonymous: false, role: {$in: teacherRoles}).select('lastIP').lean()
+    query = {anonymous: false, role: {$in: teacherRoles}}
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query = {$and: [{_id: {$lt: beforeId}}, query]}
+    users = yield User.find(query).sort({_id: -1}).limit(limit).select('lastIP').lean()
     for user in users
       if ip = user.lastIP
         user.geo = geoip.lookup(ip)
         if country = user.geo?.country
           user.geo.countryName = countryList.getName(country)
+      delete user.lastIP
     res.status(200).send(users)
 
   getLeadPriority: wrap (req, res, next) ->
