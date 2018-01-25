@@ -1452,6 +1452,7 @@
     keep_trying: "Keep Trying"
     start_challenge: "Start Challenge"
     locked: "Locked"
+    concepts_used: "Concepts Used:"
 
   project_gallery:
     no_projects_published: "Be the first to publish a project in this course!"
