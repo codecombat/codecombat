@@ -530,7 +530,7 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
         expect(prepaid.get('redeemers').length).toBe(0)
         done()
 
-describe 'POST /db/classroom/:id/invite-members', ->
+xdescribe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', utils.wrap (done) ->
     user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
