@@ -17,6 +17,7 @@ module.exports = class Handler
   modelClass: null
   privateProperties: []
   editableProperties: []
+  adminEditableProperties: []
   postEditableProperties: []
   jsonSchema: {}
   waterfallFunctions: []
@@ -27,6 +28,7 @@ module.exports = class Handler
     @privateProperties = @modelClass?.privateProperties or @privateProperties or []
     @editableProperties = @modelClass?.editableProperties or @editableProperties or []
     @postEditableProperties = @modelClass?.postEditableProperties or @postEditableProperties or []
+    @adminEditableProperties = @modelClass?.adminEditableProperties or @adminEditableProperties or []
     @jsonSchema = @modelClass?.jsonSchema or @jsonSchema or {}
 
   # subclasses should override these methods
@@ -59,6 +61,7 @@ module.exports = class Handler
   formatEntity: (req, document) -> document?.toObject()
   getEditableProperties: (req, document) ->
     props = @editableProperties.slice()
+    props = props.concat @adminEditableProperties if req.user?.isAdmin()
     isBrandNew = req.method is 'POST' and not req.body.original
     props = props.concat @postEditableProperties if isBrandNew
 

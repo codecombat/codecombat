@@ -16,6 +16,7 @@ module.exports = class AdministerUserModal extends ModalView
 
   events:
     'click #save-changes': 'onClickSaveChanges'
+    'click #create-payment-btn': 'onClickCreatePayment'
     'click #add-seats-btn': 'onClickAddSeatsButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
@@ -52,11 +53,36 @@ module.exports = class AdministerUserModal extends ModalView
     @trialRequest = @trialRequests.first()
     super()
     
+  onClickCreatePayment: ->
+    service = $('#payment-service').val()
+    amount = parseInt($('#payment-amount').val())
+    amount = 0 if isNaN(amount)
+    gems = parseInt($('#payment-gems').val())
+    gems = 0 if isNaN(gems)
+    if _.isEmpty(service)
+      alert('Service cannot be empty')
+      return
+    else if amount < 0
+      alert('Payment cannot be negative')
+      return
+    else if gems < 0
+      alert('Gems cannot be negative')
+      return
+
+    data = {
+      purchaser: @user.get('_id')
+      recipient: @user.get('_id')
+      service: service
+      gems: gems
+      amount: amount
+      description: $('#payment-description').val()
+    }
+    $.post('/db/payment/admin', data, => @hide())
+
   onClickSaveChanges: ->
     stripe = _.clone(@user.get('stripe') or {})
     delete stripe.free
     delete stripe.couponID
-
     selection = @$el.find('input[name="stripe-benefit"]:checked').val()
     dateVal = @$el.find('#free-until-date').val()
     couponVal = @$el.find('#coupon-select').val()
@@ -64,8 +90,16 @@ module.exports = class AdministerUserModal extends ModalView
       when 'free' then stripe.free = true
       when 'free-until' then stripe.free = dateVal
       when 'coupon' then stripe.couponID = couponVal
-
     @user.set('stripe', stripe)
+
+    newGems = parseInt($('#stripe-add-gems').val())
+    newGems = 0 if isNaN(newGems)
+    if newGems > 0
+      purchased = _.clone(@user.get('purchased') ? {})
+      purchased.gems ?= 0
+      purchased.gems += newGems
+      @user.set('purchased', purchased)
+
     options = {}
     options.success = => @hide()
     @user.patch(options)

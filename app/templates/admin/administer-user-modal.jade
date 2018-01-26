@@ -29,8 +29,10 @@ block modal-header-content
   div
     a(href="#stripe") Modify Stripe Subscription
   div
+    a(href="#create-payment") Create Payment
+  div
     a(href="#details") User Details
-    
+
   div.m-t-1
     label
       input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
@@ -89,14 +91,17 @@ block modal-body-content
 
     else
       .form-group
-        label Number of Licenses
-        input#seats-input.form-control(type="number", name="maxRedeemers")
+        label
+          span.spr Number of Licenses
+          input#seats-input(type="number", name="maxRedeemers")
       .form-group
-        label Start Date
-        input.form-control(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
+        label
+          span.spr Start Date
+          input(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
       .form-group
-        label End Date
-        input.form-control(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD'))
+        label
+          span.spr End Date
+          input(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD'))
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
     hr
@@ -136,16 +141,50 @@ block modal-body-content
       .radio
         label
           input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-          | Free Until
-          input.form-control.spl(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+          span.spr Free Until
+          input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
       .radio
         label
           input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-          | Coupon
-        select.form-control#coupon-select
+          span.spr Coupon
+        select#coupon-select
           for coupon in view.coupons.models
             option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+    .form-group
+      label
+        span.spr Gems to add to user
+        input#stripe-add-gems(type="number", name="addGems", value=0)
     button#save-changes.btn.btn-primary Save Changes
+  hr
+
+  h3#create-payment Create Payment
+  .form
+    .form-group
+      pre
+        table
+          tr
+            td purchaser:
+            td= view.user.id
+          tr
+            td recipient:
+            td= view.user.id
+          tr
+            td service:
+            td
+              input#payment-service(type='text', value='paypal')
+          tr
+            td gems:
+            td
+              input#payment-gems(type='number', value='10500')
+          tr
+            td amount:
+            td
+              input#payment-amount(type='number', value='2997')
+          tr
+            td description:
+            td
+              input#payment-description(type='text')
+    button#create-payment-btn.btn.btn-primary Create Payment
   hr
 
   h3#details User Details
