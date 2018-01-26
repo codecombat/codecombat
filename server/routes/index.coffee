@@ -177,7 +177,7 @@ module.exports.setup = (app) ->
   app.delete('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.removeMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
-  app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
+  app.get('/db/course_instance/:handle/course-level-sessions/:userID', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourseLevelSessions)
   app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
 
   EarnedAchievement = require '../models/EarnedAchievement'
@@ -204,7 +204,7 @@ module.exports.setup = (app) ->
   app.put('/db/level.session/:handle/key-value-db/:key', mw.levelSessions.putKeyValueDb)
   app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.levelSessions.incrementKeyValueDb)
   app.post('/db/level.session/-/levels-and-students', mw.auth.checkHasPermission(['admin']), mw.levelSessions.byLevelsAndStudents)
-
+  app.post('/db/level.session/short-link', mw.auth.checkHasUser(), mw.levelSessions.shortLink)
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))

@@ -193,7 +193,7 @@ module.exports = class CampaignView extends RootView
           @supermodel.trackRequest @classroom.fetch()
           @listenToOnce @classroom, 'sync', =>
             @courseInstance.sessions = new CocoCollection([], {
-              url: @courseInstance.url() + '/my-course-level-sessions',
+              url: @courseInstance.url() + '/course-level-sessions/' + me.id,
               model: LevelSession
             })
             @supermodel.loadCollection(@courseInstance.sessions, {

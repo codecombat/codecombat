@@ -63,7 +63,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
-    
+
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'artisans': go('artisans/ArtisansView')
@@ -216,6 +216,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
+    'certificates': go('user/CertificatesView')
+    'certificates/:slugOrID': go('user/CertificatesView')
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
 
     '*name/': 'removeTrailingSlash'

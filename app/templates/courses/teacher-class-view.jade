@@ -319,7 +319,7 @@ mixin courseProgressTab
           span.small(data-i18n="teacher.level_not_started")
         .clearfix
     - var course = state.get('selectedCourse');
-    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    - var courseInstance = state.get('selectedCourseInstance')
     if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
         +courseOverview(course)
@@ -382,7 +382,10 @@ mixin studentLevelsRow(student)
           - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
           - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
           +studentLevelProgressDot(progress, level, levelNumber, student)
-
+        //if me.isAdmin() && course is finished
+        if me.isAdmin()
+          a.progress-dot.certificate-progress-dot(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id) Certificate
+          // TODO: get new blank window thing going
 
 mixin studentCourseProgressDot(progress, levelsTotal, label)
   //- TODO: Refactor with TeacherClassesView jade
@@ -398,8 +401,7 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
   - link = null;
   - labelText = levelNumber;
-  - var course = view.state.get('selectedCourse');
-  - var courseInstance = course && view.classroom ? view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id }) : null;
+  - var courseInstance = state.get('selectedCourseInstance');
   if level.isLadder()
     if courseInstance
       - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
@@ -436,8 +438,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug');
   - labelText = levelNumber;
   if level.isLadder()
-    - var course = view.state.get('selectedCourse');
-    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    - var courseInstance = state.get('selectedCourseInstance');
     if courseInstance
       - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
       - labelText = translate('courses.arena');
@@ -446,7 +447,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     - dotClass += ' progress-dot-lg';
   else if level.isProject()
     if progress.started
-      - link = view.urls.playDevLevel({level: level, session: progress.session, course: view.state.get('selectedCourse')});
+      - link = view.urls.playDevLevel({level: level, session: progress.session, course: state.get('selectedCourse')});
       - labelText = translate('teacher.view_project');
       if progress.completed && !progress.session.get('published')
         - labelText += " " + translate('teacher.unpublished')
@@ -522,7 +523,7 @@ mixin assessmentsTab
       .col.col-md-2.col-xs-4
         .progress-dot.forest
         .key-text
-          span.small(data-i18n='teacher.success')
+          span.small(data-i18n='teacher.scucess')
         .clearfix
       .col.col-md-2.col-xs-4
         .progress-dot.gold
@@ -587,7 +588,7 @@ mixin enrollmentStatusTab
           button.sort-button.sort-by-name(data-i18n='general.name', value='name')
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
     tbody
-      - var searchTerm = view.state.get('searchTerm');
+      - var searchTerm = state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
         - var status = student.prepaidStatus()
         tr.student-row.alternating-background

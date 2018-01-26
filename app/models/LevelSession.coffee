@@ -133,3 +133,43 @@ module.exports = class LevelSession extends CocoModel
 
     @set('keyValueDb', keyValueDb) if _.size keyValueDb
     delete @originalKeyValueDb
+
+  countOriginalLinesOfCode: (level) ->
+    # Count non-whitespace, non-comment lines starting at first unique code line
+    # TODO: diff better to find truly changed lines
+    sampleCodeByLanguage = level.getSampleCode @get('team')
+    sampleCode = sampleCodeByLanguage[@get('codeLanguage')] ? sampleCodeByLanguage['python'] ? ''
+    sampleCode = sampleCode.replace @singleLineCommentOnlyRegex(), ''
+    sampleCodeLines = sampleCode.split(/\n+/)
+    sampleCodeLines = _.filter sampleCodeLines
+
+    thang = if @get('team') is 'ogres' then 'hero-placeholder-1' else 'hero-placeholder'
+    code = @getSourceFor "#{thang}/plan"
+    code = code.replace @singleLineCommentOnlyRegex(), ''
+    codeLines = code.split(/\n+/)
+    codeLines = _.filter codeLines
+
+    i = 0
+    while i < codeLines.length and i < sampleCodeLines.length
+      break if codeLines[i] isnt sampleCodeLines[i]
+      ++i
+    count = codeLines.length - i
+    #console.log "Got", count, "original lines from\n", code, "\n-----------\n", sampleCode
+    Math.min count, 1000
+
+  singleLineCommentOnlyRegex: ->
+    if @get('codeLanguage') is 'html'
+      commentStart = "#{commentStarts.html}|#{commentStarts.css}|#{commentStarts.javascript}"
+    else
+      commentStart = commentStarts[@get('codeLanguage')] or '#'
+    new RegExp "^[ \t]*(#{commentStart}).*$", 'gm'
+
+# Note: These need to be double-escaped for insertion into regexes
+commentStarts =
+  javascript: '//'
+  python: '#'
+  coffeescript: '#'
+  lua: '--'
+  java: '//'
+  html: '<!--'
+  css: '/\\*'

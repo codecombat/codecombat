@@ -81,7 +81,7 @@ module.exports = class CoursesView extends RootView
       continue if not courseInstance.get('classroomID')
       courseID = courseInstance.get('courseID')
       courseInstance.sessions = new CocoCollection([], {
-        url: courseInstance.url() + '/my-course-level-sessions',
+        url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
       courseInstance.sessions.comparator = 'changed'
