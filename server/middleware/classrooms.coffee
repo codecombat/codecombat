@@ -24,7 +24,7 @@ subscriptions = require './subscriptions'
 { makeHostUrl } = require '../commons/urls'
 
 module.exports =
-  fetchByCode: wrap (req, res, next) ->
+  getByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless req.query.hasOwnProperty('code')
     classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(RegExp(' ', 'g') , '') }).select('name ownerID aceConfig')
