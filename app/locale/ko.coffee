@@ -440,14 +440,14 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     years: "년"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "전체맵으로"
 #    directions: "Directions"
 #    edit_level: "Edit Level"
 #    keep_learning: "Keep Learning"
 #    explore_codecombat: "Explore CodeCombat"
 #    finished_hoc: "I'm finished with my Hour of Code"
 #    get_certificate: "Get your certificate!"
-#    level_complete: "Level Complete"
+    level_complete: "수행 완료"
     completed_level: "완료된 레벨:"
     course: "코스:"
     done: "완료"
@@ -455,8 +455,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    challenge_unlocked: "Challenge Unlocked"
 #    start_challenge: "Start Challenge"
     next_game: "다음 게임"
-#    languages: "Languages"
-#    programming_language: "Programming language"
+    languages: "언어"
+    programming_language: "프로그래밍 언어"
     show_menu: "게임 매뉴 보이기"
     home: "홈" # Not used any more, will be removed soon.
     level: "레벨" # Like "Level: Dungeons of Kithgard"
@@ -494,7 +494,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     victory_gems_gained: "획득한 젬"
     victory_new_item: "새로운 아이템"
 #    victory_new_hero: "New Hero"
-    victory_viking_code_school: "놀랍습니다, 당신은 그냥 이길 힘든 수준이었습니다! 이미 소프트웨어 개발자가 아닌 경우, 당신은 비이킹 코드 학교에서 빠르게 이해할것입니다, 당신이 다음 레벨에서 자신의 능력을 14주 동안 전문 웹 개발자가 될 수있는 곳입니다."
+    victory_viking_code_school: "놀랍습니다, 당신은 그냥 이기기 힘든 수준이었습니다! 이미 소프트웨어 개발자가 아닌 경우, 당신은 비이킹 코드 학교에서 빠르게 이해할것입니다, 당신이 다음 레벨에서 자신의 능력을 14주 동안 전문 웹 개발자가 될 수있는 곳입니다."
     victory_become_a_viking: "바이킹이 되세요"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
     tome_cast_button_run: "실행"
@@ -504,12 +504,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     tome_reload_method: "이 방법에 대한 원래의 코드를 다시불러오기" # {change}
     tome_available_spells: "사용 가능한 마법"
     tome_your_skills: "당신의 스킬"
-#    hints: "Hints"
+    hints: "힌트"
 #    hints_title: "Hint {{number}}"
     code_saved: "코드가 저장됨"
     skip_tutorial: "넘기기 (esc)"
     keyboard_shortcuts: "단축키"
-    loading_start: "레벨 시작"
+    loading_start: "로딩 시작"
     problem_alert_title: "코드를 수정하세요"
     time_current: "현재:"
     time_total: "최대:"
@@ -680,13 +680,13 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     prompt_button: "샵 앤터"
     recovered: "gem 구매후 브라우져를 새로고침 하세요."
     price: "x{{gems}} / 한달"
-#    buy_premium: "Buy Premium"
-#    purchase: "Purchase"
-#    purchased: "Purchased"
+    buy_premium: "프리미엄 구입"
+    purchase: "구매하기"
+    purchased: "구매함"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
-#    prompt_body: "Keep playing to earn more!"
+  earn_gems:
+    prompt_title: "젬이 충분하지 않습니다."
+    prompt_body: "더 얻기 위해 계속 플레이 하세요."
 
   subscribe:
 #    best_deal: "Best Deal!"
@@ -730,7 +730,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     sale_button: "판매!"
     sale_button_title: "1년 구독권을 구매하면 $21가 절약됩니다."
     stripe_description: "월간 구독"
-#    buy_now: "Buy Now"
+    buy_now: "지금 "
     subscription_required_to_play: "당신은 아마 이 레벨을 플레이하려면 구독이 필요합니다."
     unlock_help_videos: "모든 비디오 튜토리얼의 잠금을 해제하려면 구독 ."
     personal_sub: "개인 구독" # Accounts Subscription View below
@@ -875,12 +875,12 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 
   skill_docs:
 #    function: "function" # skill types
-#    method: "method"
+    method: "메소드"
 #    snippet: "snippet"
-#    number: "number"
-#    array: "array"
-#    object: "object"
-#    string: "string"
+    number: "숫자"
+    array: "배열"
+    object: "객체"
+    string: "문자열"
     writable: "쓰기" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "리드-온리"
     action: "행동"
@@ -922,11 +922,11 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     editor_config_behaviors_description: "괄호, 인용부호, 따옴표 자동 완성."
 
   about:
-#    main_title: "If you want to learn to program, you need to write (a lot of) code."
-#    main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
-#    mission_link: "Mission"
-#    team_link: "Team"
-#    story_link: "Story"
+    main_title: "프로그래밍을 배우고 싶다면 많은 코드를 작성해 보아야 합니다."
+    main_description: "CodeCombat에서 우리의 임무는 당신이 미소를 짓고 있는지 확인하는 것입니다."
+    mission_link: "미션"
+    team_link: "팀"
+    story_link: "스토리"
 #    press_link: "Press"
 #    mission_title: "Our mission: make programming accessible to every student on Earth."
 #    mission_description_1: "<strong>Programming is magic</strong>. It's the ability to create things from pure imagination. We started CodeCombat to give learners the feeling of wizardly power at their fingertips by using <strong>typed code</strong>."
