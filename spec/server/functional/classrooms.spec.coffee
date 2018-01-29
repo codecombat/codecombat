@@ -43,7 +43,35 @@ describe 'GET /db/classroom?ownerID=:id', ->
     expect(res.statusCode).toBe(403)
     done()
 
+describe 'GET /db/classroom?memberID=:id', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @user1 = yield utils.initUser()
+    @user2 = yield utils.initUser()
+    @user3 = yield utils.initUser()
+    yield utils.loginUser(@teacher)
+    @classroom1 = yield utils.makeClassroom({ownerID: @teacher._id }, {members: [@user1, @user2]})
+    @classroom2 = yield utils.makeClassroom({ownerID: @teacher._id }, {members: [@user2, @user3]})
+    @classroom3 = yield utils.makeClassroom({ownerID: @teacher._id }, {members: [@user1, @user3]})
 
+  it 'returns an array of classrooms with the given member', utils.wrap ->
+    yield utils.loginUser(@user1)
+    url = getURL('/db/classroom?memberID='+@user1.id)
+    [res] =  yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(2)
+    expect(_.find(res.body, {_id: @classroom1.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @classroom2.id})).toBeFalsy()
+    expect(_.find(res.body, {_id: @classroom3.id})).toBeTruthy()
+
+
+  it 'returns 403 when a non-admin tries to get classrooms for another user', utils.wrap ->
+    yield utils.loginUser(@user2)
+    url = getURL('/db/classroom?memberID='+@user1.id)
+    [res, body] =  yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(403)
+    
 describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom, Course, Campaign], (err) ->
@@ -530,7 +558,7 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
         expect(prepaid.get('redeemers').length).toBe(0)
         done()
 
-describe 'POST /db/classroom/:id/invite-members', ->
+xdescribe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', utils.wrap (done) ->
     user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
