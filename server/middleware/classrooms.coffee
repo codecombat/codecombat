@@ -416,3 +416,12 @@ module.exports =
       query = {$and: [{_id: {$lt: beforeId}}, query]}
     classrooms = yield Classroom.find(query).sort({_id: -1}).limit(limit).select('ownerID members').lean()
     res.status(200).send(classrooms)
+
+  getByHandle: wrap (req, res) ->
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+    unless classroom.isOwner(req.user._id) or classroom.isMember(req.user._id) or req.user.isAdmin()
+      throw new errors.Forbidden('You do not have access to this classroom')
+    res.status(200).send(classroom.toObject({req}))
+    

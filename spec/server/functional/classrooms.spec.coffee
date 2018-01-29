@@ -71,25 +71,50 @@ describe 'GET /db/classroom?memberID=:id', ->
     url = getURL('/db/classroom?memberID='+@user1.id)
     [res, body] =  yield request.getAsync { url, json: true }
     expect(res.statusCode).toBe(403)
-    
-describe 'GET /db/classroom/:id', ->
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom, Course, Campaign], (err) ->
-      throw err if err
-      done()
 
-  it 'returns the classroom for the given id', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 1' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(201)
-          classroomID = body._id
-          request.get {uri: classroomsURL + '/'  + body._id }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            expect(body._id).toBe(classroomID = body._id)
-            done()
+describe 'GET /db/classroom/:handle', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @student = yield utils.initUser({role: 'student'})
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, {members: [@student]})
+    @url = utils.getUrl("/db/classroom/#{@classroom.id}")
+    
+  it 'returns the given classroom, without any class code information', utils.wrap ->
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body._id).toBe(@classroom.id)
+    expect(res.body.code).toBeDefined()
+    expect(res.body.codeCamel).toBeDefined()
+    
+  it 'returns 403 if you are not an admin, owner or member', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(403)
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@student)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+    
+  it 'does not return the code for students', utils.wrap ->
+    yield utils.loginUser(@student)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.code).toBeUndefined()
+    expect(res.body.codeCamel).toBeUndefined()
+    
+    
 
 describe 'GET /db/classroom by classCode', ->
   it 'Returns the class if you include spaces', utils.wrap (done) ->
