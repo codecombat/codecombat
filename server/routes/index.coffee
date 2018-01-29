@@ -135,7 +135,7 @@ module.exports.setup = (app) ->
   app.put('/db/clan/:handle/remove/:memberHandle', mw.auth.checkLoggedIn(), mw.clans.removeMember)
 
   app.post('/db/classroom', mw.classrooms.post)
-  app.get('/db/classroom', mw.classrooms.fetchByCode, mw.classrooms.getByOwner)
+  app.get('/db/classroom', mw.classrooms.getByCode, mw.classrooms.getByOwner, mw.classrooms.getByMember)
   app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
   app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
 #  app.post('/db/classroom/:handle/invite-members', mw.classrooms.inviteMembers)
