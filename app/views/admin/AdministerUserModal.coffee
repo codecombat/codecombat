@@ -54,10 +54,10 @@ module.exports = class AdministerUserModal extends ModalView
     super()
     
   onClickCreatePayment: ->
-    service = $('#payment-service').val()
-    amount = parseInt($('#payment-amount').val())
+    service = @$('#payment-service').val()
+    amount = parseInt(@$('#payment-amount').val())
     amount = 0 if isNaN(amount)
-    gems = parseInt($('#payment-gems').val())
+    gems = parseInt(@$('#payment-gems').val())
     gems = 0 if isNaN(gems)
     if _.isEmpty(service)
       alert('Service cannot be empty')
@@ -75,7 +75,7 @@ module.exports = class AdministerUserModal extends ModalView
       service: service
       gems: gems
       amount: amount
-      description: $('#payment-description').val()
+      description: @$('#payment-description').val()
     }
     $.post('/db/payment/admin', data, => @hide())
 
@@ -92,7 +92,7 @@ module.exports = class AdministerUserModal extends ModalView
       when 'coupon' then stripe.couponID = couponVal
     @user.set('stripe', stripe)
 
-    newGems = parseInt($('#stripe-add-gems').val())
+    newGems = parseInt(@$('#stripe-add-gems').val())
     newGems = 0 if isNaN(newGems)
     if newGems > 0
       purchased = _.clone(@user.get('purchased') ? {})
@@ -127,7 +127,7 @@ module.exports = class AdministerUserModal extends ModalView
       @renderSelectors('#prepaid-form')
 
   onClickDestudentButton: (e) ->
-    button = $(e.currentTarget)
+    button = @$(e.currentTarget)
     button.attr('disabled', true).text('...')
     Promise.resolve(@user.destudent())
     .then =>
@@ -142,7 +142,7 @@ module.exports = class AdministerUserModal extends ModalView
         throw e
 
   onClickDeteacherButton: (e) ->
-    button = $(e.currentTarget)
+    button = @$(e.currentTarget)
     button.attr('disabled', true).text('...')
     Promise.resolve(@user.deteacher())
     .then =>
@@ -157,7 +157,7 @@ module.exports = class AdministerUserModal extends ModalView
         throw e
 
   onClickUpdateClassroomButton: (e) ->
-    classroom = @classrooms.get($(e.currentTarget).data('classroom-id'))
+    classroom = @classrooms.get(@$(e.currentTarget).data('classroom-id'))
     if confirm("Really update #{classroom.get('name')}?")
       Promise.resolve(classroom.updateCourses())
       .then =>
@@ -167,7 +167,7 @@ module.exports = class AdministerUserModal extends ModalView
         noty({text: 'Failed to update classroom courses.', type: 'error'})
 
   onClickAddNewCoursesButton: (e) ->
-    classroom = @classrooms.get($(e.currentTarget).data('classroom-id'))
+    classroom = @classrooms.get(@$(e.currentTarget).data('classroom-id'))
     if confirm("Really update #{classroom.get('name')}?")
       Promise.resolve(classroom.updateCourses({data: {addNewCoursesOnly: true}}))
       .then =>
@@ -177,14 +177,14 @@ module.exports = class AdministerUserModal extends ModalView
         noty({text: 'Failed to update classroom courses.', type: 'error'})
 
   onClickUserLink: (e) ->
-    userID = $(e.target).data('user-id')
+    userID = @$(e.target).data('user-id')
     @openModalView new AdministerUserModal({}, userID) if userID
 
   userIsVerifiedTeacher: () ->
     @user.get('verifiedTeacher')
 
   onClickVerifiedTeacherCheckbox: (e) ->
-    checked = $(e.target).prop('checked')
+    checked = @$(e.target).prop('checked')
     @userSaveState = 'saving'
     @render()
     fetchJson("/db/user/#{@user.id}/verifiedTeacher", {

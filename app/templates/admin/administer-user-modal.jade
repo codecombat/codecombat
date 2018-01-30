@@ -92,15 +92,18 @@ block modal-body-content
     else
       .form-group
         label
-          span.spr Number of Licenses
+          span Number of Licenses
+          =" "
           input#seats-input(type="number", name="maxRedeemers")
       .form-group
         label
-          span.spr Start Date
+          span Start Date
+          =" "
           input(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
       .form-group
         label
-          span.spr End Date
+          span End Date
+          =" "
           input(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD'))
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
@@ -141,18 +144,21 @@ block modal-body-content
       .radio
         label
           input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
-          span.spr Free Until
+          span Free Until
+          =" "
           input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
       .radio
         label
           input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
-          span.spr Coupon
+          span Coupon
+          =" "
         select#coupon-select
           for coupon in view.coupons.models
             option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
     .form-group
       label
-        span.spr Gems to add to user
+        span Gems to add to user
+        =" "
         input#stripe-add-gems(type="number", name="addGems", value=0)
     button#save-changes.btn.btn-primary Save Changes
   hr

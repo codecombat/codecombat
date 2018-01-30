@@ -90,7 +90,8 @@ PaymentHandler = class PaymentHandler extends Handler
     if (not req.user) or req.user.isAnonymous()
       return @sendForbiddenError(res)
 
-    if pathName is 'admin' and req.user?.isAdmin()
+    if pathName is 'admin'
+      return @sendForbiddenError(res) unless req.user?.isAdmin()
       payment = new Payment()
       for key, val of req.body
         if key in ['purchaser', 'recipient']
