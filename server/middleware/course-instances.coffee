@@ -8,6 +8,7 @@ TrialRequest = require '../models/TrialRequest'
 Campaign = require '../models/Campaign'
 CourseInstance = require '../models/CourseInstance'
 Classroom = require '../models/Classroom'
+Campaign = require '../models/Campaign'
 Course = require '../models/Course'
 User = require '../models/User'
 Level = require '../models/Level'
@@ -55,6 +56,20 @@ module.exports =
     courseInstance = yield courseInstance.save()
     res.status(201).send(courseInstance.toObject({req}))
     
+    
+  getByHandle: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course instance not found.')
+
+    isOwner = courseInstance.get('ownerID')?.equals req.user?._id
+    isMember = _.any(courseInstance.get('members') or [], (memberID) -> memberID.equals(req.user.get('_id')))
+    if not (isOwner or isMember or req.user.isAdmin())
+      throw new errors.Forbidden('You do not have access to this course instance.')
+
+    res.status(200).send(courseInstance.toObject({req}))
+    
+  
   addMembers: wrap (req, res) ->
     if req.body.userID
       userIDs = [req.body.userID]
@@ -380,3 +395,120 @@ module.exports =
       res.send(session.toObject({req}) for session in levelSessions)
     else
       res.send []
+
+
+  getLevelSessions: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+      
+    unless courseInstance.isMember(req.user._id) or courseInstance.isOwner(req.user._id) or req.user.isAdmin()
+      throw new errors.Forbidden('You do not have access to this course instance.')
+      
+    course = yield Course.findById(courseInstance.get('courseID'))
+    if not course
+      throw new errors.NotFound('Course not found.')
+
+    campaign = yield Campaign.findById(course.get('campaignID'))
+    if not campaign
+      throw new errors.NotFound('Campaign not found.')
+
+    levelIDs = (levelID for levelID of campaign.get('levels'))
+    memberIDs = _.map courseInstance.get('members') ? [], (memberID) -> memberID.toHexString?() or memberID
+    query = { $and: [
+      {creator: {$in: memberIDs}}
+      {'level.original': {$in: levelIDs}}
+    ]}
+    cursor = LevelSession.find(query)
+    cursor = cursor.select(req.query.project) if req.query.project
+    levelSessions = yield cursor.exec()
+    cleanLevelSessions = (levelSession.toObject({req}) for levelSession in levelSessions)
+    res.send(cleanLevelSessions)
+
+
+  fetchMembers: wrap (req, res) ->
+    courseInstance = yield database.getDocFromHandle(req, CourseInstance)
+    if not courseInstance
+      throw new errors.NotFound('Course Instance not found.')
+
+    unless courseInstance.isMember(req.user._id) or courseInstance.isOwner(req.user._id) or req.user.isAdmin()
+      throw new errors.Forbidden('You do not have access to this course instance.')
+
+    memberIDs = courseInstance.get('members') ? []
+    users = yield User.find {_id: {$in: memberIDs}}
+    cleandocs = (user.toObject({req}) for user in users)
+    res.send(cleandocs)
+
+
+  findByLevel: wrap (req, res) ->
+    # Find all CourseInstances that req.user is a part of that match the given level.
+    levelOriginal = req.params.levelOriginal
+    courseInstances = yield CourseInstance.find {_id: {$in: req.user.get('courseInstances')}}
+    res.send([]) unless courseInstances.length
+    courseIDs = _.uniq (ci.get('courseID') for ci in courseInstances)
+    courses = yield Course.find {_id: {$in: courseIDs}}, {name: 1, campaignID: 1}
+    res.send([]) unless courses.length
+    campaignIDs = _.uniq (c.get('campaignID') for c in courses)
+    campaigns = yield Campaign.find {_id: {$in: campaignIDs}, "levels.#{levelOriginal}": {$exists: true}}, {_id: 1}
+    res.send([]) unless campaigns.length
+    courses = _.filter courses, (course) -> _.find campaigns, (campaign) -> campaign.get('_id').toString() is course.get('campaignID').toString()
+    courseInstances = _.filter courseInstances, (courseInstance) -> _.find courses, (course) -> course.get('_id').toString() is courseInstance.get('courseID').toString()
+    res.send((ci.toObject({req}) for ci in courseInstances))
+
+    
+  getByOwner: wrap (req, res, next) ->
+    { ownerID } = req.query
+    unless ownerID
+      return next()
+
+    unless req.user
+      throw new errors.Unauthorized()
+
+    unless req.user.isAdmin() or ownerID is req.user.id
+      throw new errors.Forbidden()
+
+    unless utils.isID ownerID
+      throw new errors.UnprocessableEntity('Bad ownerID')
+
+    courseInstances = yield CourseInstance.find {ownerID: mongoose.Types.ObjectId(ownerID)}
+    res.send((courseInstance.toObject({req}) for courseInstance in courseInstances))
+
+    
+  getByMember: wrap (req, res, next) ->
+    { memberID } = req.query
+    if not memberID
+      return next()
+
+    unless req.user
+      throw new errors.Unauthorized()
+      
+    unless req.user.isAdmin() or memberID is req.user.id
+      throw new errors.Forbidden()
+
+    unless utils.isID memberID
+      throw new errors.UnprocessableEntity('Bad memberID')
+
+    courseInstances = yield CourseInstance.find {members: mongoose.Types.ObjectId(memberID)}
+    res.send((courseInstance.toObject({req}) for courseInstance in courseInstances))
+    
+    
+  getByClassroom: wrap (req, res, next) ->
+    { classroomID } = req.query
+    if not classroomID
+      return next()
+
+    unless req.user
+      throw new errors.Unauthorized()
+      
+    unless utils.isID classroomID
+      throw new errors.UnprocessableEntity(res, 'Bad classroomID')
+
+    classroom = yield Classroom.findById classroomID
+    unless classroom
+      throw new errors.NotFound()
+
+    unless classroom.isMember(req.user._id) or classroom.isOwner(req.user._id) or req.user.isAdmin()
+      throw new errors.Forbidden()
+
+    courseInstances = yield CourseInstance.find {classroomID: mongoose.Types.ObjectId(classroomID)}
+    res.send((courseInstance.toObject({req}) for courseInstance in courseInstances))

@@ -102,6 +102,242 @@ describe 'POST /db/course_instance', ->
     expect(res.statusCode).toBe(403)
     done()
 
+    
+describe 'GET /db/course_instance/:handle', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+
+    # create teacher, student, course, classroom and course instance
+    @teacher1 = yield utils.initUser({role: 'teacher'})
+    @teacher2 = yield utils.initUser({role: 'teacher'})
+    @student1 = yield utils.initUser({role: 'student'})
+    @student2 = yield utils.initUser({role: 'student'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'})
+    yield utils.loginUser(@teacher1)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members:[@student1, @student2] })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom, members:[@student1] })
+    @url = utils.getUrl("/db/course_instance/#{@courseInstance.id}")
+    
+  it 'returns the course instance', utils.wrap ->
+    yield utils.loginUser(@teacher1)
+    [res] = yield request.getAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    expect(res.body._id).toBe(@courseInstance.id)
+    
+  it 'returns 403 unless you are an admin, the owner or a member of the classroom', utils.wrap ->
+    yield utils.loginUser(@teacher2)
+    [res] = yield request.getAsync({ @url, json: true })
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student2)
+    [res] = yield request.getAsync({ @url, json: true })
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@admin)
+    [res] = yield request.getAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    
+    
+describe 'GET /db/course_instance?ownerID=ownerID', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+
+    # create teacher, student, course, classroom and course instance
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @teacher2 = yield utils.initUser({role: 'teacher'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }})
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom })
+
+    yield utils.loginUser(@teacher2)
+    @classroom2 = yield utils.makeClassroom({aceConfig: { language: 'javascript' }})
+    @courseInstance2 = yield utils.makeCourseInstance({}, { @course, classroom: @classroom2 })
+    @url = utils.getUrl('/db/course_instance')
+
+  it 'fetches all course instances owned by the given owner', utils.wrap ->
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync({@url, json: true, qs: {ownerID: @teacher.id}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(res.body[0]._id).toBe(@courseInstance.id)
+    
+  it 'returns 403 unless you are an admin or the owner', utils.wrap ->
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync({@url, json: true, qs: {ownerID: @teacher2.id}})
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync({@url, json: true, qs: {ownerID: @teacher.id}})
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@admin)
+    [res] = yield request.getAsync({@url, json: true, qs: {ownerID: @teacher.id}})
+    expect(res.statusCode).toBe(200)
+
+
+describe 'GET /db/course_instance?memberID=memberID', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+
+    # create teacher, student, course, classroom and course instance
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @student1 = yield utils.initUser({role: 'student'})
+    @student2 = yield utils.initUser({role: 'student'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members:[@student1, @student2] })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom, members:[@student1, @student2] })
+    @classroom2 = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, {  members: [@student1, @student2] })
+    @courseInstance2 = yield utils.makeCourseInstance({}, { @course, classroom: @classroom2, members: [@student1] })
+    @url = utils.getUrl('/db/course_instance')
+
+  it 'fetches all course instances the given user is a member of', utils.wrap ->
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync({@url, json: true, qs: {memberID: @student1.id}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(2)
+    expect(_.find(res.body, {_id:@courseInstance.id})).toBeTruthy()
+    expect(_.find(res.body, {_id:@courseInstance2.id})).toBeTruthy()
+
+    yield utils.loginUser(@student2)
+    [res] = yield request.getAsync({@url, json: true, qs: {memberID: @student2.id}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(_.find(res.body, {_id:@courseInstance.id})).toBeTruthy()
+    expect(_.find(res.body, {_id:@courseInstance2.id})).toBeFalsy()
+
+  it 'returns 403 unless you are an admin or the member', utils.wrap ->
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync({@url, json: true, qs: {memberID: @student1.id}})
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync({@url, json: true, qs: {memberID: @student2.id}})
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@admin)
+    [res] = yield request.getAsync({@url, json: true, qs: {memberID: @student1.id}})
+    expect(res.statusCode).toBe(200)
+
+
+describe 'GET /db/course_instance?classroomID=classroomID', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+
+    # create teacher, student, course, classroom and course instance
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @student1 = yield utils.initUser({role: 'student'})
+    @student2 = yield utils.initUser({role: 'student'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members:[@student1] })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom, members:[@student1] })
+    @url = utils.getUrl('/db/course_instance')
+
+  it 'fetches all course instances associated with the classroom', utils.wrap ->
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync({@url, json: true, qs: {classroomID: @classroom.id}})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(_.find(res.body, {_id:@courseInstance.id})).toBeTruthy()
+
+  it 'returns 403 unless you are an admin, member or owner', utils.wrap ->
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync({@url, json: true, qs: {classroomID: @classroom.id}})
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync({@url, json: true, qs: {classroomID: @classroom.id}})
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@student2)
+    [res] = yield request.getAsync({@url, json: true, qs: {classroomID: @classroom.id}})
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@admin)
+    [res] = yield request.getAsync({@url, json: true, qs: {classroomID: @classroom.id}})
+    expect(res.statusCode).toBe(200)
+    
+    
+describe 'GET /db/course_instance/:handle/members', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid])
+
+    # create teacher, student, course, classroom and course instance
+    @teacher = yield utils.initUser({role: 'teacher'})
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    @level = yield utils.makeLevel({type: 'course'})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'})
+    @student1 = yield utils.initUser({role: 'student'})
+    @student2 = yield utils.initUser({role: 'student'})
+    @student3 = yield utils.initUser({role: 'student'})
+    @prepaid = yield utils.makePrepaid({creator: @teacher.id})
+    members = [@student1, @student2]
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom })
+    url = getURL('/db/course_instance')
+    data = {
+      name: 'Some Name'
+      courseID: @course.id
+      classroomID: @classroom.id
+    }
+    [res, body] = yield request.postAsync {uri: url, json: data}
+    @courseInstance = yield CourseInstance.findById res.body._id
+
+    # add users to course instance
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student1.id}}
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student2.id}}
+    @prepaid = yield new Prepaid({
+      type: 'course'
+      maxRedeemers: 10
+      redeemers: []
+    }).save()
+    
+    @url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    
+  it 'returns all users in the course instance', utils.wrap ->
+    [res] = yield request.getAsync {@url, json: true}
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(2)
+    expect(_.find(res.body, {_id: @student1.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @student2.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @student3.id})).toBeFalsy()
+    
+  it 'returns 403 if you are not an owner or member of the course instance', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.getAsync {@url, json: true}
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student3)
+    [res] = yield request.getAsync {@url, json: true}
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync {@url, json: true}
+    expect(res.statusCode).toBe(200)
+    
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync {@url, json: true}
+    expect(res.statusCode).toBe(200)
+    
+  
 
 describe 'POST /db/course_instance/:id/members', ->
 
@@ -386,6 +622,27 @@ describe 'DELETE /db/course_instance/:id/members', ->
       expect(_.size(user.get('courseInstances'))).toBe(0)
       done()
 
+  it 'returns 403 unless you are removing yourself or you are the classroom owner', utils.wrap ->
+    url = getURL("/db/course_instance/#{@courseInstance.id}/members")
+    otherUser = yield utils.initUser()
+    yield utils.loginUser(otherUser)
+    [res, body] = yield request.delAsync {url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student)
+    [res, body] = yield request.delAsync {url, json: {userID: @student2.id}}
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student2)
+    [res, body] = yield request.delAsync {url, json: {userID: @student2.id}}
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@teacher)
+    [res, body] = yield request.delAsync {url, json: {userID: @student.id}}
+    expect(res.statusCode).toBe(200)
+
+
+describe 'GET /db/course_instance/:handle/levels/:levelOriginal/next', ->
 
 describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessionID/next', ->
 
@@ -849,3 +1106,97 @@ describe 'GET /db/course_instance/:handle/peer-projects', ->
     yield utils.loginUser(@teacher)
     [res, body] = yield request.getAsync({url, json: true})
     expect(res.statusCode).toBe(200)
+
+    
+describe 'GET /db/course_instance/:handle/level_sessions', ->
+  beforeEach utils.wrap ->
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @admin = yield utils.initAdmin()
+    @student = yield utils.initUser({role: 'student'})
+    yield utils.loginUser(@admin)
+    @level1 = yield utils.makeLevel({type: 'course'})
+    @level2 = yield utils.makeLevel({type: 'course'})
+    @level3 = yield utils.makeLevel({type: 'course'})
+    @campaign = yield utils.makeCampaign({}, {levels: [@level1, @level2]})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
+    @student1 = yield utils.initUser({role: 'student'})
+    @student2 = yield utils.initUser({role: 'student'})
+    @student3 = yield utils.initUser({role: 'student'})
+    members = [@student1, @student2]
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, { members })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom, members })
+    
+    # should be returned (student 1/2 AND level 1/2)
+    @session1 = yield utils.makeLevelSession({}, {level: @level1, creator: @student1})
+    @session2 = yield utils.makeLevelSession({}, {level: @level2, creator: @student1})
+    @session3 = yield utils.makeLevelSession({}, {level: @level2, creator: @student2})
+    
+    # should not be returned (student 3 OR level 3)
+    @session4 = yield utils.makeLevelSession({}, {level: @level2, creator: @student3})
+    @session5 = yield utils.makeLevelSession({}, {level: @level3, creator: @student2})
+    
+    @url = utils.getUrl("/db/course_instance/#{@courseInstance.id}/level_sessions")
+  
+  it 'returns the level sessions for all levels and members of a given course instance', utils.wrap ->
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(3)
+    expect(_.find(res.body, {_id: @session1.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @session2.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @session3.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @session4.id})).toBeFalsy()
+    expect(_.find(res.body, {_id: @session5.id})).toBeFalsy()
+   
+  it 'returns 403 unless you are an owner or member of the classroom, or an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(403)
+
+    yield utils.loginUser(@student1)
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@student2)
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@student3)
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(403)
+    
+    yield utils.loginUser(@admin)
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync({@url, json: true})
+    expect(res.statusCode).toBe(200)    
+    
+    
+describe 'GET /db/course_instance/-/find_by_level/:levelOriginal', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([CourseInstance, Course, User, Classroom, Prepaid, Campaign, Level])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @admin = yield utils.initAdmin()
+    yield utils.loginUser(@admin)
+    @level1 = yield utils.makeLevel()
+    @level2 = yield utils.makeLevel()
+    @campaign = yield utils.makeCampaign({}, {levels: [@level1, @level2]})
+    @course = yield utils.makeCourse({free: true, releasePhase: 'released'}, {campaign: @campaign})
+    @student = yield utils.initUser({role: 'student'})
+    members = [@student]
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({aceConfig: { language: 'javascript' }}, { members })
+    @courseInstance = yield utils.makeCourseInstance({}, { @course, @classroom })
+    url = utils.getURL("/db/course_instance/#{@courseInstance.id}/members")
+    [res, body] = yield request.postAsync {uri: url, json: {userID: @student.id}}
+    
+  it 'fetches all course instances the logged in user is a member of and include the given level', utils.wrap ->
+    yield utils.loginUser(@student)
+    url = utils.getUrl("/db/course_instance/-/find_by_level/#{@level1.get('original')}")
+    [res] = yield request.getAsync({url, json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(res.body[0]._id).toBe(@courseInstance.id)

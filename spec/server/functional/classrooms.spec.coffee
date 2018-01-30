@@ -22,7 +22,7 @@ classroomsURL = getURL('/db/classroom')
 describe 'GET /db/classroom?ownerID=:id', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     @user1 = yield utils.initUser()
     yield utils.loginUser(@user1)
     @classroom1 = yield new Classroom({name: 'Classroom 1', ownerID: @user1.get('_id') }).save()
@@ -71,6 +71,25 @@ describe 'GET /db/classroom?memberID=:id', ->
     url = getURL('/db/classroom?memberID='+@user1.id)
     [res, body] =  yield request.getAsync { url, json: true }
     expect(res.statusCode).toBe(403)
+    
+    
+describe 'GET /db/classroom?code=code', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom1 = yield utils.makeClassroom()
+    @classroom2 = yield utils.makeClassroom()
+
+  it 'returns the classroom for the given code and some user info', utils.wrap ->
+    url = getURL('/db/classroom?code='+@classroom1.get('code'))
+    [res] =  yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.data._id).toBe(@classroom1.id)
+    expect(res.body.owner._id).toBe(@teacher.id)
+    expect(res.body.owner.name).toBe(@teacher.get('name'))
+  
+    
 
 describe 'GET /db/classroom/:handle', ->
   beforeEach utils.wrap ->
@@ -118,6 +137,7 @@ describe 'GET /db/classroom/:handle', ->
 
 describe 'GET /db/classroom by classCode', ->
   it 'Returns the class if you include spaces', utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     user = yield utils.initUser()
     yield utils.loginUser(user)
     teacher = yield utils.initUser()
@@ -395,10 +415,44 @@ describe 'GET /db/classroom/:handle/levels', ->
 
       done()
 
+      
+      
+
+describe 'GET /db/classroom/:handle/members', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @student = yield utils.initUser({role: 'student'})
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, {members: [@student]})
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members")
+  
+  it 'returns all users in the classroom', utils.wrap ->
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(res.body[0]._id).toBe(@student.id)
+    
+  it 'returns 403 unless you are the owner or a member of the classroom, or an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(403)
+    
+    yield utils.loginUser(@student)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(200)
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(200)
+
+
 describe 'PUT /db/classroom/:handle', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(teacher)
     @classroom = yield utils.makeClassroom()
@@ -586,6 +640,7 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
 xdescribe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
     yield utils.loginUser(user)
     classroom = yield utils.makeClassroom()
@@ -661,7 +716,7 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
 describe 'GET /db/classroom/:handle/members', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     @teacher = yield utils.initUser()
     @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L", coursePrepaid: { _id: mongoose.Types.ObjectId() } })
     @student2 = yield utils.initUser({ name: "Student Nameynamington", firstName: "Student", lastName: "N" })
@@ -704,7 +759,7 @@ describe 'GET /db/classroom/:handle/members', ->
 
 describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
   it 'changes the password', utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     teacher = yield utils.initUser()
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname" })
@@ -721,7 +776,7 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     done()
 
   it "doesn't change the password if you're not their teacher", utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     teacher = yield utils.initUser()
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname" })

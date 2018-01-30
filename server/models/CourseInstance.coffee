@@ -36,5 +36,9 @@ CourseInstanceSchema.methods.isMember = (userId) ->
   for memberId in @get('members')
     return true if memberId.equals(userId)
   return false
+  
+CourseInstanceSchema.methods.isOwner = (userId) ->
+  return userId.equals(@get('ownerID'))
+
 
 module.exports = CourseInstance = mongoose.model 'course.instance', CourseInstanceSchema, 'course.instances'
