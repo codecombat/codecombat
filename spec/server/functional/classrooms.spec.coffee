@@ -439,7 +439,7 @@ describe 'POST /db/classroom/-/members', ->
     expect(res.statusCode).toBe(201)
     @classroom = yield Classroom.findById(body._id)
     [res, body] = yield request.postAsync({uri: getURL('/db/course_instance'), json: { courseID: @course.id, classroomID: @classroom.id }})
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     @courseInstance = yield CourseInstance.findById(res.body._id)
     @student = yield utils.initUser()
     done()

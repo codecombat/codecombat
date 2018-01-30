@@ -45,8 +45,12 @@ describe 'POST /db/course_instance', ->
       classroomID: @classroom.id
     }
     [res, body] = yield request.postAsync {uri: url, json: data}
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     expect(body.classroomID).toBeDefined()
+    courseInstance = yield CourseInstance.findById(body._id)
+    expect(courseInstance.get('classroomID').equals(@classroom._id)).toBe(true)
+    expect(courseInstance.get('courseID').equals(@course._id)).toBe(true)
+    expect(courseInstance.get('ownerID').equals(@teacher._id)).toBe(true)
     done()
 
   it 'returns the same CourseInstance if you POST twice', utils.wrap (done) ->
@@ -56,7 +60,7 @@ describe 'POST /db/course_instance', ->
       classroomID: @classroom.id
     }
     [res, body] = yield request.postAsync {uri: url, json: data}
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     expect(body.classroomID).toBeDefined()
     firstID = body._id
     [res, body] = yield request.postAsync {uri: url, json: data}
@@ -477,12 +481,12 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessio
 
       dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
       [res, body] = yield request.postAsync {uri: url, json: dataA}
-      expect(res.statusCode).toBe(200)
+      expect(res.statusCode).toBe(201)
       @courseInstanceA = yield CourseInstance.findById(res.body._id)
 
       dataB = { name: 'Some Other Name', courseID: @courseB.id, classroomID: @classroom.id }
       [res, body] = yield request.postAsync {uri: url, json: dataB}
-      expect(res.statusCode).toBe(200)
+      expect(res.statusCode).toBe(201)
       @courseInstanceB = yield CourseInstance.findById(res.body._id)
 
       done()
@@ -527,12 +531,12 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessio
 
       dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
       [res, body] = yield request.postAsync {uri: url, json: dataA}
-      expect(res.statusCode).toBe(200)
+      expect(res.statusCode).toBe(201)
       @courseInstanceA = yield CourseInstance.findById(res.body._id)
 
       dataB = { name: 'Some Other Name', courseID: @courseB.id, classroomID: @classroom.id }
       [res, body] = yield request.postAsync {uri: url, json: dataB}
-      expect(res.statusCode).toBe(200)
+      expect(res.statusCode).toBe(201)
       @courseInstanceB = yield CourseInstance.findById(res.body._id)
 
       done()
@@ -615,7 +619,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessio
 
       dataA = { name: 'Some Name', courseID: @courseA.id, classroomID: @classroom.id }
       [res, body] = yield request.postAsync {uri: url, json: dataA}
-      expect(res.statusCode).toBe(200)
+      expect(res.statusCode).toBe(201)
       @courseInstanceA = yield CourseInstance.findById(res.body._id)
 
       done()

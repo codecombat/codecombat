@@ -18,6 +18,43 @@ utils = require '../../app/core/utils'
 Prepaid = require '../models/Prepaid'
 
 module.exports =
+  post: wrap (req, res) ->
+    { classroomID, courseID } = req.body
+    unless classroomID and courseID
+      throw new errors.UnprocessableEntity('classroomID and courseID required')
+
+    classroom = yield Classroom.findById classroomID
+    unless classroom
+      throw new errors.NotFound('Classroom not found')
+
+    unless classroom.get('ownerID').equals(req.user._id)
+      throw new errors.Forbidden()
+
+    course = yield Course.findById courseID
+
+    unless course
+      throw new errors.NotFound('Course not found')
+
+    q = {
+      courseID: mongoose.Types.ObjectId(courseID)
+      classroomID: mongoose.Types.ObjectId(classroomID)
+    }
+
+    courseInstance = yield CourseInstance.findOne(q)
+    if courseInstance
+      return res.send(courseInstance.toObject({req}))
+
+    courseInstance = new CourseInstance({
+      members: []
+      ownerID: req.user._id
+    })
+    courseInstance.set('aceConfig', {}) # constructor will ignore empty objects
+
+    database.assignBody(req, courseInstance)
+    database.validateDoc(courseInstance)
+    courseInstance = yield courseInstance.save()
+    res.status(201).send(courseInstance.toObject({req}))
+    
   addMembers: wrap (req, res) ->
     if req.body.userID
       userIDs = [req.body.userID]
