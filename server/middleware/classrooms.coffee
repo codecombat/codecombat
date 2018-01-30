@@ -425,3 +425,14 @@ module.exports =
       throw new errors.Forbidden('You do not have access to this classroom')
     res.status(200).send(classroom.toObject({req}))
     
+  put: wrap (req, res) ->
+    classroom = yield database.getDocFromHandle(req, Classroom)
+    if not classroom
+      throw new errors.NotFound('Classroom not found.')
+
+    unless classroom.isOwner(req.user._id)
+      throw new errors.Forbidden('You may not edit this classroom')
+    database.assignBody(req, classroom)
+    database.validateDoc(classroom)
+    classroom = yield classroom.save()
+    res.status(200).send(classroom.toObject({req}))

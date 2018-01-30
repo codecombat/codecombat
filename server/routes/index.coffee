@@ -137,6 +137,7 @@ module.exports.setup = (app) ->
   app.post('/db/classroom', mw.classrooms.post)
   app.get('/db/classroom', mw.classrooms.getByCode, mw.classrooms.getByOwner, mw.classrooms.getByMember)
   app.get('/db/classroom/:handle', mw.classrooms.getByHandle)
+  app.put('/db/classroom/:handle', mw.classrooms.put)
   app.get('/db/classroom/:handle/levels', mw.classrooms.fetchAllLevels)
   app.get('/db/classroom/:handle/courses/:courseID/levels', mw.classrooms.fetchLevelsForCourse)
 #  app.post('/db/classroom/:handle/invite-members', mw.classrooms.inviteMembers)
