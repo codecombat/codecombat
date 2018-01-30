@@ -185,9 +185,10 @@ module.exports = class Classroom extends CocoModel
     })
     @fetch(options)
 
-  inviteMembers: (emails, options={}) ->
+  inviteMembers: (emails, recaptchaResponseToken, options={}) ->
     options.data ?= {}
     options.data.emails = emails
+    options.data.recaptchaResponseToken = recaptchaResponseToken
     options.url = @url() + '/invite-members'
     options.type = 'POST'
     @fetch(options)

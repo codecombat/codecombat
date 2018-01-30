@@ -558,14 +558,14 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
         expect(prepaid.get('redeemers').length).toBe(0)
         done()
 
-xdescribe 'POST /db/classroom/:id/invite-members', ->
+describe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', utils.wrap (done) ->
     user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
     yield utils.loginUser(user)
     classroom = yield utils.makeClassroom()
     url = classroomsURL + "/#{classroom.id}/invite-members"
-    data = { emails: ['test@test.com'] }
+    data = { emails: ['test@test.com'], recaptchaResponseToken: 'user response token' }
     sendwithus = require '../../../server/sendwithus'
     spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
       expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
@@ -573,6 +573,8 @@ xdescribe 'POST /db/classroom/:id/invite-members', ->
       expect(context.email_data.teacher_name).toBe('Mr Professerson')
       expect(context.email_data.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
       done()
+    serverUtils = require '../../../server/lib/utils'
+    spyOn(serverUtils, 'verifyRecaptchaToken').and.returnValue(Promise.resolve(true));
     [res, body] = yield request.postAsync { uri: url, json: data, headers: {host: 'codecombat.com'} }
     expect(res.statusCode).toBe(200)
 

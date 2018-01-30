@@ -11,7 +11,6 @@ CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 ClassroomSettingsModal = require 'views/courses/ClassroomSettingsModal'
 CourseNagSubview = require 'views/teachers/CourseNagSubview'
-InviteToClassroomModal = require 'views/courses/InviteToClassroomModal'
 Prepaids = require 'collections/Prepaids'
 User = require 'models/User'
 utils = require 'core/utils'
@@ -104,7 +103,6 @@ module.exports = class TeacherClassesView extends RootView
     'click .edit-classroom': 'onClickEditClassroom'
     'click .archive-classroom': 'onClickArchiveClassroom'
     'click .unarchive-classroom': 'onClickUnarchiveClassroom'
-    'click .add-students-btn': 'onClickAddStudentsButton'
     'click .create-classroom-btn': 'openNewClassroomModal'
     'click .create-teacher-btn': 'onClickCreateTeacherButton'
     'click .update-teacher-btn': 'onClickUpdateTeacherButton'
@@ -243,16 +241,6 @@ module.exports = class TeacherClassesView extends RootView
   onClickUpdateTeacherButton: (e) ->
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Teachers', ['Mixpanel']
     application.router.navigate("/teachers/update-account", { trigger: true })
-
-  onClickAddStudentsButton: (e) ->
-    window.tracker?.trackEvent 'Teachers Classes Add Students Started', category: 'Teachers', ['Mixpanel']
-    classroomID = $(e.currentTarget).data('classroom-id')
-    classroom = @classrooms.get(classroomID)
-    modal = new InviteToClassroomModal({ classroom: classroom })
-    @openModalView(modal)
-    @listenToOnce modal, 'hide', ->
-      @render()
-      @calculateQuestCompletion()
 
   onClickArchiveClassroom: (e) ->
     return unless me.id is @teacherID # Viewing page as admin
