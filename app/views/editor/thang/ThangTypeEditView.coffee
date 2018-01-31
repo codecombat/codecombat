@@ -92,7 +92,8 @@ defaultTasks =
     'Set Collects collectRange to 2, Sees visualRange to 60.'
     'Add any custom hero abilities.'
     'Add to ThangTypeConstants hard-coded hero ids/classes list.'
-    'Add as unlock to a level and add unlockLevelName here.'
+    'Add hero gender.'
+    'Add hero short name.'
   ]
   Floor: commonTasks.concat containerTasks.concat [
     'Add 10 x 8.5 snapping.'

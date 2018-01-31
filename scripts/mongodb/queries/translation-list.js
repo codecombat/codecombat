@@ -1,9 +1,10 @@
-langCode = 'zh-HANS';
+langCode = 'es-419';
 load('node_modules/lodash/dist/lodash.js');
 
 translations = [];
 reusableTranslationMap = {};
 untranslatedWords = 0;
+totalWords = 0;
 
 add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   englishString = rootDoc[property]
@@ -24,7 +25,6 @@ add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   }
   else if (!reusableTranslationMap[englishString]) {
     reusableTranslationMap[englishString] = translationString;
-    untranslatedWords += englishString.split(/\s/).length;
   }
 
   path = propertyPrefix ? propertyPrefix + '.' + property : property;
@@ -39,6 +39,11 @@ printTranslation = function(docType, doc, path, englishString, translationString
   if (!englishString) {
     return;
   }
+
+  if(!translationString) {
+    untranslatedWords += englishString.split(/\s+/).length;
+  }
+  totalWords += englishString.split(/\s+/).length;
 
   //// skip translated strings?
   //if(translationString) {
@@ -233,4 +238,4 @@ translations.forEach(function(tr) {
   print(tr.join('\n'));
 });
 
-//print('\n\nUntranslated words: ' + untranslatedWords)
+print('\n\nUntranslated words: ' + untranslatedWords, '\nTotal: ' + totalWords)

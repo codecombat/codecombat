@@ -82,6 +82,7 @@ module.exports = class LevelSession extends CocoModel
     newTopScores = []
     now = new Date()
     for scoreType in level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       oldTopScore = _.find oldTopScores, type: scoreType
       newScore = scores[scoreType]
       unless newScore?
