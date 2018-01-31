@@ -1,6 +1,6 @@
 module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Azerbaijani", translation:
-#  new_home:
-#    slogan: "The most engaging game for learning programming."
+  new_home:
+    slogan: "The most engaging game for learning programming."
 #    classroom_edition: "Classroom Edition:"
 #    learn_to_code: "Learn to code:"
 #    play_now: "Play Now"
@@ -65,23 +65,23 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    go_to_courses: "Go to My Courses"
 #    want_coco: "Want CodeCombat at your school?"
 
-  nav:
+#  nav:
 #    map: "Map"
-#    play: "Niveloj" # The top nav bar entry where players choose which levels to play
-#    community: "Komunumo"
+#    play: "Levels" # The top nav bar entry where players choose which levels to play
+#    community: "Community"
 #    courses: "Courses"
-#    blog: "Blogo"
-#    forum: "Forumo"
-#    account: "Konto"
+#    blog: "Blog"
+#    forum: "Forum"
+#    account: "Account"
 #    my_account: "My Account"
-#    profile: "Profilo"
-#    home: "Hejmo"
-#    contribute: "Kontribui"
-#    legal: "Leĝa informo"
+#    profile: "Profile"
+#    home: "Home"
+#    contribute: "Contribute"
+#    legal: "Legal"
 #    privacy: "Privacy"
-#    about: "Pri"
-#    contact: "Kontakti"
-#    twitter_follow: "Sekvu"
+#    about: "About"
+#    contact: "Contact"
+#    twitter_follow: "Follow"
 #    my_classrooms: "My Classes"
 #    my_courses: "My Courses"
 #    careers: "Careers"
@@ -100,20 +100,20 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    help_suff: "and we'll get in touch!"
 #    resource_hub: "Resource Hub"
 
-  modal:
-#    close: "Fermi"
-#    okay: "Bone"
+#  modal:
+#    close: "Close"
+#    okay: "Okay"
 
-  not_found:
-#    page_not_found: "Paĝo ne trovita"
+#  not_found:
+#    page_not_found: "Page not found"
 
-  diplomat_suggestion:
-#    title: "Helpu traduki CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
-#    sub_heading: "Ni bezonas vian lingvokapabloj."
-#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. There's got to be at least one of them who wants to play in Esperanto! So if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into Esperanto."
-#    missing_translations: "Until we can translate everything into Esperanto, you'll see English when Esperanto isn't available."
-#    learn_more: "Eksciu pli pri esti Diplomato"
-#    subscribe_as_diplomat: "Aboni kiel Diplomato"
+#  diplomat_suggestion:
+#    title: "Help translate CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
+#    sub_heading: "We need your language skills."
+#    pitch_body: "We develop CodeCombat in English, but we already have players all over the world. Many of them want to play in {English} but don't speak English, so if you can speak both, please consider signing up to be a Diplomat and help translate both the CodeCombat website and all the levels into {English}."
+#    missing_translations: "Until we can translate everything into {English}, you'll see English when {English} isn't available."
+#    learn_more: "Learn more about being a Diplomat"
+#    subscribe_as_diplomat: "Subscribe as a Diplomat"
 
 #  play:
 #    play_as: "Play As" # Ladder page
@@ -1452,6 +1452,7 @@ module.exports = nativeDescription: "azərbaycan dili", englishDescription: "Aze
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
