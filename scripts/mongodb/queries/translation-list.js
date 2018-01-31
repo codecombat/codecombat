@@ -25,7 +25,6 @@ add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   }
   else if (!reusableTranslationMap[englishString]) {
     reusableTranslationMap[englishString] = translationString;
-    //untranslatedWords += englishString.split(/\s/).length;
   }
 
   path = propertyPrefix ? propertyPrefix + '.' + property : property;
@@ -64,7 +63,6 @@ var campaignIds = courses.reduce(function (ids, val) {
   return ids;
 }, []);
 var campaignSlugs = ['intro', 'game-dev-1', 'web-dev-1', 'course-2', 'game-dev-2', 'web-dev-2', 'dungeon', 'course-3', 'game-dev-3', 'campaign-game-dev-1', 'campaign-game-web-1', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert', 'mountain', 'glacier'];
-var campaignSlugs = ['intro', 'game-dev-1', 'web-dev-1', 'course-2', 'game-dev-2', 'web-dev-2', 'dungeon', 'course-3', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert'];
 // campaignSlugs = [];
 var campaigns = db.campaigns.find({$or: [{slug: {$in: campaignSlugs}}, {_id: {$in: campaignIds}}]}, {levels: 1, slug: 1}).toArray();
 campaigns = _.sortBy(campaigns, function(campaign) {
