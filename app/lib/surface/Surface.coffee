@@ -269,6 +269,7 @@ module.exports = Surface = class Surface extends CocoClass
     return unless frame.scores and @options.level
     scores = []
     for scoreType in @options.level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       if scoreType is 'code-length'
         score = @world.scores?['code-length']
       else

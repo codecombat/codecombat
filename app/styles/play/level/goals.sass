@@ -114,26 +114,15 @@
     .threshold
       bottom: -48px
       right: -10px
-      font-size: 36px
-      text-shadow: 1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black
       position: absolute
-      line-height: 20px
       display: block
 
       .threshold-icon
         display: none
+        height: 36px
 
-      .threshold-bronze
-        color: #a87308
-        display: inline
-
-      .threshold-silver
-        color: #a8a8a8
-        display: inline
-
-      .threshold-gold
-        color: #f4cb27
-        display: inline
+        &.achieved
+          display: inline
     
 #goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
   display: none

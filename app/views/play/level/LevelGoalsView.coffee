@@ -4,6 +4,7 @@ template = require 'templates/play/level/goals'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 LevelSession = require 'models/LevelSession'
+LevelConstants = require 'lib/LevelConstants'
 
 stateIconMap =
   success: 'glyphicon-ok'
@@ -179,18 +180,21 @@ module.exports = class LevelGoalsView extends CocoView
     scoreText = @formatScore mainScore.type, mainScore.score, false
     utils.replaceText $scoreboard.find('.current-score-value'), scoreText
     bestScore = @topScores[mainScore.type]
-    showBest = bestScore?
-    showBest &&= switch mainScore.type
-      when 'time', 'damage-taken' then bestScore < mainScore.score
-      else bestScore > mainScore.score
+    if bestScore?
+      if mainScore.type in LevelConstants.lowerIsBetterScoreTypes
+        showBest = bestScore < mainScore.score
+      else
+        showBest = bestScore > mainScore.score
     @$el.toggleClass 'with-best-score', showBest
     $scoreboard.find('.best-score').toggleClass 'hidden', not showBest
     if showBest
       bestScoreText = @formatScore mainScore.type, bestScore, true
       utils.replaceText $scoreboard.find('.best-score-value'), bestScoreText
     thresholdAchieved = @level.thresholdForScore type: mainScore.type, score: bestScore ? mainScore.score
-    for threshold in ['bronze', 'silver', 'gold']
-      @$(".threshold-icon").toggleClass "threshold-#{threshold}", threshold is thresholdAchieved
+    if thresholdAchieved
+      @$('.threshold-icon').attr('src', "/images/pages/courses/star-#{thresholdAchieved}.png").toggleClass 'achieved', true
+    else
+      @$('.threshold-icon').toggleClass 'achieved', false
 
   formatScore: (type, score, isBest) ->
     switch type
