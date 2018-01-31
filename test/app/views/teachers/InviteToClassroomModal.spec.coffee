@@ -9,7 +9,9 @@ describe 'InviteToClassroomModal', ->
   beforeEach (done) ->
     window.me = @teacher = factories.makeUser()
     @classroom = factories.makeClassroom({ code: "wordsouphere", codeCamel: "WordSoupHere", ownerID: @teacher.id })
+    @recaptchaResponseToken = '1234'
     modal = new InviteToClassroomModal({ @classroom })
+    modal.recaptchaResponseToken = @recaptchaResponseToken
     jasmine.demoModal(modal)
     modal.render()
     _.defer done
@@ -26,4 +28,5 @@ describe 'InviteToClassroomModal', ->
       expect(request.url).toBe("/db/classroom/#{@classroom.id}/invite-members")
       expect(request.method).toBe("POST")
       expect(request.data()['emails[]']).toEqual(@emails)
+      expect(request.data()['recaptchaResponseToken']).toEqual([@recaptchaResponseToken])
       _.defer done

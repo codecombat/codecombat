@@ -18,6 +18,7 @@ module.exports =
   'fr': { nativeDescription: 'français', englishDescription: 'French' }
   # Begin alphabetized list: https://github.com/codecombat/codecombat/issues/2329#issuecomment-74630546
   'ar': { nativeDescription: 'العربية', englishDescription: 'Arabic' }
+  'az': { nativeDescription: 'azərbaycan dili', englishDescription: 'Azerbaijani' }
   'bg': { nativeDescription: 'български език', englishDescription: 'Bulgarian' }
   'ca': { nativeDescription: 'Català', englishDescription: 'Catalan' }
   'cs': { nativeDescription: 'čeština', englishDescription: 'Czech' }
