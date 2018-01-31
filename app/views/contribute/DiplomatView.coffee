@@ -102,4 +102,5 @@ module.exports = class DiplomatView extends ContributeClassView
     mi: []             # te reo Māori, Māori
     haw: []            # ʻŌlelo Hawaiʻi, Hawaiian
     kk: []            # қазақ тілі, Kazakh
+    az: []             # azərbaycan dili, Azerbaijani
     fil: ['Celestz'] #Like This?
