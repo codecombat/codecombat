@@ -1,7 +1,7 @@
 extends /templates/core/modal-base-flat
 
 block modal-header-content
-  //- TODO: why doesn't this work when included in layout.static.pug?
+  //- TODO: only load this once, probably in the services/google
   script(src='https://www.google.com/recaptcha/api.js')
 
 block modal-body-content

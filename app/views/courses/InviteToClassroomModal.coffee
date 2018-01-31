@@ -49,5 +49,5 @@ module.exports = class InviteToClassroomModal extends ModalView
       @$('#copy-failed-alert').removeClass('hide')
 
   recaptchaCallback: (response) ->
-    $('#send-invites-btn').removeClass('disabled');
+    @$('#send-invites-btn').removeClass('disabled');
     @recaptchaResponseToken = response
