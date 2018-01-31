@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     classroom_in_a_box: "Класна кімната \"з коробки\" для того, щоб навчати комп'ютерним наукам."
     codecombat_is: "CodeCombat - це платформа <strong>для учнів</strong>, створена, щоб опановувати комп'ютерні науки під час захоплюючої гри."
     our_courses: "Наша програма була протестована, щоб бути <strong>ефективною в класі</strong>, навіть для вчителів з мінімальним досвідом програмування."
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Подивіться, як CodeCombat трансформує то, як люди вивчають комп'ютерні науки"
     top_screenshots_hint: "Учні пишуть код і бачать усі зміни наживо"
     designed_with: "Зважаючи на потреби вчителя"
     real_code: "Справжній код"
@@ -66,7 +66,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     want_coco: "Хочете CodeCombat у вашій школі?"
 
   nav:
-#    map: "Map"
+    map: "Карта"
     play: "Грати" # The top nav bar entry where players choose which levels to play
     community: "Спільнота"
     courses: "Курси"
@@ -117,8 +117,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   play:
     play_as: "Грати за" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Призначте розробку ігор та інше для ваших класів!"
+    request_licenses: "Зверніться до наших шкільних фахівців для подробиць."
     compete: "Змагайтесь!" # Course details page
     spectate: "Спостерігати" # Ladder page
     players: "гравці" # Hover over a level on /play
@@ -138,10 +138,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     next: "Далі" # Go from choose hero to choose inventory before playing a level
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     buy_gems: "Придбати самоцвіти"
-    subscription_required: "Потрібен абонемет"
+    subscription_required: "Потрібна підписка"
     subscribers_only: "Тільки для підписників!"
     subscribe_unlock: "Придбайте підписку для розблокування!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_heroes: "Підпишіться сьогодні, щоб відразу розблокувати Amara, Hushbaum та Hattori!"
     subscriber_gems: "Підпишіться сьогодні, щоб придбати цього героя за самоцвіти!"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
@@ -154,11 +154,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
     brain_pop_done: "Ви перемогли Оґрів за допомогою коду! Ви виграли!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    brain_pop_challenge: "Випробуйте себе, щоб грати знову, використовуючи іншу мову програмування!"
+    replay: "Переграти"
+    back_to_classroom: "Повернутися до класу"
+    teacher_button: "для вчителів"
+    get_more_codecombat: "Отримайте більше від CodeCombat"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -233,12 +233,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     signup_switch: "Хочете створити акаунт?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Завершити підписку"
     create_student_header: "Створити акаунт учня"
     create_teacher_header: "Створити акаунт вчителя"
     create_individual_header: "Створити індивідуальний акаунт"
     email_announcements: "Отримувати анонси про нові рівні та інші новинки CodeCombat!"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "Увійдіть або створить акаунт для того щоб продовжити"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "Створення акаунту..."
     sign_up: "Реєстрація"
