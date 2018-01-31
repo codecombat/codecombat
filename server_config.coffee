@@ -56,7 +56,7 @@ config.closeIO =
   apiKey: process.env.COCO_CLOSEIO_API_KEY or ''
 
 config.google =
-  recaptcha_secret_key = process.env.COCO_GOOGLE_RECAPTCHA_SECRET_KEY or ''
+  recaptcha_secret_key: process.env.COCO_GOOGLE_RECAPTCHA_SECRET_KEY or ''
 
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
