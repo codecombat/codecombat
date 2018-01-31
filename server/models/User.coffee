@@ -559,6 +559,9 @@ UserSchema.statics.editableProperties = [
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
   'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
 ]
+UserSchema.statics.adminEditableProperties = [
+  'purchased'
+]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
 UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', 'jobProfileNotes']

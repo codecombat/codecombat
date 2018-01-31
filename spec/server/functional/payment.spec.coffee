@@ -335,6 +335,35 @@ describe '/db/payment', ->
                   )
                 )
 
+  describe '/db/payment/admin', ->
+
+    it 'denies anonymous users trying to create payments', utils.wrap ->
+      url = utils.getUrl('/db/payment/admin')
+      [res, body] = yield request.postAsync {url}
+      expect(res.statusCode).toEqual(403)
+
+    it 'denies non-admin users trying to create payments', utils.wrap ->
+      @user = yield utils.initUser()
+      yield utils.loginUser(@user)
+      url = utils.getUrl('/db/payment/admin')
+      [res, body] = yield request.postAsync {url}
+      expect(res.statusCode).toEqual(403)
+
+    it 'allows admin users to create payments', utils.wrap ->
+      @user = yield utils.initAdmin()
+      yield utils.loginUser(@user)
+      [res, body] = yield request.postAsync
+        url: utils.getUrl('/db/payment/admin')
+        json:
+          purchaser: @user.get('_id')
+          recipient: @user.get('_id')
+          service: 'paymatt'
+          gems: 23
+          amount: 100
+      expect(res.statusCode).toEqual(201)
+      payment = Payment.findOne(purchaser: @user.get('_id'))
+      expect(payment).toBeDefined()
+
   describe '/db/payment/custom', ->
     afterEach nockUtils.teardownNock
     stripe = require('stripe')(config.stripe.secretKey)
