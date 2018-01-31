@@ -1,9 +1,10 @@
-langCode = 'zh-HANS';
+langCode = 'es-419';
 load('node_modules/lodash/dist/lodash.js');
 
 translations = [];
 reusableTranslationMap = {};
 untranslatedWords = 0;
+totalWords = 0;
 
 add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   englishString = rootDoc[property]
@@ -24,7 +25,7 @@ add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   }
   else if (!reusableTranslationMap[englishString]) {
     reusableTranslationMap[englishString] = translationString;
-    untranslatedWords += englishString.split(/\s/).length;
+    //untranslatedWords += englishString.split(/\s/).length;
   }
 
   path = propertyPrefix ? propertyPrefix + '.' + property : property;
@@ -39,6 +40,11 @@ printTranslation = function(docType, doc, path, englishString, translationString
   if (!englishString) {
     return;
   }
+
+  if(!translationString) {
+    untranslatedWords += englishString.split(/\s+/).length;
+  }
+  totalWords += englishString.split(/\s+/).length;
 
   //// skip translated strings?
   //if(translationString) {
@@ -58,6 +64,7 @@ var campaignIds = courses.reduce(function (ids, val) {
   return ids;
 }, []);
 var campaignSlugs = ['intro', 'game-dev-1', 'web-dev-1', 'course-2', 'game-dev-2', 'web-dev-2', 'dungeon', 'course-3', 'game-dev-3', 'campaign-game-dev-1', 'campaign-game-web-1', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert', 'mountain', 'glacier'];
+var campaignSlugs = ['intro', 'game-dev-1', 'web-dev-1', 'course-2', 'game-dev-2', 'web-dev-2', 'dungeon', 'course-3', 'forest', 'campaign-game-dev-2', 'campaign-game-web-2', 'desert'];
 // campaignSlugs = [];
 var campaigns = db.campaigns.find({$or: [{slug: {$in: campaignSlugs}}, {_id: {$in: campaignIds}}]}, {levels: 1, slug: 1}).toArray();
 campaigns = _.sortBy(campaigns, function(campaign) {
@@ -233,4 +240,4 @@ translations.forEach(function(tr) {
   print(tr.join('\n'));
 });
 
-//print('\n\nUntranslated words: ' + untranslatedWords)
+print('\n\nUntranslated words: ' + untranslatedWords, '\nTotal: ' + totalWords)
