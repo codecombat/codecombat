@@ -667,6 +667,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     restricted: "(verrouillé à ce niveau)"
     equip: "Equiper"
     unequip: "Retirer"
+    warrior_only: "Guerrier Seulement"
+    ranger_only: "Ranger Seulement"
+    wizard_only: "Magicien Seulement"
 
   buy_gems:
     few_gems: "Quelques gemmes"

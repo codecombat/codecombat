@@ -684,6 +684,9 @@
     restricted: "(restricted in this level)"
     equip: "Equip"
     unequip: "Unequip"
+    warrior_only: "Warrior Only"
+    ranger_only: "Ranger Only"
+    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "A few gems"
