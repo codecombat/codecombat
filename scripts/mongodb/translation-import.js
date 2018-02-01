@@ -240,6 +240,23 @@ co(function* () {
         }
       })
     })
+
+    _.forEach(levelObj.thangs, function(thang, i) {
+      _.forEach(thang.components, function(component, j) {
+        if (component.config && component.config.context && component.config.i18n) {
+          _.forEach(component.config.context, function(value, property) {
+            englishString = value
+            var normalizedEnglish = normalizeEscapesAndPunctuationKeys(englishString);
+            if(!translationMap[normalizedEnglish]) { return }
+            if (!component.config.i18n[langCode]) { component.config.i18n[langCode] = {} }
+            if (!component.config.i18n[langCode].context) { component.config.i18n[langCode].context = {} }
+            if(logUpdate(englishString, translationMap[normalizedEnglish], component.config.i18n[langCode].context[property]))
+              component.config.i18n[langCode].context[property] = translationMap[normalizedEnglish]
+          })
+        }
+      })
+    })
+
     updatedLevel.set(levelObj)
     updatedLevel.set('commitMessage', `Import ${langProperty} translations`)
   

@@ -58,6 +58,15 @@ db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach(f
       }
     })
   })
+  _.forEach(level.thangs, function(thang) {
+    _.forEach(thang.components, function(component) {
+      if (component.config && component.config.context && component.config.i18n) {
+        _.forEach(component.config.context, function(value) {
+          add(value);
+        })
+      }
+    })
+  })
 });
 print('Level sum', sum);
 

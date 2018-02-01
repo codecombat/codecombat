@@ -1,4 +1,4 @@
-langCode = 'es-419';
+langCode = 'zh-HANS';
 load('node_modules/lodash/dist/lodash.js');
 
 translations = [];
@@ -139,6 +139,20 @@ allLevels.forEach(function(level, levelIndex) {
             }
             printTranslation('levels', level, methodPath, value, translationString)
           })
+        })
+      }
+    })
+  })
+  _.forEach(level.thangs, function(thang, i) {
+    _.forEach(thang.components, function(component, j) {
+      if (component.config && component.config.context && component.config.i18n) {
+        _.forEach(component.config.context, function(value, property) {
+          contextPath = ['thangs[',i,'].components[',j,'].config.context['+JSON.stringify(property)+']'].join('')
+          translationString = '';
+          if(component.config.i18n && component.config.i18n[langCode] && component.config.i18n[langCode].context) {
+            translationString = component.config.i18n[langCode].context[property] || '';
+          }
+          printTranslation('levels', level, contextPath, value, translationString)
         })
       }
     })
