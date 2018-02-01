@@ -53,7 +53,7 @@ class LevelSessionsCollection extends CocoCollection
 
   constructor: (model) ->
     super()
-    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime"
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime,state.topScores"
 
 class CampaignsCollection extends CocoCollection
   # We don't send all of levels, just the parts needed in countLevels
@@ -109,6 +109,7 @@ module.exports = class CampaignView extends RootView
     @levelStatusMap = {}
     @levelPlayCountMap = {}
     @levelDifficultyMap = {}
+    @levelScoreMap = {}
 
     if utils.getQueryVariable('hour_of_code')
       if me.isStudent() or me.isTeacher()
@@ -197,7 +198,7 @@ module.exports = class CampaignView extends RootView
               model: LevelSession
             })
             @supermodel.loadCollection(@courseInstance.sessions, {
-              data: { project: 'state.complete,level.original,playtime,changed' }
+              data: { project: 'state.complete,level.original,playtime,changed,state.topScores' }
             })
             @courseInstance.sessions.comparator = 'changed'
             @listenToOnce @courseInstance.sessions, 'sync', =>
@@ -336,6 +337,7 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
+    @buildLevelScoreMap()
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     application.setHocCampaign(if @campaign?.get('type') is 'hoc' then @campaign.get('slug') else '')
 
@@ -362,6 +364,15 @@ module.exports = class CampaignView extends RootView
 
     # Minecraft Modal:
     #@maybeShowMinecraftModal() # Disable for now
+  
+  buildLevelScoreMap: ->
+    for session in @sessions.models
+      levels = @getLevels()
+      levelOriginal = session.get('level')?.original
+      level = levels[levelOriginal]
+      continue unless level
+      topScore = _.first(LevelSession.getTopScores({session: session.toJSON(), level}))
+      @levelScoreMap[levelOriginal] = topScore
 
   # Minecraft Modal:
   maybeShowMinecraftModal: ->

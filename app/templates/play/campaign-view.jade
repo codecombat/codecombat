@@ -140,6 +140,10 @@ if showGameDevAlert
             .level-status.rtl-allowed(dir="auto")
             - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
             h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")= levelName
+            if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatusMap[level.slug] === 'complete'
+              - topScore = view.levelScoreMap[level.original]
+              if topScore.thresholdAchieved
+                img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
             - var description = i18n(level, 'description') || level.description || ""
             .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: !picoCTF})
             if level.disabled
