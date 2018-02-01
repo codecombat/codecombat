@@ -4,7 +4,7 @@ add = function(s) {
     return;
   sum += s.split(' ').length;
 };
-load('bower_components/lodash/dist/lodash.js');
+load('node_modules/lodash/dist/lodash.js');
 
 sum = 0;
 db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach(function (level) {
