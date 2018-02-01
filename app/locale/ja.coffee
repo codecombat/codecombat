@@ -66,7 +66,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    want_coco: "Want CodeCombat at your school?"
 
   nav:
-#    map: "Map"
+    map: "マップ"
     play: "ゲームマップへ" # The top nav bar entry where players choose which levels to play
     community: "コミュニティー"
     courses: "コース"
@@ -139,10 +139,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
     buy_gems: "ジェムを購入"
     subscription_required: "サブスクリプション必須"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
+    subscribers_only: "サブスクリプション限定!"
+    subscribe_unlock: "サブスクリプションで解放!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
+  #  subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "名無しのプレイヤー"
     level_difficulty: "難易度: "
     play_classroom_version: "教室版を遊ぶ" # Choose a level in campaign version that you also can play in one of your courses
@@ -157,8 +157,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     brain_pop_challenge: "違うプログラミング言語での再挑戦で自分自身にチャレンジ!"
     replay: "リプレイ"
     back_to_classroom: "クラスルームに戻る"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    teacher_button: "先生へ"
+    get_more_codecombat: "Code Combatについてもっと知る"
 
   code:
     if: "もし" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -233,12 +233,12 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     signup_switch: "アカウントを作成しますか？"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "サブスクリプション完了"
     create_student_header: "学生用アカウントを作成"
     create_teacher_header: "先生用アカウントを作成"
     create_individual_header: "個人用アカウントを作成"
     email_announcements: "新しいCodeCombatのレベルと機能についてのお知らせをメールで受け取る"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "サインインまたはアカウントを作成して続ける"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "アカウントを作成しています..."
     sign_up: "アカウント登録"
@@ -328,16 +328,16 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   common:
     back: "戻る" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
+    go_back: "戻る"
     coming_soon: "近日公開!"
     continue: "続ける" # When used as an action verb, like "Continue forward"
     next: "次へ"
     default_code: "元のコード"
     loading: "ロード中"
     overview: "あらすじ"
-#    processing: "Processing..."
+    processing: "処理中..."
     solution: "回答"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "コンテンツテーブル"
     intro: "はじめに"
     saving: "セーブ中..."
     sending: "送信中..."
@@ -418,14 +418,14 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     contact_us: "私たちにコンタクトをとる"
     close_window: "ウィンドウを閉じる"
     learn_more: "もっとみる"
-#    more: "More"
-#    fewer: "Fewer"
-#    with: "with"
+    more: "もっと"
+    fewer: "少なく"
+    with: "と"
 
   units:
     second: "秒"
     seconds: "秒"
-#    sec: "sec"
+    sec: "秒"
     minute: "分"
     minutes: "分"
     hour: "時"
@@ -440,10 +440,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     years: "年"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "マップに戻る"
     directions: "使用法"
     edit_level: "編集レベル"
-#    keep_learning: "Keep Learning"
+    keep_learning: "学習を続ける"
     explore_codecombat: "CodeCombatを探検"
     finished_hoc: "コードの時間は終了"
     get_certificate: "証明書をゲットしよう!"
@@ -452,8 +452,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     course: "コース:"
     done: "完了"
     next_level: "次のレベル"
-#    challenge_unlocked: "Challenge Unlocked"
-#    start_challenge: "Start Challenge"
+    challenge_unlocked: "チャレンジを解放した"
+    start_challenge: "チャレンジを始める"
     next_game: "次のゲーム"
     languages: "言語"
     programming_language: "プログラミング言語"
@@ -465,8 +465,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     restart: "再始動"
     goals: "目標"
     goal: "目標"
-#    challenge_level_goals: "Challenge Level Goals"
-#    challenge_level_goal: "Challenge Level Goal"
+    challenge_level_goals: "チャレンジレベルの目標"
+    challenge_level_goal: "チャレンジレベルの目標"
     running: "コンパイル中..."
     success: "成功！"
     incomplete: "不完全"
@@ -587,7 +587,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     tip_good_idea: "優れたアイディアを得る最善の方法は、多くのアイディアを得ることだ。 - ライナス・ポーリング"
     tip_programming_not_about_computers: "天文学が望遠鏡に関する学問でないのと同様に、計算機科学はコンピュータに関する学問ではない。 - エドガー・ダイクストラ"
     tip_mulan: "できると信じていれば、できる。 - ムーラン"
-#    project_complete: "Project Complete!"
+    project_complete: "プロジェクトを完了!"
 #    share_this_project: "Share this project with friends or family:"
 #    ready_to_share: "Ready to publish your project?"
 #    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
@@ -610,18 +610,18 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play_game_dev_level:
     created_by: "作成者：{{name}}"
-#    created_during_hoc: "Created during Hour of Code"
+  #  created_during_hoc: "Created during Hour of Code"
     restart: "レベルをリセット"
     play: "プレイレベル"
     play_more_codecombat: "もっとCodeCombatで遊ぶ"
     default_student_instructions: "ヒーローをクリックしてゲームに勝ちましょう!"
-#    goal_survive: "Survive."
-#    goal_survive_time: "Survive for __seconds__ seconds."
-#    goal_defeat: "Defeat all enemies."
-#    goal_defeat_amount: "Defeat __amount__ enemies."
-#    goal_move: "Move to all the red X marks."
-#    goal_collect: "Collect all the items."
-#    goal_collect_amount: "Collect __amount__ items."
+    goal_survive: "生き残る."
+    goal_survive_time: "__seconds__ 秒生き残る."
+    goal_defeat: "敵を全て倒す."
+    goal_defeat_amount: "敵を __amount__ 体を倒す."
+    goal_move: "全ての赤いX印に移動."
+    goal_collect: "全てのアイテムを集める."
+    goal_collect_amount: "__amount__ 個のアイテムを集める."
 
   game_menu:
     inventory_tab: "インベントリー"
@@ -646,15 +646,15 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     day: "今日"
     week: "今週"
     all: "オールタイム"
-#    latest: "Latest"
+    latest: "最新"
     time: "時間"
     damage_taken: "受けたダメージ"
     damage_dealt: "与えたダメージ"
     difficulty: "難易度"
     gold_collected: "集めたゴールド"
-#    survival_time: "Survived"
-#    defeated: "Enemies Defeated"
-#    code_length: "Lines of Code"
+    survival_time: "生き残った"
+    defeated: "敵を倒した"
+    code_length: "コードの行数"
 
   inventory:
     equipped_item: "装備済み"
@@ -689,9 +689,9 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     prompt_body: "プレイを続けてさらに稼ごう！"
 
   subscribe:
-#    best_deal: "Best Deal!"
-#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
-#    premium_already_subscribed: "You're already subscribed to Premium!"
+    best_deal: "最高の取引!"
+    confirmation: "おめでとうございます! Code Combatのプレミアムサブスクリプションを手に入れました!"
+    premium_already_subscribed: "すでにプレミアムサブスクリプションを持っています!"
     subscribe_modal_title: "CodeCombatプレミアム"
     comparison_blurb: "CodeCombatへ課金してスキルを磨きましょう！" # {change}
     premium_pricing_prefix: "プレミアムにするだけで"
@@ -870,7 +870,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     speed_1: "移動速度"
     speed_2: "メートル/秒"
     available_for_purchase: "購入可能" # Shows up when you have unlocked, but not purchased, a hero in the hero store
-    level_to_unlock: "アンロックレベル：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
+    level_to_unlock: "解放レベル：" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "特定のヒーローのみ、このレベルをプレイする事が出来ます。"
 
   skill_docs:
