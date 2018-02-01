@@ -10,15 +10,11 @@ block content
   else
     .container
       +breadcrumbs
-      if !me.isAnonymous() && me.isTeacher()
-      - var isOwner = view.classroom ? view.classroom.get('ownerID') === me.id : false;
-
-      if isOwner
+      if view.classroom && view.classroom.get('ownerID') === me.id || me.isAdmin()
         h3.m-t-2
           span(data-i18n="teacher.student_profile")
           span.spr :
           span= view.user.broadName()
-
 
         .performance.col-md-7
           h4.student-details

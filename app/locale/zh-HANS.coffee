@@ -597,6 +597,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     project_published_noty: "您的关卡已发布！"
     keep_editing: "继续编辑"
 
+  apis:
+    methods: "函数"
+    math: "数学"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"

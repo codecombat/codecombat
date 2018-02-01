@@ -597,6 +597,23 @@
     project_published_noty: "Your level has been published!"
     keep_editing: "Keep Editing"
 
+  apis:
+    methods: "Methods"
+    events: "Events"
+    spawnable: "Spawnable"
+    html: "HTML"
+    math: "Math"
+    array: "Array"
+    object: "Object"
+    string: "String"
+    function: "Function"
+    vector: "Vector"
+    date: "Date"
+    jquery: "jQuery"
+    json: "JSON"
+    number: "Number"
+    webjavascript: "JavaScript"
+
   amazon_hoc:
     title: "Keep Learning with Amazon!"
     congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -667,6 +684,9 @@
     restricted: "(restricted in this level)"
     equip: "Equip"
     unequip: "Unequip"
+    warrior_only: "Warrior Only"
+    ranger_only: "Ranger Only"
+    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "A few gems"

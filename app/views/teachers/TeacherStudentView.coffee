@@ -85,7 +85,7 @@ module.exports = class TeacherStudentView extends RootView
       solution = level.getSolutions().find((s) => s.language is 'html') unless solution
       @levelSolutionMap[level.get('original')] = solution.source if solution
     @levelStudentCodeMap = {}
-    for session in @sessions.models
+    for session in @sessions.models when session.get('creator') is @studentID
       @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
 
   onChangeCourseChart: (e)->
@@ -297,7 +297,6 @@ module.exports = class TeacherStudentView extends RootView
     @levelSessionMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
       @levelSessionMap[session.get('level').original] = session
-
 
     # Create mapping of level to student progress
     @levelProgressMap = {}
