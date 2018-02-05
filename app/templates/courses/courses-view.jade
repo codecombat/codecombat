@@ -50,6 +50,18 @@ block content
                     | חוקים וניקוד
                   else
                     | Tournament Rules and Scoring
+                  if new Date() >= new Date(2018, 1, 6, 22) && new Date() < new Date(2018, 1, 8, 22)
+                    p
+                      if me.get('preferredLanguage') == 'he'
+                        | תחרות בתי הספר הסתיימה. אתם מוזמנים להמשיך ולשחק. הרשומים לתחרות הקבוצות, מוזמנים להמשיך ולשחק ולצבור נקודות.
+                      else
+                        | The schools competition is over. You are welcome to continue and play. Those who registered to the teams competition are welcome to continue to play and gain more points.
+                  else if new Date() >= new Date(2018, 1, 8, 22)
+                    p
+                      if me.get('preferredLanguage') == 'he'
+                        | תחרות בתי הספר הסתיימה. אתם מוזמנים להמשיך ולשחק.
+                      else
+                        | The competition is over. You are welcome to continue and play.
                 #tournament-rules-content.hide.rtl-allowed
                   if me.get('preferredLanguage') == 'he'
                     p(dir="rtl") ברוכים הבאים לתחרות CodeCombat של אליפות הסייבר Skillz! עליכם להשלים לפחות עשרה שלבים בקורס ״מבוא למדעי המחשב 3״ או קורסים מתקדמים יותר על מנת לזכות ב-10 נקודות לתחרות. לאחר מכן, אתם יכולים להרויח עוד 90 נקודות (לכל היותר) על פני שלוש זירות מרובות שחקנים על מנת לצבור מקסימום של 100 נקודות בתחרות. אתם יכולים לזכות ב-עד 40 נקודות בכל זירה מרובת שחקנים, על ידי כתיבת קוד בעל אסטרטגיה טובה יותר, תוך כדי הבסת שחקנים אחרים וטיפוס מעלה בלוח השחקנים המובילים. אתם רוצים להגדיל את מספר הנקודות שלכם? שחקו יותר שלבי משחק CodeCombat על מנת ללמוד טקטיקות תכנות/קידוד מתקדמות יותר, כך שכאשר תחזרו לזירה, תוכלו ליישם את מה שלמדתם במהלך השלבים, בשדה הקרב.
