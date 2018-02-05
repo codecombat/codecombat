@@ -23,26 +23,7 @@ translateWithMarkdown = (label) ->
 
 # TODO: if this proves useful, make a simple admin page with a Treema for editing office hours in db
 officeHours = [
-  {time: moment('2017-11-30 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/bf85234b89537f1d7c24e00bf0acd2b8', host: 'Sean', name: 'CodeCombat for Beginner Teachers'}
-  {time: moment('2017-12-04 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/1a5f9b80856e51ae7510d14dfea9e911', host: 'Liz', name: 'CodeCombat: Beyond Block-Based Coding'}
-  {time: moment('2017-12-04 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/68015ae621420952d746f627e8486654', host: 'Sean', name: 'CodeCombat for Middle School'}
-  {time: moment('2017-12-04 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/ecf21cdd1affec72d746f627e8486654', host: 'Nolan', name: 'Beyond Hour of Code'}
-  {time: moment('2017-12-05 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/d9c7dcfac92bba9234538d7d4481ef37', host: 'Sean', name: 'CodeCombat for Coding Clubs'}
-  {time: moment('2017-12-05 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/334d5dbf0b4ddc6cc5b9141539e44ee6', host: 'Nolan', name: 'Personalized Learning with CodeCombat'}
-  {time: moment('2017-12-05 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/876c5f89accf02af66858a512be5123a', host: 'David', name: 'Python with CodeCombat'}
-  {time: moment('2017-12-06 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/874004a82bb3eb65cde7dc3c8da9331e', host: 'David', name: 'CodeCombat: Beyond Hour of Code'}
-  {time: moment('2017-12-06 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/45486b96986b45dadc2040ba88984b7b', host: 'Sean', name: 'JavaScript with CodeCombat'}
-  {time: moment('2017-12-06 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/e4ade7271b84495ac5b9141539e44ee6', host: 'Liz', name: 'Maximizing Engagement Through Game-based Learning'}
-  {time: moment('2017-12-07 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/f77f28fc90bfab79c5b9141539e44ee6', host: 'Liz', name: 'Personalized Learning with CodeCombat'}
-  {time: moment('2017-12-07 13:00-08').toDate(), link: 'https://zoom.us/meeting/register/ea07fb1c3fc67c57dc2040ba88984b7b', host: 'Nolan', name: 'CodeCombat: Beyond Hour of Code'}
-  {time: moment('2017-12-07 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/57ac7a10d6744d2fcde7dc3c8da9331e', host: 'Sean', name: 'CodeCombat for Coding Clubs'}
-  {time: moment('2017-12-08 08:00-08').toDate(), link: 'https://zoom.us/meeting/register/d84bdb59e95f1a6e7510d14dfea9e911', host: 'David', name: 'CodeCombat: Beyond Hour of Code'}
-  {time: moment('2017-12-08 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/01a8b160963f72b7dc2040ba88984b7b', host: 'Nolan', name: 'CodeCombat: Beyond Block-Based Coding'}
-  {time: moment('2017-12-08 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/b1e110cb5d3e9a8a8c34be5db4a05ad8', host: 'Liz', name: 'CodeCombat for Middle School'}
-  {time: moment('2017-12-11 09:00-08').toDate(), link: 'https://zoom.us/meeting/register/e3863fa30a12b647c5b9141539e44ee6', host: 'Nolan', name: 'Maximizing Engagement Through Game-based Learning'}
-  {time: moment('2017-12-12 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/80fa005d281ecca8d746f627e8486654', host: 'David', name: 'CodeCombat for Coding Clubs'}
-  {time: moment('2017-12-13 16:00-08').toDate(), link: 'https://zoom.us/meeting/register/3478f64c196a01757c24e00bf0acd2b8', host: 'Sean', name: 'Python with CodeCombat'}
-  {time: moment('2017-12-14 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/6303676f53c4b00234538d7d4481ef37', host: 'Liz', name: 'CodeCombat for Beginner Teachers'}
+  {time: moment('2018-02-07 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/bd3eae307935a46d66858a512be5123a', host: 'Nolan', name: 'CodeCombat for Beginner Teachers'}
 ]
 
 module.exports = class TeacherClassesView extends RootView

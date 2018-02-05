@@ -148,9 +148,6 @@ config.snowplow =
 
 config.buildInfo = { sha: 'dev' }
 
-config.sunburst =
-  email: process.env.COCO_SUNBURST_EMAIL or ''
-
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
   

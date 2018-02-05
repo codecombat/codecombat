@@ -24,7 +24,7 @@ flat-layout
                 | {{ $t('teacher.end_course') }}
               span(v-else-if="level.primaryConcepts")
                 | {{ $t('concepts.' + (level.primaryConcepts && level.primaryConcepts[0])) }}
-                
+
             div.small
               strong {{$t('courses.level_name')}}
               =" "
@@ -55,7 +55,7 @@ flat-layout
           .col-xs-2
             div(v-if="levelUnlockedMap[level.original] && playLevelUrlMap[level.original]")
               a.play-level-btn.btn.btn-navy-alt(v-if="sessionMap[level.original] && sessionMap[level.original].state.complete", :href="playLevelUrlMap[level.original]")
-                | {{ $t('courses.play_again') }}
+                | {{ $t('play.replay') }}
               a.play-level-btn.btn.btn-forest(v-else-if="sessionMap[level.original]", :href="playLevelUrlMap[level.original]")
                 | {{ $t('courses.keep_trying') }}
               a.play-level-btn.btn.btn-navy(v-else, :href="playLevelUrlMap[level.original]")

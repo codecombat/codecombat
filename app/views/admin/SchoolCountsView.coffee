@@ -35,6 +35,7 @@ module.exports = class SchoolCountsView extends RootView
       url += "&options[beforeId]=#{beforeId}" if beforeId
       new Promise((resolve) -> setTimeout(resolve.bind(null, Promise.resolve($.get(url))), 100))
       .then (batchResults) =>
+        return Promise.resolve([]) if @destroyed
         results = results.concat(batchResults)
         if batchResults.length < @batchSize
           @updateLoadingState("Received #{results.length} from #{baseUrl} TOTAL")
@@ -65,7 +66,7 @@ module.exports = class SchoolCountsView extends RootView
       console.log(new Date().toISOString(), "Processing #{teachers.length} teachers...")
       @state = "Processing #{courseInstances.length} course instances..."
       for teacher in teachers
-        teacherMap[teacher.id] = teacher.geo ? {}
+        teacherMap[teacher._id] = teacher.geo ? {}
 
       @updateLoadingState("Processing #{classrooms.length} classrooms...")
       for classroom in classrooms
@@ -82,7 +83,7 @@ module.exports = class SchoolCountsView extends RootView
       for student in students
         continue unless studentNonHocMap[student._id]
         continue if teacherMap[student._id]
-        studentMap[student.id] = {geo: student.geo}
+        studentMap[student._id] = {geo: student.geo}
 
       delete studentNonHocMap[studentId] for studentId in studentNonHocMap # Don't need these anymore
 
@@ -99,7 +100,7 @@ module.exports = class SchoolCountsView extends RootView
         teacherID = trialRequest.applicant
         unless teacherMap[teacherID]
           # E.g. parents
-          # console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest.id}")
+          # console.log("Skipping non-teacher #{teacherID} trial request #{trialRequest._id}")
           continue
         props = trialRequest.properties
         if props.nces_id and props.country and props.state

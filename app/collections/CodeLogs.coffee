@@ -14,5 +14,5 @@ module.exports = class CodeLogCollection extends CocoCollection
     @fetch(options)
 
   fetchLatest: (options={}) ->
-    options.url = '/db/codelogs?conditions[sort]="-created"'
+    options.url = '/db/codelogs?conditions[sort]="-_id"'
     @fetch(options)
