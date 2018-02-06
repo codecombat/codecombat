@@ -568,6 +568,9 @@ UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', '
 
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->
+    if ret.preferredLanguage is null
+      # some users get preferredLanguage of null and it breaks the app for them. Have mongoose replace nulls
+      ret.preferredLanguage = 'en-US'
     req = options.req
     return ret unless req
     publicOnly = options.publicOnly
