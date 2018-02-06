@@ -1425,7 +1425,15 @@
 
   teacher:
     assigning_course: "Assigning course"
+    back_to_top: "Back to Top"
+    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+    course_not_started: "Student has not started this course yet."
+    no_code_yet: "Student has not written any code for this level yet."
+    open_ended_level: "Open-Ended Level"
     removing_course: "Removing course"
+    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
     course_solution: "Course Solution"
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
