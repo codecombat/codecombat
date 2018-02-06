@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     classroom_in_a_box: "Класна кімната \"з коробки\" для того, щоб навчати комп'ютерним наукам."
     codecombat_is: "CodeCombat - це платформа <strong>для учнів</strong>, створена, щоб опановувати комп'ютерні науки під час захоплюючої гри."
     our_courses: "Наша програма була протестована, щоб бути <strong>ефективною в класі</strong>, навіть для вчителів з мінімальним досвідом програмування."
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Подивіться, як CodeCombat трансформує то, як люди вивчають комп'ютерні науки"
     top_screenshots_hint: "Учні пишуть код і бачать усі зміни наживо"
     designed_with: "Зважаючи на потреби вчителя"
     real_code: "Справжній код"
@@ -49,7 +49,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     setup_a_class: "Налаштуйте клас"
     have_an_account: "Вже є акаунт?"
     logged_in_as: "Ви увійшли як"
-    computer_science: "Курси програмування для будь-якого віку" # {change}
+    computer_science: "Наші курси, з самостійно регульованою швидкістю, охоплюють від базового синтаксиса до складних концепцій." # {successfully changed}
     show_me_lesson_time: "Покажіть мені оцінку часу уроку для:"
     curriculum: "Загальна кількість годин навчального плану:"
     ffa: "Безкоштовно для всіх учнів"
@@ -66,7 +66,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     want_coco: "Хочете CodeCombat у вашій школі?"
 
   nav:
-#    map: "Map"
+    map: "Карта"
     play: "Грати" # The top nav bar entry where players choose which levels to play
     community: "Спільнота"
     courses: "Курси"
@@ -117,8 +117,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   play:
     play_as: "Грати за" # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Призначте розробку ігор та інше для ваших класів!"
+    request_licenses: "Зверніться до наших шкільних фахівців для подробиць."
     compete: "Змагайтесь!" # Course details page
     spectate: "Спостерігати" # Ladder page
     players: "гравці" # Hover over a level on /play
@@ -138,10 +138,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     next: "Далі" # Go from choose hero to choose inventory before playing a level
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     buy_gems: "Придбати самоцвіти"
-    subscription_required: "Потрібен абонемет"
+    subscription_required: "Потрібна підписка"
     subscribers_only: "Тільки для підписників!"
     subscribe_unlock: "Придбайте підписку для розблокування!"
-#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+    subscriber_heroes: "Підпишіться сьогодні, щоб відразу розблокувати Amara, Hushbaum та Hattori!"
     subscriber_gems: "Підпишіться сьогодні, щоб придбати цього героя за самоцвіти!"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
@@ -154,11 +154,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     campaign_multiplayer: "Арени для мультиплеєра"
     campaign_multiplayer_description: "... в яких Ви програмуєте віч-на-віч із іншими гравцями."
     brain_pop_done: "Ви перемогли Оґрів за допомогою коду! Ви виграли!"
-#    brain_pop_challenge: "Challenge yourself to play again using a different programming language!"
-#    replay: "Replay"
-#    back_to_classroom: "Back to Classroom"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    brain_pop_challenge: "Випробуйте себе, щоб грати знову, використовуючи іншу мову програмування!"
+    replay: "Переграти"
+    back_to_classroom: "Повернутися до класу"
+    teacher_button: "для вчителів"
+    get_more_codecombat: "Отримайте більше від CodeCombat"
 
   code:
     if: "якщо" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -233,13 +233,13 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     signup_switch: "Хочете створити акаунт?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Завершити підписку"
     create_student_header: "Створити акаунт учня"
     create_teacher_header: "Створити акаунт вчителя"
     create_individual_header: "Створити індивідуальний акаунт"
     email_announcements: "Отримувати анонси про нові рівні та інші новинки CodeCombat!"
-#    sign_in_to_continue: "Sign in or create an account to continue"
-#    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
+    sign_in_to_continue: "Увійдіть або створить акаунт для того щоб продовжити"
+    teacher_email_announcements: "Тримайте мене в курсі нових ресурсів для вчителів, навчальних програм та навчальних курсів!"
     creating: "Створення акаунту..."
     sign_up: "Реєстрація"
     log_in: "вхід з паролем"
@@ -299,19 +299,19 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     sso_connected: "Ви успішно підключились за допомогою:"
     select_your_starting_hero: "Виберіть вашого першого героя:"
     you_can_always_change_your_hero_later: "Ви завжди зможете змінити героя пізніше."
-#    finish: "Finish"
-#    teacher_ready_to_create_class: "You're ready to create your first class!"
-#    teacher_students_can_start_now: "Your students will be able to start playing the first course, Introduction to Computer Science, immediately."
-#    teacher_list_create_class: "On the next screen you will be able to create a new class."
-#    teacher_list_add_students: "Add students to the class by clicking the View Class link, then sending your students the Class Code or URL. You can also invite them via email if they have email addresses."
-#    teacher_list_resource_hub_1: "Check out the"
-#    teacher_list_resource_hub_2: "Course Guides"
-#    teacher_list_resource_hub_3: "for solutions to every level, and the"
-#    teacher_list_resource_hub_4: "Resource Hub"
-#    teacher_list_resource_hub_5: "for curriculum guides, activities, and more!"
-#    teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
-#    dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
-#    want_codecombat_in_school: "Want to play CodeCombat all the time?"
+    finish: "Finish"
+    teacher_ready_to_create_class: "Ви готові створити свій перший клас!"
+    teacher_students_can_start_now: "Ваші учні зможуть негайно розпочати грати з першим навчальним курсом Вступ до Комп'ютерних Наук."
+    teacher_list_create_class: "На наступному екрані ви зможете створити новий клас."
+    teacher_list_add_students: "Додайте учнів до класу, натиснувши посилання Переглянути Клас, а потім відправьте студентам Код Класу або URL-адресу. Ви також можете запросити через адресу електронної пошти, якщо вони мають її."
+    teacher_list_resource_hub_1: "Перевірте"
+    teacher_list_resource_hub_2: "Посібник по Курсах"
+    teacher_list_resource_hub_3: "для рішень кожного рівня, а також"
+    teacher_list_resource_hub_4: "Хаб Ресурсів"
+    teacher_list_resource_hub_5: "для навчальних посібників, заходів і багато іншого!"
+    teacher_additional_questions: "Отакої! Якщо вам потрібна додаткова допомога або у вас є питання, зв'яжіться з __supportEmail__."
+    dont_use_our_email_silly: "Не пишіть нашу електронний адресу здесь! Введіть електронну адресу вашого батька."
+    want_codecombat_in_school: "Хочете грати в CodeCombat весь час?"
 
   recover:
     recover_account_title: "Відновити акаунт"
@@ -328,16 +328,16 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   common:
     back: "Назад" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
+    go_back: "Повернутися назад"
     coming_soon: "Очікуйте скоро!"
     continue: "Вперед" # When used as an action verb, like "Continue forward"
-#    next: "Next"
+    next: "Далі"
     default_code: "Код за замовчуванням"
     loading: "Завантаження..."
     overview: "Огляд"
-#    processing: "Processing..."
+    processing: "Оброблюється..."
     solution: "Рішення"
-#    table_of_contents: "Table of Contents"
+    table_of_contents: "Таблиця змісту"
     intro: "Вступ"
     saving: "Збереження..."
     sending: "Надсилання..."
@@ -359,7 +359,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     submit_changes: "Надіслати зміни"
     save_changes: "Зберегти зміни"
     required_field: "обов'язкове поле"
-#    valid_phone: "Enter a valid phone number."
+    valid_phone: "Введіть дійсний номер телефону."
 
   general:
     and: "та"
@@ -418,14 +418,14 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     contact_us: "Зв'яжіться з нами"
     close_window: "Закрити вікно"
     learn_more: "Дізнатися більше"
-#    more: "More"
-#    fewer: "Fewer"
-#    with: "with"
+    more: "Більше"
+    fewer: "Менше"
+    with: "з(і)"
 
   units:
     second: "секунда"
     seconds: "секунд"
-#    sec: "sec"
+    sec: "сек"
     minute: "хвилина"
     minutes: "хвилин"
     hour: "година"
@@ -440,10 +440,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     years: "років"
 
   play_level:
-#    back_to_map: "Back to Map"
+    back_to_map: "Повернутися до Карти"
     directions: "Напрямки"
     edit_level: "Редагувати рівень"
-#    keep_learning: "Keep Learning"
+    keep_learning: "Продовжуйте вчитися"
     explore_codecombat: "Дослідити CodeCombat"
     finished_hoc: "Я закінчив свою Годиною Коду"
     get_certificate: "Отримайте ваш сертифікат!"
@@ -452,8 +452,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     course: "Курс:"
     done: "Готово"
     next_level: "Наступний рівень"
-#    challenge_unlocked: "Challenge Unlocked"
-#    start_challenge: "Start Challenge"
+    challenge_unlocked: "Виклик(челендж) розблоковано"
+    start_challenge: "Почати виклик(челендж)"
     next_game: "Наступна гра"
     languages: "Мови"
     programming_language: "Мова програмування"
@@ -465,8 +465,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     restart: "Перезавантажити"
     goals: "Цілі"
     goal: "Ціль"
-#    challenge_level_goals: "Challenge Level Goals"
-#    challenge_level_goal: "Challenge Level Goal"
+    challenge_level_goals: "Киньте виклик цілям рівня"
+    challenge_level_goal: "Досягніть мети проходження рівня"
     running: "Виконання..."
     success: "Успішно!"
     incomplete: "Незавершено"
@@ -587,15 +587,15 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     tip_good_idea: "Якщо ви хочете мати хорошу ідею - ви повинні мати багато ідей. - Лайнус Полінг"
     tip_programming_not_about_computers: "Комп'ютерна наука є наукою про комп'ютери не більше, аніж астрономія — наукою про телескопи. - Едсгер Дейкстра"
     tip_mulan: "Вір, що ти можеш, і тоді у тебе вийде. - Мулан"
-#    project_complete: "Project Complete!"
-#    share_this_project: "Share this project with friends or family:"
-#    ready_to_share: "Ready to publish your project?"
-#    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
-#    already_published_prefix: "Your changes have been published to the class gallery."
-#    already_published_suffix: "Keep experimenting and making this project even better, or see what the rest of your class has built! Your changes will automatically be saved and shared with your classmates."
-#    view_gallery: "View Gallery"
-#    project_published_noty: "Your level has been published!"
-#    keep_editing: "Keep Editing"
+    project_complete: "Проект Завершено!"
+    share_this_project: "Поділіться цим проектом з друзями або родиною:"
+    ready_to_share: "Готові опублікувати свій проект?"
+    click_publish: "Натисніть \"Publish\", щоб воно з'явилося в галереї класу, а потім перевірьте, що побудували ваші однокласники! Ви можете повернутися і продовжити працювати над цим проектом. Будь-які подальші зміни будуть автоматично збережені та буде надано спільний доступ вашим однокласникам."
+    already_published_prefix: "Ваші зміни були опубліковані в галереї класу."
+    already_published_suffix: "Продовжуйте експериментувати і робити цей проект ще кращим або подивіться, що побудували решта класа, ваші однокласники! Ваші зміни буде автоматично збережено та надіслано вашим однокласникам."
+    view_gallery: "Перегляньте Галерею"
+    project_published_noty: "Ваш рівень був опублікований!"
+    keep_editing: "Продовжуйте Редагувати"
 
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
