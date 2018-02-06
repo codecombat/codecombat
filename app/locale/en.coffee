@@ -657,6 +657,7 @@
     survival_time: "Survived"
     defeated: "Enemies Defeated"
     code_length: "Lines of Code"
+    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "Equipped"

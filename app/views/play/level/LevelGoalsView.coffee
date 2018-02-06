@@ -4,6 +4,7 @@ template = require 'templates/play/level/goals'
 {me} = require 'core/auth'
 utils = require 'core/utils'
 LevelSession = require 'models/LevelSession'
+Level = require 'models/Level'
 LevelConstants = require 'lib/LevelConstants'
 
 stateIconMap =
@@ -39,7 +40,7 @@ module.exports = class LevelGoalsView extends CocoView
   constructor: (options) ->
     super options
     @level = options.level
-    @updateTopScores options.session.getTopScores @level
+    @updateTopScores LevelSession.getTopScores({session: options.session.toJSON(), level: @level.toJSON()})
 
   onNewGoalStates: (e) ->
     firstRun = not @previousGoalStatus?
@@ -161,7 +162,6 @@ module.exports = class LevelGoalsView extends CocoView
   # Score display
 
   shouldShowScores: ->
-    return false # Disable scores for now (WIP)
     shouldShow = @level.get('assessment') in ['open-ended'] and @hasMainScore
     if shouldShow isnt @showingScores
       @showingScores = shouldShow
@@ -190,7 +190,11 @@ module.exports = class LevelGoalsView extends CocoView
     if showBest
       bestScoreText = @formatScore mainScore.type, bestScore, true
       utils.replaceText $scoreboard.find('.best-score-value'), bestScoreText
-    thresholdAchieved = @level.thresholdForScore type: mainScore.type, score: bestScore ? mainScore.score
+    thresholdAchieved = Level.thresholdForScore({
+      type: mainScore.type,
+      score: bestScore ? mainScore.score
+      level: @level.toJSON()
+    })
     if thresholdAchieved
       @$('.threshold-icon').attr('src', "/images/pages/courses/star-#{thresholdAchieved}.png").toggleClass 'achieved', true
     else
