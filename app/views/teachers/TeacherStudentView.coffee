@@ -16,10 +16,10 @@ aceUtils = require 'core/aceUtils'
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
   template: require 'templates/teachers/teacher-student-view'
-  # helper: helper
+
   events:
     'change #course-dropdown': 'onChangeCourseChart'
-
+    'change .course-select': 'onChangeCourseSelect'
 
   getTitle: -> return @user?.broadName()
 
@@ -45,6 +45,7 @@ module.exports = class TeacherStudentView extends RootView
     super(options)
 
   onLoaded: ->
+    @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
       @updateLastPlayedInfo()
@@ -86,13 +87,20 @@ module.exports = class TeacherStudentView extends RootView
       @levelSolutionMap[level.get('original')] = solution.source if solution
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
+      # Normal level
       @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+      # Arena level
+      @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
 
   onChangeCourseChart: (e)->
     if (e)
       selected = ('#visualisation-'+((e.currentTarget).value))
       $("[id|='visualisation']").hide()
       $(selected).show()
+
+  onChangeCourseSelect: (e) ->
+    @selectedCourseId = $(e.currentTarget).val()
+    @render?()
 
   calculateStandardDev: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @levelData
@@ -303,7 +311,7 @@ module.exports = class TeacherStudentView extends RootView
     for versionedCourse in @classroom.getSortedCourses() or []
       for versionedLevel in versionedCourse.levels
         session = @levelSessionMap[versionedLevel.original]
-        if session
+        if session?.get('creator') is @studentID
           if session.get('state')?.complete
             @levelProgressMap[versionedLevel.original] = 'complete'
           else
