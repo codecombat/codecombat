@@ -369,8 +369,8 @@ module.exports = class CampaignView extends RootView
     for session in @sessions.models
       levels = @getLevels()
       levelOriginal = session.get('level')?.original
+      continue unless levelOriginal
       level = levels[levelOriginal]
-      continue unless level
       topScore = _.first(LevelSession.getTopScores({session: session.toJSON(), level}))
       @levelScoreMap[levelOriginal] = topScore
 
