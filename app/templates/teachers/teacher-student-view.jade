@@ -181,9 +181,7 @@ block content
         .student-progress-section
           a(name="backtotop")
           h4
-            span #{view.user.broadName()}'s
-            =" "
-            span(data-i18n="teacher.student_code")
+            span(data-i18n="teacher.student_code", data-i18n-options={name:view.user.broadName()})
             span :
           .progress-selector
             span(data-i18n="teacher.select_course")
@@ -231,8 +229,7 @@ block content
                   tr
                     td
                       .small
-                        span #{view.user.broadName()}'s
-                        span.spl(data-i18n="general.code")
+                        span(data-i18n="teacher.code", data-i18n-options={name: view.user.broadName()})
                         =" "
                         if view.levelProgressMap[level.get('original')] === 'complete'
                           span (
@@ -297,7 +294,10 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
     - context.session = view.levelSessionMap[level.get('original')];
     if dotClass
-      - link = "#" + level.get('slug');
+      if course.id === view.selectedCourseId
+        - link = "#" + level.get('slug');
+      else
+        - link = "#backtotop";
   - var labelText = levelNumber;
   if level.isLadder()
     - labelText = translate('courses.arena');

@@ -87,7 +87,10 @@ module.exports = class TeacherStudentView extends RootView
       @levelSolutionMap[level.get('original')] = solution.source if solution
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
-      @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan'] || session.get('code')?['hero-placeholder-1']?['plan']
+      # Normal level
+      @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+      # Arena level
+      @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
 
   onChangeCourseChart: (e)->
     if (e)

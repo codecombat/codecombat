@@ -1427,6 +1427,7 @@
     assigning_course: "Assigning course"
     back_to_top: "Back to Top"
     click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+    code: "__name__'s Code"
     course_not_started: "Student has not started this course yet."
     no_code_yet: "Student has not written any code for this level yet."
     open_ended_level: "Open-Ended Level"
@@ -1438,7 +1439,7 @@
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
     paren_new: "(new)"
-    student_code: "Student Code"
+    student_code: "__name__'s Student Code" # {change}
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"
