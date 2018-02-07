@@ -50,10 +50,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     have_an_account: "Heb je al een account?" # {change}
     logged_in_as: "Je bent ingelogd als"
     computer_science: "Informaticalessen voor alle leeftijden" # {change}
-    show_me_lesson_time: "Geef geschatte lesduur weer:"
-    curriculum: "Totaal aantal lesuren:"
     ffa: "Gratis voor alle leerlingen"
-    lesson_time: "Lesduur:"
     coming_soon: "Binnenkort beschikbaar!"
     courses_available_in: "Lessen zijn beschikbaar in JavaScript, Python, en Java (Java is binnenkort beschikbaar!)" # {change}
     boast: "Uitdagende raadsels die zowel gamers als fanatieke programmeurs weten te prikkelen."
@@ -128,7 +125,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     confirm: "Bevestigen"
     owned: "In bezit" # For items you own
     locked: "Vergrendeld"
-    purchasable: "Te koop" # For a hero you unlocked but haven't purchased
     available: "Beschikbaar"
     skills_granted: "Verleende vaardigheden" # Property documentation details
     heroes: "Helden" # Tooltip on hero shop button from /play
@@ -138,15 +134,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     next: "Volgende" # Go from choose hero to choose inventory before playing a level
     change_hero: "Verander held" # Go back from choose inventory to choose hero
     buy_gems: "Edelstenen kopen"
-    subscription_required: "Abonnement nodig"
     subscribers_only: "Alleen voor abonnees!"
     subscribe_unlock: "Abonneer om toegang te krijgen!"
     subscriber_heroes: "Abonneer vandaag om meteen Amara, Hushbaum en Hattori te ontgrendelen!"
     subscriber_gems: "Abonneer vandaag om deze held te kopen met edelstenen!"
     anonymous: "Anonieme Speler"
     level_difficulty: "Moeilijkheidsgraad: "
-    play_classroom_version: "Speel de klassikale versie" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Beginnerscampagne"
     awaiting_levels_adventurer_prefix: "We brengen 5 nieuwe levels per week uit." # {change}
     awaiting_levels_adventurer: "Schrijf je in als Avonturier"
     awaiting_levels_adventurer_suffix: "om de eerste te zijn die nieuwe levels speelt."
@@ -225,8 +218,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     logging_in: "Bezig met inloggen"
     log_out: "Uitloggen"
     forgot_password: "Wachtwoord vergeten?"
-    authenticate_gplus: "G+ verifiëren"
-    load_profile: "G+ profiel laden"
     finishing: "Afronden"
     sign_in_with_facebook: "Inloggen met Facebook"
     sign_in_with_gplus: "Inloggen met G+"
@@ -245,15 +236,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     log_in: "inloggen met wachtwoord"
     required: "Je moet inloggen om daarheen te gaan."
     login_switch: "Heb je al een account?"
-    school_name: "Schoolnaam en stad"
     optional: "optioneel"
-    school_name_placeholder: "Voorbeeld middelbare school, Amsterdam"
     connected_gplus_header: "Je bent ingelogd met Google+!"
     connected_gplus_p: "Maak je inschrijving compleet zodat je kan inloggen met je Google+ account."
-    gplus_exists: "Jouw Google+ account is al gekoppeld!"
     connected_facebook_header: "Je bent ingelogd met Facebook!"
     connected_facebook_p: "Maak je inschrijving compleet zodat je kan inloggen met je Facebook account."
-    facebook_exists: "Jouw Facebook account is al gekoppeld!"
     hey_students: "Leerlingen, voer hier de klassencode van je docent in."
     birthday: "Verjaardag"
     parent_email_blurb: "We weten dat je niet kan wachten om te leren programmeren &mdash; wij hebben er ook zin in! Je ouders krijgen een email met verdere instructies over hoe ze een account voor je kunnen maken. Email {{email_link}} als je nog vragen hebt."
@@ -328,7 +315,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   common:
     back: "Terug" # When used as an action verb, like "Navigate backward"
-    go_back: "Ga terug"
     coming_soon: "Binnenkort!"
     continue: "Doorgaan" # When used as an action verb, like "Continue forward"
     next: "Next"
@@ -359,7 +345,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     submit_changes: "Veranderingen indienen"
     save_changes: "veranderingen opslaan"
     required_field: "Verplicht veld" # {change}
-    valid_phone: "Voer een geldig telefoonnummer in."
 
   general:
     and: "en"
@@ -597,6 +582,23 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     project_published_noty: "Je level is gepubliceerd!"
     keep_editing: "Blijf aanpassen"
 
+#  apis:
+#    methods: "Methods"
+#    events: "Events"
+#    spawnable: "Spawnable"
+#    html: "HTML"
+#    math: "Math"
+#    array: "Array"
+#    object: "Object"
+#    string: "String"
+#    function: "Function"
+#    vector: "Vector"
+#    date: "Date"
+#    jquery: "jQuery"
+#    json: "JSON"
+#    number: "Number"
+#    webjavascript: "JavaScript"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -655,6 +657,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     survival_time: "Overleefd"
     defeated: "Vijanden Verslagen"
     code_length: "Regels Code"
+#    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "Gekozen"
@@ -667,6 +670,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     restricted: "(onbeschikbaar in dit level)"
     equip: "Kies"
     unequip: "Verwijder"
+#    warrior_only: "Warrior Only"
+#    ranger_only: "Ranger Only"
+#    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "Een paar edelstenen"
@@ -675,7 +681,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchasing: "Aan het kopen..."
     declined: "Je kaart is geweigerd"
     retrying: "Server fout, opnieuw aan het proberen."
-    prompt_title: "Niet genoeg Edelstenen"
+    prompt_title: "Onvoldoende edelstenen"
     prompt_body: "Blijf spelen om er meer te verdienen!"
     prompt_button: "Naar de winkel"
     recovered: "Edelstenen aankoop hersteld. Ververs de pagina alstublieft."
@@ -685,8 +691,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     purchased: "Gekocht"
 
 #  earn_gems:
-    prompt_title: "Onvoldoende edelstenen"
-    prompt_body: "Blijf spelen om er meer te verdienen!"
+#    prompt_title: "Not Enough Gems"
+#    prompt_body: "Keep playing to earn more!"
 
   subscribe:
     best_deal: "Beste Deal!"
@@ -694,11 +700,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     premium_already_subscribed: "Je bent al ingeschreven bij Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Verbeter je vaardigheden met een abonnement op CodeCombat!" # {change}
-    premium_pricing_prefix: "Neem Premium voor maar"
-    premium_pricing_suffix: "en word een meester programmeur."
-    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    free: "gratis"
-    month: "maand"
     must_be_logged: "Je moet eerst ingelogd zijn. Maak een account aan of log in in het menu hierboven."
     subscribe_title: "premium account" # Actually used in subscribe buttons, too
     unsubscribe: "Abonnement opzeggen"
@@ -709,26 +710,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     thank_you: "Bedankt dat je CodeCombat steunt."
     sorry_to_see_you_go: "Jammer dat je weggaat! Laat ons alsjeblieft weten wat we beter hadden kunnen doen."
     unsubscribe_feedback_placeholder: "Oh, wat hebben we gedaan?"
-    parent_button: "Vraag ouder(s)"
-    parent_email_description: "We zullen ze een e-mail sturen zodat zij een CodeCombat-abonnement voor je kunnen kopen."
-    parent_email_input_invalid: "E-mailadres ongeldig."
-    parent_email_input_label: "E-mailadres van ouder(s)"
-    parent_email_input_placeholder: "Vul het e-mailadres van je ouder(s) in"
-    parent_email_send: "Stuur e-mail"
-    parent_email_sent: "E-mail verzonden!"
-    parent_email_title: "Wat is het e-mailadres van je ouders?"
-    parents: "Voor ouders"
-    parents_title: "Uw kind leert programmeren." # {change}
-    parents_blurb1: "Met CodeCombat leert uw kind door echte code te schrijven. Ze beginnen met simpele instructies en naarmate ze verder komen, komen er moeilijkere onderwerpen aan bod."
-    parents_blurb1a: "Programmeren is een essentiële vaardigheid die uw kind als volwassene ongetwijfeld gaat gebruiken. In 2020 is de basis van programmeren nodig bij 77% van de banen en zijn softwareontwikkelaars dringend nodig in de wereld. Wist u dat informatica de hoogstbetaalde universitaire graad is?"
-    parents_blurb2: "Voor €{{price}} /maand, ontvangt uw kind wekelijks nieuwe uitdagingen en kan uw kind vragen stellen aan professionele programmeurs."
-    parents_blurb3: "Geen risico's: 100% geldterug-garantie, 1-klik uitschrijving."
-    payment_methods: "Betaalmethoden"
-    payment_methods_title: "Geaccepteerde betaalmethoden"
-    payment_methods_blurb1: "Momenteel worden alleen credit cards, Alipay en iDEAL geaccepteerd. iDEAL gaat via de homepage" # {change}
-    payment_methods_blurb2: "Als u op een andere manier wilt betalen, neem dan alstublieft contact op"
-    sale_button: "Koop"
-    sale_button_title: "Bespaar €{{discount}} bij aankoop van een 1-jarig abonnement" # {change}
     stripe_description: "Maandelijks abonnement"
     buy_now: "Koop Nu"
     subscription_required_to_play: "Je hebt een abonnement nodig om dit level te spelen."
@@ -748,11 +729,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     subscribe_prepaid: "Klik op inschrijven om een prepaidcode te gebruiken."
     using_prepaid: "Prepaidcode gebruiken voor maandelijkse inschrijving."
     feature_level_access: "Toegang tot 300+ levels beschikbaar"
-    feature_gems: "Ontvang __gems__ edelstenen per maand"
     feature_heroes: "Krijg toegang tot speciale helden" # {change}
-    feature_games: "Maak spellen voor je vrienden"
-    feature_websites: "Bouw websites en apps"
-    feature_items: "Gebruik krachtigere items"
     feature_learn: "Leer games en websites te maken"
     month_price: "$__price__/mo" # {change}
     first_month_price: "Maar $__prijs__ voor je eerste maand!"
@@ -760,17 +737,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     lifetime_price: "$__price__"
     year_subscription: "Jaarlijks abonnement"
     year_price: "$__price__/year"
-    kids_message_1: "Kinderen! We sturen een mail naar jullie ouders zodat ze een abonnement voor jullie kunnen kopen."
-    kids_message_2: "Vraag het aan je ouders"
     support_part1: "Hulp nodig met betalingsopties? Email" # {change}
     support_part2: "support@codecombat.com"
-    you_are_purchasing_monthly_sub: "Je bent een maandelijkse Premium inschrijving aan het aanschaffen!"
-    you_are_purchasing_year_sub: "Je bent een jaarlijkse Premium inschrijving aan het aanschaffen!"
-    you_are_purchasing_lifetime_sub: "Je bent een levenslange Premium inschrijving aan het aanschaffen!"
-    you_will_be_charged: "You will be charged $__priceString__"
-    choose_payment_method: "Kies betalingsmethode"
-    pay_with_credit_card_or_bitcoin: "Betaal met Credit Card / Bitcoin"
-    paypal_payment_error: "We encountered an error while charging PayPal."
 
   announcement:
     now_available: "Nu beschikbaar voor abonnees!"
@@ -994,7 +962,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jobs_benefit_9: "10 jaar aanspraak tijd op aandelen"
     jobs_benefit_10: "Moederschapsverlof: 10 weken betaald, volgende 6 met 55% salaris"
     jobs_benefit_11: "Vaderschapsverlof: 10 weken betaald"
-    learn_more: "Lees verder"
     jobs_custom_title: "Maak je eigen"
     jobs_custom_description: "Ben je enthousiast over CodeCombat maar zie je geen baan die aansluit bij je kwalificaties? Schrijf ons jouw suggesties hoe je kunt meehelpen met ons team, we horen graag van je!"
     jobs_custom_contact_1: "Stuur ons een bericht"
@@ -1291,6 +1258,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     edit_settings1: "Bewerk Klas Instellingen"
     add_students: "Voeg leerlingen toe"
     stats: "Statistieken"
+#    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
     total_students: "Totaal aantal leerlingen:"
     average_time: "Gemiddelde speeltijd per level:"
     total_time: "Totale speeltijd:"
@@ -1354,7 +1322,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     not_you: "Ben jij dit niet?"
     continue_playing: "Doorgaan met spelen"
     option1_header: "Optie 1: Nodig leerlingen uit via e-mail" # {change}
-    option1_body: "Leerlingen krijgen automatisch een uitnodiging om met de klas mee te doen, en de leerlingen moeten een account maken met gebruikersnaam en wachtwoord." # {change}
     remove_student1: "Verwijder leerling"
     are_you_sure: "Weet je zeker dat je de leerling uit de klas wilt halen?"
     remove_description1: "De toegang tot dit klaslokaal en de toegewezen klassen wordt geblokkeerd. Voortgang wordt NIET verwijderd, en de leerling kan altijd weer worden toegevoegd."
@@ -1433,7 +1400,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     select_this_hero: "Kies deze Held"
     current_hero: "Huidige Held:"
     current_hero_female: "Huidige Held:"
-    change_hero: "Verander Held"
     web_dev_language_transition: "Alle klassen programmeren in HTML / Javascript voor deze cursus. Klassen die eerder Python hebben gebruikt zullen beginnen met extra JavaScript intro levels om de overgang te vergemakkelijken. Klassen die al met JavaScript werken slaan deze intro lessen over."
     course_membership_required_to_play: "Je moet je bij een cursus aanmelden om dit level te spelen."
     license_required_to_play: "Vraag een leraar om je een licentie te geven zodat je verder kunt gaan met CodeCombat!"
@@ -1448,10 +1414,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    assessments: "Assessments"
 #    challenges: "Challenges"
 #    level_name: "Level Name:"
-#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
   project_gallery:
     no_projects_published: "Wees de eerste die een project publiceert in deze cursus!"
@@ -1460,12 +1426,21 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 
   teacher:
     assigning_course: "Cursus toewijzen"
+#    back_to_top: "Back to Top"
+#    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+#    code: "__name__'s Code"
+#    course_not_started: "Student has not started this course yet."
+#    no_code_yet: "Student has not written any code for this level yet."
+#    open_ended_level: "Open-Ended Level"
     removing_course: "Cursus wordt verwijderd"
+#    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+#    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
     course_solution: "Cursus antwoord"
     level_overview_solutions: "Level overzicht en antwoorden"
     no_student_assigned: "Er zijn geen leerlingen toegewezen aan deze cursus."
     paren_new: "(nieuw)"
-    student_code: "Leerling Code"
+    student_code: "Leerling Code" # {change}
     teacher_dashboard: "Docenten Dashboard" # Navbar
     my_classes: "Mijn Klassen"
     courses: "Cursussen" # {change}
@@ -1739,9 +1714,9 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
-#    office_hours: "Hour of Code Webinars"
+#    office_hours: "Teacher Webinars"
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_link: "teacher webinar"
 #    office_hours_detail_2: "sessions."
 #    success: "Success"
 #    in_progress: "In Progress"

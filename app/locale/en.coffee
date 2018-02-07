@@ -1440,7 +1440,7 @@
     level_overview_solutions: "Level Overview and Solutions"
     no_student_assigned: "No students have been assigned this course."
     paren_new: "(new)"
-    student_code: "__name__'s Student Code" # {change}
+    student_code: "__name__'s Student Code"
     teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "My Classes"
     courses: "Course Guides"

@@ -49,11 +49,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     setup_a_class: "Налаштуйте клас"
     have_an_account: "Вже є акаунт?"
     logged_in_as: "Ви увійшли як"
-    computer_science: "Наші курси, з самостійно регульованою швидкістю, охоплюють від базового синтаксиса до складних концепцій." # {successfully changed}
-    show_me_lesson_time: "Покажіть мені оцінку часу уроку для:"
-    curriculum: "Загальна кількість годин навчального плану:"
+    computer_science: "Наші курси, з самостійно регульованою швидкістю, охоплюють від базового синтаксиса до складних концепцій."
     ffa: "Безкоштовно для всіх учнів"
-    lesson_time: "Час уроку:"
     coming_soon: "Очікуйте скоро!"
     courses_available_in: "Курси доступні на JavaScript, Python і Java (очікуйте скоро!). Курси веб програмування використовують HTML, CSS, jQuery та Bootstrap." # {change}
     boast: "Цікаві задачі, достатньо складні щоб зачарувати як гравців, так і програмістів."
@@ -128,7 +125,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     confirm: "Підтвердити"
     owned: "у власності" # For items you own
     locked: "Заблоковано"
-    purchasable: "Можна придбати" # For a hero you unlocked but haven't purchased
     available: "Доступно"
     skills_granted: "Надані вміння" # Property documentation details
     heroes: "Герої" # Tooltip on hero shop button from /play
@@ -138,15 +134,12 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     next: "Далі" # Go from choose hero to choose inventory before playing a level
     change_hero: "Змінити героя" # Go back from choose inventory to choose hero
     buy_gems: "Придбати самоцвіти"
-    subscription_required: "Потрібна підписка"
     subscribers_only: "Тільки для підписників!"
     subscribe_unlock: "Придбайте підписку для розблокування!"
     subscriber_heroes: "Підпишіться сьогодні, щоб відразу розблокувати Amara, Hushbaum та Hattori!"
     subscriber_gems: "Підпишіться сьогодні, щоб придбати цього героя за самоцвіти!"
     anonymous: "Гравець-анонім"
     level_difficulty: "Складність: "
-    play_classroom_version: "Грати в версію для класу" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Кампанія для початківців"
     awaiting_levels_adventurer_prefix: "Ми щотижня додаємо нові рівні."
     awaiting_levels_adventurer: "Увійди як Шукач пригод"
     awaiting_levels_adventurer_suffix: "стань одним з перших, хто їх спробує."
@@ -225,8 +218,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     logging_in: "Триває процес входу"
     log_out: "Вийти"
     forgot_password: "Дірява пам'ять?"
-    authenticate_gplus: "Авторизація G+"
-    load_profile: "Завантажити профіль G+"
     finishing: "Завершення"
     sign_in_with_facebook: "Увійти через Facebook"
     sign_in_with_gplus: "Увійти через G+"
@@ -245,15 +236,11 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     log_in: "вхід з паролем"
     required: "Ця дія потребує входу."
     login_switch: "Уже маєте акаунт?"
-    school_name: "Назва школи і місто"
     optional: "необов’язково"
-    school_name_placeholder: "Школа №1, м. Ялинківка, Київська обл."
     connected_gplus_header: "Ви успішно увійшли за допомогою Google+!"
     connected_gplus_p: "Завершіть авторизацію щоб увійти за допомогою акаунту Google+."
-    gplus_exists: "У вас вже є акаунт прив'язаний до Google+!"
     connected_facebook_header: "Ви успішно увійшли за допомогою Facebook!"
     connected_facebook_p: "Завершіть авторизацію щоб увійти за допомогою акаунту Facebook."
-    facebook_exists: "У вас вже є акаунт прив'язаний до Facebook!"
     hey_students: "Учні, введіть код від класу вашого вчителя."
     birthday: "День народження"
     parent_email_blurb: "Ми знаємо, що ти з нетерпінням хочеш навчитись програмувати &mdash; ми також не можемо дочекатись! Твої батьки отримають листа з інструкціями як створити для тебе акаунт. Напиши на {{email_link}} якщо виникли запитання."
@@ -328,7 +315,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   common:
     back: "Назад" # When used as an action verb, like "Navigate backward"
-    go_back: "Повернутися назад"
     coming_soon: "Очікуйте скоро!"
     continue: "Вперед" # When used as an action verb, like "Continue forward"
     next: "Далі"
@@ -359,7 +345,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     submit_changes: "Надіслати зміни"
     save_changes: "Зберегти зміни"
     required_field: "обов'язкове поле"
-    valid_phone: "Введіть дійсний номер телефону."
 
   general:
     and: "та"
@@ -597,6 +582,23 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     project_published_noty: "Ваш рівень був опублікований!"
     keep_editing: "Продовжуйте Редагувати"
 
+#  apis:
+#    methods: "Methods"
+#    events: "Events"
+#    spawnable: "Spawnable"
+#    html: "HTML"
+#    math: "Math"
+#    array: "Array"
+#    object: "Object"
+#    string: "String"
+#    function: "Function"
+#    vector: "Vector"
+#    date: "Date"
+#    jquery: "jQuery"
+#    json: "JSON"
+#    number: "Number"
+#    webjavascript: "JavaScript"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -655,6 +657,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    survival_time: "Survived"
 #    defeated: "Enemies Defeated"
 #    code_length: "Lines of Code"
+#    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "Екіпіровано"
@@ -667,6 +670,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     restricted: "(обмежено для цього рівня)"
     equip: "Одягнути"
     unequip: "Зняти"
+#    warrior_only: "Warrior Only"
+#    ranger_only: "Ranger Only"
+#    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "Кілька самоцвітів"
@@ -694,11 +700,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat Преміум"
     comparison_blurb: "Стань майстром програмування - підпишись на <strong>Преміум</strong> сьогодні!"
-    premium_pricing_prefix: "Отримайте Преміум всього за"
-    premium_pricing_suffix: "і станьте майстром програмування."
-    premium: "Преміум" # Make sure the following feature translations don't go onto two lines
-    free: "Безкоштовно"
-    month: "місяць"
     must_be_logged: "Ви повинні бути залогінені. Ви можете створити акаунт або увійти в уже існуючий за допомогою меню вище."
     subscribe_title: "Взяти абонемент" # Actually used in subscribe buttons, too
     unsubscribe: "Скасувати абонемент"
@@ -709,26 +710,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     thank_you: "Дякуємо за підтримку CodeCombat."
     sorry_to_see_you_go: "Шкода, що Ви йдете! Будь ласка, дайте нам знати, що ми могли б зробити краще."
     unsubscribe_feedback_placeholder: "О, що ж ми зробили?"
-    parent_button: "Спитати у батьків"
-    parent_email_description: "Ми відправимо їм електронний лист, щоб придбати тобі підписку."
-    parent_email_input_invalid: "Уведено невірну електронну адресу."
-    parent_email_input_label: "Електронна адреса батьків"
-    parent_email_input_placeholder: "Уведи електронну адресу батьків"
-    parent_email_send: "Відправити лист"
-    parent_email_sent: "Лист відправлено!"
-    parent_email_title: "Яка в твоїх батьків електронна адреса?"
-    parents: "Батькам"
-    parents_title: "Дорога мамо/батьку, ваша дитина вчиться програмувати. Чи допоможите ви їй продовжити цю спрову?"
-    parents_blurb1: "Ваша дитина уже завершила __nLevels__ рівнів та вивчила базові речі. Допоможіть культивувати її інтерес та придбайте їй абонемент аби вона могла продовжити грати."
-    parents_blurb1a: "Коп'ютерне програмування є необхідними вмінням, що ваша дитина беззаперечно використовуватиме у дорослому віці. До 2020 року 77% професій потребуватимуть базових навичок у програмному забезпечені, а програмісти надзвичайно потрібні у всьому світі. Чи знали ви, що Комп'ютерні Науки - це найбільш високооплачувана університетьська спеціальність?"
-    parents_blurb2: "За {{price}}$ на місяць ваша дитина отримає нові завдання щотижня та персональні листи підтримки від професійних програмістів."
-    parents_blurb3: "Жодного ризику: 100% гарантія повернення грошей, легке скасування абонементу одним кліком."
-    payment_methods: "Платіжні методи"
-    payment_methods_title: "Платіжні методи, що приймаються"
-    payment_methods_blurb1: "Наразі ми приймаємо кредитні картки та Alpiay. Ви також можете оплатити {{three_month_price}}$ через PayPal на адресу nick@codecombat.com, вказавши email-адресу вашого акаунту, щоб придбати підписку на три місяці та самоцвіти, або {{year_price}}$ для підписки на рік."
-    payment_methods_blurb2: "Якщо Вам необхідно використати інший спосіб оплати, будь ласка, зв'яжіться з нами."
-    sale_button: "Розпродаж!"
-    sale_button_title: "Збережіть {{discount}}$ при покупці абонементу на 1 рік"
     stripe_description: "Щомісячний абонемент"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Аби грати в цьому рівні потрібен абонемент."
@@ -748,11 +729,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     subscribe_prepaid: "Натисніть Підписатися щоб використовувати передплачені коди"
     using_prepaid: "Використати передплачений код для щомісячної підписки"
 #    feature_level_access: "Access 300+ levels available"
-    feature_gems: "Отримуй __gems__ самоцвітів щомісяця"
     feature_heroes: "Розблокуй ексклюзивних героїв" # {change}
-    feature_games: "Створюй ігри для своїх друзів"
-    feature_websites: "Створюй вебсайти та програми"
-    feature_items: "Здобувай могутніші речі"
 #    feature_learn: "Learn to make games and websites"
     month_price: "$__price__/міс" # {change}
 #    first_month_price: "Only $__price__ for your first month!"
@@ -760,17 +737,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     lifetime_price: "$__price__"
     year_subscription: "Річна підписка"
     year_price: "$__price__/рік"
-    kids_message_1: "Дітлахи! Ми надішлемо email вашим батькам, щоб вони змогли купити вам підписку."
-    kids_message_2: "Запитай батьків"
     support_part1: "Потрібна допомога з опціями оплати? Напишіть на" # {change}
     support_part2: "support@codecombat.com"
-#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
-#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
-#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__"
-#    choose_payment_method: "Choose Payment Method"
-#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
-#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -994,7 +962,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    jobs_benefit_9: "10-year option exercise window"
     jobs_benefit_10: "Декретна відпустка для матері: 10 оплачуваних тижнів, наступні 6 на 55% з/п"
     jobs_benefit_11: "Декретна відпустка для батька: 10 оплачуваних тижнів"
-    learn_more: "Дізнатись більше"
     jobs_custom_title: "Створити власну"
     jobs_custom_description: "Захоплюєтесь CodeCombat, але не бачите вакансії, що підходить для вашої кваліфікації? Напишіть нам як, на вашу думку, ви можете допомогти нашій команді. Ми раді з вами зв'язатися!"
     jobs_custom_contact_1: "Напишіть нам на"
@@ -1291,6 +1258,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     edit_settings1: "Змінити налаштування класу"
     add_students: "Додати студентів"
     stats: "Статистика"
+#    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
     total_students: "Всього студентів:"
     average_time: "Середній час в грі:"
     total_time: " Всього часу в грі: "
@@ -1354,7 +1322,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     not_you: "Це не ви?"
     continue_playing: "Продовжити гру"
     option1_header: "Запросіть учнів через Email"
-    option1_body: "Зверніть увагу: якщо ваші учні не мають email-адрес, вони можуть ввести ваш унікальний Код Класу при створенні Акаунту Учня, щоб зробити поле email необов'язковим."
     remove_student1: "Видалити учня"
     are_you_sure: "Ви впевнені, що хочете видалити цього учня з цього класу?"
     remove_description1: "Учень втратить доступ до цієї класної кімнати та призначених класів. Прогрес НЕ буде втрачено і учня можна буде додати знову до класу в будь-який момент."
@@ -1433,7 +1400,6 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     select_this_hero: "Обрати цього героя"
     current_hero: "Поточний герой:"
 #    current_hero_female: "Current Hero:"
-    change_hero: "Змінити героя"
     web_dev_language_transition: "Програма HTML/JavaScript для всіх класів для цього курсу. Класи, що використовували Python, розпочнуть з додаткових вступних рівнів JavaScript, щоб полегшити перехід. Для класів, що вже використовують JavaScript, вступні рівні буде пропущено."
     course_membership_required_to_play: "Вам потрібно приєднатись до курсу щоб зіграти в цей рівень."
     license_required_to_play: "Попроси свого вчителя призначити тобі ліцензію для продовження гри на CodeCombat!"
@@ -1448,10 +1414,10 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    assessments: "Assessments"
 #    challenges: "Challenges"
 #    level_name: "Level Name:"
-#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1460,12 +1426,21 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 
   teacher:
     assigning_course: "Призначення курсу"
+#    back_to_top: "Back to Top"
+#    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+#    code: "__name__'s Code"
+#    course_not_started: "Student has not started this course yet."
+#    no_code_yet: "Student has not written any code for this level yet."
+#    open_ended_level: "Open-Ended Level"
 #    removing_course: "Removing course"
+#    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+#    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
     course_solution: "Рішення курсу"
     level_overview_solutions: "Огляд та рішення рівня"
     no_student_assigned: "Жодного учня не призначено на цей курс."
     paren_new: "(новий)"
-#    student_code: "Student Code"
+#    student_code: "__name__'s Student Code"
     teacher_dashboard: "Учительська панель" # Navbar
     my_classes: "Мої класи"
     courses: "Путівники курсу"
@@ -1739,9 +1714,9 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
-#    office_hours: "Hour of Code Webinars"
+#    office_hours: "Teacher Webinars"
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_link: "teacher webinar"
 #    office_hours_detail_2: "sessions."
 #    success: "Success"
 #    in_progress: "In Progress"
