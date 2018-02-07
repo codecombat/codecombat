@@ -337,7 +337,7 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
-    @buildLevelScoreMap()
+    @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     application.setHocCampaign(if @campaign?.get('type') is 'hoc' then @campaign.get('slug') else '')
 
@@ -364,7 +364,7 @@ module.exports = class CampaignView extends RootView
 
     # Minecraft Modal:
     #@maybeShowMinecraftModal() # Disable for now
-  
+
   buildLevelScoreMap: ->
     for session in @sessions.models
       levels = @getLevels()

@@ -50,10 +50,7 @@ module.exports = nativeDescription: "български език", englishDescri
     have_an_account: "Вече имаш акаунт?"
     logged_in_as: "Влязъл си като"
     computer_science: "Курсове по компютърни науки за всички възрасти" # {change}
-    show_me_lesson_time: "Покажи ми ориентировъчни времена на уроци за:"
-    curriculum: "Общо време на обучение:"
     ffa: "Достъпно за всички ученици"
-    lesson_time: "Продължителност:"
     coming_soon: "Очаквай скоро!"
     courses_available_in: "Курсовете са налични в JavaScript, Python, и Java (очаквай скоро!)" # {change}
     boast: "Boasts riddles that are complex enough to fascinate gamers and coders alike."
@@ -128,7 +125,6 @@ module.exports = nativeDescription: "български език", englishDescri
     confirm: "Потвърди"
     owned: "Придобити" # For items you own
     locked: "Заключено"
-    purchasable: "Купуваеми" # For a hero you unlocked but haven't purchased
     available: "Достъпен"
     skills_granted: "Умението е получено" # Property documentation details
     heroes: "Герои" # Tooltip on hero shop button from /play
@@ -138,15 +134,12 @@ module.exports = nativeDescription: "български език", englishDescri
     next: "Напред" # Go from choose hero to choose inventory before playing a level
     change_hero: "Смени герой" # Go back from choose inventory to choose hero
     buy_gems: "Купи скъпоценни камъни"
-    subscription_required: "Нужен е абонамент"
 #    subscribers_only: "Subscribers Only!"
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Анонимен играч"
     level_difficulty: "Трудност"
-#    play_classroom_version: "Play Classroom Version" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Кампания за начинаещи"
     awaiting_levels_adventurer_prefix: "5 нови нива всяка седмица" # {change}
     awaiting_levels_adventurer: "Стани Търсач на приключения"
     awaiting_levels_adventurer_suffix: "за да бъдеш първият, който играе нови нива."
@@ -225,8 +218,6 @@ module.exports = nativeDescription: "български език", englishDescri
     logging_in: "Влизане..."
     log_out: "Изход"
     forgot_password: "Забравена парола?"
-    authenticate_gplus: "Аутентикация чрез G+"
-    load_profile: "Зареди G+ профил"
     finishing: "Завършване"
     sign_in_with_facebook: "Вписване чрез Facebook"
     sign_in_with_gplus: "Вписване чрез G+"
@@ -245,15 +236,11 @@ module.exports = nativeDescription: "български език", englishDescri
     log_in: "Вход с парола"
     required: "Трабва да влезеш преди можеш да ходиш на там."
     login_switch: "Вече имаш акаунт?"
-#    school_name: "School Name and City"
 #    optional: "optional"
-#    school_name_placeholder: "Example High School, Springfield, IL"
 #    connected_gplus_header: "You've successfully connected with Google+!"
 #    connected_gplus_p: "Finish signing up so you can log in with your Google+ account."
-#    gplus_exists: "You already have an account associated with Google+!"
 #    connected_facebook_header: "You've successfully connected with Facebook!"
 #    connected_facebook_p: "Finish signing up so you can log in with your Facebook account."
-#    facebook_exists: "You already have an account associated with Facebook!"
 #    hey_students: "Students, enter the class code from your teacher."
 #    birthday: "Birthday"
 #    parent_email_blurb: "We know you can't wait to learn programming &mdash; we're excited too! Your parents will receive an email with further instructions on how to create an account for you. Email {{email_link}} if you have any questions."
@@ -328,7 +315,6 @@ module.exports = nativeDescription: "български език", englishDescri
 
   common:
     back: "Назад" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
 #    coming_soon: "Coming soon!"
     continue: "Продължи" # When used as an action verb, like "Continue forward"
 #    next: "Next"
@@ -359,7 +345,6 @@ module.exports = nativeDescription: "български език", englishDescri
     submit_changes: "Изпрати промените"
     save_changes: "Запази промените"
 #    required_field: "required"
-#    valid_phone: "Enter a valid phone number."
 
   general:
     and: "и"
@@ -597,6 +582,23 @@ module.exports = nativeDescription: "български език", englishDescri
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
+#  apis:
+#    methods: "Methods"
+#    events: "Events"
+#    spawnable: "Spawnable"
+#    html: "HTML"
+#    math: "Math"
+#    array: "Array"
+#    object: "Object"
+#    string: "String"
+#    function: "Function"
+#    vector: "Vector"
+#    date: "Date"
+#    jquery: "jQuery"
+#    json: "JSON"
+#    number: "Number"
+#    webjavascript: "JavaScript"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -655,6 +657,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    survival_time: "Survived"
 #    defeated: "Enemies Defeated"
 #    code_length: "Lines of Code"
+#    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "Избрано"
@@ -667,6 +670,9 @@ module.exports = nativeDescription: "български език", englishDescri
     restricted: "(забранено за това ниво)"
     equip: "Облечи"
     unequip: "Съблечи"
+#    warrior_only: "Warrior Only"
+#    ranger_only: "Ranger Only"
+#    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "Няколко скъпоценни камъни"
@@ -694,11 +700,6 @@ module.exports = nativeDescription: "български език", englishDescri
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Изостри уменията си в CodeCombat с абонамент!" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    free: "Безплатно"
-    month: "месец"
     must_be_logged: "Първо трябва да сте влезли. Моля, създайте си акаунт или влезте от менюто отгоре."
     subscribe_title: "Абонирай се" # Actually used in subscribe buttons, too
     unsubscribe: "Прекрати абонамента"
@@ -709,26 +710,6 @@ module.exports = nativeDescription: "български език", englishDescri
     thank_you: "Благодарим ви че подкрепихте CodeCombat."
     sorry_to_see_you_go: "Съжалиаваме че ни напускате! Моля да ни предложите какво бихме могли да подобрим."
     unsubscribe_feedback_placeholder: "O, къде сбъркахме?"
-    parent_button: "Попитай родител"
-    parent_email_description: "Ще ги уведомим с email така че ще могат да ти купят абонамент за CodeCombat."
-    parent_email_input_invalid: "Email адресът е невалиден."
-    parent_email_input_label: "Родителски email адрес"
-    parent_email_input_placeholder: "Въведи email на родител"
-    parent_email_send: "Изпрати Email"
-    parent_email_sent: "Email изпратен!"
-    parent_email_title: "Въведете email на родител?"
-    parents: "За Родители"
-    parents_title: "Скъпи Родители: Вашето дете се учи да програмира. Ще му помогнете ли да продължи?"
-    parents_blurb1: "Вашето дете изигра __nLevels__ нива и получи основни познания в програмирането. Развийте интереса в него като му купите абонамент - така то ще може да продължи с игрите."
-    parents_blurb1a: "Програмирането е важно умение което без съмнение вашето дете ще използва когато порасне. До 2020-та, основни познания по програмиране ще са необходими за повече от 77% от работните места, а софтуерните инженери ще са много търсени по света. Знаете ли, че диплома в сферата на информационните технологии е предпоставка за едни от най-високите заплати в индустрията?"
-    parents_blurb2: "За ${{price}} USD/месец, вашето дете ще получава нови задачи всяка седмица, както и персонална помощ по електронната поща от професионални програмисти."
-    parents_blurb3: "Без Риск: 100% гаранция за възстановяване на средствата, прекратяване на абонамента с едно натискане на бутон."
-    payment_methods: "Начини на плащане"
-    payment_methods_title: "Възможни начини на плащане"
-    payment_methods_blurb1: "В момента приемаме кредитни карти и Alipay." # {change}
-    payment_methods_blurb2: "Ако желаете алтернативна форма на плащане, свържете се с нас"
-    sale_button: "Разпродажба!"
-    sale_button_title: "Спестете ${{discount}} като направите абонамент за 1 година" # {change}
     stripe_description: "Месечен Абонамент"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Необходим ви е абонамент за да играете това ниво."
@@ -748,11 +729,7 @@ module.exports = nativeDescription: "български език", englishDescri
     subscribe_prepaid: "Кликнете 'Абонамент', за да използвате предплатен код"
     using_prepaid: "Използване на предплатен код за месечен абонамент"
 #    feature_level_access: "Access 300+ levels available"
-#    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes and pets"
-#    feature_games: "Make games for your friends"
-#    feature_websites: "Build websites and apps"
-#    feature_items: "Equip more powerful items"
 #    feature_learn: "Learn to make games and websites"
 #    month_price: "$__price__"
 #    first_month_price: "Only $__price__ for your first month!"
@@ -760,17 +737,8 @@ module.exports = nativeDescription: "български език", englishDescri
 #    lifetime_price: "$__price__"
 #    year_subscription: "Yearly Subscription"
 #    year_price: "$__price__/year"
-#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
-#    kids_message_2: "Ask Your Parent"
 #    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
-#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
-#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
-#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__"
-#    choose_payment_method: "Choose Payment Method"
-#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
-#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -994,7 +962,6 @@ module.exports = nativeDescription: "български език", englishDescri
 #    jobs_benefit_9: "10-year option exercise window"
 #    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
 #    jobs_benefit_11: "Paternity leave: 10 weeks paid"
-#    learn_more: "Learn More"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
 #    jobs_custom_contact_1: "Send us a note at"
@@ -1291,6 +1258,7 @@ module.exports = nativeDescription: "български език", englishDescri
 #    edit_settings1: "Edit Class Settings"
 #    add_students: "Add Students"
 #    stats: "Statistics"
+#    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
 #    total_students: "Total students:"
 #    average_time: "Average level play time:"
 #    total_time: "Total play time:"
@@ -1354,7 +1322,6 @@ module.exports = nativeDescription: "български език", englishDescri
 #    not_you: "Not you?"
 #    continue_playing: "Continue Playing"
 #    option1_header: "Invite Students by Email"
-#    option1_body: "Note: If your students do not have email addresses, they can enter your unique Class Code when creating a Student Account to make email addresses optional."
 #    remove_student1: "Remove Student"
 #    are_you_sure: "Are you sure you want to remove this student from this class?"
 #    remove_description1: "Student will lose access to this classroom and assigned classes. Progress and gameplay is NOT lost, and the student can be added back to the classroom at any time."
@@ -1433,7 +1400,6 @@ module.exports = nativeDescription: "български език", englishDescri
 #    select_this_hero: "Select this Hero"
 #    current_hero: "Current Hero:"
 #    current_hero_female: "Current Hero:"
-#    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
@@ -1448,10 +1414,10 @@ module.exports = nativeDescription: "български език", englishDescri
 #    assessments: "Assessments"
 #    challenges: "Challenges"
 #    level_name: "Level Name:"
-#    play_again: "Replay"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1460,12 +1426,21 @@ module.exports = nativeDescription: "български език", englishDescri
 
 #  teacher:
 #    assigning_course: "Assigning course"
+#    back_to_top: "Back to Top"
+#    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+#    code: "__name__'s Code"
+#    course_not_started: "Student has not started this course yet."
+#    no_code_yet: "Student has not written any code for this level yet."
+#    open_ended_level: "Open-Ended Level"
 #    removing_course: "Removing course"
+#    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+#    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
 #    no_student_assigned: "No students have been assigned this course."
 #    paren_new: "(new)"
-#    student_code: "Student Code"
+#    student_code: "__name__'s Student Code"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
 #    my_classes: "My Classes"
 #    courses: "Course Guides"
@@ -1739,9 +1714,9 @@ module.exports = nativeDescription: "български език", englishDescri
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
-#    office_hours: "Hour of Code Webinars"
+#    office_hours: "Teacher Webinars"
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_link: "teacher webinar"
 #    office_hours_detail_2: "sessions."
 #    success: "Success"
 #    in_progress: "In Progress"
