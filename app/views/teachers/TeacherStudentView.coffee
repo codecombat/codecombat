@@ -20,6 +20,7 @@ module.exports = class TeacherStudentView extends RootView
   events:
     'change #course-dropdown': 'onChangeCourseChart'
     'change .course-select': 'onChangeCourseSelect'
+    'click .progress-dot a': 'onClickProgressDot'
 
   getTitle: -> return @user?.broadName()
 
@@ -54,12 +55,26 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
-      window.location.href = window.location.href if window.location.hash # Navigate to anchor after loading
+      
+      # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
+      if window.location.hash
+        levelSlug = window.location.hash.substring(1)
+        @updateSelectedCourseProgress(levelSlug)
+        window.location.href = window.location.href 
+
     super()
 
   afterRender: ->
     super(arguments...)
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
+    @$('.progress-dot, .btn-view-project-level').each (i, el) ->
+      dot = $(el)
+      dot.tooltip({
+        html: true
+        container: dot
+      }).delegate '.tooltip', 'mousemove', ->
+        dot.tooltip('hide')
+
+    @$('.glyphicon-question-sign').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
@@ -92,6 +107,15 @@ module.exports = class TeacherStudentView extends RootView
       # Arena level
       @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
 
+  updateSelectedCourseProgress: (levelSlug) ->
+    return unless levelSlug
+    @selectedCourseId = @classroom.get('courses').find((c) => c.levels.find((l) => l.slug is levelSlug))?._id
+    return unless @selectedCourseId
+    @render?()
+
+  onClickProgressDot: (e) ->
+    @updateSelectedCourseProgress(@$(e.currentTarget).data('level-slug'))
+
   onChangeCourseChart: (e)->
     if (e)
       selected = ('#visualisation-'+((e.currentTarget).value))
@@ -101,6 +125,9 @@ module.exports = class TeacherStudentView extends RootView
   onChangeCourseSelect: (e) ->
     @selectedCourseId = $(e.currentTarget).val()
     @render?()
+
+  questionMarkHtml: (i18nBlurb) ->
+    "<div style='text-align: left; width: 400px; font-family:Open Sans, sans-serif;'>" + $.i18n.t(i18nBlurb) + "</div>"
 
   calculateStandardDev: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @levelData

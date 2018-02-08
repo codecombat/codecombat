@@ -250,38 +250,40 @@ block content
                       else
                         i.small(data-i18n="teacher.no_code_yet")
                     td
-                      if view.levelSolutionMap[level.get('original')]
-                        .small
-                          span= level.get('name')
+                      .small
+                        span= level.get('name')
+                        =" "
+                        span(data-i18n="common.solution")
+                        if level.isLadder()
                           =" "
-                          span(data-i18n="common.solution")
-                          if level.isLadder()
-                            =" "
-                            span (
-                            span(data-i18n="courses.arena")
-                            =" "
-                            span(data-i18n="play_level.level")
-                            span )
-                            =" "
-                            span.glyphicon.glyphicon-question-sign(data-i18n="[title]teacher.solution_arena_blurb")
-                          if level.get('assessment')
-                            =" "
-                            span (
-                            span(data-i18n="teacher.open_ended_level")
-                            span )
-                            =" "
-                            span.glyphicon.glyphicon-question-sign(data-i18n="[title]teacher.solution_challenge_blurb")
-                          if level.isProject()
-                            =" "
-                            span (
-                            span(data-i18n="teacher.project")
-                            =" "
-                            span(data-i18n="play_level.level")
-                            span )
-                            =" "
-                            span.glyphicon.glyphicon-question-sign(data-i18n="[title]teacher.solution_project_blurb")
+                          span (
+                          span(data-i18n="courses.arena")
+                          =" "
+                          span(data-i18n="play_level.level")
+                          span )
+                          =" "
+                          span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_arena_blurb"))
+                        if level.get('assessment')
+                          =" "
+                          span (
+                          span(data-i18n="teacher.open_ended_level")
+                          span )
+                          =" "
+                          span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_challenge_blurb"))
+                        if level.isProject()
+                          =" "
+                          span (
+                          span(data-i18n="teacher.project")
+                          =" "
+                          span(data-i18n="play_level.level")
+                          span )
+                          =" "
+                          span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_project_blurb"))
+                      if view.levelSolutionMap[level.get('original')]
                         pre
                           code(class=langClass)= view.levelSolutionMap[level.get('original')]
+                      else
+                        i.small(data-i18n="common.coming_soon")
               if !courseStarted
                 p(data-i18n="teacher.course_not_started")
 
@@ -291,13 +293,12 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   - levelName = level.get('name')
   - var context = { levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
   - var link = null;
+  - var levelSlugNav = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
     - context.session = view.levelSessionMap[level.get('original')];
     if dotClass
-      if course.id === view.selectedCourseId
-        - link = "#" + level.get('slug');
-      else
-        - link = "#backtotop";
+      - levelSlugNav = level.get('slug')
+      - link = "#" + levelSlugNav;
   - var labelText = levelNumber;
   if level.isLadder()
     - labelText = translate('courses.arena');
@@ -307,7 +308,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
     - dotClass += ' progress-dot-lg';
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
     if link
-      a(href=link)
+      a(href=link, data-level-slug=levelSlugNav)
         +progressDotLabel(labelText)
     else
       +progressDotLabel(labelText)
