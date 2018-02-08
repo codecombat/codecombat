@@ -696,12 +696,13 @@ module.exports = class CampaignView extends RootView
           level.color = 'rgb(255, 80, 60)'
           return
 
-    findNextLevel = (nextLevels, practiceOnly) =>
-      for nextLevelOriginal in nextLevels
+    findNextLevel = (level, practiceOnly) =>
+      for nextLevelOriginal in level.nextLevels
         nextLevel = _.find orderedLevels, original: nextLevelOriginal
         continue if not nextLevel or nextLevel.locked
         continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
         continue if @campaign.levelIsAssessment(nextLevel)
+        continue if @campaign.levelIsAssessment(level) and @campaign.levelIsPractice(nextLevel) 
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
         if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
@@ -732,8 +733,8 @@ module.exports = class CampaignView extends RootView
           break unless nextLevel.practice
       else
         level.nextLevels = (reward.level for reward in level.rewards ? [] when reward.level)
-      foundNext = findNextLevel(level.nextLevels, true) unless foundNext # Check practice levels first
-      foundNext = findNextLevel(level.nextLevels, false) unless foundNext
+      foundNext = findNextLevel(level, true) unless foundNext or @campaign.levelIsAssessment(level) # Check practice levels first
+      foundNext = findNextLevel(level, false) unless foundNext
 
     if not foundNext and orderedLevels[0] and not orderedLevels[0].locked and @levelStatusMap[orderedLevels[0].slug] isnt 'complete'
       orderedLevels[0].next = true
