@@ -522,10 +522,10 @@ findNextAssessmentForLevel = (levels, currentIndex) ->
   index = currentIndex
   index++
   while index < levels.length
-    if levels[index].assessment
-      return index
-    else if levels[index].practice # it's a practice level, keep looking
+    if levels[index].complete or levels[index].practice # It's a practice level or completed, keep looking
       index++
+    else if levels[index].assessment
+      return index
     else # we got to a normal level; we didn't find an assessment for the given level.
       return false
   return false # we got to the end of the list and found nothing
