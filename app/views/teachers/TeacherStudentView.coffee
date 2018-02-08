@@ -66,7 +66,7 @@ module.exports = class TeacherStudentView extends RootView
 
   afterRender: ->
     super(arguments...)
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
+    @$('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
@@ -74,7 +74,7 @@ module.exports = class TeacherStudentView extends RootView
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
 
-    $('.glyphicon-question-sign').each (i, el) ->
+    @$('.glyphicon-question-sign').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
