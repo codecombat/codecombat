@@ -23,7 +23,9 @@ translateWithMarkdown = (label) ->
 
 # TODO: if this proves useful, make a simple admin page with a Treema for editing office hours in db
 officeHours = [
-  {time: moment('2018-02-07 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/bd3eae307935a46d66858a512be5123a', host: 'Nolan', name: 'CodeCombat for Beginner Teachers'}
+  {time: moment('2018-02-15 12:30-08').toDate(), link: 'https://zoom.us/meeting/register/4eb53ae71a6813fd34538d7d4481ef37', host: 'Sean', name: 'CodeCombat: Moving from Block-Based to Text-Based Coding'}
+  {time: moment('2018-02-20 12:30-08').toDate(), link: 'https://zoom.us/meeting/register/b8fc258742ce6947cde7dc3c8da9331e', host: 'Liz', name: 'CodeCombat for Students New to Coding'}
+  {time: moment('2018-02-28 12:00-08').toDate(), link: 'https://zoom.us/meeting/register/307c335ddb1ee6ef7510d14dfea9e911', host: 'David', name: 'CodeCombat for Beginner Teachers'}
 ]
 
 module.exports = class TeacherClassesView extends RootView
