@@ -35,7 +35,7 @@
 
 <script lang="coffee">
 
-FlatLayout = require 'core/components/FlatLayout'
+FlatLayout = require('core/components/FlatLayout').default
 api = require 'core/api'
 User = require 'models/User'
 Level = require 'models/Level'
