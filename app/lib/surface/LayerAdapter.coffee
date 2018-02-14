@@ -64,7 +64,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @transformStyle = options.transform ? LayerAdapter.TRANSFORM_SURFACE
     @camera = options.camera
     @updateLayerOrder = _.throttle @updateLayerOrder, 1000 / 30  # Don't call multiple times in one frame; 30 FPS is probably good enough
-    @_renderNewSpriteSheet = _.throttle(_.bind(@_renderNewSpriteSheet, @), 1000, {leading:true, trailing: true})
 
     @webGL = !!options.webGL
     if @webGL
@@ -232,15 +231,10 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     @_renderNewSpriteSheet()
 
   _renderNewSpriteSheet: (async) ->
-    if @asyncBuilder
-      @doAgain = true
-      return
-      
     @asyncBuilder.stopAsync() if @asyncBuilder
     @asyncBuilder = null
 
     async ?= @buildAsync
-    async = true
     builder = new createjs.SpriteSheetBuilder()
     groups = _.groupBy(@toRenderBundles, ((bundle) -> @renderGroupingKey(bundle.thangType, '', bundle.colorConfig)), @)
 
@@ -278,7 +272,7 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
 
     if async
       try
-        builder.buildAsync(0.1)
+        builder.buildAsync()
       catch e
         @resolutionFactor *= 0.9
         return @_renderNewSpriteSheet(async)
@@ -318,9 +312,6 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
       lank.updateScale()
       lank.updateRotation()
     @trigger 'new-spritesheet'
-    if @doAgain
-      @doAgain = false
-      @_renderNewSpriteSheet()
 
   resetSpriteSheet: ->
     @removeLank(lank) for lank in @lanks.slice(0)
