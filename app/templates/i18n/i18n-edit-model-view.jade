@@ -49,7 +49,15 @@ block outer_content
         for row in translationList
           table.table.translation-table
             tr
-              th= row.title
+              th
+                span= row.title
+                if row.doNotTranslate
+                  small.doNotTranslate
+                    span= " - don't translate code identifiers: "
+                    for identifier in _.uniq(row.doNotTranslate)
+                      - var warningClass = row.toValue && row.toValue.indexOf(identifier) == -1 ? "missing-identifier" : "";
+                      code(class=warningClass)= identifier
+                      span= " "
             tr(data-format=row.format || '')
               td.english-value-row
                 div= row.enValue

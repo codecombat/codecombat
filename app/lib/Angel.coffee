@@ -356,7 +356,17 @@ module.exports = class Angel extends CocoClass
         return unless continuing
       if world.indefiniteLength and i is world.totalFrames - 1
         ++world.totalFrames
-      frame = world.getFrame i++  # TODO: better handle non-user-code errors and infinite-loops
+      try
+        frame = world.getFrame i++
+      catch error
+        console.error error
+        world.indefiniteLength = false
+        world.totalFrames = world.frames.length
+        @finishSimulationSync work
+        problem = type: 'runtime', level: 'error', message: error.toString()
+        @publishGodEvent 'non-user-code-problem', problem: problem
+        @reportLoadError()
+        return
     @finishSimulationSync work
 
   streamFrameSync: (work) ->

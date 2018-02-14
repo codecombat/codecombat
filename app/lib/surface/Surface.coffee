@@ -89,6 +89,9 @@ module.exports = Surface = class Surface extends CocoClass
 
   constructor: (@world, @normalCanvas, @webGLCanvas, givenOptions) ->
     super()
+    @webGLCanvas[0].addEventListener "webglcontextlost", (event) =>
+      @webGLCrashed = true
+      alert('WebGL crashed. Please try another browser.')
     $(window).on('keydown', @onKeyEvent)
     $(window).on('keyup', @onKeyEvent)
     @normalLayers = []
@@ -192,6 +195,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Update loop
 
   tick: (e) =>
+    return if @webGLCrashed
     # seems to be a bug where only one object can register with the Ticker...
     oldFrame = @currentFrame
     oldWorldFrame = Math.floor oldFrame
@@ -261,6 +265,7 @@ module.exports = Surface = class Surface extends CocoClass
     @dimmer?.setSprites @lankBoss.lanks
 
   drawCurrentFrame: (e) ->
+    return if @webGLCrashed
     ++@totalFramesDrawn
     @normalStage.update e
     @webGLStage.update e
@@ -269,6 +274,7 @@ module.exports = Surface = class Surface extends CocoClass
     return unless frame.scores and @options.level
     scores = []
     for scoreType in @options.level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       if scoreType is 'code-length'
         score = @world.scores?['code-length']
       else
@@ -363,6 +369,7 @@ module.exports = Surface = class Surface extends CocoClass
   #- Changes and events that only need to happen when the frame has changed
 
   onFrameChanged: (force) ->
+    return if @webGLCrashed
     @currentFrame = Math.min(@currentFrame, @world.frames.length - 1)
     @debugDisplay?.updateFrame @currentFrame
     return if @currentFrame is @lastFrame and not force

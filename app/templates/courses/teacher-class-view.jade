@@ -206,7 +206,7 @@ mixin inlineUserList(users)
             = student.broadName()
 
 mixin addStudentsButton
-  //.add-students
+  .add-students
     a.add-students-btn.btn.btn-lg.btn-primary(data-classroom-id=view.classroom.id)
       span(data-i18n='teacher.add_students_manually')
 
@@ -429,7 +429,8 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')) })
+  - topScore = view.getTopScore({level: level, session: progress.session });
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
   - var link = null;
   if dotClass
     //- TODO: these anchor links do not navigate to the anchor in destination page
@@ -466,6 +467,9 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
   else
     .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
       +progressDotLabel(labelText)
+  if topScore && topScore.thresholdAchieved
+    br
+    img.threshold-icon.over-progress-bubble(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
 
 mixin progressDotLabel(label)
   .dot-label.text-center

@@ -4,6 +4,8 @@ mongoose = require 'mongoose'
 config = require '../../server_config'
 _ = require 'lodash'
 Promise = require 'bluebird'
+request = require 'request'
+wrap = require 'co-express'
 
 module.exports = utils =
   # TODO: Remove, use commons/database.isID instead
@@ -95,5 +97,16 @@ module.exports = utils =
         @analyticsStringCache[str] = document._id
         return callback @analyticsStringCache[str]
       insertString()
+
+  verifyRecaptchaToken: wrap (recaptchaResponseToken) ->
+    [recaptchaResponse, recaptchaBody] = yield request.postAsync
+      url: "https://www.google.com/recaptcha/api/siteverify"
+      form:
+        secret: config.google.recaptcha_secret_key
+        response: recaptchaResponseToken
+    recaptchaBody = JSON.parse(recaptchaBody)
+    unless recaptchaBody?.success
+      log.debug "verifyRecaptchaToken: Failed to verify user reCAPTCHA response : #{JSON.stringify(recaptchaResponse)}"
+    recaptchaBody?.success
 
 module.exports.findStripeSubscriptionAsync = Promise.promisify(module.exports.findStripeSubscription)

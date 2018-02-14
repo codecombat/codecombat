@@ -9,7 +9,7 @@ ThangTypeConstants =
     ninja: '52fc0ed77e01835453bd8f6c'
     'forest-archer': '5466d4f2417c8b48a9811e87'
     trapper: '5466d449417c8b48a9811e83'
-    pixie: ''
+    pixie: '579a619382f2401f001cd5b4'
     assassin: '566a2202e132c81f00f38c81'
     librarian: '52fbf74b7e01835453bd8d8e'
     'potion-master': '52e9adf7427172ae56002172'
@@ -19,8 +19,9 @@ ThangTypeConstants =
     duelist: '57588f09046caf2e0012ed41'
     champion: '575848b522179b2800efbfbf'
     'code-ninja': '58192d484954d56144a7062f'
+    stalwart: '5a576ec52db68a00269b7a08'
   heroClasses:
-    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja']
+    Warrior: ['champion', 'duelist', 'captain', 'knight', 'samurai', 'raider', 'goliath', 'guardian', 'code-ninja', 'stalwart']
     Ranger: ['ninja', 'forest-archer', 'trapper', 'pixie', 'assassin']
     Wizard: ['librarian', 'potion-master', 'sorcerer', 'necromancer', 'master-wizard']
   items:
