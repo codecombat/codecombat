@@ -919,7 +919,7 @@
     josh_title: "Game Designer"
     josh_blurb: "Floor Is Lava"
     nolan_title: "Territory Manager"
-    lisa_title: "School Specialist"
+    lisa_title: "Business Development Manager" # {change}
     lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
