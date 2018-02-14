@@ -599,7 +599,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     number: "Число"
     webjavascript: "JavaScript"
 
-  amazon_hoc:
+#   amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
