@@ -40,6 +40,16 @@ mixin assessmentLines()
 
 if completed
   +header
+  if topScore
+    br
+    strong.small-details
+      - translatedScoreType = translate("leaderboard."+_.string.underscored(topScore.type))
+      - translation = translate("leaderboard.score_display", { score: topScore.score.toFixed(0), scoreType: translatedScoreType })
+      span(data-i18n='teacher.success')
+      if topScore.thresholdAchieved
+        img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
+      =" "
+      span (#{translation})
   .small-details.nowrap
     span(data-i18n='teacher.completed')
     =": "

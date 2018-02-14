@@ -16,10 +16,11 @@ aceUtils = require 'core/aceUtils'
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
   template: require 'templates/teachers/teacher-student-view'
-  # helper: helper
+
   events:
     'change #course-dropdown': 'onChangeCourseChart'
-
+    'change .course-select': 'onChangeCourseSelect'
+    'click .progress-dot a': 'onClickProgressDot'
 
   getTitle: -> return @user?.broadName()
 
@@ -45,6 +46,7 @@ module.exports = class TeacherStudentView extends RootView
     super(options)
 
   onLoaded: ->
+    @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
       @updateLastPlayedInfo()
@@ -53,12 +55,26 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
-      window.location.href = window.location.href if window.location.hash # Navigate to anchor after loading
+      
+      # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
+      if window.location.hash
+        levelSlug = window.location.hash.substring(1)
+        @updateSelectedCourseProgress(levelSlug)
+        window.location.href = window.location.href 
+
     super()
 
   afterRender: ->
     super(arguments...)
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
+    @$('.progress-dot, .btn-view-project-level').each (i, el) ->
+      dot = $(el)
+      dot.tooltip({
+        html: true
+        container: dot
+      }).delegate '.tooltip', 'mousemove', ->
+        dot.tooltip('hide')
+
+    @$('.glyphicon-question-sign').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
@@ -85,14 +101,33 @@ module.exports = class TeacherStudentView extends RootView
       solution = level.getSolutions().find((s) => s.language is 'html') unless solution
       @levelSolutionMap[level.get('original')] = solution.source if solution
     @levelStudentCodeMap = {}
-    for session in @sessions.models
+    for session in @sessions.models when session.get('creator') is @studentID
+      # Normal level
       @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+      # Arena level
+      @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
+
+  updateSelectedCourseProgress: (levelSlug) ->
+    return unless levelSlug
+    @selectedCourseId = @classroom.get('courses').find((c) => c.levels.find((l) => l.slug is levelSlug))?._id
+    return unless @selectedCourseId
+    @render?()
+
+  onClickProgressDot: (e) ->
+    @updateSelectedCourseProgress(@$(e.currentTarget).data('level-slug'))
 
   onChangeCourseChart: (e)->
     if (e)
       selected = ('#visualisation-'+((e.currentTarget).value))
       $("[id|='visualisation']").hide()
       $(selected).show()
+
+  onChangeCourseSelect: (e) ->
+    @selectedCourseId = $(e.currentTarget).val()
+    @render?()
+
+  questionMarkHtml: (i18nBlurb) ->
+    "<div style='text-align: left; width: 400px; font-family:Open Sans, sans-serif;'>" + $.i18n.t(i18nBlurb) + "</div>"
 
   calculateStandardDev: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @levelData
@@ -298,13 +333,12 @@ module.exports = class TeacherStudentView extends RootView
     for session in @sessions.models when session.get('creator') is @studentID
       @levelSessionMap[session.get('level').original] = session
 
-
     # Create mapping of level to student progress
     @levelProgressMap = {}
     for versionedCourse in @classroom.getSortedCourses() or []
       for versionedLevel in versionedCourse.levels
         session = @levelSessionMap[versionedLevel.original]
-        if session
+        if session?.get('creator') is @studentID
           if session.get('state')?.complete
             @levelProgressMap[versionedLevel.original] = 'complete'
           else

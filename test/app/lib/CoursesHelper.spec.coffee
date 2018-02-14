@@ -154,7 +154,7 @@ describe 'CoursesHelper', ->
         )
         progressData = helper.calculateAllProgress(@classrooms, @courses, @courseInstances, @members)
         progress = progressData.get {@classroom, @course, level: @practiceLevel}
-        expect(progress.completed).toBe true
+        expect(progress.completed).toBe false
         expect(progress.started).toBe true
         progress = progressData.get {@classroom, @course, level: @practiceLevel}
 

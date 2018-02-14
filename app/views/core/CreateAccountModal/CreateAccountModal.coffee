@@ -124,8 +124,6 @@ module.exports = class CreateAccountModal extends ModalView
           store.commit('modal/updateSso', _.pick(@signupState.attributes, 'ssoUsed', 'ssoAttrs'))
           store.commit('modal/updateSignupForm', @signupState.get('signupForm'))
           store.commit('modal/updateTrialRequestProperties', _.pick(@signupState.get('signupForm'), 'firstName', 'lastName'))
-          if storage.load('referredBySunburst')
-            store.commit('modal/updateTrialRequestProperties', {'marketingReferrer': 'sunburst'})
           @signupState.set { screen: 'teacher-signup-component' }
         else if @signupState.get('subModalContinue')
           storage.save('sub-modal-continue', @signupState.get('subModalContinue'))
