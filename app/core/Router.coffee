@@ -129,6 +129,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
 
+    'etc': redirect('/teachers/demo')
+    
     'file/*path': 'routeToServer'
 
     'github/*path': 'routeToServer'

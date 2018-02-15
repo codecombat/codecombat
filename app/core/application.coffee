@@ -14,9 +14,6 @@ marked.setOptions {gfm: true, sanitize: true, smartLists: true, breaks: false}
 window.SPRITE_RESOLUTION_FACTOR = 3
 window.SPRITE_PLACEHOLDER_WIDTH = 60
 
-if ($.browser.platform is 'win') and $.browser.chrome
-  window.SPRITE_RESOLUTION_FACTOR = 2
-
 # Prevent Ctrl/Cmd + [ / ], P, S
 ctrlDefaultPrevented = [219, 221, 80, 83]
 preventBackspace = (event) ->

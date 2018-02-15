@@ -91,7 +91,7 @@ module.exports = Surface = class Surface extends CocoClass
     super()
     @webGLCanvas[0].addEventListener "webglcontextlost", (event) =>
       @webGLCrashed = true
-      alert('WebGL crashed. Please try another browser.')
+      alert('WebGL crashed. Please reload or try another browser.')
     $(window).on('keydown', @onKeyEvent)
     $(window).on('keyup', @onKeyEvent)
     @normalLayers = []
