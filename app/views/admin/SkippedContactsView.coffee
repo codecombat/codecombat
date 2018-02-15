@@ -3,7 +3,7 @@ RootComponent = require 'views/core/RootComponent'
 template = require 'templates/base-flat'
 co = require('co')
 api = require 'core/api'
-FlatLayout = require 'core/components/FlatLayout'
+FlatLayout = require('core/components/FlatLayout.vue').default
 
 SkippedContactInfo =
   template: require('templates/admin/skipped-contacts/skipped-contact-info')()

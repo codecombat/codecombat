@@ -1,5 +1,5 @@
 <template lang="jade">
-div.container
+#files-view.container
   h1 Files
 
   select#folder-select(v-model="directory")

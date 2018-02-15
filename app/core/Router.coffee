@@ -1,7 +1,28 @@
-dynamicRequire = require('lib/dynamicRequire')
 locale = require 'locale/locale'
+normalizeViewRoute = (path) -> if not _.string.startsWith(path, 'views/') then "views/#{path}" else path
 
-go = (path, options) -> -> @routeDirectly path, arguments, options
+go = ({path, load}, options) ->
+  normedPath = normalizeViewRoute(path)
+  f = -> @routeDirectly path, arguments, options
+  _.assign(f, {path: normedPath, load})
+  return f
+  
+# views with multiple routes
+sharedViews = {
+  VerifierView: {path: 'editor/verifier/VerifierView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/verifier/VerifierView')`}
+  i18nVerifierView: {path: 'editor/verifier/i18nVerifierView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/verifier/i18nVerifierView')`}
+  CommunityView: {path: 'CommunityView', load: -> `import(/* webpackChunkName: "CommunityView" */ 'views/CommunityView')` }
+  LadderView: {path: 'ladder/LadderView', load: -> `import(/* webpackChunkName: "ladder" */ 'views/ladder/LadderView')`}
+  CampaignView: {path: 'play/CampaignView', load: -> `import(/* webpackChunkName: "play" */ 'views/play/CampaignView')`}
+  PremiumFeaturesView: {path: 'PremiumFeaturesView', load: -> `import(/* webpackChunkName: "PremiumFeaturesView" */ 'views/PremiumFeaturesView')`}
+  RequestQuoteView: {path: 'teachers/RequestQuoteView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/RequestQuoteView')`}
+  HomeView: {path: 'HomeView', load: -> `import(/* webpackChunkName: "HomeView" */ 'views/HomeView')`}
+  SubscriptionView: {path: 'account/SubscriptionView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/SubscriptionView')`}
+  RestrictedToTeachersView: {path: 'teachers/RestrictedToTeachersView', load: -> `import(/* webpackChunkName: "RestrictedToTeachersView" */ 'views/teachers/RestrictedToTeachersView')`}
+  RestrictedToStudentsView: {path: 'teachers/RestrictedToStudentsView', load: -> `import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView')`}
+  CreateTeacherAccountView: go({ path: 'teachers/CreateTeacherAccountView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/CreateTeacherAccountView')`},
+  ConvertToTeacherAccountView: go({ path: 'teachers/ConvertToTeacherAccountView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/ConvertToTeacherAccountView')`},
+}
 
 redirect = (path) -> ->
   delete window.alreadyLoadedView
@@ -30,69 +51,75 @@ module.exports = class CocoRouter extends Backbone.Router
         return @navigate "/premium", {trigger: true, replace: true}
       return @routeDirectly('HomeView', [])
 
-    'about': go('AboutView')
+    # AboutView chunk
+    'about': go({path: 'AboutView', load: -> `import(/* webpackChunkName: "AboutView" */ 'views/AboutView')`})
 
-    'account': go('account/MainAccountView')
-    'account/settings': go('account/AccountSettingsRootView')
-    'account/unsubscribe': go('account/UnsubscribeView')
-    'account/payments': go('account/PaymentsView')
-    'account/subscription': go('account/SubscriptionView', { redirectStudents: true, redirectTeachers: true })
-    'account/invoices': go('account/InvoicesView')
-    'account/prepaid': go('account/PrepaidView')
+    # account chunk
+    'account': go({path: 'account/MainAccountView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/MainAccountView')`}),
+    'account/settings': go({path: 'account/AccountSettingsRootView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/AccountSettingsRootView')`}),
+    'account/unsubscribe': go({path: 'account/UnsubscribeView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/UnsubscribeView')`}),
+    'account/payments': go({path: 'account/PaymentsView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/PaymentsView')`}),
+    'account/subscription': go(sharedViews.SubscriptionView,  { redirectStudents: true, redirectTeachers: true }),
+    'account/invoices': go({path: 'account/InvoicesView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/InvoicesView')`}),
+    'account/prepaid': go({path: 'account/PrepaidView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/PrepaidView')`}),
+    'il-signup': go({path: 'account/IsraelSignupView', load: -> `import(/* webpackChunkName: "account" */ 'views/account/IsraelSignupView')`}),
 
-    'admin': go('admin/MainAdminView')
-    'admin/clas': go('admin/CLAsView')
-    'admin/classroom-content': go('admin/AdminClassroomContentView')
-    'admin/classroom-levels': go('admin/AdminClassroomLevelsView')
-    'admin/classrooms-progress': go('admin/AdminClassroomsProgressView')
-    'admin/design-elements': go('admin/DesignElementsView')
-    'admin/files': go('admin/FilesView')
-    'admin/analytics': go('admin/AnalyticsView')
-    'admin/analytics/subscriptions': go('admin/AnalyticsSubscriptionsView')
-    'admin/level-hints': go('admin/AdminLevelHintsView')
-    'admin/level-sessions': go('admin/LevelSessionsView')
-    'admin/school-counts': go('admin/SchoolCountsView')
-    'admin/school-licenses': go('admin/SchoolLicensesView')
-    'admin/sub-cancellations': go('admin/AdminSubCancellationsView')
-    'admin/base': go('admin/BaseView')
-    'admin/demo-requests': go('admin/DemoRequestsView')
-    'admin/trial-requests': go('admin/TrialRequestsView')
-    'admin/user-code-problems': go('admin/UserCodeProblemsView')
-    'admin/pending-patches': go('admin/PendingPatchesView')
-    'admin/codelogs': go('admin/CodeLogsView')
-    'admin/skipped-contacts': go('admin/SkippedContactsView')
-    'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
-    'admin/outcomes-report': go('admin/OutcomesReportView')
-    
-    'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
+    # admin chunk
+    'admin': go({path: 'admin/MainAdminView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/MainAdminView')`}),
+    'admin/clas': go({path: 'admin/CLAsComponent', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/CLAsComponent')`}),
+    'admin/classroom-content': go({path: 'admin/AdminClassroomContentView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomContentView')`}),
+    'admin/classroom-levels': go({path: 'admin/AdminClassroomLevelsComponent', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomLevelsComponent')`}),
+    'admin/classrooms-progress': go({path: 'admin/AdminClassroomsProgressView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminClassroomsProgressView')`}),
+    'admin/design-elements': go({path: 'admin/DesignElementsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/DesignElementsView')`}),
+    'admin/files': go({path: 'admin/FilesComponent', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/FilesComponent')`}),
+    'admin/analytics': go({path: 'admin/AnalyticsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AnalyticsView')`}),
+    'admin/analytics/subscriptions': go({path: 'admin/AnalyticsSubscriptionsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AnalyticsSubscriptionsView')`}),
+    'admin/level-hints': go({path: 'admin/AdminLevelHintsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminLevelHintsView')`}),
+    'admin/sub-cancellations': go({path: 'admin/AdminSubCancellationsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/AdminSubCancellationsView')`}),
+    'admin/school-counts': go({path: 'admin/SchoolCountsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/SchoolCountsView')`}),
+    'admin/school-licenses': go({path: 'admin/SchoolLicensesView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/SchoolLicensesView')`}),
+    'admin/base': go({path: 'admin/BaseView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/BaseView')`}),
+    'admin/demo-requests': go({path: 'admin/DemoRequestsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/DemoRequestsView')`}),
+    'admin/trial-requests': go({path: 'admin/TrialRequestsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/TrialRequestsView')`}),
+    'admin/user-code-problems': go({path: 'admin/UserCodeProblemsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/UserCodeProblemsView')`}),
+    'admin/pending-patches': go({path: 'admin/PendingPatchesView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/PendingPatchesView')`}),
+    'admin/codelogs': go({path: 'admin/CodeLogsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/CodeLogsView')`}),
+    'admin/skipped-contacts': go({path: 'admin/SkippedContactsView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/SkippedContactsView')`}),
+    'admin/outcomes-report-result': go({path: 'admin/OutcomeReportResultView', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/OutcomeReportResultView')`}),
+    'admin/outcomes-report': go({path: 'admin/OutcomesReportComponent', load: -> `import(/* webpackChunkName: "admin" */ 'views/admin/OutcomesReportComponent')`}),
 
-    'artisans': go('artisans/ArtisansView')
-
-    'artisans/level-tasks': go('artisans/LevelTasksView')
-    'artisans/solution-problems': go('artisans/SolutionProblemsView')
-    'artisans/thang-tasks': go('artisans/ThangTasksView')
-    'artisans/level-concepts': go('artisans/LevelConceptMap')
-    'artisans/level-guides': go('artisans/LevelGuidesView')
-    'artisans/student-solutions': go('artisans/StudentSolutionsView')
-    'artisans/tag-test': go('artisans/TagTestView')
+    # artisan chunk
+    'artisans': go({path:'artisans/ArtisansView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/ArtisansView')`}),
+    'artisans/level-tasks': go({path:'artisans/LevelTasksView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelTasksView')`}),
+    'artisans/solution-problems': go({path:'artisans/SolutionProblemsView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/SolutionProblemsView')`}),
+    'artisans/level-concepts': go({path:'artisans/LevelConceptMap', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelConceptMap')`}),
+    'artisans/level-guides': go({path:'artisans/LevelGuidesView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelGuidesView')`}),
+    'artisans/student-solutions': go({path:'artisans/StudentSolutionsView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/StudentSolutionsView')`}),
+    'artisans/tag-test': go({path:'artisans/TagTestView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/TagTestView')`}),
+    'artisans/thang-tasks': go({path:'artisans/ThangTasksView', load: -> `import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView')`}),
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
 
-    'cla': go('CLAView')
+    # CLAView chunk
+    'cla': go({ path: 'CLAView', load: -> `import(/* webpackChunkName: "CLAView" */ 'views/CLAView')`})
 
-    'clans': go('clans/ClansView')
-    'clans/:clanID': go('clans/ClanDetailsView')
+    # clans chunk
+    'clans': go({path: 'clans/ClansView', load: -> `import(/* webpackChunkName: "clans" */ 'views/clans/ClansView')`}),
+    'clans/:clanID': go({path: 'clans/ClanDetailsView', load: -> `import(/* webpackChunkName: "clans" */ 'views/clans/ClanDetailsView')`}),
 
-    'community': go('CommunityView')
+    # CommunityView chunk  
+    'community': go(sharedViews.CommunityView)
+    'editor': go(sharedViews.CommunityView)
 
-    'contribute': go('contribute/MainContributeView')
-    'contribute/adventurer': go('contribute/AdventurerView')
-    'contribute/ambassador': go('contribute/AmbassadorView')
-    'contribute/archmage': go('contribute/ArchmageView')
-    'contribute/artisan': go('contribute/ArtisanView')
-    'contribute/diplomat': go('contribute/DiplomatView')
-    'contribute/scribe': go('contribute/ScribeView')
+    # contribute chunk
+    'contribute': go({path: 'contribute/MainContributeView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/MainContributeView')` })
+    'contribute/adventurer': go({path: 'contribute/AdventurerView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/AdventurerView')` })
+    'contribute/ambassador': go({path: 'contribute/AmbassadorView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/AmbassadorView')` })
+    'contribute/archmage': go({path: 'contribute/ArchmageView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/ArchmageView')` })
+    'contribute/artisan': go({path: 'contribute/ArtisanView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/ArtisanView')` })
+    'contribute/diplomat': go({path: 'contribute/DiplomatView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/DiplomatView')` })
+    'contribute/scribe': go({path: 'contribute/ScribeView', load: -> `import(/* webpackChunkName: "contribute" */ 'views/contribute/ScribeView')` })
 
     'courses': redirect('/students') # Redirected 9/3/16
     'Courses': redirect('/students') # Redirected 9/3/16
@@ -105,125 +132,146 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
     'db/*path': 'routeToServer'
-    'docs/components': go('editor/docs/ComponentsDocumentationView')
-    'docs/systems': go('editor/docs/SystemsDocumentationView')
 
-    'editor': go('CommunityView')
+    # docs chunk
+    'docs/components': go({path: 'editor/docs/ComponentsDocumentationView', load: -> `import(/* webpackChunkName: "docs" */ 'views/editor/docs/ComponentsDocumentationView')` })
+    'docs/systems': go({path: 'editor/docs/SystemsDocumentationView', load: -> `import(/* webpackChunkName: "docs" */ 'views/editor/docs/SystemsDocumentationView')` })
 
-    'editor/achievement': go('editor/achievement/AchievementSearchView')
-    'editor/achievement/:articleID': go('editor/achievement/AchievementEditView')
-    'editor/article': go('editor/article/ArticleSearchView')
-    'editor/article/preview': go('editor/article/ArticlePreviewView')
-    'editor/article/:articleID': go('editor/article/ArticleEditView')
-    'editor/level': go('editor/level/LevelSearchView')
-    'editor/level/:levelID': go('editor/level/LevelEditView')
-    'editor/thang': go('editor/thang/ThangTypeSearchView')
-    'editor/thang/:thangID': go('editor/thang/ThangTypeEditView')
-    'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
-    'editor/poll': go('editor/poll/PollSearchView')
-    'editor/poll/:articleID': go('editor/poll/PollEditView')
-    'editor/verifier': go('editor/verifier/VerifierView')
-    'editor/verifier/:levelID': go('editor/verifier/VerifierView')
-    'editor/i18n-verifier/:levelID': go('editor/verifier/i18nVerifierView')
-    'editor/i18n-verifier': go('editor/verifier/i18nVerifierView')
-    'editor/course': go('editor/course/CourseSearchView')
-    'editor/course/:courseID': go('editor/course/CourseEditView')
-
+    'editor/achievement': go({path: 'editor/achievement/AchievementSearchView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/achievement/AchievementSearchView')`})
+    'editor/achievement/:articleID': go({path: 'editor/achievement/AchievementEditView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/achievement/AchievementEditView')`})
+    'editor/article': go({path: 'editor/article/ArticleSearchView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/article/ArticleSearchView')`})
+    'editor/article/preview': go({path: 'editor/article/ArticlePreviewView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/article/ArticlePreviewView')`})
+    'editor/article/:articleID': go({path: 'editor/article/ArticleEditView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/article/ArticleEditView')`})
+    'editor/level': go({path: 'editor/level/LevelSearchView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/level/LevelSearchView')`})
+    'editor/level/:levelID': go({path: 'editor/level/LevelEditView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/level/LevelEditView')`})
+    'editor/thang': go({path: 'editor/thang/ThangTypeSearchView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/thang/ThangTypeSearchView')`})
+    'editor/thang/:thangID': go({path: 'editor/thang/ThangTypeEditView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/thang/ThangTypeEditView')`})
+    'editor/campaign/:campaignID': go({path: 'editor/campaign/CampaignEditorView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/campaign/CampaignEditorView')`})
+    'editor/poll': go({path: 'editor/poll/PollSearchView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/poll/PollSearchView')`})
+    'editor/poll/:articleID': go({path: 'editor/poll/PollEditView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/poll/PollEditView')`})
+    'editor/verifier': go(sharedViews.VerifierView)
+    'editor/verifier/:levelID': go(sharedViews.VerifierView)
+    'editor/i18n-verifier/:levelID': go(sharedViews.i18nVerifierView)
+    'editor/i18n-verifier': go(sharedViews.i18nVerifierView)
+    'editor/course': go({path: 'editor/course/CourseSearchView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseSearchView')`})
+    'editor/course/:courseID': go({path: 'editor/course/CourseEditView', load: -> `import(/* webpackChunkName: "editor" */ 'views/editor/course/CourseEditView')`})
+    
     'file/*path': 'routeToServer'
 
     'github/*path': 'routeToServer'
 
     'hoc': -> @navigate "/play?hour_of_code=true", {trigger: true, replace: true}
-    'home': go('HomeView')
+    'home': go(sharedViews.HomeView)
 
-    'i18n': go('i18n/I18NHomeView')
-    'i18n/thang/:handle': go('i18n/I18NEditThangTypeView')
-    'i18n/component/:handle': go('i18n/I18NEditComponentView')
-    'i18n/level/:handle': go('i18n/I18NEditLevelView')
-    'i18n/achievement/:handle': go('i18n/I18NEditAchievementView')
-    'i18n/campaign/:handle': go('i18n/I18NEditCampaignView')
-    'i18n/poll/:handle': go('i18n/I18NEditPollView')
-    'i18n/course/:handle': go('i18n/I18NEditCourseView')
-    'i18n/product/:handle': go('i18n/I18NEditProductView')
+    # i18n chunk
+    'i18n': go({path: 'i18n/I18NHomeView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NHomeView')` })
+    'i18n/thang/:handle': go({path: 'i18n/I18NEditThangTypeView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditThangTypeView')` })
+    'i18n/component/:handle': go({path: 'i18n/I18NEditComponentView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditComponentView')` })
+    'i18n/level/:handle': go({path: 'i18n/I18NEditLevelView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditLevelView')` })
+    'i18n/achievement/:handle': go({path: 'i18n/I18NEditAchievementView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditAchievementView')` })
+    'i18n/campaign/:handle': go({path: 'i18n/I18NEditCampaignView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCampaignView')` })
+    'i18n/poll/:handle': go({path: 'i18n/I18NEditPollView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditPollView')` })
+    'i18n/course/:handle': go({path: 'i18n/I18NEditCourseView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditCourseView')` })
+    'i18n/product/:handle': go({path: 'i18n/I18NEditProductView', load: -> `import(/* webpackChunkName: "i18n" */ 'views/i18n/I18NEditProductView')` })
 
-    'identify': go('user/IdentifyView')
-    'il-signup': go('account/IsraelSignupView')
-
-    'legal': go('LegalView')
+    # LegalView chunk
+    'legal': go({path: 'LegalView', load: -> `import(/* webpackChunkName: "LegalView" */ 'views/LegalView')`})
 
     'logout': 'logout'
 
-    'paypal/subscribe-callback': go('play/CampaignView')
-    'paypal/cancel-callback': go('account/SubscriptionView')
+    'paypal/subscribe-callback': go(sharedViews.CampaignView)
+    'paypal/cancel-callback': go(sharedViews.SubscriptionView)
 
-    'play(/)': go('play/CampaignView', { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
-    'play/ladder/:levelID/:leagueType/:leagueID': go('ladder/LadderView')
-    'play/ladder/:levelID': go('ladder/LadderView')
-    'play/ladder': go('ladder/MainLadderView')
-    'play/level/:levelID': go('play/level/PlayLevelView')
-    'play/game-dev-level/:sessionID': go('play/level/PlayGameDevLevelView')
-    'play/web-dev-level/:sessionID': go('play/level/PlayWebDevLevelView')
+    # ladder chunk
+    'play/ladder/:levelID/:leagueType/:leagueID': go(sharedViews.LadderView)
+    'play/ladder/:levelID': go(sharedViews.LadderView)
+    'play/ladder': go({path: 'ladder/MainLadderView', load: -> `import(/* webpackChunkName: "ladder" */ 'views/ladder/MainLadderView')`})
+
+    # play chunk
+    'play(/)': go(sharedViews.CampaignView, { redirectStudents: true, redirectTeachers: true }) # extra slash is to get Facebook app to work
+    'play/level/:levelID': go({path: 'play/level/PlayLevelView', load: -> `import(/* webpackChunkName: "play" */ 'views/play/level/PlayLevelView')` })
+    'play/game-dev-level/:sessionID': go({path: 'play/level/PlayGameDevLevelView', load: -> `import(/* webpackChunkName: "play" */ 'views/play/level/PlayGameDevLevelView')` })
+    'play/web-dev-level/:sessionID': go({path: 'play/level/PlayWebDevLevelView', load: -> `import(/* webpackChunkName: "play" */ 'views/play/level/PlayWebDevLevelView')` })
     'play/game-dev-level/:levelID/:sessionID': (levelID, sessionID) ->
       @navigate("play/game-dev-level/#{sessionID}", { trigger: true, replace: true })
     'play/web-dev-level/:levelID/:sessionID': (levelID, sessionID) ->
       @navigate("play/web-dev-level/#{sessionID}", { trigger: true, replace: true })
-    'play/spectate/:levelID': go('play/SpectateView')
-    'play/:map': go('play/CampaignView')
+    'play/spectate/:levelID': go({path: 'play/SpectateView', load: -> `import(/* webpackChunkName: "play" */ 'views/play/SpectateView')` })
+    'play/:map': go(sharedViews.CampaignView)
 
-    'premium': go('PremiumFeaturesView')
-    'Premium': go('PremiumFeaturesView')
+    # PremiumFeaturesView chunk
+    'premium': go(sharedViews.PremiumFeaturesView)
+    'Premium': go(sharedViews.PremiumFeaturesView)
 
-    'preview': go('HomeView')
+    'preview': go(sharedViews.HomeView)
 
-    'privacy': go('PrivacyView')
+    # PrivacyView chunk
+    'privacy': go({path: 'PrivacyView', load: -> `import(/* webpackChunkName: "PrivacyView" */ 'views/PrivacyView')`})
 
-    'schools': go('HomeView')
-    'seen': go('HomeView')
-    'SEEN': go('HomeView')
+    'schools': go(sharedViews.HomeView)
+    'seen': go(sharedViews.HomeView)
+    'SEEN': go(sharedViews.HomeView)
 
-    'students': go('courses/CoursesView', { redirectTeachers: true })
-    'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
-    'students/project-gallery/:courseInstanceID': go('courses/ProjectGalleryView')
-    'students/assessments/:classroomID': go('courses/StudentAssessmentsView')
-    'students/:classroomID': go('courses/ClassroomView', { redirectTeachers: true, studentsOnly: true })
-    'students/:courseID/:courseInstanceID': go('courses/CourseDetailsView', { redirectTeachers: true, studentsOnly: true })
+    # courses chunk
+    'students': go({path: 'courses/CoursesView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/CoursesView')`}, { redirectTeachers: true })
+    'students/update-account': go({path: 'courses/CoursesUpdateAccountView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/CoursesUpdateAccountView')`}, { redirectTeachers: true })
+    'students/project-gallery/:courseInstanceID': go({path: 'courses/ProjectGalleryView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/ProjectGalleryView')`})
+    'students/assessments/:classroomID': go({path: 'courses/StudentAssessmentsView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/StudentAssessmentsView')`})
+    'students/:classroomID': go({path: 'courses/ClassroomView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/ClassroomView')`}, { redirectTeachers: true, studentsOnly: true })
+    'students/:courseID/:courseInstanceID': go({path: 'courses/CourseDetailsView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/CourseDetailsView')`}, { redirectTeachers: true, studentsOnly: true })
     'teachers': redirect('/teachers/classes')
-    'teachers/classes': go('courses/TeacherClassesView', { redirectStudents: true, teachersOnly: true })
-    'teachers/classes/:classroomID/:studentID': go('teachers/TeacherStudentView', { redirectStudents: true, teachersOnly: true })
-    'teachers/classes/:classroomID': go('courses/TeacherClassView', { redirectStudents: true, teachersOnly: true })
-    'teachers/courses': go('courses/TeacherCoursesView', { redirectStudents: true })
-    'teachers/course-solution/:courseID/:language': go('teachers/TeacherCourseSolutionView', { redirectStudents: true })
-    'teachers/demo': go('teachers/RequestQuoteView', { redirectStudents: true })
+    'teachers/classes': go({path: 'courses/TeacherClassesView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassesView')`}, { redirectStudents: true, teachersOnly: true })
+    'teachers/classes/:classroomID': go({path: 'courses/TeacherClassView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherClassView')`}, { redirectStudents: true, teachersOnly: true })
+    'teachers/courses': go({path: 'courses/TeacherCoursesView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/TeacherCoursesView')`}, { redirectStudents: true })
     'teachers/enrollments': redirect('/teachers/licenses')
-    'teachers/licenses': go('courses/EnrollmentsView', { redirectStudents: true, teachersOnly: true })
-    'teachers/freetrial': go('teachers/RequestQuoteView', { redirectStudents: true })
+    'teachers/licenses': go({path: 'courses/EnrollmentsView', load: -> `import(/* webpackChunkName: "courses" */ 'views/courses/EnrollmentsView')`}, { redirectStudents: true, teachersOnly: true })
+
+    # teachers chunk
+    'teachers/classes/:classroomID/:studentID': go({path: 'teachers/TeacherStudentView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherStudentView')`}, { redirectStudents: true, teachersOnly: true })
+    'teachers/course-solution/:courseID/:language': go({path: 'teachers/TeacherCourseSolutionView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/TeacherCourseSolutionView')`}, { redirectStudents: true })
+    'teachers/demo': go(sharedViews.RequestQuoteView, { redirectStudents: true })
+    'teachers/freetrial': go(sharedViews.RequestQuoteView, { redirectStudents: true })
     'teachers/quote': redirect('/teachers/demo')
-    'teachers/resources': go('teachers/ResourceHubView', { redirectStudents: true })
-    'teachers/resources/ap-cs-principles': go('teachers/ApCsPrinciplesView', { redirectStudents: true })
-    'teachers/resources/:name': go('teachers/MarkdownResourceView', { redirectStudents: true })
+    'teachers/resources': go({path: 'teachers/ResourceHubView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/ResourceHubView')`}, { redirectStudents: true })
+    'teachers/resources/ap-cs-principles': go({path: 'teachers/ApCsPrinciplesView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/ApCsPrinciplesView')`}, { redirectStudents: true })
+    'teachers/resources/:name': go({path: 'teachers/MarkdownResourceView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/MarkdownResourceView')`}, { redirectStudents: true })
     'teachers/signup': ->
       return @routeDirectly('teachers/CreateTeacherAccountView', []) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @navigate('/teachers/update-account', {trigger: true, replace: true})
-    'teachers/starter-licenses': go('teachers/StarterLicenseUpsellView', { redirectStudents: true, teachersOnly: true })
+    'teachers/starter-licenses': go({path: 'teachers/StarterLicenseUpsellView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/StarterLicenseUpsellView')`}, { redirectStudents: true, teachersOnly: true })
     'teachers/update-account': ->
       return @navigate('/teachers/signup', {trigger: true, replace: true}) if me.isAnonymous()
       return @navigate('/students', {trigger: true, replace: true}) if me.isStudent() and not me.isAdmin()
       @routeDirectly('teachers/ConvertToTeacherAccountView', [])
+    'apcsp(/*subpath)': go({path: 'teachers/DynamicAPCSPView', load: -> `import(/* webpackChunkName: "teachers" */ 'views/teachers/DynamicAPCSPView')`})
 
-    'test(/*subpath)': go('TestView')
+    # TestView chunk
+    'test(/*subpath)': go({path: 'TestView', load: -> `import(/* webpackChunkName: "TestView" */ 'views/TestView')`,})
 
-    'user/:slugOrID': go('user/MainUserView')
-    'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
+    'identify': go({path: 'user/IdentifyView', load: -> `import(/* webpackChunkName: "user" */ 'views/user/IdentifyView')` })
+    'user/:slugOrID': go({path: 'user/MainUserView', load: -> `import(/* webpackChunkName: "user" */ 'views/user/MainUserView')` })
+    'user/:userID/verify/:verificationCode': go({path: 'user/EmailVerifiedView', load: -> `import(/* webpackChunkName: "user" */ 'views/user/EmailVerifiedView')` })
 
     '*name/': 'removeTrailingSlash'
-    '*name': go('NotFoundView')
+    
+    # NotFoundView chunk
+    '*name': go({path: 'NotFoundView', load: -> `import(/* webpackChunkName: "NotFoundView" */ 'views/NotFoundView')`})
 
   routeToServer: (e) ->
     window.location.href = window.location.href
 
   removeTrailingSlash: (e) ->
     @navigate e, {trigger: true}
+    
+  loadPath: (path) ->
+    path = normalizeViewRoute(path)
+    allRoutes = _.assign({}, _.values(@routes), _.values(sharedViews))
+    route = _.find(allRoutes, { path }) # TODO: Make sure this works
+    if not route
+      throw new Error('route not found', { path, route })
+    console.log 'found route', route, route.path, route.load
+    return route.load()
 
   routeDirectly: (path, args=[], options={}) ->
     if window.alreadyLoadedView
@@ -251,14 +299,15 @@ module.exports = class CocoRouter extends Backbone.Router
       return @navigate('/play', { trigger: true, replace: true })
     if features.playOnly and not /^(views)?\/?play/.test(path)
       delete window.alreadyLoadedView
-      path = 'play/CampaignView'
+      path = 'views/play/CampaignView'
 
-    path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     Promise.all([
-      dynamicRequire[path](), # Load the view file
+      @loadPath(path), # Load the view file
       # The locale load is already initialized by `application`, just need the promise
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
+      if _.isFunction(ViewClass.default)
+        ViewClass = @wrapVueComponent(ViewClass.default)
       return go('NotFoundView') if not ViewClass
       view = new ViewClass(options, args...)  # options, then any path fragment args
       view.render()
@@ -273,6 +322,14 @@ module.exports = class CocoRouter extends Backbone.Router
       @viewLoad.record()
     .catch (err) ->
       console.log err
+
+  wrapVueComponent: (VueComponent) ->
+    RootComponent = require 'views/core/RootComponent'
+    baseFlatTemplate = require 'templates/base-flat'
+    class ComponentWrapper extends RootComponent
+      template: baseFlatTemplate
+      VueComponent: VueComponent
+    return ComponentWrapper
 
   redirectHome: ->
     delete window.alreadyLoadedView
@@ -343,7 +400,7 @@ module.exports = class CocoRouter extends Backbone.Router
   onNavigate: (e, recursive=false) ->
     @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
-      dynamicRequire[e.viewClass]().then (viewClass) =>
+      @loadPath(e.viewClass).then (viewClass) =>
         @onNavigate(_.assign({}, e, {viewClass}), true)
       return
 

@@ -1,5 +1,4 @@
-AdminClassroomLevelsView = require 'views/admin/AdminClassroomLevelsView'
-AdminClassroomLevelsComponent = AdminClassroomLevelsView.prototype.VueComponent
+AdminClassroomLevelsComponent = require('views/admin/AdminClassroomLevelsComponent.vue').default
 factories = require 'test/app/factories'
 Levels = require 'collections/Levels'
 
