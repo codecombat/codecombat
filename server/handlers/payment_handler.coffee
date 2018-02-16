@@ -96,6 +96,8 @@ PaymentHandler = class PaymentHandler extends Handler
       for key, val of req.body
         if key in ['purchaser', 'recipient']
           payment.set key, mongoose.Types.ObjectId(val)
+        else if key in ['gems', 'amount']
+          payment.set key, parseInt(val)
         else
           payment.set key, val
       payment.save (err) =>
