@@ -98,9 +98,9 @@ module.exports = class TeacherStudentView extends RootView
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
     @levelSolutionMap = {}
     for level in @levels.models
-      solution = level.getSolutions().find((s) => s.language is @classroom.get('aceConfig')?.language)
-      solution = level.getSolutions().find((s) => s.language is 'html') unless solution
-      @levelSolutionMap[level.get('original')] = solution.source if solution
+      solution = level.getSolutions().find((s) => s.language is @classroom.get('aceConfig')?.language)?.source
+      solution ?= utils.extractPlayerCodeTag(level.getSolutions().find((s) => s.language is 'html')?.source or '')
+      @levelSolutionMap[level.get('original')] = solution
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
       # Normal level
