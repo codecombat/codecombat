@@ -21,6 +21,7 @@ module.exports = class TeacherStudentView extends RootView
     'change #course-dropdown': 'onChangeCourseChart'
     'change .course-select': 'onChangeCourseSelect'
     'click .progress-dot a': 'onClickProgressDot'
+    'click .level-progress-dot': 'onClickStudentProgressDot'
 
   getTitle: -> return @user?.broadName()
 
@@ -125,6 +126,12 @@ module.exports = class TeacherStudentView extends RootView
   onChangeCourseSelect: (e) ->
     @selectedCourseId = $(e.currentTarget).val()
     @render?()
+    window.tracker?.trackEvent 'Change Teacher Student Code Review Course', {category: 'Teachers', classroomId: @classroom.id, studentId: @studentID, @selectedCourseId}
+
+  onClickStudentProgressDot: (e) ->
+    levelSlug = $(e.currentTarget).data('level-slug')
+    levelProgress = $(e.currentTarget).data('level-progress')
+    window.tracker?.trackEvent 'Click Teacher Student Code Review Progress Dot', {category: 'Teachers', classroomId: @classroom.id, courseId: @selectedCourseId, studentId: @studentID, levelSlug, levelProgress}
 
   questionMarkHtml: (i18nBlurb) ->
     "<div style='text-align: left; width: 400px; font-family:Open Sans, sans-serif;'>" + $.i18n.t(i18nBlurb) + "</div>"
