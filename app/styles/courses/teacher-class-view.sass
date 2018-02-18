@@ -34,6 +34,10 @@
   .classroom-info-row[dir="rtl"] > div
     float: right
 
+  .student-code
+    font-weight: bold
+    font-style: italic
+
   .concept
     & span
       white-space: nowrap
@@ -428,4 +432,24 @@
       font-weight: normal
       
     td, th
+      position: relative
       text-align: center
+
+    .student-name
+      text-overflow: ellipsis
+      overflow: hidden
+      
+    .progress-dot
+      margin-right: 0
+      
+  .threshold-icon
+    height: 1.2em
+    margin-left: 0.3em
+    position: relative
+    top: -0.1em
+    
+  .threshold-icon.over-progress-bubble
+    height: 22px
+    position: absolute
+    top: 20px
+    left: calc(50% - 3px)

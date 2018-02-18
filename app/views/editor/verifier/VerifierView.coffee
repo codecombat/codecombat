@@ -107,9 +107,12 @@ module.exports = class VerifierView extends RootView
     @tasksList = []
     for levelID in @levelIDs
       level = @supermodel.getModel(Level, levelID)
-      solutions = level?.getSolutions()
       for codeLanguage in @testLanguages
-        if not solutions or _.find(solutions, language: codeLanguage)
+        solutions = _.filter level?.getSolutions() ? [], language: codeLanguage
+        if solutions.length
+          for solution, solutionIndex in solutions
+            @tasksList.push level: levelID, language: codeLanguage, solutionIndex: solutionIndex
+        else
           @tasksList.push level: levelID, language: codeLanguage
 
     @testCount = @tasksList.length
@@ -140,7 +143,7 @@ module.exports = class VerifierView extends RootView
                 ++@problem
 
               next()
-          , chunkSupermodel, task.language, {}
+          , chunkSupermodel, task.language, {solutionIndex: task.solutionIndex}
           @tests.unshift test
           @render()
         , => @render()

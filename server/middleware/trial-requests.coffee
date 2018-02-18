@@ -33,14 +33,6 @@ module.exports =
     trialRequest.set 'type', attrs.type
     database.validateDoc(trialRequest)
     trialRequest = yield trialRequest.save()
-    if trialRequest.get('properties')?.marketingReferrer is 'sunburst'
-      context =
-        email_id: sendwithus.templates.sunburst_referral
-        recipient:
-          address: config.sunburst.email
-        email_data:
-          trial_request: trialRequest.toJSON()
-      sendwithus.api.send context, _.noop
     res.status(201).send(trialRequest.toObject({req: req}))
 
   put: wrap (req, res) ->
@@ -64,5 +56,10 @@ module.exports =
 
   getUsers: wrap (req, res, next) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
-    trialRequests = yield TrialRequest.find(status: {$ne: 'denied'}).select('applicant properties').lean()
+    limit = parseInt(req.query.options?.limit ? 0)
+    query = {status: {$ne: 'denied'}}
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query = {$and: [{_id: {$lt: beforeId}}, query]}
+    trialRequests = yield TrialRequest.find(query).sort({_id: -1}).limit(limit).select('applicant properties').lean()
     res.status(200).send(trialRequests)

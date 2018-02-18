@@ -159,7 +159,7 @@ module.exports =
             numStarted: 0
             # numCompleted: 0
           }
-          isPractice = level.get('practice')
+          isOptional = level.get('practice') or level.get('assessment')
           sessionsForLevel = _.filter classroom.sessions.models, (session) ->
             session.get('level').original is levelID
 
@@ -174,37 +174,38 @@ module.exports =
             courseProgress[levelID][userID].session = _.find(sessions, (s) -> s.completed()) or _.first(sessions)
 
             if _.size(sessions) is 0 # haven't gotten to this level yet, but might have completed others before
-              courseProgress.started ||= false unless isPractice #no-op
-              courseProgress.completed = false unless isPractice
-              courseProgress[userID].started ||= false unless isPractice #no-op
-              courseProgress[userID].completed = false unless isPractice
+              courseProgress.started ||= false unless isOptional #no-op
+              courseProgress.completed = false unless isOptional
+              courseProgress[userID].started ||= false unless isOptional #no-op
+              courseProgress[userID].completed = false unless isOptional
               courseProgress[levelID].started ||= false #no-op
-              courseProgress[levelID].completed = false unless isPractice
+              courseProgress[levelID].completed = false
               courseProgress[levelID][userID].started = false
               courseProgress[levelID][userID].completed = false
 
             if _.size(sessions) > 0 # have gotten to the level and at least started it
-              courseProgress.started = true unless isPractice
-              courseProgress[userID].started = true unless isPractice
+              courseProgress.started = true unless isOptional
+              courseProgress[userID].started = true unless isOptional
               courseProgress[levelID].started = true
               courseProgress[levelID][userID].started = true
               dates = _.map(sessions, (s) -> new Date(s.get('changed')))
               courseProgress[levelID][userID].lastPlayed = new Date(Math.max(dates...))
               courseProgress[levelID].numStarted += 1
+              courseProgress[levelID][userID].codeConcepts = _.flatten(_.map(sessions, (s) -> s.get('codeConcepts') or []))
 
             if _.find(sessions, (s) -> s.completed()) # have finished this level
-              courseProgress.completed &&= true unless isPractice #no-op
-              courseProgress[userID].completed &&= true unless isPractice #no-op
-              courseProgress[userID].levelsCompleted += 1 unless isPractice
+              courseProgress.completed &&= true unless isOptional #no-op
+              courseProgress[userID].completed &&= true unless isOptional #no-op
+              courseProgress[userID].levelsCompleted += 1 unless isOptional
               courseProgress[levelID].completed &&= true #no-op
               # courseProgress[levelID].numCompleted += 1
               courseProgress[levelID][userID].completed = true
               dates = (new Date(s.get('dateFirstCompleted') || s.get('changed')) for s in sessions)
               courseProgress[levelID][userID].dateFirstCompleted = new Date(Math.max(dates...))
             else # level started but not completed
-              courseProgress.completed = false unless isPractice
-              courseProgress[userID].completed = false unless isPractice
-              if isPractice
+              courseProgress.completed = false unless isOptional
+              courseProgress[userID].completed = false unless isOptional
+              if isOptional
                 # Weird behavior! Since practice levels are optional, the level is considered 'incomplete'
                 # for the class as a whole only if any started-but-not-completed sessions exist
                 courseProgress[levelID].completed = false if courseProgress[levelID][userID].started
@@ -214,7 +215,7 @@ module.exports =
               courseProgress[levelID].dateFirstCompleted = null
               courseProgress[levelID][userID].dateFirstCompleted = null
 
-          if isPractice and courseProgress and not courseProgress[levelID].started
+          if isOptional and courseProgress and not courseProgress[levelID].started
             courseProgress[levelID].completed = false # edge for practice levels, not considered complete if never started either
 
     _.assign(progressData, progressMixin)

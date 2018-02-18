@@ -44,7 +44,7 @@ module.exports = class VerifierTest extends CocoClass
 
   configureSession: (session, level) =>
     try
-      session.solution = _.find level.getSolutions(), language: session.get('codeLanguage')
+      session.solution = _.filter(level.getSolutions(), language: session.get('codeLanguage'))[@options.solutionIndex]
       session.set 'heroConfig', session.solution.heroConfig
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'

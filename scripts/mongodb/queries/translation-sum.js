@@ -4,7 +4,7 @@ add = function(s) {
     return;
   sum += s.split(' ').length;
 };
-load('bower_components/lodash/dist/lodash.js');
+load('node_modules/lodash/dist/lodash.js');
 
 sum = 0;
 db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach(function (level) {
@@ -54,6 +54,15 @@ db.levels.find({slug: {$exists: true}, i18nCoverage: {$exists:true }}).forEach(f
           _.forEach(method.context, function(value) {
             add(value);
           })
+        })
+      }
+    })
+  })
+  _.forEach(level.thangs, function(thang) {
+    _.forEach(thang.components, function(component) {
+      if (component.config && component.config.context && component.config.i18n) {
+        _.forEach(component.config.context, function(value) {
+          add(value);
         })
       }
     })

@@ -32,8 +32,8 @@ block content
           button.btn.btn-primary.btn-lg.update-teacher-btn(data-event-action="Teachers Classes Convert Teacher Account Temp") Upgrade to teacher account
 
     - var officeHours = view.upcomingOfficeHours;
-    - var limit = view.howManyOfficeHours == 'all' ? Infinity : 3;
-    - var limited = officeHours.length > 3;
+    - var limit = view.howManyOfficeHours == 'all' ? Infinity : 2;
+    - var limited = officeHours.length > 2;
     #office-hours
       if officeHours.length && view.howManyOfficeHours != 'none'
         .update-class.rtl-allowed
