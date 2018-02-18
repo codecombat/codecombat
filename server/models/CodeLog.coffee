@@ -19,7 +19,6 @@ CodeLogSchema = new mongoose.Schema({
 
 CodeLogSchema.index({levelSlug: 1, created: -1}, {name: 'level slug index'})
 CodeLogSchema.index({userID: 1, created: -1}, {name: 'user id index'})
-CodeLogSchema.index({created: -1}, {name: 'created index'})
 
 CodeLogSchema.statics.editableProperties = [
   'sessionID'

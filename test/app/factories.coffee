@@ -1,4 +1,5 @@
 Level = require 'models/Level'
+Levels = require 'collections/Levels'
 Course = require 'models/Course'
 Courses = require 'collections/Courses'
 Campaign = require 'models/Campaign'
@@ -34,7 +35,14 @@ module.exports = {
     
     attrs.campaignID ?= sources.campaign?.id or _.uniqueId('campaign_')
     return new Course(attrs)
-  
+
+  makeCourseObject: (attrs, sources={}) ->
+    sources = _.clone(sources)
+    if sources.campaign
+      sources.campaign = new Campaign(sources.campaign)
+    course = @makeCourse(attrs, sources)
+    return course.toJSON()
+
   makeCampaign: (attrs, sources={}) ->
     _id = _.uniqueId('campaign_')
     attrs = _.extend({}, {
@@ -46,10 +54,17 @@ module.exports = {
     if sources.levels
       levelsMap = {}
       sources.levels.each (level) ->
-        levelsMap[level.id] = level
+        levelsMap[level.id] = level.toJSON()
       attrs.levels = levelsMap
 
     return new Campaign(attrs)
+
+  makeCampaignObject: (attrs, sources={}) ->
+    sources = _.clone(sources)
+    if sources.levels
+      sources.levels = new Levels(sources.levels)
+    campaign = @makeCampaign(attrs, sources)
+    return campaign.toJSON()
 
   makeLevel: (attrs) ->
     _id = _.uniqueId('level_')
@@ -61,6 +76,10 @@ module.exports = {
       version: makeVersion()
     }, attrs)
     return new Level(attrs)
+    
+  makeLevelObject: (attrs) ->
+    level = @makeLevel(attrs)
+    return level.toJSON()
   
   makeUser: (attrs, sources={}) ->
     _id = _.uniqueId('user_')

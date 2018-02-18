@@ -143,7 +143,7 @@ module.exports =
     unless courseInstance then throw new errors.NotFound('Course Instance not found.')
     classroom = yield Classroom.findById courseInstance.get('classroomID')
     unless classroom then throw new errors.NotFound('Classroom not found.')
-    currentLevel = yield Level.findOne({original: mongoose.Types.ObjectId(levelOriginal)}, {practiceThresholdMinutes: 1, type: 1})
+    currentLevel = yield Level.findOne({original: mongoose.Types.ObjectId(levelOriginal)}, {practiceThresholdMinutes: 1, type: 1, assessment: 1})
     unless currentLevel then throw new errors.NotFound('Current level not found.')
 
     courseID = courseInstance.get('courseID')
@@ -176,6 +176,7 @@ module.exports =
       levelCompleteMap[levelSession.get('level')?.original] = levelSession.get('state')?.complete
     unless currentLevelSession then throw new errors.NotFound('Level session not found.')
     needsPractice = if currentLevel.get('type') in ['course-ladder', 'ladder'] then false
+    else if currentLevel.get('assessment') then false
     else utils.needsPractice(currentLevelSession.get('playtime'), currentLevel.get('practiceThresholdMinutes'))
 
     # Find next level and assessment
@@ -187,12 +188,12 @@ module.exports =
         assessment: level.assessment ? false
         practice: level.practice ? false
         complete: levelCompleteMap[level.original?.toString()] or currentIndex is index
-    unless currentIndex >=0 then throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
+    unless currentIndex >= 0 then throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
     nextLevelIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     nextLevelOriginal = courseLevels[nextLevelIndex]?.original
     nextAssessmentIndex = utils.findNextAssessmentForLevel(levels, currentIndex)
     nextAssessmentOriginal = courseLevels[nextAssessmentIndex]?.original
-    unless nextLevelOriginal or nextAssessmentOriginal then return res.status(200).send({
+    unless nextLevelOriginal then return res.status(200).send({
       level: {}
       assessment: {}
     })
@@ -276,8 +277,12 @@ module.exports =
 
   fetchNonHoc: wrap (req, res) ->
     throw new errors.Unauthorized('You must be an administrator.') unless req.user?.isAdmin()
+    limit = parseInt(req.query.options?.limit ? 0)
     query = {$and: [{name: {$ne: 'Single Player'}}, {hourOfCode: {$ne: true}}]}
-    courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).lean()
+    if req.query.options?.beforeId
+      beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
+      query.$and.push({_id: {$lt: beforeId}})
+    courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).sort({_id: -1}).limit(limit).lean()
     res.status(200).send(courseInstances)
 
   fetchMyCourseLevelSessions: wrap (req, res) ->

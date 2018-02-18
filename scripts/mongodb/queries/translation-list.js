@@ -4,6 +4,7 @@ load('node_modules/lodash/dist/lodash.js');
 translations = [];
 reusableTranslationMap = {};
 untranslatedWords = 0;
+totalWords = 0;
 
 add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   englishString = rootDoc[property]
@@ -24,7 +25,6 @@ add = _.curry(function(docType, doc, propertyPrefix, rootDoc, property) {
   }
   else if (!reusableTranslationMap[englishString]) {
     reusableTranslationMap[englishString] = translationString;
-    untranslatedWords += englishString.split(/\s/).length;
   }
 
   path = propertyPrefix ? propertyPrefix + '.' + property : property;
@@ -39,6 +39,11 @@ printTranslation = function(docType, doc, path, englishString, translationString
   if (!englishString) {
     return;
   }
+
+  if(!translationString) {
+    untranslatedWords += englishString.split(/\s+/).length;
+  }
+  totalWords += englishString.split(/\s+/).length;
 
   //// skip translated strings?
   //if(translationString) {
@@ -138,6 +143,20 @@ allLevels.forEach(function(level, levelIndex) {
       }
     })
   })
+  _.forEach(level.thangs, function(thang, i) {
+    _.forEach(thang.components, function(component, j) {
+      if (component.config && component.config.context && component.config.i18n) {
+        _.forEach(component.config.context, function(value, property) {
+          contextPath = ['thangs[',i,'].components[',j,'].config.context['+JSON.stringify(property)+']'].join('')
+          translationString = '';
+          if(component.config.i18n && component.config.i18n[langCode] && component.config.i18n[langCode].context) {
+            translationString = component.config.i18n[langCode].context[property] || '';
+          }
+          printTranslation('levels', level, contextPath, value, translationString)
+        })
+      }
+    })
+  })
 });
 
 db.achievements.find().forEach(function (achievement) {
@@ -233,4 +252,4 @@ translations.forEach(function(tr) {
   print(tr.join('\n'));
 });
 
-//print('\n\nUntranslated words: ' + untranslatedWords)
+print('\n\nUntranslated words: ' + untranslatedWords, '\nTotal: ' + totalWords)

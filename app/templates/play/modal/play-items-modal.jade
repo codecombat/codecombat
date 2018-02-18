@@ -64,7 +64,7 @@
                     if item.get('subscriber') && !me.isPremium()
                       span.btn.subscribe-button.big-font(data-i18n="subscribe.subscribe_title")
                     else if item.unequippable
-                      span.big-font.unequippable= item.get('heroClass')
+                      span.big-font.unequippable(data-i18n="general."+item.get('heroClass').toLowerCase())
                     else
                       button.btn.unlock-button.big-font(data-i18n="play.unlock", data-item-id=item.id)
               .clearfix

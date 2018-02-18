@@ -15,6 +15,10 @@
   @include transition(top 0.25s ease-in-out, width 0.25s ease-in-out)
   box-shadow: 10px 4px 4px black
   overflow: hidden
+  #spell-palette-api-bar[disabled=disabled]
+    pointer-events: none
+    #palette-tab-api-area
+      opacity: 0.6
   #level-view.real-time &, #level-view.cinematic &
     display: none
     visibility: hidden

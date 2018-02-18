@@ -28,6 +28,7 @@ module.exports = class LeaderboardModal extends ModalView
     c = super c
     c.submenus = []
     for scoreType in @level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       for timespan in @timespans
         c.submenus.push scoreType: scoreType, timespan: timespan
     c.levelName = utils.i18n @level.attributes, 'name'
@@ -37,6 +38,7 @@ module.exports = class LeaderboardModal extends ModalView
     super()
     return unless @supermodel.finished()
     for scoreType, scoreTypeIndex in @level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       for timespan, timespanIndex in @timespans
         submenuView = new LeaderboardTabView scoreType: scoreType, timespan: timespan, level: @level
         @insertSubView submenuView, @$el.find "##{scoreType}-#{timespan}-view .leaderboard-tab-view"
