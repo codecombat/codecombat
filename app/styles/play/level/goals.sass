@@ -107,33 +107,23 @@
           visibility: visible
 
       .threshold
-        bottom: -3.5vw
+        bottom: -5.1vw
         right: -1vw
         font-size: 3.5vw
 
     .threshold
-      bottom: -48px
-      right: -10px
-      font-size: 36px
-      text-shadow: 1px 1px 1px black, -1px -1px 1px black, 1px -1px 1px black, -1px 1px 1px black
+      bottom: -53px
+      right: -15px
       position: absolute
-      line-height: 20px
       display: block
+      filter: drop-shadow(2px 2px 0px #222)
 
       .threshold-icon
         display: none
+        height: 36px
 
-      .threshold-bronze
-        color: #a87308
-        display: inline
-
-      .threshold-silver
-        color: #a8a8a8
-        display: inline
-
-      .threshold-gold
-        color: #f4cb27
-        display: inline
+        &.achieved
+          display: inline
     
 #goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
   display: none

@@ -154,7 +154,7 @@ module.exports = class Classroom extends CocoModel
     if currentIndex >= 0
       currentLevel = courseLevels.models[currentIndex]
       currentPlaytime = levelSessionMap[currentLevel.get('original')]?.get('playtime') ? 0
-      needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes'))
+      needsPractice = utils.needsPractice(currentPlaytime, currentLevel.get('practiceThresholdMinutes')) and not currentLevel.get('assessment')
       nextIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     nextLevel = courseLevels.models[nextIndex]
     nextLevel = arena if levelsLeft is 0
@@ -185,9 +185,10 @@ module.exports = class Classroom extends CocoModel
     })
     @fetch(options)
 
-  inviteMembers: (emails, options={}) ->
+  inviteMembers: (emails, recaptchaResponseToken, options={}) ->
     options.data ?= {}
     options.data.emails = emails
+    options.data.recaptchaResponseToken = recaptchaResponseToken
     options.url = @url() + '/invite-members'
     options.type = 'POST'
     @fetch(options)

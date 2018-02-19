@@ -114,6 +114,7 @@ module.exports = class God extends CocoClass
       justBegin
       indefiniteLength: @indefiniteLength and realTime
       keyValueDb
+      language: me.get('preferredLanguage', true)  # TODO: get target user's language if we're simulating some other user's session?
     }
     @angelsShare.workQueue.push work
     angel.workIfIdle() for angel in @angelsShare.angels

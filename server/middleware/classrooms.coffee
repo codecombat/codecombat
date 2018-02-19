@@ -383,6 +383,11 @@ module.exports =
     if not req.body.emails
       log.debug "classrooms.inviteMembers: No emails included in request: #{JSON.stringify(req.body)}"
       throw new errors.UnprocessableEntity('Emails not included')
+    if not req.body.recaptchaResponseToken
+      log.debug "classrooms.inviteMembers: No recaptchaResponseToken included in request: #{JSON.stringify(req.body)}"
+      throw new errors.UnprocessableEntity('Recaptcha response token not included')
+    unless yield utils.verifyRecaptchaToken(req.body.recaptchaResponseToken)
+      throw new errors.UnprocessableEntity('Could not verify reCAPTCHA response token')
 
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom
