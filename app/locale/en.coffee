@@ -890,6 +890,7 @@
     editor_config_behaviors_description: "Autocompletes brackets, braces, and quotes."
 
   about:
+    learn_more: "Learn More"
     main_title:"If you want to learn to program, you need to write (a lot of) code."
     main_description: "At CodeCombat, our job is to make sure you're doing that with a smile on your face."
     mission_link: "Mission"

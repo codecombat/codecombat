@@ -157,7 +157,7 @@ class ConceptNode extends TreemaNode.nodeMap.string
     super options
 
   onClick: (e) ->
-    return if @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
+    return if this.parent.keyForParent is 'concepts' and @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
     super e
 
 class ConceptsListNode extends TreemaNode.nodeMap.array
