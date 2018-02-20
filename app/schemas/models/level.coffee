@@ -277,7 +277,7 @@ _.extend LevelSchema.properties,
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
   practice: { type: 'boolean' }
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
-  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended'], description: 'Set to true if this is an assessment level.' }
+  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.' }
   assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
   
   primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }
