@@ -73,6 +73,7 @@ module.exports = class AdministerUserModal extends ModalView
       purchaser: @user.get('_id')
       recipient: @user.get('_id')
       service: service
+      created: new Date().toISOString()
       gems: gems
       amount: amount
       description: @$('#payment-description').val()

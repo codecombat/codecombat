@@ -462,7 +462,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
 
   
   if link
-    a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link)
+    a.progress-dot.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
       +progressDotLabel(labelText)
   else
     .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))

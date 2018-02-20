@@ -55,6 +55,7 @@ module.exports = class TeacherClassView extends RootView
     'click .student-checkbox': 'onClickStudentCheckbox'
     'keyup #student-search': 'onKeyPressStudentSearch'
     'change .course-select, .bulk-course-select': 'onChangeCourseSelect'
+    'click a.student-level-progress-dot': 'onClickStudentProgressDot'
 
   getInitialState: ->
     {
@@ -660,6 +661,14 @@ module.exports = class TeacherClassView extends RootView
     checkboxStates = _.clone @state.get('checkboxStates')
     checkboxStates[studentID] = not checkboxStates[studentID]
     @state.set { checkboxStates }
+
+  onClickStudentProgressDot: (e) ->
+    classroomId = @classroom.id
+    courseId = @$(e.currentTarget).data('course-id')
+    studentId = @$(e.currentTarget).data('student-id')
+    levelSlug = @$(e.currentTarget).data('level-slug')
+    levelProgress = @$(e.currentTarget).data('level-progress')
+    window.tracker?.trackEvent 'Click Class Courses Tab Student Progress Dot', {category: 'Teachers', classroomId, courseId, studentId, levelSlug, levelProgress}
 
   calculateClassStats: ->
     return {} unless @classroom.sessions?.loaded and @students.loaded
