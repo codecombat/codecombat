@@ -22,7 +22,7 @@ mixin header()
     span= levelName
     
 mixin assessmentLines()
-  if assessment === 'open-ended'
+  if (assessment === 'open-ended' || assessment === 'cumulative')
     .small-details.nowrap
       span(data-i18n="teacher.concepts_used")
     em.small-details
