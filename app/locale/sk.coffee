@@ -919,7 +919,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     josh_title: "Dizajnér hier"
     josh_blurb: "Podlaha je láva"
     nolan_title: "Oblastný manažér"
-    lisa_title: "Školská špecialistka"
+    lisa_title: "Školská špecialistka" # {change}
     lisa_blurb: "Odvážna"
     sean_title: "Oblastný manažér"
     liz_title: "Oblastný manažér"
@@ -1436,6 +1436,7 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
 #    no_student_assigned: "No students have been assigned this course."

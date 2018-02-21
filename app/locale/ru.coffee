@@ -919,7 +919,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
     josh_title: "Гейм-дизайнер"
     josh_blurb: "Пол – это лава"
     nolan_title: "Региональный менеджер"
-    lisa_title: "Школьный специалист"
+    lisa_title: "Школьный специалист" # {change}
     lisa_blurb: "Непреклонная"
     sean_title: "Региональный менеджер"
     liz_title: "Региональный менеджер"
@@ -1436,6 +1436,7 @@ module.exports = nativeDescription: "русский", englishDescription: "Russi
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Решение курса"
     level_overview_solutions: "Обзор уровня и решения"
     no_student_assigned: "Ни один ученик не был назначен на этот курс."

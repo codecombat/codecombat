@@ -919,7 +919,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     josh_title: "Projektant gier"
     josh_blurb: "Podłoga to lawa"
     nolan_title: "Menedżer regionu"
-    lisa_title: "Specjalista od szkół"
+    lisa_title: "Specjalista od szkół" # {change}
     lisa_blurb: "Ma charakterek"
     sean_title: "Menedżer regionu"
     liz_title: "Menedżer regionu"
@@ -1436,6 +1436,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Rozwiązania kursu"
     level_overview_solutions: "Opisy i rozwiązania poziomów"
     no_student_assigned: "Do kursu nie został dołączony żaden uczeń."
