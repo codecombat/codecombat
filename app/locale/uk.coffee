@@ -599,7 +599,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     number: "Число"
     webjavascript: "JavaScript"
 
-#   amazon_hoc:
+#  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
@@ -919,7 +919,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     josh_title: "Дизайнер гри"
     josh_blurb: "Підлога - це лава"
     nolan_title: "Менеджер територій"
-    lisa_title: "Шкільний спеціаліст"
+    lisa_title: "Шкільний спеціаліст" # {change}
     lisa_blurb: "Сміливиця"
     sean_title: "Менеджер територій"
     liz_title: "Менеджер територій"
@@ -1436,6 +1436,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Рішення курсу"
     level_overview_solutions: "Огляд та рішення рівня"
     no_student_assigned: "Жодного учня не призначено на цей курс."

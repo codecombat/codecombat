@@ -919,7 +919,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     josh_title: "Tnzr Qrfvtare"
     josh_blurb: "Sybbe Vf Ynin"
     nolan_title: "Greevgbel Znantre"
-    lisa_title: "Fpubby Fcrpvnyvfg"
+    lisa_title: "Ohfvarff Qrirybczrag Znantre" # {punatr}
     lisa_blurb: "N tevggl bar"
     sean_title: "Greevgbel Znantre"
     liz_title: "Greevgbel Znantre"
@@ -1436,11 +1436,12 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     solution_arena_blurb: "Fghqragf ner rapbhentrq gb fbyir neran yriryf perngviryl. Gur fbyhgvba cebivqrq orybj zrrgf gur erdhverzragf bs gur neran yriry."
     solution_challenge_blurb: "Fghqragf ner rapbhentrq gb fbyir bcra-raqrq punyyratr yriryf perngviryl. Bar cbffvoyr fbyhgvba vf qvfcynlrq orybj."
     solution_project_blurb: "Fghqragf ner rapbhentrq gb ohvyq n perngvir cebwrpg va guvf yriry. Gur fbyhgvba cebivqrq orybj zrrgf gur erdhverzragf bs gur cebwrpg yriry."
+    students_code_blurb: "N pbeerpg fbyhgvba gb rnpu yriry vf cebivqrq jurer nccebcevngr. Va fbzr pnfrf, vg’f cbffvoyr sbe n fghqrag gb fbyir n yriry hfvat qvssrerag pbqr. Fbyhgvbaf ner abg fubja sbe yriryf gur fghqrag unf abg fgnegrq."
     course_solution: "Pbhefr Fbyhgvba"
     level_overview_solutions: "Yriry Bireivrj naq Fbyhgvbaf"
     no_student_assigned: "Ab fghqragf unir orra nffvtarq guvf pbhefr."
     paren_new: "(arj)"
-    student_code: "__anzr__'f Fghqrag Pbqr" # {punatr}
+    student_code: "__anzr__'f Fghqrag Pbqr"
     teacher_dashboard: "Grnpure Qnfuobneq" # Anione
     my_classes: "Zl Pynffrf"
     courses: "Pbhefr Thvqrf"
