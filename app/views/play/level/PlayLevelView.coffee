@@ -308,7 +308,10 @@ module.exports = class PlayLevelView extends RootView
     @team = team
 
   initGoalManager: ->
-    @goalManager = new GoalManager(@world, @level.get('goals'), @team)
+    options = {}
+    if @level.get('assessment') is 'cumulative'
+      options.minGoalsToComplete = 1
+    @goalManager = new GoalManager(@world, @level.get('goals'), @team, options)
     @god?.setGoalManager @goalManager
 
   updateGoals: (goals) ->

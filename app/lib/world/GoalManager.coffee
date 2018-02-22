@@ -127,9 +127,15 @@ module.exports = class GoalManager extends CocoClass
     goals = (g for g in goals when not g.optional)
     goals = (g for g in goals when g.team in [undefined, @team]) if @team
     statuses = (goal.status for goal in goals)
-    overallStatus = 'success' if statuses.length > 0 and _.every(statuses, (s) -> s is 'success' or (ignoreIncomplete and s is null))
+    isSuccess = (s) -> s is 'success' or (ignoreIncomplete and s is null)
+    if @options.minGoalsToComplete
+      visibleGoals = (g for g in goals when not g.hiddenGoal)
+      visibleStatuses = (goal.status for goal in visibleGoals)
+      successes = _.filter(visibleStatuses, isSuccess).length
+      overallStatus = 'success' if successes >= @options.minGoalsToComplete
+    else
+      overallStatus = 'success' if statuses.length > 0 and _.every(statuses, isSuccess)
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
-    #console.log 'got overallStatus', overallStatus, 'from goals', goals, 'goalStates', @goalStates, 'statuses', statuses
     overallStatus
 
   # WORLD GOAL TRACKING
@@ -143,6 +149,7 @@ module.exports = class GoalManager extends CocoClass
         keyFrame: 0 # when it became a 'success' or 'failure'
         team: goal.team
         optional: goal.optional
+        hiddenGoal: goal.hiddenGoal
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []

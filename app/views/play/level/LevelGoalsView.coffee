@@ -52,6 +52,8 @@ module.exports = class LevelGoalsView extends CocoView
     classToShow = 'incomplete' if e.overallStatus is 'failure'
     classToShow ?= 'timed-out' if e.timedOut
     classToShow ?= 'incomplete'
+    if @level.get('assessment') is 'cumulative' and classToShow in ['failure', 'timed-out']
+      classToShow = 'complete-one'
     @$el.find('.goal-status.'+classToShow).removeClass 'secret'
     list = $('#primary-goals-list', @$el)
     list.empty()
