@@ -102,7 +102,7 @@ module.exports = class LevelSetupManager extends CocoClass
       @onInventoryModalPlayClicked()
       return
 
-    if @level.get('assessment') in ['open-ended', 'cumulative']
+    if @level.isSummative()
       @onInventoryModalPlayClicked()
       return
 

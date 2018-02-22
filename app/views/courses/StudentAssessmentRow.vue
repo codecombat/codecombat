@@ -2,9 +2,9 @@
   .row.level-row
     .col-xs-5
       div.level-type
-        span(v-if="assessment === 'open-ended' && assessmentPlacement === 'middle'")
+        span(v-if="isSummative && assessmentPlacement === 'middle'")
           | {{ $t('teacher.mid_course') }}
-        span(v-else-if="assessment === 'open-ended' && assessmentPlacement === 'end'")
+        span(v-else-if="isSummative")
           | {{ $t('teacher.end_course') }}
         span(v-else-if="primaryConcept")
           | {{ $t('concepts.' + primaryConcept) }}
@@ -32,7 +32,7 @@
           span.glyphicon.glyphicon-question-sign.not-started-symbol.text-gray
           =" "
           | {{ $t('teacher.not_started') }}
-      div.small(v-if="assessment === 'open-ended' && started")
+      div.small(v-if="isSummative && started")
         strong {{ $t('courses.concepts_used') }}
         =" "
         span(v-for="(concept, i) in codeConcepts || []")
@@ -86,6 +86,7 @@ module.exports = Vue.extend({
       return translation
       
     scoreIconUrl: -> "/images/pages/courses/star-#{@thresholdAchieved}.png"
+    isSummative: -> @assessment is 'open-ended' or @assessment is 'cumulative'
 }
 })
 </script>

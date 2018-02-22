@@ -311,5 +311,7 @@ module.exports = class Level extends CocoModel
         achieved = score >= thresholdValue
       if achieved
         return threshold
+        
+  isSummative: -> @get('assessment') in ['open-ended', 'cumulative']
 
 _.assign(Level, LevelLib)

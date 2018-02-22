@@ -550,7 +550,7 @@ mixin assessmentsTab
           thead
             th
             each level in levels
-              if (level.get('assessment') === 'open-ended' || level.get('assessment') === 'cumulative')
+              if level.isSummative()
                 if level.get('assessmentPlacement') === 'middle'
                   th(data-i18n="teacher.mid_course")
                 else

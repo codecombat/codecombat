@@ -68,7 +68,7 @@ block content
             span= level.get('name')
             span.spl(data-i18n="common.solution")
           if level.get('solution')
-            if (level.get('assessment') === 'open-ended' || level.get('assessment') === 'cumulative')
+            if level.isSummative()
               em(data-i18n="teacher.explain_open_ended")
             pre
               code= level.get('solution')
