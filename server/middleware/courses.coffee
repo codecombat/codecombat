@@ -80,7 +80,7 @@ module.exports =
       level = level.toObject({req: req})
       
     assessment = {}
-    if nextAssessmentOriginal and req.user.get('verifiedTeacher')
+    if nextAssessmentOriginal and req.user.hasPermission('assessments')
       dbq = Level.findOne({original: mongoose.Types.ObjectId(nextAssessmentOriginal)})
       dbq.sort({ 'version.major': -1, 'version.minor': -1 })
       dbq.select(parse.getProjectFromReq(req))

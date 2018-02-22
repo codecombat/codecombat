@@ -55,19 +55,20 @@ block content
 
     span.backlink
       a(href='/teachers/resources')
-        |&lt; Back to Resource Hub
+        span= '< '
+        span(data-i18n="teacher.back_to_resource_hub")
     if view.loadingData
       .comingsoon
         h4(style="text-align:center")
-          i Loading...
+          i(data-i18n="common.loading")
     else if view.content == ''
       .comingsoon
         h4(style="text-align:center")
-          i This guide doesn't exist!
+          i(data-i18n="loading_error.not_found")
     else
       .print
         .btn.btn-md.btn-navy
           a(href='javascript:window.print()')
             span.glyphicon.glyphicon-print &#160;
-            |Print this guide
-      div(class='lesson-plans' id=view.name)!=view.content
+            span(data-i18n="teacher.print_guide")
+      .lesson-plans.rtl-allowed(id=view.name, dir="auto")!=view.content

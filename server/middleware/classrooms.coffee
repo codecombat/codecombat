@@ -298,7 +298,7 @@ module.exports =
     database.assignBody(req, classroom)
 
     owner = req.user
-    yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false, includeAssessments: owner.isVerifiedTeacher()})
+    yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false, includeAssessments: owner.hasPermission('assessments')})
 
     # finish
     database.validateDoc(classroom)
@@ -321,7 +321,7 @@ module.exports =
     else
       owner = req.user
 
-    yield classroom.setUpdatedCourses({isAdmin: owner.isAdmin(), addNewCoursesOnly, includeAssessments: owner.isVerifiedTeacher()})
+    yield classroom.setUpdatedCourses({isAdmin: owner.isAdmin(), addNewCoursesOnly, includeAssessments: owner.hasPermission('assessments')})
 
     database.validateDoc(classroom)
     classroom = yield classroom.save()

@@ -2,31 +2,31 @@
 ## Frequently Asked Questions
 
 #### Table of Contents
-* [What is CodeCombat?](#what-is-codecombat-)
-* [What ages are appropriate for CodeCombat?](#what-ages-are-appropriate-for-codecombat-)
-* [What grades are appropriate for CodeCombat?](#what-grades-are-appropriate-for-codecombat-)
-* [What programing languages are available?](#what-programing-languages-are-available-)
-* [Can I use CodeCombat as the class’s main curriculum?](#can-i-use-codecombat-as-the-class-s-main-curriculum-)
-* [How much does it cost to access all of the available courses and resources?](#how-much-does-it-cost-to-access-all-of-the-available-courses-and-resources-)
-* [What does a license provide?](#what-does-a-license-provide-)
-* [Do you have any free courses for educators to try before they make their purchasing decision?](#do-you-have-any-free-courses-for-educators-to-try-before-they-make-their-purchasing-decision-)
-* [Can my students create an account if they have no email address?](#can-my-students-create-an-account-if-they-have-no-email-address-)
-* [Can I track my student’s progress?](#can-i-track-my-student-s-progress-)
-* [Does CodeCombat work on an iPad?](#does-codecombat-work-on-an-ipad-)
-* [Does CodeCombat support Clever Instant Logins?](#does-codecombat-support-clever-instant-logins-)
-* [Is there a recommended browser and operating system?](#is-there-a-recommended-browser-and-operating-system-)
-* [Students’ computer science backgrounds vary differently in my class, how does CodeCombat help me with that challenge?](#students-computer-science-backgrounds-vary-differently-in-my-class-how-does-codecombat-help-me-with-that-challenge-)
-* [What if I need licenses that only last a semester instead of a full year?](#what-if-i-need-licenses-that-only-last-a-semester-instead-of-a-full-year-)
-* [What is the Arena level at the end of a course?](#what-is-the-arena-level-at-the-end-of-a-course-)
-* [Does CodeCombat have projects that students can work on and share?](#does-codecombat-have-projects-that-students-can-work-on-and-share-)
-* [What do you offer in the Web Development and Game Development courses?](#what-do-you-offer-in-the-web-development-and-game-development-courses-)
-* [Can students skip earlier levels if they already understand the concepts?](#can-students-skip-earlier-levels-if-they-already-understand-the-concepts-)
-* [Does the teacher need to purchase a license if they want to work through the levels like their students?](#does-the-teacher-need-to-purchase-a-license-if-they-want-to-work-through-the-levels-like-their-students-)
-* [How do I get started with CodeCombat?](#how-do-i-get-started-with-codecombat-)
-* [Is there a limit to how many students I can add in Introduction to Computer Science?](#is-there-a-limit-to-how-many-students-i-can-add-in-introduction-to-computer-science-)
-* [How do I reset my student's password?](#how-do-i-reset-my-student-s-password-)
-* [How do I transfer a license from one student to another?](#how-do-i-transfer-a-license-from-one-student-to-another-)
-* [How do I share licenses to other teachers in my organization?](#how-do-i-share-licenses-to-other-teachers-in-my-organization-)
+* [What is CodeCombat?](#what-is-codecombat)
+* [What ages are appropriate for CodeCombat?](#what-ages-are-appropriate-for-codecombat)
+* [What grades are appropriate for CodeCombat?](#what-grades-are-appropriate-for-codecombat)
+* [What programing languages are available?](#what-programing-languages-are-available)
+* [Can I use CodeCombat as the class’s main curriculum?](#can-i-use-codecombat-as-the-class-s-main-curriculum)
+* [How much does it cost to access all of the available courses and resources?](#how-much-does-it-cost-to-access-all-of-the-available-courses-and-resources)
+* [What does a license provide?](#what-does-a-license-provide)
+* [Do you have any free courses for educators to try before they make their purchasing decision?](#do-you-have-any-free-courses-for-educators-to-try-before-they-make-their-purchasing-decision)
+* [Can my students create an account if they have no email address?](#can-my-students-create-an-account-if-they-have-no-email-address)
+* [Can I track my student’s progress?](#can-i-track-my-student-s-progress)
+* [Does CodeCombat work on an iPad?](#does-codecombat-work-on-an-ipad)
+* [Does CodeCombat support Clever Instant Logins?](#does-codecombat-support-clever-instant-logins)
+* [Is there a recommended browser and operating system?](#is-there-a-recommended-browser-and-operating-system)
+* [Students’ computer science backgrounds vary differently in my class, how does CodeCombat help me with that challenge?](#students-computer-science-backgrounds-vary-differently-in-my-class-how-does-codecombat-help-me-with-that-challenge)
+* [What if I need licenses that only last a semester instead of a full year?](#what-if-i-need-licenses-that-only-last-a-semester-instead-of-a-full-year)
+* [What is the Arena level at the end of a course?](#what-is-the-arena-level-at-the-end-of-a-course)
+* [Does CodeCombat have projects that students can work on and share?](#does-codecombat-have-projects-that-students-can-work-on-and-share)
+* [What do you offer in the Web Development and Game Development courses?](#what-do-you-offer-in-the-web-development-and-game-development-courses)
+* [Can students skip earlier levels if they already understand the concepts?](#can-students-skip-earlier-levels-if-they-already-understand-the-concepts)
+* [Does the teacher need to purchase a license if they want to work through the levels like their students?](#does-the-teacher-need-to-purchase-a-license-if-they-want-to-work-through-the-levels-like-their-students)
+* [How do I get started with CodeCombat?](#how-do-i-get-started-with-codecombat)
+* [Is there a limit to how many students I can add in Introduction to Computer Science?](#is-there-a-limit-to-how-many-students-i-can-add-in-introduction-to-computer-science)
+* [How do I reset my student's password?](#how-do-i-reset-my-student-s-password)
+* [How do I transfer a license from one student to another?](#how-do-i-transfer-a-license-from-one-student-to-another)
+* [How do I share licenses to other teachers in my organization?](#how-do-i-share-licenses-to-other-teachers-in-my-organization)
 
 
 ### What is CodeCombat?
@@ -144,6 +144,6 @@ If you have Full Licenses, you can share access to them with other teachers in y
 
 You can only add teachers in your organization that have already created a Teacher Account ([here's how](/teachers/resources/getting-started)). Once a teacher has been added to a shared license pool, they have the ability to use any of the licenses you've shared.
 
-When a license has been used, it is not available to be used by another teacher until that teacher revokes the license from the student (see [How to Transfer a License](#how-do-i-transfer-a-license-from-one-student-to-another-)).
+When a license has been used, it is not available to be used by another teacher until that teacher revokes the license from the student (see [How to Transfer a License](#how-do-i-transfer-a-license-from-one-student-to-another)).
 
 [Back to Top](#frequently-asked-questions)

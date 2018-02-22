@@ -93,6 +93,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     open_source: "Bcra fbhepr (TvgUho)"
     support: "Fhccbeg"
     faqs: "SNDf"
+    copyright_prefix: "Pbclevtug"
+    copyright_suffix: "Nyy Evtugf Erfreirq."
     help_pref: "Arrq uryc? Rznvy"
     help_suff: "naq jr'yy trg va gbhpu!"
     resource_hub: "Erfbhepr Uho"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     editor_config_behaviors_description: "Nhgbpbzcyrgrf oenpxrgf, oenprf, naq dhbgrf."
 
   about:
+    learn_more: "Yrnea Zber"
     main_title:"Vs lbh jnag gb yrnea gb cebtenz, lbh arrq gb jevgr (n ybg bs) pbqr."
     main_description: "Ng PbqrPbzong, bhe wbo vf gb znxr fher lbh'er qbvat gung jvgu n fzvyr ba lbhe snpr."
     mission_link: "Zvffvba"
@@ -919,7 +922,7 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     josh_title: "Tnzr Qrfvtare"
     josh_blurb: "Sybbe Vf Ynin"
     nolan_title: "Greevgbel Znantre"
-    lisa_title: "Ohfvarff Qrirybczrag Znantre" # {punatr}
+    lisa_title: "Ohfvarff Qrirybczrag Znantre"
     lisa_blurb: "N tevggl bar"
     sean_title: "Greevgbel Znantre"
     liz_title: "Greevgbel Znantre"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     teacher_getting_started_desc: "Arj gb PbqrPbzong? Qbjaybnq guvf Grnpure Trggvat Fgnegrq Thvqr gb frg hc lbhe nppbhag, perngr lbhe svefg pynff, naq vaivgr fghqragf gb gur svefg pbhefr."
     student_getting_started: "Fghqrag Dhvpx Fgneg Thvqr"
     student_getting_started_desc: "Lbh pna qvfgevohgr guvf thvqr gb lbhe fghqragf orsber fgnegvat PbqrPbzong fb gung gurl pna snzvyvnevmr gurzfryirf jvgu gur pbqr rqvgbe. Guvf thvqr pna or hfrq sbe obgu Clguba naq WninFpevcg pynffebbzf."
+    ap_cs_principles: "NC Pbzchgre Fpvrapr Cevapvcyrf"
+    ap_cs_principles_desc: "NC Pbzchgre Fpvrapr Cevapvcyrf tvirf fghqragf n oebnq vagebqhpgvba gb gur cbjre, vzcnpg, naq cbffvovyvgvrf bs Pbzchgre Fpvrapr. Gur pbhefr rzcunfvmrf pbzchgngvbany guvaxvat naq ceboyrz fbyivat juvyr nyfb grnpuvat gur onfvpf bs cebtenzzvat."
     cs1: "Vagebqhpgvba gb Pbzchgre Fpvrapr"
     cs2: "Pbzchgre Fpvrapr 2"
     cs3: "Pbzchgre Fpvrapr 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "rot13", englishDescription: "English with t
     explain_open_ended: "Abgr: Fghqragf ner rapbhentrq gb fbyir guvf yriry perngviryl — bar cbffvoyr fbyhgvba vf cebivqrq orybj."
     level_label: "Yriry:"
     time_played_label: "Gvzr Cynlrq:"
+    back_to_resource_hub: "Onpx gb Erfbhepr Uho"
+    print_guide: "Cevag guvf thvqr"
 
   share_licenses:
     share_licenses: "Funer Yvprafrf"

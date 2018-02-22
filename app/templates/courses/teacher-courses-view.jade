@@ -59,7 +59,7 @@ block content
                       - var campaign = view.campaigns.get(course.get('campaignID'))
                       if campaign
                         each level, levelIndex in campaign.getLevels().models
-                          if level.get('assessment') && !me.get('verifiedTeacher')
+                          if level.get('assessment') && !me.hasAssessments()
                             - continue
                           - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
                           option(value=level.get('slug'))
