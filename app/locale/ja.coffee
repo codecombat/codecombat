@@ -93,6 +93,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     open_source: "オープンソース(GitHub)"
     support: "サポート"
     faqs: "FAQ"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "ヘルプが必要ですか? Email"
     help_suff: "をくれれば協力します！"
     resource_hub: "Resource Hub"
@@ -134,11 +136,10 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     next: "次へ" # Go from choose hero to choose inventory before playing a level
     change_hero: "ヒーローの選択" # Go back from choose inventory to choose hero
     buy_gems: "ジェムを購入"
-    subscription_required: "サブスクリプション必須"
     subscribers_only: "サブスクリプション限定!"
     subscribe_unlock: "サブスクリプションで解放!"
-    # subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
-    # subscriber_gems: "Subscribe today to purchase this hero with gems!"
+#    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
+#    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "名無しのプレイヤー"
     level_difficulty: "難易度: "
     awaiting_levels_adventurer_prefix: "私たちは毎週新しいレベルをリリースします"
@@ -316,7 +317,6 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   common:
     back: "戻る" # When used as an action verb, like "Navigate backward"
-    go_back: "戻る"
     coming_soon: "近日公開!"
     continue: "続ける" # When used as an action verb, like "Continue forward"
     next: "次へ"
@@ -614,7 +614,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 
   play_game_dev_level:
     created_by: "作成者：{{name}}"
-  #  created_during_hoc: "Created during Hour of Code"
+#    created_during_hoc: "Created during Hour of Code"
     restart: "レベルをリセット"
     play: "プレイレベル"
     play_more_codecombat: "もっとCodeCombatで遊ぶ"
@@ -892,6 +892,7 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
     editor_config_behaviors_description: "カッコ、中括弧、および引用符をオートコンプリートする。"
 
   about:
+#    learn_more: "Learn More"
     main_title: "もしプログラムを学びたいなら、（たくさん）コードを書きましょう。"
     main_description: "CodeCombatでの私たちの仕事はあなたが笑顔でプレイするのを確かめることです。"
     mission_link: "ミッション"
@@ -1577,6 +1578,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
 #    cs2: "Computer Science 2"
 #    cs3: "Computer Science 3"
@@ -1730,6 +1733,8 @@ module.exports = nativeDescription: "日本語", englishDescription: "Japanese",
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

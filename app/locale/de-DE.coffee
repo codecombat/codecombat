@@ -93,6 +93,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     open_source: "Open source (GitHub)"
     support: "Support"
     faqs: "FAQs"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Noch Fragen? Sende eine E-Mail an"
     help_suff: "und wir melden uns!"
     resource_hub: "Resource Hub"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     editor_config_behaviors_description: "Vervollständigt automatisch Klammern und Anführungszeichen."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Wenn du das Programmieren erlernen willst, musst du (viel) Code schreiben."
     main_description: "Bei CodeCombat ist es unser Job, dass du das mit einem Lächeln im Gesicht tust."
     mission_link: "Mission"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
     teacher_getting_started_desc: "Neu bei CodeCombat? Lade dir unsere Erste Schritte-Anleitung für Lehrer runter, um dein Konto einzurichten, deine erste Klasse zu erstellen, und deine Schüler zum ersten Kurs einzuladen."
     student_getting_started: "Schnellstart-Anleitung für Schüler"
     student_getting_started_desc: "Diese Anleitung kannst du an deine Schüler verteilen, bevor ihr mit CodeCombat anfangt, damit sie sich mit dem Code-Editor vertraut machen können. Diese Anleitung kann sowohl für Python- als auch für JavaScript-Klassenzimmer benutzt werden."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Einführung in die Informatik"
     cs2: "Informatik 2"
     cs3: "Informatik 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "Deutsch (Deutschland)", englishDescription:
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
   share_licenses:
     share_licenses: "Gemeinsam genutzte Lizenzen"

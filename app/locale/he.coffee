@@ -892,6 +892,7 @@ module.exports = nativeDescription: "עברית", englishDescription: "Hebrew", 
     editor_config_behaviors_description: "משלים באופן אוטומטי סוגריים מרובים, סוגריים מסולסלים ומירכאות."
 
   about:
+#    learn_more: "Learn More"
     main_title: "אם אתם רוצים ללמוד איך לתכנת, עליכם לכתוב (הרבה) קוד."
     main_description: "המשימה שלנו ב-CodeCombat היא לוודא שאתם עושים זאת עם חיוך על הפנים."
     mission_link: "המשימה"

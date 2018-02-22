@@ -93,6 +93,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     open_source: "Open source (GitHub)"
     support: "Wsparcie"
     faqs: "FAQs"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Potrzebujesz pomocy? Wyślij email"
     help_suff: "a my się odezwiemy!"
     resource_hub: "Baza Wiedzy"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     editor_config_behaviors_description: "Autouzupełnianie nawiasów, klamer i cudzysłowów."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Jeśli chcesz nauczyć się programować, musisz napisać (mnóstwo) kodu."
     main_description: "Naszym zadaniem jest dopilnowanie, żebyś robił to z uśmiechem na twarzy."
     mission_link: "Misja"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
     teacher_getting_started_desc: "Nowy w CodeCombat? Pobierz ten `Przewodnik dla nauczyciela`. Z jego pomocą założysz konto, stworzysz swoją pierwszą klasę, oraz zaprosisz swoich uczniów do udziału w kursach."
     student_getting_started: "Przewodnik dla ucznia"
     student_getting_started_desc: "Możesz rozdać ten przewodnik uczniom zanim zaczną naukę w CodeCombat, aby mogli zapoznać się z edytorem kodu. Przewodnik ten może znaleźć zastosowanie zarówno dla języka Python, jak i JavaScript."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Wprowadzenie do informatyki"
     cs2: "Informatyka 2"
     cs3: "Informatyka 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "polski", englishDescription: "Polish", tran
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
