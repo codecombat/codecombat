@@ -389,7 +389,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessio
     yield utils.clearModels [User, Classroom, Course, Level, Campaign]
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
-    @teacher = yield utils.initUser({role: 'teacher', verifiedTeacher: true})
+    @teacher = yield utils.initUser({role: 'teacher', permissions: ['assessments']})
 
     levelJSON = { name: 'A', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
