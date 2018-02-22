@@ -919,7 +919,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
     josh_title: "遊戲設計師"
     josh_blurb: "地面是熔岩"
     nolan_title: "區域經理"
-    lisa_title: "校園專家"
+    lisa_title: "校園專家" # {change}
     lisa_blurb: "堅毅不拔的人"
     sean_title: "區域經理"
     liz_title: "區域經理"
@@ -1436,6 +1436,7 @@ module.exports = nativeDescription: "繁體中文", englishDescription: "Chinese
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "課程解答"
     level_overview_solutions: "關卡總覽及解答"
     no_student_assigned: "還沒有任何學生被分到這個課程中。"

@@ -1436,6 +1436,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
 #    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "关卡解法"
     level_overview_solutions: "关卡概览和解法"
     no_student_assigned: "没有学生被分配到这个课程。"
