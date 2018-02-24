@@ -27,6 +27,8 @@ const daysToCheck = 7;  // Warn about completion problems arising in the past N 
 //const daysBeforeRepeating = 7;  // Don't warn about this level if we would have warned in the past week
 const daysBeforeRepeating = 0;  // First run
 const maxProblemLevelsPerDay = 5;
+const minPlayersPerRelativeProblem = 50;
+const minPlayersPerAbsoluteProblem = 25;
 
 const endDay = new Date(new Date().toISOString().substring(0, 10) + 'T00:00:00.000Z');
 const endDayStr = endDay.toISOString().substring(0, 10)
@@ -38,6 +40,7 @@ debug(`Measuring days ${startDayStr} to ${endDayStr}; looking at last ${daysToCh
 // TODO: cron this up
 
 let prodDb, levelSessionsDb;
+const statsByLevel = {};
 
 co(function*() {
   prodDb = yield MongoClient.connect(mongoConnUrl, {connectTimeoutMS: 1000 * 60 * 60, socketTimeoutMS: 1000 * 60 * 60});
@@ -77,7 +80,6 @@ co(function*() {
   }
   debug(`... fetched ${levels.length} levels, kept ${Object.keys(levelsBySlug).length}`);
 
-  const statsByLevel = {};
   const datesByIndex = [];
   const currentDay = startDay;
   const allProblemsByDay = [];
@@ -87,10 +89,10 @@ co(function*() {
       const level = levelsBySlug[levelID];
       if (!level) continue;
       if (!statsByLevel[levelID]) statsByLevel[levelID] = {home: {javascript: [], python: []}, classroom: {javascript: [], python: []}};
-      statsByLevel[levelID].home.javascript.push(statsPlaceholder(currentDay));
-      statsByLevel[levelID].home.python.push(statsPlaceholder(currentDay));
-      statsByLevel[levelID].classroom.javascript.push(statsPlaceholder(currentDay));
       statsByLevel[levelID].classroom.python.push(statsPlaceholder(currentDay));
+      statsByLevel[levelID].classroom.javascript.push(statsPlaceholder(currentDay));
+      statsByLevel[levelID].home.python.push(statsPlaceholder(currentDay));
+      statsByLevel[levelID].home.javascript.push(statsPlaceholder(currentDay));
     }
     datesByIndex.push(new Date(currentDay));
     currentDay.setUTCDate(currentDay.getUTCDate() + 1);
@@ -181,61 +183,88 @@ co(function*() {
   prodDb.close();
   levelSessionsDb.close();
   debug(`Script runtime: ${Math.round((new Date() - scriptStartTime) / 1000)}s`);
-}).then(function (value) {
-  
-}, function (err) {
+}).then(function (value) {}, function (err) {
   console.error(err.stack);
   prodDb.close();
   levelSessionsDb.close();
   process.exit()
 });
 
+// TODOs
+// Hook up cron to run every weekday
+// Tweak severity thresholds
+// Add warnings about levels where players leave the game
+// Link to level editor / analytics for problem levels
+// Check for single-day drops as well as weekly drops
+// Look for low playtime levels, too (default code wins)
+// Add completion/playtime recoveries as well as drops
+// Slack post for each level to make threading easier
+
+
 // Detect absolute problems with poorly performing levels
 const levelThresholdsByType = {
-  'hero': {completion: 0.9, playtime: 300, leftGame: 0.1},
-  'course': {completion: 0.9, playtime: 300, leftGame: 0.1},
-  'hero-ladder': {completion: 0.85, playtime: 450, leftGame: 0.1},
-  'course-ladder': {completion: 0.8, playtime: 600, leftGame: 0.1},
-  'game-dev': {completion: 0.9, playtime: 300, leftGame: 0.1},
-  'web-dev': {completion: 0.9, playtime: 300, leftGame: 0.1},
+  'hero': {completion: 0.9, playtime: 300, playtimeMin: 60, leftGame: 0.1},
+  'course': {completion: 0.9, playtime: 300, playtimeMin: 60, leftGame: 0.1},
+  'hero-ladder': {completion: 0.85, playtime: 450, playtimeMin: 120, leftGame: 0.1},
+  'course-ladder': {completion: 0.8, playtime: 600, playtimeMin: 120, leftGame: 0.1},
+  'game-dev': {completion: 0.9, playtime: 300, playtimeMin: 30, leftGame: 0.1},
+  'web-dev': {completion: 0.9, playtime: 300, playtimeMin: 30, leftGame: 0.1},
 }
 
 function calculateProblems(level, product, codeLanguage, old, now) {
   const problems = [];
-  if (now.aggregateStarted < 30 || old.aggregateStarted < 30) return problems;
+  if (now.aggregateStarted < minPlayersPerAbsoluteProblem || old.aggregateStarted < minPlayersPerAbsoluteProblem) return problems;
 
   // Detect relative problems compared to last time window
   const nowCompletion = now.aggregateCompleted / now.aggregateStarted;
   const oldCompletion = old.aggregateCompleted / old.aggregateStarted;
   const nowFailureRate = 1 - nowCompletion;
   const oldFailureRate = 1 - oldCompletion;
-  let severity, message;
-  if (nowFailureRate > oldFailureRate * 1.25) {
-    severity = (nowFailureRate - oldFailureRate) * Math.log(now.aggregateStarted);
-    message = `${(nowCompletion * 100).toFixed(1)}% completion (was ${(oldCompletion * 100).toFixed(1)}%)`;
-    problems.push({level, product, codeLanguage, old, now, severity, message, type: 'completion rate drop'});
-  }
-
   const nowPlaytime = now.aggregatePlaytime / now.aggregateStarted;
   const oldPlaytime = old.aggregatePlaytime / old.aggregateStarted;
-  if (nowPlaytime > oldPlaytime * 1.25) {
-    severity = (nowPlaytime / oldPlaytime) * Math.log(now.aggregateStarted);
-    message = `${nowPlaytime.toFixed(0)}s completion time (was ${oldPlaytime.toFixed(0)}s)`;
-    problems.push({level, product, codeLanguage, old, now, severity, message, type: 'completion time increase'});
-  }
-
   const nowLeftGame = now.aggregateLeftGame / now.aggregateStarted;
   const oldLeftGame = old.aggregateLeftGame / old.aggregateStarted;
-  if (nowLeftGame > oldLeftGame * 1.25) {
-    severity = (nowLeftGame / oldLeftGame) * Math.log(now.aggregateStarted);
-    message = `${(nowLeftGame * 100).toFixed(1)}% left game (was ${(oldLeftGame * 100).toFixed(1)}%)`;
-    problems.push({level, product, codeLanguage, old, now, severity, message, type: 'left game rate increase'});
+  let severity, message;
+  if (now.aggregateStarted >= minPlayersPerRelativeProblem && old.aggregateStarted >= minPlayersPerRelativeProblem) {
+    if (nowFailureRate > oldFailureRate * 1.25) {
+      severity = ((nowFailureRate - oldFailureRate) / Math.max(0.03, oldFailureRate)) * Math.log(now.aggregateStarted);
+      message = `${(nowCompletion * 100).toFixed(1)}% completion (was ${(oldCompletion * 100).toFixed(1)}%)`;
+      problems.push({level, product, codeLanguage, old, now, severity, message, type: 'completion rate drop'});
+    }
+    if (nowFailureRate < oldFailureRate / 1.25) {
+      severity = ((nowFailureRate - oldFailureRate) / Math.max(0.03, oldFailureRate)) * Math.log(now.aggregateStarted);
+      message = `${(nowCompletion * 100).toFixed(1)}% completion (was ${(oldCompletion * 100).toFixed(1)}%)`;
+      problems.push({level, product, codeLanguage, old, now, severity, message, type: 'completion rate increase'});
+    }
+
+    if (nowPlaytime > oldPlaytime * 1.25) {
+      severity = ((nowPlaytime - oldPlaytime) / oldPlaytime) * Math.log(now.aggregateStarted);
+      message = `${nowPlaytime.toFixed(0)}s completion time (was ${oldPlaytime.toFixed(0)}s)`;
+      problems.push({level, product, codeLanguage, old, now, severity, message, type: 'completion time increase'});
+    }
+    if (nowPlaytime < oldPlaytime / 1.25) {
+      severity = ((nowPlaytime - oldPlaytime) / oldPlaytime) * Math.log(now.aggregateStarted);
+      message = `${nowPlaytime.toFixed(0)}s completion time (was ${oldPlaytime.toFixed(0)}s)`;
+      problems.push({level, product, codeLanguage, old, now, severity, message, type: 'completion time decrease'});
+    }
+
+    if (nowLeftGame > oldLeftGame * 1.25) {
+      severity = ((nowLeftGame - oldLeftGame) / Math.max(0.01, oldLeftGame)) * Math.log(now.aggregateStarted);
+      message = `${(nowLeftGame * 100).toFixed(1)}% left game (was ${(oldLeftGame * 100).toFixed(1)}%)`;
+      problems.push({level, product, codeLanguage, old, now, severity, message, type: 'left game rate increase'});
+    }
+    if (nowLeftGame < oldLeftGame / 1.25) {
+      severity = ((nowLeftGame - oldLeftGame) / Math.max(0.01, oldLeftGame)) * Math.log(now.aggregateStarted);
+      message = `${(nowLeftGame * 100).toFixed(1)}% left game (was ${(oldLeftGame * 100).toFixed(1)}%)`;
+      problems.push({level, product, codeLanguage, old, now, severity, message, type: 'left game rate decrease'});
+    }
   }
 
   // Detect absolute poor performance problems  
   const thresholds = levelThresholdsByType[level.type] || levelThresholdsByType.hero;
   let completionThreshold = thresholds.completion;
   let playtimeThreshold = thresholds.playtime;
+  let playtimeThresholdMin = thresholds.playtimeMin;
   let leftGameThreshold = thresholds.leftGame;
   if (level.practice) {
     completionThreshold *= 0.8;
@@ -264,19 +293,26 @@ function calculateProblems(level, product, codeLanguage, old, now) {
   }
 
   if (nowCompletion < completionThreshold) {
-    severity = (nowFailureRate / (1 - completionThreshold)) * Math.log(now.aggregateStarted);
+    const failureThreshold = (1 - completionThreshold)
+    severity = ((nowFailureRate - failureThreshold) / failureThreshold) * Math.log(now.aggregateStarted);
     message = `${(nowCompletion * 100).toFixed(1)}% completion (threshold: ${(completionThreshold * 100).toFixed(1)}%)`;
     problems.push({level, product, codeLanguage, old, now, severity, message, type: 'low completion rate'});
   }
 
   if (nowPlaytime > playtimeThreshold) {
-    severity = (nowPlaytime / playtimeThreshold) * Math.log(now.aggregateStarted);
+    severity = ((nowPlaytime - playtimeThreshold) / playtimeThreshold) * Math.log(now.aggregateStarted);
     message = `${nowPlaytime.toFixed(0)}s completion time (threshold ${playtimeThreshold.toFixed(0)}s)`;
     problems.push({level, product, codeLanguage, old, now, severity, message, type: 'high playtime'});
   }
 
+  if (nowPlaytime < playtimeThresholdMin) {
+    severity = ((playtimeThresholdMin - nowPlaytime) / playtimeThresholdMin) * Math.log(now.aggregateStarted);
+    message = `${nowPlaytime.toFixed(0)}s completion time (threshold ${playtimeThresholdMin.toFixed(0)}s)`;
+    problems.push({level, product, codeLanguage, old, now, severity, message, type: 'low playtime'});
+  }
+
   if (nowLeftGame > leftGameThreshold) {
-    severity = (nowLeftGame / leftGameThreshold) * Math.log(now.aggregateStarted);
+    severity = ((nowLeftGame - leftGameThreshold) / leftGameThreshold) * Math.log(now.aggregateStarted);
     message = `${(nowLeftGame * 100).toFixed(1)}% left game (threshold ${(leftGameThreshold * 100).toFixed(1)}%)`;
     problems.push({level, product, codeLanguage, old, now, severity, message, type: 'high left game rate'});
   }
@@ -307,23 +343,52 @@ function filterTopProblems(problems, previouslyWarnedTopProblemsByDay) {
     topProblems = topProblems.concat(thisLevelProblems);
     if (++problemLevelsCount == maxProblemLevelsPerDay) break;
   }
+  let recoveryLevelsCount = 0;
+  problems.sort((a, b) => a.severity - b.severity);
+  for (const problem of problems) {
+    if (previouslyWarnedTopProblemsByLevel[problem.level.slug]) continue;
+    if (topProblems.filter(p => p.level.slug == problem.level.slug).length) continue;  // Already did this level
+    if (problem.severity > -0.1) continue;  // Not a good thing to call out
+    const thisLevelProblems = problems.filter(p => p.level.slug == problem.level.slug && p.severity <= -0.1);
+    topProblems = topProblems.concat(thisLevelProblems);
+    if (++recoveryLevelsCount == maxProblemLevelsPerDay) break;
+  }
   return topProblems;
 }
 
 function logProblems(problems) {
-  const logLines = []
-  logLines.push(`New problems for today (${new Date().toISOString().substring(0, 10)}):`);
   const problemsByLevel = _.groupBy(problems, (problem) => problem.level.slug);
   for (const levelID in problemsByLevel) {
     const problems = problemsByLevel[levelID];
     problems.sort((a, b) => b.severity - a.severity);
-    logLines.push(`\t${levelID}, with ${problems[0].now.aggregateStarted} players in the past ${daysToCheck} days (${problems[0].old.aggregateStarted} in previous window):`);
+    let logLines = describeLevel(problems[0].level);
     for (const problem of problems) {
-      logLines.push(`\t  ${_.str.lpad(problem.severity.toFixed(1), 8)}  ${_.str.rpad(problem.product, 9)}  ${_.str.rpad(problem.codeLanguage, 10)}  ${_.str.rpad(problem.type, 20)}  ${problem.message}`);
+      if ((problem.severity > 0 && problem.severity >= 0.1 * problems[0].severity) || (problem.severity < 0 && problems[0].severity < 0))
+        logLines.push(`\t${problem.now.day}  ${_.str.lpad(problem.severity.toFixed(1), 8)} ${_.str.lpad(problem.now.aggregateStarted, 5)}  ${_.str.rpad(problem.product, 9)}  ${_.str.rpad(problem.codeLanguage, 10)}  ${_.str.rpad(problem.type, 20)}  ${problem.message}`);
+    }
+    console.log(logLines.join('\n'));
+    slack.sendSlackMessage(`\`\`\`${logLines.join('\n')}\n\`\`\``, ['#game'], {markdown: true})
+  }
+}
+
+function describeLevel(level) {
+  const thisLevelStats = statsByLevel[level.slug];
+  const logLines = [];
+  let nowPlayers = 0, oldPlayers = 0;
+  for (const product in thisLevelStats) {
+    for (const codeLanguage in thisLevelStats[product]) {
+      const statsByDay = thisLevelStats[product][codeLanguage];
+      const stats = _.last(statsByDay);
+      if (stats.aggregateStarted >= minPlayersPerAbsoluteProblem)
+        logLines.push(`${_.str.lpad(stats.aggregateStarted, 5)} ${_.str.rpad(product, 9)} ${_.str.rpad(codeLanguage, 10)} players with ${_.str.lpad(((stats.aggregateCompleted / stats.aggregateStarted) * 100).toFixed(1), 5)}% completion, ${_.str.lpad((stats.aggregatePlaytime / stats.aggregateStarted).toFixed(0), 4)}s playtime, ${_.str.lpad(((stats.aggregateLeftGame / stats.aggregateStarted) * 100).toFixed(1), 5)}% left game`);
+      nowPlayers += stats.aggregateStarted;
+      oldPlayers += statsByDay[statsByDay.length - 1 - daysToCheck].aggregateStarted;
     }
   }
-  debug(logLines.join('\n'));
-  slack.sendSlackMessage(`\`\`\`${logLines.join('\n')}\n\`\`\``, ['#game'], {markdown: true})
+  logLines.sort()
+  const todayStr = new Date().toISOString().substring(0, 10);
+  logLines.unshift(`${todayStr} ${level.slug}, with ${nowPlayers} players in the past ${daysToCheck} days (${oldPlayers} in previous window) - https://direct.codecombat.com/editor/level/${level.slug}`);
+  return logLines;
 }
 
 // * Helper functions

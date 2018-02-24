@@ -91,8 +91,10 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    schools: "Schools"
 #    get_involved: "Get Involved"
     open_source: "오픈 소스 (GitHub)"
-#    support: "지원"
+#    support: "Support"
     faqs: "자주묻는질문"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "도움이 필요하신가요? 이메일을 보내주세요."
     help_suff: "저희가 도와드리겠습니다."
 #    resource_hub: "Resource Hub"
@@ -134,7 +136,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     next: "다음" # Go from choose hero to choose inventory before playing a level
     change_hero: "영웅 교체" # Go back from choose inventory to choose hero
     buy_gems: "젬 구매"
-    subscription_required: "가입 필수"
     subscribers_only: "가입을 해야 합니다."
     subscribe_unlock: "해제하려면 가입을 해 주세요."
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
@@ -346,7 +347,6 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     submit_changes: "변경사항 제출"
     save_changes: "변경사항 저장"
     required_field: "필수"
-#    valid_phone: "Enter a valid phone number."
 
   general:
     and: "그리고"
@@ -892,6 +892,7 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
     editor_config_behaviors_description: "괄호, 인용부호, 따옴표 자동 완성."
 
   about:
+#    learn_more: "Learn More"
     main_title: "프로그래밍을 배우고 싶다면 많은 코드를 작성해 보아야 합니다."
     main_description: "CodeCombat에서 우리의 임무는 당신이 미소를 짓고 있는지 확인하는 것입니다."
     mission_link: "미션"
@@ -1577,6 +1578,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
 #    cs2: "Computer Science 2"
 #    cs3: "Computer Science 3"
@@ -1730,6 +1733,8 @@ module.exports = nativeDescription: "한국어", englishDescription: "Korean", t
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

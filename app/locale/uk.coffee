@@ -93,6 +93,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     open_source: "Відкритий код (GitHub)"
     support: "Підтримка"
     faqs: "Часті Питання"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Потрібна допомога? Надішліть Email"
     help_suff: "і ми будемо на зв'язку!"
     resource_hub: "Ресурси"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     editor_config_behaviors_description: "Автоматичне закриття дужок та лапок."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Якщо ви хочете навчитися програмувати, вам потрібно писати код (багато коду)."
     main_description: "Тут, на CodeCombat, наше завдання - переконатися, що ви це робитимете з усмішкою на обличчі."
     mission_link: "Місія"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
     teacher_getting_started_desc: "Новачок в CodeCombat? Завантажте цей путівник, щоб налаштувати ваш акаунт, створити перший клас та запросити учнів на перший курс."
     student_getting_started: "Короткий путівник для учня"
     student_getting_started_desc: "Ви можете поширити цей путівник серед ваших учнів перед початком роботи з CodeCombat, щоб учні могли ознайомитись з редактором коду. Цей путівник можна використовувати і для Python, і для JavaScript."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "Вступ до комп'ютерних наук"
     cs2: "Комп'ютерні науки 2"
     cs3: "Комп'ютерні науки 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "Українська", englishDescription: 
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

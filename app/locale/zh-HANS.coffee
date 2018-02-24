@@ -93,6 +93,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     open_source: "开放的源码 (GitHub)"
     support: "支持"
     faqs: "常见问题"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "需要帮助？请发邮件至："
     help_suff: " 我们会很快与您联系！"
     resource_hub: "资源中心"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 
   about:
+#    learn_more: "Learn More"
     main_title: "如果你想学习编程，你需要写（一大堆）代码。"
     main_description: "在CodeCombat里，我们的职责就是让你面带微笑完成这项任务。"
     mission_link: "任务"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_getting_started_desc: "第一次使用 CodeCombat ？下载此老师入门指南开始设置您的账号，创建第一个课堂并邀请学生参加第一门课程。"
     student_getting_started: "学生快速入门指南"
     student_getting_started_desc: "您可以在讲解 CodeCombat 之前先将此入门指南发布给学生，以便他们熟悉代码编辑器。本指南可用于 Python 和 JavaScript 语言教室。"
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "计算机科学的介绍"
     cs2: "计算机科学 2"
     cs3: "计算机科学 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
   share_licenses:
     share_licenses: "分享许可证"

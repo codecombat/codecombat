@@ -93,6 +93,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     open_source: "Open source (GitHub)"
     support: "Support"
     faqs: "FAQs"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Brug for hjælp? E-mail"
     help_suff: "så vi kommer i kontakt!"
 #    resource_hub: "Resource Hub"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     editor_config_behaviors_description: "Autocomplete af parenteser og anførelsestegn."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Hvis du vil lære at programmere, skal du skrive (en masse) kode."
     main_description: "Hos CodeCombat er vores opgave at sikre, at du gør det med et smil på læben."
     mission_link: "Mission"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
 #    cs2: "Computer Science 2"
 #    cs3: "Computer Science 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
 #    level_label: "Level:"
 #    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"

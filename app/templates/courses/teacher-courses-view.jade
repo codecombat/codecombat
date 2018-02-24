@@ -57,20 +57,16 @@ block content
                   select.level-select.form-control
                     if view.campaigns.loaded
                       - var campaign = view.campaigns.get(course.get('campaignID'))
-                      if campaign
+                      if campaign && view.campaignLevelNumberMap[campaign.id]
                         each level, levelIndex in campaign.getLevels().models
-                          if level.get('assessment') && !me.get('verifiedTeacher')
+                          if level.get('assessment') && !me.hasAssessments()
                             - continue
-                          - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
                           option(value=level.get('slug'))
                             if level.get('assessment')
-                              =$.t('courses.challenge') + ' '
+                              =$.t('courses.challenge')
                             else
-                              span
-                                = levelNumber
-                              span.spr
-                                | .
-                              = " "
+                              span #{view.campaignLevelNumberMap[campaign.id][level.get('original')]}.
+                            = " "
                             span
                               = i18n(level.attributes, 'name').replace('Course: ', '')
               a.play-level-button.btn.btn-lg.btn-primary

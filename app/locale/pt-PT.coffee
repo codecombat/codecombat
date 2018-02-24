@@ -93,6 +93,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     open_source: "Open source (GitHub)"
     support: "Suporte"
     faqs: "FAQs"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Precisas de ajuda? Envia um e-mail para"
     help_suff: "e nós entraremos em contacto!"
     resource_hub: "Centro de Recursos"
@@ -890,6 +892,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     editor_config_behaviors_description: "Auto-completar parênteses, chavetas e aspas."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Se queres aprender a programar, precisas de escrever (muito) código."
     main_description: "No CodeCombat, o nosso trabalho é certificarmo-nos de que estás a fazer isso com um sorriso na cara."
     mission_link: "Missão"
@@ -1575,6 +1578,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
 #    cs2: "Computer Science 2"
 #    cs3: "Computer Science 3"
@@ -1728,6 +1733,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
     level_label: "Nível:"
     time_played_label: "Tempo Jogado:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
   share_licenses:
     share_licenses: "Partilhar Licenças"

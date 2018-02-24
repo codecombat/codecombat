@@ -9,25 +9,38 @@ aceUtils = require 'core/aceUtils'
 module.exports = class MarkdownResourceView extends RootView
   id: 'markdown-resource-view'
   template: require 'templates/teachers/markdown-resource-view'
-  
+
   initialize: (options, @name) ->
     super(options)
     @content = ''
     @loadingData = true
     $.get '/markdown/' + @name + '.md', (data) =>
-      if data.indexOf('<!doctype html>') is -1
+      unless /<!doctype html>/i.test(data)
+        renderer = new marked.Renderer()
+        linkIDs = new Set
+        renderer.heading = (text, level) ->
+          if level isnt 3
+            return "<h#{level}>#{text}</h#{level}>"
+          linkID = _.string.slugify text
+          if not linkID.replace(/(codecombat|-)/g, '') or linkIDs.has linkID
+            linkID = 'header-' + linkIDs.size
+          linkIDs.add linkID
+          return "<h#{level}><a name='#{linkID}' id='#{linkID}' href='\##{linkID}''><span class='header-link'></span></a>#{text}</h#{level}>"
+
         i = 0
-        @content = marked(data, sanitize: false).replace /<\/h5/g, () ->
+        @content = marked(data, {sanitize: false, renderer}).replace /<\/h5/g, () ->
           if i++ == 0
             '</h5'
           else
-            '<a class="pull-right btn btn-md btn-navy back-to-top" href="#logo-img">Back to top</a></h5'
+            align = if me.get('preferredLanguage') in ['he', 'ar', 'fa', 'ur'] then 'left' else 'right'
+            buttonText = $.i18n.t 'teacher.back_to_top'
+            "<a class='pull-#{align} btn btn-md btn-navy back-to-top' href='#logo-img'>#{buttonText}</a></h5"
 
       if @name is 'cs1'
         $('body').append($("<img src='https://code.org/api/hour/begin_code_combat_teacher.png' style='visibility: hidden;'>"))
       @loadingData = false
       @render()
-  
+
 
   afterRender: ->
     super()
