@@ -22,7 +22,7 @@ classroomsURL = getURL('/db/classroom')
 describe 'GET /db/classroom?ownerID=:id', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     @user1 = yield utils.initUser()
     yield utils.loginUser(@user1)
     @classroom1 = yield new Classroom({name: 'Classroom 1', ownerID: @user1.get('_id') }).save()
@@ -72,27 +72,72 @@ describe 'GET /db/classroom?memberID=:id', ->
     [res, body] =  yield request.getAsync { url, json: true }
     expect(res.statusCode).toBe(403)
     
-describe 'GET /db/classroom/:id', ->
-  it 'clears database users and classrooms', (done) ->
-    clearModels [User, Classroom, Course, Campaign], (err) ->
-      throw err if err
-      done()
+    
+describe 'GET /db/classroom?code=code', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom1 = yield utils.makeClassroom()
+    @classroom2 = yield utils.makeClassroom()
 
-  it 'returns the classroom for the given id', (done) ->
-    loginNewUser (user1) ->
-      user1.set('role', 'teacher')
-      user1.save (err) ->
-        data = { name: 'Classroom 1' }
-        request.post {uri: classroomsURL, json: data }, (err, res, body) ->
-          expect(res.statusCode).toBe(201)
-          classroomID = body._id
-          request.get {uri: classroomsURL + '/'  + body._id }, (err, res, body) ->
-            expect(res.statusCode).toBe(200)
-            expect(body._id).toBe(classroomID = body._id)
-            done()
+  it 'returns the classroom for the given code and some user info', utils.wrap ->
+    url = getURL('/db/classroom?code='+@classroom1.get('code'))
+    [res] =  yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.data._id).toBe(@classroom1.id)
+    expect(res.body.owner._id).toBe(@teacher.id)
+    expect(res.body.owner.name).toBe(@teacher.get('name'))
+  
+    
+
+describe 'GET /db/classroom/:handle', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @student = yield utils.initUser({role: 'student'})
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, {members: [@student]})
+    @url = utils.getUrl("/db/classroom/#{@classroom.id}")
+    
+  it 'returns the given classroom, without any class code information', utils.wrap ->
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body._id).toBe(@classroom.id)
+    expect(res.body.code).toBeDefined()
+    expect(res.body.codeCamel).toBeDefined()
+    
+  it 'returns 403 if you are not an admin, owner or member', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(403)
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@student)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+
+    yield utils.loginUser(@teacher)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+    
+  it 'does not return the code for students', utils.wrap ->
+    yield utils.loginUser(@student)
+    [res] = yield request.getAsync { @url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.code).toBeUndefined()
+    expect(res.body.codeCamel).toBeUndefined()
+    
+    
 
 describe 'GET /db/classroom by classCode', ->
   it 'Returns the class if you include spaces', utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     user = yield utils.initUser()
     yield utils.loginUser(user)
     teacher = yield utils.initUser()
@@ -370,10 +415,44 @@ describe 'GET /db/classroom/:handle/levels', ->
 
       done()
 
+      
+      
+
+describe 'GET /db/classroom/:handle/members', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @student = yield utils.initUser({role: 'student'})
+    @teacher = yield utils.initUser({role: 'teacher'})
+    yield utils.loginUser(@teacher)
+    @classroom = yield utils.makeClassroom({}, {members: [@student]})
+    @url = utils.getURL("/db/classroom/#{@classroom.id}/members")
+  
+  it 'returns all users in the classroom', utils.wrap ->
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(1)
+    expect(res.body[0]._id).toBe(@student.id)
+    
+  it 'returns 403 unless you are the owner or a member of the classroom, or an admin', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(403)
+    
+    yield utils.loginUser(@student)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(200)
+    
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    [res] = yield request.getAsync({@url, json:true})
+    expect(res.statusCode).toBe(200)
+
+
 describe 'PUT /db/classroom/:handle', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(teacher)
     @classroom = yield utils.makeClassroom()
@@ -414,7 +493,7 @@ describe 'POST /db/classroom/-/members', ->
     expect(res.statusCode).toBe(201)
     @classroom = yield Classroom.findById(body._id)
     [res, body] = yield request.postAsync({uri: getURL('/db/course_instance'), json: { courseID: @course.id, classroomID: @classroom.id }})
-    expect(res.statusCode).toBe(200)
+    expect(res.statusCode).toBe(201)
     @courseInstance = yield CourseInstance.findById(res.body._id)
     @student = yield utils.initUser()
     done()
@@ -561,6 +640,7 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
 describe 'POST /db/classroom/:id/invite-members', ->
 
   it 'takes a list of emails and sends invites', utils.wrap (done) ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     user = yield utils.initUser({role: 'teacher', name: 'Mr Professerson'})
     yield utils.loginUser(user)
     classroom = yield utils.makeClassroom()
@@ -638,7 +718,7 @@ describe 'GET /db/classroom/:handle/member-sessions', ->
 describe 'GET /db/classroom/:handle/members', ->
 
   beforeEach utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     @teacher = yield utils.initUser()
     @student1 = yield utils.initUser({ name: "Firstname Lastname", firstName: "Firstname", lastName: "L", coursePrepaid: { _id: mongoose.Types.ObjectId() } })
     @student2 = yield utils.initUser({ name: "Student Nameynamington", firstName: "Student", lastName: "N" })
@@ -681,7 +761,7 @@ describe 'GET /db/classroom/:handle/members', ->
 
 describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
   it 'changes the password', utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     teacher = yield utils.initUser()
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname" })
@@ -698,7 +778,7 @@ describe 'POST /db/classroom/:classroomID/members/:memberID/reset-password', ->
     done()
 
   it "doesn't change the password if you're not their teacher", utils.wrap (done) ->
-    yield utils.clearModels([User, Classroom])
+    yield utils.clearModels([User, Classroom, Course, Campaign])
     teacher = yield utils.initUser()
     yield utils.loginUser(teacher)
     student = yield utils.initUser({ name: "Firstname Lastname" })
