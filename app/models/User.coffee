@@ -471,6 +471,3 @@ tiersByLevel = [-1, 0, 0.05, 0.14, 0.18, 0.32, 0.41, 0.5, 0.64, 0.82, 0.91, 1.04
 
 # Make UserLib accessible via eg. User.broadName(userObj)
 _.assign(User, UserLib)
-
-
-
