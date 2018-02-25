@@ -140,6 +140,7 @@ module.exports.thangNames = thangNames =
     'Burlosh'
     'Dorf'
     'Teemer'
+    'Burlton'
   ]
   'Sand Yak': [
     # Animal
