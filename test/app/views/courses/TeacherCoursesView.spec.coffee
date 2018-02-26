@@ -4,7 +4,6 @@ Classrooms = require 'collections/Classrooms'
 Courses = require 'collections/Courses'
 Campaigns = require 'collections/Campaigns'
 Levels = require 'collections/Levels'
-auth = require 'core/auth'
 factories = require 'test/app/factories'
 
 describe 'TeacherCoursesView', ->
@@ -24,7 +23,7 @@ describe 'TeacherCoursesView', ->
       view.ownedClassrooms.fakeRequests[0].respondWith({ status: 200, responseText: classrooms.stringify() })
       view.campaigns.fakeRequests[0].respondWith({ status: 200, responseText: campaigns.stringify() })
       view.courses.fakeRequests[0].respondWith({ status: 200, responseText: courses.stringify() })
-      view.render()
+      view.onLoaded()
       done()
 
     it 'opens HeroSelectModal for the first level of the first course', (done) ->
