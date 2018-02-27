@@ -84,8 +84,9 @@ module.exports =
     if code
       attrs.code = code
 
-    if req.user.isAdmin()
-      null  # Admins can play any level, even if it's not in a course yet (example: level editor)
+    if not req.user.isAnonymous() and level.get('slug') in ['treasure-game']
+      console.log "Allowing session creation for #{level.get('slug')} outside of any course"
+      attrs.isForClassroom = true
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
@@ -155,7 +156,7 @@ module.exports =
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
 
-    attrs.isForClassroom = course?
+    attrs.isForClassroom ?= course?
     session = new LevelSession(attrs)
     if classroom # Potentially set intercom trigger flag on teacher
       teacher = yield User.findOne({ _id: classroom.get('ownerID') })
