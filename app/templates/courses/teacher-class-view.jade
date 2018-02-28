@@ -429,7 +429,6 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - topScore = view.getTopScore({level: level, session: progress.session });
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
   - var link = null;
   if dotClass
@@ -449,7 +448,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     if progress.started
       - link = view.urls.playDevLevel({level: level, session: progress.session, course: view.state.get('selectedCourse')});
       - labelText = translate('teacher.view_project');
-      if progress.completed && !progress.session.get('published')
+      if progress.completed && !progress.session.published
         - labelText += " " + translate('teacher.unpublished')
       - dotClass = progress.completed ? 'navy' : (progress.started ? 'gold' : '');
     else
@@ -539,34 +538,6 @@ mixin assessmentsTab
           span.small(data-i18n='teacher.not_started')
         .clearfix
     table.table.table-condensed.assessments-table
-      if view.classroom && state.get('progressData')
-        - var course = state.get('selectedCourse');
-        - var levels = []
-        if course
-          - levels = _.find(view.courseAssessmentPairs, function (pair) { return pair[0] === course })[1];
-        if levels.length === 0
-          h4(data-i18n="TODO") No assessment levels available for this course yet.
-        else
-          thead
-            th
-            each level in levels
-              if level.isSummative()
-                if level.get('assessmentPlacement') === 'middle'
-                  th(data-i18n="teacher.mid_course")
-                else
-                  th(data-i18n="teacher.end_course")
-              else
-                - var concept = level.get('primaryConcepts') && level.get('primaryConcepts')[0]
-                th(data-i18n="concepts." + concept)
-          tbody
-            each student in state.get('students').models
-              tr
-                td.student-name
-                  = student.broadName()
-                each level in levels
-                  td
-                    - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-                    +studentLevelProgressDot(progress, level, null, student)
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

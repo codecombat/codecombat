@@ -3,12 +3,17 @@ module.exports =
     return "/students/project-gallery/#{courseInstanceID}"
 
   playDevLevel: ({level, session, course}) ->
-    shareURL = "#{window.location.origin}/play/#{level.get('type')}-level/#{level.get('slug')}/#{session.id}"
-    shareURL += "?course=#{course.id}" if course
+    level = level.attributes || level
+    session = session.attributes || session
+    course = course.attributes || course
+    shareURL = "#{window.location.origin}/play/#{level.type}-level/#{level.slug}/#{session._id}"
+    shareURL += "?course=#{course._id}" if course
     return shareURL
 
   courseArenaLadder: ({level, courseInstance}) ->
-    "/play/ladder/#{level.get('slug')}/course/#{courseInstance.id}"
+    level = level.attributes || level
+    courseInstance = courseInstance.attributes || courseInstance
+    "/play/ladder/#{level.slug}/course/#{courseInstance._id}"
 
   courseLevel: ({level, courseInstance}) ->
     url = "/play/level/#{level.get('slug')}?course=#{courseInstance.get('courseID')}&course-instance=#{courseInstance.id}"

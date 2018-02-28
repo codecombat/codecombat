@@ -27,6 +27,7 @@ CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
 window.saveAs ?= require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
 window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
+TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -220,6 +221,26 @@ module.exports = class TeacherClassView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
+    levels = []
+    course = @state.get('selectedCourse')
+    if course
+      levels = _.find(@courseAssessmentPairs, (pair) -> pair[0] is course)?[1] || []
+      levels = levels.map((l) => l.toJSON())
+      courseInstance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
+      if courseInstance
+        courseInstance = courseInstance.toJSON()
+    propsData = {
+      students: @state.get('students').toJSON()
+      levels,
+      course: course?.toJSON(),
+      progress: @state.get('progressData')?.get({ @classroom, course }),
+      courseInstance,
+      classroom: @classroom.toJSON()
+    }
+    new TeacherClassAssessmentsTable({
+      el: @$el.find('.assessments-table')[0]
+      propsData
+    })
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
