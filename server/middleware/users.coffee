@@ -31,6 +31,7 @@ Prepaid = require '../models/Prepaid'
 israel = require '../commons/israel'
 crypto = require 'crypto'
 { makeHostUrl } = require '../commons/urls'
+mssql = require 'mssql'
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -727,3 +728,23 @@ module.exports =
     dbq.select(parse.getProjectFromReq(req))
     courseInstances = yield dbq.exec()
     res.status(200).send(ci.toObject({req}) for ci in courseInstances)
+
+  getIsraelFinalists: wrap (req, res) ->
+    console.log 'Test - trying to connect to this SQL database'
+
+    result = null
+    try
+      pool = yield mssql.connect config.israel.sqlConnectionString
+      console.log '  Got connected to the pool'
+      try
+        result = yield mssql.query "select * from studentsGmar limit 2"
+      catch err
+        console.error err
+        result = err
+    catch err
+      console.error err
+      result = err
+    console.log '  Got some result', result
+
+    mssql.close()
+    res.send message: 'yo', result: result
