@@ -10,6 +10,7 @@ CourseInstance = require 'models/CourseInstance'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
+utils = require 'core/utils'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -35,7 +36,15 @@ module.exports = class TeacherCoursesView extends RootView
       @supermodel.trackRequest @courses.fetchReleased()
     @campaigns = new Campaigns([], { forceCourseNumbering: true })
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
+    @campaignLevelNumberMap = {}
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+
+  onLoaded: ->
+    @campaigns.models.forEach (campaign) =>
+      levels = campaign.getLevels().models.map (level) =>
+        key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
+      @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
+    @render?()
 
   onClickGuideButton: (e) ->
     courseID = $(e.currentTarget).data('course-id')

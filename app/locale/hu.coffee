@@ -50,10 +50,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     have_an_account: "Van már fiókod?" # {change}
     logged_in_as: "Jelenleg így vagy belépve"
     computer_science: "Programozás kurzusok minden korosztálynak" # {change}
-    show_me_lesson_time: "A leckék becsült hossza korosztály szerint:"
-    curriculum: "Teljes tananyag hossza:"
     ffa: "Ingyenes minden tanulónak"
-    lesson_time: "Lecke hossza:"
     coming_soon: "Hamarosan!"
     courses_available_in: "A Kurzusok elérhetőek JavaScript, Python, és Java (hamarosan!) nyelveken" # {change}
     boast: "Elég bonyolult feladványokkal dicsekedhet, melyek játékosokat és kódereket egyaránt elbűvölnek."
@@ -96,6 +93,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     open_source: "Nyílt forráskód (GitHub)"
     support: "Támogatás"
     faqs: "GYIK"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Segítségre van szükséged? Küldj egy e-mailt"
     help_suff: "és mi fölvesszük veled a kapcsolatot!"
 #    resource_hub: "Resource Hub"
@@ -128,7 +127,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     confirm: "Megerősítés"
     owned: "Megszerzett" # For items you own
     locked: "Zárolva"
-    purchasable: "Megvehető" # For a hero you unlocked but haven't purchased
     available: "Elérhető"
     skills_granted: "Elnyert képességek" # Property documentation details
     heroes: "Hősök" # Tooltip on hero shop button from /play
@@ -138,15 +136,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     next: "Következő" # Go from choose hero to choose inventory before playing a level
     change_hero: "Hős váltás" # Go back from choose inventory to choose hero
     buy_gems: "Vásárolj Drágköveket"
-    subscription_required: "Előfizetést igényel"
     subscribers_only: "Csak előfizetőknek!"
 #    subscribe_unlock: "Subscribe to Unlock!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonymus Játékos"
     level_difficulty: "Nehézség: "
-    play_classroom_version: "Osztálytermi változat" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Kezdő Kampány"
     awaiting_levels_adventurer_prefix: "Minden héten öt új pályát teszünk elérhetővé." # {change}
     awaiting_levels_adventurer: "Jelentkezz mint Kalandor"
     awaiting_levels_adventurer_suffix: "legyél az első aki új pályákon játszik."
@@ -225,8 +220,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     logging_in: "Bejelentkezés"
     log_out: "Kijelentkezés"
     forgot_password: "Elfelejtetted a jelszavad?"
-    authenticate_gplus: "Csatlakozz G+ profillal"
-    load_profile: "Töltsd be G+ Profilod"
     finishing: "Befejezés"
     sign_in_with_facebook: "Jelentkezz be Facebook-kal"
     sign_in_with_gplus: "Jelentkezz be G+-szal"
@@ -245,15 +238,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     log_in: "Belépés meglévő fiókkal"
     required: "Csak akkor mehetsz arra, ha már bejelentkeztél."
     login_switch: "Már van fiókod?"
-    school_name: "Iskolád neve és városa"
     optional: "nem kötelező"
-    school_name_placeholder: "Példa Suli, Abaszentfűzikeresztkút"
     connected_gplus_header: "Sikeresen kapcsolódtál a Google+ fiókon keresztül."
     connected_gplus_p: "Fejezd be a feliratkozást, hogy be tudj jelentkezni a Google+ fiókodon keresztül."
-    gplus_exists: "Már van ilyen fiók, amely a Google+ adatait használja."
     connected_facebook_header: "Sikeresen kapcsolódtál a Facebook fiókon keresztül."
     connected_facebook_p: "Fejezd be a feliratkozást, hogy be tudj jelentkezni a Facebook fiókodon keresztül."
-    facebook_exists: "Már van ilyen fiók, amely a Facebook adatait használja."
     hey_students: "A tanulóknak meg kell adniuk a tanártól kapott osztálykódot."
     birthday: "Születésnap"
     parent_email_blurb: "Biztosan már alig várod, hogy programozhass &mdash; mi legalább ilyen izgatottak vagyunk! A szüleidnek e-mailben elküldjük a további utasításokat ahhoz, hogy létrehozhassanak számodra egy fiókot. Küldj egy e-mailt {{email_link}}, ha kérdésed van."
@@ -328,7 +317,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   common:
     back: "Vissza" # When used as an action verb, like "Navigate backward"
-#    go_back: "Go Back"
     coming_soon: "Hamarosan!"
     continue: "Folytasd" # When used as an action verb, like "Continue forward"
     next: "Következő"
@@ -359,7 +347,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     submit_changes: "Változások véglegesítése"
     save_changes: "Változások mentése"
     required_field: "kötelező"
-    valid_phone: "Adj meg egy érvényes telefonszámot"
 
   general:
     and: "és"
@@ -425,6 +412,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
   units:
     second: "másodperc"
     seconds: "másodpercek"
+#    sec: "sec"
     minute: "perc"
     minutes: "percek"
     hour: "óra"
@@ -596,6 +584,23 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
+#  apis:
+#    methods: "Methods"
+#    events: "Events"
+#    spawnable: "Spawnable"
+#    html: "HTML"
+#    math: "Math"
+#    array: "Array"
+#    object: "Object"
+#    string: "String"
+#    function: "Function"
+#    vector: "Vector"
+#    date: "Date"
+#    jquery: "jQuery"
+#    json: "JSON"
+#    number: "Number"
+#    webjavascript: "JavaScript"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -651,6 +656,10 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     damage_dealt: "Kiosztott Sebzés"
     difficulty: "Nehézség"
     gold_collected: "Összegyűjtött Arany"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
+#    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "Felvett"
@@ -663,6 +672,9 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     restricted: "(Limitált ezen a szinten)"
     equip: "Felvesz"
     unequip: "Levesz"
+#    warrior_only: "Warrior Only"
+#    ranger_only: "Ranger Only"
+#    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "Néhány drágakő"
@@ -690,11 +702,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Élesítsd képességeid CodeCombat feliratkozással!" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    free: "Ingyenes"
-    month: "hónap"
     must_be_logged: "Ehhez be kell jelentkezned. Kérlek regisztrálj, vagy lépj be a fenti menüben!"
     subscribe_title: "Feliratkozás" # Actually used in subscribe buttons, too
     unsubscribe: "Leiratkozás"
@@ -705,26 +712,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     thank_you: "Köszönjük, hogy támogatod a CodeCombat-ot."
     sorry_to_see_you_go: "Sajnáljuk hogy elmész. Kérlek tudasd velünk mit csinálhattunk volna jobban."
     unsubscribe_feedback_placeholder: "O, mit tettünk?"
-    parent_button: "Kérdezd meg a szülődet"
-    parent_email_description: "Küldünk nekik e-mailt, hogy vehessenek neked CodeCombat feliratkozást."
-    parent_email_input_invalid: "Érvénytelen e-mail cím"
-    parent_email_input_label: "Szülő e-mail címe"
-    parent_email_input_placeholder: "Írd be szülőd e-mail címét"
-    parent_email_send: "E-mail Küldés"
-    parent_email_sent: "E-mail elküldve!"
-    parent_email_title: "Mi a szülőd e-mail címe?"
-    parents: "Szülőknek"
-    parents_title: "A gyereke programozni tanul majd." # {change}
-    parents_blurb1: "A CodeCombattal a gyereke valódi programozási feladatokon keresztül tanul. Egyszerű utasításokkal kezdenek, aztán további témákba is betekintést kapnak."
-    parents_blurb1a: "A programozás egy olyan nélkülözhetetlen készség, amelyre minden gyereknek kétségtelenül szüksége lesz, mire felnő. 2020-ra már a munkakörök 77%-ában szükség lesz alapvető szoftveres ismeretekre, de a szoftverfejlesztőkre már most is világszerte hatalmas az igény. Tudtad, hogy az egyetemi informatikai diplomával lehet a legmagasabb fizetéseket elérni?"
-    parents_blurb2: "Havonta {{price}} USD-ért, minden héten új kihívások elé állítjuk őket és személyre szóló e-mailes támogatást nyújtanak enkik profi programozók." # {change}
-    parents_blurb3: "100%-os pénzvisszafizetés garancia: 1-kattintásossal leiratkozhat."
-    payment_methods: "Fizetési módok"
-    payment_methods_title: "Elfogadott fizetési módok"
-    payment_methods_blurb1: "Jelenleg hitelkártyát és az Alipay szolgáltatását fogadjuk el. A PayPalen keresztül is fizethetsz, ha {{three_month_price}} USD összeget átutalsz a nick@codecombat.com címre és az üzenetben megadod a fiókodhoz rendelt e-mail címed, akkor háromhavi előfizetést, drágaköveket vagy {{year_price}} dollárért éves előfizetést vásárolhatsz."
-    payment_methods_blurb2: "Ha más módon szeretnél fizetni, vedd fel a kapcsolatot az"
-    sale_button: "Értékesítőinkkel!"
-    sale_button_title: "1 éves előfizetés vásárlása esetén 21 dollárt spórolhatsz"
     stripe_description: "Havi előfizetés"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Ehhez a szinthez elő kell fizetnek."
@@ -744,11 +731,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     subscribe_prepaid: "Az előre utalt előfizetési kód használatához kattints az Előfizetés lehetőségre"
     using_prepaid: "Előre utalt előfizetési kód használata havi előfizetéshez"
 #    feature_level_access: "Access 300+ levels available"
-#    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes and pets"
-#    feature_games: "Make games for your friends"
-#    feature_websites: "Build websites and apps"
-#    feature_items: "Equip more powerful items"
 #    feature_learn: "Learn to make games and websites"
 #    month_price: "$__price__"
 #    first_month_price: "Only $__price__ for your first month!"
@@ -756,18 +739,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    lifetime_price: "$__price__"
 #    year_subscription: "Yearly Subscription"
 #    year_price: "$__price__/year"
-#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
-#    kids_message_2: "Ask Your Parent"
-#    support_part1: "Need help with payment options? Email"
+#    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
-#    support_part3: "if you have any questions."
-#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
-#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
-#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__"
-#    choose_payment_method: "Choose Payment Method"
-#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
-#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -919,6 +892,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     editor_config_behaviors_description: "Automata zárójel és idézet befejezés."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Ha meg akarsz tanulni programozni, rengeteg kódot kell írnod."
     main_description: "A CodeCombat szerepe ebben az, hogy mindezt mosolyogva tedd."
     mission_link: "Küldetés"
@@ -953,7 +927,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     sean_title: "Territory Manager"
 #    liz_title: "Territory Manager"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
     jose_title: "Zene"
@@ -991,7 +965,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     jobs_benefit_9: "10 éves részvényopció-lehívási lehetőség"
     jobs_benefit_10: "Szülési szabadság nőknek: 10 hét fizetett szabadság, további 6 hétig a fizetés 55%-a"
     jobs_benefit_11: "Szülési szabadság férfiaknak: 10 hét fizetett szabadság"
-    learn_more: "Tudj meg többet"
     jobs_custom_title: "Hozd létre a sajátod"
     jobs_custom_description: "Elkötelezett híve vagy a CodeCombat küldetésének, de nem látsz számodra megfelelő állást az ajánlatok között? Írj nekünk az elképzeléseidről és hogy mivel tudnál hozzájárulni a csapatunkhoz. Kíváncsiak vagyunk az ötleteidre!"
     jobs_custom_contact_1: "Írj nekünk a"
@@ -1288,6 +1261,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     edit_settings1: "Osztály szerkesztése"
     add_students: "Tanulók hozzáadása"
     stats: "Statisztikai adatok"
+#    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
     total_students: "Összes tanuló:"
     average_time: "Átlagos játékidő pályánként:"
     total_time: "Teljes játékidő:"
@@ -1351,7 +1325,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     not_you: "Nem te vagy?"
     continue_playing: "Játék folytatása"
     option1_header: "Tanulók meghívása e-mailben"
-    option1_body: "Megjegyzés: Ha diákjaid nem rendelkeznek e-mail címmel, akkor az egyedi osztálykódot is megadhatják a tanulói fiók létrehozása során. Ebben az esetben nem kell e-mail címet megadniuk."
     remove_student1: "Tanuló eltávolítása"
     are_you_sure: "Biztosan el szeretnéd távolítani a kijelölt tanulót az osztályból?"
     remove_description1: "A kijelölt tanuló a továbbiakban nem férhet hozzá az osztályhoz és a kurzusokhoz. A játékban elért szint NEM fog elveszni – a tanuló folytathatja a játékot, és bármikor ismét hozzárendelheted az osztályhoz."
@@ -1430,7 +1403,6 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     select_this_hero: "Kijelölt hős kiválasztása"
     current_hero: "Aktuális hős:"
 #    current_hero_female: "Current Hero:"
-    change_hero: "Hős lecserélése"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
@@ -1443,10 +1415,12 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1455,11 +1429,22 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
   teacher:
 #    assigning_course: "Assigning course"
+#    back_to_top: "Back to Top"
+#    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+#    code: "__name__'s Code"
+#    course_not_started: "Student has not started this course yet."
+#    no_code_yet: "Student has not written any code for this level yet."
+#    open_ended_level: "Open-Ended Level"
 #    removing_course: "Removing course"
+#    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+#    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Kurzusmegoldókulcs"
     level_overview_solutions: "Pályaleírások és megoldókulcs"
 #    no_student_assigned: "No students have been assigned this course."
 #    paren_new: "(new)"
+#    student_code: "__name__'s Student Code"
     teacher_dashboard: "Tanári irányítópult" # Navbar
     my_classes: "Saját osztályok"
     courses: "Kurzus útmutatók"
@@ -1504,10 +1489,11 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     latest_completed: "Legkésőbbi teljesített" # {change}
     sort_by: "Rendezés"
     progress: "Fejlődés"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "Teljesítve"
 #    practice: "Practice"
     started: "Elkezdve"
-    click_to_view_progress: "Kattints a fejlődés megtekintéséhez"
     no_progress: "Nincs fejlődés"
 #    not_required: "Not required"
     select_course: "Megnézendő kurzus kiválasztása"
@@ -1522,7 +1508,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     copy_class_url: "Osztály-URL másolása"
     class_join_url_blurb: "Az osztály egyedi URL-címét közzéteheted egy diákjaiddal közösen használt weboldalon."
     add_students_manually: "Tanulók meghívása e-mailben"
-    bulk_assign: "Csoportos hozzárendelés"
+    bulk_assign: "Csoportos hozzárendelés" # {change}
 #    assigned_msg_1: "{{numberAssigned}} students were assigned {{courseName}}."
 #    assigned_msg_2: "{{numberEnrolled}} licenses were applied."
 #    assigned_msg_3: "You now have {{remainingSpots}} available licenses remaining."
@@ -1592,6 +1578,8 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
 #    cs2: "Computer Science 2"
 #    cs3: "Computer Science 3"
@@ -1732,13 +1720,21 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
-#    office_hours: "Hour of Code Webinars"
+#    office_hours: "Teacher Webinars"
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_link: "teacher webinar"
 #    office_hours_detail_2: "sessions."
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2275,7 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

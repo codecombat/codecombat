@@ -1,10 +1,10 @@
 require('app/styles/admin/codeplayback-view.sass')
 CocoView = require 'views/core/CocoView'
 LZString = require 'lz-string'
-
 CodeLog = require 'models/CodeLog'
-ace = require('lib/aceContainer')
+aceUtils = require('core/aceUtils')
 utils = require 'core/utils'
+MusicPlayer = require 'lib/surface/MusicPlayer'
 
 template = require 'templates/admin/codeplayback-view'
 
@@ -30,7 +30,10 @@ module.exports = class CodePlaybackView extends CocoView
 
   afterRender: ->
     return unless @options.events?
-    @ace = ace.edit('acearea')
+    initialSource = @options.events[0].difContent
+    codeLanguageGuess = 'python'
+    codeLanguageGuess = 'javascript' if /^ *var /m.test(initialSource)
+    @ace = aceUtils.initializeACE @$('#acearea')[0], codeLanguageGuess
     @ace.$blockScrolling = Infinity
     @ace.setValue(@options.events[0].difContent)
     @$el.find('#start-time').text('0s')
@@ -46,16 +49,31 @@ module.exports = class CodePlaybackView extends CocoView
     @$el.find('#start-time').text((@spade.elapsedTime / 1000).toFixed(0) + 's')
     if @spade.elapsedTime >= @maxTime
       @clearPlayback()
+      @fun()
 
   onPlayClicked: (e) ->
     @clearPlayback()
     @spade.play(@options.events, @ace, @$el.find('#slider')[0].value / 100)
     @interval = setInterval(@updateSlider, 1)
+    @fun()
+
+  fun: ->
+    if @spade.speed is 8 and @spade.playback
+      me.set('music', true)
+      me.set('volume', 1)
+      unless @musicPlayer
+        musicFile = 'https://archive.org/download/BennyHillYaketySax/MusicaDeCirco-BennyHill.mp3'
+        @musicPlayer = new MusicPlayer()
+        Backbone.Mediator.publish 'music-player:play-music', play: true, file: musicFile
+    else
+      @musicPlayer?.destroy()
+      @musicPlayer = undefined
 
   onSpeedButtonClicked: (e) ->
     @spade.speed = $(e.target).data('speed')
     $(e.target).siblings().removeClass 'clicked'
     $(e.target).addClass 'clicked'
+    @fun()
 
   onSliderInput: (e) ->
     @clearPlayback()
@@ -66,7 +84,6 @@ module.exports = class CodePlaybackView extends CocoView
       @ace.selection.moveCursorToPosition(render.selFIndex)
       @ace.selection.setSelectionAnchor(render.selEIndex.row, render.selEIndex.column)
 
-
   clearPlayback: ->
     clearInterval(@interval) if @interval?
     @interval = undefined
@@ -75,7 +92,9 @@ module.exports = class CodePlaybackView extends CocoView
 
   onPauseClicked: (e) ->
     @clearPlayback()
+    @fun()
 
   destroy: ->
     @clearPlayback()
+    @musicPlayer?.destroy()
     super()

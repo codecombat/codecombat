@@ -50,10 +50,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     have_an_account: "Avez-vous un compte?"
     logged_in_as: "Vous êtes présentement enregistré en tant que"
     computer_science: "Des cours d'informatique pour tous âges" # {change}
-    show_me_lesson_time: "Montrez-moi des estimés de temps de cours pour:"
-    curriculum: "Total des heures du curriculum:"
     ffa: "Gratuis pour tous les étudiants"
-    lesson_time: "Temps de cours:"
     coming_soon: "Bientôt disponible!"
     courses_available_in: "Les cours sont disponibles en JavaScript, Python et Java (bientôt disponible!)" # {change}
     boast: "Comprend des énigmes assez complexes pour fasciner autant les joueurs que les programmeurs."
@@ -96,6 +93,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     open_source: "Code libre (GitHub)"
     support: "Support"
     faqs: "FAQs"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "Besoin d'aide? Email"
     help_suff: "et nous entrerons en contact!"
     resource_hub: "Centre de ressource"
@@ -128,7 +127,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     confirm: "Confirmer"
     owned: "Acquis" # For items you own
     locked: "Verrouillé"
-    purchasable: "Achetable" # For a hero you unlocked but haven't purchased
     available: "Disponible"
     skills_granted: "Compétences acquises" # Property documentation details
     heroes: "Héros" # Tooltip on hero shop button from /play
@@ -138,15 +136,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     next: "Suivant" # Go from choose hero to choose inventory before playing a level
     change_hero: "Changer le héros" # Go back from choose inventory to choose hero
     buy_gems: "Acheter des gemmes"
-    subscription_required: "Enregistrement nécessaire"
     subscribers_only: "Abonnés Seulement!"
     subscribe_unlock: "Abonnez-vous pour debloquer!"
     subscriber_heroes: "Abonnez-vous aujourd'hui pour debloquer immédiatement Amara, Hushbaum et Hattori!"
     subscriber_gems: "Abonnez-vous aujourd'hui pour acheter ce héros avec des gemmes!"
     anonymous: "Joueur anonyme"
     level_difficulty: "Difficulté : "
-    play_classroom_version: "Jouer à la version Classe" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "Campagne du Débutant"
     awaiting_levels_adventurer_prefix: "Nous produisons cinq niveaux par semaine." # {change}
     awaiting_levels_adventurer: "S'inscrire comme aventurier"
     awaiting_levels_adventurer_suffix: "afin d'être le premier à jouer de nouveaux niveaux."
@@ -225,8 +220,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     logging_in: "Connecter"
     log_out: "Déconnexion"
     forgot_password: "Avez-vous oublié votre mot de passe ?"
-    authenticate_gplus: "Authentication de Google+"
-    load_profile: "Charger votre profil Google+"
     finishing: "Finalisation"
     sign_in_with_facebook: "Connecter avec Facebook"
     sign_in_with_gplus: "Connecter avec Google+"
@@ -245,15 +238,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     log_in: "se connecter avec votre mot de passe"
     required: "Vous devez être connecté pour voir cela"
     login_switch: "Avez-vous déjà un compte ?"
-    school_name: "Nom et ville de votre école"
     optional: "optionnel"
-    school_name_placeholder: "Exemple : Lycée Champollion, Figeac"
     connected_gplus_header: "Vous avez réussi à vous connecter avec votre compte Google+!"
     connected_gplus_p: "Finissez de vous abonnez pour pouvoir vous connecter avec votre compte Google+."
-    gplus_exists: "Vous avez déjà un compte associé à Google+!"
     connected_facebook_header: "Vous avez réussi à vous connecter avec votre compte Facebook!"
     connected_facebook_p: "Finissez de vous abonnez pour pouvoir vous connecter avec votre compte Facebook."
-    facebook_exists: "Vous avez réussi à vous connecter avec votre compte Facebook!"
     hey_students: "Étudiants, entrez le code de cours de votre enseignant."
     birthday: "Anniversaire"
     parent_email_blurb: "Nous savons que vous êtes impatient d'apprendre à programmer &mdash; Nous en sommes excités nous aussi! Vos parents recevrons un email avec des instructions supplémentaires sur la création d'un compte pour vous. Envoyez un email à {{email_link}} si vous avez la moindre question."
@@ -328,7 +317,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   common:
     back: "Retour" # When used as an action verb, like "Navigate backward"
-    go_back: "Retournez en arrière"
     coming_soon: "Arrive prochainement !"
     continue: "Continuer" # When used as an action verb, like "Continue forward"
     next: "Prochain"
@@ -359,7 +347,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     submit_changes: "Soumettre des Changements"
     save_changes: "Sauvegarder les modifications"
     required_field: "Champ requis" # {change}
-    valid_phone: "Saisissez un numéro de téléphone valide"
 
   general:
     and: "et"
@@ -425,6 +412,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   units:
     second: "seconde"
     seconds: "secondes"
+#    sec: "sec"
     minute: "minute"
     minutes: "minutes"
     hour: "heure"
@@ -596,6 +584,23 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    project_published_noty: "Your level has been published!"
 #    keep_editing: "Keep Editing"
 
+#  apis:
+#    methods: "Methods"
+#    events: "Events"
+#    spawnable: "Spawnable"
+#    html: "HTML"
+#    math: "Math"
+#    array: "Array"
+#    object: "Object"
+#    string: "String"
+#    function: "Function"
+#    vector: "Vector"
+#    date: "Date"
+#    jquery: "jQuery"
+#    json: "JSON"
+#    number: "Number"
+#    webjavascript: "JavaScript"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -651,6 +656,10 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     damage_dealt: "Dégât infligés"
     difficulty: "Difficulté"
     gold_collected: "Or collecté"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
+#    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "Equipé"
@@ -663,6 +672,9 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     restricted: "(verrouillé à ce niveau)"
     equip: "Equiper"
     unequip: "Retirer"
+    warrior_only: "Guerrier Seulement"
+    ranger_only: "Ranger Seulement"
+    wizard_only: "Magicien Seulement"
 
   buy_gems:
     few_gems: "Quelques gemmes"
@@ -690,11 +702,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    premium_already_subscribed: "You're already subscribed to Premium!"
 #    subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Aiguisez vos compétences avec un abonnement CodeCombat !" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    free: "Gratuit"
-    month: "mois"
     must_be_logged: "Vous devez être identifié. Veuillez créer un compte ou vous identifier depuis le menu ci-dessus."
     subscribe_title: "Abonnement" # Actually used in subscribe buttons, too
     unsubscribe: "Désinscription"
@@ -705,26 +712,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     thank_you: "Merci de supporter CodeCombat."
     sorry_to_see_you_go: "Désolé de te voir partir ! Fais-nous savoir ce que nous aurions pu faire mieux"
     unsubscribe_feedback_placeholder: "Nom de zeus, qu'avons nous fait ?"
-    parent_button: "Demande à tes parents"
-    parent_email_description: "Nous leur enverrons un e-mail pour qu'ils t'achètent un abonnement CodeCombat."
-    parent_email_input_invalid: "Adresse e-mail non valide"
-    parent_email_input_label: "Adresse e-mail des parents"
-    parent_email_input_placeholder: "Entrer l'adresse e-mail des parents"
-    parent_email_send: "Envoyer l'e-mail"
-    parent_email_sent: "E-mail envoyé !"
-    parent_email_title: "Quelle est l'adresse e-mail de tes parents ?"
-    parents: "Pour les parents"
-    parents_title: "Votre enfant va apprendre à programmer." # {change}
-    parents_blurb1: "Avec CodeCombat, votre enfant apprend en écrivant de vrais programmes. Il commence en apprenant des instructions simples, puis progresse sur des thèmes plus complexes."
-    parents_blurb1a: "La programmation informatique est une compétence essentielle que votre fils va indubitablement utiliser comme un adulte. En 2020, les compétences basiques en informatique seront obligatoires pour 77% des travails, et les ingénieurs logiciels seront fortement demandés partout dans le monde. Saviez-vous que l'informatique est la compétence universitaire la mieux payée ?"
-    parents_blurb2: "Pour ${{price}} USD/mois, il obtient de nouveaux défis chaque semaine et le support par e-mail de programmeurs professionnels." # {change}
-    parents_blurb3: "Pas de risque : garantie 100% remboursé, désinscription facile en 1 clic."
-    payment_methods: "Moyens de paiement"
-    payment_methods_title: "Moyens de paiement acceptés"
-    payment_methods_blurb1: "Nous acceptons, pour le moment, les cartes de crédit et les paiment par Alipay." # {change}
-    payment_methods_blurb2: "Si vous avez besoins d'un autre moyen de paiement, merci de nous contacter"
-    sale_button: "Promotion!"
-    sale_button_title: "Économisez 21$ en achetant un abonnement d'un an"
     stripe_description: "Inscription mensuelle"
 #    buy_now: "Buy Now"
     subscription_required_to_play: "Vous avez besoin d'un abonnement pour jouer à ce niveau."
@@ -744,11 +731,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     subscribe_prepaid: "Cliquer S'abonner pour utiliser du code prépayé"
     using_prepaid: "Utiliser le code prépayé pour un abonnement mensuel"
 #    feature_level_access: "Access 300+ levels available"
-#    feature_gems: "Receive __gems__ gems per month"
 #    feature_heroes: "Unlock exclusive heroes and pets"
-#    feature_games: "Make games for your friends"
-#    feature_websites: "Build websites and apps"
-#    feature_items: "Equip more powerful items"
 #    feature_learn: "Learn to make games and websites"
 #    month_price: "$__price__"
 #    first_month_price: "Only $__price__ for your first month!"
@@ -756,18 +739,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    lifetime_price: "$__price__"
 #    year_subscription: "Yearly Subscription"
 #    year_price: "$__price__/year"
-#    kids_message_1: "Kids! We'll send an email to your parents so they can purchase a subscription for you."
-#    kids_message_2: "Ask Your Parent"
-#    support_part1: "Need help with payment options? Email"
+#    support_part1: "Need help with payment or prefer PayPal? Email"
 #    support_part2: "support@codecombat.com"
-#    support_part3: "if you have any questions."
-#    you_are_purchasing_monthly_sub: "You're purchasing a Monthly Premium Subscription!"
-#    you_are_purchasing_year_sub: "You're purchasing a Yearly Premium Subscription!"
-#    you_are_purchasing_lifetime_sub: "You're purchasing a Lifetime Premium Subscription!"
-#    you_will_be_charged: "You will be charged $__priceString__"
-#    choose_payment_method: "Choose Payment Method"
-#    pay_with_credit_card_or_bitcoin: "Pay with Credit Card / Bitcoin"
-#    paypal_payment_error: "We encountered an error while charging PayPal."
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -919,6 +892,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     editor_config_behaviors_description: "Ferme automatiquement les accolades, parenthèses, et chaînes de caractères."
 
   about:
+#    learn_more: "Learn More"
     main_title: "Si tu veux apprendre la programmation, tu dois écrire beaucoup de code."
     main_description: "Chez CodeCombat, notre but est d'assurer que tu le fasses avec un sourire."
     mission_link: "Mission"
@@ -948,12 +922,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     josh_title: "Game Designer"
     josh_blurb: "Le plancher est de la lave"
 #    nolan_title: "Territory Manager"
-#    lisa_title: "School Specialist"
+#    lisa_title: "Business Development Manager"
 #    lisa_blurb: "A gritty one"
 #    sean_title: "Territory Manager"
 #    liz_title: "Territory Manager"
 #    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Associate"
+#    jane_title: "Partnership Manager"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "Jeux RetroStyle"
     jose_title: "Musique"
@@ -991,7 +965,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    jobs_benefit_9: "10-year option exercise window"
 #    jobs_benefit_10: "Maternity leave: 10 weeks paid, next 6 @ 55% salary"
 #    jobs_benefit_11: "Paternity leave: 10 weeks paid"
-    learn_more: "Apprenez-en plus"
 #    jobs_custom_title: "Create Your Own"
 #    jobs_custom_description: "Are you passionate about CodeCombat but don't see a job listed that matches your qualifications? Write us and show how you think you can contribute to our team. We'd love to hear from you!"
 #    jobs_custom_contact_1: "Send us a note at"
@@ -1288,6 +1261,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     edit_settings1: "Modifier les Réglages de la Classe"
     add_students: "Ajouter des Elèves"
     stats: "Statistiques"
+#    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
     total_students: "Nombre total d'élèves:"
     average_time: "Temps moyen de jeu par niveau:"
     total_time: "Temps total de jeu:"
@@ -1351,7 +1325,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     not_you: "Pas vous ?"
     continue_playing: "Continuer à Jouer"
     option1_header: "Option 1 : Inviter les élèves par email" # {change}
-    option1_body: "Les élèves recevront automatiquement une invitation à rejoindre cette classe, et devront créer un compte avec un nom d'utilisateur et mot de passe." # {change}
     remove_student1: "Supprimer l'élève"
     are_you_sure: "Êtes-vous certain de vouloir supprimer cet élève de cette classe ?"
     remove_description1: "L'élève n'aura plus accès à cette classe et les classes associées. L'évolution et les personnages ne seront pas supprimés, et l'élève pourra de nouveau rejoindre la classe n'importe quand."
@@ -1430,7 +1403,6 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    select_this_hero: "Select this Hero"
 #    current_hero: "Current Hero:"
 #    current_hero_female: "Current Hero:"
-#    change_hero: "Change Hero"
 #    web_dev_language_transition: "All classes program in HTML / JavaScript for this course.  Classes that have been using Python will start with extra JavaScript intro levels to ease the transition.  Classes that are already using JavaScript will skip the intro levels."
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
@@ -1443,10 +1415,12 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
 #  project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1455,11 +1429,22 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   teacher:
 #    assigning_course: "Assigning course"
+#    back_to_top: "Back to Top"
+#    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+#    code: "__name__'s Code"
+#    course_not_started: "Student has not started this course yet."
+#    no_code_yet: "Student has not written any code for this level yet."
+#    open_ended_level: "Open-Ended Level"
 #    removing_course: "Removing course"
+#    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+#    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
 #    course_solution: "Course Solution"
 #    level_overview_solutions: "Level Overview and Solutions"
 #    no_student_assigned: "No students have been assigned this course."
 #    paren_new: "(new)"
+#    student_code: "__name__'s Student Code"
 #    teacher_dashboard: "Teacher Dashboard" # Navbar
     my_classes: "Mes Classes"
 #    courses: "Course Guides"
@@ -1504,10 +1489,11 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    latest_completed: "Latest completed:"
     sort_by: "Trier par"
     progress: "Progrès"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
 #    completed: "Completed"
 #    practice: "Practice"
 #    started: "Started"
-#    click_to_view_progress: "click to view progress"
 #    no_progress: "No progress"
 #    not_required: "Not required"
 #    select_course: "Select course to view"
@@ -1592,6 +1578,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    teacher_getting_started_desc: "New to CodeCombat? Download this Teacher Getting Started Guide to set up your account, create your first class, and invite students to the first course."
 #    student_getting_started: "Student Quick Start Guide"
 #    student_getting_started_desc: "You can distribute this guide to your students before starting CodeCombat so that they can familiarize themselves with the code editor. This guide can be used for both Python and JavaScript classrooms."
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
 #    cs1: "Introduction to Computer Science"
 #    cs2: "Computer Science 2"
 #    cs3: "Computer Science 3"
@@ -1732,13 +1720,21 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    teacher_quest_less: "See fewer quests"
 #    refresh_to_update: "(refresh the page to see updates)"
 #    view_project_gallery: "View Project Gallery"
-#    office_hours: "Hour of Code Webinars"
+#    office_hours: "Teacher Webinars"
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_link: "teacher webinar"
 #    office_hours_detail_2: "sessions."
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
 #  share_licenses:
 #    share_licenses: "Share Licenses"
@@ -2279,9 +2275,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

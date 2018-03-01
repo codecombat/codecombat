@@ -20,7 +20,8 @@ module.exports = class SettingsTabView extends CocoView
     'type', 'kind', 'terrain', 'banner', 'loadingTip', 'requiresSubscription', 'adventurer', 'adminOnly',
     'helpVideos', 'replayable', 'scoreTypes', 'concepts', 'primaryConcepts', 'picoCTFProblem', 'practice', 'assessment',
     'practiceThresholdMinutes', 'primerLanguage', 'shareable', 'studentPlayInstructions', 'requiredCode', 'suspectCode',
-    'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes'
+    'requiredGear', 'restrictedGear', 'requiredProperties', 'restrictedProperties', 'recommendedHealth', 'allowedHeroes',
+    'assessmentPlacement'
   ]
 
   subscriptions:
@@ -156,7 +157,7 @@ class ConceptNode extends TreemaNode.nodeMap.string
     super options
 
   onClick: (e) ->
-    return if @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
+    return if this.parent.keyForParent is 'concepts' and @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
     super e
 
 class ConceptsListNode extends TreemaNode.nodeMap.array

@@ -1,3 +1,11 @@
+// DEPRECATED!!
+// Functionality added to /admin user modal
+
+
+// NOTE: see above
+
+
+
 // Add externally purchased subscriptions
 
 // Usage:

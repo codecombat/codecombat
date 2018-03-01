@@ -49,6 +49,7 @@ module.exports = (env) => {
         ], (regex) => { return regex.test(name) })
       },
       rules: [
+        { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
         { test: /\.coffee$/, use: [
           { loader: 'coffee-loader' },
@@ -91,7 +92,7 @@ module.exports = (env) => {
         path.resolve('./'), // Or you can use the full path /app/whatever
         'node_modules'  // Or maybe require('foo') for the Node module "foo".
       ],
-      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass'],
+      extensions: ['.web.coffee', '.web.js', '.coffee', '.js', '.jade', '.sass', '.vue'],
       alias: { // Replace Backbone's underscore with lodash
         'underscore': 'node_modules/lodash'
       }
@@ -113,6 +114,19 @@ module.exports = (env) => {
       new webpack.IgnorePlugin(/\/fonts\/bootstrap\/.*$/), // Ignore Bootstrap's fonts
       new webpack.IgnorePlugin(/^memwatch$/), // Just used by the headless client on the server side
       new webpack.IgnorePlugin(/.DS_Store$/),
+      
+      // Enable IgnorePlugins for development to speed webpack
+      //new webpack.IgnorePlugin(/\!locale/),
+      //new webpack.IgnorePlugin(/\/admin\//),
+      //new webpack.IgnorePlugin(/\/artisan\//),
+      //new webpack.IgnorePlugin(/\/clans\//),
+      //new webpack.IgnorePlugin(/\/contribute\//),
+      //new webpack.IgnorePlugin(/\/courses\//),
+      //new webpack.IgnorePlugin(/\/editor\//),
+      //new webpack.IgnorePlugin(/\/ladder\//),
+      //new webpack.IgnorePlugin(/\/teachers\//),
+      //new webpack.IgnorePlugin(/\/play\//),
+      
       new CopyWebpackPlugin([
         // NOTE: If you add a static asset, consider updating ViewLoadTimer to track its loading.
         { // Static assets

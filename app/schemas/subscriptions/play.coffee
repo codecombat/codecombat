@@ -184,3 +184,16 @@ module.exports =
   'level:license-required': c.object {}
 
   'level:open-items-modal': c.object {}
+
+  'level:scores-updated': c.object {},
+    scores: c.array {},
+      c.object {required: ['type', 'score']},
+        type: c.shortString()
+        score: {type: 'number'}
+
+  'level:top-scores-updated': c.object {},
+    scores: c.array {},
+      c.object {required: ['type', 'score']},
+        type: c.shortString()
+        score: {type: 'number'}
+        date: c.date()

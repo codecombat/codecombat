@@ -45,14 +45,12 @@ if showGameDevAlert
 
   if view.shouldShow('teacher-button')
     #teacher-button-container
-      button.btn.btn-lg.btn-illustrated.btn-primary#teacher-button(data-i18n="play.get_more_codecombat", data-toggle='coco-modal', data-target='core/AnonymousTeacherModal')
+      button.btn.btn-lg.btn-illustrated.btn-primary#teacher-button(data-i18n="play.teacher_button", data-toggle='coco-modal', data-target='core/AnonymousTeacherModal')
 
   if campaign
     if view.shouldShow('amazon-campaign')
       #amazon-campaign-container
         img#amazon-campaign-logo(src="/images/pages/play/amazon_vert_lockup.png")
-        if view.shouldShow('amazon-campaign-button')
-          button.btn.btn-lg.btn-illustrated.btn-success#amazon-campaign-button(data-i18n="amazon_hoc.title")
     
     .map
       if features.brainPop && levelsCompleted && levelsCompleted === levelsTotal
@@ -118,6 +116,8 @@ if showGameDevAlert
               else
                 img.item-portrait.item-portrait-on-banner(src="/file/db/thang.type/#{level.unlocksItem}/portrait.png")
               img.treasure-chest(src="/images/pages/play/#{level.requiresSubscription?'silver':'bronze'}-chest.png")
+            else if levelStatusMap[level.slug] !== 'complete' && level.assessment
+              img.banner(src="/images/pages/play/level-banner-unstarted-subscriber.png")
             else if levelStatusMap[level.slug] === 'started'
               img.banner(src="/images/pages/play/level-banner-started.png")
             else if levelStatusMap[level.slug] !== 'complete'
@@ -140,6 +140,10 @@ if showGameDevAlert
             .level-status.rtl-allowed(dir="auto")
             - var levelName = levelNumber + i18n(level, 'name') + (level.disabled ? " (" + translate('common.coming_soon') + ")" : (level.locked ? " (" + translate('play.locked') + ")" : (level.practice ? " (" + translate('courses.practice') + ")" : "")));
             h3(dir=view.isRTL(levelName) ? "rtl" : "ltr")= levelName
+            if level.assessment === 'open-ended' && view.levelScoreMap[level.original] && levelStatusMap[level.slug] === 'complete'
+              - topScore = view.levelScoreMap[level.original]
+              if topScore.thresholdAchieved
+                img.threshold-icon(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
             - var description = i18n(level, 'description') || level.description || ""
             .level-description.rtl-allowed(dir="auto")!= marked(description, {sanitize: !picoCTF})
             if level.disabled

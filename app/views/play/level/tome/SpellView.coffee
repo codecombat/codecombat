@@ -683,8 +683,12 @@ module.exports = class SpellView extends CocoView
       @saveSpadeTimeout = null
 
   onManualCast: (e) ->
+    cinematic = @options.level.isType('hero', 'hero-ladder', 'course-ladder')
+    cinematic = false if me.isStudent() and not @options.level.isType('course-ladder')
+    cinematic = false if not me.isStudent() and not me.testCinematicPlayback()
+
     cast = @$el.parent().length
-    @recompile cast, e.realTime, e.cinematic
+    @recompile cast, e.realTime, cinematic
     @focus() if cast
     if @options.level.isType('web-dev')
       @sourceAtLastCast = @getSource()

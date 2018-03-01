@@ -49,7 +49,8 @@ module.exports = class GameMenuModal extends ModalView
 
   showsChooseHero: ->
     return false if @level?.isType('course', 'course-ladder')
-    return false if @options.levelID in ['zero-sum', 'ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
+    return false if @level?.get('assessment') is 'open-ended'
+    return false if @options.levelID in ['zero-sum', 'ace-of-coders', 'the-battle-of-sky-span']
     return true
 
   afterRender: ->
@@ -75,7 +76,7 @@ module.exports = class GameMenuModal extends ModalView
     subview.onHidden?() for subviewKey, subview of @subviews
     @playSound 'game-menu-close'
     Backbone.Mediator.publish 'music-player:exit-menu', {}
-    
+
   openCreateAccountModal: (e) ->
     e.stopPropagation()
     @openModalView new CreateAccountModal()

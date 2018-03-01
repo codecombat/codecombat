@@ -125,7 +125,7 @@ module.exports = class ControlBarView extends CocoView
         @homeViewArgs.push @course.get('campaignID')
       if @courseInstanceID
         @homeLink += "?course-instance=#{@courseInstanceID}"
-        
+
       @homeViewClass = 'views/play/CampaignView'
     else if @level.isType('hero', 'hero-coop', 'game-dev', 'web-dev') or window.serverConfig.picoCTF
       @homeLink = '/play'

@@ -25,7 +25,7 @@ module.exports = class MusicPlayer extends CocoClass
     super arguments...
     me.on 'change:music', @onMusicSettingChanged, @
 
-  onAudioLoaded: ->
+  onAudioLoaded: (e) ->
     @onPlayMusic(@standingBy) if @standingBy
 
   onPlayMusic: (e) ->
@@ -34,7 +34,7 @@ module.exports = class MusicPlayer extends CocoClass
       @lastMusicEventIgnoredWhileMuted = e
       return
     src = e.file
-    src = "/file#{src}#{AudioPlayer.ext}"
+    src = "/file#{src}#{AudioPlayer.ext}" unless /^http/.test(src)
     if (not e.file) or src is @currentMusic?.src
       if e.play then @restartCurrentMusic() else @fadeOutCurrentMusic()
       return

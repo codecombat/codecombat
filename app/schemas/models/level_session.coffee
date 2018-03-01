@@ -136,10 +136,10 @@ _.extend LevelSessionSchema.properties,
         source: {type: 'string', enum: ['click']}  # Do not store 'code' flag events in the session.
     topScores: c.array {},
       c.object {},
-        type: c.shortString('enum': ['time', 'damage-taken', 'damage-dealt', 'gold-collected', 'difficulty'])
+        type: c.scoreType
         date: c.date
           description: 'When the submission achieving this score happened.'
-        score: {type: 'number'}  # Store 'time' and 'damage-taken' as negative numbers so the index works.
+        score: {type: 'number'}  # Store 'time', 'damage-taken', etc. as negative numbers so the index works.
 
   code:
     type: 'object'
@@ -155,6 +155,11 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
+    
+  codeConcepts:
+    type: 'array'
+    items:
+      type: 'string'    
 
   playtime:
     type: 'number'
@@ -310,7 +315,7 @@ _.extend LevelSessionSchema.properties,
     type: 'boolean'
     title: 'Published to Project Gallery'
     description: 'Project was published to the Project Gallery for peer students to see'
-    
+
   keyValueDb:
     type: 'object'
     title: 'Key Value DB'

@@ -15,12 +15,14 @@ module.exports = class Campaign extends CocoModel
   initialize: (options = {}) ->
     @forceCourseNumbering = options.forceCourseNumbering
     super(arguments...)
+    
+  @getLevels: (campaign) ->
+    levels = campaign.levels
+    levels = _.sortBy(levels, 'campaignIndex')
+    return levels
 
   getLevels: ->
-    levels = new Levels(_.values(@get('levels')))
-    levels.comparator = 'campaignIndex'
-    levels.sort()
-    return levels
+    return new Levels(Campaign.getLevels(@toJSON()))
 
   getNonLadderLevels: ->
     levels = new Levels(_.values(@get('levels')))
@@ -28,27 +30,37 @@ module.exports = class Campaign extends CocoModel
     levels.comparator = 'campaignIndex'
     levels.sort()
     return levels
+    
+  @getLevelNumberMap: (campaign, forceCourseNumbering) ->
+    levels = []
+    for level in @getLevels(campaign)
+      continue unless level.original
+      practice = @levelIsPractice(level, (campaign.type is 'course') or forceCourseNumbering)
+      assessment = @levelIsAssessment level
+      levels.push({key: level.original, practice, assessment})
+    return utils.createLevelNumberMap(levels)
 
   getLevelNumber: (levelID, defaultNumber) ->
-    unless @levelNumberMap
-      levels = []
-      for level in @getLevels().models when level.get('original')
-        practice = @levelIsPractice level
-        assessment = @levelIsAssessment level
-        levels.push({key: level.get('original'), practice, assessment})
-      @levelNumberMap = utils.createLevelNumberMap(levels)
+    @levelNumberMap ?= Campaign.getLevelNumberMap(@attributes)
     @levelNumberMap[levelID] ? defaultNumber
-
-  levelIsPractice: (level) ->
+    
+  @levelIsPractice: (level, forceCourseNumbering) ->
     # Migration: in home version, only treat levels explicitly labeled as "Level Name A", "Level Name B", etc. as practice levels
-    level = level.attributes if level.attributes
-    if @get('type') is 'course' or @forceCourseNumbering
+    # See: https://github.com/codecombat/codecombat/commit/296d2c940d8ecd729d098e45e203e2b1182ff86a
+    if forceCourseNumbering
       return level.practice
     else
       return level.practice and / [ABCD]$/.test level.name
+
+  levelIsPractice: (level) ->
+    level = level.attributes if level.attributes
+    return Campaign.levelIsPractice(level, @get('type') is 'course' or @forceCourseNumbering)
   
   levelIsAssessment: (level) ->
     level = level.attributes if level.attributes
-    return level.assessment
+    return Campaign.levelIsAssessment(level)
+    
+  @levelIsAssessment: (level) -> level.assessment
+    
 
   updateI18NCoverage: -> super(_.omit(@attributes, 'levels'))

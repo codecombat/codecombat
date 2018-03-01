@@ -14,7 +14,7 @@ ace = require('lib/aceContainer')
   `@modelClass` which is a patchable Backbone model class, and they use `@wrapRow()`
   to dynamically specify which properties are being translated.
 ###
-  
+
 UNSAVED_CHANGES_MESSAGE = 'You have unsaved changes! Really discard them?'
 
 module.exports = class I18NEditModelView extends RootView
@@ -103,14 +103,9 @@ module.exports = class I18NEditModelView extends RootView
 
   wrapRow: (title, key, enValue, toValue, path, format) ->
     return unless enValue
-    @translationList.push {
-      title: title,
-      key: key,
-      enValue: enValue,
-      toValue: toValue or '',
-      path: path
-      format: format
-    }
+    toValue ||= ''
+    doNotTranslate = enValue.match /(['"`][^\s`]+['"`])/gi
+    @translationList.push {title, doNotTranslate, key, enValue, toValue, path, format}
 
   buildTranslationList: -> [] # overwrite
 
@@ -144,6 +139,11 @@ module.exports = class I18NEditModelView extends RootView
     #- Enable patch submit button
     @$el.find('#patch-submit').attr('disabled', null)
     @madeChanges = true
+
+    #- Update whether we are missing an identifier we thought we should still be there
+    @$("*[data-index=#{rowInfo.index}]").parents('table').find('.doNotTranslate code').each (index, el) ->
+      identifier = $(el).text()
+      $(el).toggleClass 'missing-identifier', value and value.indexOf(identifier) is -1
 
   onLanguageSelectChanged: (e) ->
     return if @ignoreLanguageSelectChanges
@@ -193,4 +193,3 @@ module.exports = class I18NEditModelView extends RootView
     .catch =>
       button.text('Error Submitting Changes')
       @$el.find('#patch-submit').attr('disabled', null)
-        

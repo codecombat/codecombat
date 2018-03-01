@@ -105,8 +105,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'courses/:courseID/:courseInstanceID': -> @navigate("/students/#{arguments[0]}/#{arguments[1]}", {trigger: true, replace: true}) # Redirected 9/3/16
 
     'db/*path': 'routeToServer'
-    'docs/components': go('docs/ComponentsDocumentationView')
-    'docs/systems': go('docs/SystemsDocumentationView')
+    'docs/components': go('editor/docs/ComponentsDocumentationView')
+    'docs/systems': go('editor/docs/SystemsDocumentationView')
 
     'editor': go('CommunityView')
 
@@ -122,7 +122,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/campaign/:campaignID': go('editor/campaign/CampaignEditorView')
     'editor/poll': go('editor/poll/PollSearchView')
     'editor/poll/:articleID': go('editor/poll/PollEditView')
-    'editor/thang-tasks': go('editor/ThangTasksView')
     'editor/verifier': go('editor/verifier/VerifierView')
     'editor/verifier/:levelID': go('editor/verifier/VerifierView')
     'editor/i18n-verifier/:levelID': go('editor/verifier/i18nVerifierView')
@@ -130,6 +129,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/course': go('editor/course/CourseSearchView')
     'editor/course/:courseID': go('editor/course/CourseEditView')
 
+    'etc': redirect('/teachers/demo')
+    
     'file/*path': 'routeToServer'
 
     'github/*path': 'routeToServer'
@@ -181,8 +182,6 @@ module.exports = class CocoRouter extends Backbone.Router
     'schools': go('HomeView')
     'seen': go('HomeView')
     'SEEN': go('HomeView')
-
-    'sunburst': go('HomeView')
 
     'students': go('courses/CoursesView', { redirectTeachers: true })
     'students/update-account': go('courses/CoursesUpdateAccountView', { redirectTeachers: true })
@@ -258,7 +257,7 @@ module.exports = class CocoRouter extends Backbone.Router
 
     path = "views/#{path}" if not _.string.startsWith(path, 'views/')
     Promise.all([
-      dynamicRequire(path), # Load the view file
+      dynamicRequire[path](), # Load the view file
       # The locale load is already initialized by `application`, just need the promise
       locale.load(me.get('preferredLanguage', true))
     ]).then ([ViewClass]) =>
@@ -346,7 +345,7 @@ module.exports = class CocoRouter extends Backbone.Router
   onNavigate: (e, recursive=false) ->
     @viewLoad = new ViewLoadTimer() unless recursive
     if _.isString e.viewClass
-      dynamicRequire(e.viewClass).then (viewClass) =>
+      dynamicRequire[e.viewClass]().then (viewClass) =>
         @onNavigate(_.assign({}, e, {viewClass}), true)
       return
 

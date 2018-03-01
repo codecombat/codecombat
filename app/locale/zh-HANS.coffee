@@ -50,10 +50,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     have_an_account: "已有账号？"
     logged_in_as: "您现在的登录身份："
     computer_science: "适合全年龄段的计算机科学课程" # {change}
-    show_me_lesson_time: "显示估计课程时间："
-    curriculum: "总计课程时间"
     ffa: "对所有学生免费"
-    lesson_time: "课程时间："
     coming_soon: "即将推出！"
     courses_available_in: "课程可用如下语言：JavaScript，Python，还有Java（即将推出！）" # {change}
     boast: "以难解的谜题为豪，它们复杂到可以吸引游戏玩家和程序员。"
@@ -96,6 +93,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     open_source: "开放的源码 (GitHub)"
     support: "支持"
     faqs: "常见问题"
+#    copyright_prefix: "Copyright"
+#    copyright_suffix: "All Rights Reserved."
     help_pref: "需要帮助？请发邮件至："
     help_suff: " 我们会很快与您联系！"
     resource_hub: "资源中心"
@@ -128,7 +127,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     confirm: "确认"
     owned: "已拥有" # For items you own
     locked: "需解锁"
-    purchasable: "可购买" # For a hero you unlocked but haven't purchased
     available: "可用"
     skills_granted: "获得技能" # Property documentation details
     heroes: "英雄" # Tooltip on hero shop button from /play
@@ -138,15 +136,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     next: "下一页" # Go from choose hero to choose inventory before playing a level
     change_hero: "重新选择英雄" # Go back from choose inventory to choose hero
     buy_gems: "购买宝石"
-    subscription_required: "需订阅"
     subscribers_only: "仅订阅者可用！"
     subscribe_unlock: "订阅解锁！"
     subscriber_heroes: "现在订阅，马上解锁Amara、Hushbaum和Hattori吧！"
     subscriber_gems: "现在订阅，用宝石购买这些英雄吧！"
     anonymous: "匿名玩家"
     level_difficulty: "难度："
-    play_classroom_version: "玩课堂模式" # Choose a level in campaign version that you also can play in one of your courses
-    campaign_beginner: "新手作战"
     awaiting_levels_adventurer_prefix: "我们每周都会开放新关卡"
     awaiting_levels_adventurer: "注册成为冒险家"
     awaiting_levels_adventurer_suffix: "来优先尝试新关卡"
@@ -225,8 +220,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     logging_in: "正在登录"
     log_out: "登出"
     forgot_password: "忘记密码?"
-    authenticate_gplus: "使用 Google+ 授权"
-    load_profile: "载入 Google+ 档案"
     finishing: "完成..."
     sign_in_with_facebook: "Facebook账号登录"
     sign_in_with_gplus: " Google+ 账号登录"
@@ -245,15 +238,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     log_in: "登录"
     required: "在做这件事情之前您必须先注册。"
     login_switch: "已经注册过账户?"
-    school_name: "就读学校及所在城市"
     optional: "选填"
-    school_name_placeholder: "范例: XX中学, 上海"
     connected_gplus_header: "成功连接 Google+ ！"
     connected_gplus_p: "完成注册后即可使用您的 Google+ 账号登陆。"
-    gplus_exists: "此 Google+ 账号已与其他账号绑定！"
     connected_facebook_header: "成功连接 Facebook ！"
     connected_facebook_p: "完成注册后即可使用您的 Facebook 账号登陆。"
-    facebook_exists: "此 Facebook 账号已与其他账号绑定！"
     hey_students: "同学，请输入老师提供的班级码。"
     birthday: "生日"
     parent_email_blurb: "我知道你坐不住准备学编程啦！&mdash; 我们也很兴奋！你的家长会收到一封邮件，上面写着为你注册账号要注意的事情。如果有问题就发邮件到 {{email_link}} 吧。"
@@ -328,7 +317,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   common:
     back: "返回" # When used as an action verb, like "Navigate backward"
-    go_back: "返回"
     coming_soon: "敬请期待！"
     continue: "继续" # When used as an action verb, like "Continue forward"
     next: "下一个"
@@ -359,7 +347,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     submit_changes: "提交更新"
     save_changes: "保存更新"
     required_field: "必填" # {change}
-    valid_phone: "输入有效的电话号码。"
 
   general:
     and: "与"
@@ -425,6 +412,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
   units:
     second: "秒"
     seconds: "秒"
+#    sec: "sec"
     minute: "分钟"
     minutes: "分钟"
     hour: "小时"
@@ -596,6 +584,23 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     project_published_noty: "您的关卡已发布！"
     keep_editing: "继续编辑"
 
+  apis:
+    methods: "函数"
+#    events: "Events"
+#    spawnable: "Spawnable"
+#    html: "HTML"
+    math: "数学"
+#    array: "Array"
+#    object: "Object"
+#    string: "String"
+#    function: "Function"
+#    vector: "Vector"
+#    date: "Date"
+#    jquery: "jQuery"
+#    json: "JSON"
+#    number: "Number"
+#    webjavascript: "JavaScript"
+
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
 #    congrats: "Congratulations on conquering that challenging Hour of Code!"
@@ -651,6 +656,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     damage_dealt: "造成的伤害"
     difficulty: "难度"
     gold_collected: "收集的金币"
+#    survival_time: "Survived"
+#    defeated: "Enemies Defeated"
+#    code_length: "Lines of Code"
+#    score_display: "__scoreType__: __score__"
 
   inventory:
     equipped_item: "已装备"
@@ -663,6 +672,9 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     restricted: "(本关卡不得使用)"
     equip: "装备"
     unequip: "脱下"
+#    warrior_only: "Warrior Only"
+#    ranger_only: "Ranger Only"
+#    wizard_only: "Wizard Only"
 
   buy_gems:
     few_gems: "几个宝石"
@@ -690,11 +702,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    premium_already_subscribed: "You're already subscribed to Premium!"
     subscribe_modal_title: "CodeCombat 订阅"
     comparison_blurb: "亲，订阅CodeCombat，大力的提升您的技能！" # {change}
-#    premium_pricing_prefix: "Get Premium for just"
-#    premium_pricing_suffix: "and become a master coder."
-#    premium: "Premium" # Make sure the following feature translations don't go onto two lines
-    free: "免费"
-    month: "月"
     must_be_logged: "您需要先登入。请先注册或者在上方的目录中点击登入。"
     subscribe_title: "订阅" # Actually used in subscribe buttons, too
     unsubscribe: "取消订阅"
@@ -705,26 +712,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     thank_you: "感谢您支持CodeCombat。"
     sorry_to_see_you_go: "真舍不得亲离开啊！ 请一定要让我们知道哪里做的还不够好。"
     unsubscribe_feedback_placeholder: "噢, 我们做了神马?"
-    parent_button: "请求您的父母"
-    parent_email_description: "我们会发送邮件给您的父母让他们帮您订阅CodeCombat。"
-    parent_email_input_invalid: "邮件地址不正确。"
-    parent_email_input_label: "父母邮件地址"
-    parent_email_input_placeholder: "输入父母邮件地址"
-    parent_email_send: "发送邮件"
-    parent_email_sent: "邮件已发送！"
-    parent_email_title: "什么是您父母的邮件地址？"
-    parents: "致家长"
-    parents_title: "亲爱的家长: 您的孩子将要学习编程。您会支持孩子发展吗?"
-    parents_blurb1: "您的孩子已经玩了 __nLevels__ 关，并且学习了编程基础。请您为了培养他们的兴趣而给他们订阅，他们能继续玩下去。"
-    parents_blurb1a: "不用怀疑计算机编程能力将是您的孩子作为一个成年人的基本技能。到2020年，77%的工作将会需要编码能力，并且软件工程师将在世界各地成为高需求职业。您要知道计算机科学是收入最高的大学学位。"
-    parents_blurb2: "每月支付{{price}}美元，他们每周都会有新的挑战，并且通过电子邮件获得专业程序员的指导。"
-    parents_blurb3: "无风险承诺：100%退款，一键取消订阅。"
-    payment_methods: "付费方式"
-    payment_methods_title: "可接受的付款方式"
-    payment_methods_blurb1: "我们现有的付费方式有信用卡和支付宝，您也可以用 PayPal 付款 {{three_month_price}} 美元（含三个月的订阅和宝石）到 nick@codecombat.com ，并在备注写上游戏账号的电子邮件，年费订阅只需 ${{year_price}} 美元哦。"
-    payment_methods_blurb2: "如果您想用其他付费方式,请联系我们"
-    sale_button: "促销"
-    sale_button_title: "年费订阅能节省 ${{discount}} 的费用"
     stripe_description: "每月订阅"
     buy_now: "立即购买"
     subscription_required_to_play: "订阅后才可开始本关"
@@ -744,11 +731,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     subscribe_prepaid: "点击订阅来使用预付费代码"
     using_prepaid: "使用预付费代码进行每月订阅"
     feature_level_access: "可获得 300+ 关卡的使用权"
-    feature_gems: "每月赠送 __gems__ 宝石"
     feature_heroes: "解锁独家英雄" # {change}
-    feature_games: "为你的朋友制作游戏"
-    feature_websites: "构建网站和应用程序"
-    feature_items: "装备更强大的物品"
     feature_learn: "学习制作游戏和网页" # {change}
     month_price: "$__price__/月" # {change}
     first_month_price: "第一个月仅需 $__price__！"
@@ -756,18 +739,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     lifetime_price: "$__price__"
     year_subscription: "年度订阅"
     year_price: "$__price__/年"
-    kids_message_1: "孩子们！我们会发送一封电子邮件给您的父母，以便他们可以为您购买订阅。"
-    kids_message_2: "联系你的父母"
-    support_part1: "付款时需要帮助? Email"
+    support_part1: "付款时需要帮助? Email" # {change}
     support_part2: "support@codecombat.com"
-    support_part3: "如果您有任何问题。"
-    you_are_purchasing_monthly_sub: "您正在购买月度高级订阅！"
-    you_are_purchasing_year_sub: "您正在购买年度高级订阅！"
-    you_are_purchasing_lifetime_sub: "您正在购买终身高级订阅！"
-    you_will_be_charged: "您将被一次性收取 $__priceString__ 。" # {change}
-    choose_payment_method: "选择付款方式"
-    pay_with_credit_card_or_bitcoin: "用信用卡/比特币支付"
-    paypal_payment_error: "PayPal收费时遇到错误。"
 
 #  announcement:
 #    now_available: "Now available for subscribers!"
@@ -919,6 +892,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 
   about:
+#    learn_more: "Learn More"
     main_title: "如果你想学习编程，你需要写（一大堆）代码。"
     main_description: "在CodeCombat里，我们的职责就是让你面带微笑完成这项任务。"
     mission_link: "任务"
@@ -953,7 +927,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     sean_title: "区域经理"
     liz_title: "区域经理"
     david_title: "客户成功经理"
-    jane_title: "合作伙伴"
+    jane_title: "合作伙伴" # {change}
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
     jose_title: "音乐"
@@ -991,7 +965,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     jobs_benefit_9: "10年公司期权"
     jobs_benefit_10: "产假：10周工资及未来6周55%工资"
     jobs_benefit_11: "陪产假: 10周工资"
-    learn_more: "了解更多"
     jobs_custom_title: "创造你自己的工作"
     jobs_custom_description: "对 CodeCombat 充满激情却没找到适合自己的职业？给我们写信说明你该如何做出贡献。我们期待你的建议！"
     jobs_custom_contact_1: "向以下地址给我们发送简介："
@@ -1288,6 +1261,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     edit_settings1: "编辑班级设定"
     add_students: "添加学生"
     stats: "统计"
+#    student_email_invite_blurb: "Your students can also use class code <strong>__classCode__</strong> when creating a Student Account, no email required."
     total_students: "学生人数："
     average_time: "平均游戏时间："
     total_time: "总计游戏时间："
@@ -1351,7 +1325,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     not_you: "不是你？"
     continue_playing: "继续玩"
     option1_header: "选项1：通过电子邮件邀请学生" # {change}
-    option1_body: "学生会被自动发送一个加入该班级的邀请，他们需要提供用户名和密码以创建账号。" # {change}
     remove_student1: "删除学生"
     are_you_sure: "你确定要从该课程中删除该学生吗？"
     remove_description1: "学生将失去访问该课程和被分派课程的权利。游戏进度不会丢失，该学生可以在任何时间被添加回该班级。"
@@ -1430,7 +1403,6 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     select_this_hero: "选择英雄"
     current_hero: "当前英雄:"
 #    current_hero_female: "Current Hero:"
-    change_hero: "更改英雄"
     web_dev_language_transition: "在本课中，所有的编程语言都是使用HTML和JavaScript编写。之前使用Python语言学习的班级会有额外的JavaScript编程介绍关卡来过渡。已经选择JavaScript编程语言的班级将会跳过这些介绍关卡。 "
 #    course_membership_required_to_play: "You'll need to join a course to play this level."
 #    license_required_to_play: "Ask your teacher to assign a license to you so you can continue to play CodeCombat!"
@@ -1443,10 +1415,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    challenge_level: "Challenge Level:"
 #    status: "Status:"
 #    assessments: "Assessments"
-#    play_again: "Play Again"
+#    challenges: "Challenges"
+#    level_name: "Level Name:"
 #    keep_trying: "Keep Trying"
 #    start_challenge: "Start Challenge"
 #    locked: "Locked"
+#    concepts_used: "Concepts Used:"
 
   project_gallery:
 #    no_projects_published: "Be the first to publish a project in this course!"
@@ -1455,11 +1429,22 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   teacher:
     assigning_course: "分配课程"
+#    back_to_top: "Back to Top"
+#    click_student_code: "Click on any level that the student has started or completed below to view the code they wrote."
+#    code: "__name__'s Code"
+#    course_not_started: "Student has not started this course yet."
+#    no_code_yet: "Student has not written any code for this level yet."
+#    open_ended_level: "Open-Ended Level"
 #    removing_course: "Removing course"
+#    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
+#    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "关卡解法"
     level_overview_solutions: "关卡概览和解法"
     no_student_assigned: "没有学生被分配到这个课程。"
     paren_new: "(新)"
+#    student_code: "__name__'s Student Code"
     teacher_dashboard: "老师面板" # Navbar
     my_classes: "我的班级"
     courses: "课程指导"
@@ -1504,10 +1489,11 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     latest_completed: "最近通关" # {change}
     sort_by: "排列依据"
     progress: "进度"
+#    concepts_used: "Concepts used by Student:"
+#    concept_checked: "Concept checked:"
     completed: "已完成"
     practice: "练习"
     started: "已开始"
-    click_to_view_progress: "点击查看进度"
     no_progress: "无进度"
     not_required: "不需要"
     select_course: "选择查看"
@@ -1522,7 +1508,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     copy_class_url: "复制班级链接地址"
     class_join_url_blurb: "新学生可以在登录之后，访问该网址加入班级。" # {change}
     add_students_manually: "手工添加学生" # {change}
-    bulk_assign: "批量添加"
+    bulk_assign: "批量添加" # {change}
     assigned_msg_1: "{{numberAssigned}} 学生被分配 {{courseName}}。"
     assigned_msg_2: "{{numberEnrolled}} 被应用许可证。"
     assigned_msg_3: "你现在还有 {{remainingSpots}} 个可用的许可。"
@@ -1592,6 +1578,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_getting_started_desc: "第一次使用 CodeCombat ？下载此老师入门指南开始设置您的账号，创建第一个课堂并邀请学生参加第一门课程。"
     student_getting_started: "学生快速入门指南"
     student_getting_started_desc: "您可以在讲解 CodeCombat 之前先将此入门指南发布给学生，以便他们熟悉代码编辑器。本指南可用于 Python 和 JavaScript 语言教室。"
+#    ap_cs_principles: "AP Computer Science Principles"
+#    ap_cs_principles_desc: "AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming."
     cs1: "计算机科学的介绍"
     cs2: "计算机科学 2"
     cs3: "计算机科学 3"
@@ -1732,13 +1720,21 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     teacher_quest_less: "查看基础任务"
     refresh_to_update: "(刷新页面查看更新)"
     view_project_gallery: "查看项目图库"
-#    office_hours: "Hour of Code Webinars"
+#    office_hours: "Teacher Webinars"
 #    office_hours_detail: "Learn how to keep up with with your students as they create games and embark on their coding journey! Come and attend our"
-#    office_hours_link: "Hour of Code Webinar"
+#    office_hours_link: "teacher webinar"
 #    office_hours_detail_2: "sessions."
 #    success: "Success"
 #    in_progress: "In Progress"
 #    not_started: "Not Started"
+#    mid_course: "Mid-Course"
+#    end_course: "End of Course"
+#    none: "None detected yet"
+#    explain_open_ended: "Note: Students are encouraged to solve this level creatively — one possible solution is provided below."
+#    level_label: "Level:"
+#    time_played_label: "Time Played:"
+#    back_to_resource_hub: "Back to Resource Hub"
+#    print_guide: "Print this guide"
 
   share_licenses:
     share_licenses: "分享许可证"
@@ -2279,9 +2275,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
 #  anonymous_teacher:
 #    notify_teacher: "Notify Teacher"
-#    want_codecombat: "Want to play CodeCombat all the time?"
 #    create_teacher_account: "Create free teacher account"
-#    chat: "Ask questions via chat"
 #    enter_student_name: "Your name:"
 #    enter_teacher_email: "Your teacher's email:"
 #    teacher_email_placeholder: "teacher.email@example.com"

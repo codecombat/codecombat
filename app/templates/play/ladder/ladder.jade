@@ -3,14 +3,19 @@ block content
   - var base = "/images/pages/play/ladder/prize_";
 
   div#ladder-top
-    
+
     if view.leagueType === 'course' && view.course
       #course-header
         #course-details-link
-          a(href="/students/#{view.course.id}/#{view.league.id}")
-            span.glyphicon.glyphicon-arrow-left
-            span.spl(data-i18n="nav.play")
-      
+          if me.isTeacher() && view.classroomID
+            a(href="/teachers/classes/#{view.classroomID}#course-progress-tab")
+              span.glyphicon.glyphicon-arrow-left
+              span.spl(data-i18n="nav.play")
+          else
+            a(href=view.urls.courseWorldMap({course: view.course, courseInstance: view.courseInstance}))
+              span.glyphicon.glyphicon-arrow-left
+              span.spl(data-i18n="nav.play")
+
         .text-center
           span#course-name
             span= i18n(view.course.attributes, 'name')
@@ -28,25 +33,24 @@ block content
     if view.level.get('name') == 'Greed'
       .tournament-blurb
         h2
-          span(data-i18n="ladder.tournament_ended") Tournament ended
-          |  #{view.tournamentTimeLeft}
+          span(data-i18n="ladder.tournament_ended")
+          span.spl= view.tournamentTimeLeft
         p
-          span(data-i18n="ladder.tournament_blurb") Write code, collect gold, build armies, crush foes, win prizes, and upgrade your career in our $40,000 Greed tournament! Check out the details
-          |  
-          a(href="http://blog.codecombat.com/a-31-trillion-390-billion-statement-programming-war-between-545-wizards", data-i18n="ladder.tournament_blurb_blog") on our blog
+          span(data-i18n="ladder.tournament_blurb")
+          a.spl(href="http://blog.codecombat.com/a-31-trillion-390-billion-statement-programming-war-between-545-wizards", data-i18n="ladder.tournament_blurb_blog") on our blog
+          span .
+        p
+          strong Tournament ended!
+          a.spl(href="#winners") Behold the winners
+          | . Thanks for playing! You can
+          strong.spl still play
+          |  Greed and all of our other
+          a.spl(href="/play/ladder") multiplayer arenas
           | .
         p
-          strong Tournament ended! 
-          a(href="#winners") Behold the winners
-          | . Thanks for playing! You can 
-          strong still play
-          |  Greed and all of our other 
-          a(href="/play/ladder") multiplayer arenas
-          | .
-        p
-          | Want to commiserate? Head over to 
-          a(href="http://discourse.codecombat.com/") the forum
-          |  and discuss your strategies, your triumphs, and your turmoils.
+          | Want to commiserate? Head over to
+          a.spl(href="http://discourse.codecombat.com/") the forum
+          span.spl and discuss your strategies, your triumphs, and your turmoils.
 
         .sponsor-logos
           a(href="https://heapanalytics.com/")
@@ -66,70 +70,65 @@ block content
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended") Tournament ended
-          |  #{view.tournamentTimeLeft}
+          span.spl= view.tournamentTimeLeft
         p
           span(data-i18n="ladder.tournament_blurb_criss_cross") Win bids, construct paths, outwit opponents, grab gems, and upgrade your career in our Criss-Cross tournament! Check out the details
-          |  
-          a(href="http://blog.codecombat.com/a-good-new-fashioned-programming-throwdown", data-i18n="ladder.tournament_blurb_blog") on our blog
+          a.spl(href="http://blog.codecombat.com/a-good-new-fashioned-programming-throwdown", data-i18n="ladder.tournament_blurb_blog") on our blog
+          span .
+        p
+          strong Tournament ended!
+          a.spl(href="#winners") Behold the winners
+          | . Thanks for playing! You can
+          strong.spl still play
+          |  Criss-Cross and all of our other
+          a.spl(href="/play/ladder") multiplayer arenas
           | .
         p
-          strong Tournament ended! 
-          a(href="#winners") Behold the winners
-          | . Thanks for playing! You can 
-          strong still play
-          |  Criss-Cross and all of our other 
-          a(href="/play/ladder") multiplayer arenas
-          | .
-        p
-          | Want to commiserate? Head over to 
-          a(href="http://discourse.codecombat.com/") the forum
+          | Want to commiserate? Head over to
+          a.spl(href="http://discourse.codecombat.com/") the forum
           |  and discuss your strategies, your triumphs, and your turmoils.
 
     if view.level.get('name') == 'Zero Sum' && !view.league
       .tournament-blurb
         h2
           span(data-i18n="ladder.tournament_ended") Tournament ended
-          |  #{view.tournamentTimeLeft}
-          //span(data-i18n="ladder.tournament_started") , started
-          //|  #{view.tournamentTimeElapsed}
+          span.spl= view.tournamentTimeLeft
         p
           span(data-i18n="ladder.tournament_blurb_zero_sum") Unleash your coding creativity in both gold gathering and battle tactics in this alpine mirror match between red sorcerer and blue sorcerer. The tournament began on Friday, March 27 and will run until Monday, April 6 at 5PM PDT. Compete for fun and glory! Check out the details
-          |  
-          a(href="http://blog.codecombat.com/kings-of-zero-sum-strategies-from-the-ai-wars", data-i18n="ladder.tournament_blurb_blog") on our blog
-          | .
+          a.spl(href="http://blog.codecombat.com/kings-of-zero-sum-strategies-from-the-ai-wars", data-i18n="ladder.tournament_blurb_blog") on our blog
+          span .
         p
-          strong Tournament ended! 
-          a(href="#winners") Behold the winners
-          | . Thanks for playing! You can 
-          strong still play
-          |  Zero Sum as long as you like.
+          strong Tournament ended!
+          a.spl(href="#winners") Behold the winners
+          span . Thanks for playing! You can
+          strong.spl still play
+          span.spl Zero Sum as long as you like.
         p
-          | Want to commiserate? Head over to 
-          a(href="http://discourse.codecombat.com/") the forum
-          |  and discuss your strategies, your triumphs, and your turmoils.
+          span Want to commiserate? Head over to
+          a.spl(href="http://discourse.codecombat.com/") the forum
+          span.spl and discuss your strategies, your triumphs, and your turmoils.
 
     if view.level.get('name') == 'Ace of Coders'
       .tournament-blurb
         h2
           //span(data-i18n="ladder.tournament_ends") Tournament ends
           span(data-i18n="ladder.tournament_ended") Tournament ended
-          |  #{view.tournamentTimeLeft}
+          span.spl= view.tournamentTimeLeft
           span(data-i18n="ladder.tournament_started") , started
-          |  #{view.tournamentTimeElapsed}
+          span.spl= view.tournamentTimeElapsed
         p
           span(data-i18n="ladder.tournament_blurb_ace_of_coders") Battle it out in the frozen glacier in this domination-style mirror match! The tournament began on Wednesday, September 16 and will run until Wednesday, October 14 at 5PM PDT. Check out the details
-          |  
-          a(href="http://blog.codecombat.com/the-true-ace-of-coders", data-i18n="ladder.tournament_blurb_blog") on our blog
-          | .
+          a.spl(href="http://blog.codecombat.com/the-true-ace-of-coders", data-i18n="ladder.tournament_blurb_blog") on our blog
+          span .
         p
-          strong Tournament ended! 
-          a(href="#winners") Behold the winners
-          | . Thanks for playing! You can 
-          strong still play
+          strong Tournament ended!
+          a.spl(href="#winners") Behold the winners
+          | . Thanks for playing! You can
+          strong.spl still play
           |  Ace of Coders as long as you like.
         p
-          | Want to commiserate? Head over to 
-          a(href="http://discourse.codecombat.com/") the forum
+          | Want to commiserate? Head over to
+          a.spl(href="http://discourse.codecombat.com/") the forum
           |  and discuss your strategies, your triumphs, and your turmoils.
 
     div#columns.row
@@ -138,11 +137,10 @@ block content
         for team in view.teams
           div.column.col-md-4
             a(class="play-button btn btn-illustrated btn-block btn-lg " + (team.id == 'ogres' ? 'btn-primary' : 'btn-danger'), data-team=team.id)
-              span(data-i18n="play.play_as") Play As
-              |  
-              span= team.displayName
+              span(data-i18n="play.play_as")
+              span.spl= team.displayName
       div.column.col-md-2
-  
+
     .spectate-button-container
       a(href="/play/spectate/#{view.level.get('slug')}" + (view.league ? "?league=" + view.league.id : "")).spectate-button.btn.btn-illustrated.btn-info.center
         span(data-i18n="play.spectate") Spectate
@@ -175,18 +173,14 @@ block content
       #simulate-tab-view
     if view.level.get('name') == 'Greed'
       .tab-pane.well#prizes
-        h1(data-i18n="ladder_prizes.title") Tournament Prizes
+        h1(data-i18n="ladder_prizes.title")
         p
-          span(data-i18n="ladder_prizes.blurb_1") These prizes will be awarded according to
-          |  
-          a(href="#rules", data-i18n="ladder_prizes.blurb_2") the tournament rules
-          |  
-          span(data-i18n="ladder_prizes.blurb_3") to the top human and ogre players.
-          |  
-          strong(data-i18n="ladder_prizes.blurb_4") Two teams means double the prizes!
-          |  
-          span(data-i18n="ladder_prizes.blurb_5") (There will be two first place winners, two second-place winners, etc.)
-  
+          span(data-i18n="ladder_prizes.blurb_1")
+          a.spl(href="#rules", data-i18n="ladder_prizes.blurb_2")
+          span.spl(data-i18n="ladder_prizes.blurb_3")
+          strong(data-i18n="ladder_prizes.blurb_4")
+          span.spl(data-i18n="ladder_prizes.blurb_5")
+
         table#prize_table.table
           thead
             tr
@@ -194,13 +188,13 @@ block content
               td(data-i18n="ladder_prizes.prizes") Prizes
               td(data-i18n="ladder_prizes.total_value") Total Value
           tbody
-            tr 
+            tr
               td 1st
-              td 
+              td
                 ul.list-unstyled
                   li
                     img(src=base + "cash1.png")
-                    span $512 
+                    span $512
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "custom_wizard.png")
@@ -212,52 +206,46 @@ block content
                     img(src=base + "heap.png")
                     span
                       a(href="https://heapanalytics.com/") Heap Analytics
-                      |  
-                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                      |  - $354
+                      span.spl(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      span.spl - $354
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_coupon") coupon: choose either Rails or HTML
-                      |  - $99
+                      span.spl(data-i18n="ladder_prizes.one_month_coupon") coupon: choose either Rails or HTML
+                      span.spl - $99
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $2054
-            tr 
+            tr
               td 2nd
-              td 
+              td
                 ul.list-unstyled
                   li
                     img(src=base + "cash2.png")
-                    span $256 
+                    span $256
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "custom_avatar.png")
@@ -266,52 +254,46 @@ block content
                     img(src=base + "heap.png")
                     span
                       a(href="https://heapanalytics.com/") Heap Analytics
-                      |  
-                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                      |  - $354
+                      span.spl(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      span.spl - $354
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $1229
-            tr 
+            tr
               td 3rd
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash2.png")
-                    span $128 
+                    span $128
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "custom_avatar.png")
@@ -320,368 +302,325 @@ block content
                     img(src=base + "heap.png")
                     span
                       a(href="https://heapanalytics.com/") Heap Analytics
-                      |  
-                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                      |  - $354
+                      span.spl(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      span.spl - $354
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $1101
-            tr 
+            tr
               td 4th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $64 
+                    span $64
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "heap.png")
                     span
                       a(href="https://heapanalytics.com/") Heap Analytics
-                      |  
-                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                      |  - $354
+                      span.spl(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      span.spl - $354
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $887
-            tr 
+            tr
               td 5th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $32 
+                    span $32
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "heap.png")
                     span
                       a(href="https://heapanalytics.com/") Heap Analytics
-                      |  
-                      span(data-i18n="ladder_prizes.heap") for six months of "Startup" access
-                      |  - $354
+                      span.spl(data-i18n="ladder_prizes.heap") for six months of "Startup" access
+                      span.spl - $354
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $855
-            tr 
+            tr
               td 6th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $16 
+                    span $16
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $485
-            tr 
+            tr
               td 7th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $8 
+                    span $8
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $477
-            tr 
+            tr
               td 8th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $4 
+                    span $4
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $473
-            tr 
+            tr
               td 9th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $2 
+                    span $2
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $471
-            tr 
+            tr
               td 10th
               td
                 ul.list-unstyled
                   li
                     img(src=base + "cash3.png")
-                    span $1 
+                    span $1
                     span(data-i18n="ladder_prizes.in_cash") in cash
                   li
                     img(src=base + "firebase.png")
                     span
                       a(href="https://www.firebase.com/") Firebase
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $300
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $300
                   li
                     img(src=base + "one_month.png")
                     span
                       a(href="https://onemonthrails.com/") One Month Rails
-                      |  
-                      span(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
-                      |  - $30
+                      span.spl(data-i18n="ladder_prizes.one_month_discount") discount, 30% off: choose either Rails or HTML
+                      span.spl - $30
                   li
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $470
-            tr 
+            tr
               td 11 - 40
               td
                 ul.list-unstyled
@@ -689,25 +628,22 @@ block content
                     img(src=base + "webstorm.png")
                     span
                       a(href="http://www.jetbrains.com/webstorm/") Webstorm
-                      |  
-                      span(data-i18n="ladder_prizes.license") license
-                      |  - $49
+                      span.spl(data-i18n="ladder_prizes.license") license
+                      span.spl - $49
                   li
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $139
-            tr 
+            tr
               td 41 - 100
               td
                 ul.list-unstyled
@@ -715,18 +651,16 @@ block content
                     img(src=base + "oreilly.png")
                     span
                       a(href="http://shop.oreilly.com/category/ebooks.do") O'Reilly
-                      |  
-                      span(data-i18n="ladder_prizes.oreilly") ebook of your choice
-                      |  - $40
+                      span.spl(data-i18n="ladder_prizes.oreilly") ebook of your choice
+                      span.spl - $40
                   li
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $90
-            tr 
+            tr
               td 101+
               td
                 ul.list-unstyled
@@ -734,77 +668,76 @@ block content
                     img(src=base + "aws.png")
                     span
                       a(href="http://aws.amazon.com/") Amazon Web Services
-                      |  
-                      span(data-i18n="ladder_prizes.credits") credits
-                      |  - $50
+                      span.spl(data-i18n="ladder_prizes.credits") credits
+                      span.spl - $50
               td $50
-  
+
     if view.level.get('name') == 'Greed'
       .tab-pane.well#rules
         h1(data-i18n="ladder.tournament_rules") Tournament Rules
         h2 General
         p You don't have to buy anything to participate in the tournament, and trying to pay us won't increase your odds of winning. Although we don't anticipate the rules changing, they are subject to change.
-  
+
         h2 Dates and Times
         p The tournament starts on Tuesday, May 20 at 8:30AM and ends on Tuesday, June 10 at 5:00PM PDT. After the tournament finishes, we will check the games manually to prevent duplicate entries and cheating. We will email all the winners within two weeks of the end date.
-  
+
         h2 Eligilibity
         p The tournament is open to anyone over the age of 13. Players are allowed to form teams to compete, but we will only be rewarding submissions, so if a team of 10 wins, they will need to split the prize.
-  
+
         p The tournament is NOT open to people who live in countries or states that prohibit participating or receiving a prize in a challenge (these include, but are not limited to Brazil, Quebec, Italy, Cuba, Sudan, Iran, North Korea, and Syria). To clarify, people from the aforementioned places are welcome to play the Greed level, but cannot receive prizes. Organizations involved in putting the tournament together (namely CodeCombat and all of our employees) are excluded from participating/winning prizes.
-  
+
         h2 Submission Requirements
-        p 
-          | To be eligible to win prizes, players must submit their code to the Greed ladder for ranking AND defeat our default AI. Every player that submits their code to the ladder and beats our default AI will receive $50 in AWS credits as described on the 
+        p
+          | To be eligible to win prizes, players must submit their code to the Greed ladder for ranking AND defeat our default AI. Every player that submits their code to the ladder and beats our default AI will receive $50 in AWS credits as described on the
           a(href="#prizes", data-i18n="ladder_prizes.tournament_prizes") Tournament Prizes
           |  page.
-  
+
         p
-          | There are some restrictions regarding who can use the AWS credits. Please see the additional rules of use on 
+          | There are some restrictions regarding who can use the AWS credits. Please see the additional rules of use on
           a(href="https://aws.amazon.com/awscredits") Amazon's AWS credits page.
-  
+
         h2 Submission Rights
         p We reserve the right to use your submission and site identity (including username, avatar, and any information you mark as public) to promote the tournament. This is in keeping with our overall site terms of service.
-  
+
         h2 Judging Criteria
         p
-          | We will calculate final rankings by running the top games from the public leaderboard from both teams against each other and sorting solutions by wins and losses. The number of games from each side to be used in the final ranking is yet to be determined, but is probably around 150. The final ranking will be performed with a snapshot of solutions taken the end of the contest. The final ranking methedology is subject to change. We will not be evaluating code in any manual way for common traits like adequate documentation, cleanliness, etc. We reserve the right to disqualify any player for any reason. The public leaderboards are a good proxy for your final rank, but are not guaranteed to be accurate. To repeat, 
+          | We will calculate final rankings by running the top games from the public leaderboard from both teams against each other and sorting solutions by wins and losses. The number of games from each side to be used in the final ranking is yet to be determined, but is probably around 150. The final ranking will be performed with a snapshot of solutions taken the end of the contest. The final ranking methedology is subject to change. We will not be evaluating code in any manual way for common traits like adequate documentation, cleanliness, etc. We reserve the right to disqualify any player for any reason. The public leaderboards are a good proxy for your final rank, but are not guaranteed to be accurate. To repeat,
           strong the leaderboards are only a preliminary proxy for your final rank
           | .
-  
+
         p
-          | Your rank will change as players submit more solutions and more matches are played according to 
+          | Your rank will change as players submit more solutions and more matches are played according to
           a(href="https://github.com/codecombat/bayesian-battle") our open-source ranking library, Bayesian Battle
           | , but our final ranking will use an exhaustive pairwise matching round amongst the top players as described above.
-  
+
         h2 Prizes
-        p 
-          | Prizes will be awarded to everyone that achieves a rank covered on the 
+        p
+          | Prizes will be awarded to everyone that achieves a rank covered on the
           a(href="#prizes", data-i18n="ladder.prizes") Tournament Prizes
           |  page.
-  
+
         p Please remember that the player ranks listed on the prize page refer to ranks WITHIN a leaderboard. So if you are the #2 Ogre player, you will win the #2 prize. Similarly, if you are the #3 Human player, you will receive the #3 prize. If you have submissions on both leaderboards, we will only count your highest submission for the purposes of distributing prizes. As a result, your final ranking may be higher than your preliminary ranking due to removing duplicate submissions above you.
-  
+
         h2 Verifying Potential Winners
-        p We may ask players to identify themselves so that we can detect duplicate entries. This may be done in the form of a Facebook, Google+, or LinkedIn profile, but we may need more information. All players eligible for prizes agree that refusing to provide us with identifying information may lead to ineligibility for prizes. 
-  
+        p We may ask players to identify themselves so that we can detect duplicate entries. This may be done in the form of a Facebook, Google+, or LinkedIn profile, but we may need more information. All players eligible for prizes agree that refusing to provide us with identifying information may lead to ineligibility for prizes.
+
         p On a related note, if we have reason to believe that a player has intentionally submitted duplicate entries for the purpose of receiving more prizes or manipulating the leaderboards in any way, we will remove that player and all submissions we believe to be associated with them. We want this to be fair for everyone.
-  
+
         h2 Prize Distribution
         p Different sponsors require different ways of claiming their prizes, and we will work with winners to ensure they are able to redeem their prizes in a timely fashion. For cash prizes, we will deliver the money via PayPal. We will not ship checks, money orders, or cash through the mail. We will assume reasonable international money transfer costs to deliver cash prizes through Paypal.
-  
-        p Winners are responsible for any taxes associated with claiming their prizes. CodeCombat is not responsible for filing paperwork on behalf of winners for tax claims. 
-  
+
+        p Winners are responsible for any taxes associated with claiming their prizes. CodeCombat is not responsible for filing paperwork on behalf of winners for tax claims.
+
         h2 Contact
         p
-          | If you have any questions or would like to get in touch with us for any other reason, we can be reached at team@codecombat.com. You can also post to our public 
+          | If you have any questions or would like to get in touch with us for any other reason, we can be reached at team@codecombat.com. You can also post to our public
           a(href="http://discourse.codecombat.com/") Discourse forum
           | .
-  
+
     if view.level.get('name') == 'Greed' || view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
       .tab-pane.well#winners
         h1(data-i18n="ladder.winners") Winners
-  
+
         table.table.table-hover.table-condensed
           thead
             tr
@@ -829,7 +762,7 @@ block content
           tbody
             each human, index in view.winners.humans
               - var ogre = view.winners.ogres[index]
-              tr 
+              tr
                 td= human.rank
                 if view.level.get('name') == 'Criss-Cross' || view.level.get('name') == 'Zero Sum'
                   td.code-language-cell(style="background-image: url(/images/common/code_languages/" + human.codeLanguage + "_icon.png)" title=_.string.capitalize(human.codeLanguage))
@@ -837,9 +770,9 @@ block content
                 if view.level.get('name') == 'Greed' || view.level.get('name') == 'Zero Sum'
                   td
                     span.win= human.wins
-                    |  - 
+                    span.spl -
                     span.loss= human.losses
-                    |  - 
+                    span.spl -
                     if view.level.get('name') == 'Greed'
                       span.tie= 377 - human.wins - human.losses
                     else if view.level.get('name') == 'Zero Sum'
@@ -856,9 +789,9 @@ block content
                   if view.level.get('name') == 'Greed' || view.level.get('name') == 'Zero Sum'
                     td
                       span.win= ogre.wins
-                      |  - 
+                      span.spl -
                       span.loss= ogre.losses
-                      |  - 
+                      span.spl -
                       if view.level.get('name') == 'Greed'
                         span.tie= 407 - ogre.wins - ogre.losses
                       else if view.level.get('name') == 'Zero Sum'
@@ -876,7 +809,7 @@ block content
     if view.level.get('name') == 'Ace of Coders'
       .tab-pane.well#winners
         h1(data-i18n="ladder.winners") Winners
-  
+
         table.table.table-hover.table-condensed
           thead
             tr
@@ -888,7 +821,7 @@ block content
               th(data-i18n="play.spectate") Spectate
           tbody
             each player in view.winners.humans
-              tr 
+              tr
                 td= player.rank
                 td.code-language-cell(style="background-image: url(/images/common/code_languages/" + player.codeLanguage + "_icon.png)" title=_.string.capitalize(player.codeLanguage))
                 td= player.name

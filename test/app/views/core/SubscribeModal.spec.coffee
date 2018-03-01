@@ -153,16 +153,16 @@ describe 'SubscribeModal', ->
         @modal.render()
         jasmine.demoModal(@modal)
         @openAsync.and.returnValue(tokenSuccess)
-    
+
       it 'uses Stripe', ->
         expect(@modal.$('.stripe-lifetime-button').length).toBe(1)
         expect(@modal.$('#paypal-button-container').length).toBe(0)
         expect(@payPalButton).toBeUndefined()
-    
+
       describe 'when the purchase succeeds', ->
         beforeEach ->
           @purchaseRequest.andReturn({status: 200, responseText: '{}'})
-    
+
         it 'calls hide()', wrapJasmine ->
           spyOn(@modal, 'hide')
           spyOn(me, 'fetch').and.returnValue(Promise.resolve())
@@ -170,17 +170,17 @@ describe 'SubscribeModal', ->
           expect(@modal.hide).toHaveBeenCalled()
           expect(@getTrackerEventNames()).toDeepEqual(
             [ "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
-    
+
       describe 'when the Stripe purchase response is 402', ->
         beforeEach ->
           @purchaseRequest.andReturn({status: 402, responseText: '{}'})
-    
+
         it 'shows state "declined"', wrapJasmine ->
           yield @modal.onClickStripeLifetimeButton()
           expect(@modal.state).toBe('declined')
           expect(@getTrackerEventNames()).toDeepEqual(
             [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
-    
+
     describe "when user's country has regional pricing", ->
       beforeEach ->
         me.set({_id: '1234', country: 'brazil'})
@@ -191,30 +191,8 @@ describe 'SubscribeModal', ->
         @openAsync.and.returnValue(tokenSuccess)
       afterEach ->
         me.set({country: undefined})
-      
-      it 'shows PayPal button for lifetime subs', ->
-        expect(@modal.$('.stripe-lifetime-button').length).toBe(0)
-        expect(@modal.$('#paypal-button-container').length).toBe(1)
-        expect(@payPalButton).toBeDefined()
 
-      describe 'when the purchase succeeds', ->
-        beforeEach ->
-          @purchaseRequest.andReturn({status: 200, responseText: '{}'})
-
-        it 'calls hide()', wrapJasmine ->
-          spyOn(@modal, 'hide')
-          spyOn(me, 'fetch').and.returnValue(Promise.resolve())
-          yield @payPalButton?.click()
-          expect(@modal.hide).toHaveBeenCalled()
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Finish Lifetime Purchase" ])
-
-      describe 'when the PayPal purchase response is 422', ->
-        beforeEach ->
-          @purchaseRequest.andReturn({status: 422, responseText: '{"i18n": "subscribe.paypal_payment_error"}'})
-
-        it 'shows state "error"', wrapJasmine ->
-          yield @payPalButton?.click()
-          expect(@modal.state).toBe('error')
-          expect(@getTrackerEventNames()).toDeepEqual(
-            [ "Start Lifetime Purchase", "Fail Lifetime Purchase" ])
+      it 'uses Stripe', ->
+        expect(@modal.$('.stripe-lifetime-button').length).toBe(1)
+        expect(@modal.$('#paypal-button-container').length).toBe(0)
+        expect(@payPalButton).toBeUndefined()

@@ -327,7 +327,7 @@ module.exports = class PlayLevelView extends RootView
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
-    @insertSubView new GoalsView {level: @level}
+    @insertSubView new GoalsView {level: @level, session: @session}
     @insertSubView new LevelFlagsView levelID: @levelID, world: @world if @$el.hasClass 'flags'
     goldInDuelStatsView = @level.get('slug') in ['wakka-maul', 'cross-bones']
     @insertSubView new GoldView {} unless @level.isType('web-dev', 'game-dev') or goldInDuelStatsView
@@ -381,7 +381,7 @@ module.exports = class PlayLevelView extends RootView
     else if e.level.get('slug') is 'assembly-speed'
       raider = '55527eb0b8abf4ba1fe9a107'
       e.session.set 'heroConfig', {"thangType":raider,"inventory":{}}
-    else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size e.session.get('heroConfig')?.inventory ? {}
+    else if e.level.isType('hero', 'hero-ladder', 'hero-coop') and not _.size(e.session.get('heroConfig')?.inventory ? {}) and e.level.get('assessment') isnt 'open-ended'
       # Delaying this check briefly so LevelLoader.loadDependenciesForSession has a chance to set the heroConfig on the level session
       _.defer =>
         return if _.size(e.session.get('heroConfig')?.inventory ? {})

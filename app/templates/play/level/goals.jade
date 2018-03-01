@@ -7,3 +7,14 @@ div.goals-status.rtl-allowed
   span(data-i18n="play_level.incomplete").secret.goal-status.incomplete Incomplete
   span(data-i18n="play_level.timed_out").secret.goal-status.timed-out Ran out of time
   span(data-i18n="play_level.failing").secret.goal-status.failure Failing
+
+.scoreboard
+  span.score-type Survival time
+  span= ": "
+  span.current-score-value 136.7 seconds
+  span.best-score
+    span.best-score-prefix= " (best: "
+    span.best-score-value 138.8
+    span.best-score-suffix )
+.threshold
+  img.threshold-icon(src="/images/pages/courses/star-bronze.png")

@@ -2,31 +2,31 @@
 ## FAQ (Veel Gestelde Vragen)
 
 #### Inhoudsopgave
-* [Wat is CodeCombat?](#wat-is-codecombat-)
-* [Voor welke leeftijden is CodeCombat geschikt?](#voor-welke-leeftijden-is-codecombat-geschikt-)
-* [Voor welke schoolniveaus is CodeCombat geschikt?](#voor-welke-schoolniveaus-is-codecombat-geschikt-)
-* [Welke programmeertalen zijn beschikbaar?](#welke-programmeertalen-zijn-beschikbaar-)
-* [Kan ik CodeCombat gebruiken als voornaamste leerplan voor de klas?](#kan-ik-codecombat-gebruiken-als-voornaamste-leerplan-voor-de-klas-)
-* [Hoeveel kost het om toegang tot alle beschikbare  cursussen en hulpmiddelen te krijgen?](#hoeveel-kost-het-om-toegang-tot-alle-beschikbare-cursussen-en-hulpmiddelen-te-krijgen-)
-* [Wat houdt een licentie in?](#wat-houdt-een-licentie-in-)
-* [Hebben jullie gratis cursussen voor onderwijzers om uit te proberen voordat ze de beslissing nemen om licenties aan te schaffen?](#hebben-jullie-gratis-cursussen-voor-onderwijzers-om-uit-te-proberen-voordat-ze-de-beslissing-nemen-om-licenties-aan-te-schaffen-)
-* [Kunnen mijn studenten een account aanmaken als ze geen email-adres hebben?](#kunnen-mijn-studenten-een-account-aanmaken-als-ze-geen-email-adres-hebben-)
-* [Kan ik de voortgang van mijn studenten volgen?](#kan-ik-de-voortgang-van-mijn-studenten-volgen-)
-* [Werkt CodeCombat ook op een iPad?](#werkt-codecombat-ook-op-een-ipad-)
-* [Ondersteunt CodeCombat ook Clever Instant Logins?](#ondersteunt-codecombat-ook-clever-instant-logins-)
-* [Wordt er een bepaalde browser en operating system speciaal aangeraden?](#wordt-er-een-bepaalde-browser-en-operating-system-speciaal-aangeraden-)
-* [De informatica-achtergrond van studenten wisselt sterk in mijn klas, hoe helpt CodeCombat me met die uitdaging?](#de-informatica-achtergrond-van-studenten-wisselt-sterk-in-mijn-klas-hoe-helpt-codecombat-me-met-die-uitdaging-)
-* [Wat als ik licenties nodig heb die alleen een periode/semester in plaats van een volledig jaar duren?](#wat-als-ik-licenties-nodig-heb-die-alleen-een-periode-semester-in-plaats-van-een-volledig-jaar-duren-)
-* [Wat is het Arena-level aan het einde van een cursus?](#wat-is-het-arena-level-aan-het-einde-van-een-cursus-)
-* [Heeft CodeCombat projecten waar studenten aan kunnen werken en delen?](#heeft-codecombat-projecten-waar-studenten-aan-kunnen-werken-en-delen-)
-* [Wat bieden jullie aan in de Web Development en Game Development-cursussen?](#wat-bieden-jullie-aan-in-de-web-development-en-game-development-cursussen-)
-* [Kunnen studenten eerdere levels overslaan als ze de concepten al begrijpen?](#kunnen-studenten-eerdere-levels-overslaan-als-ze-de-concepten-al-begrijpen-)
-* [Moet de docent een licentie kopen als ze de levels van hun studenten willen doorlopen?](#moet-de-docent-een-licentie-kopen-als-ze-de-levels-van-hun-studenten-willen-doorlopen-)
-* [Hoe begin ik met CodeCombat?](#hoe-begin-ik-met-codecombat-)
-* [Is er een limiet aan het aantal studenten dat ik kan toevoegen in de Inleiding tot de Computer Wetenschap?](#is-er-een-limiet-aan-het-aantal-studenten-dat-ik-kan-toevoegen-in-de-inleiding-tot-de-computer-wetenschap-)
-* [Hoe reset ik het wachtwoord van mijn student?](#hoe-reset-ik-het-wachtwoord-van-mijn-student-)
-* [Hoe draag ik een licentie over van de ene student naar de andere?](#hoe-draag-ik-een-licentie-over-van-de-ene-student-naar-de-andere-)
-* [Hoe deel ik licenties met andere docenten in mijn organisatie?](#hoe-deel-ik-licenties-met-andere-docenten-in-mijn-organisatie-)
+* [Wat is CodeCombat?](#wat-is-codecombat)
+* [Voor welke leeftijden is CodeCombat geschikt?](#voor-welke-leeftijden-is-codecombat-geschikt)
+* [Voor welke schoolniveaus is CodeCombat geschikt?](#voor-welke-schoolniveaus-is-codecombat-geschikt)
+* [Welke programmeertalen zijn beschikbaar?](#welke-programmeertalen-zijn-beschikbaar)
+* [Kan ik CodeCombat gebruiken als voornaamste leerplan voor de klas?](#kan-ik-codecombat-gebruiken-als-voornaamste-leerplan-voor-de-klas)
+* [Hoeveel kost het om toegang tot alle beschikbare  cursussen en hulpmiddelen te krijgen?](#hoeveel-kost-het-om-toegang-tot-alle-beschikbare-cursussen-en-hulpmiddelen-te-krijgen)
+* [Wat houdt een licentie in?](#wat-houdt-een-licentie-in)
+* [Hebben jullie gratis cursussen voor onderwijzers om uit te proberen voordat ze de beslissing nemen om licenties aan te schaffen?](#hebben-jullie-gratis-cursussen-voor-onderwijzers-om-uit-te-proberen-voordat-ze-de-beslissing-nemen-om-licenties-aan-te-schaffen)
+* [Kunnen mijn studenten een account aanmaken als ze geen email-adres hebben?](#kunnen-mijn-studenten-een-account-aanmaken-als-ze-geen-email-adres-hebben)
+* [Kan ik de voortgang van mijn studenten volgen?](#kan-ik-de-voortgang-van-mijn-studenten-volgen)
+* [Werkt CodeCombat ook op een iPad?](#werkt-codecombat-ook-op-een-ipad)
+* [Ondersteunt CodeCombat ook Clever Instant Logins?](#ondersteunt-codecombat-ook-clever-instant-logins)
+* [Wordt er een bepaalde browser en operating system speciaal aangeraden?](#wordt-er-een-bepaalde-browser-en-operating-system-speciaal-aangeraden)
+* [De informatica-achtergrond van studenten wisselt sterk in mijn klas, hoe helpt CodeCombat me met die uitdaging?](#de-informatica-achtergrond-van-studenten-wisselt-sterk-in-mijn-klas-hoe-helpt-codecombat-me-met-die-uitdaging)
+* [Wat als ik licenties nodig heb die alleen een periode/semester in plaats van een volledig jaar duren?](#wat-als-ik-licenties-nodig-heb-die-alleen-een-periode-semester-in-plaats-van-een-volledig-jaar-duren)
+* [Wat is het Arena-level aan het einde van een cursus?](#wat-is-het-arena-level-aan-het-einde-van-een-cursus)
+* [Heeft CodeCombat projecten waar studenten aan kunnen werken en delen?](#heeft-codecombat-projecten-waar-studenten-aan-kunnen-werken-en-delen)
+* [Wat bieden jullie aan in de Web Development en Game Development-cursussen?](#wat-bieden-jullie-aan-in-de-web-development-en-game-development-cursussen)
+* [Kunnen studenten eerdere levels overslaan als ze de concepten al begrijpen?](#kunnen-studenten-eerdere-levels-overslaan-als-ze-de-concepten-al-begrijpen)
+* [Moet de docent een licentie kopen als ze de levels van hun studenten willen doorlopen?](#moet-de-docent-een-licentie-kopen-als-ze-de-levels-van-hun-studenten-willen-doorlopen)
+* [Hoe begin ik met CodeCombat?](#hoe-begin-ik-met-codecombat)
+* [Is er een limiet aan het aantal studenten dat ik kan toevoegen in de Inleiding tot de Computer Wetenschap?](#is-er-een-limiet-aan-het-aantal-studenten-dat-ik-kan-toevoegen-in-de-inleiding-tot-de-computer-wetenschap)
+* [Hoe reset ik het wachtwoord van mijn student?](#hoe-reset-ik-het-wachtwoord-van-mijn-student)
+* [Hoe draag ik een licentie over van de ene student naar de andere?](#hoe-draag-ik-een-licentie-over-van-de-ene-student-naar-de-andere)
+* [Hoe deel ik licenties met andere docenten in mijn organisatie?](#hoe-deel-ik-licenties-met-andere-docenten-in-mijn-organisatie)
 
 ### Wat is CodeCombat?
 
@@ -166,4 +166,4 @@ Als u over volledige licenties (Full licences) beschikt, kunt u de toegang daart
 
 U kunt alleen docenten in uw organisatie toevoegen die al een docentaccount hebben gemaakt ( [op deze manier](/teachers/resources/getting-started)). Nadat een docent is toegevoegd aan een gedeelde licentiepool, kan deze de licenties gebruiken die u hebt gedeeld.
 
-Wanneer een licentie is gebruikt, is deze niet beschikbaar voor gebruik door een andere docent totdat die docent de licentie van de student intrekt (zie [Een licentie overdragen](#hoe-draag-ik-een-licentie-over-van-de-ene-student-naar-de-andere-)).
+Wanneer een licentie is gebruikt, is deze niet beschikbaar voor gebruik door een andere docent totdat die docent de licentie van de student intrekt (zie [Een licentie overdragen](#hoe-draag-ik-een-licentie-over-van-de-ene-student-naar-de-andere)).

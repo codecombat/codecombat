@@ -1,5 +1,6 @@
 CocoModel = require './CocoModel'
 api = require('core/api')
+LevelConstants = require 'lib/LevelConstants'
 
 module.exports = class LevelSession extends CocoModel
   @className: 'LevelSession'
@@ -81,18 +82,32 @@ module.exports = class LevelSession extends CocoModel
     newTopScores = []
     now = new Date()
     for scoreType in level.get('scoreTypes') ? []
+      scoreType = scoreType.type if scoreType.type
       oldTopScore = _.find oldTopScores, type: scoreType
       newScore = scores[scoreType]
       unless newScore?
-        newTopScores.push oldTopScore
+        newTopScores.push oldTopScore if oldTopScore
         continue
-      newScore *= -1 if scoreType in ['time', 'damage-taken']  # Make it so that higher is better
+      newScore *= -1 if scoreType in LevelConstants.lowerIsBetterScoreTypes  # Index relies on "top" scores being higher numbers
       if not oldTopScore? or newScore > oldTopScore.score
         newTopScores.push type: scoreType, date: now, score: newScore
       else
         newTopScores.push oldTopScore
     state.topScores = newTopScores
     @set 'state', state
+    scores = LevelSession.getTopScores({level: level.toJSON(), session: @toJSON()})
+    Backbone.Mediator.publish('level:top-scores-updated', {scores})
+
+  @getTopScores: ({level, session}) ->
+    Level = require('models/Level')
+    scores = (_.clone(score) for score in session.state?.topScores ? [])
+    score.score *= -1 for score in scores when score.type in LevelConstants.lowerIsBetterScoreTypes  # Undo negative storage for display
+    if level
+      for sessionScore in scores
+        thresholdAchieved = Level.thresholdForScore(_.assign(_.pick(sessionScore, 'score', 'type'), {level}))
+        if thresholdAchieved
+          sessionScore.thresholdAchieved = thresholdAchieved
+    scores
 
   isFake: -> @id is 'A Fake Session ID'
 

@@ -43,7 +43,35 @@ describe 'GET /db/classroom?ownerID=:id', ->
     expect(res.statusCode).toBe(403)
     done()
 
+describe 'GET /db/classroom?memberID=:id', ->
+  beforeEach utils.wrap ->
+    yield utils.clearModels([User, Classroom, Course, Campaign])
+    @teacher = yield utils.initUser({role: 'teacher'})
+    @user1 = yield utils.initUser()
+    @user2 = yield utils.initUser()
+    @user3 = yield utils.initUser()
+    yield utils.loginUser(@teacher)
+    @classroom1 = yield utils.makeClassroom({ownerID: @teacher._id }, {members: [@user1, @user2]})
+    @classroom2 = yield utils.makeClassroom({ownerID: @teacher._id }, {members: [@user2, @user3]})
+    @classroom3 = yield utils.makeClassroom({ownerID: @teacher._id }, {members: [@user1, @user3]})
 
+  it 'returns an array of classrooms with the given member', utils.wrap ->
+    yield utils.loginUser(@user1)
+    url = getURL('/db/classroom?memberID='+@user1.id)
+    [res] =  yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(200)
+    expect(res.body.length).toBe(2)
+    expect(_.find(res.body, {_id: @classroom1.id})).toBeTruthy()
+    expect(_.find(res.body, {_id: @classroom2.id})).toBeFalsy()
+    expect(_.find(res.body, {_id: @classroom3.id})).toBeTruthy()
+
+
+  it 'returns 403 when a non-admin tries to get classrooms for another user', utils.wrap ->
+    yield utils.loginUser(@user2)
+    url = getURL('/db/classroom?memberID='+@user1.id)
+    [res, body] =  yield request.getAsync { url, json: true }
+    expect(res.statusCode).toBe(403)
+    
 describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom, Course, Campaign], (err) ->
@@ -538,7 +566,7 @@ describe 'POST /db/classroom/:id/invite-members', ->
     yield utils.loginUser(user)
     classroom = yield utils.makeClassroom()
     url = classroomsURL + "/#{classroom.id}/invite-members"
-    data = { emails: ['test@test.com'] }
+    data = { emails: ['test@test.com'], recaptchaResponseToken: 'user response token' }
     sendwithus = require '../../../server/sendwithus'
     spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
       expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
@@ -546,6 +574,8 @@ describe 'POST /db/classroom/:id/invite-members', ->
       expect(context.email_data.teacher_name).toBe('Mr Professerson')
       expect(context.email_data.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
       done()
+    serverUtils = require '../../../server/lib/utils'
+    spyOn(serverUtils, 'verifyRecaptchaToken').and.returnValue(Promise.resolve(true));
     [res, body] = yield request.postAsync { uri: url, json: data, headers: {host: 'codecombat.com'} }
     expect(res.statusCode).toBe(200)
 

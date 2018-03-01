@@ -10,7 +10,7 @@ Recommended Prerequisites:
 
 ### Overview
 
-The Game Development 3 course continues from Game Development 2, using the concepts learned in Computer Science 3 to build even more varied and creative games. Game Development 2 provides students with more open-ended tools, enabling a wider variety of games and programs to be built, while also seeing how basic Computer Science concepts are used in the context of making something to be shared with others.
+The Game Development 3 course continues from Game Development 2, using the concepts learned in Computer Science 3 to build even more varied and creative games. Game Development 3 provides students with more open-ended tools, enabling a wider variety of games and programs to be built, while also seeing how basic Computer Science concepts are used in the context of making something to be shared with others.
 
 This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript.
 

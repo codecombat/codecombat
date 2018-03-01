@@ -30,16 +30,16 @@ block content
     if view.levels
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
-        if level.get('assessment') && !me.get('verifiedTeacher')
+        if level.get('assessment') && !me.hasAssessments()
           - continue
         .small
-          a(href="##{view.levelNumberMap[level.get('original')]}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+          a(href="##{level.get('slug')}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
       br
 
       each level, index in view.levels.models
-        if level.get('assessment') && !me.get('verifiedTeacher')
+        if level.get('assessment') && !me.hasAssessments()
           - continue
-        h2.page-break-before(id=view.levelNumberMap[level.get('original')]) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
+        h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
         div
@@ -71,6 +71,8 @@ block content
             span= level.get('name')
             span.spl(data-i18n="common.solution")
           if level.get('solution')
+            if level.get('assessment') === 'open-ended'
+              em(data-i18n="teacher.explain_open_ended")
             pre
               code= level.get('solution')
           else

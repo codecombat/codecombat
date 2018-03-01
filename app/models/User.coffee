@@ -30,6 +30,7 @@ module.exports = class User extends CocoModel
   isAdmin: -> 'admin' in @get('permissions', true)
   isArtisan: -> 'artisan' in @get('permissions', true)
   isInGodMode: -> 'godmode' in @get('permissions', true)
+  hasAssessments: -> @isAdmin() or 'assessments' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   displayName: -> @get('name', true)
@@ -208,6 +209,14 @@ module.exports = class User extends CocoModel
     # Not a constant number of videos available (e.g. could be 0, 1, 3, or 4 currently)
     return 0 unless numVideos > 0
     return me.get('testGroupNumber') % numVideos
+
+  testCinematicPlayback: ->
+    return @shouldTestCinematicPlayback if @shouldTestCinematicPlayback?
+    return true if me.isAdmin()
+    return false if me.isStudent() or me.isTeacher()
+    @shouldTestCinematicPlayback = me.get('testGroupNumber') % 2 is 0
+    application.tracker.identify cinematicPlayback: @shouldTestCinematicPlayback
+    @shouldTestCinematicPlayback
 
   hasSubscription: ->
     return false if me.isStudent() or me.isTeacher()

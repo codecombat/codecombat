@@ -15,7 +15,6 @@ module.exports = class AnonymousTeacherModal extends ModalView
 
   events:
     'click #anonymous-teacher-signup-button': 'onClickAnonymousTeacherSignupButton'
-    'click #anonymous-teacher-chat-button': 'onClickAnonymousTeacherChatButton'
     'change #anonymous-teacher-email-input': 'onChangeAnonymousTeacherEmailInput'
     'input #anonymous-teacher-email-input': 'onChangeAnonymousTeacherEmailInput'
     'change #anonymous-teacher-student-name-input': 'onChangeAnonymousStudentNameInput'
@@ -36,12 +35,6 @@ module.exports = class AnonymousTeacherModal extends ModalView
   onClickAnonymousTeacherSignupButton: (e) ->
     @openModalView(new CreateAccountModal({startOnPath: 'teacher'}))
     window.tracker?.trackEvent 'Anonymous teacher signup modal teacher signup', category: 'World Map'
-
-  onClickAnonymousTeacherChatButton: (e) ->
-    @listenToOnce window.tracker, 'segment-loaded', ->
-      Intercom?('showNewMessage')
-    me.setRole 'possible teacher'
-    window.tracker?.trackEvent 'Anonymous teacher signup modal chat', category: 'World Map'
 
   getEmail: -> _.string.trim @$('#anonymous-teacher-email-input').val()
 
