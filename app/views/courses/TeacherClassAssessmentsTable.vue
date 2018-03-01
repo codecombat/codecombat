@@ -4,7 +4,9 @@
       div.table-row.table-header-row
         div.table-header
       div.table-row(v-for="student in students")
-        div.table-cell.name {{ broadName(student) }}
+        div.table-cell.name
+          div {{ broadName(student) }}
+          div.student-email {{ student.email }}
     div.data-column
       div.table-row(v-if="levels.length === 0")
         div.table-cell No assessment levels available for this course yet.
@@ -53,8 +55,11 @@
 <style lang="sass">
   #teacher-class-assessments-table
     display: flex
-    .table-row
-      height: 44px
+    .table-row, .table-cell
+      height: 53px
+    .freeze-column
+      .table-cell, .table-header
+        width: 200px
     .data-column
       overflow: scroll
       .table-row
@@ -62,9 +67,8 @@
       .table-cell, .table-header
         text-align: center
     .table-cell, .table-header
-      height: 44px
       display: inline-block
-      width: 142.5px
+      width: 134.3px
       border: 1px solid black
       box-sizing: border-box
     .table-header-row, .table-header
@@ -80,4 +84,11 @@
         top: 0
         bottom: 0
         overflow: hidden
+    .student-email
+      font-size: 15px
+      line-height: 20px
+      text-overflow: ellipsis
+      overflow: hidden
+    .progress-dot
+      margin-top: 9px
 </style>
