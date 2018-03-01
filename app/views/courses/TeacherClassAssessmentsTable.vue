@@ -13,12 +13,12 @@
         div.table-cell No assessment levels available for this course yet.
       div(v-for="(student, index) in students")
         div.table-row.table-header-row(v-if="index % 8 === 0")
-          div.table-header(v-for="level in levels")
+          div.table-header(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
             div(v-if="level.assessment === 'cumulative'") Combo
             div(v-else-if="!(level.primaryConcepts||[]).length") Long long long long name
             div(v-else) {{ $t("concepts."+(level.primaryConcepts||[])[0]) }}
         .table-row
-          div.table-cell(v-for="level in levels")
+          div.table-cell(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
             student-level-progress-dot(
               :level="level",
               :progress="progress[level.original][student._id]",
@@ -93,4 +93,6 @@
       overflow: hidden
     .progress-dot
       margin-top: 9px
+    .combo-cell
+      background: #eee
 </style>
