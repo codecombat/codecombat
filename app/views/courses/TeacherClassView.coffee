@@ -232,8 +232,8 @@ module.exports = class TeacherClassView extends RootView
     students = @state.get('students').toJSON()
     
     # TEST: make many students and levels, for science
-    students = _.times(20, -> students[0])
-    levels = _.flatten(_.times(3, -> levels))
+#    students = _.times(20, -> students[0])
+#    levels = _.flatten(_.times(3, -> levels))
     
     propsData = {
       students

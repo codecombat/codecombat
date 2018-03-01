@@ -1,25 +1,25 @@
 <template lang="jade">
   #teacher-class-assessments-table
-    div.freeze-column
+    div.table-row(v-if="levels.length === 0")
+      div.table-cell No assessment levels available for this course yet.
+    div.freeze-column(v-if="levels.length > 0")
       div(v-for="(student, index) in students")
         div.table-row.table-header-row(v-if="index % 8 === 0")
           div.table-header
-        div.prev-arrow(@click="onClickArrow(-1)", v-if="index % 8 === 0", :style="{display: showLeftArrows ? 'block' : 'none'}")
+        div.prev-arrow(@click="onClickArrow(-1)", v-if="index % 8 === 0", :style="{display: showPrevArrows ? 'block' : 'none'}")
           span.glyphicon.glyphicon-circle-arrow-left
-        div.next-arrow(@click="onClickArrow(1)", v-if="index % 8 === 0", :style="{display: showRightArrows ? 'block' : 'none'}")
+        div.next-arrow(@click="onClickArrow(1)", v-if="index % 8 === 0", :style="{display: showNextArrows ? 'block' : 'none'}")
           span.glyphicon.glyphicon-circle-arrow-right
         div.table-row
           div.table-cell.name
             div {{ broadName(student) }}
             div.student-email {{ student.email }}
-    div.data-column(ref="dataColumn", @scroll="updateArrows")
-      div.table-row(v-if="levels.length === 0")
-        div.table-cell No assessment levels available for this course yet.
+    div.data-column(ref="dataColumn", @scroll="updateArrows" v-if="levels.length > 0")
       div(v-for="(student, index) in students")
         div.table-row.table-header-row(v-if="index % 8 === 0")
           div.table-header(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
             div(v-if="level.assessment === 'cumulative'") Combo
-            div(v-else-if="!(level.primaryConcepts||[]).length") Long long long long name
+            div(v-else-if="!(level.primaryConcepts||[]).length") ?
             div(v-else) {{ $t("concepts."+(level.primaryConcepts||[])[0]) }}
         .table-row
           div.table-cell(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
@@ -48,16 +48,17 @@
       'classroom',
     ],
     data: ->
-      showLeftArrows: false
-      showRightArrows: false
+      showPrevArrows: false
+      showNextArrows: false
     methods: {
       broadName: User.broadName,
       onClickArrow: (dir) ->
         @$refs.dataColumn.scrollLeft += @$refs.dataColumn.offsetWidth * dir
       updateArrows: ->
         col = @$refs.dataColumn
-        @showLeftArrows = col.scrollLeft > 0
-        @showRightArrows = col.offsetWidth + col.scrollLeft < col.scrollWidth
+        return unless col
+        @showPrevArrows = col.scrollLeft > 0
+        @showNextArrows = (col.scrollWidth > col.offsetWidth) and (col.offsetWidth + col.scrollLeft < col.scrollWidth)
     }
     components: {
       StudentLevelProgressDot
