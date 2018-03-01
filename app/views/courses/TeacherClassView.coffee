@@ -229,8 +229,14 @@ module.exports = class TeacherClassView extends RootView
       courseInstance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
       if courseInstance
         courseInstance = courseInstance.toJSON()
+    students = @state.get('students').toJSON()
+    
+    # TEST: make many students and levels, for science
+    students = _.times(20, -> students[0])
+    levels = _.flatten(_.times(3, -> levels))
+    
     propsData = {
-      students: @state.get('students').toJSON()
+      students
       levels,
       course: course?.toJSON(),
       progress: @state.get('progressData')?.get({ @classroom, course }),
