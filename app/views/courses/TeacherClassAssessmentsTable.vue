@@ -1,30 +1,32 @@
 <template lang="jade">
   #teacher-class-assessments-table
     div.freeze-column
-      div.table-row.table-header-row
-        div.table-header
-      div.table-row(v-for="student in students")
-        div.table-cell.name
-          div {{ broadName(student) }}
-          div.student-email {{ student.email }}
+      div(v-for="(student, index) in students")
+        div.table-row.table-header-row(v-if="index % 8 === 0")
+          div.table-header
+        div.table-row
+          div.table-cell.name
+            div {{ broadName(student) }}
+            div.student-email {{ student.email }}
     div.data-column
       div.table-row(v-if="levels.length === 0")
         div.table-cell No assessment levels available for this course yet.
-      div.table-row.table-header-row(v-else)
-        div.table-header(v-for="level in levels")
-          div(v-if="level.assessment === 'cumulative'") Combo
-          div(v-else-if="!(level.primaryConcepts||[]).length") Long long long long name
-          div(v-else) {{ $t("concepts."+(level.primaryConcepts||[])[0]) }}
-      div.table-row(v-for="student in students")
-        div.table-cell(v-for="level in levels")
-          student-level-progress-dot(
-            :level="level",
-            :progress="progress[level.original][student._id]",
-            :student="student",
-            :courseInstance="courseInstance",
-            :course="course",
-            :classroom="classroom",
-          )
+      div(v-for="(student, index) in students")
+        div.table-row.table-header-row(v-if="index % 8 === 0")
+          div.table-header(v-for="level in levels")
+            div(v-if="level.assessment === 'cumulative'") Combo
+            div(v-else-if="!(level.primaryConcepts||[]).length") Long long long long name
+            div(v-else) {{ $t("concepts."+(level.primaryConcepts||[])[0]) }}
+        .table-row
+          div.table-cell(v-for="level in levels")
+            student-level-progress-dot(
+              :level="level",
+              :progress="progress[level.original][student._id]",
+              :student="student",
+              :courseInstance="courseInstance",
+              :course="course",
+              :classroom="classroom",
+            )
   
 </template>
 
