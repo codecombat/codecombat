@@ -6,6 +6,7 @@ utils = require 'core/utils'
 LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelConstants = require 'lib/LevelConstants'
+LevelGoals = require('./LevelGoals').default
 
 stateIconMap =
   success: 'glyphicon-ok'
@@ -41,6 +42,12 @@ module.exports = class LevelGoalsView extends CocoView
     super options
     @level = options.level
     @updateTopScores LevelSession.getTopScores({session: options.session.toJSON(), level: @level.toJSON()})
+    
+  afterRender: ->
+    window.levelGoalsComponent = new LevelGoals({
+      el: @$('.goals-component')[0],
+    })
+    
 
   onNewGoalStates: (e) ->
     firstRun = not @previousGoalStatus?
