@@ -251,7 +251,6 @@ module.exports = class TeacherClassView extends RootView
       dot = $(el)
       dot.tooltip({
         html: true
-        container: dot
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
 
