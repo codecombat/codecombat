@@ -4,11 +4,15 @@
       div(v-for="(student, index) in students")
         div.table-row.table-header-row(v-if="index % 8 === 0")
           div.table-header
+        div.prev-arrow(@click="onClickArrow(-1)", v-if="index % 8 === 0")
+          span.glyphicon.glyphicon-circle-arrow-left
+        div.next-arrow(@click="onClickArrow(1)", v-if="index % 8 === 0")
+          span.glyphicon.glyphicon-circle-arrow-right
         div.table-row
           div.table-cell.name
             div {{ broadName(student) }}
             div.student-email {{ student.email }}
-    div.data-column
+    div.data-column(ref="dataColumn")
       div.table-row(v-if="levels.length === 0")
         div.table-cell No assessment levels available for this course yet.
       div(v-for="(student, index) in students")
@@ -45,8 +49,8 @@
     ],
     methods: {
       broadName: User.broadName,
-      courseInstanceForLevel: (level) ->
-        
+      onClickArrow: (event, dir) ->
+        @$refs.dataColumn.scrollLeft += @$refs.dataColumn.offsetWidth * dir
     },
     components: {
       StudentLevelProgressDot
@@ -57,6 +61,7 @@
 <style lang="sass">
   #teacher-class-assessments-table
     display: flex
+    position: relative
     .table-row, .table-cell
       height: 53px
     .freeze-column
@@ -68,13 +73,30 @@
         white-space: nowrap
       .table-cell, .table-header
         text-align: center
+    .next-arrow
+      position: absolute
+      right: -9px
+      z-index: 1
+      width: 30px
+      text-align: center
+      margin-top: -13px
+      cursor: pointer
+    .prev-arrow
+      position: absolute
+      left: 198px
+      z-index: 1
+      width: 30px
+      text-align: center
+      margin-top: -13px
+      cursor: pointer
     .table-cell, .table-header
       display: inline-block
       width: 134.3px
-      border: 1px solid black
       box-sizing: border-box
     .table-header-row, .table-header
       height: 62px
+    .table-header-row
+      position: relative
     .table-header
       white-space: normal
       font-weight: bold
