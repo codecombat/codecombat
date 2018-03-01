@@ -4,15 +4,15 @@
       div(v-for="(student, index) in students")
         div.table-row.table-header-row(v-if="index % 8 === 0")
           div.table-header
-        div.prev-arrow(@click="onClickArrow(-1)", v-if="index % 8 === 0")
+        div.prev-arrow(@click="onClickArrow(-1)", v-if="index % 8 === 0", :style="{display: showLeftArrows ? 'block' : 'none'}")
           span.glyphicon.glyphicon-circle-arrow-left
-        div.next-arrow(@click="onClickArrow(1)", v-if="index % 8 === 0")
+        div.next-arrow(@click="onClickArrow(1)", v-if="index % 8 === 0", :style="{display: showRightArrows ? 'block' : 'none'}")
           span.glyphicon.glyphicon-circle-arrow-right
         div.table-row
           div.table-cell.name
             div {{ broadName(student) }}
             div.student-email {{ student.email }}
-    div.data-column(ref="dataColumn")
+    div.data-column(ref="dataColumn", @scroll="updateArrows")
       div.table-row(v-if="levels.length === 0")
         div.table-cell No assessment levels available for this course yet.
       div(v-for="(student, index) in students")
@@ -47,14 +47,23 @@
       'courseInstance',
       'classroom',
     ],
+    data: ->
+      showLeftArrows: false
+      showRightArrows: false
     methods: {
       broadName: User.broadName,
-      onClickArrow: (event, dir) ->
+      onClickArrow: (dir) ->
         @$refs.dataColumn.scrollLeft += @$refs.dataColumn.offsetWidth * dir
-    },
+      updateArrows: ->
+        col = @$refs.dataColumn
+        @showLeftArrows = col.scrollLeft > 0
+        @showRightArrows = col.offsetWidth + col.scrollLeft < col.scrollWidth
+    }
     components: {
       StudentLevelProgressDot
-    }
+    },
+    mounted: ->
+      @updateArrows()
   })
 </script>
 
