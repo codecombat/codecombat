@@ -8,14 +8,14 @@
         :level="level"
       )
     div.goals-status.rtl-allowed
-      span(data-i18n="play_level.goals") Goals
+      span {{ $t("play_level.goals") }}
       span.spr :
-      span(data-i18n="play_level.running" v-if="classToShow === 'running'").goal-status.running
-      span(data-i18n="play_level.success" v-if="classToShow === 'success'").goal-status.success
-      span(data-i18n="play_level.incomplete" v-if="classToShow === 'incomplete'").goal-status.incomplete
+      span(v-if="classToShow === 'running'").goal-status.running {{ $t("play_level.running") }}
+      span(v-if="classToShow === 'success'").goal-status.success {{ $t("play_level.success") }}
+      span(v-if="classToShow === 'incomplete'").goal-status.incomplete {{ $t("play_level.incomplete") }}
       span.goal-status.complete-one(v-if="classToShow === 'complete-one'") 1 MORE REQUIRED
-      span(data-i18n="play_level.timed_out" v-if="classToShow === 'timed_out'").goal-status.timed-out
-      span(data-i18n="play_level.failing" v-if="classToShow === 'failing'").goal-status.failure
+      span(v-if="classToShow === 'timed-out'").goal-status.timed-out {{ $t("play_level.timed_out") }}
+      span(v-if="classToShow === 'failing'").goal-status.failure {{ $t("play_level.failing") }}
 
 </template>
 
