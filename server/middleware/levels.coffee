@@ -84,7 +84,7 @@ module.exports =
     if code
       attrs.code = code
 
-    if not req.user.isAnonymous() and level.get('slug') in ['treasure-game']
+    if not req.user.isAnonymous() and level.get('slug') in ['treasure-games']
       console.log "Allowing session creation for #{level.get('slug')} outside of any course"
       attrs.isForClassroom = true
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?

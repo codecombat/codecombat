@@ -17,7 +17,7 @@ module.exports.sendChangedSlackMessage = (options) ->
   @sendSlackMessage message, ['artisans']
 
 module.exports.sendSlackMessage = (message, rooms=['#eng'], options={}) ->
-  unless config.isProduction
+  unless config.isProduction or options.forceSend
     log.info "Slack msg: #{message} #{JSON.stringify(rooms)}, #{JSON.stringify(options)}"
     return
   unless token = config.slackToken
@@ -47,6 +47,6 @@ module.exports.sendSlackMessage = (message, rooms=['#eng'], options={}) ->
         return log.error('Error sending Slack message:', err) if err
         return log.error("Slack returned error: #{response.error} to channel #{channel} with message #{message}") unless response.ok
         log.warn("Slack returned warning: #{response.warning}") if response.warning
-        log.info "Got Slack message response:", body
+        log.info "Got Slack message response:", body unless options.quiet
       catch error
         log.error("Slack response parse error: #{error}")
