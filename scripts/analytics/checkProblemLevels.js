@@ -23,14 +23,15 @@ const mongoConnUrl = process.argv[2];
 const mongoConnUrlLevelSessions = process.argv[3];
 
 const debugOutput = true;
-const daysToCheck = 7;  // Warn about completion problems arising in the past N days; should be a multiple of 7 to avoid weekend effects
+const daysToCheck = 14;  // Warn about completion problems arising in the past N days; should be a multiple of 7 to avoid weekend effects
 //const daysBeforeRepeating = 7;  // Don't warn about this level if we would have warned in the past week
 const daysBeforeRepeating = 0;  // First run
-const maxProblemLevelsPerDay = 5;
-const minPlayersPerRelativeProblem = 50;
-const minPlayersPerAbsoluteProblem = 25;
+const maxProblemLevelsPerDay = 10;
+const minPlayersPerRelativeProblem = 70;
+const minPlayersPerAbsoluteProblem = 35;
 
 const endDay = new Date(new Date().toISOString().substring(0, 10) + 'T00:00:00.000Z');
+endDay.setUTCDate(endDay.getUTCDate() - 1);  // Give people at least a day to finish levels they started
 const endDayStr = endDay.toISOString().substring(0, 10)
 let startDay = new Date(endDay);
 startDay.setUTCDate(startDay.getUTCDate() - 2 * daysToCheck - daysBeforeRepeating - 1);
@@ -198,7 +199,6 @@ co(function*() {
 // Check for single-day drops as well as weekly drops
 // Look for low playtime levels, too (default code wins)
 // Add completion/playtime recoveries as well as drops
-// Slack post for each level to make threading easier
 
 
 // Detect absolute problems with poorly performing levels
@@ -358,20 +358,26 @@ function filterTopProblems(problems, previouslyWarnedTopProblemsByDay) {
 
 function logProblems(problems) {
   const problemsByLevel = _.groupBy(problems, (problem) => problem.level.slug);
+  let messagesSent = 0;
+  const slackMessages = [];
   for (const levelID in problemsByLevel) {
     const problems = problemsByLevel[levelID];
     problems.sort((a, b) => b.severity - a.severity);
-    let logLines = describeLevel(problems[0].level);
+    let logLines = describeLevel(problems[0].level, messagesSent++);
     for (const problem of problems) {
       if ((problem.severity > 0 && problem.severity >= 0.1 * problems[0].severity) || (problem.severity < 0 && problems[0].severity < 0))
         logLines.push(`\t${problem.now.day}  ${_.str.lpad(problem.severity.toFixed(1), 8)} ${_.str.lpad(problem.now.aggregateStarted, 5)}  ${_.str.rpad(problem.product, 9)}  ${_.str.rpad(problem.codeLanguage, 10)}  ${_.str.rpad(problem.type, 20)}  ${problem.message}`);
     }
     console.log(logLines.join('\n'));
-    slack.sendSlackMessage(`\`\`\`${logLines.join('\n')}\n\`\`\``, ['#game'], {markdown: true})
+    slackMessages.push(`${logLines[0]}\n\`\`\`${logLines.slice(1).join('\n')}\n\`\`\``);
+  }
+  for (let messageIndex = 0; messageIndex < slackMessages.length; ++messageIndex) {
+    const sendIt = function(message) { return function() { slack.sendSlackMessage(message, ['#level-analytics-test'], {markdown: true, forceSend: true, quiet: true}); } };
+    setTimeout(sendIt(slackMessages[messageIndex]), messageIndex * 1000);
   }
 }
 
-function describeLevel(level) {
+function describeLevel(level, messagesSent) {
   const thisLevelStats = statsByLevel[level.slug];
   const logLines = [];
   let nowPlayers = 0, oldPlayers = 0;
@@ -387,7 +393,7 @@ function describeLevel(level) {
   }
   logLines.sort()
   const todayStr = new Date().toISOString().substring(0, 10);
-  logLines.unshift(`${todayStr} ${level.slug}, with ${nowPlayers} players in the past ${daysToCheck} days (${oldPlayers} in previous window) - https://direct.codecombat.com/editor/level/${level.slug}`);
+  logLines.unshift(`*${messagesSent + 1}. ${todayStr} ${level.slug}*, with ${nowPlayers} players in the past ${daysToCheck} days (${oldPlayers} in previous window) - https://direct.codecombat.com/editor/level/${level.slug}`);
   return logLines;
 }
 
