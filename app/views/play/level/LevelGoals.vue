@@ -2,11 +2,24 @@
   div
     ul#primary-goals-list(dir="auto")
       level-goal(
-        v-for="goal in goals",
+        v-for="goal in levelGoals",
         :goal="goal",
         :state="goalStates[goal.id]",
         :level="level"
       )
+    level-goal(
+      :goal="{ name: 'Use at least one concept:' }",
+      :state="{ status: conceptStatus }",
+      :level="level"
+    )
+    ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
+      level-goal(
+        v-for="goal in conceptGoals",
+        :goal="goal",
+        :state="goalStates[goal.id]",
+        :level="level"    
+      )
+      
     div.goals-status.rtl-allowed
       span {{ $t("play_level.goals") }}
       span.spr :
@@ -40,10 +53,18 @@
         classToShow = 'incomplete' if @overallStatus is 'failure'
         classToShow ?= 'timed-out' if @timedOut
         classToShow ?= 'incomplete'
-        if @level.assessment is 'cumulative' and classToShow in ['failure', 'timed-out']
-          classToShow = 'complete-one'
         classToShow = 'running' if @casting
         return classToShow
+      levelGoals: ->
+        @goals.filter((g) => not g.concepts?.length)
+      conceptGoals: ->
+        @goals.filter((g) => g.concepts?.length)
+      conceptStatus: ->
+        for goal in @conceptGoals
+          state = @goalStates[goal.id]
+          if state.status is 'success'
+            return 'success'
+        return 'incomplete'
     }
 
     components: {
@@ -82,6 +103,9 @@
 
     body[lang="he"] &, body[lang="ar"] &, body[lang="fa"] &, body[lang="ur"] &
       padding-right: 0
+  
+  #concept-goals-list
+    margin-left: 20px
 
 
 

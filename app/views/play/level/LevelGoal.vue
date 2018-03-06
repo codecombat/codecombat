@@ -22,6 +22,8 @@
           return false if not @goal.optional and @state.status isnt 'failure'
         return false if @goal.team and me.team isnt @goal.team
         return true
+      isConceptGoal: ->
+        @goal.concepts?.length
       goalText: ->
         text = utils.i18n @goal, 'name'
         if @state.killed

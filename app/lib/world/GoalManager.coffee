@@ -128,11 +128,10 @@ module.exports = class GoalManager extends CocoClass
     goals = (g for g in goals when g.team in [undefined, @team]) if @team
     statuses = (goal.status for goal in goals)
     isSuccess = (s) -> s is 'success' or (ignoreIncomplete and s is null)
-    if @options.minGoalsToComplete
-      visibleGoals = (g for g in goals when not g.hiddenGoal)
-      visibleStatuses = (goal.status for goal in visibleGoals)
-      successes = _.filter(visibleStatuses, isSuccess).length
-      overallStatus = 'success' if successes >= @options.minGoalsToComplete
+    if _.any(goals.map((g) => g.concepts?.length))
+      conceptGoals = goals.filter((g) => g.concepts?.length)
+      levelGoals = goals.filter((g) => !g.concepts?.length)
+      overallStatus = _.all(levelGoals, isSuccess) and _.any(conceptGoals, isSuccess)
     else
       overallStatus = 'success' if statuses.length > 0 and _.every(statuses, isSuccess)
     overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
