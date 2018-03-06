@@ -730,14 +730,13 @@ module.exports =
     res.status(200).send(ci.toObject({req}) for ci in courseInstances)
 
   getIsraelFinalists: wrap (req, res) ->
-    console.log 'Test - trying to connect to this SQL database'
-
+    console.log 'Test - trying to connect to this SQL database with connection string', config.israel.sqlConnectionString
     result = null
     try
       pool = yield mssql.connect config.israel.sqlConnectionString
       console.log '  Got connected to the pool'
       try
-        result = yield mssql.query "select * from studentsGmar limit 2"
+        result = yield mssql.query"select * from studentsGmar limit 10"
       catch err
         console.error err
         result = err

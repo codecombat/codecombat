@@ -85,7 +85,7 @@ module.exports =
       attrs.code = code
 
     if not req.user.isAnonymous() and
-        ((req.features.israel and not req.user.isAnonymous() and level.get('slug') in ['escort-duty', 'tesla-tesoro', 'elemental-wars']) or
+        ((req.features.israel and not req.user.isAnonymous() and level.get('slug') in ['escort-duty', 'tesla-tesoro', 'elemental-wars', 'the-battle-of-sky-span']) or
         level.get('slug') in ['treasure-games'])
       console.log "Allowing session creation for #{level.get('slug')} outside of any course"
       attrs.isForClassroom = true
