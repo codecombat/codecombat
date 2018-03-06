@@ -100,8 +100,14 @@ module.exports =
       changed: {$gte: sessionStartDate}
       'state.complete': true
       isForClassroom: true
-    sessionSelect = 'changed creator creatorName created browser level levelID dateFirstCompleted team state.complete state.difficulty code totalScore browser isForClassroom'
+      tournamentScore: {$exists: false}
+    sessionSelect = 'changed creator creatorName created browser level levelID dateFirstCompleted team state.complete state.difficulty code totalScore browser isForClassroom tournamentScore'
     recentSessions = yield LevelSession.find(sessionQuery).select(sessionSelect).limit(limit).lean().sort('changed')
+
+    # Then, add any that have a tournament score, so that we make sure we always have those up-to-date
+    tournamentSessionsQuery = tournamentScore: {$exists: true}
+    tournamentSessions = yield LevelSession.find(tournamentSessionsQuery).select(sessionSelect).limit(limit).lean().sort('changed')
+    recentSessions = recentSessions.concat tournamentSessions
 
     console.log 'found', recentSessions.length, 'sessions'
 
@@ -210,6 +216,9 @@ module.exports =
         score = 0
       if session.totalScore and challengeCategory is 'tournament'
         score = Math.round(Math.max 1, session.totalScore - 5)  # They may cap this at 30 or 40 points. A really good score on a crowded arena might be 60-110. totalScore starts around 20, so they get positive points for improving on that. [except it apparently makes most people negative, Simple CPU sometimes, so we need to subtract less.]
+      if session.levelID in ['the-battle-of-sky-span'] and session.tournamentScore
+        challengeCategory = 'final'
+        score = session.tournamentScore
       device = if session.browser then session.browser.name + (if not session.browser.desktop then ' mobile' else '') else null
       solutions.push
         # New data

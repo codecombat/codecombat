@@ -102,6 +102,7 @@ module.exports =
         attrs.isForClassroom = true
       else
         console.log "Denying tournament finalist #{req.user.get('israelId') or req.user.id} to play #{level.get('slug')}--not in our #{_.size(israelIdsToFinalists)} finalists list"
+        throw new errors.PaymentRequired('You do not have access to this live tournament level.')
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
