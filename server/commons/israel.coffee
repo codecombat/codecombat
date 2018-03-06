@@ -49,7 +49,7 @@ getIsraelFinalists = co.wrap ->
   result = {}
   try
     pool = yield mssql.connect config.israel.sqlConnectionString
-    query = "select * from studentsGmar where code_combat = true"
+    query = "select * from studentsGmar where code_combat = 1"
     console.log '  Now going to query:', query
     try
       result = yield new mssql.Request().query query
