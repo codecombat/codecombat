@@ -83,6 +83,7 @@ module.exports =
       throw new errors.Forbidden('Do not aggregate Israel data outside of Israel')
     if req.hostname is 'il.codecombat.com'
       LevelSession.schema.index({changed: 1}, {name: 'oldest session index for aggregateIsraelData'})  # Blech. Don't want this index on our main server.
+      LevelSession.schema.index({tournamentScore: 1}, {name: 'tournament score index for aggregateIsraelData', sparse: true})
 
     limit = if debugging then 20 else 1000
     limit = parseInt(req.query.limit) if req.query.limit?

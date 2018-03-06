@@ -69,11 +69,10 @@ module.exports = class CoursesView extends RootView
     @listenTo @hero, 'change', -> @render() if @supermodel.finished()
 
     if features.israel
-      $.get '/db/user/-/israel-finalists', (finalists) ->
-      israelFinalistsRequest = @supermodel.addRequestResource url: '/db/user/-/israel-finalists', data: {}, method: 'GET', success: (finalists) =>
+      israelFinalistsRequest = @supermodel.addRequestResource url: '/db/user/-/israel-finalist-status', data: {}, method: 'GET', success: (status) =>
         return if @destroyed
-        console.log "finalists!", finalists
-        if (finalists[me.get('israelId')] and new Date() >= new Date(2018, 2, 12, 9)) or me.get('name') in ['test student']
+        console.log {status}
+        if (status.finalist and new Date() >= new Date(2018, 2, 12, 9)) or me.get('name') in ['test student']
           @showFinalArena = true
         else
           @getArenaPlayCounts()

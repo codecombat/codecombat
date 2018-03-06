@@ -729,6 +729,6 @@ module.exports =
     courseInstances = yield dbq.exec()
     res.status(200).send(ci.toObject({req}) for ci in courseInstances)
 
-  getIsraelFinalists: wrap (req, res) ->
+  israelFinalistStatus: wrap (req, res) ->
     israelFinalists = yield israel.getIsraelFinalists()
-    res.send israelFinalists
+    res.send finalist: israelFinalists[req.user.get('israelId')]?
