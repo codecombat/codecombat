@@ -734,16 +734,25 @@ module.exports =
     result = null
     try
       pool = yield mssql.connect config.israel.sqlConnectionString
-      console.log '  Got connected to the pool'
+      #query = "select * from studentsGmar limit 10"
+      query = "select 1 as number"
+      console.log '  Got connected to the pool; going to query:', query
       try
-        result = yield new mssql.Request().query "select * from studentsGmar limit 10"
+        result = yield new mssql.Request().query query
+      catch err
+        console.error err
+        result = err
+      query = "select * from studentsGmar"
+      console.log '  Now going to query:', query
+      try
+        result2 = yield new mssql.Request().query query
       catch err
         console.error err
         result = err
     catch err
       console.error err
       result = err
-    console.log '  Got some result', result
+    console.log '  Got some result', result, result2
 
     mssql.close()
-    res.send message: 'yo', result: result
+    res.send message: 'yo', result: result, result2: result2
