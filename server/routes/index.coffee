@@ -241,7 +241,7 @@ module.exports.setup = (app) ->
   app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
   app.get('/db/user/:handle/avatar', mw.users.getAvatar)
   app.get('/db/user/:handle/course-instances', mw.users.getCourseInstances)
-  app.get('/db/user/-/israel-finalists', mw.auth.checkHasPermission(['admin']), mw.users.getIsraelFinalists)  # TODO: remove
+  app.get('/db/user/-/israel-finalists', mw.auth.checkHasUser(), mw.users.getIsraelFinalists)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)

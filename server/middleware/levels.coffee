@@ -12,6 +12,7 @@ Course = require '../models/Course'
 User = require '../models/User'
 database = require '../commons/database'
 codePlay = require '../../app/lib/code-play'
+israel = require '../commons/israel'
 log = require 'winston'
 
 module.exports =
@@ -85,12 +86,22 @@ module.exports =
       attrs.code = code
 
     if not req.user.isAnonymous() and
-        ((req.features.israel and not req.user.isAnonymous() and level.get('slug') in ['escort-duty', 'tesla-tesoro', 'elemental-wars', 'the-battle-of-sky-span']) or
+        ((req.features.israel and level.get('slug') in ['escort-duty', 'tesla-tesoro', 'elemental-wars']) or
         level.get('slug') in ['treasure-games'])
       console.log "Allowing session creation for #{level.get('slug')} outside of any course"
       attrs.isForClassroom = true
     else if req.user.isAdmin()
       null  # Admins can play any level, even if it's not in a course yet (example: level editor)
+    else if (req.features.israel and not req.user.isAnonymous() and level.get('slug') in ['the-battle-of-sky-span'])
+      israelIdsToFinalists = yield israel.getIsraelFinalists()
+      tournamentEntryRecord = israelIdsToFinalists[req.user.get('israelId')]
+      if req.user.get('name') is 'test student'
+        tournamentEntryRecord = {code_combat: true, test: true}
+      if tournamentEntryRecord
+        console.log "Allowing tournament finalist #{req.user.get('israelId')} to play #{level.get('slug')} with record #{tournamentEntryRecord}"
+        attrs.isForClassroom = true
+      else
+        console.log "Denying tournament finalist #{req.user.get('israelId')} to play #{level.get('slug')}--not in our #{israelIdsToFinalists.length} finalists list"
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access

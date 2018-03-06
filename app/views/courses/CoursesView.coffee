@@ -69,7 +69,15 @@ module.exports = class CoursesView extends RootView
     @listenTo @hero, 'change', -> @render() if @supermodel.finished()
 
     if features.israel
-      @getArenaPlayCounts()
+      $.get '/db/user/-/israel-finalists', (finalists) ->
+      israelFinalistsRequest = @supermodel.addRequestResource url: '/db/user/-/israel-finalists', data: {}, method: 'GET', success: (finalists) =>
+        return if @destroyed
+        console.log "finalists!", finalists
+        if (finalists[me.get('israelId')] and new Date() >= new Date(2018, 2, 12, 9)) or me.get('name') in ['test student']
+          @showFinalArena = true
+        else
+          @getArenaPlayCounts()
+      israelFinalistsRequest.load()
 
   afterInsert: ->
     super()
@@ -258,7 +266,7 @@ module.exports = class CoursesView extends RootView
       @render() if @supermodel.finished()
 
     levelIDs = []
-    for level in @tournamentArenas
+    for level in @tournamentArenas()
       levelIDs.push level.id
     levelPlayCountsRequest = @supermodel.addRequestResource 'play_counts', {
       url: '/db/level/-/play_counts'
@@ -268,8 +276,17 @@ module.exports = class CoursesView extends RootView
     }, 0
     levelPlayCountsRequest.load()
 
-  tournamentArenas:
-    if me.get('preferredLanguage') is 'he'
+  tournamentArenas: ->
+    if @showFinalArena
+      [
+        {
+          name: 'The Battle of Sky Span'
+          difficulty: 3
+          id: 'the-battle-of-sky-span'
+          image: '/file/db/level/53c80fce0ddbef000084c667/sky-Span-banner.jpg'
+        }
+      ]
+    else if me.get('preferredLanguage') is 'he'
       [
         {
           name: 'Tesla Tesoro'

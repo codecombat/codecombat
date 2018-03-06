@@ -1,6 +1,8 @@
 jwt = require 'jsonwebtoken'
 config = require '../../server_config'
 errors = require '../commons/errors'
+mssql = require 'mssql'
+co = require 'co'
 
 verifyToken = (israelToken) ->
   try
@@ -42,10 +44,36 @@ classCode = ({institutionId, gradeLevel, classId}) -> "#{institutionId}#{gradeLe
 
 className = ({institutionId, gradeLevel, classId}) -> "מוסד #{institutionId} שכבת גיל #{gradeLevel} כיתה #{classId}"
 
+getIsraelFinalists = co.wrap ->
+  console.log 'Test - trying to connect to this SQL database with connection string', config.israel.sqlConnectionString
+  result = {}
+  try
+    pool = yield mssql.connect config.israel.sqlConnectionString
+    query = "select * from studentsGmar where code_combat = true"
+    console.log '  Now going to query:', query
+    try
+      result = yield new mssql.Request().query query
+    catch err
+      console.error err
+      result = err
+  catch err
+    console.error err
+    result = err
+  console.log '  Got result:', result
+  mssql.close()
+  israelIdsToFinalists = {}
+  try
+    for record in result.recordset
+      israelIdsToFinalists[record.HINEXTERNALIDENTIFIER] = record
+  catch err
+    console.error "  Couldn't parse result.recordset array:", err
+  return israelIdsToFinalists
+
 module.exports = {
   verifyToken
   makeFakeTestingToken
   institutionTeacherName
   classCode
   className
+  getIsraelFinalists
 }
