@@ -736,7 +736,7 @@ module.exports =
       pool = yield mssql.connect config.israel.sqlConnectionString
       console.log '  Got connected to the pool'
       try
-        result = yield mssql.query"select * from studentsGmar limit 10"
+        result = yield new mssql.Request().query "select * from studentsGmar limit 10"
       catch err
         console.error err
         result = err
