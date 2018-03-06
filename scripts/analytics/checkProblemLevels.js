@@ -4,7 +4,7 @@
 // Comparing things like completion rates and completion times for home and classroom users to what we expect/care about for that kind of level.
 
 if (process.argv.length !== 4) {
-  console.log("Usage: node <script> <mongo connection Url> <mongo connection Url LevelSessions>");
+  console.log("Usage: node --max-old-space-size=8192 <script> <mongo connection Url> <mongo connection Url LevelSessions>");
   console.log("Include ?readPreference=secondary in connection URLs");
   process.exit();
 }
@@ -121,7 +121,7 @@ co(function*() {
       const stats = statsByLevel[session.levelID][product][session.codeLanguage][sessionStartIndex];
       ++stats.started;
       if (session.state && session.state.complete)
-	++stats.completed;
+        ++stats.completed;
       stats.playtime += session.playtime;
       // TODO: leftGame
     }
@@ -131,44 +131,44 @@ co(function*() {
     for (const product in statsByLevel[levelID]) {
       for (const codeLanguage in statsByLevel[levelID][product]) {
         const statDays = statsByLevel[levelID][product][codeLanguage];
-	for (let startDateIndex = 0; startDateIndex < datesByIndex.length - daysToCheck; ++startDateIndex) {
+        for (let startDateIndex = 0; startDateIndex < datesByIndex.length - daysToCheck; ++startDateIndex) {
           const aggregateDateIndex = startDateIndex + daysToCheck;
           const aggregateStats = statsPlaceholder(datesByIndex[aggregateDateIndex]);
-	  for (let dateIndex = startDateIndex; dateIndex < aggregateDateIndex; ++dateIndex) {
+          for (let dateIndex = startDateIndex; dateIndex < aggregateDateIndex; ++dateIndex) {
             const stats = statDays[dateIndex];
             aggregateStats.started += stats.started;
             aggregateStats.completed += stats.completed;
             aggregateStats.playtime += stats.playtime;
             aggregateStats.leftGame += stats.leftGame;
-	  }
+          }
           const stats = statDays[aggregateDateIndex];
           stats.aggregateStarted = aggregateStats.started;
           stats.aggregateCompleted = aggregateStats.completed;
           stats.aggregatePlaytime = aggregateStats.playtime;
           stats.aggregateLeftGame = aggregateStats.leftGame;
-	}
+        }
 
-	// Now that we have aggregated this stuff, we want to find the worst-performing levels.
-	// MTWTFSSMTWTFSSMTWTFSS
-	//                     ^  Currently Sunday
-	//               ======+  Compare our daysToCheck window stats...
+        // Now that we have aggregated this stuff, we want to find the worst-performing levels.
+        // MTWTFSSMTWTFSSMTWTFSS
+        //                     ^  Currently Sunday
+        //               ======+  Compare our daysToCheck window stats...
         //        ------+         ... to those from daysToCheck ago
 
-	//              ======+   ... and then check windows within a range
+        //              ======+   ... and then check windows within a range
         //       ------+          ... of daysBeforeRepeating to see whether
 
         // ...... more .........  ... we would have warned about this problem
 
-	//        ======+         ... on a previous day,
+        //        ======+         ... on a previous day,
         // ------+                ... and if so, skip the warning.
 
-	for (let dateIndex = datesByIndex.length - daysToCheck; dateIndex < datesByIndex.length; ++dateIndex) {
+        for (let dateIndex = datesByIndex.length - daysToCheck; dateIndex < datesByIndex.length; ++dateIndex) {
           const previousStats = statDays[dateIndex - daysToCheck];
-	  const currentStats = statDays[dateIndex];
+          const currentStats = statDays[dateIndex];
           const level = levelsBySlug[levelID];
           const problems = calculateProblems(level, product, codeLanguage, previousStats, currentStats);
           allProblemsByDay[dateIndex] = allProblemsByDay[dateIndex].concat(problems);
-	}
+        }
       }
     }
   }
