@@ -129,12 +129,11 @@ module.exports = class GoalManager extends CocoClass
     statuses = (goal.status for goal in goals)
     isSuccess = (s) -> s is 'success' or (ignoreIncomplete and s is null)
     if _.any(goals.map((g) => g.concepts?.length))
-      conceptGoals = goals.filter((g) => g.concepts?.length)
-      levelGoals = goals.filter((g) => !g.concepts?.length)
-      overallStatus = _.all(levelGoals, isSuccess) and _.any(conceptGoals, isSuccess)
+      conceptStatuses = goals.filter((g) => g.concepts?.length).map((g) => g.status)
+      levelStatuses = goals.filter((g) => !g.concepts?.length).map((g) => g.status)
+      overallStatus = if _.all(levelStatuses, isSuccess) and _.any(conceptStatuses, isSuccess) then 'success' else 'failure'
     else
       overallStatus = 'success' if statuses.length > 0 and _.every(statuses, isSuccess)
-    overallStatus = 'failure' if statuses.length > 0 and 'failure' in statuses
     overallStatus
 
   # WORLD GOAL TRACKING
@@ -149,6 +148,7 @@ module.exports = class GoalManager extends CocoClass
         team: goal.team
         optional: goal.optional
         hiddenGoal: goal.hiddenGoal
+        concepts: goal.concepts
       }
       @initGoalState(state, [goal.killThangs, goal.saveThangs], 'killed')
       for getTo in goal.getAllToLocations ? []
