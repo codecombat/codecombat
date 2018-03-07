@@ -4,9 +4,12 @@ RootView = require 'views/core/RootView'
 CocoCollection = require 'collections/CocoCollection'
 Course = require 'models/Course'
 Level = require 'models/Level'
+Prepaids = require 'collections/Prepaids'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
+
+# TODO: block on server somehow?
 
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
@@ -22,6 +25,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @levels = new CocoCollection([], { url: "/db/course/#{@courseID}/level-solutions", model: Level})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
       @levelNumberMap = {}
+      @prepaids = new Prepaids()
+      @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @paidTeacher = me.isAdmin()
     super(options)
 
   camelCaseLanguage: (language) ->
@@ -35,8 +41,8 @@ module.exports = class TeacherCourseSolutionView extends RootView
       return '' if l isnt @language
       a
 
-
   onLoaded: ->
+    @paidTeacher = @paidTeacher or @prepaids?.models.find((m) => m.get('type') in ['course', 'starter_license'] and m.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
 
