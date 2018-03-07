@@ -8,7 +8,9 @@
           | {{ $t('courses.challenges') }}
         h1(v-if="classroom").text-center
           | {{ classroom.name }}
-        div.assessments-list.m-t-3(v-for="chunk in levelsByCourse" v-if="chunk.assessmentLevels.length && inCourses[chunk.course._id]")
+        select(v-model="selectedCourse")
+          option(v-for="chunk in levelsByCourse", :value="chunk.course._id") {{ $dbt(chunk.course, 'name') }}
+        div.assessments-list.m-t-3(v-for="chunk in levelsByCourse" v-if="chunk.course._id === selectedCourse")
           .row
             .col-xs-5
               span.table-header
@@ -62,6 +64,8 @@ module.exports = Vue.extend
     playLevelUrlMap: {}
     levelUnlockedMap: {}
     inCourses: {}
+    courses: []
+    selectedCourse: ''
   computed:
     backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
   created: ->
@@ -82,7 +86,9 @@ module.exports = Vue.extend
         @levelsByCourse = _.map(@classroom.courses, (course) => {
           course: _.find(@courses, ({_id: course._id})),
           assessmentLevels: _.filter(course.levels, 'assessment')
-        })
+        }).filter((chunk) => chunk.assessmentLevels.length and @inCourses[chunk.course._id])
+        @selectedCourse = document.location.hash.replace('#','') or _.first(@levelsByCourse)?.course._id
+        
         @courses = @classroom.courses
         return Promise.all(_.map(@levels, (level) =>
           api.levels.getByOriginal(level.original, {
@@ -147,6 +153,10 @@ module.exports = Vue.extend
       for level, index in @levels
         map[level.original] = @sessionMap[@previousLevelMap[level.original]]?.state.complete or false
       return map  
+  watch: {
+    selectedCourse: (newValue) ->
+      document.location.hash = newValue
+  }
 </script>
 
 <style lang="sass">
