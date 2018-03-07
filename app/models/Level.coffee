@@ -3,6 +3,7 @@ LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
+utils = require 'core/utils'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
@@ -282,8 +283,7 @@ module.exports = class Level extends CocoModel
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
       try
-        # TODO: use preferredlanguage to localize source
-        solution.source = _.template(solution.source)(plan.context)
+        solution.source = _.template(solution?.source)(utils.i18n(plan, 'context'))
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
