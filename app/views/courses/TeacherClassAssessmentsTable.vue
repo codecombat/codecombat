@@ -10,18 +10,23 @@
           span.glyphicon.glyphicon-circle-arrow-left
         div.next-arrow(@click="onClickArrow(1)", v-if="index % 8 === 0", :style="{display: showNextArrows ? 'block' : 'none'}")
           span.glyphicon.glyphicon-circle-arrow-right
-        div.table-row
+        div.table-row(:class="backgroundClass(index)")
           div.table-cell.name
-            div {{ broadName(student) }}
+            div
+              strong
+                a(:href="studentLink(student._id)") {{ broadName(student) }}
             div.student-email {{ student.email }}
     div.data-column(ref="dataColumn", @scroll="updateArrows" v-if="levels.length > 0")
       div(v-for="(student, index) in students")
-        div.table-row.table-header-row(v-if="index % 8 === 0")
+        div.small.table-row.table-header-row.alternating-background(v-if="index % 8 === 0")
           div.table-header(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
-            div(v-if="level.assessment === 'cumulative'") Combo
-            div(v-else-if="!(level.primaryConcepts||[]).length") ?
-            div(v-else) {{ $t("concepts."+(level.primaryConcepts||[])[0]) }}
-        .table-row
+            div(v-if="level.assessment === 'cumulative'")
+              span {{ $t('teacher.combo') }}
+            div(v-else-if="!(level.primaryConcepts||[]).length")
+              span ?
+            div(v-else)
+              span {{ $t("concepts."+(level.primaryConcepts||[])[0]) }}
+        .table-row(:class="backgroundClass(index)")
           div.table-cell(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
             student-level-progress-dot(
               :level="level",
@@ -59,7 +64,14 @@
         return unless col
         @showPrevArrows = col.scrollLeft > 0
         @showNextArrows = (col.scrollWidth > col.offsetWidth) and (col.offsetWidth + col.scrollLeft < col.scrollWidth)
-    }
+      backgroundClass: (index) ->
+        if index % 2
+          return { 'darker': true }
+        else
+          return { 'lighter': true }
+      studentLink: (studentId) ->
+        "/teachers/classes/#{@classroom._id}/#{studentId}"
+    },
     components: {
       StudentLevelProgressDot
     },
@@ -69,7 +81,16 @@
 </script>
 
 <style lang="sass">
+  @import "app/styles/bootstrap/variables"
+  
   #teacher-class-assessments-table
+    .table-row.lighter
+      .table-cell
+        background: $gray-lighter
+    .table-row.darker
+      .table-cell
+        background: #EFEBEF
+    
     display: flex
     position: relative
     .table-row, .table-cell
@@ -83,41 +104,46 @@
         white-space: nowrap
       .table-cell, .table-header
         text-align: center
+        
+    .next-arrow, .prev-arrow
+      position: absolute
+      z-index: 1
+      width: 30px
+      cursor: pointer
+      margin-top: -13px
+      text-align: center
+      color: #0b93d5
+      font-size: 30px
+
+      
     .next-arrow
-      position: absolute
       right: -9px
-      z-index: 1
-      width: 30px
-      text-align: center
-      margin-top: -13px
-      cursor: pointer
     .prev-arrow
-      position: absolute
       left: 198px
-      z-index: 1
-      width: 30px
-      text-align: center
-      margin-top: -13px
-      cursor: pointer
     .table-cell, .table-header
       display: inline-block
       width: 134.3px
       box-sizing: border-box
     .table-header-row, .table-header
-      height: 62px
+      height: 45px
     .table-header-row
       position: relative
     .table-header
+      background: #EFEBEF
       white-space: normal
       font-weight: bold
       position: relative
       div 
+        display: flex
         position: absolute
         left: 0
         right: 0
         top: 0
         bottom: 0
         overflow: hidden
+        span
+          width: 100%
+          align-self: flex-end
     .student-email
       font-size: 15px
       line-height: 20px
@@ -125,6 +151,9 @@
       overflow: hidden
     .progress-dot
       margin-top: 9px
-    .combo-cell
-      background: #eee
+    .table-row
+      .table-cell.combo-cell
+        background: #EFEBEF
+    .table-cell.name
+      padding-left: 5px
 </style>
