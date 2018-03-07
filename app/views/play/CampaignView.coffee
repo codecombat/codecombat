@@ -702,7 +702,7 @@ module.exports = class CampaignView extends RootView
         continue if not nextLevel or nextLevel.locked
         continue if practiceOnly and not @campaign.levelIsPractice(nextLevel)
         continue if @campaign.levelIsAssessment(nextLevel)
-        continue if @campaign.levelIsAssessment(level) and @campaign.levelIsPractice(nextLevel) 
+        continue if @campaign.levelIsAssessment(level) and @campaign.levelIsPractice(nextLevel)
 
         # If it's a challenge level, we efficiently determine whether we actually do want to point it out.
         if nextLevel.slug is 'kithgard-mastery' and not @levelStatusMap[nextLevel.slug] and @calculateExperienceScore() >= 3
@@ -1230,7 +1230,7 @@ module.exports = class CampaignView extends RootView
     if latest > myLatest or not myLatest?
       me.set('lastAnnouncementSeen', latest)
       me.save()
-      window.tracker?.trackEvent 'Show announcement modal', label: latest
+      window.tracker?.trackEvent 'Show announcement modal', label: latest + ''
       @openModalView new AnnouncementModal({announcementId: latest})
 
   onClickBrainPopReplayButton: ->
