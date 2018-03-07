@@ -58,7 +58,7 @@ module.exports =
     if session
       return res.send(session.toObject({req: req}))
 
-    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
+    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']
     if sessionQuery.team and level.get('slug') in mirrorMatches
       # Find their other session for this, so that if it exists, we can initialize the new team's session with the mirror code.
       otherTeam = if sessionQuery.team is 'humans' then 'ogres' else 'humans'
