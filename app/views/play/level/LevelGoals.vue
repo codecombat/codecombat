@@ -7,6 +7,7 @@
         :state="goalStates[goal.id]",
       )
     level-goal(
+      v-if="conceptGoals.length",
       :goal="{ name: 'Use at least one concept:' }",
       :state="{ status: conceptStatus }",
     )
