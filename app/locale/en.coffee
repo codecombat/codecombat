@@ -1743,6 +1743,7 @@
     back_to_resource_hub: "Back to Resource Hub"
     print_guide: "Print this guide"
     combo: "Combo"
+    concept: "Concept"
 
   share_licenses:
     share_licenses: "Share Licenses"
