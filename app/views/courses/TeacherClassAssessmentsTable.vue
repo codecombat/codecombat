@@ -94,7 +94,7 @@
     display: flex
     position: relative
     .table-row, .table-cell
-      height: 53px
+      height: 62px
     .freeze-column
       .table-cell, .table-header
         width: 200px
@@ -129,7 +129,7 @@
     .table-header-row
       position: relative
     .table-header
-      background: #EFEBEF
+      background: white
       white-space: normal
       font-weight: bold
       position: relative
@@ -146,14 +146,18 @@
           align-self: flex-end
     .student-email
       font-size: 15px
-      line-height: 20px
+      line-height: 19px
       text-overflow: ellipsis
       overflow: hidden
     .progress-dot
-      margin-top: 9px
-    .table-row
-      .table-cell.combo-cell
-        background: #EFEBEF
+      margin-top: 15px
+    .table-row.lighter .table-cell.combo-cell
+      background: #f6e8ef
+    .table-row.darker .table-cell.combo-cell
+      background: #EED2DF
+    .table-header.combo-cell
+      background: #EED2DF
     .table-cell.name
-      padding-left: 5px
+      padding-left: 10px
+      padding-top: 5px
 </style>
