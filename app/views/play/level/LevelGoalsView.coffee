@@ -41,6 +41,7 @@ module.exports = class LevelGoalsView extends CocoView
     @levelGoalsComponent = new LevelGoals({
       el: @$('.goals-component')[0],
       store
+      propsData: { showStatus: true }
     })
 
   onNewGoalStates: (e) ->

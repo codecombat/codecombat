@@ -5,6 +5,8 @@ ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 SubscribeModal = require 'views/core/SubscribeModal'
+LevelGoals = require('./LevelGoals').default
+store = require 'core/store'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -60,26 +62,39 @@ module.exports = class LevelLoadingView extends CocoView
     return if @session
     @session = e.session if e.session.get('creator') is me.id
 
-  prepareGoals: (e) ->
+  prepareGoals: ->
+    @levelGoalsComponent = new LevelGoals({
+      el: @$('.list-unstyled')[0],
+      store,
+      propsData: { showStatus: false }
+    })
+    @levelGoalsComponent.goals = @level.get('goals')
     goalContainer = @$el.find('.level-loading-goals')
-    goalList = goalContainer.find('ul')
-    goalCount = 0
-    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is (e.team or 'humans')) and not goal.hiddenGoal
-      continue if goal.optional and @level.isType('course')
-      name = utils.i18n goal, 'name'
-      goalList.append $('<li>').text(name)
-      ++goalCount
-    @goalHeaderTransationKey = 'play_level.goals'
-    if @level.get('assessment')
-      @goalHeaderTransationKey = 'play_level.challenge_level_goals'
-    if goalCount
-      goalContainer.removeClass('secret')
-      if goalCount is 1
-        if @level.get('assessment')
-           @goalHeaderTransationKey = 'play_level.challenge_level_goal'  # Not plural
-        else
-          @goalHeaderTransationKey = 'play_level.goal'  # Not plural
-    goalContainer.find('.goals-title').text $.i18n.t @goalHeaderTransationKey
+    @buttonTranslationKey = 'play_level.loading_start'
+    if @level.get('assessment') is 'cumulative'
+      @buttonTranslationKey = 'play_level.loading_start_combo'
+    else if @level.get('assessment')
+      @buttonTranslationKey = 'play_level.loading_start_concept'
+    @$('.start-level-button').text($.i18n.t(@buttonTranslationKey))
+    
+    Vue.nextTick(=>
+      # TODO: move goals to vuex where everyone can check together which goals are visible.
+      # Use that instead of looking into the Vue result
+      numGoals = goalContainer.find('li').length
+      if numGoals
+        goalContainer.removeClass('secret')
+        if @level.get('assessment') is 'cumulative'
+          if numGoals > 1
+            @goalHeaderTranslationKey = 'play_level.combo_challenge_goals'
+          else
+            @goalHeaderTranslationKey = 'play_level.combo_challenge_goal'
+        else if @level.get('assessment')
+          if numGoals > 1
+            @goalHeaderTranslationKey = 'play_level.concept_challenge_goals'
+          else
+            @goalHeaderTranslationKey = 'play_level.concept_challenge_goal'
+        goalContainer.find('.goals-title').text $.i18n.t @goalHeaderTranslationKey
+    )
 
   prepareTip: ->
     tip = @$el.find('.tip')

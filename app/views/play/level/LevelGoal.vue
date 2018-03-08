@@ -1,6 +1,7 @@
 <template lang="jade">
   li(:class="goalClass" v-if="showGoal")
-    i.glyphicon(:class="iconClass")
+    i(v-if="state.status === 'incomplete' && isConceptGoal")=" • "
+    i.glyphicon(:class="iconClass" v-else)
     | {{ goalText }}
 </template>
 
@@ -13,7 +14,10 @@
     failure: 'glyphicon-remove'
 
   module.exports = Vue.extend({
-    props: ['goal', 'state'],
+    props: {
+      goal: {type: Object}
+      state: {type: Object, default: () -> { status: 'incomplete' }}
+    },
     computed: {
       showGoal: ->
         return false if @goal.optional and @$store.state.game.level.type is 'course' and @state.status isnt 'success'
@@ -40,7 +44,6 @@
         return text
       goalClass: -> "status-#{@state.status}"
       iconClass: -> stateIconMap[@state.status] or ''
-
     }
   })
 </script>

@@ -12,19 +12,18 @@
       :state="{ status: conceptStatus }",
     )
     ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
-      level-goal(
+      level-goal.concept-goal(
         v-for="goal in conceptGoals",
         :goal="goal",
         :state="goalStates[goal.id]",
       )
       
-    div.goals-status.rtl-allowed
+    div.goals-status.rtl-allowed(v-if="showStatus")
       span {{ $t("play_level.goals") }}
       span.spr :
       span(v-if="classToShow === 'running'").goal-status.running {{ $t("play_level.running") }}
       span(v-if="classToShow === 'success'").goal-status.success {{ $t("play_level.success") }}
       span(v-if="classToShow === 'incomplete'").goal-status.incomplete {{ $t("play_level.incomplete") }}
-      span.goal-status.complete-one(v-if="classToShow === 'complete-one'") 1 MORE REQUIRED
       span(v-if="classToShow === 'timed-out'").goal-status.timed-out {{ $t("play_level.timed_out") }}
       span(v-if="classToShow === 'failing'").goal-status.failure {{ $t("play_level.failing") }}
 
@@ -36,6 +35,8 @@
   LevelGoal = require('./LevelGoal').default
 
   module.exports = Vue.extend({
+    props: ['showStatus']
+    
     data: -> {
       overallStatus: ''
       timedOut: false
@@ -59,7 +60,7 @@
       conceptStatus: ->
         for goal in @conceptGoals
           state = @goalStates[goal.id]
-          if state.status is 'success'
+          if state?.status is 'success'
             return 'success'
         return 'incomplete'
     }
@@ -88,7 +89,7 @@
     .failure
       color: rgb(239, 61, 71)
       text-shadow: 1px 1px 0px black
-    .incomplete, .complete-one
+    .incomplete
       color: rgb(245, 170, 49)
     .running
       color: rgb(200, 200, 200)
