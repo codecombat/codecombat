@@ -2225,7 +2225,7 @@
     if_else_if: "If/Else If Statements" 
     if_else_statements: "If/Else Statements"
     if_statements: "If Statements"
-    if_statements_nested: "Nested If Statemnts"
+    if_statements_nested: "Nested If Statements"
     indexing: "Array Indexes"
     input_handling_flags: "Input Handling - Flags"
     input_handling_keyboard: "Input Handling - Keyboard"
