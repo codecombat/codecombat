@@ -16,7 +16,7 @@
                 =" "
                 span(v-if="nextAssessment.assessment === 'cumulative'") (Combo Challenge)
                 span(v-else) (Concept Challenge)
-              div.no-imgs(html="$dbt(nextAssessment, 'description')")
+              div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
                 
             div.clearfix.well.well-sm.well-parchment.combo-results(v-else-if="level.assessment === 'cumulative'")
               div.text-center.text-uppercase.pie-container
