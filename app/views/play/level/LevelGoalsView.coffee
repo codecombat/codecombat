@@ -7,6 +7,7 @@ LevelSession = require 'models/LevelSession'
 Level = require 'models/Level'
 LevelConstants = require 'lib/LevelConstants'
 LevelGoals = require('./LevelGoals').default
+store = require 'core/store'
 
 
 module.exports = class LevelGoalsView extends CocoView
@@ -39,9 +40,7 @@ module.exports = class LevelGoalsView extends CocoView
   afterRender: ->
     @levelGoalsComponent = new LevelGoals({
       el: @$('.goals-component')[0],
-      data: {
-        level: @level.toJSON()
-      }
+      store
     })
 
   onNewGoalStates: (e) ->

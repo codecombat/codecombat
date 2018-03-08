@@ -9,6 +9,7 @@ Classroom = require 'models/Classroom'
 utils = require 'core/utils'
 api = require('core/api')
 urls = require 'core/urls'
+store = require 'core/store'
 CourseVictoryComponent = require('./CourseVictoryComponent').default
 
 module.exports = class CourseVictoryModal extends ModalView
@@ -109,7 +110,8 @@ module.exports = class CourseVictoryModal extends ModalView
       }
       new CourseVictoryComponent({
         el: @$el.find('.modal-content')[0]
-        propsData
+        propsData,
+        store
       })
 
   afterRender: ->

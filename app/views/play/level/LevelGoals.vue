@@ -5,19 +5,16 @@
         v-for="goal in levelGoals",
         :goal="goal",
         :state="goalStates[goal.id]",
-        :level="level"
       )
     level-goal(
       :goal="{ name: 'Use at least one concept:' }",
       :state="{ status: conceptStatus }",
-      :level="level"
     )
     ul#concept-goals-list(dir="auto" v-if="conceptGoals.length")
       level-goal(
         v-for="goal in conceptGoals",
         :goal="goal",
         :state="goalStates[goal.id]",
-        :level="level"    
       )
       
     div.goals-status.rtl-allowed
@@ -44,7 +41,6 @@
       goals: []
       goalStates: {}
       casting: false
-      level: {}
     },
     
     computed: {

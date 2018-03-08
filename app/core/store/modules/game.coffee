@@ -1,0 +1,16 @@
+levelSchema = require('schemas/models/level')
+api = require('core/api')
+
+emptyLevel = _.zipObject(([key, null] for key in _.keys(levelSchema.properties)))
+
+# This module should eventually include things such as: session, player code, score, thangs, etc
+module.exports = {
+  namespaced: true
+  state: {
+    level: emptyLevel
+  }
+  mutations: {
+    updateLevel: (state, updates) ->
+      _.assign(state.level, $.extend(true, {}, updates))
+  }
+}

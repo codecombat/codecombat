@@ -13,10 +13,10 @@
     failure: 'glyphicon-remove'
 
   module.exports = Vue.extend({
-    props: ['goal', 'state', 'level'],
+    props: ['goal', 'state'],
     computed: {
       showGoal: ->
-        return false if @goal.optional and @level.type is 'course' and @state.status isnt 'success'
+        return false if @goal.optional and @$store.state.game.level.type is 'course' and @state.status isnt 'success'
         if @goal.hiddenGoal
           return false if @goal.optional and @state.status isnt 'success'
           return false if not @goal.optional and @state.status isnt 'failure'

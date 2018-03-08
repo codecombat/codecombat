@@ -91,7 +91,7 @@
   utils = require 'core/utils'
   
   module.exports = Vue.extend({
-    props: ['nextLevel', 'nextAssessment', 'level', 'session', 'course', 'courseInstanceID', 'stats'],
+    props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats'],
     components: {
       PieChart
     }
@@ -139,7 +139,7 @@
         return (100 * @conceptGoalsCompleted / @conceptGoals.length).toFixed(0)
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
-      
+      level: -> @$store.state.game.level
     }
     methods: {
       marked
