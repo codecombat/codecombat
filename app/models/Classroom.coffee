@@ -210,5 +210,8 @@ module.exports = class Classroom extends CocoModel
 
     return false
   
-  hasAssessments: () ->
+  hasAssessments: ({courseId}) ->
+    if courseId
+      return false unless course
+      return _.any(course.levels, { assessment: true })
     _.any(@get('courses'), (course) -> _.any(course.levels, { assessment: true }))

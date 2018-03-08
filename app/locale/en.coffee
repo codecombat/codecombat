@@ -1316,7 +1316,7 @@
     welcome_to_page: "My Student Dashboard"
     my_classes: "Current Classes"
     class_added: "Class successfully added!"
-    view_levels: "view all levels in course"
+    view_levels: "view all levels" # {change}
     view_project_gallery: "view my classmates' projects"
     join_class: "Join A Class"
     join_class_2: "Join class"
@@ -1418,6 +1418,7 @@
     teacher_dashboard: "teacher dashboard"
     update_old_classroom_detail_2: "and giving students the new Class Code that appears."
     view_assessments: "View Assessments"
+    view_challenges: "view challenge levels"
     challenge: "Challenge:"
     challenge_level: "Challenge Level:"
     status: "Status:"
