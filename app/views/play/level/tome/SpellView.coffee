@@ -686,6 +686,8 @@ module.exports = class SpellView extends CocoView
     cinematic = @options.level.isType('hero', 'hero-ladder', 'course-ladder')
     cinematic = false if me.isStudent() and not @options.level.isType('course-ladder')
     cinematic = false if not me.isStudent() and not me.testCinematicPlayback()
+    cinematic = false if $('#page-container').width() > 1440  # Not really needed on large screens
+    cinematic = false if key.shift  # Temporary? A way to turn it off for testing.
 
     cast = @$el.parent().length
     @recompile cast, e.realTime, cinematic
@@ -1171,7 +1173,7 @@ module.exports = class SpellView extends CocoView
         Backbone.Mediator.publish("tome:highlight-line", line:start.row) if application.isIPadApp
         $cinematicParent = $('#cinematic-code-display')
         highlightedIndex = 0
-        for sourceLineNumber in [end.row - 2 .. end.row + 2]
+        for sourceLineNumber in [end.row - 3 .. end.row + 3]
           codeLine = _.string.rtrim @aceDoc.$lines[sourceLineNumber]
           $codeLineEl = $cinematicParent.find(".code-line-#{highlightedIndex++}")
           utils.replaceText $codeLineEl.find('.line-number'), if sourceLineNumber >= 0 then sourceLineNumber + 1 else ''
