@@ -48,7 +48,7 @@
               :href="challengeLink"
             )
              | {{ $t('play_level.start_challenge') }}
-        .row(v-else-if="level.assessment")
+        .row(v-else-if="level.assessment === 'cumulative'")
           .col-sm-5.col-sm-offset-7
             button#replay-level-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(
               @click="onReplayLevel"
