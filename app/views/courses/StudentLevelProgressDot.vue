@@ -1,6 +1,7 @@
+<!--TODO: Hook the progress dot up to dynamic data-->
+
 <template lang="jade">
-  a.progress-dot.level-progress-dot.student-level-progress-dot(
-    :class="dotClass",
+  a(
     data-html='true',
     :data-title='titleTemplate',
     :href="link",
@@ -9,8 +10,20 @@
     :data-level-progress="progressAttribute",
     :data-course-id="course._id"
   )
-    .dot-label.text-center
-      .dot-label-inner {{ labelText }}
+    pie-chart.progress-dot.level-progress-dot(
+      v-if="level.assessment === 'cumulative'",
+      :percent='57',
+      :stroke-width="10",
+      label=" ",
+      color="blue",
+      :opacity="1"
+    )
+    span.progress-dot.level-progress-dot.student-level-progress-dot(
+      :class="dotClass",
+      v-else
+    )
+      .dot-label.text-center
+        .dot-label-inner {{ labelText }}
     
 
 </template>
@@ -22,7 +35,8 @@
   urls = require('core/urls')
   translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
   singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
-  
+  PieChart = require('core/components/PieComponent').default
+
   module.exports = Vue.extend({
     props: [
       'progress',
@@ -33,6 +47,9 @@
       'course',
       'classroom'
     ],
+    components: {
+      PieChart
+    }
     computed: { 
       progressAttribute: -> 
         return 'complete' if @progress.completed

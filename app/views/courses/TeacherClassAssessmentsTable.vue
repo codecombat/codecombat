@@ -32,6 +32,7 @@
         .table-row(:class="backgroundClass(index)")
           div.table-cell(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
             student-level-progress-dot(
+              v-if="progress[level.original]",
               :level="level",
               :progress="progress[level.original][student._id]",
               :student="student",
@@ -47,14 +48,14 @@
   StudentLevelProgressDot = require('./StudentLevelProgressDot').default
   
   module.exports = Vue.extend({
-    props: [
-      'students',
-      'levels',
-      'progress',
-      'course',
-      'courseInstance',
-      'classroom',
-    ],
+    props: {
+      students: {}
+      levels: {}
+      progress: { default: -> {} }
+      course: {}
+      courseInstance: {}
+      classroom: {}
+    },
     data: ->
       showPrevArrows: false
       showNextArrows: false
@@ -167,4 +168,8 @@
     .table-cell.name
       padding-left: 10px
       padding-top: 5px
+    svg.progress-dot, svg
+      width: 34px
+      padding: 0
+      background: transparent
 </style>
