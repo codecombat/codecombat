@@ -93,6 +93,7 @@
   utils = require 'core/utils'
   
   module.exports = Vue.extend({
+    # TODO: Move these props to vuex
     props: ['nextLevel', 'nextAssessment', 'session', 'course', 'courseInstanceID', 'stats'],
     components: {
       PieChart

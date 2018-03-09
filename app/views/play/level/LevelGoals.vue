@@ -1,5 +1,6 @@
 <template lang="jade">
   div
+    // TODO: Split this into two components, one the ul, the other the goals-status 
     ul#primary-goals-list(dir="auto")
       level-goal(
         v-for="goal in levelGoals",
@@ -40,7 +41,7 @@
     data: -> {
       overallStatus: ''
       timedOut: false
-      goals: []
+      goals: [] # TODO: Get goals, goalStates from vuex
       goalStates: {}
       casting: false
     },

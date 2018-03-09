@@ -320,6 +320,7 @@ mixin courseProgressTab
         .clearfix
     - var course = state.get('selectedCourse');
     - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    // TODO: Refactor this to use Vue components like in the assessments tab
     if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
         +courseOverview(course)
