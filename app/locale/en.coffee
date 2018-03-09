@@ -1257,6 +1257,7 @@
 
   courses:
     create_new_class: "Create New Class"
+    solutions_require_licenses: "Level solutions are available for teachers who have licenses."
     unnamed_class: "Unnamed Class"
     edit_settings1: "Edit Class Settings"
     add_students: "Add Students"

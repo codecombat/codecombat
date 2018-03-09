@@ -55,6 +55,7 @@
         tr
           td Session ID
           td Player
+          td Product
           td Code Language
           td Playtime
           td Complete
@@ -62,16 +63,18 @@
           td Replay
       tbody
         - for (var i = 0; i < analytics.recentSessions.data.length; i++)
-          tr.recent-session(data-player-id=analytics.recentSessions.data[i].creator, data-session-id=analytics.recentSessions.data[i]._id)
-            td= analytics.recentSessions.data[i]._id
-            td= analytics.recentSessions.data[i].creatorName || analytics.recentSessions.data[i].creator
-            td= analytics.recentSessions.data[i].codeLanguage
-            td= analytics.recentSessions.data[i].playtime
-            if analytics.recentSessions.data[i].state && analytics.recentSessions.data[i].state.complete
-              td= analytics.recentSessions.data[i].state.complete
+          - var session = analytics.recentSessions.data[i];
+          tr(data-player-id=session.creator, data-session-id=session._id, class='recent-session ' + (session.state && session.state.complete ? 'complete' : 'incomplete'))
+            td= session._id
+            td= session.creatorName || session.creator
+            td= session.isForClassroom ? 'classroom' : 'home'
+            td= session.codeLanguage
+            td= session.playtime
+            if session.state && session.state.complete
+              td= session.state.complete
             else
               td false
-            td= analytics.recentSessions.data[i].changed
+            td= session.changed
             td
               button.btn.replay-button.btn-xs
                 .glyphicon.glyphicon-eye-open

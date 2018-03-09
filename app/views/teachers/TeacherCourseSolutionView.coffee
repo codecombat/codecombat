@@ -3,6 +3,7 @@ utils = require 'core/utils'
 RootView = require 'views/core/RootView'
 Course = require 'models/Course'
 Level = require 'models/Level'
+Prepaids = require 'collections/Prepaids'
 Levels = require 'collections/Levels'
 utils = require 'core/utils'
 ace = require('lib/aceContainer')
@@ -22,6 +23,9 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @levels = new Levels([], { url: "/db/course/#{@courseID}/level-solutions"})
       @supermodel.loadCollection(@levels, 'levels', {cache: false})
       @levelNumberMap = {}
+      @prepaids = new Prepaids()
+      @supermodel.trackRequest @prepaids.fetchMineAndShared()
+    @paidTeacher = me.isAdmin()
     super(options)
 
   camelCaseLanguage: (language) ->
@@ -36,6 +40,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       a
 
   onLoaded: ->
+    @paidTeacher = @paidTeacher or @prepaids?.models.find((m) => m.get('type') in ['course', 'starter_license'] and m.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
 

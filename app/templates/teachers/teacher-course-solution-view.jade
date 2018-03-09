@@ -6,11 +6,12 @@ block page_nav
     span.backlink
       a(href='/teachers/courses')
         |&lt; Back to Course Guides
-    .print
-      .btn.btn-md.btn-navy
-        a(href='javascript:window.print()')
-          span.glyphicon.glyphicon-print &#160;
-          |Print this guide
+    if view.paidTeacher || view.course.get('free')
+      .print
+        .btn.btn-md.btn-navy
+          a(href='javascript:window.print()')
+            span.glyphicon.glyphicon-print &#160;
+            |Print this guide
 
 block content
 
@@ -18,6 +19,8 @@ block content
     a(href="/")
       img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
     h2.text-center(data-i18n="teacher.teacher_account_required")
+  else if !view.paidTeacher && !view.course.get('free')
+    h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center
       img(src="http://direct.codecombat.com/images/pages/base/logo.png")
