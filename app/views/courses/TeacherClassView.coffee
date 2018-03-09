@@ -221,32 +221,32 @@ module.exports = class TeacherClassView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
-    levels = []
-    course = @state.get('selectedCourse')
-    if course
-      levels = _.find(@courseAssessmentPairs, (pair) -> pair[0] is course)?[1] || []
-      levels = levels.map((l) => l.toJSON())
-      courseInstance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
-      if courseInstance
-        courseInstance = courseInstance.toJSON()
-    students = @state.get('students').toJSON()
-    
-    # TEST: make many students and levels, for science
-#    students = _.times(20, -> students[0])
-#    levels = _.flatten(_.times(3, -> levels))
-    
-    propsData = {
-      students
-      levels,
-      course: course?.toJSON(),
-      progress: @state.get('progressData')?.get({ @classroom, course }),
-      courseInstance,
-      classroom: @classroom.toJSON()
-    }
-    new TeacherClassAssessmentsTable({
-      el: @$el.find('.assessments-table')[0]
-      propsData
-    })
+      
+    if @classroom.hasAssessments()
+      levels = []
+      course = @state.get('selectedCourse')
+      if course and not @classroom.hasAssessments({courseId: course.id})
+        course = @courses.find((c) => @classroom.hasAssessments({courseId: c.id}))
+      if course
+        levels = _.find(@courseAssessmentPairs, (pair) -> pair[0] is course)?[1] || []
+        levels = levels.map((l) => l.toJSON())
+        courseInstance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
+        if courseInstance
+          courseInstance = courseInstance.toJSON()
+      students = @state.get('students').toJSON()
+      
+      propsData = {
+        students
+        levels,
+        course: course?.toJSON(),
+        progress: @state.get('progressData')?.get({ @classroom, course }),
+        courseInstance,
+        classroom: @classroom.toJSON()
+      }
+      new TeacherClassAssessmentsTable({
+        el: @$el.find('.assessments-table')[0]
+        propsData
+      })
 
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
