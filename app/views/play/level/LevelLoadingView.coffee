@@ -93,6 +93,11 @@ module.exports = class LevelLoadingView extends CocoView
             @goalHeaderTranslationKey = 'play_level.concept_challenge_goals'
           else
             @goalHeaderTranslationKey = 'play_level.concept_challenge_goal'
+        else
+          if numGoals > 1
+            @goalHeaderTranslationKey = 'play_level.goals'
+          else
+            @goalHeaderTranslationKey = 'play_level.goal'
         goalContainer.find('.goals-title').text $.i18n.t @goalHeaderTranslationKey
     )
 
