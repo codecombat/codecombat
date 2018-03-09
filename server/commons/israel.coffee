@@ -48,7 +48,10 @@ getIsraelFinalists = co.wrap ->
   console.log 'Test - trying to connect to this SQL database with connection string', config.israel.sqlConnectionString
   result = {}
   try
-    pool = yield mssql.connect config.israel.sqlConnectionString
+    try
+      pool = yield mssql.connect config.israel.sqlConnectionString
+    catch primaryError
+      pool = yield mssql.connect config.israel.sqlConnectionString.replace /\.4,1433/, '.6,1433'
     query = "select * from studentsGmar where code_combat = 1"
     console.log '  Now going to query:', query
     try
