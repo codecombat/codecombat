@@ -9,8 +9,6 @@ utils = require 'core/utils'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
 
-# TODO: block on server somehow?
-
 module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
   template: require 'templates/teachers/teacher-course-solution-view'
