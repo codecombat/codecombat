@@ -160,11 +160,11 @@
     .progress-dot
       margin-top: 15px
     .table-row.lighter .table-cell.combo-cell
-      background: #f6e8ef
+      background: #c9dbe6
     .table-row.darker .table-cell.combo-cell
-      background: #EED2DF
+      background: #b6c8d4
     .table-header.combo-cell
-      background: #EED2DF
+      background: #b6c8d4
     .table-cell.name
       padding-left: 10px
       padding-top: 5px
