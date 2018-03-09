@@ -1754,6 +1754,7 @@
     back_to_resource_hub: "Back to Resource Hub"
     print_guide: "Print this guide"
     combo: "Combo"
+    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
     concept: "Concept"
 
   share_licenses:

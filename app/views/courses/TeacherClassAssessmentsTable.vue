@@ -21,7 +21,10 @@
         div.small.table-row.table-header-row.alternating-background(v-if="index % 8 === 0")
           div.table-header(v-for="level in levels", :class="{'combo-cell': level.assessment === 'cumulative'}")
             div(v-if="level.assessment === 'cumulative'")
-              span {{ $t('teacher.combo') }}
+              span
+                | {{ $t('teacher.combo') }}
+                =" "
+                i.glyphicon.glyphicon-question-sign(data-html='true', :data-title="$t('teacher.combo_explanation')")
             div(v-else-if="!(level.primaryConcepts||[]).length")
               span ?
             div(v-else)
@@ -77,6 +80,10 @@
     },
     mounted: ->
       @updateArrows()
+      $('.glyphicon-question-sign', @$el).each (i, el) ->
+        $(el).tooltip({ html: true, container: '#teacher-class-assessments-table' })
+      $('.progress-dot, .btn-view-project-level', @$el).each (i, el) ->
+        $(el).tooltip({ html: true })
   })
 </script>
 

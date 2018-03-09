@@ -247,12 +247,6 @@ module.exports = class TeacherClassView extends RootView
       el: @$el.find('.assessments-table')[0]
       propsData
     })
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
-      dot = $(el)
-      dot.tooltip({
-        html: true
-      }).delegate '.tooltip', 'mousemove', ->
-        dot.tooltip('hide')
 
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
