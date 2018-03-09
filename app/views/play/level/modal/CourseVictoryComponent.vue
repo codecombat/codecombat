@@ -22,7 +22,7 @@
                 
             div.clearfix.well.well-sm.well-parchment.combo-results(v-else-if="level.assessment === 'cumulative'")
               div.text-center.text-uppercase.pie-container
-                pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", label=" ", color="green" opacity="1")
+                pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", label=" ", color="green", :opacity="1")
                 h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
               div
                 h3.text-uppercase {{ $t('play_level.combo_challenge_complete') }}
@@ -138,7 +138,7 @@
       conceptGoalsCompleted: ->
         return @conceptGoals.filter((g) => @session.state.goalStates[g.id].status is 'success').length
       percentConceptsCompleted: ->
-        return (100 * @conceptGoalsCompleted / @conceptGoals.length).toFixed(0)
+        return 100 * @conceptGoalsCompleted / @conceptGoals.length
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
       level: -> @$store.state.game.level
