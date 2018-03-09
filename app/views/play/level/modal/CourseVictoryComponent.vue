@@ -1,7 +1,7 @@
 <template lang="jade">
   .modal-content#course-victory-component
     .modal-header
-      img.challenge-unlocked-img(:src="headerImage")
+      img.header-img(:src="headerImage")
       #close-modal.btn.well.well-sm.well-parchment(data-dismiss="modal")
         span.glyphicon.glyphicon-remove
   
@@ -10,12 +10,14 @@
         .row
           .col-sm-12
             div.clearfix.well.well-sm.well-parchment(v-if="assessmentNext")
+              img.lock-banner(src="/images/pages/play/modal/lock_banner.png")
+              h5.text-uppercase
+                span(v-if="nextAssessment.assessment === 'cumulative'")
+                  | {{ $t('play_level.combo_challenge_unlocked') }}:
+                span(v-else)
+                  | {{ $t('play_level.concept_challenge_unlocked') }}:
               h3.text-uppercase
-                img.lock-banner(src="/images/pages/play/modal/lock_banner.png")
                 | {{ $dbt(nextAssessment, 'name') }}
-                =" "
-                span(v-if="nextAssessment.assessment === 'cumulative'") (Combo Challenge)
-                span(v-else) (Concept Challenge)
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
                 
             div.clearfix.well.well-sm.well-parchment.combo-results(v-else-if="level.assessment === 'cumulative'")
@@ -181,7 +183,7 @@
 
 <style lang="sass">
   #course-victory-component
-    img.challenge-unlocked-img
+    img.header-img
       position: relative
       top: -15px
     

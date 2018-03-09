@@ -442,6 +442,8 @@
     combo_challenge: "Combo Challenge"
     concept_challenge: "Concept Challenge"
     challenge_unlocked: "Challenge Unlocked"
+    combo_challenge_unlocked: "Combo Challenge Unlocked"
+    concept_challenge_unlocked: "Concept Challenge Unlocked"
     concept_challenge_complete: "Concept Challenge Complete!"
     combo_challenge_complete: "Combo Challenge Complete!"
     combo_challenge_complete_body: "Great job, it looks like you're well on your way to understanding __concept__!"
