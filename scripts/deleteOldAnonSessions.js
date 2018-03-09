@@ -24,7 +24,7 @@ const debugOutput = true;
 
 const dayRange = 10;
 
-const startDate = new Date('2017-08-15'); // No data before this point due to previous anonymous clean up
+const startDate = new Date('2017-11-01'); // No data before this point due to previous anonymous clean up
 const newestDate = new Date();
 newestDate.setUTCDate(newestDate.getUTCDate() - 90);
 debug(`Cutoff date for old anonymous users = ${newestDate.toISOString()}`);
