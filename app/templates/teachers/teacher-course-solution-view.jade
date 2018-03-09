@@ -42,6 +42,7 @@ block content
       each level, index in view.levels.models
         if level.get('assessment') && !me.hasAssessments()
           - continue
+        - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
         h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
@@ -55,7 +56,7 @@ block content
           h4.text-center(data-i18n="common.default_code")
           if level.get('begin')
             pre
-              code= level.get('begin')
+              code(class=langClass)= level.get('begin')
           else
             .text-center
               i(data-i18n="common.coming_soon")
@@ -70,11 +71,34 @@ block content
           h4.text-center
             span= level.get('name')
             span.spl(data-i18n="common.solution")
-          if level.get('solution')
-            if level.get('assessment') === 'open-ended'
-              em(data-i18n="teacher.explain_open_ended")
-            pre
-              code= level.get('solution')
+          if level.get('assessment') === 'open-ended'
+            em(data-i18n="teacher.explain_open_ended")
+
+          //- TODO: this UI is identical to teacher-student-view multi-solution tabbing
+          - var solutions = view.levelSolutionsMap[level.get('original')] || [];
+          if solutions.length === 1
+            each solution in solutions
+              pre
+                code(class=langClass)= solution
+          else if solutions.length > 0
+            div(role='tabpanel')
+              ul.nav.nav-tabs(role='tablist')
+                each solution, index in solutions
+                  li.nav-item(class=(index === 0 ? 'active' : ''))
+                    - var target = level.get('original') + index;
+                    a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0))
+                      //- TODO: use solution names from level data
+                      .text-center Variation #{index + 1}
+                  if index < solutions.length - 1
+                    .tab-spacer
+                  else
+                    .tab-filler
+              .tab-content
+                each solution, index in solutions
+                  - var target = level.get('original') + index;
+                  div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                    pre
+                      code(class=langClass)= solution
           else
             .text-center
               i(data-i18n="common.coming_soon")

@@ -38,7 +38,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
     @urls = require('core/urls')
 
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
@@ -89,18 +89,16 @@ module.exports = class TeacherStudentView extends RootView
     oldEditor.destroy() for oldEditor in @aceEditors ? []
     @aceEditors = []
     aceEditors = @aceEditors
-    lang = @classroom.get('aceConfig')?.language or 'python'
+    classLang = @classroom.get('aceConfig')?.language or 'python'
     @$el.find('pre:has(code[class*="lang-"])').each ->
-      aceEditor = aceUtils.initializeACE(@, lang)
+      codeElem = $(@).first().children().first()
+      lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
+      aceEditor = aceUtils.initializeACE(@, lang or classLang)
       aceEditors.push aceEditor
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
-    @levelSolutionMap = {}
-    for level in @levels.models
-      solution = level.getSolutions().find((s) => s.language is @classroom.get('aceConfig')?.language)?.source
-      solution ?= utils.extractPlayerCodeTag(level.getSolutions().find((s) => s.language is 'html')?.source or '')
-      @levelSolutionMap[level.get('original')] = solution
+    @levelSolutionsMap = @levels.getSolutionsMap(@classroom.get('aceConfig')?.language)
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
       # Normal level
