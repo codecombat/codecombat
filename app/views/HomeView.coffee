@@ -9,6 +9,7 @@ utils = require 'core/utils'
 storage = require 'core/storage'
 {logoutUser, me} = require('core/auth')
 CreateAccountModal = require 'views/core/CreateAccountModal/CreateAccountModal'
+Player = require('@vimeo/player')
 
 #  TODO: auto margin feature paragraphs
 
@@ -113,12 +114,7 @@ module.exports = class HomeView extends RootView
     window.tracker?.trackEvent $(e.target).data('event-action'), category: 'Homepage', []
 
   afterRender: ->
-    require.ensure(['@vimeo/player'], (require) =>
-      Player = require('@vimeo/player')
-      @vimeoPlayer = new Player(@$('.vimeo-player')[0])
-    , (e) =>
-      console.log e
-    , 'vimeo')
+    @vimeoPlayer = new Player(@$('.vimeo-player')[0])
     @onChangeSchoolLevelDropdown()
     @$('#screenshot-lightbox')
       .modal()
