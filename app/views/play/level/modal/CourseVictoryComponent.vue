@@ -64,7 +64,7 @@
                 | Levels Complete: {{ stats.levels.numDone }}/{{ stats.levels.size }}
           .col-sm-6(v-if="nextLevel._id")
             .well.well-sm.well-parchment
-              h5.text-uppercase {{ $t('play_level.next_level') }}
+              h5.text-uppercase {{ $t('play_level.next_level') }}:
               h3.text-uppercase {{ $dbt(nextLevel, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextLevel, 'description'))")
     
