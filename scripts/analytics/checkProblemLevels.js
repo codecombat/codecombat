@@ -405,7 +405,7 @@ function describeLevel(level, messagesSent, recovery) {
       let playerCountDisplay = _.str.lpad(stats.aggregateStarted, 5);
       if (stats.aggregateStarted < minPlayersPerAbsoluteProblem)
         playerCountDisplay = '*' + _.str.lpad(stats.aggregateStarted, 4);
-      logLines.push(`${playerCountDisplay} ${_.str.rpad(product, 9)} ${_.str.rpad(codeLanguage, 10)} players with ${_.str.lpad(((stats.aggregateCompleted / stats.aggregateStarted) * 100).toFixed(1), 5)}% completion, ${_.str.lpad((stats.aggregatePlaytime / stats.aggregateStarted).toFixed(0), 4)}s playtime, ${_.str.lpad(((stats.aggregateLeftGame / stats.aggregateStarted) * 100).toFixed(1), 5)}% left game`);
+      logLines.push(`${playerCountDisplay} ${_.str.rpad(product, 9)} ${_.str.rpad(codeLanguage, 10)} players with ${_.str.lpad(((stats.aggregateCompleted / stats.aggregateStarted) * 100).toFixed(1), 5)}% completion, ${_.str.lpad((stats.aggregatePlaytime / stats.aggregateStarted).toFixed(0), 4)}s playtime, ${_.str.lpad(((stats.aggregateLeftGame / (stats.aggregateLeftGame + stats.aggregateContinuedGame)) * 100).toFixed(1), 5)}% left game`);
       nowPlayers += stats.aggregateStarted;
       oldPlayers += statsByDay[statsByDay.length - 1 - daysToCheck].aggregateStarted;
     }
