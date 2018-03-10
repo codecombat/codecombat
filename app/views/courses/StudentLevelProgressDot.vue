@@ -1,5 +1,3 @@
-<!--TODO: Hook the progress dot up to dynamic data-->
-
 <template lang="jade">
   a(
     data-html='true',
@@ -11,11 +9,11 @@
     :data-course-id="course._id"
   )
     pie-chart.progress-dot.level-progress-dot(
-      v-if="level.assessment === 'cumulative'",
-      :percent='57',
+      v-if="level.assessment === 'cumulative' && percentConceptsCompleted",
+      :percent='percentConceptsCompleted',
       :stroke-width="10",
       label=" ",
-      color="blue",
+      color="#20572B",
       :opacity="1"
     )
     span.progress-dot.level-progress-dot.student-level-progress-dot(
@@ -108,6 +106,13 @@
           }
         )
         return singleStudentLevelProgressDotTemplate(context)
+      conceptGoals: ->
+        return (@level.goals || []).filter((g) => g.concepts?.length)
+      conceptGoalsCompleted: ->
+        return @conceptGoals.filter((g) => @progress.session?.state.goalStates[g.id].status is 'success').length
+      percentConceptsCompleted: ->
+        res = 100 * @conceptGoalsCompleted / @conceptGoals.length
+        return if _.isNaN(res) then 0 else res
     }
   })
 
