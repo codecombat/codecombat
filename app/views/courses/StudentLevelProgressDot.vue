@@ -103,6 +103,8 @@
             assessment: @level.assessment,
             primaryConcept: _.first(@level.primaryConcepts),
             translate: $.i18n.t
+            conceptGoals: @conceptGoals
+            goalStates: @progress.session?.state.goalStates
           }
         )
         return singleStudentLevelProgressDotTemplate(context)
@@ -115,7 +117,7 @@
         return if _.isNaN(res) then 0 else res
     }
     mounted: ->
-      $(@$el).tooltip({ html: true, trigger: 'click' })
+      $(@$el).tooltip({ html: true })
   })
 
 </script>

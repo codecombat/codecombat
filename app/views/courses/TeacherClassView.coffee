@@ -28,6 +28,7 @@ Prepaids = require 'collections/Prepaids'
 window.saveAs ?= require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
 window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
+PieChart = require('core/components/PieComponent').default
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -246,6 +247,16 @@ module.exports = class TeacherClassView extends RootView
       new TeacherClassAssessmentsTable({
         el: @$el.find('.assessments-table')[0]
         propsData
+      })
+      new PieChart({
+        el: @$el.find('.pie')[0]
+        propsData: {
+          label: ' ',
+          percent: 100*2/3,
+          'strokeWidth': 10,
+          color: "#20572B",
+          opacity: 1
+        }
       })
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)

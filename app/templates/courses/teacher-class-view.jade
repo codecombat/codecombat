@@ -524,20 +524,25 @@ mixin assessmentsTab
     
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
-      .col.col-md-2.col-xs-4
+      .col.col-md-2.col-xs-3
         .progress-dot.forest
         .key-text
           span.small(data-i18n='teacher.success')
         .clearfix
-      .col.col-md-2.col-xs-4
+      .col.col-md-2.col-xs-3
         .progress-dot.gold
         .key-text
           span.small(data-i18n='teacher.in_progress')
         .clearfix
-      .col.col-md-2.col-xs-4
+      .col.col-md-2.col-xs-3
         .progress-dot
         .key-text
           span.small(data-i18n='teacher.not_started')
+        .clearfix
+      .col.col-md-2.col-xs-3
+        .progress-dot.pie
+        .key-text
+          span.small(data-i18n='TODO') Partially Complete
         .clearfix
     .assessments-table
 

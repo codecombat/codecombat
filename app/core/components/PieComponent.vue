@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  export default {
+  module.exports = Vue.extend({
     name: 'pie-chart',
     props: {
       ratio: Number,
@@ -116,7 +116,7 @@
         return `font-size:${size}pt`
       },
     }
-  }
+  })
 
   function ratioOK (val) {
     return

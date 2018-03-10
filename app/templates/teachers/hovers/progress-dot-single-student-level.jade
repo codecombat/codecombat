@@ -25,13 +25,14 @@ mixin assessmentLines()
   if (assessment === 'open-ended' || assessment === 'cumulative')
     .small-details.nowrap
       span(data-i18n="teacher.concepts_used")
-    em.small-details
-      for concept, i in codeConcepts
-        if i > 0
-          =", "
-        span(data-i18n="concepts." + concept)
-      if !codeConcepts.length
-        span(data-i18n="teacher.none")
+    for goal in conceptGoals
+      .small-details
+        if goalStates[goal.id].status === 'success'
+          i.glyphicon.glyphicon-ok
+        else
+          i.glyphicon.glyphicon-remove
+        =" "
+        span(data-i18n="concepts." + goal.concepts[0])
   else
     .small-details.nowrap
       span(data-i18n="teacher.concept_checked")
