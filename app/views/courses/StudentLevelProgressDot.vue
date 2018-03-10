@@ -1,8 +1,8 @@
 <template lang="jade">
-  a(
+  a.student-level-progress-dot-link(
+    :href="link",
     data-html='true',
     :data-title='titleTemplate',
-    :href="link",
     :data-student-id="student._id",
     :data-level-slug="level.slug",
     :data-level-progress="progressAttribute",
@@ -114,9 +114,15 @@
         res = 100 * @conceptGoalsCompleted / @conceptGoals.length
         return if _.isNaN(res) then 0 else res
     }
+    mounted: ->
+      $(@$el).tooltip({ html: true, trigger: 'click' })
   })
 
 </script>
 
-
-
+<style lang="sass">
+  .student-level-progress-dot-link
+    display: inline-block
+    position: relative
+    top: 15px
+</style>

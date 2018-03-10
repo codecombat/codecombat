@@ -83,8 +83,6 @@
       @updateArrows()
       $('.glyphicon-question-sign', @$el).each (i, el) ->
         $(el).tooltip({ html: true, container: '#teacher-class-assessments-table' })
-      $('.progress-dot, .btn-view-project-level', @$el).each (i, el) ->
-        $(el).tooltip({ html: true })
   })
 </script>
 
@@ -157,8 +155,6 @@
       line-height: 19px
       text-overflow: ellipsis
       overflow: hidden
-    .progress-dot
-      margin-top: 15px
     .table-row.lighter .table-cell.combo-cell
       background: #c9dbe6
     .table-row.darker .table-cell.combo-cell
