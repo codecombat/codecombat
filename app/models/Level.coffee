@@ -10,7 +10,7 @@ utils = require 'core/utils'
 # Accessible via eg. `Level.isProject(levelObj)`
 LevelLib = {
   isProject: (level) ->
-    return level.shareable is 'project'
+    return level?.shareable is 'project'
 }
 
 module.exports = class Level extends CocoModel
@@ -269,8 +269,9 @@ module.exports = class Level extends CocoModel
         height = c.height if c.height? and c.height > height
     return {width: width, height: height}
 
-  isLadder: ->
-    return @get('type')?.indexOf('ladder') > -1
+  isLadder: -> return Level.isLadder(@attributes)
+    
+  @isLadder: (level) -> level.type?.indexOf('ladder') > -1
 
   isProject: -> Level.isProject(@attributes)
 
@@ -311,5 +312,7 @@ module.exports = class Level extends CocoModel
         achieved = score >= thresholdValue
       if achieved
         return threshold
+        
+  isSummative: -> @get('assessment') in ['open-ended', 'cumulative']
 
 _.assign(Level, LevelLib)

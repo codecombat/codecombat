@@ -8,7 +8,9 @@
           | {{ $t('courses.challenges') }}
         h1(v-if="classroom").text-center
           | {{ classroom.name }}
-        div.assessments-list.m-t-3(v-for="chunk in levelsByCourse" v-if="chunk.assessmentLevels.length && inCourses[chunk.course._id]")
+        select(v-model="selectedCourse")
+          option(v-for="chunk in levelsByCourse", :value="chunk.course._id") {{ $dbt(chunk.course, 'name') }}
+        div.assessments-list.m-t-3(v-for="chunk in levelsByCourse" v-if="chunk.course._id === selectedCourse")
           .row
             .col-xs-5
               span.table-header
@@ -22,13 +24,11 @@
             :assessmentPlacement="level.assessmentPlacement",
             :primaryConcept="level.primaryConcept",
             :name="$dbt(level, 'name')",
-            :score="sessionMap[level.original] && sessionMap[level.original].topScore",
-            :thresholdAchieved="sessionMap[level.original] && sessionMap[level.original].thresholdAchieved",
-            :scoreType="level.scoreType",
             :complete="!!(sessionMap[level.original] && sessionMap[level.original].state.complete)",
             :started="!!sessionMap[level.original]",
-            :codeConcepts="(sessionMap[level.original] && sessionMap[level.original].codeConcepts) || []",
             :playUrl="playLevelUrlMap[level.original]",
+            :goals="level.goals",
+            :goalStates="sessionMap[level.original] ? sessionMap[level.original].state.goalStates : []"
           )
 
 </template>
@@ -62,6 +62,8 @@ module.exports = Vue.extend
     playLevelUrlMap: {}
     levelUnlockedMap: {}
     inCourses: {}
+    courses: []
+    selectedCourse: ''
   computed:
     backToClassroomUrl: -> "/teachers/classes/#{@classroom?._id}"
   created: ->
@@ -82,21 +84,18 @@ module.exports = Vue.extend
         @levelsByCourse = _.map(@classroom.courses, (course) => {
           course: _.find(@courses, ({_id: course._id})),
           assessmentLevels: _.filter(course.levels, 'assessment')
-        })
+        }).filter((chunk) => chunk.assessmentLevels.length and @inCourses[chunk.course._id])
+        @selectedCourse = document.location.hash.replace('#','') or _.first(@levelsByCourse)?.course._id
+        
         @courses = @classroom.courses
         return Promise.all(_.map(@levels, (level) =>
           api.levels.getByOriginal(level.original, {
-            data: { project: 'slug,name,original,primaryConcepts,i18n,scoreTypes' }
+            data: { project: 'slug,name,original,primaryConcepts,i18n,goals' }
           }).then (data) =>
             levelToUpdate = _.find(@levels, {original: data.original})
             Vue.set(levelToUpdate, 'primaryConcept', _.first(data.primaryConcepts))
             Vue.set(levelToUpdate, 'i18n', data.i18n)
-            if data.scoreTypes
-              Vue.set(levelToUpdate, 'scoreTypes', data.scoreTypes)
-              # pick the first score, not currently showing multiple
-              scoreType = _.first(data.scoreTypes)
-              if _.isObject(scoreType)
-                Vue.set(levelToUpdate, 'scoreType', scoreType.type)
+            Vue.set(levelToUpdate, 'goals', data.goals)
         ))
       )
       api.users.getLevelSessions({ userID: me.id }).then((@levelSessions) =>)
@@ -110,14 +109,6 @@ module.exports = Vue.extend
     createSessionMap: ->
       # Map level original to levelSession
       _.reduce(@levelSessions, (map, session) =>
-        # Take the raw top score data and chosen score type and
-        # pull the pertinent data out.
-        level = _.find(@levels, {original: session.level.original})
-        topScores = LevelSession.getTopScores({level, session})
-        if level
-          score = _.find(topScores, {type: level.scoreType})
-          session.topScore = score?.score
-          session.thresholdAchieved = score?.thresholdAchieved
         map[session.level.original] = session
         return map
       , {})
@@ -147,6 +138,10 @@ module.exports = Vue.extend
       for level, index in @levels
         map[level.original] = @sessionMap[@previousLevelMap[level.original]]?.state.complete or false
       return map  
+  watch: {
+    selectedCourse: (newValue) ->
+      document.location.hash = newValue
+  }
 </script>
 
 <style lang="sass">
