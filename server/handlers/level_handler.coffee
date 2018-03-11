@@ -73,7 +73,7 @@ LevelHandler = class LevelHandler extends Handler
       {$project: project}
     ]
     aggregate.limit(100000)
-    aggregate.cache(10 * 60 * 1000) unless league
+    aggregate.cache(15 * 1000) unless league
 
     aggregate.exec (err, data) =>
       if err? then return @sendDatabaseError res, err
@@ -110,7 +110,7 @@ LevelHandler = class LevelHandler extends Handler
       .limit(req.query.limit)
       .sort(sortParameters)
       .select(selectProperties.join ' ')
-    query.cache(5 * 60 * 1000) if sessionsQueryParameters.totalScore.$lt is 1000000
+    query.cache(15 * 1000) if sessionsQueryParameters.totalScore.$lt is 1000000
 
     query.exec (err, resultSessions) =>
       return @sendDatabaseError(res, err) if err
@@ -175,7 +175,7 @@ LevelHandler = class LevelHandler extends Handler
       .find(level: leaderboardOptions.find.level, creator: {$in: @ladderBenchmarkAIs})
       .sort(leaderboardOptions.sort)
       .select(leaderboardOptions.select.join ' ')
-      .cache(30 * 60 * 1000)
+      .cache(15 * 60 * 1000)
       .exec (err, aiSessions) ->
         return cb err if err
         matchingAISessions = _.filter aiSessions, (aiSession) ->

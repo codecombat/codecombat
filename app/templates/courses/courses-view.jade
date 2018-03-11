@@ -41,7 +41,7 @@ block content
             if features.israel && new Date() >= new Date(2018, 0, 15, 8)
               .skillz-logo
                 img(src="/images/pages/courses/skillz-logo-horizontal.png")
-              if view.showFinalArena
+              if view.showFinalArena || view.awaitingFinalArena
                 .text-center
                   h1#tournament-title
                     | Final Live Tournament
@@ -63,7 +63,7 @@ block content
                     if me.get('preferredLanguage') == 'he'
                       | תחרות 
                     else
-                      | Tournament
+                      | Tournament Qualification
                   a#tournament-rules
                     if me.get('preferredLanguage') == 'he'
                       | חוקים וניקוד
@@ -95,28 +95,35 @@ block content
 
                       p You can test your code against any player and improve your strategy until you win, but remember: no points are scored until you submit your latest code and it starts to automatically plays matches against other players.
 
-              for level in view.tournamentArenas()
-                a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
-                  .level
-                    if level.image
-                      img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
-                    else
-                      img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
-                      h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
-                    .overlay-text.level-difficulty.rtl-allowed
-                      if me.get('preferredLanguage') != "he"
-                        span(data-i18n="play.level_difficulty") Difficulty: 
-                        each i in Array(level.difficulty)
-                          | ★
-                      if view.levelPlayCountMap
-                        - var playCount = view.levelPlayCountMap[level.id]
-                        if playCount
-                          if me.get('preferredLanguage') != "he"
-                            span.spl.spr - 
-                          span.spl.spr #{playCount.sessions}
-                          span(data-i18n="play.players") players
-                    .play-text-container
-                      .overlay-text.play-text(data-i18n="common.play") Play
+              if view.awaitingFinalArena
+                .text-center
+                  h2 Waiting for Tournament Start
+                  p The final arena will appear when the tournament begins.
+                  br
+                  br
+              else
+                for level in view.tournamentArenas()
+                  a(href=level.disabled ? "/play/ladder" : "/play/ladder/#{level.id}", disabled=level.disabled, title=level.description)
+                    .level
+                      if level.image
+                        img.level-image(src="#{level.image}", alt="#{level.name}").img-rounded
+                      else
+                        img.level-image(src="/images/pages/play/ladder/multiplayer_notext.jpg", alt="#{level.name}").img-rounded
+                        h3.dynamic-level-name= level.name + (level.disabled ? " (Coming soon!)" : "")
+                      .overlay-text.level-difficulty.rtl-allowed
+                        if me.get('preferredLanguage') != "he"
+                          span(data-i18n="play.level_difficulty") Difficulty: 
+                          each i in Array(level.difficulty)
+                            | ★
+                        if view.levelPlayCountMap
+                          - var playCount = view.levelPlayCountMap[level.id]
+                          if playCount
+                            if me.get('preferredLanguage') != "he"
+                              span.spl.spr - 
+                            span.spl.spr #{playCount.sessions}
+                            span(data-i18n="play.players") players
+                      .play-text-container
+                        .overlay-text.play-text(data-i18n="common.play") Play
 
             .text-center
               h1(data-i18n="courses.welcome_to_page")

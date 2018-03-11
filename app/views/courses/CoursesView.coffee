@@ -19,6 +19,7 @@ Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
+Mandate = require 'models/Mandate'
 utils = require 'core/utils'
 
 # TODO: Test everything
@@ -72,11 +73,26 @@ module.exports = class CoursesView extends RootView
       israelFinalistsRequest = @supermodel.addRequestResource url: '/db/user/-/israel-finalist-status', data: {}, method: 'GET', success: (status) =>
         return if @destroyed
         console.log {status}
-        if (status.finalist and new Date() >= new Date(2018, 2, 12, 9)) or me.get('name') in ['test student']
-          @showFinalArena = true
+        if status.finalist or me.get('name') in ['test student']
+          if window.serverConfig.currentTournament is 'israel'
+            @showFinalArena = true
+          else
+            @awaitingFinalArena = true
+            @checkForTournamentStart()
         else
           @getArenaPlayCounts()
       israelFinalistsRequest.load()
+
+  checkForTournamentStart: =>
+    return if @destroyed
+    $.get '/db/mandate', (data) =>
+      return if @destroyed
+      if data?[0]?.currentTournament is 'israel'
+        @showFinalArena = true
+        @awaitingFinalArena = false
+        @render()
+      else
+        setTimeout @checkForTournamentStart, 5000
 
   afterInsert: ->
     super()

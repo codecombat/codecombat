@@ -166,7 +166,7 @@ module.exports = class LadderTabView extends CocoView
 
   refreshLadder: ->
     # Only do this so often if not in a league; servers cache a lot of this data for a few minutes anyway.
-    return if not @options.league and (new Date() - 2 * 60 * 1000 < @lastRefreshTime)
+    return if not @options.league and (new Date() - 15 * 1000 < @lastRefreshTime)
     @lastRefreshTime = new Date()
     @supermodel.resetProgress()
     @ladderLimit ?= parseInt utils.getQueryVariable('top_players', if @options.league then 100 else 20)

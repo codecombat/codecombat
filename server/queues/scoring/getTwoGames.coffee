@@ -12,7 +12,7 @@ module.exports = getTwoGames = (req, res) ->
   humansSessionID = req.body.humansGameID
   ogresSessionID = req.body.ogresGameID
   return getSpecificSessions res, humansSessionID, ogresSessionID if humansSessionID and ogresSessionID
-  Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, mandate) ->
+  Mandate.findOne({}).cache(1 * 60 * 1000).exec (err, mandate) ->
     if err then return errors.serverError res, "Error fetching our Mandate: #{err}"
     if (throughputRatio = mandate?.get 'simulationThroughputRatio')? and Math.random() > throughputRatio
       return sendSessionsResponse(res)(null, [])

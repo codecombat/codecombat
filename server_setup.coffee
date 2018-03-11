@@ -389,7 +389,7 @@ setupQuickBailToMainHTML = (app) ->
 # Mongo-cache doesnt support the .exec() promise, so we manually wrap it.
 getMandate = (app) ->
   return new Promise (res, rej) ->
-    Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, data) ->
+    Mandate.findOne({}).cache(1 * 60 * 1000).exec (err, data) ->
       return rej(err) if err
       res(data)
 

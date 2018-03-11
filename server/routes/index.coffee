@@ -243,6 +243,9 @@ module.exports.setup = (app) ->
   app.get('/db/user/:handle/course-instances', mw.users.getCourseInstances)
   app.get('/db/user/-/israel-finalist-status', mw.auth.checkHasUser(), mw.users.israelFinalistStatus)
 
+  Mandate = require '../models/Mandate'
+  app.get('/db/mandate', mw.rest.get(Mandate))
+
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
 

@@ -14,7 +14,7 @@ module.exports = class MyMatchesTabView extends CocoView
   initialize: (options, @level, @sessions) ->
     @nameMap = {}
     @previouslyRankingTeams = {}
-    @refreshMatches 20
+    @refreshMatches 10
 
   refreshMatches: (@refreshDelay) ->
     @teams = teamDataFromLevel @level
