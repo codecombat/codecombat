@@ -5,7 +5,7 @@ module.exports =
   playDevLevel: ({level, session, course}) ->
     level = level.attributes || level
     session = session.attributes || session
-    course = course.attributes || course
+    course = course?.attributes || course
     shareURL = "#{window.location.origin}/play/#{level.type}-level/#{level.slug}/#{session._id}"
     shareURL += "?course=#{course._id}" if course
     return shareURL
