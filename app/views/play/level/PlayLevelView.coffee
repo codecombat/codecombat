@@ -139,7 +139,6 @@ module.exports = class PlayLevelView extends RootView
     else
       @load()
       application.tracker?.trackEvent 'Started Level Load', category: 'Play Level', level: @levelID, label: @levelID unless @observing
-
   setLevel: (@level, givenSupermodel) ->
     @supermodel.models = givenSupermodel.models
     @supermodel.collections = givenSupermodel.collections
@@ -180,6 +179,18 @@ module.exports = class PlayLevelView extends RootView
         indefiniteLength: e.level.isType('game-dev')
       })
     @setupGod() if @waitingToSetUpGod
+
+    if features.israel and not me.isAdmin() and e.level.get('slug') is 'the-battle-of-sky-span'
+      @checkForTournamentEnd()
+
+  checkForTournamentEnd: =>
+    return if @destroyed or not features.israel
+    $.get '/db/mandate', (data) =>
+      return if @destroyed
+      if data?[0]?.currentTournament isnt 'israel'
+        window.location.href = '/play/ladder/the-battle-of-sky-span'
+      else
+        setTimeout @checkForTournamentEnd, 15000
 
   trackLevelLoadEnd: ->
     return if @isEditorPreview
