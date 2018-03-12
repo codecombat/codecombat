@@ -4,6 +4,7 @@ utils = require 'core/utils'
 urls = require 'core/urls'
 
 module.exports = class ProgressView extends CocoView
+  # TODO: Clean up what was moved to CourseVictoryComponent
 
   id: 'progress-view'
   className: 'modal-content'

@@ -52,6 +52,7 @@ HintsView = require './HintsView'
 HintsState = require './HintsState'
 WebSurfaceView = require './WebSurfaceView'
 SpellPaletteView = require './tome/SpellPaletteView'
+store = require('core/store')
 
 require 'lib/game-libraries'
 window.Box2D = require('exports-loader?Box2D!vendor/scripts/Box2dWeb-2.1.a.3')
@@ -255,6 +256,7 @@ module.exports = class PlayLevelView extends RootView
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @level = @levelLoader.level
+    store.commit('game/updateLevel', @level.attributes)
     if @level.isType('web-dev')
       @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
       return
@@ -319,7 +321,10 @@ module.exports = class PlayLevelView extends RootView
     @team = team
 
   initGoalManager: ->
-    @goalManager = new GoalManager(@world, @level.get('goals'), @team)
+    options = {}
+    if @level.get('assessment') is 'cumulative'
+      options.minGoalsToComplete = 1
+    @goalManager = new GoalManager(@world, @level.get('goals'), @team, options)
     @god?.setGoalManager @goalManager
 
   updateGoals: (goals) ->

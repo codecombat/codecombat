@@ -109,7 +109,8 @@ module.exports = class LevelSession extends CocoModel
           sessionScore.thresholdAchieved = thresholdAchieved
     scores
 
-  isFake: -> @id is 'A Fake Session ID'
+  @fakeID: 'ateacherfakesessionidval'  # 24 characters like other IDs for schema validation
+  isFake: -> @id is LevelSession.fakeID
 
   inLeague: (leagueId) ->
     return false unless @get('leagues')

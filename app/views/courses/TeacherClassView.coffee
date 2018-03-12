@@ -27,6 +27,8 @@ CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
 window.saveAs ?= require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
 window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
+TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
+PieChart = require('core/components/PieComponent').default
 
 { STARTER_LICENSE_COURSE_IDS } = require 'core/constants'
 
@@ -137,7 +139,7 @@ module.exports = class TeacherClassView extends RootView
     @supermodel.trackRequest @courseInstances.fetchForClassroom(classroomID)
 
     @levels = new Levels()
-    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,scoreTypes'}})
+    @supermodel.trackRequest @levels.fetchForClassroom(classroomID, {data: {project: 'original,name,primaryConcepts,concepts,primerLanguage,practice,shareable,i18n,assessment,assessmentPlacement,slug,goals'}})
 
     @attachMediatorEvents()
     window.tracker?.trackEvent 'Teachers Class Loaded', category: 'Teachers', classroomID: @classroom.id, ['Mixpanel']
@@ -220,14 +222,49 @@ module.exports = class TeacherClassView extends RootView
     unless @courseNagSubview
       @courseNagSubview = new CourseNagSubview()
       @insertSubView(@courseNagSubview)
+      
+    if @classroom.hasAssessments()
+      levels = []
+      course = @state.get('selectedCourse')
+      if course and not @classroom.hasAssessments({courseId: course.id})
+        course = @courses.find((c) => @classroom.hasAssessments({courseId: c.id}))
+      if course
+        levels = _.find(@courseAssessmentPairs, (pair) -> pair[0] is course)?[1] || []
+        levels = levels.map((l) => l.toJSON())
+        courseInstance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
+        if courseInstance
+          courseInstance = courseInstance.toJSON()
+      students = @state.get('students').toJSON()
+      
+      propsData = {
+        students
+        levels,
+        course: course?.toJSON(),
+        progress: @state.get('progressData')?.get({ @classroom, course }),
+        courseInstance,
+        classroom: @classroom.toJSON()
+      }
+      new TeacherClassAssessmentsTable({
+        el: @$el.find('.assessments-table')[0]
+        propsData
+      })
+      new PieChart({
+        el: @$el.find('.pie')[0]
+        propsData: {
+          label: ' ',
+          percent: 100*2/3,
+          'strokeWidth': 10,
+          color: "#20572B",
+          opacity: 1
+        }
+      })
     $('.progress-dot, .btn-view-project-level').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
-        container: dot
       }).delegate '.tooltip', 'mousemove', ->
         dot.tooltip('hide')
-
+  
   allStatsLoaded: ->
     @classroom?.loaded and @classroom?.get('members')?.length is 0 or (@students?.loaded and @classroom?.sessions?.loaded)
 

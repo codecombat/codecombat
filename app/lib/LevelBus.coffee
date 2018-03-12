@@ -123,7 +123,7 @@ module.exports = class LevelBus extends Bus
 
   onWinnabilityUpdated: (e) ->
     return unless @onPoint() and e.winnable
-    return unless e.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']  # Mirror matches don't otherwise show victory, so we win here.
+    return unless e.level.get('slug') in ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']  # Mirror matches don't otherwise show victory, so we win here.
     return if @session.get('state')?.complete
     @onVictory()
 
@@ -252,7 +252,7 @@ module.exports = class LevelBus extends Bus
     # don't let what the server returns overwrite changes since the save began
     tempSession = new LevelSession _id: @session.id
     tempSession.save(patch, {patch: true, type: 'PUT'})
-    
+
   updateSessionConcepts: ->
     return unless @session.get('codeLanguage') in ['javascript', 'python']
     try
@@ -266,7 +266,7 @@ module.exports = class LevelBus extends Bus
       # critical piece of code, so want to make sure this can fail gracefully.
       console.error('Unable to parse concepts from this AST.')
       console.error(e)
-      
+
 
   destroy: ->
     clearInterval(@timerIntervalID)
