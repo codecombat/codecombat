@@ -74,7 +74,7 @@ module.exports = class CoursesView extends RootView
         return if @destroyed
         console.log {status}
         if status.finalist or me.get('name') in ['test student']
-          if window.serverConfig.currentTournament is 'israel'
+          if window.serverConfig?.currentTournament is 'israel'
             @showFinalArena = true
           else
             @awaitingFinalArena = true
