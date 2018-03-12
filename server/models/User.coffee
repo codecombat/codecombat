@@ -557,13 +557,13 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
+  'enrollmentRequestSent', 'school', 'lastAnnouncementSeen'
 ]
 UserSchema.statics.adminEditableProperties = [
   'purchased'
 ]
 
-UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP', 'israelId']
 UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', 'jobProfileNotes']
 
 UserSchema.set('toObject', {
@@ -600,6 +600,9 @@ UserSchema.statics.makeNew = (req) ->
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
+  user.set 'preferredLanguage', 'he' if not user.get('preferredLanguage') and /il\.codecombat\.com/.test(req.get('host'))
+  # TEMP: Israel asked me to default to English for now, can remove this when we improve some last-minute translation problems
+  user.set 'preferredLanguage', 'en-US' if /il\.codecombat\.com/.test(req.get('host'))
   user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
   user.set 'country', req.country if req.country
   user.set 'createdOnHost', req.headers.host

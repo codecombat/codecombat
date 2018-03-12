@@ -28,8 +28,10 @@ config = require '../../server_config'
 utils = require '../lib/utils'
 CLASubmission = require '../models/CLASubmission'
 Prepaid = require '../models/Prepaid'
+israel = require '../commons/israel'
 crypto = require 'crypto'
 { makeHostUrl } = require '../commons/urls'
+mssql = require 'mssql'
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -66,6 +68,17 @@ module.exports =
     user = yield User.findOne({gplusID: gpID})
     throw new errors.NotFound('No user with that G+ ID') unless user
     res.status(200).send(user.toObject({req: req}))
+
+  fetchByIsraelId: wrap (req, res, next) ->
+    {israelId, israelToken} = req.query
+    return next() unless israelId or israelToken
+    unless req.features.israel
+      throw new errors.Forbidden('May not use israelId lookup outside of Israel')
+    if israelToken
+      result = israel.verifyToken(israelToken)
+      israelId = result.sub
+    user = yield User.findOne({israelId})
+    res.status(200).send(if user then user.toObject({req}) else null)
 
   fetchByFacebookID: wrap (req, res, next) ->
     fbID = req.query.facebookID
@@ -228,7 +241,7 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
-    
+
   setVerifiedTeacher: wrap (req, res) ->
     unless _.isBoolean(req.body)
       throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
@@ -236,7 +249,7 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     update = { "verifiedTeacher": req.body }
     user.set(update)
     yield user.update({ $set: update })
@@ -314,6 +327,94 @@ module.exports =
     req.user.set(userData)
     yield module.exports.finishSignup(req, res)
 
+  signupWithIsraelToken: wrap (req, res) ->
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('You are already signed in.')
+
+    {israelToken} = req.body
+    unless israelToken
+      throw new errors.UnprocessableEntity('Requires israelToken')
+    unless req.features.israel
+      throw new errors.Forbidden('May not use IsraelToken signup outside of Israel')
+    result = israel.verifyToken(israelToken)
+    userData =
+      firstName: result.given_name
+      lastName: result.sur_name
+      anonymous: false
+      role: result.type
+      school:
+        israelInstitutions: result.mosad
+    if result.student_kita
+      userData.school.israelGradeLevel = result.student_kita
+      userData.school.israelClassId = result.student_makbila
+    userData.name = yield User.unconflictNameAsync "#{result.given_name} #{result.sur_name}"
+    req.user.set userData
+
+    institutionId = userData.school.israelInstitutions[0]
+    teacherName = israel.institutionTeacherName institutionId
+    teacherUser = yield User.findOne nameLower: teacherName.toLowerCase()
+    unless teacherUser
+      teacherUser = new User
+        name: teacherName
+        school:
+          israelInstitutions: [institutionId]
+        anonymous: false
+        role: 'teacher'
+        testGroupNumber: Math.floor(Math.random() * 256)
+        firstName: 'מורה'
+        lastName: institutionId
+      teacherUser = yield teacherUser.save()
+      console.log 'Israel signup: created new teacher user:', teacherUser
+      prepaid = new Prepaid({
+        creator: teacherUser._id
+        maxRedeemers: 9001
+        type: 'course'
+        startDate: new Date('2017-08-01').toISOString()
+        endDate: new Date('2018-08-01').toISOString()
+      })
+      database.validateDoc(prepaid)
+      yield prepaid.save()
+      if userData.role is 'student'
+        yield prepaid.redeem(req.user, teacherUser._id)
+      console.log 'Israel signup: created new prepaid:', prepaid
+
+    if userData.role is 'student'
+      classCode = israel.classCode institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
+      className = israel.className institutionId: institutionId, gradeLevel: userData.school.israelGradeLevel, classId: userData.school.israelClassId
+      classroom = yield Classroom.findOne code: classCode
+      unless classroom
+        classroom = new Classroom()
+        classroom.set 'ownerID', teacherUser._id
+        classroom.set 'members', []
+        classroom.set 'code', classCode
+        classroom.set 'codeCamel', classCode
+        classroom.set 'name', className
+        classroom.set 'aceConfig', language: 'python'
+        classroom.set 'permissions', [{access: 'owner', target: teacherUser._id}]
+        yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false})
+        otherTeachers = yield User.find({role: 'teacher', 'school.israelInstitutions': institutionId}).select('_id').lean()
+        permissions = classroom.get 'permissions'
+        for otherTeacher in otherTeachers
+          permissions.push {access: 'read', target: otherTeacher._id}
+        classroom.set 'permissions', permissions
+        database.validateDoc(classroom)
+        classroom = yield classroom.save()
+        console.log 'Israel signup: created new classroom:', classroom
+      yield classroom.addMember req.user
+      courseInstances = yield CourseInstance.find({classroomID: classroom._id})
+      courseInstanceIDs = []
+      for course in classroom.get('courses')
+        courseInstance = _.find(courseInstances, (ci) -> ci.courseID + '' is course._id + '')
+        if not courseInstance
+          courseInstance = new CourseInstance({classroomID: classroom._id, courseID: course._id, ownerID: teacherUser._id})
+          yield courseInstance.save()
+        courseInstanceIDs.push courseInstance._id
+      yield CourseInstance.update({_id: {$in: courseInstanceIDs}}, { $addToSet: { members: req.user._id }}, {multi: true})
+      yield User.update({ _id: req.user._id }, { $addToSet: { courseInstances: { $each: courseInstanceIDs } } })
+    else if userData.role is 'teacher'
+      yield Classroom.update({ownerID: teacherUser._id}, { $addToSet: {permissions: {access: 'read', target: req.user._id}} }, {multi: true})
+    yield module.exports.finishSignup(req, res)
+
   finishSignup: co.wrap (req, res) ->
     if req.user.get('role') is 'possible teacher'
       req.user.set 'role', undefined
@@ -384,6 +485,26 @@ module.exports =
     yield user.update({ $unset: {role: ''}})
     user.set('role', undefined)
     return res.status(200).send(user.toObject({req: req}))
+
+
+  putIsraelId: wrap (req, res) ->
+    { israelId, israelToken } = req.body
+    if israelToken
+      result = israel.verifyToken(israelToken)
+      israelId = result.sub
+      type = result.type
+    if not israelId
+      throw new errors.UnprocessableEntity('israelId not provided')
+    unless req.user.isAnonymous()
+      throw new errors.Forbidden('Must be anonymous to set israelId')
+    unless req.features.israel
+      throw new errors.Forbidden('Cannot set israelId outside of Israel ')
+    update = {$set: {israelId}}
+    if type in ['teacher', 'student']
+      update.$set.role = type
+    yield req.user.update(update)
+    req.user.set({israelId})
+    return res.status(200).send(req.user.toObject({req: req}))
 
 
   checkForNewAchievement: wrap (req, res) ->
@@ -588,7 +709,7 @@ module.exports =
       throw new errors.Forbidden()
 
     if user.isTeacher()
-      query = { ownerID: req.user._id }
+      query = { $or: [{ownerID: req.user._id}, {'permissions.target': req.user._id}] }
     else
       query = { members: req.user._id }
 
@@ -607,3 +728,7 @@ module.exports =
     dbq.select(parse.getProjectFromReq(req))
     courseInstances = yield dbq.exec()
     res.status(200).send(ci.toObject({req}) for ci in courseInstances)
+
+  israelFinalistStatus: wrap (req, res) ->
+    israelFinalists = yield israel.getIsraelFinalists()
+    res.send finalist: israelFinalists[req.user.get('israelId')]?

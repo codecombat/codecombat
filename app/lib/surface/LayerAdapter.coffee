@@ -153,7 +153,8 @@ module.exports = LayerAdapter = class LayerAdapter extends CocoClass
     lank.layer = @
     @listenTo(lank, 'action-needs-render', @onActionNeedsRender)
     @lanks.push lank
-    lank.thangType.initPrerenderedSpriteSheets() unless utils.getQueryVariable 'jitSpritesheets'
+    #lank.thangType.initPrerenderedSpriteSheets() unless utils.getQueryVariable 'jitSpritesheets'
+    lank.thangType.initPrerenderedSpriteSheets() if utils.getQueryVariable('jitSpritesheets') is false  # Temp: no time to debug, so disable in Israel
     prerenderedSpriteSheet = lank.thangType.getPrerenderedSpriteSheet(lank.options.colorConfig, @defaultSpriteType)
     prerenderedSpriteSheet?.markToLoad()
     @loadThangType(lank.thangType)

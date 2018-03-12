@@ -5,6 +5,9 @@ module.exports = {
 
   getByHandle: (handle, options) ->
     fetchJson("/db/user/#{handle}", options)
+    
+  getByIsraelIdOrToken: ({israelId, israelToken}, options) ->
+    fetchJson('/db/user', _.assign({}, options, { data: { israelId, israelToken } }))
 
   getByEmail: ({ email }, options={}) ->
     fetchJson("/db/user", _.merge {}, options, { data: { email } })
@@ -39,6 +42,12 @@ module.exports = {
     fetchJson(@url(user._id), _.assign({}, options, {
       method: 'PUT'
       json: user
+    }))
+    
+  putIsraelIdOrToken: ({israelId, israelToken, userId}, options={}) ->
+    fetchJson(@url(userId, 'israel-id'), _.assign({}, options, {
+      method: 'PUT'
+      json: { israelId, israelToken }
     }))
 
   resetProgress: (options={}) ->

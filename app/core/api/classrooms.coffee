@@ -1,9 +1,15 @@
 fetchJson = require './fetch-json'
 
 module.exports = {
+  post: (classroom, options) ->
+    fetchJson('/db/classroom', _.assign({}, options, {
+      method: 'POST',
+      json: classroom
+    }))
+    
   get: ({ classroomID }, options={}) ->
     fetchJson("/db/classroom/#{classroomID}", options)
-  
+
   # TODO: Set this up to allow using classroomID instead
   getMembers: ({classroom}, options) ->
     classroomID = classroom._id
@@ -30,4 +36,5 @@ module.exports = {
 
   getCourseLevels: ({classroomID, courseID}, options={}) ->
     fetchJson("/db/classroom/#{classroomID}/courses/#{courseID}/levels", options)
+
 }

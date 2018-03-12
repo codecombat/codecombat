@@ -83,7 +83,7 @@ LevelSessionSchema.statics.editableProperties = ['players', 'code', 'codeLanguag
                                                  'levelName', 'creatorName', 'levelID',
                                                  'chat', 'teamSpells', 'submitted', 'submittedCodeLanguage',
                                                  'unsubscribed', 'playtime', 'heroConfig', 'team',
-                                                 'browser', 'published']
+                                                 'browser', 'published', 'tournamentScore']
 LevelSessionSchema.statics.jsonSchema = jsonschema
 
 LevelSessionSchema.set('toObject', {

@@ -155,11 +155,11 @@ _.extend LevelSessionSchema.properties,
 
   codeLanguage:
     type: 'string'
-    
+
   codeConcepts:
     type: 'array'
     items:
-      type: 'string'    
+      type: 'string'
 
   playtime:
     type: 'number'
@@ -320,6 +320,11 @@ _.extend LevelSessionSchema.properties,
     type: 'object'
     title: 'Key Value DB'
     description: 'Simplified key-value database for game-dev levels'
+
+  tournamentScore:
+    type: 'number'
+    title: 'Tournament Score'
+    description: 'Score for a tournament, such as Skillz'
 
 LevelSessionSchema.properties.leagues.items.properties.stats.properties = _.pick LevelSessionSchema.properties, 'meanStrength', 'standardDeviation', 'totalScore', 'numberOfWinsAndTies', 'numberOfLosses', 'scoreHistory', 'matches'
 

@@ -60,7 +60,7 @@ config.google =
 
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
-  
+
 config.paypal =
   clientID: process.env.COCO_PAYPAL_CLIENT_ID or 'AcS4lYmr_NwK_TTWSJzOzTh01tVDceWDjB_N7df3vlvW4alTV_AF2rtmcaZDh0AmnTcOof9gKyLyHkm-'
   clientSecret: process.env.COCO_PAYPAL_CLIENT_SECRET or 'EEp-AscLo_-_59jMBgrPFWUaMrI_HJEY8Mf1ESD7OJ8DSIFbKtVe1btqP2SAZXR_llP_oosvJYFWEjUZ'
@@ -113,7 +113,7 @@ config.mongoQueue =
 config.salt = process.env.COCO_SALT or 'pepper'
 config.cookie_secret = process.env.COCO_COOKIE_SECRET or 'chips ahoy'
 
-config.isProduction = config.mongo.host isnt 'localhost'
+config.isProduction = config.mongo.host isnt 'localhost' or config.mongo.mongoose_replica_string isnt ''
 
 # Domains (without subdomain prefix, with port number) for main hostname (usually codecombat.com)
 # and unsafe web-dev iFrame content (usually codecombatprojects.com).
@@ -150,8 +150,15 @@ config.buildInfo = { sha: 'dev' }
 
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
-  
+
 config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
+
+config.israel =
+  jwtSecret: process.env.COCO_ISRAEL_JWT_SECRET or '...'
+  jwtAudience: process.env.COCO_ISRAEL_JWT_AUDIENCE or 'aud'
+  jwtIssuer: process.env.COCO_ISRAEL_JWT_ISSUER or 'iss'
+  jwtDistrict: process.env.COCO_ISRAEL_JWT_DISTRICT or 'district'
+  sqlConnectionString: process.env.COCO_ISRAEL_SQL_CONNECTION_STRING or ''
 
 if fs.existsSync path.join(__dirname, '.build_info.json')
   config.buildInfo = JSON.parse fs.readFileSync path.join(__dirname, '.build_info.json'), 'utf8'

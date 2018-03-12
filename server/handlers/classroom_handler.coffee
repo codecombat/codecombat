@@ -21,7 +21,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
   hasAccessToDocument: (req, document, method=null) ->
     return false unless document?
     return true if req.user?.isAdmin()
-    return true if document.get('ownerID')?.equals req.user?._id
+    return true if document.get('ownerID')?.equals(req.user?._id) or document.getAccessForUserObjectId(req.user?._id)
     isGet = (method or req.method).toLowerCase() is 'get'
     isMember = _.any(document.get('members') or [], (memberID) -> memberID.equals(req.user.get('_id')))
     return true if isGet and isMember
@@ -42,7 +42,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
         @sendSuccess(res, cleandocs)
 
   formatEntity: (req, doc) ->
-    if req.user?.isAdmin() or req.user?.get('_id').equals(doc.get('ownerID'))
+    if req.user?.isAdmin() or req.user?.get('_id').equals(doc.get('ownerID')) or doc.getAccessForUserObjectId(req.user?.get('_id'))
       return doc.toObject()
     return _.omit(doc.toObject(), 'code', 'codeCamel')
 
@@ -52,7 +52,7 @@ ClassroomHandler = class ClassroomHandler extends Handler
         log.debug "classroom_handler.get: ownerID (#{ownerID}) must be yourself (#{req.user?.id})"
         return @sendForbiddenError(res)
       return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
-      Classroom.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, classrooms) =>
+      Classroom.find {$or: [{ownerID: mongoose.Types.ObjectId(ownerID)}, {'permissions.target': Mongoose.Types.ObjectId(ownerID)}]}, (err, classrooms) =>
         return @sendDatabaseError(res, err) if err
         return @sendSuccess(res, (@formatEntity(req, classroom) for classroom in classrooms))
     else if memberID = req.query.memberID

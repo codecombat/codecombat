@@ -4,7 +4,7 @@ CocoCollection = require 'collections/CocoCollection'
 module.exports = class CourseInstances extends CocoCollection
   model: CourseInstance
   url: '/db/course_instance'
-  
+
   fetchByOwner: (ownerID, options={}) ->
     ownerID = ownerID.id or ownerID # handle if they pass in a user
     options.data ?= {}
@@ -12,7 +12,7 @@ module.exports = class CourseInstances extends CocoCollection
     @fetch(options)
 
   fetchForClassroom: (classroomID, options={}) ->
-    classroomID = classroomID.id or classroomID # handle if they pass in a user
+    classroomID = classroomID.id or classroomID # handle if they pass in a classroom
     options.data ?= {}
     options.data.classroomID = classroomID
     @fetch(options)

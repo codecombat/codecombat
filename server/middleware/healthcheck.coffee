@@ -5,7 +5,7 @@ co = require 'co'
 healthcheckRoute = wrap (req, res) ->
   yield runHealthcheck()
   res.status(200).send('OK')
-  
+
 runHealthcheck = co.wrap ->
   User = require '../models/User'
   user = yield User.findOne({})

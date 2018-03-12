@@ -28,6 +28,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
 
   hasAccessToDocument: (req, document, method=null) ->
     return true if document?.get('ownerID')?.equals(req.user?.get('_id'))
+    return true if req.method is 'GET' and req.user?.isTeacher() and req.features.israel  # TODO fix hack: we need to check classroom permissions here to see if teacher has permissions there
     return true if req.method is 'GET' and _.find document?.get('members'), (a) -> a.equals(req.user?.get('_id'))
     req.user?.isAdmin()
 
@@ -73,7 +74,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     Classroom.findById req.body.classroomID, (err, classroom) =>
       return @sendDatabaseError(res, err) if err
       return @sendNotFoundError(res, 'Classroom not found') unless classroom
-      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id'))
+      return @sendForbiddenError(res) unless classroom.get('ownerID').equals(req.user.get('_id')) or classroom.getAccessForUserObjectId(req.user.get('_id')) is 'write'
       Course.findById req.body.courseID, (err, course) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res, 'Course not found') unless course
@@ -216,9 +217,10 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
     if ownerID = req.query.ownerID
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or ownerID is req.user.id)
       return @sendBadInputError(res, 'Bad ownerID') unless utils.isID ownerID
-      CourseInstance.find {ownerID: mongoose.Types.ObjectId(ownerID)}, (err, courseInstances) =>
-        return @sendDatabaseError(res, err) if err
-        return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
+      Classroom.find({$or: [{ownerID: mongoose.Types.ObjectId(ownerID)}, {'permissions.target': mongoose.Types.ObjectId(ownerID)}]}).select('_id').lean().exec (err, classrooms) =>
+        CourseInstance.find {classroomID: {$in: (cr._id for cr in classrooms)}}, (err, courseInstances) =>
+          return @sendDatabaseError(res, err) if err
+          return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))
     else if memberID = req.query.memberID
       return @sendForbiddenError(res) unless req.user and (req.user.isAdmin() or memberID is req.user.id)
       return @sendBadInputError(res, 'Bad memberID') unless utils.isID memberID
@@ -231,7 +233,7 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
       Classroom.findById classroomID, (err, classroom) =>
         return @sendDatabaseError(res, err) if err
         return @sendNotFoundError(res) unless classroom
-        return @sendForbiddenError(res) unless classroom.isMember(req.user._id) or classroom.isOwner(req.user._id) or req.user.isAdmin()
+        return @sendForbiddenError(res) unless classroom.isMember(req.user._id) or classroom.get('ownerID').equals(req.user._id) or classroom.getAccessForUserObjectId(req.user._id) or req.user.isAdmin()
         CourseInstance.find {classroomID: mongoose.Types.ObjectId(classroomID)}, (err, courseInstances) =>
           return @sendDatabaseError(res, err) if err
           return @sendSuccess(res, (@formatEntity(req, courseInstance) for courseInstance in courseInstances))

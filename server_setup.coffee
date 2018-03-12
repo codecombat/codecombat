@@ -29,6 +29,7 @@ Promise.promisifyAll(request, {multiArgs: true})
 Promise.promisifyAll(fs)
 wrap = require 'co-express'
 codePlayTags = require './server/lib/code-play-tags'
+israelTags = require './server/lib/israel-tags'
 morgan = require 'morgan'
 domainFilter = require './server/middleware/domain-filter'
 timeout = require('connect-timeout')
@@ -86,11 +87,11 @@ setupErrorMiddleware = (app) ->
           # noop return self all response-ending functions
           res.send = res.status = res.redirect = res.end = res.json = res.sendFile = res.download = res.sendStatus = -> res
         return
-          
+
       if err.status and 400 <= err.status < 500
         console.log err.stack if err.stack and config.TRACE_ROUTES
         return res.status(err.status).send("Error #{err.status}")
-      
+
       if err.name is 'CastError' and err.kind is 'ObjectId'
         console.log err.stack if err.stack and config.TRACE_ROUTES
         newError = new errors.UnprocessableEntity('Invalid id provided')
@@ -123,10 +124,10 @@ setupExpressMiddleware = (app) ->
     next()
 
   public_path = path.join(__dirname, 'public')
-  
+
   app.use('/', express.static(path.join(public_path, 'templates', 'static')))
 
-  if config.buildInfo.sha isnt 'dev' and config.isProduction
+  if config.buildInfo.sha isnt 'dev'
     app.use("/#{config.buildInfo.sha}", express.static(public_path, maxAge: '1y'))
   else
     app.use('/dev', express.static(public_path, maxAge: 0))  # CloudFlare overrides maxAge, and we don't want local development caching.
@@ -245,11 +246,14 @@ setupFeaturesMiddleware = (app) ->
       features.freeOnly = true
       features.noAds = true
 
+    if /il\.codecombat\.com/.test(req.get('host')) or req.session.featureMode is 'israel'
+      features.israel = true
+
     if config.picoCTF or req.session.featureMode is 'pico-ctf'
       features.playOnly = true
       features.noAds = true
       features.picoCtf = true
-      
+
     next()
 
 # When config.TRACE_ROUTES is set, this logs a stack trace every time an endpoint sends a response.
@@ -294,9 +298,9 @@ exports.setupMiddleware = (app) ->
   setupDomainFilterMiddleware app
   setupQuickBailToMainHTML app
 
-  
+
   setupCountryTaggingMiddleware app
-  
+
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupAPIDocs app # should happen after serving static files, so we serve the right favicon
@@ -306,7 +310,7 @@ exports.setupMiddleware = (app) ->
   setupUserDataRoute app
   setupCountryRedirectMiddleware app, 'china', config.chinaDomain
   setupCountryRedirectMiddleware app, 'brazil', config.brazilDomain
-  
+
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
   setupAjaxCaching app
@@ -343,13 +347,16 @@ getStaticTemplate = (file) ->
 renderMain = wrap (template, req, res) ->
   template = yield getStaticTemplate(template)
   if req.features.codePlay
-    template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
-    template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
-   
+    template = template.replace /<!-- ?CodePlay Tags Header ?-->/, codePlayTags.header
+    template = template.replace /<!-- ?CodePlay Tags Footer ?-->/, codePlayTags.footer
+  if req.features.israel
+    template = template.replace /<!-- ?Israel Tags Header ?-->/, israelTags.header
+    template = template.replace /<!-- ?Israel Tags Footer ?-->/, israelTags.footer
+
   res.status(200).send template
 
 setupQuickBailToMainHTML = (app) ->
-  
+
   fast = (template) ->
     (req, res, next) ->
       req.features = features = {}
@@ -382,7 +389,7 @@ setupQuickBailToMainHTML = (app) ->
 # Mongo-cache doesnt support the .exec() promise, so we manually wrap it.
 getMandate = (app) ->
   return new Promise (res, rej) ->
-    Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, data) ->
+    Mandate.findOne({}).cache(1 * 60 * 1000).exec (err, data) ->
       return rej(err) if err
       res(data)
 

@@ -16,6 +16,11 @@ init = ->
   if me and features.codePlay and preferredLanguage
     me.set('preferredLanguage', preferredLanguage)
     me.save()
+  if window._hw
+    # for Israel pilot, Helper.World service
+    _hw.clientID = me.get('email')
+    _hw.firstName = me.get('firstName')
+    _hw.lastName = me.get('lastName')
 
   Backbone.listenTo me, 'sync', -> Backbone.Mediator.publish('auth:me-synced', me: me)
 

@@ -34,7 +34,7 @@ describe 'POST /db/course_instance', ->
     @teacher = yield utils.initUser({role: 'teacher'})
     yield utils.loginUser(@teacher)
     @course = yield new Course(courseFixture).save()
-    classroomData = _.extend({ownerID: @teacher._id}, classroomFixture)
+    classroomData = _.extend({ownerID: @teacher._id, permissions: [{target: @teacher._id, access: 'owner'}]}, classroomFixture)
     @classroom = yield new Classroom(classroomData).save()
     done()
 
@@ -410,7 +410,7 @@ describe 'GET /db/course_instance/:handle/levels/:levelOriginal/sessions/:sessio
     expect(res.statusCode).toBe(200)
     @assessmentA = yield Level.findById(res.body._id)
     paredAssessmentA = _.pick(res.body, 'name', 'original', 'type', 'assessment')
-    
+
     levelJSON = { name: 'B', permissions: [{access: 'owner', target: admin.id}], type: 'course' }
     [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSON})
     expect(res.statusCode).toBe(200)
@@ -637,6 +637,7 @@ describe 'GET /db/course_instance/:handle/classroom', ->
     @classroom = new Classroom({
       ownerID: @owner._id
       members: [@member._id]
+      permissions: [{target: @owner._id, access: 'owner'}]
     })
     yield @classroom.save()
     @courseInstance = new CourseInstance({classroomID: @classroom._id})
@@ -803,7 +804,7 @@ describe 'GET /db/course_instance/:handle/peer-projects', ->
     @session2 = yield utils.makeLevelSession({published: true, codeLanguage: 'javascript'}, {level: @projectLevel, creator: @student2})
     @session3 = yield utils.makeLevelSession({published: true, codeLanguage: 'javascript'}, {level: @projectLevel2, creator: @student2})
     otherLevel = yield utils.makeLevel({type: 'course'})
-    
+
     # Other course instance which should be ignored
     yield utils.loginUser(admin)
     @projectLevel3 = yield utils.makeLevel({type: 'course', shareable: 'project'})
@@ -835,7 +836,7 @@ describe 'GET /db/course_instance/:handle/peer-projects', ->
     expect(_.contains(ids, @session.id)).toBe(true)
     expect(_.contains(ids, @session2.id)).toBe(true)
     expect(_.contains(ids, @session3.id)).toBe(true)
-    
+
   it 'returns 403 if you request a course instance that you are not a member or owner of', utils.wrap ->
     url = utils.getURL("/db/course_instance/#{@courseInstance.id}/peer-projects")
     yield utils.loginUser(@otherUser)

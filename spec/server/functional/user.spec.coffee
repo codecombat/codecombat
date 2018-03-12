@@ -18,6 +18,8 @@ EarnedAchievement = require '../../../server/models/EarnedAchievement'
 LevelSession = require '../../../server/models/LevelSession'
 paypal = require '../../../server/lib/paypal'
 mongoose = require 'mongoose'
+jwt = require 'jsonwebtoken'
+config = require '../../../server_config'
 
 describe 'POST /db/user', ->
 
@@ -130,7 +132,7 @@ describe 'PUT /db/user', ->
   describe 'when role is changed to teacher or other school administrator', ->
     it 'removes the user from all classrooms they are in', utils.wrap ->
       user = yield utils.initUser()
-      classroom = new Classroom({members: [user._id]})
+      classroom = new Classroom({members: [user._id], ownerID: 'foo', permissions: [{target: 'foo', access: 'owner'}]})
       yield classroom.save()
       expect(classroom.get('members').length).toBe(1)
       yield utils.loginUser(user)
@@ -221,6 +223,49 @@ describe 'PUT /db/user', ->
     expect(res.statusCode).toBe(200)
 
 
+describe 'PUT /db/user/:handle/israel-id', ->
+  it 'successfully returns 200 if you are anonymous and in Israel, 403 otherwise', utils.wrap ->
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    url = utils.getUrl("/db/user/#{user.id}/israel-id")
+    json = { israelId: '302945' }
+    headers = { host: 'il.codecombat.com' }
+    [res] = yield request.putAsync({ url, json, headers })
+    expect(res.statusCode).toBe(403)
+
+    user = yield utils.becomeAnonymous()
+    url = utils.getUrl("/db/user/#{user.id}/israel-id")
+    [res] = yield request.putAsync({ url, json })
+    expect(res.statusCode).toBe(403)
+
+    [res] = yield request.putAsync({ url, json, headers })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(user.id)
+    expect(user.get('israelId')).toBe(json.israelId)
+
+  it 'accepts JWT token, and updates role if the token includes it', utils.wrap ->
+    user = yield utils.becomeAnonymous()
+    url = utils.getUrl("/db/user/#{user.id}/israel-id")
+
+    payload = {
+      iss: config.israel.jwtIssuer
+      aud: config.israel.jwtAudience
+      district: config.israel.jwtDistrict
+      sub: '358302'
+      type: 'student'
+    }
+    payload = jwt.sign(payload, config.israel.jwtSecret)
+
+    json = { israelToken: payload }
+    headers = { host: 'il.codecombat.com' }
+    [res] = yield request.putAsync({ url, json, headers })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(user.id)
+    expect(user.get('israelId')).toBe('358302')
+    expect(user.get('role')).toBe('student')
+
+
+
 describe 'PUT /db/user/-/become-student', ->
   beforeEach utils.wrap ->
     @url = getURL('/db/user/-/become-student')
@@ -231,6 +276,8 @@ describe 'PUT /db/user/-/become-student', ->
     beforeEach utils.wrap ->
       classroom = new Classroom({
         members: [@user._id]
+        ownerID: 'foo'
+        permissions: [{target: 'foo', access: 'owner'}]
       })
       yield classroom.save()
     it 'keeps the user in their classroom and sets their role to student', utils.wrap ->
@@ -272,6 +319,7 @@ describe 'PUT /db/user/-/become-student', ->
     beforeEach utils.wrap ->
       classroom = new Classroom({
         ownerID: @user._id
+        permissions: [{target: @user._id, access: 'owner'}]
       })
       yield classroom.save()
     it 'removes the classroom and sets their role to student', utils.wrap ->
@@ -313,10 +361,13 @@ describe 'PUT /db/user/-/become-student', ->
     beforeEach utils.wrap ->
       classroom = new Classroom({
         members: [@user._id]
+        ownerID: 'foo'
+        permissions: [{target: 'foo', access: 'owner'}]
       })
       yield classroom.save()
       classroom = new Classroom({
         ownerID: @user._id
+        permissions: [{target: @user._id, access: 'owner'}]
       })
       yield classroom.save()
     it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap ->
@@ -336,10 +387,13 @@ describe 'PUT /db/user/-/become-student', ->
       yield @user.save()
       classroom = new Classroom({
         members: [@user._id]
+        ownerID: 'foo'
+        permissions: [{target: 'foo', access: 'owner'}]
       })
       yield classroom.save()
       classroom = new Classroom({
         ownerID: @user._id
+        permissions: [{target: @user._id, access: 'owner'}]
       })
       yield classroom.save()
     it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap ->
@@ -359,10 +413,13 @@ describe 'PUT /db/user/-/become-student', ->
       yield @user.save()
       classroom = new Classroom({
         members: [@user._id]
+        ownerID: 'foo'
+        permissions: [{target: 'foo', access: 'owner'}]
       })
       yield classroom.save()
       classroom = new Classroom({
         ownerID: @user._id
+        permissions: [{target: @user._id, access: 'owner'}]
       })
       yield classroom.save()
     it 'removes owned classrooms, keeps in classrooms, and sets their role to student', utils.wrap ->
@@ -387,10 +444,13 @@ describe 'PUT /db/user/-/remain-teacher', ->
       yield @user.save()
       classroom = new Classroom({
         members: [@user._id]
+        ownerID: 'foo'
+        permissions: [{target: 'foo', access: 'owner'}]
       })
       yield classroom.save()
       classroom = new Classroom({
         ownerID: @user._id
+        permissions: [{target: @user._id, access: 'owner'}]
       })
       yield classroom.save()
     it 'removes from classrooms', utils.wrap ->
@@ -455,6 +515,37 @@ describe 'GET /db/user', ->
         expect(guy.name).toBe sam.get 'name'
         done()
 
+  describe 'with ?israelId', ->
+    headers = { host: 'il.codecombat.com' }
+    it 'returns the matching user', utils.wrap ->
+      user = yield utils.initUser({ israelId: 'abcd' })
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=abcd"), json: true, headers })
+      expect(res.statusCode).toBe(200)
+      expect(res.body._id).toBe(user.id)
+      expect(res.body.israelId).toBeUndefined() # make sure this is not included
+
+    it 'returns 403 if not on Israel domain', utils.wrap ->
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=abcd"), json: true })
+      expect(res.statusCode).toBe(403)
+
+    it 'returns nothing if the user is not found', utils.wrap ->
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelId=dne"), json: true, headers })
+      expect(res.body).toBeFalsy()
+      expect(res.statusCode).toBe(200)
+
+    it 'parses a properly formatted JWT israelToken', utils.wrap ->
+      user = yield utils.initUser({ israelId: 'abcde' })
+      payload = {
+        iss: config.israel.jwtIssuer
+        aud: config.israel.jwtAudience
+        district: config.israel.jwtDistrict
+        sub: 'abcde'
+      }
+      payload = jwt.sign(payload, config.israel.jwtSecret)
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelToken=#{payload}"), json: true, headers })
+      expect(res.statusCode).toBe(200)
+      expect(res.body._id).toBe(user.id)
+
   describe 'when get target is student', ->
     beforeEach utils.wrap ->
       @student = yield utils.initUser({ role: 'student' })
@@ -502,7 +593,19 @@ describe 'GET /db/user', ->
   # TODO Ruben should be able to fetch other users but probably with restricted data access
   # Add to the test case above an extra data check
 
-#  xit 'can fetch another user with restricted fields'
+    it 'returns 403 for improperly signed JWT israelTokens', utils.wrap ->
+      headers = { host: 'il.codecombat.com' }
+      payload = {
+        iss: config.israel.jwtIssuer
+        aud: config.israel.jwtAudience
+        district: config.israel.jwtDistrict
+        sub: 'abcd'
+      }
+      payload = jwt.sign(payload, config.israel.jwtSecret) + 'flip'
+      [res] = yield request.getAsync({ url: getURL("/db/user?israelToken=#{payload}"), json: true, headers })
+      expect(res.statusCode).toBe(422)
+
+
 
 describe 'GET /db/user?email=:email', ->
   beforeEach utils.wrap ->
@@ -602,6 +705,14 @@ describe 'GET /db/user/:handle', ->
     expect(res.body.coursePrepaid._id).toBe(user.get('coursePrepaidID').toString())
     expect(res.body.coursePrepaid.startDate).toBe(Prepaid.DEFAULT_START_DATE)
 
+  it 'does not include israelId property', utils.wrap ->
+    user = yield utils.initUser({ israelId: '1234' })
+    yield utils.loginUser(user)
+    [res, body] = yield request.getAsync({url: getURL("/db/user/#{user.id}"), json: true})
+    expect(res.statusCode).toBe(200)
+    expect(res.body.israelId).toBeUndefined()
+
+
   it 'looks up the user by id', utils.wrap ->
     user = yield utils.initUser()
     yield utils.becomeAnonymous()
@@ -633,6 +744,8 @@ describe 'DELETE /db/user/:handle', ->
     yield utils.loginUser(user)
     classroom = new Classroom({
       members: [user._id, user2._id]
+      ownerID: 'foo'
+      permissions: [{target: 'foo', access: 'owner'}]
     })
     yield classroom.save()
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
@@ -921,7 +1034,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     expect(sendwithus.api.send).toHaveBeenCalled()
     context = sendwithus.api.send.calls.argsFor(0)[0]
     expect(_.str.startsWith(context.email_data.verify_link, "https://codecombat.com/user/#{user.id}/verify/")).toBe(true)
-    
+
 
   it 'signs up the user with just a name and password', utils.wrap ->
     user = yield utils.becomeAnonymous()
@@ -1221,7 +1334,7 @@ describe 'POST /db/user/:handle/destudent', ->
     student2 = yield utils.initUser({role: 'student'})
     members = [student1._id, student2._id]
 
-    classroom = new Classroom({members})
+    classroom = new Classroom({members, ownerID: 'foo', permissions: [{target: 'foo', access: 'owner'}]})
     yield classroom.save()
     courseInstance = new CourseInstance({members})
     yield courseInstance.save()
@@ -1442,14 +1555,14 @@ describe 'POST /db/user/:userID/verify/:verificationCode', ->
     expect(mailChimp.api.put).toHaveBeenCalled()
     user = yield User.findById(@user.id)
     expect(user.get('emailVerified')).toBe(true)
-    
-  
+
+
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->
     spyOn(sendwithus.api, 'send')
     @user = yield utils.initUser()
     @url = utils.getURL("/db/user/#{@user.id}/request-verify-email")
-    
+
   it 'sends an email with a verification link to the user', utils.wrap ->
     [res, body] = yield request.postAsync({ @url, json: true, headers: {'x-forwarded-proto': 'http'} })
     expect(res.statusCode).toBe(200)
@@ -1560,10 +1673,10 @@ describe 'GET /db/user/:handle/clans', ->
     expect(res.body.length).toBe(1)
     expect(_.find(res.body, {_id: publicClan.id})).toBeTruthy()
     expect(_.find(res.body, {_id: privateClan.id})).toBeFalsy()
-    
 
 
-    
+
+
 describe 'GET /db/user/:handle/avatar', ->
   it 'returns an avatar based on the user\'s email', utils.wrap ->
     user = yield utils.initUser({email:'test@gmail.com'})
@@ -1578,21 +1691,21 @@ describe 'GET /db/user/:handle/avatar', ->
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/file/db/thang.type/1234/portrait.png')).toBe(true)
-    
+
   it 'passes a size parameter to gravatar', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, qs: {s: '100'}})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 's=100')).toBe(true)
-    
+
   it 'allows overriding the fallback value', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, qs: {fallback: '/some/other/url.jpg'}})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/some/other/url.jpg')).toBe(true)
-  
+
   it 'adjusts the host based on the given protocol and host', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
@@ -1621,8 +1734,8 @@ describe 'GET /db/user/:handle/course-instances', ->
     [res] = yield request.getAsync({url, qs, json: true})
     expect(res.body.length).toBe(1)
     expect(res.body[0]._id).toBe(@courseInstance.id)
-    
-    
+
+
 describe 'PUT /db/user/:handle/verifiedTeacher', ->
   it 'sets the verifiedTeacher property on the given user', utils.wrap ->
     user = yield utils.initUser()
@@ -1641,4 +1754,3 @@ describe 'PUT /db/user/:handle/verifiedTeacher', ->
     url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
     [res] = yield request.putAsync({url, json: true, body: true})
     expect(res.statusCode).toBe(403)
-    

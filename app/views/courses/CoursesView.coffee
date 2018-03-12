@@ -19,6 +19,7 @@ Levels = require 'collections/Levels'
 NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
+Mandate = require 'models/Mandate'
 utils = require 'core/utils'
 
 # TODO: Test everything
@@ -67,6 +68,31 @@ module.exports = class CoursesView extends RootView
     # @hero.setProjection ['name','slug','soundTriggers','featureImages','gems','heroClass','description','components','extendedName','shortName','unlockLevelName','i18n']
     @supermodel.loadModel(@hero, 'hero')
     @listenTo @hero, 'change', -> @render() if @supermodel.finished()
+
+    if features.israel
+      israelFinalistsRequest = @supermodel.addRequestResource url: '/db/user/-/israel-finalist-status', data: {}, method: 'GET', success: (status) =>
+        return if @destroyed
+        console.log {status}
+        if status.finalist or me.get('name') in ['test student']
+          if window.serverConfig?.currentTournament is 'israel'
+            @showFinalArena = true
+          else
+            @awaitingFinalArena = true
+            @checkForTournamentStart()
+        else
+          @getArenaPlayCounts()
+      israelFinalistsRequest.load()
+
+  checkForTournamentStart: =>
+    return if @destroyed
+    $.get '/db/mandate', (data) =>
+      return if @destroyed
+      if data?[0]?.currentTournament is 'israel'
+        @showFinalArena = true
+        @awaitingFinalArena = false
+        @render()
+      else
+        setTimeout @checkForTournamentStart, 5000
 
   afterInsert: ->
     super()

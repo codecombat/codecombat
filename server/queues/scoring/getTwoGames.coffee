@@ -12,7 +12,7 @@ module.exports = getTwoGames = (req, res) ->
   humansSessionID = req.body.humansGameID
   ogresSessionID = req.body.ogresGameID
   return getSpecificSessions res, humansSessionID, ogresSessionID if humansSessionID and ogresSessionID
-  Mandate.findOne({}).cache(5 * 60 * 1000).exec (err, mandate) ->
+  Mandate.findOne({}).cache(1 * 60 * 1000).exec (err, mandate) ->
     if err then return errors.serverError res, "Error fetching our Mandate: #{err}"
     if (throughputRatio = mandate?.get 'simulationThroughputRatio')? and Math.random() > throughputRatio
       return sendSessionsResponse(res)(null, [])
@@ -95,7 +95,8 @@ makeGetSecondRandomLeagueSession = (options, callback) ->
         callback null, [session, otherSession]
 
 # Sampling by level: we pick a level, then find a human and ogre session for that level, one at random, one biased towards recent submissions.
-ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul', 'power-peak', 'cross-bones', 'summation-summit', 'the-battle-of-sky-span']
+#ladderLevelIDs = ['dueling-grounds', 'cavern-survival', 'multiplayer-treasure-grove', 'harrowland', 'zero-sum', 'ace-of-coders', 'wakka-maul', 'power-peak', 'cross-bones', 'summation-summit', 'the-battle-of-sky-span']
+ladderLevelIDs = ['escort-duty', 'tesla-tesoro']  # Israel-only: focus on these arenas
 backgroundLadderLevelIDs = _.without ladderLevelIDs, 'zero-sum', 'ace-of-coders', 'elemental-wars'
 sampleByLevel = (options, callback) ->
   levelID = options.levelID or _.sample(if options.background then backgroundLadderLevelIDs else ladderLevelIDs)

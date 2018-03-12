@@ -194,7 +194,14 @@ module.exports = class TeacherClassesView extends RootView
 
     if me.isTeacher() and not @classrooms.length
       @openNewClassroomModal()
+    @addFreeCourseInstances() # make sure this happens
     super()
+
+  canWrite: (classroom) ->
+    # If we are viewing the page as an admin or a read-only-permissioned teacher, we can't use destructive features.
+    return true if me.id is classroom.get('ownerID')
+    return true if _.find(classroom.get('permissions'), target: me.id)?.access is 'write'
+    false
 
   onClickEditClassroom: (e) ->
     classroomID = $(e.target).data('classroom-id')
@@ -228,9 +235,9 @@ module.exports = class TeacherClassesView extends RootView
     application.router.navigate("/teachers/update-account", { trigger: true })
 
   onClickArchiveClassroom: (e) ->
-    return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
+    return unless @canWrite classroom
     classroom.set('archived', true)
     classroom.save {}, {
       success: =>
@@ -239,9 +246,9 @@ module.exports = class TeacherClassesView extends RootView
     }
 
   onClickUnarchiveClassroom: (e) ->
-    return unless me.id is @teacherID # Viewing page as admin
     classroomID = $(e.currentTarget).data('classroom-id')
     classroom = @classrooms.get(classroomID)
+    return unless @canWrite classroom
     classroom.set('archived', false)
     classroom.save {}, {
       success: =>
@@ -259,7 +266,7 @@ module.exports = class TeacherClassesView extends RootView
     # non-free courses are generated when the teacher first adds a student to them
     for classroom in @classrooms.models
       for course in @courses.models
-        continue if not course.get('free')
+        continue unless course.get('free') or features.israel
         courseInstance = @courseInstances.findWhere({classroomID: classroom.id, courseID: course.id})
         if not courseInstance
           courseInstance = new CourseInstance({

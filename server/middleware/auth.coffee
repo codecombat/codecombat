@@ -17,6 +17,7 @@ oauth = require '../lib/oauth'
 facebook = require '../lib/facebook'
 OAuthProvider = require '../models/OAuthProvider'
 querystring = require 'querystring'
+israel = require '../commons/israel'
 
 module.exports =
   authDelay: (req, res, next) ->
@@ -214,6 +215,19 @@ module.exports =
       provider = yield OAuthProvider.findById(providerId)
       req.shouldRedirect = provider.get('redirectAfterLogin')
 
+    next()
+
+  loginByIsraelId: wrap (req, res, next) ->
+    unless req.features.israel
+      throw new errors.Forbidden('May not use israelId login outside of Israel')
+    { israelToken } = req.body
+    result = israel.verifyToken(israelToken)
+    israelId = result.sub
+    user = yield User.findOne({ israelId })
+    if not user
+      throw new errors.NotFound('No user with this id found')
+    req.logInAsync = Promise.promisify(req.logIn)
+    yield req.logInAsync(user)
     next()
 
   redirectOnError: wrap (err, req, res, next) ->

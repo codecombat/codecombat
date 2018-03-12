@@ -1,5 +1,6 @@
 module.exports = {
   admin: require('./admin')
+  auth: require('./auth')
   apcsp: require('./apcsp')
   analyticsLogEvents: require('./analytics-log-events')
   campaigns: require('./campaigns')
