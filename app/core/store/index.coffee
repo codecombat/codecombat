@@ -17,7 +17,8 @@ store = new Vuex.Store({
     updateFeatures: (state, features) -> state.features = features
   }
   modules: {
-    me: require('./modules/me')
+    me: require('./modules/me'),
+    game: require('./modules/game')
   }
 })
 
