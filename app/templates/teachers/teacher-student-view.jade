@@ -210,6 +210,8 @@ block content
                   - var langClass = 'lang-python';
                   if level.get('primerLanguage')
                     - langClass = 'lang-' + level.get('primerLanguage');
+                  else if level.get('type') === 'web-dev'
+                    - langClass = 'lang-html';
                   else if view.classroom.get('aceConfig')
                     - langClass = 'lang-' + view.classroom.get('aceConfig').language;
                   tr.code-level-row
@@ -242,17 +244,6 @@ block content
                           span (
                           span(data-i18n="teacher.level_in_progress")
                           span )
-                      if view.levelStudentCodeMap[level.get('original')]
-                        if (view.levelSolutionsMap[level.get('original')] || []).length > 1
-                          .student-solution-spacer
-                        if view.levelProgressMap[level.get('original')] === 'complete'
-                          pre
-                            code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
-                        else
-                          pre.incomplete-code
-                            code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
-                      else
-                        i.small(data-i18n="teacher.no_code_yet")
                     td
                       .small
                         span= level.get('name')
@@ -283,32 +274,60 @@ block content
                           span )
                           =" "
                           span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_project_blurb"))
-                      - var solutions = view.levelSolutionsMap[level.get('original')] || [];
-                      if solutions.length === 1
-                        each solution in solutions
-                          pre
-                            code(class=langClass)= solution
-                      else if solutions.length > 0
+                  - var solutions = view.levelSolutionsMap[level.get('original')] || [];
+                  if solutions.length > 1
+                    tr
+                      td
+                      td
                         div(role='tabpanel')
                           ul.nav.nav-tabs(role='tablist')
                             each solution, index in solutions
                               li.nav-item(class=(index === 0 ? 'active' : ''))
                                 - var target = level.get('original') + index;
                                 a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0))
-                                  //- TODO: use solution names from level data
-                                  .text-center Variation #{index + 1}
+                                  if index === 0
+                                    strong.text-center(data-i18n="teacher.complete_solution")
+                                  else
+                                    .text-center
+                                      span(data-i18n="teacher.partial_solution")
+                                      =" "
+                                      span= index
                               if index < solutions.length - 1
                                 .tab-spacer
                               else
                                 .tab-filler
-                          .tab-content
-                            each solution, index in solutions
-                              - var target = level.get('original') + index;
-                              div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
-                                pre
-                                  code(class=langClass)= solution
-                      else
-                        i.small(data-i18n="common.coming_soon")
+                  tr
+                    td(colspan=2)
+                      div(role='tabpanel')
+                        .tab-content
+                          each solution, index in solutions
+                            - var target = level.get('original') + index;
+                            div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                              table.side-by-side
+                                tr
+                                  td
+                                  td
+                                    .small!= marked(solution.description || '')
+                                tr
+                                  td
+                                    if view.levelStudentCodeMap[level.get('original')]
+                                      if view.levelProgressMap[level.get('original')] === 'complete'
+                                        pre
+                                          code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                      else
+                                        pre.incomplete-code
+                                          code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                    else
+                                      i.small(data-i18n="teacher.no_code_yet")
+                                  td
+                                    if solutions.length === 1
+                                      pre
+                                        code(class=langClass)= solution.source
+                                    else if solutions.length > 0
+                                        pre
+                                          code(class=langClass)= solution.source
+                                    else
+                                      i.small(data-i18n="common.coming_soon")
               if !courseStarted
                 p(data-i18n="teacher.course_not_started")
 

@@ -45,7 +45,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
     @updateLevelData()
 
   updateLevelData: ->
-    @levelSolutionsMap = @levels.getSolutionsMap(@language)
+    @levelSolutionsMap = @levels.getSolutionsMap([@language])
     for level in @levels?.models
       articles = level.get('documentation')?.specificArticles
       if articles
