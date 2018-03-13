@@ -98,7 +98,7 @@ module.exports = class TeacherStudentView extends RootView
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
-    @levelSolutionsMap = @levels.getSolutionsMap(@classroom.get('aceConfig')?.language)
+    @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
     for session in @sessions.models when session.get('creator') is @studentID
       # Normal level

@@ -18,11 +18,11 @@ module.exports = class LevelCollection extends CocoCollection
     options.url = "/db/campaign/#{campaignSlug}/levels"
     @fetch(options)
 
-  getSolutionsMap: (language) ->
+  getSolutionsMap: (languages) ->
     @models.reduce((map, level) =>
-      targetLang = level.get('primerLanguage') or language
-      solutions = level.getSolutions().filter((s) => s.language is targetLang)
-      map[level.get('original')] = solutions?.map((s) => @fingerprint(s.source, s.language))
+      targetLangs = if level.get('primerLanguage') then [level.get('primerLanguage')] else languages
+      solutions = level.getSolutions().filter((s) => s.language in targetLangs)
+      map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description})
       map
     , {})
 
