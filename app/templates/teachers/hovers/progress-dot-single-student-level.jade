@@ -27,7 +27,7 @@ mixin assessmentLines()
       span(data-i18n="teacher.concepts_used")
     for goal in conceptGoals
       .small-details
-        if goalStates[goal.id].status === 'success'
+        if goalStates && goalStates[goal.id].status === 'success'
           i.glyphicon.glyphicon-ok
         else
           i.glyphicon.glyphicon-remove

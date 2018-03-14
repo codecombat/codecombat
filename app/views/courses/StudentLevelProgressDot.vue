@@ -111,7 +111,7 @@
       conceptGoals: ->
         return (@level.goals || []).filter((g) => g.concepts?.length)
       conceptGoalsCompleted: ->
-        return @conceptGoals.filter((g) => @progress.session?.state.goalStates[g.id].status is 'success').length
+        return @conceptGoals.filter((g) => @progress.session?.state.goalStates?[g.id].status is 'success').length
       percentConceptsCompleted: ->
         res = 100 * @conceptGoalsCompleted / @conceptGoals.length
         return if _.isNaN(res) then 0 else res
