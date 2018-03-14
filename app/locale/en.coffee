@@ -1327,7 +1327,7 @@
     welcome_to_page: "My Student Dashboard"
     my_classes: "Current Classes"
     class_added: "Class successfully added!"
-    view_levels: "view all levels" # {change}
+    view_levels: "view all levels"
     view_project_gallery: "view my classmates' projects"
     join_class: "Join A Class"
     join_class_2: "Join class"
@@ -2241,7 +2241,7 @@
     if_else_if: "If/Else If Statements" 
     if_else_statements: "If/Else Statements"
     if_statements: "If Statements"
-    if_statements_nested: "Nested If Statements" # {change}
+    if_statements_nested: "Nested If Statements"
     indexing: "Array Indexes"
     input_handling_flags: "Input Handling - Flags"
     input_handling_keyboard: "Input Handling - Keyboard"
