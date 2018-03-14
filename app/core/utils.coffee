@@ -486,8 +486,8 @@ createLevelNumberMap = (levels) ->
   levelNumberMap
 
 findNextLevel = (levels, currentIndex, needsPractice) ->
-  # TODO: Fully account for skipping assessments
-  # levels = [{practice: true/false, complete: true/false}]
+  # Find next available incomplete level, depending on whether practice is needed
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
   index = currentIndex
   index++
   if needsPractice
@@ -514,21 +514,28 @@ findNextLevel = (levels, currentIndex, needsPractice) ->
     index++ while index < levels.length and (levels[index].practice or levels[index].complete or levels[index].assessment)
   index
 
-findNextAssessmentForLevel = (levels, currentIndex) ->
-  # Assessments are placed immediately after a level (and possibly its practice levels)
-  # eg: l*,p,p,a*,a',l,... (if we ever do multiple assessments later)
+findNextAssessmentForLevel = (levels, currentIndex, needsPractice) ->
+  # Find assessment level immediately after current level (and its practice levels)
+  # Only return assessment if it's the next level
+  # Skip over practice levels unless practice neeeded
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
+  # eg: l*,p,p,a*,a',l,...
   # given index l*, return index a*
   # given index a*, return index a'
   index = currentIndex
   index++
   while index < levels.length
-    if levels[index].complete or levels[index].practice # It's a practice level or completed, keep looking
-      index++
+    if levels[index].practice
+      return -1 if needsPractice and not levels[index].complete
+      index++ # It's a practice level but do not need practice, keep looking
     else if levels[index].assessment
+      return -1 if levels[index].complete
       return index
+    else if levels[index].complete # It's completed, keep looking
+      index++
     else # we got to a normal level; we didn't find an assessment for the given level.
-      return false
-  return false # we got to the end of the list and found nothing
+      return -1
+  return -1 # we got to the end of the list and found nothing
 
 needsPractice = (playtime=0, threshold=5) ->
   playtime / 60 > threshold

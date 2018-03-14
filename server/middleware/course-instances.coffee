@@ -117,7 +117,7 @@ module.exports =
 
     course = yield Course.findById courseId
     throw new errors.NotFound('Course referenced by course instance not found') unless course
-    
+
     userObjectIDs = (mongoose.Types.ObjectId(userID) for userID in userIDs)
 
     courseInstance = yield CourseInstance.findByIdAndUpdate(
@@ -130,7 +130,7 @@ module.exports =
       { _id: { $in: userObjectIDs } },
       { $pull: { courseInstances: courseInstance._id } }
     )
-    
+
     res.status(200).send(courseInstance.toObject({ req }))
 
   fetchNextLevels: wrap (req, res) ->
@@ -170,7 +170,7 @@ module.exports =
         ]}, project))
     levelSessions = _.flatten(yield queries)
     levelCompleteMap = {}
-    
+
     for levelSession in levelSessions
       currentLevelSession = levelSession if levelSession.id is sessionID
       levelCompleteMap[levelSession.get('level')?.original] = levelSession.get('state')?.complete
@@ -191,7 +191,7 @@ module.exports =
     unless currentIndex >= 0 then throw new errors.NotFound('Level original ObjectId not found in Classroom courses')
     nextLevelIndex = utils.findNextLevel(levels, currentIndex, needsPractice)
     nextLevelOriginal = courseLevels[nextLevelIndex]?.original
-    nextAssessmentIndex = utils.findNextAssessmentForLevel(levels, currentIndex)
+    nextAssessmentIndex = utils.findNextAssessmentForLevel(levels, currentIndex, needsPractice)
     nextAssessmentOriginal = courseLevels[nextAssessmentIndex]?.original
     unless nextLevelOriginal then return res.status(200).send({
       level: {}
@@ -206,7 +206,7 @@ module.exports =
       dbq.select(parse.getProjectFromReq(req))
       level = yield dbq
       level = level.toObject({req: req})
-    
+
     assessment = {}
     if nextAssessmentOriginal
       # Fetch full Assessment Level object
@@ -215,7 +215,7 @@ module.exports =
       dbq.select(parse.getProjectFromReq(req))
       assessment = yield dbq
       assessment = assessment.toObject({req: req})
-    
+
     res.status(200).send({ level, assessment })
 
   fetchClassroom: wrap (req, res) ->
