@@ -486,8 +486,8 @@ createLevelNumberMap = (levels) ->
   levelNumberMap
 
 findNextLevel = (levels, currentIndex, needsPractice) ->
-  # TODO: Fully account for skipping assessments
-  # levels = [{practice: true/false, complete: true/false}]
+  # Find next available incomplete level, depending on whether practice is needed
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
   index = currentIndex
   index++
   if needsPractice
@@ -518,6 +518,7 @@ findNextAssessmentForLevel = (levels, currentIndex, needsPractice) ->
   # Find assessment level immediately after current level (and its practice levels)
   # Only return assessment if it's the next level
   # Skip over practice levels unless practice neeeded
+  # levels = [{practice: true/false, complete: true/false, assessment: true/false}]
   # eg: l*,p,p,a*,a',l,...
   # given index l*, return index a*
   # given index a*, return index a'
