@@ -42,7 +42,7 @@ Level = require 'models/Level'
 LevelSession = require 'models/LevelSession'
 utils = require 'core/utils'
 StudentAssessmentRow = require('./StudentAssessmentRow').default
-  
+
 module.exports = Vue.extend
   name: 'student-assessments-component'
   components:
@@ -86,7 +86,7 @@ module.exports = Vue.extend
           assessmentLevels: _.filter(course.levels, 'assessment')
         }).filter((chunk) => chunk.assessmentLevels.length and @inCourses[chunk.course._id])
         @selectedCourse = document.location.hash.replace('#','') or _.first(@levelsByCourse)?.course._id
-        
+
         @courses = @classroom.courses
         return Promise.all(_.map(@levels, (level) =>
           api.levels.getByOriginal(level.original, {
@@ -127,8 +127,14 @@ module.exports = Vue.extend
       # Map assessment original to the level original of the level that unlocks the assessment
       map = {}
       for level, index in @allLevels
-        assessmentIndex = utils.findNextAssessmentForLevel(@allLevels, index)
-        if assessmentIndex isnt false
+
+        # TODO: move this needsPractice logic to utils, copied from https://github.com/codecombat/codecombat/blob/2beb7c4/server/middleware/course-instances.coffee#L178
+        needsPractice = if level.type in ['course-ladder', 'ladder'] then false
+        else if level.assessment then false
+        else utils.needsPractice(@sessionMap[level.original].playtime, level.practiceThresholdMinutes)
+
+        assessmentIndex = utils.findNextAssessmentForLevel(@allLevels, index, needsPractice)
+        if assessmentIndex >= 0
           assessmentOriginal = @allLevels[assessmentIndex].original
           map[assessmentOriginal] ?= level.original
       return map
@@ -137,7 +143,7 @@ module.exports = Vue.extend
       map = {}
       for level, index in @levels
         map[level.original] = @sessionMap[@previousLevelMap[level.original]]?.state.complete or false
-      return map  
+      return map
   watch: {
     selectedCourse: (newValue) ->
       document.location.hash = newValue
