@@ -245,7 +245,7 @@ module.exports = class PlayLevelView extends RootView
   grabLevelLoaderData: ->
     @session = @levelLoader.session
     @level = @levelLoader.level
-    store.commit('game/updateLevel', @level.attributes)
+    store.commit('game/setLevel', @level.attributes)
     if @level.isType('web-dev')
       @$el.addClass 'web-dev'  # Hide some of the elements we won't be using
       return
