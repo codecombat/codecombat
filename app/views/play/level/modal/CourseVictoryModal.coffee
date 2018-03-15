@@ -143,8 +143,11 @@ module.exports = class CourseVictoryModal extends ModalView
 
   # TODO: Remove rest of logic transferred to CourseVictoryComponent
   onToMap: ->
+    if me.isSessionless()
+      link = "/teachers/courses"
+    else
+      link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
-    link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
   onDone: ->

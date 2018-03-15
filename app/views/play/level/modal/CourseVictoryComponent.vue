@@ -107,7 +107,11 @@
           link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
         return link
       mapLink: ->
-        return "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
+        if me.isSessionless()
+          link = "/teachers/courses"
+        else
+          link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
+        return link
       nextLevelLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
