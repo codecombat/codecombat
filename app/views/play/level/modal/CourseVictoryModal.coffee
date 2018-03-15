@@ -69,12 +69,14 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onLoaded: ->
     super()
+    # update level sessions so that stats are correct
+    @levelSessions?.remove(@session)
+    @levelSessions?.add(@session)
+    
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
       @views = []
   
-      @levelSessions?.remove(@session)
-      @levelSessions?.add(@session)
       progressView = new ProgressView({
         level: @level
         nextLevel: @nextLevel
