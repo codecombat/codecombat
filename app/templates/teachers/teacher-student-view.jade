@@ -339,7 +339,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   - var link = null;
   - var levelSlugNav = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
-    - context.session = view.levelSessionMap[level.get('original')];
+    - context.session = view.levelSessionMap[level.get('original')].toJSON();
     if dotClass
       - levelSlugNav = level.get('slug')
       - link = "#" + levelSlugNav;
