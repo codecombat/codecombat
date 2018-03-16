@@ -12,7 +12,10 @@ mixin timePlayed()
 mixin header()
   strong.small-details.nowrap
     if assessment
-      span(data-i18n="courses.challenge")
+      if assessment === 'cumulative'
+        span(data-i18n="play_level.combo_challenge")
+      else
+        span(data-i18n="play_level.concept_challenge")
     else
       span(data-i18n="teacher.level_label")
     =" "
