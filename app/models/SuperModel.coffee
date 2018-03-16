@@ -209,6 +209,11 @@ module.exports = class SuperModel extends Backbone.Model
     res = new SomethingResource(name, value)
     @storeResource(res, value)
     return res
+    
+  addPromiseResource: (promise, value=1) ->
+    somethingResource = @addSomethingResource('some promise', value)
+    promise.then(() -> somethingResource.markLoaded())
+    promise.catch(() -> somethingResource.markFailed())
 
   checkName: (name) ->
     #if _.isString(name)

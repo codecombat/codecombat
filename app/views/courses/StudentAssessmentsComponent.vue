@@ -72,7 +72,7 @@ module.exports = Vue.extend
       # TODO: Only load the levels we actually need
       Promise.all([
         api.users.getCourseInstances({ userID: me.id }).then((@courseInstances) =>),
-        api.courses.getAll().then((@courses) =>),
+        @$store.dispatch('courses/fetch').then(=> @courses = @$store.getters['courses/sorted'])
         api.classrooms.get({ @classroomID }, { data: {memberID: me.id} }).then((@classroom) =>)
       ]).then(=>
         @allLevels = _.flatten(_.map(@classroom.courses, (course) => course.levels))
@@ -82,7 +82,7 @@ module.exports = Vue.extend
           if courseInstance.classroomID is @classroomID and me.id in courseInstance.members
             @inCourses[courseInstance.courseID] = true
         @levelsByCourse = _.map(@classroom.courses, (course) => {
-          course: _.find(@courses, ({_id: course._id})),
+          course: @$store.state.courses.byId[course._id]
           assessmentLevels: _.filter(course.levels, 'assessment')
         }).filter((chunk) => chunk.assessmentLevels.length and @inCourses[chunk.course._id])
         @selectedCourse = document.location.hash.replace('#','') or _.first(@levelsByCourse)?.course._id
