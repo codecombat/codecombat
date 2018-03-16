@@ -53,7 +53,7 @@ class LevelSessionsCollection extends CocoCollection
 
   constructor: (model) ->
     super()
-    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime,state.topScores"
+    @url = "/db/user/#{me.id}/level.sessions?project=state.complete,levelID,state.difficulty,playtime,state.topScores,codeLanguage,level"
 
 class CampaignsCollection extends CocoCollection
   # We don't send all of levels, just the parts needed in countLevels
@@ -337,6 +337,21 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
+    classroomLevels = @classroom.getLevels()
+    classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
+    defaultLanguage = @classroom.get('aceConfig').language
+    if @classroom
+      for session in @sessions.slice()
+        classroomLevel = classroomLevelMap[session.get('level').original]
+        expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
+        if session.get('codeLanguage') isnt expectedLanguage
+          @sessions.remove(session)
+          continue
+    for session in @sessions.models
+      unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
+        @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+      @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
+
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
     application.setHocCampaign(if @campaign?.get('type') is 'hoc' then @campaign.get('slug') else '')
@@ -834,10 +849,6 @@ module.exports = class CampaignView extends RootView
 
   onSessionsLoaded: (e) ->
     return if @editorMode
-    for session in @sessions.models
-      unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
-        @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
-      @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
     @render()
     @loadUserPollsRecord() unless me.get('anonymous') or window.serverConfig.picoCTF
 
