@@ -207,6 +207,8 @@ module.exports = class TeacherStudentView extends RootView
       # TODO: continue if selector isn't found.
       courseLevelData = []
       for level in @levelData when level.courseID is versionedCourse._id
+        if level.assessment
+          continue
         courseLevelData.push level
 
       course = @courses.get(versionedCourse._id)
@@ -378,6 +380,7 @@ module.exports = class TeacherStudentView extends RootView
         classAvg = if timesPlayed > 0 then Math.round(playTime / timesPlayed) else 0 # only when someone other than the user has played
         # console.log (timesPlayed)
         @levelData.push {
+          assessment: versionedLevel.assessment
           levelID: versionedLevel.original
           levelIndex: @classroom.getLevelNumber(versionedLevel.original)
           levelName: versionedLevel.name
