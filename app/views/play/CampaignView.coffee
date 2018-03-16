@@ -337,10 +337,10 @@ module.exports = class CampaignView extends RootView
     levelPlayCountsRequest.load()
 
   onLoaded: ->
-    classroomLevels = @classroom.getLevels()
-    classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
-    defaultLanguage = @classroom.get('aceConfig').language
     if @classroom
+      classroomLevels = @classroom.getLevels()
+      classroomLevelMap = _.zipObject(classroomLevels.map((l) -> l.get('original')), classroomLevels.models)
+      defaultLanguage = @classroom.get('aceConfig').language
       for session in @sessions.slice()
         classroomLevel = classroomLevelMap[session.get('level').original]
         expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
@@ -383,6 +383,7 @@ module.exports = class CampaignView extends RootView
   buildLevelScoreMap: ->
     for session in @sessions.models
       levels = @getLevels()
+      return unless levels
       levelOriginal = session.get('level')?.original
       continue unless levelOriginal
       level = levels[levelOriginal]
