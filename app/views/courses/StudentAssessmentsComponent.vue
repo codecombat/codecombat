@@ -73,7 +73,7 @@ module.exports = Vue.extend
       Promise.all([
         api.users.getCourseInstances({ userID: me.id }).then((@courseInstances) =>),
         api.courses.getAll().then((@courses) =>),
-        api.classrooms.get({ @classroomID }, { data: {memberID: me.id}, cache: false }).then((@classroom) =>)
+        api.classrooms.get({ @classroomID }, { data: {memberID: me.id} }).then((@classroom) =>)
       ]).then(=>
         @allLevels = _.flatten(_.map(@classroom.courses, (course) => course.levels))
         @levels = _.flatten(_.map(@classroom.courses, (course) => _.filter(course.levels, 'assessment')))
@@ -131,7 +131,7 @@ module.exports = Vue.extend
         # TODO: move this needsPractice logic to utils, copied from https://github.com/codecombat/codecombat/blob/2beb7c4/server/middleware/course-instances.coffee#L178
         needsPractice = if level.type in ['course-ladder', 'ladder'] then false
         else if level.assessment then false
-        else utils.needsPractice(@sessionMap[level.original].playtime, level.practiceThresholdMinutes)
+        else utils.needsPractice(@sessionMap[level.original]?.playtime || 0, level.practiceThresholdMinutes)
 
         assessmentIndex = utils.findNextAssessmentForLevel(@allLevels, index, needsPractice)
         if assessmentIndex >= 0
