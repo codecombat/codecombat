@@ -251,7 +251,6 @@ module.exports = class TeacherClassView extends RootView
       new PieChart({
         el: @$el.find('.pie')[0]
         propsData: {
-          label: ' ',
           percent: 100*2/3,
           'strokeWidth': 10,
           color: "#20572B",

@@ -24,28 +24,19 @@
         :stroke-width="strokeWidth / 5"
         :opacity=opacity
     />
-    <text
-        x=0 y=0
-        text-anchor=middle
-        alignment-baseline=middle
-        :style=labelStyle()
-    >
-      {{label || _label}}
-    </text>
-    <text
-        x=0 :y="width / 10"
-        text-anchor=middle
-        alignment-baseline=middle
-        :style=labelStyle(true)
-    >
-      {{labelSmall}}
-    </text>
+    <circle
+      v-if=!circle
+      cx=0
+      cy=0
+      :r="(width / 2) - 0.1"
+      :stroke=color
+      :stroke-width="0.2"
+      :opacity=opacity
+    />
   </svg>
 </template>
 
 <script>
-  'use strict';
-
   module.exports = Vue.extend({
     name: 'pie-chart',
     props: {
@@ -57,12 +48,8 @@
       strokeWidth: {
         type: Number,
         default: 1,
-        validator: function validator(v) {
-          return v > 0 && v <= 10;
-        }
+        validator: (v) => v > 0 && v <= 10
       },
-      label: String,
-      labelSmall: String,
       color: {
         type: String,
         default: '#40a070'
@@ -73,55 +60,45 @@
       }
     },
     computed: {
-      width: function width() {
-        return 2 + this.strokeWidth / 5;
+      width: function () {
+        return 2 + this.strokeWidth / 5
       },
-      viewBox: function viewBox() {
-        var c = 1 + this.strokeWidth / 10;
-        var w = this.width;
-        return -c + ' ' + -c + ' ' + w + ' ' + w;
+      viewBox: function () {
+        let c = 1 + this.strokeWidth / 10
+        let w = this.width
+        return `${-c} ${-c} ${w} ${w}`
       },
-      circle: function circle() {
-        return this._ratio % 1 === 0;
+      circle: function () {
+        return this._ratio % 1 === 0
       },
-      _ratio: function _ratio() {
-        var r = this.percent / 100;
-        return isFinite(this.ratio) ? this.ratio : r;
+      _ratio: function () {
+        let r = this.percent / 100
+        return isFinite(this.ratio) ? this.ratio : r
       },
-      _label: function _label() {
-        var p = (this._ratio * 100).toFixed(0);
-        return p + ' %';
-      },
-      arc: function arc() {
-        var r = this._ratio; // short hand
-        var deg = 2 * Math.PI * r;
-        var x = 1 * Math.sin(deg);
-        var y = -1 * Math.cos(deg);
-        var negative = r < 0;
-        var large = 0;
+      arc: function () {
+        let r = this._ratio  // short hand
+        let deg = 2 * Math.PI * r
+        let x = 1 * Math.sin(deg)
+        let y = -1 * Math.cos(deg)
+        let negative = r < 0
+        let large = 0
         // 0 ccw, 1 clock-wise
-        var rotation = negative ? 0 : 1;
+        let rotation = negative ? 0 : 1
         if (negative && x > 0) {
-          large = 1;
+          large = 1
         } else if (!negative && x < 0) {
-          large = 1;
+          large = 1
         }
-        return 'A 1 1 0 ' + large + ' ' + rotation + ' ' + x + ' ' + y;
+        return `A 1 1 0 ${large} ${rotation} ${x} ${y}`
       },
-      path: function path() {
-        return 'M 0 -1 ' + this.arc;
+      path: function () {
+        return `M 0 -1 ${this.arc}`
       }
     },
-    methods: {
-      labelStyle: function labelStyle(small) {
-        var size = small ? this.width / 13 : this.width / 10;
-        return 'font-size:' + size + 'pt';
-      }
-    }
-  });
+  })
 
-  function ratioOK(val) {
-    return;
+  function ratioOK (val) {
+    return
   }
 </script>
 

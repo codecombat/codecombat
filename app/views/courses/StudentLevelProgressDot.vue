@@ -12,7 +12,6 @@
       v-if="level.assessment === 'cumulative' && percentConceptsCompleted",
       :percent='percentConceptsCompleted',
       :stroke-width="10",
-      label=" ",
       color="#20572B",
       :opacity="1"
     )
