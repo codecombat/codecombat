@@ -261,10 +261,11 @@ block content
                         if level.get('assessment')
                           =" "
                           span (
-                          span(data-i18n="teacher.open_ended_level")
+                          if level.get('assessment') === 'cumulative'
+                            span(data-i18n="play_level.combo_challenge")
+                          else
+                            span(data-i18n="play_level.concept_challenge")
                           span )
-                          =" "
-                          span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_challenge_blurb"))
                         if level.isProject()
                           =" "
                           span (
