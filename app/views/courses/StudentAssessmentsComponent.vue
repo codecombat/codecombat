@@ -101,10 +101,10 @@ module.exports = Vue.extend
       api.users.getLevelSessions({ userID: me.id }).then((@levelSessions) =>)
     ]).then =>
       @sessionMap = @createSessionMap()
-      @playLevelUrlMap = @createPlayLevelUrlMap()
       # These two maps are for determining if a challenge is unlocked yet
       @previousLevelMap = @createPreviousLevelMap()
       @levelUnlockedMap = @createLevelUnlockedMap()
+      @playLevelUrlMap = @createPlayLevelUrlMap()
   methods:
     createSessionMap: ->
       # Map level original to levelSession
@@ -115,6 +115,8 @@ module.exports = Vue.extend
     createPlayLevelUrlMap: ->
       # Map level original to URL to play that level as the student
       _.reduce(@levels, (map, level) =>
+        if not @levelUnlockedMap[level.original]
+          return map
         course = _.find(@courses, (c) =>
           Boolean(_.find(c.levels, (l) => l.original is level.original))
         )
