@@ -24,7 +24,7 @@ subscriptions = require './subscriptions'
 { makeHostUrl } = require '../commons/urls'
 
 module.exports =
-  fetchByCode: wrap (req, res, next) ->
+  getByCode: wrap (req, res, next) ->
     code = req.query.code
     return next() unless req.query.hasOwnProperty('code')
     classroom = yield Classroom.findOne({ code: code.toLowerCase().replace(RegExp(' ', 'g') , '') }).select('name ownerID aceConfig')
@@ -54,6 +54,19 @@ module.exports =
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
     res.status(200).send(classrooms)
+    
+  getByMember: wrap (req, res, next) ->
+    { memberID } = req.query
+    return next() unless memberID
+
+    unless req.user and (req.user.isAdmin() or memberID is req.user.id)
+      throw new errors.Forbidden()
+
+    unless utils.isID memberID
+      throw new errors.UnprocessableEntity('Bad memberID')
+
+    classrooms = yield Classroom.find {members: mongoose.Types.ObjectId(memberID)}
+    res.send((classroom.toObject({req}) for classroom in classrooms))
 
   fetchAllLevels: wrap (req, res, next) ->
     classroom = yield database.getDocFromHandle(req, Classroom)
@@ -285,7 +298,7 @@ module.exports =
     database.assignBody(req, classroom)
 
     owner = req.user
-    yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false, includeAssessments: owner.isVerifiedTeacher()})
+    yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false, includeAssessments: owner.hasPermission('assessments')})
 
     # finish
     database.validateDoc(classroom)
@@ -308,7 +321,7 @@ module.exports =
     else
       owner = req.user
 
-    yield classroom.setUpdatedCourses({isAdmin: owner.isAdmin(), addNewCoursesOnly, includeAssessments: owner.isVerifiedTeacher()})
+    yield classroom.setUpdatedCourses({isAdmin: owner.isAdmin(), addNewCoursesOnly, includeAssessments: owner.hasPermission('assessments')})
 
     database.validateDoc(classroom)
     classroom = yield classroom.save()
@@ -370,6 +383,11 @@ module.exports =
     if not req.body.emails
       log.debug "classrooms.inviteMembers: No emails included in request: #{JSON.stringify(req.body)}"
       throw new errors.UnprocessableEntity('Emails not included')
+    if not req.body.recaptchaResponseToken
+      log.debug "classrooms.inviteMembers: No recaptchaResponseToken included in request: #{JSON.stringify(req.body)}"
+      throw new errors.UnprocessableEntity('Recaptcha response token not included')
+    unless yield utils.verifyRecaptchaToken(req.body.recaptchaResponseToken)
+      throw new errors.UnprocessableEntity('Could not verify reCAPTCHA response token')
 
     classroom = yield database.getDocFromHandle(req, Classroom)
     if not classroom

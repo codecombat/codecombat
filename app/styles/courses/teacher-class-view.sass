@@ -193,10 +193,13 @@
   #progress-color-key-row
     .col
       min-height: 40px
+      svg
+        width: 34px
       .progress-dot
+        padding-top: 5px
+      .progress-dot, svg
         position: absolute
         top: 0
-        padding-top: 5px
         margin: 5px
         &.practice
           margin-left: 26px
@@ -432,8 +435,24 @@
       font-weight: normal
       
     td, th
+      position: relative
       text-align: center
 
     .student-name
       text-overflow: ellipsis
       overflow: hidden
+      
+    .progress-dot
+      margin-right: 0
+      
+  .threshold-icon
+    height: 1.2em
+    margin-left: 0.3em
+    position: relative
+    top: -0.1em
+    
+  .threshold-icon.over-progress-bubble
+    height: 22px
+    position: absolute
+    top: 20px
+    left: calc(50% - 3px)

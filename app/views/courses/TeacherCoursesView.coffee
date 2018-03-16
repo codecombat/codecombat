@@ -7,9 +7,11 @@ Classroom = require 'models/Classroom'
 Classrooms = require 'collections/Classrooms'
 User = require 'models/User'
 CourseInstance = require 'models/CourseInstance'
+Prepaids = require 'collections/Prepaids'
 RootView = require 'views/core/RootView'
 template = require 'templates/courses/teacher-courses-view'
 HeroSelectModal = require 'views/courses/HeroSelectModal'
+utils = require 'core/utils'
 
 module.exports = class TeacherCoursesView extends RootView
   id: 'teacher-courses-view'
@@ -29,13 +31,25 @@ module.exports = class TeacherCoursesView extends RootView
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new Courses()
+    @prepaids = new Prepaids()
+    @paidTeacher = me.isAdmin()
     if me.isAdmin()
       @supermodel.trackRequest @courses.fetch()
     else
       @supermodel.trackRequest @courses.fetchReleased()
+      @supermodel.trackRequest @prepaids.fetchMineAndShared()
     @campaigns = new Campaigns([], { forceCourseNumbering: true })
     @supermodel.trackRequest @campaigns.fetchByType('course', { data: { project: 'levels,levelsUpdated' } })
+    @campaignLevelNumberMap = {}
     window.tracker?.trackEvent 'Classes Guides Loaded', category: 'Teachers', ['Mixpanel']
+
+  onLoaded: ->
+    @campaigns.models.forEach (campaign) =>
+      levels = campaign.getLevels().models.map (level) =>
+        key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
+      @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
+    @paidTeacher = @paidTeacher or @prepaids?.models.find((m) => m.get('type') in ['course', 'starter_license'] and m.get('maxRedeemers') > 0)?
+    @render?()
 
   onClickGuideButton: (e) ->
     courseID = $(e.currentTarget).data('course-id')

@@ -171,7 +171,7 @@ module.exports =
             sessions = _.filter sessionsForLevel, (session) ->
               session.get('creator') is userID
 
-            courseProgress[levelID][userID].session = _.find(sessions, (s) -> s.completed()) or _.first(sessions)
+            courseProgress[levelID][userID].session = (_.find(sessions, (s) -> s.completed()) or _.first(sessions))?.toJSON()
 
             if _.size(sessions) is 0 # haven't gotten to this level yet, but might have completed others before
               courseProgress.started ||= false unless isOptional #no-op
@@ -179,7 +179,7 @@ module.exports =
               courseProgress[userID].started ||= false unless isOptional #no-op
               courseProgress[userID].completed = false unless isOptional
               courseProgress[levelID].started ||= false #no-op
-              courseProgress[levelID].completed = false unless isOptional
+              courseProgress[levelID].completed = false
               courseProgress[levelID][userID].started = false
               courseProgress[levelID][userID].completed = false
 

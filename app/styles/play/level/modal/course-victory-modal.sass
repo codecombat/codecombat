@@ -2,6 +2,9 @@
 @import "app/styles/bootstrap/variables"
 
 #course-victory-modal, #picoctf-victory-modal
+  
+  #loading-error, .loading-screen
+    margin-top: 160px
 
   //- Top-level modal container
   .modal-dialog
@@ -52,22 +55,6 @@
       background: #ba1d00
       padding: 6px 6px 3px
 
-  .modal-body
-    padding: 30px 20px 0
-    position: relative
-    top: 80px
-    margin-top: 80px
-    
-    @media screen and ( max-height: 650px )
-      padding-top: 10px
-
-    .well-parchment
-      margin-top: 20px
-    
-      @media screen and ( max-height: 675px )
-        margin-top: 0
-    
-  
 html.no-borderimage
   #course-victory-modal, #picoctf-victory-modal
     .modal-dialog

@@ -37,14 +37,14 @@ module.exports = class CoursesView extends RootView
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
-    'click .view-assessments-link': 'onClickViewAssessmentsLink'
+    'click .view-challenges-link': 'onClickViewChallengesLink'
 
   getTitle: -> return $.i18n.t('courses.students')
 
   initialize: ->
     @classCodeQueryVar = utils.getQueryVariable('_cc', false)
     @courseInstances = new CocoCollection([], { url: "/db/user/#{me.id}/course_instances", model: CourseInstance})
-    @courseInstances.comparator = (ci) -> return ci.get('classroomID') + utils.orderedCourseIDs.indexOf ci.get('courseID')
+    @courseInstances.comparator = (ci) -> return parseInt(ci.get('classroomID'), 16) + utils.orderedCourseIDs.indexOf ci.get('courseID')
     @listenToOnce @courseInstances, 'sync', @onCourseInstancesLoaded
     @supermodel.loadCollection(@courseInstances, { cache: false })
     @classrooms = new CocoCollection([], { url: "/db/classroom", model: Classroom})
@@ -236,7 +236,8 @@ module.exports = class CoursesView extends RootView
     window.tracker?.trackEvent 'Students View To Project Gallery View', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
     application.router.navigate("/students/project-gallery/#{courseInstanceID}", { trigger: true })
 
-  onClickViewAssessmentsLink: (e) ->
+  onClickViewChallengesLink: (e) ->
     classroomID = $(e.target).data('classroom-id')
+    courseID = $(e.target).data('course-id')
     window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
-    application.router.navigate("/students/assessments/#{classroomID}", { trigger: true })
+    application.router.navigate("/students/assessments/#{classroomID}##{courseID}", { trigger: true })

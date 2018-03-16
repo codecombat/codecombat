@@ -34,8 +34,8 @@ style.
     .print-btn.btn.btn-primary Print
 
   .certificate
-    // TODO: different certificate backgrounds per course
-    img.certificate-background(src="/images/pages/user/certificates/certificate-cs1.jpg")
+    if view.courseStats
+      img.certificate-background(src="/images/pages/user/certificates/certificate-" + view.course.acronym().toLowerCase() + ".png")
     .certificate-contents
       img.logo-img(src="/images/pages/base/logo.png")
       if view.supermodel.isLoading || !view.courseStats

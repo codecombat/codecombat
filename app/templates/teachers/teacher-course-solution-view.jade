@@ -6,11 +6,12 @@ block page_nav
     span.backlink
       a(href='/teachers/courses')
         |&lt; Back to Course Guides
-    .print
-      .btn.btn-md.btn-navy
-        a(href='javascript:window.print()')
-          span.glyphicon.glyphicon-print &#160;
-          |Print this guide
+    if view.paidTeacher || view.course.get('free')
+      .print
+        .btn.btn-md.btn-navy
+          a(href='javascript:window.print()')
+            span.glyphicon.glyphicon-print &#160;
+            |Print this guide
 
 block content
 
@@ -18,6 +19,8 @@ block content
     a(href="/")
       img#nav-logo(src="/images/pages/base/logo.png", title="CodeCombat - Learn how to code by playing a game", alt="CodeCombat")
     h2.text-center(data-i18n="teacher.teacher_account_required")
+  else if !view.paidTeacher && !view.course.get('free')
+    h2.text-center(data-i18n="courses.solutions_require_licenses")
   else
     .text-center
       img(src="http://direct.codecombat.com/images/pages/base/logo.png")
@@ -30,15 +33,16 @@ block content
     if view.levels
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
-        if level.get('assessment') && !me.get('verifiedTeacher')
+        if level.get('assessment') && !me.hasAssessments()
           - continue
         .small
           a(href="##{level.get('slug')}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
       br
 
       each level, index in view.levels.models
-        if level.get('assessment') && !me.get('verifiedTeacher')
+        if level.get('assessment') && !me.hasAssessments()
           - continue
+        - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
         h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
         i #{i18n(level.attributes, 'description')}
@@ -52,7 +56,7 @@ block content
           h4.text-center(data-i18n="common.default_code")
           if level.get('begin')
             pre
-              code= level.get('begin')
+              code(class=langClass)= level.get('begin')
           else
             .text-center
               i(data-i18n="common.coming_soon")
@@ -67,11 +71,39 @@ block content
           h4.text-center
             span= level.get('name')
             span.spl(data-i18n="common.solution")
-          if level.get('solution')
-            if level.get('assessment') === 'open-ended'
-              em(data-i18n="teacher.explain_open_ended")
-            pre
-              code= level.get('solution')
+          if level.get('assessment') === 'open-ended'
+            em(data-i18n="teacher.explain_open_ended")
+
+          - var solutions = view.levelSolutionsMap[level.get('original')] || [];
+          if solutions.length === 1
+            each solution in solutions
+              pre
+                code(class=langClass)= solution.source
+          else if solutions.length > 0
+            div(role='tabpanel')
+              ul.nav.nav-tabs(role='tablist')
+                each solution, index in solutions
+                  li.nav-item(class=(index === 0 ? 'active' : ''))
+                    - var target = level.get('original') + index;
+                    a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0))
+                      if index === 0
+                        strong.text-center(data-i18n="teacher.complete_solution")
+                      else
+                        .text-center
+                          span(data-i18n="teacher.partial_solution")
+                          =" "
+                          span= index
+                  if index < solutions.length - 1
+                    .tab-spacer
+                  else
+                    .tab-filler
+              .tab-content
+                each solution, index in solutions
+                  - var target = level.get('original') + index;
+                  div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
+                    div!= marked(solution.description || '')
+                    pre
+                      code(class=langClass)= solution.source
           else
             .text-center
               i(data-i18n="common.coming_soon")

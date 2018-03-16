@@ -68,7 +68,7 @@ GoalSchema = c.object {title: 'Goal', description: 'A goal that the player can a
   html: c.object {title: 'HTML', description: 'A jQuery selector and what its result should be'},
     selector: {type: 'string', description: 'jQuery selector to run on the user HTML, like "h1:first-child"'}
     valueChecks: c.array {title: 'Value checks', description: 'Logical checks on the resulting value for this goal to pass.', format: 'event-prereqs'}, EventPrereqSchema
-
+  concepts: c.array {title: 'Target Concepts', description: 'Which programming concepts this goal demonstrates.', uniqueItems: true, format: 'concepts-list'}, c.concept
 ResponseSchema = c.object {title: 'Dialogue Button', description: 'A button to be shown to the user with the dialogue.', required: ['text']},
   text: {title: 'Title', description: 'The text that will be on the button', 'default': 'Okay', type: 'string', maxLength: 30}
   channel: c.shortString(title: 'Channel', format: 'event-channel', description: 'Channel that this event will be broadcast over, like "level:set-playing".')
@@ -277,7 +277,7 @@ _.extend LevelSchema.properties,
   buildTime: {type: 'number', description: 'How long it has taken to build this level.'}
   practice: { type: 'boolean' }
   practiceThresholdMinutes: {type: 'number', description: 'Players with larger playtimes may be directed to a practice level.'}
-  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended'], description: 'Set to true if this is an assessment level.' }
+  assessment: { type: ['boolean', 'string'], enum: [true, false, 'open-ended', 'cumulative'], description: 'Set to true if this is an assessment level.' }
   assessmentPlacement: { type: 'string', enum: ['middle', 'end'] }
   
   primerLanguage: { type: 'string', enum: ['javascript', 'python'], description: 'Programming language taught by this level.' }

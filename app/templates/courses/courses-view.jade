@@ -51,7 +51,7 @@ block content
                     span.spr(data-i18n="courses.current_hero")
                   span.current-hero-name= view.hero.getHeroShortName()
                 button.change-hero-btn.btn.btn-lg.btn-forest
-                  span(data-i18n="courses.change_hero")
+                  span(data-i18n="play.change_hero")
 
             if view.classrooms.size()
               br
@@ -69,8 +69,6 @@ block content
                   h5(dir="auto")
                     span.spr= classroom.get('name')
                     span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
-                  if classroom.hasAssessments()
-                    a.spl.view-assessments-link(data-classroom-id=classroom.id, data-i18n="courses.view_assessments")
                   p
                     span(data-i18n="courses.teacher")
                     span :
@@ -88,6 +86,9 @@ block content
                           a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_levels")
                           if view.courseInstanceHasProject(courseInstance)
                             a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
+                          if classroom.hasAssessments({courseId: course.id})
+                            =" "
+                            a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course.id)
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 

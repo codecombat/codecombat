@@ -3,13 +3,14 @@ LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
+utils = require 'core/utils'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
 # Accessible via eg. `Level.isProject(levelObj)`
 LevelLib = {
   isProject: (level) ->
-    return level.shareable is 'project'
+    return level?.shareable is 'project'
 }
 
 module.exports = class Level extends CocoModel
@@ -268,8 +269,9 @@ module.exports = class Level extends CocoModel
         height = c.height if c.height? and c.height > height
     return {width: width, height: height}
 
-  isLadder: ->
-    return @get('type')?.indexOf('ladder') > -1
+  isLadder: -> return Level.isLadder(@attributes)
+    
+  @isLadder: (level) -> level.type?.indexOf('ladder') > -1
 
   isProject: -> Level.isProject(@attributes)
 
@@ -282,8 +284,7 @@ module.exports = class Level extends CocoModel
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
       try
-        # TODO: use preferredlanguage to localize source
-        solution.source = _.template(solution.source)(plan.context)
+        solution.source = _.template(solution?.source)(utils.i18n(plan, 'context'))
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
@@ -301,17 +302,18 @@ module.exports = class Level extends CocoModel
         console.error "Problem with template and solution comments for", @get('slug'), e
     sampleCode
 
-  thresholdForScore: ({type, score}) ->
-    return null unless levelScoreTypes = @get 'scoreTypes'
-    return null unless levelScoreType = _.find levelScoreTypes, type: type
-    #levelScoreType = type: type, thresholds: {bronze: 15, silver: 45, gold: 60}
+  @thresholdForScore: ({level, type, score}) ->
+    return null unless levelScoreTypes = level.scoreTypes
+    return null unless levelScoreType = _.find(levelScoreTypes, {type})
     for threshold in ['gold', 'silver', 'bronze']
       thresholdValue = levelScoreType.thresholds[threshold]
-      if levelScoreType.type in LevelConstants.lowerIsBetterScoreTypes
+      if type in LevelConstants.lowerIsBetterScoreTypes
         achieved = score <= thresholdValue
       else
         achieved = score >= thresholdValue
       if achieved
         return threshold
+        
+  isSummative: -> @get('assessment') in ['open-ended', 'cumulative']
 
 _.assign(Level, LevelLib)

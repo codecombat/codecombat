@@ -74,21 +74,21 @@ block content
         li
           - var faqURL = "/teachers/resources/faq";
           - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-          -     faqURL = "/teachers/resources/faq-nl-NL";
+          -     faqURL += "nl-NL";
+          - if (me.get('preferredLanguage') == 'he')
+          -     faqURL += "-he";
           a(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
         li
           - var gettingStartedURL = "/teachers/resources/getting-started";
-          //- if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
-          //-     gettingStartedURL = "/teachers/resources/getting-started-nl-NL";
           a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
         li
           - var quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     quickStartURL = "http://files.codecombat.com/docs/resources/StudentQuickStartGuide-zh-HANS.pdf";
+          -     quickStartURL = quickStartURL.replace(/\.pdf/, '-zh-HANS.pdf');
           a(href=quickStartURL)
             span(data-i18n="teacher.student_getting_started")
             span.spl [PDF]
@@ -100,19 +100,22 @@ block content
           p(data-i18n="teacher.progress_journal_desc")
         li
           a(href="/teachers/resources/ap-cs-principles")
-            span AP Computer Science Principles
-          p AP Computer Science Principles gives students a broad introduction to the power, impact, and possibilities of Computer Science. The course emphasizes computational thinking and problem solving while also teaching the basics of programming.
+            span(data-i18n="teacher.ap_cs_principles")
+          p(data-i18n="teacher.ap_cs_principles_desc")
 
       h4(data-i18n="teacher.cs1")
       ul
         li
-          a(href="/teachers/resources/cs1")
+          - var cs1URL = "/teachers/resources/cs1";
+          - if (me.get('preferredLanguage') == 'he')
+          -     cs1URL += '-he'
+          a(href=cs1URL)
             span(data-i18n="teacher.cs1_curriculum")
           p(data-i18n="teacher.cs1_curriculum_desc")
         li
           - var pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide.pdf";
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
-          -     pythonURL = "http://files.codecombat.com/docs/resources/Course1PythonSyntaxGuide-zh-HANS.pdf";
+          -     pythonURL = pythonURL.replace(/\.pdf/, '-zh-HANS.pdf');
           a(href=pythonURL)
             span(data-i18n="teacher.cs1_syntax_python")
             span.spl [PDF]
@@ -134,14 +137,20 @@ block content
             i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
           p(data-i18n="teacher.engineering_cycle_worksheet_desc")
         li
-          a(href="/teachers/resources/pair-programming")
+          - var pairProgrammingURL = "/teachers/resources/pair-programming";
+          - if (me.get('preferredLanguage') == 'he')
+          -     pairProgrammingURL += '-he'
+          a(href=pairProgrammingURL)
             span(data-i18n="teacher.cs1_pairprogramming")
           p(data-i18n="teacher.cs1_pairprogramming_desc")
 
       h4(data-i18n="teacher.gd1")
       ul
         li
-          a(href="/teachers/resources/gd1-5day")
+          - var gd1URL = "/teachers/resources/gd1-5day";
+          - if (me.get('preferredLanguage') == 'he')
+          -     gd1URL += '-he'
+          a(href=gd1URL)
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")
         li

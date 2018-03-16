@@ -181,7 +181,7 @@ block content
             span(data-i18n="teacher.try_refreshing")
 
 mixin breadcrumbs
-  .breadcrumbs
+  .breadcrumbs.rtl-allowed
     a(data-i18n='teacher.my_classes' href='/teachers/classes')
     span.spl.spr >
     //- TODO: Use .glyphicon-menu-right when we update bootstrap
@@ -319,7 +319,8 @@ mixin courseProgressTab
           span.small(data-i18n="teacher.level_not_started")
         .clearfix
     - var course = state.get('selectedCourse');
-    - var courseInstance = state.get('selectedCourseInstance')
+    - var courseInstance = state.get('selectedCourseInstance');
+    // TODO: Refactor this to use Vue components like in the assessments tab
     if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
         +courseOverview(course)
@@ -431,7 +432,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')) })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
   - var link = null;
   if dotClass
     //- TODO: these anchor links do not navigate to the anchor in destination page
@@ -449,7 +450,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     if progress.started
       - link = view.urls.playDevLevel({level: level, session: progress.session, course: state.get('selectedCourse')});
       - labelText = translate('teacher.view_project');
-      if progress.completed && !progress.session.get('published')
+      if progress.completed && !progress.session.published
         - labelText += " " + translate('teacher.unpublished')
       - dotClass = progress.completed ? 'navy' : (progress.started ? 'gold' : '');
     else
@@ -462,11 +463,14 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
 
   
   if link
-    a.progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link)
+    a.progress-dot.level-progress-dot.student-level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context) href=link, data-student-id=student.id, data-level-slug=level.get('slug'), data-level-progress=(progress.completed ? 'complete' : progress.started ? 'started' : 'not started'), data-course-id=view.state.get('selectedCourse').id)
       +progressDotLabel(labelText)
   else
     .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context))
       +progressDotLabel(labelText)
+  if topScore && topScore.thresholdAchieved
+    br
+    img.threshold-icon.over-progress-bubble(src="/images/pages/courses/star-" + topScore.thresholdAchieved + ".png")
 
 mixin progressDotLabel(label)
   .dot-label.text-center
@@ -513,57 +517,35 @@ mixin assessmentsTab
       span.spr :
       select.course-select
         each course in view.latestReleasedCourses
-          option(value=course.id selected=(course === state.get('selectedCourse')))
-            = i18n(course.attributes, 'name')
-            if !view.availableCourseMap[course.id]
-              = " " + translate('teacher.paren_new')
+          if view.classroom.hasAssessments({courseId: course.id})
+            option(value=course.id selected=(course === state.get('selectedCourse')))
+              = i18n(course.attributes, 'name')
+              if !view.availableCourseMap[course.id]
+                = " " + translate('teacher.paren_new')
     
     h4.m-b-2.m-t-3(data-i18n="teacher.progress_color_key")
     #progress-color-key-row.row.m-b-3
-      .col.col-md-2.col-xs-4
+      .col.col-md-2.col-xs-3
         .progress-dot.forest
         .key-text
           span.small(data-i18n='teacher.scucess')
         .clearfix
-      .col.col-md-2.col-xs-4
+      .col.col-md-2.col-xs-3
         .progress-dot.gold
         .key-text
           span.small(data-i18n='teacher.in_progress')
         .clearfix
-      .col.col-md-2.col-xs-4
+      .col.col-md-2.col-xs-3
         .progress-dot
         .key-text
           span.small(data-i18n='teacher.not_started')
         .clearfix
-    table.table.table-condensed.assessments-table
-      if view.classroom && state.get('progressData')
-        - var course = state.get('selectedCourse');
-        - var levels = []
-        if course
-          - levels = _.find(view.courseAssessmentPairs, function (pair) { return pair[0] === course })[1];
-        if levels.length === 0
-          h4(data-i18n="TODO") No assessment levels available for this course yet.
-        else
-          thead
-            th
-            each level in levels
-              if level.get('assessment') === 'open-ended'
-                if level.get('assessmentPlacement') === 'middle'
-                  th(data-i18n="teacher.mid_course")
-                else
-                  th(data-i18n="teacher.end_course")
-              else
-                - var concept = level.get('primaryConcepts') && level.get('primaryConcepts')[0]
-                th(data-i18n="concepts." + concept)
-          tbody
-            each student in state.get('students').models
-              tr
-                td.student-name
-                  = student.broadName()
-                each level in levels
-                  td
-                    - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-                    +studentLevelProgressDot(progress, level, null, student)
+      .col.col-md-2.col-xs-3
+        .progress-dot.pie
+        .key-text
+          span.small(data-i18n='TODO') Partially Complete
+        .clearfix
+    .assessments-table
 
 mixin enrollmentStatusTab
   // TODO: Have search input in all tabs

@@ -16,10 +16,12 @@ aceUtils = require 'core/aceUtils'
 module.exports = class TeacherStudentView extends RootView
   id: 'teacher-student-view'
   template: require 'templates/teachers/teacher-student-view'
-  # helper: helper
+
   events:
     'change #course-dropdown': 'onChangeCourseChart'
-
+    'change .course-select': 'onChangeCourseSelect'
+    'click .progress-dot a': 'onClickProgressDot'
+    'click .level-progress-dot': 'onClickStudentProgressDot'
 
   getTitle: -> return @user?.broadName()
 
@@ -36,7 +38,7 @@ module.exports = class TeacherStudentView extends RootView
 
     # TODO: fetch only necessary thang data (i.e. levels with student progress, via separate API instead of complicated data.project values)
     @levels = new Levels()
-    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
+    @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
     @urls = require('core/urls')
 
     @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
@@ -45,6 +47,7 @@ module.exports = class TeacherStudentView extends RootView
     super(options)
 
   onLoaded: ->
+    @selectedCourseId = @courses.first().id if @courses.loaded and @courses.length > 0 and not @selectedCourseId
     if @students.loaded and not @destroyed
       @user = _.find(@students.models, (s)=> s.id is @studentID)
       @updateLastPlayedInfo()
@@ -53,12 +56,26 @@ module.exports = class TeacherStudentView extends RootView
       @calculateStandardDev()
       @updateSolutions()
       @render()
-      window.location.href = window.location.href if window.location.hash # Navigate to anchor after loading
+      
+      # Navigate to anchor after loading complete, update selectedCourseId for progress dropdown
+      if window.location.hash
+        levelSlug = window.location.hash.substring(1)
+        @updateSelectedCourseProgress(levelSlug)
+        window.location.href = window.location.href 
+
     super()
 
   afterRender: ->
     super(arguments...)
-    $('.progress-dot, .btn-view-project-level').each (i, el) ->
+    @$('.progress-dot, .btn-view-project-level').each (i, el) ->
+      dot = $(el)
+      dot.tooltip({
+        html: true
+        container: dot
+      }).delegate '.tooltip', 'mousemove', ->
+        dot.tooltip('hide')
+
+    @$('.glyphicon-question-sign').each (i, el) ->
       dot = $(el)
       dot.tooltip({
         html: true
@@ -72,27 +89,50 @@ module.exports = class TeacherStudentView extends RootView
     oldEditor.destroy() for oldEditor in @aceEditors ? []
     @aceEditors = []
     aceEditors = @aceEditors
-    lang = @classroom.get('aceConfig')?.language or 'python'
+    classLang = @classroom.get('aceConfig')?.language or 'python'
     @$el.find('pre:has(code[class*="lang-"])').each ->
-      aceEditor = aceUtils.initializeACE(@, lang)
+      codeElem = $(@).first().children().first()
+      lang = mode for mode of aceUtils.aceEditModes when codeElem?.hasClass('lang-' + mode)
+      aceEditor = aceUtils.initializeACE(@, lang or classLang)
       aceEditors.push aceEditor
 
   updateSolutions: ->
     return unless @classroom?.loaded and @sessions?.loaded and @levels?.loaded
-    @levelSolutionMap = {}
-    for level in @levels.models
-      solution = level.getSolutions().find((s) => s.language is @classroom.get('aceConfig')?.language)
-      solution = level.getSolutions().find((s) => s.language is 'html') unless solution
-      @levelSolutionMap[level.get('original')] = solution.source if solution
+    @levelSolutionsMap = @levels.getSolutionsMap([@classroom.get('aceConfig')?.language, 'html'])
     @levelStudentCodeMap = {}
-    for session in @sessions.models
+    for session in @sessions.models when session.get('creator') is @studentID
+      # Normal level
       @levelStudentCodeMap[session.get('level').original] = session.get('code')?['hero-placeholder']?['plan']
+      # Arena level
+      @levelStudentCodeMap[session.get('level').original] ?= session.get('code')?['hero-placeholder-1']?['plan']
+
+  updateSelectedCourseProgress: (levelSlug) ->
+    return unless levelSlug
+    @selectedCourseId = @classroom.get('courses').find((c) => c.levels.find((l) => l.slug is levelSlug))?._id
+    return unless @selectedCourseId
+    @render?()
+
+  onClickProgressDot: (e) ->
+    @updateSelectedCourseProgress(@$(e.currentTarget).data('level-slug'))
 
   onChangeCourseChart: (e)->
     if (e)
       selected = ('#visualisation-'+((e.currentTarget).value))
       $("[id|='visualisation']").hide()
       $(selected).show()
+
+  onChangeCourseSelect: (e) ->
+    @selectedCourseId = $(e.currentTarget).val()
+    @render?()
+    window.tracker?.trackEvent 'Change Teacher Student Code Review Course', {category: 'Teachers', classroomId: @classroom.id, studentId: @studentID, @selectedCourseId}
+
+  onClickStudentProgressDot: (e) ->
+    levelSlug = $(e.currentTarget).data('level-slug')
+    levelProgress = $(e.currentTarget).data('level-progress')
+    window.tracker?.trackEvent 'Click Teacher Student Code Review Progress Dot', {category: 'Teachers', classroomId: @classroom.id, courseId: @selectedCourseId, studentId: @studentID, levelSlug, levelProgress}
+
+  questionMarkHtml: (i18nBlurb) ->
+    "<div style='text-align: left; width: 400px; font-family:Open Sans, sans-serif;'>" + $.i18n.t(i18nBlurb) + "</div>"
 
   calculateStandardDev: ->
     return unless @courses.loaded and @levels.loaded and @sessions?.loaded and @levelData
@@ -298,13 +338,12 @@ module.exports = class TeacherStudentView extends RootView
     for session in @sessions.models when session.get('creator') is @studentID
       @levelSessionMap[session.get('level').original] = session
 
-
     # Create mapping of level to student progress
     @levelProgressMap = {}
     for versionedCourse in @classroom.getSortedCourses() or []
       for versionedLevel in versionedCourse.levels
         session = @levelSessionMap[versionedLevel.original]
-        if session
+        if session?.get('creator') is @studentID
           if session.get('state')?.complete
             @levelProgressMap[versionedLevel.original] = 'complete'
           else

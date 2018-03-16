@@ -58,7 +58,7 @@ module.exports =
     if session
       return res.send(session.toObject({req: req}))
 
-    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty']
+    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']
     if sessionQuery.team and level.get('slug') in mirrorMatches
       # Find their other session for this, so that if it exists, we can initialize the new team's session with the mirror code.
       otherTeam = if sessionQuery.team is 'humans' then 'ogres' else 'humans'
@@ -84,8 +84,9 @@ module.exports =
     if code
       attrs.code = code
 
-    if req.user.isAdmin()
-      null  # Admins can play any level, even if it's not in a course yet (example: level editor)
+    if not req.user.isAnonymous() and level.get('slug') in ['treasure-games', 'escort-duty', 'tesla-tesoro', 'elemental-wars']
+      console.log "Allowing session creation for #{level.get('slug')} outside of any course"
+      attrs.isForClassroom = true
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
@@ -155,7 +156,7 @@ module.exports =
       if requiresSubscription and not canPlayAnyway
         throw new errors.PaymentRequired('This level requires a subscription to play')
 
-    attrs.isForClassroom = course?
+    attrs.isForClassroom ?= course?
     session = new LevelSession(attrs)
     if classroom # Potentially set intercom trigger flag on teacher
       teacher = yield User.findOne({ _id: classroom.get('ownerID') })
