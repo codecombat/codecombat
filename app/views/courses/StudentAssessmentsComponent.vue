@@ -59,6 +59,7 @@ module.exports = Vue.extend
     levels: null
     levelsByCourse: null
     sessionMap: {}
+    levelMap: {}
     playLevelUrlMap: {}
     levelUnlockedMap: {}
     inCourses: {}
@@ -76,6 +77,8 @@ module.exports = Vue.extend
         api.classrooms.get({ @classroomID }, { data: {memberID: me.id} }).then((@classroom) =>)
       ]).then(=>
         @allLevels = _.flatten(_.map(@classroom.courses, (course) => course.levels))
+        for level in @allLevels
+          @levelMap[level.original] = level
         @levels = _.flatten(_.map(@classroom.courses, (course) => _.filter(course.levels, 'assessment')))
         @inCourses = {}
         for courseInstance in @courseInstances
@@ -109,6 +112,10 @@ module.exports = Vue.extend
     createSessionMap: ->
       # Map level original to levelSession
       _.reduce(@levelSessions, (map, session) =>
+        level = @levelMap[session.level.original]
+        defaultLanguage = level.primerLanguage or @classroom.aceConfig.language
+        if session.codeLanguage isnt defaultLanguage
+          return map
         map[session.level.original] = session
         return map
       , {})
