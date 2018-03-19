@@ -65,10 +65,9 @@ levelPropsToPick = [
   'position'
 ]
 
-ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin, includeAssessments}) ->
+ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin}) ->
   # Helper function for generating the latest version of courses
   isAdmin ?= false
-  includeAssessments ?= false
   query = {}
   query = {releasePhase: 'released'} unless isAdmin
   courses = yield Course.find(query)
@@ -86,16 +85,14 @@ ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin, includeAssessme
     levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
     for level in levels
       continue if classLanguage and level.primerLanguage is classLanguage
-      continue if level.assessment and not includeAssessments
       levelData = { original: mongoose.Types.ObjectId(level.original) }
       _.extend(levelData, _.pick(level, levelPropsToPick))
       courseData.levels.push(levelData)
     coursesData.push(courseData)
   coursesData
 
-ClassroomSchema.methods.generateCourseData = co.wrap ({courseId, includeAssessments}) ->
+ClassroomSchema.methods.generateCourseData = co.wrap ({courseId}) ->
   # Helper function for generating the latest version of a course
-  includeAssessments ?= false
   course = yield Course.findById(courseId)
   campaign = yield Campaign.findById({_id: course.get('campaignID')})
   classLanguage = @get('aceConfig')?.language
@@ -103,16 +100,14 @@ ClassroomSchema.methods.generateCourseData = co.wrap ({courseId, includeAssessme
   levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
   for level in levels
     continue if classLanguage and level.primerLanguage is classLanguage
-    continue if level.assessment and not includeAssessments
     levelData = { original: mongoose.Types.ObjectId(level.original) }
     _.extend(levelData, _.pick(level, levelPropsToPick))
     courseData.levels.push(levelData)
   courseData
 
-ClassroomSchema.methods.setUpdatedCourse = co.wrap ({courseId, includeAssessments}) ->
+ClassroomSchema.methods.setUpdatedCourse = co.wrap ({courseId}) ->
   # Update existing or add missing course
-  includeAssessments ?= false
-  latestCourse = yield @generateCourseData({courseId, includeAssessments})
+  latestCourse = yield @generateCourseData({courseId})
   updatedCourses = _.clone(@get('courses') or [])
   existingIndex = _.findIndex(updatedCourses, (c) -> c._id.equals(courseId))
   oldCourseCount = updatedCourses.length
@@ -128,12 +123,11 @@ ClassroomSchema.methods.setUpdatedCourse = co.wrap ({courseId, includeAssessment
   @set('courses', updatedCourses)
   {oldCourseCount, newCourseCount, oldLevelCount, newLevelCount}
 
-ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly, includeAssessments}) ->
+ClassroomSchema.methods.setUpdatedCourses = co.wrap ({isAdmin, addNewCoursesOnly}) ->
   # Add missing courses, and update existing courses if addNewCoursesOnly=false
   isAdmin ?= false
   addNewCoursesOnly ?= true
-  includeAssessments ?= false
-  coursesData = yield @generateCoursesData({isAdmin, includeAssessments})
+  coursesData = yield @generateCoursesData({isAdmin})
   if addNewCoursesOnly
     newestCoursesData = coursesData
     coursesData = @get('courses') or []
