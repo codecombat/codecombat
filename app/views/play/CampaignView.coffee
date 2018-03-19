@@ -343,6 +343,8 @@ module.exports = class CampaignView extends RootView
       defaultLanguage = @classroom.get('aceConfig').language
       for session in @sessions.slice()
         classroomLevel = classroomLevelMap[session.get('level').original]
+        if not classroomLevel
+          continue
         expectedLanguage = classroomLevel.get('primerLanguage') or defaultLanguage
         if session.get('codeLanguage') isnt expectedLanguage
           @sessions.remove(session)
