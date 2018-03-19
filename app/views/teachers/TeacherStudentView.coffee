@@ -22,8 +22,16 @@ module.exports = class TeacherStudentView extends RootView
     'change .course-select': 'onChangeCourseSelect'
     'click .progress-dot a': 'onClickProgressDot'
     'click .level-progress-dot': 'onClickStudentProgressDot'
+    'click .nav-link': 'onClickSolutionTab'
 
   getTitle: -> return @user?.broadName()
+  
+  onClickSolutionTab: (e) ->
+    link = $(e.target).closest('a')
+    levelSlug = link.data('level-slug')
+    solutionIndex = link.data('solution-index')
+    return if _.isUndefined(solutionIndex) # no solution index is provided when showing the first tab 
+    tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
     @classroom = new Classroom({_id: classroomID})

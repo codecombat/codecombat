@@ -285,7 +285,7 @@ block content
                             each solution, index in solutions
                               li.nav-item(class=(index === 0 ? 'active' : ''))
                                 - var target = level.get('original') + index;
-                                a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0))
+                                a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
                                   if index === 0
                                     strong.text-center(data-i18n="teacher.complete_solution")
                                   else
