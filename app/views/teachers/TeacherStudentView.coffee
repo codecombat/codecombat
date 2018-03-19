@@ -30,7 +30,6 @@ module.exports = class TeacherStudentView extends RootView
     link = $(e.target).closest('a')
     levelSlug = link.data('level-slug')
     solutionIndex = link.data('solution-index')
-    return if _.isUndefined(solutionIndex) # no solution index is provided when showing the first tab 
     tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
