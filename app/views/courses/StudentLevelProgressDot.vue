@@ -1,5 +1,5 @@
 <template lang="jade">
-  a.student-level-progress-dot-link(
+  a.student-level-progress-dot-link.student-level-progress-dot(
     :href="link",
     data-html='true',
     :data-title='titleTemplate',
@@ -15,7 +15,7 @@
       color="#20572B",
       :opacity="1"
     )
-    span.progress-dot.level-progress-dot.student-level-progress-dot(
+    span.progress-dot.level-progress-dot(
       :class="dotClass",
       v-else
     )
