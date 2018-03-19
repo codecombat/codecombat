@@ -52,6 +52,19 @@ ClassroomSchema.methods.isOwner = (userID) ->
 ClassroomSchema.methods.isMember = (userID) ->
   return _.any @get('members') or [], (memberID) -> userID.equals(memberID)
 
+levelPropsToPick = [
+  'type',
+  'slug',
+  'name',
+  'assessment',
+  'assessmentPlacement'
+  'practice',
+  'practiceThresholdMinutes',
+  'primerLanguage',
+  'shareable',
+  'position'
+]
+
 ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin, includeAssessments}) ->
   # Helper function for generating the latest version of courses
   isAdmin ?= false
@@ -66,26 +79,16 @@ ClassroomSchema.methods.generateCoursesData = co.wrap ({isAdmin, includeAssessme
     campaignMap[campaign.id] = campaign
   classLanguage = @get('aceConfig')?.language
   coursesData = []
+  updated = new Date().toISOString()
   for course in courses
-    courseData = { _id: course._id, levels: [] }
+    courseData = { _id: course._id, levels: [], updated }
     campaign = campaignMap[course.get('campaignID').toString()]
     levels = _.sortBy(_.values(campaign.get('levels')), 'campaignIndex')
     for level in levels
       continue if classLanguage and level.primerLanguage is classLanguage
       continue if level.assessment and not includeAssessments
       levelData = { original: mongoose.Types.ObjectId(level.original) }
-      _.extend(levelData, _.pick(level,
-        'type',
-        'slug',
-        'name',
-        'assessment',
-        'assessmentPlacement'
-        'practice',
-        'practiceThresholdMinutes',
-        'primerLanguage',
-        'shareable',
-        'position'
-      ))
+      _.extend(levelData, _.pick(level, levelPropsToPick))
       courseData.levels.push(levelData)
     coursesData.push(courseData)
   coursesData
@@ -102,7 +105,7 @@ ClassroomSchema.methods.generateCourseData = co.wrap ({courseId, includeAssessme
     continue if classLanguage and level.primerLanguage is classLanguage
     continue if level.assessment and not includeAssessments
     levelData = { original: mongoose.Types.ObjectId(level.original) }
-    _.extend(levelData, _.pick(level, 'type', 'slug', 'name', 'practice', 'practiceThresholdMinutes', 'primerLanguage', 'shareable'))
+    _.extend(levelData, _.pick(level, levelPropsToPick))
     courseData.levels.push(levelData)
   courseData
 
