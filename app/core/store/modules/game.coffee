@@ -11,7 +11,7 @@ module.exports = {
     level: emptyLevel
   }
   mutations: {
-    updateLevel: (state, updates) ->
-      _.assign(state.level, $.extend(true, {}, updates))
+    setLevel: (state, updates) ->
+      state.level = $.extend(true, {}, updates)
   }
 }
