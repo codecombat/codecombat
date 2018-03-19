@@ -305,6 +305,9 @@ module.exports = class TeacherClassView extends RootView
   onClickNavTabLink: (e) ->
     e.preventDefault()
     hash = $(e.target).closest('a').attr('href')
+    if hash isnt window.location.hash
+      tab = hash.slice(1)
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab }, ['Mixpanel']
     @updateHash(hash)
     @state.set activeTab: hash
 
