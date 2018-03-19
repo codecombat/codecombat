@@ -58,7 +58,16 @@ module.exports = class CourseVictoryModal extends ModalView
         @course = new Course()
         @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID)
 
-    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', category: 'Students', levelSlug: @level.get('slug'), []
+    properties = {
+      category: 'Students',
+      levelSlug: @level.get('slug')
+    }
+    concepts = @level.get('goals').filter((g) => g.concepts).map((g) => g.id)
+    if concepts.length
+      goalStates = @session.get('state').goalStates
+      succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
+      _.assign(properties, {concepts, succeededConcepts})
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
     if @level.isProject()
       @galleryURL = urls.projectGallery({ @courseInstanceID })
 
