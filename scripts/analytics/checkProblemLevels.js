@@ -410,7 +410,7 @@ function describeLevel(level, messagesSent, recovery) {
       oldPlayers += statsByDay[statsByDay.length - 1 - daysToCheck].aggregateStarted;
     }
   }
-  logLines.unshift(`*${messagesSent + 1}. ${endDayStr} ${level.slug}*${recovery ? ' (recovery)' : ''}, with ${nowPlayers} players in the past ${daysToCheck} days (${oldPlayers} in previous window) - https://direct.codecombat.com/editor/level/${level.slug} - https://direct.codecombat.com/editor/campaign/${level.campaignSlug}/${level.slug}`);
+  logLines.unshift(`*${messagesSent + 1}. ${endDayStr} ${level.slug}*${recovery ? ' (recovery)' : ''}, with ${nowPlayers} players in the past ${daysToCheck} days (${oldPlayers} in previous window) - https://direct.codecombat.com/editor/level/${level.slug} - https://direct.codecombat.com/editor/campaign/${level.campaignSlug}#${level.slug}`);
   return logLines;
 }
 

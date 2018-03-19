@@ -59,8 +59,6 @@ block content
                       - var campaign = view.campaigns.get(course.get('campaignID'))
                       if campaign && view.campaignLevelNumberMap[campaign.id]
                         each level, levelIndex in campaign.getLevels().models
-                          if level.get('assessment') && !me.hasAssessments()
-                            - continue
                           option(value=level.get('slug'))
                             if level.get('assessment')
                               if level.get('assessment') === 'cumulative'
