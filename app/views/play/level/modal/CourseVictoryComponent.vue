@@ -180,6 +180,15 @@
             []
         )
       onReplayLevel: ->
+        window.tracker?.trackEvent(
+                'Play Level Victory Modal Replay',
+                {
+                  category: 'Students'
+                  levelSlug: @level.slug
+                  nextLevelSlug: @nextLevel.slug
+                },
+                []
+        )
         document.location.reload()
 
   }
