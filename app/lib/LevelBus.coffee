@@ -200,7 +200,10 @@ module.exports = class LevelBus extends Bus
 
     changed = false
     for goalKey, goalState of newGoalStates
-      continue if oldGoalStates[goalKey]?.status is 'success' and goalState.status isnt 'success' # don't undo success, this property is for keying off achievements
+      unless me.isStudent()
+        # don't undo success, this property is for keying off achievements for home users
+        # do undo for students, though, so this property can be used in teacher assessment tabs
+        continue if oldGoalStates[goalKey]?.status is 'success' and goalState.status isnt 'success'
       continue if utils.kindaEqual state.goalStates?[goalKey], goalState # Only save when goals really change
       changed = true
       oldGoalStates[goalKey] = _.cloneDeep newGoalStates[goalKey]

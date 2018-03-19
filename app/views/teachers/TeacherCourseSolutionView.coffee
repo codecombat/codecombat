@@ -13,6 +13,15 @@ module.exports = class TeacherCourseSolutionView extends RootView
   id: 'teacher-course-solution-view'
   template: require 'templates/teachers/teacher-course-solution-view'
 
+  events:
+    'click .nav-link': 'onClickSolutionTab'
+  
+  onClickSolutionTab: (e) ->
+    link = $(e.target).closest('a')
+    levelSlug = link.data('level-slug')
+    solutionIndex = link.data('solution-index')
+    tracker.trackEvent('Click Teacher Course Solution Tab', {levelSlug, solutionIndex})
+
   getTitle: -> $.i18n.t('teacher.course_solution')
 
   initialize: (options, @courseID, @language) ->

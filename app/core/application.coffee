@@ -61,6 +61,7 @@ Application = {
     )
     store.commit('me/updateUser', me.attributes)
     store.commit('updateFeatures', features)
+    @store = store
 
     @isIPadApp = webkit?.messageHandlers? and navigator.userAgent?.indexOf('CodeCombat-iPad') isnt -1
     $('body').addClass 'ipad' if @isIPadApp

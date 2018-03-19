@@ -24,22 +24,15 @@
         :stroke-width="strokeWidth / 5"
         :opacity=opacity
     />
-    <text
-        x=0 y=0
-        text-anchor=middle
-        alignment-baseline=middle
-        :style=labelStyle()
-    >
-      {{label || _label}}
-    </text>
-    <text
-        x=0 :y="width / 10"
-        text-anchor=middle
-        alignment-baseline=middle
-        :style=labelStyle(true)
-    >
-      {{labelSmall}}
-    </text>
+    <circle
+      v-if=!circle
+      cx=0
+      cy=0
+      :r="(width / 2) - 0.1"
+      :stroke=color
+      :stroke-width="0.2"
+      :opacity=opacity
+    />
   </svg>
 </template>
 
@@ -61,8 +54,6 @@
           return v > 0 && v <= 10;
         }
       },
-      label: String,
-      labelSmall: String,
       color: {
         type: String,
         default: '#40a070'
@@ -88,10 +79,6 @@
         var r = this.percent / 100;
         return isFinite(this.ratio) ? this.ratio : r;
       },
-      _label: function _label() {
-        var p = (this._ratio * 100).toFixed(0);
-        return p + ' %';
-      },
       arc: function arc() {
         var r = this._ratio; // short hand
         var deg = 2 * Math.PI * r;
@@ -110,12 +97,6 @@
       },
       path: function path() {
         return 'M 0 -1 ' + this.arc;
-      }
-    },
-    methods: {
-      labelStyle: function labelStyle(small) {
-        var size = small ? this.width / 13 : this.width / 10;
-        return 'font-size:' + size + 'pt';
       }
     }
   });

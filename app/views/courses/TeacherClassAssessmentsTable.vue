@@ -156,11 +156,11 @@
       text-overflow: ellipsis
       overflow: hidden
     .table-row.lighter .table-cell.combo-cell
-      background: #c9dbe6
+      background: #e0eaf0
     .table-row.darker .table-cell.combo-cell
-      background: #b6c8d4
+      background: #cedee8
     .table-header.combo-cell
-      background: #b6c8d4
+      background: #cedee8
     .table-cell.name
       padding-left: 10px
       padding-top: 5px

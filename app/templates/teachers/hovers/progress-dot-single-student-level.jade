@@ -12,7 +12,10 @@ mixin timePlayed()
 mixin header()
   strong.small-details.nowrap
     if assessment
-      span(data-i18n="courses.challenge")
+      if assessment === 'cumulative'
+        span(data-i18n="play_level.combo_challenge")
+      else
+        span(data-i18n="play_level.concept_challenge")
     else
       span(data-i18n="teacher.level_label")
     =" "
@@ -27,7 +30,7 @@ mixin assessmentLines()
       span(data-i18n="teacher.concepts_used")
     for goal in conceptGoals
       .small-details
-        if goalStates && goalStates[goal.id].status === 'success'
+        if goalStates && goalStates[goal.id] && goalStates[goal.id].status === 'success'
           i.glyphicon.glyphicon-ok
         else
           i.glyphicon.glyphicon-remove

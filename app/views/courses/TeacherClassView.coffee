@@ -251,7 +251,6 @@ module.exports = class TeacherClassView extends RootView
       new PieChart({
         el: @$el.find('.pie')[0]
         propsData: {
-          label: ' ',
           percent: 100*2/3,
           'strokeWidth': 10,
           color: "#20572B",
@@ -306,6 +305,9 @@ module.exports = class TeacherClassView extends RootView
   onClickNavTabLink: (e) ->
     e.preventDefault()
     hash = $(e.target).closest('a').attr('href')
+    if hash isnt window.location.hash
+      tab = hash.slice(1)
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab }, ['Mixpanel']
     @updateHash(hash)
     @state.set activeTab: hash
 

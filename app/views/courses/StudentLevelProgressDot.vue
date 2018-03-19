@@ -1,5 +1,5 @@
 <template lang="jade">
-  a.student-level-progress-dot-link(
+  a.student-level-progress-dot-link.student-level-progress-dot(
     :href="link",
     data-html='true',
     :data-title='titleTemplate',
@@ -12,11 +12,10 @@
       v-if="level.assessment === 'cumulative' && percentConceptsCompleted",
       :percent='percentConceptsCompleted',
       :stroke-width="10",
-      label=" ",
       color="#20572B",
       :opacity="1"
     )
-    span.progress-dot.level-progress-dot.student-level-progress-dot(
+    span.progress-dot.level-progress-dot(
       :class="dotClass",
       v-else
     )
@@ -111,7 +110,7 @@
       conceptGoals: ->
         return (@level.goals || []).filter((g) => g.concepts?.length)
       conceptGoalsCompleted: ->
-        return @conceptGoals.filter((g) => @progress.session?.state.goalStates?[g.id].status is 'success').length
+        return @conceptGoals.filter((g) => @progress.session?.state.goalStates?[g.id]?.status is 'success').length
       percentConceptsCompleted: ->
         res = 100 * @conceptGoalsCompleted / @conceptGoals.length
         return if _.isNaN(res) then 0 else res

@@ -261,10 +261,11 @@ block content
                         if level.get('assessment')
                           =" "
                           span (
-                          span(data-i18n="teacher.open_ended_level")
+                          if level.get('assessment') === 'cumulative'
+                            span(data-i18n="play_level.combo_challenge")
+                          else
+                            span(data-i18n="play_level.concept_challenge")
                           span )
-                          =" "
-                          span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_challenge_blurb"))
                         if level.isProject()
                           =" "
                           span (
@@ -284,7 +285,7 @@ block content
                             each solution, index in solutions
                               li.nav-item(class=(index === 0 ? 'active' : ''))
                                 - var target = level.get('original') + index;
-                                a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0))
+                                a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
                                   if index === 0
                                     strong.text-center(data-i18n="teacher.complete_solution")
                                   else
@@ -339,7 +340,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   - var link = null;
   - var levelSlugNav = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]
-    - context.session = view.levelSessionMap[level.get('original')];
+    - context.session = view.levelSessionMap[level.get('original')].toJSON();
     if dotClass
       - levelSlugNav = level.get('slug')
       - link = "#" + levelSlugNav;

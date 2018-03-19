@@ -9,7 +9,22 @@
       .container-fluid
         .row
           .col-sm-12
-            div.clearfix.well.well-sm.well-parchment(v-if="assessmentNext")
+            div.clearfix.well.well-sm.well-parchment.combo-results(v-if="level.assessment === 'cumulative'")
+              div.text-center.text-uppercase.pie-container
+                pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1")
+                h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
+              div
+                h3.text-uppercase {{ $t('play_level.combo_challenge_complete') }}
+                div(v-if="allConceptsUsed")
+                  | {{ $t('play_level.combo_all_concepts_used') }}
+                div(v-else)
+                  | {{ $t('play_level.combo_not_all_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
+
+            div.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
+              h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
+              div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
+                  
+            div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
               img.lock-banner(src="/images/pages/play/modal/lock_banner.png")
               h5.text-uppercase
                 span(v-if="nextAssessment.assessment === 'cumulative'")
@@ -20,40 +35,25 @@
                 | {{ $dbt(nextAssessment, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
                 
-            div.clearfix.well.well-sm.well-parchment.combo-results(v-else-if="level.assessment === 'cumulative'")
-              div.text-center.text-uppercase.pie-container
-                pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", label=" ", color="green", :opacity="1")
-                h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
-              div
-                h3.text-uppercase {{ $t('play_level.combo_challenge_complete') }}
-                div(v-if="allConceptsUsed")
-                  | {{ $t('play_level.combo_all_concepts_used') }}
-                div(v-else)
-                  | {{ $t('play_level.combo_not_all_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
-              
-                
-            div.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
-              h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
-              div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
-                
             div.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
                 | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
               div(v-if="level.victory") {{ $dbt(level.victory, 'body') }}
               
-        .row(v-if="assessmentNext")
+        .row(v-if="level.assessment === 'cumulative'")
+          .col-sm-5.col-sm-offset-7
+            button#replay-level-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(
+            @click="onReplayLevel"
+            )
+              | {{ $t('play_level.replay_level') }}
+        .row(v-else-if="assessmentNext && !level.assessment")
           .col-sm-5.col-sm-offset-7
             a#start-challenge-btn.btn.btn-illustrated.btn-success.btn-block.btn-lg.text-uppercase(
               @click="onStartChallenge",
               :href="challengeLink"
             )
              | {{ $t('play_level.start_challenge') }}
-        .row(v-else-if="level.assessment === 'cumulative'")
-          .col-sm-5.col-sm-offset-7
-            button#replay-level-btn.btn.btn-illustrated.btn-default.btn-block.btn-lg.text-uppercase(
-              @click="onReplayLevel"
-            )
-              | {{ $t('play_level.replay_level') }}
+        
             
             
         .row
@@ -107,7 +107,11 @@
           link += "&codeLanguage=" + @level.primerLanguage if @level.primerLanguage
         return link
       mapLink: ->
-        return "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
+        if me.isSessionless()
+          link = "/teachers/courses"
+        else
+          link = "/play/#{@course.campaignID}?course-instance=#{@courseInstanceID}"
+        return link
       nextLevelLink: ->
         if me.isSessionless()
           link = "/play/level/#{@nextLevel.slug}?course=#{@course._id}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
@@ -121,10 +125,10 @@
         else
           { 'btn-success': true }
       headerImage: ->
-        if @assessmentNext
-          return "/images/pages/play/modal/challenge_unlocked.png"
-        else if @level.assessment
+        if @level.assessment
           return "/images/pages/play/modal/challenge_complete.png"
+        else if @assessmentNext
+          return "/images/pages/play/modal/challenge_unlocked.png"
         else
           return "/images/pages/play/modal/level_complete.png"
       assessmentNext: ->

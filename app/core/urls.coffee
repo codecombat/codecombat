@@ -21,7 +21,9 @@ module.exports =
     url
 
   courseWorldMap: ({course, courseInstance}) ->
-    "/play/#{course.get('campaignID')}?course-instance=#{courseInstance.id}"
+    course = course.attributes || course
+    courseInstance = courseInstance.attributes || courseInstance
+    "/play/#{course.campaignID}?course-instance=#{courseInstance._id}"
 
   courseProjectGallery: ({courseInstance}) ->
     "/students/project-gallery/#{courseInstance.id}"

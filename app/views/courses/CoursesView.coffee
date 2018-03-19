@@ -20,6 +20,7 @@ NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
+store = require 'core/store'
 
 # TODO: Test everything
 
@@ -53,9 +54,8 @@ module.exports = class CoursesView extends RootView
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
-    @courses = new Courses()
-    @courses.fetch()
-    @supermodel.trackCollection(@courses)
+    @supermodel.addPromiseResource(store.dispatch('courses/fetch'))
+    @store = store
     @originalLevelMap = {}
     @urls = require('core/urls')
 
@@ -225,7 +225,7 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
     window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
-    course = @courses.get(courseID)
+    course = store.state.courses.byId[courseID]
     courseInstance = @courseInstances.get(courseInstanceID)
     levelsUrl = @urls.courseWorldMap({course, courseInstance})
     application.router.navigate(levelsUrl, { trigger: true })
