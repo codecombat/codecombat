@@ -174,6 +174,16 @@ module.exports = class LevelLoadingView extends CocoView
       @$loadingDetails.css 'top', -@$loadingDetails.outerHeight(true)
     @$el.removeClass 'preview-screen'
     $('#canvas-wrapper').removeClass 'preview-overlay'
+    if @unveilPreviewTime
+      levelSlug = @level?.get('slug') or @options.level?.get('slug')
+      timespent = (new Date().getTime() - @unveilPreviewTime) / 1000
+      window.tracker?.trackEvent 'Finish Viewing Intro', {
+        category: 'Play Level'
+        label: 'level loading'
+        level: levelSlug
+        levelID: levelSlug
+        timespent
+      }
 
   unveilLoadingPreview: (duration) ->
     # Move the loading details screen over the code editor to preview the level.
@@ -188,6 +198,7 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.find('.progress-or-start-container').addClass('intro-footer')
       @$el.find('#tip-wrapper').remove()
       _.delay @unveilIntro, duration
+    @unveilPreviewTime = new Date().getTime()
 
   resize: ->
     maxHeight = $('#page-container').outerHeight(true)
