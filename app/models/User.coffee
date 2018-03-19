@@ -30,7 +30,6 @@ module.exports = class User extends CocoModel
   isAdmin: -> 'admin' in @get('permissions', true)
   isArtisan: -> 'artisan' in @get('permissions', true)
   isInGodMode: -> 'godmode' in @get('permissions', true)
-  hasAssessments: -> @isAdmin() or 'assessments' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)
   isSmokeTestUser: -> User.isSmokeTestUser(@attributes)
   displayName: -> @get('name', true)
