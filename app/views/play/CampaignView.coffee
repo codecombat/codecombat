@@ -349,10 +349,11 @@ module.exports = class CampaignView extends RootView
         if session.get('codeLanguage') isnt expectedLanguage
           @sessions.remove(session)
           continue
-    for session in @sessions.models
-      unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
-        @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
-      @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
+    unless @editorMode
+      for session in @sessions.models
+        unless @levelStatusMap[session.get('levelID')] is 'complete'  # Don't overwrite a complete session with an incomplete one
+          @levelStatusMap[session.get('levelID')] = if session.get('state')?.complete then 'complete' else 'started'
+        @levelDifficultyMap[session.get('levelID')] = session.get('state').difficulty if session.get('state')?.difficulty
 
     @buildLevelScoreMap() unless @editorMode
     # HoC: Fake us up a "mode" for HeroVictoryModal to return hero without levels realizing they're in a copycat campaign, or clear it if we started playing.
