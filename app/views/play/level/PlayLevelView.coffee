@@ -92,6 +92,7 @@ module.exports = class PlayLevelView extends RootView
     'playback:cinematic-playback-ended': 'onCinematicPlaybackEnded'
     'ipad:memory-warning': 'onIPadMemoryWarning'
     'store:item-purchased': 'onItemPurchased'
+    'tome:manual-cast': 'onRunCode'
 
   events:
     'click #level-done-button': 'onDonePressed'
@@ -330,6 +331,10 @@ module.exports = class PlayLevelView extends RootView
 
   insertSubviews: ->
     @hintsState = new HintsState({ hidden: true }, { @session, @level, @supermodel })
+    store.commit('game/setHintsVisible', false)
+    @hintsState.on('change:hidden', (hintsState, newHiddenValue) ->
+      store.commit('game/setHintsVisible', !newHiddenValue)
+    )
     @insertSubView @tome = new TomeView { @levelID, @session, @otherSession, playLevelView: @, thangs: @world?.thangs ? [], @supermodel, @level, @observing, @courseID, @courseInstanceID, @god, @hintsState }
     @insertSubView new LevelPlaybackView session: @session, level: @level unless @level.isType('web-dev')
     @insertSubView new GoalsView {level: @level, session: @session}
@@ -367,6 +372,8 @@ module.exports = class PlayLevelView extends RootView
 
   onSessionLoaded: (e) ->
     console.log 'PlayLevelView: loaded session', e.session
+    store.commit('game/setTimesCodeRun', e.session.get('timesCodeRun') or 0)
+    store.commit('game/setTimesAutocompleteUsed', e.session.get('timesAutocompleteUsed') or 0)
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
@@ -806,3 +813,6 @@ module.exports = class PlayLevelView extends RootView
 
   getLoadTrackingTag: () ->
     @level?.get 'slug'
+
+  onRunCode: ->
+    store.commit('game/incrementTimesCodeRun')

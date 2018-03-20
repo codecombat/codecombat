@@ -165,6 +165,21 @@ _.extend LevelSessionSchema.properties,
     type: 'number'
     title: 'Playtime'
     description: 'The total playtime on this session in seconds'
+    
+  hintTime:
+    type: 'number'
+    title: 'Hint Time'
+    description: 'The total time hints viewed in seconds'
+    
+  timesCodeRun:
+    type: 'number'
+    title: 'Times Code Run'
+    description: 'The total times the code has been run'
+    
+  timesAutocompleteUsed:
+    type: 'number'
+    title: 'Times Autocomplete Used'
+    description: 'The total times autocomplete was used'
 
   teamSpells:
     type: 'object'
