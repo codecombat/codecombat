@@ -3,6 +3,7 @@ Bus = require './Bus'
 LevelSession = require 'models/LevelSession'
 utils = require 'core/utils'
 tagger = require 'lib/SolutionConceptTagger'
+store = require('core/store')
 
 module.exports = class LevelBus extends Bus
 
@@ -36,6 +37,19 @@ module.exports = class LevelBus extends Bus
       else [saveDelay.registered.min, saveDelay.registered.max]
     @saveSession = _.debounce @reallySaveSession, wait * 1000, {maxWait: maxWait * 1000}
     @playerIsIdle = false
+    @vuexDestroyFunctions = []
+    @vuexDestroyFunctions.push store.watch(
+      (state) -> state.game.timesCodeRun
+      (timesCodeRun) =>
+        @session.set({timesCodeRun})
+        @changedSessionProperties.timesCodeRun = true
+    )
+    @vuexDestroyFunctions.push store.watch(
+      (state) -> state.game.timesAutocompleteUsed
+      (timesAutocompleteUsed) =>
+        @session.set({timesAutocompleteUsed})
+        @changedSessionProperties.timesAutocompleteUsed = true
+    )
 
   init: ->
     super()
@@ -51,6 +65,9 @@ module.exports = class LevelBus extends Bus
     if @playerIsIdle then return
     @changedSessionProperties.playtime = true
     @session.set('playtime', (@session.get('playtime') ? 0) + 1)
+    if store.state.game.hintsVisible
+      @session.set('hintTime', (@session.get('hintTime') ? 0) + 1)
+      @changedSessionProperties.hintTime = true
 
   onPoint: ->
     return true
@@ -273,4 +290,6 @@ module.exports = class LevelBus extends Bus
 
   destroy: ->
     clearInterval(@timerIntervalID)
+    for destroyFunction in @vuexDestroyFunctions
+      destroyFunction()
     super()
