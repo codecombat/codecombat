@@ -231,7 +231,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     create_teacher_header: "创建老师账号"
     create_individual_header: "创建独立账号"
     email_announcements: "通过邮件接收新关卡和功能通知！"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "登录或注册以继续"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "账户创建中……"
     sign_up: "注册"
@@ -405,14 +405,14 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     contact_us: "联系我们"
     close_window: "关闭窗口"
     learn_more: "学习更多"
-#    more: "More"
-#    fewer: "Fewer"
+    more: "更多"
+    fewer: "更少"
 #    with: "with"
 
   units:
     second: "秒"
     seconds: "秒"
-#    sec: "sec"
+    sec: "秒"
     minute: "分钟"
     minutes: "分钟"
     hour: "小时"
@@ -591,7 +591,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     tip_good_idea: "想到一个好主意的最佳方法是想到一堆主意。 - 莱纳斯·卡尔·鲍林"
     tip_programming_not_about_computers: "计算机科学就是有关计算机的，正如天文学就是有关望远镜的。 - 艾兹格·迪杰斯特拉"
     tip_mulan: "相信你能行，你就能做到。 - 迪士尼《花木兰》"
-#    project_complete: "Project Complete!"
+    project_complete: "关卡完成！"
 #    share_this_project: "Share this project with friends or family:"
 #    ready_to_share: "Ready to publish your project?"
 #    click_publish: "Click \"Publish\" to make it appear in the class gallery, then check out what your classmates built! You can come back and continue to work on this project. Any further changes will automatically be saved and shared with your classmates."
@@ -603,20 +603,20 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   apis:
     methods: "函数"
-#    events: "Events"
+    events: "事件"
 #    spawnable: "Spawnable"
-#    html: "HTML"
+    html: "HTML"
     math: "数学"
-#    array: "Array"
+    array: "数组"
 #    object: "Object"
-#    string: "String"
-#    function: "Function"
+    string: "字符串"
+    function: "函数"
 #    vector: "Vector"
 #    date: "Date"
-#    jquery: "jQuery"
-#    json: "JSON"
-#    number: "Number"
-#    webjavascript: "JavaScript"
+    jquery: "jQuery"
+    json: "JSON"
+    number: "数字"
+    webjavascript: "JavaScript"
 
 #  amazon_hoc:
 #    title: "Keep Learning with Amazon!"
@@ -631,7 +631,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   play_game_dev_level:
     created_by: "由 {{name}} 创建"
-#    created_during_hoc: "Created during Hour of Code"
+    created_during_hoc: "在“编程一小时”中创建"
     restart: "重新开始关卡"
     play: "开始关卡"
     play_more_codecombat: "玩更多的 CodeCombat 关卡"
@@ -673,10 +673,10 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     damage_dealt: "造成的伤害"
     difficulty: "难度"
     gold_collected: "收集的金币"
-#    survival_time: "Survived"
-#    defeated: "Enemies Defeated"
-#    code_length: "Lines of Code"
-#    score_display: "__scoreType__: __score__"
+    survival_time: "生存"
+    defeated: "击败的敌人"
+    code_length: "代码行数"
+    score_display: "__scoreType__： __score__"
 
   inventory:
     equipped_item: "已装备"
@@ -709,8 +709,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     purchase: "购买"
 #    purchased: "Purchased"
 
-#  earn_gems:
-#    prompt_title: "Not Enough Gems"
+  earn_gems:
+    prompt_title: "宝石不足"
 #    prompt_body: "Keep playing to earn more!"
 
   subscribe:
@@ -909,7 +909,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     editor_config_behaviors_description: "自动匹配括号、大括号和引号。"
 
   about:
-#    learn_more: "Learn More"
+    learn_more: "学习更多"
     main_title: "如果你想学习编程，你需要写（一大堆）代码。"
     main_description: "在CodeCombat里，我们的职责就是让你面带微笑完成这项任务。"
     mission_link: "任务"
