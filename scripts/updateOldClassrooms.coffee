@@ -29,10 +29,14 @@ database.connect()
 
 # ObjectId for 8/1/17
 startDateObjectId = mongoose.Types.ObjectId("598026f00000000000000000")
+endDateObjectId = mongoose.Types.ObjectId('5aaf752d0000000000000000')
 
-batchSize = 10
+batchSize = 20
 
 co(->
+  todo = yield Classroom.count({_id: {$gte: startDateObjectId}, 'courses.levels.assessment': {$exists: false}})
+  total = todo
+  
   while true
     classrooms = yield Classroom.find({_id: {$gte: startDateObjectId}, 'courses.levels.assessment': {$exists: false}}).limit(batchSize)
     break unless classrooms.length > 0
@@ -40,13 +44,14 @@ co(->
       Promise.resolve co ->
         yield classroom.setUpdatedCourses({isAdmin: false, addNewCoursesOnly: false, includeAssessments: true})
         database.validateDoc(classroom)
-        # classroom = yield classroom.save()
+        classroom = yield classroom.save()
         console.log("#{new Date().toISOString().substring(0, 10)} Updated classroom #{classroom.id} #{classroom.get('name')}")
     res = yield classroomUpdates
     console.log("#{new Date().toISOString().substring(0, 10)} #{res.length} classrooms updated.")
+    todo -= res.length
+    console.log('todo', todo, '/', total, new Date())
 
     # TEMP
-    break
 
 ).then(->
   process.exit()
