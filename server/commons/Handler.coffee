@@ -248,7 +248,7 @@ module.exports = class Handler
 
     # Hack: levels loading thang types need the components returned as well.
     # Need a way to specify a projection for a query.
-    project = {name: 1, original: 1, kind: 1, components: 1, prerenderedSpriteSheetData: 1}
+    project = {name: 1, original: 1, kind: 1, components: 1, prerenderedSpriteSheetData: 1, spriteType: 1}
     sort = if nonVersioned then {} else {'version.major': -1, 'version.minor': -1}
 
     makeFunc = (id) =>
