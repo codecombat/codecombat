@@ -2429,7 +2429,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 
   esper:
     line_no: "第$1行: "
-#    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
+    uncaught: "未捕获的错误$1" # $1 will be an error type, eg "Uncaught SyntaxError"
     reference_error: "参考错误："
     argument_error: "参数错误："
     type_error: "拼写错误："
@@ -2495,7 +2495,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     there_is_no_function: "没有`$1`函数，但是`$2`有`$3`函数。"
 #    attacks_argument_enemy_has: "`$1`'s argument `$2` has a problem."
 #    is_there_an_enemy: "Is there an enemy within your line-of-sight yet?"
-#    target_is_null_is: "目标$1出现了问题（可能是null）。 Is there always a target to attack? (Use $2?)"
+    target_is_null_is: "目标$1出现了问题（可能是null）。这里总是有攻击目标吗？"
     hero_has_no_method: "`$1` 没有 `$2` 函数。"
     there_is_a_problem: "你的代码有问题。"
 #    did_you_mean: "Did you mean $1? You do not have an item equipped with that skill."
@@ -2503,5 +2503,5 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
 #    missing_var_use_var: "Missing `$1`. Use `$2` to make a new variable."
 #    you_do_not_have: "You do not have an item equipped with the $1 skill."
 #    put_each_command_on: "Put each command on a separate line"
-#    are_you_missing_a: "Are you missing a '$1' after '$2'? "
+    are_you_missing_a: "在`$2`后面有没有`$1`？"
 #    your_parentheses_must_match: "Your parentheses must match."
