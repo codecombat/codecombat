@@ -113,7 +113,7 @@ module.exports = Vue.extend
       # Map level original to levelSession
       _.reduce(@levelSessions, (map, session) =>
         level = @levelMap[session.level.original]
-        defaultLanguage = level.primerLanguage or @classroom.aceConfig.language
+        defaultLanguage = @classroom.aceConfig.language or level.primerLanguage
         if session.codeLanguage isnt defaultLanguage
           return map
         map[session.level.original] = session
