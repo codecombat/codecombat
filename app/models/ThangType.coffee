@@ -49,7 +49,7 @@ module.exports = class ThangType extends CocoModel
   loadRasterImage: ->
     return if @loadingRaster or @loadedRaster
     return unless raster = @get('raster')
-    @rasterImage = $("<img src='/file/#{raster}' />")
+    @rasterImage = $("<img crossOrigin='Anonymous', src='/file/#{raster}' />")
     @loadingRaster = true
     @rasterImage.one('load', =>
       @loadingRaster = false
@@ -595,7 +595,7 @@ class PrerenderedSpriteSheet extends CocoModel
     return true if @loadingImage
     return false if @loadedImage
     return false unless imageURL = @get('image')
-    @image = $("<img src='/file/#{imageURL}' />")
+    @image = $("<img crossOrigin='Anonymous', src='/file/#{imageURL}' />")
     @loadingImage = true
     @image.one('load', =>
       @loadingImage = false
