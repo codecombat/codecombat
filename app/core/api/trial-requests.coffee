@@ -6,4 +6,10 @@ module.exports = {
       method: 'POST',
       json: trialRequest
     }))
+    
+  getOwn: (options) ->
+    options ?= {}
+    options.data ?= {}
+    options.data.applicant = me.id
+    return fetchJson('/db/trial.request', options)
 }

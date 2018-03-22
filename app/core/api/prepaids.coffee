@@ -11,4 +11,9 @@ module.exports = {
 
   fetchJoiners: ({ prepaidID }, options={}) ->
     fetchJson(@url(prepaidID, 'joiners'))
+    
+  getOwn: (options={}) ->
+    options.data ?= {}
+    options.data.creator = me.id
+    fetchJson('/db/prepaid', options)
 }
