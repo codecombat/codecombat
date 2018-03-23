@@ -487,7 +487,7 @@ module.exports = class PlayLevelView extends RootView
     @loadingView = null
     @playAmbientSound()
     # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id') unless @observing
+    application.tracker?.trackEvent 'Started Level', category:'Play Level', label: @levelID, levelID: @levelID, ls: @session?.get('_id') unless @observing
     $(window).trigger 'resize'
     _.delay (=> @perhapsStartSimulating?()), 10 * 1000
 
