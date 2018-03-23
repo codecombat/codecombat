@@ -73,7 +73,7 @@
     p CodeCombat’s curiculum can be used to learn programming in either JavaScript or Python, which teachers will choose upon creation of their classroom inside the CodeCombat platform.
 
     h5 Teacher Verification
-    p Teachers who approved through CodeCombat’s verification process will be given access to our full AP® Computer Science Principles curriculum, including all professional development and assessment materials. The verification process is free, and is designed to maximize our professional development efforts.
+    p Teachers who are approved through CodeCombat’s verification process will be given access to our full AP® Computer Science Principles curriculum, including all professional development and assessment materials. The verification process is free, and is designed to maximize our professional development efforts.
 
     h5 Minimum Hardware/Software Specifications
     p CodeCombat runs best on computers with at least 4GB of RAM, on a modern browser such as Chrome, Safari, Firefox, or Edge. Chromebooks with 2GB of RAM may have minor graphics issues in courses beyond Computer Science 3, though there should be minimal issues with the recommended content for AP® Computer Science Principles as outlined. A minimum of 200 Kbps bandwidth per student is required, although 1+ Mbps is recommended.
