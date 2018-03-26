@@ -26,6 +26,7 @@ module.exports.setup = ->
       q = { $or: [
         { emailLower: username.toLowerCase() }
         { slug: _.str.slugify(username) }
+        { nameLower: username.toLowerCase() }
       ]}
       
       User.findOne(q).exec((err, user) ->
