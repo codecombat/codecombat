@@ -927,12 +927,12 @@
     scott_title: "Cofounder, Software Engineer"
     maka_title: "Customer Advocate"
     robin_title: "Product Manager"
-    nolan_title: "Sales Manager" # {change}
+    nolan_title: "Sales Manager"
     lisa_title: "Business Development Manager"
     sean_title: "Territory Manager"
     liz_title: "Territory Manager"
-    jane_title: "Customer Success Manager" # {change}
-    david_title: "Marketing Lead" # {change}
+    jane_title: "Customer Success Manager"
+    david_title: "Marketing Lead"
     retrostyle_title: "Illustration"
     retrostyle_blurb: "RetroStyle Games"
     bryukh_title: "Game Designer"
