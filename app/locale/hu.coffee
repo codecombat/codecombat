@@ -922,33 +922,19 @@ module.exports = nativeDescription: "magyar", englishDescription: "Hungarian", t
     team_title: "Ismerd meg a CodeCombat csapatát"
     team_values: "A nyitott párbeszédben, az egymás iránti tiszteletben hiszünk, ahol a legjobb ötlet a nyerő. A döntéseink piackutatáson alapulnak, a folyamataink kialakítása pedig a kézzelfogható eredmények létrehozását célozza meg. Mindenki együttműködő és az ügyvezetőtől a GitHub fejlesztőkig mindenki aktívan részt vesz a munkában. Nagyrértékeljük a növekedést és készek vagyunk tanulni egymástól."
     nick_title: "Programozó" # {change}
-    nick_blurb: "Motivátor"
     matt_title: "Programozó" # {change}
     cat_title: "Játéktervező"
-    cat_blurb: "Levegőidomár"
     scott_title: "Programozó" # {change}
-    scott_blurb: "Megfontolt"
     maka_title: "Az ügyfelek őrangyala"
-    maka_blurb: "Mesélő"
-    rob_title: "Programozó"
-    rob_blurb: "Kódolgatok ezt-azt"
-    josh_c_title: "Játéktervező"
-    josh_c_blurb: "Játékokat tervezek"
     robin_title: "UX-tervező és -fejlesztő" # {change}
-    robin_blurb: "Barkácsolok" # {change}
-    josh_title: "Játéktervező"
-    josh_blurb: "Ég a talpunk alatt a föld"
-    nolan_title: "Territory Manager"
+    nolan_title: "Territory Manager" # {change}
     lisa_title: "Üzletfejlesztési képviselő" # {change}
-#    lisa_blurb: "A gritty one"
     sean_title: "Territory Manager"
 #    liz_title: "Territory Manager"
-#    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Manager"
+#    jane_title: "Customer Success Manager"
+#    david_title: "Marketing Lead"
     retrostyle_title: "Illusztráció"
     retrostyle_blurb: "RetroStyle Games"
-    jose_title: "Zene"
-    jose_blurb: "Szárnyra kapok"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...és a nyílt támogatói közösségünk"

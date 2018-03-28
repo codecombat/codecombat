@@ -922,33 +922,19 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     team_title: "与CodeCombat团队见面"
     team_values: "我们期待开放的、互相尊敬的对话，好点子会得到采纳。我们决定深入市场调研，我们集中于提供实际性的结果。从我们的 CEO 到 Github 上的贡献者，每个人都亲历亲为，因为在团队中我们收获了成长与经验。"
     nick_title: "共同创始人，CEO"
-    nick_blurb: "充满动力的大牛"
     matt_title: "共同创始人，CTO"
     cat_title: "关卡设计师"
-    cat_blurb: "气宗"
     scott_title: "共同创始人，软件工程师"
-    scott_blurb: "理性至上"
     maka_title: "客户代言人"
-    maka_blurb: "故事作者"
-    rob_title: "软件工程师"
-    rob_blurb: "编代码之类的"
-    josh_c_title: "游戏设计师"
-    josh_c_blurb: "设计游戏"
     robin_title: "产品经理" # {change}
-    robin_blurb: "基架" # {change}
-    josh_title: "游戏设计师"
-    josh_blurb: "地面是熔岩"
-    nolan_title: "区域经理"
+    nolan_title: "区域经理" # {change}
     lisa_title: "校园专家" # {change}
-    lisa_blurb: "坚韧不拔的人"
     sean_title: "区域经理"
     liz_title: "区域经理"
-    david_title: "客户成功经理"
     jane_title: "合作伙伴" # {change}
+    david_title: "客户成功经理" # {change}
     retrostyle_title: "插画师"
     retrostyle_blurb: "复古风格的游戏"
-    jose_title: "音乐"
-    jose_blurb: "放轻松"
     bryukh_title: "游戏设计师"
     bryukh_blurb: "构建拼图"
     community_title: "...以及我们的开源社区"

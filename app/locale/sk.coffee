@@ -922,33 +922,19 @@ module.exports = nativeDescription: "slovenčina", englishDescription: "Slovak",
     team_title: "Zoznám sa s tímom CodeCombat"
     team_values: "Ceníme si otvorený a zdvorilý dialóg, v ktorom vyhrá najlepšia myšlienka. Naše rozhodnutia sú založené na prieskume užívateľov. Všetci sú zainteresovaní na výsledku, od výkonného riaditeľa až po prispievateľov na  GitHube."
     nick_title: "Spoluzakladateľ" # {change}
-    nick_blurb: "Motivačný Guru"
     matt_title: "Programátor" # {change}
     cat_title: "Najvyššia remeselníčka" # {change}
-    cat_blurb: "Ohýbačka vzduchu"
     scott_title: "Spoluzakladateľ" # {change}
-    scott_blurb: "Ten rozumný"
     maka_title: "Pomocník pre užívateľov"
-    maka_blurb: "Rozprávač"
-    rob_title: "Softvérový inžinier"
-    rob_blurb: "Kódovač"
-    josh_c_title: "Herný dizajnér"
-    josh_c_blurb: "Robí dizajn hier"
     robin_title: "Produktový manažér"
-    robin_blurb: "Stará sa o veci"
-    josh_title: "Dizajnér hier"
-    josh_blurb: "Podlaha je láva"
-    nolan_title: "Oblastný manažér"
+    nolan_title: "Oblastný manažér" # {change}
     lisa_title: "Školská špecialistka" # {change}
-    lisa_blurb: "Odvážna"
     sean_title: "Oblastný manažér"
     liz_title: "Oblastný manažér"
-#    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Manager"
+#    jane_title: "Customer Success Manager"
+#    david_title: "Marketing Lead"
     retrostyle_title: "Ilustrácia"
     retrostyle_blurb: "Retro hry"
-    jose_title: "Hudba"
-    jose_blurb: "Vzlet"
 #    bryukh_title: "Game Designer"
 #    bryukh_blurb: "Constructs puzzles"
     community_title: "...a naša komunita open-source"

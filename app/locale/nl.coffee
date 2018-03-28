@@ -922,33 +922,19 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     team_title: "Ontmoet het CodeCombat team"
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
-    nick_blurb: "Motivatie Goeroe"
     matt_title: "Programmeur" # {change}
     cat_title: "Hoofd Ambachtsman" # {change}
-    cat_blurb: "Airbender"
     scott_title: "Programmeur" # {change}
-    scott_blurb: "de Redelijke"
     maka_title: "Klanten Ombudsman"
-    maka_blurb: "VerhalenVerteller"
-    rob_title: "Compiler Ontwerper" # {change}
-    rob_blurb: "Programmeert dingen en spullen"
-    josh_c_title: "Game Designer"
-    josh_c_blurb: "Ontwikkelt games"
     robin_title: "UX Design & Onderzoek" # {change}
-    robin_blurb: "Steigers" # {change}
-    josh_title: "Game Designer"
-    josh_blurb: "Vloer Is Lava"
-    nolan_title: "Regio-manager"
+    nolan_title: "Regio-manager" # {change}
     lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
-    lisa_blurb: "Warmbloedig"
     sean_title: "Regio Manager"
     liz_title: "Buurt Manager"
-#    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Manager"
+#    jane_title: "Customer Success Manager"
+#    david_title: "Marketing Lead"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    jose_title: "Muziek"
-    jose_blurb: "Opstijgen"
 #    bryukh_title: "Game Designer"
     bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"

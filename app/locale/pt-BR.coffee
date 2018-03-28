@@ -922,33 +922,19 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     team_title: "Conheça o time do CodeCombat"
     team_values: "Valorizamos o diálogo aberto e respeitoso, onde a melhor ideia ganha. Nossas decisões são fundamentadas na pesquisa de clientes e nosso processo está focado na entrega de resultados tangíveis para eles. Todos põem a mão na massa, do nosso CEO aos nossos colaboradores no GitHub, porque valorizamos o crescimento e a aprendizagem em nossa equipe."
     nick_title: "Cofundador, CEO" # {change}
-    nick_blurb: "Guru Motivacional"
     matt_title: "Cofundador, CTO" # {change}
     cat_title: "Designer de Jogos" # {change}
-    cat_blurb: "Airbender"
     scott_title: "Cofundador, Eng. de Software" # {change}
-    scott_blurb: "O Sensato"
     maka_title: "Defensor dos Clientes"
-    maka_blurb: "Contador de Histórias"
-    rob_title: "Engenheiro de Software" # {change}
-    rob_blurb: "Programa muitas coisas"
-    josh_c_title: "Designer de Jogos"
-    josh_c_blurb: "Projeta Jogos"
     robin_title: "Gerente de Produto" # {change}
-    robin_blurb: "Envia as coisas"
-    josh_title: "Designer de Jogos"
-    josh_blurb: "O chão é larva"
-    nolan_title: "Gerente de Território"
+    nolan_title: "Gerente de Território" # {change}
     lisa_title: "Pedagoga" # {change}
-    lisa_blurb: "A Decidida"
     sean_title: "Gerente de Território"
     liz_title: "Gerente de Território"
-#    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Manager"
+#    jane_title: "Customer Success Manager"
+#    david_title: "Marketing Lead"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
-    jose_title: "Músico"
-    jose_blurb: "Descolado"
     bryukh_title: "Game Designer"
     bryukh_blurb: "Constroi enigmas"
     community_title: "... e nossa comunidade open-source"
