@@ -98,6 +98,7 @@
     help_pref: "Need help? Email"
     help_suff: "and we'll get in touch!"
     resource_hub: "Resource Hub"
+    apcsp: "AP CS Principles"
 
   modal:
     close: "Close"
