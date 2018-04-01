@@ -40,6 +40,11 @@ module.exports = class SpritesScriptModule extends ScriptModule
     text = utils.i18n sprite.say, 'text'
     blurb = utils.i18n sprite.say, 'blurb'
     sound = utils.i18n sprite.say, 'sound'
+    if text and (not sound or (me.get('preferredLanguage', true).split('-')[0] isnt 'en' and sound is sprite.say.sound)) and me.testScriptTTS()
+      plainText = utils.markdownToPlainText text
+      textLanguage = if text is sprite.say.text then 'en-US' else me.get('preferredLanguage', true)
+      ttsPath = "text-to-speech/#{textLanguage}/#{encodeURIComponent(plainText)}"
+      sound = mp3: ttsPath + '.mp3', ogg: ttsPath + '.ogg'
     note =
       channel: 'level:sprite-dialogue'
       event:

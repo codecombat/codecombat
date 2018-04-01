@@ -217,6 +217,14 @@ module.exports = class User extends CocoModel
     application.tracker.identify cinematicPlayback: @shouldTestCinematicPlayback
     @shouldTestCinematicPlayback
 
+  testScriptTTS: ->
+    return @shouldTestScriptTTS if @shouldTestScriptTTS?
+    return true if me.isAdmin()
+    return false if me.isStudent() or me.isTeacher()
+    @shouldTestScriptTTS = me.get('testGroupNumber') % 4 in [0, 1]
+    application.tracker.identify scriptTTS: @shouldTestScriptTTS
+    @shouldTestScriptTTS
+
   hasSubscription: ->
     return false if me.isStudent() or me.isTeacher()
     if payPal = @get('payPal')

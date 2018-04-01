@@ -425,6 +425,15 @@ formatDollarValue = (dollars) ->
 
 startsWithVowel = (s) -> s[0] in 'aeiouAEIOU'
 
+markdownToPlainText = (text) ->
+  plainTextMarkedRenderer = new marked.Renderer()
+  for element in ['code', 'blockquote', 'html', 'heading', 'hr', 'list', 'listitem', 'paragraph', 'table', 'tablerow', 'tablecell', 'strong', 'em', 'codespan', 'br', 'del', 'text']
+    plainTextMarkedRenderer[element] = (text) -> text
+  for element in ['link', 'image']
+    plainTextMarkedRenderer[element] = (href, title, text) -> text
+  plainText = marked text, renderer: plainTextMarkedRenderer
+  plainText
+
 filterMarkdownCodeLanguages = (text, language) ->
   return '' unless text
   currentLanguage = language or me.get('aceConfig')?.language or 'python'
@@ -684,6 +693,7 @@ module.exports = {
   isSmokeTestEmail
   keepDoingUntil
   kindaEqual
+  markdownToPlainText
   needsPractice
   normalizeFunc
   objectIdToDate

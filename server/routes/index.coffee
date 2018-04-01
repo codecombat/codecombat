@@ -184,6 +184,8 @@ module.exports.setup = (app) ->
   EarnedAchievement = require '../models/EarnedAchievement'
   app.post('/db/earned_achievement', mw.auth.checkHasUser(), mw.earnedAchievements.post)
 
+  app.get('/file/text-to-speech/:language/:text', mw.auth.checkHasUser(), mw.files.textToSpeech)
+
   Level = require '../models/Level'
   app.post('/db/level/names', mw.named.names(Level))
   app.post('/db/level/:handle', mw.auth.checkLoggedIn(), mw.versions.postNewVersion(Level, { hasPermissionsOrTranslations: 'artisan' })) # TODO: add /new-version to route like Article has
