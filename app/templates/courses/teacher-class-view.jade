@@ -248,7 +248,7 @@ mixin studentRow(student)
         - var url = '/teachers/classes/' + view.classroom.id + '/' + student.id;
         a(href=url)
           div.student-name= student.broadName()
-        div.student-email.small-details= student.get('email')
+        div.student-email.small-details= student.get('email') || student.get('name')
     td.hidden
       a.edit-student-button(data-student-id=student.id)
         span.glyphicon.glyphicon-edit
@@ -344,7 +344,7 @@ mixin courseProgressTab
               .student-name.col-sm-3
                 = student.broadName()
               .student-email.small-details.col-sm-3
-                = student.get('email')
+                = student.get('email') || student.get('name')
               .col-sm-4
                 .latest-completed.truncate.small
                   i.m-r-1
@@ -373,7 +373,7 @@ mixin studentLevelsRow(student)
   .student-levels-row.alternating-background
     div.student-info
       div.student-name= student.broadName()
-      div.student-email.small-details= student.get('email')
+      div.student-email.small-details= student.get('email') || student.get('name')
     div.student-levels-progress
       - var course = state.get('selectedCourse')
       - var levels = view.classroom.getLevels({courseID: course.id}).models
@@ -584,7 +584,7 @@ mixin enrollmentStatusTab
           td.student-info-col
             .student-info
               div.student-name= student.broadName()
-              div.student-email.small-details= student.get('email')
+              div.student-email.small-details= student.get('email') || student.get('name')
           td.status-col
             span(data-i18n='user.status')
             span.spr :
