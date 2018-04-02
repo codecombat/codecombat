@@ -2,6 +2,7 @@ require('app/styles/play/level/level-playback-view.sass')
 CocoView = require 'views/core/CocoView'
 template = require 'templates/play/level/level-playback-view'
 {me} = require 'core/auth'
+store = require 'core/store'
 
 module.exports = class LevelPlaybackView extends CocoView
   id: 'playback-view'
@@ -155,15 +156,15 @@ module.exports = class LevelPlaybackView extends CocoView
       @$el.removeClass 'controls-disabled'
 
   onSetPlaying: (e) ->
-    @playing = (e ? {}).playing ? true
+    playing = store.state.game.playing
     button = @$el.find '#play-button'
     ended = button.hasClass 'ended'
-    changed = button.hasClass('playing') isnt @playing
-    button.toggleClass('playing', @playing and not ended).toggleClass('paused', not @playing and not ended)
-    @playSound (if @playing then 'playback-play' else 'playback-pause') unless @options.level.isType('game-dev')
+    changed = button.hasClass('playing') isnt playing
+    button.toggleClass('playing', playing and not ended).toggleClass('paused', not playing and not ended)
+    @playSound (if playing then 'playback-play' else 'playback-pause') unless @options.level.isType('game-dev')
     return   # don't stripe the bar
     bar = @$el.find '.scrubber .progress'
-    bar.toggleClass('progress-striped', @playing and not ended).toggleClass('active', @playing and not ended)
+    bar.toggleClass('progress-striped', playing and not ended).toggleClass('active', playing and not ended)
 
   onSetVolume: (e) ->
     classes = ['vol-off', 'vol-down', 'vol-up']
@@ -257,8 +258,9 @@ module.exports = class LevelPlaybackView extends CocoView
       Backbone.Mediator.publish 'playback:real-time-playback-ended', {} if @realTime
       Backbone.Mediator.publish 'playback:cinematic-playback-ended', {} if @cinematic
     if progress < 0.99 and @lastProgress >= 0.99
+      playing = store.state.game.playing
       playButton.removeClass('ended')
-      playButton.addClass(if @playing then 'playing' else 'paused')
+      playButton.addClass(if playing then 'playing' else 'paused')
     isEnded = playButton.hasClass('ended')
     if wasEnded isnt isEnded
       Backbone.Mediator.publish 'playback:ended-changed', ended: isEnded
@@ -302,7 +304,8 @@ module.exports = class LevelPlaybackView extends CocoView
       start: (event, ui) =>
         return if @shouldIgnore()
         @slideCount = 0
-        @wasPlaying = @playing and not $('#play-button').hasClass('ended')
+        playing = store.state.game.playing
+        @wasPlaying = playing and not $('#play-button').hasClass('ended')
         Backbone.Mediator.publish 'level:set-playing', {playing: false}
         @playSound 'playback-scrub-start', 0.5
 

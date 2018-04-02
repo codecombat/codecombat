@@ -72,4 +72,9 @@ module.exports = {
 
   getLevelSessions: ({ userID }, options={}) ->
     fetchJson("/db/user/#{userID}/level.sessions", _.merge({}, options))
+    
+  resetProgress: ({ userID }, options={}) ->
+    fetchJson("/db/user/#{userID}/reset_progress", _.assign({}, options, {
+      method: 'POST'
+    }))
 }

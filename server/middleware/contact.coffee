@@ -13,10 +13,6 @@ module.exports =
       email_id: sendwithus.templates.plain_text_email
       recipient:
         address: 'jane@codecombat.com'
-      cc:[
-        {address:'robin@codecombat.com'},
-        {address:'scott@codecombat.com'}
-      ]        
       sender:
         address: config.mail.username
         reply_to: email
