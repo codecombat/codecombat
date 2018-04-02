@@ -125,17 +125,16 @@
     methods:
       onSubmit: ->
         lines = []
+        props = { siteOrigin: 'apcsp landing' }
         _.forIn(@$data, (value, key) =>
           return if key in ['state']
           if value
-            lines.push "#{_.string.humanize(key)}: #{value}"
+            props[key] = value
         )
-        message = lines.join('\n')
-        email = @email
-        name = @name
-        console.log 'Sending message:\n\n' + message
-        @state = 'sending'
-        api.contact.sendAPCSPAccessRequest({message, email, name}).then(() => @state = 'sent')
+        api.trialRequests.post({
+          type: 'course'
+          properties: props
+        }).then(() => @state = 'sent')
         
       onChooseSchool: (displayKey, choice) ->
         @organization = choice.name
