@@ -568,6 +568,10 @@ mixin enrollmentStatusTab
           span.spr :
           button.sort-button.sort-by-name(data-i18n='general.name', value='name')
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
+      th
+      th
+      th
+        button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
       - var searchTerm = view.state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
