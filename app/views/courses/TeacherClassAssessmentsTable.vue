@@ -15,7 +15,7 @@
             div
               strong
                 a(:href="studentLink(student._id)") {{ broadName(student) }}
-            div.student-email {{ student.email }}
+            div.student-email {{ student.email || student.name }}
     div.data-column(ref="dataColumn", @scroll="updateArrows" v-if="levels.length > 0")
       div(v-for="(student, index) in students")
         div.small.table-row.table-header-row.alternating-background(v-if="index % 8 === 0")
