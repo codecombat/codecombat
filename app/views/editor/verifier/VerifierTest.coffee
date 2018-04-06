@@ -17,7 +17,7 @@ module.exports = class VerifierTest extends CocoClass
     if utils.getQueryVariable('dev') or @options.devMode
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
-
+    @solution = @options.solution
     @language ?= 'python'
     @userCodeProblems = []
     @load()
@@ -45,6 +45,7 @@ module.exports = class VerifierTest extends CocoClass
   configureSession: (session, level) =>
     try
       session.solution = _.filter(level.getSolutions(), language: session.get('codeLanguage'))[@options.solutionIndex]
+      session.solution ?= @solution
       session.set 'heroConfig', session.solution.heroConfig
       session.set 'code', {'hero-placeholder': plan: session.solution.source}
       state = session.get 'state'
@@ -60,7 +61,7 @@ module.exports = class VerifierTest extends CocoClass
     @world = @levelLoader.world
     @level = @levelLoader.level
     @session = @levelLoader.session
-    @solution = @levelLoader.session.solution
+    @solution ?= @levelLoader.session.solution
 
   setupGod: ->
     @god.setLevel @level.serialize {@supermodel, @session, otherSession: null, headless: true, sessionless: false}
