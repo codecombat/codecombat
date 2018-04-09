@@ -126,7 +126,7 @@ module.exports = class SaveLevelModal extends SaveVersionModal
       childSupermodel = new SuperModel()
       childSupermodel.models = _.clone @supermodel.models
       childSupermodel.collections = _.clone @supermodel.collections
-      test = new VerifierTest @level.get('slug'), @onVerifierTestUpate, childSupermodel, solution.language, {devMode: true}
+      test = new VerifierTest @level.get('slug'), @onVerifierTestUpate, childSupermodel, solution.language, {devMode: true, solution}
 
   onVerifierTestUpate: (e) =>
     return if @destroyed
