@@ -113,6 +113,7 @@ module.exports = Vue.extend
       # Map level original to levelSession
       _.reduce(@levelSessions, (map, session) =>
         level = @levelMap[session.level.original]
+        return map if not level # we fetch all user sessions; handle when user has a session not in their courses
         defaultLanguage = level.primerLanguage or @classroom.aceConfig.language
         if session.codeLanguage isnt defaultLanguage
           return map
@@ -144,8 +145,20 @@ module.exports = Vue.extend
 
         assessmentIndex = utils.findNextAssessmentForLevel(@allLevels, index, needsPractice)
         if assessmentIndex >= 0
+          if level.practice and not needsPractice
+            continue # do not overwrite current mapping if user does not need practice
           assessmentOriginal = @allLevels[assessmentIndex].original
           map[assessmentOriginal] ?= level.original
+          
+          # also map any assessments that immediately follow, esp. combo levels
+          findAssessmentIndex = assessmentIndex
+          while true
+            findAssessmentIndex += 1
+            nextLevel = @allLevels[findAssessmentIndex]
+            unless nextLevel and nextLevel.assessment
+              break
+            map[nextLevel.original] = level.original
+            
       return map
     createLevelUnlockedMap: ->
       # Map assessment original to whether it has been unlocked yet, using session for the previous level
