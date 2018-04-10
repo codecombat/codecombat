@@ -68,7 +68,7 @@ module.exports = class ProblemAlertView extends CocoView
       @hint = format @problem.hint
 
   onShowProblemAlert: (data) ->
-    return unless $('#code-area').is(":visible")
+    return unless $('#code-area').is(":visible") or @level.isType('game-dev')
     if @problem?
       if @$el.hasClass "alert-#{@problem.level}"
         @$el.removeClass "alert-#{@problem.level}"

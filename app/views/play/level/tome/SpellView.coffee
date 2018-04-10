@@ -872,10 +872,10 @@ module.exports = class SpellView extends CocoView
       for i in [0...problem.row]
         lineOffsetPx += @aceSession.getRowLength(i) * @ace.renderer.lineHeight
       lineOffsetPx -= @ace.session.getScrollTop()
-    Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
     if problem.level not in ['info', 'warning']
       Backbone.Mediator.publish 'playback:stop-cinematic-playback', {}
       # TODO: find a way to also show problem alert if it's compile-time, and/or not enter cinematic mode at all
+    Backbone.Mediator.publish 'tome:show-problem-alert', problem: problem, lineOffsetPx: Math.max lineOffsetPx, 0
 
   # Gets the number of lines before the start of <script> content in the usercode
   # Because Errors report their line number relative to the <script> tag
@@ -1035,8 +1035,10 @@ module.exports = class SpellView extends CocoView
     return unless @spell.thang?.thang.id is e.problem.userInfo.thangID
     @spell.hasChangedSignificantly @getSource(), null, (hasChanged) =>
       return if hasChanged
-      @spell.thang.aether.addProblem e.problem
-      @spell.thang.castAether?.addProblem e.problem
+      if e.problem.type is 'runtime'
+        @spellThang.castAether?.addProblem e.problem
+      else
+        @spell.thang.aether.addProblem e.problem
       @lastUpdatedAetherSpellThang = null  # force a refresh without a re-transpile
       @updateAether false, false
 
