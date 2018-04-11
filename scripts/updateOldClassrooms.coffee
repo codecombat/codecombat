@@ -34,11 +34,13 @@ endDateObjectId = mongoose.Types.ObjectId('5aaf752d0000000000000000')
 batchSize = 20
 
 co(->
-  todo = yield Classroom.count({_id: {$gte: startDateObjectId}, 'courses.levels.assessment': {$exists: false}})
+  todo = yield Classroom.count({_id: {$gt: startDateObjectId}})
   total = todo
   
   while true
-    classrooms = yield Classroom.find({_id: {$gte: startDateObjectId}, 'courses.levels.assessment': {$exists: false}}).limit(batchSize)
+    classrooms = yield Classroom.find({_id: {$gt: startDateObjectId}})
+      .limit(batchSize)
+      .sort({_id:1})
     break unless classrooms.length > 0
     classroomUpdates = classrooms.map (classroom) ->
       Promise.resolve co ->
@@ -49,8 +51,8 @@ co(->
     res = yield classroomUpdates
     console.log("#{new Date().toISOString().substring(0, 10)} #{res.length} classrooms updated.")
     todo -= res.length
-    console.log('todo', todo, '/', total, new Date())
-
+    startDateObjectId = _.last(classrooms)._id
+    console.log('todo', todo, '/', total, new Date(), '\t\tstart:', startDateObjectId+'', startDateObjectId.getTimestamp())
     # TEMP
 
 ).then(->
