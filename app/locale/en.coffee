@@ -952,7 +952,7 @@
     story_statistic_1b: "total players"
     story_statistic_1c: "have started their programming journey through CodeCombat"
     story_statistic_2a: "We’ve been translated into over 50 languages — our players hail from"
-    story_statistic_2b: "190+ countries"  # {change}
+    story_statistic_2b: "190+ countries"
     story_statistic_3a: "Together, they have written"
     story_statistic_3b: "1 billion lines of code and counting"
     story_statistic_3c: "across many different programming languages"
