@@ -351,7 +351,6 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   else if level.isProject()
     - labelText = translate('teacher.project');
     - dotClass += ' progress-dot-lg';
-  - console.log('context', context)
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context), data-level-slug=level.get('slug'), data-level-progress=(levelProgress || 'not started'))
     if link
       a(href=link, data-level-slug=levelSlugNav)
