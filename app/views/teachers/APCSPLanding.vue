@@ -35,7 +35,7 @@
         .modal-content.style-flat
           .modal-header
             .button.close(type="button", data-dismiss="modal", aria-hidden="true") &times;
-            h3 Request Access
+            h3 Request AP<sup>®</sup> CS Principles Access
 
           .modal-body
             div(v-if='state === "sending"') Sending...
@@ -52,8 +52,28 @@
                 label(for="num-apcsp-students") Estimated # of AP<sup>®</sup> CSP students for 2018-2019 school year
                 input#num-apcsp-students.form-control(type="number", v-model="numAPCSPStudents")
               .form-group
-                label(for="apcsp-experience") Brief summary of your previous AP<sup>®</sup> CSP experience 
-                textarea#apcsp-experience.form-control(v-model="apcspExperience")
+                label Are you currently teaching or have you taught an AP<sup>®</sup> CSP course in the past?
+                .radio-inline
+                  label
+                    input(type="radio", name="currentlyTeaching" value="yes", v-model="currentlyTeaching" v-bind:value="true")
+                    | Yes
+                .radio-inline
+                  label
+                    input(type="radio", name="currentlyTeaching" value="no", v-model="currentlyTeaching" v-bind:value="false")
+                    | No
+              .form-group
+                label Will you be teaching AP<sup>®</sup> CSP in the 2018-2019 school year? 
+                .radio-inline
+                  label
+                    input(type="radio", name="willTeachNextYear" value="yes", v-model="willTeachNextYear" v-bind:value="true")
+                    | Yes
+                .radio-inline
+                  label
+                    input(type="radio", name="willTeachNextYear" value="no", v-model="willTeachNextYear" v-bind:value="false")
+                    | No
+              .form-group
+                label(for="apcsp-experience") Which AP<sup>®</sup> CSP resources have you used in the past? 
+                textarea#apcsp-experience.form-control(v-model="apcspResourcesUsedPreviously")
 
           .modal-footer(v-if='state === "entering"')
             button.btn.btn-primary.btn-lg(
@@ -67,7 +87,7 @@
 
     h4.text-center
       strong
-        Curriculum Specifications
+        | Curriculum Specifications
 
     h5 Programming Languages
     p CodeCombat’s curiculum can be used to learn programming in either JavaScript or Python, which teachers will choose upon creation of their classroom inside the CodeCombat platform.
@@ -113,9 +133,11 @@
       nces_name : '',
       nces_id : '',
       numAPCSPStudents: '',
-      apcspExperience: '',
+      apcspResourcesUsedPreviously: '',
       hasPrepaids: '',
       state: 'entering' # or 'sending', 'sent'
+      currentlyTeaching: null
+      willTeachNextYear: null
     }
     
     components: {
@@ -147,7 +169,7 @@
       
     computed:
       submitButtonDisabled: ->
-        not _.every([@email, @name, @organization, @apcspExperience, @numAPCSPStudents])
+        not _.every([@email, @name, @organization, @willTeachNextYear?, @currentlyTeaching?, @numAPCSPStudents])
 
     created: ->
       api.trialRequests.getOwn().then((trialRequests) =>
