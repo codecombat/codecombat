@@ -22,6 +22,11 @@ module.exports = class LevelCollection extends CocoCollection
     @models.reduce((map, level) =>
       targetLangs = if level.get('primerLanguage') then [level.get('primerLanguage')] else languages
       solutions = level.getSolutions().filter((s) => s.language in targetLangs)
+      if 'html' in targetLangs
+        solutions?.forEach (s) =>
+          return unless s.language is 'html'
+          strippedSource = utils.extractPlayerCodeTag(s.source or '')
+          s.source = strippedSource if strippedSource
       map[level.get('original')] = solutions?.map((s) => {source: @fingerprint(s.source, s.language), description: s.description})
       map
     , {})

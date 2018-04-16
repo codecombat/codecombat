@@ -153,7 +153,7 @@ When a license has been used, it is not available to be used by another teacher 
 ### How do I assess my students’ grasp of concepts? 
 Students are provided with assessment opportunities in the form of Challenge Levels, which are optional levels that students unlock as they play the required levels in Computer Science courses. 
 
-Teachers can view their student’s assessments in the new Assessments tab in each classroom. Challenge levels are currently available in Introduction to Computer Science and Computer Science 2. We will be adding additional challenge levels for Computer Science 3 and beyond in the coming months. 
+Teachers can view their student’s assessments in the new Assessments tab in each classroom. Challenge levels are currently available in Introduction to Computer Science, Computer Science 2 and Computer Science 3. We will be adding additional challenge levels for Computer Science 3 and beyond in the coming months. 
 
 Classrooms created anytime after August 2017 will automatically have Assessments available. If you created your classroom before August 2017, we recommend creating a new class in order for your students to be able to play the challenge levels. If you need assistance, feel free to reach out to schools@codecombat.com. 
 
