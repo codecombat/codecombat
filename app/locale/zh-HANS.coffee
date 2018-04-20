@@ -153,8 +153,8 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     brain_pop_challenge: "挑战自己，用不同的编程语言再玩一次！"
     replay: "重玩"
     back_to_classroom: "返回教室"
-#    teacher_button: "For Teachers"
-#    get_more_codecombat: "Get More CodeCombat"
+    teacher_button: "教师专用" #"For Teachers"
+    get_more_codecombat: "获取更多极客战纪"#"Get More CodeCombat"
 
   code:
     if: "如果" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
@@ -175,7 +175,7 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     var: "变量"
     self: "自身" # {change}
     hero: "英雄"
-    this: "自身" # {change}
+    this: "本身" #or "此例"
     or: "或者"
     "||": "或者"
     and: "并且"
@@ -227,12 +227,12 @@ module.exports = nativeDescription: "简体中文", englishDescription: "Chinese
     signup_switch: "是否创建新账户?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "完成订阅" #"Complete Subscription"
     create_student_header: "创建学生账号"
     create_teacher_header: "创建老师账号"
     create_individual_header: "创建独立账号"
     email_announcements: "通过邮件接收新关卡和功能通知！"
-#    sign_in_to_continue: "Sign in or create an account to continue"
+    sign_in_to_continue: "登陆账户或者建立新账户登陆后继续" #"Sign in or create an account to continue"
 #    teacher_email_announcements: "Keep me updated on new teacher resources, curriculum, and courses!"
     creating: "账户创建中……"
     sign_up: "注册"
