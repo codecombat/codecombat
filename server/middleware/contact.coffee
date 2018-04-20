@@ -4,8 +4,29 @@ errors = require '../commons/errors'
 wrap = require 'co-express'
 database = require '../commons/database'
 parse = require '../commons/parse'
+config = require '../../server_config'
 
 module.exports =
+  sendAPCSPAccessRequest: wrap (req, res, next) ->
+    { message, email, name } = req.body
+    context =
+      email_id: sendwithus.templates.plain_text_email
+      recipient:
+        address: 'jane@codecombat.com'
+      sender:
+        address: config.mail.username
+        reply_to: email
+        name: name
+      email_data:
+        subject: 'New APCSP Access Request - ' + email
+        content: message
+        contentHTML: message.replace /\n/g, '\n<br>'
+    sendwithus.api.send context, (err, result) ->
+      if err
+        return next(new errors.InternalServerError("Error sending email. Check that it's valid and try again."))
+      else
+        res.status(200).send()
+  
   sendParentSignupInstructions: wrap (req, res, next) ->
     context =
       email_id: sendwithus.templates.coppa_deny_parent_signup

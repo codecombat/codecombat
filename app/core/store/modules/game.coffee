@@ -12,8 +12,11 @@ module.exports = {
     hintsVisible: false
     timesCodeRun: 0
     timesAutocompleteUsed: 0
+    playing: false
   }
   mutations: {
+    setPlaying: (state, playing) ->
+      state.playing = playing
     setLevel: (state, updates) ->
       state.level = $.extend(true, {}, updates)
     setHintsVisible: (state, visible) ->
@@ -28,3 +31,8 @@ module.exports = {
       state.timesAutocompleteUsed = times
   }
 }
+
+Backbone.Mediator.subscribe('level:set-playing', (e) ->
+  playing = (e ? {}).playing ? true
+  application.store.commit('game/setPlaying', playing)
+)

@@ -336,7 +336,7 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = levelProgress == 'complete' ? 'forest' : (levelProgress == 'started' ? 'gold' : '');
   - levelName = level.get('name')
-  - var context = { levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
+  - var context = { assessment: level.get('assessment'), levelName: levelName, levelNumber: levelNumber, moment: moment , started: levelProgress == 'started', completed: levelProgress == 'complete'};
   - var link = null;
   - var levelSlugNav = null;
   if view.levelSessionMap && view.levelSessionMap[level.get('original')]

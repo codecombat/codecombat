@@ -1536,6 +1536,31 @@ describe 'POST /db/user/:userId/reset_progress', ->
     url = utils.getUrl("/db/user/12345/reset_progress")
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(401)
+    
+  it 'allows admins to reset other accounts', utils.wrap ->
+    admin = yield utils.initAdmin()
+    user = yield utils.initUser()
+    yield utils.loginUser(user)
+    session = yield utils.makeLevelSession({}, {creator:user})
+    earnedAchievement = new EarnedAchievement({ user: user.id })
+    yield earnedAchievement.save()
+    
+    yield utils.loginUser(admin)
+    url = utils.getUrl("/db/user/#{user.id}/reset_progress")
+    [res] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(200)
+    stillExist = yield [
+      LevelSession.findById(session.id)
+      EarnedAchievement.findById(earnedAchievement.id)
+    ]
+    expect(_.any(stillExist)).toBe(false)
+    
+  it 'returns 404 for non-existent users', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    url = utils.getUrl("/db/user/dne/reset_progress")
+    [res] = yield request.postAsync({ url })
+    expect(res.statusCode).toBe(404)
 
 
 describe 'GET /db/user/:handle/clans', ->

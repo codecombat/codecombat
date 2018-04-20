@@ -98,6 +98,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     help_pref: "Hulp nodig? E-mail ons"
     help_suff: "en we nemen contact op!"
     resource_hub: "Hulpmiddelen"
+#    apcsp: "AP CS Principles"
 
   modal:
     close: "Sluiten"
@@ -922,33 +923,19 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     team_title: "Ontmoet het CodeCombat team"
     team_values: "We waarderen een open en respectvolle dialoog, waar het beste idee wint. Onze keuzes zijn onderbouwd door bezoekersonderzoek en onze werkwijze is gefocust op het leveren van tastbare resultaten. Iedereen doet mee, van onze CEO tot onze Github bijdragers, omdat we groei en leren waarderen in ons team."
     nick_title: "Programmeur" # {change}
-    nick_blurb: "Motivatie Goeroe"
     matt_title: "Programmeur" # {change}
     cat_title: "Hoofd Ambachtsman" # {change}
-    cat_blurb: "Airbender"
     scott_title: "Programmeur" # {change}
-    scott_blurb: "de Redelijke"
     maka_title: "Klanten Ombudsman"
-    maka_blurb: "VerhalenVerteller"
-    rob_title: "Compiler Ontwerper" # {change}
-    rob_blurb: "Programmeert dingen en spullen"
-    josh_c_title: "Game Designer"
-    josh_c_blurb: "Ontwikkelt games"
     robin_title: "UX Design & Onderzoek" # {change}
-    robin_blurb: "Steigers" # {change}
-    josh_title: "Game Designer"
-    josh_blurb: "Vloer Is Lava"
-    nolan_title: "Regio-manager"
+    nolan_title: "Regio-manager" # {change}
     lisa_title: "Marktontwikkeling vertegenwoordiger" # {change}
-    lisa_blurb: "Warmbloedig"
     sean_title: "Regio Manager"
     liz_title: "Buurt Manager"
-#    david_title: "Customer Success Manager"
-#    jane_title: "Partnership Manager"
+#    jane_title: "Customer Success Manager"
+#    david_title: "Marketing Lead"
     retrostyle_title: "Illustraties"
     retrostyle_blurb: "RetroStijl Games"
-    jose_title: "Muziek"
-    jose_blurb: "Opstijgen"
 #    bryukh_title: "Game Designer"
     bryukh_blurb: "Maakt puzzels"
     community_title: "...en onze open-source gemeenschap"
@@ -965,7 +952,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     story_statistic_1b: "totale spelers"
     story_statistic_1c: "zijn hun programmeerreis begonnen door CodeCombat"
     story_statistic_2a: "We zijn vertaald in meer dan 50 talen - waar onze spelers vandaan komen"
-    story_statistic_2b: "200+ landen"
+    story_statistic_2b: "200+ landen" # {change}
     story_statistic_3a: "Samen schreven zij meer dan"
     story_statistic_3b: "1 miljard regels code en de teller loopt door"
     story_statistic_3c: "over zes verschillende programmeertalen" # {change}
@@ -1502,6 +1489,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     enroll_student: "Schrijf leerling in"
     apply_license: "Pas licentie toe"
     revoke_license: "Licentie intrekken"
+#    revoke_licenses: "Revoke All Licenses"
     course_progress: "Cursusvoortgang"
     not_applicable: "n.v.t."
     edit: "wijzig"
@@ -1701,6 +1689,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     hoc_additional_desc2: "Vragen"
     hoc_additional_contact: "Neem contact op"
     revoke_confirm: "Weet je zeker dat je de licentie van {{student_name}} wilt intrekken? De licentie kan dan weer gebruikt worden voor een andere leerling."
+#    revoke_all_confirm: "Are you sure you want to revoke Full Licenses from all students in this class?"
     revoking: "Intrekken..."
     unused_licenses: "Je hebt ongebruikte licenties waarmee je je studenten betaalde cursussen kunt toewijzen voor als ze klaar zijn om meer te leren!"
     remember_new_courses: "Denk er aan om nieuwe cursussen toe te wijzen!"
@@ -2209,12 +2198,14 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     basic_syntax: "Basis Syntax"
     binary: "Binary"
     boolean_and: "Boolean En"
+#    boolean_inequality: "Boolean Inequality"
     boolean_equality: "Boolean Gelijk"
     boolean_greater_less: "Boolean Groter/Kleiner"
     boolean_logic_shortcircuit: "Boolean Logica Kortsluiting"
     boolean_not: "Boolean Niet"
     boolean_operator_precedence: "Boolean Operator Voorrang"
     boolean_or: "Boolean Of"
+#    boolean_with_xycoordinates: "Coordinate Comparison"
     bootstrap: "Bootstrap"
     break_statements: "Break instructie"
     classes: "Klassen"
@@ -2255,13 +2246,16 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     jquery_filtering: "jQuery Element Filteren"
     jquery_selectors: "jQuery Selectors"
     length: "Array Lengte"
+#    math_coordinates: "Coordinate Math"
     math_geometry: "Geometrie"
     math_operations: "Wiskundige operaties"
+#    math_proportions: "Proportion Math"
     math_trigonometry: "Trigonometrie"
     object_literals: "Letterlijke Objecten"
     parameters: "Parameters"
     property_access: "Eigenschappen Uitlezen"
     property_assignment: "Eigenschappen Toewijzen"
+#    property_coordinate: "Coordinate Property"
     queues: "Data Structuren - Wachtrijen"
     reading_docs: "Documentatie Lezen"
     recursion: "Recursie"

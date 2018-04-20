@@ -50,6 +50,7 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .revoke-student-button': 'onClickRevokeStudentButton'
+    'click .revoke-all-students-button': 'onClickRevokeAllStudentsButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
@@ -681,6 +682,22 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
+    
+  onClickRevokeAllStudentsButton: ->
+    s = $.i18n.t('teacher.revoke_all_confirm')
+    return unless confirm(s)
+    for student in @students.models
+      status = student.prepaidStatus()
+      if status is 'enrolled' and student.prepaidType() is 'course'
+        prepaid = student.makeCoursePrepaid()
+        prepaid.revoke(student, {
+          success: =>
+            student.unset('coursePrepaid')
+          error: (prepaid, jqxhr) =>
+            msg = jqxhr.responseJSON.message
+            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          complete: => @render()
+        })
 
   onClickSelectAll: (e) ->
     e.preventDefault()

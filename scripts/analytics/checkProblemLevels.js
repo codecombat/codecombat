@@ -72,7 +72,7 @@ co(function*() {
   debug(`Fetching ${userIDs.length} unique users over ${levelIDs.length} levels`);
 
   const userObjectIDs = userIDs.map((stringId) => mongoose.Types.ObjectId(stringId));
-  const users = yield prodDb.collection('users').find({_id: {$in: userObjectIDs}}, {country: 1, role: 1, permissions: 1, stripe: 1, paypal: 1, anonymous: 1, preferredLanguage: 1, clientCreator: 1, createdOnHost: 1}).toArray();
+  const users = yield prodDb.collection('users').find({_id: {$in: userObjectIDs}}, {country: 1, role: 1, permissions: 1, stripe: 1, paypal: 1, anonymous: 1, preferredLanguage: 1, clientCreator: 1, createdOnHost: 1, hourOfCode: 1}).toArray();
   debug(`... fetched ${users.length} users`);
 
   const campaigns = yield prodDb.collection('campaigns').find({slug: {$exists: true}}, {slug: 1, levels: 1}).toArray();
@@ -129,6 +129,7 @@ co(function*() {
       if (session.codeLanguage != 'python' && session.codeLanguage != 'javascript') continue;
       const level = levelsBySlug[session.levelID];
       if (!level) continue;
+      if (level.requiresSubscription && user.anonymous) continue;  // game-dev-hoc anonymous HoC players are a lost cause; TODO: include even registered HoC players
       const product = session.isForClassroom ? 'classroom' : 'home';
       let sessionStartIndex = 0;
       for (sessionStartIndex = datesByIndex.length - 1; datesByIndex[sessionStartIndex] > session.created; --sessionStartIndex) {}
@@ -136,6 +137,11 @@ co(function*() {
       ++stats.started;
       if (session.state && session.state.complete)
         ++stats.completed;
+      // Playtime: check for outliers (bugs in AFK detection, or maybe student changed system time during level)
+      const averagePlaytimeSoFar = (stats.playtime || 30 * 60) / (stats.started || 1);
+      if (session.playtime > 5 * 60 * 60 ||
+          (stats.started > 25 && session.playtime > Math.max(2 * 60 * 60, 40 * averagePlaytimeSoFar)))
+        session.playtime = 5 * averagePlaytimeSoFar;
       stats.playtime += session.playtime;
       if (session == lastCreatedSession && session == lastChangedSession) {
         if (new Date() - session.changed > daysBeforeCountingLeftGame * 86400 * 1000)
