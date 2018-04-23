@@ -76,7 +76,7 @@ module.exports = Vue.extend({
     conceptGoals: ->
       return @goals.filter((g) => g.concepts?.length)
     conceptGoalsCompleted: ->
-      return @conceptGoals.filter((g) => @goalStates[g.id].status is 'success')
+      return @conceptGoals.filter((g) => @goalStates?[g.id].status is 'success')
     conceptsUsed: ->
       return _.uniq(_.flatten(@conceptGoalsCompleted.map((g) => g.concepts)))
 }
