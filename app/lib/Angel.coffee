@@ -359,15 +359,24 @@ module.exports = class Angel extends CocoClass
       try
         frame = world.getFrame i++
       catch error
-        console.error error
-        world.indefiniteLength = false
-        world.totalFrames = world.frames.length
-        @finishSimulationSync work
-        problem = type: 'runtime', level: 'error', message: error.toString()
-        @publishGodEvent 'non-user-code-problem', problem: problem
+        @handleWorldError world, error
         @reportLoadError()
-        return
+        break
+      if error = (world.unhandledRuntimeErrors ? [])[0]
+        @handleWorldError world, error
+        break  # We quit on the first one
     @finishSimulationSync work
+
+  handleWorldError: (world, error) ->
+    if error.isUserCodeProblem
+      @publishGodEvent 'user-code-problem', problem: error
+    else
+      console.error 'Non-UserCodeError:', error.toString() + '\n' + error.stack or error.stackTrace
+      problem = type: 'runtime', level: 'error', message: error.toString()
+      @publishGodEvent 'non-user-code-problem', problem: problem
+    # End the world immediately
+    world.indefiniteLength = false
+    world.totalFrames = world.frames.length
 
   streamFrameSync: (work) ->
     goalStates = work.world.goalManager.getGoalStates()
