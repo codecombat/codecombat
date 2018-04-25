@@ -118,6 +118,7 @@ module.exports = Vue.extend
         if session.codeLanguage isnt defaultLanguage
           return map
         map[session.level.original] = session
+        level.complete = session.state?.complete # needed for utils.findNextAssessmentForLevel to work
         return map
       , {})
     createPlayLevelUrlMap: ->
