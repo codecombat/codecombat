@@ -4,6 +4,8 @@ div.container
   .campaign(v-if="campaignHandle")
     h2 Campaign: {{ campaignHandle }} ({{ numLevels }} levels)
     p {{ campaign.description }}
+    span Commit Message:
+      input.commit(v-model="commitMessage" ref="commitInput")
     .level(v-for="level in levels")
       bulk-level-editor-component(
         v-bind:level="level"
@@ -31,6 +33,7 @@ module.exports = Vue.extend({
     campaignToLoad: ''
     campaign: {}
     levels: {}
+    commitMessage: ''
   computed:
     numLevels: -> if @campaign?.levels then _.keys(@campaign.levels).length else 0
   created: co.wrap ->
@@ -48,6 +51,10 @@ module.exports = Vue.extend({
         Vue.set(@levels, original, levelData)
     saveLevel: co.wrap (level) ->
       console.log "SAVE LEVEL", level
+      unless @commitMessage
+        @$refs.commitInput.focus()
+        return
+      level.commitMessage = @commitMessage
       yield api.levels.save(level)
       levelData = yield api.levels.getByOriginal(level.original)
       Vue.set(@levels, level.original, levelData)
@@ -58,5 +65,7 @@ module.exports = Vue.extend({
 <style lang="sass">
 
 #bulk-level-edit-view
-
+  .commit
+    width: 75%
+    margin-bottom: 10px
 </style>
