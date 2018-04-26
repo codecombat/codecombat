@@ -1,0 +1,45 @@
+<template lang="jade">
+div.arrayinput
+  span [
+  select(
+    v-for="item,index in value"
+    v-bind:key="index"
+    v-model="value[index]"
+    @input="updateValue"
+  )
+    option(
+      v-for="v,i in valid"
+      v-bind:key="i"
+    ) {{ v }}
+
+  span ]
+  button.btn(v-on:click="addNewItem") +
+  button.btn(v-on:click="popItem" v-if="value.length > 0") -
+</template>
+
+<script lang="coffee">
+module.exports = Vue.extend({
+  props: {
+    value: { required: true, type: Array, default: -> [] },
+    valid: { required: true, type: Array }
+  }
+  methods:
+    addNewItem: ->
+      @value.push(@valid[0])
+      @updateValue()
+    popItem: ->
+      @value.pop()
+      @updateValue()
+    updateValue: ->
+      @$emit('input', @value)
+})
+
+</script>
+
+<style lang="sass">
+  .arrayinput
+    flex-wrap: wrap
+    select
+      max-width: 200px
+      font-size: 90%
+</style>
