@@ -14,7 +14,7 @@ div.container
   .campaignPick(v-else)
     label Campaign:
     input(v-model="campaignToLoad")
-    button(@click="fetchCampaign(campaignToLoad)") Load
+    button(@click="fetchData") Load
 </template>
 
 <script lang="coffee">
@@ -37,26 +37,29 @@ module.exports = Vue.extend({
   computed:
     numLevels: -> if @campaign?.levels then _.keys(@campaign.levels).length else 0
   created: co.wrap ->
-    @fetchCampaign(@campaignHandle) if @campaignHandle
+    @fetchData() if @campaignHandle
   methods:
+    fetchData: co.wrap ->
+      campaign = @campaignHandle || @campaignToLoad
+      yield @fetchCampaign(campaign)
+      yield @fetchLevels()
     fetchCampaign: co.wrap (campaignHandle) ->
       @campaignHandle = campaignHandle
       @campaign = yield api.campaigns.get({ campaignHandle })
       @campaignToLoad = '' if @campaign
-      @fetchLevels()
     fetchLevels: co.wrap ->
       return unless @campaign
+      promiseMap = {}
       for original, level of @campaign.levels
-        levelData = yield api.levels.getByOriginal(original)
-        Vue.set(@levels, original, levelData)
+        promiseMap[original] = api.levels.getByOriginal(original)
+      @levels = yield promiseMap
     saveLevel: co.wrap (level) ->
       console.log "SAVE LEVEL", level
       unless @commitMessage
         @$refs.commitInput.focus()
         return
       level.commitMessage = @commitMessage
-      yield api.levels.save(level)
-      levelData = yield api.levels.getByOriginal(level.original)
+      levelData = yield api.levels.save(level)
       Vue.set(@levels, level.original, levelData)
 })
 

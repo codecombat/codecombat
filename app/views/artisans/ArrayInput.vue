@@ -8,10 +8,9 @@ div.arrayinput
     @input="updateValue"
   )
     option(
-      v-for="v,i in valid"
+      v-for="v,i in enumList"
       v-bind:key="i"
     ) {{ v }}
-
   span ]
   button.btn(v-on:click="addNewItem") +
   button.btn(v-on:click="popItem" v-if="value.length > 0") -
@@ -21,11 +20,11 @@ div.arrayinput
 module.exports = Vue.extend({
   props: {
     value: { required: true, type: Array, default: -> [] },
-    valid: { required: true, type: Array }
+    enumList: { required: true, type: Array }
   }
   methods:
     addNewItem: ->
-      @value.push(@valid[0])
+      @value.push(@enumList[0])
       @updateValue()
     popItem: ->
       @value.pop()

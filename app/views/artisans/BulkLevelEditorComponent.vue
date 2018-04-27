@@ -16,7 +16,7 @@ div.leveleditor
     label Primary Concepts:
     array-input.grow(
       v-model="edited.primaryConcepts"
-      v-bind:valid="concepts"
+      v-bind:enumList="concepts"
     )
   .editrow
     label Description:
