@@ -5,7 +5,6 @@ template = require 'templates/play/menu/game-menu-modal'
 submenuViews = [
   require 'views/play/menu/SaveLoadView'
   require 'views/play/menu/OptionsView'
-  require 'views/play/menu/GuideView'
 ]
 
 module.exports = class GameMenuModal extends ModalView
@@ -32,18 +31,14 @@ module.exports = class GameMenuModal extends ModalView
   getRenderData: (context={}) ->
     context = super(context)
     docs = @options.level.get('documentation') ? {}
-    submenus = ['guide', 'options', 'save-load']
+    submenus = ['options', 'save-load']
     submenus = _.without submenus, 'options' if window.serverConfig.picoCTF
-    unless window.serverConfig.picoCTF
-      if @level.isType('course', 'course-ladder') or not @options.level.get('helpVideos')?.length > 0
-        submenus = _.without submenus, 'guide'
     submenus = _.without submenus, 'save-load' unless me.isAdmin() or /https?:\/\/localhost/.test(window.location.href)
     @includedSubmenus = submenus
     context.showTab = @options.showTab ? submenus[0]
     context.submenus = submenus
     context.iconMap =
       'options': 'cog'
-      'guide': 'list'
       'save-load': 'floppy-disk'
     context
 
@@ -56,10 +51,7 @@ module.exports = class GameMenuModal extends ModalView
   afterRender: ->
     super()
     @insertSubView new submenuView @options for submenuView in submenuViews
-    firstView = switch @options.showTab
-      when 'guide' then @subviews.guide_view
-      else
-        if 'guide' in @includedSubmenus then @subviews.guide_view else @subviews.options_view
+    firstView = @subviews.options_view
     firstView.$el.addClass 'active'
     firstView.onShown?()
     @playSound 'game-menu-open'
