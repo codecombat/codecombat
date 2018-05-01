@@ -392,6 +392,12 @@ module.exports = class ThangType extends CocoModel
     props = _.without props, 'canCast', 'spellNames', 'spells'
     for stat, modifiers of itemConfig.stats ? {}
       stats[stat] = @formatStatDisplay stat, modifiers
+      if @heroStatModifier? and stats['maxHealth']? and !isNaN(stats['maxHealth'].display)
+        healthModifier = @heroStatModifier.health.absolute
+        totalHealth = Math.round(healthModifier * stats['maxHealth'].display)
+        modifiedHealth = Math.round(totalHealth - stats['maxHealth'].display)
+        stats['maxHealth'].display +=  "  (#{modifiedHealth})"
+        stats['maxHealth'].tooltipDisplay = "#{totalHealth} total health after x#{healthModifier} modifier from the selected hero"
     for stat in itemConfig.extraHUDProperties ? []
       stats[stat] ?= null  # Find it in the other Components.
     for component in components
@@ -400,6 +406,12 @@ module.exports = class ThangType extends CocoModel
         value = config[stat]
         continue unless value?
         stats[stat] = @formatStatDisplay stat, setTo: value
+        if @heroStatModifier? and (stat is 'attackDamage' or  stat is 'bashDamage' or  stat is 'throwDamage')
+          damageModifier = @heroStatModifier.attack.absolute
+          totalDamage = Math.round(damageModifier * stats[stat].display)
+          modifiedDamage = Math.round(totalDamage - stats[stat].display)
+          stats[stat].display += "  (#{modifiedDamage})"
+          stats[stat].tooltipDisplay = "#{totalDamage} damage after x#{damageModifier} from the selected hero"
         if stat is 'attackDamage'
           dps = (value / (config.cooldown or 0.5)).toFixed(1)
           stats[stat].display += " (#{dps} DPS)"
