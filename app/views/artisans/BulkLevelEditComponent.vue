@@ -59,7 +59,8 @@ module.exports = Vue.extend({
         @$refs.commitInput.focus()
         return
       level.commitMessage = @commitMessage
-      levelData = yield api.levels.save(level)
+      options = { headers: { 'x-current-path': document.location?.pathname } }
+      levelData = yield api.levels.save(level, options)
       Vue.set(@levels, level.original, levelData)
 })
 
