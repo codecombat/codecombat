@@ -13,6 +13,7 @@ module.exports = (env) => {
   return _.merge(baseConfig, {
     output: _.merge({}, baseConfig.output, {
       chunkFilename: 'javascripts/chunks/[name].bundle.js',
+      publicPath: 'http://localhost:4000/'
     }),
     devtool: 'eval-source-map', // https://webpack.js.org/configuration/devtool/
     plugins: baseConfig.plugins.concat([

@@ -49,6 +49,15 @@ module.exports = (env) => {
         ], (regex) => { return regex.test(name) })
       },
       rules: [
+        {
+          test: /\.(png|jpg|gif)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {}
+            }
+          ]
+        },
         { test: /\.vue$/, use: [{ loader: 'vue-loader' }] },
         { test: /vendor\/scripts\/async.js/, use: [ { loader: 'imports-loader?root=>window' } ] },
         { test: /\.coffee$/, use: [
