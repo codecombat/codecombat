@@ -15,8 +15,8 @@
         if !me.isStudent()
           for stat in stats
             div(class="stat-row big-font" + (/^en/.test(me.get('preferredLanguage')) && stat.matchedShortName ? " short-name" : ""))
-              div.stat-label= stat.name
-              div.stat= stat.display
+              div.stat-label(title=stat.tooltipDisplay)= stat.name
+              div.stat(title=stat.tooltipDisplay)= stat.display
             img.hr(src="/images/pages/play/modal/hr.png", class=stat.isLast ? "" : "faded", draggable="false")
 
         if item.description
