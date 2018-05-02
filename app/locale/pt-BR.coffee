@@ -984,7 +984,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     character_art: "Arte do personagem"
     download_all: "Baixar Tudo"
     previous: "Anterior"
-#    location_title: "We're located in downtown SF:"
+#    location_title: "Estamos localizados no centro de SF:"
 
 #  teachers:
 #    licenses_needed: "Licenses needed"
