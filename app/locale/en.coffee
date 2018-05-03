@@ -2369,6 +2369,7 @@
     rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "In a Nutshell"
     nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for."
+    nutshell_see_also: "See also:"
     canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
     third_party_title: "Third Party Services"
     third_party_description: "CodeCombat uses the following third party services (among others):"
