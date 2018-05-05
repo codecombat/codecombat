@@ -35,9 +35,10 @@
                 | {{ $dbt(nextAssessment, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
                 
-            div.clearfix.well.well-sm.well-parchment(v-else)
+            div#level-status.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
                 | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
+              img(:src="heroImage").hero-img
               div(v-if="level.victory") {{ $dbt(level.victory, 'body') }}
               
         .row(v-if="level.assessment === 'cumulative'")
@@ -91,6 +92,8 @@
 <script lang="coffee">
   PieChart = require('core/components/PieComponent').default
   utils = require 'core/utils'
+  thangTypeConstants = require 'lib/ThangTypeConstants'
+  heroMap = _.invert(thangTypeConstants.heroes)
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
@@ -147,6 +150,16 @@
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
       level: -> @$store.state.game.level
+      heroImage: -> 
+        unless @$store.state.me.heroConfig?.thangType
+          return "/images/pages/play/modal/captain.png"
+        else
+          slug = heroMap[@$store.state.me.heroConfig.thangType]
+          if !slug?
+            return "/images/pages/play/modal/captain.png"
+          else
+            return "/images/pages/play/modal/#{slug}.png"
+          
     }
     methods: {
       marked
@@ -248,5 +261,16 @@
       // they are not necessarily built for the provided space, eg Wakka Maul
       img
         display: none
+
+    #level-status
+      position: relative
+      min-height: 120px
+      padding-left: 170px
+      padding-top: 15px
+
+      .hero-img
+        position: absolute
+        bottom: 0
+        left: 10px
   
 </style>

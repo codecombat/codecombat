@@ -8,169 +8,101 @@ block content
   hr
 
   p(data-i18n="legal.opensource_intro").lead
-    | CodeCombat is completely open source.
+
   p
     span(data-i18n="legal.opensource_description_prefix")
-      | Check out 
     a(href="https://github.com/codecombat/codecombat", data-i18n="legal.github_url")
-      | our GitHub
     span , 
     span(data-i18n="legal.opensource_description_center")
-      | and help out if you like! CodeCombat is built on 
-      | dozens of open source projects, and we love them. See 
     a(href="https://github.com/codecombat/codecombat/wiki/Archmage-Home", data-i18n="legal.archmage_wiki_url")
-      | our Archmage wiki
     span.spl(data-i18n="legal.opensource_description_suffix")
-      | for a list of the software that makes this game possible.
   hr
 
   div.aside.well
     h3(data-i18n="legal.practices_title")
-      | Respectful Best Practices
     p(data-i18n="legal.practices_description")
-      | These are our promises to you, the player, in slightly less legalese.
     h4
-      a(href="/privacy", data-i18n="legal.privacy_title") Privacy
+      a(href="/privacy", data-i18n="legal.privacy_title")
     p(data-i18n="legal.privacy_description")
-      | We will not sell any of your personal information.
     h4(data-i18n="legal.security_title")
-      | Security
     p(data-i18n="legal.security_description")
-      | We strive to keep your personal information safe.
-      | As an open source project, our site is freely open 
-      | to anyone to review and improve our security systems.
     h4(data-i18n="legal.email_title")
-      | Email
     p
       span.spr(data-i18n="legal.email_description_prefix")
-        | We will not inundate you with spam. Through
       a(href='/account/settings', data-i18n="legal.email_settings_url")
-        | your email settings
       span.spl(data-i18n="legal.email_description_suffix")
-        | or through links in the emails we send, 
-        | you can change your preferences and easily unsubscribe at any time.
     if !me.isOnPremiumServer()
       h4(data-i18n="legal.cost_title")
-        | Cost
       p#cost-description Loading...
     
   h2(data-i18n="legal.copyrights_title")
-    | Copyrights and Licenses
   
   h3(data-i18n="legal.contributor_title")
-    | Contributor License Agreement
   
   p
     span.spr(data-i18n="legal.contributor_description_prefix")
-      | All contributions, both on the site and on our GitHub repository, are subject to our
     a(href="/cla", data-i18n="legal.cla_url")
-      | CLA
     span , 
     span(data-i18n="legal.contributor_description_suffix")
-      | to which you should agree before contributing.
   
   h3(data-i18n="legal.code_title")
-    | Code - MIT
   
   p
     span.spr(data-i18n="legal.code_description_prefix")
-      | All code owned by CodeCombat or hosted on codecombat.com, 
-      | both in the GitHub repository or in the codecombat.com database, 
-      | is licensed under the
     a(href="http://opensource.org/licenses/MIT", data-i18n="legal.mit_license_url")
-      | MIT license
     span . 
     span(data-i18n="legal.code_description_suffix")
-      | This includes all code in Systems and Components that are 
-      | made available by CodeCombat for the purpose of creating levels.
   
   h3(data-i18n="legal.art_title")
-    | Art/Music - Creative Commons 
 
   p
     span.spr(data-i18n="legal.art_description_prefix")
-      | All common content is available under the
     a(href="https://creativecommons.org/licenses/by/4.0/", data-i18n="legal.cc_license_url")
-      | Creative Commons Attribution 4.0 International License
     span . 
     span(data-i18n="legal.art_description_suffix")
-      | Common content is anything made generally available by CodeCombat 
-      | for the purpose of creating Levels. This includes:
   
   ul
-    li(data-i18n="legal.art_music") Music
-    li(data-i18n="legal.art_sound") Sound
-    li(data-i18n="legal.art_artwork") Artwork
-    li(data-i18n="legal.art_sprites") Sprites
+    li(data-i18n="legal.art_music")
+    li(data-i18n="legal.art_sound")
+    li(data-i18n="legal.art_artwork")
+    li(data-i18n="legal.art_sprites")
     li(data-i18n="legal.art_other")
-      | Any and all other non-code creative works that 
-      | are made available when creating Levels.
   
   p(data-i18n="legal.art_access")
-    | Currently there is no universal, easy system for fetching these assets.
-    | In general, fetch them from the URLs as used by the site,
-    | contact us for assistance, or help us in extending the site
-    | to make these assets more easily accessible.
   
   p(data-i18n="legal.art_paragraph_1")
-    | For attribution, please name and link to codecombat.com near 
-    | where the source is used or where appropriate for the medium. For example:
   
   ul
     li(data-i18n="legal.use_list_1")
-      | If used in a movie or another game, include codecombat.com in the credits.
     li(data-i18n="legal.use_list_2")
-      | If used on a website, include a link near the usage, 
-      | for example underneath an image, or in a general attributions 
-      | page where you might also mention other Creative Commons works 
-      | and open source software being used on the site. Something that's 
-      | already clearly referencing CodeCombat, such as a blog post mentioning 
-      | CodeCombat, does not need some separate attribution.
   
   p(data-i18n="legal.art_paragraph_2")
-    | If the content being used is created not by CodeCombat 
-    | but instead by a user of codecombat.com, 
-    | attribute them instead, and follow attribution directions 
-    | provided in that resource's description if there are any.
   
   h3(data-i18n="legal.rights_title")
-    | Rights Reserved
   
   p(data-i18n="legal.rights_desc")
-    | All rights are reserved for Levels themselves. This includes
   
   ul
-    li(data-i18n="legal.rights_scripts") Scripts
-    li(data-i18n="legal.rights_unit") Unit configuration
-    li(data-i18n="general.description") Description
-    li(data-i18n="legal.rights_writings") Writings
+    li(data-i18n="legal.rights_scripts")
+    li(data-i18n="legal.rights_unit")
+    li(data-i18n="general.description")
+    li(data-i18n="legal.rights_writings")
     li(data-i18n="legal.rights_media")
-      | Media (sounds, music) and any other creative 
-      | content made specifically for that Level and 
-      | not made generally available when creating Levels.
   
   p(data-i18n="legal.rights_clarification")
-    | To clarify, anything that is made available in the Level Editor
-    | for the purpose of making levels is under CC, whereas the content
-    | created with the Level Editor or uploaded in the course of creation of
-    | Levels is not.
   
   h3(data-i18n="legal.nutshell_title")
-    | In a Nutshell
   
   p(data-i18n="legal.nutshell_description")
-    | Any resources we provide in the Level Editor are 
-    | free to use as you like for creating Levels. 
-    | But we reserve the right to restrict distribution of 
-    | the Levels themselves (that are created on codecombat.com) 
-    | so that they may be charged for in the future, 
-    | if that's what ends up happening.
+
+  p
+    span(data-i18n="legal.nutshell_see_also")
+    span= ' '
+    a(href="https://github.com/codecombat/codecombat/blob/master/LICENSE-LEVELS.md") LICENSE-LEVELS.md
   
   h3(data-i18n="legal.third_party_title")
-    | Third Party Services
   
   p(data-i18n="legal.third_party_description")
-    | CodeCombat uses the following third party services (among others):
 
   ul
 
@@ -180,5 +112,4 @@ block content
 
   hr
 
-  p(data-i18n="legal.canonical") The English version of this document is the definitive, canonical version.
-    | If there are any discrepencies between translations, the English document takes precedence.
+  p(data-i18n="legal.canonical")
