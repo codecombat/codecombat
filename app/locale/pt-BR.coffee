@@ -10,7 +10,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     classroom_in_a_box: "Uma sala de aula in-a-box para o ensino de ciência da computação."
     codecombat_is: "CodeCombat é uma plataforma <strong>para estudantes</strong> aprenderem ciência da computação através de um jogo real."
     our_courses: "Nossos cursos foram pensados especificamente para <strong>o uso em sala de aula</strong>, mesmo para professores com pouco conhecimento prévio em programação."
-#    watch_how: "Watch how CodeCombat is transforming the way people learn computer science."
+    watch_how: "Assista agora como CodeCombat está transformando as vidas das pessoas de como elas aprendem ciências da computação."
     top_screenshots_hint: "Alunos escrevem seus códigos e veem suas mudanças em tempo real."
     designed_with: "Projetado com professores em mente"
     real_code: "Código escrito, de verdade"
@@ -98,7 +98,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     help_pref: "Precisa de ajuda? Email"
     help_suff: "e nós entraremos em contato!"
     resource_hub: "Central de Recursos"
-#    apcsp: "AP CS Principles"
+    apcsp: "Princípios de Ciências da Computação"
 
   modal:
     close: "Fechar"
@@ -117,8 +117,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 
   play:
     play_as: "Jogar Como " # Ladder page
-#    get_course_for_class: "Assign Game Development and more to your classes!"
-#    request_licenses: "Contact our school specialists for details."
+    get_course_for_class: "Assine o curso de Desenvolvimento de Games e mais outros para suas turmas!"
+    request_licenses: "Contate nossos especialistas para detahes."
     compete: "Concorrer!" # Course details page
     spectate: "Assistir" # Ladder page
     players: "Jogadores" # Hover over a level on /play
@@ -227,7 +227,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     signup_switch: "Deseja Criar uma Conta?"
 
   signup:
-#    complete_subscription: "Complete Subscription"
+    complete_subscription: "Complete Inscrição"
     create_student_header: "Criar conta de Aluno"
     create_teacher_header: "Criar conta de Professor"
     create_individual_header: "Criar conta Individual"
@@ -674,9 +674,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     damage_dealt: "Dano Causado"
     difficulty: "Dificuldade"
     gold_collected: "Ouro Coletado"
-#    survival_time: "Survived"
-#    defeated: "Enemies Defeated"
-#    code_length: "Lines of Code"
+    survival_time: "Sobreviveu"
+    defeated: "Inimigos derrotados"
+    code_length: "Linhas de código"
 #    score_display: "__scoreType__: __score__"
 
   inventory:
@@ -690,9 +690,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     restricted: "(Restrito neste nível)"
     equip: "Equipar"
     unequip: "Desequipar"
-#    warrior_only: "Warrior Only"
-#    ranger_only: "Ranger Only"
-#    wizard_only: "Wizard Only"
+    warrior_only: "Apenas guerreiros"
+    ranger_only: "Apenas guardas"
+    wizard_only: "Apenas feiticeiros"
 
   buy_gems:
     few_gems: "Algumas gemas"
@@ -715,8 +715,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     prompt_body: "Continue jogando para ganhar mais!"
 
   subscribe:
-#    best_deal: "Best Deal!"
-#    confirmation: "Congratulations! You now have a CodeCombat Premium Subscription!"
+    best_deal: "Melhore negócio!"
+    confirmation: "Parabéns! Agora você têm uma conta Premium!"
     premium_already_subscribed: "Você já se inscreveu como Premium!"
     subscribe_modal_title: "CodeCombat Premium"
     comparison_blurb: "Seja um programador. Faça a inscrição <b>Premium</b> hoje!" # {change}
@@ -748,9 +748,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     unsubscribing: "Cancelando assinatura" # {change}
     subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago"
     using_prepaid: "Utilizando código pré-pago para assinatura mensal"
-#    feature_level_access: "Access 300+ levels available"
+    feature_level_access: "Acesso a mais de 300+ níveis"
     feature_heroes: "Desbloqueie heróis exclusivos" # {change}
-#    feature_learn: "Learn to make games and websites"
+    feature_learn: "Aprenda a fazer jogos e websites"
     month_price: "$__price__/mês" # {change}
 #    first_month_price: "Only $__price__ for your first month!"
     lifetime: "Inscrição para vida toda" # {change}
@@ -805,7 +805,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
   premium_features:
     get_premium: "Assine<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
     master_coder: "Torne-se um programador assinando hoje!"
-#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
+    paypal_redirect: "Você será redirecionado ao PayPal para completar inscrição."
     subscribe_now: "Assine Agora"
     hero_blurb_1: "Ganhe acesso a __premiumHeroesCount__ heróis exclusivos para assinantes! Aproveite o força de Okar Stompfoot, a precisão de Naria of the Leaf, ou convoque esqueletos \"adoráveis\" com Nalfar Cryptor."
     hero_blurb_2: "Os guerreiros desbloqueiam habilidades especiais como Grito de Guerra, Stomp e Lançar Heróis. Ou, jogue como um Patrulheiro usando arcos, facas, armadilhas! Teste suas habilidades como um autêntico Feiticeiro Programador e desenhe uma poderosa matriz de magia Primordial, Necromântica ou Elementar!"
@@ -910,7 +910,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     editor_config_behaviors_description: "Completar automaticamente colchetes, chaves e aspas."
 
   about:
-#    learn_more: "Learn More"
+    learn_more: "Saiba mais"
     main_title: "Se quer aprender a programar, você precisa escrever (bastante) código."
     main_description: "No CodeCombat, nosso trabalho é assegurar que você está fazendo isso com um sorriso no rosto."
     mission_link: "Missão"
@@ -932,8 +932,8 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     lisa_title: "Pedagoga" # {change}
     sean_title: "Gerente de Território"
     liz_title: "Gerente de Território"
-#    jane_title: "Customer Success Manager"
-#    david_title: "Marketing Lead"
+    jane_title: "Gerente de Sucesso do Cliente"
+    david_title: "Líder de marketing"
     retrostyle_title: "Ilustração"
     retrostyle_blurb: "Games estilo Retrô"
     bryukh_title: "Game Designer"
@@ -948,7 +948,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     number_contributors: "Mais de 450 colaboradores deram o seu apoio e tempo a este projeto."
     story_title: "Nosso história até agora"
     story_subtitle: "Desde 2013, o CodeCombat cresceu de um mero conjunto de esboços para um jogo vivo e próspero."
-#    story_statistic_1a: "5,000,000+"
+    story_statistic_1a: "5,000,000+"
     story_statistic_1b: "jogadores no total"
     story_statistic_1c: "Começaram sua jornada de programação através do CodeCombat"
     story_statistic_2a: "Nós fomos traduzidos para mais de 50 idiomas - nossos jogadores são provenientes de"
@@ -979,19 +979,18 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     screenshots_hint: "(clique para ver em tamanho grande)"
     downloads_title: "Download de Espólio e Informações"
     about_codecombat: "Sobre o CodeCombat"
-#    logo: "Logo"
+    logo: "Logo"
     screenshots: "Screenshots"
     character_art: "Arte do personagem"
     download_all: "Baixar Tudo"
     previous: "Anterior"
     location_title: "Estamos localizados no centro de SF:"
 
+  teachers:
+    licenses_needed: "Licenças necessárias"
 
-#  teachers:
-#    licenses_needed: "Licenses needed"
-
-#  special_offer:
-#    special_offer: "Special Offer"
+  special_offer:
+    special_offer: "Oferta especial"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
