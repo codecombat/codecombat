@@ -12,6 +12,7 @@
             div.clearfix.well.well-sm.well-parchment.combo-results(v-if="level.assessment === 'cumulative'")
               div.text-center.text-uppercase.pie-container
                 pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1")
+                img(:src="comboImage", :style="comboImageStyle").combo-img
                 h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
               div
                 h3.text-uppercase {{ $t('play_level.combo_challenge_complete') }}
@@ -20,8 +21,9 @@
                 div(v-else)
                   | {{ $t('play_level.combo_not_all_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
 
-            div.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
+            div#level-status.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
               h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
+              img(:src="heroImage").hero-img
               div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
                   
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
@@ -159,7 +161,16 @@
             return "/images/pages/play/modal/captain.png"
           else
             return "/images/pages/play/modal/#{slug}.png"
-          
+      comboImage: ->
+        if @allConceptsUsed
+          return "/images/pages/play/modal/combo_complete.png"
+        else
+          return "/images/pages/play/modal/combo_incomplete.png"
+      comboImageStyle: ->
+        if @allConceptsUsed
+          {'left': '118px'}
+        else
+          {'left': '92px'}
     }
     methods: {
       marked
@@ -253,6 +264,11 @@
     .pie-container
       padding: 0 15px
       width: 250px
+    
+    .combo-img
+      position: absolute
+      max-block-size: 70px
+      top: 26px
     
     .combo-results
       display: flex
