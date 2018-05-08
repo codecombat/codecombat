@@ -12,7 +12,7 @@
             div.clearfix.well.well-sm.well-parchment.combo-results(v-if="level.assessment === 'cumulative'")
               div.text-center.text-uppercase.left-column
                 div.pie-container
-                  pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1")
+                  pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1", :borderStrokeWidth=0)
                   img(:src="comboImage").combo-img
                 h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
               div
