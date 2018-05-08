@@ -10,9 +10,10 @@
         .row
           .col-sm-12
             div.clearfix.well.well-sm.well-parchment.combo-results(v-if="level.assessment === 'cumulative'")
-              div.text-center.text-uppercase.pie-container
-                pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1")
-                img(:src="comboImage", :style="comboImageStyle").combo-img
+              div.text-center.text-uppercase.left-column
+                div.pie-container
+                  pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1")
+                  img(:src="comboImage").combo-img
                 h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
               div
                 h3.text-uppercase {{ $t('play_level.combo_challenge_complete') }}
@@ -166,11 +167,6 @@
           return "/images/pages/play/modal/combo_complete.png"
         else
           return "/images/pages/play/modal/combo_incomplete.png"
-      comboImageStyle: ->
-        if @allConceptsUsed
-          {'left': '118px'}
-        else
-          {'left': '92px'}
     }
     methods: {
       marked
@@ -260,15 +256,25 @@
     
     svg
       width: 60px
+      position: absolute
+      top: 0
+      left: 0
     
-    .pie-container
+    .left-column
       padding: 0 15px
       width: 250px
+
+    .pie-container
+      position: relative
+      width: 60px
+      height: 70px
+      display: inline-block
     
     .combo-img
       position: absolute
       max-block-size: 70px
-      top: 26px
+      top: -4px
+      left: -4px
     
     .combo-results
       display: flex
