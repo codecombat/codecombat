@@ -34,7 +34,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @levelNumberMap = {}
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @paidTeacher = me.isAdmin()
+    @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
     super(options)
 
   camelCaseLanguage: (language) ->
