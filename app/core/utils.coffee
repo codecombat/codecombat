@@ -479,7 +479,7 @@ createLevelNumberMap = (levels) ->
     else if level.assessment
       practiceLevelTotalCount++
       practiceLevelCurrentCount++
-      levelNumber = 'Challenge'
+      levelNumber = if level.assessment is 'cumulative' then $.t('play_level.combo_challenge') else $.t('play_level.concept_challenge')
     else
       practiceLevelCurrentCount = 0
     levelNumberMap[level.key] = levelNumber

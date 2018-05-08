@@ -15,7 +15,7 @@
             div
               strong
                 a(:href="studentLink(student._id)") {{ broadName(student) }}
-            div.student-email {{ student.email }}
+            div.student-email {{ student.email || student.name }}
     div.data-column(ref="dataColumn", @scroll="updateArrows" v-if="levels.length > 0")
       div(v-for="(student, index) in students")
         div.small.table-row.table-header-row.alternating-background(v-if="index % 8 === 0")
@@ -156,11 +156,11 @@
       text-overflow: ellipsis
       overflow: hidden
     .table-row.lighter .table-cell.combo-cell
-      background: #c9dbe6
+      background: #e0eaf0
     .table-row.darker .table-cell.combo-cell
-      background: #b6c8d4
+      background: #cedee8
     .table-header.combo-cell
-      background: #b6c8d4
+      background: #cedee8
     .table-cell.name
       padding-left: 10px
       padding-top: 5px

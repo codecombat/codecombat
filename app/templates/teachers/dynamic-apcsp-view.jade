@@ -10,7 +10,9 @@ block content
         a(href='/apcsp')
           |&lt; Back to AP CS Principles Home
     
-    if view.loadingData
+    if view.cannotAccess()
+      #apcsp-landing Stub
+    else if view.loadingData
       h4.text-center
         i Loading...
     else if view.notFound

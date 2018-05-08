@@ -33,15 +33,11 @@ block content
     if view.levels
       h3(data-i18n="common.table_of_contents")
       each level, index in view.levels.models
-        if level.get('assessment') && !me.hasAssessments()
-          - continue
         .small
           a(href="##{level.get('slug')}") #{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
       br
 
       each level, index in view.levels.models
-        if level.get('assessment') && !me.hasAssessments()
-          - continue
         - var langClass = 'lang-' + (level.get('primerLanguage') || view.language || 'python');
         h2.page-break-before(id=level.get('slug')) ##{view.levelNumberMap[level.get('original')]}. #{i18n(level.attributes, 'name')}
         h3(data-i18n="teacher.level_overview_solutions")
@@ -85,7 +81,7 @@ block content
                 each solution, index in solutions
                   li.nav-item(class=(index === 0 ? 'active' : ''))
                     - var target = level.get('original') + index;
-                    a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0))
+                    a.nav-link(id="#{target}-tab", class=(index === 0 ? 'active' : ''), href="##{target}", role="tab", data-toggle="tab", aria-controls=target, aria-selected=(index === 0), data-level-slug=level.get('slug'), data-solution-index=index)
                       if index === 0
                         strong.text-center(data-i18n="teacher.complete_solution")
                       else

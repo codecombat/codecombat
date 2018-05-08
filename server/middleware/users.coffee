@@ -525,15 +525,21 @@ module.exports =
   resetProgress: wrap (req, res) ->
     unless req.user
       throw new errors.Unauthorized()
-    if req.params.handle isnt req.user.id
-      throw new errors.Forbidden('Users may only delete themselves')
     if req.user.isAdmin()
-      throw new errors.Forbidden('Admins cannot reset progress') # as a precaution
+      if req.params.handle is req.user.id
+        throw new errors.Forbidden('Admins cannot reset their own progress')
+      user = yield database.getDocFromHandle(req, User)
+      if not user
+        throw new errors.NotFound('User not found.')
+    else
+      if req.params.handle isnt req.user.id
+        throw new errors.Forbidden('Users may only delete themselves')
+      user = req.user
     yield [
-      LevelSession.remove({creator: req.user.id})
-      EarnedAchievement.remove({user: req.user.id})
-      UserPollsRecord.remove({user: req.user.id}) # so that gems can be re-awarded
-      req.user.update({
+      LevelSession.remove({creator: user.id})
+      EarnedAchievement.remove({user: user.id})
+      UserPollsRecord.remove({user: user.id}) # so that gems can be re-awarded
+      user.update({
         $set: {
           points: 0,
           'stats.gamesCompleted': 0,

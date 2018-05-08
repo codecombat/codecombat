@@ -25,7 +25,7 @@ Courses = require 'collections/Courses'
 CourseInstance = require 'models/CourseInstance'
 CourseInstances = require 'collections/CourseInstances'
 Prepaids = require 'collections/Prepaids'
-window.saveAs ?= require 'bower_components/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
+window.saveAs ?= require 'node_modules/file-saver/FileSaver.js' # `window.` is necessary for spec to spy on it
 window.saveAs = window.saveAs.saveAs if window.saveAs.saveAs  # Module format changed with webpack?
 TeacherClassAssessmentsTable = require('./TeacherClassAssessmentsTable').default
 PieChart = require('core/components/PieComponent').default
@@ -50,6 +50,7 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .revoke-student-button': 'onClickRevokeStudentButton'
+    'click .revoke-all-students-button': 'onClickRevokeAllStudentsButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
@@ -263,7 +264,6 @@ module.exports = class TeacherClassView extends RootView
       new PieChart({
         el: @$el.find('.pie')[0]
         propsData: {
-          label: ' ',
           percent: 100*2/3,
           'strokeWidth': 10,
           color: "#20572B",
@@ -318,6 +318,9 @@ module.exports = class TeacherClassView extends RootView
   onClickNavTabLink: (e) ->
     e.preventDefault()
     hash = $(e.target).closest('a').attr('href')
+    if hash isnt window.location.hash
+      tab = hash.slice(1)
+      window.tracker?.trackEvent 'Teachers Class Switch Tab', { category: 'Teachers', classroomID: @classroom.id, tab }, ['Mixpanel']
     @updateHash(hash)
     @state.set activeTab: hash
 
@@ -691,6 +694,22 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
+    
+  onClickRevokeAllStudentsButton: ->
+    s = $.i18n.t('teacher.revoke_all_confirm')
+    return unless confirm(s)
+    for student in @students.models
+      status = student.prepaidStatus()
+      if status is 'enrolled' and student.prepaidType() is 'course'
+        prepaid = student.makeCoursePrepaid()
+        prepaid.revoke(student, {
+          success: =>
+            student.unset('coursePrepaid')
+          error: (prepaid, jqxhr) =>
+            msg = jqxhr.responseJSON.message
+            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          complete: => @render()
+        })
 
   onClickSelectAll: (e) ->
     e.preventDefault()

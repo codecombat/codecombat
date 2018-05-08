@@ -66,7 +66,7 @@ describe 'delighted', ->
     @user = yield setupTeacher trialRequestFixture
 
 
-  it 'creates a profile when the first class is created', utils.wrap ->
+  it 'creates a profile when the first class is created, to email 18 days after', utils.wrap ->
     @user = yield setupTeacher trialRequestFixture
 
     # Add class one
@@ -74,7 +74,7 @@ describe 'delighted', ->
     expect(delighted.postPeople).toHaveBeenCalled()
     delightedProps = delighted.postPeople.calls.first().args[0]
     
-    expect(delightedProps.delay).toBe(3600 * 24 * 7)
+    expect(delightedProps.delay).toBe(3600 * 24 * 18)
     expect(delightedProps.properties.status).toBe('engaged')
 
     # Add reset
@@ -91,7 +91,7 @@ describe 'delighted', ->
     yield makeClassroom @user, "Classroom 1"
     expect(delighted.postPeople).not.toHaveBeenCalled()
 
-  it 'creates a profile when the first course prepaid is added', utils.wrap ->
+  it 'creates a profile when the first course prepaid is added, to email 7 days after', utils.wrap ->
     @user = yield setupTeacher trialRequestFixture
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -125,7 +125,7 @@ describe 'delighted', ->
     
     expect(delighted.postPeople).not.toHaveBeenCalled()
 
-  it 'creates a profile when the first starter prepaid is added', utils.wrap ->
+  it 'creates a profile when the first starter prepaid is added, to email 7 days after', utils.wrap ->
     @user = yield setupTeacher trialRequestFixture
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)

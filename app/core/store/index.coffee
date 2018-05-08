@@ -18,6 +18,7 @@ store = new Vuex.Store({
   }
   modules: {
     me: require('./modules/me'),
+    courses: require('./modules/courses'),
     game: require('./modules/game')
   }
 })

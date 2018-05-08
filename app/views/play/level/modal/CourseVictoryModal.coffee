@@ -58,7 +58,16 @@ module.exports = class CourseVictoryModal extends ModalView
         @course = new Course()
         @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID)
 
-    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', category: 'Students', levelSlug: @level.get('slug'), []
+    properties = {
+      category: 'Students',
+      levelSlug: @level.get('slug')
+    }
+    concepts = @level.get('goals').filter((g) => g.concepts).map((g) => g.id)
+    if concepts.length
+      goalStates = @session.get('state').goalStates
+      succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
+      _.assign(properties, {concepts, succeededConcepts})
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
     if @level.isProject()
       @galleryURL = urls.projectGallery({ @courseInstanceID })
 
@@ -69,12 +78,14 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onLoaded: ->
     super()
+    # update level sessions so that stats are correct
+    @levelSessions?.remove(@session)
+    @levelSessions?.add(@session)
+    
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
       @views = []
   
-      @levelSessions?.remove(@session)
-      @levelSessions?.add(@session)
       progressView = new ProgressView({
         level: @level
         nextLevel: @nextLevel
@@ -141,8 +152,11 @@ module.exports = class CourseVictoryModal extends ModalView
 
   # TODO: Remove rest of logic transferred to CourseVictoryComponent
   onToMap: ->
+    if me.isSessionless()
+      link = "/teachers/courses"
+    else
+      link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
-    link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
   onDone: ->

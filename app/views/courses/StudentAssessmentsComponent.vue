@@ -59,6 +59,7 @@ module.exports = Vue.extend
     levels: null
     levelsByCourse: null
     sessionMap: {}
+    levelMap: {}
     playLevelUrlMap: {}
     levelUnlockedMap: {}
     inCourses: {}
@@ -72,17 +73,19 @@ module.exports = Vue.extend
       # TODO: Only load the levels we actually need
       Promise.all([
         api.users.getCourseInstances({ userID: me.id }).then((@courseInstances) =>),
-        api.courses.getAll().then((@courses) =>),
-        api.classrooms.get({ @classroomID }, { data: {memberID: me.id}, cache: false }).then((@classroom) =>)
+        @$store.dispatch('courses/fetch').then(=> @courses = @$store.getters['courses/sorted'])
+        api.classrooms.get({ @classroomID }, { data: {memberID: me.id} }).then((@classroom) =>)
       ]).then(=>
         @allLevels = _.flatten(_.map(@classroom.courses, (course) => course.levels))
+        for level in @allLevels
+          @levelMap[level.original] = level
         @levels = _.flatten(_.map(@classroom.courses, (course) => _.filter(course.levels, 'assessment')))
         @inCourses = {}
         for courseInstance in @courseInstances
           if courseInstance.classroomID is @classroomID and me.id in courseInstance.members
             @inCourses[courseInstance.courseID] = true
         @levelsByCourse = _.map(@classroom.courses, (course) => {
-          course: _.find(@courses, ({_id: course._id})),
+          course: @$store.state.courses.byId[course._id]
           assessmentLevels: _.filter(course.levels, 'assessment')
         }).filter((chunk) => chunk.assessmentLevels.length and @inCourses[chunk.course._id])
         @selectedCourse = document.location.hash.replace('#','') or _.first(@levelsByCourse)?.course._id
@@ -101,20 +104,28 @@ module.exports = Vue.extend
       api.users.getLevelSessions({ userID: me.id }).then((@levelSessions) =>)
     ]).then =>
       @sessionMap = @createSessionMap()
-      @playLevelUrlMap = @createPlayLevelUrlMap()
       # These two maps are for determining if a challenge is unlocked yet
       @previousLevelMap = @createPreviousLevelMap()
       @levelUnlockedMap = @createLevelUnlockedMap()
+      @playLevelUrlMap = @createPlayLevelUrlMap()
   methods:
     createSessionMap: ->
       # Map level original to levelSession
       _.reduce(@levelSessions, (map, session) =>
+        level = @levelMap[session.level.original]
+        return map if not level # we fetch all user sessions; handle when user has a session not in their courses
+        defaultLanguage = level.primerLanguage or @classroom.aceConfig.language
+        if session.codeLanguage isnt defaultLanguage
+          return map
         map[session.level.original] = session
+        level.complete = session.state?.complete # needed for utils.findNextAssessmentForLevel to work
         return map
       , {})
     createPlayLevelUrlMap: ->
       # Map level original to URL to play that level as the student
       _.reduce(@levels, (map, level) =>
+        unless (@levelUnlockedMap[level.original] or @sessionMap[level.original])
+          return map
         course = _.find(@courses, (c) =>
           Boolean(_.find(c.levels, (l) => l.original is level.original))
         )
@@ -131,12 +142,24 @@ module.exports = Vue.extend
         # TODO: move this needsPractice logic to utils, copied from https://github.com/codecombat/codecombat/blob/2beb7c4/server/middleware/course-instances.coffee#L178
         needsPractice = if level.type in ['course-ladder', 'ladder'] then false
         else if level.assessment then false
-        else utils.needsPractice(@sessionMap[level.original].playtime, level.practiceThresholdMinutes)
+        else utils.needsPractice(@sessionMap[level.original]?.playtime || 0, level.practiceThresholdMinutes)
 
         assessmentIndex = utils.findNextAssessmentForLevel(@allLevels, index, needsPractice)
         if assessmentIndex >= 0
+          if level.practice and not needsPractice
+            continue # do not overwrite current mapping if user does not need practice
           assessmentOriginal = @allLevels[assessmentIndex].original
           map[assessmentOriginal] ?= level.original
+          
+          # also map any assessments that immediately follow, esp. combo levels
+          findAssessmentIndex = assessmentIndex
+          while true
+            findAssessmentIndex += 1
+            nextLevel = @allLevels[findAssessmentIndex]
+            unless nextLevel and nextLevel.assessment
+              break
+            map[nextLevel.original] = level.original
+            
       return map
     createLevelUnlockedMap: ->
       # Map assessment original to whether it has been unlocked yet, using session for the previous level

@@ -22,8 +22,15 @@ module.exports = class TeacherStudentView extends RootView
     'change .course-select': 'onChangeCourseSelect'
     'click .progress-dot a': 'onClickProgressDot'
     'click .level-progress-dot': 'onClickStudentProgressDot'
+    'click .nav-link': 'onClickSolutionTab'
 
   getTitle: -> return @user?.broadName()
+  
+  onClickSolutionTab: (e) ->
+    link = $(e.target).closest('a')
+    levelSlug = link.data('level-slug')
+    solutionIndex = link.data('solution-index')
+    tracker.trackEvent('Click Teacher Student Solution Tab', {levelSlug, solutionIndex})
 
   initialize: (options, classroomID, @studentID) ->
     @classroom = new Classroom({_id: classroomID})
@@ -41,7 +48,9 @@ module.exports = class TeacherStudentView extends RootView
     @supermodel.trackRequest(@levels.fetchForClassroom(classroomID, {data: {project: 'name,original,i18n,primerLanguage,thangs.id,thangs.components.config.programmableMethods.plan.solutions,thangs.components.config.programmableMethods.plan.context'}}))
     @urls = require('core/urls')
 
-    @singleStudentLevelProgressDotTemplate = require 'templates/teachers/hovers/progress-dot-single-student-level'
+    # wrap templates so they translate when called
+    translateTemplateText = (template, context) => $('<div />').html(template(context)).i18n().html()
+    @singleStudentLevelProgressDotTemplate = _.wrap(require('templates/teachers/hovers/progress-dot-single-student-level'), translateTemplateText)
     @levelProgressMap = {}
 
     super(options)
@@ -205,6 +214,8 @@ module.exports = class TeacherStudentView extends RootView
       # TODO: continue if selector isn't found.
       courseLevelData = []
       for level in @levelData when level.courseID is versionedCourse._id
+        if level.assessment
+          continue
         courseLevelData.push level
 
       course = @courses.get(versionedCourse._id)
@@ -376,6 +387,7 @@ module.exports = class TeacherStudentView extends RootView
         classAvg = if timesPlayed > 0 then Math.round(playTime / timesPlayed) else 0 # only when someone other than the user has played
         # console.log (timesPlayed)
         @levelData.push {
+          assessment: versionedLevel.assessment
           levelID: versionedLevel.original
           levelIndex: @classroom.getLevelNumber(versionedLevel.original)
           levelName: versionedLevel.name

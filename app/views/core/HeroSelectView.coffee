@@ -47,7 +47,7 @@ module.exports = class HeroSelectView extends CocoView
 
   saveHeroSelection: (heroOriginal) ->
     me.set(heroConfig: {}) unless me.get('heroConfig')
-    heroConfig = _.assign me.get('heroConfig'), { thangType: heroOriginal }
+    heroConfig = _.assign {}, me.get('heroConfig'), { thangType: heroOriginal }
     me.set({ heroConfig })
 
     hero = _.find(@heroes, { original: heroOriginal })
