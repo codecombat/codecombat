@@ -54,13 +54,13 @@ module.exports = Vue.extend({
   created: ->
     @edited = _.cloneDeep(@level)
   beforeUpdate: ->
-    if @saved
-      @edited = _.cloneDeep(@level)
+    if @saved and (not @level.commitMessage)
       @saved = false
+      @edited = _.cloneDeep(@level)
   methods:
     doSave: ->
       if @dirty
-        @$emit('save', @edited)
+        @$emit('save', _.cloneDeep(@edited))
         @saved = true
 
 })

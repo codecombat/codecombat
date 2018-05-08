@@ -54,13 +54,13 @@ module.exports = Vue.extend({
         promiseMap[original] = api.levels.getByOriginal(original)
       @levels = yield promiseMap
     saveLevel: co.wrap (level) ->
-      console.log "SAVE LEVEL", level
       unless @commitMessage
         @$refs.commitInput.focus()
         return
       level.commitMessage = @commitMessage
       options = { headers: { 'x-current-path': document.location?.pathname } }
       levelData = yield api.levels.save(level, options)
+      delete levelData.commitMessage
       Vue.set(@levels, level.original, levelData)
 })
 
