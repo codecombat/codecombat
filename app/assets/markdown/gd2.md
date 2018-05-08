@@ -36,7 +36,7 @@ In order to expand the student’s options when building their own games, stude
 Examples:
 
 *   CodeCombat characters can attack nearest, defend, or run away
-*   CodeCombat skeletons run away when the hero is carrying a light orb
+*   CodeCombat skeletons run away when the player is carrying a light orb
 *   Minecraft animals will tend to be complacent until they are attacked
 *   Minecraft enemies will tend to explore until they see the character. When close enough, the creeper will explode.
 
@@ -170,7 +170,7 @@ This function returns between 0 and 1024\. Using Math, we can create algorithms 
 
 Examples:
 *   Spawn more enemies
-*   Have the hero say something
+*   Have the player say something
 
 # Mechanics: Manual Goals and More Events
 
@@ -227,8 +227,8 @@ Students should play the next four levels:
 **How can manual goals be used to recreate the built-in goal methods?**
 
 * Defeat: use “defeat” event to track how many enemies are defeated, set goal success to true when high enough.
-* Move: in a while true loop, check the hero position, and when it’s close enough to the position, set goal success to true.
-* Survive: If the hero emits a “defeat” event, set goal success to false.
+* Move: in a while true loop, check the player position, and when it’s close enough to the position, set goal success to true.
+* Survive: If the player emits a “defeat” event, set goal success to false.
 * Collect: use “collect” event to track how many items are collected, set goal success to true when high enough.
 
 As an exercise, try writing out the code for these.
@@ -243,12 +243,12 @@ Examples:
 
 *   Spawn more enemies
 *   Change the layout of the map (spawn, destroy)
-*   Hero attributes (health, speed, size)
+*   Player attributes (health, speed, size)
 *   The behavior of enemies (run away, run towards)
 
 **For any given event, what is the “target” property? What is “other”?**
 
-The target is whatever thing the event was attached to. The “other” is any other thing which is involved in the action. For example, if you set up an event handler for “collision” on the hero, “target” is always the hero, and “other” is always the thing or unit that the hero collided with. If you set up an event handler for “collect” on the hero, “target” is yet again always the hero, and “other” is the item which the hero has collected.
+The target is whatever thing the event was attached to. The “other” is any other thing which is involved in the action. For example, if you set up an event handler for “collision” on the player, “target” is always the player, and “other” is always the thing or unit that the player collided with. If you set up an event handler for “collect” on the player, “target” is yet again always the player, and “other” is the item which the player has collected.
 
 # Integration Practice
 
@@ -337,4 +337,4 @@ Have students design and iteratively build their own projects. There are many wa
 
 On optional activity at the end: have students “code breakdown” each others’ projects. Encourage students to take time to organize their code, name their functions and variables, and include comments so that their classmates will be able to understand how the code works.
 
-> “Programs must be written for people to read, and only incidentally for machines to execute.” - Harold Abelson  
+> “Programs must be written for people to read, and only incidentally for machines to execute.” - Harold Abelson
