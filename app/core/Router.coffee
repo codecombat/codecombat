@@ -63,7 +63,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'admin/skipped-contacts': go('admin/SkippedContactsView')
     'admin/outcomes-report-result': go('admin/OutcomeReportResultView')
     'admin/outcomes-report': go('admin/OutcomesReportView')
-    
+
     'apcsp(/*subpath)': go('teachers/DynamicAPCSPView')
 
     'artisans': go('artisans/ArtisansView')
@@ -75,6 +75,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/level-guides': go('artisans/LevelGuidesView')
     'artisans/student-solutions': go('artisans/StudentSolutionsView')
     'artisans/tag-test': go('artisans/TagTestView')
+    'artisans/bulk-level-editor': go('artisans/BulkLevelEditView')
+    'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
     'Careers': => window.location.href = 'https://jobs.lever.co/codecombat'
@@ -130,7 +132,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'editor/course/:courseID': go('editor/course/CourseEditView')
 
     'etc': redirect('/teachers/demo')
-    
+
     'file/*path': 'routeToServer'
 
     'github/*path': 'routeToServer'

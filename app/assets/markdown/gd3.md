@@ -16,10 +16,10 @@ This guide is written with Python-language classrooms in mind, but can easily be
 
 ## Scope and Sequence
 
-[1.  On Update and Setting Position](#on-update-and-setting-position)  
-[2.  Animations](#animations)  
-[3.  Runner Project Tutorial](#runner)  
-[4.  Game Dev 3 Project](#game-development-3-project)  
+[1.  On Update and Setting Position](#on-update-and-setting-position)
+[2.  Animations](#animations)
+[3.  Runner Project Tutorial](#runner)
+[4.  Game Dev 3 Project](#game-development-3-project)
 
 ---
 
@@ -132,9 +132,9 @@ Lines to be added in **bold**.
 
 ### The Big Guy
 
-This level involves creating an automatic mechanism which keeps the hero alive, gradually increasing their power and health until they overcome enough enemies. Every frame, the game will check if the hero is becoming low in health, and increases their health, size, and attack damage.
+This level involves creating an automatic mechanism which keeps the player alive, gradually increasing their power and health until they overcome enough enemies. Every frame, the game will check if the player is becoming low in health, and increases their health, size, and attack damage.
 
-To finish this level, students will use `hero.on` and `game.on` to set up the existing event handlers, and call `checkTimers` and `checkGoals` inside `onUpdateGame`.
+To finish this level, students will use `player.on` and `game.on` to set up the existing event handlers, and call `checkTimers` and `checkGoals` inside `onUpdateGame`.
 
 ### Quantum Jump
 
@@ -154,7 +154,7 @@ def onUpdateScout(event):
         <b>unit.pos.y = 68</b>
 </pre>
 
-And set up the hero to move over the fence when the hero reaches the fence.
+And set up the player to move over the fence when the player reaches the fence.
 
 <pre>
 def onCollide(event):
@@ -270,13 +270,13 @@ every frame:
   unit.pos.y = 20 + cosine(game.time) * 10
 ```
 
-Along an arbitrary path, where each segment of the path is a line which is animated within a certain period of time. For example, this item moves right and then left.  
+Along an arbitrary path, where each segment of the path is a line which is animated within a certain period of time. For example, this item moves right and then left.
 
-```  
-if game.time > 0 and game.time < 1  
+```
+if game.time > 0 and game.time < 1
   unit.speedX = 1
-  unit.speedY = 0  
-if game.time > 1  
+  unit.speedY = 0
+if game.time > 1
   unit.speedX = 0
   unit.speedY = 1
 ```
@@ -361,15 +361,15 @@ Students should also review the rest of the provided code:
 
 * `spawnRandomY` creates the fence
 * `spawnFences` creates a number of fences, increasing the number of fences as time goes on.
-* `onCollide` has fences defeat the hero when there is a collision
-* `checkHero` keeps the hero locked in one place
+* `onCollide` has fences defeat the player when there is a collision
+* `checkPlayer` keeps the player locked in one place
 * `checkTimers` periodically calls `spawnFences`
 
 ### Runner Part 2
 
 This level introduces gems, top score saving and infinite play. The gems code is fairly similar to previous levels: the collect event (when completed by the player) adds to the game score whenever a gem is collected. The game property `topScore` is fetched from the db when the game is set up, and is updated when the game ends with `setTopScore`.
 
-The `onDefeatHero` method, which the user completes, requires special attention. The way the CodeCombat game system works, the game is "over" when goals are completed, that is either succeeded or failed. However, this level allows the game to continue indefinitely, for however long the player can go without colliding with a fence. The game is "won" when the player survives for 20 seconds, but in order to allow the player to go further, this goal is not marked complete until the player is defeated, and is marked as successful or failed depending on the `game.time`. This is why the manual goal is set to success or failure in the hero's `defeat` event handler.
+The `onDefeatPlayer` method, which the user completes, requires special attention. The way the CodeCombat game system works, the game is "over" when goals are completed, that is either succeeded or failed. However, this level allows the game to continue indefinitely, for however long the player can go without colliding with a fence. The game is "won" when the player survives for 20 seconds, but in order to allow the player to go further, this goal is not marked complete until the player is defeated, and is marked as successful or failed depending on the `game.time`. This is why the manual goal is set to success or failure in the player's `defeat` event handler.
 
 ### Runner Part 3
 
@@ -385,11 +385,11 @@ Group Activity: Have students group up and each adjust the level to various amou
 
 **Why is `onUpdateOgre` structured the way it is?**
 
-This function is a hybrid of CodeCombat and user logic. Because the ogre `behavior` property is set to `”AttacksNearest”`, the ogre will move toward the hero and attack when close enough. However, for this game we want the Ogre to move at a given pace to the right to a specific point (x = 18) and then stop moving further to the right. So, this update function runs after CodeCombat has moved the ogre some distance up or down and to the right in the direction of the hero, and overrides whatever the game set to `unit.pos.x` with a value based on an independently tracked and updated `unit.baseX` property. So for example, in a single “frame”, the unit’s state will evolve like so:
+This function is a hybrid of CodeCombat and user logic. Because the ogre `behavior` property is set to `”AttacksNearest”`, the ogre will move toward the player and attack when close enough. However, for this game we want the Ogre to move at a given pace to the right to a specific point (x = 18) and then stop moving further to the right. So, this update function runs after CodeCombat has moved the ogre some distance up or down and to the right in the direction of the player, and overrides whatever the game set to `unit.pos.x` with a value based on an independently tracked and updated `unit.baseX` property. So for example, in a single “frame”, the unit’s state will evolve like so:
 
 Starting position: { x: 5, y: 5, baseX: 5 }
 
-After game has moved unit slightly closer to the hero: { x: 6, y: 6, baseX: 5 }
+After game has moved unit slightly closer to the player: { x: 6, y: 6, baseX: 5 }
 
 After the custom `onUpdateOgre` command has run: { x: 5.03, y: 6, baseX: 5.03 }
 
@@ -397,7 +397,7 @@ The game’s “y” change has been left intact, but the x position change has 
 
 **What would happen if `onUpdateOgre` ran for all ogres, not just the defeated and undefeated?**
 
-Give students an opportunity to write down what they think will happen. They can then test out their assumptions by modifying the code from `if unit.health > 0` to `if unit.health > -100` or `if True`. When they play the game, the ogres will no longer “fall” to the left. They will keep up with the hero!
+Give students an opportunity to write down what they think will happen. They can then test out their assumptions by modifying the code from `if unit.health > 0` to `if unit.health > -100` or `if True`. When they play the game, the ogres will no longer “fall” to the left. They will keep up with the player!
 
 
 ---
