@@ -38,6 +38,7 @@ module.exports = {
   'views/artisans/LevelGuidesView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelGuidesView') },
   'views/artisans/StudentSolutionsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/StudentSolutionsView') },
   'views/artisans/TagTestView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/TagTestView') },
+  'views/artisans/BulkLevelEditView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/BulkLevelEditView') },
   'views/artisans/ThangTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView') },
   'views/CLAView': function () { return import(/* webpackChunkName: "CLAView" */ 'views/CLAView') },
   'views/clans/ClansView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClansView') },
