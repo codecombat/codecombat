@@ -10,9 +10,7 @@ Level = require 'models/Level'
 LevelSessions = require 'collections/LevelSessions'
 ace = require('lib/aceContainer')
 aceUtils = require 'core/aceUtils'
-# Aether = require 'aether'
-# require 'aether/parsers/python'
-# require 'esper.js'
+{createAetherOptions} = require 'lib/aether_utils'
 
 unless typeof esper is 'undefined'
   realm = new esper().realm
