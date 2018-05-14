@@ -1034,7 +1034,7 @@
     subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
     email_exists: "User exists with this email."
     phone_number: "Phone number"
-    phone_number_help: "Where can we reach you during the workday?"
+    phone_number_help: "What's the best number to reach you?"
     primary_role_label: "Your Primary Role"
     role_default: "Select Role"
     primary_role_default: "Select Primary Role"

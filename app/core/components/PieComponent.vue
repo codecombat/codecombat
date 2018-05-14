@@ -30,7 +30,7 @@
       cy=0
       :r="(width / 2) - 0.1"
       :stroke=color
-      :stroke-width="0.2"
+      :stroke-width=borderStrokeWidth
       :opacity=opacity
     />
   </svg>
@@ -53,6 +53,10 @@
         validator: function validator(v) {
           return v > 0 && v <= 10;
         }
+      },
+      borderStrokeWidth: {
+        type: Number,
+        default: 0.2,
       },
       color: {
         type: String,
