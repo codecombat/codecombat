@@ -42,7 +42,6 @@ UserHandler = class UserHandler extends Handler
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction or global.testing
-    props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     if not req.user.isAdmin()
       if document.isTeacher() and req.body.role not in User.teacherRoles
@@ -69,8 +68,7 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id) or req.session.amActually is document.id))
     delete obj[prop] for prop in User.privateProperties unless includePrivates
-    includeCandidate = not publicOnly and (includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj))
-    delete obj[prop] for prop in User.candidateProperties unless includeCandidate
+    delete obj[prop] for prop in User.candidateProperties
     return obj
 
   waterfallFunctions: [
@@ -301,7 +299,6 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
-    return @getCandidates(req, res) if args[1] is 'candidates'
     return @getClans(req, res, args[0]) if args[1] is 'clans'
     return @getCourseInstances(req, res, args[0]) if args[1] is 'course_instances'
     return @getEmployers(req, res) if args[1] is 'employers'
@@ -587,22 +584,6 @@ UserHandler = class UserHandler extends Handler
         res.send({'message': 'The agreement was successful.'})
         res.end()
 
-  getCandidates: (req, res) ->
-    return @sendForbiddenError(res) unless req.user
-    return @sendForbiddenError(res)  # No one can view the candidates, since in a rush, we deleted their index!
-    authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
-    months = if req.user.isAdmin() then 12 else 2
-    since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
-    query = {'jobProfile.updated': {$gt: since}}
-    query['jobProfile.active'] = true unless req.user.isAdmin()
-    selection = 'jobProfile jobProfileApproved photoURL'
-    selection += ' email name' if authorized
-    User.find(query).select(selection).exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
-      candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
-      @sendSuccess(res, candidates)
-
   getClans: (req, res, userIDOrSlug) ->
     @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
       return @sendNotFoundError(res) unless user
@@ -619,26 +600,6 @@ UserHandler = class UserHandler extends Handler
       CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
-
-  formatCandidate: (authorized, document) ->
-    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']
-    obj = _.pick document.toObject(), fields
-    obj.photoURL ||= obj.jobProfile.photoURL #if authorized
-    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active', 'shortDescription', 'curated', 'visa']
-    if authorized
-      subfields = subfields.concat ['name']
-    obj.jobProfile = _.pick obj.jobProfile, subfields
-    obj
-
-  employerCanViewCandidate: (employer, candidate) ->
-    return true if employer.isAdmin()
-    for job in candidate.jobProfile?.work ? []
-      # TODO: be smarter about different ways to write same company names to ensure privacy.
-      # We'll have to manually pay attention to how we set employer names for now.
-      if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
-        log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
-      return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
-    true
 
   getEmployers: (req, res) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
