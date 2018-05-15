@@ -1026,9 +1026,9 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     free: "Grátis"
     purchase: "Compre"
     courses_prefix: "Cursos"
-    courses_suffix: ""
+#   courses_suffix: ""
     course_prefix: "Curso"
-    course_suffix: ""
+#    course_suffix: ""
 
   teachers_quote:
     subtitle: "Comece a ensinar hoje! Você poderá <strong>criar uma turma, adicionar alunos e monitorar o progresso </strong>à medida que eles aprendem ciência da computação."
@@ -1784,7 +1784,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     copy_url: "Copiar URL"
 #    share_with_teacher_email: "Send to your teacher"
 
-#  game_dev:
+  game_dev:
     creator: "Criador"
 
   web_dev:
