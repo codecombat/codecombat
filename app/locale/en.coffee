@@ -2064,6 +2064,8 @@
     favorite_prefix: "Favorite language is "
     favorite_postfix: "."
     not_member_of_clans: "Not a member of any clans yet."
+    certificate_of_completion: "Certificate of Completion"
+    certificate_endorsed_by: "Endorsed by"
 
   achievements:
     last_earned: "Last Earned"

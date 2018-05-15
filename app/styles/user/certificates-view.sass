@@ -10,8 +10,8 @@
 
   .menu
     position: fixed
-    left: 5px
-    top: 5px
+    left: 3pt
+    top: 2pt
 
     @media print
       display: none
@@ -23,6 +23,18 @@
     .certificate-background
       width: 100%
 
+    h3, h4
+      text-transform: uppercase
+
+    h3
+      font-weight: bold
+      font-size: 14pt
+      line-height: 40pt
+
+    h4
+      font-size: 12pt
+      line-height: 30pt
+
     .certificate-contents
       width: 100%
       height: 100%
@@ -31,12 +43,31 @@
       top: 0
       right: 0
       z-index: 1
+      letter-spacing: 1pt
+
+    .certificate-text-container
+      width: 7in
+      height: 4.5in
+      position: absolute
+      left: 2in
+      top: 2in
+      right: 2in
+      bottom: 2in
+      z-index: 1
+      background-color: rgba(255, 255, 255, 0.7)
 
     .logo-img
-      margin-top: -20pt
+      margin-top: 1.3in
+      z-index: 2
+      position: relative
+      height: 1.1in
+
+    .certificate-of-completion
+      margin-top: 20pt
+      word-spacing: 10pt
       
     .course-name
-      font-size: 40pt
+      letter-spacing: 2pt
 
     .classroom-info
       font-size: 20pt
@@ -48,49 +79,70 @@
       text-style: italic
 
     .loading-indicator, .student-name
-      position: absolute
-      width: 100%
-      $student-name-size: 80pt
-      top: 612pt / 2 - $student-name-size
+      //position: absolute
+      text-align: center
+      width: 5.3in
+      $student-name-size: 48pt
+      margin-left: 0.85in
+      //top: 612pt / 2 - $student-name-size
       font-size: $student-name-size
       line-height: $student-name-size
+      border-bottom: 2pt solid white
+      color: rgb(77, 61, 37)
 
     .outcome-section
       position: absolute
-      top: 4.5in
       text-align: left
 
-      &.concepts-learned
-        left: 2.5in
-
       &.code-results
-        left: 6.5in
+        left: 0.5in
+
+      &.concepts-learned
+        left: 4.5in
 
     .hero-pose
       position: absolute
-      bottom: 0in
-      left: 0in
-      width: 2in
-      transform: scaleX(-1)
+      bottom: 0.75in
+      left: 0.8in
+      width: 1.7in
+      z-index: 2
+      // TODO: size heroes differently to better capture scale
 
     .hero-signature
       position: absolute
-      bottom: 1in
-      width: 100%
+      bottom: 0.1in
+      left: 0.6in
+      width: 3in
+      border-top: 2pt solid white
+
+      img
+        height: 1in
+        position: absolute
+        bottom: -0.1in
+        left: -0.3in
+
+      .hero-signature-label
+        text-transform: uppercase
+        font-size: 9pt
+        line-height: 18pt
+        text-align: left
 
     .course-ribbon
       position: absolute
-      bottom: 0.5in
-      right: 0.5in
-      width: 2in
-      height: 2in
-      border-radius: 1in
-      background-color: green
+      left: 2.7in
+      width: 1.6in
+
+      img
+        position: relative
+        width: 100%
+        height: 100%
 
       h3
-        font-size: 60pt
+        font-size: 20pt
         position: absolute
-        bottom: 0.75in
+        bottom: 0.55in
         right: 0in
         text-align: center
         width: 100%
+        color: rgb(207, 137, 40)
+        font-weight: regular

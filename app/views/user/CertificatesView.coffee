@@ -7,6 +7,7 @@ CourseInstance = require 'models/CourseInstance'
 LevelSessions = require 'collections/LevelSessions'
 Levels = require 'collections/Levels'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
+ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
 
@@ -51,9 +52,11 @@ module.exports = class CertificatesView extends RootView
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
   setHero: ->
-    @heroThangType = @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
-    # TODO: actually fetch the ThangType
-    # TODO: grab pose images and add signature images for heroes
+    heroOriginal = @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
+    # TODO: set to Captain if it's a non-warrior
+    @thangType = new ThangType()
+    @supermodel.trackRequest @thangType.fetchLatestVersion(heroOriginal, {data: {project:'slug,version,original,extendedName'}})
+    @thangType.once 'sync', (thangType) => console.log @supermodel.registerModel(thangType), @render()
 
   fetchTeacher: ->
     @teacher = new User _id: @classroom.get 'ownerID'

@@ -38,32 +38,42 @@ style.
       img.certificate-background(src="/images/pages/user/certificates/certificate-" + view.course.acronym().toLowerCase() + ".png")
     .certificate-contents
       img.logo-img(src="/images/pages/base/logo.png")
-      if view.supermodel.isLoading || !view.courseStats
-        h1.loading-indicator(data-i18n="common.loading")
-      else
-        h3.course-name= i18n(view.course.attributes, 'name')
-        h3.classroom-info= view.classroom.get('name') + ' - ' + view.teacher.broadName()
-        h1.student-name= view.user.broadName()
-        h3.course-description= i18n(view.course.attributes, 'description')
-        .concepts-learned.outcome-section
-          h3.learned-title Concepts Learned:
-          ul.list-unstyled
-            for concept in view.course.get('concepts')
-              li(data-i18n="concepts." + concept)
-        .code-results.outcome-section
-          h3.learned-title Coded:
-          ul.list-unstyled
-            li= view.courseStats.linesOfCode + ' lines of ' + view.classroom.capitalizeLanguageName() + ' code'
-            li= view.courseStats.levels.numDone + ' levels'
-            if view.projectLink
-              li
-                span= "Project: "
-                a(href=view.projectLink)= view.projectShortLink || view.projectLink
-        img.hero-pose(src='/file/db/thang.type/529ec584c423d4e83b000014/captain-pose.png')
-        .hero-signature
-          //h4= "Hero signature by " + view.heroThangType
-          h3
-            span= "Signed, "
-            em Captain Anya Weston
-        .course-ribbon
-          h3= view.course.acronym()
+      .certificate-text-container
+        if view.supermodel.isLoading || !view.courseStats
+          h1.loading-indicator(data-i18n="common.loading")
+        else
+          h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
+          h1.student-name= view.user.broadName()
+          h4.course-name= i18n(view.course.attributes, 'name')
+          //h3.classroom-info= view.classroom.get('name') + ' - ' + view.teacher.broadName()
+          //h3.course-description= i18n(view.course.attributes, 'description')
+          .code-results.outcome-section
+            h3.learned-title Coded:
+            ul.list-unstyled
+              li= view.courseStats.linesOfCode + ' lines of ' + view.classroom.capitalizeLanguageName() + ' code'
+              li= view.courseStats.levels.numDone + ' levels'
+              if view.projectLink
+                li
+                  span= "Project: "
+                  a(href=view.projectLink)= view.projectShortLink || view.projectLink
+          .concepts-learned.outcome-section
+            h3.learned-title Concepts Learned:
+            ul.list-unstyled
+              for concept in view.course.get('concepts')
+                li(data-i18n="concepts." + concept)
+          if view.thangType && view.thangType.loaded
+            .hero-signature
+              img(src='/images/pages/user/certificates/signatures/signature-' + (view.thangType.get('slug') || 'captain') + '.png')
+              .hero-signature-label
+                span(data-i18n="user.certificate_endorsed_by")
+                span= " "
+                span= i18n(view.thangType.attributes, 'extendedName')
+          else
+            h4 Loading hero 
+          .course-ribbon
+            img(src='/images/pages/user/certificates/medallions/medallion-' + view.course.acronym().toLowerCase() + '.png')
+            h3= view.course.acronym()
+            //if me.get('preferredLanguage', true).split('-')[0] != 'en'
+
+      if view.thangType && view.thangType.loaded
+        img.hero-pose(src='/images/pages/user/certificates/poses/pose-' + (view.thangType.get('slug') || 'captain') + '.png')

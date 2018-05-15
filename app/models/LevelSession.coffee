@@ -142,13 +142,13 @@ module.exports = class LevelSession extends CocoModel
     # Count non-whitespace, non-comment lines starting at first unique code line
     # TODO: diff better to find truly changed lines
     sampleCodeByLanguage = level.getSampleCode @get('team')
-    sampleCode = sampleCodeByLanguage[@get('codeLanguage')] ? sampleCodeByLanguage['python'] ? ''
+    sampleCode = sampleCodeByLanguage[@get('codeLanguage')] ? sampleCodeByLanguage.html ? sampleCodeByLanguage.python ? ''
     sampleCode = sampleCode.replace @singleLineCommentOnlyRegex(), ''
     sampleCodeLines = sampleCode.split(/\n+/)
     sampleCodeLines = _.filter sampleCodeLines
 
     thang = if @get('team') is 'ogres' then 'hero-placeholder-1' else 'hero-placeholder'
-    code = @getSourceFor "#{thang}/plan"
+    code = @getSourceFor("#{thang}/plan") ? ''
     code = code.replace @singleLineCommentOnlyRegex(), ''
     codeLines = code.split(/\n+/)
     codeLines = _.filter codeLines
