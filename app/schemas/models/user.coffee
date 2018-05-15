@@ -395,6 +395,9 @@ _.extend UserSchema.properties,
     properties: {
       studentStartedWakkaMaul: { type: 'boolean', description: "One of a teacher's students has reached Wakka Maul" }
       studentStartedMayhemOfMunchkins: { type: 'boolean', description: "One of a teacher's students has started A Mayhem of Munchkins" }
+      # TODO: refactor above two properties to be integers
+      studentsStartedDungeonsOfKithgard: { type: 'integer', description: "The number of a teacher's students who have started Dungeons of Kithgard" }
+      studentsStartedTrueNames: { type: 'integer', description: "The number of a teacher's students who have started True Names" }
     }
 
 c.extendBasicProperties UserSchema, 'user'

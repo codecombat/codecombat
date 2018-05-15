@@ -2064,8 +2064,15 @@
     favorite_prefix: "Favorite language is "
     favorite_postfix: "."
     not_member_of_clans: "Not a member of any clans yet."
+    certificate_view: "view certificate"
+    certificate_click_to_view: "click to view certificate"
+    certificate_course_incomplete: "course incomplete"
     certificate_of_completion: "Certificate of Completion"
     certificate_endorsed_by: "Endorsed by"
+    certificate_stats: "Course Stats"
+    certificate_lines_of: "lines of"
+    certificate_levels_completed: "levels completed"
+    certificate_for: "For"
 
   achievements:
     last_earned: "Last Earned"

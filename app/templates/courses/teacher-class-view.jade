@@ -273,7 +273,7 @@ mixin studentRow(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
             - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
             - var label = courseLabelsArray[index];
-            +studentCourseProgressDot(progress, levelsTotal, label)
+            +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
     td
       .pull-right
         a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
@@ -374,27 +374,40 @@ mixin studentLevelsRow(student)
     div.student-info
       div.student-name= student.broadName()
       div.student-email.small-details= student.get('email') || student.get('name')
-    div.student-levels-progress
-      - var course = state.get('selectedCourse')
-      - var levels = view.classroom.getLevels({courseID: course.id}).models
-      if state.get('progressData')
-        each level, index in levels
-          - if (level.get('assessment')) continue;
-          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +studentLevelProgressDot(progress, level, levelNumber, student)
-        //if me.isAdmin() && course is finished
-        if me.isAdmin()
-          a.progress-dot.certificate-progress-dot(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id) Certificate
-          // TODO: get new blank window thing going
+    .row
+      div.student-levels-progress.col.col-xs-12
+        - var course = state.get('selectedCourse')
+        - var levels = view.classroom.getLevels({courseID: course.id}).models
+        - var courseFinished = false;
+        if state.get('progressData')
+          each level, index in levels
+            - if (level.get('assessment')) continue;
+            - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+            - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+            - courseFinished = progress.completed;
+            +studentLevelProgressDot(progress, level, levelNumber, student)
+      div
+        if courseFinished
+          a.certificate-link(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id)
+            img(src='/images/pages/user/certificates/certificate-icon.png')
+            div(data-i18n='user.certificate_view')
+        else
+          .certificate-link(disabled=true)
+            img(src='/images/pages/user/certificates/certificate-icon.png')
+            div(data-i18n='user.certificate_course_incomplete')
 
-mixin studentCourseProgressDot(progress, levelsTotal, label)
+mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, courseInstance)
   //- TODO: Refactor with TeacherClassesView jade
   //- TODO: Give classes abbreviations instead of using index?
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - _.assign(progress, { levelsTotal: levelsTotal })
-  .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
-    +progressDotLabel(label)
+  if progress.completed
+    a(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + courseInstance.id)
+      .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+        +progressDotLabel(label)
+  else
+    .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+      +progressDotLabel(label)
 
 mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');

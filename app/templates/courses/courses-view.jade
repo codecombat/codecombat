@@ -143,7 +143,11 @@ mixin course-instance-body(courseInstance, classroom)
         a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Start Course")
           span(data-i18n="courses.start")
 
-  if stats.levels.lastPlayed
+  if stats.levels.done
+    a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
+      img(src='/images/pages/user/certificates/certificate-icon.png')
+      div(data-i18n='user.certificate_view')
+  else if stats.levels.lastPlayed
     div
       span(data-i18n="courses.last_level")
       span :
@@ -155,5 +159,8 @@ mixin course-instance-body(courseInstance, classroom)
       span.spl= levelName || levelNameEnglish
 
   .clearfix
-  .progress
-    .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
+  if stats.levels.done
+    br
+  else
+    .progress
+      .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone

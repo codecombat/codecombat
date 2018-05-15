@@ -10,16 +10,18 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
+NameLoader = require 'core/NameLoader'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
   template: require 'templates/user/certificates-view'
 
   events:
-    #'click .back-btn': 'onClickBackButton'
     'click .print-btn': 'onClickPrintButton'
 
-  getTitle: -> 'Certificates'  # TODO: put student name in
+  getTitle: ->
+    return 'Certificate' if @user.broadName() is 'Anonymous'
+    "Certificate: #{@user.broadName()}"
 
   initialize: (options, @userID) ->
     if @userID is me.id
@@ -29,12 +31,12 @@ module.exports = class CertificatesView extends RootView
       @user = new User _id: @userID
       @user.fetch()
       @supermodel.trackModel @user
-      @listenToOnce @user, 'sync', @setHero
+      @listenToOnce @user, 'sync', => @setHero?()
     if classroomID = utils.getQueryVariable 'class'
       @classroom = new Classroom _id: classroomID
       @classroom.fetch()
       @supermodel.trackModel @classroom
-      @listenToOnce @classroom, 'sync', @fetchTeacher
+      @listenToOnce @classroom, 'sync', @onClassroomLoaded
     if courseID = utils.getQueryVariable 'course'
       @course = new Course _id: courseID
       @course.fetch()
@@ -51,20 +53,31 @@ module.exports = class CertificatesView extends RootView
     @supermodel.trackRequest @courseLevels.fetchForClassroomAndCourse classroomID, courseID, data: { project: 'concepts,practice,assessment,primerLanguage,type,slug,name,original,description,shareable,i18n,thangs.id,thangs.components.config.programmableMethods' }
     @listenToOnce @courseLevels, 'sync', @calculateStats
 
-  setHero: ->
-    heroOriginal = @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
-    # TODO: set to Captain if it's a non-warrior
+  setHero: (heroOriginal=null) ->
+    heroOriginal ||= utils.getQueryVariable('hero') or @user.get('heroConfig')?.thangType or ThangTypeConstants.heroes.captain
     @thangType = new ThangType()
-    @supermodel.trackRequest @thangType.fetchLatestVersion(heroOriginal, {data: {project:'slug,version,original,extendedName'}})
-    @thangType.once 'sync', (thangType) => console.log @supermodel.registerModel(thangType), @render()
+    @supermodel.trackRequest @thangType.fetchLatestVersion(heroOriginal, {data: {project:'slug,version,original,extendedName,heroClass'}})
+    @thangType.once 'sync', (thangType) =>
+      if @thangType.get('heroClass') isnt 'Warrior' or @thangType.get('slug') is 'code-ninja'
+        # We only have basic warrior poses and signatures for now
+        @setHero ThangTypeConstants.heroes.captain
 
-  fetchTeacher: ->
-    @teacher = new User _id: @classroom.get 'ownerID'
-    @teacher.fetch()
-    @supermodel.trackModel @teacher
+  onClassroomLoaded: ->
+    @calculateStats()
+    Promise.resolve($.ajax(NameLoader.loadNames([@classroom.get 'ownerID']))).then =>
+      @teacherName = NameLoader.getName @classroom.get 'ownerID'
+      @render()
+
+  getCodeLanguageName: ->
+    return 'Code' unless @classroom
+    if @course and /web-dev-1/.test @course.get('slug')
+      return 'HTML/CSS'
+    if @course and /web-dev/.test @course.get('slug')
+      return 'HTML/CSS/JS'
+    return @classroom.capitalizeLanguageName()
 
   calculateStats: ->
-    return unless @sessions.loaded and @courseLevels.loaded
+    return unless @classroom.loaded and @sessions.loaded and @courseLevels.loaded
     @courseStats = @classroom.statsForSessions @sessions, @course.id, @courseLevels
     if @courseStats.levels.project
       projectSession = @sessions.find (session) => session.get('level').original is @courseStats.levels.project.get('original')
@@ -74,8 +87,14 @@ module.exports = class CertificatesView extends RootView
           @projectShortLink = response.shortLink
           @render()
 
-  #onClickBackButton: ->
-  #  application.router.openView(@options.backView)
-
   onClickPrintButton: ->
     window.print()
+
+  afterRender: ->
+    @autoSizeText '.student-name'
+
+  autoSizeText: (selector) ->
+    @$(selector).each (index, el) ->
+      while el.scrollWidth > el.offsetWidth or el.scrollHeight > el.offsetHeight
+        newFontSize = (parseFloat($(el).css('font-size').slice(0, -2)) * 0.95) + 'px'
+        $(el).css('font-size', newFontSize)
