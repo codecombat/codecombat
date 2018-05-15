@@ -108,6 +108,7 @@ _.extend UserSchema.properties,
         type: c.shortString() # E.g 'subscribe modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
+  unsubscribedFromMarketingEmails: { type: 'boolean' }
 
   # server controlled
   permissions: c.array {}, c.shortString()

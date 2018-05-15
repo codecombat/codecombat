@@ -216,13 +216,14 @@ describe 'GET /auth/unsubscribe', ->
 
   describe 'no GET query params', ->
     
-    it 'unsubscribes the user from all emails', utils.wrap (done) ->
+    it 'unsubscribes the user from all marketing emails, leaves notification emails intact', utils.wrap (done) ->
+      yield @user.update({ $set: {'emails.anyNotes.enabled': true}})
       url = getURL("/auth/unsubscribe?email=#{@user.get('email')}")
       [res, body] = yield request.getAsync(url)
       expect(res.statusCode).toBe(200)
       user = yield User.findOne(@user._id)
       expect(user.get('emails').generalNews.enabled).toBe(false)
-      expect(user.get('emails').anyNotes.enabled).toBe(false)
+      expect(user.get('emails').anyNotes.enabled).toBe(true)
       done()
 
 describe 'GET /auth/name', ->

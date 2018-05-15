@@ -285,3 +285,5 @@ module.exports.setup = (app) ->
   app.all('/headers', mw.headers)
 
   app.get('/healthcheck', mw.healthcheck.healthcheckRoute)
+
+  app.post('/webhooks/intercom', mw.intercom.webhook)
