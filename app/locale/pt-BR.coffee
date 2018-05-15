@@ -2307,7 +2307,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     students_section: "Alunos:"
 #    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
 
-  delta:
+#  delta:
     added: "Adicionado"
     modified: "Modificado"
     not_modified: "Não Modificado"
