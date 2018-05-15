@@ -7,6 +7,7 @@ Level = require '../models/Level'
 log = require 'winston'
 sendwithus = require '../sendwithus'
 wrap = require 'co-express'
+unsubscribe = require '../commons/unsubscribe'
 
 module.exports.setup = (app) ->
   app.all config.mail.mailChimpWebhook, handleMailChimpWebHook
@@ -261,8 +262,10 @@ handleMailChimpWebHook = wrap (req, res) ->
 
   if post.type is 'profile'
     handleProfileUpdate(user, post)
-  else if post.type in ['unsubscribe', 'upemail']
-    handleUnsubscribe(user)
+  else if post.type is 'upemail'
+    handleUnsubscribe(user) # just unsubscribe from MailChimp
+  else if post.type is 'unsubscribe'
+    yield unsubscribe.unsubscribeEmailFromMarketingEmails(user.get('emailLower')) # unsubscribe all emails
 
   user.updatedMailChimp = true # so as not to echo back to mailchimp
   yield user.save()

@@ -20,6 +20,7 @@ module.exports =
   files: require './files'
   headers: require './headers'
   healthcheck: require './healthcheck'
+  intercom: require './intercom'
   levels: require './levels'
   levelSessions: require './level-sessions'
   logging: require './logging'
