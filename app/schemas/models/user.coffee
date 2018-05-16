@@ -343,7 +343,7 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  country: { type: 'string' }  # Set on new users for certain countries on the server - TODO: can be removed since storing in the geo object, but need to check its usage in the code
+  country: { type: 'string' }  # Set on new users for certain countries on the server - keeping this field although it is same as geo.countryName since user.country is already being used in other files, TODO: Refactor the code to remove this in future
   geo: c.object {}, {
     country: { type: 'string', minLength: 2, maxLength: 2, description:'2 letter ISO-3166-1 country code' }
     countryName: { type: 'string', description: 'Full country name'}

@@ -603,20 +603,23 @@ UserSchema.statics.makeNew = (req) ->
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
-  #user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
   if ip = (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
-    console.log(ip)
     geo = geoip.lookup(ip)
-    if country = geo?.country
-      geo.countryName = countryList.getName(country)
-  if geo  
-    delete geo.range
-    user.set 'geo', geo
-  #user.set 'country', req.country if req.country
-  if req.country
+    if geo
+      userGeo = {}
+      userGeo.country = geo.country
+      if country = geo.country
+          userGeo.countryName = countryList.getName(country)
+      userGeo.region = geo.region
+      userGeo.city = geo.city
+      userGeo.ll = geo.ll
+      userGeo.metro = geo.metro
+      userGeo.zip = geo.zip
+      user.set 'geo', userGeo
+  if req.country                        # Storing the country name again since user.country is being used in various other files
     user.set 'country', req.country
-  else if geo?.countryName
-    user.set 'country', geo.countryName
+  else if userGeo?.countryName
+    user.set 'country', userGeo.countryName
   user.set 'createdOnHost', req.headers.host
   user
 
