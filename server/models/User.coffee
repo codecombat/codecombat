@@ -545,7 +545,7 @@ UserSchema.methods.verificationCode = (timestamp) ->
 
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
+  'gplusID', 'music', 'volume', 'aceConfig',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID',
   'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
   'coursePrepaid', 'coursePrepaidID', 'lastAnnouncementSeen'
@@ -555,7 +555,7 @@ UserSchema.statics.editableProperties = [
   'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-  'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
+  'wizard', 'aceConfig', 'autocastDelay', 'lastLevel',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
   'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
 ]
@@ -564,7 +564,6 @@ UserSchema.statics.adminEditableProperties = [
 ]
 
 UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
-UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', 'jobProfileNotes']
 
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->
@@ -582,7 +581,6 @@ UserSchema.set('toObject', {
     else
       excludedPrivates = User.privateProperties
     delete ret[prop] for prop in excludedPrivates unless includePrivates
-    delete ret[prop] for prop in User.candidateProperties
     return ret
 })
 

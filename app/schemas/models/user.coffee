@@ -145,15 +145,6 @@ _.extend UserSchema.properties,
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
 
-  # Deprecated. TODO: 1. remove user data 2. remove these fields
-  jobProfile: { type: 'object', description: 'deprecated' }
-  jobProfileApproved: { type: 'boolean', description: 'deprecated' }
-  jobProfileApprovedDate: c.date { description: 'deprecated' }
-  jobProfileNotes: { type: 'string', description: 'deprecated' }
-  employerAt: c.shortString {description: 'deprecated'}
-  signedEmployerAgreement: { type: 'object', description: 'deprecated' }
-  savedEmployerFilterAlerts: { type: 'array', description: 'deprecated' }
-
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
   stats: c.object {additionalProperties: false},
