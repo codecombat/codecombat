@@ -69,7 +69,7 @@ collapseSessions = (sessionLists) ->
 
 grabUser = (session, callback) ->
   findParameters = _id: session.creator
-  selectString = 'email emailSubscriptions emails name jobProfile'
+  selectString = 'email emailSubscriptions emails name'
   query = User
     .findOne(findParameters)
     .select(selectString)

@@ -117,7 +117,7 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
-  lastIP: {type: 'string'}
+  lastIP: {type: 'string'}    #TODO: deprecated, remove this from schema after updating geo location for existing users
   createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
@@ -144,15 +144,6 @@ _.extend UserSchema.properties,
 
   simulatedBy: {type: 'integer', minimum: 0 }
   simulatedFor: {type: 'integer', minimum: 0 }
-
-  # Deprecated. TODO: 1. remove user data 2. remove these fields
-  jobProfile: { type: 'object', description: 'deprecated' }
-  jobProfileApproved: { type: 'boolean', description: 'deprecated' }
-  jobProfileApprovedDate: c.date { description: 'deprecated' }
-  jobProfileNotes: { type: 'string', description: 'deprecated' }
-  employerAt: c.shortString {description: 'deprecated'}
-  signedEmployerAgreement: { type: 'object', description: 'deprecated' }
-  savedEmployerFilterAlerts: { type: 'array', description: 'deprecated' }
 
   points: {type: 'number'}
   activity: {type: 'object', description: 'Summary statistics about user activity', additionalProperties: c.activity}
@@ -232,7 +223,16 @@ _.extend UserSchema.properties,
 
   siteref: { type: 'string' }
   referrer: { type: 'string' }
-  country: { type: 'string' }  # Set on new users for certain countries on the server
+  country: { type: 'string' }  # Set on new users for certain countries on the server - keeping this field although it is same as geo.countryName since user.country is already being used in other files, TODO: Refactor the code to remove this in future
+  geo: c.object {}, {
+    country: { type: 'string', minLength: 2, maxLength: 2, description:'2 letter ISO-3166-1 country code' }
+    countryName: { type: 'string', description: 'Full country name'}
+    region: { type: 'string', minLength: 2, maxLength: 2, description:'2 character region code' }
+    city: { type: 'string', description:'Full city name' }
+    ll: c.array {}, { type: 'number', description: 'Latitude and longitude of the city'}
+    metro: {type: 'number', description: 'Metro code'}
+    zip: {type: 'number', description: 'Postal code'}
+  }
 
   clans: c.array {}, c.objectId()
   courseInstances: c.array {}, c.objectId()
