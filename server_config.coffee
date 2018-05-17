@@ -65,10 +65,6 @@ config.paypal =
   clientID: process.env.COCO_PAYPAL_CLIENT_ID or 'AcS4lYmr_NwK_TTWSJzOzTh01tVDceWDjB_N7df3vlvW4alTV_AF2rtmcaZDh0AmnTcOof9gKyLyHkm-'
   clientSecret: process.env.COCO_PAYPAL_CLIENT_SECRET or 'EEp-AscLo_-_59jMBgrPFWUaMrI_HJEY8Mf1ESD7OJ8DSIFbKtVe1btqP2SAZXR_llP_oosvJYFWEjUZ'
 
-config.redis =
-  port: process.env.COCO_REDIS_PORT or 6379
-  host: process.env.COCO_REDIS_HOST or 'localhost'
-
 if config.unittest
   config.port += 1
   config.ssl_port += 1

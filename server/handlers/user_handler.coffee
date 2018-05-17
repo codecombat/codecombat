@@ -30,9 +30,6 @@ facebook = require '../lib/facebook'
 middleware = require '../middleware'
 
 serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP'] #TODO: remove lastIP after removing from schema
-candidateProperties = [
-  'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
-]
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
@@ -68,7 +65,6 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id) or req.session.amActually is document.id))
     delete obj[prop] for prop in User.privateProperties unless includePrivates
-    delete obj[prop] for prop in User.candidateProperties
     return obj
 
   waterfallFunctions: [
@@ -291,7 +287,6 @@ UserHandler = class UserHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
-    return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
@@ -301,7 +296,6 @@ UserHandler = class UserHandler extends Handler
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
     return @getClans(req, res, args[0]) if args[1] is 'clans'
     return @getCourseInstances(req, res, args[0]) if args[1] is 'course_instances'
-    return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
@@ -558,32 +552,6 @@ UserHandler = class UserHandler extends Handler
         return @sendNotFoundError res unless user
         updateUser user
 
-  agreeToEmployerAgreement: (req, res) ->
-    userIsAnonymous = req.user?.get('anonymous')
-    if userIsAnonymous then return errors.unauthorized(res, 'You need to be logged in to agree to the employer agreeement.')
-    profileData = req.body
-    #TODO: refactor this bit to make it more elegant
-    if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
-      return errors.badInput(res, 'You need to have a more complete profile to sign up for this service.')
-    @modelClass.findById(req.user.id).exec (err, user) =>
-      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in (user.get('permissions') ? [])
-        return errors.conflict(res, 'You already have signed the agreement!')
-      #TODO: Search for the current position
-      employerAt = _.filter(profileData.positions.values, 'isCurrent')[0]?.company.name ? 'Not available'
-      signedEmployerAgreement =
-        linkedinID: profileData.id
-        date: new Date()
-        data: profileData
-      updateObject =
-        'employerAt': employerAt
-        'signedEmployerAgreement': signedEmployerAgreement
-        $push: 'permissions': 'employer'
-
-      User.update {'_id': req.user.id}, updateObject, (err, result) =>
-        if err? then return errors.serverError(res, "There was an issue updating the user object to reflect employer status: #{err}")
-        res.send({'message': 'The agreement was successful.'})
-        res.end()
-
   getClans: (req, res, userIDOrSlug) ->
     @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
       return @sendNotFoundError(res) unless user
@@ -600,15 +568,6 @@ UserHandler = class UserHandler extends Handler
       CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
-
-  getEmployers: (req, res) ->
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    return @sendForbiddenError(res)  # No one can view the employers, since in a rush, we deleted their index!
-    query = {employerAt: {$exists: true, $ne: ''}}
-    selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
-    User.find(query).select(selection).lean().exec (err, documents) =>
-      return @sendDatabaseError res, err if err
-      @sendSuccess res, documents
 
   getRemark: (req, res, userID) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()
