@@ -188,13 +188,7 @@ module.exports =
     if req.query.options?.beforeId
       beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
       query = {$and: [{_id: {$lt: beforeId}}, query]}
-    users = yield User.find(query).sort({_id: -1}).limit(limit).select('lastIP').lean()
-    for user in users
-      if ip = user.lastIP
-        user.geo = geoip.lookup(ip)
-        if country = user.geo?.country
-          user.geo.countryName = countryList.getName(country)
-      delete user.lastIP
+    users = yield User.find(query).sort({_id: -1}).limit(limit).select('geo').lean()
     res.status(200).send(users)
 
   getTeachers: wrap (req, res, next) ->
@@ -205,13 +199,7 @@ module.exports =
     if req.query.options?.beforeId
       beforeId = mongoose.Types.ObjectId(req.query.options.beforeId)
       query = {$and: [{_id: {$lt: beforeId}}, query]}
-    users = yield User.find(query).sort({_id: -1}).limit(limit).select('lastIP').lean()
-    for user in users
-      if ip = user.lastIP
-        user.geo = geoip.lookup(ip)
-        if country = user.geo?.country
-          user.geo.countryName = countryList.getName(country)
-      delete user.lastIP
+    users = yield User.find(query).sort({_id: -1}).limit(limit).select('geo').lean()
     res.status(200).send(users)
 
   getLeadPriority: wrap (req, res, next) ->

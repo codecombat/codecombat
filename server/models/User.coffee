@@ -21,6 +21,9 @@ stripe = require('../lib/stripe_utils').api
 
 sendwithus = require '../sendwithus'
 
+countryList = require('country-list')()
+geoip = require '@basicer/geoip-lite'
+
 UserSchema = new mongoose.Schema({
   dateCreated:
     type: Date
@@ -563,7 +566,7 @@ UserSchema.statics.adminEditableProperties = [
   'purchased'
 ]
 
-UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']  #TODO: remove lastIP after removing from schema
 
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->
@@ -598,8 +601,23 @@ UserSchema.statics.makeNew = (req) ->
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
-  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
-  user.set 'country', req.country if req.country
+  if ip = (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
+    geo = geoip.lookup(ip)
+    if geo
+      userGeo = {}
+      userGeo.country = geo.country
+      if country = geo.country
+          userGeo.countryName = countryList.getName(country)
+      userGeo.region = geo.region
+      userGeo.city = geo.city
+      userGeo.ll = geo.ll
+      userGeo.metro = geo.metro
+      userGeo.zip = geo.zip
+      user.set 'geo', userGeo
+  if req.country                        # Storing the country name again since user.country is being used in various other files
+    user.set 'country', req.country
+  else if userGeo?.countryName
+    user.set 'country', userGeo.countryName
   user.set 'createdOnHost', req.headers.host
   user
 

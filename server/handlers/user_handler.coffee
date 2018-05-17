@@ -29,7 +29,7 @@ EarnedAchievement = require '../models/EarnedAchievement'
 facebook = require '../lib/facebook'
 middleware = require '../middleware'
 
-serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
+serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP'] #TODO: remove lastIP after removing from schema
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
