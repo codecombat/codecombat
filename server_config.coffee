@@ -148,7 +148,7 @@ config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
 
 config.bitly =
-  accessToken: process.env.COCO_BITLY_ACESS_TOKEN or ''
+  accessToken: process.env.COCO_BITLY_ACCESS_TOKEN or ''
 
 config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
 
