@@ -35,13 +35,13 @@ style.
   .certificate
     if view.courseStats
       img.certificate-background(src="/images/pages/user/certificates/backgrounds/background-" + view.course.acronym().toLowerCase() + ".png")
-    div(class="certificate-contents" + ((view.courseStats && !view.courseStats.levels.done) ? " in-progress" : ""))
+    div(class="certificate-contents" + ((view.courseStats && !view.courseStats.levels.lastLevelDone) ? " in-progress" : ""))
       img.logo-img(src="/images/pages/base/logo.png")
       .certificate-text-container
         if view.supermodel.isLoading || !view.courseStats
           h1.loading-indicator(data-i18n="common.loading")
         else
-          if !view.courseStats.levels.done
+          if !view.courseStats.levels.lastLevelDone
             h3.certificate-of-completion(data-i18n="teacher.in_progress")
           else
             h3.certificate-of-completion(data-i18n="user.certificate_of_completion")

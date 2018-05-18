@@ -114,13 +114,13 @@ mixin course-instance-body(courseInstance, classroom)
   - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
   - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
     
-  if stats.levels.done
+  if stats.levels.lastLevelDone
     .text-success
       span.glyphicon.glyphicon-ok
       span.spl(data-i18n="courses.course_complete")
       span !
   .pull-right
-    if stats.levels.done
+    if stats.levels.lastLevelDone
       - var arenaLevel = stats.levels.arena;
       - var projectLevel = stats.levels.project;
       if arenaLevel
@@ -143,7 +143,7 @@ mixin course-instance-body(courseInstance, classroom)
         a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Start Course")
           span(data-i18n="courses.start")
 
-  if stats.levels.done
+  if stats.levels.lastLevelDone
     a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
       img(src='/images/pages/user/certificates/certificate-icon.png')
       div(data-i18n='user.certificate_view')
@@ -159,7 +159,7 @@ mixin course-instance-body(courseInstance, classroom)
       span.spl= levelName || levelNameEnglish
 
   .clearfix
-  if stats.levels.done
+  if stats.levels.lastLevelDone
     br
   else
     .progress

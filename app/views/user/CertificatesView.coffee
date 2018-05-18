@@ -79,6 +79,7 @@ module.exports = class CertificatesView extends RootView
   calculateStats: ->
     return unless @classroom.loaded and @sessions.loaded and @courseLevels.loaded
     @courseStats = @classroom.statsForSessions @sessions, @course.id, @courseLevels
+
     if @courseStats.levels.project
       projectSession = @sessions.find (session) => session.get('level').original is @courseStats.levels.project.get('original')
       if projectSession

@@ -134,6 +134,7 @@ module.exports = class Classroom extends CocoModel
     playtime = 0
     levels = []
     linesOfCode = 0
+    lastLevelDone = false
     for level, index in courseLevels.models
       levelsTotal++ unless level.get('practice') or level.get('assessment')
       complete = false
@@ -154,6 +155,7 @@ module.exports = class Classroom extends CocoModel
         assessment: level.get('assessment') ? false
         practice: level.get('practice') ? false
         complete: complete
+      lastLevelDone = complete unless level.get('practice') or level.get('assessment')
     lastPlayed = lastStarted ? lastPlayed
     lastPlayedNumber = '' if lastPlayed?.get('assessment')
     needsPractice = false
@@ -180,6 +182,7 @@ module.exports = class Classroom extends CocoModel
         first: courseLevels.first()
         arena: arena
         project: project
+        lastLevelDone: lastLevelDone
       playtime: playtime
       linesOfCode: linesOfCode
     stats
