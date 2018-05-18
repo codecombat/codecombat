@@ -273,7 +273,7 @@ mixin studentRow(student)
             - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, user: student })
             - var levelsTotal = _.reject(_.reject(trimCourse.levels, 'practice'), 'assessment').length
             - var label = courseLabelsArray[index];
-            +studentCourseProgressDot(progress, levelsTotal, label)
+            +studentCourseProgressDot(progress, levelsTotal, label, student, course, instance)
     td
       .pull-right
         a.edit-student-link.small.center-block.text-center.m-r-2(data-student-id=student.id)
@@ -319,7 +319,7 @@ mixin courseProgressTab
           span.small(data-i18n="teacher.level_not_started")
         .clearfix
     - var course = state.get('selectedCourse');
-    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    - var courseInstance = state.get('selectedCourseInstance');
     // TODO: Refactor this to use Vue components like in the assessments tab
     if course && view.availableCourseMap[course.id] && courseInstance && courseInstance.get('members').length > 0
       .render-on-course-sync
@@ -374,24 +374,41 @@ mixin studentLevelsRow(student)
     div.student-info
       div.student-name= student.broadName()
       div.student-email.small-details= student.get('email') || student.get('name')
-    div.student-levels-progress
-      - var course = state.get('selectedCourse')
-      - var levels = view.classroom.getLevels({courseID: course.id}).models
-      if state.get('progressData')
-        each level, index in levels
-          - if (level.get('assessment')) continue;
-          - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
-          - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
-          +studentLevelProgressDot(progress, level, levelNumber, student)
+    .row
+      div.student-levels-progress.col.col-xs-12
+        - var course = state.get('selectedCourse')
+        - var levels = view.classroom.getLevels({courseID: course.id}).models
+        - var courseFinished = false;
+        if state.get('progressData')
+          each level, index in levels
+            - if (level.get('assessment')) continue;
+            - var progress = state.get('progressData').get({ classroom: view.classroom, course: course, level: level, user: student })
+            - var levelNumber = view.classroom.getLevelNumber(level.get('original'), index + 1)
+            - if (!level.get('practice'))
+              - courseFinished = progress.completed;
+            +studentLevelProgressDot(progress, level, levelNumber, student)
+      div
+        if courseFinished
+          a.certificate-link(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + state.get('selectedCourseInstance').id)
+            img(src='/images/pages/user/certificates/certificate-icon.png')
+            div(data-i18n='user.certificate_view')
+        else
+          .certificate-link(disabled=true)
+            img(src='/images/pages/user/certificates/certificate-icon.png')
+            div(data-i18n='user.certificate_course_incomplete')
 
-
-mixin studentCourseProgressDot(progress, levelsTotal, label)
+mixin studentCourseProgressDot(progress, levelsTotal, label, student, course, courseInstance)
   //- TODO: Refactor with TeacherClassesView jade
   //- TODO: Give classes abbreviations instead of using index?
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - _.assign(progress, { levelsTotal: levelsTotal })
-  .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
-    +progressDotLabel(label)
+  if progress.completed
+    a(target='_blank', href='/certificates/' + student.id + '?class=' + view.classroom.id + '&course=' + course.id + '&course-instance=' + courseInstance.id)
+      .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+        +progressDotLabel(label)
+  else
+    .progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentCourseProgressDotTemplate(progress))
+      +progressDotLabel(label)
 
 mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
@@ -399,8 +416,7 @@ mixin allStudentsLevelProgressDot(progress, level, levelNumber)
   - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, numStudents: view.students.length, practice: level.get('practice') })
   - link = null;
   - labelText = levelNumber;
-  - var course = view.state.get('selectedCourse');
-  - var courseInstance = course && view.classroom ? view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id }) : null;
+  - var courseInstance = state.get('selectedCourseInstance');
   if level.isLadder()
     if courseInstance
       - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
@@ -437,8 +453,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug');
   - labelText = levelNumber;
   if level.isLadder()
-    - var course = view.state.get('selectedCourse');
-    - var courseInstance = view.courseInstances.findWhere({ courseID: course.id, classroomID: view.classroom.id });
+    - var courseInstance = state.get('selectedCourseInstance');
     if courseInstance
       - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
       - labelText = translate('courses.arena');
@@ -447,7 +462,7 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
     - dotClass += ' progress-dot-lg';
   else if level.isProject()
     if progress.started
-      - link = view.urls.playDevLevel({level: level, session: progress.session, course: view.state.get('selectedCourse')});
+      - link = view.urls.playDevLevel({level: level, session: progress.session, course: state.get('selectedCourse')});
       - labelText = translate('teacher.view_project');
       if progress.completed && !progress.session.published
         - labelText += " " + translate('teacher.unpublished')
@@ -527,7 +542,7 @@ mixin assessmentsTab
       .col.col-md-2.col-xs-3
         .progress-dot.forest
         .key-text
-          span.small(data-i18n='teacher.success')
+          span.small(data-i18n='teacher.scucess')
         .clearfix
       .col.col-md-2.col-xs-3
         .progress-dot.gold
@@ -573,7 +588,7 @@ mixin enrollmentStatusTab
       th
         button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
-      - var searchTerm = view.state.get('searchTerm');
+      - var searchTerm = state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
         - var status = student.prepaidStatus()
         tr.student-row.alternating-background

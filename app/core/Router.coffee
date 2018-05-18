@@ -218,6 +218,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'test(/*subpath)': go('TestView')
 
     'user/:slugOrID': go('user/MainUserView')
+    'certificates': go('user/CertificatesView')
+    'certificates/:slugOrID': go('user/CertificatesView')
     'user/:userID/verify/:verificationCode': go('user/EmailVerifiedView')
 
     '*name/': 'removeTrailingSlash'

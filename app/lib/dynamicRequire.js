@@ -115,4 +115,5 @@ module.exports = {
   'views/NotFoundView': function () { return import(/* webpackChunkName: "NotFoundView" */ 'views/NotFoundView') },
   'views/teachers/RestrictedToTeachersView': function () { return import(/* webpackChunkName: "RestrictedToTeachersView" */ 'views/teachers/RestrictedToTeachersView') },
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
+  'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
 }

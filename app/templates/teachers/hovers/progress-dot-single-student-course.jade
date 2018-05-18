@@ -1,6 +1,7 @@
 if completed
-  span.small-details(data-i18n='clans.complete_2')
-    | Complete
+  .certificate-link
+    img(src='/images/pages/user/certificates/certificate-icon.png')
+    span.small-details(data-i18n='user.certificate_click_to_view')
 else if started
   .fraction-students.small-details
     = levelsCompleted
