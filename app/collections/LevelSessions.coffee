@@ -6,7 +6,7 @@ module.exports = class LevelSessionCollection extends CocoCollection
   model: LevelSession
 
   fetchForCourseInstance: (courseInstanceID, options) ->
-    userID = options.userID or me.id
+    userID = options?.userID or me.id
     options = _.extend({
       url: "/db/course_instance/#{courseInstanceID}/course-level-sessions/#{userID}"
     }, options)
