@@ -16,6 +16,8 @@ block modal-header-content
         button#destudent-btn.btn.btn-burgundy Destudent
       if view.user.isTeacher()
         button#deteacher-btn.btn.btn-burgundy Deteacher
+  p
+    button#reset-progress-btn.btn.btn-burgundy Reset Progress
   br
 
   if view.prepaids.size()
@@ -180,6 +182,8 @@ block modal-body-content
             td service:
             td
               input#payment-service(type='text', value='paypal')
+              =" "
+              span Only enter paypal, stripe, or external
           tr
             td gems:
             td

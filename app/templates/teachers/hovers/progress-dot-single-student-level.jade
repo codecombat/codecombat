@@ -2,36 +2,42 @@ if practice
   span.text-uppercase.small-details.spr(data-i18n='teacher.practice')
 
 mixin timePlayed()
-  if session.get('playtime') > 0
+  if session.playtime > 0
     .small-details.nowrap 
       span(data-i18n="teacher.time_played_label")
       =" "
       span.spr(data-i18n='teacher.time_played')
-      span= moment.duration({ seconds: session.get('playtime') }).humanize()
+      span= moment.duration({ seconds: session.playtime }).humanize()
     
 mixin header()
   strong.small-details.nowrap
     if assessment
-      span(data-i18n="courses.challenge")
+      if assessment === 'cumulative'
+        span(data-i18n="play_level.combo_challenge")
+      else
+        span(data-i18n="play_level.concept_challenge")
+      =": "
     else
       span(data-i18n="teacher.level_label")
-    =" "
-    if levelNumber
-      span= levelNumber
-      span.spr . 
+      =" "
+      if levelNumber
+        span= levelNumber
+        span.spr . 
     span= levelName
     
 mixin assessmentLines()
-  if assessment === 'open-ended'
+  if (assessment === 'open-ended' || assessment === 'cumulative')
     .small-details.nowrap
       span(data-i18n="teacher.concepts_used")
-    em.small-details
-      for concept, i in codeConcepts
-        if i > 0
-          =", "
-        span(data-i18n="concepts." + concept)
-      if !codeConcepts.length
-        span(data-i18n="teacher.none")
+    if conceptGoals
+      for goal in conceptGoals
+        .small-details
+          if goalStates && goalStates[goal.id] && goalStates[goal.id].status === 'success'
+            i.glyphicon.glyphicon-ok
+          else
+            i.glyphicon.glyphicon-remove
+          =" "
+          span(data-i18n="concepts." + goal.concepts[0])
   else
     .small-details.nowrap
       span(data-i18n="teacher.concept_checked")
@@ -53,7 +59,7 @@ if completed
   .small-details.nowrap
     span(data-i18n='teacher.completed')
     =": "
-    - var dateCompleted = session.get('dateFirstCompleted') || session.get('created') || session.get('changed');
+    - var dateCompleted = session.dateFirstCompleted || session.created || session.changed;
     if dateCompleted
       span= moment(dateCompleted).format('lll')
     +timePlayed
@@ -68,7 +74,7 @@ else if started
   .small-details.nowrap
     span(data-i18n='user.last_played')
     =": "
-    span= moment(session.get('changed')).format('lll')
+    span= moment(session.changed).format('lll')
     +timePlayed
   if assessment
     +assessmentLines

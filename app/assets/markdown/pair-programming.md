@@ -21,7 +21,7 @@ We are going to pair up and try out pair programming, and then discuss as a clas
 
 **Directions for Students**
 
-1. Pair up with another student, one of you will start as the driver and one as the navigator.he navigator should not touch the keyboard/mouse, and the driver should communicate what they are doing.
+1. Pair up with another student, one of you will start as the driver and one as the navigator. The navigator should not touch the keyboard/mouse, and the driver should communicate what they are doing.
 1. Every 15 minutes, switch roles.
 1. Remember to practice clear communication, patience and the spirit of collaboration.
 

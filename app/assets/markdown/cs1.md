@@ -1,4 +1,4 @@
-###### Last updated: 08/23/2016
+###### Last updated: 02/24/2017
 
 ##### Lesson Plans
 # Introduction to Computer Science
@@ -313,7 +313,7 @@ Now you can use your variable instead of the value itself!
 
 So a variable can stand in for a value. 
 
-Variables can also be changed and checked. You could say `score = 0`, and then later `score = 1`. Or you could use your variable is in the expression for loop, i.e. `while score < 10`: 
+Variables can also be changed and checked. You could say `score = 0`, and then later `score = 1`. Or you could use your variable is in the expression for loop, i.e. `while score < 10:` 
 
 #### Interact (5 mins)
 

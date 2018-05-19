@@ -4,13 +4,13 @@
 		"vendor": "com.codecombat",
 		"name": "levelloaderror",
 		"format": "jsonschema",
-		"version": "1-0-0"
+		"version": "2-0-0"
 	},
 	"type": "object",
 	"properties": {
 		"user": {"type": "string", "pattern": "^[a-z0-9]{24}$", "maxLength": 24, "minLength": 24},
-		"unloaded": {"type": "array"}
+		"unloaded": {"type": "string", "maxLength":65535}
 	},
 	"required": ["user", "unloaded"],
-	"additionalProperties": false
+	"additionalProperties": true
 }

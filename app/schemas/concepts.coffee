@@ -15,6 +15,7 @@ concepts = [
   {concept: 'advanced_web_scripting', name: '', description: '', automatic: '', deprecated: true}
   {concept: 'input_handling', name: '', description: '', automatic: '', deprecated: true}
   {concept: 'while_loops', name: '', description: '', automatic: '', deprecated: true}
+  {concept: 'parameters', name: '', description: '', automatic: '', deprecated: true}
 
   {concept: 'advanced_css_rules', name: 'Advanced CSS Rules', description: 'CSS Rules introduced in WD3+.', automatic: true}
   {concept: 'advanced_css_selectors', name: 'Advanced CSS Selectors', description: 'CSS Selectors introduced in WD3+.', automatic: true}
@@ -46,12 +47,14 @@ concepts = [
         return false unless call.arguments.length is 1
         call.matches('Literal[value=2]')}
   {concept: 'boolean_and', name: 'Boolean And', description: 'Using boolean and/&&.', automatic: true, tagger: 'LogicalExpression[operator="&&"]'}
-  {concept: 'boolean_equality', name: 'Boolean Equality', description: 'Using == and !=.', automatic: true, tagger: 'BinaryExpression[operator="=="]'}
+  {concept: 'boolean_equality', name: 'Boolean Equality', description: 'Using ==.', automatic: true, tagger: 'BinaryExpression[operator="=="]'}
+  {concept: 'boolean_inequality', name: 'Boolean Inequality', description: 'Using !=.', automatic: false}
   {concept: 'boolean_greater_less', name: 'Boolean Greater/Less', description: 'Using >, >=, <, and <=.', automatic: 'Maybe, use in for loops confuses the issue', tagger: 'BinaryExpression[operator=">"],BinaryExpression[operator="<"],BinaryExpression[operator=">="],BinaryExpression[operator="<="]'}
   {concept: 'boolean_logic_shortcircuit', name: 'Boolean Logic Shortcircuiting', description: 'Writing longer if-conditionals with potential failing operations in the conditional. (if a && b.c > 0)', automatic: false}
   {concept: 'boolean_not', name: 'Boolean Not', description: 'Using boolean not/!.', automatic: 'Unsure, depends on if we teach !blah for null checks', tagger: 'UnaryyExpression[operator="!"]'}
   {concept: 'boolean_operator_precedence', name: 'Boolean Operator Precedence', description: 'Chaining booleans together (if (a || b) && c)', automatic: false}
   {concept: 'boolean_or', name: 'Boolean Or', description: 'Using boolean or/||.', automatic: true, tagger: 'LogicalExpression[operator="||"]'}
+  {concept: 'boolean_with_xycoordinates', name: 'Coordinate Comparison', description: 'Use comparison operators (<, >, ==, !=) with coordinates, for example to determine if one unit is to the left or right of another.', automatic: false}
   {concept: 'bootstrap', name: 'Bootstrap', description: 'Webpage structure involves Bootstrap in some way.', automatic: true}
   {concept: 'break_statements', name: 'Break Statements', description: 'Using the break statement.', automatic: true, tagger: 'BreakStatement'}
   {concept: 'classes', name: 'Classes', description: 'Defining a class.', automatic: true}
@@ -61,17 +64,22 @@ concepts = [
   {concept: 'event_concurrency', name: 'Event Concurrency', description: 'Running two threads at the same time (hero & pet)', automatic: false}
   {concept: 'event_data', name: 'Event Data', description: 'Accessing an event handler\'s parameter\'s properties.', automatic: false}
   {concept: 'event_handlers', name: 'Event Handlers', description: 'Using on() to monitor for certain events.', automatic: true}
+  {concept: 'event_spawn', name: 'Spawn Event', description: 'Using the spawn event.', automatic: false}
   {concept: 'for_loops', name: 'For Loops', description: 'Using a for-loop.', automatic: true, tagger: 'ForStatement'}
   {concept: 'for_loops_nested', name: 'Nested For Loops', description: 'Using a for-loop inside another for-loop.', automatic: true, tagger: 'ForStatement ForStatement'}
   {concept: 'for_loops_range', name: 'For Loops Range', description: 'If the level focuses on ranges outside of 0 to arr.length.', automatic: false}
   {concept: 'functions', name: 'Functions', description: 'Defining functions.', automatic: true, tagger: 'Function'}
+  {concept: 'functions_parameters', name: 'Parameters', description: 'Functions with parameters.', automatic: '??', tagger: 'Function.params>*', deprecated: false}
+  {concept: 'functions_multiple_parameters', name: 'Multiple Parameters', description: 'Defining functions with multiple parameters.', automatic: '', deprecated: false}
   {concept: 'game_ai', name: 'Game AI', description: 'Scripting AI for units inside Game Dev.', automatic: true}
   {concept: 'game_goals', name: 'Game Goals', description: 'Setting up goals inside Game Dev.', automatic: true}
   {concept: 'game_spawn', name: 'Game Spawn', description: 'Spawning units inside Game Dev.', automatic: true}
   {concept: 'graphics', name: 'Graphics', description: 'Drawing methods (flowers, canvas)', automatic: 'Maybe, by detectecting the flower ring is required'}
   {concept: 'graphs', name: 'Graphs', description: 'Implementations of the graph data structure.', automatic: false}
   {concept: 'heaps', name: 'Heaps', description: 'Implementations of the heap data structure.', automatic: false}
-  {concept: 'if_else_statements', name: 'If/Else Statements', description: 'Using elif/else if statements.', automatic: true, tagger: 'if.alternate>*'}
+  {concept: 'if_condition', name: 'Conditional If Statements', description: 'Using if statements with conditions.', automatic: false}
+  {concept: 'if_else_if', name: 'If/Else If Statements', description: 'Using elif/else if statements.', automatic: false}
+  {concept: 'if_else_statements', name: 'If/Else Statements', description: 'Using if else statements.', automatic: true, tagger: 'if.alternate>*'}
   {concept: 'if_statements', name: 'If Statements', description: 'Using if statements.', automatic: true, tagger: 'if'}
   {concept: 'if_statements_nested', name: 'Nested If Statemnts', description: 'Using if statements inside other if statements.', automatic: true, tagger:'if if'}
   {concept: 'indexing', name: 'Array Indexes', description: 'Accessing specific elements using indexes.', automatic: true, tagger: 'MemberExpression[computed=true]'}
@@ -87,13 +95,15 @@ concepts = [
   {concept: 'jquery_filtering', name: 'jQuery Element Filtering', description: 'The level filters down groups of elements using jQuery methods.', automatic: true}
   {concept: 'jquery_selectors', name: 'jQuery Selectors', description: 'The level uses jQuery selectors.', automatic: true}
   {concept: 'length', name: 'Array Length', description: 'If the length of an array or string is checked.', automatic: true, tagger: 'MemberExpression.property>Identifier[name="length"]'}
+  {concept: 'math_coordinates', name: 'Coordinate Math', description: 'Use arithmetic in conjunction with coordinates, for example to move relative to current position.', automatic: false}
   {concept: 'math_geometry', name: 'Geometry', description: 'Finding the perimeter, or area of things.', automatic: false}
   {concept: 'math_operations', name: 'Math Library Operations', description: 'Using Math library operations like Math.sqrt, Math.pow', automatic: true, tagger: 'CallExpression>MemberExpression:matches(.object>Identifier[name=Math]).property:matches(>Identifier[name=sqrt],>Identifier[name=pow],>Identifier[name=abs])'}
+  {concept: 'math_proportions', name: 'Proportion Math', description: 'Derive proportions, ratios or percentages from raw numbers, for example pct health from max and current health values.', automatic: false}
   {concept: 'math_trigonometry', name: 'Trigonometry', description: 'Using Math.sin/Math.cos/Math.tan', automatic: true, tagger: 'CallExpression>MemberExpression:matches(.object>Identifier[name=Math]).property:matches(>Identifier[name=sin],>Identifier[name=cos],>Identifier[name=tan])'}
   {concept: 'object_literals', name: 'Object Literals', description: 'Creating Object Literals (Python Dictionaries)', automatic: true, tagger: 'ObjectExpression'}
-  {concept: 'parameters', name: 'Parameters', description: 'Functions in this level have parameters.', automatic: '??', tagger: 'Function.params>*'}
   {concept: 'property_access', name: 'Accessing Properties', description: 'An object\'s properties are accessed (pos, gold)', automatic: true, tagger: ':not(CallExpression,AssignmentExpression)>MemberExpression'}
   {concept: 'property_assignment', name: 'Assigning Properties', description: 'Assigning to an object\'s properties. (obj.pos.x = 10)', automatic: true, tagger: 'AssignmentExpression.left>MemberExpression'}
+  {concept: 'property_coordinate', name: 'Coordinate Property', description: 'Using the "coordinate" property on units in the game.', automatic: false}
   {concept: 'queues', name: 'Data Structures - Queues', description: 'This level focuses on Queue-style data structures.', automatic: false}
   {concept: 'reading_docs', name: 'Reading the Docs', description: 'This level focuses on reading the documentation.', automatic: false}
   {concept: 'recursion', name: 'Recursion', description: 'This level teaches about recursion, (calling a function inside itself)', automatic: true}

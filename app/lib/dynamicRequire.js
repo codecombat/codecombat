@@ -38,6 +38,7 @@ module.exports = {
   'views/artisans/LevelGuidesView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/LevelGuidesView') },
   'views/artisans/StudentSolutionsView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/StudentSolutionsView') },
   'views/artisans/TagTestView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/TagTestView') },
+  'views/artisans/BulkLevelEditView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/BulkLevelEditView') },
   'views/artisans/ThangTasksView': function () { return import(/* webpackChunkName: "artisans" */ 'views/artisans/ThangTasksView') },
   'views/CLAView': function () { return import(/* webpackChunkName: "CLAView" */ 'views/CLAView') },
   'views/clans/ClansView': function () { return import(/* webpackChunkName: "clans" */ 'views/clans/ClansView') },
@@ -114,4 +115,5 @@ module.exports = {
   'views/NotFoundView': function () { return import(/* webpackChunkName: "NotFoundView" */ 'views/NotFoundView') },
   'views/teachers/RestrictedToTeachersView': function () { return import(/* webpackChunkName: "RestrictedToTeachersView" */ 'views/teachers/RestrictedToTeachersView') },
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
+  'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
 }

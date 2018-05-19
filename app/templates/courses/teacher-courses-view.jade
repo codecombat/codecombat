@@ -57,20 +57,18 @@ block content
                   select.level-select.form-control
                     if view.campaigns.loaded
                       - var campaign = view.campaigns.get(course.get('campaignID'))
-                      if campaign
+                      if campaign && view.campaignLevelNumberMap[campaign.id]
                         each level, levelIndex in campaign.getLevels().models
-                          if level.get('assessment') && !me.get('verifiedTeacher')
-                            - continue
-                          - var levelNumber = campaign.getLevelNumber(level.get('original'), levelIndex + 1)
                           option(value=level.get('slug'))
                             if level.get('assessment')
-                              =$.t('courses.challenge') + ' '
+                              if level.get('assessment') === 'cumulative'
+                                =$.t('play_level.combo_challenge')
+                              else
+                                =$.t('play_level.concept_challenge')
+                              =":"
                             else
-                              span
-                                = levelNumber
-                              span.spr
-                                | .
-                              = " "
+                              span #{view.campaignLevelNumberMap[campaign.id][level.get('original')]}.
+                            = " "
                             span
                               = i18n(level.attributes, 'name').replace('Course: ', '')
               a.play-level-button.btn.btn-lg.btn-primary
@@ -96,19 +94,23 @@ mixin course-info(course)
         i(data-i18n="courses.web_dev_language_transition")
 
     if me.isTeacher() || view.ownedClassrooms.size() || me.isAdmin()
+      - var disableButtons = !course.get('free') && !view.paidTeacher;
+      if disableButtons
+        p
+          i(data-i18n="courses.solutions_require_licenses")
       //- Web dev courses use HTML and JavaScript, except web-development-1 which doesn't have scripting
       if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_1
-        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; HTML
       else if course.id === view.utils.courseIDs.WEB_DEVELOPMENT_2
-        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/html") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; HTML / JavaScript
       else
-        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/javascript") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide JavaScript" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; JavaScript
-        a.guide-btn.btn.btn-primary(href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
+        a.guide-btn.btn.btn-primary(disabled=disableButtons href=("/teachers/course-solution/" + course.id + "/python") data-course-id=course.id data-course-name=course.get('name') data-event-action="Classes Guides Guide Python" class=(me.isTeacher() || me.isAdmin() ? '': 'disabled'))
           span(data-i18n="courses.view_guide_online")
           |  &mdash; Python

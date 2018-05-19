@@ -207,3 +207,50 @@
 
   .glyphicon-question-sign
     margin-left: 5px
+
+  .ace_content
+    .ace_marker-layer
+      .ace_bracket
+        display: none
+    .ace_cursor-layer
+      .ace_cursor
+        display: none
+    .ace_text-layer .ace_invisible_space
+      visibility: hidden
+
+  ul.nav-tabs
+    border: none
+    .tab-spacer
+      float: left
+      width: 15px
+      height: 21px
+      border-bottom: thin solid #979797
+
+    .tab-filler
+      // Triggers block formatting context
+      // http://stackoverflow.com/questions/1260122/expand-a-div-to-take-the-remaining-width
+      overflow: hidden
+      height: 21px
+      border-bottom: thin solid #979797
+
+    li > a
+      margin: 0
+      padding: 0px 4px
+      border: thin solid #979797
+      border-bottom: none
+      background: white
+      border-radius: 5px 5px 0 0
+      color: black
+      font-size: 14px
+    li
+      border-bottom: thin solid #979797
+    li.active
+      border-bottom: none
+
+  .student-solution-spacer
+    height: 22px
+
+  table.side-by-side
+    width: 100%
+    td
+      vertical-align: top

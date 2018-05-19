@@ -22,6 +22,7 @@ _.extend ClassroomSchema.properties,
     description: 'Visual only; determines if the classroom is in the "archived" list of the normal list.'
   courses: c.array { title: 'Courses' }, c.object { title: 'Course' }, {
     _id: c.objectId()
+    updated: c.stringDate()
     levels: c.array { title: 'Levels' }, c.object { title: 'Level' }, {
       assessment: {type: ['boolean', 'string']}
       assessmentPlacement: { type: 'string' }

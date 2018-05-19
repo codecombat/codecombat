@@ -69,8 +69,6 @@ block content
                   h5(dir="auto")
                     span.spr= classroom.get('name')
                     span.spr (#{(classroom.get('aceConfig') || {}).language === 'javascript' ? 'JavaScript' : 'Python'})
-                  if classroom.hasAssessments()
-                    a.spl.view-assessments-link(data-classroom-id=classroom.id, data-i18n="courses.view_assessments")
                   p
                     span(data-i18n="courses.teacher")
                     span :
@@ -81,13 +79,16 @@ block content
                   for courseInstance in courseInstances
 
                     .course-instance-entry.rtl-allowed
-                      - var course = view.courses.get(courseInstance.get('courseID'));
+                      - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
                       h6
-                        span.spr= i18n(course.attributes, 'name')
+                        span.spr= i18n(course, 'name')
                         small
                           a.view-levels-btn(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_levels")
                           if view.courseInstanceHasProject(courseInstance)
                             a.view-project-gallery-link(data-course-id=courseInstance.get('courseID'), data-courseinstance-id=courseInstance.id, data-i18n="courses.view_project_gallery")
+                          if classroom.hasAssessments({courseId: course._id})
+                            =" "
+                            a.view-challenges-link(data-classroom-id=classroom.id, data-i18n="courses.view_challenges", data-course-id=course._id)
                       +course-instance-body(courseInstance, classroom)
                       .clearfix
 
@@ -110,15 +111,16 @@ block content
 
 
 mixin course-instance-body(courseInstance, classroom)
-  - var course = view.courses.get(courseInstance.get('courseID'));
-  - var stats = classroom.statsForSessions(courseInstance.sessions, course.id);
-  if stats.levels.done
+  - var course = view.store.state.courses.byId[courseInstance.get('courseID')];
+  - var stats = classroom.statsForSessions(courseInstance.sessions, course._id);
+    
+  if stats.levels.lastLevelDone
     .text-success
       span.glyphicon.glyphicon-ok
       span.spl(data-i18n="courses.course_complete")
       span !
   .pull-right
-    if stats.levels.done
+    if stats.levels.lastLevelDone
       - var arenaLevel = stats.levels.arena;
       - var projectLevel = stats.levels.project;
       if arenaLevel
@@ -141,7 +143,11 @@ mixin course-instance-body(courseInstance, classroom)
         a.play-btn.btn.btn-navy.btn-lg.m-b-1(data-href=url, data-level-slug=next.get('slug'), data-event-action="Students Start Course")
           span(data-i18n="courses.start")
 
-  if stats.levels.lastPlayed
+  if stats.levels.lastLevelDone
+    a.certificate-link(target='_blank', href='/certificates/' + me.id + '?class=' + classroom.id + '&course=' + course._id + '&course-instance=' + courseInstance.id)
+      img(src='/images/pages/user/certificates/certificate-icon.png')
+      div(data-i18n='user.certificate_view')
+  else if stats.levels.lastPlayed
     div
       span(data-i18n="courses.last_level")
       span :
@@ -153,5 +159,8 @@ mixin course-instance-body(courseInstance, classroom)
       span.spl= levelName || levelNameEnglish
 
   .clearfix
-  .progress
-    .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone
+  if stats.levels.lastLevelDone
+    br
+  else
+    .progress
+      .progress-bar(style="width:"+stats.levels.pctDone)= stats.levels.pctDone

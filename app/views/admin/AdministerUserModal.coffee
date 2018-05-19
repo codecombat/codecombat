@@ -9,6 +9,7 @@ Prepaids = require 'collections/Prepaids'
 Classrooms = require 'collections/Classrooms'
 TrialRequests = require 'collections/TrialRequests'
 fetchJson = require('core/api/fetch-json')
+api = require 'core/api'
 
 module.exports = class AdministerUserModal extends ModalView
   id: 'administer-user-modal'
@@ -20,6 +21,7 @@ module.exports = class AdministerUserModal extends ModalView
     'click #add-seats-btn': 'onClickAddSeatsButton'
     'click #destudent-btn': 'onClickDestudentButton'
     'click #deteacher-btn': 'onClickDeteacherButton'
+    'click #reset-progress-btn': 'onClickResetProgressButton'
     'click .update-classroom-btn': 'onClickUpdateClassroomButton'
     'click .add-new-courses-btn': 'onClickAddNewCoursesButton'
     'click .user-link': 'onClickUserLink'
@@ -73,6 +75,7 @@ module.exports = class AdministerUserModal extends ModalView
       purchaser: @user.get('_id')
       recipient: @user.get('_id')
       service: service
+      created: new Date().toISOString()
       gems: gems
       amount: amount
       description: @$('#payment-description').val()
@@ -155,6 +158,10 @@ module.exports = class AdministerUserModal extends ModalView
       }
       if e.stack
         throw e
+
+  onClickResetProgressButton: ->
+    if confirm("Really RESET this person's progress?")
+      api.users.resetProgress({ userID: @user.id})
 
   onClickUpdateClassroomButton: (e) ->
     classroom = @classrooms.get(@$(e.currentTarget).data('classroom-id'))

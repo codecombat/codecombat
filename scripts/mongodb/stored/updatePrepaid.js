@@ -11,7 +11,7 @@
 
 var updatePrepaid = function updatePrepaid(stringID, originalUpdate) {
   try {
-    load('./bower_components/lodash/dist/lodash.js')
+    load('./node_modules/lodash/dist/lodash.js')
   }
   catch (e) {
     print('Lodash could not be loaded, ensure you are in codecombat project directory.');

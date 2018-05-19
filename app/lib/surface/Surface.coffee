@@ -687,18 +687,12 @@ module.exports = Surface = class Surface extends CocoClass
     return if @cinematic
     @cinematic = true
     @onResize()
-    if @heroLank and @options.levelType not in ['hero-ladder', 'course-ladder']
-      @previousCameraZoom = @camera.zoom
-      @camera.zoomTo @heroLank.sprite, Math.min(@camera.zoom * 2, 3), 3000
 
   onCinematicPlaybackEnded: (e) ->
     return unless @cinematic
     @cinematic = false
     @onResize()
     _.delay @onResize, resizeDelay + 100  # Do it again just to be double sure that we don't stay zoomed in due to timing problems.
-    if @handleEvents
-      if @previousCameraZoom and @options.levelType not in ['hero-ladder', 'course-ladder']
-        @camera.zoomTo @camera.newTarget or @camera.target, @previousCameraZoom, 3000
 
   onFlagColorSelected: (e) ->
     @normalCanvas.add(@webGLCanvas).toggleClass 'flag-color-selected', Boolean(e.color)

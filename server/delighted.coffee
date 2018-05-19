@@ -6,7 +6,8 @@ Classroom = require './models/Classroom'
 TrialRequest = require './models/TrialRequest'
 co = require 'co'
 
-DELIGHTED_EMAIL_DELAY = 7 * 86400  # in seconds
+ENGAGED_DELIGHTED_EMAIL_DELAY = 18 * 86400  # in seconds
+PAID_DELIGHTED_EMAIL_DELAY = 7 * 86400
 
 isTargetedCountry = (country) ->
   if /^u\.s\.?(\.a)?\.?$|^us$|usa|america|united states/ig.test(country)
@@ -31,7 +32,7 @@ module.exports.maybeAddDelightedUser = addDelightedUser = (user, trialRequest, s
   form =
     email: props.email
     name: name
-    delay: DELIGHTED_EMAIL_DELAY
+    delay: if status is 'engaged' then ENGAGED_DELIGHTED_EMAIL_DELAY else PAID_DELIGHTED_EMAIL_DELAY
     properties:
       id: trialRequest.get('applicant')
       locale: user.get('preferredLanguage')

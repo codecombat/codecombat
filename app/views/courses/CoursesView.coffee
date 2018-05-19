@@ -20,6 +20,7 @@ NameLoader = require 'core/NameLoader'
 Campaign = require 'models/Campaign'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
+store = require 'core/store'
 
 # TODO: Test everything
 
@@ -37,7 +38,7 @@ module.exports = class CoursesView extends RootView
     'click .view-class-btn': 'onClickViewClass'
     'click .view-levels-btn': 'onClickViewLevels'
     'click .view-project-gallery-link': 'onClickViewProjectGalleryLink'
-    'click .view-assessments-link': 'onClickViewAssessmentsLink'
+    'click .view-challenges-link': 'onClickViewChallengesLink'
 
   getTitle: -> return $.i18n.t('courses.students')
 
@@ -53,9 +54,8 @@ module.exports = class CoursesView extends RootView
     @ownedClassrooms = new Classrooms()
     @ownedClassrooms.fetchMine({data: {project: '_id'}})
     @supermodel.trackCollection(@ownedClassrooms)
-    @courses = new Courses()
-    @courses.fetch()
-    @supermodel.trackCollection(@courses)
+    @supermodel.addPromiseResource(store.dispatch('courses/fetch'))
+    @store = store
     @originalLevelMap = {}
     @urls = require('core/urls')
 
@@ -81,7 +81,7 @@ module.exports = class CoursesView extends RootView
       continue if not courseInstance.get('classroomID')
       courseID = courseInstance.get('courseID')
       courseInstance.sessions = new CocoCollection([], {
-        url: courseInstance.url() + '/my-course-level-sessions',
+        url: courseInstance.url() + '/course-level-sessions/' + me.id,
         model: LevelSession
       })
       courseInstance.sessions.comparator = 'changed'
@@ -225,7 +225,7 @@ module.exports = class CoursesView extends RootView
     courseID = $(e.target).data('course-id')
     courseInstanceID = $(e.target).data('courseinstance-id')
     window.tracker?.trackEvent 'Students View Levels', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
-    course = @courses.get(courseID)
+    course = store.state.courses.byId[courseID]
     courseInstance = @courseInstances.get(courseInstanceID)
     levelsUrl = @urls.courseWorldMap({course, courseInstance})
     application.router.navigate(levelsUrl, { trigger: true })
@@ -236,7 +236,8 @@ module.exports = class CoursesView extends RootView
     window.tracker?.trackEvent 'Students View To Project Gallery View', category: 'Students', courseID: courseID, courseInstanceID: courseInstanceID, ['Mixpanel']
     application.router.navigate("/students/project-gallery/#{courseInstanceID}", { trigger: true })
 
-  onClickViewAssessmentsLink: (e) ->
+  onClickViewChallengesLink: (e) ->
     classroomID = $(e.target).data('classroom-id')
+    courseID = $(e.target).data('course-id')
     window.tracker?.trackEvent 'Students View To Student Assessments View', category: 'Students', classroomID: classroomID, ['Mixpanel']
-    application.router.navigate("/students/assessments/#{classroomID}", { trigger: true })
+    application.router.navigate("/students/assessments/#{classroomID}##{courseID}", { trigger: true })

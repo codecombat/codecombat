@@ -128,6 +128,8 @@ mixin accountLinks
                     a(href="/teachers/resources", data-i18n="nav.resource_hub")
                   li
                     a(href="/teachers/demo", data-i18n="new_home.request_demo")
+                  li
+                    a(href="/apcsp", data-i18n="nav.apcsp")
 
             .col-sm-3
               ul.list-unstyled
@@ -157,7 +159,9 @@ mixin accountLinks
                   a(href="https://twitter.com/codecombat", data-i18n="nav.twitter")
 
       #final-footer.small.text-center(dir="ltr")
-        | Copyright ©2018 CodeCombat. All Rights Reserved.
+        span(data-i18n="nav.copyright_prefix")
+        span= ' ©2018 CodeCombat Inc. '
+        span(data-i18n="nav.copyright_suffix")
         br.hidden-lg.hidden-md
         img(src="/images/pages/base/logo.png" alt="CodeCombat")
         br.hidden-lg.hidden-md

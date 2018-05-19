@@ -5,6 +5,8 @@ ace = require('lib/aceContainer')
 utils = require 'core/utils'
 aceUtils = require 'core/aceUtils'
 SubscribeModal = require 'views/core/SubscribeModal'
+LevelGoals = require('./LevelGoals').default
+store = require 'core/store'
 
 module.exports = class LevelLoadingView extends CocoView
   id: 'level-loading-view'
@@ -60,26 +62,44 @@ module.exports = class LevelLoadingView extends CocoView
     return if @session
     @session = e.session if e.session.get('creator') is me.id
 
-  prepareGoals: (e) ->
+  prepareGoals: ->
+    @levelGoalsComponent = new LevelGoals({
+      el: @$('.list-unstyled')[0],
+      store,
+      propsData: { showStatus: false }
+    })
+    @levelGoalsComponent.goals = @level.get('goals')
     goalContainer = @$el.find('.level-loading-goals')
-    goalList = goalContainer.find('ul')
-    goalCount = 0
-    for goalID, goal of @level.get('goals') when (not goal.team or goal.team is (e.team or 'humans')) and not goal.hiddenGoal
-      continue if goal.optional and @level.isType('course')
-      name = utils.i18n goal, 'name'
-      goalList.append $('<li>').text(name)
-      ++goalCount
-    @goalHeaderTransationKey = 'play_level.goals'
-    if @level.get('assessment')
-      @goalHeaderTransationKey = 'play_level.challenge_level_goals'
-    if goalCount
-      goalContainer.removeClass('secret')
-      if goalCount is 1
-        if @level.get('assessment')
-           @goalHeaderTransationKey = 'play_level.challenge_level_goal'  # Not plural
+    @buttonTranslationKey = 'play_level.loading_start'
+    if @level.get('assessment') is 'cumulative'
+      @buttonTranslationKey = 'play_level.loading_start_combo'
+    else if @level.get('assessment')
+      @buttonTranslationKey = 'play_level.loading_start_concept'
+    @$('.start-level-button').text($.i18n.t(@buttonTranslationKey))
+
+    Vue.nextTick(=>
+      # TODO: move goals to vuex where everyone can check together which goals are visible.
+      # Use that instead of looking into the Vue result
+      numGoals = goalContainer.find('li').length
+      if numGoals
+        goalContainer.removeClass('secret')
+        if @level.get('assessment') is 'cumulative'
+          if numGoals > 1
+            @goalHeaderTranslationKey = 'play_level.combo_challenge_goals'
+          else
+            @goalHeaderTranslationKey = 'play_level.combo_challenge_goal'
+        else if @level.get('assessment')
+          if numGoals > 1
+            @goalHeaderTranslationKey = 'play_level.concept_challenge_goals'
+          else
+            @goalHeaderTranslationKey = 'play_level.concept_challenge_goal'
         else
-          @goalHeaderTransationKey = 'play_level.goal'  # Not plural
-    goalContainer.find('.goals-title').text $.i18n.t @goalHeaderTransationKey
+          if numGoals > 1
+            @goalHeaderTranslationKey = 'play_level.goals'
+          else
+            @goalHeaderTranslationKey = 'play_level.goal'
+        goalContainer.find('.goals-title').text $.i18n.t @goalHeaderTranslationKey
+    )
 
   prepareTip: ->
     tip = @$el.find('.tip')
@@ -104,7 +124,10 @@ module.exports = class LevelLoadingView extends CocoView
   finishShowingReady: =>
     return if @destroyed
     showIntro = utils.getQueryVariable('intro')
-    autoUnveil = not showIntro and (@options.autoUnveil or @session?.get('state').complete)
+    if showIntro?
+      autoUnveil = not showIntro
+    else
+      autoUnveil = @options.autoUnveil or @session?.get('state').complete
     if autoUnveil
       @startUnveiling()
       @unveil true
@@ -154,6 +177,16 @@ module.exports = class LevelLoadingView extends CocoView
       @$loadingDetails.css 'top', -@$loadingDetails.outerHeight(true)
     @$el.removeClass 'preview-screen'
     $('#canvas-wrapper').removeClass 'preview-overlay'
+    if @unveilPreviewTime
+      levelSlug = @level?.get('slug') or @options.level?.get('slug')
+      timespent = (new Date().getTime() - @unveilPreviewTime) / 1000
+      window.tracker?.trackEvent 'Finish Viewing Intro', {
+        category: 'Play Level'
+        label: 'level loading'
+        level: levelSlug
+        levelID: levelSlug
+        timespent
+      }
 
   unveilLoadingPreview: (duration) ->
     # Move the loading details screen over the code editor to preview the level.
@@ -168,6 +201,7 @@ module.exports = class LevelLoadingView extends CocoView
       @$el.find('.progress-or-start-container').addClass('intro-footer')
       @$el.find('#tip-wrapper').remove()
       _.delay @unveilIntro, duration
+    @unveilPreviewTime = new Date().getTime()
 
   resize: ->
     maxHeight = $('#page-container').outerHeight(true)

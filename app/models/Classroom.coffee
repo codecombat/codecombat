@@ -75,7 +75,7 @@ module.exports = class Classroom extends CocoModel
     }
 
   getLevels: (options={}) ->
-    # options: courseID, withoutLadderLevels, projectLevels, assessmentLevels
+    # options: courseID, withoutLadderLevels, projectLevels, assessmentLevels, levelsCollection
     # TODO: find a way to get the i18n in here so that level names can be translated (Courses don't include in their denormalized copy of levels)
     Levels = require 'collections/Levels'
     courses = @get('courses')
@@ -84,7 +84,12 @@ module.exports = class Classroom extends CocoModel
     for course in courses
       if options.courseID and options.courseID isnt course._id
         continue
-      levelObjects.push(course.levels)
+      if options.levelsCollection
+        for level in course.levels
+          matchedLevel = options.levelsCollection.findWhere original: level.original
+          levelObjects.push matchedLevel?.attributes or matchedLevel
+      else
+        levelObjects.push(course.levels)
     levels = new Levels(_.flatten(levelObjects))
     language = @get('aceConfig')?.language
     levels.remove(levels.filter((level) => level.get('primerLanguage') is language)) if language
@@ -112,12 +117,12 @@ module.exports = class Classroom extends CocoModel
     levels = new Levels(course.levels)
     return levels.find (l) -> l.isProject()
 
-  statsForSessions: (sessions, courseID) ->
+  statsForSessions: (sessions, courseID, levelsCollection=undefined) ->
     return null unless sessions
     sessions = sessions.models or sessions
     arena = @getLadderLevel(courseID)
     project = @getProjectLevel(courseID)
-    courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true})
+    courseLevels = @getLevels({courseID: courseID, withoutLadderLevels: true, levelsCollection: levelsCollection})
     levelSessionMap = {}
     levelSessionMap[session.get('level').original] = session for session in sessions
     currentIndex = -1
@@ -128,12 +133,15 @@ module.exports = class Classroom extends CocoModel
     lastPlayedNumber = null
     playtime = 0
     levels = []
+    linesOfCode = 0
+    lastLevelDone = false
     for level, index in courseLevels.models
       levelsTotal++ unless level.get('practice') or level.get('assessment')
       complete = false
       if session = levelSessionMap[level.get('original')]
         complete = session.get('state').complete ? false
         playtime += session.get('playtime') ? 0
+        linesOfCode += session.countOriginalLinesOfCode level
         lastPlayed = level
         lastPlayedNumber = @getLevelNumber(level.get('original'), index + 1)
         if complete
@@ -147,6 +155,7 @@ module.exports = class Classroom extends CocoModel
         assessment: level.get('assessment') ? false
         practice: level.get('practice') ? false
         complete: complete
+      lastLevelDone = complete unless level.get('practice') or level.get('assessment')
     lastPlayed = lastStarted ? lastPlayed
     lastPlayedNumber = '' if lastPlayed?.get('assessment')
     needsPractice = false
@@ -173,7 +182,9 @@ module.exports = class Classroom extends CocoModel
         first: courseLevels.first()
         arena: arena
         project: project
+        lastLevelDone: lastLevelDone
       playtime: playtime
+      linesOfCode: linesOfCode
     stats
 
   fetchForCourseInstance: (courseInstanceID, options={}) ->
@@ -209,6 +220,10 @@ module.exports = class Classroom extends CocoModel
       return propInfo[name].default
 
     return false
-  
-  hasAssessments: () ->
+
+  hasAssessments: (options={}) ->
+    if options.courseId
+      course = _.find(@get('courses'), (c) => c._id is options.courseId)
+      return false unless course
+      return _.any(course.levels, { assessment: true })
     _.any(@get('courses'), (course) -> _.any(course.levels, { assessment: true }))

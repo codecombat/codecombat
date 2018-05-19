@@ -147,7 +147,7 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
     @courseB = Course({name: 'Course B', campaignID: @campaignB._id, releasePhase: 'released'})
     yield @courseB.save()
 
-    @teacher = yield utils.initUser({role: 'teacher', verifiedTeacher: true})
+    @teacher = yield utils.initUser({role: 'teacher', permissions:['assessments']})
     yield utils.loginUser(@teacher)
     data = { name: 'Classroom 1' }
     classroomsURL = getURL('/db/classroom')
@@ -164,7 +164,7 @@ describe 'GET /db/course/:handle/levels/:levelOriginal/next', ->
     expect(res.body.assessment.original).toBe(@assessmentA.original.toString())
 
   it 'does not return the assessment if the teacher is not verified', utils.wrap ->
-    yield @teacher.update({$set: {verifiedTeacher: false}})
+    yield @teacher.update({$set: {permissions: []}})
     [res, body] = yield request.getAsync { uri: utils.getURL("/db/course/#{@courseA.id}/levels/#{@levelA.id}/next"), json: true }
     expect(res.statusCode).toBe(200)
     expect(res.body.level.original).toBe(@levelB.original.toString())

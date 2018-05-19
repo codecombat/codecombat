@@ -2,12 +2,12 @@
   .row.level-row
     .col-xs-5
       div.level-type
-        span(v-if="assessment === 'open-ended' && assessmentPlacement === 'middle'")
-          | {{ $t('teacher.mid_course') }}
-        span(v-else-if="assessment === 'open-ended' && assessmentPlacement === 'end'")
-          | {{ $t('teacher.end_course') }}
+        span(v-if="isCumulative && assessmentPlacement === 'middle'")
+          | {{ $t('teacher.combo') }}: {{ $t('teacher.mid_course') }}
+        span(v-else-if="isCumulative")
+          | {{ $t('teacher.combo') }}: {{ $t('teacher.end_course') }}
         span(v-else-if="primaryConcept")
-          | {{ $t('concepts.' + primaryConcept) }}
+          | {{ $t('teacher.concept') }}: {{ $t('concepts.' + primaryConcept) }}
 
       div.small
         strong {{$t('courses.level_name')}}
@@ -19,27 +19,24 @@
           span.glyphicon.glyphicon-ok-sign.success-symbol.text-forest
           =" "
           | {{ $t('teacher.success') }}
-          span(v-if="scoreString")
-            img.threshold-icon(:src="scoreIconUrl" v-if="thresholdAchieved")
+          =" "
+          span(v-if="isCumulative")
             =" "
-            | ({{ scoreString }})
+            | ({{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted.length, total: conceptGoals.length }) }})
           br
         span(v-else-if="started")
           span.glyphicon.glyphicon-question-sign.in-progress-symbol.text-gold
           =" "
           | {{ $t('teacher.in_progress') }}
         span(v-else)
-          span.glyphicon.glyphicon-question-sign.not-started-symbol.text-gray
-          =" "
-          | {{ $t('teacher.not_started') }}
-      div.small(v-if="assessment === 'open-ended' && started")
+      div.small(v-if="isCumulative && started")
         strong {{ $t('courses.concepts_used') }}
         =" "
-        span(v-for="(concept, i) in codeConcepts || []")
+        span(v-for="(concept, i) in conceptsUsed || []")
           span(v-if="i > 0")
             =", "
           span {{ $t("concepts." + concept) }}
-        span(v-if="!(codeConcepts && codeConcepts.length)")
+        span(v-if="!(conceptsUsed && conceptsUsed.length)")
           | {{ $t("teacher.none") }}
     .col-xs-2
       div(v-if="playUrl")
@@ -63,29 +60,25 @@ module.exports = Vue.extend({
     'assessmentPlacement'
     'primaryConcept'
     'name'
-    'scoreType'
+    'goals'
 
     # session properties
     'complete'
     'started'
-    'score'
-    'codeConcepts'
+    'goalStates'
 
     # computed
     'playUrl'
-    'thresholdAchieved'
   ],
   
   computed: {
-    scoreString: ->
-      scoreType = @scoreType
-      score = @score
-      return '' unless scoreType and score?
-      translatedScoreType = @$t("leaderboard.#{_.string.underscored(scoreType)}")
-      translation = @$t("leaderboard.score_display", { score, scoreType: translatedScoreType })
-      return translation
-      
-    scoreIconUrl: -> "/images/pages/courses/star-#{@thresholdAchieved}.png"
+    isCumulative: -> @assessment is 'cumulative'
+    conceptGoals: ->
+      return @goals.filter((g) => g.concepts?.length)
+    conceptGoalsCompleted: ->
+      return @conceptGoals.filter((g) => @goalStates?[g.id].status is 'success')
+    conceptsUsed: ->
+      return _.uniq(_.flatten(@conceptGoalsCompleted.map((g) => g.concepts)))
 }
 })
 </script>
@@ -94,12 +87,6 @@ module.exports = Vue.extend({
 .level-row
   padding: 4px 0
   border-bottom: 1px solid #ccc
-
-  .threshold-icon
-    height: 1.2em
-    margin-left: 0.3em
-    position: relative
-    top: -0.1em
 
   .btn
     min-width: 140px

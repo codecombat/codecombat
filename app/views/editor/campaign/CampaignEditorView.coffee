@@ -97,7 +97,7 @@ module.exports = class CampaignEditorView extends RootView
     # Load any levels which haven't been denormalized into our campaign.
     return unless @campaign.loaded and @levels.loaded and @achievements.loaded
     @loadMissingLevelsAndRelatedModels()
-    
+
   loadMissingLevelsAndRelatedModels: ->
     promises = []
     for level in _.values(@campaign.get('levels'))
@@ -126,6 +126,10 @@ module.exports = class CampaignEditorView extends RootView
     @updateCampaignLevels()
     @campaignView.render()
     super()
+    if window.location.hash
+      levelSlug = window.location.hash.substring(1)
+      levelOriginal = _.find(@campaign.get('levels'), slug: levelSlug).original
+      @openCampaignLevelView @supermodel.getModelByOriginal Level, levelOriginal
 
   updateCampaignLevels: ->
     @toSave.add @campaign if @campaign.hasLocalChanges()

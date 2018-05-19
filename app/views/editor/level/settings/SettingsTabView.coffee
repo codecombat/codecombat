@@ -150,14 +150,14 @@ class ConceptNode extends TreemaNode.nodeMap.string
     @$el.append($("<span class='treema-description'>#{description}</span>").show())
 
   limitChoices: (options) ->
-    if @parent.keyForParent is 'concepts'
+    if @parent.keyForParent is 'concepts' and (not this.parent.parent)
       options = (o for o in options when _.find(concepts, (c) -> c.concept is o and not c.automatic and not c.deprecated))  # Allow manual, not automatic
     else
       options = (o for o in options when _.find(concepts, (c) -> c.concept is o and not c.deprecated))  # Allow both
     super options
 
   onClick: (e) ->
-    return if @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
+    return if this.parent.keyForParent is 'concepts' and (not this.parent.parent) and @$el.hasClass('concept-automatic')  # Don't allow editing of automatic concepts
     super e
 
 class ConceptsListNode extends TreemaNode.nodeMap.array

@@ -136,7 +136,7 @@ module.exports = class LevelLoader extends CocoClass
         {target: 'public', access: 'write'}
       ]
       codeLanguage: @fakeSessionConfig.codeLanguage or me.get('aceConfig')?.language or 'python'
-      _id: 'A Fake Session ID'
+      _id: LevelSession.fakeID
     @session = new LevelSession initVals
     @session.loaded = true
     @fakeSessionConfig.callback? @session, @level

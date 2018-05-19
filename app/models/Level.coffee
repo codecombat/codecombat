@@ -3,13 +3,14 @@ LevelComponent = require './LevelComponent'
 LevelSystem = require './LevelSystem'
 LevelConstants = require 'lib/LevelConstants'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
+utils = require 'core/utils'
 
 # Pure functions for use in Vue
 # First argument is always a raw Level.attributes
 # Accessible via eg. `Level.isProject(levelObj)`
 LevelLib = {
   isProject: (level) ->
-    return level.shareable is 'project'
+    return level?.shareable is 'project'
 }
 
 module.exports = class Level extends CocoModel
@@ -268,8 +269,9 @@ module.exports = class Level extends CocoModel
         height = c.height if c.height? and c.height > height
     return {width: width, height: height}
 
-  isLadder: ->
-    return @get('type')?.indexOf('ladder') > -1
+  isLadder: -> return Level.isLadder(@attributes)
+    
+  @isLadder: (level) -> level.type?.indexOf('ladder') > -1
 
   isProject: -> Level.isProject(@attributes)
 
@@ -282,15 +284,15 @@ module.exports = class Level extends CocoModel
     solutions = _.cloneDeep plan.solutions ? []
     for solution in solutions
       try
-        # TODO: use preferredlanguage to localize source
-        solution.source = _.template(solution.source)(plan.context)
+        solution.source = _.template(solution?.source)(utils.i18n(plan, 'context'))
       catch e
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
 
-  getSampleCode: ->
-    return {} unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
-    return {} unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+  getSampleCode: (team='humans') ->
+    heroThangID = if team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
+    return {} unless hero = _.find (@get("thangs") ? []), id: heroThangID
+    return {} unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     sampleCode = _.cloneDeep plan.languages ? {}
     sampleCode.javascript = plan.source
     for language, code of sampleCode
@@ -311,5 +313,7 @@ module.exports = class Level extends CocoModel
         achieved = score >= thresholdValue
       if achieved
         return threshold
+        
+  isSummative: -> @get('assessment') in ['open-ended', 'cumulative']
 
 _.assign(Level, LevelLib)

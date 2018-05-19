@@ -49,7 +49,10 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
               br
-              a(href="/teachers/resources/apcsp-hitchhikers-guide")
+              - var hitchhikersGuideURL = "/teachers/resources/apcsp-hitchhikers-guide";
+              if (me.get('preferredLanguage') == 'he')
+                - hitchhikersGuideURL += '-he';
+              a(href=hitchhikersGuideURL)
                 span Unit 3 Activity: Algorithms - Hitchhiker's Guide
               br
               a(href="/teachers/resources/apcsp-simulation")
@@ -91,6 +94,10 @@ block content
               a(href="/teachers/resources/apcsp-internet-simulation")
                 span Unit 5 Activity: Internet Simulator
               br
+              - var internetChatSimulationURL = "/teachers/resources/apcsp-internet-chat-simulation";
+              if (me.get('preferredLanguage') == 'he')
+                - internetChatSimulationURL += '-he';
+              a(href=internetChatSimulationURL)
               a(href="/teachers/resources/apcsp-internet-chat-simulation")
                 span Unit 5 Activity: Chat Room Simulation
               br
@@ -127,7 +134,10 @@ block content
               a(href="/teachers/resources/apcsp-personal-and-global-impact")
                 span Unit 7 Activity: Personal & Global Impact
               br
-              a(href="/teachers/resources/apcsp-crowdsourcing")
+              - var crowdsourcingURL = "/teachers/resources/apcsp-crowdsourcing";
+              if (me.get('preferredLanguage') == 'he')
+                - crowdsourcingURL += '-he';
+              a(href=crowdsourcingURL)
                 span Unit 7 Activity: Crowdsourcing
         li
           div Unit 8: Performance Tasks

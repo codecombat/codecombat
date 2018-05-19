@@ -9,6 +9,8 @@ Classroom = require 'models/Classroom'
 utils = require 'core/utils'
 api = require('core/api')
 urls = require 'core/urls'
+store = require 'core/store'
+CourseVictoryComponent = require('./CourseVictoryComponent').default
 
 module.exports = class CourseVictoryModal extends ModalView
   id: 'course-victory-modal'
@@ -56,7 +58,16 @@ module.exports = class CourseVictoryModal extends ModalView
         @course = new Course()
         @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID)
 
-    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', category: 'Students', levelSlug: @level.get('slug'), []
+    properties = {
+      category: 'Students',
+      levelSlug: @level.get('slug')
+    }
+    concepts = @level.get('goals').filter((g) => g.concepts).map((g) => g.id)
+    if concepts.length
+      goalStates = @session.get('state').goalStates
+      succeededConcepts = concepts.filter((c) => goalStates[c]?.status is 'success')
+      _.assign(properties, {concepts, succeededConcepts})
+    window.tracker?.trackEvent 'Play Level Victory Modal Loaded', properties, []
     if @level.isProject()
       @galleryURL = urls.projectGallery({ @courseInstanceID })
 
@@ -67,33 +78,52 @@ module.exports = class CourseVictoryModal extends ModalView
 
   onLoaded: ->
     super()
-    @courseID ?= @course.id
-    @views = []
-
+    # update level sessions so that stats are correct
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
-    progressView = new ProgressView({
-      level: @level
-      nextLevel: @nextLevel
-      nextAssessment: @nextAssessment
-      course: @course
-      classroom: @classroom
-      levelSessions: @levelSessions
-      session: @session
-      courseInstanceID: @courseInstanceID
-    })
+    
+    if @level.isLadder() or @level.isProject()
+      @courseID ?= @course.id
+      @views = []
+  
+      progressView = new ProgressView({
+        level: @level
+        nextLevel: @nextLevel
+        nextAssessment: @nextAssessment
+        course: @course
+        classroom: @classroom
+        levelSessions: @levelSessions
+        session: @session
+        courseInstanceID: @courseInstanceID
+      })
+  
+      progressView.once 'done', @onDone, @
+      progressView.once 'next-level', @onNextLevel, @
+      progressView.once 'start-challenge', @onStartChallenge, @
+      progressView.once 'to-map', @onToMap, @
+      progressView.once 'ladder', @onLadder, @
+      progressView.once 'publish', @onPublish, @
+      for view in @views
+        view.on 'continue', @onViewContinue, @
+      @views.push(progressView)
+  
+      @showView(_.first(@views))
 
-    progressView.once 'done', @onDone, @
-    progressView.once 'next-level', @onNextLevel, @
-    progressView.once 'start-challenge', @onStartChallenge, @
-    progressView.once 'to-map', @onToMap, @
-    progressView.once 'ladder', @onLadder, @
-    progressView.once 'publish', @onPublish, @
-    for view in @views
-      view.on 'continue', @onViewContinue, @
-    @views.push(progressView)
-
-    @showView(_.first(@views))
+    else
+      propsData = {
+        nextLevel: @nextLevel.toJSON(),
+        nextAssessment: @nextAssessment.toJSON()
+        level: @level.toJSON(),
+        session: @session.toJSON(),
+        course: @course.toJSON(),
+        @courseInstanceID,
+        stats: @classroom?.statsForSessions(@levelSessions, @course.id)
+      }
+      new CourseVictoryComponent({
+        el: @$el.find('.modal-content')[0]
+        propsData,
+        store
+      })
 
   afterRender: ->
     super()
@@ -120,18 +150,13 @@ module.exports = class CourseVictoryModal extends ModalView
       link += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
     application.router.navigate(link, {trigger: true})
 
-  onStartChallenge: ->
-    window.tracker?.trackEvent 'Play Level Victory Modal Start Challenge', category: 'Students', levelSlug: @level.get('slug'), nextAssessmentSlug: @nextAssessment.get('slug'), []
-    if me.isSessionless()
-      link = "/play/level/#{@nextAssessment.get('slug')}?course=#{@courseID}&codeLanguage=#{utils.getQueryVariable('codeLanguage', 'python')}"
-    else
-      link = "/play/level/#{@nextAssessment.get('slug')}?course=#{@courseID}&course-instance=#{@courseInstanceID}"
-      link += "&codeLanguage=" + @level.get('primerLanguage') if @level.get('primerLanguage')
-    application.router.navigate(link, {trigger: true})
-
+  # TODO: Remove rest of logic transferred to CourseVictoryComponent
   onToMap: ->
+    if me.isSessionless()
+      link = "/teachers/courses"
+    else
+      link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     window.tracker?.trackEvent 'Play Level Victory Modal Back to Map', category: 'Students', levelSlug: @level.get('slug'), []
-    link = "/play/#{@course.get('campaignID')}?course-instance=#{@courseInstanceID}"
     application.router.navigate(link, {trigger: true})
 
   onDone: ->
