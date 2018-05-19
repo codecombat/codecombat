@@ -27,7 +27,7 @@ module.exports = class CourseVictoryModal extends ModalView
 
     if @courseInstanceID
       @classroom = new Classroom()
-      @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID))
+      @supermodel.trackRequest(@classroom.fetchForCourseInstance(@courseInstanceID, {}))
 
     @playSound 'victory'
     @nextLevel = new Level()
@@ -49,14 +49,14 @@ module.exports = class CourseVictoryModal extends ModalView
 
     if @courseInstanceID
       @levelSessions = new LevelSessions()
-      @levelSessions.fetchForCourseInstance(@courseInstanceID)
+      @levelSessions.fetchForCourseInstance(@courseInstanceID, {})
       @levelSessions = @supermodel.loadCollection(@levelSessions, 'sessions', {
         data: { project: 'state.complete level.original playtime changed' }
       }).model
 
       if not @course
         @course = new Course()
-        @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID)
+        @supermodel.trackRequest @course.fetchForCourseInstance(@courseInstanceID, {})
 
     properties = {
       category: 'Students',
@@ -81,11 +81,11 @@ module.exports = class CourseVictoryModal extends ModalView
     # update level sessions so that stats are correct
     @levelSessions?.remove(@session)
     @levelSessions?.add(@session)
-    
+
     if @level.isLadder() or @level.isProject()
       @courseID ?= @course.id
       @views = []
-  
+
       progressView = new ProgressView({
         level: @level
         nextLevel: @nextLevel
@@ -96,7 +96,7 @@ module.exports = class CourseVictoryModal extends ModalView
         session: @session
         courseInstanceID: @courseInstanceID
       })
-  
+
       progressView.once 'done', @onDone, @
       progressView.once 'next-level', @onNextLevel, @
       progressView.once 'start-challenge', @onStartChallenge, @
@@ -106,7 +106,7 @@ module.exports = class CourseVictoryModal extends ModalView
       for view in @views
         view.on 'continue', @onViewContinue, @
       @views.push(progressView)
-  
+
       @showView(_.first(@views))
 
     else
@@ -167,7 +167,7 @@ module.exports = class CourseVictoryModal extends ModalView
       link = '/students'
     @submitLadder()
     application.router.navigate(link, {trigger: true})
-  
+
   onPublish: ->
     window.tracker?.trackEvent 'Play Level Victory Modal Publish', category: 'Students', levelSlug: @level.get('slug'), []
     if @session.isFake()
