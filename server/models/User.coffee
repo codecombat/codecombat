@@ -118,6 +118,8 @@ UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
+UserSchema.methods.inEU = -> unless @get('country') then true else core_utils.inEU(@get('country'))
+
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(
