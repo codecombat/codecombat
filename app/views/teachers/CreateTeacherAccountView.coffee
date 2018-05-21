@@ -447,7 +447,7 @@ module.exports = class CreateTeacherAccountView extends RootView
 
 formSchema = {
   type: 'object'
-  required: ['firstName', 'lastName', 'email', 'role', 'numStudents', 'numStudentsTotal', 'city', 'state', 'country', 'phoneNumber']
+  required: ['firstName', 'lastName', 'email', 'role', 'numStudents', 'numStudentsTotal', 'city', 'state', 'country']
   properties:
     password1: { type: 'string' }
     password2: { type: 'string' }
