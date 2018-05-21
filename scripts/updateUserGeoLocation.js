@@ -17,15 +17,15 @@ var count = 0
 
 co(function*() {
 
-    //var cursor = User.find({"geo": {$exists: false}, "lastIP": {$exists: true}},{"lastIP": 1, "geo": 1, "name": 1, "email": 1}).cursor()   // to update all users
-    var cursor = User.find({"geo": {$exists: false}, "lastIP": {$exists: true}},{"lastIP": 1, "geo": 1, "name": 1, "email": 1}).limit(1).cursor()   // to update limited number of users
+    //var cursor = User.find({"geo": {$exists: false}, "lastIP": {$exists: true}}).cursor()   // to update all users
+    var cursor = User.find({"geo": {$exists: false}, "lastIP": {$exists: true}}).limit(1).cursor()   // to update limited number of users
     
     for (let user = yield cursor.next(); user != null; user = yield cursor.next()) {
         //console.log(user);
         ip = user.get("lastIP")
         geo = geoip.lookup(ip)
         if (geo) {
-            // Update Geo location and remove IP
+            // Update Geo location
             userGeo = {}
             userGeo.country = geo.country
             if (country = geo.country)
@@ -35,21 +35,21 @@ co(function*() {
             userGeo.ll = geo.ll
             userGeo.metro = geo.metro
             userGeo.zip = geo.zip
-            user.set('geo', userGeo)
-            user.set('lastIP', undefined)
-            database.validateDoc(user)
-            res = yield user.save()
-            count += 1
+            user.set('geo', userGeo)         
+        }
+        // Remove Last IP
+        user.set('lastIP', undefined)
+        database.validateDoc(user)
+        res = yield user.save()
+        count += 1
+        if (geo) {
             console.log(new Date().toISOString(), "Updated user id: ", res._id)
         }
         else{
-            // Geo location not found, just remove IP
-            user.set('lastIP', undefined)
-            database.validateDoc(user)
-            res = yield user.save()
-            count += 1
+            // Geo location not found, just removed IP
             console.log(new Date().toISOString(), "Geo not found, Updated user id: ", res._id)
         }
+        
     }
 
   })
@@ -60,6 +60,6 @@ co(function*() {
   })
   .catch((e) => {
     console.log("Error: ")
-        console.log(e)
-        process.exit()
+    console.log(e)
+    process.exit()
   })
