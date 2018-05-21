@@ -80,6 +80,7 @@ config.mail =
   supportSchools: process.env.COCO_MAIL_SUPPORT_SCHOOLS or ''
   mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
+  sendgridAPIKey: process.env.COCO_SENDGRID_API_KEY or ''
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
