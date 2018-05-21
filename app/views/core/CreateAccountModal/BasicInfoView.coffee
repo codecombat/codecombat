@@ -226,7 +226,7 @@ module.exports = class BasicInfoView extends CocoView
       me.set(_.pick(data, 'firstName', 'lastName'))
 
       unless _.isNaN(@signupState.get('birthday').getTime())
-        me.set('birthday', @signupState.get('birthday').toISOString())
+        me.set('birthday', @signupState.get('birthday').toISOString().slice(0,7))
 
       me.set(_.omit(@signupState.get('ssoAttrs') or {}, 'email', 'facebookID', 'gplusID'))
 
