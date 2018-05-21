@@ -60,14 +60,10 @@ config.google =
 
 config.stripe =
   secretKey: process.env.COCO_STRIPE_SECRET_KEY or 'sk_test_MFnZHYD0ixBbiBuvTlLjl2da'
-  
+
 config.paypal =
   clientID: process.env.COCO_PAYPAL_CLIENT_ID or 'AcS4lYmr_NwK_TTWSJzOzTh01tVDceWDjB_N7df3vlvW4alTV_AF2rtmcaZDh0AmnTcOof9gKyLyHkm-'
   clientSecret: process.env.COCO_PAYPAL_CLIENT_SECRET or 'EEp-AscLo_-_59jMBgrPFWUaMrI_HJEY8Mf1ESD7OJ8DSIFbKtVe1btqP2SAZXR_llP_oosvJYFWEjUZ'
-
-config.redis =
-  port: process.env.COCO_REDIS_PORT or 6379
-  host: process.env.COCO_REDIS_HOST or 'localhost'
 
 if config.unittest
   config.port += 1
@@ -150,7 +146,10 @@ config.buildInfo = { sha: 'dev' }
 
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
-  
+
+config.bitly =
+  accessToken: process.env.COCO_BITLY_ACCESS_TOKEN or ''
+
 config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
 
 if fs.existsSync path.join(__dirname, '.build_info.json')

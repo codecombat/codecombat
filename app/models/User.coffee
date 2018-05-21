@@ -44,11 +44,6 @@ module.exports = class User extends CocoModel
 
   getSlugOrID: -> @get('slug') or @get('_id')
 
-  set: ->
-    if arguments[0] is 'jobProfileApproved' and @get("jobProfileApproved") is false and not @get("jobProfileApprovedDate")
-      @set "jobProfileApprovedDate", (new Date()).toISOString()
-    super arguments...
-
   @getUnconflictedName: (name, done) ->
     # deprecate in favor of @checkNameConflicts, which uses Promises and returns the whole response
     $.ajax "/auth/name/#{encodeURIComponent(name)}",

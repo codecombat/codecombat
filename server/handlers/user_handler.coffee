@@ -29,10 +29,7 @@ EarnedAchievement = require '../models/EarnedAchievement'
 facebook = require '../lib/facebook'
 middleware = require '../middleware'
 
-serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
-candidateProperties = [
-  'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
-]
+serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP'] #TODO: remove lastIP after removing from schema
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
@@ -42,7 +39,6 @@ UserHandler = class UserHandler extends Handler
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction or global.testing
-    props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     if not req.user.isAdmin()
       if document.isTeacher() and req.body.role not in User.teacherRoles
@@ -69,8 +65,6 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id) or req.session.amActually is document.id))
     delete obj[prop] for prop in User.privateProperties unless includePrivates
-    includeCandidate = not publicOnly and (includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj))
-    delete obj[prop] for prop in User.candidateProperties unless includeCandidate
     return obj
 
   waterfallFunctions: [
@@ -293,7 +287,6 @@ UserHandler = class UserHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
-    return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
@@ -301,10 +294,8 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
-    return @getCandidates(req, res) if args[1] is 'candidates'
     return @getClans(req, res, args[0]) if args[1] is 'clans'
     return @getCourseInstances(req, res, args[0]) if args[1] is 'course_instances'
-    return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
@@ -561,48 +552,6 @@ UserHandler = class UserHandler extends Handler
         return @sendNotFoundError res unless user
         updateUser user
 
-  agreeToEmployerAgreement: (req, res) ->
-    userIsAnonymous = req.user?.get('anonymous')
-    if userIsAnonymous then return errors.unauthorized(res, 'You need to be logged in to agree to the employer agreeement.')
-    profileData = req.body
-    #TODO: refactor this bit to make it more elegant
-    if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
-      return errors.badInput(res, 'You need to have a more complete profile to sign up for this service.')
-    @modelClass.findById(req.user.id).exec (err, user) =>
-      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in (user.get('permissions') ? [])
-        return errors.conflict(res, 'You already have signed the agreement!')
-      #TODO: Search for the current position
-      employerAt = _.filter(profileData.positions.values, 'isCurrent')[0]?.company.name ? 'Not available'
-      signedEmployerAgreement =
-        linkedinID: profileData.id
-        date: new Date()
-        data: profileData
-      updateObject =
-        'employerAt': employerAt
-        'signedEmployerAgreement': signedEmployerAgreement
-        $push: 'permissions': 'employer'
-
-      User.update {'_id': req.user.id}, updateObject, (err, result) =>
-        if err? then return errors.serverError(res, "There was an issue updating the user object to reflect employer status: #{err}")
-        res.send({'message': 'The agreement was successful.'})
-        res.end()
-
-  getCandidates: (req, res) ->
-    return @sendForbiddenError(res) unless req.user
-    return @sendForbiddenError(res)  # No one can view the candidates, since in a rush, we deleted their index!
-    authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
-    months = if req.user.isAdmin() then 12 else 2
-    since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
-    query = {'jobProfile.updated': {$gt: since}}
-    query['jobProfile.active'] = true unless req.user.isAdmin()
-    selection = 'jobProfile jobProfileApproved photoURL'
-    selection += ' email name' if authorized
-    User.find(query).select(selection).exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
-      candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
-      @sendSuccess(res, candidates)
-
   getClans: (req, res, userIDOrSlug) ->
     @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
       return @sendNotFoundError(res) unless user
@@ -619,35 +568,6 @@ UserHandler = class UserHandler extends Handler
       CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
-
-  formatCandidate: (authorized, document) ->
-    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']
-    obj = _.pick document.toObject(), fields
-    obj.photoURL ||= obj.jobProfile.photoURL #if authorized
-    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active', 'shortDescription', 'curated', 'visa']
-    if authorized
-      subfields = subfields.concat ['name']
-    obj.jobProfile = _.pick obj.jobProfile, subfields
-    obj
-
-  employerCanViewCandidate: (employer, candidate) ->
-    return true if employer.isAdmin()
-    for job in candidate.jobProfile?.work ? []
-      # TODO: be smarter about different ways to write same company names to ensure privacy.
-      # We'll have to manually pay attention to how we set employer names for now.
-      if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
-        log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
-      return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
-    true
-
-  getEmployers: (req, res) ->
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    return @sendForbiddenError(res)  # No one can view the employers, since in a rush, we deleted their index!
-    query = {employerAt: {$exists: true, $ne: ''}}
-    selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
-    User.find(query).select(selection).lean().exec (err, documents) =>
-      return @sendDatabaseError res, err if err
-      @sendSuccess res, documents
 
   getRemark: (req, res, userID) ->
     return @sendForbiddenError(res) unless req.user?.isAdmin()

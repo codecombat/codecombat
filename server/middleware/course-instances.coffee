@@ -285,7 +285,7 @@ module.exports =
     courseInstances = yield CourseInstance.find(query, { members: 1, ownerID: 1}).sort({_id: -1}).limit(limit).lean()
     res.status(200).send(courseInstances)
 
-  fetchMyCourseLevelSessions: wrap (req, res) ->
+  fetchCourseLevelSessions: wrap (req, res) ->
     courseInstance = yield database.getDocFromHandle(req, CourseInstance)
     if not courseInstance
       throw new errors.NotFound('Course Instance not found.')
@@ -293,6 +293,11 @@ module.exports =
     classroom = yield Classroom.findById(courseInstance.get('classroomID'))
     if not classroom
       throw new errors.NotFound('Classroom not found.')
+
+    userID = req.params.userID or req.user.id
+    unless userID is req.user.id or courseInstance.get('ownerID').equals(req.user.id) or req.user.isAdmin()
+    # TODO: grant access to certain projected data to any requestor so that anyone can still view data for certificates if given the certificate URL
+      throw new errors.Forbidden('You must be a member of a the given course instance')
 
     # Construct a query for finding all sessions appropriate for the given course instance and related
     # classroom. For the most part, that means sessions that match the language of the classroom, but for
@@ -306,7 +311,7 @@ module.exports =
         })
     if $or.length
       query = {$and: [
-        {creator: req.user.id},
+        {creator: userID},
         { $or }
       ]}
       levelSessions = yield LevelSession.find(query).setOptions({maxTimeMS:5000}).select(parse.getProjectFromReq(req))

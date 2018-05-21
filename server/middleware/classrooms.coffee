@@ -175,7 +175,7 @@ module.exports =
       otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
     catch err
       throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
-  
+
     # If the student is being removed from their very last classroom, unenroll them
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
     if user.isEnrolled() and otherClassrooms.length is 0
@@ -209,7 +209,7 @@ module.exports =
       otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
     catch err
       throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
-  
+
     # If the student is being removed from their very last classroom, unenroll them
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
     if user.isEnrolled() and otherClassrooms.length is 0
