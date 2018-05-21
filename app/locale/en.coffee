@@ -2114,6 +2114,10 @@
     verifying_email: "Verifying your email address..."
     successfully_verified: "You've successfully verified your email address!"
     verify_error: "Something went wrong when verifying your email :("
+    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
+    unsubscribe_button: "Yes, unsubscribe"
+    unsubscribe_failed: "Failed"
+    unsubscribe_success: "Success"
 
   account_invoices:
     amount: "Amount in US dollars"

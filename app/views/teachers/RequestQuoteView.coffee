@@ -392,7 +392,7 @@ requestFormSchemaAnonymous = {
   type: 'object'
   required: [
     'firstName', 'lastName', 'email', 'role', 'purchaserRole', 'numStudents',
-    'numStudentsTotal', 'phoneNumber', 'city', 'state', 'country']
+    'numStudentsTotal', 'city', 'state', 'country']
   properties:
     firstName: { type: 'string' }
     lastName: { type: 'string' }

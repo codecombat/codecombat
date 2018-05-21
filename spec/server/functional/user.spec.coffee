@@ -11,6 +11,7 @@ Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 facebook = require '../../../server/lib/facebook'
 gplus = require '../../../server/lib/gplus'
+sendgrid = require '../../../server/sendgrid'
 sendwithus = require '../../../server/sendwithus'
 Promise = require 'bluebird'
 Achievement = require '../../../server/models/Achievement'
@@ -907,7 +908,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     yield new Promise((resolve) -> setTimeout(resolve, 10))
 
   it 'signs up the user with the password and sends welcome emails', utils.wrap ->
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-password")
     email = 'some@email.com'
@@ -918,10 +919,10 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     updatedUser = yield User.findById(user.id)
     expect(updatedUser.get('email')).toBe(email)
     expect(updatedUser.get('passwordHash')).toBeDefined()
-    expect(sendwithus.api.send).toHaveBeenCalled()
-    context = sendwithus.api.send.calls.argsFor(0)[0]
-    expect(_.str.startsWith(context.email_data.verify_link, "https://codecombat.com/user/#{user.id}/verify/")).toBe(true)
-    
+    expect(sendgrid.api.send).toHaveBeenCalled()
+    context = sendgrid.api.send.calls.argsFor(0)[0]
+    expect(_.str.startsWith(context.substitutions.verify_link, "https://codecombat.com/user/#{user.id}/verify/")).toBe(true)
+
 
   it 'signs up the user with just a name and password', utils.wrap ->
     user = yield utils.becomeAnonymous()
@@ -1057,7 +1058,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 
   it 'signs up the user with the facebookID and sends welcome emails', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
     json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
@@ -1067,11 +1068,11 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(facebookEmail)
     expect(updatedUser.get('facebookID')).toBe(facebookID)
-    expect(sendwithus.api.send).toHaveBeenCalled()
+    expect(sendgrid.api.send).toHaveBeenCalled()
 
   it 'signs up nameless user with the facebookID', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
     json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
@@ -1156,7 +1157,7 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
 
   it 'signs up the user with the gplusID and sends welcome emails', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
     json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
@@ -1166,11 +1167,11 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(gplusEmail)
     expect(updatedUser.get('gplusID')).toBe(gplusID)
-    expect(sendwithus.api.send).toHaveBeenCalled()
+    expect(sendgrid.api.send).toHaveBeenCalled()
 
   it 'signs up nameless user with the gplusID', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
     json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
@@ -1442,14 +1443,14 @@ describe 'POST /db/user/:userID/verify/:verificationCode', ->
     expect(mailChimp.api.put).toHaveBeenCalled()
     user = yield User.findById(@user.id)
     expect(user.get('emailVerified')).toBe(true)
-    
-  
+
+
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->
     spyOn(sendwithus.api, 'send')
     @user = yield utils.initUser()
     @url = utils.getURL("/db/user/#{@user.id}/request-verify-email")
-    
+
   it 'sends an email with a verification link to the user', utils.wrap ->
     [res, body] = yield request.postAsync({ @url, json: true, headers: {'x-forwarded-proto': 'http'} })
     expect(res.statusCode).toBe(200)
@@ -1536,7 +1537,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
     url = utils.getUrl("/db/user/12345/reset_progress")
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(401)
-    
+
   it 'allows admins to reset other accounts', utils.wrap ->
     admin = yield utils.initAdmin()
     user = yield utils.initUser()
@@ -1544,7 +1545,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
     session = yield utils.makeLevelSession({}, {creator:user})
     earnedAchievement = new EarnedAchievement({ user: user.id })
     yield earnedAchievement.save()
-    
+
     yield utils.loginUser(admin)
     url = utils.getUrl("/db/user/#{user.id}/reset_progress")
     [res] = yield request.postAsync({ url })
@@ -1554,7 +1555,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
       EarnedAchievement.findById(earnedAchievement.id)
     ]
     expect(_.any(stillExist)).toBe(false)
-    
+
   it 'returns 404 for non-existent users', utils.wrap ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -1585,10 +1586,10 @@ describe 'GET /db/user/:handle/clans', ->
     expect(res.body.length).toBe(1)
     expect(_.find(res.body, {_id: publicClan.id})).toBeTruthy()
     expect(_.find(res.body, {_id: privateClan.id})).toBeFalsy()
-    
 
 
-    
+
+
 describe 'GET /db/user/:handle/avatar', ->
   it 'returns an avatar based on the user\'s email', utils.wrap ->
     user = yield utils.initUser({email:'test@gmail.com'})
@@ -1603,21 +1604,21 @@ describe 'GET /db/user/:handle/avatar', ->
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/file/db/thang.type/1234/portrait.png')).toBe(true)
-    
+
   it 'passes a size parameter to gravatar', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, qs: {s: '100'}})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 's=100')).toBe(true)
-    
+
   it 'allows overriding the fallback value', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, qs: {fallback: '/some/other/url.jpg'}})
     expect(res.statusCode).toBe(302)
     expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/some/other/url.jpg')).toBe(true)
-  
+
   it 'adjusts the host based on the given protocol and host', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
@@ -1646,8 +1647,8 @@ describe 'GET /db/user/:handle/course-instances', ->
     [res] = yield request.getAsync({url, qs, json: true})
     expect(res.body.length).toBe(1)
     expect(res.body[0]._id).toBe(@courseInstance.id)
-    
-    
+
+
 describe 'PUT /db/user/:handle/verifiedTeacher', ->
   it 'sets the verifiedTeacher property on the given user', utils.wrap ->
     user = yield utils.initUser()
@@ -1666,4 +1667,4 @@ describe 'PUT /db/user/:handle/verifiedTeacher', ->
     url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
     [res] = yield request.putAsync({url, json: true, body: true})
     expect(res.statusCode).toBe(403)
-    
+

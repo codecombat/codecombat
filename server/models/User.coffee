@@ -19,7 +19,7 @@ mailChimp = require '../lib/mail-chimp'
 config = require '../../server_config'
 stripe = require('../lib/stripe_utils').api
 
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 
 countryList = require('country-list')()
 geoip = require '@basicer/geoip-lite'
@@ -117,6 +117,8 @@ UserSchema.methods.isStudent = ->
 UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
+
+UserSchema.methods.inEU = -> unless @get('country') then true else core_utils.inEU(@get('country'))
 
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
@@ -362,22 +364,30 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
-UserSchema.methods.sendWelcomeEmail = (req) ->
+UserSchema.methods.sendWelcomeEmail = co.wrap (req) ->
   return if not @get('email')
   return if core_utils.isSmokeTestEmail(@get('email'))
-  { welcome_email_student, welcome_email_user } = sendwithus.templates
-  timestamp = (new Date).getTime()
-  data =
-    email_id: if @isStudent() then welcome_email_student else welcome_email_user
-    recipient:
-      address: @get('email')
+  templateId = if @isStudent() then sendgrid.templates.welcome_email_student
+  else if @isTeacher() then sendgrid.templates.welcome_email_teacher
+  else sendgrid.templates.welcome_email_user
+  msg =
+    to:
+      email: @get('email')
       name: @broadName()
-    email_data:
+    from:
+      email: 'team@codecombat.com'
+      name: 'CodeCombat'
+    templateId: templateId
+    substitutions:
       name: @broadName()
-      verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode(timestamp)}")
+      verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode((new Date).getTime())}")
       teacher: @isTeacher()
-  sendwithus.api.send data, (err, result) ->
-    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+  try
+    yield sendgrid.api.send(msg)
+  catch err
+    log.error "sendgrid post-save error: #{err}"
+    log.error "sendgrid post-save error email context:"
+    log.error JSON.stringify(msg, null, 2)
 
 UserSchema.methods.hasSubscription = ->
   if payPal = @get('payPal')

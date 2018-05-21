@@ -80,6 +80,7 @@ config.mail =
   supportSchools: process.env.COCO_MAIL_SUPPORT_SCHOOLS or ''
   mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
+  sendgridAPIKey: process.env.COCO_SENDGRID_API_KEY or ''
   sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
@@ -146,10 +147,14 @@ config.buildInfo = { sha: 'dev' }
 
 config.intercom =
   accessToken: process.env.COCO_INTERCOM_ACCESS_TOKEN or 'dGVzdA==' #base64 "test"
+  webhookHubSecret: process.env.COCO_INTERCOM_WEBHOOK_HUB_SECRET or 'abcd'
 
 config.bitly =
   accessToken: process.env.COCO_BITLY_ACCESS_TOKEN or ''
 
+config.zenProspect =
+  apiKey: process.env.COCO_ZENPROSPECT_API_KEY or ''
+  
 config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
 
 if fs.existsSync path.join(__dirname, '.build_info.json')

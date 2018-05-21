@@ -17,6 +17,7 @@ oauth = require '../lib/oauth'
 facebook = require '../lib/facebook'
 OAuthProvider = require '../models/OAuthProvider'
 querystring = require 'querystring'
+{ unsubscribeEmailFromMarketingEmails } = require '../commons/unsubscribe'
 
 module.exports =
   authDelay: (req, res, next) ->
@@ -316,11 +317,10 @@ module.exports =
       msg = "Unsubscribed #{email} from employer emails."
     else
       msg = "Unsubscribed #{email} from all CodeCombat emails. Sorry to see you go!"
-      emailSettings.enabled = false for emailSettings in _.values(emails)
-      emails.generalNews ?= {}
-      emails.generalNews.enabled = false
-      emails.anyNotes ?= {}
-      emails.anyNotes.enabled = false
+      yield unsubscribeEmailFromMarketingEmails(email)
+      res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
+      res.end()
+      return
 
     yield user.update {$set: {emails: emails}}
     res.send msg + '<p><a href="/account/settings">Account settings</a></p>'

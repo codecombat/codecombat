@@ -1,5 +1,5 @@
 describe 'Utility library', ->
-  utils = require 'core/utils'
+  utils = require '../../../app/core/utils'
 
   describe 'getQueryVariable(param, defaultValue)', ->
     beforeEach ->
@@ -64,6 +64,26 @@ describe 'Utility library', ->
 
     it 'i18n can fall forward if a general language is not found', ->
       expect(utils.i18n(this.fixture1, 'text', 'pt')).toEqual(this.fixture1.i18n['pt-BR'].text)
+
+  describe 'inEU', ->
+    it 'EU countries return true', ->
+      euCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom']
+      euCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(true))
+    it 'non-EU countries return false', ->
+      nonEuCountries = ['united-states', 'peru', 'vietnam']
+      nonEuCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(false))
+
+  describe 'ageOfConsent', ->
+    it 'Latvia is 13', ->
+      expect(utils.ageOfConsent('latvia')).toEqual(13)
+    it 'Austria is 14', ->
+      expect(utils.ageOfConsent('austria')).toEqual(14)
+    it 'Greece is 15', ->
+      expect(utils.ageOfConsent('greece')).toEqual(15)
+    it 'Slovakia is 16', ->
+      expect(utils.ageOfConsent('slovakia')).toEqual(16)
+    it 'default is 16', ->
+      expect(utils.ageOfConsent('codecombat')).toEqual(16)
 
   describe 'createLevelNumberMap', ->
     # r=required p=practice
