@@ -135,12 +135,13 @@ block content
               span :
               div(data-i18n='common.loading')
 
-        .adding-students.col-md-5
-          h4.m-b-2
-            span(data-i18n='courses.add_students')
-            span :
-          +copyCodes
-          +addStudentsButton
+        if !/@codeninjas.com$/i.test(me.get('email'))
+          .adding-students.col-md-5
+            h4.m-b-2
+              span(data-i18n='courses.add_students')
+              span :
+            +copyCodes
+            +addStudentsButton
 
       if view.students.length > 0
         ul.nav.nav-tabs.m-t-5(role='tablist')
@@ -585,8 +586,9 @@ mixin enrollmentStatusTab
           button.sort-button.sort-by-status(data-i18n='user.status', value='status')
       th
       th
-      th
-        button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
+      if !/@codeninjas.com$/i.test(me.get('email'))
+        th
+          button.revoke-all-students-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_licenses")
     tbody
       - var searchTerm = state.get('searchTerm');
       each student in state.get('students').search(searchTerm)
@@ -612,6 +614,7 @@ mixin enrollmentStatusTab
                 span(data-i18n="teacher.full_license")
               else if student.prepaidType() === 'starter_license'
                 span(data-i18n="teacher.starter_license")
-          td.revoke-col
-            if status === 'enrolled' && student.prepaidType() === 'course'
-              button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
+          if !/@codeninjas.com$/i.test(me.get('email'))
+            td.revoke-col
+              if status === 'enrolled' && student.prepaidType() === 'course'
+                button.revoke-student-button.btn.btn-burgundy-alt(data-i18n="teacher.revoke_license", data-user-id=student.id)
