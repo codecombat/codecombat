@@ -5,7 +5,7 @@ LevelSession = require 'models/LevelSession'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 LadderSubmissionView = require 'views/play/common/LadderSubmissionView'
 {teamDataFromLevel} = require './utils'
-require 'd3/d3.js'
+require 'd3'
 
 module.exports = class MyMatchesTabView extends CocoView
   id: 'my-matches-tab-view'

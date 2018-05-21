@@ -8,7 +8,7 @@ User = require 'models/User'
 LeaderboardCollection  = require 'collections/LeaderboardCollection'
 {teamDataFromLevel} = require './utils'
 ModelModal = require 'views/modal/ModelModal'
-require 'd3/d3.js'
+require 'd3'
 CreateAccountModal = require 'views/core/CreateAccountModal'
 utils = require 'core/utils'
 
