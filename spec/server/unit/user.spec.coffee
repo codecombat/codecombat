@@ -319,4 +319,14 @@ describe 'User', ->
         expect(args[1]?.status).toBe('unsubscribed')
         done()
 
-
+  describe 'inEU', ->
+    it 'true if in EU country', utils.wrap ->
+      u = yield utils.initUser({country: 'germany'})
+      expect(u.inEU()).toEqual(true)
+    it 'false if not in EU country', utils.wrap ->
+      u = yield utils.initUser({country: 'mexico'})
+      expect(u.inEU()).toEqual(false)
+    it 'true if not defined', utils.wrap ->
+      u = yield utils.initUser()
+      expect(u.get('country')).toBeUndefined()
+      expect(u.inEU()).toEqual(true)
