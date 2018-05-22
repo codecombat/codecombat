@@ -5,7 +5,7 @@ CocoClass = require 'core/CocoClass'
 loadSegmentIo = require('core/services/segment')
 api = require('core/api')
 
-debugAnalytics = true
+debugAnalytics = false
 targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker extends CocoClass
@@ -263,7 +263,7 @@ module.exports = class Tracker extends CocoClass
       @identify(attrs)
 
   shouldBlockAllTracking: ->
-    return me.isSmokeTestUser() or window.serverSession.amActually
+    return me.isSmokeTestUser() or window.serverSession.amActually or navigator?.doNotTrack or window?.doNotTrack
     # Should we include application.testing in this?
 
   shouldTrackExternalEvents: ->
