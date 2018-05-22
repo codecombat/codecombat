@@ -854,7 +854,7 @@ module.exports = class CampaignView extends RootView
   onSessionsLoaded: (e) ->
     return if @editorMode
     @render()
-    @loadUserPollsRecord() unless me.get('anonymous') or window.serverConfig.picoCTF
+    @loadUserPollsRecord() unless me.get('anonymous') or me.inEU() or window.serverConfig.picoCTF
 
   onCampaignsLoaded: (e) ->
     @render()
