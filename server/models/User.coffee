@@ -372,7 +372,7 @@ UserSchema.methods.sendWelcomeEmail = co.wrap (req) ->
   else sendgrid.templates.welcome_email_user
   msg =
     to:
-      email: @get('email')
+      email: @get('emailLower')
       name: @broadName()
     from:
       email: 'team@codecombat.com'
@@ -382,6 +382,7 @@ UserSchema.methods.sendWelcomeEmail = co.wrap (req) ->
       name: @broadName()
       verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode((new Date).getTime())}")
       teacher: @isTeacher()
+      email: @get('emailLower')
   try
     yield sendgrid.api.send(msg)
   catch err
