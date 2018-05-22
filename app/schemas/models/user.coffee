@@ -259,7 +259,7 @@ _.extend UserSchema.properties,
   schoolName: {type: 'string', description: 'Deprecated string. Use "school" object instead.'}
   role: {type: 'string', enum: ["advisor", "parent", "principal", "student", "superintendent", "teacher", "technology coordinator", "possible teacher"]}  # unset: home player
   verifiedTeacher: { type: 'boolean' }
-  birthday: c.stringDate({title: "Birthday"})
+  birthday: ({ type: 'string', title: "Birthday", description: "Just month and year, stored YYYY-MM"})
   lastAchievementChecked: c.stringDate({ name: 'Last Achievement Checked' })
 
   israelId: {type: 'string', description: 'ID string used just for il.codecombat.com'}

@@ -18,8 +18,8 @@ module.exports = class Tracker extends CocoClass
     @trackReferrers()
     @supermodel = new SuperModel()
     @identify() # Needs supermodel to exist first
-    @updateRole() if me.get('role') and not me.isSmokeTestUser()
-    if me.isTeacher(true) and @isProduction and not application.testing and not me.isSmokeTestUser()
+    @updateRole() if me.get('role')
+    if me.isTeacher(true)
       @updateIntercomRegularly()
 
   enableInspectletJS: (levelSlug) ->
@@ -63,8 +63,6 @@ module.exports = class Tracker extends CocoClass
     me.patch() if changed
 
   identify: (traits={}) ->
-    return unless me
-
     # Save explicit traits for internal tracking
     @explicitTraits ?= {}
     @explicitTraits[key] = value for key, value of traits
@@ -79,9 +77,8 @@ module.exports = class Tracker extends CocoClass
     traits.host = document.location.host
 
     console.log 'Would identify', me.id, traits if debugAnalytics
-    return if me.isSmokeTestUser()
-    @trackEventInternal('Identify', {id: me.id, traits}) unless me?.isAdmin() and @isProduction
-    return unless @isProduction and not me.isAdmin()
+    @trackEventInternal('Identify', {id: me.id, traits})
+    return unless @shouldTrackExternalEvents()
 
     # Errorception
     # https://errorception.com/docs/meta
@@ -109,9 +106,10 @@ module.exports = class Tracker extends CocoClass
 
     name = Backbone.history.getFragment()
     url = "/#{name}"
+
     console.log "Would track analytics pageview: #{url} Mixpanel=#{includeMixpanel(name)}" if debugAnalytics
-    @trackEventInternal 'Pageview', url: name, href: window.location.href unless me?.isAdmin() and @isProduction or me.isSmokeTestUser()
-    return unless @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
+    @trackEventInternal 'Pageview', url: name, href: window.location.href
+    return unless @shouldTrackExternalEvents()
 
     # Google Analytics
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/pages
@@ -132,7 +130,7 @@ module.exports = class Tracker extends CocoClass
 
   trackEvent: (action, properties={}, includeIntegrations=[]) =>
     console.log 'Tracking external analytics event:', action, properties, includeIntegrations if debugAnalytics
-    return unless me and @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
+    return unless @shouldTrackExternalEvents()
 
     @trackEventInternal action, _.cloneDeep properties
     @trackSnowplow action, _.cloneDeep properties
@@ -167,7 +165,7 @@ module.exports = class Tracker extends CocoClass
       analytics?.track action, {}, options
 
   trackSnowplow: (event, properties) =>
-    return if me.isSmokeTestUser()
+    return if @shouldBlockAllTracking()
     return if event in [
       'Simulator Result',
       'Started Level Load', 'Finished Level Load',
@@ -208,7 +206,8 @@ module.exports = class Tracker extends CocoClass
       data: properties
 
   trackEventInternal: (event, properties) =>
-    return if me.isSmokeTestUser()
+    return if @shouldBlockAllTracking()
+    return if @isProduction and me.isAdmin()
     return unless @supermodel?
     # Skipping heavily logged actions we don't use internally
     return if event in ['Simulator Result', 'Started Level Load', 'Finished Level Load', 'View Load']
@@ -229,11 +228,11 @@ module.exports = class Tracker extends CocoClass
     # https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings
     return console.warn "Duration #{duration} invalid for trackTiming call." unless duration >= 0 and duration < 60 * 60 * 1000
     console.log 'Would track timing event:', arguments if debugAnalytics
-    return unless me and @isProduction and not me.isAdmin() and not me.isSmokeTestUser()
-    ga? 'send', 'timing', category, variable, duration, label
+    if @shouldTrackExternalEvents()
+      ga? 'send', 'timing', category, variable, duration, label
 
   updateIntercomRegularly: ->
-    return if me.isSmokeTestUser()
+    return if @shouldBlockAllTracking() or application.testing or not @isProduction
     timesChecked = 0
     updateIntercom = =>
       # Check for new Intercom messages!
@@ -246,7 +245,7 @@ module.exports = class Tracker extends CocoClass
     setTimeout(updateIntercom, 5*60*1000)
 
   updateRole: ->
-    return if me.isAdmin() or me.isSmokeTestUser()
+    return if me.isAdmin() or @shouldBlockAllTracking()
     return unless me.isTeacher(true)
     loadSegmentIo()
     .then =>
@@ -257,8 +256,15 @@ module.exports = class Tracker extends CocoClass
     # TODO: record any events and pageviews that have built up before we knew we were a teacher.
 
   updateTrialRequestData: (attrs) ->
-    return if me.isSmokeTestUser()
+    return if @shouldBlockAllTracking()
     loadSegmentIo()
     .then =>
       @segmentLoaded = true
       @identify(attrs)
+
+  shouldBlockAllTracking: ->
+    return me.isSmokeTestUser() or window.serverSession.amActually or navigator?.doNotTrack or window?.doNotTrack
+    # Should we include application.testing in this?
+
+  shouldTrackExternalEvents: ->
+    return not @shouldBlockAllTracking() and @isProduction and not me.isAdmin()

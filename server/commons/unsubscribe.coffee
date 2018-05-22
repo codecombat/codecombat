@@ -29,11 +29,21 @@ unsubscribeEmailFromMarketingEmails = co.wrap (email) ->
 
   # unsubscribe user from ZP
   searchUrl = "https://www.zenprospect.com/api/v1/contacts/search?api_key=#{config.zenProspect.apiKey}&q_keywords=#{email}"
+  contactUrl = "https://www.zenprospect.com/api/v1/contacts?api_key=#{config.zenProspect.apiKey}"
+  DO_NOT_CONTACT = '57290b9c7ff0bb3b3ef2bebb'
   [res] = yield request.getAsync({ url:searchUrl, json: true })
-  if res.statusCode is 200 and res.body.contacts.length is 0
-    postContactUrl = "https://www.zenprospect.com/api/v1/contacts?api_key=#{config.zenProspect.apiKey}"
-    json = { email, contact_stage_id: '57290b9c7ff0bb3b3ef2bebb' } # contact stage: do not contact
-    [res] = yield request.postAsync({ url:postContactUrl, json })
+  if res.statusCode is 200 
+    if res.body.contacts.length is 0
+      # post a contact with status "do not contact" to prevent reaching out
+      json = { email, contact_stage_id: DO_NOT_CONTACT } # contact stage: do not contact
+      [res] = yield request.postAsync({ url:contactUrl, json })
+    else
+      # update any existing contacts "to do not contact"
+      for contact in res.body.contacts
+        if contact.contact_stage_id isnt DO_NOT_CONTACT
+          url = "https://www.zenprospect.com/api/v1/contacts/#{contact.id}?api_key=#{config.zenProspect.apiKey}"
+          json = {contact_stage_id: DO_NOT_CONTACT}
+          [res] = yield request.putAsync({ url, json })
   
   # unsubscribe user from Intercom
   tries = 0

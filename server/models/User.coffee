@@ -519,6 +519,9 @@ UserSchema.pre('save', (next) ->
 
   if @hasLogInMethod() and @get('anonymous')
     @set('anonymous', false)
+    
+  if _.size(@get('birthday')) > 7
+    @set('birthday', @get('birthday').slice(0,7)) # Limit to year/month
 
   next()
 )
