@@ -1,3 +1,4 @@
+require('app/styles/privacy.sass')
 RootView = require 'views/core/RootView'
 template = require 'templates/privacy'
 

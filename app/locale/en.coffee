@@ -75,7 +75,7 @@
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
-    privacy: "Privacy"
+    privacy: "Privacy Notice"
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
