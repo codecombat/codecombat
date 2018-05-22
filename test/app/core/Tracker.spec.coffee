@@ -1,13 +1,14 @@
 Tracker = require 'core/Tracker'
 
 describe 'Tracker', ->
-  describe 'updateIntercomRegularly', ->
+  # Actually, we don't call updateIntercomRegularly while testing any more
+  xdescribe 'updateIntercomRegularly', ->
     beforeEach ->
       window.Intercom ?= =>
       spyOn(window, 'Intercom')
       # timerCallback = jasmine.createSpy("timerCallback")
       jasmine.clock().install()
-    
+
     afterEach ->
       jasmine.clock().uninstall()
 
