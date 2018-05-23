@@ -35,7 +35,7 @@ module.exports = class User extends CocoModel
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
 
-  inEU: -> unless @get('country') then true else utils.inEU(@get('country'))
+  inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
