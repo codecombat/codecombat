@@ -74,6 +74,8 @@ describe 'Utility library', ->
       nonEuCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(false))
 
   describe 'ageOfConsent', ->
+    it 'US is 13', ->
+      expect(utils.ageOfConsent('united-states')).toEqual(13)
     it 'Latvia is 13', ->
       expect(utils.ageOfConsent('latvia')).toEqual(13)
     it 'Austria is 14', ->
@@ -82,8 +84,16 @@ describe 'Utility library', ->
       expect(utils.ageOfConsent('greece')).toEqual(15)
     it 'Slovakia is 16', ->
       expect(utils.ageOfConsent('slovakia')).toEqual(16)
-    it 'default is 16', ->
-      expect(utils.ageOfConsent('codecombat')).toEqual(16)
+    it 'default for EU countries 16', ->
+      expect(utils.ageOfConsent('bulgaria')).toEqual(16)
+    it 'default for other countries is 0', ->
+      expect(utils.ageOfConsent('hong-kong')).toEqual(0)
+    it 'default for unknown countries is 0', ->
+      expect(utils.ageOfConsent('codecombat')).toEqual(0)
+    it 'default for undefined countries is 0', ->
+      expect(utils.ageOfConsent(undefined)).toEqual(0)
+    it 'defaultIfUnknown works', ->
+      expect(utils.ageOfConsent(undefined, 13)).toEqual(13)
 
   describe 'createLevelNumberMap', ->
     # r=required p=practice

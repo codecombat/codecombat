@@ -1444,6 +1444,31 @@ describe 'POST /db/user/:userID/verify/:verificationCode', ->
     user = yield User.findById(@user.id)
     expect(user.get('emailVerified')).toBe(true)
 
+describe 'POST /db/user/:userID/keep-me-updated/:verificationCode', ->
+  beforeEach utils.wrap ->
+    @user = yield utils.initUser({emails: {generalNews: {enabled: false}}})
+    verificationCode = @user.verificationCode(new Date().getTime())
+    @url = utils.getURL("/db/user/#{@user.id}/keep-me-updated/#{verificationCode}")
+
+  it 'sets emails.generalNews.enabled to true', utils.wrap ->
+    expect(@user.get('emails').generalNews.enabled).toEqual(false)
+    [res, body] = yield request.postAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(@user.id)
+    expect(user.get('emails').generalNews.enabled).toEqual(true)
+
+describe 'POST /db/user/:userID/no-delete-eu/:verificationCode', ->
+  beforeEach utils.wrap ->
+    @user = yield utils.initUser()
+    verificationCode = @user.verificationCode(new Date().getTime())
+    @url = utils.getURL("/db/user/#{@user.id}/no-delete-eu/#{verificationCode}")
+
+  it 'sets doNotDeleteEU to set date', utils.wrap ->
+    [res, body] = yield request.postAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(@user.id)
+    expect(user.get('doNotDeleteEU')).toBeTruthy()
+    expect(user.get('doNotDeleteEU') < new Date()).toEqual(true)
 
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->

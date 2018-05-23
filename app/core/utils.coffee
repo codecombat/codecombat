@@ -21,7 +21,7 @@ combineAncestralObject = (obj, propertyName) ->
   combined
 
 countries = [
-  {country: 'united-states', countryCode: 'US'}
+  {country: 'united-states', countryCode: 'US', ageOfConsent: 13}
   {country: 'china', countryCode: 'CN'}
   {country: 'brazil', countryCode: 'BR'}
 
@@ -96,7 +96,13 @@ countries = [
 
 inEU = (country) -> !!countries.find((c) => c.country is slugify(country))?.inEU
 
-ageOfConsent = (country) -> countries.find((c) => c.country is slugify(country))?.ageOfConsent ? 16
+ageOfConsent = (countryName, defaultIfUnknown=0) ->
+  return defaultIfUnknown unless countryName
+  country = countries.find((c) => c.country is slugify(countryName))
+  return defaultIfUnknown unless country
+  return country.ageOfConsent if country.ageOfConsent
+  return 16 if country.inEU
+  return defaultIfUnknown
 
 courseIDs =
   INTRODUCTION_TO_COMPUTER_SCIENCE: '560f1a9f22961295f9427742'

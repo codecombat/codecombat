@@ -75,7 +75,7 @@
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
-    privacy: "Privacy"
+    privacy: "Privacy Notice"
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
@@ -302,6 +302,10 @@
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
     want_codecombat_in_school: "Want to play CodeCombat all the time?"
+    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
+    eu_confirmation_place_of_processing: "Learn more about the possible risks"
+    eu_confirmation_student: "If you are not sure, ask your teacher."
+    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
     recover_account_title: "Recover Account"

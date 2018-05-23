@@ -118,7 +118,7 @@ UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
-UserSchema.methods.inEU = -> unless @get('country') then true else core_utils.inEU(@get('country'))
+UserSchema.methods.inEU = (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else core_utils.inEU(@get('country'))
 
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
@@ -520,7 +520,7 @@ UserSchema.pre('save', (next) ->
 
   if @hasLogInMethod() and @get('anonymous')
     @set('anonymous', false)
-    
+
   if _.size(@get('birthday')) > 7
     @set('birthday', @get('birthday').slice(0,7)) # Limit to year/month
 

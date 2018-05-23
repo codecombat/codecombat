@@ -35,7 +35,7 @@ module.exports = class User extends CocoModel
   displayName: -> @get('name', true)
   broadName: -> User.broadName(@attributes)
 
-  inEU: -> unless @get('country') then true else utils.inEU(@get('country'))
+  inEU: (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else utils.inEU(@get('country'))
 
   getPhotoURL: (size=80) ->
     return '' if application.testing
@@ -249,6 +249,29 @@ module.exports = class User extends CocoModel
       error: =>
         @trigger 'email-verify-error'
     })
+
+  sendKeepMeUpdatedVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/keep-me-updated/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'user-keep-me-updated-success'
+      error: =>
+        @trigger 'user-keep-me-updated-error'
+    })
+
+  sendNoDeleteEUVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/no-delete-eu/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'user-no-delete-eu-success'
+      error: =>
+        @trigger 'user-no-delete-eu-error'
+    })
+
 
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
