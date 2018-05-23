@@ -163,6 +163,32 @@ module.exports =
     yield user.updateMailChimp()
     res.status(200).send({ role: user.get('role') })
 
+  keepMeUpdated: wrap (req, res, next) ->
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    [timestamp, hash] = req.params.verificationCode.split(':')
+    unless user
+      throw new errors.UnprocessableEntity('User not found')
+    unless req.params.verificationCode is user.verificationCode(timestamp)
+      throw new errors.UnprocessableEntity('Verification code does not match')
+    emails = _.cloneDeep(user.get('emails') ? {})
+    emails.generalNews ?= {}
+    emails.generalNews.enabled = true
+    user.set('emails', emails)
+    database.validateDoc(user)
+    yield user.save()
+    res.status(200).send({})
+
+  noDeleteEU: wrap (req, res, next) ->
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    [timestamp, hash] = req.params.verificationCode.split(':')
+    unless user
+      throw new errors.UnprocessableEntity('User not found')
+    unless req.params.verificationCode is user.verificationCode(timestamp)
+      throw new errors.UnprocessableEntity('Verification code does not match')
+    user.set('doNotDeleteEU', true)
+    yield user.save()
+    res.status(200).send({})
+
   sendVerificationEmail: wrap (req, res, next) ->
     user = yield User.findById(req.params.userID)
     timestamp = (new Date).getTime()

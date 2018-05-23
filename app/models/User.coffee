@@ -250,6 +250,29 @@ module.exports = class User extends CocoModel
         @trigger 'email-verify-error'
     })
 
+  sendKeepMeUpdatedVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/keep-me-updated/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'user-keep-me-updated-success'
+      error: =>
+        @trigger 'user-keep-me-updated-error'
+    })
+
+  sendNoDeleteEUVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/no-delete-eu/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'user-no-delete-eu-success'
+      error: =>
+        @trigger 'user-no-delete-eu-error'
+    })
+
+
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
