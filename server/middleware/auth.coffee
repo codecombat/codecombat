@@ -307,14 +307,25 @@ module.exports =
     emails = _.clone(user.get('emails')) or {}
     msg = ''
 
+    newConsentHistory = []
+    addNewConsentHistoryItem = (description) ->
+      newConsentHistory.push
+        action: 'forbid'
+        date: new Date()
+        type: 'email'
+        emailLower: user.get('emailLower')
+        description: description
+
     if req.query.recruitNotes
+      msg = "Unsubscribed #{email} from recruiting emails."
       emails.recruitNotes ?= {}
       emails.recruitNotes.enabled = false
-      msg = "Unsubscribed #{email} from recruiting emails."
+      addNewConsentHistoryItem('recruitNotes')
     else if req.query.employerNotes
+      msg = "Unsubscribed #{email} from employer emails."
       emails.employerNotes ?= {}
       emails.employerNotes.enabled = false
-      msg = "Unsubscribed #{email} from employer emails."
+      addNewConsentHistoryItem('employerNotes')
     else
       msg = "Unsubscribed #{email} from all CodeCombat emails. Sorry to see you go!"
       yield unsubscribeEmailFromMarketingEmails(email)
@@ -323,6 +334,7 @@ module.exports =
       return
 
     yield user.update {$set: {emails: emails}}
+    yield user.update {$push: {'consentHistory': newItem}} for newItem in newConsentHistory
     res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
     res.end()
 

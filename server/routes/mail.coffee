@@ -272,6 +272,7 @@ handleMailChimpWebHook = wrap (req, res) ->
   res.end('Success')
 
 module.exports.handleProfileUpdate = handleProfileUpdate = (user, post) ->
+  # TODO: update consentHistory?
   mailChimpSubs = post.data.merges.INTERESTS.split(', ')
 
   for interest in mailChimp.interests
@@ -288,6 +289,7 @@ module.exports.handleProfileUpdate = handleProfileUpdate = (user, post) ->
 
 
 module.exports.handleUnsubscribe = handleUnsubscribe = (user) ->
+  # TODO: update consentHistory?
   user.set 'emailSubscriptions', []
   for interest in mailChimp.interests
     user.setEmailSubscription interest.property, false

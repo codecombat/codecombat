@@ -9,6 +9,7 @@ UserSchema = c.object
     name: 'Anonymous'
     autocastDelay: 5000
     emails: {}
+    consentHistory: []
     permissions: []
     anonymous: true
     points: 0
@@ -109,6 +110,14 @@ _.extend UserSchema.properties,
         email: c.shortString()
         sent: c.date() # Set when sent
   unsubscribedFromMarketingEmails: { type: 'boolean' }
+
+  consentHistory: c.array {title: 'History of consent actions'},
+    c.object {title: 'Consent action', required: ['action', 'date', 'type']},
+      action: {type: 'string', 'enum': ['allow', 'forbid']}
+      date: c.date()
+      type: c.shortString() # E.g 'email'
+      emailLower: c.shortString {title: 'Email address at the time'}
+      description: c.shortString()
 
   # server controlled
   permissions: c.array {}, c.shortString()
