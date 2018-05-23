@@ -137,8 +137,8 @@ module.exports = nativeDescription: "Türkçe", englishDescription: "Turkish", t
     next: "İleri" # Go from choose hero to choose inventory before playing a level
     change_hero: "Kahramanı Değiştir" # Go back from choose inventory to choose hero
     buy_gems: "Değerli Taş Satın Al"
-#    subscribers_only: "Subscribers Only!"
-#    subscribe_unlock: "Subscribe to Unlock!"
+    subscribers_only: "Sadece Aboneler!"
+    subscribe_unlock: "Kilidini açmak için Abone ol!"
 #    subscriber_heroes: "Subscribe today to immediately unlock Amara, Hushbaum, and Hattori!"
 #    subscriber_gems: "Subscribe today to purchase this hero with gems!"
     anonymous: "Anonim Oyuncu"
