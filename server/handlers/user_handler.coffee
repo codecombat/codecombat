@@ -18,7 +18,6 @@ Payment = require '../models/Payment'
 SubscriptionHandler = require './subscription_handler'
 DiscountHandler = require './discount_handler'
 EarnedAchievement = require '../models/EarnedAchievement'
-UserRemark = require './../models/UserRemark'
 {findStripeSubscription} = require '../lib/utils'
 {isID} = require '../lib/utils'
 slack = require '../slack'
@@ -301,7 +300,6 @@ UserHandler = class UserHandler extends Handler
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
     return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
-    return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
@@ -568,18 +566,6 @@ UserHandler = class UserHandler extends Handler
       CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
-
-  getRemark: (req, res, userID) ->
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    query = user: userID
-    projection = null
-    if req.query.project
-      projection = {}
-      projection[field] = 1 for field in req.query.project.split(',')
-    UserRemark.findOne(query).select(projection).exec (err, remark) =>
-      return @sendDatabaseError res, err if err
-      return @sendNotFoundError res unless remark?
-      @sendSuccess res, remark
 
   resetProgress: (req, res, userID) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'
