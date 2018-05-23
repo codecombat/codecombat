@@ -1463,11 +1463,12 @@ describe 'POST /db/user/:userID/no-delete-eu/:verificationCode', ->
     verificationCode = @user.verificationCode(new Date().getTime())
     @url = utils.getURL("/db/user/#{@user.id}/no-delete-eu/#{verificationCode}")
 
-  it 'sets doNotDeleteEU to true', utils.wrap ->
+  it 'sets doNotDeleteEU to set date', utils.wrap ->
     [res, body] = yield request.postAsync({ @url, json: true })
     expect(res.statusCode).toBe(200)
     user = yield User.findById(@user.id)
-    expect(user.get('doNotDeleteEU')).toEqual(true)
+    expect(user.get('doNotDeleteEU')).toBeTruthy()
+    expect(user.get('doNotDeleteEU') < new Date()).toEqual(true)
 
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->

@@ -22,10 +22,9 @@ module.exports = class UserOptInView extends RootView
     @state = new State({status: 'loading'})
     @user = new User({ _id: @userID })
 
-    if @noDeleteInactiveEU
-      @user.sendNoDeleteEUVerificationCode(@verificationCode)
-    if @keepMeUpdated
-      @user.sendKeepMeUpdatedVerificationCode(@verificationCode)
+    @user.sendNoDeleteEUVerificationCode(@verificationCode) if @noDeleteInactiveEU
+    @user.sendKeepMeUpdatedVerificationCode(@verificationCode) if @keepMeUpdated
+    @state.set({status: 'done loading'}) unless @keepMeUpdated or @noDeleteInactiveEU
 
     @listenTo @state, 'change', @render
     @listenTo @user, 'user-keep-me-updated-success', =>

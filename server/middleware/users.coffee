@@ -185,7 +185,7 @@ module.exports =
       throw new errors.UnprocessableEntity('User not found')
     unless req.params.verificationCode is user.verificationCode(timestamp)
       throw new errors.UnprocessableEntity('Verification code does not match')
-    user.set('doNotDeleteEU', true)
+    user.set('doNotDeleteEU', new Date()) unless user.get('doNotDeleteEU')
     yield user.save()
     res.status(200).send({})
 

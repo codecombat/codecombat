@@ -3,7 +3,7 @@ extends /templates/base-flat
 //- TODO: i18n
 
 block content
-  .container
+  .container.text-center
     if state.get('status') === 'loading'
       span(data-i18n="account.verifying_email")
         | Verifying your email address...
@@ -30,6 +30,6 @@ block content
           a.keep-me-updated-btn.btn.btn-navy.btn-lg Yes, keep me updated
       if me.isAnonymous()
         p
-          div.text-center Sign in to start playing again. 
-        p.text-center
+          div Sign in to start playing again. 
+        p
           a.login-button.btn.btn-navy.btn-lg(data-i18n="login.log_in")
