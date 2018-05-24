@@ -1628,7 +1628,7 @@ describe 'GET /db/user/:handle/avatar', ->
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
-    expect(res.headers.location).toBe('default=http://localhost:3001/file/db/thang.type/1234/portrait.png')
+    expect(res.headers.location).toBe('http://localhost:3001/file/db/thang.type/1234/portrait.png')
 
   it 'allows overriding the fallback value', utils.wrap ->
     user = yield utils.initUser()
