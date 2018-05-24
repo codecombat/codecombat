@@ -607,7 +607,7 @@ UserSchema.statics.adminEditableProperties = [
   'purchased'
 ]
 
-UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP', 'consentHistory', 'geo']  #TODO: remove lastIP after removing from schema
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'consentHistory', 'geo']
 
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->

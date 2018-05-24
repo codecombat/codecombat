@@ -127,7 +127,6 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
-  lastIP: {type: 'string'}    #TODO: deprecated, remove this from schema after updating geo location for existing users
   createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()
