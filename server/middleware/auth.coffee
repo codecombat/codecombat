@@ -10,7 +10,7 @@ User = require '../models/User'
 utils = require '../lib/utils'
 mongoose = require 'mongoose'
 authentication = require 'passport'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 oauth = require '../lib/oauth'
@@ -23,7 +23,7 @@ module.exports =
   authDelay: (req, res, next) ->
     ms = if global.testing then 0 else 500
     setTimeout(next, ms)
-    
+
   checkDocumentPermissions: (req, res, next) ->
     return next() if req.user?.isAdmin()
     if not req.doc.hasPermissionsForMethod(req.user, req.method)
@@ -262,16 +262,19 @@ module.exports =
 
     user.set('passwordReset', utils.getCodeCamel())
     yield user.save()
-    context =
-      email_id: sendwithus.templates.password_reset
-      recipient:
-        address: req.body.email
-      email_data:
+    message =
+      templateId: sendgrid.templates.password_reset
+      to:
+        email: req.body.email
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      substitutions:
         tempPassword: user.get('passwordReset')
     try
-      yield sendwithus.api.sendAsync(context)
+      yield sendgrid.api.send message
     catch err
-      log.error("auth/reset sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
+      log.error("auth/reset sendgrid error: #{JSON.stringify(err)}\n#{JSON.stringify(message)}")
     res.end()
 
   unsubscribe: wrap (req, res) ->
@@ -307,22 +310,34 @@ module.exports =
     emails = _.clone(user.get('emails')) or {}
     msg = ''
 
+    newConsentHistory = []
+    addNewConsentHistoryItem = (description) ->
+      newConsentHistory.push
+        action: 'forbid'
+        date: new Date()
+        type: 'email'
+        emailHash: User.hashEmail(user.get('email'))
+        description: description
+
     if req.query.recruitNotes
+      msg = "Unsubscribed #{email} from recruiting emails."
       emails.recruitNotes ?= {}
       emails.recruitNotes.enabled = false
-      msg = "Unsubscribed #{email} from recruiting emails."
+      addNewConsentHistoryItem('recruitNotes')
     else if req.query.employerNotes
+      msg = "Unsubscribed #{email} from employer emails."
       emails.employerNotes ?= {}
       emails.employerNotes.enabled = false
-      msg = "Unsubscribed #{email} from employer emails."
+      addNewConsentHistoryItem('employerNotes')
     else
-      msg = "Unsubscribed #{email} from all CodeCombat emails. Sorry to see you go!"
+      msg = "Unsubscribed #{email} from all CodeCombat announcement and marketing emails. Sorry to see you go!"
       yield unsubscribeEmailFromMarketingEmails(email)
       res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
       res.end()
       return
 
     yield user.update {$set: {emails: emails}}
+    yield user.update {$push: {'consentHistory': newItem}} for newItem in newConsentHistory
     res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
     res.end()
 

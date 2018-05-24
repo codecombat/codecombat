@@ -302,6 +302,10 @@
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
     want_codecombat_in_school: "Want to play CodeCombat all the time?"
+    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
+    eu_confirmation_place_of_processing: "Learn more about the possible risks"
+    eu_confirmation_student: "If you are not sure, ask your teacher."
+    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
     recover_account_title: "Recover Account"
@@ -1126,7 +1130,6 @@
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email"
     wrong_password: "Wrong Password"
-    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
@@ -2386,6 +2389,8 @@
     canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
     third_party_title: "Third Party Services"
     third_party_description: "CodeCombat uses the following third party services (among others):"
+    cookies_message: 'CodeCombat uses a few essential and non-essential cookies.'
+    cookies_deny: 'Decline non-essential cookies'
 
   ladder_prizes:
     title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.

@@ -9,6 +9,7 @@ UserSchema = c.object
     name: 'Anonymous'
     autocastDelay: 5000
     emails: {}
+    consentHistory: []
     permissions: []
     anonymous: true
     points: 0
@@ -105,10 +106,18 @@ _.extend UserSchema.properties,
 
     oneTimes: c.array {title: 'One-time emails'},
       c.object {title: 'One-time email', required: ['type', 'email']},
-        type: c.shortString() # E.g 'subscribe modal parent'
+        type: c.shortString() # E.g 'share progress modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
   unsubscribedFromMarketingEmails: { type: 'boolean' }
+
+  consentHistory: c.array {title: 'History of consent actions'},
+    c.object {title: 'Consent action', required: ['action', 'date', 'type']},
+      action: {type: 'string', 'enum': ['allow', 'forbid']}
+      date: c.date()
+      type: c.shortString() # E.g 'email'
+      emailHash: {type: 'string', maxLength: 128, minLength: 128, title: 'Hash of lower-case email address at the time'}
+      description: c.shortString()
 
   # server controlled
   permissions: c.array {}, c.shortString()
@@ -189,6 +198,7 @@ _.extend UserSchema.properties,
   purchased: c.RewardSchema 'purchased with gems or money'
   deleted: {type: 'boolean'}
   dateDeleted: c.date()
+  doNotDeleteEU: c.date()
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
 

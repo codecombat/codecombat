@@ -9,7 +9,7 @@ parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
 database = require '../commons/database'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
 CourseInstance = require '../models/CourseInstance'
@@ -18,6 +18,7 @@ gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
 Campaign = require '../models/Campaign'
 Course = require '../models/Course'
+Clan = require '../models/Clan'
 Achievement = require '../models/Achievement'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
@@ -107,12 +108,24 @@ module.exports =
       throw new errors.Forbidden("Can't delete this user.")
 
     yield userToDelete.removeFromClassrooms()
+    yield Clan.update(
+      {members: req.user._id},
+      {$pull: {members: req.user._id}}
+      { multi: true }
+    )
 
     # Delete personal subscription
     if userToDelete.get('stripe.subscriptionID')
       yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
     if userToDelete.get('payPal.billingAgreementID')
       yield middleware.subscriptions.cancelPayPalBillingAgreementInternal(req)
+
+    # Delete user sessions, poll responses, trial requests
+    yield [
+      TrialRequest.deleteMany({applicant:userToDelete._id})
+      UserPollsRecord.deleteMany({user:userToDelete.id})
+      LevelSession.deleteMany({creator:userToDelete.id})
+    ]
 
     # Delete recipient subscription
     sponsorID = userToDelete.get('stripe.sponsorID')
@@ -125,9 +138,11 @@ module.exports =
       yield middleware.subscriptions.unsubscribeRecipientAsync(req, res, sponsor, userToDelete)
 
     # Delete all the user's attributes
+    if userToDelete.get('emailLower')
+      userToDelete.set('deletedEmailHash', User.hashEmail(userToDelete.get('email')))
     obj = userToDelete.toObject()
     for prop, val of obj
-      userToDelete.set(prop, undefined) unless prop is '_id'
+      userToDelete.set(prop, undefined) unless prop in ['_id', 'deletedEmailHash', 'consentHistory']
     userToDelete.set('dateDeleted', new Date())
     userToDelete.set('deleted', true)
 
@@ -163,6 +178,32 @@ module.exports =
     yield user.updateMailChimp()
     res.status(200).send({ role: user.get('role') })
 
+  keepMeUpdated: wrap (req, res, next) ->
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    [timestamp, hash] = req.params.verificationCode.split(':')
+    unless user
+      throw new errors.UnprocessableEntity('User not found')
+    unless req.params.verificationCode is user.verificationCode(timestamp)
+      throw new errors.UnprocessableEntity('Verification code does not match')
+    emails = _.cloneDeep(user.get('emails') ? {})
+    emails.generalNews ?= {}
+    emails.generalNews.enabled = true
+    user.set('emails', emails)
+    database.validateDoc(user)
+    yield user.save()
+    res.status(200).send({})
+
+  noDeleteEU: wrap (req, res, next) ->
+    user = yield User.findOne({ _id: mongoose.Types.ObjectId(req.params.userID) })
+    [timestamp, hash] = req.params.verificationCode.split(':')
+    unless user
+      throw new errors.UnprocessableEntity('User not found')
+    unless req.params.verificationCode is user.verificationCode(timestamp)
+      throw new errors.UnprocessableEntity('Verification code does not match')
+    user.set('doNotDeleteEU', new Date()) unless user.get('doNotDeleteEU')
+    yield user.save()
+    res.status(200).send({})
+
   sendVerificationEmail: wrap (req, res, next) ->
     user = yield User.findById(req.params.userID)
     timestamp = (new Date).getTime()
@@ -170,15 +211,23 @@ module.exports =
       throw new errors.NotFound('User not found')
     if not user.get('email')
       throw new errors.UnprocessableEntity('User must have an email address to receive a verification email')
-    context =
-      email_id: sendwithus.templates.verify_email
-      recipient:
-        address: user.get('email')
+    message =
+      templateId: sendgrid.templates.verify_email
+      to:
+        email: user.get('email')
         name: user.broadName()
-      email_data:
-        name: user.broadName()
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      subject: "#{user.broadName()}, verify your CodeCombat email address!"
+      substitutions:
+        subject: "#{user.broadName()}, verify your CodeCombat email address!"
+        username: user.broadName()
         verify_link: makeHostUrl(req, "/user/#{user._id}/verify/#{user.verificationCode(timestamp)}")
-    sendwithus.api.send context, (err, result) ->
+    try
+      yield sendgrid.api.send message
+    catch err
+      console.error "Error sending verification email:", err
     res.status(200).send({})
 
   getStudents: wrap (req, res, next) ->
@@ -216,7 +265,7 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
-    
+
   setVerifiedTeacher: wrap (req, res) ->
     unless _.isBoolean(req.body)
       throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
@@ -224,7 +273,7 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     update = { "verifiedTeacher": req.body }
     user.set(update)
     yield user.update({ $set: update })
@@ -552,7 +601,7 @@ module.exports =
     if not user
       throw new errors.NotFound('User not found.')
     fallback = req.query.fallback
-    size = req.query.s
+    #size = req.query.s  # Not currently supported
 
     hash = crypto.createHash('md5')
     if user.get('email')
@@ -567,9 +616,8 @@ module.exports =
     fallback ?= makeHostUrl(req, '/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
     unless /^http/.test fallback
       fallback = makeHostUrl(req, fallback)
-    combinedPhotoURL = "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
 
-    res.redirect(combinedPhotoURL)
+    res.redirect(fallback)
     res.end()
 
 

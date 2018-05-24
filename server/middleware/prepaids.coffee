@@ -18,7 +18,8 @@ Promise.promisifyAll(StripeUtils)
 moment = require 'moment'
 slack = require '../slack'
 delighted = require '../delighted'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
+config = require '../../server_config'
 
 { STARTER_LICENSE_COURSE_IDS } = require '../../app/core/constants'
 {formatDollarValue} = require '../../app/core/utils'
@@ -89,7 +90,7 @@ module.exports =
 
     unless prepaid.canBeUsedBy(req.user._id)
       throw new errors.Forbidden('You may not revoke enrollments you do not own.')
-      
+
     user = yield User.findById(req.body?.userID)
 
     yield prepaid.revoke(user)
@@ -121,47 +122,53 @@ module.exports =
 
     if not joiner.isTeacher()
       throw new errors.UnprocessableEntity('User to share with must be a Teacher.', { i181: 'share_licenses.teacher_not_valid' })
-    
+
     query =
       _id: prepaid._id
     update = { $addToSet: { joiners : { userID: joiner._id } }}
     result = yield Prepaid.update(query, update)
-    
+
     context =
-      email_id: sendwithus.templates.share_licenses_joiner
-      recipient:
-        address: joiner.get('email')
+      templateId: sendgrid.templates.share_licenses_joiner
+      to:
+        email: joiner.get('email')
         name: joiner.broadName()
-      email_data:
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      subject: "#{req.user.broadName()} has shared licenses with you!"
+      substitutions:
         joiner_email: joiner.get('email')
         creator_email: req.user.get('email')
         creator_name: req.user.broadName()
-    sendwithus.api.send context, (err, result) ->
-    
+    try
+      yield sendgrid.api.send context
+    catch err
+      console.error "Error sending license share email:", err
     res.status(201).send(prepaid.toObject({req}))
-  
+
   fetchJoiners: wrap (req, res) ->
     if not req.user?.isTeacher()
       throw new errors.Forbidden('Must be a teacher to fetch joiners for a license.')
-  
+
     prepaid = yield database.getDocFromHandle(req, Prepaid)
     if not prepaid
       throw new errors.NotFound('Prepaid not found.')
-  
+
     unless prepaid.get('creator').equals(req.user._id)
       throw new errors.Forbidden('You may not fetch the joiners of a license you do not own.')
     unless prepaid.get('type') is 'course'
       throw new errors.Forbidden('This prepaid is not of type "course".')
-  
+
     joinerIDs = (prepaid.get('joiners') or []).map((j)->j.userID)
-  
+
     joiners = (yield joinerIDs.map (id) ->
       User.findById(id)
     ).map (user) ->
       _.pick(user.toObject(), ['_id', 'email', 'name', 'firstName', 'lastName'])
-    
+
     res.status(200).send(joiners)
-  
+
   fetchCreator: wrap (req, res) ->
     unless req.user
       throw new errors.Unauthorized()
@@ -174,7 +181,7 @@ module.exports =
       throw new errors.Forbidden('You can only look up the owner of prepaids that have been shared with you.')
     creator = yield User.findOne({ _id: prepaid.get('creator') })
     res.status(200).send(_.pick(creator.toObject(), ['_id', 'email', 'name', 'firstName', 'lastName']))
-  
+
   fetchByCreator: wrap (req, res, next) ->
     creator = req.query.creator
     return next() if not creator
