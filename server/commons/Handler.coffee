@@ -5,8 +5,9 @@ errors = require './errors'
 log = require 'winston'
 Patch = require '../models/Patch'
 User = require '../models/User'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 slack = require '../slack'
+notify = require './notify'
 deltasLib = require '../../app/core/deltas'
 
 PROJECT = {original: 1, name: 1, version: 1, description: 1, slug: 1, kind: 1, created: 1, permissions: 1}
@@ -460,42 +461,13 @@ module.exports = class Handler
           return @sendDatabaseError(res, err) if err
           @sendSuccess(res, @formatEntity(req, newDocument))
           if @modelClass.schema.is_patchable
-            @notifyWatchersOfChange(req.user, newDocument, req.headers['x-current-path'])
+            notify.notifyChangesMadeToDoc req, newDocument
 
       if major?
         parentDocument.makeNewMinorVersion(updatedObject, major, done)
 
       else
         parentDocument.makeNewMajorVersion(updatedObject, done)
-
-  notifyWatchersOfChange: (editor, changedDocument, editPath) ->
-    docLink = "http://codecombat.com#{editPath}" # TODO: Dynamically generate URL with server/commons/urls.makeHostUrl
-    @sendChangedSlackMessage creator: editor, target: changedDocument, docLink: docLink
-    watchers = changedDocument.get('watchers') or []
-    # Don't send these emails to the person who submitted the patch, or to Nick, George, or Scott.
-    watchers = (w for w in watchers when not w.equals(editor.get('_id')) and not (w + '' in ['512ef4805a67a8c507000001', '5162fab9c92b4c751e000274', '51538fdb812dd9af02000001']))
-    return unless watchers.length
-    User.find({_id:{$in:watchers}}).select({email:1, name:1}).exec (err, watchers) =>
-      for watcher in watchers
-        @notifyWatcherOfChange editor, watcher, changedDocument, editPath
-
-  notifyWatcherOfChange: (editor, watcher, changedDocument, editPath) ->
-    return if not watcher.get('email')
-    context =
-      email_id: sendwithus.templates.change_made_notify_watcher
-      recipient:
-        address: watcher.get('email')
-        name: watcher.get('name')
-      email_data:
-        doc_name: changedDocument.get('name') or '???'
-        submitter_name: editor.get('name') or '???'
-        doc_link: if editPath then "http://codecombat.com#{editPath}" else null # TODO: Dynamically generate URL with server/commons/urls.makeHostUrl
-        commit_message: changedDocument.get('commitMessage')
-    sendwithus.api.send context, (err, result) ->
-
-  sendChangedSlackMessage: (options) ->
-    message = "#{options.creator.get('name')} saved a change to #{options.target.get('name')}: #{options.target.get('commitMessage') or '(no commit message)'} #{options.docLink}"
-    slack.sendSlackMessage message, ['artisans']
 
   makeNewInstance: (req) ->
     model = new @modelClass({})

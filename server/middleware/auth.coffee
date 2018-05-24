@@ -10,7 +10,7 @@ User = require '../models/User'
 utils = require '../lib/utils'
 mongoose = require 'mongoose'
 authentication = require 'passport'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 oauth = require '../lib/oauth'
@@ -23,7 +23,7 @@ module.exports =
   authDelay: (req, res, next) ->
     ms = if global.testing then 0 else 500
     setTimeout(next, ms)
-    
+
   checkDocumentPermissions: (req, res, next) ->
     return next() if req.user?.isAdmin()
     if not req.doc.hasPermissionsForMethod(req.user, req.method)
@@ -262,16 +262,19 @@ module.exports =
 
     user.set('passwordReset', utils.getCodeCamel())
     yield user.save()
-    context =
-      email_id: sendwithus.templates.password_reset
-      recipient:
-        address: req.body.email
-      email_data:
+    message =
+      templateId: sendgrid.templates.password_reset
+      to:
+        email: req.body.email
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      substitutions:
         tempPassword: user.get('passwordReset')
     try
-      yield sendwithus.api.sendAsync(context)
+      yield sendgrid.api.send message
     catch err
-      log.error("auth/reset sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
+      log.error("auth/reset sendgrid error: #{JSON.stringify(err)}\n#{JSON.stringify(message)}")
     res.end()
 
   unsubscribe: wrap (req, res) ->

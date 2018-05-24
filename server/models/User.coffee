@@ -375,7 +375,7 @@ UserSchema.methods.sendWelcomeEmail = co.wrap (req) ->
       email: @get('emailLower')
       name: @broadName()
     from:
-      email: 'team@codecombat.com'
+      email: config.mail.username
       name: 'CodeCombat'
     templateId: templateId
     substitutions:

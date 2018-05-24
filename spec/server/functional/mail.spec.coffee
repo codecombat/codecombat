@@ -1,7 +1,7 @@
 require '../common'
 utils = require '../utils'
 mail = require '../../../server/routes/mail'
-sendwithus = require '../../../server/sendwithus'
+sendgrid = require '../../../server/sendgrid'
 User = require '../../../server/models/User'
 request = require '../request'
 LevelSession = require '../../../server/models/LevelSession'
@@ -60,8 +60,8 @@ describe 'sendNextStepsEmail', ->
       state: complete: true
     }).save()
 
-    spyOn(sendwithus.api, 'send').and.callFake (options, cb) ->
-      expect(options.recipient.address).toBe(user.get('email'))
+    spyOn(sendgrid.api, 'send').and.callFake (options, cb) ->
+      expect(options.to.email).toBe(user.get('email'))
       cb()
       done()
 
@@ -86,7 +86,7 @@ describe 'POST /mail/webhook', ->
     user = yield User.findById(@user.id)
     @url = utils.getURL('/mail/webhook')
     done()
-  
+
   describe 'when getting messages of type "profile"', ->
     json = {
       type: 'profile'
@@ -99,10 +99,10 @@ describe 'POST /mail/webhook', ->
         }
       }
     }
-    
+
     beforeEach ->
       json.data.email = @email
-    
+
     it 'updates the user with new profile data', utils.wrap (done) ->
       [res, body] = yield request.postAsync({ @url, json })
       user = yield User.findById(@user.id)
@@ -111,7 +111,7 @@ describe 'POST /mail/webhook', ->
       expect(user.get('emails.artisanNews.enabled')).toBe(true)
       expect(user.get('emails.archmageNews.enabled')).toBe(true)
       done()
-      
+
     it 'does not work if the user on our side is unverified', utils.wrap (done) ->
       yield @user.update({ $set: { emailVerified: false }})
       [res, body] = yield request.postAsync({ @url, json })
@@ -119,7 +119,7 @@ describe 'POST /mail/webhook', ->
       expect(user.get('emails.diplomatNews.enabled')).toBe(true)
       expect(user.get('emails.generalNews.enabled')).toBe(false)
       done()
-    
+
   describe 'when getting messages of type "unsubscribe"', ->
     it 'disables all subscriptions and unsets mailchimp info from the user', utils.wrap (done) ->
       json = {
@@ -134,7 +134,7 @@ describe 'POST /mail/webhook', ->
       expect(user.get('emails.diplomatNews.enabled')).toBe(false)
       expect(user.get('mailChimp')).toBeFalsy()
       done()
-      
+
   describe 'when getting messages of type "upemail"', ->
     it 'disables all subscriptions and unsets mailchimp info from the user', utils.wrap (done) ->
       json = {

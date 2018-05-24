@@ -15,7 +15,8 @@ StripeUtils = require '../lib/stripe_utils'
 slack = require '../slack'
 paypal = require '../lib/paypal'
 {isProduction} = require '../../server_config'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
+config = require '../../server_config'
 
 subscribeWithPrepaidCode = expressWrap (req, res) ->
   { ppc } = req.body
@@ -199,14 +200,17 @@ updateUser = co.wrap (req, user, customer, subscription, increment) ->
 
   yield user.save()
 
-  context =
-    email_id: sendwithus.templates.subscription_welcome_email
-    recipient:
-      address: user.get('email')
+  message =
+    templateId: sendgrid.templates.subscription_welcome_email
+    to:
+      email: user.get('email')
+    from:
+      email: config.mail.username
+      name: 'CodeCombat'
   try
-    yield sendwithus.api.sendAsync(context)
+    yield sendgrid.api.send message
   catch err
-    log.error("new Stripe subscription sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
+    log.error("new Stripe subscription sendgrid error: #{JSON.stringify(err)}\n#{JSON.stringify(message)}")
 
 unsubscribeUser = co.wrap (req, user, updateReqBody=true) ->
   stripeInfo = _.cloneDeep(user.get('stripe') ? {})
@@ -424,14 +428,17 @@ executePayPalBillingAgreement = expressWrap (req, res) ->
 
     yield req.user.save()
 
-    context =
-      email_id: sendwithus.templates.subscription_welcome_email
-      recipient:
-        address: req.user.get('email')
+    message =
+      templateId: sendgrid.templates.subscription_welcome_email
+      to:
+        email: req.user.get('email')
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
     try
-      yield sendwithus.api.sendAsync(context)
+      yield sendgrid.api.send message
     catch err
-      log.error("new PayPal subscription sendwithus error: #{JSON.stringify(err)}\n#{JSON.stringify(context)}")
+      log.error("new PayPal subscription sendgrid error: #{JSON.stringify(err)}\n#{JSON.stringify(message)}")
 
     return res.send(billingAgreement)
   catch e

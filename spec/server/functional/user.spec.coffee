@@ -12,7 +12,7 @@ request = require '../request'
 facebook = require '../../../server/lib/facebook'
 gplus = require '../../../server/lib/gplus'
 sendgrid = require '../../../server/sendgrid'
-sendwithus = require '../../../server/sendwithus'
+sendgrid = require '../../../server/sendgrid'
 Promise = require 'bluebird'
 Achievement = require '../../../server/models/Achievement'
 EarnedAchievement = require '../../../server/models/EarnedAchievement'
@@ -1472,16 +1472,16 @@ describe 'POST /db/user/:userID/no-delete-eu/:verificationCode', ->
 
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     @user = yield utils.initUser()
     @url = utils.getURL("/db/user/#{@user.id}/request-verify-email")
 
   it 'sends an email with a verification link to the user', utils.wrap ->
     [res, body] = yield request.postAsync({ @url, json: true, headers: {'x-forwarded-proto': 'http'} })
     expect(res.statusCode).toBe(200)
-    expect(sendwithus.api.send).toHaveBeenCalled()
-    context = sendwithus.api.send.calls.argsFor(0)[0]
-    expect(_.str.startsWith(context.email_data.verify_link, "http://localhost:3001/user/#{@user.id}/verify/")).toBe(true)
+    expect(sendgrid.api.send).toHaveBeenCalled()
+    message = sendgrid.api.send.calls.argsFor(0)[0]
+    expect(_.str.startsWith(message.substitutions.verify_link, "http://localhost:3001/user/#{@user.id}/verify/")).toBe(true)
 
 
 describe 'POST /db/user/:userId/reset_progress', ->

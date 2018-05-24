@@ -46,7 +46,6 @@ module.exports.setup = (app) ->
   app.post('/contact/send-parent-signup-instructions', mw.contact.sendParentSignupInstructions)
   app.post('/contact/send-teacher-game-dev-project-share', mw.contact.sendTeacherGameDevProjectShare)
   app.post('/contact/send-teacher-signup-instructions', mw.contact.sendTeacherSignupInstructions)
-  app.post('/contact/send-apcsp-access-request', mw.contact.sendAPCSPAccessRequest)
 
   app.delete('/db/*', mw.auth.checkHasUser())
   app.patch('/db/*', mw.auth.checkHasUser())
