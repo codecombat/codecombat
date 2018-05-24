@@ -574,7 +574,7 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
+  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen', 'unsubscribedFromMarketingEmails'
 ]
 UserSchema.statics.adminEditableProperties = [
   'purchased'

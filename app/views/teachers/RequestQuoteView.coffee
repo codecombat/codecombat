@@ -299,6 +299,12 @@ module.exports = class RequestQuoteView extends RootView
       name: attrs.name
       email: @trialRequest.get('properties').email
     })
+    if me.inEU()
+      emails = _.assign({}, me.get('emails'))
+      emails.generalNews ?= {}
+      emails.generalNews.enabled = false
+      me.set('emails', emails)
+      me.set('unsubscribedFromMarketingEmails', true)
     me.save(null, {
       success: ->
         window.tracker?.trackEvent 'Teachers Request Demo Create Account', category: 'Teachers', ['Mixpanel']
