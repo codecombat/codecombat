@@ -147,7 +147,6 @@ describe 'PUT /db/trial.request/:handle', ->
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, TrialRequest])
     @user = yield utils.initUser({country: 'united-states'})
-    @user = yield utils.initUser()
     yield utils.loginUser(@user)
     fixture.properties.email = @user.get('email')
     [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })
