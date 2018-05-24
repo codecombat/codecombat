@@ -119,7 +119,7 @@ module.exports =
       yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
     if userToDelete.get('payPal.billingAgreementID')
       yield middleware.subscriptions.cancelPayPalBillingAgreementInternal(req)
-      
+
     # Delete user sessions, poll responses, trial requests
     yield [
       TrialRequest.deleteMany({applicant:userToDelete._id})
@@ -142,7 +142,7 @@ module.exports =
       userToDelete.set('deletedEmailHash', User.hashEmail(userToDelete.get('emailLower')))
     obj = userToDelete.toObject()
     for prop, val of obj
-      userToDelete.set(prop, undefined) unless prop in ['_id', 'deletedEmailHash']
+      userToDelete.set(prop, undefined) unless prop in ['_id', 'deletedEmailHash', 'consentHistory']
     userToDelete.set('dateDeleted', new Date())
     userToDelete.set('deleted', true)
 
@@ -231,7 +231,7 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
-    
+
   setVerifiedTeacher: wrap (req, res) ->
     unless _.isBoolean(req.body)
       throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
@@ -239,7 +239,7 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     update = { "verifiedTeacher": req.body }
     user.set(update)
     yield user.update({ $set: update })

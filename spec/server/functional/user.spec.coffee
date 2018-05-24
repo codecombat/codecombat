@@ -628,7 +628,7 @@ describe 'DELETE /db/user/:handle', ->
     expect(user.get('dateDeleted')).toBeLessThan(new Date())
     expect(user.get('deletedEmailHash')).toBeDefined() # includes a hash for checking later if the email were deleted, and when
     for key, value of user.toObject()
-      continue if key in ['_id', 'deleted', 'dateDeleted', 'deletedEmailHash']
+      continue if key in ['_id', 'deleted', 'dateDeleted', 'deletedEmailHash', 'consentHistory']
       expect(_.isEmpty(value)).toEqual(true)
 
   it 'completely removes the user from any classroom or clan', utils.wrap ->
@@ -644,10 +644,10 @@ describe 'DELETE /db/user/:handle', ->
     user2 = yield utils.initUser()
     yield utils.loginUser(user2)
     [res] = yield request.putAsync { url:clanUrl, json: true }
-    
+
     clan = yield Clan.findById(clan.id)
     expect(clan.get('members').length).toBe(3) # includes owner
-    
+
     user2 = yield utils.initUser()
     yield utils.loginUser(user)
     classroom = new Classroom({
@@ -658,10 +658,10 @@ describe 'DELETE /db/user/:handle', ->
     classroom = yield Classroom.findById(classroom.id)
     expect(classroom.get('members').length).toBe(1)
     expect(classroom.get('members')[0].toString()).toEqual(user2.id)
-    
+
     clan = yield Clan.findById(clan.id)
     expect(clan.get('members').length).toBe(2)
-    
+
   it 'deletes all user sesions, poll responses, and trial requests of the user', utils.wrap ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -669,7 +669,7 @@ describe 'DELETE /db/user/:handle', ->
     user = yield utils.initUser()
     level = yield utils.makeLevel()
     otherUser = yield utils.initUser()
-    
+
     # setup one user
     yield utils.loginUser(user)
     trialRequest = yield utils.makeTrialRequest()
@@ -687,18 +687,18 @@ describe 'DELETE /db/user/:handle', ->
     otherPollRecord = UserPollsRecord.findById(otherPollRecordId)
     expect(otherPollRecord).toBeTruthy()
     otherSession = yield utils.makeLevelSession({code:'...', submittedCode: '...'}, { level, creator: otherUser })
-    
+
     # check existence
     expect(yield TrialRequest.findById(trialRequest.id)).toBeTruthy()
     expect(yield UserPollsRecord.findById(pollRecordId)).toBeTruthy()
     expect(yield LevelSession.findById(session.id)).toBeTruthy()
-    
+
     # delete user
     yield utils.loginUser(user)
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
     user = yield User.findById user.id
     expect(user.get('deleted')).toBe(true)
-    
+
     # check that user's stuff is gone
     expect(yield TrialRequest.findById(trialRequest.id)).toBeFalsy()
     expect(yield UserPollsRecord.findById(pollRecordId)).toBeFalsy()
@@ -1733,4 +1733,3 @@ describe 'PUT /db/user/:handle/verifiedTeacher', ->
     url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
     [res] = yield request.putAsync({url, json: true, body: true})
     expect(res.statusCode).toBe(403)
-

@@ -23,7 +23,7 @@ unsubscribeEmailFromMarketingEmails = co.wrap (email) ->
           action: 'forbid'
           date: new Date()
           type: 'email'
-          emailLower: user.get('emailLower')
+          emailHash: User.hashEmail(user.get('emailLower'))
           description: key
       val.enabled = false
     user.set('consentHistory', consentHistory)
@@ -37,7 +37,7 @@ unsubscribeEmailFromMarketingEmails = co.wrap (email) ->
       action: 'forbid'
       date: new Date()
       type: 'email'
-      emailLower: user.get('emailLower')
+      emailHash: User.hashEmail(user.get('emailLower'))
       description: description
     }}
 
@@ -50,7 +50,7 @@ unsubscribeEmailFromMarketingEmails = co.wrap (email) ->
   contactUrl = "https://www.zenprospect.com/api/v1/contacts?api_key=#{config.zenProspect.apiKey}"
   DO_NOT_CONTACT = '57290b9c7ff0bb3b3ef2bebb'
   [res] = yield request.getAsync({ url:searchUrl, json: true })
-  if res.statusCode is 200 
+  if res.statusCode is 200
     if res.body.contacts.length is 0
       # post a contact with status "do not contact" to prevent reaching out
       json = { email, contact_stage_id: DO_NOT_CONTACT } # contact stage: do not contact

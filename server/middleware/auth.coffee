@@ -23,7 +23,7 @@ module.exports =
   authDelay: (req, res, next) ->
     ms = if global.testing then 0 else 500
     setTimeout(next, ms)
-    
+
   checkDocumentPermissions: (req, res, next) ->
     return next() if req.user?.isAdmin()
     if not req.doc.hasPermissionsForMethod(req.user, req.method)
@@ -313,7 +313,7 @@ module.exports =
         action: 'forbid'
         date: new Date()
         type: 'email'
-        emailLower: user.get('emailLower')
+        emailHash: User.hashEmail(user.get('emailLower'))
         description: description
 
     if req.query.recruitNotes
@@ -327,7 +327,7 @@ module.exports =
       emails.employerNotes.enabled = false
       addNewConsentHistoryItem('employerNotes')
     else
-      msg = "Unsubscribed #{email} from all CodeCombat emails. Sorry to see you go!"
+      msg = "Unsubscribed #{email} from all CodeCombat announcement and marketing emails. Sorry to see you go!"
       yield unsubscribeEmailFromMarketingEmails(email)
       res.send msg + '<p><a href="/account/settings">Account settings</a></p>'
       res.end()

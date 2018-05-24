@@ -116,7 +116,7 @@ _.extend UserSchema.properties,
       action: {type: 'string', 'enum': ['allow', 'forbid']}
       date: c.date()
       type: c.shortString() # E.g 'email'
-      emailLower: c.shortString {title: 'Email address at the time'}
+      emailHash: {type: 'string', maxLength: 128, minLength: 128, title: 'Hash of lower-case email address at the time'}
       description: c.shortString()
 
   # server controlled

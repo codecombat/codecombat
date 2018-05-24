@@ -209,15 +209,16 @@ UserHandler = class UserHandler extends Handler
 
     # Update consent history based on user.emails changes
     (req, user, callback) ->
+      return callback(null, req, user) unless req.body.emails and user.get('email')
       consentHistory = _.cloneDeep(user.get('consentHistory') or [])
       oldEmails = user.get('emails') ? {}
-      newEmails = req.body.emails ? {}
+      newEmails = req.body.emails
       for k, v of newEmails when !!v.enabled isnt !!oldEmails[k]?.enabled
         consentHistory.push
           action: if v.enabled then 'allow' else 'forbid'
           date: new Date()
           type: 'email'
-          emailLower: user.get('emailLower')
+          emailHash: User.hashEmail(user.get('email').toLowerCase())
           description: k
       user.set('consentHistory', consentHistory)
       callback(null, req, user)
