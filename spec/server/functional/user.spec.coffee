@@ -1481,7 +1481,7 @@ describe 'POST /db/user/:userID/request-verify-email', ->
     expect(res.statusCode).toBe(200)
     expect(sendgrid.api.send).toHaveBeenCalled()
     message = sendgrid.api.send.calls.argsFor(0)[0]
-    expect(_.str.startsWith(message.substitutes.verify_link, "http://localhost:3001/user/#{@user.id}/verify/")).toBe(true)
+    expect(_.str.startsWith(message.substitutions.verify_link, "http://localhost:3001/user/#{@user.id}/verify/")).toBe(true)
 
 
 describe 'POST /db/user/:userId/reset_progress', ->
