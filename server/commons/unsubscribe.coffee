@@ -23,7 +23,7 @@ unsubscribeEmailFromMarketingEmails = co.wrap (email) ->
           action: 'forbid'
           date: new Date()
           type: 'email'
-          emailHash: User.hashEmail(user.get('emailLower'))
+          emailHash: User.hashEmail(user.get('email'))
           description: key
       val.enabled = false
     user.set('consentHistory', consentHistory)
@@ -37,7 +37,7 @@ unsubscribeEmailFromMarketingEmails = co.wrap (email) ->
       action: 'forbid'
       date: new Date()
       type: 'email'
-      emailHash: User.hashEmail(user.get('emailLower'))
+      emailHash: User.hashEmail(user.get('email'))
       description: description
     }}
 

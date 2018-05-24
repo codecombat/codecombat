@@ -189,7 +189,7 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
       action: if v.enabled then 'allow' else 'forbid'
       date: new Date()
       type: 'email'
-      emailHash: User.hashEmail(@get('emailLower'))
+      emailHash: User.hashEmail(@get('email'))
       description: k
   @set('consentHistory', consentHistory)
   @set('emails', newSubs)

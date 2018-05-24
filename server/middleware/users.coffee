@@ -139,7 +139,7 @@ module.exports =
 
     # Delete all the user's attributes
     if userToDelete.get('emailLower')
-      userToDelete.set('deletedEmailHash', User.hashEmail(userToDelete.get('emailLower')))
+      userToDelete.set('deletedEmailHash', User.hashEmail(userToDelete.get('email')))
     obj = userToDelete.toObject()
     for prop, val of obj
       userToDelete.set(prop, undefined) unless prop in ['_id', 'deletedEmailHash', 'consentHistory']

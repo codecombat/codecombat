@@ -313,7 +313,7 @@ module.exports =
         action: 'forbid'
         date: new Date()
         type: 'email'
-        emailHash: User.hashEmail(user.get('emailLower'))
+        emailHash: User.hashEmail(user.get('email'))
         description: description
 
     if req.query.recruitNotes
