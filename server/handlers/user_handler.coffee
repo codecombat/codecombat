@@ -224,7 +224,7 @@ UserHandler = class UserHandler extends Handler
   getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
     returnWizard = req.query.wizard or req.body.wizard
-    properties = if returnWizard then 'name wizard firstName lastName' else 'name firstName lastName'
+    properties = if returnWizard then 'name wizard' else 'name'
     @getPropertiesFromMultipleDocuments res, User, properties, ids
 
   nameToID: (req, res, name) ->
