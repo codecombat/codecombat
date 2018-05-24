@@ -131,8 +131,6 @@ module.exports = class PlayLevelView extends RootView
     $('flying-focus').remove() #Causes problems, so yank it out for play view.
     $(window).on 'resize', @onWindowResize
 
-    application.tracker?.enableInspectletJS(@levelID)
-
     if @isEditorPreview
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -795,7 +793,6 @@ module.exports = class PlayLevelView extends RootView
     #@instance.save() unless @instance.loading
     delete window.nextURL
     console.profileEnd?() if PROFILE_ME
-    application.tracker?.disableInspectletJS()
     super()
 
   onIPadMemoryWarning: (e) ->

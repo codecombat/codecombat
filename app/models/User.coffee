@@ -1,4 +1,3 @@
-GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
@@ -250,6 +249,29 @@ module.exports = class User extends CocoModel
         @trigger 'email-verify-error'
     })
 
+  sendKeepMeUpdatedVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/keep-me-updated/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'user-keep-me-updated-success'
+      error: =>
+        @trigger 'user-keep-me-updated-error'
+    })
+
+  sendNoDeleteEUVerificationCode: (code) ->
+    $.ajax({
+      method: 'POST'
+      url: "/db/user/#{@id}/no-delete-eu/#{code}"
+      success: (attributes) =>
+        this.set attributes
+        @trigger 'user-no-delete-eu-success'
+      error: =>
+        @trigger 'user-no-delete-eu-error'
+    })
+
+
   isEnrolled: -> @prepaidStatus() is 'enrolled'
 
   prepaidStatus: -> # 'not-enrolled', 'enrolled', 'expired'
@@ -428,14 +450,6 @@ module.exports = class User extends CocoModel
 
   freeOnly: ->
     return features.freeOnly and not me.isPremium()
-
-  sendParentEmail: (email, options={}) ->
-    options.data ?= {}
-    options.data.type = 'subscribe modal parent'
-    options.data.email = email
-    options.url = '/db/user/-/send_one_time_email'
-    options.method = 'POST'
-    return $.ajax(options)
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})

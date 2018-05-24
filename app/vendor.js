@@ -16,6 +16,8 @@ window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema
 import 'bower_components/treema/treema.css'
 window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
 window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
+require('bower_components/cookieconsent/build/cookieconsent.min.js')// TODO webpack: Try to extract this
+import 'bower_components/cookieconsent/build/cookieconsent.min.css'// TODO webpack: Try to extract this
 require('vendor/scripts/idle.js').createjs;
 window.key = require('../vendor/scripts/keymaster.js');
 require('vendor/scripts/jquery.noty.packaged.min.js');

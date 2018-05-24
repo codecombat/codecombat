@@ -106,7 +106,7 @@ _.extend UserSchema.properties,
 
     oneTimes: c.array {title: 'One-time emails'},
       c.object {title: 'One-time email', required: ['type', 'email']},
-        type: c.shortString() # E.g 'subscribe modal parent'
+        type: c.shortString() # E.g 'share progress modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
   unsubscribedFromMarketingEmails: { type: 'boolean' }
@@ -198,6 +198,7 @@ _.extend UserSchema.properties,
   purchased: c.RewardSchema 'purchased with gems or money'
   deleted: {type: 'boolean'}
   dateDeleted: c.date()
+  doNotDeleteEU: c.date()
   spent: {type: 'number'}
   stripeCustomerID: { type: 'string' } # TODO: Migrate away from this property
 

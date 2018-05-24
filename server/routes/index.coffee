@@ -46,7 +46,6 @@ module.exports.setup = (app) ->
   app.post('/contact/send-parent-signup-instructions', mw.contact.sendParentSignupInstructions)
   app.post('/contact/send-teacher-game-dev-project-share', mw.contact.sendTeacherGameDevProjectShare)
   app.post('/contact/send-teacher-signup-instructions', mw.contact.sendTeacherSignupInstructions)
-  app.post('/contact/send-apcsp-access-request', mw.contact.sendAPCSPAccessRequest)
 
   app.delete('/db/*', mw.auth.checkHasUser())
   app.patch('/db/*', mw.auth.checkHasUser())
@@ -222,6 +221,8 @@ module.exports.setup = (app) ->
   app.put('/db/user/:handle/verifiedTeacher', mw.auth.checkHasPermission(['admin']), mw.users.setVerifiedTeacher)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
+  app.post('/db/user/:userID/keep-me-updated/:verificationCode', mw.users.keepMeUpdated)
+  app.post('/db/user/:userID/no-delete-eu/:verificationCode', mw.users.noDeleteEU)
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
   app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
   app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
