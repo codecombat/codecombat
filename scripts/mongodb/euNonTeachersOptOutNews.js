@@ -9,6 +9,7 @@ var newestStr = newestDate.toISOString();
 
 var query = {$and: [
     {$or: [
+        // Active recently
         {$or: [
             {$and: [
                 {'activity.login.last': {$exists: true}}, {'activity.login.last': {$gte: newestStr}}
@@ -17,9 +18,12 @@ var query = {$and: [
                 {'activity.login.last': {$exists: false}}, {dateCreated: {$gte: newestDate}}
             ]}
         ]},
+        // Or a paid user
         {$or: [{'stripe.subscriptionID': {$exists: true}}, {'stripe.sponsorID': {$exists: true}}]}
     ]},
+    // EU user
     {$or: [{country: {$in: euCountries}}, {country: {$exists: false}}]},
+    // Not a teacher
     {role: {$nin: teacherRoles}},
     {anonymous: false}
 ]};

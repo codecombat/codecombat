@@ -19,6 +19,8 @@ if swuAPIKey
 Promise.promisifyAll(module.exports.api)
 
 module.exports.templates =
+  delete_inactive_eu_users: 'tem_4mf9XQ4DhdtxDf8c4mwFbk6M'
+  eu_nonteacher_explicit_consent: 'tem_8BpcPr33HPGrw3TRMPBfQhRG'
   parent_subscribe_email: 'tem_2APERafogvwKhmcnouigud'
   coppa_deny_parent_signup: 'tem_d5fCpXS8V7jgff2sYKCinX'
   share_progress_email: 'tem_VHE3ihhGmVa3727qds9zY8'

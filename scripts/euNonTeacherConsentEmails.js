@@ -1,9 +1,7 @@
 // @ts-nocheck
 
-// Send onetime emails to inactive old unpaid EU users
+// Send onetime emails to EU non-teachers who are paid or active
 // Assumes prod env variables to run
-
-// TODO: test with keep me updated prompt
 
 // TODO: test on limited batch of users first
 
@@ -21,7 +19,7 @@ const sendwithus = require('../server/sendwithus');
 
 database.connect();
 
-const oneTimeEmailType = 'delete inactive unpaid EU user';
+const oneTimeEmailType = 'explicit consent EU non-teachers who are paid or active';
 const batchSize = 1;
 const newestDate = new Date();
 newestDate.setUTCMonth(newestDate.getUTCMonth() - 23);
@@ -37,11 +35,10 @@ function sendOptInEmail(user) {
     // }, 1000)
     // return;
 
-    let opt_in_link = `https://codecombat.com/user/${user.id}/opt-in/${user.verificationCode((new Date()).getTime())}?no_delete_inactive_eu=true`;
-    if (!user.isTeacher()) opt_in_link += "&prompt_keep_me_updated=true";
+    let opt_in_link = `https://codecombat.com/user/${user.id}/opt-in/${user.verificationCode((new Date()).getTime())}?keep_me_updated=true`;
 
     const context = {
-      email_id: sendwithus.templates.delete_inactive_eu_users,
+      email_id: sendwithus.templates.eu_nonteacher_explicit_consent,
       recipient: {
         address: 'bob@example.com', // TODO: use user.get('emailLower')
         name: user.broadName()
@@ -70,20 +67,23 @@ co(function*() {
   const query = {$and: [
     // Do NOT send one time email again
     {$or: [{'emails.oneTimes': {$exists: false}}, {$and: [{'emails.oneTimes': {$exists: true}}, {$where : `!this.emails.oneTimes.find(function(o){return o.type === '${oneTimeEmailType}'})`}]}]},
-    // Inactive
     {$or: [
+      // Active
+      {$or: [
         {$and: [
-            {'activity.login.last': {$exists: true}}, {'activity.login.last': {$lt: newestStr}}
-        ]},
+            {'activity.login.last': {$exists: true}}, {'activity.login.last': {$gte: newestStr}}
+        ]}, 
         {$and: [
-            {'activity.login.last': {$exists: false}}, {dateCreated: {$lt: newestDate}}
+            {'activity.login.last': {$exists: false}}, {dateCreated: {$gte: newestDate}}
         ]}
+      ]},
+      // Or paid
+      {$or: [{'stripe.subscriptionID': {$exists: true}}, {'stripe.sponsorID': {$exists: true}}]}
     ]},
     // In EU
     {$or: [{country: {$in: euCountries}}, {country: {$exists: false}}]},
-    // Unpaid
-    {'stripe.subscriptionID': {$exists: false}},
-    {'stripe.sponsorID': {$exists: false}},
+    // Not a teacher
+    {role: {$nin: User.teacherRoles}},
     {anonymous: false}
   ]};
   const select = {emailLower: 1, country: 1, email: 1}; // email required for verification code generation
