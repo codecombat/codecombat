@@ -18,15 +18,15 @@ _.str = require('underscore.string');
 const database = require('../server/commons/database');
 const User = require('../server/models/User');
 const co = require('co');
-const utils = require('../app/core/utils');
+// const utils = require('../app/core/utils');
 const sendwithus = require('../server/sendwithus');
 const forms = require('../app/core/forms');
 
 database.connect();
 
 const oneTimeEmailType = 'explicit consent EU non-teachers who are paid or active';
-const batchSize = 500; // 10K yields sendwithus 503 service unavailable
-const batchSleepMS = 3000;
+const batchSize = 1000; // 10K yields sendwithus 503 service unavailable
+const batchSleepMS = 1000;
 const newestDate = new Date();
 newestDate.setUTCMonth(newestDate.getUTCMonth() - 23);
 // const euCountries = utils.countries.filter((c) => c.inEU).map((c) => c.country);
@@ -91,7 +91,6 @@ co(function*() {
     ]},
     // In EU
 
-
     // TODO: using country field first, since we have an index
     // {country: {$exists: true}},
     // {country: {$in: upperEUCountries}},
@@ -100,13 +99,19 @@ co(function*() {
     // {country: {$exists: false}},
     // {'geo.countryName': {$exists: true}},
     // {'geo.countryName': {$in: upperEUCountries}},
-    {country: {$exists: false}},
-    {'geo.countryName': {$exists: false}},
-    // {$or: [
-    //   {country: {$in: upperEUCountries}},
-    //   {'geo.countryName': {$in: upperEUCountries}},
-    //   {$and: [{country: {$exists: false}}, {'geo.countryName': {$exists: false}}]},
-    // ]},
+
+    // NOTE: 45s at 500 batch
+    // {country: {$exists: false}},
+    // {'geo.countryName': {$exists: false}},
+
+    // NOTE: 40s at 500 batch
+    // NOTE: 45s at 200 batch
+    // NOTE: 45s at 1000 batch
+    {$or: [
+      {country: {$in: upperEUCountries}},
+      {'geo.countryName': {$in: upperEUCountries}},
+      {$and: [{country: {$exists: false}}, {'geo.countryName': {$exists: false}}]},
+    ]},
     // Not a teacher
     {role: {$nin: User.teacherRoles}},
     {anonymous: false}
@@ -133,7 +138,7 @@ co(function*() {
     yield sleep(batchSleepMS);
 
     // TODO: remove for full run
-    break;
+    // break;
   }
 })
 .then(() => {
