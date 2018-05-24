@@ -570,8 +570,8 @@ describe 'POST /db/classroom/:id/invite-members', ->
     spyOn(sendgrid.api, 'send').and.callFake (message, cb) ->
       expect(message.templateId).toBe(sendgrid.templates.course_invite_email)
       expect(message.to.email).toBe('test@test.com')
-      expect(message.substitutes.teacher_name).toBe('Mr Professerson')
-      expect(message.substitutes.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
+      expect(message.substitutions.teacher_name).toBe('Mr Professerson')
+      expect(message.substitutions.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
       done()
     serverUtils = require '../../../server/lib/utils'
     spyOn(serverUtils, 'verifyRecaptchaToken').and.returnValue(Promise.resolve(true));
