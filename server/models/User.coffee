@@ -125,7 +125,6 @@ UserSchema.methods.removeFromClassrooms = ->
   yield Classroom.update(
     { members: userID }
     {
-      $addToSet: { deletedMembers: userID }
       $pull: { members: userID }
     }
     { multi: true }
@@ -552,6 +551,12 @@ UserSchema.statics.hashPassword = (password) ->
   password = password.toLowerCase()
   shasum = crypto.createHash('sha512')
   shasum.update(salt + password)
+  shasum.digest('hex')
+
+UserSchema.statics.hashEmail = (email) ->
+  email = email.toLowerCase()
+  shasum = crypto.createHash('sha512')
+  shasum.update(salt + email)
   shasum.digest('hex')
 
 UserSchema.methods.verificationCode = (timestamp) ->
