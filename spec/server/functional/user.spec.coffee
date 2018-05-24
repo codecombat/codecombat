@@ -2,6 +2,8 @@ require '../common'
 utils = require '../utils'
 urlUser = '/db/user'
 User = require '../../../server/models/User'
+Clan = require '../../../server/models/Clan'
+UserPollsRecord = require '../../../server/models/UserPollsRecord'
 Classroom = require '../../../server/models/Classroom'
 CourseInstance = require '../../../server/models/CourseInstance'
 Course = require '../../../server/models/Course'
@@ -624,12 +626,28 @@ describe 'DELETE /db/user/:handle', ->
     expect(user.get('deleted')).toBe(true)
     expect(user.get('dateDeleted')).toBeGreaterThan(beforeDeleted)
     expect(user.get('dateDeleted')).toBeLessThan(new Date())
+    expect(user.get('deletedEmailHash')).toBeDefined() # includes a hash for checking later if the email were deleted, and when
     for key, value of user.toObject()
-      continue if key in ['_id', 'deleted', 'dateDeleted']
+      continue if key in ['_id', 'deleted', 'dateDeleted', 'deletedEmailHash']
       expect(_.isEmpty(value)).toEqual(true)
 
-  it 'moves user to classroom.deletedMembers', utils.wrap ->
+  it 'completely removes the user from any classroom or clan', utils.wrap ->
+
+    clanOwner = yield utils.initUser()
+    yield utils.loginUser(clanOwner)
+    clan = yield utils.makeClan({type: 'public'})
+
+    clanUrl = utils.getUrl("/db/clan/#{clan.id}/join")
     user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.putAsync { url:clanUrl, json: true }
+    user2 = yield utils.initUser()
+    yield utils.loginUser(user2)
+    [res] = yield request.putAsync { url:clanUrl, json: true }
+    
+    clan = yield Clan.findById(clan.id)
+    expect(clan.get('members').length).toBe(3) # includes owner
+    
     user2 = yield utils.initUser()
     yield utils.loginUser(user)
     classroom = new Classroom({
@@ -639,9 +657,57 @@ describe 'DELETE /db/user/:handle', ->
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
     classroom = yield Classroom.findById(classroom.id)
     expect(classroom.get('members').length).toBe(1)
-    expect(classroom.get('deletedMembers').length).toBe(1)
     expect(classroom.get('members')[0].toString()).toEqual(user2.id)
-    expect(classroom.get('deletedMembers')[0].toString()).toEqual(user.id)
+    
+    clan = yield Clan.findById(clan.id)
+    expect(clan.get('members').length).toBe(2)
+    
+  it 'deletes all user sesions, poll responses, and trial requests of the user', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    poll = yield utils.makePoll()
+    user = yield utils.initUser()
+    level = yield utils.makeLevel()
+    otherUser = yield utils.initUser()
+    
+    # setup one user
+    yield utils.loginUser(user)
+    trialRequest = yield utils.makeTrialRequest()
+    [res] = yield request.getAsync({ url: utils.getUrl("/db/user.polls.record/-/user/#{user.id}"), json: true })
+    pollRecordId = res.body._id
+    pollRecord = UserPollsRecord.findById(pollRecordId)
+    expect(pollRecord).toBeTruthy()
+    session = yield utils.makeLevelSession({code:'...', submittedCode: '...'}, { level, creator: user })
+
+    # setup other user
+    yield utils.loginUser(otherUser)
+    otherTrialRequest = yield utils.makeTrialRequest()
+    [res] = yield request.getAsync({ url: utils.getUrl("/db/user.polls.record/-/user/#{otherUser.id}"), json: true })
+    otherPollRecordId = res.body._id
+    otherPollRecord = UserPollsRecord.findById(otherPollRecordId)
+    expect(otherPollRecord).toBeTruthy()
+    otherSession = yield utils.makeLevelSession({code:'...', submittedCode: '...'}, { level, creator: otherUser })
+    
+    # check existence
+    expect(yield TrialRequest.findById(trialRequest.id)).toBeTruthy()
+    expect(yield UserPollsRecord.findById(pollRecordId)).toBeTruthy()
+    expect(yield LevelSession.findById(session.id)).toBeTruthy()
+    
+    # delete user
+    yield utils.loginUser(user)
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    user = yield User.findById user.id
+    expect(user.get('deleted')).toBe(true)
+    
+    # check that user's stuff is gone
+    expect(yield TrialRequest.findById(trialRequest.id)).toBeFalsy()
+    expect(yield UserPollsRecord.findById(pollRecordId)).toBeFalsy()
+    expect(yield LevelSession.findById(session.id)).toBeFalsy()
+
+    # check other user's stuff is still with us
+    expect(yield TrialRequest.findById(otherTrialRequest.id)).toBeTruthy()
+    expect(yield UserPollsRecord.findById(otherPollRecordId)).toBeTruthy()
+    expect(yield LevelSession.findById(otherSession.id)).toBeTruthy()
 
   it 'returns 401 if no cookie session', utils.wrap ->
     yield utils.logout()

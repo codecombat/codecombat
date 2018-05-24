@@ -18,6 +18,7 @@ gplus = require '../lib/gplus'
 TrialRequest = require '../models/TrialRequest'
 Campaign = require '../models/Campaign'
 Course = require '../models/Course'
+Clan = require '../models/Clan'
 Achievement = require '../models/Achievement'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
@@ -107,12 +108,24 @@ module.exports =
       throw new errors.Forbidden("Can't delete this user.")
 
     yield userToDelete.removeFromClassrooms()
+    yield Clan.update(
+      {members: req.user._id},
+      {$pull: {members: req.user._id}}
+      { multi: true }
+    )
 
     # Delete personal subscription
     if userToDelete.get('stripe.subscriptionID')
       yield middleware.subscriptions.unsubscribeUser(req, userToDelete, false)
     if userToDelete.get('payPal.billingAgreementID')
       yield middleware.subscriptions.cancelPayPalBillingAgreementInternal(req)
+      
+    # Delete user sessions, poll responses, trial requests
+    yield [
+      TrialRequest.deleteMany({applicant:userToDelete._id})
+      UserPollsRecord.deleteMany({user:userToDelete.id})
+      LevelSession.deleteMany({creator:userToDelete.id})
+    ]
 
     # Delete recipient subscription
     sponsorID = userToDelete.get('stripe.sponsorID')
@@ -125,9 +138,11 @@ module.exports =
       yield middleware.subscriptions.unsubscribeRecipientAsync(req, res, sponsor, userToDelete)
 
     # Delete all the user's attributes
+    if userToDelete.get('emailLower')
+      userToDelete.set('deletedEmailHash', User.hashEmail(userToDelete.get('emailLower')))
     obj = userToDelete.toObject()
     for prop, val of obj
-      userToDelete.set(prop, undefined) unless prop is '_id'
+      userToDelete.set(prop, undefined) unless prop in ['_id', 'deletedEmailHash']
     userToDelete.set('dateDeleted', new Date())
     userToDelete.set('deleted', true)
 
