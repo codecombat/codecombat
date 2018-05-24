@@ -12,6 +12,8 @@ TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 facebook = require '../../../server/lib/facebook'
+intercom = require '../../../server/lib/intercom'
+mailchimp = require '../../../server/lib/mail-chimp'
 gplus = require '../../../server/lib/gplus'
 sendgrid = require '../../../server/sendgrid'
 sendgrid = require '../../../server/sendgrid'
@@ -617,6 +619,10 @@ describe 'GET /db/user/:handle', ->
 
 
 describe 'DELETE /db/user/:handle', ->
+  beforeEach ->
+    spyOn(intercom.users, 'delete')
+    spyOn(mailchimp.api ,'delete')
+  
   it 'can delete a user', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -630,6 +636,8 @@ describe 'DELETE /db/user/:handle', ->
     for key, value of user.toObject()
       continue if key in ['_id', 'deleted', 'dateDeleted', 'deletedEmailHash', 'consentHistory']
       expect(_.isEmpty(value)).toEqual(true)
+    expect(intercom.users.delete).toHaveBeenCalled()
+    expect(mailchimp.api.delete).toHaveBeenCalled()
 
   it 'completely removes the user from any classroom or clan', utils.wrap ->
 
