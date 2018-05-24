@@ -31,6 +31,8 @@ CLASubmission = require '../models/CLASubmission'
 Prepaid = require '../models/Prepaid'
 crypto = require 'crypto'
 { makeHostUrl } = require '../commons/urls'
+mailChimp = require '../lib/mail-chimp'
+intercom = require('../lib/intercom')
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -126,6 +128,16 @@ module.exports =
       UserPollsRecord.deleteMany({user:userToDelete.id})
       LevelSession.deleteMany({creator:userToDelete.id})
     ]
+
+    if userToDelete.get('emailLower')
+      try
+        yield mailChimp.api.delete(mailChimp.makeSubscriberUrl(userToDelete.get('emailLower')))
+      catch e
+        # do nothing, probably not found
+      try
+        yield intercom.users.delete({email: userToDelete.get('emailLower')})
+      catch e
+        # do nothing, probably not found
 
     # Delete recipient subscription
     sponsorID = userToDelete.get('stripe.sponsorID')
