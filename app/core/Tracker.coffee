@@ -60,7 +60,7 @@ module.exports = class Tracker extends CocoClass
     @trackReferrers()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get('role')
-    if me.isTeacher(true)
+    if me.isTeacher(true) and not me.get('unsubscribedFromMarketingEmails')
       @updateIntercomRegularly()
 
   trackReferrers: ->
@@ -94,7 +94,7 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal('Identify', {id: me.id, traits})
     return unless @shouldTrackExternalEvents()
 
-    if me.isTeacher(true) and @segmentLoaded
+    if me.isTeacher(true) and @segmentLoaded and not me.get('unsubscribedFromMarketingEmails')
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
       analytics.identify me.id, traits
 

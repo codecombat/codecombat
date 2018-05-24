@@ -87,7 +87,7 @@ _.extend UserSchema.properties,
   lastLevel: { type: 'string' }
   heroConfig: c.HeroConfigSchema
 
-  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
+  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}  # Deprecated
   emails: c.object {title: 'Email Settings', default: generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true} },
     # newsletters
     generalNews: {$ref: '#/definitions/emailSubscription'}
