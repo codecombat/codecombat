@@ -22,12 +22,14 @@ const sendwithus = require('../server/sendwithus');
 database.connect();
 
 const oneTimeEmailType = 'delete inactive unpaid EU user';
-const batchSize = 1;
+const batchSize = 500; // 10K yields sendwithus 503 service unavailable
+const batchSleepMS = 3000;
 const newestDate = new Date();
 newestDate.setUTCMonth(newestDate.getUTCMonth() - 23);
-const newestStr = newestDate.toISOString();
-const euCountries = utils.countries.filter((c) => c.inEU).map((c) => c.country);
+// const euCountries = utils.countries.filter((c) => c.inEU).map((c) => c.country);
+const upperEUCountries = ['Austria', 'Belgium', 'Bulgaria', 'Broatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United-kingdom']
 
+let errors = 0;
 function sendOptInEmail(user) {
   return new Promise((resolve, reject) => {
     // Testing
@@ -43,7 +45,7 @@ function sendOptInEmail(user) {
     const context = {
       email_id: sendwithus.templates.delete_inactive_eu_users,
       recipient: {
-        address: 'bob@example.com', // TODO: use user.get('emailLower')
+        address: user.get('emailLower'),
         name: user.broadName()
       },
       email_data: {
@@ -52,8 +54,12 @@ function sendOptInEmail(user) {
     }
     sendwithus.api.send(context, (err, result) => {
       if (err) {
-        console.log(`${new Date().toISOString()} Error sending email to ${user.get('emailLower')}`);
-        return reject(err);
+        console.log(`${new Date().toISOString()} ${errors} Error sending email to ${user.get('emailLower')}`);
+        ++errors;
+        if (!/Request failed with 400/.test(err.message) && !/getaddrinfo ENOTFOUND api.sendwithus.com/.test(err.message))
+          return reject(err);
+        if (errors > batchSize / 20)
+          return reject(err);
       }
       user.update({$push: {"emails.oneTimes": {type: oneTimeEmailType, email: user.get('emailLower'), sent: new Date()}}}, (err, numAffected) => {
         if (err) {
@@ -66,6 +72,8 @@ function sendOptInEmail(user) {
   });
 }
 
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 co(function*() {
   const query = {$and: [
     // Do NOT send one time email again
@@ -73,14 +81,18 @@ co(function*() {
     // Inactive
     {$or: [
         {$and: [
-            {'activity.login.last': {$exists: true}}, {'activity.login.last': {$lt: newestStr}}
+            {'activity.login.last': {$exists: true}}, {'activity.login.last': {$lt: newestDate}}
         ]},
         {$and: [
             {'activity.login.last': {$exists: false}}, {dateCreated: {$lt: newestDate}}
         ]}
     ]},
     // In EU
-    {$or: [{country: {$in: euCountries}}, {country: {$exists: false}}]},
+    {$or: [
+      {country: {$in: upperEUCountries}},
+      {'geo.countryName': {$in: upperEUCountries}},
+      {$and: [{country: {$exists: false}}, {'geo.countryName': {$exists: false}}]},
+    ]},
     // Unpaid
     {'stripe.subscriptionID': {$exists: false}},
     {'stripe.sponsorID': {$exists: false}},
@@ -100,8 +112,12 @@ co(function*() {
     }
     yield tasks;
 
+    errors = 0;
+    console.log(`${new Date().toISOString()} sleeping for ${batchSleepMS / 1000} seconds..`);
+    yield sleep(batchSleepMS);
+
     // TODO: remove for full run
-    break;
+    //break;
   }
 })
 .then(() => {
