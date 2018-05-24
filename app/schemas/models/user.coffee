@@ -235,13 +235,13 @@ _.extend UserSchema.properties,
   referrer: { type: 'string' }
   country: { type: 'string' }  # Set on new users for certain countries on the server - keeping this field although it is same as geo.countryName since user.country is already being used in other files, TODO: Refactor the code to remove this in future
   geo: c.object {}, {
-    country: { type: 'string', minLength: 2, maxLength: 2, description:'2 letter ISO-3166-1 country code' }
-    countryName: { type: 'string', description: 'Full country name'}
-    region: { type: 'string', minLength: 2, maxLength: 2, description:'2 character region code' }
-    city: { type: 'string', description:'Full city name' }
-    ll: c.array {}, { type: 'number', description: 'Latitude and longitude of the city'}
-    metro: {type: 'number', description: 'Metro code'}
-    zip: {type: 'number', description: 'Postal code'}
+    country: { description:'2 letter ISO-3166-1 country code' }
+    countryName: { description: 'Full country name'}
+    region: { description:'2 character region code' }
+    city: { description:'Full city name' }
+    ll: c.array {}, { description: 'Latitude and longitude of the city'}
+    metro: { description: 'Metro code'}
+    zip: { description: 'Postal code'}
   }
 
   clans: c.array {}, c.objectId()
