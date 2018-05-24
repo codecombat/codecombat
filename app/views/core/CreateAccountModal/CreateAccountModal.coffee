@@ -210,5 +210,4 @@ module.exports = class CreateAccountModal extends ModalView
     return false
 
   euConfirmationRequiredInCountry: ->
-    me.get('country') and me.inEU()
-    true
+    return me.get('country') and me.inEU()
