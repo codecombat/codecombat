@@ -166,6 +166,10 @@ module.exports = class Tracker extends CocoClass
       delete properties.cachedEssentialResources
       delete properties.totalEssentialResources
 
+    # Remove personally identifiable data
+    delete properties.name
+    delete properties.email
+
     # SnowPlow
     snowplowAction = event.toLowerCase().replace(/[^a-z0-9]+/ig, '_')
     properties.user = me.id
