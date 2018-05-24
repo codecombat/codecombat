@@ -9,6 +9,7 @@ UserSchema = c.object
     name: 'Anonymous'
     autocastDelay: 5000
     emails: {}
+    consentHistory: []
     permissions: []
     anonymous: true
     points: 0
@@ -86,7 +87,7 @@ _.extend UserSchema.properties,
   lastLevel: { type: 'string' }
   heroConfig: c.HeroConfigSchema
 
-  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}
+  emailSubscriptions: c.array {uniqueItems: true}, {'enum': emailSubscriptions}  # Deprecated
   emails: c.object {title: 'Email Settings', default: generalNews: {enabled: true}, anyNotes: {enabled: true}, recruitNotes: {enabled: true} },
     # newsletters
     generalNews: {$ref: '#/definitions/emailSubscription'}
@@ -105,10 +106,18 @@ _.extend UserSchema.properties,
 
     oneTimes: c.array {title: 'One-time emails'},
       c.object {title: 'One-time email', required: ['type', 'email']},
-        type: c.shortString() # E.g 'subscribe modal parent'
+        type: c.shortString() # E.g 'share progress modal parent'
         email: c.shortString()
         sent: c.date() # Set when sent
   unsubscribedFromMarketingEmails: { type: 'boolean' }
+
+  consentHistory: c.array {title: 'History of consent actions'},
+    c.object {title: 'Consent action', required: ['action', 'date', 'type']},
+      action: {type: 'string', 'enum': ['allow', 'forbid']}
+      date: c.date()
+      type: c.shortString() # E.g 'email'
+      emailHash: {type: 'string', maxLength: 128, minLength: 128, title: 'Hash of lower-case email address at the time'}
+      description: c.shortString()
 
   # server controlled
   permissions: c.array {}, c.shortString()
@@ -118,7 +127,6 @@ _.extend UserSchema.properties,
   mailChimp: {type: 'object'}
   hourOfCode: {type: 'boolean'}
   hourOfCodeComplete: {type: 'boolean'}
-  lastIP: {type: 'string'}    #TODO: deprecated, remove this from schema after updating geo location for existing users
   createdOnHost: { type: 'string' }
 
   emailLower: c.shortString()

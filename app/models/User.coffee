@@ -1,4 +1,3 @@
-GRAVATAR_URL = 'https://www.gravatar.com/'
 cache = {}
 CocoModel = require './CocoModel'
 ThangTypeConstants = require 'lib/ThangTypeConstants'
@@ -451,14 +450,6 @@ module.exports = class User extends CocoModel
 
   freeOnly: ->
     return features.freeOnly and not me.isPremium()
-
-  sendParentEmail: (email, options={}) ->
-    options.data ?= {}
-    options.data.type = 'subscribe modal parent'
-    options.data.email = email
-    options.url = '/db/user/-/send_one_time_email'
-    options.method = 'POST'
-    return $.ajax(options)
 
   subscribe: (token, options={}) ->
     stripe = _.clone(@get('stripe') ? {})

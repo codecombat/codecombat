@@ -125,7 +125,6 @@ UserSchema.methods.removeFromClassrooms = ->
   yield Classroom.update(
     { members: userID }
     {
-      $addToSet: { deletedMembers: userID }
       $pull: { members: userID }
     }
     { multi: true }
@@ -183,6 +182,16 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   newSubs = _.clone(@get('emails') or _.cloneDeep(jsonschema.properties.emails.default))
   newSubs[newName] ?= {}
   newSubs[newName].enabled = enabled
+
+  consentHistory = _.cloneDeep(@get('consentHistory') or [])
+  for k, v of newSubs when !!v.enabled isnt !!@get('emails')?[k]?.enabled
+    consentHistory.push
+      action: if v.enabled then 'allow' else 'forbid'
+      date: new Date()
+      type: 'email'
+      emailHash: User.hashEmail(@get('email'))
+      description: k
+  @set('consentHistory', consentHistory)
   @set('emails', newSubs)
 
 UserSchema.methods.gems = ->
@@ -375,7 +384,7 @@ UserSchema.methods.sendWelcomeEmail = co.wrap (req) ->
       email: @get('emailLower')
       name: @broadName()
     from:
-      email: 'team@codecombat.com'
+      email: config.mail.username
       name: 'CodeCombat'
     templateId: templateId
     substitutions:
@@ -524,6 +533,18 @@ UserSchema.pre('save', (next) ->
   if _.size(@get('birthday')) > 7
     @set('birthday', @get('birthday').slice(0,7)) # Limit to year/month
 
+  if email and (@get('consentHistory') ? []).length is 0
+    # Initialize consentHistory if needed (new user account, or old one before we saved this)
+    consentHistory = []
+    for k, v of (@get('emails') ? {}) when v.enabled
+      consentHistory.push
+        action: 'allow'
+        date: new Date()
+        type: 'email'
+        emailHash: User.hashEmail(email)
+        description: k
+    @set('consentHistory', consentHistory) if consentHistory.length
+
   next()
 )
 
@@ -554,6 +575,12 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.update(salt + password)
   shasum.digest('hex')
 
+UserSchema.statics.hashEmail = (email) ->
+  email = email.toLowerCase()
+  shasum = crypto.createHash('sha512')
+  shasum.update(salt + email)
+  shasum.digest('hex')
+
 UserSchema.methods.verificationCode = (timestamp) ->
   { _id, email } = this.toObject()
   shasum = crypto.createHash('sha256')
@@ -574,13 +601,13 @@ UserSchema.statics.editableProperties = [
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
   'wizard', 'aceConfig', 'autocastDelay', 'lastLevel',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
+  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen', 'unsubscribedFromMarketingEmails'
 ]
 UserSchema.statics.adminEditableProperties = [
   'purchased'
 ]
 
-UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']  #TODO: remove lastIP after removing from schema
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'consentHistory', 'geo']
 
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->

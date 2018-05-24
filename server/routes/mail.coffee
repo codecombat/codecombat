@@ -5,9 +5,10 @@ config = require '../../server_config'
 LevelSession = require '../models/LevelSession'
 Level = require '../models/Level'
 log = require 'winston'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 wrap = require 'co-express'
 unsubscribe = require '../commons/unsubscribe'
+co = require 'co'
 
 module.exports.setup = (app) ->
   app.all config.mail.mailChimpWebhook, handleMailChimpWebHook
@@ -35,6 +36,9 @@ handleLadderUpdate = (req, res) ->
   return unless DEBUGGING or isRequestFromDesignatedCronHandler req, res
   res.send('Great work, Captain Cron! I can take it from here.')
   res.end()
+  # TODO: Sendgrid cannot do the kind of logical conditions and collection iteration that Sendwithus could, so we need to do the template in our code. For now, these emails are disabled.
+  return
+
   # TODO: somehow fetch the histograms
   #emailDays = [1, 2, 4, 7, 14, 30]
   emailDays = [1, 3, 7]  # Reduced to keep smaller monthly recipient footprint
@@ -84,15 +88,18 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
     defeat = _.last defeats
     victory = _.last victories
 
-    sendEmail = (defeatContext, victoryContext, levelVersionsContext) ->
-      # TODO: do something with the preferredLanguage?
-      context =
-        email_id: sendwithus.templates.ladder_update_email
-        recipient:
-          address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
+    sendEmail = co.wrap (defeatContext, victoryContext, levelVersionsContext) ->
+      message =
+        templateId: sendgrid.templates.ladder_update_email
+        to:
+          email: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
           name: name
-        email_data:
-          name: name
+        from:
+          email: config.mail.username
+          name: 'CodeCombat'
+        subject: "Your #{session.levelName} #{session.team[0].toUpperCase() + session.team.substr(1)} Scores"
+        substitutions:
+          username: name
           days_ago: daysAgo
           wins: victories.length
           losses: defeats.length
@@ -106,9 +113,11 @@ sendLadderUpdateEmail = (session, now, daysAgo) ->
           defeat: defeatContext
           victory: victoryContext
           levelVersions: levelVersionsContext
-      #log.info "Sending ladder update email to #{context.recipient.address} with #{context.email_data.wins} wins and #{context.email_data.losses} losses since #{daysAgo} day(s) ago."
-      sendwithus.api.send context, (err, result) ->
-        log.error "Error sending ladder update email: #{err} with result #{result}" if err
+      #log.info "Sending ladder update email to #{message.to.email} with #{message.substitutions.wins} wins and #{message.substitutions.losses} losses since #{daysAgo} day(s) ago."
+      try
+        yield sendgrid.api.send message
+      catch err
+        console.error "Error sending ladder update email:", err
 
     urlForMatch = (match) ->
       "http://codecombat.com/play/level/#{session.levelID}?team=#{session.team}&opponent=#{match.opponents[0].sessionID}"
@@ -200,7 +209,7 @@ module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
     else
       nextLevel = null
     err = null
-    do (err, nextLevel) ->
+    do co.wrap (err, nextLevel) ->
       return log.error "Couldn't find next level for #{user.get('email')} #{user.get('name')}: #{err}" if err
       name = if user.get('firstName') and user.get('lastName') then "#{user.get('firstName')}" else user.get('name')
       name = 'Hero' if not name or name in ['Anoner', 'Anonymous']
@@ -215,25 +224,42 @@ module.exports.sendNextStepsEmail = sendNextStepsEmail = (user, now, daysAgo) ->
       isVeryFast = shadowGuardSession and shadowGuardSession.playtime < 75
       isAdult = user.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']
       isKid = not isAdult  # Assume kid if not specified
-      # Used to use these categories to customize the email; not doing it right now. TODO: customize it again in Sendwithus.
+      # Used to use these categories to customize the email; not doing it right now. TODO: customize it again in Sendgrid.
       # TODO: do something with the preferredLanguage?
-      context =
-        email_id: sendwithus.templates.next_steps_email
-        recipient:
-          address: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
+
+      message =
+        templateId: sendgrid.templates.next_steps_email
+        to:
+          email: if DEBUGGING then 'nick@codecombat.com' else user.get('email')
           name: name
-        email_data:
-          name: name
+        from:
+          email: config.mail.username
+          name: 'CodeCombat'
+        substitutions:
+          username: name
           days_ago: daysAgo
           nextLevelName: nextLevel?.name
           nextLevelLink: if nextLevel then "http://codecombat.com/play/level/#{nextLevel.slug}" else null
           secretLevelName: secretLevel.name
           secretLevelLink: "http://codecombat.com/play/level/#{secretLevel.slug}"
           levelsComplete: complete.length
-          isCoursePlayer: user.get('courseInstances')?.length > 0 # TODO: use based on role instead, as courseInstances can be unreliable
-      log.info "Sending next steps email to #{context.recipient.address} with #{context.email_data.nextLevelName} next and #{context.email_data.levelsComplete} levels complete since #{daysAgo} day(s) ago." if DEBUGGING
-      sendwithus.api.send context, (err, result) ->
-        log.error "Error sending next steps email: #{err} with result #{result}" if err
+          isCoursePlayer: user.get('role') is 'student'
+      # I hate Sendgrid variable interpolation; it works so inconsistently. Hack around it for now.
+      message.substitutions.nextLevelTemplate = """
+        <p>Hail, #{message.substitutions.username}!</p>
+        <p>You've done #{message.substitutions.levelsComplete} levels; now what?</p>
+        <ul>
+          #{if message.substitutions.nextLevelLink then '<li>Play the next level: <strong><a href="{{ message.substitutions.nextLevelLink }}">{{ message.substitutions.nextLevelName }}</a></strong></li' else ''}
+          <li>Play this <em>secret</em> level: <strong><a href="#{message.substitutions.secretLevelLink}">#{message.substitutions.secretLevelName}</a></strong></li>
+          <li><strong><a href="http://codecombat.com/#{if message.substitutions.isCoursePlayer then 'students">Choose a level</a></strong> to play next</li>' else 'play">Choose a level</a></strong> from one of the five worlds</li>'}
+        </ul>
+        """
+
+      log.info "Sending next steps email to #{message.to.email} with #{message.substitutions.nextLevelName} next and #{message.substitutions.levelsComplete} levels complete since #{daysAgo} day(s) ago." if DEBUGGING
+      try
+        yield sendgrid.api.send message
+      catch err
+        console.error "Error sending next steps email:", err
 
 ### End Next Steps Email ###
 

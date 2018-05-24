@@ -41,6 +41,7 @@ module.exports = class AboutView extends RootView
     })
 
   afterInsert: ->
+    super()
     # scroll to the current hash, once everything in the browser is set up
     f = =>
       return if @destroyed

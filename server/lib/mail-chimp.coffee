@@ -6,6 +6,7 @@ if GLOBAL.testing
   api = {
     put: -> Promise.resolve()
     get: -> Promise.resolve({ status: 'subscribed' }) 
+    delete: -> Promise.resolve()
   }
   
 

@@ -50,7 +50,8 @@
     "promise-polyfill": "^5.2.1",
     "font-awesome": "fontawesome#^4.7.0",
     "fetch": "^2.0.2",
-    "vimeo-player-js": "^2.1.0"
+    "vimeo-player-js": "^2.1.0",
+    "cookieconsent": "^3.0.6"
   },
   "overrides": {
     "algolia-autocomplete.js": {

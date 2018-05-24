@@ -7,7 +7,7 @@ mongoose = require 'mongoose'
 describe 'User', ->
 
   it 'uses the schema defaults to fill in email preferences', (done) ->
-    user = new User()
+    user = new User(email: 'some@email.com')
     expect(user.isEmailSubscriptionEnabled('generalNews')).toBeTruthy()
     expect(user.isEmailSubscriptionEnabled('anyNotes')).toBeTruthy()
     expect(user.isEmailSubscriptionEnabled('recruitNotes')).toBeTruthy()
@@ -15,14 +15,14 @@ describe 'User', ->
     done()
 
   it 'uses old subs if they\'re around', (done) ->
-    user = new User()
+    user = new User(email: 'some@email.com')
     user.set 'emailSubscriptions', ['tester']
     expect(user.isEmailSubscriptionEnabled('adventurerNews')).toBeTruthy()
     expect(user.isEmailSubscriptionEnabled('generalNews')).toBeFalsy()
     done()
 
   it 'maintains the old subs list if it\'s around', (done) ->
-    user = new User()
+    user = new User(email: 'some@email.com')
     user.set 'emailSubscriptions', ['tester']
     user.setEmailSubscription('artisanNews', true)
     expect(JSON.stringify(user.get('emailSubscriptions'))).toBe(JSON.stringify(['tester', 'level_creator']))
