@@ -29,6 +29,7 @@ newestDate.setUTCMonth(newestDate.getUTCMonth() - 23);
 // const euCountries = utils.countries.filter((c) => c.inEU).map((c) => c.country);
 const upperEUCountries = ['Austria', 'Belgium', 'Bulgaria', 'Broatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United-kingdom']
 
+let errors = 0;
 function sendOptInEmail(user) {
   return new Promise((resolve, reject) => {
     // Testing
@@ -53,8 +54,12 @@ function sendOptInEmail(user) {
     }
     sendwithus.api.send(context, (err, result) => {
       if (err) {
-        console.log(`${new Date().toISOString()} Error sending email to ${user.get('emailLower')}`);
-        return reject(err);
+        console.log(`${new Date().toISOString()} ${errors} Error sending email to ${user.get('emailLower')}`);
+        ++errors;
+        if (!/Request failed with 400/.test(err.message) && !/getaddrinfo ENOTFOUND api.sendwithus.com/.test(err.message))
+          return reject(err);
+        if (errors > batchSize / 20)
+          return reject(err);
       }
       user.update({$push: {"emails.oneTimes": {type: oneTimeEmailType, email: user.get('emailLower'), sent: new Date()}}}, (err, numAffected) => {
         if (err) {
@@ -107,11 +112,12 @@ co(function*() {
     }
     yield tasks;
 
+    errors = 0;
     console.log(`${new Date().toISOString()} sleeping for ${batchSleepMS / 1000} seconds..`);
     yield sleep(batchSleepMS);
 
     // TODO: remove for full run
-    break;
+    //break;
   }
 })
 .then(() => {
