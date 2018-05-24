@@ -9,7 +9,7 @@ parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
 database = require '../commons/database'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
 CourseInstance = require '../models/CourseInstance'
@@ -196,15 +196,23 @@ module.exports =
       throw new errors.NotFound('User not found')
     if not user.get('email')
       throw new errors.UnprocessableEntity('User must have an email address to receive a verification email')
-    context =
-      email_id: sendwithus.templates.verify_email
-      recipient:
-        address: user.get('email')
+    message =
+      templateId: sendgrid.templates.verify_email
+      to:
+        email: user.get('email')
         name: user.broadName()
-      email_data:
-        name: user.broadName()
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      subject: "#{user.broadName()}, verify your CodeCombat email address!"
+      substitutions:
+        subject: "#{user.broadName()}, verify your CodeCombat email address!"
+        username: user.broadName()
         verify_link: makeHostUrl(req, "/user/#{user._id}/verify/#{user.verificationCode(timestamp)}")
-    sendwithus.api.send context, (err, result) ->
+    try
+      yield sendgrid.api.send message
+    catch err
+      console.error "Error sending verification email:", err
     res.status(200).send({})
 
   getStudents: wrap (req, res, next) ->

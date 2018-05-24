@@ -5,8 +5,10 @@ schema = require '../../app/schemas/models/patch'
 {handlers} = require '../commons/mapping'
 mongoose = require 'mongoose'
 log = require 'winston'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 slack = require '../slack'
+config = require '../../server_config'
+co = require 'co'
 
 PatchHandler = class PatchHandler extends Handler
   modelClass: Patch
@@ -45,20 +47,27 @@ PatchHandler = class PatchHandler extends Handler
       for watcher in watchers
         @sendPatchCreatedEmail req.user, watcher, doc, doc.targetLoaded, docLink
 
-  sendPatchCreatedEmail: (patchCreator, watcher, patch, target, docLink) ->
+  sendPatchCreatedEmail: co.wrap (patchCreator, watcher, patch, target, docLink) ->
     return if not watcher.get('email')
     # return if watcher._id is patchCreator._id
-    context =
-      email_id: sendwithus.templates.patch_created
-      recipient:
-        address: watcher.get('email')
+    message =
+      templateId: sendgrid.templates.patch_created
+      to:
+        email: watcher.get('email')
         name: watcher.get('name')
-      email_data:
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      substitutions:
+        watcher_name: watcher.get('name') or 'there'
         doc_name: target.get('name') or '???'
         submitter_name: patchCreator.get('name') or '???'
         doc_link: docLink
         commit_message: patch.get('commitMessage')
-    sendwithus.api.send context, (err, result) ->
+    try
+      sendgrid.api.send message
+    catch err
+      console.error "Error sending patch notification email:", err
 
   sendPatchCreatedSlackMessage: (options) ->
     message = "#{options.creator.get('name')} submitted a patch to #{options.target.get('name')}: #{options.patch.get('commitMessage')} #{options.docLink}"
