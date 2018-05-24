@@ -242,7 +242,7 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
-    
+
   setVerifiedTeacher: wrap (req, res) ->
     unless _.isBoolean(req.body)
       throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
@@ -250,7 +250,7 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     update = { "verifiedTeacher": req.body }
     user.set(update)
     yield user.update({ $set: update })
@@ -578,7 +578,7 @@ module.exports =
     if not user
       throw new errors.NotFound('User not found.')
     fallback = req.query.fallback
-    size = req.query.s
+    #size = req.query.s  # Not currently supported
 
     hash = crypto.createHash('md5')
     if user.get('email')
@@ -593,9 +593,8 @@ module.exports =
     fallback ?= makeHostUrl(req, '/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
     unless /^http/.test fallback
       fallback = makeHostUrl(req, fallback)
-    combinedPhotoURL = "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
 
-    res.redirect(combinedPhotoURL)
+    res.redirect(fallback)
     res.end()
 
 

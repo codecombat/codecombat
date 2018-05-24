@@ -1130,7 +1130,6 @@
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email"
     wrong_password: "Wrong Password"
-    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"

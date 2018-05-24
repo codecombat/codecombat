@@ -1616,40 +1616,33 @@ describe 'GET /db/user/:handle/clans', ->
 
 
 describe 'GET /db/user/:handle/avatar', ->
-  it 'returns an avatar based on the user\'s email', utils.wrap ->
+  it 'defaults to a wizard if no hero is set', utils.wrap ->
     user = yield utils.initUser({email:'test@gmail.com'})
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
-    expect(_.str.startsWith(res.headers.location, 'https://secure.gravatar.com/avatar/1aedb8d9dc4751e229a335e371db8058')).toBe(true)
+    expect(res.headers.location).toBe('http://localhost:3001/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
 
   it 'defaults to a hero portrait if the user has one set', utils.wrap ->
     user = yield utils.initUser({heroConfig:{thangType:'1234'}})
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/file/db/thang.type/1234/portrait.png')).toBe(true)
-
-  it 'passes a size parameter to gravatar', utils.wrap ->
-    user = yield utils.initUser()
-    url = utils.getUrl("/db/user/#{user.id}/avatar")
-    [res] = yield request.getAsync({url, followRedirect: false, qs: {s: '100'}})
-    expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 's=100')).toBe(true)
+    expect(res.headers.location).toBe('default=http://localhost:3001/file/db/thang.type/1234/portrait.png')
 
   it 'allows overriding the fallback value', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, qs: {fallback: '/some/other/url.jpg'}})
     expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/some/other/url.jpg')).toBe(true)
+    expect(res.headers.location).toBe('http://localhost:3001/some/other/url.jpg')
 
   it 'adjusts the host based on the given protocol and host', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, headers: {'x-forwarded-proto': 'http', host: 'subdomain.codecombat.com', 'x-forwarded-port': '8080'}})
     expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 'default=http://subdomain.codecombat.com:8080/')).toBe(true)
+    expect(_.str.startsWith(res.headers.location, 'http://subdomain.codecombat.com:8080/')).toBe(true)
 
 
 describe 'GET /db/user/:handle/course-instances', ->
@@ -1692,4 +1685,3 @@ describe 'PUT /db/user/:handle/verifiedTeacher', ->
     url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
     [res] = yield request.putAsync({url, json: true, body: true})
     expect(res.statusCode).toBe(403)
-
