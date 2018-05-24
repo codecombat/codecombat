@@ -17,7 +17,7 @@ if sendgridAPIKey
 module.exports.templates =
   coppa_deny_parent_signup: 'cde61ac8-5f60-4fb8-aa35-d409f95d5a91'
   share_progress_email: '277b031a-2494-4138-9faa-a11938b86b00'
-  welcome_email_user: '80ca690-0bbc-4f3b-9f18-15177a097e7f'
+  welcome_email_user: '80ca8690-0bbc-4f3b-9f18-15177a097e7f'
   welcome_email_student: '76647674-0208-4650-8dfc-1fd521982cf6'
   welcome_email_teacher: '12f68ec3-6d50-4816-8967-2e626c0831e9'
   verify_email: '6ee6cb9a-aa3f-4766-9936-260e8aaab378'
