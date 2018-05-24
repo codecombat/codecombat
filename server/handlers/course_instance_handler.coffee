@@ -12,8 +12,9 @@ User = require '../models/User'
 UserHandler = require './user_handler'
 utils = require '../../app/core/utils'
 {objectIdFromTimestamp} = require '../lib/utils'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 mongoose = require 'mongoose'
+config = require '../../server_config'
 
 CourseInstanceHandler = class CourseInstanceHandler extends Handler
   modelClass: CourseInstance
@@ -144,16 +145,19 @@ CourseInstanceHandler = class CourseInstanceHandler extends Handler
           return @sendNotFoundError(res) unless prepaid
           return @sendForbiddenError(res) unless prepaid.get('maxRedeemers') > prepaid.get('redeemers').length
           for email in req.body.emails
-            context =
-              email_id: sendwithus.templates.course_invite_email
-              recipient:
-                address: email
-              subject: course.get('name')
-              email_data:
+            message =
+              templateId: sendgrid.templates.course_invite_email
+              to:
+                email: email
+              from:
+                email: config.mail.username
+                name: 'CodeCombat'
+              subject: "Invite to CodeCombat classroom: \"#{course.get('name')}\""
+              substitutions:
                 teacher_name: req.user.broadName()
                 class_name: course.get('name')
                 join_link: "https://codecombat.com/courses/students?_ppc=" + prepaid.get('code')
-            sendwithus.api.send context, _.noop
+            sendgrid.api.send message
           return @sendSuccess(res, {})
 
   redeemPrepaidCodeAPI: (req, res) ->

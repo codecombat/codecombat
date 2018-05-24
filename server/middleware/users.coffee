@@ -9,7 +9,7 @@ parse = require '../commons/parse'
 request = require 'request'
 mongoose = require 'mongoose'
 database = require '../commons/database'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 User = require '../models/User'
 Classroom = require '../models/Classroom'
 CourseInstance = require '../models/CourseInstance'
@@ -196,15 +196,23 @@ module.exports =
       throw new errors.NotFound('User not found')
     if not user.get('email')
       throw new errors.UnprocessableEntity('User must have an email address to receive a verification email')
-    context =
-      email_id: sendwithus.templates.verify_email
-      recipient:
-        address: user.get('email')
+    message =
+      templateId: sendgrid.templates.verify_email
+      to:
+        email: user.get('email')
         name: user.broadName()
-      email_data:
-        name: user.broadName()
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      subject: "#{user.broadName()}, verify your CodeCombat email address!"
+      substitutions:
+        subject: "#{user.broadName()}, verify your CodeCombat email address!"
+        username: user.broadName()
         verify_link: makeHostUrl(req, "/user/#{user._id}/verify/#{user.verificationCode(timestamp)}")
-    sendwithus.api.send context, (err, result) ->
+    try
+      yield sendgrid.api.send message
+    catch err
+      console.error "Error sending verification email:", err
     res.status(200).send({})
 
   getStudents: wrap (req, res, next) ->
@@ -242,7 +250,7 @@ module.exports =
         return res.status(200).send({ priority: 'low' })
     return res.status(200).send({ priority: undefined })
 
-    
+
   setVerifiedTeacher: wrap (req, res) ->
     unless _.isBoolean(req.body)
       throw new errors.UnprocessableEntity('verifiedTeacher must be a boolean')
@@ -250,7 +258,7 @@ module.exports =
     user = yield database.getDocFromHandle(req, User)
     if not user
       throw new errors.NotFound('User not found.')
-      
+
     update = { "verifiedTeacher": req.body }
     user.set(update)
     yield user.update({ $set: update })
@@ -578,7 +586,7 @@ module.exports =
     if not user
       throw new errors.NotFound('User not found.')
     fallback = req.query.fallback
-    size = req.query.s
+    #size = req.query.s  # Not currently supported
 
     hash = crypto.createHash('md5')
     if user.get('email')
@@ -593,9 +601,8 @@ module.exports =
     fallback ?= makeHostUrl(req, '/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
     unless /^http/.test fallback
       fallback = makeHostUrl(req, fallback)
-    combinedPhotoURL = "https://secure.gravatar.com/avatar/#{emailHash}?s=#{size}&default=#{encodeURI(encodeURI(fallback))}"
 
-    res.redirect(combinedPhotoURL)
+    res.redirect(fallback)
     res.end()
 
 
