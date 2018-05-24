@@ -6,48 +6,62 @@ loadSegmentIo = require('core/services/segment')
 api = require('core/api')
 
 debugAnalytics = false
-targetInspectJSLevelSlugs = ['cupboards-of-kithgard']
 
 module.exports = class Tracker extends CocoClass
+  initialized: false
+  cookies: {required: false, answered: false, consented: false, declined: false}
   constructor: ->
     super()
     if window.tracker
       console.error 'Overwrote our Tracker!', window.tracker
     window.tracker = @
-    @isProduction = document.location.href.search('codecombat.com') isnt -1
-    @trackReferrers()
     @supermodel = new SuperModel()
+    @isProduction = document.location.href.search('codecombat.com') isnt -1
+    @promptForCookieConsent()  # Will call finishInitialization
+
+  promptForCookieConsent: ->
+    return unless $.i18n.lng()  # Will initialize once we finish initializing translations
+    return @finishInitialization() unless me.get('country') and me.inEU()
+    @cookies.required = true
+    @cookiePopup?.close()
+    window.cookieconsent.hasTransition = false
+    window.cookieconsent.initialise
+      onPopupOpen: ->
+        window.tracker.cookiePopup = @
+      onInitialise: (status) ->
+        window.tracker.cookiePopup = @
+        window.tracker.cookies.answered = status in ['allow', 'dismiss', 'deny']
+        window.tracker.cookies.consented = status in ['allow', 'dismiss']
+        window.tracker.cookies.declined = status is 'deny'
+        console.log 'Initial cookie consent status:', status, window.tracker.cookies if debugAnalytics
+        window.tracker.finishInitialization()
+      onStatusChange: (status) ->
+        window.tracker.cookies.answered = status in ['allow', 'dismiss', 'deny']
+        window.tracker.cookies.consented = status in ['allow', 'dismiss']
+        window.tracker.cookies.declined = status is 'deny'
+        console.log 'Cookie consent status change:', status, window.tracker.cookies if debugAnalytics
+      container: document.getElementById('#page-container')
+      palette: {popup: {background: "#000"}, button: {background: "#f1d600"}}
+      hasTransition: false
+      revokable: true
+      law: false
+      location: false
+      type: 'opt-out'
+      content:
+        message: $.i18n.t 'legal.cookies_message'
+        dismiss: $.i18n.t 'general.accept'
+        deny: $.i18n.t 'legal.cookies_deny'
+        link: $.i18n.t 'nav.privacy'
+        href: '/privacy'
+
+  finishInitialization: ->
+    return if @initialized
+    @initialized = true
+    @trackReferrers()
     @identify() # Needs supermodel to exist first
     @updateRole() if me.get('role')
     if me.isTeacher(true)
       @updateIntercomRegularly()
-
-  enableInspectletJS: (levelSlug) ->
-    # InspectletJS loading is delayed and targeting specific levels for more focused investigations
-    return @disableInspectletJS() unless levelSlug in targetInspectJSLevelSlugs
-
-    scriptLoaded = =>
-      # Identify and track pageview here, because inspectlet is loaded too late for standard Tracker calls
-      @identify()
-      # http://www.inspectlet.com/docs#virtual_pageviews
-      window.__insp?.push(['virtualPage'])
-    window.__insp = [['wid', 2102699786]]
-    insp = document.createElement('script')
-    insp.type = 'text/javascript'
-    insp.async = true
-    insp.id = 'inspsync'
-    insp.src = (if 'https:' == document.location.protocol then 'https' else 'http') + '://cdn.inspectlet.com/inspectlet.js'
-    insp.onreadystatechange = -> scriptLoaded() if insp.readyState is 'complete'
-    insp.onload = scriptLoaded
-    x = document.getElementsByTagName('script')[0]
-    @inspectletScriptNode = x.parentNode.insertBefore insp, x
-
-  disableInspectletJS: ->
-    if @inspectletScriptNode
-      x = document.getElementsByTagName('script')[0]
-      x.parentNode.removeChild(@inspectletScriptNode)
-      @inspectletScriptNode = null
-    delete window.__insp
 
   trackReferrers: ->
     elapsed = new Date() - new Date(me.get('dateCreated'))
@@ -80,34 +94,15 @@ module.exports = class Tracker extends CocoClass
     @trackEventInternal('Identify', {id: me.id, traits})
     return unless @shouldTrackExternalEvents()
 
-    # Errorception
-    # https://errorception.com/docs/meta
-    _errs?.meta = traits
-
-    # Inspectlet
-    # https://www.inspectlet.com/docs#identifying_users
-    __insp?.push ['identify', me.id]
-    __insp?.push ['tagSession', traits]
-
-    # Mixpanel
-    # https://mixpanel.com/help/reference/javascript
-    # mixpanel?.identify(me.id)
-    # mixpanel?.register(traits)
-
     if me.isTeacher(true) and @segmentLoaded
       traits.createdAt = me.get 'dateCreated'  # Intercom, at least, wants this
       analytics.identify me.id, traits
 
   trackPageView: (includeIntegrations=[]) ->
-    includeMixpanel = (name) ->
-      # mixpanelIncludes = []
-      # name in mixpanelIncludes or /courses|students|teachers/ig.test(name)
-      false
-
     name = Backbone.history.getFragment()
     url = "/#{name}"
 
-    console.log "Would track analytics pageview: #{url} Mixpanel=#{includeMixpanel(name)}" if debugAnalytics
+    console.log "Would track analytics pageview: #{url}" if debugAnalytics
     @trackEventInternal 'Pageview', url: name, href: window.location.href
     return unless @shouldTrackExternalEvents()
 
@@ -116,9 +111,6 @@ module.exports = class Tracker extends CocoClass
     ga? 'send', 'pageview', url
     ga?('codeplay.send', 'pageview', url) if features.codePlay
     window.snowplow 'trackPageView'
-
-    # Mixpanel
-    # mixpanel?.track('page viewed', 'page name' : name, url : url) if includeMixpanel(name)
 
     if me.isTeacher(true) and @segmentLoaded
       options = {}
@@ -146,14 +138,6 @@ module.exports = class Tracker extends CocoClass
       gaFieldObject.eventValue = properties.value if properties.value?
       ga? 'send', gaFieldObject
       ga? 'codeplay.send', gaFieldObject if features.codePlay
-
-    # Inspectlet
-    # http://www.inspectlet.com/docs#tagging
-    __insp?.push ['tagSession', action: action, properies: properties]
-
-    # Mixpanel
-    # Only log explicit events for now
-    # mixpanel?.track(action, properties) if 'Mixpanel' in includeIntegrations
 
     if me.isTeacher(true) and @segmentLoaded
       options = {}
@@ -263,7 +247,7 @@ module.exports = class Tracker extends CocoClass
       @identify(attrs)
 
   shouldBlockAllTracking: ->
-    return me.isSmokeTestUser() or window.serverSession.amActually or navigator?.doNotTrack or window?.doNotTrack
+    return me.isSmokeTestUser() or window.serverSession.amActually or navigator?.doNotTrack or window?.doNotTrack or @cookies.declined
     # Should we include application.testing in this?
 
   shouldTrackExternalEvents: ->

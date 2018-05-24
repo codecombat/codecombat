@@ -49,7 +49,7 @@ Application = {
   initialize: ->
 #    if features.codePlay and me.isAnonymous()
 #      document.location.href = '//lenovogamestate.com/login/'
-    
+
     Router = require('core/Router')
     @isProduction = -> document.location.href.search('https?://localhost') is -1
     Vue.config.devtools = not @isProduction()
@@ -73,30 +73,14 @@ Application = {
     @facebookHandler = new FacebookHandler()
     @gplusHandler = new GPlusHandler()
     @githubHandler = new GitHubHandler()
-    locale.load(me.get('preferredLanguage', true))
+    locale.load(me.get('preferredLanguage', true)).then =>
+      @tracker.promptForCookieConsent()
     preferredLanguage = me.get('preferredLanguage') or 'en'
     $(document).bind 'keydown', preventBackspace
     preload(COMMON_FILES)
-    moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize' 
+    moment.relativeTimeThreshold('ss', 1) # do not return 'a few seconds' when calling 'humanize'
     CocoModel.pollAchievements()
     unless me.get('anonymous')
-      # TODO: Remove logging later, once this system has proved stable
-      me.on 'change:earned', (user, newEarned) ->
-        newEarned ?= {}
-        oldEarned = user.previous('earned') ? {}
-        if oldEarned.gems isnt newEarned.gems
-          console.log 'Gems changed', oldEarned.gems, '->', newEarned.gems
-        newLevels = _.difference(newEarned.levels, oldEarned.levels)
-        if newLevels.length
-          console.log 'Levels added', newLevels
-        newItems = _.difference(newEarned.items, oldEarned.items)
-        if newItems.length
-          console.log 'Items added', newItems
-        newHeroes = _.difference(newEarned.heroes, oldEarned.heroes)
-        if newHeroes.length
-          console.log 'Heroes added', newHeroes
-      me.on 'change:points', (user, newPoints) ->
-        console.log 'Points changed', user.previous('points'), '->', newPoints
       @checkForNewAchievement()
     $.i18n.init {
       lng: me.get('preferredLanguage', true)
@@ -118,17 +102,17 @@ Application = {
         onVisible: onIdleChanged false
         awayTimeout: 5 * 60 * 1000
       @idleTracker.start()
-      
+
   checkForNewAchievement: ->
     if me.get('lastAchievementChecked')
       startFrom = new Date(me.get('lastAchievementChecked'))
     else
       startFrom = me.created()
-    
+
     daysSince = moment.duration(new Date() - startFrom).asDays()
     if daysSince > 1
       me.checkForNewAchievement().then => @checkForNewAchievement()
-      
+
   featureMode: {
     useChina: -> api.admin.setFeatureMode('china').then(-> document.location.reload())
     useCodePlay: -> api.admin.setFeatureMode('code-play').then(-> document.location.reload())
@@ -136,12 +120,12 @@ Application = {
     useBrainPop: -> api.admin.setFeatureMode('brain-pop').then(-> document.location.reload())
     clear: -> api.admin.clearFeatureMode().then(-> document.location.reload())
   }
-      
+
   loadedStaticPage: window.alreadyLoadedView?
-  
+
   setHocCampaign: (campaignSlug) -> storage.save('hoc-campaign', campaignSlug)
   getHocCampaign: -> storage.load('hoc-campaign')
-  
+
 }
 
 module.exports = Application
