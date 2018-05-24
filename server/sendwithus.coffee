@@ -18,4 +18,6 @@ if swuAPIKey
 
 Promise.promisifyAll(module.exports.api)
 
-module.exports.templates = {}
+module.exports.templates =
+  delete_inactive_eu_users: 'tem_4mf9XQ4DhdtxDf8c4mwFbk6M'
+  eu_nonteacher_explicit_consent: 'tem_8BpcPr33HPGrw3TRMPBfQhRG'
