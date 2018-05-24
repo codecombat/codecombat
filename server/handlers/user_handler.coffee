@@ -29,7 +29,7 @@ facebook = require '../lib/facebook'
 middleware = require '../middleware'
 co = require 'co'
 
-serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP'] #TODO: remove lastIP after removing from schema
+serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'geo']
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
