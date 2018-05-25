@@ -22,8 +22,8 @@ const sendwithus = require('../server/sendwithus');
 database.connect();
 
 const oneTimeEmailType = 'delete inactive unpaid EU user';
-const batchSize = 500; // 10K yields sendwithus 503 service unavailable
-const batchSleepMS = 3000;
+const batchSize = 1000; // 10K yields sendwithus 503 service unavailable
+const batchSleepMS = 1000;
 const newestDate = new Date();
 newestDate.setUTCMonth(newestDate.getUTCMonth() - 23);
 // const euCountries = utils.countries.filter((c) => c.inEU).map((c) => c.country);
@@ -56,9 +56,9 @@ function sendOptInEmail(user) {
       if (err) {
         console.log(`${new Date().toISOString()} ${errors} Error sending email to ${user.get('emailLower')}`);
         ++errors;
-        if (!/Request failed with 400/.test(err.message) && !/getaddrinfo ENOTFOUND api.sendwithus.com/.test(err.message))
+        if (!/Request failed with/.test(err.message) && !/getaddrinfo ENOTFOUND api.sendwithus.com/.test(err.message))
           return reject(err);
-        if (errors > batchSize / 20)
+        if (errors > batchSize / 10)
           return reject(err);
       }
       user.update({$push: {"emails.oneTimes": {type: oneTimeEmailType, email: user.get('emailLower'), sent: new Date()}}}, (err, numAffected) => {
