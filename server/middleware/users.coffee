@@ -661,3 +661,27 @@ module.exports =
     dbq.select(parse.getProjectFromReq(req))
     courseInstances = yield dbq.exec()
     res.status(200).send(ci.toObject({req}) for ci in courseInstances)
+
+  getNameForClassmate: wrap (req, res, next) ->
+    return res.status(200).send({}) if not req.user or req.user.isAnonymous()
+    targetUser = yield database.getDocFromHandle(req, User, select: 'name firstName lastName role')
+    unless targetUser
+      throw new errors.NotFound('User not found')
+    if req.user.id + '' is targetUser.id + ''
+      return res.status(200).send(req.user.toObject())
+    [myID, targetID] = [mongoose.Types.ObjectId(req.user.id), mongoose.Types.ObjectId(targetUser.id)]
+    if targetUser.isTeacher()
+      # Make sure we're in one of this teacher's classes
+      query = ownerID: targetID, members: myID
+    else if req.user.isTeacher()
+      # Make sure they're in one of our classes
+      query = ownerID: myID, members: targetID
+    else
+      # Make sure we're in the same class
+      query = $and: [{members: myID}, {members: targetID}]
+    classroom = yield Classroom.findOne(query).select('_id members ownerID').lean()
+    if classroom
+      result = _id: targetUser.id, name: targetUser.get('name'), firstName: targetUser.get('firstName'), lastName: targetUser.get('lastName')
+    else
+      result = _id: targetUser.id, name: targetUser.get('name')
+    res.status(200).send(result)

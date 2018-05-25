@@ -45,7 +45,7 @@ style.
             h3.certificate-of-completion(data-i18n="teacher.in_progress")
           else
             h3.certificate-of-completion(data-i18n="user.certificate_of_completion")
-          h1.student-name= view.user.broadName()
+          h1.student-name= view.studentName || view.user.broadName()
           h4.course-name
             span(data-i18n="user.certificate_for")
             span= ' '

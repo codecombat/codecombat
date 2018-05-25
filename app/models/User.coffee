@@ -296,6 +296,12 @@ module.exports = class User extends CocoModel
   fetchCreatorOfPrepaid: (prepaid) ->
     @fetch({url: "/db/prepaid/#{prepaid.id}/creator"})
 
+  fetchNameForClassmate: (options={}) ->
+    options.method = 'GET'
+    options.contentType = 'application/json'
+    options.url = "/db/user/#{@id}/name-for-classmate"
+    $.ajax options
+
   # Function meant for "me"
 
   spy: (user, options={}) ->

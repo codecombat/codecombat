@@ -10,7 +10,6 @@ ThangTypeConstants = require 'lib/ThangTypeConstants'
 ThangType = require 'models/ThangType'
 utils = require 'core/utils'
 fetchJson = require 'core/api/fetch-json'
-NameLoader = require 'core/NameLoader'
 
 module.exports = class CertificatesView extends RootView
   id: 'certificates-view'
@@ -32,6 +31,9 @@ module.exports = class CertificatesView extends RootView
       @user.fetch()
       @supermodel.trackModel @user
       @listenToOnce @user, 'sync', => @setHero?()
+      @user.fetchNameForClassmate success: (data) =>
+        @studentName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
+        @render?()
     if classroomID = utils.getQueryVariable 'class'
       @classroom = new Classroom _id: classroomID
       @classroom.fetch()
@@ -64,9 +66,13 @@ module.exports = class CertificatesView extends RootView
 
   onClassroomLoaded: ->
     @calculateStats()
-    Promise.resolve($.ajax(NameLoader.loadNames([@classroom.get 'ownerID']))).then =>
-      @teacherName = NameLoader.getName @classroom.get 'ownerID'
-      @render()
+    if me.id is @classroom.get('ownerID')
+      @teacherName = me.broadName()
+    else
+      teacherUser = new User _id: @classroom.get('ownerID')
+      teacherUser.fetchNameForClassmate success: (data) =>
+        @teacherName = if data.firstName then "#{data.firstName} #{data.lastName}" else data.name
+        @render?()
 
   getCodeLanguageName: ->
     return 'Code' unless @classroom
