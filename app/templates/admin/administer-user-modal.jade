@@ -1,0 +1,206 @@
+extends /templates/core/modal-base-flat
+
+// DNT
+
+block modal-header-content
+
+  h4 Name: #{view.user.get('name')} (#{view.user.get('firstName')} #{view.user.get('lastName')})
+  h4 Email: #{view.user.get('emailLower') || view.user.get('email')}
+  if view.user.isTeacher() && view.trialRequest
+    - var props = view.trialRequest.get('properties') || {}
+    h4 School: #{props.nces_school || props.organization}
+    h4 District: #{props.nces_district || props.district}
+  if view.user.isStudent() || view.user.isTeacher()
+    p
+      if view.user.isStudent()
+        button#destudent-btn.btn.btn-burgundy Destudent
+      if view.user.isTeacher()
+        button#deteacher-btn.btn.btn-burgundy Deteacher
+  p
+    button#reset-progress-btn.btn.btn-burgundy Reset Progress
+  br
+
+  if view.prepaids.size()
+    div
+      a(href="#prepaids") Existing Prepaids
+  div
+    a(href="#licenses") Grant Student Licenses
+  if view.classrooms.size()
+    div
+      a(href="#classrooms") Update Classrooms
+  div
+    a(href="#stripe") Modify Stripe Subscription
+  div
+    a(href="#create-payment") Create Payment
+  div
+    a(href="#details") User Details
+
+  div.m-t-1
+    label
+      input#verified-teacher-checkbox(type='checkbox', checked=view.userIsVerifiedTeacher())
+      span.p-l-1
+        | APCSP Verified Teacher (has access to private forum)
+    div
+      if view.userSaveState == 'saving'
+        | Saving...
+      else if view.userSaveState == 'saved'
+        | Saved!
+      else
+        | &nbsp;
+
+block modal-body-content
+
+  if view.prepaids.size()
+    h3.m-t-3#prepaids Existing Prepaids
+    table.table.table-condensed
+      tr
+        th ID
+        th Shared by
+        th Type
+        th Issued
+        th Start
+        th End
+        th Used
+      for prepaid in view.prepaids.models
+        tr
+          td= prepaid.id
+          td
+            if prepaid.creator
+              if prepaid.creator.id !== view.user.id
+                a.user-link(data-user-id=prepaid.creator.id)
+                  = prepaid.creator.get('name')
+              else
+                | -
+          td= prepaid.get('type')
+          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
+          td
+            if prepaid.get('startDate')
+              = moment(prepaid.get('startDate')).utc().format('l')
+          td
+            if prepaid.get('endDate')
+              = moment(prepaid.get('endDate')).utc().format('l')
+          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
+    hr
+
+  h3.m-t-3#licenses Grant Student Licenses
+  #prepaid-form.form
+    if view.state === 'creating-prepaid'
+      .progress.progress-striped.active
+        .progress-bar(style="width: 100%")
+
+    else if view.state === 'made-prepaid'
+      .alert.alert-success Licenses created!
+
+    else
+      .form-group
+        label
+          span Number of Licenses
+          =" "
+          input#seats-input(type="number", name="maxRedeemers", min="1")
+      .form-group
+        label
+          span Start Date
+          =" "
+          input(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
+      .form-group
+        label
+          span End Date
+          =" "
+          input(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD'))
+      .form-group
+        button#add-seats-btn.btn.btn-primary Add Licenses
+    hr
+
+  if view.classrooms.size()
+    h3.m-t-3#classrooms Update Classrooms
+    table#classroom-table.table
+      tr
+        th Name
+        th Lang
+        th # Levels / Courses
+        th
+      for classroom in view.classrooms.models
+        tr
+          td
+            = classroom.get('name')
+            if classroom.get('archived')
+              i.spl.text-muted (archived)
+          td= classroom.capitalLanguage
+          td #{classroom.getLevels().size()} / #{classroom.get('courses').length}
+          td
+            button.btn.btn-primary.update-classroom-btn(data-classroom-id=classroom.id) Update All Levels
+            button.btn.btn-primary.add-new-courses-btn(data-classroom-id=classroom.id) Add New Courses
+    hr
+
+  h3#stripe Modify Stripe Subscription
+  .small Use this to grant premium access and gems to this user.
+  .form
+    .form-group
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="" checked=view.none)
+          | None
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free" checked=view.free)
+          | Free
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="free-until" checked=view.freeUntil)
+          span Free Until
+          =" "
+          input(type="date" name="stripe-free-until" value=view.freeUntilDate)#free-until-date
+      .radio
+        label
+          input(type="radio" name="stripe-benefit" value="coupon" checked=view.coupon)
+          span Coupon
+          =" "
+        select#coupon-select
+          for coupon in view.coupons.models
+            option(value=coupon.id selected=coupon.id===view.currentCouponID)= coupon.formatString()
+    .form-group
+      label
+        span Gems to add to user
+        =" "
+        input#stripe-add-gems(type="number", name="addGems", value=0)
+    button#save-changes.btn.btn-primary Save Changes
+  hr
+
+  h3#create-payment Create Payment
+  .small Use this to create a payment entry for this user.
+  .form
+    .form-group
+      pre
+        table
+          tr
+            td purchaser:
+            td= view.user.id
+          tr
+            td recipient:
+            td= view.user.id
+          tr
+            td service:
+            td
+              input#payment-service(type='text', value='paypal')
+              =" "
+              span Only enter paypal, stripe, or external
+          tr
+            td gems:
+            td
+              input#payment-gems(type='number', value='10500')
+          tr
+            td amount:
+            td
+              input#payment-amount(type='number', value='2997')
+          tr
+            td description:
+            td
+              input#payment-description(type='text')
+    button#create-payment-btn.btn.btn-primary Create Payment
+  hr
+
+  h3#details User Details
+  pre.user-props= JSON.stringify(view.user, null, 2)
+  hr
+
+block modal-footer

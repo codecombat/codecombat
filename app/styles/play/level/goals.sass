@@ -1,0 +1,49 @@
+@import "app/styles/mixins"
+@import "app/styles/bootstrap/variables"
+
+#goals-view
+  position: absolute
+  left: -15px
+  top: -100px
+  @include transition(0.5s ease-in-out)
+  border-style: solid
+  border-image: url(/images/level/goals_background.png) 15 20 51 15 fill stretch
+  border-width: 8px 10px 25px 8px
+  margin: -8px -10px -25px -8px
+  padding: 19px 0px 2px 25px
+  z-index: 3
+  font-size: 14px
+  min-width: 230px
+
+  &.brighter
+    font-size: 18px
+    font-size: 1.4vw
+    border-width: 0.91vw 1.22vw 3.10vw 0.91vw
+    min-width: 23vw
+    
+#goals-view.collapsed i.collapsed, #goals-view.expanded i.expanded
+  display: none
+
+#goals-view.collapsed ul
+  display: none
+    
+html.no-borderimage
+  #goals-view
+    background: transparent url(/images/level/goals_background.png)
+    background-size: 100% 100%
+    border: 0
+
+    &.brighter
+      border: 0
+
+    .goals-status
+      position: static
+      margin-top: 10px
+
+body[lang^='pt'], body[lang^='es'], body[lang='fr'], body[lang='hu'], body[lang='it'], body[lang='sr']
+  #goals-view
+    font-size: 12px
+
+    &.brighter
+      font-size: 16px
+      font-size: 1.2vw

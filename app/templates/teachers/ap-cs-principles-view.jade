@@ -1,0 +1,177 @@
+extends /templates/base-flat
+
+block page_nav
+  include ../courses/teacher-dashboard-nav.jade
+
+block content
+  .container
+
+    .content
+      h1(id="apcsp_section") AP Computer Science Principles
+      ul
+        li
+          a(href="https://s3.amazonaws.com/files.codecombat.com/docs/resources/APComputerSciencePrinciplesSyllabus.pdf")
+            span AP CS Principles Syllabus
+          p Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class.
+        li
+          div Unit 1: Creative Technology
+            p
+              | Computational Thinking Practices: P1, P2, P4
+              br
+              | Learning Objectives: 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.5, 1.3.1, 7.1.1, 7.2.1
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1d, CR2a, CR2g
+              br
+              a(href="/teachers/resources/apcsp-tech-usability")
+                span Unit 1 Activity: Technology Usability Review
+
+        li
+          div Unit 2: Computational Thinking
+            p 
+              | Computational Thinking Practices: P2, P3, P5, P6
+              br
+              | Learning Objectives: 1.2.4, 2.1.1, 2.1.2, 2.2.1, 2.3.1, 2.3.2
+              br
+              | Curricular Requirements: CR1b, CR1c, CR1f, CR2a, CR2b
+              br
+              a(href="/teachers/resources/apcsp-binary-sequences")
+                span Unit 2 Activity: Binary Sequences
+              br
+              a(href="/teachers/resources/apcsp-computing-lesson")
+                span Unit 2 Activity: Computing Lesson Project
+
+        li
+          div Unit 3: Algorithms
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 2.2.1, 2.2.2, 2.3.1, 2.3.2, 4.1.1, 4.1.2, 4.2.1, 4.2.2, 4.2.3, 4.2.4, 5.1.2, 5.1.3
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
+              br
+              - var hitchhikersGuideURL = "/teachers/resources/apcsp-hitchhikers-guide";
+              if (me.get('preferredLanguage') == 'he')
+                - hitchhikersGuideURL += '-he';
+              a(href=hitchhikersGuideURL)
+                span Unit 3 Activity: Algorithms - Hitchhiker's Guide
+              br
+              a(href="/teachers/resources/apcsp-simulation")
+                span Unit 3 Activity: Simulation - Predator & Prey
+              br
+              a(href="/teachers/resources/apcsp-pair-algorithms")
+                span Unit 3 Activity: Algorithms - Pair Design and Programming
+
+        li
+          div Unit 4: Programming
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 2.2.1, 2.2.2, 2.2.3, 4.1.1, 4.1.2, 5.1.2, 5.1.3, 5.2.1, 5.3.1, 5.4.1, 5.5.1
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1f, CR2b, CR2d, CR2e
+              br
+              a(href="/teachers/resources/apcsp-getting-abstract")
+                span Unit 4 Activity: Abstractions
+              br
+              a(href="/teachers/resources/apcsp-search-sort")
+                span Unit 4 Activity: Searching & Sorting
+              br
+              a(href="/teachers/resources/apcsp-refactoring")
+                span Unit 4 Activity: Refactoring
+                
+        li
+          div Unit 5: The Internet
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 1.1.1, 1.2.2, 1.2.3, 1.2.4, 2.3.1, 3.3.1, 6.1.1, 6.2.1, 6.2.2, 6.3.1, 7.5.1, 7.5.2
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1d, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2f, CR2g
+              br
+              a(href="/teachers/resources/apcsp-how-the-internet-works")
+                span Unit 5 Activity: How the Internet Works
+              br
+              a(href="/teachers/resources/apcsp-internet-simulation")
+                span Unit 5 Activity: Internet Simulator
+              br
+              - var internetChatSimulationURL = "/teachers/resources/apcsp-internet-chat-simulation";
+              if (me.get('preferredLanguage') == 'he')
+                - internetChatSimulationURL += '-he';
+              a(href=internetChatSimulationURL)
+              a(href="/teachers/resources/apcsp-internet-chat-simulation")
+                span Unit 5 Activity: Chat Room Simulation
+              br
+              a(href="/teachers/resources/apcsp-internet-cybersecurity")
+                span Unit 5 Activity: Cybersecurity
+
+        li
+          div Unit 6: Data
+            p 
+              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              br
+              | Learning Objectives: 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.3.1, 2.3.1, 3.1.1, 3.1.2, 3.1.3, 3.2.1, 3.2.2, 3.3.1, 7.2.1
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2g
+              br
+              a(href="/teachers/resources/apcsp-data-project") 
+                span Unit 6 Activity: Introduction to Data
+              br
+              a(href="/teachers/resources/apcsp-big-data")
+                span Unit 6 Activity: Big Data
+              br
+              a(href="/teachers/resources/apcsp-compression")
+                span Unit 6 Activity: Lossy & Lossless Compression
+
+        li
+          div Unit 7: Personal & Global Impact
+            p 
+              | Computational Thinking Practices: P1, P2, P4, P5
+              br
+              | Learning Objectives: 1.2.2, 1.2.3, 7.1.1, 7.1.2, 7.2.1, 7.3.1, 7.4.1, 7.5.1, 7.5.2
+              br
+              | Curricular Requirements: CR1a, CR1b, CR1d, CR1e, CR1f, CR2a, CR2g
+              br
+              a(href="/teachers/resources/apcsp-personal-and-global-impact")
+                span Unit 7 Activity: Personal & Global Impact
+              br
+              - var crowdsourcingURL = "/teachers/resources/apcsp-crowdsourcing";
+              if (me.get('preferredLanguage') == 'he')
+                - crowdsourcingURL += '-he';
+              a(href=crowdsourcingURL)
+                span Unit 7 Activity: Crowdsourcing
+        li
+          div Unit 8: Performance Tasks
+            p 
+              | Curricular Requirements: CR3, CR4
+            p
+              | Prepare students for the Create Task by building their own games and practicing key concepts.
+            p
+              a(href="/teachers/resources/create-task-practice-1")
+                span Create Task Practice 1: Game Development 1
+              br
+              a(href="/teachers/resources/create-task-practice-2")
+                span Create Task Practice 2: Game Development 2
+              br
+              a(href="/teachers/resources/create-task-practice-3")
+                span Create Task Practice 3: Game Development 3
+
+        li
+          div Unit 9: AP Review
+          p
+            i Coming soon!
+
+        li
+          div Unit 10: Post-AP
+          p
+            a(href="/teachers/resources/apcsp-web-quiz")
+              span Unit 10 Activity: Web Quiz
+
+        li
+          a(href="/teachers/resources/pair-programming")
+            span(data-i18n="teacher.cs1_pairprogramming")
+          p(data-i18n="teacher.cs1_pairprogramming_desc")
+        li
+          a(href="/teachers/resources/gd1-5day")
+            span(data-i18n="teacher.gd1_guide")
+          p(data-i18n="teacher.gd1_guide_desc")
+          

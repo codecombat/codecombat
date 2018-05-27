@@ -1,0 +1,46 @@
+#campaign-level-view
+  background-color: white
+  position: absolute
+  top: 0
+  left: 0
+  right: 0
+  z-index: 3
+
+  .tasks
+    padding: 15px
+
+  .button.close
+    font-size: 63px
+
+  .line-graph-label
+    font-size: 10pt
+    font-weight: normal
+  .line-graph-container
+    height: 500px
+    width: 100%
+    position: relative
+    .x.axis
+      font-size: 9pt
+      path
+        display: none
+    .y.axis
+      font-size: 9pt
+      path
+        display: none
+    .key-line
+      font-size: 9pt
+    .key-text
+      font-size: 9pt
+    .graph-point-info-container
+      display: none
+      position: absolute
+      padding: 10px
+      border: 1px solid black
+      z-index: 3
+      background-color: blanchedalmond
+      font-size: 10pt
+
+  .recent-session
+    &.incomplete
+      background-color: rgba(255, 0, 0, 0.1)
+

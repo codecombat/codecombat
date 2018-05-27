@@ -1,0 +1,115 @@
+extends /templates/base
+
+block content
+  
+  h1(data-i18n="legal.page_title")
+    | Legal
+  
+  hr
+
+  p(data-i18n="legal.opensource_intro").lead
+
+  p
+    span(data-i18n="legal.opensource_description_prefix")
+    a(href="https://github.com/codecombat/codecombat", data-i18n="legal.github_url")
+    span , 
+    span(data-i18n="legal.opensource_description_center")
+    a(href="https://github.com/codecombat/codecombat/wiki/Archmage-Home", data-i18n="legal.archmage_wiki_url")
+    span.spl(data-i18n="legal.opensource_description_suffix")
+  hr
+
+  div.aside.well
+    h3(data-i18n="legal.practices_title")
+    p(data-i18n="legal.practices_description")
+    h4
+      a(href="/privacy", data-i18n="legal.privacy_title")
+    p(data-i18n="legal.privacy_description")
+    h4(data-i18n="legal.security_title")
+    p(data-i18n="legal.security_description")
+    h4(data-i18n="legal.email_title")
+    p
+      span.spr(data-i18n="legal.email_description_prefix")
+      a(href='/account/settings', data-i18n="legal.email_settings_url")
+      span.spl(data-i18n="legal.email_description_suffix")
+    if !me.isOnPremiumServer()
+      h4(data-i18n="legal.cost_title")
+      p#cost-description Loading...
+    
+  h2(data-i18n="legal.copyrights_title")
+  
+  h3(data-i18n="legal.contributor_title")
+  
+  p
+    span.spr(data-i18n="legal.contributor_description_prefix")
+    a(href="/cla", data-i18n="legal.cla_url")
+    span , 
+    span(data-i18n="legal.contributor_description_suffix")
+  
+  h3(data-i18n="legal.code_title")
+  
+  p
+    span.spr(data-i18n="legal.code_description_prefix")
+    a(href="http://opensource.org/licenses/MIT", data-i18n="legal.mit_license_url")
+    span . 
+    span(data-i18n="legal.code_description_suffix")
+  
+  h3(data-i18n="legal.art_title")
+
+  p
+    span.spr(data-i18n="legal.art_description_prefix")
+    a(href="https://creativecommons.org/licenses/by/4.0/", data-i18n="legal.cc_license_url")
+    span . 
+    span(data-i18n="legal.art_description_suffix")
+  
+  ul
+    li(data-i18n="legal.art_music")
+    li(data-i18n="legal.art_sound")
+    li(data-i18n="legal.art_artwork")
+    li(data-i18n="legal.art_sprites")
+    li(data-i18n="legal.art_other")
+  
+  p(data-i18n="legal.art_access")
+  
+  p(data-i18n="legal.art_paragraph_1")
+  
+  ul
+    li(data-i18n="legal.use_list_1")
+    li(data-i18n="legal.use_list_2")
+  
+  p(data-i18n="legal.art_paragraph_2")
+  
+  h3(data-i18n="legal.rights_title")
+  
+  p(data-i18n="legal.rights_desc")
+  
+  ul
+    li(data-i18n="legal.rights_scripts")
+    li(data-i18n="legal.rights_unit")
+    li(data-i18n="general.description")
+    li(data-i18n="legal.rights_writings")
+    li(data-i18n="legal.rights_media")
+  
+  p(data-i18n="legal.rights_clarification")
+  
+  h3(data-i18n="legal.nutshell_title")
+  
+  p(data-i18n="legal.nutshell_description")
+
+  p
+    span(data-i18n="legal.nutshell_see_also")
+    span= ' '
+    a(href="https://github.com/codecombat/codecombat/blob/master/LICENSE-LEVELS.md") LICENSE-LEVELS.md
+  
+  h3(data-i18n="legal.third_party_title")
+  
+  p(data-i18n="legal.third_party_description")
+
+  ul
+
+    a(href="https://www.browserstack.com/", data-i18n="browserstack_url")
+      | BrowserStack
+    span
+
+  hr
+
+  p(data-i18n="legal.canonical")
