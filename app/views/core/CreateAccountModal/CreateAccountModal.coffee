@@ -4,6 +4,7 @@ AuthModal = require 'views/core/AuthModal'
 ChooseAccountTypeView = require './ChooseAccountTypeView'
 SegmentCheckView = require './SegmentCheckView'
 CoppaDenyView = require './CoppaDenyView'
+EUConfirmationView = require './EUConfirmationView'
 BasicInfoView = require './BasicInfoView'
 SingleSignOnAlreadyExistsView = require './SingleSignOnAlreadyExistsView'
 SingleSignOnConfirmView = require './SingleSignOnConfirmView'
@@ -80,7 +81,7 @@ module.exports = class CreateAccountModal extends ModalView
     switch startOnPath
       when 'student' then @signupState.set({ path: 'student', screen: 'segment-check' })
       when 'individual' then @signupState.set({ path: 'individual', screen: 'segment-check' })
-      when 'teacher' then @signupState.set({ path: 'teacher', screen: 'basic-info' })
+      when 'teacher' then @signupState.set({ path: 'teacher', screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' })
       else
         if /^\/play/.test(location.pathname)
           @signupState.set({ path: 'individual', screen: 'segment-check' })
@@ -93,7 +94,7 @@ module.exports = class CreateAccountModal extends ModalView
       'choose-path': (path) ->
         if path is 'teacher'
           window.tracker?.trackEvent 'Teachers Create Account Loaded', category: 'Teachers' # This is a legacy event name
-          @signupState.set { path, screen: 'basic-info' }
+          @signupState.set { path, screen: if @euConfirmationRequiredInCountry() then 'eu-confirmation' else 'basic-info' }
         else
           if path is 'student'
             window.tracker?.trackEvent 'CreateAccountModal Student Path Clicked', category: 'Students'
@@ -109,11 +110,21 @@ module.exports = class CreateAccountModal extends ModalView
     @listenTo @insertSubView(new CoppaDenyView({ @signupState })),
       'nav-back': -> @signupState.set { screen: 'segment-check' }
 
+    @listenTo @insertSubView(new EUConfirmationView({ @signupState })),
+      'nav-back': ->
+        if @signupState.get('path') is 'teacher'
+          @signupState.set { path: null, screen: 'choose-account-type' }
+        else
+          @signupState.set { screen: 'segment-check' }
+      'nav-forward': (screen) -> @signupState.set { screen: screen or 'basic-info' }
+
     @listenTo @insertSubView(new BasicInfoView({ @signupState })),
       'sso-connect:already-in-use': -> @signupState.set { screen: 'sso-already-exists' }
       'sso-connect:new-user': -> @signupState.set {screen: 'sso-confirm'}
       'nav-back': ->
-        if @signupState.get('path') is 'teacher'
+        if @euConfirmationRequiredInCountry()
+          @signupState.set { screen: 'eu-confirmation' }
+        else if @signupState.get('path') is 'teacher'
           @signupState.set { screen: 'choose-account-type' }
         else
           @signupState.set { screen: 'segment-check' }
@@ -181,9 +192,8 @@ module.exports = class CreateAccountModal extends ModalView
       })
       @teacherSignupComponent.$on 'back', =>
         if @signupState.get('ssoUsed')
-          @signupState.set('screen', 'sso-confirm')
-        else
-          @signupState.set('screen', 'basic-info')
+          @signupState.set {ssoUsed: undefined, ssoAttrs: undefined}
+        @signupState.set('screen', 'basic-info')
 
   destroy: ->
     if @teacherSignupComponent
@@ -196,5 +206,8 @@ module.exports = class CreateAccountModal extends ModalView
 
   segmentCheckRequiredInCountry: ->
     return true unless me.get('country')
-    return true if me.get('country') in ['united-states', 'austria', 'belgium', 'bulgaria', 'croatia', 'cyprus', 'czech-republic', 'denmark', 'estonia', 'finland', 'france', 'germany', 'greece', 'hungary', 'ireland', 'italy', 'latvia', 'lithuania', 'luxembourg', 'malta', 'netherlands', 'poland', 'portugal', 'romania', 'slovakia', 'slovenia', 'spain', 'sweden', 'united-kingdom']
+    return true if me.inEU() or me.get('country') in ['united-states', 'israel']
     return false
+
+  euConfirmationRequiredInCountry: ->
+    return me.get('country') and me.inEU()

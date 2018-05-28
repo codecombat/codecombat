@@ -45,6 +45,8 @@ art and music. Please also
 [sign the CodeCombat contributor license agreement](http://codecombat.com/cla)
 so we can accept your pull requests. It is easy.
 
+Note: the levels on codecombat.com are [not open source](LICENSE-LEVELS.md).
+
 ### [Join Us!](http://blog.codecombat.com/why-you-should-open-source-your-startup)
 
 ![Nick Winter](http://codecombat.com/images/pages/about/team-avatars/nick-avatar.png "Nick Winter")

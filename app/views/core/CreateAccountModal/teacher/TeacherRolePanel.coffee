@@ -5,7 +5,6 @@ TeacherRolePanel = Vue.extend
   template: require('templates/core/create-account-modal/teacher-role-panel')()
   data: ->
     formData = _.pick(@$store.state.modal.trialRequestProperties, [
-      'phoneNumber'
       'role'
       'numStudents'
       'notes'
@@ -15,16 +14,12 @@ TeacherRolePanel = Vue.extend
       showRequired: false
     })
 
-  computed: {
-    validPhoneNumber: ->
-      return forms.validatePhoneNumber(@phoneNumber)
-  }
   methods:
     clickContinue: ->
       # Make sure to add conditions if we change this to be used on non-teacher path
       window.tracker?.trackEvent 'CreateAccountModal Teacher TeacherRolePanel Continue Clicked', category: 'Teachers'
-      requiredAttrs = _.pick(@, 'phoneNumber', 'role', 'numStudents')
-      unless _.all(requiredAttrs) and @validPhoneNumber
+      requiredAttrs = _.pick(@, 'role', 'numStudents')
+      unless _.all(requiredAttrs)
         @showRequired = true
         return
       @commitValues()
@@ -37,7 +32,7 @@ TeacherRolePanel = Vue.extend
       @$emit('back')
 
     commitValues: ->
-      attrs = _.pick(@, 'phoneNumber', 'role', 'numStudents', 'notes', 'referrer')
+      attrs = _.pick(@, 'role', 'numStudents', 'notes', 'referrer')
       @$store.commit('modal/updateTrialRequestProperties', attrs)
 
   mounted: ->

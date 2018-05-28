@@ -167,29 +167,26 @@ module.exports =
 # Notes on the teacher object that the relevant intercom trigger should be activated.
 reportLevelStarted = co.wrap ({teacher, level}) ->
   intercom = require('../lib/intercom')
-  if level.get('slug') is 'wakka-maul'
-    yield teacher.update({ $set: { "studentMilestones.studentStartedWakkaMaul": true } })
-    update = {
-      user_id: teacher.get('_id') + '',
-      email: teacher.get('email'),
-      custom_attributes:
-        studentStartedWakkaMaul: true
-    }
-  if level.get('slug') is 'a-mayhem-of-munchkins'
-    yield teacher.update({ $set: { "studentMilestones.studentStartedMayhemOfMunchkins": true } })
-    update = {
-      user_id: teacher.get('_id') + '',
-      email: teacher.get('email'),
-      custom_attributes:
-        studentStartedMayhemOfMunchkins: true
-    }
-  if update
-    tries = 0
-    while tries < 100
-      tries += 1
-      try
-        yield intercom.users.create update
-        return
-      catch e
-        yield new Promise (accept, reject) -> setTimeout(accept, 1000)
-    log.error "Couldn't update intercom for user #{teacher.get('email')} in 100 tries"
+  return unless level.get('slug') in ['wakka-maul', 'a-mayhem-of-munchkins', 'dungeons-of-kithgard', 'true-names']
+  levelVariable = level.get('slug').replace(/(?:^|\s|-)\S/g, (c) -> c.toUpperCase()).replace(/-/g, '')
+  levelVariable = level.replace 'AMayhemOfMunchkins', 'MayhemOfMunchkins'  # inconsistent variable name
+  update =
+      user_id: teacher.get('_id') + ''
+      email: teacher.get('email')
+      custom_attributes: {}
+  if levelVariable in ['WakkaMaul', 'MayhemOfMunchkins']
+    update.custom_attributes['studentStarted' + levelVariable] = true
+    yield teacher.update({ $set: { "studentMilestones.studentStarted#{levelVariable}": true } })
+  else
+    update.custom_attributes['studentsStarted' + levelVariable] = (teacher.studentMilestones?["studentsStarted#{levelVariable}"] ? 0) + 1
+    yield teacher.update({ $inc: { "studentMilestones.studentsStarted#{levelVariable}": 1 } })
+
+  tries = 0
+  while tries < 100
+    tries += 1
+    try
+      yield intercom.users.create update
+      return
+    catch e
+      yield new Promise (accept, reject) -> setTimeout(accept, 1000)
+  log.error "Couldn't update intercom for user #{teacher.get('email')} in 100 tries"

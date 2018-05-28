@@ -18,21 +18,18 @@ Payment = require '../models/Payment'
 SubscriptionHandler = require './subscription_handler'
 DiscountHandler = require './discount_handler'
 EarnedAchievement = require '../models/EarnedAchievement'
-UserRemark = require './../models/UserRemark'
 {findStripeSubscription} = require '../lib/utils'
 {isID} = require '../lib/utils'
 slack = require '../slack'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 Prepaid = require '../models/Prepaid'
 UserPollsRecord = require '../models/UserPollsRecord'
 EarnedAchievement = require '../models/EarnedAchievement'
 facebook = require '../lib/facebook'
 middleware = require '../middleware'
+co = require 'co'
 
-serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
-candidateProperties = [
-  'jobProfile', 'jobProfileApproved', 'jobProfileNotes'
-]
+serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'geo']
 
 UserHandler = class UserHandler extends Handler
   modelClass: User
@@ -42,7 +39,6 @@ UserHandler = class UserHandler extends Handler
   getEditableProperties: (req, document) ->
     props = super req, document
     props.push 'permissions' unless config.isProduction or global.testing
-    props.push 'jobProfileApproved', 'jobProfileNotes','jobProfileApprovedDate' if req.user.isAdmin()  # Admins naturally edit these
     props.push @privateProperties... if req.user.isAdmin()  # Admins are mad with power
     if not req.user.isAdmin()
       if document.isTeacher() and req.body.role not in User.teacherRoles
@@ -69,8 +65,6 @@ UserHandler = class UserHandler extends Handler
     delete obj[prop] for prop in User.serverProperties
     includePrivates = not publicOnly and (req.user and (req.user.isAdmin() or req.user._id.equals(document._id) or req.session.amActually is document.id))
     delete obj[prop] for prop in User.privateProperties unless includePrivates
-    includeCandidate = not publicOnly and (includePrivates or (obj.jobProfile?.active and req.user and ('employer' in (req.user.get('permissions') ? [])) and @employerCanViewCandidate req.user, obj))
-    delete obj[prop] for prop in User.candidateProperties unless includeCandidate
     return obj
 
   waterfallFunctions: [
@@ -214,6 +208,21 @@ UserHandler = class UserHandler extends Handler
           return callback(null, req, user)
         )
 
+    # Update consent history based on user.emails changes
+    (req, user, callback) ->
+      return callback(null, req, user) unless req.body.emails and user.get('email')
+      consentHistory = _.cloneDeep(user.get('consentHistory') or [])
+      oldEmails = user.get('emails') ? {}
+      newEmails = req.body.emails
+      for k, v of newEmails when !!v.enabled isnt !!oldEmails[k]?.enabled
+        consentHistory.push
+          action: if v.enabled then 'allow' else 'forbid'
+          date: new Date()
+          type: 'email'
+          emailHash: User.hashEmail(user.get('email').toLowerCase())
+          description: k
+      user.set('consentHistory', consentHistory)
+      callback(null, req, user)
   ]
 
   getById: (req, res, id) ->
@@ -231,7 +240,7 @@ UserHandler = class UserHandler extends Handler
   getNamesByIDs: (req, res) ->
     ids = req.query.ids or req.body.ids
     returnWizard = req.query.wizard or req.body.wizard
-    properties = if returnWizard then 'name wizard firstName lastName' else 'name firstName lastName'
+    properties = if returnWizard then 'name wizard' else 'name'
     @getPropertiesFromMultipleDocuments res, User, properties, ids
 
   nameToID: (req, res, name) ->
@@ -293,7 +302,6 @@ UserHandler = class UserHandler extends Handler
 
   getByRelationship: (req, res, args...) ->
     return @agreeToCLA(req, res) if args[1] is 'agreeToCLA'
-    return @agreeToEmployerAgreement(req, res) if args[1] is 'agreeToEmployerAgreement'
     return @getByIDs(req, res) if args[1] is 'users'
     return @getNamesByIDs(req, res) if args[1] is 'names'
     return @getPrepaidCodes(req, res) if args[1] is 'prepaid_codes'
@@ -301,16 +309,13 @@ UserHandler = class UserHandler extends Handler
     return @nameToID(req, res, args[0]) if args[1] is 'nameToID'
     return @getLevelSessionsForEmployer(req, res, args[0]) if args[1] is 'level.sessions' and args[2] is 'employer'
     return @getLevelSessions(req, res, args[0]) if args[1] is 'level.sessions'
-    return @getCandidates(req, res) if args[1] is 'candidates'
     return @getClans(req, res, args[0]) if args[1] is 'clans'
     return @getCourseInstances(req, res, args[0]) if args[1] is 'course_instances'
-    return @getEmployers(req, res) if args[1] is 'employers'
     return @getSimulatorLeaderboard(req, res, args[0]) if args[1] is 'simulatorLeaderboard'
     return @getMySimulatorLeaderboardRank(req, res, args[0]) if args[1] is 'simulator_leaderboard_rank'
     return @getEarnedAchievements(req, res, args[0]) if args[1] is 'achievements'
     return @getRecentlyPlayed(req, res, args[0]) if args[1] is 'recently_played'
     return @trackActivity(req, res, args[0], args[2], args[3]) if args[1] is 'track' and args[2]
-    return @getRemark(req, res, args[0]) if args[1] is 'remark'
     return @getStripeInfo(req, res, args[0]) if args[1] is 'stripe'
     return @getSubRecipients(req, res) if args[1] is 'sub_recipients'
     return @getSubSponsor(req, res) if args[1] is 'sub_sponsor'
@@ -412,39 +417,41 @@ UserHandler = class UserHandler extends Handler
 
     # log.warn "sendOneTimeEmail #{type} #{email}"
 
-    unless type in ['subscribe modal parent', 'share progress modal parent']
+    unless type in ['share progress modal parent']
       return @sendBadInputError res, "Unknown one-time email type #{type}"
 
-    sendMail = (emailParams) =>
-      sendwithus.api.send emailParams, (err, result) =>
-        if err
-          log.error "sendwithus one-time email error: #{err}, result: #{result}"
-          return @sendError res, 500, 'send mail failed.'
-        req.user.update {$push: {"emails.oneTimes": {type: type, email: email, sent: new Date()}}}, (err) =>
-          return @sendDatabaseError(res, err) if err
-          @sendSuccess(res, {result: 'success'})
-          AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
+    sendMail = co.wrap (message) =>
+      try
+        yield sendgrid.api.send message
+      catch err
+        console.error "sendgrid one-time email error:", err
+        return @sendError res, 500, 'send mail failed.'
+      req.user.update {$push: {"emails.oneTimes": {type: type, email: email, sent: new Date()}}}, (err) =>
+        return @sendDatabaseError(res, err) if err
+        @sendSuccess(res, {result: 'success'})
+        AnalyticsLogEvent.logEvent req.user, 'Sent one time email', email: email, type: type
 
     # Generic email data
-    emailParams =
-      recipient:
-        address: email
-      email_data:
-        name: req.user.get('name') or ''
+    message =
+      to:
+        email: email
+      from:
+        email: config.mail.username
+        name: 'CodeCombat'
+      substitutions:
+        userName: req.user.get('name') or ''
     if codeLanguage = req.user.get('aceConfig.language')
       codeLanguage = codeLanguage[0].toUpperCase() + codeLanguage.slice(1)
       codeLanguage = codeLanguage.replace 'script', 'Script'
-      emailParams['email_data']['codeLanguage'] = codeLanguage
+      message.substitutions.codeLanguage = codeLanguage
     if senderEmail = req.user.get('email')
-      emailParams['email_data']['senderEmail'] = senderEmail
+      message.substitutions.senderEmail = senderEmail
 
     # Type-specific email data
-    if type is 'subscribe modal parent'
-      emailParams['email_id'] = sendwithus.templates.parent_subscribe_email
-    else if type is 'share progress modal parent'
-      emailParams['email_id'] = sendwithus.templates.share_progress_email
+    if type is 'share progress modal parent'
+      message.templateId = sendgrid.templates.share_progress_email
 
-    sendMail emailParams
+    sendMail message
 
   getPrepaidCodes: (req, res) ->
     return @sendSuccess(res, []) unless req.user?
@@ -561,48 +568,6 @@ UserHandler = class UserHandler extends Handler
         return @sendNotFoundError res unless user
         updateUser user
 
-  agreeToEmployerAgreement: (req, res) ->
-    userIsAnonymous = req.user?.get('anonymous')
-    if userIsAnonymous then return errors.unauthorized(res, 'You need to be logged in to agree to the employer agreeement.')
-    profileData = req.body
-    #TODO: refactor this bit to make it more elegant
-    if not profileData.id or not profileData.positions or not profileData.emailAddress or not profileData.firstName or not profileData.lastName
-      return errors.badInput(res, 'You need to have a more complete profile to sign up for this service.')
-    @modelClass.findById(req.user.id).exec (err, user) =>
-      if user.get('employerAt') or user.get('signedEmployerAgreement') or 'employer' in (user.get('permissions') ? [])
-        return errors.conflict(res, 'You already have signed the agreement!')
-      #TODO: Search for the current position
-      employerAt = _.filter(profileData.positions.values, 'isCurrent')[0]?.company.name ? 'Not available'
-      signedEmployerAgreement =
-        linkedinID: profileData.id
-        date: new Date()
-        data: profileData
-      updateObject =
-        'employerAt': employerAt
-        'signedEmployerAgreement': signedEmployerAgreement
-        $push: 'permissions': 'employer'
-
-      User.update {'_id': req.user.id}, updateObject, (err, result) =>
-        if err? then return errors.serverError(res, "There was an issue updating the user object to reflect employer status: #{err}")
-        res.send({'message': 'The agreement was successful.'})
-        res.end()
-
-  getCandidates: (req, res) ->
-    return @sendForbiddenError(res) unless req.user
-    return @sendForbiddenError(res)  # No one can view the candidates, since in a rush, we deleted their index!
-    authorized = req.user.isAdmin() or ('employer' in (req.user.get('permissions') ? []))
-    months = if req.user.isAdmin() then 12 else 2
-    since = (new Date((new Date()) - months * 30.4 * 86400 * 1000)).toISOString()
-    query = {'jobProfile.updated': {$gt: since}}
-    query['jobProfile.active'] = true unless req.user.isAdmin()
-    selection = 'jobProfile jobProfileApproved photoURL'
-    selection += ' email name' if authorized
-    User.find(query).select(selection).exec (err, documents) =>
-      return @sendDatabaseError(res, err) if err
-      candidates = (candidate for candidate in documents when @employerCanViewCandidate req.user, candidate.toObject())
-      candidates = (@formatCandidate(authorized, candidate) for candidate in candidates)
-      @sendSuccess(res, candidates)
-
   getClans: (req, res, userIDOrSlug) ->
     @getDocumentForIdOrSlug userIDOrSlug, (err, user) =>
       return @sendNotFoundError(res) unless user
@@ -619,47 +584,6 @@ UserHandler = class UserHandler extends Handler
       CourseInstance.find {members: {$in: [user.get('_id')]}}, (err, documents) =>
         return @sendDatabaseError(res, err) if err
         @sendSuccess(res, documents)
-
-  formatCandidate: (authorized, document) ->
-    fields = if authorized then ['name', 'jobProfile', 'jobProfileApproved', 'photoURL', '_id'] else ['_id','jobProfile', 'jobProfileApproved']
-    obj = _.pick document.toObject(), fields
-    obj.photoURL ||= obj.jobProfile.photoURL #if authorized
-    subfields = ['country', 'city', 'lookingFor', 'jobTitle', 'skills', 'experience', 'updated', 'active', 'shortDescription', 'curated', 'visa']
-    if authorized
-      subfields = subfields.concat ['name']
-    obj.jobProfile = _.pick obj.jobProfile, subfields
-    obj
-
-  employerCanViewCandidate: (employer, candidate) ->
-    return true if employer.isAdmin()
-    for job in candidate.jobProfile?.work ? []
-      # TODO: be smarter about different ways to write same company names to ensure privacy.
-      # We'll have to manually pay attention to how we set employer names for now.
-      if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
-        log.info "#{employer.get('name')} at #{employer.get('employerAt')} can't see #{candidate.jobProfile.name} because s/he worked there."
-      return false if job.employer?.toLowerCase() is employer.get('employerAt')?.toLowerCase()
-    true
-
-  getEmployers: (req, res) ->
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    return @sendForbiddenError(res)  # No one can view the employers, since in a rush, we deleted their index!
-    query = {employerAt: {$exists: true, $ne: ''}}
-    selection = 'name firstName lastName email activity signedEmployerAgreement photoURL employerAt'
-    User.find(query).select(selection).lean().exec (err, documents) =>
-      return @sendDatabaseError res, err if err
-      @sendSuccess res, documents
-
-  getRemark: (req, res, userID) ->
-    return @sendForbiddenError(res) unless req.user?.isAdmin()
-    query = user: userID
-    projection = null
-    if req.query.project
-      projection = {}
-      projection[field] = 1 for field in req.query.project.split(',')
-    UserRemark.findOne(query).select(projection).exec (err, remark) =>
-      return @sendDatabaseError res, err if err
-      return @sendNotFoundError res unless remark?
-      @sendSuccess res, remark
 
   resetProgress: (req, res, userID) ->
     return @sendMethodNotAllowed res unless req.method is 'POST'

@@ -46,7 +46,6 @@ module.exports.setup = (app) ->
   app.post('/contact/send-parent-signup-instructions', mw.contact.sendParentSignupInstructions)
   app.post('/contact/send-teacher-game-dev-project-share', mw.contact.sendTeacherGameDevProjectShare)
   app.post('/contact/send-teacher-signup-instructions', mw.contact.sendTeacherSignupInstructions)
-  app.post('/contact/send-apcsp-access-request', mw.contact.sendAPCSPAccessRequest)
 
   app.delete('/db/*', mw.auth.checkHasUser())
   app.patch('/db/*', mw.auth.checkHasUser())
@@ -178,7 +177,7 @@ module.exports.setup = (app) ->
   app.delete('/db/course_instance/:handle/members', mw.auth.checkLoggedIn(), mw.courseInstances.removeMembers)
   app.get('/db/course_instance/:handle/classroom', mw.auth.checkLoggedIn(), mw.courseInstances.fetchClassroom)
   app.get('/db/course_instance/:handle/course', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourse)
-  app.get('/db/course_instance/:handle/my-course-level-sessions', mw.auth.checkLoggedIn(), mw.courseInstances.fetchMyCourseLevelSessions)
+  app.get('/db/course_instance/:handle/course-level-sessions/:userID', mw.auth.checkLoggedIn(), mw.courseInstances.fetchCourseLevelSessions)
   app.get('/db/course_instance/:handle/peer-projects', mw.auth.checkLoggedIn(), mw.courseInstances.fetchPeerProjects)
 
   EarnedAchievement = require '../models/EarnedAchievement'
@@ -205,7 +204,7 @@ module.exports.setup = (app) ->
   app.put('/db/level.session/:handle/key-value-db/:key', mw.levelSessions.putKeyValueDb)
   app.post('/db/level.session/:handle/key-value-db/:key/increment', mw.levelSessions.incrementKeyValueDb)
   app.post('/db/level.session/-/levels-and-students', mw.auth.checkHasPermission(['admin']), mw.levelSessions.byLevelsAndStudents)
-
+  app.post('/db/level.session/short-link', mw.auth.checkHasUser(), mw.levelSessions.shortLink)
 
   LevelSystem = require '../models/LevelSystem'
   app.post('/db/level.system/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(LevelSystem, 'level_system'))
@@ -222,6 +221,8 @@ module.exports.setup = (app) ->
   app.put('/db/user/:handle/verifiedTeacher', mw.auth.checkHasPermission(['admin']), mw.users.setVerifiedTeacher)
   app.post('/db/user/:userID/request-verify-email', mw.users.sendVerificationEmail)
   app.post('/db/user/:userID/verify/:verificationCode', mw.users.verifyEmailAddress) # TODO: Finalize URL scheme
+  app.post('/db/user/:userID/keep-me-updated/:verificationCode', mw.users.keepMeUpdated)
+  app.post('/db/user/:userID/no-delete-eu/:verificationCode', mw.users.noDeleteEU)
   app.get('/db/user/-/students', mw.auth.checkHasPermission(['admin']), mw.users.getStudents)
   app.get('/db/user/-/teachers', mw.auth.checkHasPermission(['admin']), mw.users.getTeachers)
   app.post('/db/user/:handle/check-for-new-achievement', mw.auth.checkLoggedIn(), mw.users.checkForNewAchievement)
@@ -237,6 +238,7 @@ module.exports.setup = (app) ->
   app.delete('/db/user/:handle/stripe/recipients/:recipientHandle', mw.auth.checkLoggedIn(), mw.subscriptions.unsubscribeRecipientEndpoint)
   app.get('/db/user/:handle/avatar', mw.users.getAvatar)
   app.get('/db/user/:handle/course-instances', mw.users.getCourseInstances)
+  app.get('/db/user/:handle/name-for-classmate', mw.users.getNameForClassmate)
 
   app.post('/db/patch', mw.patches.post)
   app.put('/db/patch/:handle/status', mw.auth.checkLoggedIn(), mw.patches.setStatus)
@@ -285,3 +287,5 @@ module.exports.setup = (app) ->
   app.all('/headers', mw.headers)
 
   app.get('/healthcheck', mw.healthcheck.healthcheckRoute)
+
+  app.post('/webhooks/intercom', mw.intercom.webhook)

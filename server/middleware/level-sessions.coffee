@@ -5,6 +5,7 @@ Level = require '../models/Level'
 CourseInstance = require('../models/CourseInstance')
 mongoose = require 'mongoose'
 database = require '../commons/database'
+bitly = require '../lib/bitly'
 
 byLevelsAndStudents = wrap (req, res) ->
   throw new errors.Forbidden() unless req.user.isAdmin()
@@ -88,40 +89,40 @@ unsetScores = wrap (req, res) ->
     throw new errors.UnprocessableEntity('No session provided.')
   yield LevelSession.update {_id: mongoose.Types.ObjectId(sessionID)}, {$unset: {'state.topScores': 1}}
   res.send 200
-  
-  
+
+
 putKeyValueDb = wrap (req, res) ->
   if not req.user
     throw new errors.Unauthorized('You must have an associated user, anonymous or not.')
-  
+
   key = req.params.key
-    
+
   session = yield database.getDocFromHandle(req, LevelSession)
   if not session
     throw new errors.NotFound('Session not found.')
-    
+
   sessionDb = session.get('keyValueDb')
   if not sessionDb
     level = yield Level.findCurrentVersion(session.get('level.original'), 'type')
     if level.get('type') isnt 'game-dev'
       throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
-  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key) 
+  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key)
     throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
-    
+
   value = req.body
   unless _.any([_.isString(value), _.isNumber(value), _.isNull(value), _.isBoolean(value)])
     throw new errors.UnprocessableEntity('Values may only be strings, numbers, booleans, or null')
-    
+
   if _.isString(value) and value.length > 1024
     throw new errors.UnprocessableEntity('Strings may not be over one kilobyte')
-    
+
   yield session.update({ $set: { "keyValueDb.#{key}": value }})
   res.status(200).json(value)
-  
+
 incrementKeyValueDb = wrap (req, res) ->
   if not req.user
     throw new errors.Unauthorized('You must have an associated user, anonymous or not.')
-    
+
   key = req.params.key
 
   session = yield database.getDocFromHandle(req, LevelSession)
@@ -133,7 +134,7 @@ incrementKeyValueDb = wrap (req, res) ->
     level = yield Level.findCurrentVersion(session.get('level.original'), 'type')
     if level.get('type') isnt 'game-dev'
       throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
-  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key) 
+  else if _.size(sessionDb) >= 100 and not _.has(sessionDb, key)
     throw new errors.UnprocessableEntity('Only game dev levels can have dbs')
 
   value = req.body
@@ -152,6 +153,11 @@ incrementKeyValueDb = wrap (req, res) ->
     yield session.update(update)
     res.status(200).json(value)
 
+shortLink = wrap (req, res) ->
+  # TODO: either generate the URL here instead of the client or move this somewhere not associated with the session
+  url = req.body.url.replace /^.*?localhost(:\d+)?/, 'https://codecombat.com'
+  result = yield bitly.shorten(url)
+  res.status(200).json shortLink: result.data.url
 
 module.exports = {
   byLevelsAndStudents
@@ -159,4 +165,5 @@ module.exports = {
   putKeyValueDb
   submitToLadder
   unsetScores
+  shortLink
 }

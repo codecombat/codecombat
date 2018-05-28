@@ -75,7 +75,7 @@
     home: "Home"
     contribute: "Contribute"
     legal: "Legal"
-    privacy: "Privacy"
+    privacy: "Privacy Notice"
     about: "About"
     contact: "Contact"
     twitter_follow: "Follow"
@@ -302,6 +302,10 @@
     teacher_additional_questions: "That’s it! If you need additional help or have questions, reach out to __supportEmail__."
     dont_use_our_email_silly: "Don't put our email here! Put your parent's email."
     want_codecombat_in_school: "Want to play CodeCombat all the time?"
+    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
+    eu_confirmation_place_of_processing: "Learn more about the possible risks"
+    eu_confirmation_student: "If you are not sure, ask your teacher."
+    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
     recover_account_title: "Recover Account"
@@ -1034,7 +1038,7 @@
     subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
     email_exists: "User exists with this email."
     phone_number: "Phone number"
-    phone_number_help: "Where can we reach you during the workday?"
+    phone_number_help: "What's the best number to reach you?"
     primary_role_label: "Your Primary Role"
     role_default: "Select Role"
     primary_role_default: "Select Primary Role"
@@ -1126,7 +1130,6 @@
     delete_account_tab: "Delete Your Account"
     wrong_email: "Wrong Email"
     wrong_password: "Wrong Password"
-    use_gravatar: "Change your profile picture by signing up for Gravatar"
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"
     reset_your_progress: "Clear all your progress and start over"
@@ -2064,6 +2067,15 @@
     favorite_prefix: "Favorite language is "
     favorite_postfix: "."
     not_member_of_clans: "Not a member of any clans yet."
+    certificate_view: "view certificate"
+    certificate_click_to_view: "click to view certificate"
+    certificate_course_incomplete: "course incomplete"
+    certificate_of_completion: "Certificate of Completion"
+    certificate_endorsed_by: "Endorsed by"
+    certificate_stats: "Course Stats"
+    certificate_lines_of: "lines of"
+    certificate_levels_completed: "levels completed"
+    certificate_for: "For"
 
   achievements:
     last_earned: "Last Earned"
@@ -2105,6 +2117,10 @@
     verifying_email: "Verifying your email address..."
     successfully_verified: "You've successfully verified your email address!"
     verify_error: "Something went wrong when verifying your email :("
+    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
+    unsubscribe_button: "Yes, unsubscribe"
+    unsubscribe_failed: "Failed"
+    unsubscribe_success: "Success"
 
   account_invoices:
     amount: "Amount in US dollars"
@@ -2369,9 +2385,12 @@
     rights_clarification: "To clarify, anything that is made available in the Level Editor for the purpose of making levels is under CC, whereas the content created with the Level Editor or uploaded in the course of creation of Levels is not."
     nutshell_title: "In a Nutshell"
     nutshell_description: "Any resources we provide in the Level Editor are free to use as you like for creating Levels. But we reserve the right to restrict distribution of the Levels themselves (that are created on codecombat.com) so that they may be charged for."
+    nutshell_see_also: "See also:"
     canonical: "The English version of this document is the definitive, canonical version. If there are any discrepancies between translations, the English document takes precedence."
     third_party_title: "Third Party Services"
     third_party_description: "CodeCombat uses the following third party services (among others):"
+    cookies_message: 'CodeCombat uses a few essential and non-essential cookies.'
+    cookies_deny: 'Decline non-essential cookies'
 
   ladder_prizes:
     title: "Tournament Prizes"  # This section was for an old tournament and doesn't need new translations now.

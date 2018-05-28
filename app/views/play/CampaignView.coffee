@@ -194,7 +194,7 @@ module.exports = class CampaignView extends RootView
           @supermodel.trackRequest @classroom.fetch()
           @listenToOnce @classroom, 'sync', =>
             @courseInstance.sessions = new CocoCollection([], {
-              url: @courseInstance.url() + '/my-course-level-sessions',
+              url: @courseInstance.url() + '/course-level-sessions/' + me.id,
               model: LevelSession
             })
             @supermodel.loadCollection(@courseInstance.sessions, {
@@ -373,7 +373,7 @@ module.exports = class CampaignView extends RootView
           @openModalView new CodePlayCreateAccountModal()
       else if me.get('anonymous') and me.get('lastLevel') is 'shadow-guard' and me.level() < 4 and not features.noAuth
         @promptForSignup()
-      else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents'] and
+      else if me.get('name') and me.get('lastLevel') in ['forgetful-gemsmith', 'signs-and-portents', 'true-names'] and
       me.level() < 5 and not (me.get('ageRange') in ['18-24', '25-34', '35-44', '45-100']) and
       not storage.load('sent-parent-email') and not me.isPremium()
         @openModalView new ShareProgressModal()
@@ -854,7 +854,7 @@ module.exports = class CampaignView extends RootView
   onSessionsLoaded: (e) ->
     return if @editorMode
     @render()
-    @loadUserPollsRecord() unless me.get('anonymous') or window.serverConfig.picoCTF
+    @loadUserPollsRecord() unless me.get('anonymous') or me.inEU() or window.serverConfig.picoCTF
 
   onCampaignsLoaded: (e) ->
     @render()

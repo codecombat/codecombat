@@ -6,6 +6,7 @@
   "domains": [
     "codecombat.com"
   ],
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/codecombat/codecombat"
@@ -54,6 +55,7 @@
   ],
   "dependencies": {
     "@basicer/geoip-lite": "^1.1.6",
+    "@sendgrid/mail": "^6.2.1",
     "@vimeo/player": "^2.2.0",
     "JQDeferred": "~2.1.0",
     "ace-builds": "ajaxorg/ace-builds#ba3b91e04a5aa559d56ac70964f9054baa0f4caf",
@@ -64,6 +66,7 @@
     "backbone": "1.1.0",
     "basic-auth": "^1.0.4",
     "bayesian-battle": "0.0.7",
+    "bitly": "^5.0.12",
     "bluebird": "^3.2.1",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
@@ -82,6 +85,7 @@
     "country-list": "0.0.3",
     "css-loader": "^0.25.0",
     "d3": "~3.4.4",
+    "delighted": "^1.2.0",
     "esper.js": "codecombat/esper.js",
     "event-hooks-webpack-plugin": "^1.0.0",
     "express": "^4.14.0",
@@ -161,7 +165,6 @@
     "http-proxy": "^1.13.2",
     "import-glob-loader": "^1.1.0",
     "imports-loader": "^0.6.5",
-    "intercom-client": "^2.8.5",
     "istanbul": "^0.4.5",
     "jasmine": "2.4.1",
     "karma": "^2.0.0",

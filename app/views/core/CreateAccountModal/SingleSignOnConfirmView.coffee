@@ -15,7 +15,12 @@ module.exports = class SingleSignOnConfirmView extends BasicInfoView
 
   initialize: ({ @signupState } = {}) ->
     super(arguments...)
-  
+
+  afterRender: ->
+    super()
+    if @signupState.get('path') is 'teacher'
+      @$('form').submit()
+
   onClickBackButton: ->
     @signupState.set {
       ssoUsed: undefined
@@ -28,4 +33,4 @@ module.exports = class SingleSignOnConfirmView extends BasicInfoView
     type: 'object'
     properties:
       name: User.schema.properties.name
-    required: ['name']
+    required: []

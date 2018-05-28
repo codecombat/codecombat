@@ -2,6 +2,8 @@ require '../common'
 utils = require '../utils'
 urlUser = '/db/user'
 User = require '../../../server/models/User'
+Clan = require '../../../server/models/Clan'
+UserPollsRecord = require '../../../server/models/UserPollsRecord'
 Classroom = require '../../../server/models/Classroom'
 CourseInstance = require '../../../server/models/CourseInstance'
 Course = require '../../../server/models/Course'
@@ -10,8 +12,11 @@ TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 facebook = require '../../../server/lib/facebook'
+intercom = require '../../../server/lib/intercom'
+mailchimp = require '../../../server/lib/mail-chimp'
 gplus = require '../../../server/lib/gplus'
-sendwithus = require '../../../server/sendwithus'
+sendgrid = require '../../../server/sendgrid'
+sendgrid = require '../../../server/sendgrid'
 Promise = require 'bluebird'
 Achievement = require '../../../server/models/Achievement'
 EarnedAchievement = require '../../../server/models/EarnedAchievement'
@@ -614,6 +619,10 @@ describe 'GET /db/user/:handle', ->
 
 
 describe 'DELETE /db/user/:handle', ->
+  beforeEach ->
+    spyOn(intercom.users, 'delete')
+    spyOn(mailchimp.api ,'delete')
+  
   it 'can delete a user', utils.wrap ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -623,12 +632,30 @@ describe 'DELETE /db/user/:handle', ->
     expect(user.get('deleted')).toBe(true)
     expect(user.get('dateDeleted')).toBeGreaterThan(beforeDeleted)
     expect(user.get('dateDeleted')).toBeLessThan(new Date())
+    expect(user.get('deletedEmailHash')).toBeDefined() # includes a hash for checking later if the email were deleted, and when
     for key, value of user.toObject()
-      continue if key in ['_id', 'deleted', 'dateDeleted']
+      continue if key in ['_id', 'deleted', 'dateDeleted', 'deletedEmailHash', 'consentHistory']
       expect(_.isEmpty(value)).toEqual(true)
+    expect(intercom.users.delete).toHaveBeenCalled()
+    expect(mailchimp.api.delete).toHaveBeenCalled()
 
-  it 'moves user to classroom.deletedMembers', utils.wrap ->
+  it 'completely removes the user from any classroom or clan', utils.wrap ->
+
+    clanOwner = yield utils.initUser()
+    yield utils.loginUser(clanOwner)
+    clan = yield utils.makeClan({type: 'public'})
+
+    clanUrl = utils.getUrl("/db/clan/#{clan.id}/join")
     user = yield utils.initUser()
+    yield utils.loginUser(user)
+    [res] = yield request.putAsync { url:clanUrl, json: true }
+    user2 = yield utils.initUser()
+    yield utils.loginUser(user2)
+    [res] = yield request.putAsync { url:clanUrl, json: true }
+
+    clan = yield Clan.findById(clan.id)
+    expect(clan.get('members').length).toBe(3) # includes owner
+
     user2 = yield utils.initUser()
     yield utils.loginUser(user)
     classroom = new Classroom({
@@ -638,9 +665,57 @@ describe 'DELETE /db/user/:handle', ->
     [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
     classroom = yield Classroom.findById(classroom.id)
     expect(classroom.get('members').length).toBe(1)
-    expect(classroom.get('deletedMembers').length).toBe(1)
     expect(classroom.get('members')[0].toString()).toEqual(user2.id)
-    expect(classroom.get('deletedMembers')[0].toString()).toEqual(user.id)
+
+    clan = yield Clan.findById(clan.id)
+    expect(clan.get('members').length).toBe(2)
+
+  it 'deletes all user sesions, poll responses, and trial requests of the user', utils.wrap ->
+    admin = yield utils.initAdmin()
+    yield utils.loginUser(admin)
+    poll = yield utils.makePoll()
+    user = yield utils.initUser()
+    level = yield utils.makeLevel()
+    otherUser = yield utils.initUser()
+
+    # setup one user
+    yield utils.loginUser(user)
+    trialRequest = yield utils.makeTrialRequest()
+    [res] = yield request.getAsync({ url: utils.getUrl("/db/user.polls.record/-/user/#{user.id}"), json: true })
+    pollRecordId = res.body._id
+    pollRecord = UserPollsRecord.findById(pollRecordId)
+    expect(pollRecord).toBeTruthy()
+    session = yield utils.makeLevelSession({code:'...', submittedCode: '...'}, { level, creator: user })
+
+    # setup other user
+    yield utils.loginUser(otherUser)
+    otherTrialRequest = yield utils.makeTrialRequest()
+    [res] = yield request.getAsync({ url: utils.getUrl("/db/user.polls.record/-/user/#{otherUser.id}"), json: true })
+    otherPollRecordId = res.body._id
+    otherPollRecord = UserPollsRecord.findById(otherPollRecordId)
+    expect(otherPollRecord).toBeTruthy()
+    otherSession = yield utils.makeLevelSession({code:'...', submittedCode: '...'}, { level, creator: otherUser })
+
+    # check existence
+    expect(yield TrialRequest.findById(trialRequest.id)).toBeTruthy()
+    expect(yield UserPollsRecord.findById(pollRecordId)).toBeTruthy()
+    expect(yield LevelSession.findById(session.id)).toBeTruthy()
+
+    # delete user
+    yield utils.loginUser(user)
+    [res, body] = yield request.delAsync {uri: "#{getURL(urlUser)}/#{user.id}"}
+    user = yield User.findById user.id
+    expect(user.get('deleted')).toBe(true)
+
+    # check that user's stuff is gone
+    expect(yield TrialRequest.findById(trialRequest.id)).toBeFalsy()
+    expect(yield UserPollsRecord.findById(pollRecordId)).toBeFalsy()
+    expect(yield LevelSession.findById(session.id)).toBeFalsy()
+
+    # check other user's stuff is still with us
+    expect(yield TrialRequest.findById(otherTrialRequest.id)).toBeTruthy()
+    expect(yield UserPollsRecord.findById(otherPollRecordId)).toBeTruthy()
+    expect(yield LevelSession.findById(otherSession.id)).toBeTruthy()
 
   it 'returns 401 if no cookie session', utils.wrap ->
     yield utils.logout()
@@ -907,7 +982,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     yield new Promise((resolve) -> setTimeout(resolve, 10))
 
   it 'signs up the user with the password and sends welcome emails', utils.wrap ->
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-password")
     email = 'some@email.com'
@@ -918,10 +993,10 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     updatedUser = yield User.findById(user.id)
     expect(updatedUser.get('email')).toBe(email)
     expect(updatedUser.get('passwordHash')).toBeDefined()
-    expect(sendwithus.api.send).toHaveBeenCalled()
-    context = sendwithus.api.send.calls.argsFor(0)[0]
-    expect(_.str.startsWith(context.email_data.verify_link, "https://codecombat.com/user/#{user.id}/verify/")).toBe(true)
-    
+    expect(sendgrid.api.send).toHaveBeenCalled()
+    context = sendgrid.api.send.calls.argsFor(0)[0]
+    expect(_.str.startsWith(context.substitutions.verify_link, "https://codecombat.com/user/#{user.id}/verify/")).toBe(true)
+
 
   it 'signs up the user with just a name and password', utils.wrap ->
     user = yield utils.becomeAnonymous()
@@ -1057,7 +1132,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 
   it 'signs up the user with the facebookID and sends welcome emails', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
     json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
@@ -1067,11 +1142,11 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
     expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(facebookEmail)
     expect(updatedUser.get('facebookID')).toBe(facebookID)
-    expect(sendwithus.api.send).toHaveBeenCalled()
+    expect(sendgrid.api.send).toHaveBeenCalled()
 
   it 'signs up nameless user with the facebookID', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
     json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
@@ -1156,7 +1231,7 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
 
   it 'signs up the user with the gplusID and sends welcome emails', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
     json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
@@ -1166,11 +1241,11 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
     expect(updatedUser.get('name')).toBe(name)
     expect(updatedUser.get('email')).toBe(gplusEmail)
     expect(updatedUser.get('gplusID')).toBe(gplusID)
-    expect(sendwithus.api.send).toHaveBeenCalled()
+    expect(sendgrid.api.send).toHaveBeenCalled()
 
   it 'signs up nameless user with the gplusID', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
     json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
@@ -1442,20 +1517,45 @@ describe 'POST /db/user/:userID/verify/:verificationCode', ->
     expect(mailChimp.api.put).toHaveBeenCalled()
     user = yield User.findById(@user.id)
     expect(user.get('emailVerified')).toBe(true)
-    
-  
+
+describe 'POST /db/user/:userID/keep-me-updated/:verificationCode', ->
+  beforeEach utils.wrap ->
+    @user = yield utils.initUser({emails: {generalNews: {enabled: false}}})
+    verificationCode = @user.verificationCode(new Date().getTime())
+    @url = utils.getURL("/db/user/#{@user.id}/keep-me-updated/#{verificationCode}")
+
+  it 'sets emails.generalNews.enabled to true', utils.wrap ->
+    expect(@user.get('emails').generalNews.enabled).toEqual(false)
+    [res, body] = yield request.postAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(@user.id)
+    expect(user.get('emails').generalNews.enabled).toEqual(true)
+
+describe 'POST /db/user/:userID/no-delete-eu/:verificationCode', ->
+  beforeEach utils.wrap ->
+    @user = yield utils.initUser()
+    verificationCode = @user.verificationCode(new Date().getTime())
+    @url = utils.getURL("/db/user/#{@user.id}/no-delete-eu/#{verificationCode}")
+
+  it 'sets doNotDeleteEU to set date', utils.wrap ->
+    [res, body] = yield request.postAsync({ @url, json: true })
+    expect(res.statusCode).toBe(200)
+    user = yield User.findById(@user.id)
+    expect(user.get('doNotDeleteEU')).toBeTruthy()
+    expect(user.get('doNotDeleteEU') < new Date()).toEqual(true)
+
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->
-    spyOn(sendwithus.api, 'send')
+    spyOn(sendgrid.api, 'send')
     @user = yield utils.initUser()
     @url = utils.getURL("/db/user/#{@user.id}/request-verify-email")
-    
+
   it 'sends an email with a verification link to the user', utils.wrap ->
     [res, body] = yield request.postAsync({ @url, json: true, headers: {'x-forwarded-proto': 'http'} })
     expect(res.statusCode).toBe(200)
-    expect(sendwithus.api.send).toHaveBeenCalled()
-    context = sendwithus.api.send.calls.argsFor(0)[0]
-    expect(_.str.startsWith(context.email_data.verify_link, "http://localhost:3001/user/#{@user.id}/verify/")).toBe(true)
+    expect(sendgrid.api.send).toHaveBeenCalled()
+    message = sendgrid.api.send.calls.argsFor(0)[0]
+    expect(_.str.startsWith(message.substitutions.verify_link, "http://localhost:3001/user/#{@user.id}/verify/")).toBe(true)
 
 
 describe 'POST /db/user/:userId/reset_progress', ->
@@ -1536,7 +1636,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
     url = utils.getUrl("/db/user/12345/reset_progress")
     [res] = yield request.postAsync({ url })
     expect(res.statusCode).toBe(401)
-    
+
   it 'allows admins to reset other accounts', utils.wrap ->
     admin = yield utils.initAdmin()
     user = yield utils.initUser()
@@ -1544,7 +1644,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
     session = yield utils.makeLevelSession({}, {creator:user})
     earnedAchievement = new EarnedAchievement({ user: user.id })
     yield earnedAchievement.save()
-    
+
     yield utils.loginUser(admin)
     url = utils.getUrl("/db/user/#{user.id}/reset_progress")
     [res] = yield request.postAsync({ url })
@@ -1554,7 +1654,7 @@ describe 'POST /db/user/:userId/reset_progress', ->
       EarnedAchievement.findById(earnedAchievement.id)
     ]
     expect(_.any(stillExist)).toBe(false)
-    
+
   it 'returns 404 for non-existent users', utils.wrap ->
     admin = yield utils.initAdmin()
     yield utils.loginUser(admin)
@@ -1585,45 +1685,38 @@ describe 'GET /db/user/:handle/clans', ->
     expect(res.body.length).toBe(1)
     expect(_.find(res.body, {_id: publicClan.id})).toBeTruthy()
     expect(_.find(res.body, {_id: privateClan.id})).toBeFalsy()
-    
 
 
-    
+
+
 describe 'GET /db/user/:handle/avatar', ->
-  it 'returns an avatar based on the user\'s email', utils.wrap ->
+  it 'defaults to a wizard if no hero is set', utils.wrap ->
     user = yield utils.initUser({email:'test@gmail.com'})
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
-    expect(_.str.startsWith(res.headers.location, 'https://secure.gravatar.com/avatar/1aedb8d9dc4751e229a335e371db8058')).toBe(true)
+    expect(res.headers.location).toBe('http://localhost:3001/file/db/thang.type/52a00d55cf1818f2be00000b/portrait.png')
 
   it 'defaults to a hero portrait if the user has one set', utils.wrap ->
     user = yield utils.initUser({heroConfig:{thangType:'1234'}})
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false})
     expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/file/db/thang.type/1234/portrait.png')).toBe(true)
-    
-  it 'passes a size parameter to gravatar', utils.wrap ->
-    user = yield utils.initUser()
-    url = utils.getUrl("/db/user/#{user.id}/avatar")
-    [res] = yield request.getAsync({url, followRedirect: false, qs: {s: '100'}})
-    expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 's=100')).toBe(true)
-    
+    expect(res.headers.location).toBe('http://localhost:3001/file/db/thang.type/1234/portrait.png')
+
   it 'allows overriding the fallback value', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, qs: {fallback: '/some/other/url.jpg'}})
     expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 'default=https://localhost:3001/some/other/url.jpg')).toBe(true)
-  
+    expect(res.headers.location).toBe('http://localhost:3001/some/other/url.jpg')
+
   it 'adjusts the host based on the given protocol and host', utils.wrap ->
     user = yield utils.initUser()
     url = utils.getUrl("/db/user/#{user.id}/avatar")
     [res] = yield request.getAsync({url, followRedirect: false, headers: {'x-forwarded-proto': 'http', host: 'subdomain.codecombat.com', 'x-forwarded-port': '8080'}})
     expect(res.statusCode).toBe(302)
-    expect(_.str.contains(res.headers.location, 'default=http://subdomain.codecombat.com:8080/')).toBe(true)
+    expect(_.str.startsWith(res.headers.location, 'http://subdomain.codecombat.com:8080/')).toBe(true)
 
 
 describe 'GET /db/user/:handle/course-instances', ->
@@ -1646,8 +1739,8 @@ describe 'GET /db/user/:handle/course-instances', ->
     [res] = yield request.getAsync({url, qs, json: true})
     expect(res.body.length).toBe(1)
     expect(res.body[0]._id).toBe(@courseInstance.id)
-    
-    
+
+
 describe 'PUT /db/user/:handle/verifiedTeacher', ->
   it 'sets the verifiedTeacher property on the given user', utils.wrap ->
     user = yield utils.initUser()
@@ -1666,4 +1759,3 @@ describe 'PUT /db/user/:handle/verifiedTeacher', ->
     url = utils.getUrl("/db/user/#{user.id}/verifiedTeacher")
     [res] = yield request.putAsync({url, json: true, body: true})
     expect(res.statusCode).toBe(403)
-    

@@ -289,9 +289,10 @@ module.exports = class Level extends CocoModel
         console.error "Problem with template and solution comments for '#{@get('slug') or @get('name')}'\n", e
     solutions
 
-  getSampleCode: ->
-    return {} unless hero = _.find (@get("thangs") ? []), id: 'Hero Placeholder'
-    return {} unless plan = _.find(hero.components ? [], (x) -> x.config?.programmableMethods?.plan)?.config.programmableMethods.plan
+  getSampleCode: (team='humans') ->
+    heroThangID = if team is 'ogres' then 'Hero Placeholder 1' else 'Hero Placeholder'
+    return {} unless hero = _.find (@get("thangs") ? []), id: heroThangID
+    return {} unless plan = _.find(hero.components ? [], (x) -> x?.config?.programmableMethods?.plan)?.config.programmableMethods.plan
     sampleCode = _.cloneDeep plan.languages ? {}
     sampleCode.javascript = plan.source
     for language, code of sampleCode

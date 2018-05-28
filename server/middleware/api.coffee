@@ -86,7 +86,10 @@ getUser = wrap (req, res) ->
     throw new errors.Forbidden('Must have created the user.')
 
   obj = user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true})
-  
+
+  if isSnowplow
+    obj = _.omit obj, 'email', 'name', 'githubID', 'cleverID', 'oAuthIdentities', 'consentHistory'
+
   if req.query.includePlayTime
     result = yield LevelSession.aggregate()
       .match({creator: user.id})
