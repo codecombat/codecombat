@@ -715,31 +715,31 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     prompt_body: "Continue jogando para ganhar mais!"
 
   subscribe:
-    best_deal: "Melhore negócio!"
+    best_deal: "Melhor negócio!"
     confirmation: "Parabéns! Agora você têm uma conta Premium!"
-    premium_already_subscribed: "Você já se inscreveu como Premium!"
+    premium_already_subscribed: "Você já é um assinante Premium!"
     subscribe_modal_title: "CodeCombat Premium"
-    comparison_blurb: "Seja um programador. Faça a inscrição <b>Premium</b> hoje!" # {change}
-    must_be_logged: "Você deve estar logado primeiro. Por favor crie uma conta ou faça log in no menu acima."
-    subscribe_title: "Inscrever-se" # Actually used in subscribe buttons, too
-    unsubscribe: "Desinscrever-se"
-    confirm_unsubscribe: "Confirmar Desinscrição"
-    never_mind: "Nunca esqueça, eu ainda te você"
-    thank_you_months_prefix: "Obrigado por nos apoiar nos últimos"
+    comparison_blurb: "Se torne um mestre programador - assine como <b>Premium</b> hoje!" # {change}
+    must_be_logged: "Você precisa estar logado antes. Por favor, crie uma conta ou faça login no menu acima."
+    subscribe_title: "Assinar" # Actually used in subscribe buttons, too
+    unsubscribe: "Cancelar Assinatura"
+    confirm_unsubscribe: "Confirmar o cancelamento"
+    never_mind: "Deixa pra lá, eu ainda te amo"
+    thank_you_months_prefix: "Obrigado por nos apoiar nesses últimos"
     thank_you_months_suffix: "meses."
     thank_you: "Obrigado por apoiar o CodeCombat."
-    sorry_to_see_you_go: "É uma pena ver você partir! Por favor, diga o que podemos fazer para melhorar."
+    sorry_to_see_you_go: "É uma pena ver você partir! Por favor, conte-nos o que poderíamos ter feito melhor."
     unsubscribe_feedback_placeholder: "Oh, o que nós fizemos?"
-    stripe_description: "Inscrição Mensal"
+    stripe_description: "Assinatura Mensal"
     buy_now: "Compre Agora"
-    subscription_required_to_play: "Você precisará se inscrever para jogar este nível."
-    unlock_help_videos: "Inscreva-se para desbloquear todos os vídeos tutoriais."
-    personal_sub: "Inscrição individual" # Accounts Subscription View below
-    loading_info: "Carregando informação sobre assinatura..."
+    subscription_required_to_play: "Você precisa de uma assinatura para jogar este nível."
+    unlock_help_videos: "Assine para desbloquear todos os vídeos de tutorial."
+    personal_sub: "Assinatura Individual" # Accounts Subscription View below
+    loading_info: "Carregando informações sobre assinatura..."
     managed_by: "Gerenciada por"
     will_be_cancelled: "Será cancelada em"
-    currently_free: "Atualmente você tem uma assinatura gratuita"
-    currently_free_until: "Sua assinatura gratuita é válida até"
+    currently_free: "Você tem uma assinatura gratuita no momento"
+    currently_free_until: "Sua assinatura é válida até"
     free_subscription: "Assinatura gratuita"
     was_free_until: "Sua assinatura gratuita expirou em"
     managed_subs: "Assinaturas gerenciadas"
@@ -749,15 +749,15 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     subscribe_prepaid: "Clique em Assinar para utilizar um código pré-pago"
     using_prepaid: "Utilizando código pré-pago para assinatura mensal"
     feature_level_access: "Acesso a mais de 300+ níveis"
-    feature_heroes: "Desbloqueie heróis exclusivos" # {change}
+    feature_heroes: "Desbloqueie heróis e mascotes exclusivos"
     feature_learn: "Aprenda a fazer jogos e websites"
     month_price: "$__price__/mês" # {change}
     first_month_price: "Apenas $__price__ no primeiro mês!"
-    lifetime: "Inscrição para vida toda" # {change}
+    lifetime: "Assinatura Vitalícia" # {change}
     lifetime_price: "$__price__"
-    year_subscription: "Inscrição Anual"
+    year_subscription: "Assinatura Anual"
     year_price: "$__price__/ano"
-    support_part1: "Precisa de ajuda com as opções de pagamento? Envie um email para" # {change}
+    support_part1: "Precisa de ajuda com o pagamento ou prefere PayPal? Envie um email para" # {change}
     support_part2: "support@codecombat.com"
 
   announcement:
