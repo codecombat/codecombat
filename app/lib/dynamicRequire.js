@@ -112,7 +112,9 @@ module.exports = {
   'views/TestView': function () { return import(/* webpackChunkName: "TestView" */ 'views/TestView') },
   'views/user/MainUserView': function () { return import(/* webpackChunkName: "user" */ 'views/user/MainUserView') },
   'views/user/EmailVerifiedView': function () { return import(/* webpackChunkName: "user" */ 'views/user/EmailVerifiedView') },
+  'views/user/UserOptInView': function () { return import(/* webpackChunkName: "user" */ 'views/user/UserOptInView') },
   'views/NotFoundView': function () { return import(/* webpackChunkName: "NotFoundView" */ 'views/NotFoundView') },
   'views/teachers/RestrictedToTeachersView': function () { return import(/* webpackChunkName: "RestrictedToTeachersView" */ 'views/teachers/RestrictedToTeachersView') },
   'views/courses/RestrictedToStudentsView': function () { return import(/* webpackChunkName: "RestrictedToStudentsView" */ 'views/courses/RestrictedToStudentsView') },
+  'views/user/CertificatesView': function () { return import(/* webpackChunkName: "CertificatesView" */ 'views/user/CertificatesView') },
 }

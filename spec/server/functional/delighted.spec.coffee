@@ -158,3 +158,39 @@ describe 'delighted', ->
     expect(prepaid.get('code')).toBeDefined()
     
     expect(delighted.postPeople).not.toHaveBeenCalled()
+
+  describe 'if the user is unsubscribed from all emails', ->
+    it 'does not create a profile when the first class is created', utils.wrap ->
+      @user = yield setupTeacher trialRequestFixture
+      @user.set('unsubscribedFromMarketingEmails', true)
+      yield @user.save()
+      yield makeClassroom @user, "Classroom 1"
+      expect(delighted.postPeople).not.toHaveBeenCalled()
+
+    it 'does not create a profile when the first course prepaid is added', utils.wrap ->
+      @user = yield setupTeacher trialRequestFixture
+      @user.set('unsubscribedFromMarketingEmails', true)
+      yield @user.save()
+      admin = yield utils.initAdmin()
+      yield utils.loginUser(admin)
+
+      [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
+        type: 'course'
+        creator: @user.id
+      }})
+      expect(res.statusCode).toBe(201)
+      expect(delighted.postPeople).not.toHaveBeenCalled()
+
+    it 'does not create a profile when the first starter prepaid is added', utils.wrap ->
+      @user = yield setupTeacher trialRequestFixture
+      @user.set('unsubscribedFromMarketingEmails', true)
+      yield @user.save()
+      admin = yield utils.initAdmin()
+      yield utils.loginUser(admin)
+  
+      [res, body] = yield request.postAsync({url: getURL('/db/prepaid'), json: {
+        type: 'starter_license'
+        creator: @user.id
+      }})
+      expect(res.statusCode).toBe(201)
+      expect(delighted.postPeople).not.toHaveBeenCalled()

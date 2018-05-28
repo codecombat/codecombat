@@ -16,8 +16,9 @@ TrialRequestSchema.post 'save', (doc) ->
       log.error "Trial request user find error: #{err}"
       return
     emails = _.cloneDeep(user.get('emails') ? {})
-    emails.teacherNews ?= {}
-    emails.teacherNews.enabled = true
+    if not user.inEU()
+      emails.teacherNews ?= {}
+      emails.teacherNews.enabled = true
     user.update {$set: {emails: emails}}, {}, (err) =>
       if err
         log.error "Trial request user update error: #{err}"

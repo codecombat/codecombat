@@ -54,21 +54,24 @@ handleNormalUrls = ->
   $(document).on 'click', "a[href^='/']", (event) ->
 
     href = $(event.currentTarget).attr('href')
+    target = $(event.currentTarget).attr('target')
 
     # chain 'or's for other black list routes
     passThrough = href.indexOf('sign_out') >= 0
 
     # Allow shift+click for new tabs, etc.
-    if !passThrough && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey
-      event.preventDefault()
+    if passThrough or event.altKey or event.ctrlKey or event.metaKey or event.shiftKey or target is '_blank'
+      return
 
-      # Remove leading slashes and hash bangs (backward compatablility)
-      url = href.replace(/^\//,'').replace('\#\!\/','')
+    event.preventDefault()
 
-      # Instruct Backbone to trigger routing events
-      app.router.navigate url, { trigger: true }
+    # Remove leading slashes and hash bangs (backward compatablility)
+    url = href.replace(/^\//,'').replace('\#\!\/','')
 
-      return false
+    # Instruct Backbone to trigger routing events
+    app.router.navigate url, { trigger: true }
+
+    return false
 
 setUpBackboneMediator = ->
   Backbone.Mediator.addDefSchemas schemas for definition, schemas of definitionSchemas

@@ -26,7 +26,7 @@
 
     br
     div.text-center
-      input#subscribe-input(type="checkbox" name="subscribe" checked=true)
+      input#subscribe-input(type="checkbox" name="subscribe" v-bind:checked="!inEU")
       span.spl {{ $t("signup.teacher_email_announcements") }}
 
   .history-nav-buttons

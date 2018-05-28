@@ -12,6 +12,6 @@ _.extend CLASubmissionSchema.properties,
   githubUsername: c.shortString()
   created: c.date title: 'Created', readOnly: true
 
-c.extendBasicProperties CLASubmissionSchema, 'user.remark'
+c.extendBasicProperties CLASubmissionSchema, 'cla.submission'
 
 module.exports = CLASubmissionSchema

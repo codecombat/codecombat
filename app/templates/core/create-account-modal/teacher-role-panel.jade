@@ -1,24 +1,13 @@
 div.school-info-panel.text-left
   .row
     .col-xs-offset-3.col-xs-6
-      .form-group(v-bind:class="{ 'has-error': showRequired && (!phoneNumber || !validPhoneNumber) }")
-        span.control-label
-          | {{ $t("teachers_quote.phone_number") }}
-          =" "
-          strong(v-if="showRequired && !phoneNumber") {{ $t("common.required_field") }}
-        input.form-control(
-          v-bind:placeholder="$t('teachers_quote.phone_number_help')"
-          v-model="phoneNumber"
-          ref='focus'
-          name="phoneNumber"
-        )
 
       .form-group(v-bind:class="{ 'has-error': showRequired && !role }")
         span.control-label
           | {{ $t("teachers_quote.primary_role_label") }}
           =" "
           strong(v-if="showRequired && !role") {{ $t("common.required_field") }}
-        select.form-control(v-model="role", name="role")
+        select.form-control(v-model="role", name="role", ref='focus')
           option(value='') {{ $t("teachers_quote.primary_role_default") }}
           option(value="Teacher") {{ $t("courses.teacher") }}
           option(value="Technology coordinator") {{ $t("teachers_quote.tech_coordinator") }}

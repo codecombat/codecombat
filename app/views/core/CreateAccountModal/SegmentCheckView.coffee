@@ -4,6 +4,7 @@ template = require 'templates/core/create-account-modal/segment-check-view'
 forms = require 'core/forms'
 Classroom = require 'models/Classroom'
 State = require 'models/State'
+utils = require 'core/utils'
 
 module.exports = class SegmentCheckView extends CocoView
   id: 'segment-check-view'
@@ -71,7 +72,8 @@ module.exports = class SegmentCheckView extends CocoView
         return if @destroyed
         if classroom
           @signupState.set { classroom }
-          @trigger 'nav-forward'
+          screen = if me.get('country') and me.inEU() then 'eu-confirmation' else 'basic-info'
+          @trigger 'nav-forward', screen
         else
           @$('.class-code-input').attr('disabled', false)
           @classroom = new Classroom()
@@ -86,8 +88,9 @@ module.exports = class SegmentCheckView extends CocoView
         forms.setErrorToProperty @$el, 'birthdayDay', requiredMessage
       else
         age = (new Date().getTime() - @signupState.get('birthday').getTime()) / 365.4 / 24 / 60 / 60 / 1000
-        if age > 13
-          @trigger 'nav-forward'
+        if age > utils.ageOfConsent(me.get('country'), 13)
+          screen = if me.get('country') and me.inEU() then 'eu-confirmation' else 'basic-info'
+          @trigger 'nav-forward', screen
           window.tracker?.trackEvent 'CreateAccountModal Individual SegmentCheckView Submit', category: 'Individuals'
         else
           @trigger 'nav-forward', 'coppa-deny'

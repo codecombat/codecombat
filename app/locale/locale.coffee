@@ -75,8 +75,8 @@ Object.defineProperties module.exports,
   load:
     enumerable: false
     value: (langCode) ->
-      console.log "Loading locale:", langCode
       return Promise.resolve() if langCode in ['en', 'en-US']
+      console.log "Loading locale:", langCode
       promises = [
         new Promise (accept, reject) ->
           require('bundle-loader?lazy&name=[name]!locale/'+langCode)((localeData) -> accept(localeData))
@@ -143,11 +143,11 @@ Object.defineProperties module.exports,
             opts.ns = ns
           Vue.util.extend opts, options
           i18n.t key, opts
-          
+
         Vue::$dbt = (source, key, options) ->
           options ?= {}
           utils.i18n(source, key, options.language, options.fallback)
-          
+
         return
 
       Vue.use(VueI18Next)

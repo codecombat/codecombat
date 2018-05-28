@@ -9,7 +9,7 @@ module.exports.setup = ->
   authentication.deserializeUser((id, done) ->
     User.findById(id, (err, user) ->
       # have to be very picky about when to deny user edits to deleted users.
-      if user and user.get('deleted') and _(user.toObject()).keys().sortBy().isEqual(['_id', 'dateCreated', 'dateDeleted', 'deleted'])
+      if user and user.get('deleted') and _(user.toObject()).keys().sortBy().isEqual(['_id', 'dateCreated', 'dateDeleted', 'deleted', 'deletedEmailHash'])
         user = null
       done(err, user)))
 

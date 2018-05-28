@@ -221,12 +221,16 @@ module.exports = class BasicInfoView extends CocoView
       # update User
       emails = _.assign({}, me.get('emails'))
       emails.generalNews ?= {}
-      emails.generalNews.enabled = not _.isEmpty(@state.get('checkEmailValue'))
+      if me.inEU()
+        emails.generalNews.enabled = false
+        me.set('unsubscribedFromMarketingEmails', true)
+      else
+        emails.generalNews.enabled = not _.isEmpty(@state.get('checkEmailValue'))
       me.set('emails', emails)
       me.set(_.pick(data, 'firstName', 'lastName'))
 
       unless _.isNaN(@signupState.get('birthday').getTime())
-        me.set('birthday', @signupState.get('birthday').toISOString())
+        me.set('birthday', @signupState.get('birthday').toISOString().slice(0,7))
 
       me.set(_.omit(@signupState.get('ssoAttrs') or {}, 'email', 'facebookID', 'gplusID'))
 
