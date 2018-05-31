@@ -853,7 +853,7 @@ describe 'POST /api/classrooms', ->
     expect(body.name).toBe(json.name)
     expect(body.ownerID).toBe(json.ownerID.toString())
     expect(body.aceConfig).toDeepEqual(json.aceConfig)
-    expect(res.body.members.length).toBe(0)
-    expect(res.body.courses[0].levels[0].position).toBeDefined()
+    expect(body.members.length).toBe(0)
+    expect(body.courses[0].levels[0].position).toBeDefined()
     done()
       

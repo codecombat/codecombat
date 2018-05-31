@@ -8,7 +8,6 @@ co = require 'co'
 Campaign = require './Campaign'
 Course = require './Course'
 database = require '../commons/database'
-delighted = require '../delighted'
 
 ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
@@ -41,6 +40,7 @@ ClassroomSchema.statics.generateNewCode = (done) ->
   tryCode()
 
 ClassroomSchema.statics.create = co.wrap (owner, req) ->
+  delighted = require '../delighted'
   classroom = database.initDoc(req, Classroom)
   classroom.set 'ownerID', owner._id
   classroom.set 'members', []
