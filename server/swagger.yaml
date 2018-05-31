@@ -298,6 +298,41 @@ paths:
           schema:
             $ref: '#/definitions/UserResponse'
             
+  /classrooms:
+    post:
+      tags:
+        - classrooms
+      description: Creates a new empty `Classroom`.
+      parameters:
+        - name: classroom
+          in: body
+          required: true
+          schema:
+            type: object
+            required:
+              - name
+              - ownerID
+              - aceConfig
+            properties:
+              name:
+                type: string
+                description: Name of the classroom
+              ownerID:
+                $ref: '#/definitions/objectIdString'
+                description: The `_id` of the teacher for whom classroom is being created
+              aceConfig:
+                type: object
+                properties:
+                  language:
+                    type: string
+                    description: Programming Language for the classroom
+      responses:
+        "201":
+          description: 'The created classroom'
+          schema:
+            $ref: '#/definitions/ClassroomResponse'
+
+              
   /classrooms/{handle}/members:
     put:
       tags:

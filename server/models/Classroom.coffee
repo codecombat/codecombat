@@ -7,6 +7,8 @@ utils = require '../lib/utils'
 co = require 'co'
 Campaign = require './Campaign'
 Course = require './Course'
+database = require '../commons/database'
+delighted = require '../delighted'
 
 ClassroomSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
@@ -37,6 +39,17 @@ ClassroomSchema.statics.generateNewCode = (done) ->
       return done(code, codeCamel) unless classroom
       tryCode()
   tryCode()
+
+ClassroomSchema.statics.create = co.wrap (owner, req) ->
+  classroom = database.initDoc(req, Classroom)
+  classroom.set 'ownerID', owner._id
+  classroom.set 'members', []
+  database.assignBody(req, classroom)
+  yield classroom.setUpdatedCourses({isAdmin: owner?.isAdmin(), addNewCoursesOnly: false})  # empty in case of api.spec.coffee
+  database.validateDoc(classroom) #not validating the code language
+  classroom = yield classroom.save()
+  yield delighted.checkTriggerClassroomCreated(owner)
+  return classroom
 
 ClassroomSchema.pre('save', (next) ->
   return next() if @get('code')

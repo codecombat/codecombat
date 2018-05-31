@@ -218,6 +218,25 @@ putUserLicense = wrap (req, res) ->
   yield prepaid.redeem(user)
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
 
+postClassroom = wrap (req, res) ->
+  owner = yield User.findBySlugOrId(req.body.ownerID)
+  if not owner
+    throw new errors.NotFound('User not found.')
+  unless req.client.hasControlOfUser(owner)
+    throw new errors.Forbidden('Must have created the user to perform this action.')
+  unless owner?.isTeacher()
+    throw new errors.Forbidden("Can't create classroom if user (#{owner?.id}) isn't a teacher.")
+
+  if not req.body.aceConfig?.language
+    throw new errors.UnprocessableEntity('aceConfig.language is required in the request body')
+
+  try
+    classroom = yield Classroom.create(owner, req)
+    res.status(201).send(classroom.toObject({req: req}))
+  catch err
+    console.log("postClassroom api error: ", err)
+    throw new errors.InternalServerError('Error creating the classroom')
+  
 
 putClassroomMember = wrap (req, res) ->
   classroom = yield database.getDocFromHandle(req, Classroom)
@@ -397,6 +416,7 @@ module.exports = {
   putUserSubscription
   putUserHeroConfig
   putUserLicense
+  postClassroom
   putClassroomMember
   putClassroomCourseEnrolled
   getClassroomMemberSessions
