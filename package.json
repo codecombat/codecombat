@@ -129,7 +129,6 @@
     "raw-loader": "^0.5.1",
     "redis": "",
     "request": "^2.75.0",
-    "sendwithus": "2.1.x",
     "serve-favicon": "^2.3.2",
     "stream-buffers": "0.2.x",
     "stripe": "~2.9.0",
