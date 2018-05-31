@@ -45,8 +45,8 @@ ClassroomSchema.statics.create = co.wrap (owner, req) ->
   classroom.set 'ownerID', owner._id
   classroom.set 'members', []
   database.assignBody(req, classroom)
-  yield classroom.setUpdatedCourses({isAdmin: owner?.isAdmin(), addNewCoursesOnly: false})  # empty in case of api.spec.coffee
-  database.validateDoc(classroom) #not validating the code language
+  yield classroom.setUpdatedCourses({isAdmin: owner?.isAdmin(), addNewCoursesOnly: false})
+  database.validateDoc(classroom)
   classroom = yield classroom.save()
   yield delighted.checkTriggerClassroomCreated(owner)
   return classroom
