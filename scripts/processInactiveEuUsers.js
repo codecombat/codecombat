@@ -17,7 +17,7 @@ const database = require('../server/commons/database');
 const User = require('../server/models/User');
 const co = require('co');
 const utils = require('../app/core/utils');
-const sendwithus = require('../server/sendwithus');
+const sendgrid = require('../server/sendgrid');
 
 database.connect();
 
@@ -42,21 +42,27 @@ function sendOptInEmail(user) {
     let opt_in_link = `https://codecombat.com/user/${user.id}/opt-in/${user.verificationCode((new Date()).getTime())}?no_delete_inactive_eu=true`;
     if (!user.isTeacher()) opt_in_link += "&prompt_keep_me_updated=true";
 
-    const context = {
-      email_id: sendwithus.templates.delete_inactive_eu_users,
-      recipient: {
-        address: user.get('emailLower'),
+    const message = {
+      templateId: sendgrid.templates.delete_inactive_eu_users,
+      to: {
+        email: user.get('emailLower'),
         name: user.broadName()
       },
-      email_data: {
-        opt_in_link: opt_in_link
+      from: {
+        email: 'team@codecombat.com',
+        name: 'CodeCombat'
+      },
+      substitutions: {
+        opt_in_link: opt_in_link,
+        email: user.get('emailLower')
       }
     }
-    sendwithus.api.send(context, (err, result) => {
+
+    sendgrid.api.send(message, (err, result) => {
       if (err) {
         console.log(`${new Date().toISOString()} ${errors} Error sending email to ${user.get('emailLower')}`);
         ++errors;
-        if (!/Request failed with/.test(err.message) && !/getaddrinfo ENOTFOUND api.sendwithus.com/.test(err.message))
+        if (!/Request failed with/.test(err.message) && !/getaddrinfo ENOTFOUND api.sendgrid.com/.test(err.message))
           return reject(err);
         if (errors > batchSize / 10)
           return reject(err);
@@ -115,9 +121,6 @@ co(function*() {
     errors = 0;
     console.log(`${new Date().toISOString()} sleeping for ${batchSleepMS / 1000} seconds..`);
     yield sleep(batchSleepMS);
-
-    // TODO: remove for full run
-    //break;
   }
 })
 .then(() => {

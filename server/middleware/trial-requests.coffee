@@ -8,7 +8,6 @@ mongoose = require 'mongoose'
 TrialRequest = require '../models/TrialRequest'
 User = require '../models/User'
 delighted = require '../delighted'
-sendwithus = require '../sendwithus'
 
 module.exports =
   post: wrap (req, res) ->
