@@ -2295,15 +2295,15 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     create_sharable_interactive_web_page: "Criar uma página web interativa compartilhável"
 
   anonymous_teacher:
-    notify_teacher: "Notificar professor"
-#    create_teacher_account: "Create free teacher account"
+    notify_teacher: "Notificar Professor"
+    create_teacher_account: "Criar Conta de Professor Grátis"
     enter_student_name: "Seu nome:"
-#    enter_teacher_email: "Your teacher's email:"
-#    teacher_email_placeholder: "teacher.email@example.com"
-#    student_name_placeholder: "type your name here"
+    enter_teacher_email: "Seu e-mail de professor:"
+    teacher_email_placeholder: "teacher.email@example.com"
+    student_name_placeholder: "digite seu nome aqui"
     teachers_section: "Professores:"
     students_section: "Alunos:"
-#    teacher_notified: "We've notified your teacher that you want to play more CodeCombat in your classroom!"
+    teacher_notified: "Nós notificamos o seu professor que você quer jogar mais CodeCombat na sua sala de aula!"
 
 #  delta:
     added: "Adicionado"
