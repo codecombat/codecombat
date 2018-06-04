@@ -49,7 +49,7 @@ ClassroomSchema.statics.create = co.wrap (owner, req) ->
   database.validateDoc(classroom)
   classroom = yield classroom.save()
   yield delighted.checkTriggerClassroomCreated(owner)
-  return classroom
+  classroom
 
 ClassroomSchema.pre('save', (next) ->
   return next() if @get('code')
