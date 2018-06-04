@@ -20,7 +20,7 @@ config.port = process.env.COCO_PORT or process.env.COCO_NODE_PORT or process.env
 config.ssl_port = process.env.COCO_SSL_PORT or process.env.COCO_SSL_NODE_PORT or 3443
 config.cloudflare =
   token: process.env.COCO_CLOUDFLARE_API_KEY or ''
-  email: process.env.COCO_CLOUDFLARE_API_EMAIL or ''  # added to bob env.txt, do we also need to add to env-dual-ls-write.txt and t.txt in bob (these files not being used anywhere)
+  email: process.env.COCO_CLOUDFLARE_API_EMAIL or ''
 
 config.github =
   client_id: process.env.COCO_GITHUB_CLIENT_ID or 'fd5c9d34eb171131bc87'

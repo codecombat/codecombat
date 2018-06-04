@@ -218,7 +218,7 @@ clearCloudFlareCacheForFile = (path='/file') ->
 
   request = require 'request'
 
-  cloudflareAPIV4 = "https://api.cloudflare.com/client/v4/"
+  cloudflareAPIV4 = "https://api.cloudflare.com/client/v4"
   cloudflareZoneIdentifier = "2288a1f5dc397aac278e76f657a3c5ec"
   cloudflareAPIURL = "#{cloudflareAPIV4}/zones/#{cloudflareZoneIdentifier}/purge_cache"
   options =
@@ -227,8 +227,8 @@ clearCloudFlareCacheForFile = (path='/file') ->
     body:
       "files": ["http://codecombat.com#{path}"]
     headers:
-      'X-Auth-Email': config.cloudflare.email,
-      'X-Auth-Key': config.cloudflare.token,
+      'X-Auth-Email': config.cloudflare.email
+      'X-Auth-Key': config.cloudflare.token
       'Content-Type': 'application/json'
   request.post options, (err, httpResponse, body) ->
     if (err)
