@@ -212,18 +212,24 @@ createPostOptions = (req) ->
   options
 
 clearCloudFlareCacheForFile = (path='/file') ->
-  unless config.cloudflare.token
+  unless config.cloudflare.token or config.cloudflare.email
     console.log 'skipping clearing cloud cache, not configured'
     return
 
   request = require 'request'
-  r = request.post 'https://www.cloudflare.com/api_json.html', (err, httpResponse, body) ->
+
+  cloudflareAPIV4 = "https://api.cloudflare.com/client/v4"
+  cloudflareZoneIdentifier = "2288a1f5dc397aac278e76f657a3c5ec"
+  cloudflareAPIURL = "#{cloudflareAPIV4}/zones/#{cloudflareZoneIdentifier}/purge_cache"
+  options =
+    url: cloudflareAPIURL,
+    json: true
+    body:
+      "files": ["http://codecombat.com#{path}"]
+    headers:
+      'X-Auth-Email': config.cloudflare.email
+      'X-Auth-Key': config.cloudflare.token
+      'Content-Type': 'application/json'
+  request.post options, (err, httpResponse, body) ->
     if (err)
       console.error('CloudFlare file cache clear failed:', body)
-
-  form = r.form()
-  form.append 'tkn', config.cloudflare.token
-  form.append 'email', 'scott@codecombat.com'
-  form.append 'z', 'codecombat.com'
-  form.append 'a', 'zone_file_purge'
-  form.append 'url', "http://codecombat.com#{path}"
