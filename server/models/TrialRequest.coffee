@@ -1,7 +1,6 @@
 log = require 'winston'
 mongoose = require 'mongoose'
 config = require '../../server_config'
-sendwithus = require '../sendwithus'
 Prepaid = require './Prepaid'
 jsonSchema = require '../../app/schemas/models/trial_request.schema'
 Classroom = require './Classroom'

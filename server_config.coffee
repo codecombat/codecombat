@@ -81,7 +81,6 @@ config.mail =
   mailChimpAPIKey: process.env.COCO_MAILCHIMP_API_KEY or ''
   mailChimpWebhook: process.env.COCO_MAILCHIMP_WEBHOOK or '/mail/webhook'
   sendgridAPIKey: process.env.COCO_SENDGRID_API_KEY or ''
-  sendwithusAPIKey: process.env.COCO_SENDWITHUS_API_KEY or ''
   delightedAPIKey: process.env.COCO_DELIGHTED_API_KEY or ''
   cronHandlerPublicIP: process.env.COCO_CRON_PUBLIC_IP or ''
   cronHandlerPrivateIP: process.env.COCO_CRON_PRIVATE_IP or ''
@@ -154,7 +153,7 @@ config.bitly =
 
 config.zenProspect =
   apiKey: process.env.COCO_ZENPROSPECT_API_KEY or ''
-  
+
 config.apcspFileUrl = process.env.COCO_APCSP_FILE_URL or "http://localhost:#{config.port}/apcsp-local/"
 
 if fs.existsSync path.join(__dirname, '.build_info.json')
