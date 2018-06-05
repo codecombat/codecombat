@@ -7,7 +7,6 @@ TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 delighted = require '../../../server/delighted'
-sendwithus = require '../../../server/sendwithus'
 
 fixture = {
   type: 'subscription'
@@ -21,7 +20,7 @@ fixture = {
 }
 
 describe 'POST /db/trial.request', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, TrialRequest])
     spyOn(delighted, 'postPeople')
