@@ -621,7 +621,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
 
   amazon_hoc:
     title: "Continue Aprendendo com Amazon!"
-    congrats: "Parabéns em conquistar o desafio Hora de Código!"
+    congrats: "Parabéns em conquistar o desafio Hora do Código!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
     educate_2: "Aprenda mais e cadastre-se aqui"
 #    future_eng_1: "You can also try to build your own school facts skill for Alexa"
