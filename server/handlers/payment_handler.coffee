@@ -7,7 +7,6 @@ Handler = require '../commons/Handler'
 {handlers} = require '../commons/mapping'
 mongoose = require 'mongoose'
 log = require 'winston'
-sendwithus = require '../sendwithus'
 slack = require '../slack'
 config = require '../../server_config'
 request = require 'request'
@@ -394,7 +393,7 @@ PaymentHandler = class PaymentHandler extends Handler
   incrementGemsFor: (user, gems, done) ->
     if not gems
       return done()
-      
+
     purchased = _.clone(user.get('purchased'))
     if not purchased?.gems
       purchased ?= {}

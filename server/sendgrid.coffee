@@ -7,7 +7,9 @@ Promise = require 'bluebird'
 debug = not config.isProduction
 module.exports.api =
   send: (context) ->
-    log.debug('Tried to send email via SendGrid with context: ', JSON.stringify(context, null, '  '))
+    #log.debug('Tried to send email via SendGrid with context: ', JSON.stringify(context, null, '  '))
+    context.substitutions ?= {}
+    context.substitutions.email ?= context.to.email  # Make sure that {{email}} works in unsubscribe links throughout our templates
     Promise.resolve()
 
 if sendgridAPIKey
@@ -32,3 +34,4 @@ module.exports.templates =
   share_licenses_joiner: 'b413fc9d-34a0-45aa-90b8-f8fa5ea9e1d5'
   teacher_signup_instructions: '31b608e9-449e-46ac-9c3c-6c112899cf30'
   teacher_game_dev_project_share: 'b9b62cdb-62a8-4e4f-98a2-f9a555e92a1a'
+  delete_inactive_eu_users: 'a8434f2e-0b59-40a0-bf1a-97678bc09f15'
