@@ -16,7 +16,6 @@ intercom = require '../../../server/lib/intercom'
 mailchimp = require '../../../server/lib/mail-chimp'
 gplus = require '../../../server/lib/gplus'
 sendgrid = require '../../../server/sendgrid'
-sendgrid = require '../../../server/sendgrid'
 Promise = require 'bluebird'
 Achievement = require '../../../server/models/Achievement'
 EarnedAchievement = require '../../../server/models/EarnedAchievement'
@@ -982,7 +981,7 @@ describe 'POST /db/user/:handle/signup-with-password', ->
     yield new Promise((resolve) -> setTimeout(resolve, 10))
 
   it 'signs up the user with the password and sends welcome emails', utils.wrap ->
-    spyOn(sendgrid.api, 'send')
+    spyOn(sendgrid.api, 'send').and.returnValue(Promise.resolve())
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-password")
     email = 'some@email.com'
@@ -1132,7 +1131,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 
   it 'signs up the user with the facebookID and sends welcome emails', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
-    spyOn(sendgrid.api, 'send')
+    spyOn(sendgrid.api, 'send').and.returnValue(Promise.resolve())
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
     json = { name, email: facebookEmail, facebookID, facebookAccessToken: '...' }
@@ -1146,7 +1145,7 @@ describe 'POST /db/user/:handle/signup-with-facebook', ->
 
   it 'signs up nameless user with the facebookID', utils.wrap ->
     spyOn(facebook, 'fetchMe').and.returnValue(validFacebookResponse)
-    spyOn(sendgrid.api, 'send')
+    spyOn(sendgrid.api, 'send').and.returnValue(Promise.resolve())
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-facebook")
     json = { email: facebookEmail, facebookID, facebookAccessToken: '...' }
@@ -1231,7 +1230,7 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
 
   it 'signs up the user with the gplusID and sends welcome emails', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-    spyOn(sendgrid.api, 'send')
+    spyOn(sendgrid.api, 'send').and.returnValue(Promise.resolve())
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
     json = { name, email: gplusEmail, gplusID, gplusAccessToken: '...' }
@@ -1245,7 +1244,7 @@ describe 'POST /db/user/:handle/signup-with-gplus', ->
 
   it 'signs up nameless user with the gplusID', utils.wrap ->
     spyOn(gplus, 'fetchMe').and.returnValue(validGPlusResponse)
-    spyOn(sendgrid.api, 'send')
+    spyOn(sendgrid.api, 'send').and.returnValue(Promise.resolve())
     user = yield utils.becomeAnonymous()
     url = getURL("/db/user/#{user.id}/signup-with-gplus")
     json = { email: gplusEmail, gplusID, gplusAccessToken: '...' }
@@ -1546,7 +1545,7 @@ describe 'POST /db/user/:userID/no-delete-eu/:verificationCode', ->
 
 describe 'POST /db/user/:userID/request-verify-email', ->
   beforeEach utils.wrap ->
-    spyOn(sendgrid.api, 'send')
+    spyOn(sendgrid.api, 'send').and.returnValue(Promise.resolve())
     @user = yield utils.initUser()
     @url = utils.getURL("/db/user/#{@user.id}/request-verify-email")
 
