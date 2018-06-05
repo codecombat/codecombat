@@ -331,7 +331,7 @@ module.exports =
         prepaid = yield createStarterLicense({ creator: creator.id, maxRedeemers })
         payment = yield StripeUtils.createPaymentAsync(creator, charge, {prepaidID: prepaid._id})
         msg = "#{creator.get('email')} paid #{formatDollarValue(payment.get('amount') / 100)} for starter_license prepaid redeemers=#{maxRedeemers}"
-        slack.sendSlackMessage msg, ['sales']
+        slack.sendSlackMessage msg, ['starters']
         res.status(200).send(prepaid)
       catch err
         logError(creator, "getCustomer error: #{JSON.stringify(err)}")

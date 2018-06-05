@@ -97,7 +97,7 @@ getUser = wrap (req, res) ->
       .exec()
     obj.stats ?= {}
     obj.stats.playTime = result[0].playTime
-  
+
   res.send(obj)
 
 
@@ -218,6 +218,22 @@ putUserLicense = wrap (req, res) ->
   yield prepaid.redeem(user)
   res.send(user.toObject({req, includedPrivates: INCLUDED_USER_PRIVATE_PROPS, virtuals: true}))
 
+postClassroom = wrap (req, res) ->
+  owner = yield User.findBySlugOrId(req.body.ownerID)
+  unless owner
+    throw new errors.NotFound('User not found.')
+  unless req.client.hasControlOfUser(owner)
+    throw new errors.Forbidden('Must have created the user to perform this action.')
+  unless owner?.isTeacher()
+    throw new errors.Forbidden("Can't create classroom if user (#{owner?.id}) isn't a teacher.")
+  unless req.body.aceConfig?.language
+    throw new errors.UnprocessableEntity('aceConfig.language is required in the request body')
+  try
+    classroom = yield Classroom.create(owner, req)
+    res.status(201).send(classroom.toObject({req: req}))
+  catch err
+    console.log("postClassroom api error: ", err)
+    throw new errors.InternalServerError('Error creating the classroom')
 
 putClassroomMember = wrap (req, res) ->
   classroom = yield database.getDocFromHandle(req, Classroom)
@@ -318,12 +334,12 @@ getClassroomMemberSessions = wrap (req, res, next) ->
   memberStrings = classroom.get('members').map((memberId) => memberId + '')
   unless member and member.id in memberStrings
     throw new errors.NotFound('Member id not found in classroom.')
-    
+
   unless req.client.hasControlOfUser(member)
     throw new errors.Forbidden('Must have created the member to perform this action.')
 
   sessions = yield classroom.fetchSessionsForMembers([member._id])
-    
+
   # Return member sessions for assigned courses
   res.status(200).send(sessions)
 
@@ -368,9 +384,9 @@ getPlayTimeStats = wrap (req, res) ->
   }
   if req.query.country
     query.country = req.query.country
-    
+
   user = yield User.find(query,{_id: 1}).exec()
-  
+
   ids = _.map user, (x) -> x._id.toString()
 
   result = yield LevelSession.aggregate()
@@ -380,8 +396,8 @@ getPlayTimeStats = wrap (req, res) ->
 
   output = result[0]
   if not output
-    return res.send { playTime: 0, gamesPlayed: 0 } 
-    
+    return res.send { playTime: 0, gamesPlayed: 0 }
+
   delete output._id
 
   res.send output
@@ -397,6 +413,7 @@ module.exports = {
   putUserSubscription
   putUserHeroConfig
   putUserLicense
+  postClassroom
   putClassroomMember
   putClassroomCourseEnrolled
   getClassroomMemberSessions

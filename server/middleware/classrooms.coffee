@@ -293,19 +293,13 @@ module.exports =
     unless req.user?.isTeacher()
       log.debug "classrooms.post: Can't create classroom if you (#{req.user?.id}) aren't a teacher."
       throw new errors.Forbidden()
-    classroom = database.initDoc(req, Classroom)
-    classroom.set 'ownerID', req.user._id
-    classroom.set 'members', []
-    database.assignBody(req, classroom)
-
     owner = req.user
-    yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false})
-
-    # finish
-    database.validateDoc(classroom)
-    classroom = yield classroom.save()
-    yield delighted.checkTriggerClassroomCreated(req.user)
-    res.status(201).send(classroom.toObject({req: req}))
+    try
+      classroom = yield Classroom.create(owner, req)
+      res.status(201).send(classroom.toObject({req: req}))
+    catch err
+      log.debug "classrooms.post: error - #{err}"
+      throw new errors.InternalServerError('Error creating the classroom')
 
   updateCourses: wrap (req, res) ->
     throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()

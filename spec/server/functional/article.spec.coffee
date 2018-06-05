@@ -304,7 +304,6 @@ describe 'POST /db/article/:handle/new-version', ->
     expect(_.isEqual(given, expected)).toBe(true)
 
 
-
   it 'creates a new major version, updating model and version properties', utils.wrap (done) ->
     yield postNewVersion({ name: 'Article name', body: 'New body' })
     yield postNewVersion({ name: 'New name', body: 'New new body' })
@@ -451,19 +450,18 @@ describe 'POST /db/article/:handle/new-version', ->
     expect(articles.length).toBe(1)
     done()
 
-
-  it 'notifies watchers of changes', utils.wrap (done) ->
+  it 'notifies watchers of changes', utils.wrap ->
     sendgrid = require '../../../server/sendgrid'
     spyOn(sendgrid.api, 'send').and.callFake (message, cb) ->
       expect(message.templateId).toBe(sendgrid.templates.change_made_notify_watcher)
       expect(message.to.email).toBe('test@gmail.com')
-      done()
+      cb(Promise.resolve())
+
     user = yield User({email: 'test@gmail.com', name: 'a user'}).save()
     article = yield Article.findById(articleID)
     article.set('watchers', article.get('watchers').concat([user.get('_id')]))
     yield article.save()
     yield postNewVersion({ name: 'Article name', body: 'New body', commitMessage: 'Commit message' })
-
 
   it 'sends a notification to artisan and main Slack channels', utils.wrap (done) ->
     slack = require '../../../server/slack'
