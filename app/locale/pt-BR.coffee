@@ -619,14 +619,14 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
     number: "Número"
     webjavascript: "JavaScript"
 
-#  amazon_hoc:
-#    title: "Keep Learning with Amazon!"
-#    congrats: "Congratulations on conquering that challenging Hour of Code!"
+  amazon_hoc:
+    title: "Continue Aprendendo com Amazon!"
+    congrats: "Parabéns em conquistar o desafio Hora de Código!"
 #    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
-#    educate_2: "Learn more and sign up here"
+    educate_2: "Aprenda mais e cadastre-se aqui"
 #    future_eng_1: "You can also try to build your own school facts skill for Alexa"
-#    future_eng_2: "here"
-#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
+    future_eng_2: "aqui"
+    future_eng_3: "(dispositivo não é obrigatório). Esta atividade Alexa foi trazia até você por"
 #    future_eng_4: "Amazon Future Engineer"
 #    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
 
