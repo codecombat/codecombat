@@ -245,7 +245,7 @@ module.exports = class TeacherStudentView extends RootView
       chart.append('text')
         .attr('x', ((d) -> xRange(d.levelIndex) + (xRange.rangeBand())/2))
         .attr('y', ((d) -> yRange(d.classAvg) - 3 ))
-        .text((d)-> if d.classAvg isnt 0 then d.classAvg)
+        .text((d)-> if d.classAvg isnt 0 and d.classAvg isnt d.studentTime then d.classAvg)
         .attr('class', 'label')
       # draw student playtime bars
       chart.append('rect')
