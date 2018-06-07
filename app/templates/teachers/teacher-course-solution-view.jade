@@ -102,6 +102,9 @@ block content
                       code(class=langClass)= solution.source
           else
             .text-center
-              i(data-i18n="common.coming_soon")
+              if level.isProject()
+                i(data-i18n="teacher.solution_project_blurb")
+              else
+                i(data-i18n="common.coming_soon")
         hr
         br

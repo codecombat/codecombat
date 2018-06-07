@@ -447,19 +447,14 @@ mixin studentLevelProgressDot(progress, level, levelNumber, student)
   //- TODO: Refactor with TeacherClassesView jade
   - dotClass = progress.completed ? 'forest' : (progress.started ? 'gold' : '');
   - levelName = i18n(level.attributes, 'name')
-  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isLadder: level.isLadder(), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
+  - context = _.merge(progress, { levelName: levelName, levelNumber: levelNumber, moment: moment, practice: level.get('practice'), isProject: level.isProject(), assessment: level.get('assessment'), primaryConcept: _.first(level.get('primaryConcepts')), topScore: topScore, translate: translate })
   - var link = null;
   if dotClass
     //- TODO: these anchor links do not navigate to the anchor in destination page
     - link = '/teachers/classes/' + view.classroom.id + '/' + student.id + '#' + level.get('slug');
   - labelText = levelNumber;
   if level.isLadder()
-    - var courseInstance = state.get('selectedCourseInstance');
-    if courseInstance
-      - link = view.urls.courseArenaLadder({level: level, courseInstance: courseInstance});
-      - labelText = translate('courses.arena');
-    else
-      - labelText = translate('courses.arena');
+    - labelText = translate('courses.arena');
     - dotClass += ' progress-dot-lg';
   else if level.isProject()
     if progress.started
