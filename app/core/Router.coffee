@@ -158,6 +158,8 @@ module.exports = class CocoRouter extends Backbone.Router
 
     'logout': 'logout'
 
+    'minigames/conditionals': go('minigames/ConditionalMinigameView')
+
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')
 
