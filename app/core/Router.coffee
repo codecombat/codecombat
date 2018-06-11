@@ -76,6 +76,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/student-solutions': go('artisans/StudentSolutionsView')
     'artisans/tag-test': go('artisans/TagTestView')
     'artisans/bulk-level-editor': go('artisans/BulkLevelEditView')
+    'artisans/sandbox': go('artisans/SandboxView')
     'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
