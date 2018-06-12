@@ -49,7 +49,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       a
 
   onLoaded: ->
-    @paidTeacher = @paidTeacher or _.find(@prepaids?.models, (m) => m.get('type') in ['course', 'starter_license'] and m.get('maxRedeemers') > 0)?
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
 
