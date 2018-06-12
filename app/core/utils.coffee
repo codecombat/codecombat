@@ -94,11 +94,11 @@ countries = [
   {country: 'malta', countryCode: 'MT', inEU: true}
 ]
 
-inEU = (country) -> !!countries.find((c) => c.country is slugify(country))?.inEU
+inEU = (country) -> !!_.find(countries, (c) => c.country is slugify(country))?.inEU
 
 ageOfConsent = (countryName, defaultIfUnknown=0) ->
   return defaultIfUnknown unless countryName
-  country = countries.find((c) => c.country is slugify(countryName))
+  country = _.find(countries, (c) => c.country is slugify(countryName))
   return defaultIfUnknown unless country
   return country.ageOfConsent if country.ageOfConsent
   return 16 if country.inEU

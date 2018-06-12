@@ -68,10 +68,18 @@ describe 'Utility library', ->
   describe 'inEU', ->
     it 'EU countries return true', ->
       euCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom']
-      euCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(true))
+      try 
+        euCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(true))
+      catch err
+        # NOTE: without try/catch, exceptions do not yield failed tests.
+        # E.g. utils.inEU used to call Array.find which isn't supported in IE11, try/catch required to register test fail
+        expect(err).not.toBeDefined()
     it 'non-EU countries return false', ->
       nonEuCountries = ['united-states', 'peru', 'vietnam']
-      nonEuCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(false))
+      try 
+        nonEuCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(false))
+      catch err
+        expect(err).not.toBeDefined()
 
   describe 'ageOfConsent', ->
     it 'US is 13', ->
