@@ -167,7 +167,7 @@ module.exports =
 # Notes on the teacher object that the relevant intercom trigger should be activated.
 reportLevelStarted = co.wrap ({teacher, level}) ->
   intercom = require('../lib/intercom')
-  return unless level.get('slug') in ['wakka-maul', 'a-mayhem-of-munchkins', 'dungeons-of-kithgard', 'true-names']
+  return unless level.get('slug') in ['wakka-maul', 'a-mayhem-of-munchkins', 'dungeons-of-kithgard', 'true-names', 'throwing-fire', 'over-the-garden-wall', 'humble-beginnings', 'defense-of-plainswood', 'guard-duty', 'javascript-true-names', 'query-confirmed', 'friend-and-foe', 'the-rule-of-the-square', 'dust', 'vital-powers', 'misty-island-mine', 'queue-manager']
   levelVariable = level.get('slug').replace(/(?:^|\s|-)\S/g, (c) -> c.toUpperCase()).replace(/-/g, '')
   levelVariable = level.replace 'AMayhemOfMunchkins', 'MayhemOfMunchkins'  # inconsistent variable name
   update =
