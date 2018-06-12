@@ -86,7 +86,7 @@ module.exports = class DiplomatView extends ContributeClassView
     nn: ['Ayexa']             # Norsk Nynorsk, Norwegian (Nynorsk)
     he: ['OverProgram', 'monetita']             # עברית, Hebrew
     lt: []             # lietuvių kalba, Lithuanian
-    sr: []             # српски, Serbian
+    sr: ['Vitalije']             # српски, Serbian
     uk: ['ImmortalJoker', 'OlenaGapak', 'Rarst', 'endrilian', 'fess89', 'gorodsb', 'probil', 'CatSkald']             # українська, Ukrainian
     hi: []             # मानक हिन्दी, Hindi
     ur: []             # اُردُو, Urdu
