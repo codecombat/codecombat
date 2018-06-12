@@ -29,7 +29,6 @@ module.exports = class RootView extends CocoView
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .signup-button': 'onClickSignupButton'
     'click .login-button': 'onClickLoginButton'
-    'click a': 'onClickAnchor'
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
 

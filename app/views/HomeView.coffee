@@ -121,7 +121,7 @@ module.exports = class HomeView extends RootView
     if translationKey
       anchorText = $.i18n.t(translationKey, {lng: 'en-US'})
     else
-      anchor.text = anchor.text
+      anchorText = anchor.text
     if anchorText
       window.tracker?.trackEvent "Link: #{anchorText}", category: 'Homepage', ['Google Analytics']
 
