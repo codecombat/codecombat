@@ -5,6 +5,7 @@ module.exports = {
   campaigns: require('./campaigns')
   clas: require('./clas')
   classrooms: require('./classrooms')
+  contact: require('./contact')
   courses: require('./courses')
   courseInstances: require('./course-instances')
   files: require('./files')

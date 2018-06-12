@@ -7,7 +7,6 @@ TrialRequest = require '../../../server/models/TrialRequest'
 Prepaid = require '../../../server/models/Prepaid'
 request = require '../request'
 delighted = require '../../../server/delighted'
-sendwithus = require '../../../server/sendwithus'
 
 fixture = {
   type: 'subscription'
@@ -21,7 +20,7 @@ fixture = {
 }
 
 describe 'POST /db/trial.request', ->
-  
+
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, TrialRequest])
     spyOn(delighted, 'postPeople')
@@ -146,7 +145,7 @@ describe 'PUT /db/trial.request/:handle', ->
 
   beforeEach utils.wrap (done) ->
     yield utils.clearModels([User, TrialRequest])
-    @user = yield utils.initUser()
+    @user = yield utils.initUser({country: 'united-states'})
     yield utils.loginUser(@user)
     fixture.properties.email = @user.get('email')
     [res, body] = yield request.postAsync(getURL('/db/trial.request'), { json: fixture })

@@ -19,7 +19,10 @@ mailChimp = require '../lib/mail-chimp'
 config = require '../../server_config'
 stripe = require('../lib/stripe_utils').api
 
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
+
+countryList = require('country-list')()
+geoip = require '@basicer/geoip-lite'
 
 UserSchema = new mongoose.Schema({
   dateCreated:
@@ -115,12 +118,13 @@ UserSchema.methods.getUserInfo = ->
   id: @get('_id')
   email: if @get('anonymous') then 'Unregistered User' else @get('email')
 
+UserSchema.methods.inEU = (defaultIfUnknown=true) -> unless @get('country') then defaultIfUnknown else core_utils.inEU(@get('country'))
+
 UserSchema.methods.removeFromClassrooms = ->
   userID = @get('_id')
   yield Classroom.update(
     { members: userID }
     {
-      $addToSet: { deletedMembers: userID }
       $pull: { members: userID }
     }
     { multi: true }
@@ -178,6 +182,16 @@ UserSchema.methods.setEmailSubscription = (newName, enabled) ->
   newSubs = _.clone(@get('emails') or _.cloneDeep(jsonschema.properties.emails.default))
   newSubs[newName] ?= {}
   newSubs[newName].enabled = enabled
+
+  consentHistory = _.cloneDeep(@get('consentHistory') or [])
+  for k, v of newSubs when !!v.enabled isnt !!@get('emails')?[k]?.enabled
+    consentHistory.push
+      action: if v.enabled then 'allow' else 'forbid'
+      date: new Date()
+      type: 'email'
+      emailHash: User.hashEmail(@get('email'))
+      description: k
+  @set('consentHistory', consentHistory)
   @set('emails', newSubs)
 
 UserSchema.methods.gems = ->
@@ -359,22 +373,31 @@ UserSchema.statics.unconflictName = unconflictName = (name, done) ->
 
 UserSchema.statics.unconflictNameAsync = Promise.promisify(unconflictName)
 
-UserSchema.methods.sendWelcomeEmail = (req) ->
+UserSchema.methods.sendWelcomeEmail = co.wrap (req) ->
   return if not @get('email')
   return if core_utils.isSmokeTestEmail(@get('email'))
-  { welcome_email_student, welcome_email_user } = sendwithus.templates
-  timestamp = (new Date).getTime()
-  data =
-    email_id: if @isStudent() then welcome_email_student else welcome_email_user
-    recipient:
-      address: @get('email')
+  templateId = if @isStudent() then sendgrid.templates.welcome_email_student
+  else if @isTeacher() then sendgrid.templates.welcome_email_teacher
+  else sendgrid.templates.welcome_email_user
+  msg =
+    to:
+      email: @get('emailLower')
       name: @broadName()
-    email_data:
+    from:
+      email: config.mail.username
+      name: 'CodeCombat'
+    templateId: templateId
+    substitutions:
       name: @broadName()
-      verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode(timestamp)}")
+      verify_link: makeHostUrl(req, "/user/#{@_id}/verify/#{@verificationCode((new Date).getTime())}")
       teacher: @isTeacher()
-  sendwithus.api.send data, (err, result) ->
-    log.error "sendwithus post-save error: #{err}, result: #{result}" if err
+      email: @get('emailLower')
+  try
+    yield sendgrid.api.send(msg)
+  catch err
+    log.error "sendgrid post-save error: #{err}"
+    log.error "sendgrid post-save error email context:"
+    log.error JSON.stringify(msg, null, 2)
 
 UserSchema.methods.hasSubscription = ->
   if payPal = @get('payPal')
@@ -507,6 +530,21 @@ UserSchema.pre('save', (next) ->
   if @hasLogInMethod() and @get('anonymous')
     @set('anonymous', false)
 
+  if _.size(@get('birthday')) > 7
+    @set('birthday', @get('birthday').slice(0,7)) # Limit to year/month
+
+  if email and (@get('consentHistory') ? []).length is 0
+    # Initialize consentHistory if needed (new user account, or old one before we saved this)
+    consentHistory = []
+    for k, v of (@get('emails') ? {}) when v.enabled
+      consentHistory.push
+        action: 'allow'
+        date: new Date()
+        type: 'email'
+        emailHash: User.hashEmail(email)
+        description: k
+    @set('consentHistory', consentHistory) if consentHistory.length
+
   next()
 )
 
@@ -537,6 +575,12 @@ UserSchema.statics.hashPassword = (password) ->
   shasum.update(salt + password)
   shasum.digest('hex')
 
+UserSchema.statics.hashEmail = (email) ->
+  email = email.toLowerCase()
+  shasum = crypto.createHash('sha512')
+  shasum.update(salt + email)
+  shasum.digest('hex')
+
 UserSchema.methods.verificationCode = (timestamp) ->
   { _id, email } = this.toObject()
   shasum = crypto.createHash('sha256')
@@ -545,7 +589,7 @@ UserSchema.methods.verificationCode = (timestamp) ->
 
 UserSchema.statics.privateProperties = [
   'permissions', 'email', 'mailChimp', 'firstName', 'lastName', 'gender', 'facebookID',
-  'gplusID', 'music', 'volume', 'aceConfig', 'employerAt', 'signedEmployerAgreement',
+  'gplusID', 'music', 'volume', 'aceConfig',
   'emailSubscriptions', 'emails', 'activity', 'stripe', 'stripeCustomerID',
   'schoolName', 'ageRange', 'role', 'enrollmentRequestSent', 'oAuthIdentities',
   'coursePrepaid', 'coursePrepaidID', 'lastAnnouncementSeen'
@@ -555,16 +599,15 @@ UserSchema.statics.editableProperties = [
   'name', 'photoURL', 'password', 'anonymous', 'wizardColor1', 'volume',
   'firstName', 'lastName', 'gender', 'ageRange', 'facebookID', 'gplusID', 'emails',
   'testGroupNumber', 'music', 'hourOfCode', 'hourOfCodeComplete', 'preferredLanguage',
-  'wizard', 'aceConfig', 'autocastDelay', 'lastLevel', 'jobProfile', 'savedEmployerFilterAlerts',
+  'wizard', 'aceConfig', 'autocastDelay', 'lastLevel',
   'heroConfig', 'iosIdentifierForVendor', 'siteref', 'referrer', 'schoolName', 'role', 'birthday',
-  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen'
+  'enrollmentRequestSent', 'israelId', 'school', 'lastAnnouncementSeen', 'unsubscribedFromMarketingEmails'
 ]
 UserSchema.statics.adminEditableProperties = [
   'purchased'
 ]
 
-UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'lastIP']
-UserSchema.statics.candidateProperties = [ 'jobProfile', 'jobProfileApproved', 'jobProfileNotes']
+UserSchema.statics.serverProperties = ['passwordHash', 'emailLower', 'nameLower', 'passwordReset', 'consentHistory', 'geo']
 
 UserSchema.set('toObject', {
   transform: (doc, ret, options) ->
@@ -582,7 +625,6 @@ UserSchema.set('toObject', {
     else
       excludedPrivates = User.privateProperties
     delete ret[prop] for prop in excludedPrivates unless includePrivates
-    delete ret[prop] for prop in User.candidateProperties
     return ret
 })
 
@@ -600,8 +642,23 @@ UserSchema.statics.makeNew = (req) ->
   user.set 'preferredLanguage', lang if lang[...2] isnt 'en'
   user.set 'preferredLanguage', 'pt-BR' if not user.get('preferredLanguage') and /br\.codecombat\.com/.test(req.get('host'))
   user.set 'preferredLanguage', 'zh-HANS' if not user.get('preferredLanguage') and /cn\.codecombat\.com/.test(req.get('host'))
-  user.set 'lastIP', (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
-  user.set 'country', req.country if req.country
+  if ip = (req.headers['x-forwarded-for'] or req.connection.remoteAddress)?.split(/,? /)[0]
+    geo = geoip.lookup(ip)
+    if geo
+      userGeo = {}
+      userGeo.country = geo.country
+      if country = geo.country
+          userGeo.countryName = countryList.getName(country)
+      userGeo.region = geo.region
+      userGeo.city = geo.city
+      userGeo.ll = geo.ll
+      userGeo.metro = geo.metro
+      userGeo.zip = geo.zip
+      user.set 'geo', userGeo
+  if req.country                        # Storing the country name again since user.country is being used in various other files
+    user.set 'country', req.country
+  else if userGeo?.countryName
+    user.set 'country', userGeo.countryName
   user.set 'createdOnHost', req.headers.host
   user
 

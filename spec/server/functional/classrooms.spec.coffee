@@ -71,7 +71,7 @@ describe 'GET /db/classroom?memberID=:id', ->
     url = getURL('/db/classroom?memberID='+@user1.id)
     [res, body] =  yield request.getAsync { url, json: true }
     expect(res.statusCode).toBe(403)
-    
+
 describe 'GET /db/classroom/:id', ->
   it 'clears database users and classrooms', (done) ->
     clearModels [User, Classroom, Course, Campaign], (err) ->
@@ -471,14 +471,14 @@ describe 'GET /db/classroom/:classroomID/members/:memberID/is-auto-revokable', -
     @classroom = yield utils.makeClassroom({}, {members:[@student]})
     @url = utils.getURL("/db/classroom/#{@classroom.id}/members/#{@student.id}/is-auto-revokable")
     done()
-  
+
   describe 'when the user does NOT have a license', ->
     it 'says it will NOT revoke the license', utils.wrap (done) ->
       [res, body] = yield request.getAsync { @url, json: true }
       expect(res.statusCode).toBe(200)
       expect(res.body.willRevokeLicense).toBe(false)
       done()
-  
+
   describe 'when the user has a license', ->
     beforeEach utils.wrap (done) ->
       @admin = yield utils.initAdmin()
@@ -525,7 +525,7 @@ describe 'DELETE /db/classroom/:classroomID/members/:memberID', ->
     classroom = yield Classroom.findById(@classroom.id)
     expect(classroom.get('members').length).toBe(0)
     done()
-  
+
   describe 'when the user has a license', ->
     beforeEach utils.wrap (done) ->
       @admin = yield utils.initAdmin()
@@ -566,12 +566,12 @@ describe 'POST /db/classroom/:id/invite-members', ->
     classroom = yield utils.makeClassroom()
     url = classroomsURL + "/#{classroom.id}/invite-members"
     data = { emails: ['test@test.com'], recaptchaResponseToken: 'user response token' }
-    sendwithus = require '../../../server/sendwithus'
-    spyOn(sendwithus.api, 'send').and.callFake (context, cb) ->
-      expect(context.email_id).toBe(sendwithus.templates.course_invite_email)
-      expect(context.recipient.address).toBe('test@test.com')
-      expect(context.email_data.teacher_name).toBe('Mr Professerson')
-      expect(context.email_data.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
+    sendgrid = require '../../../server/sendgrid'
+    spyOn(sendgrid.api, 'send').and.callFake (message, cb) ->
+      expect(message.templateId).toBe(sendgrid.templates.course_invite_email)
+      expect(message.to.email).toBe('test@test.com')
+      expect(message.substitutions.teacher_name).toBe('Mr Professerson')
+      expect(message.substitutions.join_link).toBe('https://codecombat.com/students?_cc='+classroom.get('codeCamel'))
       done()
     serverUtils = require '../../../server/lib/utils'
     spyOn(serverUtils, 'verifyRecaptchaToken').and.returnValue(Promise.resolve(true));

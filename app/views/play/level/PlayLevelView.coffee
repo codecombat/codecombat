@@ -131,8 +131,6 @@ module.exports = class PlayLevelView extends RootView
     $('flying-focus').remove() #Causes problems, so yank it out for play view.
     $(window).on 'resize', @onWindowResize
 
-    application.tracker?.enableInspectletJS(@levelID)
-
     if @isEditorPreview
       @supermodel.shouldSaveBackups = (model) ->  # Make sure to load possibly changed things from localStorage.
         model.constructor.className in ['Level', 'LevelComponent', 'LevelSystem', 'ThangType']
@@ -487,7 +485,7 @@ module.exports = class PlayLevelView extends RootView
     @loadingView = null
     @playAmbientSound()
     # TODO: Is it possible to create a Mongoose ObjectId for 'ls', instead of the string returned from get()?
-    application.tracker?.trackEvent 'Started Level', category:'Play Level', levelID: @levelID, ls: @session?.get('_id') unless @observing
+    application.tracker?.trackEvent 'Started Level', category:'Play Level', label: @levelID, levelID: @levelID, ls: @session?.get('_id') unless @observing
     $(window).trigger 'resize'
     _.delay (=> @perhapsStartSimulating?()), 10 * 1000
 
@@ -795,7 +793,6 @@ module.exports = class PlayLevelView extends RootView
     #@instance.save() unless @instance.loading
     delete window.nextURL
     console.profileEnd?() if PROFILE_ME
-    application.tracker?.disableInspectletJS()
     super()
 
   onIPadMemoryWarning: (e) ->

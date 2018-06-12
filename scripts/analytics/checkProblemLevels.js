@@ -137,6 +137,11 @@ co(function*() {
       ++stats.started;
       if (session.state && session.state.complete)
         ++stats.completed;
+      // Playtime: check for outliers (bugs in AFK detection, or maybe student changed system time during level)
+      const averagePlaytimeSoFar = (stats.playtime || 30 * 60) / (stats.started || 1);
+      if (session.playtime > 5 * 60 * 60 ||
+          (stats.started > 25 && session.playtime > Math.max(2 * 60 * 60, 40 * averagePlaytimeSoFar)))
+        session.playtime = 5 * averagePlaytimeSoFar;
       stats.playtime += session.playtime;
       if (session == lastCreatedSession && session == lastChangedSession) {
         if (new Date() - session.changed > daysBeforeCountingLeftGame * 86400 * 1000)

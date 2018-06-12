@@ -273,8 +273,6 @@ block content
                           =" "
                           span(data-i18n="play_level.level")
                           span )
-                          =" "
-                          span.glyphicon.glyphicon-question-sign(data-html='true', data-title=view.questionMarkHtml("teacher.solution_project_blurb"))
                   - var solutions = view.levelSolutionsMap[level.get('original')] || [];
                   if solutions.length > 1
                     tr
@@ -301,6 +299,24 @@ block content
                     td(colspan=2)
                       div(role='tabpanel')
                         .tab-content
+                          //- For project level, there is no correct solution, just show the student's code
+                          if level.isProject() && solutions.length === 0
+                            - var target = level.get('original');
+                            div.tab-pane(id=target, class='active', role=tabpanel, aria-labelledby="#{target}-tab")
+                              table.side-by-side
+                                tr
+                                  td
+                                    if view.levelStudentCodeMap[level.get('original')]
+                                      if view.levelProgressMap[level.get('original')] === 'complete'
+                                        pre
+                                          code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                      else
+                                        pre.incomplete-code
+                                          code(class=langClass)= view.levelStudentCodeMap[level.get('original')]
+                                    else
+                                      i.small(data-i18n="teacher.no_code_yet")
+                                  td.project-blurb
+                                    i.small(data-i18n="teacher.solution_project_blurb")
                           each solution, index in solutions
                             - var target = level.get('original') + index;
                             div.tab-pane(id=target, class=(index === 0 ? 'active' : ''), role=tabpanel, aria-labelledby="#{target}-tab")
@@ -351,7 +367,6 @@ mixin studentLevelProgressDot(levelProgress, level, levelNumber, course)
   else if level.isProject()
     - labelText = translate('teacher.project');
     - dotClass += ' progress-dot-lg';
-  - console.log('context', context)
   .progress-dot.level-progress-dot(class=dotClass, data-html='true', data-title=view.singleStudentLevelProgressDotTemplate(context), data-level-slug=level.get('slug'), data-level-progress=(levelProgress || 'not started'))
     if link
       a(href=link, data-level-slug=levelSlugNav)

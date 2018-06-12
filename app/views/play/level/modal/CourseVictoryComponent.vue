@@ -10,8 +10,10 @@
         .row
           .col-sm-12
             div.clearfix.well.well-sm.well-parchment.combo-results(v-if="level.assessment === 'cumulative'")
-              div.text-center.text-uppercase.pie-container
-                pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="green", :opacity="1")
+              div.text-center.text-uppercase.left-column
+                div.pie-container
+                  pie-chart(:percent='percentConceptsCompleted', :stroke-width="10", color="#20572B", :opacity="1", :borderStrokeWidth=0)
+                  img(:src="comboImage").combo-img
                 h5 {{ $t('play_level.combo_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
               div
                 h3.text-uppercase {{ $t('play_level.combo_challenge_complete') }}
@@ -20,8 +22,9 @@
                 div(v-else)
                   | {{ $t('play_level.combo_not_all_concepts_used', { complete: conceptGoalsCompleted, total: conceptGoals.length }) }}
 
-            div.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
+            div#level-status.clearfix.well.well-sm.well-parchment(v-else-if="level.assessment")
               h3.text-uppercase {{ $t('play_level.concept_challenge_complete') }}
+              img(:src="heroImage").hero-img
               div {{ $t('play_level.combo_challenge_complete_body', { concept: primaryConcept }) }}
                   
             div.clearfix.well.well-sm.well-parchment(v-else-if="assessmentNext")
@@ -35,9 +38,10 @@
                 | {{ $dbt(nextAssessment, 'name') }}
               div.no-imgs(v-html="marked($dbt(nextAssessment, 'description'))")
                 
-            div.clearfix.well.well-sm.well-parchment(v-else)
+            div#level-status.clearfix.well.well-sm.well-parchment(v-else)
               h3.text-uppercase
                 | {{ $t('play_level.level_complete') }}: {{ $dbt(level, 'name')}}
+              img(:src="heroImage").hero-img
               div(v-if="level.victory") {{ $dbt(level.victory, 'body') }}
               
         .row(v-if="level.assessment === 'cumulative'")
@@ -91,6 +95,8 @@
 <script lang="coffee">
   PieChart = require('core/components/PieComponent').default
   utils = require 'core/utils'
+  thangTypeConstants = require 'lib/ThangTypeConstants'
+  heroMap = _.invert(thangTypeConstants.heroes)
   
   module.exports = Vue.extend({
     # TODO: Move these props to vuex
@@ -147,6 +153,20 @@
       allConceptsUsed: ->
         @conceptGoalsCompleted is @conceptGoals.length
       level: -> @$store.state.game.level
+      heroImage: -> 
+        unless @$store.state.me.heroConfig?.thangType
+          return "/images/pages/play/modal/captain.png"
+        else
+          slug = heroMap[@$store.state.me.heroConfig.thangType]
+          if !slug?
+            return "/images/pages/play/modal/captain.png"
+          else
+            return "/images/pages/play/modal/#{slug}.png"
+      comboImage: ->
+        if @allConceptsUsed
+          return "/images/pages/play/modal/combo_complete.png"
+        else
+          return "/images/pages/play/modal/combo_incomplete.png"
     }
     methods: {
       marked
@@ -236,10 +256,25 @@
     
     svg
       width: 60px
+      position: absolute
+      top: 0
+      left: 0
     
-    .pie-container
+    .left-column
       padding: 0 15px
       width: 250px
+
+    .pie-container
+      position: relative
+      width: 60px
+      height: 70px
+      display: inline-block
+    
+    .combo-img
+      position: absolute
+      max-block-size: 70px
+      top: -4px
+      left: -4px
     
     .combo-results
       display: flex
@@ -248,5 +283,16 @@
       // they are not necessarily built for the provided space, eg Wakka Maul
       img
         display: none
+
+    #level-status
+      position: relative
+      min-height: 120px
+      padding-left: 170px
+      padding-top: 15px
+
+      .hero-img
+        position: absolute
+        bottom: 0
+        left: 10px
   
 </style>

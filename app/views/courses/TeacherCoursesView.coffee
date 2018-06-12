@@ -32,7 +32,7 @@ module.exports = class TeacherCoursesView extends RootView
     @supermodel.trackCollection(@ownedClassrooms)
     @courses = new Courses()
     @prepaids = new Prepaids()
-    @paidTeacher = me.isAdmin()
+    @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
     if me.isAdmin()
       @supermodel.trackRequest @courses.fetch()
     else
@@ -48,7 +48,7 @@ module.exports = class TeacherCoursesView extends RootView
       levels = campaign.getLevels().models.map (level) =>
         key: level.get('original'), practice: level.get('practice') ? false, assessment: level.get('assessment') ? false
       @campaignLevelNumberMap[campaign.id] = utils.createLevelNumberMap(levels)
-    @paidTeacher = @paidTeacher or @prepaids?.models.find((m) => m.get('type') in ['course', 'starter_license'] and m.get('maxRedeemers') > 0)?
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @render?()
 
   onClickGuideButton: (e) ->

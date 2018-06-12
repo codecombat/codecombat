@@ -76,7 +76,7 @@ module.exports = class LevelLoadingView extends CocoView
     else if @level.get('assessment')
       @buttonTranslationKey = 'play_level.loading_start_concept'
     @$('.start-level-button').text($.i18n.t(@buttonTranslationKey))
-    
+
     Vue.nextTick(=>
       # TODO: move goals to vuex where everyone can check together which goals are visible.
       # Use that instead of looking into the Vue result
@@ -124,7 +124,10 @@ module.exports = class LevelLoadingView extends CocoView
   finishShowingReady: =>
     return if @destroyed
     showIntro = utils.getQueryVariable('intro')
-    autoUnveil = not showIntro and (@options.autoUnveil or @session?.get('state').complete)
+    if showIntro?
+      autoUnveil = not showIntro
+    else
+      autoUnveil = @options.autoUnveil or @session?.get('state').complete
     if autoUnveil
       @startUnveiling()
       @unveil true

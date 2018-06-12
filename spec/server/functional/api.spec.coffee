@@ -794,4 +794,66 @@ describe 'GET /api/playtime-stats', ->
       qs = { country: 'brazil' }
       [res, body] = yield request.getAsync({ @url, json: true, auth: @client.auth, qs })
       expect(res.body).toDeepEqual({ playTime: 50, gamesPlayed: 1 })
+
+describe 'POST /api/classrooms', ->
+  url = utils.getURL('/api/classrooms')
+
+  beforeEach utils.wrap (done) ->
+    yield utils.clearModels([User, APIClient, Classroom, Course, Level, Campaign])
+    @client = new APIClient()
+    @secret = @client.setNewSecret()
+    @auth = { user: @client.id, pass: @secret }
+    yield @client.save()
+    @user = yield utils.initAdmin({clientCreator: @client._id, role: 'teacher'})
+    yield utils.loginUser(@user)
+
+    levelJSONA = { name: 'Level A', permissions: [{access: 'owner', target: @user.id}], type: 'course' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONA})
+    expect(res.statusCode).toBe(200)
+    @levelA = yield Level.findById(res.body._id)
+    levelJSONB = { name: 'Level B', permissions: [{access: 'owner', target: @user.id}], type: 'course' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONB})
+    expect(res.statusCode).toBe(200)
+    @levelB = yield Level.findById(res.body._id)
+    levelJSONC = { name: 'Level C', permissions: [{access: 'owner', target: @user.id}], type: 'hero', practice: true }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONC})
+    expect(res.statusCode).toBe(200)
+    @levelC = yield Level.findById(res.body._id)
+    levelJSONJSPrimer1 = { name: 'JS Primer 1', permissions: [{access: 'owner', target: @user.id}], type: 'hero', primerLanguage: 'javascript' }
+    [res, body] = yield request.postAsync({uri: getURL('/db/level'), json: levelJSONJSPrimer1})
+    expect(res.statusCode).toBe(200)
+    @levelJSPrimer1 = yield Level.findById(res.body._id)
+
+    campaignJSON = { name: 'Campaign', levels: {} }
+    paredLevelJSPrimer1 = _.pick(@levelJSPrimer1.toObject(), 'name', 'original', 'type', 'slug', 'primerLanguage')
+    paredLevelJSPrimer1.campaignIndex = 3
+    campaignJSON.levels[@levelJSPrimer1.get('original').toString()] = paredLevelJSPrimer1
+    paredLevelC = _.pick(@levelC.toObject(), 'name', 'original', 'type', 'slug', 'practice')
+    paredLevelC.campaignIndex = 2
+    campaignJSON.levels[@levelC.get('original').toString()] = paredLevelC
+    paredLevelB = _.pick(@levelB.toObject(), 'name', 'original', 'type', 'slug')
+    paredLevelB.campaignIndex = 1
+    campaignJSON.levels[@levelB.get('original').toString()] = paredLevelB
+    paredLevelA = _.pick(@levelA.toObject(), 'name', 'original', 'type', 'slug')
+    paredLevelA.campaignIndex = 0
+    campaignJSON.levels[@levelA.get('original').toString()] = paredLevelA
+    for levelOriginal, level of campaignJSON.levels
+      level.position = { x: 10*level.campaignIndex, y: 10*level.campaignIndex }
+
+    [res, body] = yield request.postAsync({uri: getURL('/db/campaign'), json: campaignJSON})
+    @campaign = yield Campaign.findById(res.body._id)
+    @course = Course({name: 'Course', campaignID: @campaign._id, releasePhase: 'released'})
+    yield @course.save()
+    done()
+
+  it 'creates an empty classroom given a teacher ID, classroom name, and code language', utils.wrap (done) ->
+    json = { name: 'name', ownerID: @user._id, aceConfig: {language: 'python'} }
+    [res, body] = yield request.postAsync({url, json, @auth})
+    expect(res.statusCode).toBe(201)
+    expect(body.name).toBe(json.name)
+    expect(body.ownerID).toBe(json.ownerID.toString())
+    expect(body.aceConfig).toDeepEqual(json.aceConfig)
+    expect(body.members.length).toBe(0)
+    expect(body.courses[0].levels[0].position).toBeDefined()
+    done()
       

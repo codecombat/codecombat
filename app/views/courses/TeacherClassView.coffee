@@ -50,6 +50,7 @@ module.exports = class TeacherClassView extends RootView
     'click .assign-student-button': 'onClickAssignStudentButton'
     'click .enroll-student-button': 'onClickEnrollStudentButton'
     'click .revoke-student-button': 'onClickRevokeStudentButton'
+    'click .revoke-all-students-button': 'onClickRevokeAllStudentsButton'
     'click .assign-to-selected-students': 'onClickBulkAssign'
     'click .remove-from-selected-students': 'onClickBulkRemoveCourse'
     'click .export-student-progress-btn': 'onClickExportStudentProgress'
@@ -174,9 +175,12 @@ module.exports = class TeacherClassView extends RootView
       @debouncedRender()
     @listenTo @courses, 'sync change update', ->
       @setCourseMembers() # Is this necessary?
-      @state.set selectedCourse: @courses.first() unless @state.get('selectedCourse')
+      unless @state.get 'selectedCourse'
+        @state.set 'selectedCourse', @courses.first()
+      @setSelectedCourseInstance()
     @listenTo @courseInstances, 'sync change update', ->
       @setCourseMembers()
+      @setSelectedCourseInstance()
     @listenTo @students, 'sync change update add remove reset', ->
       # Set state/props of things that depend on students?
       # Set specific parts of state based on the models, rather than just dumping the collection there?
@@ -192,12 +196,21 @@ module.exports = class TeacherClassView extends RootView
       @state.set students: @students
     @listenTo @, 'course-select:change', ({ selectedCourse }) ->
       @state.set selectedCourse: selectedCourse
+    @listenTo @state, 'change:selectedCourse', (e) ->
+      @setSelectedCourseInstance()
 
   setCourseMembers: =>
     for course in @courses.models
       course.instance = @courseInstances.findWhere({ courseID: course.id, classroomID: @classroom.id })
       course.members = course.instance?.get('members') or []
     null
+
+  setSelectedCourseInstance: ->
+    selectedCourse = @state.get('selectedCourse') or @courses.first()
+    if selectedCourse
+      @state.set 'selectedCourseInstance', @courseInstances.findWhere courseID: selectedCourse.id, classroomID: @classroom.id
+    else if @state.get 'selectedCourseInstance'
+      @state.set 'selectedCourseInstance', null
 
   onLoaded: ->
     # Get latest courses for student assignment dropdowns
@@ -293,7 +306,7 @@ module.exports = class TeacherClassView extends RootView
       progressData
       classStats: @calculateClassStats()
     }
-  
+
   getCourseAssessmentPairs: () ->
     @courseAssessmentPairs = []
     for course in @courses.models
@@ -625,7 +638,7 @@ module.exports = class TeacherClassView extends RootView
       throw e if e instanceof Error and not application.isProduction()
       text = if e instanceof Error then 'Runtime error' else e.responseJSON?.message or e.message or $.i18n.t('loading_error.unknown')
       noty { text, layout: 'center', type: 'error', killer: true, timeout: 5000 }
-  
+
   removeCourse: (courseID, members) ->
     return unless me.id is @classroom.get('ownerID') # May be viewing page as admin
     courseInstance = null
@@ -681,6 +694,22 @@ module.exports = class TeacherClassView extends RootView
         noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
       complete: => @render()
     })
+    
+  onClickRevokeAllStudentsButton: ->
+    s = $.i18n.t('teacher.revoke_all_confirm')
+    return unless confirm(s)
+    for student in @students.models
+      status = student.prepaidStatus()
+      if status is 'enrolled' and student.prepaidType() is 'course'
+        prepaid = student.makeCoursePrepaid()
+        prepaid.revoke(student, {
+          success: =>
+            student.unset('coursePrepaid')
+          error: (prepaid, jqxhr) =>
+            msg = jqxhr.responseJSON.message
+            noty text: msg, layout: 'center', type: 'error', killer: true, timeout: 3000
+          complete: => @render()
+        })
 
   onClickSelectAll: (e) ->
     e.preventDefault()

@@ -17,11 +17,12 @@ User = require '../models/User'
 CourseInstance = require '../models/CourseInstance'
 Prepaid = require '../models/Prepaid'
 TrialRequest = require '../models/TrialRequest'
-sendwithus = require '../sendwithus'
+sendgrid = require '../sendgrid'
 co = require 'co'
 delighted = require '../delighted'
 subscriptions = require './subscriptions'
 { makeHostUrl } = require '../commons/urls'
+config = require '../../server_config'
 
 module.exports =
   getByCode: wrap (req, res, next) ->
@@ -54,7 +55,7 @@ module.exports =
     classrooms = yield dbq
     classrooms = (classroom.toObject({req: req}) for classroom in classrooms)
     res.status(200).send(classrooms)
-    
+
   getByMember: wrap (req, res, next) ->
     { memberID } = req.query
     return next() unless memberID
@@ -175,7 +176,7 @@ module.exports =
       otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
     catch err
       throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
-  
+
     # If the student is being removed from their very last classroom, unenroll them
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
     if user.isEnrolled() and otherClassrooms.length is 0
@@ -209,7 +210,7 @@ module.exports =
       otherClassrooms = yield Classroom.find { members: mongoose.Types.ObjectId(userID), _id: {$ne: classroom.get('_id')} }
     catch err
       throw new errors.InternalServerError('Error finding other classrooms by memberID: ' + err)
-  
+
     # If the student is being removed from their very last classroom, unenroll them
     user = yield User.findOne({ _id: mongoose.Types.ObjectId(userID) })
     if user.isEnrolled() and otherClassrooms.length is 0
@@ -292,19 +293,13 @@ module.exports =
     unless req.user?.isTeacher()
       log.debug "classrooms.post: Can't create classroom if you (#{req.user?.id}) aren't a teacher."
       throw new errors.Forbidden()
-    classroom = database.initDoc(req, Classroom)
-    classroom.set 'ownerID', req.user._id
-    classroom.set 'members', []
-    database.assignBody(req, classroom)
-
     owner = req.user
-    yield classroom.setUpdatedCourses({isAdmin: req.user?.isAdmin(), addNewCoursesOnly: false})
-
-    # finish
-    database.validateDoc(classroom)
-    classroom = yield classroom.save()
-    yield delighted.checkTriggerClassroomCreated(req.user)
-    res.status(201).send(classroom.toObject({req: req}))
+    try
+      classroom = yield Classroom.create(owner, req)
+      res.status(201).send(classroom.toObject({req: req}))
+    catch err
+      log.debug "classrooms.post: error - #{err}"
+      throw new errors.InternalServerError('Error creating the classroom')
 
   updateCourses: wrap (req, res) ->
     throw new errors.Unauthorized() unless req.user and not req.user.isAnonymous()
@@ -399,17 +394,20 @@ module.exports =
 
     for email in req.body.emails
       joinCode = (classroom.get('codeCamel') or classroom.get('code'))
-      context =
-        email_id: sendwithus.templates.course_invite_email
-        recipient:
-          address: email
-        email_data:
+      message =
+        templateId: sendgrid.templates.course_invite_email
+        to:
+          email: email
+        from:
+          email: config.mail.username
+          name: 'CodeCombat'
+        subject: "Invite to CodeCombat classroom: \"#{classroom.get('name')}\""
+        substitutions:
           teacher_name: req.user.broadName()
           class_name: classroom.get('name')
           join_link: makeHostUrl(req, '/students?_cc=' + joinCode)
           join_code: joinCode
-      sendwithus.api.send context, _.noop
-
+      sendgrid.api.send message
     res.status(200).send({})
 
   getUsers: wrap (req, res, next) ->

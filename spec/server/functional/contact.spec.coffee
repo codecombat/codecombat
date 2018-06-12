@@ -1,17 +1,17 @@
 utils = require '../utils'
-sendwithus = require '../../../server/sendwithus'
+#sendwithus = require '../../../server/sendwithus'  # move to sendgrid if updating test
 request = require '../request'
 User = require '../../../server/models/User'
 
 # TODO: need to update this test since /contact calls external Close.io API now
 #xdescribe 'POST /contact', ->
-#  
+#
 #  beforeEach utils.wrap (done) ->
 #    spyOn(sendwithus.api, 'send')
 #    @teacher = yield utils.initUser({role: 'teacher'})
 #    yield utils.loginUser(@teacher)
 #    done()
-#  
+#
 #  describe 'when recipientID is "schools@codecombat.com"', ->
 #    it 'sends to that email', utils.wrap (done) ->
 #      [res, body] = yield request.postAsync({url: getURL('/contact'), json: {

@@ -34,7 +34,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       @levelNumberMap = {}
       @prepaids = new Prepaids()
       @supermodel.trackRequest @prepaids.fetchMineAndShared()
-    @paidTeacher = me.isAdmin()
+    @paidTeacher = me.isAdmin() or me.isTeacher() and /@codeninjas.com$/i.test me.get('email')
     super(options)
 
   camelCaseLanguage: (language) ->
@@ -49,7 +49,7 @@ module.exports = class TeacherCourseSolutionView extends RootView
       a
 
   onLoaded: ->
-    @paidTeacher = @paidTeacher or @prepaids?.models.find((m) => m.get('type') in ['course', 'starter_license'] and m.get('maxRedeemers') > 0)?
+    @paidTeacher = @paidTeacher or @prepaids.find((p) => p.get('type') in ['course', 'starter_license'] and p.get('maxRedeemers') > 0)?
     @listenTo me, 'change:preferredLanguage', @updateLevelData
     @updateLevelData()
 

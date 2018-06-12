@@ -6,6 +6,9 @@ SetupAccountPanel = Vue.extend
     saving: true
     error: ''
   }
+  computed:
+    inEU: ->
+      return me.inEU()
   mounted: ->
     @$store.dispatch('modal/createAccount')
     .catch (e) =>
@@ -25,6 +28,10 @@ SetupAccountPanel = Vue.extend
         emails = _.assign({}, me.get('emails'))
         emails.generalNews ?= {}
         emails.generalNews.enabled = $('#subscribe-input').is(':checked')
+        if @inEU
+          emails.teacherNews ?= {}
+          emails.teacherNews.enabled = $('#subscribe-input').is(':checked')
+          me.set('unsubscribedFromMarketingEmails', !($('#subscribe-input').is(':checked')))
         me.set('emails', emails)
         jqxhr = me.save()
         if not jqxhr

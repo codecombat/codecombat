@@ -1,5 +1,5 @@
 describe 'Utility library', ->
-  utils = require 'core/utils'
+  utils = require '../../../app/core/utils'
 
   describe 'getQueryVariable(param, defaultValue)', ->
     beforeEach ->
@@ -64,6 +64,44 @@ describe 'Utility library', ->
 
     it 'i18n can fall forward if a general language is not found', ->
       expect(utils.i18n(this.fixture1, 'text', 'pt')).toEqual(this.fixture1.i18n['pt-BR'].text)
+
+  describe 'inEU', ->
+    it 'EU countries return true', ->
+      euCountries = ['Austria', 'Belgium', 'Bulgaria', 'Croatia', 'Cyprus', 'Czech Republic', 'Denmark', 'Estonia', 'Finland', 'France', 'Germany', 'Greece', 'Hungary', 'Ireland', 'Italy', 'Latvia', 'Lithuania', 'Luxembourg', 'Malta', 'Netherlands', 'Poland', 'Portugal', 'Romania', 'Slovakia', 'Slovenia', 'Spain', 'Sweden', 'United Kingdom']
+      try 
+        euCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(true))
+      catch err
+        # NOTE: without try/catch, exceptions do not yield failed tests.
+        # E.g. utils.inEU used to call Array.find which isn't supported in IE11, try/catch required to register test fail
+        expect(err).not.toBeDefined()
+    it 'non-EU countries return false', ->
+      nonEuCountries = ['united-states', 'peru', 'vietnam']
+      try 
+        nonEuCountries.forEach((c) -> expect(utils.inEU(c)).toEqual(false))
+      catch err
+        expect(err).not.toBeDefined()
+
+  describe 'ageOfConsent', ->
+    it 'US is 13', ->
+      expect(utils.ageOfConsent('united-states')).toEqual(13)
+    it 'Latvia is 13', ->
+      expect(utils.ageOfConsent('latvia')).toEqual(13)
+    it 'Austria is 14', ->
+      expect(utils.ageOfConsent('austria')).toEqual(14)
+    it 'Greece is 15', ->
+      expect(utils.ageOfConsent('greece')).toEqual(15)
+    it 'Slovakia is 16', ->
+      expect(utils.ageOfConsent('slovakia')).toEqual(16)
+    it 'default for EU countries 16', ->
+      expect(utils.ageOfConsent('bulgaria')).toEqual(16)
+    it 'default for other countries is 0', ->
+      expect(utils.ageOfConsent('hong-kong')).toEqual(0)
+    it 'default for unknown countries is 0', ->
+      expect(utils.ageOfConsent('codecombat')).toEqual(0)
+    it 'default for undefined countries is 0', ->
+      expect(utils.ageOfConsent(undefined)).toEqual(0)
+    it 'defaultIfUnknown works', ->
+      expect(utils.ageOfConsent(undefined, 13)).toEqual(13)
 
   describe 'createLevelNumberMap', ->
     # r=required p=practice
@@ -164,6 +202,16 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 0, needsPractice)).toEqual(3)
         expect(utils.findNextAssessmentForLevel(levels, 0, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc rc* a r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: false, assessment: true}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(4)
+        expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(3)
       it 'returns correct next levels when rc* r p p p a r p p p a r r', ->
         levels = [
           {practice: false, complete: true}
@@ -378,6 +426,16 @@ describe 'Utility library', ->
         ]
         expect(utils.findNextLevel(levels, 3, needsPractice)).toEqual(2)
         expect(utils.findNextAssessmentForLevel(levels, 3, needsPractice)).toEqual(-1)
+      it 'returns correct next levels when rc rc rc* a r', ->
+        levels = [
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: true}
+          {practice: false, complete: false, assessment: true}
+          {practice: false, complete: false}
+        ]
+        expect(utils.findNextLevel(levels, 2, needsPractice)).toEqual(4)
+        expect(utils.findNextAssessmentForLevel(levels, 2, needsPractice)).toEqual(3)
       it 'returns correct next levels when rc pc p rc* p', ->
         levels = [
           {practice: false, complete: true}
