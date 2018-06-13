@@ -113,8 +113,8 @@ module.exports = class AccountSettingsView extends CocoView
             $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
       setTimeout callback, 100
     else
-      message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email.')
-      err = [message: message, property: 'email', formatted: true]
+      message = $.i18n.t('account_settings.wrong_email', defaultValue: 'Wrong Email or Username.')
+      err = [message: message, property: 'emailOrUsername', formatted: true]
       forms.applyErrorsToForm($form, err)
       $('.nano').nanoScroller({scrollTo: @$el.find('.has-error')})
 
