@@ -1128,7 +1128,7 @@
     me_tab: "Me"
     picture_tab: "Picture"
     delete_account_tab: "Delete Your Account"
-    wrong_email: "Wrong Email"
+    wrong_email: "Wrong Email or Username"
     wrong_password: "Wrong Password"
     delete_this_account: "Delete this account permanently"
     reset_progress_tab: "Reset All Progress"

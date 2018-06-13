@@ -3,10 +3,6 @@
 // Send onetime emails to inactive old unpaid EU users
 // Assumes prod env variables to run
 
-// TODO: test with keep me updated prompt
-
-// TODO: test on limited batch of users first
-
 // TODO: delete inactive users 1 month after one-time email sent
 
 require('coffee-script');

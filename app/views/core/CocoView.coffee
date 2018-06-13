@@ -8,7 +8,6 @@ auth = require 'core/auth'
 ViewVisibleTimer = require 'core/ViewVisibleTimer'
 storage = require 'core/storage'
 
-lastToggleModalCall = 0
 visibleModal = null
 waitingModal = null
 classCount = 0
@@ -266,13 +265,6 @@ module.exports = class CocoView extends Backbone.View
     auth.logoutUser()
 
   # Modals
-
-  @lastToggleModalCall = 0
-
-  toggleModal: (e) ->
-    if $(e.currentTarget).prop('target') is '_blank'
-      return true
-    # No longer try to dynamically require modal views. Require and open them in the view that wants to.
 
   openModalView: (modalView, softly=false) ->
     return if waitingModal # can only have one waiting at once

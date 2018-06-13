@@ -29,9 +29,6 @@ module.exports = class RootView extends CocoView
     'click .toggle-fullscreen': 'toggleFullscreen'
     'click .signup-button': 'onClickSignupButton'
     'click .login-button': 'onClickLoginButton'
-    'click a': 'onClickAnchor'
-    'click button': 'toggleModal'
-    'click li': 'toggleModal'
     'treema-error': 'onTreemaError'
     'click [data-i18n]': 'onClickTranslatedElement'
 
@@ -86,12 +83,6 @@ module.exports = class RootView extends CocoView
     AuthModal = require 'views/core/AuthModal'
     window.tracker?.trackEvent 'Login', category: 'Homepage', ['Google Analytics'] if @id is 'home-view'
     @openModalView new AuthModal()
-
-  onClickAnchor: (e) ->
-    return if @destroyed
-    anchorText = e?.currentTarget?.text
-    window.tracker?.trackEvent anchorText, category: 'Homepage', ['Google Analytics'] if @id is 'home-view' and anchorText
-    @toggleModal e
 
   showLoading: ($el) ->
     $el ?= @$el.find('#site-content-area')
