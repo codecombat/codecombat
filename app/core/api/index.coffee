@@ -18,4 +18,6 @@ module.exports = {
   trialRequests: require('./trial-requests')
   userCodeProblems: require('./user-code-problems')
   users: require('./users')
+  apiClients: require('./api-clients')
+  oauth: require('./o-auth')
 }

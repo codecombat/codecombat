@@ -152,8 +152,16 @@ module.exports.setup = (app) ->
   app.get('/db/classroom/-/users', mw.auth.checkHasPermission(['admin']), mw.classrooms.getUsers)
 
   APIClient = require ('../models/APIClient')
-  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin']), mw.rest.post(APIClient))
-  app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin']), mw.apiClients.newSecret)
+  app.get('/db/api-clients/name', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.getByName)
+  app.get('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.get(APIClient))
+  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.post(APIClient))
+  app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.newSecret)
+
+  OAuthProvider = require ('../models/OAuthProvider')
+  app.post('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.postOAuthProvider)
+  app.put('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.putOAuthProvider)
+  app.get('/db/o-auth/name', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.getOAuthProviderByName)
+  app.get('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.get(OAuthProvider))
 
   CodeLog = require ('../models/CodeLog')
   app.post('/db/codelogs', mw.codelogs.post)
@@ -251,12 +259,13 @@ module.exports.setup = (app) ->
   app.post('/db/poll/:handle/patch', mw.auth.checkLoggedIn(), mw.patchable.postPatch(Poll, 'poll'))
   app.get('/db/poll/:handle/patches', mw.patchable.patches(Poll))
 
+  app.get('/db/prepaid/client', mw.auth.checkHasPermission(['admin','licensor']), mw.prepaids.fetchByClient)
   app.get('/db/prepaid', mw.auth.checkLoggedIn(), mw.prepaids.fetchByCreator)
   app.get('/db/prepaid/:handle/creator', mw.prepaids.fetchCreator)
   app.get('/db/prepaid/:handle/joiners', mw.prepaids.fetchJoiners)
   app.get('/db/prepaid/-/active-school-licenses', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchoolLicenses)
   app.get('/db/prepaid/-/active-schools', mw.auth.checkHasPermission(['admin']), mw.prepaids.fetchActiveSchools)
-  app.post('/db/prepaid', mw.auth.checkHasPermission(['admin']), mw.prepaids.post)
+  app.post('/db/prepaid', mw.auth.checkHasPermission(['admin','licensor']), mw.prepaids.post)
   app.post('/db/starter-license-prepaid', mw.auth.checkLoggedIn(), mw.prepaids.purchaseStarterLicenses)
   app.post('/db/prepaid/:handle/redeemers', mw.prepaids.redeem)
   app.post('/db/prepaid/:handle/joiners', mw.prepaids.addJoiner)

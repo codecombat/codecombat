@@ -17,6 +17,8 @@ module.exports = {
     isAdmin: (state) ->
       permissions = state.permissions or []
       return permissions.indexOf('admin') > -1
+    isLicensor: (state) ->
+      (state?.permissions or []).indexOf('licensor') > -1
 
   mutations:
     updateUser: (state, updates) ->

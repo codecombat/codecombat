@@ -37,3 +37,4 @@ module.exports =
   trialRequests: require './trial-requests'
   users: require './users'
   versions: require './versions'
+  oauth: require './oauth'
