@@ -109,6 +109,8 @@ block content
           - var cs1URL = "/teachers/resources/cs1";
           - if (me.get('preferredLanguage') == 'he')
           -     cs1URL += '-he'
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     cs1URL += '-zh-HANS'
           a(href=cs1URL)
             span(data-i18n="teacher.cs1_curriculum")
           p(data-i18n="teacher.cs1_curriculum_desc")
@@ -121,7 +123,10 @@ block content
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_python_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf")
+          - var jsURL = "http://files.codecombat.com/docs/resources/Course1JavaScriptSyntaxGuide.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     jsURL = jsURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          a(href=jsURL)
             span(data-i18n="teacher.cs1_syntax_javascript")
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_javascript_desc")
