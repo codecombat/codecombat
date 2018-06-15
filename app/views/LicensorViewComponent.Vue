@@ -72,24 +72,30 @@ div.licensor.container(v-else)
             input(type="text", name="clientNameShow")
         .form-group
             button.btn.btn-primary(v-on:click.prevent="onShowApiClient", name="showClient") Show API Client
-    table.table.table-condensed#client-table(v-if = "clients.length > 0")
-      tr
-        th.border ID
-        th.border Slug
-        th.border Name
-        th.border No of license days assigned by client
-        th.border No of users to whom licenses have been assigned
-      tr(v-for = "client in clients")
-        td.border {{client._id}}
-        td.border {{client.slug}}
-        td.border {{client.name}}
-        td.border {{client.licenses}}
-        td.border {{client.users}}
-    label.border(v-for = "client in clients") 
+            button.btn.btn-primary(v-on:click.prevent="onShowAllApiClient", name="showAllClient") Show All API Clients
+    table.table.table-condensed#client-table(v-if = "clients.length == 1")
+        tr
+            th.border ID
+            th.border Slug
+            th.border Name
+            th.border No of license days assigned by client
+            th.border No of users to whom licenses have been assigned
+        tr(v-for = "client in clients")
+            td.border {{client._id}}
+            td.border {{client.slug}}
+            td.border {{client.name}}
+            td.border {{client.licenses}}
+            td.border {{client.users}}
+    label.border(v-if = "clients.length == 1" v-for = "client in clients")
         | Client secret:
         =" "
         h4.small
             | {{client.secret}}
+    table.table.table-condensed#client-table(v-if = "clients.length > 1")
+        tr
+            th.border Name
+        tr(v-for = "client in clients")
+            td.border {{client.name}}
       
     h3 Create/Edit OAuth Provider
     #oauth-form.form
@@ -158,12 +164,17 @@ div.licensor.container(v-else)
             input(type="text", name="oauthNameShow")
         .form-group
             button.btn.btn-primary(v-on:click.prevent="onShowOauth", name="showProvider") Show Provider
-    table(v-for = "oauth in oauthProvider")
-      .table.table-condensed#o-auth-table
+            button.btn.btn-primary(v-on:click.prevent="onShowAllOauth", name="showAllProvider") Show All Providers
+    table.table.table-condensed#o-auth-table(v-if = "oauthProvider.length == 1" v-for = "oauth in oauthProvider")
         tr
             th.border(v-for="(value, key) in oauth") {{key}}
         tr
             td.border(v-for="(value, key) in oauth") {{value}}
+    table.table.table-condensed#o-auth-table(v-if = "oauthProvider.length > 1")
+        tr
+            th.border Name
+        tr(v-for = "oauth in oauthProvider")
+            td.border {{oauth.name}}
   
 </template>
 
@@ -211,13 +222,12 @@ module.exports = Vue.extend({
             attrs = data
             attrs.maxRedeemers = parseInt(data.maxRedeemers)
             _.extend(attrs, {
-                type: 'course'  # can it be anything else?
+                type: 'course'
                 creator: user._id
                 properties:
-                    adminAdded: me.id   #should it be licensorAdded instead of adminAdded?
+                    licensorAdded: me.id
             })
             prepaid = yield api.prepaids.post(attrs)
-            console.log("License created: ", prepaid)
             alert("License created")
         catch err
             console.log(err)
@@ -263,9 +273,7 @@ module.exports = Vue.extend({
                 name: data.clientNameCreate
             }
             apiCLient = yield api.apiClients.post(attrs)
-            console.log(apiCLient)
             yield api.apiClients.createSecret({clientID: apiCLient._id})
-            console.log("Client created: ", apiCLient)
             alert("Client created")
         catch err
             console.log(err)
@@ -286,7 +294,6 @@ module.exports = Vue.extend({
                 return
             for client in this.clients
                 clientPrepaids = yield api.prepaids.getByClient(client._id)
-                console.log(clientPrepaids)
                 if clientPrepaids.length > 0
                     Vue.set(client, 'users', clientPrepaids.length)
                     licenses = 0
@@ -298,16 +305,29 @@ module.exports = Vue.extend({
                 else
                     Vue.set(client, 'users', 0)
                     Vue.set(client, 'licenses', 0)
-            #this.clients = clients
 
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'showClient', 'Something went wrong')
             return
+
+    onShowAllApiClient: co.wrap ->
+        el = $('#client-show-form')
+        
+        try
+            this.clients = yield api.apiClients.getAll()
+            unless this.clients.length > 0
+                forms.setErrorToProperty(el, 'showAllClient', 'No API CLient found')
+                return
+
+        catch err
+            console.log(err)
+            forms.setErrorToProperty(el, 'showAllClient', 'Something went wrong')
+            return
    
     onCreateOauth: co.wrap ->
         el = $('#oauth-form')
-        requiredProps = ['oauthName', 'lookupUrlTemplate', 'tokenUrl']  # not sure if lookupUrlTemplate and tokenUrl are required
+        requiredProps = ['oauthName', 'lookupUrlTemplate', 'tokenUrl']
         data = @runValidation(el, requiredProps)
         unless data
             return
@@ -319,9 +339,9 @@ module.exports = Vue.extend({
                 user: data.tokenAuthUser
                 pass: data.tokenAuthPass
             }
-            attrs.strictSSL = (data.strictSSL == 'true')
+            if data.strictSSL
+                attrs.strictSSL = (data.strictSSL == 'true')
             oauthProvider = yield api.oauth.post(attrs)
-            console.log("OAuth Provider created: ", oauthProvider)
             alert("OAuth Provider created")
         catch err
             console.log(err)
@@ -341,14 +361,14 @@ module.exports = Vue.extend({
                 forms.setErrorToProperty(el, 'editProvider', 'OAuth Provider not found')
                 return
             attrs = _.pick(data, 'lookupUrlTemplate', 'tokenUrl', 'tokenMethod', 'lookupIdProperty', 'redirectAfterLogin')
-            attrs.strictSSL = (data.strictSSL == 'true')
+            if data.strictSSL
+                attrs.strictSSL = (data.strictSSL == 'true')
             attrs.tokenAuth = {
                 user: data.tokenAuthUser
                 pass: data.tokenAuthPass
             }
             attrs.id = oauthProvider[0]._id
             oauthProvider = yield api.oauth.editProvider(attrs)
-            console.log("OAuth Provider updated: ", oauthProvider)
             alert("OAuth Provider updated")
         catch err
             console.log(err)
@@ -367,10 +387,22 @@ module.exports = Vue.extend({
             unless this.oauthProvider.length > 0
                 forms.setErrorToProperty(el, 'showProvider', 'No OAuth Provider found')
                 return
-            console.log(this.oauthProvider)
         catch err
             console.log(err)
             forms.setErrorToProperty(el, 'showProvider', 'Something went wrong')
+            return
+    
+    onShowAllOauth: co.wrap ->
+        el = $('#oauth-show-form')
+
+        try
+            this.oauthProvider = yield api.oauth.getAll()
+            unless this.oauthProvider.length > 0
+                forms.setErrorToProperty(el, 'showAllProvider', 'No OAuth Provider found')
+                return
+        catch err
+            console.log(err)
+            forms.setErrorToProperty(el, 'showAllProvider', 'Something went wrong')
             return
         
 

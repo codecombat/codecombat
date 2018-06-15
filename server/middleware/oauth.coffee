@@ -13,10 +13,10 @@ module.exports =
     provider = yield provider.save()
     res.status(201).send(provider.toObject({req: req}))
 
-  getOAuthProvider: wrap (req, res, next) ->
+  getOAuthProviderByName: wrap (req, res, next) ->
     providerName = req.query.name
     return next() if not providerName
-    
+
     providers = yield OAuthProvider.find({name: providerName})
     res.send(providers)
 

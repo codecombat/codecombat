@@ -1,17 +1,15 @@
 fetchJson = require './fetch-json'
 
 module.exports = {
-
-  url: (clientID) -> "db/api-clients/#{clientID}/new-secret"
   
   post: (options={}) ->
-    fetchJson('db/api-clients', _.assign {}, {
+    fetchJson('/db/api-clients', _.assign {}, {
       method: 'POST'
       json: options
     })
 
   createSecret: ({clientID}, options={}) ->
-    fetchJson(@url(clientID), _.assign {}, {
+    fetchJson("/db/api-clients/#{clientID}/new-secret", _.assign {}, {
       method: 'POST'
       json: options
     })
@@ -19,5 +17,8 @@ module.exports = {
   getByName: (clientName, options={}) ->
     options.data ?= {}
     options.data.name = clientName
-    fetchJson('db/api-clients', options)
+    fetchJson('/db/api-clients/name', options)
+
+  getAll: (options={}) ->
+    fetchJson('/db/api-clients', options)
 }

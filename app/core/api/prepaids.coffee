@@ -18,7 +18,7 @@ module.exports = {
     fetchJson('/db/prepaid', options)
 
   post: (options={}) ->
-    fetchJson('db/prepaid', _.assign {}, {
+    fetchJson('/db/prepaid', _.assign {}, {
       method: 'POST'
       json: options
     })

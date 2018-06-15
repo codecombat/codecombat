@@ -152,13 +152,16 @@ module.exports.setup = (app) ->
   app.get('/db/classroom/-/users', mw.auth.checkHasPermission(['admin']), mw.classrooms.getUsers)
 
   APIClient = require ('../models/APIClient')
-  app.get('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.getByName)
+  app.get('/db/api-clients/name', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.getByName)
+  app.get('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.get(APIClient))
   app.post('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.post(APIClient))
   app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.newSecret)
 
+  OAuthProvider = require ('../models/OAuthProvider')
   app.post('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.postOAuthProvider)
   app.put('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.putOAuthProvider)
-  app.get('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.getOAuthProvider)
+  app.get('/db/o-auth/name', mw.auth.checkHasPermission(['admin','licensor']), mw.oauth.getOAuthProviderByName)
+  app.get('/db/o-auth', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.get(OAuthProvider))
 
   CodeLog = require ('../models/CodeLog')
   app.post('/db/codelogs', mw.codelogs.post)
