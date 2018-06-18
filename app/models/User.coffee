@@ -27,6 +27,7 @@ module.exports = class User extends CocoModel
   notyErrors: false
 
   isAdmin: -> 'admin' in @get('permissions', true)
+  isLicensor: -> 'licensor' in @get('permissions', true)
   isArtisan: -> 'artisan' in @get('permissions', true)
   isInGodMode: -> 'godmode' in @get('permissions', true)
   isAnonymous: -> @get('anonymous', true)

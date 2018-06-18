@@ -88,6 +88,10 @@ UserSchema.methods.isAdmin = ->
   p = @get('permissions')
   return p and 'admin' in p
 
+UserSchema.methods.isLicensor = ->
+  p = @get('permissions')
+  return p and 'licensor' in p
+
 UserSchema.methods.isVerifiedTeacher = ->
   return Boolean(@get('verifiedTeacher'))
 

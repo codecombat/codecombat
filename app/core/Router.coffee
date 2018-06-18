@@ -40,6 +40,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'account/invoices': go('account/InvoicesView')
     'account/prepaid': go('account/PrepaidView')
 
+    'licensor': go('LicensorView')
+
     'admin': go('admin/MainAdminView')
     'admin/clas': go('admin/CLAsView')
     'admin/classroom-content': go('admin/AdminClassroomContentView')
@@ -76,6 +78,7 @@ module.exports = class CocoRouter extends Backbone.Router
     'artisans/student-solutions': go('artisans/StudentSolutionsView')
     'artisans/tag-test': go('artisans/TagTestView')
     'artisans/bulk-level-editor': go('artisans/BulkLevelEditView')
+    'artisans/sandbox': go('artisans/SandboxView')
     'artisans/bulk-level-editor/:campaign': go('artisans/BulkLevelEditView')
 
     'careers': => window.location.href = 'https://jobs.lever.co/codecombat'
@@ -156,6 +159,8 @@ module.exports = class CocoRouter extends Backbone.Router
     'legal': go('LegalView')
 
     'logout': 'logout'
+
+    'minigames/conditionals': go('minigames/ConditionalMinigameView')
 
     'paypal/subscribe-callback': go('play/CampaignView')
     'paypal/cancel-callback': go('account/SubscriptionView')

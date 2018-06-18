@@ -28,7 +28,7 @@ cutoffDate = new Date(2015,11,11)
 cutoffID = mongoose.Types.ObjectId(Math.floor(cutoffDate / 1000).toString(16)+'0000000000000000')
 
 module.exports =
-  # Create a prepaid manually (as an admin)
+  # Create a prepaid manually (as an admin or licensor)
   post: wrap (req, res) ->
     validTypes = ['course', 'starter_license']
     unless req.body.type in validTypes
@@ -185,8 +185,7 @@ module.exports =
   fetchByCreator: wrap (req, res, next) ->
     creator = req.query.creator
     return next() if not creator
-
-    unless req.user.isAdmin() or creator is req.user.id
+    unless req.user.isAdmin() or req.user.isLicensor() or creator is req.user.id
       throw new errors.Forbidden('Must be logged in as given creator')
     unless database.isID(creator)
       throw new errors.UnprocessableEntity('Invalid creator')
@@ -204,9 +203,24 @@ module.exports =
         ]
       }
     q.type = { $in: ['course', 'starter_license'] } unless req.query.allTypes
-
+    
     prepaids = yield Prepaid.find(q)
     res.send((prepaid.toObject({req: req}) for prepaid in prepaids))
+
+  fetchByClient: wrap (req, res, next) ->
+    clientId = req.query.client
+    return next() if not clientId
+
+    unless database.isID(clientId)
+      throw new errors.UnprocessableEntity('Invalid client Id')
+
+    q = {
+      _id: { $gt: cutoffID }
+      clientCreator: mongoose.Types.ObjectId(clientId)
+    }
+    prepaids = yield Prepaid.find(q)
+    res.send(prepaid.toObject({req: req}) for prepaid in prepaids)
+
 
   fetchActiveSchoolLicenses: wrap (req, res) ->
     throw new errors.Forbidden('Must be logged in as given creator') unless req.user.isAdmin() or creator is req.user.id

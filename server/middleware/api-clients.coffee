@@ -11,6 +11,14 @@ newSecret = wrap (req, res, next) ->
   yield client.save()
   res.status(200).send({ secret })
 
+getByName = wrap (req, res, next) ->
+    clientName = req.query.name
+    return next() if not clientName
+
+    clients = yield APIClient.find({name: clientName})
+    res.send(clients)
+
 module.exports = {
   newSecret
+  getByName
 }

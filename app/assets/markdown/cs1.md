@@ -58,8 +58,8 @@ Some students may want to delete their code every time and only type the next st
 
 ### Standards 
 
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP6** Attend to precision.
+- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+- **CCSS.Math.Practice.MP6** Attend to precision.
 
 ### Instructive Activity: Basic Syntax (10 mins)
 
@@ -67,9 +67,9 @@ Some students may want to delete their code every time and only type the next st
 
 **Syntax** is how we write code. Just like spelling and grammar are important in writing prose, syntax is important when writing code. Humans are good at figuring out what something means, even if it isn’t exactly correct, but computers aren’t that smart, and they need you to write with no mistakes. 
 
-code example: `hero.moveRight()`
-vocabulary:   (object) (function)
-read aloud: “hero dot move right”
+- code example: `hero.moveRight()`
+- vocabulary:   (object) (function)
+- read aloud: “hero dot move right”
 
 **Objects** are the building blocks of Python. They are things or characters that can perform actions. Your hero is an object. It can perform the moving actions.
 
@@ -182,8 +182,8 @@ The puzzles in this section are harder to solve than in the first module. Encour
 - Decide which parts of an action repeat
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.
+- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+- **CCSS.Math.Practice.MP8** Look for and express regularity in repeated reasoning.
 
 ### Instructive Activity: Loops (10 mins)
 
@@ -193,7 +193,7 @@ A **loop** is a way of repeating code. One way of writing loops uses the keyword
 
 These levels in CodeCombat require an **infinite loop**, or a loop that repeats forever.  For that, we need an expression that is always true. Luckily, _True_ is a Python shortcut that always evaluates as True!
 
-Below, `while` is the keyword, and `True` is the expression
+Below, `while` is the keyword, and `True` is the expression.
 ``` python
 while True: 
     hero.moveRight()  # action
@@ -210,14 +210,14 @@ Circle the English words that tell you it’s a loop. Rewrite these instructions
 
 Keep walking **until** you get to the door. _While you are not at the door, keep walking._
 ``` python
-while door = 0: 
+while door == 0: 
     walk()
 ```
 
 Bounce the ball five **times**. _While bounces are less than 5, bounce the ball._
 
 ``` python
-while bounces < 5 : 
+while bounces < 5: 
     ball.bounce()
 ```
 
@@ -295,8 +295,8 @@ Some of these puzzles can be hard for some students to wrap their heads around. 
 
 ### Standards
 
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+- **CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
 
 ### Instructive Activity: Variables (10 mins)
 
@@ -305,11 +305,12 @@ Some of these puzzles can be hard for some students to wrap their heads around. 
 A **variable** holds your data for later. You make a variable by giving it a name, then saying what **value** it should hold. 
 
 `enemy = “Kratt”`
+
 The variable `enemy` holds (`=`) the value `"Kratt"`
 
 Now you can use your variable instead of the value itself!
 
-`hero.attack(“Kratt”)` is the same as `hero.attack(enemy)`
+`hero.attack("Kratt")` is the same as `hero.attack(enemy)`
 
 So a variable can stand in for a value. 
 
@@ -377,15 +378,15 @@ See the [Arena Levels Guide](/teachers/resources/arenas) for more details.
 - Refine solutions based on observations
 
 ### Standards
-**CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
-**CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
-**CCSS.Math.Practice.MP6** Attend to precision.
+- **CCSS.Math.Practice.MP1** Make sense of problems and persevere in solving them.
+- **CCSS.Math.Practice.MP2** Reason abstractly and quantitatively.
+- **CCSS.Math.Practice.MP6** Attend to precision.
 
 ### Coding Time (40-55 mins)
 
 Have students navigate to the last level, **Wakka Maul**, and complete it at their own pace. 
 
-#### Rankings**
+#### Rankings
 
 Once students beat the default computer they will be put in for the class ranking. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the computer and other students in your CodeCombat class (not strangers).
 
