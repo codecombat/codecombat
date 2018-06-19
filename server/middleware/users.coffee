@@ -88,7 +88,7 @@ module.exports =
   fetchByEmail: wrap (req, res, next) ->
     email = req.query.email
     return next() unless email
-    if req.user?.isAdmin()
+    if req.user?.isAdmin() or req.user?.isLicensor()
       user = yield User.findOne({ emailLower: email.toLowerCase() })
       throw new errors.NotFound('No user with that email', { errorID: 'no-user-with-that-email' }) unless user
       res.status(200).send(user.toObject({req}))
