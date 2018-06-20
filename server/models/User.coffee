@@ -652,7 +652,7 @@ UserSchema.statics.makeNew = (req) ->
       userGeo = {}
       userGeo.country = geo.country
       if country = geo.country
-          userGeo.countryName = countryList.getName(country)
+          userGeo.countryName = _.str.slugify(countryList.getName(country))
       userGeo.region = geo.region
       userGeo.city = geo.city
       userGeo.ll = geo.ll
@@ -660,7 +660,7 @@ UserSchema.statics.makeNew = (req) ->
       userGeo.zip = geo.zip
       user.set 'geo', userGeo
   if req.country                        # Storing the country name again since user.country is being used in various other files
-    user.set 'country', req.country
+    user.set 'country', _.str.slugify(req.country)
   else if userGeo?.countryName
     user.set 'country', userGeo.countryName
   user.set 'createdOnHost', req.headers.host
