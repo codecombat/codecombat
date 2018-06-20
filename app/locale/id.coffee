@@ -27,7 +27,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     why_games: "Mengapa belajar melalui bermain sangatlah penting?"
     games_reward: "Permainan memberikan imbalan terhadap perjuangan yang produktif."
     encourage: "Gaming adalah perantara yang mendorong interaksi, penemuan, dan mencoba-coba. Sebuah permainan yang baik menantang pemain untuk menguasai keterampilan dari waktu ke waktu, yang merupakan proses penting sama yang dilalui siswa saat mereka belajar."
-    excel: "Permainan unggul dalam memberikan penghargaan"
+    excel: "Permainan unggul dalam memberikan prestasi"
     struggle: "Perjuangan yang produktif"
     kind_of_struggle: "jenis perjuangan yang menghasilkan pembelajaran yang menarik dan"
     motivating: "memotivasi"
@@ -39,7 +39,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     perform_at_higher_level: "tampil di tingkat yang lebih tinggi dari prestasi"
     feedback: "Permainan juga memberikan umpan balik langsung yang memungkinkan siswa untuk menyesuaikan jalan solusi mereka dan memahami konsep-konsep yang lebih holistik, daripada hanya terbatas dengan jawaban “benar” atau “salah” saja."
     real_game: "Sebuah permainan yang sebenarnya, dimainkan dengan pengkodean yang nyata."
-    great_game: "Sebuah permainan yang hebat merupakan lebih dari sekedar lencana dan penghargaan - melainkan tentang perjalanan pemain, teka-teki yang dirancang dengan baik, dan kemampuan untuk mengatasi tantangan dengan kepercayaan diri."
+    great_game: "Sebuah permainan yang hebat merupakan lebih dari sekedar lencana dan prestasi - melainkan tentang perjalanan pemain, teka-teki yang dirancang dengan baik, dan kemampuan untuk mengatasi tantangan dengan kepercayaan diri."
     agency: "CodeCombat adalah permainan yang memberikan pemain kepercayaan diri dengan mesin ketik kode kami yang kuat, yang membantu pemula dan lanjutan mahasiswa menulis kode yang valid, dan tepat."
     request_demo_title: "Ajak siswa-siswamu mulai sekarang!"
     request_demo_subtitle: "Meminta demonstrasi dan ajak siswa-siswamu memulai kurang dari satu jam."
@@ -131,7 +131,7 @@ module.exports = nativeDescription: "Bahasa Indonesia", englishDescription: "Ind
     available: "Tersedia"
     skills_granted: "Kemampuan Diberikan" # Property documentation details
     heroes: "Jagoan" # Tooltip on hero shop button from /play
-    achievements: "Penghargaan" # Tooltip on achievement list button from /play
+    achievements: "Prestasi" # Tooltip on achievement list button from /play
     settings: "Pengaturan" # Tooltip on settings button from /play
     poll: "Poll" # Tooltip on poll button from /play
     next: "Lanjut" # Go from choose hero to choose inventory before playing a level
