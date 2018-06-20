@@ -11,12 +11,6 @@ mongoose = require('mongoose')
 
 database.connect()
 var count = 0
-var query = {"_id": {$gt: mongoose.Types.ObjectId('000000000000000000000000')}, 
-            $or: [
-                {"geo": {$exists: true}},
-                {"country": {$exists: true}}
-            ]
-        }
 
 updateUser = co.wrap(function*(user) {
     geo = user.get("geo")
@@ -43,9 +37,15 @@ updateUser = co.wrap(function*(user) {
 })
 
 co(function*() {
+    var query = {"_id": {$gt: mongoose.Types.ObjectId('000000000000000000000000')}, 
+            $or: [
+                {"geo": {$exists: true}},
+                {"country": {$exists: true}}
+            ]
+        }
     while (true){
         console.log("Starting...")
-        var users = yield User.find(query).limit(100).sort({_id:1})  // change limit as required
+        var users = yield User.find(query).sort({_id:1}).limit(100)  // change limit as required
         if (users.length == 0) {
             break
         }
