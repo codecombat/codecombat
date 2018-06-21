@@ -98,7 +98,10 @@ block content
             span.spl [PDF]
           p(data-i18n="teacher.student_getting_started_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/ProgressJournal.pdf")
+          - var progressJournalURL = "http://files.codecombat.com/docs/resources/ProgressJournal.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     progressJournalURL = progressJournalURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          a(href=progressJournalURL)
             span(data-i18n="teacher.progress_journal")
             span.spl [PDF]
           p(data-i18n="teacher.progress_journal_desc")
@@ -144,10 +147,16 @@ block content
             span(data-i18n="teacher.arenas_curriculum")
           p(data-i18n="teacher.arenas_curriculum_desc")
         li
-          a(href="http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf")
+          - var engineeringCycleWorksheetURL = "http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     engineeringCycleWorksheetURL = engineeringCycleWorksheetURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          a(href=engineeringCycleWorksheetURL)
             span(data-i18n="teacher.engineering_cycle_worksheet")
             span.spl [PDF]
-          a(href="http://files.codecombat.com/docs/resources/WorksheetExample.pdf")
+          - var worksheetExampleURL = "http://files.codecombat.com/docs/resources/WorksheetExample.pdf";
+          - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
+          -     worksheetExampleURL = worksheetExampleURL.replace(/\.pdf/, '-zh-HANS.pdf');
+          a(href=worksheetExampleURL)
             i.span.spl(data-i18n="teacher.engineering_cycle_worksheet_link")
           p(data-i18n="teacher.engineering_cycle_worksheet_desc")
         li
