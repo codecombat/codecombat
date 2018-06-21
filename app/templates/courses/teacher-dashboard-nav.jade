@@ -30,6 +30,10 @@
             - var faqURL = "/teachers/resources/faq";
             - if (me.get('preferredLanguage') == 'nl-NL' || me.get('preferredLanguage') == 'nl-BE')
             -     faqURL = "/teachers/resources/faq-nl-NL";
+            - if (me.get('preferredLanguage') == 'he')
+            -     faqURL = "/teachers/resources/faq-HE";
+            - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            -     faqURL = "/teachers/resources/faq-pt-BR";
             a(href=faqURL)
               small.label(data-i18n='teacher.educator_faq')
           //- li(class= path.indexOf('TODO') === 0 ? 'active' : '')

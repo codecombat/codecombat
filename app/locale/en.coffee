@@ -1635,6 +1635,8 @@
     gd3_curriculum: "Game Development 3 - Curriculum Guide"
     gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web Development 1"
+    wd1_curriculum: "Web Development 1 - Curriculum Guide"
+    wd1_curriculum_desc: "Lesson plans for Web Development 1."
     wd1_headlines: "Headlines & Headers Activity"
     wd1_headlines_example: "View sample solution"
     wd1_headlines_desc: "Why are paragraph and header tags important? Use this activity to show how well-chosen headers make web pages easier to read. There are many correct solutions to this!"

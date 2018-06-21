@@ -77,11 +77,15 @@ block content
           -     faqURL += "nl-NL";
           - if (me.get('preferredLanguage') == 'he')
           -     faqURL += "-he";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     faqURL += "-pt-BR";
           a(href=faqURL)
             span(data-i18n="teacher.educator_faq")
           p(data-i18n="teacher.educator_faq_desc")
         li
           - var gettingStartedURL = "/teachers/resources/getting-started";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     gettingStartedURL += "-pt-BR";
           a(href=gettingStartedURL)
             span(data-i18n="teacher.teacher_getting_started")
           p(data-i18n="teacher.teacher_getting_started_desc")
@@ -111,6 +115,8 @@ block content
           -     cs1URL += '-he'
           - if (me.get('preferredLanguage') == 'zh-HANS' || me.get('preferredLanguage') == 'zh-HANT')
           -     cs1URL += '-zh-HANS'
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs1URL += '-pt-BR'
           a(href=cs1URL)
             span(data-i18n="teacher.cs1_curriculum")
           p(data-i18n="teacher.cs1_curriculum_desc")
@@ -131,7 +137,10 @@ block content
             span.spl [PDF]
           p(data-i18n="teacher.cs1_syntax_javascript_desc")
         li
-          a(href="/teachers/resources/arenas")
+          - var arenasURL = "/teachers/resources/arenas";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     arenasURL += '-pt-BR'
+          a(href=arenasURL)
             span(data-i18n="teacher.arenas_curriculum")
           p(data-i18n="teacher.arenas_curriculum_desc")
         li
@@ -145,6 +154,8 @@ block content
           - var pairProgrammingURL = "/teachers/resources/pair-programming";
           - if (me.get('preferredLanguage') == 'he')
           -     pairProgrammingURL += '-he'
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     pairProgrammingURL += "-pt-BR";
           a(href=pairProgrammingURL)
             span(data-i18n="teacher.cs1_pairprogramming")
           p(data-i18n="teacher.cs1_pairprogramming_desc")
@@ -165,6 +176,14 @@ block content
           
       h4(data-i18n="teacher.wd1")
       ul
+        // We are not done with WD1 curriculum guide yet
+        //li
+        //  - var wd1URL = "/teachers/resources/wd1";
+        //  - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+        //  -     wd1URL += '-pt-BR'
+        //  a(href=wd1URL)
+        //    span(data-i18n="teacher.wd1_curriculum")
+        //  p(data-i18n="teacher.wd1_curriculum_desc")
         li
           a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/WD1-HeadlinesWorksheet.pdf")
             span(data-i18n="teacher.wd1_headlines")
@@ -198,20 +217,6 @@ block content
           p(data-i18n="teacher.gd2_curriculum_desc")
 
 
-      h4(data-i18n="teacher.cs3")
-      ul
-        li
-          a(href="/teachers/resources/cs3")
-            span(data-i18n="teacher.cs3_curriculum")
-          p(data-i18n="teacher.cs3_curriculum_desc")
-          
-      h4(data-i18n="teacher.gd3")
-      ul
-        li
-          a(href="/teachers/resources/gd3")
-            span(data-i18n="teacher.gd3_curriculum")
-          p(data-i18n="teacher.gd3_curriculum_desc")
-
       h4(data-i18n="teacher.wd2")
       ul
         li
@@ -226,6 +231,20 @@ block content
           a(href="http://files.codecombat.com.s3.amazonaws.com/docs/resources/QuizletPlanningInstructions.pdf")
             i.span.spl(data-i18n="teacher.wd2_quizlet_worksheet_instructions")
           p(data-i18n="teacher.wd2_quizlet_worksheet_desc")
+
+      h4(data-i18n="teacher.cs3")
+      ul
+        li
+          a(href="/teachers/resources/cs3")
+            span(data-i18n="teacher.cs3_curriculum")
+          p(data-i18n="teacher.cs3_curriculum_desc")
+
+      h4(data-i18n="teacher.gd3")
+      ul
+        li
+          a(href="/teachers/resources/gd3")
+            span(data-i18n="teacher.gd3_curriculum")
+          p(data-i18n="teacher.gd3_curriculum_desc")
 
       h4(data-i18n="teacher.cs4")
       ul
