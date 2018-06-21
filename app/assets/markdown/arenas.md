@@ -28,7 +28,7 @@ Students must choose a team to join: Red or Blue. It is important to divide the 
 * Students who turn in their work early join the blue team, and latecomers play red.
 * Alternate teams as players finish.
 
-#### Rankings**
+#### Rankings
 Once students have beaten one of the AIs, they will be put into the class rankings. Red teams only fight against blue teams and there will be top rankings for each. Students will only compete against the AI and other students in your CodeCombat class (not strangers). Once students have submitted code for either team, other students can click the “Fight” link next to any student in the ranking to challenge that student!
 Note that the class rankings are plainly visible. If some students are intimidated by competition or being publicly ranked, give them the option of a writing exercise instead:
 Write a walkthrough or guide for their favorite level.
@@ -58,5 +58,5 @@ You have been playing a game that requires you to think about a whole plan in ad
 
 * Allow teams to code for 20 minutes to finalize their strategies
 * Have players submit the latest version of what they have and stop coding
-* Spectate matches between players/pairs in a tournament bracket to determine an overall winner of the live tournament (up to you how to determine the brackets, something like this)
+* Spectate matches between players/pairs in a tournament bracket to determine an overall winner of the live tournament (up to you how to determine the brackets, something like [this](https://challonge.com/AceofCoders))
 * Optional: have the winning players explain the code behind their strategies to the rest of the class

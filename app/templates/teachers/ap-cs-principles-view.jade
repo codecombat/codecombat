@@ -22,7 +22,10 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1d, CR2a, CR2g
               br
-              a(href="/teachers/resources/apcsp-tech-usability")
+              - var activityURL = "/teachers/resources/apcsp-tech-usability";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 1 Activity: Technology Usability Review
 
         li
@@ -34,10 +37,16 @@ block content
               br
               | Curricular Requirements: CR1b, CR1c, CR1f, CR2a, CR2b
               br
-              a(href="/teachers/resources/apcsp-binary-sequences")
+              - activityURL = "/teachers/resources/apcsp-binary-sequences";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 2 Activity: Binary Sequences
               br
-              a(href="/teachers/resources/apcsp-computing-lesson")
+              - activityURL = "/teachers/resources/apcsp-computing-lesson";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 2 Activity: Computing Lesson Project
 
         li
@@ -49,16 +58,24 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
               br
-              - var hitchhikersGuideURL = "/teachers/resources/apcsp-hitchhikers-guide";
+              - activityURL = "/teachers/resources/apcsp-hitchhikers-guide";
               if (me.get('preferredLanguage') == 'he')
-                - hitchhikersGuideURL += '-he';
-              a(href=hitchhikersGuideURL)
+                - activityURL += '-he';
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 3 Activity: Algorithms - Hitchhiker's Guide
               br
-              a(href="/teachers/resources/apcsp-simulation")
+              - activityURL = "/teachers/resources/apcsp-simulation";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 3 Activity: Simulation - Predator & Prey
               br
-              a(href="/teachers/resources/apcsp-pair-algorithms")
+              - activityURL = "/teachers/resources/apcsp-pair-algorithms";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 3 Activity: Algorithms - Pair Design and Programming
 
         li
@@ -70,13 +87,22 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1f, CR2b, CR2d, CR2e
               br
-              a(href="/teachers/resources/apcsp-getting-abstract")
+              - activityURL = "/teachers/resources/apcsp-getting-abstract";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 4 Activity: Abstractions
               br
-              a(href="/teachers/resources/apcsp-search-sort")
+              - activityURL = "/teachers/resources/apcsp-search-sort";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 4 Activity: Searching & Sorting
               br
-              a(href="/teachers/resources/apcsp-refactoring")
+              - activityURL = "/teachers/resources/apcsp-refactoring";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 4 Activity: Refactoring
                 
         li
@@ -88,20 +114,30 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1d, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2f, CR2g
               br
-              a(href="/teachers/resources/apcsp-how-the-internet-works")
+              - activityURL = "/teachers/resources/apcsp-how-the-internet-works";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 5 Activity: How the Internet Works
               br
-              a(href="/teachers/resources/apcsp-internet-simulation")
+              - activityURL = "/teachers/resources/apcsp-internet-simulation";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 5 Activity: Internet Simulator
               br
-              - var internetChatSimulationURL = "/teachers/resources/apcsp-internet-chat-simulation";
+              - var activityURL = "/teachers/resources/apcsp-internet-chat-simulation";
               if (me.get('preferredLanguage') == 'he')
-                - internetChatSimulationURL += '-he';
-              a(href=internetChatSimulationURL)
-              a(href="/teachers/resources/apcsp-internet-chat-simulation")
+                - activityURL += '-he';
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 5 Activity: Chat Room Simulation
               br
-              a(href="/teachers/resources/apcsp-internet-cybersecurity")
+              - activityURL = "/teachers/resources/apcsp-internet-cybersecurity";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 5 Activity: Cybersecurity
 
         li
@@ -113,13 +149,22 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2g
               br
-              a(href="/teachers/resources/apcsp-data-project") 
+              - activityURL = "/teachers/resources/apcsp-data-project";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 6 Activity: Introduction to Data
               br
-              a(href="/teachers/resources/apcsp-big-data")
+              - activityURL = "/teachers/resources/apcsp-big-data";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 6 Activity: Big Data
               br
-              a(href="/teachers/resources/apcsp-compression")
+              - activityURL = "/teachers/resources/apcsp-compression";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 6 Activity: Lossy & Lossless Compression
 
         li
@@ -131,13 +176,18 @@ block content
               br
               | Curricular Requirements: CR1a, CR1b, CR1d, CR1e, CR1f, CR2a, CR2g
               br
-              a(href="/teachers/resources/apcsp-personal-and-global-impact")
+              - activityURL = "/teachers/resources/apcsp-personal-and-global-impact";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 7 Activity: Personal & Global Impact
               br
-              - var crowdsourcingURL = "/teachers/resources/apcsp-crowdsourcing";
+              - var activityURL = "/teachers/resources/apcsp-crowdsourcing";
               if (me.get('preferredLanguage') == 'he')
-                - crowdsourcingURL += '-he';
-              a(href=crowdsourcingURL)
+                - activityURL += '-he';
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span Unit 7 Activity: Crowdsourcing
         li
           div Unit 8: Performance Tasks
@@ -163,15 +213,24 @@ block content
         li
           div Unit 10: Post-AP
           p
-            a(href="/teachers/resources/apcsp-web-quiz")
+            - activityURL = "/teachers/resources/apcsp-web-quiz";
+            if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+              - activityURL += '-pt-BR';
+            a(href=activityURL)
               span Unit 10 Activity: Web Quiz
 
         li
-          a(href="/teachers/resources/pair-programming")
+          - activityURL = "/teachers/resources/pair-programming";
+          if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+            - activityURL += '-pt-BR';
+          a(href=activityURL)
             span(data-i18n="teacher.cs1_pairprogramming")
           p(data-i18n="teacher.cs1_pairprogramming_desc")
         li
-          a(href="/teachers/resources/gd1-5day")
+          - activityURL = "/teachers/resources/gd1-5day";
+          //if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          //  - activityURL += '-pt-BR';
+          a(href=activityURL)
             span(data-i18n="teacher.gd1_guide")
           p(data-i18n="teacher.gd1_guide_desc")
           
