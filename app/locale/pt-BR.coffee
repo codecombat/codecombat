@@ -605,7 +605,7 @@ module.exports = nativeDescription: "Português (Brasil)", englishDescription: "
   apis:
     methods: "Métodos"
     events: "Eventos"
-    spawnable: "Spawnable"
+    spawnable: "Adicionável"
     html: "HTML"
     math: "Matemática"
     array: "Array"
