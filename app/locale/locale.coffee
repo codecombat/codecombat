@@ -16,6 +16,8 @@ module.exports =
   'es-ES': { nativeDescription: 'español (ES)', englishDescription: 'Spanish (Spain)' }
   'es-419': { nativeDescription: 'español (América Latina)', englishDescription: 'Spanish (Latin America)' }
   'fr': { nativeDescription: 'français', englishDescription: 'French' }
+  'pt-PT': { nativeDescription: 'Português (Portugal)', englishDescription: 'Portuguese (Portugal)' }
+  'pt-BR': { nativeDescription: 'Português (Brasil)', englishDescription: 'Portuguese (Brazil)' }
   # Begin alphabetized list: https://github.com/codecombat/codecombat/issues/2329#issuecomment-74630546
   'ar': { nativeDescription: 'العربية', englishDescription: 'Arabic' }
   'az': { nativeDescription: 'azərbaycan dili', englishDescription: 'Azerbaijani' }
@@ -54,8 +56,6 @@ module.exports =
   'nn': { nativeDescription: 'Norsk Nynorsk', englishDescription: 'Norwegian (Nynorsk)' }
   'uz': { nativeDescription: "O'zbekcha", englishDescription: 'Uzbek' }
   'pl': { nativeDescription: 'język polski', englishDescription: 'Polish' }
-  'pt-PT': { nativeDescription: 'Português (Portugal)', englishDescription: 'Portuguese (Portugal)' }
-  'pt-BR': { nativeDescription: 'Português (Brasil)', englishDescription: 'Portuguese (Brazil)' }
   'ro': { nativeDescription: 'limba română', englishDescription: 'Romanian' }
   'sr': { nativeDescription: 'српски', englishDescription: 'Serbian' }
   'sk': { nativeDescription: 'slovenčina', englishDescription: 'Slovak' }

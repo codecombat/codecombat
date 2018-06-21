@@ -138,7 +138,7 @@ module.exports = class RootView extends CocoView
     for code, localeInfo of locale when (not (code in genericCodes) or code is initialVal)
       $select.append(
         $('<option></option>').val(code).text(localeInfo.nativeDescription))
-      if code is 'fr'
+      if code is 'pt-BR'
         $select.append(
           $('<option class="select-dash" disabled="disabled"></option>').text('----------------------------------'))
     $select.val(initialVal)
