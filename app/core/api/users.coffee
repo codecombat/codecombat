@@ -41,12 +41,6 @@ module.exports = {
       json: user
     }))
 
-  resetProgress: (options={}) ->
-    store = require('core/store')
-    fetchJson(@url(store.state.me._id, 'reset_progress'), _.assign({}, options, {
-      method: 'POST'
-    }))
-
   createBillingAgreement: ({userID, productID}, options={}) ->
     fetchJson(@url(userID, "paypal/create-billing-agreement"), _.assign({}, options, {
       method: 'POST'
@@ -64,7 +58,7 @@ module.exports = {
       method: 'POST'
       json: {billingAgreementID}
     }))
-    
+
   getCourseInstances: ({ userID, campaignSlug }, options={}) ->
     fetchJson(@url(userID, "course-instances"), _.merge({}, options, {
       data: { userID, campaignSlug }
@@ -72,9 +66,15 @@ module.exports = {
 
   getLevelSessions: ({ userID }, options={}) ->
     fetchJson("/db/user/#{userID}/level.sessions", _.merge({}, options))
-    
+
   resetProgress: ({ userID }, options={}) ->
     fetchJson("/db/user/#{userID}/reset_progress", _.assign({}, options, {
       method: 'POST'
     }))
+
+  exportData: ({ userID }, options={}) ->
+    fetchJson("/db/user/#{userID}/export-data", _.assign({}, options, {
+      method: 'GET'
+    }))
+
 }

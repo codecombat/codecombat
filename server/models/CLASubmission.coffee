@@ -7,4 +7,6 @@ CLASubmissionSchema = new mongoose.Schema {}, {strict: false, minimize: false, r
 
 CLASubmissionSchema.statics.jsonSchema = jsonSchema
 
+CLASubmissionSchema.index({user: 1}, {name: 'user index'})
+
 module.exports = CLASubmission = mongoose.model 'CLASubmission', CLASubmissionSchema, 'cla.submissions'

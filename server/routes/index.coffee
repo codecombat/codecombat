@@ -241,6 +241,7 @@ module.exports.setup = (app) ->
   app.post('/db/user/:handle/paypal/execute-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.executePayPalBillingAgreement)
   app.post('/db/user/:handle/paypal/cancel-billing-agreement', mw.auth.checkLoggedIn(), mw.subscriptions.cancelPayPalBillingAgreement)
   app.post('/db/user/:handle/reset_progress', mw.users.resetProgress)
+  app.get('/db/user/:handle/export-data', mw.users.exportData)
   app.post('/db/user/:handle/signup-with-facebook', mw.users.signupWithFacebook)
   app.post('/db/user/:handle/signup-with-gplus', mw.users.signupWithGPlus)
   app.post('/db/user/:handle/signup-with-password', mw.users.signupWithPassword)
