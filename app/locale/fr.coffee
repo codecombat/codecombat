@@ -621,14 +621,14 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 
   amazon_hoc:
     title: "Continuer à apprendre avec Amazon!"
-#    congrats: "Congratulations on conquering that challenging Hour of Code!"
-#    educate_1: "Now, keep learning about coding and cloud computing with AWS Educate, an exciting, free program from Amazon for both students and teachers. With AWS Educate, you can earn cool badges as you learn about the basics of the cloud and cutting-edge technologies such as gaming, virtual reality, and Alexa."
-#    educate_2: "Learn more and sign up here"
-#    future_eng_1: "You can also try to build your own school facts skill for Alexa"
-#    future_eng_2: "here"
-#    future_eng_3: "(device is not required). This Alexa activity is brought to you by the"
-#    future_eng_4: "Amazon Future Engineer"
-#    future_eng_5: "program which creates learning and work opportunities for all K-12 students in the United States who wish to pursue computer science."
+    congrats: "Félicitations pour la réussite de cette stimulante Heure de Code!"
+    educate_1: "Maintenant, continue à apprendre à programmer et utiliser l'informatique dans les nuages avec AWS Educate, un passionant programme d'éducation gratuit fourni par Amazon pour les étudiants et les professeurs. Avec AWS Educate, vous pouvez gagner des badges cool pendant que tu apprends les bases de l'informatique dans les nuages et des technologies de pointe comme le jeu vidéo, la réalité virtuelle, et Alexa."
+    educate_2: "Apprenez plus en vous inscrivant ici"
+    future_eng_1: "Vou pouvez aussi essayer de construire votre propre école concernant Alexa"
+    future_eng_2: "ici"
+    future_eng_3: "(un appareil n'est pas requis). Cette activité Alexa a été élaborée pour vous par"
+    future_eng_4: "Future Ingénieur Amazon"
+    future_eng_5: "programme qui crée des opportunités d'apprentissage et de travail pour tous les étudiants jusqu'au baccalauréat au États-Unis qui veulent poursuivre des études d'informatique."
 
   play_game_dev_level:
     created_by: "Crée par {{name}}"
@@ -802,28 +802,28 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     wallOfDarkness_name: "WLe mur de la Pénombre"
     wallOfDarkness_description: "Se cacher derrière un mur d'ombres pour prévenir le regard d'yeux indiscrets."
 
-#  premium_features:
-#    get_premium: "Get<br>CodeCombat<br>Premium" # Fit into the banner on the /features page
-#    master_coder: "Become a Master Coder by subscribing today!"
-#    paypal_redirect: "You will be redirected to PayPal to complete the subscription process."
-#    subscribe_now: "Subscribe Now"
-#    hero_blurb_1: "Get access to __premiumHeroesCount__ super-charged subscriber-only heroes! Harness the unstoppable power of Okar Stompfoot, the deadly precision of Naria of the Leaf, or summon \"adorable\" skeletons with Nalfar Cryptor."
-#    hero_blurb_2: "Premium Warriors unlock stunning martial skills like Warcry, Stomp, and Hurl Enemy. Or, play as a Ranger, using stealth and bows, throwing knives, traps! Try your skill as a true coding Wizard, and unleash a powerful array of Primordial, Necromantic or Elemental magic!"
-#    hero_caption: "Exciting new heroes!"
-#    pet_blurb_1: "Pets aren't just adorable companions, they also provide unique functionality and methods. The Baby Griffon can carry units through the air, the Wolf Pup plays catch with enemy arrows, the Cougar is fond of chasing ogres around, and the Mimic attracts coins like a magnet!"
-#    pet_blurb_2: "Collect all the pets to discover their unique abilities!"
-#    pet_caption: "Adopt pets to accompany your hero!"
-#    game_dev_blurb: "Learn game scripting and build new levels to share with your friends! Place the items you want, write code for unit logic and behavior, and see if your friends can beat the level!"
-#    game_dev_caption: "Design your own games to challenge your friends!"
-#    everything_in_premium: "Everything you get in CodeCombat Premium:"
-#    list_gems: "Receive bonus gems to buy gear, pets, and heroes"
-#    list_levels: "Gain access to __premiumLevelsCount__ more levels"
-#    list_heroes: "Unlock exclusive heroes, include Ranger and Wizard classes"
-#    list_game_dev: "Make and share games with friends"
-#    list_web_dev: "Build websites and interactive apps"
-#    list_items: "Equip Premium-only items like pets"
-#    list_support: "Get Premium support to help you debug tricky code"
-#    list_clans: "Create private clans to invite your friends and compete on a group leaderboard"
+  premium_features:
+    get_premium: "Abonnes-toi à <br>CodeCombat<br>Premium" # Fit into the banner on the /features page
+    master_coder: "Devient un Maître du code en t'abonnant aujourd'hui!"
+    paypal_redirect: "TU seras redirigé vers PayPal pour compléter le processus d'abonnement."
+    subscribe_now: "Abonnes-toi Maintenant"
+    hero_blurb_1: "Aie accès aux __premiumHeroesCount__ super-héros accessibles uniquement aux abonnés! Libère l'imparable pouvoir de Okar le pied frappeur, la précision mortelle de naria de la Feuille, ou convoque les \"adorables\" squelettes avec Nalfar l'invisible."
+    hero_blurb_2: "Les Guerriers Premium  débloquent d'impressionantes capacités partiales comme Le cri de Guerre, Le piètinement, et le Lancer d'ennemi. Ou, joue un Ranger, en utilisant la discrétion et des arcs, le lancer de couteaux, et les pièges! Essaie tes pouvoirs en tant que vrai Magicien du code, et libère une puissante magie primordiale, nécromantienne, ou élémentaire!"
+    hero_caption: "D'excitant nouveaux héros!"
+    pet_blurb_1: "Les animaux de compagnie ne sont pas juste d'adorables compagnions, ils fournissent aussi d'uniques fonctionnalités et méthodes. Le Bébé Griffon peut transporter des unités dans les airs, le louveteau joue en attrapant les flèches des ennemis, le Cougar adore chasser les ogres aux alentours, et le singe attire les pièces comme un aimant!"
+    pet_blurb_2: "Collectionne tous les animaux de compagnie pour découvrir leurs capacités uniques!"
+    pet_caption: "Adopte des animaux de compagnie pour accompagner votre héro!"
+    game_dev_blurb: "Apprend le scripting de jeu et construis de nouveaux niveaux à partager avec tes amis! Place les eléments que tu veux,écris du code pour ajouter une logique et un comportement aux unités créées, et vois si tes amis peuvent battre ce niveau!"
+    game_dev_caption: "Crée tes propres jeux pour défier tes amis!"
+    everything_in_premium: "Tout ce que tu auras avec CodeCombat Premium:"
+    list_gems: "Reçois des gemmes bonus pour acheter de l'équipement, des animaux de compagnie, et des héros"
+    list_levels: "Aie accès à __premiumLevelsCount__  niveaux supplémentaires"
+    list_heroes: "Débloque des héros exclusifs, incluant les classes de Ranger et Magicien"
+    list_game_dev: "Crée et partage des jeux avec des amis"
+    list_web_dev: "Construit des sites web et des applications interactives"
+    list_items: "Equipe-toi d'eléments exclusifs à l'abonnement Premium comme des animaux de compagnie"
+    list_support: "Aie accès au support Premium pour t'aider à décotiquer du code difficile"
+    list_clans: "Crée des clans privés pour inviter tes amis et effectue des compétitions de groupes via un tableau de bord"
 
   choose_hero:
     choose_hero: "Choisissez votre héros"
@@ -864,7 +864,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
   skill_docs:
     function: "fonction" # skill types
     method: "méthode"
-#    snippet: "snippet"
+    snippet: "fragment"
     number: "nombre"
     array: "tableau"
     object: "objet"
@@ -910,7 +910,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     editor_config_behaviors_description: "Ferme automatiquement les accolades, parenthèses, et chaînes de caractères."
 
   about:
-#    learn_more: "Learn More"
+    learn_more: "En apprendre Plus"
     main_title: "Si tu veux apprendre la programmation, tu dois écrire beaucoup de code."
     main_description: "Chez CodeCombat, notre but est d'assurer que tu le fasses avec un sourire."
     mission_link: "Mission"
