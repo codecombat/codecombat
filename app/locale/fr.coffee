@@ -1086,7 +1086,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
     conversion_warning: "ATTENTION: Votre compte actuel est un  <em>Compte Étudiant</em>. Une fois que vous avez soumis ce formulaire, votre compte sera mis à jour en compte Professeur."
     learn_more_modal: "Les comptes professeurs sur CodeCombat ont la capacité de suivre la progression des étudiants, leur attribuer des licences et gérer les classes. Les comptes professeurs ne peuvent pas faire partie d'une classe. - si vous faites partie d'une classe en utilisant ce compte, vous ne pourrez plus y accéder quand le compte sera mis à jour en compte Professeur."
     create_account: "Créer votre compte professeur"
-    create_account_subtitle: "Ayez accès aux outils réservés aux professeurs permettant d'utiiser CodeCombat dans la classe.  <strong>Définissez une classe</strong>, ajoutez vos étudiants, et <strong>suivez leur progression</strong>!"
+    create_account_subtitle: "Ayez accès aux outils réservés aux professeurs permettant d'utiiser CodeCombat dans la classe. <strong> Définissez une classe </strong>, ajoutez vos étudiants, et <strong>suivez leur progression </strong> !"
     convert_account_title: "Mettez à jour votre compte de Professeur"
     not: "Non"
 
