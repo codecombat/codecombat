@@ -1395,7 +1395,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    instructor: "Instructor: "
 #    youve_been_invited_1: "You've been invited to join "
 #    youve_been_invited_2: ", where you'll learn "
-#    youve_been_invited_3: " with your classmates in CodeCombat."
+#    youve_been_invited_3: " w"+"ith your classmates in CodeCombat."
 #    by_joining_1: "By joining "
 #    by_joining_2: "will be able to help reset your password if you forget or lose it. You can also verify your email address so that you can reset the password yourself!"
 #    sent_verification: "We've sent a verification email to:"
