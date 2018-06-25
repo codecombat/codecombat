@@ -1249,7 +1249,7 @@ module.exports = class CampaignView extends RootView
       @openModalView new AnnouncementModal({announcementId: latest})
 
   onClickBrainPopReplayButton: ->
-    api.users.resetProgress().then(=> document.location.reload())
+    api.users.resetProgress({userId: me.id}).then(=> document.location.reload())
 
   getLevels: () ->
     return @courseLevelsFake if @courseLevels?
