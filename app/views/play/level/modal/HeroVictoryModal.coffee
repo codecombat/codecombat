@@ -212,10 +212,12 @@ module.exports = class HeroVictoryModal extends ModalView
         when 'game-dev-hoc' then '57ee6f5786cf4e1f00afca2c' # game grove
         when 'game-dev-hoc-2' then '57b71dce7a14ff35003a8f71' # palimpsest
         else '541c9a30c6362edfb0f34479' # kithgard gates for dungeon
+      amazonLastLevel = @level.get('original') is '541875da4c16460000ab990f' # true names - for amazon kids-to-work-day
       lastLevel = @level.get('original') is lastLevelOriginal
       enough = elapsed >= 20 * 60 * 1000 or lastLevel
       tooMuch = elapsed > 120 * 60 * 1000
-      showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel
+      #showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel   # TODO: revert to this after amazon kids-to-work-day
+      showDone = (elapsed >= 30 * 60 * 1000 and not tooMuch) or lastLevel or amazonLastLevel
       if enough and not tooMuch and not me.get('hourOfCodeComplete')
         pixelCode = switch gameDevHoc
           when 'game-dev-hoc' then 'code_combat_gamedev'
@@ -227,7 +229,8 @@ module.exports = class HeroVictoryModal extends ModalView
         window.tracker?.trackEvent 'Hour of Code Finish'
       # Show the "I'm done" button between 30 - 120 minutes if they definitely came from Hour of Code
       c.showHourOfCodeDoneButton = showDone
-      @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel
+      # @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and lastLevel   # TODO: revert to this after amazon kids-to-work-day
+      @showAmazonHocButton = (gameDevHoc is 'game-dev-hoc') and ( lastLevel or amazonLastLevel )
       if @showAmazonHocButton
         @trackAwsButtonShown()
       @showHoc2016ExploreButton = gameDevHoc and lastLevel
@@ -538,7 +541,10 @@ module.exports = class HeroVictoryModal extends ModalView
 
   onClickAmazonHocButton: ->
     window.tracker?.trackEvent 'Click Amazon Modal Button'
-    @openModalView new AmazonHocModal()
+    if @level.get('original') is '541875da4c16460000ab990f'  # true names - for amazon kids-to-work-day
+      @openModalView new AmazonHocModal showContinue:true
+    else 
+      @openModalView new AmazonHocModal()
 
   onSubscribeButtonClicked: ->
     @openModalView new SubscribeModal()
