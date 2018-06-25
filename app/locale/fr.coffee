@@ -1511,7 +1511,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    students_not_assigned: "Students who have not been assigned {{courseName}}"
     course_overview: "Vue d'ensemble de cours"
     copy_class_code: "Copier le code de la classe"
-#    class_code_blurb: "Students can join your class using this Class Code. No email address is required when creating a Student account with this Class Code."
+#    class_code_blurb: "Les étudiants peuvent rejoindre leur classe en utilisant ce code propre à la classe. Pas d'adresse mél est requise quand on crée un compte d'étudiant avec ce code propre à sa classe."
     copy_class_url: "Copier l'URL de la classe"
 #    class_join_url_blurb: "You can also post this unique class URL to a shared webpage."
 #    add_students_manually: "Invite Students by Email"
