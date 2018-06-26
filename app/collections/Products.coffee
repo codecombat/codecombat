@@ -9,15 +9,17 @@ module.exports = class Products extends CocoCollection
   getByName: (name) -> @findWhere { name: name }
 
   getBasicSubscriptionForUser: (user) ->
-    country = user?.get('stripe')?.couponID
-    unless country
-      country = user?.get('country')
-    countrySpecificProduct = @findWhere { name: "#{country}_basic_subscription" }
+    coupon = user?.get('stripe')?.couponID
+    if coupon
+      countrySpecificProduct = @findWhere { name: "#{coupon}_basic_subscription" }
+    unless countrySpecificProduct
+      countrySpecificProduct = @findWhere { name: "#{user?.get('country')}_basic_subscription" }
     return countrySpecificProduct or @findWhere({ name: 'basic_subscription' })
 
   getLifetimeSubscriptionForUser: (user) ->
-    country = user?.get('stripe')?.couponID
-    unless country
-      country = user?.get('country')
-    countrySpecificProduct = @findWhere { name: "#{country}_lifetime_subscription" }
+    coupon = user?.get('stripe')?.couponID
+    if coupon
+      countrySpecificProduct = @findWhere { name: "#{coupon}_lifetime_subscription" }
+    unless countrySpecificProduct
+      countrySpecificProduct = @findWhere { name: "#{user?.get('country')}_lifetime_subscription" }
     return countrySpecificProduct or @findWhere({ name: 'lifetime_subscription' })
