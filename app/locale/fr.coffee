@@ -1760,8 +1760,8 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    footer: "When teachers revoke licenses from students, the licenses will be returned to the shared pool for other teachers in this group to use."
 #    you: "(you)"
 #    one_license_used: "(1 license used)"
-     licenses_used: " (__licensesUsed__ licences utilisées) "
-     more_info: " Plus d ' informations"
+     licenses_used: " ( __licensesUsed__ licences utilisées) "
+     more_info: " Plus d informations"
 
   sharing:
     game: "Jeu"
