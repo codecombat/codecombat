@@ -10,29 +10,32 @@ request = require 'request'
 mongoose = require 'mongoose'
 database = require '../commons/database'
 sendgrid = require '../sendgrid'
-User = require '../models/User'
-Classroom = require '../models/Classroom'
-CourseInstance = require '../models/CourseInstance'
 facebook = require '../lib/facebook'
 gplus = require '../lib/gplus'
-TrialRequest = require '../models/TrialRequest'
-Campaign = require '../models/Campaign'
-Course = require '../models/Course'
-Clan = require '../models/Clan'
-Achievement = require '../models/Achievement'
-UserPollsRecord = require '../models/UserPollsRecord'
-EarnedAchievement = require '../models/EarnedAchievement'
 log = require 'winston'
 LocalMongo = require '../../app/lib/LocalMongo'
-LevelSession = require '../models/LevelSession'
 config = require '../../server_config'
 utils = require '../lib/utils'
-CLASubmission = require '../models/CLASubmission'
-Prepaid = require '../models/Prepaid'
 crypto = require 'crypto'
 { makeHostUrl } = require '../commons/urls'
 mailChimp = require '../lib/mail-chimp'
 intercom = require('../lib/intercom')
+
+Achievement = require '../models/Achievement'
+CLASubmission = require '../models/CLASubmission'
+Campaign = require '../models/Campaign'
+Clan = require '../models/Clan'
+Classroom = require '../models/Classroom'
+Course = require '../models/Course'
+CourseInstance = require '../models/CourseInstance'
+EarnedAchievement = require '../models/EarnedAchievement'
+LevelSession = require '../models/LevelSession'
+Payment = require '../models/Payment'
+Prepaid = require '../models/Prepaid'
+Purchase = require '../models/Purchase'
+TrialRequest = require '../models/TrialRequest'
+User = require '../models/User'
+UserPollsRecord = require '../models/UserPollsRecord'
 
 module.exports =
   fetchByAge: wrap (req, res, next) ->
@@ -607,6 +610,34 @@ module.exports =
       })
     ]
     return res.sendStatus(200)
+
+  exportData: wrap (req, res) ->
+    unless req.user
+      throw new errors.Unauthorized()
+    if req.user.isAdmin()
+      user = yield database.getDocFromHandle(req, User)
+      if not user
+        throw new errors.NotFound('User not found.')
+    else
+      if req.params.handle isnt req.user.id
+        throw new errors.Forbidden('Users may only export their own data.')
+      user = req.user
+    results = yield {
+      'level.sessions': LevelSession.find({creator: user.id})
+      'earned.achievements': EarnedAchievement.find({user: user.id})
+      'payments': Payment.find({recipient: user.get('_id')})
+      'purchases': Purchase.find({recipient: user.get('_id')})
+      'cla.submissions': CLASubmission.find({user: user.id})
+      'clans': Clan.find({ownerID: user.get('_id')})
+      'classrooms': Classroom.find({ownerID: user.get('_id')})
+      'course.instances': Classroom.find({ownerID: user.get('_id')})
+      'trial.requests': TrialRequest.find({applicant: user.get('_id')})
+      'prepaids': Prepaid.find({'redeemers.userID': user.get('_id')})
+    }
+    for key, models in results
+      results[key] = (model.toObject({req: req}) for model in models)
+    results.user = user.toObject({req: req})
+    return res.send(results)
 
   getAvatar: wrap (req, res) ->
     user = yield database.getDocFromHandle(req, User)

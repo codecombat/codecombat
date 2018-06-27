@@ -7,56 +7,68 @@ block content
   .container
 
     .content
-      h1(id="apcsp_section") AP Computer Science Principles
+      h1(id="apcsp_section", data-i18n="teacher.ap_cs_principles")
       ul
         li
           a(href="https://s3.amazonaws.com/files.codecombat.com/docs/resources/APComputerSciencePrinciplesSyllabus.pdf")
-            span AP CS Principles Syllabus
-          p Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class.
+            span(data-i18n="apcsp.syllabus")
+          p(data-i18n="apcsp.syllabus_description")
         li
-          div Unit 1: Creative Technology
+          div
+            span(data-i18n="apcsp.unit_1")
             p
-              | Computational Thinking Practices: P1, P2, P4
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P4
               br
-              | Learning Objectives: 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.5, 1.3.1, 7.1.1, 7.2.1
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.5, 1.3.1, 7.1.1, 7.2.1
               br
-              | Curricular Requirements: CR1a, CR1b, CR1d, CR2a, CR2g
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1d, CR2a, CR2g
               br
               - var activityURL = "/teachers/resources/apcsp-tech-usability";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 1 Activity: Technology Usability Review
+                span(data-i18n="apcsp.unit_1_activity_1")
 
         li
-          div Unit 2: Computational Thinking
+          div
+            span(data-i18n="apcsp.unit_2")
             p 
-              | Computational Thinking Practices: P2, P3, P5, P6
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P2, P3, P5, P6
               br
-              | Learning Objectives: 1.2.4, 2.1.1, 2.1.2, 2.2.1, 2.3.1, 2.3.2
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.2.4, 2.1.1, 2.1.2, 2.2.1, 2.3.1, 2.3.2
               br
-              | Curricular Requirements: CR1b, CR1c, CR1f, CR2a, CR2b
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1b, CR1c, CR1f, CR2a, CR2b
               br
               - activityURL = "/teachers/resources/apcsp-binary-sequences";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 2 Activity: Binary Sequences
+                span(data-i18n="apcsp.unit_2_activity_1")
               br
               - activityURL = "/teachers/resources/apcsp-computing-lesson";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 2 Activity: Computing Lesson Project
+                span(data-i18n="apcsp.unit_2_activity_2")
 
         li
-          div Unit 3: Algorithms
+          div
+            span(data-i18n="apcsp.unit_3")
             p 
-              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
               br
-              | Learning Objectives: 2.2.1, 2.2.2, 2.3.1, 2.3.2, 4.1.1, 4.1.2, 4.2.1, 4.2.2, 4.2.3, 4.2.4, 5.1.2, 5.1.3
+              span(data-i18n="apcsp.learning_objectives")
+              | : 2.2.1, 2.2.2, 2.3.1, 2.3.2, 4.1.1, 4.1.2, 4.2.1, 4.2.2, 4.2.3, 4.2.4, 5.1.2, 5.1.3
               br
-              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2b, CR2d, CR2e
               br
               - activityURL = "/teachers/resources/apcsp-hitchhikers-guide";
               if (me.get('preferredLanguage') == 'he')
@@ -64,67 +76,75 @@ block content
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 3 Activity: Algorithms - Hitchhiker's Guide
+                span(data-i18n="apcsp.unit_3_activity_1")
               br
               - activityURL = "/teachers/resources/apcsp-simulation";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 3 Activity: Simulation - Predator & Prey
+                span(data-i18n="apcsp.unit_3_activity_2")
               br
               - activityURL = "/teachers/resources/apcsp-pair-algorithms";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 3 Activity: Algorithms - Pair Design and Programming
+                span(data-i18n="apcsp.unit_3_activity_3")
 
         li
-          div Unit 4: Programming
+          div
+            span(data-i18n="apcsp.unit_4")
             p 
-              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
               br
-              | Learning Objectives: 2.2.1, 2.2.2, 2.2.3, 4.1.1, 4.1.2, 5.1.2, 5.1.3, 5.2.1, 5.3.1, 5.4.1, 5.5.1
+              span(data-i18n="apcsp.learning_objectives")
+              | : 2.2.1, 2.2.2, 2.2.3, 4.1.1, 4.1.2, 5.1.2, 5.1.3, 5.2.1, 5.3.1, 5.4.1, 5.5.1
               br
-              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1f, CR2b, CR2d, CR2e
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1c, CR1d, CR1f, CR2b, CR2d, CR2e
               br
               - activityURL = "/teachers/resources/apcsp-getting-abstract";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 4 Activity: Abstractions
+                span(data-i18n="apcsp.unit_4_activity_1")
               br
               - activityURL = "/teachers/resources/apcsp-search-sort";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 4 Activity: Searching & Sorting
+                span(data-i18n="apcsp.unit_4_activity_2")
               br
               - activityURL = "/teachers/resources/apcsp-refactoring";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 4 Activity: Refactoring
+                span(data-i18n="apcsp.unit_4_activity_3")
                 
         li
-          div Unit 5: The Internet
+          div
+            span(data-i18n="apcsp.unit_5")
             p 
-              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
               br
-              | Learning Objectives: 1.1.1, 1.2.2, 1.2.3, 1.2.4, 2.3.1, 3.3.1, 6.1.1, 6.2.1, 6.2.2, 6.3.1, 7.5.1, 7.5.2
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.1.1, 1.2.2, 1.2.3, 1.2.4, 2.3.1, 3.3.1, 6.1.1, 6.2.1, 6.2.2, 6.3.1, 7.5.1, 7.5.2
               br
-              | Curricular Requirements: CR1a, CR1b, CR1d, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2f, CR2g
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1d, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2f, CR2g
               br
               - activityURL = "/teachers/resources/apcsp-how-the-internet-works";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 5 Activity: How the Internet Works
+                span(data-i18n="apcsp.unit_5_activity_1")
               br
               - activityURL = "/teachers/resources/apcsp-internet-simulation";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 5 Activity: Internet Simulator
+                span(data-i18n="apcsp.unit_5_activity_2")
               br
               - var activityURL = "/teachers/resources/apcsp-internet-chat-simulation";
               if (me.get('preferredLanguage') == 'he')
@@ -132,55 +152,63 @@ block content
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 5 Activity: Chat Room Simulation
+                span(data-i18n="apcsp.unit_5_activity_3")
               br
               - activityURL = "/teachers/resources/apcsp-internet-cybersecurity";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 5 Activity: Cybersecurity
+                span(data-i18n="apcsp.unit_5_activity_4")
 
         li
-          div Unit 6: Data
+          div
+            span(data-i18n="apcsp.unit_6")
             p 
-              | Computational Thinking Practices: P1, P2, P3, P4, P5, P6
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P3, P4, P5, P6
               br
-              | Learning Objectives: 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.3.1, 2.3.1, 3.1.1, 3.1.2, 3.1.3, 3.2.1, 3.2.2, 3.3.1, 7.2.1
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.1.1, 1.2.1, 1.2.2, 1.2.3, 1.2.4, 1.3.1, 2.3.1, 3.1.1, 3.1.2, 3.1.3, 3.2.1, 3.2.2, 3.3.1, 7.2.1
               br
-              | Curricular Requirements: CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2g
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1c, CR1d, CR1e, CR1f, CR2a, CR2b, CR2c, CR2g
               br
               - activityURL = "/teachers/resources/apcsp-data-project";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 6 Activity: Introduction to Data
+                span(data-i18n="apcsp.unit_6_activity_1")
               br
               - activityURL = "/teachers/resources/apcsp-big-data";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 6 Activity: Big Data
+                span(data-i18n="apcsp.unit_6_activity_2")
               br
               - activityURL = "/teachers/resources/apcsp-compression";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 6 Activity: Lossy & Lossless Compression
+                span(data-i18n="apcsp.unit_6_activity_3")
 
         li
-          div Unit 7: Personal & Global Impact
+          div
+            span(data-i18n="apcsp.unit_7")
             p 
-              | Computational Thinking Practices: P1, P2, P4, P5
+              span(data-i18n="apcsp.computational_thinking_practices")
+              | : P1, P2, P4, P5
               br
-              | Learning Objectives: 1.2.2, 1.2.3, 7.1.1, 7.1.2, 7.2.1, 7.3.1, 7.4.1, 7.5.1, 7.5.2
+              span(data-i18n="apcsp.learning_objectives")
+              | : 1.2.2, 1.2.3, 7.1.1, 7.1.2, 7.2.1, 7.3.1, 7.4.1, 7.5.1, 7.5.2
               br
-              | Curricular Requirements: CR1a, CR1b, CR1d, CR1e, CR1f, CR2a, CR2g
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR1a, CR1b, CR1d, CR1e, CR1f, CR2a, CR2g
               br
               - activityURL = "/teachers/resources/apcsp-personal-and-global-impact";
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 7 Activity: Personal & Global Impact
+                span(data-i18n="apcsp.unit_7_activity_1")
               br
               - var activityURL = "/teachers/resources/apcsp-crowdsourcing";
               if (me.get('preferredLanguage') == 'he')
@@ -188,36 +216,40 @@ block content
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
                 - activityURL += '-pt-BR';
               a(href=activityURL)
-                span Unit 7 Activity: Crowdsourcing
+                span(data-i18n="apcsp.unit_7_activity_2")
         li
-          div Unit 8: Performance Tasks
+          div
+            span(data-i18n="apcsp.unit_8")
             p 
-              | Curricular Requirements: CR3, CR4
+              span(data-i18n="apcsp.curricular_requirements")
+              | : CR3, CR4
             p
-              | Prepare students for the Create Task by building their own games and practicing key concepts.
+              span(data-i18n="apcsp.unit_8_description")
             p
               a(href="/teachers/resources/create-task-practice-1")
-                span Create Task Practice 1: Game Development 1
+                span(data-i18n="apcsp.unit_8_activity_1")
               br
               a(href="/teachers/resources/create-task-practice-2")
-                span Create Task Practice 2: Game Development 2
+                span(data-i18n="apcsp.unit_8_activity_2")
               br
               a(href="/teachers/resources/create-task-practice-3")
-                span Create Task Practice 3: Game Development 3
+                span(data-i18n="apcsp.unit_8_activity_3")
 
         li
-          div Unit 9: AP Review
+          div
+            span(data-i18n="apcsp.unit_9")
           p
-            i Coming soon!
+            i(data-i18n="common.coming_soon")
 
         li
-          div Unit 10: Post-AP
+          div
+            span(data-i18n="apcsp.unit_10")
           p
             - activityURL = "/teachers/resources/apcsp-web-quiz";
             if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
               - activityURL += '-pt-BR';
             a(href=activityURL)
-              span Unit 10 Activity: Web Quiz
+              span(data-i18n="apcsp.unit_10_activity_1")
 
         li
           - activityURL = "/teachers/resources/pair-programming";

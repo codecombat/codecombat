@@ -7,6 +7,8 @@ jsonSchema = require '../../app/schemas/models/clan.schema.coffee'
 
 ClanSchema = new mongoose.Schema {}, {strict: false, minimize: false, read:config.mongo.readpref}
 
+ClanSchema.index({ownerID: 1}, {name: 'ownerID index'})
+
 ClanSchema.pre 'save', (next) ->
   User.update {_id: @get('ownerID')}, {$addToSet: {clans: @get('_id')}}, (err) =>
     if err

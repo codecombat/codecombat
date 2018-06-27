@@ -45,7 +45,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     request_demo_subtitle: "Vraag een pilot aan en start meteen."
     get_started_title: "Maak vandaag nog een klas aan!"
     get_started_subtitle: "Maak een klas aan, voeg je leerlingen toe, en monitor hun vooruitgang."
-    request_demo: "Gratis pilot" #used to be "Vraag een pilot aan" but "gratis pilot" makes more sense.
+    request_demo: "Gratis pilot"
     setup_a_class: "Maak een klas aan"
     have_an_account: "Heb je al een account?" # {change}
     logged_in_as: "Je bent ingelogd als"
@@ -65,7 +65,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
   nav:
     map: "Kaart"
     play: "Levels" # The top nav bar entry where players choose which levels to play
-    community: "Community" 
+    community: "Community"
     courses: "Lessen"
     blog: "Blog"
     forum: "Forum"
@@ -302,6 +302,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     teacher_additional_questions: "Dat was het! Als je nog meer hulp nodig hebt of je hebt vragen, neem contact op met __supportEmail__."
     dont_use_our_email_silly: "Zet hier niet je eigen email-adres neer, maar die van je ouders!"
     want_codecombat_in_school: "Wil je altijd CodeCombat kunnen spelen?"
+#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
+#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
+#    eu_confirmation_student: "If you are not sure, ask your teacher."
+#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
     recover_account_title: "Herstel Account"
@@ -1126,7 +1130,6 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     delete_account_tab: "Verwijder je Account"
     wrong_email: "Verkeerd e-mailadres"
     wrong_password: "Verkeerd wachtwoord"
-    use_gravatar: "Verander je profielfoto door je aan te melden voor Gravatar"
     delete_this_account: "Verwijder dit account voor altijd"
     reset_progress_tab: "Reset Alle Voortgang"
     reset_your_progress: "Verwijder alle voortgang en start opnieuw"
@@ -1446,7 +1449,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     removing_course: "Cursus wordt verwijderd"
 #    solution_arena_blurb: "Students are encouraged to solve arena levels creatively. The solution provided below meets the requirements of the arena level."
 #    solution_challenge_blurb: "Students are encouraged to solve open-ended challenge levels creatively. One possible solution is displayed below."
-#    solution_project_blurb: "Students are encouraged to build a creative project in this level. The solution provided below meets the requirements of the project level."
+#    solution_project_blurb: "Students are encouraged to build a creative project in this level. Please refer to curriculum guides in the Resource Hub for information on how to evaluate these projects."
 #    students_code_blurb: "A correct solution to each level is provided where appropriate. In some cases, it’s possible for a student to solve a level using different code. Solutions are not shown for levels the student has not started."
     course_solution: "Cursus antwoord"
     level_overview_solutions: "Level overzicht en antwoorden"
@@ -1505,6 +1508,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     started: "Gestart"
     no_progress: "Geen voortgang"
     not_required: "Niet vereist"
+#    view_student_code: "Click to view student code"
     select_course: "Selecteer cursus om te bekijken"
     progress_color_key: "Voortgang kleurcode:"
     level_in_progress: "Bezig met level"
@@ -1632,6 +1636,8 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     gd3_curriculum: "Game Development 3 - Curriculum handleiding"
 #    gd3_curriculum_desc: "Lesson plans for Game Development 3."
     wd1: "Web Ontwikkeling 1"
+#    wd1_curriculum: "Web Development 1 - Curriculum Guide"
+#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
     wd1_headlines: "Titels & Koppen Activiteit"
     wd1_headlines_example: "Bekijk voorbeeld-oplossing"
     wd1_headlines_desc: "Waarom zijn kopjes en titels belangrijk? Gebruik deze activiteit om te zien hoe goed gekozen kopjes je pagina leesbaarder maken. Er zijn veel goede oplossingen hier voor!"
@@ -1744,6 +1750,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    level_label: "Level:"
     time_played_label: "Speeltijd:"
     back_to_resource_hub: "Terug naar Resource Hub"
+#    back_to_course_guides: "Back to Course Guides"
     print_guide: "Print deze handleiding"
     combo: "Combo"
 #    combo_explanation: "Students pass Combo challenge levels by using at least one listed concept. Review student code by clicking the progress dot."
@@ -2064,6 +2071,15 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     favorite_prefix: "Favoriete taal is "
     favorite_postfix: "."
     not_member_of_clans: "Nog geen lid van een clan."
+#    certificate_view: "view certificate"
+#    certificate_click_to_view: "click to view certificate"
+#    certificate_course_incomplete: "course incomplete"
+#    certificate_of_completion: "Certificate of Completion"
+#    certificate_endorsed_by: "Endorsed by"
+#    certificate_stats: "Course Stats"
+#    certificate_lines_of: "lines of"
+#    certificate_levels_completed: "levels completed"
+#    certificate_for: "For"
 
   achievements:
     last_earned: "Laatst verdiend"
@@ -2105,6 +2121,10 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     verifying_email: "Email addres bevestigen..."
     successfully_verified: "Je hebt succesvol je email adres bevestigd!"
     verify_error: "Er is iets mis gegaan bij het bevestigen van je email :("
+#    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
+#    unsubscribe_button: "Yes, unsubscribe"
+#    unsubscribe_failed: "Failed"
+#    unsubscribe_success: "Success"
 
   account_invoices:
     amount: "Aantal in Amerikaanse dollars"
@@ -2296,7 +2316,7 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     basic_event_handling: "Basis Event Afhandelen"
     create_sharable_interactive_web_page: "Maak een interactieve webpagina die je kunt delen"
 
-#  anonymous_teacher:
+  anonymous_teacher:
     notify_teacher: "Waarschuw leerkracht"
     create_teacher_account: "Maak een gratis docenten-account aan"
     enter_student_name: "Uw naam:"
@@ -2369,9 +2389,12 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
     rights_clarification: "Om het duidelijk te maken, iets dat beschikbaar is in de Level editor voor het maken van levels, valt onder de CC licentie. Terwijl de inhoud gemaakt met de Level Editor of geüpload in de loop van de creatie van de levels, hier niet onder vallen."
     nutshell_title: "In een notendop"
     nutshell_description: "Alle middelen die wij aanbieden in de Level Editor zijn gratis te gebruiken om levels aan te maken. Wij behouden ons echter het recht voor om levels die gemaakt zijn op codecombat.com te beperken, en hier in de toekomst geld voor te vragen, moest dat ooit gebeuren."
+#    nutshell_see_also: "See also:"
     canonical: "De Engelse versie van dit document is de definitieve en kanonieke versie. Bij verschillen tussen vertalingen heeft de Engelse versie voorrang."
     third_party_title: "Derde partijen"
     third_party_description: "CodeCombat gebruikt onder andere de volgende diensten van derden:"
+#    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
+#    cookies_deny: "Decline non-essential cookies"
 
   ladder_prizes:
     title: "Toernooi prijzen" # This section was for an old tournament and doesn't need new translations now.
@@ -2417,11 +2440,11 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    victory_sign_up_poke: "Create a free account to save your code & be entered for a chance to win prizes!"
 #    victory_sign_up: "Sign up & be entered to <strong>win $2,500</strong>"
 
-#  server_error:
+  server_error:
     email_taken: "Dit e-mailadres is al in gebruik"
     username_taken: "Gebruikersnaam niet beschikbaar"
 
-#  esper:
+  esper:
     line_no: "Regel $1: "
 #    uncaught: "Uncaught $1" # $1 will be an error type, eg "Uncaught SyntaxError"
     reference_error: "ReferentieFout: "
@@ -2499,3 +2522,43 @@ module.exports = nativeDescription: "Nederlands", englishDescription: "Dutch", t
 #    put_each_command_on: "Put each command on a separate line"
 #    are_you_missing_a: "Are you missing a '$1' after '$2'? "
 #    your_parentheses_must_match: "Your parentheses must match."
+
+#  apcsp:
+#    syllabus: "AP CS Principles Syllabus"
+#    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
+#    computational_thinking_practices: "Computational Thinking Practices"
+#    learning_objectives: "Learning Objectives"
+#    curricular_requirements: "Curricular Requirements"
+#    unit_1: "Unit 1: Creative Technology"
+#    unit_1_activity_1: "Unit 1 Activity: Technology Usability Review"
+#    unit_2: "Unit 2: Computational Thinking"
+#    unit_2_activity_1: "Unit 2 Activity: Binary Sequences"
+#    unit_2_activity_2: "Unit 2 Activity: Computing Lesson Project"
+#    unit_3: "Unit 3: Algorithms"
+#    unit_3_activity_1: "Unit 3 Activity: Algorithms - Hitchhiker's Guide"
+#    unit_3_activity_2: "Unit 3 Activity: Simulation - Predator & Prey"
+#    unit_3_activity_3: "Unit 3 Activity: Algorithms - Pair Design and Programming"
+#    unit_4: "Unit 4: Programming"
+#    unit_4_activity_1: "Unit 4 Activity: Abstractions"
+#    unit_4_activity_2: "Unit 4 Activity: Searching & Sorting"
+#    unit_4_activity_3: "Unit 4 Activity: Refactoring"
+#    unit_5: "Unit 5: The Internet"
+#    unit_5_activity_1: "Unit 5 Activity: How the Internet Works"
+#    unit_5_activity_2: "Unit 5 Activity: Internet Simulator"
+#    unit_5_activity_3: "Unit 5 Activity: Chat Room Simulation"
+#    unit_5_activity_4: "Unit 5 Activity: Cybersecurity"
+#    unit_6: "Unit 6: Data"
+#    unit_6_activity_1: "Unit 6 Activity: Introduction to Data"
+#    unit_6_activity_2: "Unit 6 Activity: Big Data"
+#    unit_6_activity_3: "Unit 6 Activity: Lossy & Lossless Compression"
+#    unit_7: "Unit 7: Personal & Global Impact"
+#    unit_7_activity_1: "Unit 7 Activity: Personal & Global Impact"
+#    unit_7_activity_2: "Unit 7 Activity: Crowdsourcing"
+#    unit_8: "Unit 8: Performance Tasks"
+#    unit_8_description: "Prepare students for the Create Task by building their own games and practicing key concepts."
+#    unit_8_activity_1: "Create Task Practice 1: Game Development 1"
+#    unit_8_activity_2: "Create Task Practice 2: Game Development 2"
+#    unit_8_activity_3: "Create Task Practice 3: Game Development 3"
+#    unit_9: "Unit 9: AP Review"
+#    unit_10: "Unit 10: Post-AP"
+#    unit_10_activity_1: "Unit 10 Activity: Web Quiz"

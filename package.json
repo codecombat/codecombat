@@ -43,6 +43,7 @@
     "multicore": "coffee multicore.coffee",
     "jasmine": "jasmine",
     "proxy": "COCO_PROXY='true' nodemon",
+    "proxy-win": "cross-env COCO_PROXY='true' nodemon",
     "analyzer": "COCO_ANALYZER_BUNDLE=1 webpack --profile --json > stats.json",
     "coverage": "node ./bin/coverage.js"
   },
@@ -156,6 +157,7 @@
     "compressible": "~1.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "country-data": "0.0.24",
+    "cross-env": "^5.2.0",
     "exports-loader": "^0.6.3",
     "faker": "^3.1.0",
     "file-loader": "^0.11.2",

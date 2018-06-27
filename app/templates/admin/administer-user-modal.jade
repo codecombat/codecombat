@@ -18,6 +18,7 @@ block modal-header-content
         button#deteacher-btn.btn.btn-burgundy Deteacher
   p
     button#reset-progress-btn.btn.btn-burgundy Reset Progress
+    a#export-data-btn.btn.btn-primary(target='_blank' href='/db/user/' + view.user.id + '/export-data') Export GDPR User Data
   br
 
   if view.prepaids.size()
