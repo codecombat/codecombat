@@ -1761,7 +1761,7 @@ module.exports = nativeDescription: "français", englishDescription: "French", t
 #    you: "(you)"
 #    one_license_used: "(1 license used)"
      licenses_used: " ( __licensesUsed__ licences utilisées) "
-     more_info: " Plus d informations"
+#     more_info: " Plus d informations"
 
   sharing:
     game: "Jeu"
