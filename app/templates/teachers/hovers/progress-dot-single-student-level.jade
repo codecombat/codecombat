@@ -67,8 +67,7 @@ if completed
     +assessmentLines
   if !isProject && !isLadder
     .small-details.nowrap.m-t-1
-      //- TODO: data-i18n doesn't work here
-      .student-code Click to view student code
+      .student-code(data-i18n="teacher.view_student_code")
 else if started
   +header
   .small-details.nowrap
@@ -81,7 +80,7 @@ else if started
         
   if !isProject && !isLadder
     .small-details.nowrap.m-t-1
-      .student-code Click to view student code
+      .student-code(data-i18n="teacher.view_student_code")
 else
   +header
   if practice
