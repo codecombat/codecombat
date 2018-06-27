@@ -75,7 +75,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     home: "Início"
     contribute: "Contribuir"
     legal: "Legal"
-    privacy: "Privacidade"
+    privacy: "Aviso de Privacidade"
     about: "Sobre"
     contact: "Contactar"
     twitter_follow: "Seguir"
@@ -993,8 +993,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
   teachers:
     licenses_needed: "Licenças necessárias"
 
-#  special_offer:
-#    special_offer: "Special Offer"
+  special_offer:
+    special_offer: "Oferta Especial"
 #    project_based_title: "Project-Based Courses"
 #    project_based_description: "Web and Game Development courses feature shareable final projects."
 #    great_for_clubs_title: "Great for clubs and electives"
@@ -1038,7 +1038,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    subtitle: "Get your students started in less than an hour. You'll be able to <strong>create a class, add students, and monitor their progress</strong> as they learn computer science."
 #    email_exists: "User exists with this email."
     phone_number: "Número de telemóvel"
-    phone_number_help: "Para onde podemos ligar-te durante o dia de trabalho?"
+    phone_number_help: "Qual é o melhor número para entrarmos em contacto contigo?"
     primary_role_label: "O Teu Cargo Principal"
     role_default: "Selecionar Cargo"
 #    primary_role_default: "Select Primary Role"
@@ -1128,7 +1128,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     me_tab: "Eu"
     picture_tab: "Fotografia"
     delete_account_tab: "Elimina a Tua Conta"
-    wrong_email: "E-mail Errado"
+    wrong_email: "E-mail ou Nome de Utilizador Errado"
     wrong_password: "Palavra-passe Errada"
     delete_this_account: "Elimina esta conta permanentemente"
     reset_progress_tab: "Reiniciar Todo o Progresso"
@@ -1501,7 +1501,7 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     latest_completed: "Último completo:"
     sort_by: "Ordenar por"
     progress: "Progresso"
-#    concepts_used: "Concepts used by Student:"
+    concepts_used: "Conceitos usados pelo Estudante:"
 #    concept_checked: "Concept checked:"
     completed: "Completaram"
     practice: "Prática"
@@ -2393,8 +2393,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
     canonical: "A versão Inglesa deste documento é a versão definitiva e soberana. Se houver discrepâncias entre traduções, o documento Inglês prevalece."
     third_party_title: "Serviços de Terceiros"
     third_party_description: "O CodeCombat usa os seguintes serviços de terceiros (entre outros):"
-#    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
-#    cookies_deny: "Decline non-essential cookies"
+    cookies_message: "O CodeCombat usa alguns cookies essenciais e não-essenciais."
+    cookies_deny: "Recusar cookies não-essenciais"
 
   ladder_prizes:
     title: "Prémios do Torneio" # This section was for an old tournament and doesn't need new translations now.
@@ -2482,8 +2482,8 @@ module.exports = nativeDescription: "Português (Portugal)", englishDescription:
 #    unnecessary_semicolon: "Unnecessary semicolon."
 #    unexpected_token_expected: "Unexpected token: expected $1 but found $2 while parsing $3"
 #    unexpected_token: "Unexpected token $1"
-#    unexpected_token2: "Unexpected token"
-#    unexpected_number: "Unexpected number"
+    unexpected_token2: "Símbolo inesperado"
+    unexpected_number: "Número inesperado"
 #    unexpected: "Unexpected '$1'."
 #    escape_pressed_code: "Escape pressed; code aborted."
 #    target_an_enemy: "Target an enemy by name, like `$1`, not the string `$2`."
