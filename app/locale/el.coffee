@@ -64,7 +64,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   nav:
     map: "Χάρτης"
-    play: "Επίπεδα" # Η κορυφαία καταχώρηση της γραμμής πλοήγησης όπου οι παίκτες επιλέγουν ποια επίπεδα θα παίξουν
+    play: "Επίπεδα" # The top nav bar entry where players choose which levels to play
     community: "Κοινότητα"
     courses: "Μαθήματα"
     blog: "Ιστολόγιο"
@@ -108,7 +108,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     page_not_found: "Η σελίδα δεν βρέθηκε"
 
   diplomat_suggestion:
-    title: "Βοηθήστε στην μετάφραση του CodeCombat!" # Αυτό εμφανίζεται όταν ένας παίκτης μεταβαίνει σε μη αγγλική γλώσσα χρησιμοποιώντας τον επιλογέα γλώσσας.
+    title: "Βοηθήστε στην μετάφραση του CodeCombat!" # This shows up when a player switches to a non-English language using the language selector.
     sub_heading: "Χρειαζόμαστε τις γλωσσικές σας δεξιότητες."
     pitch_body: "Αναπτύσσουμε το CodeCombat στα αγγλικά, αλλά ήδη έχουμε παίκτες από όλο τον κόσμο. Πολλοί από αυτούς θέλουν να παίξουν στα ελληνικά, αλλά δεν μιλούν αγγλικά. Εάν έχετε ευχέρεια και στις δύο γλώσσες, αγγλική κι ελληνική, παρακαλούμε να εγγραφείτε ως Διπλωμάτης και να συμβάλετε στην απόδοση της ιστοσελίδας CodeCombat και όλων των επιπέδων στην ελληνική γλώσσα."
     missing_translations: "Μέχρι να μπορούν να μεταφράσουν τα πάντα σε Ελληνικά, θα δείτε την αγγλική γλώσσα όπου τα Ελληνικά δεν είναι διαθέσιμα."
@@ -116,26 +116,26 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     subscribe_as_diplomat: "Εγγραφή ως Διπλωμάτης"
 
   play:
-    play_as: "Παίξτε ως" # Σελίδα κατάταξης
+    play_as: "Παίξτε ως" # Ladder page
     get_course_for_class: "Αναθέστε την ανάπτυξη παιχνιδιών και περισσότερα στις τάξεις σας!"
     request_licenses: "Επικοινωνήστε με τους ειδικούς του σχολείου για λεπτομέρειες."
-    compete: "Αγωνίσου!" # Σελίδα λεπτομερειών μαθήματος
-    spectate: "Θεατής" # Σελίδα κατάταξης
-    players: "παίκτες" # Δείκτης του ποντικιού πάνω από το επίπεδο στη καρτέλα παίξε
-    hours_played: "ώρες παιχνιδιού" # Δείκτης του ποντικιού πάνω από το επίπεδο στη καρτέλα παίξε
-    items: "Αντικείμενα" # Επεξήγηση εργαλείου στο κουμπί κατάστημα αντικειμένων στην καρτέλα παίξε
-    unlock: "Ξεκλειδώστε" # Για αντικείμενα και ήρωες που είναι για αγορά
+    compete: "Αγωνίσου!" # Course details page
+    spectate: "Θεατής" # Ladder page
+    players: "παίκτες" # Hover over a level on /play
+    hours_played: "ώρες παιχνιδιού" # Hover over a level on /play
+    items: "Αντικείμενα" # Tooltip on item shop button from /play
+    unlock: "Ξεκλειδώστε" # For purchasing items and heroes
     confirm: "Επιβεβαίωση"
-    owned: "Σου ανήκει" # Για αντικείμενα που είναι δικά σου
+    owned: "Σου ανήκει" # For items you own
     locked: "Κλειδωμένο"
     available: "Διαθέσιμο"
-    skills_granted: "Παρεχόμενες Ικανότητες" # Λεπτομέρειες τεκμηρίωσης ιδιοκτησίας
-    heroes: "Ήρωες" # Επεξήγηση εργαλείου στο κουμπί κατάστημα ηρώων στην καρτέλα παίξε
-    achievements: "Επιτεύγματα" # Επεξήγηση εργαλείου στο κουμπί λίστα επιτευγμάτων στην καρτέλα παίξε
-    settings: "Ρυθμίσεις" # Επεξήγηση εργαλείου στο κουμπί ρυθμίσεις στην καρτέλα παίξε
-    poll: "Δημοσκόπηση" # Επεξήγηση εργαλείου στο κουμπί δημοσκόπηση στην καρτέλα παίξε
-    next: "Επόμενο" # Μετάβαση από την επιλογή ήρωα στη επιλογή αντικειμένων πριν παίξεις ένα επίπεδο
-    change_hero: "Αλλαγή Ήρωα" # Επιστροφή στην επιλογή ήρωα από την επιλογή αντικειμένων
+    skills_granted: "Παρεχόμενες Ικανότητες" # Property documentation details
+    heroes: "Ήρωες" # Tooltip on hero shop button from /play
+    achievements: "Επιτεύγματα" # Tooltip on achievement list button from /play
+    settings: "Ρυθμίσεις" # Tooltip on settings button from /play
+    poll: "Δημοσκόπηση" # Tooltip on poll button from /play
+    next: "Επόμενο" # Go from choose hero to choose inventory before playing a level
+    change_hero: "Αλλαγή Ήρωα" # Go back from choose inventory to choose hero
     buy_gems: "Αγορά Διαμαντιών"
     subscribers_only: "Συνδρομητές Μόνο!"
     subscribe_unlock: "Κάνε Συνδρομή για να το Ξεκλειδώσεις!"
@@ -157,7 +157,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     get_more_codecombat: "Περισσότερο CodeCombat"
 
   code:
-    if: "αν" # Λέξεις κλειδιά - αυτές οι μεταφράσεις εμφανίζονται στο δείκτη του ποντικιού, οπότε παρακαλώ να τις μεταφράσετε όλες, ακόμα και αν είναι μακροσκελές. (Στο πρόγραμμα επεξεργασίας κώδικα, θα εξακολουθούν να είναι στα αγγλικά.)
+    if: "αν" # Keywords--these translations show up on hover, so please translate them all, even if it's kind of long. (In the code editor, they will still be in English.)
     else: "αλλιώς"
     elif: "αλλιώς αν"
     while: "εφόσον"
@@ -302,6 +302,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     teacher_additional_questions: "Αυτό είναι! Αν χρειάζεστε περισσότερη βοήθεια ή έχετε ερωτήσεις, απευθυνθείτε στο __supportEmail__."
     dont_use_our_email_silly: "Μην βάζεις το email σου εδώ! Βάλε του γονιού σου."
     want_codecombat_in_school: "Θέλεις να παίζεις το CodeCombat όλη την ώρα;"
+#    eu_confirmation: "I agree to allow CodeCombat to store my data on US servers."
+#    eu_confirmation_place_of_processing: "Learn more about the possible risks"
+#    eu_confirmation_student: "If you are not sure, ask your teacher."
+#    eu_confirmation_individual: "If you do not want us to store your data on US servers, you can always keep playing anonymously without saving your code."
 
   recover:
     recover_account_title: "Ανάκτηση λογαριασμού"
@@ -317,9 +321,9 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     books: "Βιβλία"
 
   common:
-    back: "Προηγούμενο" # Όταν χρησιμοποιείται ως ρήμα δράσης, όπως "Πήγαινε προς τα πίσω"
+    back: "Προηγούμενο" # When used as an action verb, like "Navigate backward"
     coming_soon: "Έρχεται σύντομα! Coming soon!"
-    continue: "Συνέχεια" # Όταν χρησιμοποιείται ως ρήμα δράσης, όπως "Συνέχισε μπροστά"
+    continue: "Συνέχεια" # When used as an action verb, like "Continue forward"
     next: "Επόμενο"
     default_code: "Προκαθορισμένος Κωδικός"
     loading: "Φορτώνει..."
@@ -337,7 +341,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     publish: "Δημοσίευση"
     create: "Δημιουργία"
     fork: "Κλώνος"
-    play: "Παίξε" # Όταν χρησιμοποιείται ως ρήμα δράσης, όπως "Παίξε το επόμενο επίπεδο"
+    play: "Παίξε" # When used as an action verb, like "Play next level"
     retry: "Ξαναδοκίμασε"
     actions: "Ενέργειες"
     info: "Πληροφορίες"
@@ -395,7 +399,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     medium: "Μέτριο"
     hard: "Δύσκολο"
     player: "Παίκτης"
-    player_level: "Επίπεδο" # Όπως παίκτης επίπεδου 5, όχι σαν επίπεδο: Τα μπουντρούμια της Κίθγκαρντ
+    player_level: "Επίπεδο" # Like player level 5, not like level: Dungeons of Kithgard
     warrior: "Πολεμιστής"
     ranger: "Καταδρομέας"
     wizard: "Μάγος"
@@ -458,7 +462,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     programming_language: "Γλώσσα Προγραμματισμού"
     show_menu: "Εμφάνιση μενού παιχνιδιού"
     home: "Αρχική" # Not used any more, will be removed soon.
-    level: "Επίπεδο" # Όπως "Επίπεδο: Τα μπουντρούμια της Κίθγκαρντ"
+    level: "Επίπεδο" # Like "Level: Dungeons of Kithgard"
     skip: "Παράλειψη"
     game_menu: "Μενού Παιχνιδιού"
     restart: "Επανεκκίνηση"
@@ -721,7 +725,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     subscribe_modal_title: "Προνομιακό CodeCombat"
     comparison_blurb: "Γίνετε Αυθεντία στον Κώδικα - εγγραφείτε στο <b>Προνομιακό</b> σήμερα!"
     must_be_logged: "Πρέπει να συνδεθείς πρώτα. Παρακαλώ, δημιούργησε ένα λογαριασμό ή συνδέσου από το παραπάνω μενού."
-    subscribe_title: "Συνδρομή" # Στην πραγματικότητα χρησιμοποιείται και στα κουμπιά συνδρομής
+    subscribe_title: "Συνδρομή" # Actually used in subscribe buttons, too
     unsubscribe: "Διακοπή Συνδρομής"
     confirm_unsubscribe: "Επιβεβαίωση Διακοπής Συνδρομής"
     never_mind: "Δεν πειράζει, Ακόμα Σε Αγαπάω"
@@ -734,7 +738,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     buy_now: "Αγορά Τώρα"
     subscription_required_to_play: "Πρέπει να είσαι συνδρομητής για να παίξεις αυτό το επίπεδο."
     unlock_help_videos: "Απέκτησε συνδρομή για να ξεκλειδώσεις όλα τα βίντεο βοηθήματα."
-    personal_sub: "Προσωπική Συνδρομή" # Παρακολούθηση Λογαριασμών Συνδρομής παρακάτω
+    personal_sub: "Προσωπική Συνδρομή" # Accounts Subscription View below
     loading_info: "Οι πληροφορίες της συνδρομής φορτώνονται..."
     managed_by: "Διαχείριση από"
     will_be_cancelled: "Θα ακυρωθεί στις"
@@ -763,7 +767,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
   announcement:
     now_available: "Τώρα διαθέσιμο για συνδρομητές!"
     subscriber: "συνδρομητής"
-    cuddly_companions: "Χνουδωτοί Σύντροφοι!" # Τυπική Έκφραση για τα Κατοικίδια Ζώα
+    cuddly_companions: "Χνουδωτοί Σύντροφοι!" # Pet Announcement Modal
     kindling_name: "Φλεγόμενο Στοιχειό"
     kindling_description: "Το Φλεγόμενο Στοιχειό απλά θέλει να σε κρατήσει ζεστό το βράδυ. Κατά τη διάρκεια της ημέρας. Πραγματικά, κάθε στιγμή."
     griffin_name: "Μωρό Γρύπας"
@@ -789,7 +793,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     the_second_kithmaze: "Ο Δεύτερος Λαβύρινθος του Κιθ"
     keep_playing: "Συνέχισε να παίζεις για να ανακαλύψεις το πρώτο ζώο!"
     coming_soon: "Έρχεται σύντομα"
-    ritic: "Ρίτικ ο Ψυχρός" # Τυπική Έκφραση για τον Ρίτικ
+    ritic: "Ρίτικ ο Ψυχρός" # Ritic Announcement Modal
     ritic_description: "Ρίτικ ο Ψυχρός. Παγιδευμένος στον παγετώνα Κέλβινταθ για αμέτρητες εποχές, τελικά ελεύθερος και έτοιμος να φροντίσει τους αγριάνθρωπους που τον φυλάκισαν."
     ice_block: "Ένα κομμάτι πάγου"
     ice_description: "Φαίνεται ότι υπάρχει κάτι παγιδευμένο μέσα..."
@@ -803,7 +807,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     wallOfDarkness_description: "Κρύψου πίσω από έναν τοίχο σκιών για να αποφύγεις το βλέμμα των αδιάκριτων ματιών."
 
   premium_features:
-    get_premium: "Πάρε <br>CodeCombat<br> Προνομιακό" # Τοποθετείτε στο banner της σελίδα χαρακτηριστικών
+    get_premium: "Πάρε <br>CodeCombat<br> Προνομιακό" # Fit into the banner on the /features page
     master_coder: "Γίνε μία Αυθεντία του Κώδικα κάνοντας συνδρομή σήμερα!"
     paypal_redirect: "Θα μεταφερθείτε στο PayPal για να ολοκληρώσετε τη διαδικασία συνδρομής."
     subscribe_now: "Γίνε Συνδρομητής Τώρα"
@@ -841,13 +845,13 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     weapons_warrior: "Σπαθιά - Μικρή Εμβέλεια, Χωρίς Μαγεία"
     weapons_ranger: "Τόξα, Όπλα - Μεγάλη Εμβέλεια, Χωρίς Μαγεία"
     weapons_wizard: "Μαγικά Ραβδιά, Πράγματα - Μεγάλη Εμβέλεια, Μαγεία"
-    attack: "Ζημιά" # Μπορείς να το μεταφράσεις ως "Επίθεση"
+    attack: "Ζημιά" # Can also translate as "Attack"
     health: "Υγεία"
     speed: "Ταχύτητα"
     regeneration: "Αναγέννηση"
-    range: "Εμβέλεια" # Όπως λέμε "επίθεση στο οπτικό πεδίο"
-    blocks: "Μπλοκάρει" # Όπως λέμε "αυτή η ασπίδα μπλοκάρει τόσο ζημιά"
-    backstab: "Πισώπλατα" # Όπως λέμε "αυτό το στιλέτο κάνει τόσο πισώπλατη ζημιά"
+    range: "Εμβέλεια" # As in "attack or visual range"
+    blocks: "Μπλοκάρει" # As in "this shield blocks this much damage"
+    backstab: "Πισώπλατα" # As in "this dagger does this much backstab damage"
     skills: "Ικανότητες"
     attack_1: "Ζημιά που κάνει"
     attack_2: "το καταχωρημένο"
@@ -857,19 +861,19 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     health_3: "ασπίδα."
     speed_1: "Κινείται με"
     speed_2: "μέτρα το δευτερόλεπτο."
-    available_for_purchase: "Διαθέσιμο για Αγορά" # Εμφανίζει όταν έχετε ξεκλειδώσει, αλλά δεν έχετε αγοράσει, έναν ήρωα στο κατάστημα του ήρωα
-    level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Ετικέτα για το ποιο επίπεδο πρέπει να νικήσετε για να ξεκλειδώσετε ένα συγκεκριμένο ήρωα (κάντε κλικ σε έναν κλειδωμένο ήρωα στο κατάστημα για να δείτε)
+    available_for_purchase: "Διαθέσιμο για Αγορά" # Shows up when you have unlocked, but not purchased, a hero in the hero store
+    level_to_unlock: "Επίπεδο για ξεκλείδωμα:" # Label for which level you have to beat to unlock a particular hero (click a locked hero in the store to see)
     restricted_to_certain_heroes: "Μόνο συγκεκριμένοι ήρωες μπορούν να παίξουν αυτό το επίπεδο."
 
   skill_docs:
-    function: "συνάρτηση" # είδη ικανοτήτων
+    function: "συνάρτηση" # skill types
     method: "μέθοδος"
     snippet: "απόσπασμα"
     number: "αριθμός"
     array: "πίνακας"
     object: "αντικείμενο"
     string: "συμβολοσειρά"
-    writable: "εγγράψιμο" # Τοποθετήστε το δείκτη του ποντικιού πάνω από την επίθεση ("attack") στις ικανότητές σας ενώ παίζετε ένα επίπεδο για να δείτε τα περισσότερα από αυτά
+    writable: "εγγράψιμο" # Hover over "attack" in Your Skills while playing a level to see most of this
     read_only: "μόνο για ανάγνωση"
     action: "Ενέργεια"
     spell: "Ξόρκι"
@@ -881,7 +885,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     action_radius: "Ακτίνα"
     action_duration: "Διάρκεια"
     example: "Παράδειγμα"
-    ex: "πχ" # Συντόμευση για "παράδειγμα"
+    ex: "πχ" # Abbreviation of "example"
     current_value: "Τρέχουσα τιμή"
     default_value: "Προκαθορισμένη τιμή"
     parameters: "Παράμετροι"
@@ -895,7 +899,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     granularity_change_history: "Ιστορικό"
 
   options:
-    general_options: "Γενικές Επιλογές" # Ανατρέξτε στην καρτέλα Επιλογές στο Μενού Παιχνιδιού κατά το παίξιμο ενός επιπέδου
+    general_options: "Γενικές Επιλογές" # Check out the Options tab in the Game Menu while playing a level
     volume_label: "Ένταση"
     music_label: "Μουσική"
     music_description: "Ανοιγόκλεισμα μουσικής υπόβαθρου."
@@ -994,7 +998,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     project_based_title: "Βασιζόμενο σε Μαθήματα Έργα"
     project_based_description: "Τα μαθήματα Ανάπτυξης Ιστού και Παιχνιδιών περιλαμβάνουν κοινά τελικά έργα."
     great_for_clubs_title: "Κατάλληλο για ομάδες και για μαθήματα επιλογής"
-    great_for_clubs_description: "Οι εκπαιδευτικοί μπορούν να αγοράσουν μέχρι __maxQuantityStarterLicenses__ Άδειες Εκκίνησης."
+    great_for_clubs_description: "Οι εκπαιδευτικοί μπορούν να αγοράσουν μέχρι __maxQuantityStarterLicenses__ Άδειες Εκκίνησης." #
     low_price_title: "Μόνο __starterLicensePrice__ για κάθε μαθητή"
     low_price_description: "Η Άδεια Εκκίνησης είναι ενεργοποιημένη για __starterLicenseLengthMonths__ από την στιγμή που αγοράστηκε."
     three_great_courses: "Τρεις μεγάλες σειρές μαθημάτων εμπεριέχονται στην Άδεια Εκκίνησης:"
@@ -1126,7 +1130,6 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     delete_account_tab: "Διαγράψτε το λογαριασμό σας"
     wrong_email: "Λάθος διεύθυνση ηλεκτρονικού ταχυδρομείου"
     wrong_password: "Λάθος Κωδικός"
-    use_gravatar: "Αλλάξτε την εικόνα του προφίλ σας κάνοντας εγγραφή στο Gravatar"
     delete_this_account: "Μόνιμη διαγραφή λογαριασμού"
     reset_progress_tab: "Εκκαθάριση Προόδου"
     reset_your_progress: "Εκκαθάριση Προόδου και Επανεκκίνηση"
@@ -1337,7 +1340,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     license_will_revoke: "Η πληρωμένη άδεια του μαθητή θα ανακληθεί και θα διατεθεί ώστε να ανατεθεί σε άλλον μαθητή."
     keep_student: "Παραμονή Μαθητή"
     removing_user: "Διαγραφή χρήστη"
-    subtitle: "Ελέγξτε τις επισκοπήσεις των μαθημάτων και τα επίπεδα" # Ανασχεδιασμός επίπεδου ύφους
+    subtitle: "Ελέγξτε τις επισκοπήσεις των μαθημάτων και τα επίπεδα" # Flat style redesign
     changelog: "Προβολή προσφάτων αλλαγών στα επίπεδα του μαθήματος."
     select_language: "Επιλογή γλώσσας"
     select_level: "Επιλογή επιπέδου"
@@ -1346,7 +1349,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     view_guide_online: "Επισκόπηση και Λύση Επιπέδου"
     grants_lifetime_access: "Πλήρης πρόσβαση σε όλα τα Μαθήματα."
     enrollment_credits_available: "Διαθέσιμες Άδειες:"
-    language_select: "Επιλογή μίας γλώσσας" # Τύπος Ρυθμίσεων Τάξης (ClassroomSettingsModal)
+    language_select: "Επιλογή μίας γλώσσας" # ClassroomSettingsModal
     language_cannot_change: "Η γλώσσα δεν μπορεί να αλλάξει από τη στιγμή που οι μαθητές θα συνδεθούν με την τάξη."
     avg_student_exp_label: "Μέση Εμπειρία Μαθητών στον Προγραμματισμό"
     avg_student_exp_desc: "Αυτό θα μας βοηθήσει να κατανοήσουμε καλύτερα πώς να προχωρήσουμε στα μαθήματα."
@@ -1446,14 +1449,14 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     removing_course: "Αφαίρεση μαθήματος"
     solution_arena_blurb: "Οι μαθητές ενθαρρύνονται να επιλύσουν δημιουργικά τα επίπεδα της αρένας. Η παρακάτω λύση πληροί τις απαιτήσεις του επιπέδου της αρένας."
     solution_challenge_blurb: "Οι μαθητές ενθαρρύνονται να επιλύουν δημιουργικά τα ανοικτά επίπεδα πρόκλησης. Μια πιθανή λύση εμφανίζεται παρακάτω."
-    solution_project_blurb: "Οι μαθητές ενθαρρύνονται να δημιουργήσουν ένα δημιουργικό έργο σε αυτό το επίπεδο. Η λύση που παρέχεται παρακάτω πληροί τις απαιτήσεις του επιπέδου του έργου."
+    solution_project_blurb: "Οι μαθητές ενθαρρύνονται να δημιουργήσουν ένα δημιουργικό έργο σε αυτό το επίπεδο. Η λύση που παρέχεται παρακάτω πληροί τις απαιτήσεις του επιπέδου του έργου." # {change}
     students_code_blurb: "Παρέχεται μια σωστή λύση σε κάθε επίπεδο όπου χρειάζεται. Σε ορισμένες περιπτώσεις, είναι πιθανό ένας μαθητής να επιλύσει ένα επίπεδο χρησιμοποιώντας διαφορετικό κώδικα. Οι λύσεις δεν εμφανίζονται για τα επίπεδα που ο μαθητής δεν έχει ξεκινήσει."
     course_solution: "Επίλυση Μαθήματος"
     level_overview_solutions: "Επισκόπηση Επιπέδου και Λύσεις"
     no_student_assigned: "Σε κανένα μαθητή δεν έχει ανατεθεί αυτό το μάθημα."
     paren_new: "(νέο)"
     student_code: "Κώδικας του Μαθητή __name__"
-    teacher_dashboard: "Πίνακας Ελέγχου Δασκάλου" # Μπάρα πλοήγησης
+    teacher_dashboard: "Πίνακας Ελέγχου Δασκάλου" # Navbar
     my_classes: "Οι Τάξεις Μου"
     courses: "Οδηγοί Μαθημάτων"
     enrollments: "Άδειες Μαθητών"
@@ -1477,7 +1480,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     no_students_yet_view_class: "Εμφάνισε την τάξη για να προσθέσετε μαθητές."
     try_refreshing: "(Ίσως χρειαστεί να ανανεώσετε την σελίδα)"
     create_new_class: "Δημιουργία Νέας Τάξης"
-    class_overview: "Επισκόπηση Τάξης" # Εμφάνιση της σελίδα της τάξης
+    class_overview: "Επισκόπηση Τάξης" # View Class page
     avg_playtime: "Μέσος χρόνος παιξίματος επιπέδου"
     total_playtime: "Πλήρες χρόνος παιξίματος επιπέδου"
     avg_completed: "Μέσος όρος ολοκληρωμένων επιπέδων"
@@ -1505,6 +1508,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     started: "Ξεκίνησε"
     no_progress: "Χωρίς πρόοδο"
     not_required: "Δεν απαιτείται"
+#    view_student_code: "Click to view student code"
     select_course: "Επέλεξε μάθημα για προβολή"
     progress_color_key: "Κλειδί χρώματος προόδου:"
     level_in_progress: "Επίπεδο σε Εξέλιξη"
@@ -1533,7 +1537,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     assigned: "Εκχωρήθηκαν"
     enroll_selected_students: "Εγγραφή Επιλεγμένων Μαθητών"
     no_students_selected: "Δεν επιλέχθηκαν μαθητές."
-    show_students_from: "Εμφάνιση μαθητών από" # Μέθοδος εγγραφής μαθητών
+    show_students_from: "Εμφάνιση μαθητών από" # Enroll students modal
     apply_licenses_to_the_following_students: "Εφαρμογή Αδειών στους Ακόλουθους Μαθητές"
     students_have_licenses: "Στου ακόλουθους μαθητές έχει γίνει ήδη αποδοχή άδειας:"
     all_students: "Όλοι οι Μαθητές"
@@ -1632,6 +1636,8 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     gd3_curriculum: "Ανάπτυξη Παιχνιδιού 3 - Οδηγός Προγράμματος Μαθημάτων"
     gd3_curriculum_desc: "Σχέδια μαθήματος για την Ανάπτυξη Παιχνιδιού 3."
     wd1: "Ανάπτυξη Ιστού 1"
+#    wd1_curriculum: "Web Development 1 - Curriculum Guide"
+#    wd1_curriculum_desc: "Lesson plans for Web Development 1."
     wd1_headlines: "Δραστηριότητες με Τίτλους και Επικεφαλίδες"
     wd1_headlines_example: "Προβολή λύσης παράδειγμα"
     wd1_headlines_desc: "Γιατί είναι σημαντικές οι παράγραφοι και οι ετικέτες επικεφαλίδας; Χρησιμοποιήστε αυτήν τη δραστηριότητα για να δείξετε κατά πόσο καλά οι επιλεγμένες επικεφαλίδες κάνουν τις ιστοσελίδες πιο ευανάγνωστες. Υπάρχουν πολλές σωστές λύσεις!"
@@ -1744,6 +1750,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     level_label: "Επίπεδο:"
     time_played_label: "Χρόνος Παιξίματος:"
     back_to_resource_hub: "Επιστροφή στο Κέντρο Υλικού"
+#    back_to_course_guides: "Back to Course Guides"
     print_guide: "Εκτύπωση αυτού του οδηγού"
     combo: "Συνδυαστικά"
     combo_explanation: "Οι μαθητές περνούν τα επίπεδα συνδυαστικής πρόκλησης χρησιμοποιώντας τουλάχιστον μία εισηγμένη έννοια. Ελέγξτε τον κώδικα των μαθητών κάνοντας κλικ στην κουκκίδα προόδου."
@@ -2043,10 +2050,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     rules: "Κανόνες"
     winners: "Νικητές"
     league: "Πρωτάθλημα"
-    red_ai: "Ο Κόκκινος Επεξεργαστής" # "Η Κόκκινη Τεχνητή Νοημοσύνη Κέρδισε", στο τέλος της αναπαραγωγής του αγώνα για πολλούς παίκτες
+    red_ai: "Ο Κόκκινος Επεξεργαστής" # "Red AI Wins", at end of multiplayer match playback
     blue_ai: "Ο Μπλε Επεξεργαστής"
-    wins: "κέρδισε" # Στο τέλος της αναπαραγωγής του αγώνα για πολλούς παίκτες
-    humans: "Κόκκινοι" # Εμφάνιση ονόματος ομάδας στη σελίδα κατάταξης
+    wins: "κέρδισε" # At end of multiplayer match playback
+    humans: "Κόκκινοι" # Ladder page display team name
     ogres: "Μπλε"
 
   user:
@@ -2064,6 +2071,15 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     favorite_prefix: "Η αγαπημένη σου γλώσσα είναι η "
     favorite_postfix: "."
     not_member_of_clans: "Δεν είσαι μέλος σε καμιά φατρία ακόμα."
+#    certificate_view: "view certificate"
+#    certificate_click_to_view: "click to view certificate"
+#    certificate_course_incomplete: "course incomplete"
+#    certificate_of_completion: "Certificate of Completion"
+#    certificate_endorsed_by: "Endorsed by"
+#    certificate_stats: "Course Stats"
+#    certificate_lines_of: "lines of"
+#    certificate_levels_completed: "levels completed"
+#    certificate_for: "For"
 
   achievements:
     last_earned: "Τελευταίο Απόκτημα"
@@ -2105,6 +2121,10 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     verifying_email: "Επιβεβαίωση διεύθυνσης ηλεκτρονικού ταχυδρομείου..."
     successfully_verified: "Έχεις επιβεβαιώσει επιτυχώς την διεύθυνση του ηλεκτρονικού ταχυδρομείου σου!"
     verify_error: "Κάτι πήγε στραβά με την επιβεβαίωση του email σου :("
+#    unsubscribe_from_marketing: "Unsubscribe __email__ from all CodeCombat marketing emails?"
+#    unsubscribe_button: "Yes, unsubscribe"
+#    unsubscribe_failed: "Failed"
+#    unsubscribe_success: "Success"
 
   account_invoices:
     amount: "Ποσό σε Δολάρια ΗΠΑ"
@@ -2118,7 +2138,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   account_prepaid:
     purchase_code: "Αγορά Προπληρωμένου Κωδικού"
-    purchase_code1: "Οι Κωδικοί Συνδρομής μπορούν να εξαργυρωθούν για να προστεθεί προνομιακός χρόνος συνδρομής σε έναν ή περισσότερους λογαριασμούς για την Βασική έκδοση του CodeCombat."
+    purchase_code1: "Οι Κωδικοί Συνδρομής μπορούν να εξαργυρωθούν για να προστεθεί προνομιακός χρόνος συνδρομής σε έναν ή περισσότερους λογαριασμούς για την Βασική έκδοση του CodeCombat." #
     purchase_code2: "Κάθε λογαριασμός CodeCombat μπορεί να εξαργυρώσει μόνο έναν συγκεκριμένο Κωδικό Συνδρομής και για μία φορά."
     purchase_code3: "Οι μήνες του Συνδρομητικού Κωδικού θα προστεθούν στο τέλος οποιασδήποτε υπάρχουσας συνδρομής στο λογαριασμό."
     purchase_code4: "Οι Κωδικοί Συνδρομής είναι για λογαριασμούς που παίζουν την Βασική έκδοση του CodeCombat, δεν μπορούν να χρησιμοποιηθούν στη θέση των Αδειών Μαθητών για την έκδοση Τάξης."
@@ -2271,7 +2291,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     while_loops_simple: "Βρόχοι While"
     while_loops_nested: "Ένθετοι Βρόχοι While"
     xy_coordinates: "Καρτεσιανές Συντεταγμένες"
-    advanced_strings: "Προχωρημένες Συμβολοσειρές" # Οι υπόλοιπες έννοιες είναι απαρχαιωμένες
+    advanced_strings: "Προχωρημένες Συμβολοσειρές" # Rest of concepts are deprecated
     algorithms: "Αλγόριθμοι"
     boolean_logic: "Δυαδική Λογική"
     basic_html: "Βασική HTML"
@@ -2369,12 +2389,15 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     rights_clarification: "Για να το ξεκαθαρίσουμε, οτιδήποτε είναι διαθέσιμο στον Διορθωτή Επιπέδων με σκοπό τη δημιουργία επιπέδων διατίθεται με άδεια ΑΔ, Αναφορά Δημιουργού, (CC), ενώ το περιεχόμενο που δημιουργήθηκε με το Διορθωτή Επιπέδων ή ανεβάστηκε σε σκοπό τη δημιουργία Επιπέδων δεν είναι."
     nutshell_title: "Στα Γρήγορα"
     nutshell_description: "Όλες οι πηγές που παρέχουμε στο Διορθωτή Επιπέδων είναι ελεύθερα να τα χρησιμοποιήσετε όπως θέλετε για τη δημιουργία επιπέδων. Αλλά διατηρούμε το δικαίωμα να περιορίσουμε τη διανομή των ίδιων των επιπέδων (που δημιουργήθηκαν στο codecombat.com) ώστε να είναι επί πληρωμή στο μέλλον, αν αυτό καταλήξει να γίνει."
+#    nutshell_see_also: "See also:"
     canonical: "Η Αγγλική έκδοση αυτού του εγγράφου είναι η απόλυτη , ρυθμιστική (canonical) έκδοση. Αν υπάρχουν αισθητές διαφορές μεταξύ των μεταφράσεων, το Αγγλικό έγγραφο προηγείται."
     third_party_title: "Υπηρεσίες Τρίτων"
     third_party_description: "Το CodeCombat χρησιμοποιεί τις ακόλουθες υπηρεσίες τρίτων (μεταξύ άλλων):"
+#    cookies_message: "CodeCombat uses a few essential and non-essential cookies."
+#    cookies_deny: "Decline non-essential cookies"
 
   ladder_prizes:
-    title: "Βραβεία Τουρνουά" # Αυτή η ενότητα ήταν για ένα παλιό τουρνουά και δεν χρειάζεται νέες μεταφράσεις τώρα.
+    title: "Βραβεία Τουρνουά" # This section was for an old tournament and doesn't need new translations now.
     blurb_1: "Τα βραβεία θα απονεμηθούν σύμφωνα με τους"
     blurb_2: "κανόνες του τουρνουά"
     blurb_3: "στους κορυφαίους παίκτες των ανθρώπων και των ogres."
@@ -2411,7 +2434,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     december: "Δεκέμβριος"
 
   code_play_create_account_modal:
-    title: "Τα κατάφερες!" # Αυτό το τμήμα χρειάζεται μόνο στις ΗΠΑ, το Ηνωμένο Βασίλειο, το Μεξικό, την Ινδία και τη Γερμανία
+    title: "Τα κατάφερες!" # This section is only needed in US, UK, Mexico, India, and Germany
     body: "Τώρα είστε στο δρόμο για να γίνετε μεγάλος προγραμματιστής. Εγγραφείτε για να λάβετε επιπλέον <strong>100 Πετράδια</strong> και να συμμετάσχετε επίσης για να <strong>κερδίσετε $2.500 και άλλα βραβεία Lenovo</strong>."
     sign_up: "Συνδέσου και συνέχιζε να προγραμματίζεις ▶"
     victory_sign_up_poke: "Δημιουργήστε έναν δωρεάν λογαριασμό για να αποθηκεύσετε τον κώδικά σας και να συμμετάσχετε για να κερδίσετε βραβεία!"
@@ -2423,7 +2446,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
 
   esper:
     line_no: "Γραμμή $1: "
-    uncaught: "Μη αναγνωρίσιμο $1" # Το $1 θα είναι ένας τύπος σφάλματος, π.χ. "Μη ανιχνεύσιμο Συντακτικό Σφάλμα"
+    uncaught: "Μη αναγνωρίσιμο $1" # $1 will be an error type, eg "Uncaught SyntaxError"
     reference_error: "Σφάλμα Αναφοράς: "
     argument_error: "Σφάλμα Ορίσματος: "
     type_error: "Σφάλμα Πληκτρολόγησης: "
@@ -2469,7 +2492,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     attempted_to_assign: "Προσπάθησε να εκχωρηθεί σε μια ιδιότητα που είναι μόνο για ανάγνωση."
     unexpected_early_end: "Μη αναμενόμενο πρόωρο τέλος του προγράμματος."
     you_need_a_string: "Χρειάζεται να δημιουργήσετε μια συμβολοσειρά, ένα από το $1"
-    unable_to_get_property: "Δεν είναι δυνατή η πρόσβαση στην ιδιότητα '$1' από απροσδιόριστη ή κενή αναφορά" # Να γίνει: Μεταφράζουμε τα απροσδιόριστο/κενό (undefined/null);
+    unable_to_get_property: "Δεν είναι δυνατή η πρόσβαση στην ιδιότητα '$1' από απροσδιόριστη ή κενή αναφορά" # TODO: Do we translate undefined/null?
     code_never_finished_its: "Ο κώδικας δεν τελείωσε ποτέ. Είναι είτε πραγματικά αργός είτε έχει άπειρο βρόχο."
     unclosed_string: "Μη κλεισμένη συμβολοσειρά."
     unmatched: "Αταίριαστο '$1'."
@@ -2484,7 +2507,7 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     indentation_unindent_does_not: "Η απόκλιση από την εσοχή δεν ταιριάζει με κανένα επίπεδο εξωτερικής εσοχής"
     unclosed_paren_in_function_arguments: "Μη κλεισμένο $1 στις παραμέτρους της συνάρτησης."
     unexpected_end_of_input: "Μη αναμενόμενο τέλος εισόδου"
-    there_is_no_enemy: "Δεν υπάρχει κανένα `$1`. Χρησιμοποίησε το `$2` πρώτα.." # Οι συμβουλές ξεκινούν εδώ
+    there_is_no_enemy: "Δεν υπάρχει κανένα `$1`. Χρησιμοποίησε το `$2` πρώτα.." # Hints start here
     try_herofindnearestenemy: "Δοκίμασε `$1`"
     there_is_no_function: "Δεν υπάρχει συνάρτηση `$1`, αλλά ή `$2` έχει μία μέθοδο `$3`."
     attacks_argument_enemy_has: "Η `$2` παράμετρος της `$1` έχει ένα πρόβλημα."
@@ -2499,3 +2522,43 @@ module.exports = nativeDescription: "Ελληνικά", englishDescription: "Gre
     put_each_command_on: "Βάλε κάθε εντολή σε ξεχωριστή γραμμή"
     are_you_missing_a: "Λείπει ένα '$1' μετά από '$2';"
     your_parentheses_must_match: "Οι παρενθέσεις σου πρέπει να ταιριάζουν."
+
+#  apcsp:
+#    syllabus: "AP CS Principles Syllabus"
+#    syllabus_description: "Use this resource to plan CodeCombat curriculum for your AP Computer Science Principles class."
+#    computational_thinking_practices: "Computational Thinking Practices"
+#    learning_objectives: "Learning Objectives"
+#    curricular_requirements: "Curricular Requirements"
+#    unit_1: "Unit 1: Creative Technology"
+#    unit_1_activity_1: "Unit 1 Activity: Technology Usability Review"
+#    unit_2: "Unit 2: Computational Thinking"
+#    unit_2_activity_1: "Unit 2 Activity: Binary Sequences"
+#    unit_2_activity_2: "Unit 2 Activity: Computing Lesson Project"
+#    unit_3: "Unit 3: Algorithms"
+#    unit_3_activity_1: "Unit 3 Activity: Algorithms - Hitchhiker's Guide"
+#    unit_3_activity_2: "Unit 3 Activity: Simulation - Predator & Prey"
+#    unit_3_activity_3: "Unit 3 Activity: Algorithms - Pair Design and Programming"
+#    unit_4: "Unit 4: Programming"
+#    unit_4_activity_1: "Unit 4 Activity: Abstractions"
+#    unit_4_activity_2: "Unit 4 Activity: Searching & Sorting"
+#    unit_4_activity_3: "Unit 4 Activity: Refactoring"
+#    unit_5: "Unit 5: The Internet"
+#    unit_5_activity_1: "Unit 5 Activity: How the Internet Works"
+#    unit_5_activity_2: "Unit 5 Activity: Internet Simulator"
+#    unit_5_activity_3: "Unit 5 Activity: Chat Room Simulation"
+#    unit_5_activity_4: "Unit 5 Activity: Cybersecurity"
+#    unit_6: "Unit 6: Data"
+#    unit_6_activity_1: "Unit 6 Activity: Introduction to Data"
+#    unit_6_activity_2: "Unit 6 Activity: Big Data"
+#    unit_6_activity_3: "Unit 6 Activity: Lossy & Lossless Compression"
+#    unit_7: "Unit 7: Personal & Global Impact"
+#    unit_7_activity_1: "Unit 7 Activity: Personal & Global Impact"
+#    unit_7_activity_2: "Unit 7 Activity: Crowdsourcing"
+#    unit_8: "Unit 8: Performance Tasks"
+#    unit_8_description: "Prepare students for the Create Task by building their own games and practicing key concepts."
+#    unit_8_activity_1: "Create Task Practice 1: Game Development 1"
+#    unit_8_activity_2: "Create Task Practice 2: Game Development 2"
+#    unit_8_activity_3: "Create Task Practice 3: Game Development 3"
+#    unit_9: "Unit 9: AP Review"
+#    unit_10: "Unit 10: Post-AP"
+#    unit_10_activity_1: "Unit 10 Activity: Web Quiz"
