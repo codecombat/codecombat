@@ -505,9 +505,7 @@ module.exports = class CocoView extends Backbone.View
     ua = navigator.userAgent or navigator.vendor or window.opera
     return mobileRELong.test(ua) or mobileREShort.test(ua.substr(0, 4))
 
-  isIE: ->
-    # http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
-    navigator.userAgent.indexOf('MSIE') > 0 or !!navigator.userAgent.match(/Trident.*rv\:11\./)
+  isIE: utils.isIE
 
   isMac: ->
     navigator.platform.toUpperCase().indexOf('MAC') isnt -1

@@ -250,6 +250,11 @@ getByPath = (target, path) ->
 
 isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
+isIE = ->
+  return false unless navigator? # Only relevant on client-side
+  # http://stackoverflow.com/questions/19999388/jquery-check-if-user-is-using-ie
+  navigator.userAgent.indexOf('MSIE') > 0 or !!navigator.userAgent.match(/Trident.*rv\:11\./)
+
 isRegionalSubscription = (name) -> /_basic_subscription/.test(name)
 
 isSmokeTestEmail = (email) ->
@@ -700,6 +705,7 @@ module.exports = {
   injectCSS
   inEU
   isID
+  isIE
   isRegionalSubscription
   isSmokeTestEmail
   keepDoingUntil
