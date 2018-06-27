@@ -49,6 +49,8 @@ module.exports = class MainAdminView extends RootView
     if search = utils.getQueryVariable 'search'
       $('#user-search').val search
       $('#user-search-button').click()
+    if userID = utils.getQueryVariable 'user'
+      @openModalView new AdministerUserModal({}, userID)
 
   onClickStopSpyingButton: ->
     button = @$('#stop-spying-btn')

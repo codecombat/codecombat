@@ -54,7 +54,7 @@ module.exports = class AdministerUserModal extends ModalView
     @none = not (@free or @freeUntil or @coupon)
     @trialRequest = @trialRequests.first()
     super()
-    
+
   onClickCreatePayment: ->
     service = @$('#payment-service').val()
     amount = parseInt(@$('#payment-amount').val())
