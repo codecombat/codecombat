@@ -1,5 +1,5 @@
 <template lang="jade">
-  #teacher-class-assessments-table
+  #teacher-class-assessments-table(v-if="courseInstance && courseInstance.members.length > 0")
     div.table-row(v-if="levels.length === 0")
       div.table-cell No assessment levels available for this course yet.
     div.freeze-column(v-if="levels.length > 0")
@@ -39,7 +39,10 @@
               :courseInstance="courseInstance",
               :course="course",
               :classroom="classroom",
-            )
+            ) 
+  div(v-else)
+    h2.text-center
+      i(data-i18n='teacher.no_student_assigned')
   
 </template>
 
