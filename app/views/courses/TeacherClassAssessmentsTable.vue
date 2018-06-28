@@ -1,5 +1,5 @@
 <template lang="jade">
-  #teacher-class-assessments-table(v-if="course && courseInstance && courseInstance.members.length > 0")
+  #teacher-class-assessments-table(v-if="courseInstance && courseInstance.members.length > 0")
     div.table-row(v-if="levels.length === 0")
       div.table-cell No assessment levels available for this course yet.
     div.freeze-column(v-if="levels.length > 0")
