@@ -18,8 +18,8 @@ module.exports = class MarkdownResourceView extends RootView
       unless /<!doctype html>/i.test(data)
         renderer = new marked.Renderer()
         linkIDs = new Set
-        renderer.heading = (text, level) ->
-          if level isnt 3
+        renderer.heading = (text, level) =>
+          if level not in [2, 3] or (_.string.startsWith(@name, 'faq') and level is 2)
             return "<h#{level}>#{text}</h#{level}>"
           linkID = _.string.slugify text
           if not linkID.replace(/(codecombat|-)/g, '') or linkIDs.has linkID

@@ -250,6 +250,8 @@ getByPath = (target, path) ->
 
 isID = (id) -> _.isString(id) and id.length is 24 and id.match(/[a-f0-9]/gi)?.length is 24
 
+isIE = -> $?.browser?.msie ? false
+
 isRegionalSubscription = (name) -> /_basic_subscription/.test(name)
 
 isSmokeTestEmail = (email) ->
@@ -700,6 +702,7 @@ module.exports = {
   injectCSS
   inEU
   isID
+  isIE
   isRegionalSubscription
   isSmokeTestEmail
   keepDoingUntil
