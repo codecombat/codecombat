@@ -241,6 +241,8 @@ module.exports = class Spell
 
     # TODO: See SpellPaletteView.createPalette() for other interesting contextual properties
 
+    @problemContext.thisValueAlias = if @level.isType('game-dev') then 'game' else 'hero'
+
     @problemContext
 
   reloadCode: ->
