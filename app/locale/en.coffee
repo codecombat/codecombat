@@ -1559,8 +1559,8 @@
     empty_credits: "Exhausted Licenses"
     license_remaining: "license remaining"
     licenses_remaining: "licenses remaining"
-    one_license_used: "1 license has been used"
-    num_licenses_used: "__numLicensesUsed__ licenses have been used"
+    one_license_used: "1 out of __totalLicenses__ licenses has been used" # {change}
+    num_licenses_used: "__numLicensesUsed__ out of __totalLicenses__ licenses have been used"  # {change}
     starter_licenses: "starter licenses"
     start_date: "start date:"
     end_date: "end date:"
