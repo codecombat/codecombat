@@ -102,9 +102,9 @@ mixin prepaidCard(prepaid, className)
     div.m-t-1.rtl-allowed(dir="auto")
       i.small-details
         if prepaid.usedSpots() === 1
-          = translate('teacher.one_license_used')
+          = translate('teacher.one_license_used', {totalLicenses:prepaid.totalSpots()})
         else
-          = translate('teacher.num_licenses_used', {numLicensesUsed: prepaid.usedSpots()})
+          = translate('teacher.num_licenses_used', {numLicensesUsed: prepaid.usedSpots(),totalLicenses:prepaid.totalSpots()})
     hr
     i.small-details
       .pull-left(data-i18n="teacher.start_date")
