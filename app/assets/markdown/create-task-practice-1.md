@@ -24,7 +24,7 @@ Side note: Students may choose to develop their final project within CodeCombat,
 
 **AP CS Principles Create Task Requirements**
 
-Summary of the [“Create” Performance Task for AP CS Principles (See Page 79)](https://www.google.com/url?q=https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf&sa=D&ust=1502495268157000&usg=AFQjCNHXeen0QXYWUvwHkrH6wF1D5yL73Q):
+Summary of the [“Create” Performance Task for AP CS Principles (See Page 79)](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf):
 
 * 24% of the final score.
 * Minimum of 12 class hours for the final project.
@@ -43,7 +43,7 @@ Components to the Create Task:
 * Write responses to questions about their program.
 * Submit their entire program code to the AP Digital Portfolio.
 
-Refer to the [AP CS Principles Course Description](https://www.google.com/url?q=https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf&sa=D&ust=1502495268160000&usg=AFQjCNFD_DeH8O_v3hPqaGlsVFfeBgSkMw) for the following:
+Refer to the [AP CS Principles Course Description](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf) for the following:
 
 * Teacher Overview of Performance Task: Create (page 79)
 * Student Handout for Performance Task: Create (page 113)

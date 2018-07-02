@@ -214,7 +214,10 @@ block content
       h4(data-i18n="teacher.cs2")
       ul
         li
-          a(href="/teachers/resources/cs2")
+          - var cs2URL = "/teachers/resources/cs2";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs2URL += '-pt-BR'
+          a(href=cs2URL)
             span(data-i18n="teacher.cs2_curriculum")
           p(data-i18n="teacher.cs2_curriculum_desc")
           
@@ -244,7 +247,10 @@ block content
       h4(data-i18n="teacher.cs3")
       ul
         li
-          a(href="/teachers/resources/cs3")
+          - var cs3URL = "/teachers/resources/cs3";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs3URL += '-pt-BR'
+          a(href=cs3URL)
             span(data-i18n="teacher.cs3_curriculum")
           p(data-i18n="teacher.cs3_curriculum_desc")
 
@@ -258,7 +264,10 @@ block content
       h4(data-i18n="teacher.cs4")
       ul
         li
-          a(href="/teachers/resources/cs4")
+          - var cs4URL = "/teachers/resources/cs4";
+          - if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+          -     cs4URL += '-pt-BR'
+          a(href=cs4URL)
             span(data-i18n="teacher.cs4_curriculum")
           p(data-i18n="teacher.cs4_curriculum_desc")
 

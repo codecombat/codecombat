@@ -146,7 +146,7 @@ block content
               a(href=activityURL)
                 span(data-i18n="apcsp.unit_5_activity_2")
               br
-              - var activityURL = "/teachers/resources/apcsp-internet-chat-simulation";
+              - activityURL = "/teachers/resources/apcsp-internet-chat-simulation";
               if (me.get('preferredLanguage') == 'he')
                 - activityURL += '-he';
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -210,7 +210,7 @@ block content
               a(href=activityURL)
                 span(data-i18n="apcsp.unit_7_activity_1")
               br
-              - var activityURL = "/teachers/resources/apcsp-crowdsourcing";
+              - activityURL = "/teachers/resources/apcsp-crowdsourcing";
               if (me.get('preferredLanguage') == 'he')
                 - activityURL += '-he';
               if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
@@ -226,13 +226,22 @@ block content
             p
               span(data-i18n="apcsp.unit_8_description")
             p
-              a(href="/teachers/resources/create-task-practice-1")
+              - activityURL = "/teachers/resources/create-task-practice-1";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span(data-i18n="apcsp.unit_8_activity_1")
               br
-              a(href="/teachers/resources/create-task-practice-2")
+              - activityURL = "/teachers/resources/create-task-practice-2";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span(data-i18n="apcsp.unit_8_activity_2")
               br
-              a(href="/teachers/resources/create-task-practice-3")
+              - activityURL = "/teachers/resources/create-task-practice-3";
+              if (me.get('preferredLanguage') == 'pt-BR' || me.get('preferredLanguage') == 'pt-PT')
+                - activityURL += '-pt-BR';
+              a(href=activityURL)
                 span(data-i18n="apcsp.unit_8_activity_3")
 
         li
