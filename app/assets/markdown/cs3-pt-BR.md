@@ -171,7 +171,7 @@ teacher.write("How much " + noun + " w" + ould + " a " + noun + verb + " " + ver
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -350,7 +350,7 @@ Explique que eles são chamados de números de granizo porque, como granizo, ele
 
 ### Hora da Programação (25 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -448,7 +448,7 @@ Quando a lista estiver completa, pergunte aos alunos se há alguma propriedade n
 
 ### Hora da Programação (25 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -639,7 +639,7 @@ Se você não tiver caixas para essa atividade, basta desenhar uma imagem de uma
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -784,7 +784,7 @@ Observe que os alunos ainda não aprenderam como fazer um composto condicional, 
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -914,7 +914,7 @@ Sinta-se à vontade para ser criativo com as condições e instruções durante 
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -1040,7 +1040,7 @@ Sinta-se à vontade para ser criativo com as condições e instruções durante 
 
 ### Hora da Programação (35-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -1163,7 +1163,7 @@ Certifique-se de que os alunos entendam que a posição para a qual você se mud
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -1347,7 +1347,7 @@ Explique aos alunos que, se os alunos estivessem em silêncio, com quatro quinto
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -1504,7 +1504,7 @@ Permita que os alunos joguem mais algumas rodadas do jogo, garantindo que aponte
 
 ### Hora da Programação (25-40 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________

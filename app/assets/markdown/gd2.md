@@ -1,12 +1,12 @@
 ##### Lesson Plans
 # Game Development 2
 
-## Curriculum Summary
+### Curriculum Summary
 
 * Recommended Prerequisites: Computer Science 2, Game Development 1
 * 8 x 45-60 minute coding sessions
 
-### Overview
+#### Overview
 
 The Game Development 2 course applies skills students have learned from Computer Science 2 so they can build a full-fledged arcade-style game they’ll be excited to share with their friends and family. This is where the abstract concepts such as conditionals and functions show their purpose in a hands-on way, and enable students to create something their own.
 
@@ -14,7 +14,7 @@ The course begins by demonstrating some new game mechanics and techniques, which
 
 *This guide is written with Python-language classrooms in mind, but can easily be adapted for JavaScript.*
 
-## Scope and Sequence
+### Scope and Sequence
 
 1. [Mechanics: Spawn and Goals](#mechanics-spawn-and-goals)
 2. [Mechanics: Time, Randomness, Defeat](#mechanics-time-randomness-defeat)
@@ -23,13 +23,13 @@ The course begins by demonstrating some new game mechanics and techniques, which
 5. [Arcade Game](#arcade-game)
 6. [Game Development 2 Project](#game-development-2-project)
 
-# Mechanics: Spawn and Goals
+## Mechanics: Spawn and Goals
 
-## Summary
+### Summary
 
 In order to expand the student’s options when building their own games, students will need to learn functions and methods that they can use. The mechanics modules introduce no new programming techniques but instead focus on novel ways to use functions and callbacks to support new gameplay mechanics.
 
-## Discussion
+### Discussion
 
 **What are some ways that character behave in various sorts of games?**
 
@@ -55,7 +55,7 @@ else
     attack player
 ```
 
-## Review
+### Review
 
 This set of levels explore two things:
 
@@ -69,7 +69,7 @@ Before beginning, students should be familiar with the following concepts:
 *   If statements (CS2)
 *   Game goals (GD1)
 
-## Levels
+### Levels
 
 Students should play the first seven levels:
 
@@ -81,15 +81,15 @@ Students should play the first seven levels:
 *   Jailbreak
 *   Risk and Reward
 
-## Discussion
+### Discussion
 
 *   When would you use the “spawn” event?
 *   In a game, when would you want to specify how many enemies to defeat or items to collect?
   *   Example: a game where you want to allow players to both pass and excel. Players must defeat a certain number of enemies or collect a certain number of things to win the game, but they could go for more to get a high score?
 
-# Mechanics: Time, Randomness, Defeat
+## Mechanics: Time, Randomness, Defeat
 
-## Discussion
+### Discussion
 
 **How do games behave based on time?**
 
@@ -113,13 +113,13 @@ Examples:
 *   Character behavior changes
 *   Events happen
 
-## Review
+### Review
 
 Concepts which can be reviewed to help students prepare for these levels:
 
 *   Arithmetic (CS2)
 
-## Levels
+### Levels
 
 Students should play the next three levels:
 
@@ -127,7 +127,7 @@ Students should play the next three levels:
 *   Random Riposte
 *   Agony of Defeat
 
-## Discussion
+### Discussion
 
 **Why must the time-checking loop in Adventure Time happen at the end of the code?**
 
@@ -172,9 +172,9 @@ Examples:
 *   Spawn more enemies
 *   Have the player say something
 
-# Mechanics: Manual Goals and More Events
+## Mechanics: Manual Goals and More Events
 
-## Discussion
+### Discussion
 
 **What are various ways that games are considered “won” or “lost”? How would that look in code?**
 
@@ -213,7 +213,7 @@ Examples:
 *   A character running into the wall will stop moving
 *   A ball that hits a wall might keep moving but in another direction
 
-## Levels
+### Levels
 
 Students should play the next four levels:
 
@@ -222,7 +222,7 @@ Students should play the next four levels:
 *   Accounts Department
 *   Berserker
 
-## Discussion
+### Discussion
 
 **How can manual goals be used to recreate the built-in goal methods?**
 
@@ -250,20 +250,20 @@ Examples:
 
 The target is whatever thing the event was attached to. The “other” is any other thing which is involved in the action. For example, if you set up an event handler for “collision” on the player, “target” is always the player, and “other” is always the thing or unit that the player collided with. If you set up an event handler for “collect” on the player, “target” is yet again always the player, and “other” is the item which the player has collected.
 
-# Integration Practice
+## Integration Practice
 
-## Summary
+### Summary
 
 Now that all the mechanics have been introduced, students will begin exploring and trying out more ways to combine these to form unique behaviors.
 
-## Levels
+### Levels
 
 Students should play these levels:
 
 *   Run for Gold
 *   Disintegration Arrow
 
-## Code Breakdown
+### Code Breakdown
 
 These levels are getting fairly complex. For each function in the code, have students, in groups or as individuals, discuss and explain:
 
@@ -271,7 +271,7 @@ These levels are getting fairly complex. For each function in the code, have stu
 *   What mechanic or mechanics it is using (randomness, game time, etc)
 *   How the function relates to the rest of the code (is calling, is being called by, is set up by)
 
-## Discussion
+### Discussion
 
 **What is the benefit of breaking up code in these ways?**
 
@@ -286,13 +286,13 @@ Examples:
 *   How else could the functions have been broken up?
 *   What would they look like as one big function?
 
-# Arcade Game
+## Arcade Game
 
-## Summary
+### Summary
 
 This series of levels walks students step-by-step through creating a Pacman-style arcade game. This helps them see and practice integrating these concepts into a more complex project, and prepares them for doing the same sort of iterative process in this course’s final project.
 
-## Levels
+### Levels
 
 Students should play these levels:
 
@@ -302,7 +302,7 @@ Students should play these levels:
 *   Game of Coins Part 4: Power Ups
 *   Game of Coins Part 5: Balance
 
-## Code Breakdown
+### Code Breakdown
 
 As in the previous module, have students explain for each function:
 
@@ -310,7 +310,7 @@ As in the previous module, have students explain for each function:
 *   What mechanic or mechanics it is using (randomness, game time, etc)?
 *   How the function relates to the rest of the code (is calling, is being called by, is set up by)?
 
-## Discussion
+### Discussion
 
 **What is the difference between building a program piece-by-piece vs all at once?**
 
@@ -325,9 +325,9 @@ This discussion serves to highlight how at each stage of development, this level
 
 In all likelihood, many students will still try to build their projects (such as Game Development 2) all in one go. This will likely lead to frustration when the game gets into a broken state and it takes a great deal of effort to get it out of that state. When this happens, reinforce the benefits of building iteratively by encouraging the student to start from a simpler place and build up gradually, piece by piece.
 
-# Game Development 2 Project
+## Game Development 2 Project
 
-## Summary
+### Summary
 
 Have students design and iteratively build their own projects. There are many ways to run this module, but it should at least happen over several days, with time set aside for design, building, and sharing, for example:
 
