@@ -14,6 +14,9 @@ module.exports = class Prepaid extends CocoModel
   usedSpots: ->
     _.size(@get('redeemers'))
 
+  totalSpots: ->
+    return @get('maxRedeemers')
+
   userHasRedeemed: (userID) ->
     for redeemer in @get('redeemers')
       return redeemer.date if redeemer.userID is userID

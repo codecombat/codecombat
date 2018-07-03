@@ -125,7 +125,7 @@ O código é chamado de código porque estamos codificando nossas ideias em uma 
 ** O que é importante saber sobre as expressões? ** (Eles precisam ser verdadeiros ou falsos)
 
 ### Hora da Programação (30-45 mins)
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -210,7 +210,7 @@ Rotule as partes dessas condicionais: _palavras-chave_ (`if` e` else`), _express
 **Você sempre precisa de um else?** (não, depende da situação)
 
 ### Hora da Programação (30-45 mins)
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -279,7 +279,7 @@ Convide voluntários para compartilharem seus horários acabados com a turma.
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -383,7 +383,7 @@ Então, Simon fala chamando as funções, por ex.
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -479,7 +479,7 @@ bigRedButton.on("press", initiateSelfDestruct)
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos usar o seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso[PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________

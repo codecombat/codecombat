@@ -125,9 +125,9 @@ Peça aos alunos que adicionem código ao programa, um de cada vez. Se houver um
 ### Hora da Programação (30-45 mins)
 
 **Na primeira vez os alunos precisarão criar contas**
-Para obter informações adicionais sobre como ajudar os alunos a criar uma conta, Veja nosso [Guia de Iniciação do Professor](http://files.codecombat.com/docs/resources/TeacherGettingStartedGuide.pdf).
+Para obter informações adicionais sobre como ajudar os alunos a criar uma conta, Veja nosso [Guia de Iniciação do Professor](http://files.codecombat.com/docs/resources/TeacherGettingStartedGuide-pt-BR.pdf).
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -143,7 +143,7 @@ Qual foi o desafio:
 
 Circule para ajudar. Chame a atenção dos alunos para as instruções e dicas.
 
-Se o aluno tiver dificuldade em resolver o problema, consulte a [Planilha de Ciclo de Engenharia [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) para reforçar os passos para resolver cada quebra-cabeça.
+Se o aluno tiver dificuldade em resolver o problema, consulte a [Planilha de Ciclo de Engenharia [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet-pt-BR.pdf) para reforçar os passos para resolver cada quebra-cabeça.
 
 ### Reflexão Escrita (5 mins)
 
@@ -242,7 +242,7 @@ Peça aos alunos que se revezem escrevendo, verificando e rotulando o código at
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________
@@ -258,7 +258,7 @@ Qual foi o desafio:
 
 Circule para ajudar. Chame a atenção dos alunos para as instruções e dicas.
 
-Se o aluno tiver dificuldade em resolver o problema, consulte a [Planilha de Ciclo de Engenharia [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet.pdf) como uma ferramenta de ajuda, ou peça-lhes para seguir esta lista:
+Se o aluno tiver dificuldade em resolver o problema, consulte a [Planilha de Ciclo de Engenharia [PDF]](http://files.codecombat.com/docs/resources/EngineeringCycleWorksheet-pt-BR.pdf) como uma ferramenta de ajuda, ou peça-lhes para seguir esta lista:
 
 1.Leia os comentários linha por linha
 2. Leia seu código linha por linha
@@ -339,7 +339,7 @@ Quais aspectos das variáveis de programação são parecidos com as variáveis 
 
 ### Hora da Programação (30-45 mins)
 
-Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal.pdf)
+Permita que os alunos participem do jogo em seu próprio ritmo, anotando todos os níveis em papel ou documento digital. Recomendamos o uso do seguinte formato, que você também pode imprimir como modelos: [Diário de Progresso [PDF]](http://files.codecombat.com/docs/resources/ProgressJournal-pt-BR.pdf)
 
 ```
 Nível #: _____  Nome do Nível: ____________________________________

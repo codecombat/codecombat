@@ -28,7 +28,7 @@ Componentes para a tarefa de criação:
 * Escreva respostas para perguntas sobre o programa deles.
 * Envie seu código de programa inteiro para o Portfólio Digital AP.
 
-Referências em [Princípios de Ciências da Computação](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description.pdf) para:
+Referências em [Princípios de Ciências da Computação](https://secure-media.collegeboard.org/digitalServices/pdf/ap/ap-computer-science-principles-course-and-exam-description-pt-BR.pdf) para:
 
 * Visão geral do professor sobre tarefas de desempenho: Criar (página 79)
 * Folheto do aluno para tarefa de desempenho: Criar (página 113)
