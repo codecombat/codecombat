@@ -8,7 +8,8 @@ module.exports =
     provider = new OAuthProvider()
     provider.set(_.pick(req.body, _.identity))
     provider.set(_.pick(req.body, 'strictSSL'))
-    
+    provider.set('creator', req.user._id)
+
     database.validateDoc(provider)
     provider = yield provider.save()
     res.status(201).send(provider.toObject({req: req}))
@@ -23,7 +24,7 @@ module.exports =
   putOAuthProvider: wrap (req, res, next) ->
     provider = yield OAuthProvider.findById(req.body.id).exec()
     throw new errors.NotFound('Provider not found.') if not provider
-    
+
     provider.set(_.pick(req.body, _.identity))
     provider.set(_.pick(req.body, 'strictSSL'))
 
