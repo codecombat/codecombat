@@ -1,8 +1,6 @@
 APIClient = require '../../../server/models/APIClient'
 request = require '../request'
 utils = require '../utils'
-Promise = require 'bluebird'
-
 
 describe 'POST /db/api-clients', ->
   url = utils.getURL('/db/api-clients')
@@ -16,12 +14,14 @@ describe 'POST /db/api-clients', ->
     expect(res.body.name).toBe('3rd party')
     expect(res.body.slug).toBe('3rd-party')
     expect(res.body.secret).toBeUndefined()
+    expect(res.body.creator).toEqual(admin.id)
     [res, body] = yield request.postAsync({ url, json })
     expect(res.statusCode).toBe(409)
     [res, body] = yield request.postAsync({ url, json: {name: 'other name'} })
     expect(res.statusCode).toBe(201)
+    expect(res.body.name).toEqual('other name')
     done()
-    
+
   it 'returns 403 for non-admins', utils.wrap (done) ->
     user = yield utils.initUser()
     yield utils.loginUser(user)
@@ -29,9 +29,9 @@ describe 'POST /db/api-clients', ->
     expect(res.statusCode).toBe(403)
     done()
 
-    
+
 describe 'POST /db/clients/:handle/new-secret', ->
-  
+
   it 'creates a new secret key, saving a hashed value to the db', utils.wrap (done) ->
     client = new APIClient()
     yield client.save()
@@ -56,4 +56,4 @@ describe 'POST /db/clients/:handle/new-secret', ->
     [res, body] = yield request.postAsync({ url, json: true })
     expect(res.statusCode).toBe(403)
     done()
-    
+
