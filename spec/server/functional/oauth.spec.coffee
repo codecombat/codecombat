@@ -56,7 +56,7 @@ describe 'GET /db/o-auth/name', ->
   beforeEach utils.wrap ->
     yield utils.clearModels([OAuthProvider])
 
-  it 'allows licensor to update an OAuthProvider', utils.wrap ->
+  it 'allows licensor to get an OAuthProvider', utils.wrap ->
     user = yield utils.initLicensor()
     yield utils.loginUser(user)
     [res, body] = yield request.postAsync({ url, json })
