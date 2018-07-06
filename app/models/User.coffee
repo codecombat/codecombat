@@ -85,6 +85,8 @@ module.exports = class User extends CocoModel
   isSessionless: ->
     Boolean((utils.getQueryVariable('dev', false) or me.isTeacher()) and utils.getQueryVariable('course', false) and not utils.getQueryVariable('course-instance'))
 
+  onChinaInfra: -> features?.chinaInfra ? false
+
   setRole: (role, force=false) ->
     oldRole = @get 'role'
     return if oldRole is role or (oldRole and not force)

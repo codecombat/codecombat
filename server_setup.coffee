@@ -86,11 +86,11 @@ setupErrorMiddleware = (app) ->
           # noop return self all response-ending functions
           res.send = res.status = res.redirect = res.end = res.json = res.sendFile = res.download = res.sendStatus = -> res
         return
-          
+
       if err.status and 400 <= err.status < 500
         console.log err.stack if err.stack and config.TRACE_ROUTES
         return res.status(err.status).send("Error #{err.status}")
-      
+
       if err.name is 'CastError' and err.kind is 'ObjectId'
         console.log err.stack if err.stack and config.TRACE_ROUTES
         newError = new errors.UnprocessableEntity('Invalid id provided')
@@ -123,7 +123,7 @@ setupExpressMiddleware = (app) ->
     next()
 
   public_path = path.join(__dirname, 'public')
-  
+
   app.use('/', express.static(path.join(public_path, 'templates', 'static')))
 
   if config.buildInfo.sha isnt 'dev' and config.isProduction
@@ -257,7 +257,10 @@ setupFeaturesMiddleware = (app) ->
       features.playOnly = true
       features.noAds = true
       features.picoCtf = true
-      
+
+    if config.chinaInfra
+      features.chinaInfra = true
+
     next()
 
 # When config.TRACE_ROUTES is set, this logs a stack trace every time an endpoint sends a response.
@@ -302,9 +305,9 @@ exports.setupMiddleware = (app) ->
   setupDomainFilterMiddleware app
   setupQuickBailToMainHTML app
 
-  
+
   setupCountryTaggingMiddleware app
-  
+
   setupMiddlewareToSendOldBrowserWarningWhenPlayersViewLevelDirectly app
   setupExpressMiddleware app
   setupAPIDocs app # should happen after serving static files, so we serve the right favicon
@@ -314,7 +317,7 @@ exports.setupMiddleware = (app) ->
   setupUserDataRoute app
   setupCountryRedirectMiddleware app, 'china', config.chinaDomain
   setupCountryRedirectMiddleware app, 'brazil', config.brazilDomain
-  
+
   setupOneSecondDelayMiddleware app
   setupRedirectMiddleware app
   setupAjaxCaching app
@@ -353,11 +356,11 @@ renderMain = wrap (template, req, res) ->
   if req.features.codePlay
     template = template.replace '<!-- CodePlay Tags Header -->', codePlayTags.header
     template = template.replace '<!-- CodePlay Tags Footer -->', codePlayTags.footer
-   
+
   res.status(200).send template
 
 setupQuickBailToMainHTML = (app) ->
-  
+
   fast = (template) ->
     (req, res, next) ->
       req.features = features = {}
@@ -374,6 +377,9 @@ setupQuickBailToMainHTML = (app) ->
         features.codePlay = true # for one-off changes. If they're shared across different scenarios, refactor
       if /cn\.codecombat\.com/.test(req.get('host'))
         features.china = true
+
+      if config.chinaInfra
+        features.chinaInfra = true
 
       renderMain(template, req, res)
 

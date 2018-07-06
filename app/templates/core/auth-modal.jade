@@ -11,7 +11,7 @@
     if showRequiredError
       .alert.alert-success
         span(data-i18n="signup.required")
-      
+
     #unknown-error-alert.alert.alert-danger.hide(data-i18n="loading_error.unknown")
 
     form.form
@@ -54,21 +54,22 @@
 
     .wait.secret
       h3(data-i18n="login.logging_in")
-      
-  .auth-network-logins
-    // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
-    //div.network-login
-    //  btn.btn.btn-sm.github-login-button#github-login-button
-    //    img(src="/images/pages/modal/auth/github_icon.png")
-    //    | GitHub
-    button#facebook-login-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=true)
-      img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
-      span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
-    button#gplus-login-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=true)
-      img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
-      span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
-      .gplus-login-wrapper
-        .gplus-login-button
+
+  if !me.onChinaInfra()
+    .auth-network-logins
+      // GitHub login complete, but the button does not fit in with the design yet. Hidden for now
+      //div.network-login
+      //  btn.btn.btn-sm.github-login-button#github-login-button
+      //    img(src="/images/pages/modal/auth/github_icon.png")
+      //    | GitHub
+      button#facebook-login-btn.btn.btn-primary.btn-lg.btn-illustrated.network-login(disabled=true)
+        img.network-logo(src="/images/pages/community/logo_facebook.png", draggable="false")
+        span.sign-in-blurb(data-i18n="login.sign_in_with_facebook")
+      button#gplus-login-btn.btn.btn-danger.btn-lg.btn-illustrated.network-login(disabled=true)
+        img.network-logo(src="/images/pages/community/logo_g+.png", draggable="false")
+        span.sign-in-blurb(data-i18n="login.sign_in_with_gplus")
+        .gplus-login-wrapper
+          .gplus-login-button
 
   .extra-pane
     .switch-explanation(data-i18n="login.signup_switch")
