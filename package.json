@@ -112,6 +112,7 @@
     "marked": "~0.3.0",
     "method-override": "^2.3.7",
     "moment": "~2.19.0",
+    "moment-timezone": "~0.5.21",
     "mongodb": "^2.0.28",
     "mongoose": "^4.5.3",
     "mongoose-cache": "nwinter/mongoose-cache#master",

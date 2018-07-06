@@ -4,6 +4,7 @@ div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['m
 div.licensor.container(v-else)
     h3 Create New License
     form#prepaid-form
+        h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start and end at 12am PT on the date listed. All licenses that were granted before that date start and end at 5pm PT on the date previous to the date indicated.
         .form-group
             label.small
             | Teacher email
@@ -41,8 +42,8 @@ div.licensor.container(v-else)
         th.border ID
         th.border Creator
         th.border Type
-        th.border Start
-        th.border End
+        th.border Start (PT)
+        th.border End (PT)
         th.border Used
       tr(v-for = "prepaid in prepaids")
         td.border {{prepaid._id}}
@@ -181,7 +182,7 @@ div.licensor.container(v-else)
 <script lang="coffee">
 co = require('co')
 api = require 'core/api'
-moment = require('moment')
+moment.timezone = require('moment-timezone')
 Prepaids = require 'collections/Prepaids'
 forms = require 'core/forms'
 
@@ -221,6 +222,8 @@ module.exports = Vue.extend({
             user = yield api.users.getByEmail({email})
             attrs = data
             attrs.maxRedeemers = parseInt(data.maxRedeemers)
+            attrs.startDate = moment.timezone.tz(data.startDate, "America/Los_Angeles").toISOString()
+            attrs.endDate = moment.timezone.tz(data.endDate, "America/Los_Angeles").toISOString()
             _.extend(attrs, {
                 type: 'course'
                 creator: user._id
@@ -252,8 +255,8 @@ module.exports = Vue.extend({
                 forms.setErrorToProperty(el, 'showLicense', 'No licenses found for this user')
                 return
             for prepaid in this.prepaids
-                prepaid.startDate = moment(prepaid.startDate).utc().format('l')
-                prepaid.endDate = moment(prepaid.endDate).utc().format('l')
+                prepaid.startDate = moment.timezone(prepaid.startDate).tz('America/Los_Angeles').format('l')
+                prepaid.endDate = moment.timezone(prepaid.endDate).tz('America/Los_Angeles').format('l')
                 Vue.set(prepaid, 'used' , (prepaid.redeemers || []).length)
             
         catch err
@@ -408,9 +411,9 @@ module.exports = Vue.extend({
 
   computed:
         timestampStart: ->
-            return moment().format('YYYY-MM-DD')
+            return moment.timezone().tz('America/Los_Angeles').format('YYYY-MM-DD')
         timestampEnd: ->
-            return moment().add(1, 'year').format('YYYY-MM-DD')
+            return moment.timezone().tz('America/Los_Angeles').add(1, 'year').format('YYYY-MM-DD')
     
 })
 
