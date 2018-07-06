@@ -113,8 +113,8 @@ module.exports = class AdministerUserModal extends ModalView
     return unless _.all(_.values(attrs))
     return unless attrs.maxRedeemers > 0
     return unless attrs.endDate and attrs.startDate and attrs.endDate > attrs.startDate
-    attrs.startDate = new Date(attrs.startDate).toISOString()
-    attrs.endDate = new Date(attrs.endDate).toISOString()
+    attrs.startDate = moment.timezone.tz(attrs.startDate, "America/Los_Angeles").toISOString()
+    attrs.endDate = moment.timezone.tz(attrs.endDate, "America/Los_Angeles").toISOString()
     _.extend(attrs, {
       type: 'course'
       creator: @user.id

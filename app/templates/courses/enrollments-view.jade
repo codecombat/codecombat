@@ -108,11 +108,11 @@ mixin prepaidCard(prepaid, className)
     hr
     i.small-details
       .pull-left(data-i18n="teacher.start_date")
-      .pull-right= moment(prepaid.get('startDate')).utc().format('ll')
+      .pull-right= moment(prepaid.get('startDate')).format('ll')
       .clearfix
 
       .pull-left(data-i18n="teacher.end_date")
-      .pull-right= moment(prepaid.get('endDate')).utc().format('ll')
+      .pull-right= moment(prepaid.get('endDate')).format('ll')
       .clearfix
   if prepaid.get('type') === 'course'
     .share-details.small-details.m-b-2

@@ -58,9 +58,9 @@ block modal-body-content
         th ID
         th Shared by
         th Type
-        th Issued
-        th Start
-        th End
+        th Issued (PT)
+        th Start (PT)
+        th End (PT)
         th Used
       for prepaid in view.prepaids.models
         tr
@@ -73,13 +73,13 @@ block modal-body-content
               else
                 | -
           td= prepaid.get('type')
-          td= moment(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).utc().format('l')
+          td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz('America/Los_Angeles').format('l')
           td
             if prepaid.get('startDate')
-              = moment(prepaid.get('startDate')).utc().format('l')
+              = moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('l')
           td
             if prepaid.get('endDate')
-              = moment(prepaid.get('endDate')).utc().format('l')
+              = moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('l')
           td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
     hr
 
@@ -93,6 +93,7 @@ block modal-body-content
       .alert.alert-success Licenses created!
 
     else
+      h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start and end at 12am PT on the date listed. All licenses that were granted before that date start and end at 5pm PT on the date previous to the date indicated.
       .form-group
         label
           span Number of Licenses
@@ -102,12 +103,12 @@ block modal-body-content
         label
           span Start Date
           =" "
-          input(type="date" name="startDate" value=moment().format('YYYY-MM-DD'))
+          input(type="date" name="startDate" value=moment.timezone().tz('America/Los_Angeles').format('YYYY-MM-DD'))
       .form-group
         label
           span End Date
           =" "
-          input(type="date" name="endDate" value=moment().add(1, 'year').format('YYYY-MM-DD'))
+          input(type="date" name="endDate" value=moment.timezone().tz('America/Los_Angeles').add(1, 'year').format('YYYY-MM-DD'))
       .form-group
         button#add-seats-btn.btn.btn-primary Add Licenses
     hr
