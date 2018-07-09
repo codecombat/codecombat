@@ -4,7 +4,7 @@ div.licensor.container(v-if="!$store.getters['me/isAdmin'] && !$store.getters['m
 div.licensor.container(v-else)
     h3 Create New License
     form#prepaid-form
-        h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start and end at 12am PT on the date listed. All licenses that were granted before that date start and end at 5pm PT on the date previous to the date indicated.
+        h4.small(style="max-width: 700px") *All licenses granted after July 9, 2018 start at 12am PT on the start date and end at 11:59pm PT on the end date indicated. All licenses that were granted before that date start and end at 5pm PT on the date listed.
         .form-group
             label.small
             | Teacher email
@@ -222,6 +222,7 @@ module.exports = Vue.extend({
             user = yield api.users.getByEmail({email})
             attrs = data
             attrs.maxRedeemers = parseInt(data.maxRedeemers)
+            data.endDate = data.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
             attrs.startDate = moment.timezone.tz(data.startDate, "America/Los_Angeles").toISOString()
             attrs.endDate = moment.timezone.tz(data.endDate, "America/Los_Angeles").toISOString()
             _.extend(attrs, {
