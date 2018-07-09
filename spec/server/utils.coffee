@@ -81,6 +81,13 @@ module.exports = mw =
     options = _.extend({permissions: ['admin']}, options)
     return @initUser(options)
 
+  initLicensor: (options) ->
+    if _.isFunction(options)
+      done = options
+      options = {}
+    options = _.extend({permissions: ['licensor']}, options)
+    return @initUser(options)
+
   initArtisan: (options) ->
     if _.isFunction(options)
       done = options

@@ -4,6 +4,10 @@ OAuthProviderSchema = {
   description: 'A service which provides OAuth identification, login for our users.'
   type: 'object'
   properties: {
+    creator: {
+      type: 'object',
+      description: 'Id of user who created this OAuthProvider'
+    }
     lookupUrlTemplate: {
       type: 'string'
       description: '

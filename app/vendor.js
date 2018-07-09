@@ -15,6 +15,7 @@ require('bower_components/validated-backbone-mediator/backbone-mediator.js');
 window.TreemaUtils = require('exports-loader?TreemaUtils!bower_components/treema/treema-utils.js'); // TODO webpack: Try to extract this
 import 'bower_components/treema/treema.css'
 window.moment = require('bower_components/moment/min/moment-with-locales.min.js');
+window.moment.timezone = require('moment-timezone');
 window.$.i18n = window.i18n = require('bower_components/i18next/i18next.js');
 require('bower_components/cookieconsent/build/cookieconsent.min.js')// TODO webpack: Try to extract this
 import 'bower_components/cookieconsent/build/cookieconsent.min.css'// TODO webpack: Try to extract this

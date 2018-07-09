@@ -87,17 +87,18 @@ form#basic-info-form.modal-body.basic-info
             .col-xs-7.col-xs-offset-3
           .alert.alert-danger= error
 
-    .hr-text
-      hr
-      span(data-i18n="general.or")
+    if !me.onChinaInfra()
+      .hr-text
+        hr
+        span(data-i18n="general.or")
 
-    .auth-network-logins.text-center
-      .gplus-login
-        a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
-          img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
-      .facebook-login
-        a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
-          img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
+      .auth-network-logins.text-center
+        .gplus-login
+          a#gplus-signup-btn.network-login(disabled=!view.signupState.get('gplusEnabled'), data-sso-used="gplus")
+            img.gplus-logo(src="/images/pages/modal/auth/gplus_sso_button2.png", draggable="false")
+        .facebook-login
+          a#facebook-signup-btn.network-login(disabled=!view.signupState.get('facebookEnabled'), data-sso-used="facebook")
+            img.facebook-logo(src="/images/pages/modal/auth/facebook_sso_button2.png", draggable="false")
 
     // TODO: turn on once we can ask about school inside ConfirmationView
     //if view.signupState.get('path') === 'individual' && (!me.get('country') || me.get('country') == 'united-states')

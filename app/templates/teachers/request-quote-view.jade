@@ -270,17 +270,18 @@ block content
         h5(data-i18n="teachers_quote.finish_signup")
         p(data-i18n="teachers_quote.finish_signup_p")
 
-        #social-network-signups
-          button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
-            span.spr(data-i18n="teachers_quote.signup_with")
-            | Facebook
-            img.m-l-1(src='/images/pages/community/logo_facebook.png')
-          button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
-            span.spr(data-i18n="teachers_quote.signup_with")
-            | Google
-            img.m-l-1(src='/images/pages/community/logo_g+.png')
+        if !me.onChinaInfra()
+          #social-network-signups
+            button#facebook-signup-btn.btn.btn-facebook.btn-lg.m-x-1
+              span.spr(data-i18n="teachers_quote.signup_with")
+              | Facebook
+              img.m-l-1(src='/images/pages/community/logo_facebook.png')
+            button#gplus-signup-btn.btn.btn-gplus.btn-lg.spr
+              span.spr(data-i18n="teachers_quote.signup_with")
+              | Google
+              img.m-l-1(src='/images/pages/community/logo_g+.png')
 
-        .text-h1.text-uppercase(data-i18n="general.or")
+          .text-h1.text-uppercase(data-i18n="general.or")
 
         form#signup-form.text-left
           .row

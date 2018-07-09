@@ -154,7 +154,7 @@ module.exports.setup = (app) ->
   APIClient = require ('../models/APIClient')
   app.get('/db/api-clients/name', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.getByName)
   app.get('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.get(APIClient))
-  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.rest.post(APIClient))
+  app.post('/db/api-clients', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.postClient)
   app.post('/db/api-clients/:handle/new-secret', mw.auth.checkHasPermission(['admin','licensor']), mw.apiClients.newSecret)
 
   OAuthProvider = require ('../models/OAuthProvider')
