@@ -17,6 +17,7 @@ global.it = function(description, testFn) {
 // 1. Make sure there are no environmental variables for COCO_ in place
 
 var allowedKeys = [
+  'COCO_CHINA_INFRASTRUCTURE',
   'COCO_TRAVIS_TEST'
 ];
 
@@ -27,8 +28,8 @@ if (cocoKeysPresent) {
   throw Error('Stopping server tests because COCO_ environmental variables are present.');
 }
 
-// 2. Clear environmental variables anyway
-process.env = {};
+// 2. Clear most environmental variables anyway
+process.env = _.pick(process.env, 'COCO_CHINA_INFRASTRUCTURE');
 
 // 3. Check server_config
 global.testing = true;
