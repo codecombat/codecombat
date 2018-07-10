@@ -222,9 +222,9 @@ module.exports = Vue.extend({
             user = yield api.users.getByEmail({email})
             attrs = data
             attrs.maxRedeemers = parseInt(data.maxRedeemers)
-            data.endDate = data.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
-            attrs.startDate = moment.timezone.tz(data.startDate, "America/Los_Angeles").toISOString()
-            attrs.endDate = moment.timezone.tz(data.endDate, "America/Los_Angeles").toISOString()
+            attrs.endDate = attrs.endDate + " " + "23:59"   # Otherwise, it ends at 12 am by default which does not include the date indicated
+            attrs.startDate = moment.timezone.tz(attrs.startDate, "America/Los_Angeles").toISOString()
+            attrs.endDate = moment.timezone.tz(attrs.endDate, "America/Los_Angeles").toISOString()
             _.extend(attrs, {
                 type: 'course'
                 creator: user._id
