@@ -494,7 +494,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_saving_progress: "Gemmer fremgang"
     victory_go_home: "Gå hjem"
     victory_review: "Fortæl os mere!"
-    victory_review_placeholder: "Hvordan var levelet?"
+    victory_review_placeholder: "Hvad synes du om levelet?"
     victory_hour_of_code_done: "Er du færdig?"
     victory_hour_of_code_done_yes: "Ja, jeg er færdig med min Kodetime!"
     victory_experience_gained: "XP tjent"
