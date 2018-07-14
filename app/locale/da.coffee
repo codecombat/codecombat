@@ -501,7 +501,7 @@ module.exports = nativeDescription: "dansk", englishDescription: "Danish", trans
     victory_gems_gained: "Diamanter tjent"
     victory_new_item: "Nyt udstyr"
 #    victory_new_hero: "New Hero"
-    victory_viking_code_school: "For dælen det var en svær bane du lige slog! Hvis ikke du allerede er softwareudvikler, så burde du blive det. Du er lige kommet foran i køen til at blive accepteret hos Viking Code School, du kan tage dine evner til det næste niveau og blive en professionel webudvikler på 14 uger."
+    victory_viking_code_school: "For dælen, den bane du lige slog er svær! Hvis ikke du allerede er softwareudvikler, så burde du blive det. Du er lige kommet foran i køen til at blive accepteret hos Viking Code School, du kan tage dine evner til det næste niveau og blive en professionel webudvikler på 14 uger."
     victory_become_a_viking: "Bliv en Viking"
 #    victory_no_progress_for_teachers: "Progress is not saved for teachers. But, you can add a student account to your classroom for yourself."
     tome_cast_button_run: "Kør"
