@@ -29,13 +29,15 @@ module.exports = class SpellPaletteThangEntryView extends CocoView
       example = options.doc.example?[options.language]
     else
       example = "\# usage code \ngame.spawnXY(\"#{options.buildableName}\", 21, 20)"
+    description = utils.i18n(options.doc, 'description')
+    translatedName = utils.i18n(options.doc, 'name')
     @doc =
       name: options.buildableName
       initialHTML: popoverTemplate _: _, marked: marked, doc:
-        #shortName: @thang.get('name')
         shortName: options.doc.name
+        translatedShortName: if translatedName isnt options.doc.name then translatedName else undefined
         type: "spawnable"
-        description: "![#{@thang.get('name')}](#{@thang.getPortraitURL()}) #{options.doc.description}"
+        description: "![#{@thang.get('name')}](#{@thang.getPortraitURL()}) #{description}"
         example: example
       example: example
 
