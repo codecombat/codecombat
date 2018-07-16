@@ -63,7 +63,8 @@ block modal-body-content
         th End (PT)
         th Used
       for prepaid in view.prepaids.models
-        tr
+       - var controlId=prepaid.id
+        tr(id=controlId)
           td= prepaid.id
           td
             if prepaid.creator
@@ -76,11 +77,31 @@ block modal-body-content
           td= moment.timezone(new Date(parseInt(prepaid.id.substring(0, 8), 16) * 1000)).tz('America/Los_Angeles').format('l')
           td
             if prepaid.get('startDate')
-              = moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('l')
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var controlId='startDate-'+prepaid.id
+                input(id= controlId type="date" name="startDate" value=moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('YYYY-MM-DD'))
+              else
+                = moment.timezone(prepaid.get('startDate')).tz('America/Los_Angeles').format('l')
           td
             if prepaid.get('endDate')
-              = moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('l')
-          td #{(prepaid.get('redeemers') || []).length} / #{prepaid.get('maxRedeemers') || 0}
+              if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+                - var controlId='endDate-'+prepaid.id
+                input(id= controlId type="date" name="endDate" value=moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('YYYY-MM-DD'))
+              else
+                = moment.timezone(prepaid.get('endDate')).tz('America/Los_Angeles').format('l')
+          td
+            if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+              - var controlId='totalLicenses-'+prepaid.id
+              = (prepaid.get('redeemers') || []).length + ' / ' 
+              input(id=controlId type="number" name="totalLicenses" value=prepaid.get('maxRedeemers'), style="width:3em")
+            else
+              = (prepaid.get('redeemers') || []).length + ' / ' + prepaid.get('maxRedeemers') || 0
+          td
+            if view.prepaidTableState && view.prepaidTableState[prepaid.id] === 'editMode'
+              button.btn.btn-primary.save-prepaid-info-btn(data-prepaid-id=prepaid.id) Save
+              button.btn.btn-primary.cancel-prepaid-info-edit-btn(data-prepaid-id=prepaid.id) Cancel
+            else
+              button.btn.btn-primary.edit-prepaids-info-btn(data-prepaid-id=prepaid.id) Edit
     hr
 
   h3.m-t-3#licenses Grant Student Licenses

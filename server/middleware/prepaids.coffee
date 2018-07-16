@@ -51,6 +51,22 @@ module.exports =
       yield delighted.checkTriggerPrepaidAdded user, req.body.type
     res.status(201).send(prepaid.toObject())
 
+  put: wrap (req, res) ->
+    prepaid = yield database.getDocFromHandle(req, Prepaid)
+    if not prepaid
+      throw new errors.NotFound('User not found.')
+    startDate = req.body['startDate']
+    endDate = req.body['endDate']
+    maxRedeemers = req.body['maxRedeemers']
+    if startDate
+      prepaid.set('startDate',startDate) 
+    if endDate
+      prepaid.set('endDate',endDate)
+    if maxRedeemers
+      prepaid.set('maxRedeemers',parseInt(maxRedeemers))
+    database.validateDoc(prepaid)
+    prepaid = yield prepaid.save()
+    res.status(200).send(prepaid.toObject())
 
   redeem: wrap (req, res) ->
     if not req.user?.isTeacher()
