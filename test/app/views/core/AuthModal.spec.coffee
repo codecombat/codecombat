@@ -6,8 +6,9 @@ describe 'AuthModal', ->
   modal = null
   
   beforeEach ->
-    application.facebookHandler.fakeAPI()
-    application.gplusHandler.fakeAPI()
+    if !window.features.chinaInfra
+      application.facebookHandler.fakeAPI()
+      application.gplusHandler.fakeAPI()
     modal = new AuthModal()
     modal.render()
 
