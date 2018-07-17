@@ -58,8 +58,8 @@ module.exports =
     if session
       return res.send(session.toObject({req: req}))
 
-    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']
-    if sessionQuery.team and level.get('slug') in mirrorMatches
+    mirrorMatches = ['ace-of-coders', 'elemental-wars', 'the-battle-of-sky-span', 'tesla-tesoro', 'escort-duty', 'treasure-games']  # TODO: remove slug list once these levels are configured as mirror matches
+    if sessionQuery.team and (level.get('mirrorMatch') or level.get('slug') in mirrorMatches)
       # Find their other session for this, so that if it exists, we can initialize the new team's session with the mirror code.
       otherTeam = if sessionQuery.team is 'humans' then 'ogres' else 'humans'
       otherSessionQuery = _.defaults {team: otherTeam, code: {$exists: true}}, sessionQuery

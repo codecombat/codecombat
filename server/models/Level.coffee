@@ -138,6 +138,7 @@ LevelSchema.statics.editableProperties = [
   'primerLanguage'
   'studentPlayInstructions'
   'password'
+  'mirrorMatch'
 ]
 
 module.exports = Level = mongoose.model('level', LevelSchema)

@@ -351,6 +351,7 @@ _.extend LevelSchema.properties,
   primaryConcepts: c.array {title: 'Primary Concepts', description: 'The main 1-3 concepts this level focuses on.', uniqueItems: true}, c.concept
   picoCTFProblem: { type: 'string', description: 'Associated picoCTF problem ID, if this is a picoCTF level' }
   password: { type: 'string', description: 'The password required to create a session for this level' }
+  mirrorMatch: { type: 'boolean', description: 'Whether a multiplayer ladder arena is a mirror match' }
 
 
 c.extendBasicProperties LevelSchema, 'level'
