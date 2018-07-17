@@ -87,6 +87,9 @@ module.exports =
     if not req.user.isAnonymous() and level.get('slug') in ['treasure-games', 'escort-duty', 'tesla-tesoro', 'elemental-wars']
       console.log "Allowing session creation for #{level.get('slug')} outside of any course"
       attrs.isForClassroom = true
+    else if level.get('password') and req.query.password isnt level.get('password')
+      # Pretend that the level doesn't exist if the password isn't correct
+      throw new errors.NotFound('Level not found.')
     else if level.get('type') in ['course', 'course-ladder'] or req.query.course?
 
       # Find the course and classroom that has assigned this level, verify access
