@@ -334,18 +334,10 @@ module.exports = class CocoRouter extends Backbone.Router
     ), 10
 
   initializeSocialMediaServices: ->
-    return if application.testing or application.demoing
+    return if application.testing or application.demoing or me.onChinaInfra()
     application.facebookHandler.loadAPI()
     application.gplusHandler.loadAPI()
     require('core/services/twitter')()
-
-  renderSocialButtons: =>
-    # TODO: Refactor remaining services to Handlers, use loadAPI success callback
-    @initializeSocialMediaServices()
-    $('.share-buttons, .partner-badges').addClass('fade-in').delay(10000).removeClass('fade-in', 5000)
-    application.facebookHandler.renderButtons()
-    application.gplusHandler.renderButtons()
-    twttr?.widgets?.load?()
 
   activateTab: ->
     base = _.string.words(document.location.pathname[1..], '/')[0]

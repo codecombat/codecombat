@@ -64,8 +64,8 @@ module.exports = class CreateAccountModal extends ModalView
       screen: if classCode then 'segment-check' else 'choose-account-type'
       ssoUsed: null # or 'facebook', 'gplus'
       classroom: null # or Classroom instance
-      facebookEnabled: application.facebookHandler.apiLoaded
-      gplusEnabled: application.gplusHandler.apiLoaded
+      facebookEnabled: application.facebookHandler?.apiLoaded
+      gplusEnabled: application.gplusHandler?.apiLoaded
       classCode
       birthday: new Date('') # so that birthday.getTime() is NaN
       authModalInitialValues: {}
@@ -165,9 +165,10 @@ module.exports = class CreateAccountModal extends ModalView
 
     @insertSubView(new ConfirmationView({ @signupState }))
 
-    # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
-    application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
-    application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
+    unless me.onChinaInfra()
+      # TODO: Switch to promises and state, rather than using defer to hackily enable buttons after render
+      application.facebookHandler.loadAPI({ success: => @signupState.set { facebookEnabled: true } unless @destroyed })
+      application.gplusHandler.loadAPI({ success: => @signupState.set { gplusEnabled: true } unless @destroyed })
 
     @once 'hidden', ->
       if @signupState.get('accountCreated') and not application.testing

@@ -478,7 +478,8 @@ exports.setupRoutes = (app) ->
   routes.setup(app)
 
   baseRoute.setup app
-  setupFacebookCrossDomainCommunicationRoute app
+  unless config.chinaInfra
+    setupFacebookCrossDomainCommunicationRoute app
   setupUpdateBillingRoute app
   setupFallbackRouteToIndex app
   setupErrorMiddleware app
