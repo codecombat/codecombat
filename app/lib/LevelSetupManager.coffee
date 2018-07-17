@@ -64,6 +64,10 @@ module.exports = class LevelSetupManager extends CocoClass
 
   loadModals: ->
     # build modals and prevent them from disappearing.
+    # TODO: refactor down to this
+    #if @level.usesConfiguredMultiplayerHero()
+    #  @onInventoryModalPlayClicked()
+    #  return
     if @level.get('slug') is 'zero-sum'
       sorcerer = '52fd1524c7e6cf99160e7bc9'
       if @session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar

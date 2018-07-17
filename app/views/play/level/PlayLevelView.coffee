@@ -375,6 +375,7 @@ module.exports = class PlayLevelView extends RootView
     return if @session
     Backbone.Mediator.publish "ipad:language-chosen", language: e.session.get('codeLanguage') ? "python"
     # Just the level and session have been loaded by the level loader
+    # TODO: remove these multiplayer equipment definitions once usesConfiguredMultiplayerHero is deployed
     if e.level.get('slug') is 'zero-sum'
       sorcerer = '52fd1524c7e6cf99160e7bc9'
       if e.session.get('creator') is '532dbc73a622924444b68ed9'  # Wizard Dude gets his own avatar
